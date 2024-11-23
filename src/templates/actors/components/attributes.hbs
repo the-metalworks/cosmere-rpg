@@ -10,6 +10,7 @@
         <section class="attributes flexrow">
             {{#with attrGroup.attributes.[0] as |attribute|}}
             <div class="attribute flexcol" data-id="{{attribute.id}}">
+                <div class="border left"></div>
                 <span class="box-title">
                     {{ localize attribute.config.labelShort }}
                 </span>
@@ -31,6 +32,13 @@
             {{#with attrGroup.defense as |defense|}}
             <div class="defense">
                 <div class="defense-box">
+                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                         viewBox="0 0 40 50" xml:space="preserve">
+                    <path fill="currentColor" d="M38,6.7V2h-4.7C33.1,1.4,33,0.7,33,0H20H7c0,0.7-0.1,1.4-0.3,2H2v4.7C1.4,6.9,0.7,7,0,7v34c2.5,1.6,5.5,3.4,9,5
+                        c4,1.9,7.8,3.1,11,4c3.2-0.9,7-2.1,11-4c3.5-1.6,6.5-3.4,9-5V7C39.3,7,38.6,6.9,38,6.7z M37,3v3.3c-1.5-0.7-2.6-1.9-3.3-3.3H37z
+                         M3,3h3.3C5.6,4.5,4.5,5.6,3,6.3V3z M38,39.9c-2.5,1.6-5.1,3-7.8,4.3c-3.3,1.5-6.7,2.8-10.2,3.7c-3.5-1-6.9-2.2-10.2-3.7
+                        c-2.7-1.2-5.3-2.7-7.8-4.3V8.8C5.4,8,8,5.4,8.8,2H20h11.2C32,5.4,34.6,8,38,8.8V39.9z"/>
+                    </svg>
                     <span class="value">{{ derived defense.value }}</span>
                     {{#if @root.isEditMode}}
                     <a data-action="configure-defense"
@@ -45,6 +53,7 @@
 
             {{#with attrGroup.attributes.[1] as |attribute|}}
             <div class="attribute flexcol" data-id="{{attribute.id}}">
+                <div class="border right"></div>
                 <span class="box-title">
                     {{ localize attribute.config.labelShort }}
                 </span>

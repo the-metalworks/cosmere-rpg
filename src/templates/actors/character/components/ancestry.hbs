@@ -1,7 +1,56 @@
 {{#if ancestry}}
-    <div class="ancestry"
-        data-action="view"
-    >
+    <div class="ancestry" data-action="view">
+        <div class="border">
+            <svg class="corner top right"
+                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                viewBox="0 0 10 10" xml:space="preserve" preserveAspectRatio="none"
+            >
+                <path fill="currentColor" d="M7,0c0,0.7-0.1,1.4-0.3,2H2v4.7C1.4,6.9,0.7,7,0,7v3h2V8.8C5.4,8,8,5.4,8.8,2H10V0H7z M3,3h3.3C5.6,4.5,4.5,5.6,3,6.3V3z"/>
+            </svg>
+            <svg class="corner top left"
+                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                viewBox="0 0 10 10" xml:space="preserve" preserveAspectRatio="none"
+            >
+                <path fill="currentColor" d="M7,0c0,0.7-0.1,1.4-0.3,2H2v4.7C1.4,6.9,0.7,7,0,7v3h2V8.8C5.4,8,8,5.4,8.8,2H10V0H7z M3,3h3.3C5.6,4.5,4.5,5.6,3,6.3V3z"/>
+            </svg>
+            <svg class="corner bot right"
+                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                viewBox="0 0 10 10" xml:space="preserve" preserveAspectRatio="none"
+            >
+                <path fill="currentColor" d="M7,0c0,0.7-0.1,1.4-0.3,2H2v4.7C1.4,6.9,0.7,7,0,7v3h2V8.8C5.4,8,8,5.4,8.8,2H10V0H7z M3,3h3.3C5.6,4.5,4.5,5.6,3,6.3V3z"/>
+            </svg>
+            <svg class="corner bot left"
+                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                viewBox="0 0 10 10" xml:space="preserve" preserveAspectRatio="none"
+            >
+                <path fill="currentColor" d="M7,0c0,0.7-0.1,1.4-0.3,2H2v4.7C1.4,6.9,0.7,7,0,7v3h2V8.8C5.4,8,8,5.4,8.8,2H10V0H7z M3,3h3.3C5.6,4.5,4.5,5.6,3,6.3V3z"/>
+            </svg>
+
+            <svg class="block top"
+                 id="Layer_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                 viewBox="0 0 10 10" xml:space="preserve" preserveAspectRatio="none"
+            >
+                <path fill="currentColor" d="M 0 0 L 10 0 L 10 2 L 0 2 L 0 0 Z"/>
+            </svg>
+            <svg class="block bot"
+                 id="Layer_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                 viewBox="0 0 10 10" xml:space="preserve" preserveAspectRatio="none"
+            >
+                <path fill="currentColor" d="M 0 0 L 10 0 L 10 2 L 0 2 L 0 0 Z"/>
+            </svg>
+            <svg class="block left"
+                 id="Layer_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                 viewBox="0 0 10 10" xml:space="preserve" preserveAspectRatio="none"
+            >
+                <path fill="currentColor" d="M 0 0 L 2 0 L 2 10 L 0 10 L 0 0 Z"/>
+            </svg>
+            <svg class="block right"
+                 id="Layer_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                 viewBox="0 0 10 10" xml:space="preserve" preserveAspectRatio="none"
+            >
+                <path fill="currentColor" d="M 0 0 L 2 0 L 2 10 L 0 10 L 0 0 Z"/>
+            </svg>
+        </div>
         <span class="name">{{ancestry.label}}</span>
         <span class="item-type">{{localize "COSMERE.Item.Type.Ancestry.label"}}</span>
     </div>

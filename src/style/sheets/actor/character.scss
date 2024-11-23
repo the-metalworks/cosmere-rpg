@@ -1,7 +1,23 @@
+.sheet.actor.character.minimized {border: none;}
+
 .sheet.actor.character {
+    border: 3px solid var(--plotweaver-color-accent);
+    background: var(--plotweaver-color-sheet);
+
+    .minimized {
+        border: none;
+    }
+
     .sheet-header {
         .title {
-            padding-left: 2rem;
+            padding-left: 1rem;
+        }
+
+        .document-name {
+            text-transform: capitalize;
+
+            margin: 0;
+            border-bottom: none;
         }
     }
 
@@ -39,18 +55,22 @@
     .tab[data-tab='goals'] {
         .details-text {
             .label {
+                color: var(--plotweaver-color-off-white-1);
                 opacity: 0.5;
             }
 
             textarea {
+                color: var(--plotweaver-color-off-white-1);
                 margin-top: 0.5rem;
-                background: #302831;
+                background: var(--plotweaver-color-base-3);
                 padding: 0.3rem 0.5rem;
                 min-height: 5rem;
                 font-family: inherit;
+                border: 1px solid var(--plotweaver-color-accent);
 
                 &:read-only {
-                    background: #0b0a13;
+                    background: var(--plotweaver-color-base-4);
+                    border: none;
                 }
             }
         }
@@ -60,12 +80,13 @@
 
     app-actor-details {
         .derived-statistics {
-            margin-top: 2rem;
+            margin-top: 1.75rem;
+            gap: 0.25rem;
         }
     }
 
     app-actor-attributes {
-        margin-top: 2.5rem;
+        margin: 1rem 0;
     }
 
     app-character-expertises {
@@ -77,6 +98,7 @@
 
             .title {
                 flex: 1;
+                color: var(--plotweaver-color-off-white-1);
             }
         }
 
@@ -85,13 +107,15 @@
             flex-direction: row;
             flex-wrap: wrap;
             margin-top: 0.2rem;
+            gap: 0.25rem;
 
             .expertise {
-                border: 1px solid;
+                color: var(--plotweaver-color-off-white-1);
+                border: 1px solid var(--plotweaver-color-off-white-1);
                 padding: 0.15rem 0.6rem;
                 border-radius: 1rem;
                 margin: 0.2rem;
-                font-size: 9pt;
+                font-size: 8pt;
             }
         }
     }
@@ -99,16 +123,13 @@
     app-character-ancestry, app-character-culture {
         position: relative;
         display: flex;
-        align-items: center;
-        border-radius: 0.3rem;
         margin-bottom: 1rem;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
         text-shadow: 0 0 0.5rem black;
 
-        border: 1px solid #463a47;
-        background: #0b0a13;
-        padding: 0.2rem 1rem;
-        overflow: hidden;
-        box-shadow: 0 0 0.5rem black;
+        background: var(--plotweaver-color-base-1);
 
         .ancestry, .culture {
             display: flex;
@@ -116,15 +137,100 @@
             flex: 1;
             z-index: 1;
             cursor: pointer;
+            padding: 0.2rem 1rem 0.1rem 1rem;
+
+            .border {
+                position: absolute;
+                left: -2px;
+                top: -2px;
+                width: calc(100% + 4px);
+                height: calc(100% + 4px);
+                pointer-events: none;
+                border-image: none;
+                filter: none;
+
+                .corner{
+                    position: absolute;
+                    width: 10px;
+                    height: 10px;
+
+                    &.top {
+                        top: 0;
+
+                        &.right {
+                            right: 0;
+                            transform: scale(-1, 1);
+                        }
+                    }
+
+                    &.bot {
+                        bottom: 0;
+                        transform: scale(1, -1);
+
+                        &.right {
+                            right: 0;
+                            transform: scale(-1, -1);
+                        }
+                    }
+
+                    &.left {
+                        left: 0;
+                    }
+
+                    path {
+                        fill: var(--plotweaver-color-accent);
+                    }
+                }
+
+                .block {
+                    position: absolute;
+                    width: 10px;
+                    height: 10px;
+
+                    &.top {
+                        top: 0;
+                        right: 9px;
+                        width: calc(100% - 18px);
+                    }
+
+                    &.bot {
+                        bottom: 0;
+                        right: 9px;
+                        width: calc(100% - 18px);
+                        transform: scale(1, -1);
+                    }
+
+                    &.right {
+                        right: 0;
+                        top: 9px;
+                        height: calc(100% - 18px);
+                        transform: scale(-1, 1);
+                    }
+
+                    &.left {
+                        left: 0;
+                        top: 9px;
+                        height: calc(100% - 18px);
+                    }
+
+                    path {
+                        fill: var(--plotweaver-color-accent);
+                    }
+                }
+            }
 
             .name {
                 font-size: 13pt;
                 font-weight: bold;
+                color: var(--plotweaver-color-off-white-1);
+                text-transform: uppercase;
             }
 
             .item-type {
                 font-size: 9pt;
                 opacity: 0.75;
+                color: var(--plotweaver-color-accent);
+                text-transform: uppercase;
             }
 
             &:not(.placeholder):hover {
@@ -133,19 +239,23 @@
         }
 
         .controls {
-            margin-left: 1rem;
+            margin-right: 1rem;
             z-index: 1;
         }
 
         .background-img {
             position: absolute;
+            width: 100%;
+            height: 100%;
             left: 0;
             right: 0;
             opacity: 0.25;
-            top: -6rem;
+            overflow: hidden;
 
             img {
+                position: relative;
                 width: 100%;
+                top: -6rem;
             }
         }
 
@@ -164,17 +274,94 @@
     app-character-paths-list {
         .path {
             position: relative;
-            border-radius: 0.3rem;
             margin-bottom: 1rem;
 
             display: flex;
             flex-direction: column;
 
-            border: 1px solid #463a47;
-            overflow: hidden;
-            background: #0b0a13;
+            background: var(--plotweaver-color-base-2);
             text-shadow: 0 0 0.5rem black;
             box-shadow: 0 0 0.5rem black;
+
+            .border {
+                position: absolute;
+                left: -2px;
+                top: -2px;
+                width: calc(100% + 4px);
+                height: calc(100% + 4px);
+                pointer-events: none;
+                border-image: none;
+                filter: none;
+
+                .corner{
+                    position: absolute;
+                    width: 10px;
+                    height: 10px;
+
+                    &.top {
+                        top: 0;
+
+                        &.right {
+                            right: 0;
+                            transform: scale(-1, 1);
+                        }
+                    }
+
+                    &.bot {
+                        bottom: 0;
+                        transform: scale(1, -1);
+
+                        &.right {
+                            right: 0;
+                            transform: scale(-1, -1);
+                        }
+                    }
+
+                    &.left {
+                        left: 0;
+                    }
+
+                    path {
+                        fill: var(--plotweaver-color-accent);
+                    }
+                }
+
+                .block {
+                    position: absolute;
+                    width: 10px;
+                    height: 10px;
+
+                    &.top {
+                        top: 0;
+                        right: 9px;
+                        width: calc(100% - 18px);
+                    }
+
+                    &.bot {
+                        bottom: 0;
+                        right: 9px;
+                        width: calc(100% - 18px);
+                        transform: scale(1, -1);
+                    }
+
+                    &.right {
+                        right: 0;
+                        top: 9px;
+                        height: calc(100% - 18px);
+                        transform: scale(-1, 1);
+                    }
+
+                    &.left {
+                        left: 0;
+                        top: 9px;
+                        height: calc(100% - 18px);
+                    }
+
+                    path {
+                        fill: var(--plotweaver-color-accent);
+                    }
+                }
+            }
 
             .details {
                 display: flex;
@@ -189,31 +376,35 @@
                     flex-direction: column;
                     flex: 1;
                     z-index: 1;
-    
+                    color: var(--plotweaver-color-accent);
+                    text-transform: uppercase;
+
                     .label {
                         font-size: 13pt;
                         font-weight: bold;
+                        color: var(--plotweaver-color-off-white-1);
+                        text-transform: uppercase;
                     }
-    
+
                     .item-type {
                         font-size: 9pt;
                         opacity: 0.75;
                     }
                 }
-    
+
                 .level {
                     font-size: 14pt;
                     font-weight: bold;
                     z-index: 1;
                 }
-    
+
                 .name,
                 .level {
                     &:hover {
                         text-shadow: 0 0 8px var(--color-shadow-primary);
                     }
                 }
-    
+
                 .controls {
                     margin-left: 1rem;
                     z-index: 1;
@@ -236,21 +427,18 @@
 
             .background-img {
                 position: absolute;
+                width: 100%;
+                height: 100%;
                 left: 0;
                 right: 0;
-                opacity: 0.2;
-                top: -6rem;
-                z-index: 0;
-            }
+                opacity: 0.25;
+                overflow: hidden;
 
-            &.placeholder {
-                border: 1px dashed;
-                align-items: center;
-                justify-content: center;
-                padding: 0.45rem 0;
-                opacity: 0.5;
-                box-shadow: 0 0 1rem 0.1rem black;
-                background: #00000036;
+                img {
+                    position: relative;
+                    width: 100%;
+                    top: -6rem;
+                }
             }
         }
     }
@@ -276,10 +464,10 @@
                 margin: 0;
                 padding: 0 0.5rem;
 
-                background: #302831;
+                background: var(--plotweaver-color-base-4);
 
                 &:not(.collapsed):not(:first-child):not(:last-child) {
-                    border-bottom: 1px solid #302831;
+                    border-bottom: 1px dashed var(--plotweaver-color-base-6);
                     height:auto;
                     min-height: 1.5rem;
                     padding-top: 0.25rem;
@@ -299,7 +487,7 @@
                 }
 
                 &.header {
-                    background: #0f0610;
+                    background: var(--plotweaver-color-base-1);
                     border-top-left-radius: 0.3rem;
                     border-top-right-radius: 0.3rem;
                 }
@@ -315,7 +503,7 @@
                 }
 
                 &.new {
-                    background: #251d26;
+                    background: var(--plotweaver-color-base-2);
                     justify-content: center;
 
                     a {
@@ -364,11 +552,11 @@
                     width: 3rem;
 
                     li {
-                        border: 1px solid #665467;
+                        border: 1px solid var(--plotweaver-color-faded);
                         width: 0.75rem;
                         height: 0.75rem;
                         border-radius: 50%;
-                        background: #0f0610;
+                        background: var(--plotweaver-color-base-1);
                         margin: 0 0.1rem;
 
                         &.active {

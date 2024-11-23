@@ -8,6 +8,11 @@
         data-tooltip="{{localize tab.label}}"
         {{/if}}
     >
+        <div class="border"></div>
+        {{#if (not (eq ../includeLabel false))}}
+        <label>{{localize tab.label}}</label>
+        {{/if}}
+
         {{#if tab.icon}}
         {{{tab.icon}}}
         {{/if}}

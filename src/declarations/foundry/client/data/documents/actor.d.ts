@@ -58,8 +58,8 @@ declare class Actor<
     ): Promise<ActiveEffect | boolean | undefined>;
 
     /**
-     * Retrieve an Array of active tokens which represent this Actor in the current canvas Scene. 
-     * If the canvas is not currently active, or there are no linked actors, the returned Array will be empty. 
+     * Retrieve an Array of active tokens which represent this Actor in the current canvas Scene.
+     * If the canvas is not currently active, or there are no linked actors, the returned Array will be empty.
      * If the Actor is a synthetic token actor, only the exact Token which it represents will be returned.
      * @param linked Limit results to Tokens which are linked to the Actor. Otherwise, return all Tokens even those which are not linked.
      * @param document Return the Document instance rather than the PlaceableObject
@@ -67,7 +67,7 @@ declare class Actor<
      */
     public getActiveTokens(
         linked?: boolean,
-        document?: boolean
+        document?: boolean,
     ): (TokenDocument | Token)[];
 
     /**
