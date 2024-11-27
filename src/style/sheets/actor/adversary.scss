@@ -1,4 +1,122 @@
+.sheet.actor.adversary.minimized {border: none;}
+
 .sheet.actor.adversary {
+    border: 3px solid var(--plotweaver-color-accent);
+    background: var(--plotweaver-color-sheet);
+
+    nav {
+        >a {
+            left: -2px;
+        }
+    }
+
+    .decorations {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+
+        width: 100%;
+        height: 100%;
+        border: none;
+
+        .top.left {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+
+            top: calc(-2.25rem - 3px);
+            left: -3px;
+
+            path {
+                fill: var(--plotweaver-color-accent);
+            }
+        }
+
+        .top.right {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            transform: scale(-1, 1);
+
+            top: calc(-2.25rem - 3px);
+            right: -3px;
+
+            path {
+                fill: var(--plotweaver-color-accent);
+            }
+        }
+
+        .bot.left {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            transform: scale(1, -1);
+
+            bottom: -3px;
+            left: -3px;
+
+            path {
+                fill: var(--plotweaver-color-accent);
+            }
+        }
+
+        .bot.right {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            transform: scale(-1, -1);
+
+            bottom: -3px;
+            right: -3px;
+
+            path {
+                fill: var(--plotweaver-color-accent);
+            }
+        }
+    }
+
+    .sheet-header {
+        .title {
+            .document-name{
+                text-transform: capitalize;
+                color: var(--plotweaver-color-accent);
+            }
+
+            .details {
+                text-transform: uppercase;
+                color: var(--plotweaver-color-faded);
+            }
+        }
+
+        .level-details {
+            .level {
+                .container {
+                    width: 42px;
+                    height: 42px;
+
+                    .border {
+                        position: absolute;
+                        left: -2px;
+                        top: -2px;
+                        width: calc(100% + 4px);
+                        height: calc(100% + 4px);
+                        border-image: url("/systems/cosmere-rpg/assets/icons/ui/border_level.svg") fill 21 / 42px;
+                        filter: var(--plotweaver-color-accent-filter);
+                        pointer-events: none;
+                        z-index: 1;
+                    }
+
+                    svg {
+                        path {
+                            fill: var(--plotweaver-color-base-4);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     section.skills {
         margin-top: 1rem;
         min-height: 0;
@@ -22,6 +140,7 @@
         section {
             min-height: 0;
             overflow-y: auto;
+            padding: 3px;
         }
     }
 
@@ -33,5 +152,103 @@
 
     app-actor-attributes {
         margin-top: 0.5rem;
+    }
+
+    app-adversary-skills-group {
+        position: relative;
+
+        &:has(> *) {
+            display: flex;
+            padding: 0.4rem 0.2rem;
+            margin-bottom: calc(1.25rem - 1px);
+
+            background: var(--plotweaver-color-base-1);
+
+            .border {
+                position: absolute;
+                left: -3px;
+                top: -3px;
+                width: calc(100% + 6px);
+                height: calc(100% + 6px);
+                pointer-events: none;
+                border-image: none;
+                filter: none;
+
+                .corner{
+                    position: absolute;
+                    width: 10px;
+                    height: 10px;
+
+                    &.top {
+                        top: 0;
+
+                        &.right {
+                            right: 0;
+                            transform: scale(-1, 1);
+                        }
+                    }
+
+                    &.bot {
+                        bottom: 0;
+                        transform: scale(1, -1);
+
+                        &.right {
+                            right: 0;
+                            transform: scale(-1, -1);
+                        }
+                    }
+
+                    &.left {
+                        left: 0;
+                    }
+
+                    path {
+                        fill: var(--plotweaver-color-accent);
+                    }
+                }
+
+                .block {
+                    position: absolute;
+                    width: 10px;
+                    height: 10px;
+
+                    &.top {
+                        top: 0;
+                        right: 9px;
+                        width: calc(100% - 18px);
+                    }
+
+                    &.bot {
+                        bottom: 0;
+                        right: 9px;
+                        width: calc(100% - 18px);
+                        transform: scale(1, -1);
+                    }
+
+                    &.right {
+                        right: 0;
+                        top: 9px;
+                        height: calc(100% - 18px);
+                        transform: scale(-1, 1);
+                    }
+
+                    &.left {
+                        left: 0;
+                        top: 9px;
+                        height: calc(100% - 18px);
+                    }
+
+                    path {
+                        fill: var(--plotweaver-color-accent);
+                    }
+                }
+            }
+        }
+
+        app-actor-skill {
+            .name {
+                white-space: nowrap;
+            }
+        }
     }
 }

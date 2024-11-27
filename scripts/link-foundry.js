@@ -16,7 +16,7 @@ const buildFolderPath = path.join(process.cwd(), BUILD_OUTPUT_FOLDER);
 // Ensure build folder exists (current working directory is in project root)
 if (!folderExistsAtPath(buildFolderPath)) {
     console.error(
-        `Could not find build folder. Are you at the root of the project? Make sure to run the build once before linking.`,
+        `Could not find "build" folder. Are you at the root of the project? Make sure to run "npm run build" at least once before linking.`,
     );
     process.exit(1);
 }
@@ -88,9 +88,13 @@ if (stats) {
 try {
     fs.symlinkSync(buildFolderPath, symlinkPath);
 } catch (err) {
-    console.error(
-        `An unexpected error occured while trying to create a symlink: ${err.message ?? ''}`,
-    );
+    if (err.message.includes('EPERM: operation not permitted')) {
+        console.error(`Operation not permitted. Try running the script from a privileged user.`)
+    } else {
+        console.error(
+            `An unexpected error occured while trying to create a symlink: ${err.message ?? ''}`,
+        );
+    }
     process.exit(1);
 }
 
