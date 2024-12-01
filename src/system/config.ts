@@ -8,7 +8,7 @@ import {
     Attribute,
     AttributeGroup,
     Resource,
-    Skill,
+    Skills,
     WeaponType,
     WeaponId,
     ExpertiseType,
@@ -196,17 +196,17 @@ const COSMERE: CosmereRPGConfig = {
             key: Attribute.Strength,
             label: 'COSMERE.Actor.Attribute.Strength.long',
             labelShort: 'COSMERE.Actor.Attribute.Strength.short',
-            skills: [Skill.Athletics, Skill.HeavyWeapons],
+            skills: [Skills.Athletics, Skills.HeavyWeapons],
         },
         [Attribute.Speed]: {
             key: Attribute.Speed,
             label: 'COSMERE.Actor.Attribute.Speed.long',
             labelShort: 'COSMERE.Actor.Attribute.Speed.short',
             skills: [
-                Skill.Agility,
-                Skill.LightWeapons,
-                Skill.Stealth,
-                Skill.Thievery,
+                Skills.Agility,
+                Skills.LightWeapons,
+                Skills.Stealth,
+                Skills.Thievery,
             ],
         },
         [Attribute.Intellect]: {
@@ -214,29 +214,29 @@ const COSMERE: CosmereRPGConfig = {
             label: 'COSMERE.Actor.Attribute.Intellect.long',
             labelShort: 'COSMERE.Actor.Attribute.Intellect.short',
             skills: [
-                Skill.Crafting,
-                Skill.Deduction,
-                Skill.Lore,
-                Skill.Medicine,
+                Skills.Crafting,
+                Skills.Deduction,
+                Skills.Lore,
+                Skills.Medicine,
             ],
         },
         [Attribute.Willpower]: {
             key: Attribute.Willpower,
             label: 'COSMERE.Actor.Attribute.Willpower.long',
             labelShort: 'COSMERE.Actor.Attribute.Willpower.short',
-            skills: [Skill.Discipline, Skill.Intimidation],
+            skills: [Skills.Discipline, Skills.Intimidation],
         },
         [Attribute.Awareness]: {
             key: Attribute.Awareness,
             label: 'COSMERE.Actor.Attribute.Awareness.long',
             labelShort: 'COSMERE.Actor.Attribute.Awareness.short',
-            skills: [Skill.Insight, Skill.Perception, Skill.Survival],
+            skills: [Skills.Insight, Skills.Perception, Skills.Survival],
         },
         [Attribute.Presence]: {
             key: Attribute.Presence,
             label: 'COSMERE.Actor.Attribute.Presence.long',
             labelShort: 'COSMERE.Actor.Attribute.Presence.short',
-            skills: [Skill.Deception, Skill.Leadership, Skill.Persuasion],
+            skills: [Skills.Deception, Skills.Leadership, Skills.Persuasion],
         },
     },
 
@@ -259,112 +259,112 @@ const COSMERE: CosmereRPGConfig = {
     },
 
     skills: {
-        [Skill.Agility]: {
-            key: Skill.Agility,
+        [Skills.Agility]: {
+            key: Skills.Agility,
             label: 'COSMERE.Actor.Skill.Agility',
             attribute: Attribute.Speed,
             core: true,
         },
-        [Skill.Athletics]: {
-            key: Skill.Athletics,
+        [Skills.Athletics]: {
+            key: Skills.Athletics,
             label: 'COSMERE.Actor.Skill.Athletics',
             attribute: Attribute.Strength,
             core: true,
         },
-        [Skill.HeavyWeapons]: {
-            key: Skill.HeavyWeapons,
+        [Skills.HeavyWeapons]: {
+            key: Skills.HeavyWeapons,
             label: 'COSMERE.Actor.Skill.HeavyWeapons',
             attribute: Attribute.Strength,
             core: true,
         },
-        [Skill.LightWeapons]: {
-            key: Skill.LightWeapons,
+        [Skills.LightWeapons]: {
+            key: Skills.LightWeapons,
             label: 'COSMERE.Actor.Skill.LightWeapons',
             attribute: Attribute.Speed,
             core: true,
         },
-        [Skill.Stealth]: {
-            key: Skill.Stealth,
+        [Skills.Stealth]: {
+            key: Skills.Stealth,
             label: 'COSMERE.Actor.Skill.Stealth',
             attribute: Attribute.Speed,
             core: true,
         },
-        [Skill.Thievery]: {
-            key: Skill.Thievery,
+        [Skills.Thievery]: {
+            key: Skills.Thievery,
             label: 'COSMERE.Actor.Skill.Thievery',
             attribute: Attribute.Speed,
             core: true,
         },
 
-        [Skill.Crafting]: {
-            key: Skill.Crafting,
+        [Skills.Crafting]: {
+            key: Skills.Crafting,
             label: 'COSMERE.Actor.Skill.Crafting',
             attribute: Attribute.Intellect,
             core: true,
         },
-        [Skill.Deduction]: {
-            key: Skill.Deduction,
+        [Skills.Deduction]: {
+            key: Skills.Deduction,
             label: 'COSMERE.Actor.Skill.Deduction',
             attribute: Attribute.Intellect,
             core: true,
         },
-        [Skill.Discipline]: {
-            key: Skill.Discipline,
+        [Skills.Discipline]: {
+            key: Skills.Discipline,
             label: 'COSMERE.Actor.Skill.Discipline',
             attribute: Attribute.Willpower,
             core: true,
         },
-        [Skill.Intimidation]: {
-            key: Skill.Intimidation,
+        [Skills.Intimidation]: {
+            key: Skills.Intimidation,
             label: 'COSMERE.Actor.Skill.Intimidation',
             attribute: Attribute.Willpower,
             core: true,
         },
-        [Skill.Lore]: {
-            key: Skill.Lore,
+        [Skills.Lore]: {
+            key: Skills.Lore,
             label: 'COSMERE.Actor.Skill.Lore',
             attribute: Attribute.Intellect,
             core: true,
         },
-        [Skill.Medicine]: {
-            key: Skill.Medicine,
+        [Skills.Medicine]: {
+            key: Skills.Medicine,
             label: 'COSMERE.Actor.Skill.Medicine',
             attribute: Attribute.Intellect,
             core: true,
         },
 
-        [Skill.Deception]: {
-            key: Skill.Deception,
+        [Skills.Deception]: {
+            key: Skills.Deception,
             label: 'COSMERE.Actor.Skill.Deception',
             attribute: Attribute.Presence,
             core: true,
         },
-        [Skill.Insight]: {
-            key: Skill.Insight,
+        [Skills.Insight]: {
+            key: Skills.Insight,
             label: 'COSMERE.Actor.Skill.Insight',
             attribute: Attribute.Awareness,
             core: true,
         },
-        [Skill.Leadership]: {
-            key: Skill.Leadership,
+        [Skills.Leadership]: {
+            key: Skills.Leadership,
             label: 'COSMERE.Actor.Skill.Leadership',
             attribute: Attribute.Presence,
             core: true,
         },
-        [Skill.Perception]: {
-            key: Skill.Perception,
+        [Skills.Perception]: {
+            key: Skills.Perception,
             label: 'COSMERE.Actor.Skill.Perception',
             attribute: Attribute.Awareness,
             core: true,
         },
-        [Skill.Persuasion]: {
-            key: Skill.Persuasion,
+        [Skills.Persuasion]: {
+            key: Skills.Persuasion,
             label: 'COSMERE.Actor.Skill.Persuasion',
             attribute: Attribute.Presence,
             core: true,
         },
-        [Skill.Survival]: {
-            key: Skill.Survival,
+        [Skills.Survival]: {
+            key: Skills.Survival,
             label: 'COSMERE.Actor.Skill.Survival',
             attribute: Attribute.Awareness,
             core: true,

@@ -110,7 +110,8 @@ export class DetailsActivationComponent extends HandlebarsApplicationComponent<
                 ),
             },
             attributeSelectOptions: {
-                none: 'GENERIC.Default',
+                none: 'GENERIC.None',
+                default: 'GENERIC.Default',
                 ...Object.entries(CONFIG.COSMERE.attributes).reduce(
                     (acc, [key, config]) => ({
                         ...acc,
