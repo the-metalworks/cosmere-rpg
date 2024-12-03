@@ -1,4 +1,4 @@
-import { ArmorTraitId, WeaponTraitId } from '@system/types/cosmere';
+import { ArmorTraitId, Skill, WeaponTraitId } from '@system/types/cosmere';
 import { CosmereItem } from '@system/documents/item';
 import { DeepPartial, AnyObject } from '@system/types/utils';
 
@@ -116,6 +116,17 @@ export class BaseItemSheet extends TabsApplicationMixin(
             )
                 formData.set('system.activation.skill', null);
 
+            if (
+                'system.activation.attribute' in formData.object &&
+                formData.object['system.activation.attribute'] === 'default'
+            ) {
+                formData.set(
+                    'system.activation.attribute',
+                    CONFIG.COSMERE.skills[
+                        formData.object['system.activation.skill'] as Skill
+                    ].attribute,
+                );
+            }
             if (
                 'system.activation.attribute' in formData.object &&
                 formData.object['system.activation.attribute'] === 'none'

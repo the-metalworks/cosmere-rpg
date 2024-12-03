@@ -17,6 +17,8 @@ const ADVANTAGE_MODE_COLORS = {
     [AdvantageMode.Advantage]: 'rgb(49 69 118)',
     [AdvantageMode.None]: null,
 };
+const NONE = 'none';
+type None = typeof NONE;
 
 export namespace AttackConfigurationDialog {
     export interface Data {
@@ -53,6 +55,11 @@ export namespace AttackConfigurationDialog {
              * Whether or not to include a plot die in the roll
              */
             plotDie?: boolean;
+
+            /**
+             * A dice formula stating any miscellanious other bonuses or negatives to the specific roll
+             */
+            temporaryModifiers?: string;
         };
 
         /**
@@ -78,7 +85,7 @@ export namespace AttackConfigurationDialog {
         /**
          * The attribute that is used for the roll by default
          */
-        defaultAttribute?: Attribute;
+        defaultAttribute?: Attribute | None;
 
         /**
          * The roll mode that should be selected by default
@@ -87,12 +94,13 @@ export namespace AttackConfigurationDialog {
     }
 
     export interface Result {
-        attribute: Attribute;
+        attribute: Attribute | None;
         rollMode: RollMode;
         skillTest: {
             plotDie: boolean;
             advantageMode: AdvantageMode;
             advantageModePlot: AdvantageMode;
+            temporaryModifiers: string;
         };
         damageRoll: {
             advantageMode: AdvantageMode;
@@ -145,6 +153,7 @@ export class AttackConfigurationDialog extends ComponentHandlebarsApplicationMix
     /* eslint-enable @typescript-eslint/unbound-method */
 
     private submitted = false;
+    private originalFormulaSize = 0;
 
     private constructor(
         private data: AttackConfigurationDialog.Data,
@@ -159,6 +168,7 @@ export class AttackConfigurationDialog extends ComponentHandlebarsApplicationMix
         });
 
         this.data.skillTest.parts.unshift('1d20');
+        this.originalFormulaSize = this.data.skillTest.parts.length;
         this.data.skillTest.advantageMode ??= AdvantageMode.None;
         this.data.skillTest.advantageModePlot ??= AdvantageMode.None;
         this.data.damageRoll.advantageMode ??= AdvantageMode.None;
@@ -184,19 +194,31 @@ export class AttackConfigurationDialog extends ComponentHandlebarsApplicationMix
     ) {
         if (event instanceof SubmitEvent) return;
 
-        const attribute = formData.get('attribute') as Attribute;
+        const attribute = formData.get('attribute') as Attribute | None;
         const rollMode = formData.get('rollMode') as RollMode;
         const plotDie = formData.get('plotDie') === 'true';
+        const tempMod = formData.get('temporaryMod')?.valueOf() as string;
+
+        // get rid of existing temp mod formula
+        if (this.data.skillTest.parts.length > this.originalFormulaSize)
+            this.data.skillTest.parts.pop();
+        // add the current ones in for display in the formula bar
+        this.data.skillTest.parts.push(tempMod);
+        // store it
+        this.data.skillTest.temporaryModifiers = tempMod;
 
         const skill = this.data.skillTest.data.skill;
-        const attributeData = this.data.skillTest.data.attributes[attribute];
+        const attributeData =
+            attribute !== NONE
+                ? this.data.skillTest.data.attributes[attribute]
+                : { value: 0, bonus: 0 };
         const rank = skill.rank;
         const value = attributeData.value + attributeData.bonus;
 
         this.data.skillTest.data.mod = rank + value;
         this.data.skillTest.plotDie = plotDie;
 
-        this.data.defaultAttribute = attribute;
+        this.data.defaultAttribute = attribute !== NONE ? attribute : undefined;
         this.data.defaultRollMode = rollMode;
 
         void this.render();
@@ -209,9 +231,10 @@ export class AttackConfigurationDialog extends ComponentHandlebarsApplicationMix
             attribute: HTMLSelectElement;
             rollMode: HTMLSelectElement;
             plotDie: HTMLInputElement;
+            temporaryMod: HTMLInputElement;
         };
 
-        const attribute = form.attribute.value as Attribute;
+        const attribute = form.attribute.value as Attribute | 'none';
         const rollMode = form.rollMode.value as RollMode;
 
         const plotDie = form.plotDie.checked;
@@ -229,6 +252,7 @@ export class AttackConfigurationDialog extends ComponentHandlebarsApplicationMix
                 plotDie,
                 advantageMode: skillTestAdvantageMode,
                 advantageModePlot: skillTestAdvantageModePlot,
+                temporaryModifiers: form.temporaryMod.value,
             },
             damageRoll: {
                 advantageMode: damageRollAdvantageMode,
@@ -269,7 +293,10 @@ export class AttackConfigurationDialog extends ComponentHandlebarsApplicationMix
 
     protected _prepareContext() {
         const skillTestFormula = foundry.dice.Roll.replaceFormulaData(
-            this.data.skillTest.parts.join(' + '),
+            this.data.skillTest.parts
+                .join(' + ')
+                .replace(/\+ -/g, '-')
+                .replace(/\+ \+/g, '+'),
             this.data.skillTest.data,
             {
                 missing: '0',
@@ -277,7 +304,10 @@ export class AttackConfigurationDialog extends ComponentHandlebarsApplicationMix
         );
 
         const damageRollFormula = foundry.dice.Roll.replaceFormulaData(
-            this.data.damageRoll.parts.join(' + '),
+            this.data.damageRoll.parts
+                .join(' + ')
+                .replace(/\+ -/g, '-')
+                .replace(/\+ \+/g, '+'),
             this.data.damageRoll.data,
             {
                 missing: '0',
@@ -293,6 +323,7 @@ export class AttackConfigurationDialog extends ComponentHandlebarsApplicationMix
                 plotDie: this.data.skillTest.plotDie,
                 advantageMode: this.data.skillTest.advantageMode,
                 advantageModePlot: this.data.skillTest.advantageModePlot,
+                temporaryModifiers: this.data.skillTest.temporaryModifiers,
             },
             damageRoll: {
                 dice: this.data.damageRoll.parts.find((part) =>
@@ -318,13 +349,16 @@ export class AttackConfigurationDialog extends ComponentHandlebarsApplicationMix
                 }),
                 {},
             ),
-            attributes: Object.entries(CONFIG.COSMERE.attributes).reduce(
-                (acc, [key, config]) => ({
-                    ...acc,
-                    [key]: config.label,
-                }),
-                {},
-            ),
+            attributes: {
+                none: 'GENERIC.None',
+                ...Object.entries(CONFIG.COSMERE.attributes).reduce(
+                    (acc, [key, config]) => ({
+                        ...acc,
+                        [key]: config.label,
+                    }),
+                    {},
+                ),
+            },
         });
     }
 }

@@ -40,6 +40,7 @@ export interface ActivatableItemData {
         /* -- Skill test activation -- */
         skill?: Skill;
         attribute?: Attribute;
+        modifierFormula?: string;
         plotDie?: boolean;
 
         /**
@@ -134,6 +135,10 @@ export function ActivatableItemMixin<P extends CosmereItem>() {
                             nullable: true,
                             blank: false,
                             choices: Object.keys(CONFIG.COSMERE.attributes),
+                        }),
+                        modifierFormula: new foundry.data.fields.StringField({
+                            nullable: true,
+                            blank: true,
                         }),
                         plotDie: new foundry.data.fields.BooleanField({
                             nullable: true,

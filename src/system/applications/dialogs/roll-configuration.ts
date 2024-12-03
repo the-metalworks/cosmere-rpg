@@ -30,6 +30,11 @@ export namespace RollConfigurationDialog {
         parts: string[];
 
         /**
+         * A dice formula stating any miscellaneous other bonuses or negatives to the specific roll
+         */
+        temporaryModifiers?: string;
+
+        /**
          * The data to be used when parsing the roll
          */
         data: D20RollData;
@@ -66,6 +71,7 @@ export namespace RollConfigurationDialog {
         plotDie: boolean;
         advantageMode: AdvantageMode;
         advantageModePlot: AdvantageMode;
+        temporaryModifiers: string;
     }
 }
 
@@ -113,6 +119,7 @@ export class RollConfigurationDialog extends ComponentHandlebarsApplicationMixin
     /* eslint-enable @typescript-eslint/unbound-method */
 
     private submitted = false;
+    private originalFormulaSize = 0;
 
     private constructor(
         private data: RollConfigurationDialog.Data,
@@ -124,6 +131,7 @@ export class RollConfigurationDialog extends ComponentHandlebarsApplicationMixin
             },
         });
 
+        this.originalFormulaSize = this.data.parts.length;
         this.data.advantageMode ??= AdvantageMode.None;
         this.data.advantageModePlot ??= AdvantageMode.None;
     }
@@ -149,6 +157,15 @@ export class RollConfigurationDialog extends ComponentHandlebarsApplicationMixin
         const attribute = formData.get('attribute') as Attribute;
         const rollMode = formData.get('rollMode') as RollMode;
         const plotDie = formData.get('plotDie') === 'true';
+        const tempMod = formData.get('temporaryMod')?.valueOf() as string;
+
+        // get rid of existing temp mod formula
+        if (this.data.parts.length > this.originalFormulaSize)
+            this.data.parts.pop();
+        // add the current ones in for display in the formula bar
+        this.data.parts.push(tempMod);
+        // store it
+        this.data.temporaryModifiers = tempMod;
 
         const skill = this.data.data.skill;
         const attributeData = this.data.data.attributes[attribute];
@@ -170,6 +187,7 @@ export class RollConfigurationDialog extends ComponentHandlebarsApplicationMixin
             attribute: HTMLSelectElement;
             rollMode: HTMLSelectElement;
             plotDie: HTMLInputElement;
+            temporaryMod: HTMLInputElement;
         };
 
         const attribute = form.attribute.value as Attribute;
@@ -180,12 +198,15 @@ export class RollConfigurationDialog extends ComponentHandlebarsApplicationMixin
         const advantageModePlot =
             this.data.advantageModePlot ?? AdvantageMode.None;
 
+        const temporaryModifiers = form.temporaryMod.value;
+
         this.resolve({
             attribute,
             rollMode,
             plotDie,
             advantageMode,
             advantageModePlot,
+            temporaryModifiers,
         });
         this.submitted = true;
         void this.close();
@@ -222,7 +243,10 @@ export class RollConfigurationDialog extends ComponentHandlebarsApplicationMixin
 
     protected _prepareContext() {
         const formula = foundry.dice.Roll.replaceFormulaData(
-            this.data.parts.join(' + '),
+            this.data.parts
+                .join(' + ')
+                .replace(/\+ -/g, '-')
+                .replace(/\+ \+/g, '+'),
             this.data.data,
             {
                 missing: '0',
@@ -237,6 +261,7 @@ export class RollConfigurationDialog extends ComponentHandlebarsApplicationMixin
             plotDie: this.data.plotDie,
             advantageMode: this.data.advantageMode,
             advantageModePlot: this.data.advantageModePlot,
+            temporaryModifiers: this.data.temporaryModifiers,
 
             rollModes: CONFIG.Dice.rollModes,
             advantageModes: Object.entries(

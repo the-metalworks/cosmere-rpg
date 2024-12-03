@@ -265,6 +265,12 @@ export class D20Roll extends foundry.dice.Roll<D20RollData> {
         this.options.plotDie = result.plotDie;
         this.options.advantageMode = result.advantageMode;
         this.options.advantageModePlot = result.advantageModePlot;
+        if (result.temporaryModifiers) {
+            const tempTerms = new Roll(`0 + ${result.temporaryModifiers}`)
+                .terms;
+            this.terms = this.terms.concat(tempTerms.slice(1));
+            this.resetFormula();
+        }
 
         this.configureModifiers();
         return this;

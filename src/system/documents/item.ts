@@ -76,6 +76,8 @@ const CONSUME_CONFIGURATION_DIALOG_TEMPLATE =
     'systems/cosmere-rpg/templates/item/dialog/item-consume.hbs';
 const ACTIVITY_CARD_TEMPLATE =
     'systems/cosmere-rpg/templates/chat/activity-card.hbs';
+const NONE = 'none';
+type None = typeof NONE;
 
 interface ShowConsumeDialogOptions {
     /**
@@ -403,6 +405,9 @@ export class CosmereItem<
             actor,
         );
 
+        const parts = ['@mod'].concat(options.parts ?? []);
+        if (options.temporaryModifiers) parts.push(options.temporaryModifiers);
+
         // Perform the roll
         const roll = await d20Roll(
             foundry.utils.mergeObject(options, {
@@ -412,7 +417,7 @@ export class CosmereItem<
                     CONFIG.COSMERE.skills[skillId].label,
                 )})`,
                 defaultAttribute: skill.attribute,
-                parts: ['@mod'].concat(options.parts ?? []),
+                parts: parts,
                 plotDie: options.plotDie ?? this.system.activation.plotDie,
                 opportunity:
                     options.opportunity ?? this.system.activation.opportunity,
@@ -607,18 +612,21 @@ export class CosmereItem<
             skillTestSkillId;
 
         // Get the attribute to use during the skill test
-        let skillTestAttributeId =
+        let skillTestAttributeId: Attribute | None =
             options.skillTest?.attribute ??
             this.system.activation.attribute ??
-            actor.system.skills[skillTestSkillId].attribute;
+            NONE;
 
         // Get the attribute to use during the damage roll
-        const damageAttributeId =
+        const damageAttributeId: Attribute | None =
             options.damage?.attribute ??
             this.system.damage.attribute ??
             actor.system.skills[damageSkillId].attribute;
 
         options.skillTest ??= {};
+        options.skillTest.parts ??= this.system.activation.modifierFormula
+            ? [this.system.activation.modifierFormula]
+            : [];
         options.damage ??= {};
 
         // Handle key modifiers
@@ -673,6 +681,9 @@ export class CosmereItem<
 
             // If the dialog was closed, exit out of rolls
             if (!attackConfig) return null;
+
+            options.skillTest.temporaryModifiers =
+                attackConfig.skillTest.temporaryModifiers;
 
             skillTestAttributeId = attackConfig.attribute;
             options.rollMode = attackConfig.rollMode;
@@ -931,6 +942,9 @@ export class CosmereItem<
                     rolls.push(...damageRolls);
                 }
 
+                options.parts ??= this.system.activation.modifierFormula
+                    ? [this.system.activation.modifierFormula]
+                    : [];
                 if (this.system.activation.type === ActivationType.SkillTest) {
                     const roll = await this.roll({
                         ...options,
@@ -1160,11 +1174,14 @@ export class CosmereItem<
 
     protected getSkillTestRollData(
         skillId: Skill,
-        attributeId: Attribute,
+        attributeId: Attribute | None,
         actor: CosmereActor,
     ): D20RollData {
         const skill = actor.system.skills[skillId];
-        const attribute = actor.system.attributes[attributeId];
+        const attribute =
+            attributeId !== NONE
+                ? actor.system.attributes[attributeId]
+                : { value: 0, bonus: 0 };
         const mod = skill.rank + attribute.value + attribute.bonus;
 
         return {
@@ -1174,7 +1191,7 @@ export class CosmereItem<
                 id: skillId,
                 rank: skill.rank,
                 mod: Derived.getValue(skill.mod) ?? 0,
-                attribute: attributeId,
+                attribute: attributeId !== NONE ? attributeId : skill.attribute,
             },
             attribute: attribute.value,
         };
@@ -1182,12 +1199,14 @@ export class CosmereItem<
 
     protected getDamageRollData(
         skillId: Skill | undefined,
-        attributeId: Attribute | undefined,
+        attributeId: Attribute | None | undefined,
         actor: CosmereActor,
     ): DamageRollData {
         const skill = skillId ? actor.system.skills[skillId] : undefined;
         const attribute = attributeId
-            ? actor.system.attributes[attributeId]
+            ? attributeId !== NONE
+                ? actor.system.attributes[attributeId]
+                : { value: 0, bonus: 0 }
             : undefined;
         const mod =
             skill !== undefined || attribute !== undefined
@@ -1204,7 +1223,10 @@ export class CosmereItem<
                       id: skillId!,
                       rank: skill.rank,
                       mod: Derived.getValue(skill.mod) ?? 0,
-                      attribute: attributeId!,
+                      attribute:
+                          attributeId! !== NONE
+                              ? attributeId!
+                              : skill.attribute,
                   }
                 : undefined,
             attribute: attribute?.value,
@@ -1230,7 +1252,7 @@ export namespace CosmereItem {
          * The attribute to be used with this item roll.
          * Used to roll the item with an alternate attribute.
          */
-        attribute?: Attribute;
+        attribute?: Attribute | None;
 
         /**
          * Whether or not to generate a chat message for this roll.
@@ -1279,6 +1301,11 @@ export namespace CosmereItem {
         parts?: string[];
 
         /**
+         * A dice formula stating any miscellanious other bonuses or negatives to the specific roll
+         */
+        temporaryModifiers?: string;
+
+        /**
          * What advantage modifier to apply to the roll
          *
          * @default AdvantageMode.None
@@ -1318,6 +1345,7 @@ export namespace CosmereItem {
             | 'skill'
             | 'attribute'
             | 'parts'
+            | 'temporaryModifiers'
             | 'opportunity'
             | 'complication'
             | 'plotDie'
