@@ -9,6 +9,10 @@ export const TEMPLATES = {
     COMBAT_COMBATANT: 'combat/combatant.hbs',
 
     // ACTOR
+    ACTOR_BASE_NAVIGATION: 'actors/parts/navigation.hbs',
+    ACTOR_BASE_CORNERS: 'actors/parts/corners.hbs',
+    ACTOR_CHARACTER_HEADER: 'actors/character/parts/header.hbs',
+    ACTOR_CHARACTER_CONTENT: 'actors/character/parts/content.hbs',
     ACTOR_CHARACTER_DETAILS_TAB:
         'actors/character/partials/char-details-tab.hbs',
     ACTOR_CHARACTER_ACTIONS_TAB:
@@ -18,6 +22,7 @@ export const TEMPLATES = {
     ACTOR_CHARACTER_GOALS_TAB: 'actors/character/partials/char-goals-tab.hbs',
     ACTOR_CHARACTER_EFFECTS_TAB:
         'actors/character/partials/char-effects-tab.hbs',
+    ACTOR_ADVERSARY_CONTENT: 'actors/adversary/parts/content.hbs',
     ACTOR_ADVERSARY_ACTIONS_TAB:
         'actors/adversary/partials/adv-actions-tab.hbs',
     ACTOR_ADVERSARY_EQUIPMENT_TAB:

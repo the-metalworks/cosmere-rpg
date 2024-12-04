@@ -1,0 +1,58 @@
+<section class="sheet-content flexrow">
+    <section class="col-left">
+        {{app-actor-details}}
+        {{#each resources as |resourceId|}}
+        {{app-actor-resource resource=resourceId}}
+        {{/each}}
+
+        {{#if isEditMode}}
+        <section class="expertises">
+            <span>{{localize "COSMERE.Actor.Sheet.Expertises"}}</span>
+            <a data-action="edit-expertises"
+                data-tooltip="COSMERE.Actor.Sheet.EditExpertises"
+            >
+                <i class="fa-solid fa-pen-to-square"></i>
+            </a>
+        </section>
+        {{/if}}
+
+        <section class="skills">
+            <header>
+                <span>{{localize "COSMERE.Actor.Skill.label_p"}}</span>
+
+                <a data-action="toggle-skills-collapsed"
+                    data-tooltip="COSMERE.Actor.Sheet.{{#if skillsCollapsed}}ToggleShowSkills{{else}}ToggleCollapseSkills{{/if}}"
+                >
+                    {{#if skillsCollapsed}}
+                    <i class="fa-solid fa-eye"></i>
+                    {{else}}
+                    <i class="fa-solid fa-eye-slash"></i>
+                    {{/if}}
+                </a>
+
+                {{#if isEditMode}}
+                <a data-action="configure-skills"
+                    data-tooltip="COSMERE.Actor.Sheet.ConfigureSkills"
+                >
+                    <i class="fa-solid fa-gear"></i>
+                </a>
+                {{/if}}
+            </header>
+
+            <section>
+            {{#each attributeGroups as |group|}}
+            {{app-adversary-skills-group collapsed=@root.skillsCollapsed group-id=group}}
+            {{/each}}
+            </section>
+        </section>
+    </section>
+    <section class="col-main">
+        {{app-adversary-header}}
+        {{app-actor-attributes}}
+        <div class="tab-body">
+            {{> adv-actions-tab}}
+            {{> adv-equipment-tab}}
+            {{> adv-effects-tab}}
+        </div>
+    </section>
+</section>

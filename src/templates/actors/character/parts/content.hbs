@@ -1,0 +1,20 @@
+<section class="sheet-content flexrow">
+    <section class="col-left">
+        {{app-actor-details}}
+        {{#each @root.resources as |resourceId|}}
+        {{app-actor-resource resource=resourceId}}
+        {{/each}}
+
+        {{app-character-favorites class="list-component"}}
+    </section>
+    <section class="col-main">
+        {{app-actor-attributes}}
+        <div class="tab-body">
+            {{> char-details-tab}}
+            {{> char-actions-tab}}
+            {{> char-equipment-tab}}
+            {{> char-goals-tab}}
+            {{> char-effects-tab}}
+        </div>
+    </section>
+</section>

@@ -22,6 +22,7 @@ import {
 
 // Components
 import { SortDirection, SearchBarInputEvent } from './components';
+import { renderSystemTemplate, TEMPLATES } from '@src/system/utils/templates';
 
 const { ActorSheetV2 } = foundry.applications.sheets;
 
@@ -66,10 +67,10 @@ export class BaseActorSheet<
     /* eslint-enable @typescript-eslint/unbound-method */
 
     static PARTS = foundry.utils.mergeObject(super.PARTS, {
-        navigation: {
-            template:
-                'systems/cosmere-rpg/templates/actors/parts/navigation.hbs',
-        },
+        // navigation: {
+        //     template:
+        //         `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_NAVIGATION}`,
+        // },
     });
 
     static TABS = foundry.utils.mergeObject(super.TABS, {
@@ -247,6 +248,12 @@ export class BaseActorSheet<
         options: Partial<foundry.applications.api.ApplicationV2.RenderOptions>,
     ): Promise<HTMLElement> {
         const frame = await super._renderFrame(options);
+
+        const corners = await renderSystemTemplate(
+            TEMPLATES.ACTOR_BASE_CORNERS,
+            {},
+        );
+        $(frame).prepend(corners);
 
         // Insert mode toggle
         if (this.isEditable) {

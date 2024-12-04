@@ -46,15 +46,15 @@ export class AdversarySheet extends BaseActorSheet<AdversarySheetRenderContext> 
     );
     /* eslint-enable @typescript-eslint/unbound-method */
 
-    static PARTS = foundry.utils.mergeObject(
-        foundry.utils.deepClone(super.PARTS),
-        {
-            'sheet-content': {
-                template:
-                    'systems/cosmere-rpg/templates/actors/adversary/parts/sheet-content.hbs',
-            },
-        },
-    );
+    // static PARTS = foundry.utils.mergeObject(
+    //     foundry.utils.deepClone(super.PARTS),
+    //     {
+    //         'sheet-content': {
+    //             template:
+    //                 'systems/cosmere-rpg/templates/actors/adversary/parts/sheet-content.hbs',
+    //         },
+    //     },
+    // );
 
     get actor(): AdversaryActor {
         return super.document;

@@ -60,8 +60,7 @@
     .cosmere-theme-default {
         //TO-DO: Replace with Plotweaver colours
         &.theme-dark {
-            --plotweaver-color-accent : #ffcb74;
-            --plotweaver-color-accent-filter: invert(87%) sepia(11%) saturate(2171%) hue-rotate(332deg) brightness(101%) contrast(102%);
+            --plotweaver-color-accent : #8a7e8b;
             --plotweaver-color-faded: #f6f6f6;
             --plotweaver-color-sheet: #111111;
 
@@ -71,6 +70,9 @@
             --plotweaver-color-base-4: #3f3f3f;
             --plotweaver-color-base-5: #4f4f4f;
             --plotweaver-color-base-6: #5f5f5f;
+
+            --plotweaver-color-text-main: var(--plotweaver-color-white);
+            --plotweaver-color-text-sub: var(--plotweaver-off-white-2);
         }
 
         &.theme-light {
@@ -94,7 +96,6 @@
         //TO-DO: Move to Stormlight Archive module
         &.theme-dark {
             --plotweaver-color-accent: #c9a760;
-            --plotweaver-color-accent-filter: invert(83%) sepia(4%) saturate(4272%) hue-rotate(356deg) brightness(85%) contrast(83%);
             --plotweaver-color-faded: #5e6c7e;
             --plotweaver-color-sheet: #132137;
 
@@ -104,6 +105,9 @@
             --plotweaver-color-base-4: #263c5e;
             --plotweaver-color-base-5: #456a95;
             --plotweaver-color-base-6: #506684;
+
+            --plotweaver-color-text-main: var(--plotweaver-color-white);
+            --plotweaver-color-text-sub: var(--plotweaver-off-white-2);
         }
 
         &.theme-light {
@@ -125,7 +129,6 @@
 /*  Fonts                                    */
 /* ----------------------------------------- */
 @import url('https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap');
-@import url('https://fonts.cdnfonts.com/css/penumbra-web-pro');
 
 .application h1,
 span.document-name {

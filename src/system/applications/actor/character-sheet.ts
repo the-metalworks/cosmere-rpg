@@ -6,6 +6,7 @@ import { SYSTEM_ID } from '@src/system/constants';
 
 // Base
 import { BaseActorSheet } from './base';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 const enum CharacterSheetTab {
     Details = 'details',
@@ -28,13 +29,12 @@ export class CharacterSheet extends BaseActorSheet {
         foundry.utils.deepClone(super.PARTS),
         {
             header: {
-                template:
-                    'systems/cosmere-rpg/templates/actors/character/parts/header.hbs',
+                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_HEADER}`,
             },
-            'sheet-content': {
-                template:
-                    'systems/cosmere-rpg/templates/actors/character/parts/sheet-content.hbs',
-            },
+            // content: {
+            //     template:
+            //         'systems/cosmere-rpg/templates/actors/character/parts/sheet-content.hbs',
+            // },
         },
     );
 
