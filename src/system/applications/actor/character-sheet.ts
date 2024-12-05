@@ -31,10 +31,9 @@ export class CharacterSheet extends BaseActorSheet {
             header: {
                 template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_HEADER}`,
             },
-            // content: {
-            //     template:
-            //         'systems/cosmere-rpg/templates/actors/character/parts/sheet-content.hbs',
-            // },
+            content: {
+                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_CONTENT}`,
+            },
         },
     );
 

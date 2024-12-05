@@ -10,6 +10,7 @@ import { EditExpertisesDialog } from './dialogs/edit-expertises';
 
 // Base
 import { BaseActorSheet, BaseActorSheetRenderContext } from './base';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 export type AdversarySheetRenderContext = Omit<
     BaseActorSheetRenderContext,
@@ -46,15 +47,14 @@ export class AdversarySheet extends BaseActorSheet<AdversarySheetRenderContext> 
     );
     /* eslint-enable @typescript-eslint/unbound-method */
 
-    // static PARTS = foundry.utils.mergeObject(
-    //     foundry.utils.deepClone(super.PARTS),
-    //     {
-    //         'sheet-content': {
-    //             template:
-    //                 'systems/cosmere-rpg/templates/actors/adversary/parts/sheet-content.hbs',
-    //         },
-    //     },
-    // );
+    static PARTS = foundry.utils.mergeObject(
+        foundry.utils.deepClone(super.PARTS),
+        {
+            content: {
+                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_ADVERSARY_CONTENT}`,
+            },
+        },
+    );
 
     get actor(): AdversaryActor {
         return super.document;
