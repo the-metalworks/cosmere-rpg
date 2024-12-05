@@ -1,4 +1,67 @@
 .sheet.actor.character {
     max-width: 800px;
     max-height: 900px;
+
+    .sheet-header {
+        .title {
+            padding-left: 1.25rem;
+
+            .details {                
+                color: var(--plotweaver-color-accent);
+            }
+        }
+
+        .level {
+            .container {
+                width: 58px;
+                height: 58px;
+
+                .value {                        
+                    font-size: var(--font-size-28);
+                    line-height: 58px;
+                }
+            }
+        }
+    }
+
+    /* --- Components --- */
+
+    app-character-favorites {
+        display: flex;
+        flex-direction: column;
+        margin-top: 0.5rem;
+
+        .header {
+            font-family: var(--plotweaver-font-normal);
+            font-size: var(--font-size-12);
+            font-weight: 600;
+            color: var(--plotweaver-color-accent);
+            text-transform: uppercase;
+        }
+
+        .favorites-list {
+
+        }
+
+        .drop-area {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 28px;
+            border: 2px dotted var(--plotweaver-color-faded);
+            border-radius: 4px;
+            
+            font-family: var(--plotweaver-font-normal);
+            font-size: var(--font-size-12);
+            font-weight: 600;
+            color: var(--plotweaver-color-faded);
+            text-transform: uppercase;
+
+            opacity: 0.5;
+
+            &.dropping {
+                opacity: 1;
+            }
+        }
+    }
 }

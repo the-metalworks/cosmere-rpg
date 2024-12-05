@@ -2,7 +2,27 @@
 @import './adversary.scss';
 
 .sheet.actor {
-    --sheet-corner-svg: url('assets/icons/svg/sheet/border_sheet_corner.svg');
+    --border-sheet-corner-svg: url('assets/icons/svg/sheet/border_sheet_corner.svg');
+    --star-cosmere-svg: url('assets/icons/svg/sheet/star_cosmere.svg');
+
+    --border-level-svg: url('assets/icons/svg/sheet/border_level.svg');
+    --mask-level-svg: url('assets/icons/svg/sheet/mask_level.svg');
+    --border-deflect-svg: url('assets/icons/svg/sheet/border_deflect.svg');
+    --mask-deflect-svg: url('assets/icons/svg/sheet/mask_deflect.svg');
+    --border-stat-svg: url('assets/icons/svg/sheet/border_stat.svg');
+    --mask-stat-svg: url('assets/icons/svg/sheet/mask_stat.svg');
+    --border-bar-svg: url('assets/icons/svg/sheet/border_bar.svg');
+    --mask-bar-svg: url('assets/icons/svg/sheet/mask_bar.svg');
+    --border-attribute-left-svg: url('assets/icons/svg/sheet/border_attribute_left.svg');
+    --mask-attribute-left-svg: url('assets/icons/svg/sheet/mask_attribute_left.svg');
+    --border-attribute-right-svg: url('assets/icons/svg/sheet/border_attribute_right.svg');
+    --mask-attribute-right-svg: url('assets/icons/svg/sheet/mask_attribute_right.svg');
+    --border-defense-svg: url('assets/icons/svg/sheet/border_defense.svg');
+    --mask-defense-svg: url('assets/icons/svg/sheet/mask_defense.svg');
+    
+    --rest-long-svg: url('assets/icons/svg/sheet/rest_button_long.svg');
+    --rest-short-svg: url('assets/icons/svg/sheet/rest_button_short.svg');
+    --rest-scene-svg: url('assets/icons/svg/sheet/rest_button_scene.svg');
 
     overflow: visible;
     border: 3px solid var(--plotweaver-color-accent);
@@ -76,7 +96,7 @@
             width: 50px;
             height: 50px;
             background-color: var(--plotweaver-color-accent);
-            mask: var(--sheet-corner-svg) no-repeat center;
+            mask: var(--border-sheet-corner-svg) no-repeat center;
         }
 
         .corner-pair {
@@ -95,7 +115,617 @@
 
     > .window-content {
         backdrop-filter: blur(0rem);
-        overflow: auto;        
+        overflow: visible;
         padding: 0 1.875rem;
+    }
+
+    input[type="text"],
+    input[type="number"] {        
+        margin: 0;
+        padding: 0;
+        text-align: left;
+        font-size: inherit;
+        font-weight: inherit;
+        color: inherit;
+        background: transparent;
+        border: 0;
+        border-radius: 0;
+        outline: 0;
+        box-shadow: none;
+    }
+
+    .sheet-header {
+        margin-top: 0.5rem;
+
+        .title {
+            flex-direction: column;
+            align-items: flex-start;
+
+            .document-name {
+                font-family: var(--plotweaver-font-header);
+                font-variant: small-caps;
+                font-weight: bold;
+                text-transform: capitalize;
+                color: var(--plotweaver-color-text-main);
+            }
+
+            .details {
+                font-family: var(--plotweaver-font-normal);
+                font-size: var(--font-size-14);
+                font-weight: bold;
+                text-transform: uppercase;
+
+                .delim {
+                    color: var(--plotweaver-color-faded);
+                }
+            }
+        }
+
+        .level-details {            
+            flex: unset;
+            display: flex;
+            align-items: center;
+
+            .level {
+                .container {
+                    .background {
+                        mask: var(--mask-level-svg) no-repeat center;
+                    }
+    
+                    .star {                        
+                        position: absolute;
+                        left: 1px;
+                        top: 1px;
+                        width: calc(100% - 2px);
+                        height: calc(100% - 2px);
+                        background-color: var(--plotweaver-color-faded);
+                        mask: var(--star-cosmere-svg) no-repeat center;
+                        opacity: 0.5;
+                    }
+    
+                    .border {
+                        mask: var(--border-level-svg) no-repeat center;
+                    }
+                }
+            }
+        }
+    }
+
+    .sheet-content {
+        margin-top: 1.5rem;
+        display: flex;
+        align-content: flex-start;
+        align-items: flex-start;
+        gap: 1.125rem;
+
+        .col-left {
+            width: 180px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            flex: unset;
+            padding-bottom: 0.75rem;
+        }
+
+        .col-main {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 0.75rem;
+
+            .scroll-container {
+                margin-top: 1.375rem;
+                width: calc(100% + 10px);
+                overflow-y: auto;
+                overflow-x: hidden;
+                scrollbar-color: var(--plotweaver-color-base-6) var(--color-scrollbar-track);
+            }
+        }
+    }
+
+    .sheet-stack {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .label {
+            font-family: var(--plotweaver-font-header);
+            font-size: var(--font-size-10);
+            color: var(--plotweaver-color-text-sub);
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .container {            
+            filter: var(--plotweaver-drop-shadow);
+            position: relative;
+            text-align: center;
+
+            .background {
+                position: absolute;
+                left: 0px;
+                top: 0px;    
+                width: 100%;
+                height: 100%;
+                background-color: var(--plotweaver-color-base-2);
+            }
+
+            .border {
+                position: absolute;
+                left: 0px;
+                top: 0px;
+                width: 100%;
+                height: 100%;
+                background-color: var(--plotweaver-color-accent);
+            }
+
+            .value {
+                position: relative;
+                font-family: var(--plotweaver-font-header);
+                color: var(--plotweaver-color-text-main);
+                z-index: 1;
+            }
+        }
+    }
+
+    .tab[data-tab] {
+        display: flex;
+        flex-direction: column;
+
+        &.split {
+            flex-direction: row;
+            gap: 1.25rem;
+
+            > section {
+                flex: 1;
+            }
+        }
+    }
+
+    /* --- Components --- */
+
+    app-actor-details {
+        display: flex;
+        flex-direction: column;
+
+        .portrait-info {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            align-items: center;
+
+            .portrait {
+                width: 100%;
+                aspect-ratio: 1 / 1;
+                overflow: hidden;
+
+                border: 4px solid var(--plotweaver-color-accent);
+                border-radius: 50%;
+                filter: var(--plotweaver-drop-shadow);
+
+                img {
+                    width: 100%;
+                    object-fit: cover;
+                    object-position: center;
+                    border: none;
+
+                    &:hover {
+                        cursor: pointer;
+                    }
+                }
+
+                &::after {
+                    box-shadow: inset 0 0 60px var(--plotweaver-shadow-85);
+                    content: '';
+                    display: block;
+                    position: absolute;
+                    top: 0;
+                    width: 100%;
+                    height: 100%;
+                    pointer-events: none;
+                }
+            }
+
+            a.rest {
+                position: absolute;
+                width: 22px;
+                height: 22px;
+                background-color: var(--plotweaver-color-text-sub);
+
+                &.end-scene {                    
+                    top: -11px;
+                    right: 27px;
+                    mask: var(--rest-scene-svg) no-repeat center;
+                }
+
+                &.short-rest {
+                    top: 4px;
+                    right: 4px;
+                    mask: var(--rest-short-svg) no-repeat center;
+                }
+
+                &.long-rest {
+                    top: 27px;
+                    right: -11px;
+                    mask: var(--rest-long-svg) no-repeat center;
+                }
+            }
+
+            .deflect {
+                margin-top: -19px;
+            }
+        }
+
+        .deflect {
+            .container {
+                width: 32px;
+                height: 38px;
+    
+                .background {
+                    mask: var(--mask-deflect-svg) no-repeat center;
+                }
+    
+                .border {
+                    mask: var(--border-deflect-svg) no-repeat center;
+                }
+
+                .value {                        
+                    font-size: var(--font-size-18);
+                    line-height: 34px;
+                }
+            }
+        }
+
+        .derived-stat {
+            margin-bottom: 1.75rem;
+
+            &.recovery {
+                transform: translateY(0.875rem);
+            }
+
+            .container {
+                width: 58px;
+                height: 30px;
+    
+                .background {
+                    mask: var(--mask-stat-svg) no-repeat center;
+                }
+    
+                .border {
+                    mask: var(--border-stat-svg) no-repeat center;
+                }
+
+                .value {                        
+                    font-size: var(--font-size-16);
+                    line-height: 28px;
+                    font-variant: small-caps;
+                }                
+
+                .unit {                        
+                    position: relative;
+                    font-family: var(--plotweaver-font-header);
+                    color: var(--plotweaver-color-text-main);
+                    z-index: 1;
+                    font-size: var(--font-size-12);
+                    font-variant: small-caps;
+                    line-height: 28px;
+                }
+            }
+        }
+    }
+
+    app-actor-resource {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+
+        .resource {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 0.625rem;
+
+            .header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                font-size: var(--font-size-10);
+                color: var(--plotweaver-color-text-sub);
+                width: 100%;
+                margin-bottom: 0.125rem;
+
+                .label {
+                    font-family: var(--plotweaver-font-header);
+                    text-transform: uppercase;
+                    text-align: left;
+                }
+
+                .controls {
+                    text-align: right;
+                }
+            }
+
+            .bar {
+                .container {
+                    width: 180px;
+                    height: 24px;
+        
+                    .background {
+                        mask: var(--mask-bar-svg) no-repeat center;
+                    }
+
+                    .inner {
+                        mask: var(--mask-bar-svg) no-repeat center;                        
+                        position: absolute;
+                        left: 0px;
+                        top: 0px;    
+                        width: 100%;
+                        height: 100%;
+                    }
+
+                    .inner-bar {
+                        position: absolute;
+                        height: 100%;
+                        top: 0;
+                        left: 0;
+                    }
+        
+                    .border {
+                        mask: var(--border-bar-svg) no-repeat center;
+                    }
+
+                    .value {
+                        padding-left: 0.75rem;
+    
+                        font-weight: bold;
+                        font-size: var(--font-size-14);
+                        line-height: 24px;
+                        text-align: left;
+
+                        .delim {
+                            color: var(--plotweaver-color-accent);
+                        }
+                    }
+
+                    input {
+                        display: none;
+                        padding-left: 0.75rem;
+
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        
+                        font-family: var(--plotweaver-font-header);
+                        font-weight: bold;
+                        font-size: var(--font-size-14);
+                        line-height: 24px;
+                        text-align: left;
+                    }
+                }
+
+                &.editing .container {
+                    .value {
+                        display: none;
+                    }
+
+                    input {
+                        display: block;
+                    }
+                }
+            }
+
+            &.hea {
+                .bar .container {
+                    .background {
+                        background-color: var(--plotweaver-color-health-back);
+                    }
+
+                    .inner-bar {
+                        background-color: var(--plotweaver-color-health-front);
+                    }
+                }
+            }
+
+            &.foc {
+                .bar .container {
+                    .background {
+                        background-color: var(--plotweaver-color-focus-back);
+                    }
+                    
+                    .inner-bar {
+                        background-color: var(--plotweaver-color-focus-front);
+                    }
+                }
+            }
+
+            &.inv {
+                .bar .container {
+                    .background {
+                        background-color: var(--plotweaver-color-invest-back);
+                    }
+
+                    .inner-bar {
+                        background-color: var(--plotweaver-color-invest-front);
+                    }
+                }
+            }
+        }
+    }
+
+    app-actor-attributes {
+        .attribute-groups {
+            margin-top: 1.375rem;
+            gap: 0.75rem;
+        }
+
+        .attribute-group {
+            display: flex;
+            flex-direction: column;
+
+            > .label {
+                font-family: var(--plotweaver-font-header);
+                font-size: var(--font-size-12);
+                color: var(--plotweaver-color-text-sub);
+                text-transform: uppercase;
+                text-align: center;
+                margin-bottom: 0.25rem;
+            }
+
+            .attributes {
+                align-items: flex-start;
+
+                .attribute {
+                    .container {
+                        width: 58px;
+                        height: 50px;
+                        padding-top: 0.25rem;
+
+                        &.left {
+                            .background {
+                                mask: var(--mask-attribute-left-svg) no-repeat center;
+                            }
+                
+                            .border {
+                                mask: var(--border-attribute-left-svg) no-repeat center;
+                            }
+                        }
+
+                        &.right {
+                            .background {
+                                mask: var(--mask-attribute-right-svg) no-repeat center;
+                            }
+                
+                            .border {
+                                mask: var(--border-attribute-right-svg) no-repeat center;
+                            }
+                        }
+
+                        .title {
+                            font-family: var(--plotweaver-font-normal);
+                            font-size: var(--font-size-11);
+                            font-weight: bold;
+                            text-transform: uppercase;
+                            color: var(--plotweaver-color-text-sub);                            
+                            z-index: 1;                            
+                            position: relative;
+                        }
+        
+                        .value {                        
+                            font-size: var(--font-size-24);
+                            text-align: center;
+                            height: 1.25rem;
+                        }
+                    }
+
+                }
+
+                .defense {
+                    .container {
+                        width: 40px;
+                        height: 50px;
+                        margin-top: 10px;
+            
+                        .background {
+                            mask: var(--mask-defense-svg) no-repeat center;
+                        }
+            
+                        .border {
+                            mask: var(--border-defense-svg) no-repeat center;
+                        }
+
+                        .config-icon {
+                            position: absolute;
+                            width: 100%;
+                            bottom: 4px;
+                            left: 0;
+                            font-size: var(--font-size-10);
+                        }
+        
+                        .value {                        
+                            font-size: var(--font-size-20);
+                            line-height: 46px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    app-actor-skills-group {        
+        position: relative;
+
+        .skill-list {
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            padding: 0;
+            border: 2px solid var(--plotweaver-color-accent);
+            border-radius: 0;
+        }
+    }
+
+    app-actor-skill {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        
+        font-family: var(--plotweaver-font-normal);
+        font-size: var(--font-size-10);
+        text-transform: uppercase;
+
+        [data-action] {
+            cursor: pointer;
+        }
+
+        .mod {
+            font-family: var(--plotweaver-font-header);
+            font-size: var(--font-size-12);
+
+            .operator {
+                color: var(--plotweaver-color-faded);
+            }
+
+            .val {                
+                color: var(--plotweaver-color-text-main);
+            }
+        }
+
+        .name {
+            color: var(--plotweaver-color-text-sub);
+            text-align: left;
+        }
+
+        .attribute {
+            color: var(--plotweaver-color-accent);
+        }
+
+        .pip-list {
+            display: flex;
+            flex-direction: row;
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            gap: 0.25rem;
+
+            .pip {
+                > div {
+                    width: 10px;
+                    height: 10px;
+                    border: 1px solid var(--plotweaver-color-base-5);
+                    border-radius: 50%;
+                }
+
+                &.active > div  {
+                    background-color: var(--plotweaver-color-text-main);
+                }
+
+                &:not(.active) > div {
+                    background-color: var(--plotweaver-color-base-1);
+                }
+            }
+        }
     }
 }
