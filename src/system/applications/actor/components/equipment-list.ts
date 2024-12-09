@@ -2,8 +2,9 @@ import { EquipHand, ItemType } from '@system/types/cosmere';
 import { CosmereItem } from '@system/documents/item';
 import { CosmereActor } from '@system/documents/actor';
 import { ConstructorOf } from '@system/types/utils';
-
 import { AppContextMenu } from '@system/applications/utils/context-menu';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 // Utils
 import AppUtils from '@system/applications/utils';
@@ -64,8 +65,7 @@ interface RenderContext extends BaseActorSheetRenderContext {
 export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<
     ConstructorOf<BaseActorSheet>
 > {
-    static TEMPLATE =
-        'systems/cosmere-rpg/templates/actors/components/equipment-list.hbs';
+    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_EQUIPMENT_LIST}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions

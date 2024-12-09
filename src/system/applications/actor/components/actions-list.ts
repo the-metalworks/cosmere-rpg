@@ -10,8 +10,9 @@ import {
 import { CosmereItem } from '@system/documents/item';
 import { CosmereActor } from '@system/documents';
 import { ConstructorOf } from '@system/types/utils';
-
 import { AppContextMenu } from '@system/applications/utils/context-menu';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 // Utils
 import AppUtils from '@system/applications/utils';
@@ -159,8 +160,7 @@ const STATIC_SECTIONS = {
 export class ActorActionsListComponent extends HandlebarsApplicationComponent<
     ConstructorOf<BaseActorSheet>
 > {
-    static TEMPLATE =
-        'systems/cosmere-rpg/templates/actors/components/actions-list.hbs';
+    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_ACTIONS_LIST}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions

@@ -8,9 +8,22 @@ export const TEMPLATES = {
     GENERAL_TABS: 'general/tabs.hbs',
     COMBAT_COMBATANT: 'combat/combatant.hbs',
 
-    // ACTOR
+    // ACTOR BASE
     ACTOR_BASE_NAVIGATION: 'actors/parts/navigation.hbs',
     ACTOR_BASE_CORNERS: 'actors/parts/corners.hbs',
+    ACTOR_BASE_SEARCH_BAR: 'actors/components/search-bar.hbs',
+    ACTOR_BASE_ACTIONS_LIST: 'actors/components/actions-list.hbs',
+    ACTOR_BASE_EFFECTS_LIST: 'actors/components/effects-list.hbs',
+    ACTOR_BASE_EQUIPMENT_LIST: 'actors/components/equipment-list.hbs',
+    ACTOR_BASE_INJURIES_LIST: 'actors/components/injuries-list.hbs',
+    ACTOR_BASE_ATTRIBUTES: 'actors/components/attributes.hbs',
+    ACTOR_BASE_CONDITIONS: 'actors/components/conditions.hbs',
+    ACTOR_BASE_DETAILS: 'actors/components/details.hbs',
+    ACTOR_BASE_RESOURCE: 'actors/components/resource.hbs',
+    ACTOR_BASE_SKILL: 'actors/components/skill.hbs',
+    ACTOR_BASE_SKILLS_GROUP: 'actors/components/skills-group.hbs',
+
+    // ACTOR CHARACTER
     ACTOR_CHARACTER_HEADER: 'actors/character/parts/header.hbs',
     ACTOR_CHARACTER_CONTENT: 'actors/character/parts/content.hbs',
     ACTOR_CHARACTER_DETAILS_TAB:
@@ -22,6 +35,17 @@ export const TEMPLATES = {
     ACTOR_CHARACTER_GOALS_TAB: 'actors/character/partials/char-goals-tab.hbs',
     ACTOR_CHARACTER_EFFECTS_TAB:
         'actors/character/partials/char-effects-tab.hbs',
+    ACTOR_CHARACTER_ANCESTRY: 'actors/character/components/ancestry.hbs',
+    ACTOR_CHARACTER_CULTURE: 'actors/character/components/culture.hbs',
+    ACTOR_CHARACTER_EXPERTISES: 'actors/character/components/expertises.hbs',
+    ACTOR_CHARACTER_FAVORITES: 'actors/character/components/favorites.hbs',
+    ACTOR_CHARACTER_PATHS: 'actors/character/components/paths.hbs',
+    ACTOR_CHARACTER_CONNECTIONS_LIST:
+        'actors/character/components/connections-list.hbs',
+    ACTOR_CHARACTER_GOALS_LIST: 'actors/character/components/goals-list.hbs',
+
+    // ACTOR ADVERSARY
+    ACTOR_ADVERSARY_HEADER: 'actors/adversary/parts/header.hbs',
     ACTOR_ADVERSARY_CONTENT: 'actors/adversary/parts/content.hbs',
     ACTOR_ADVERSARY_ACTIONS_TAB:
         'actors/adversary/partials/adv-actions-tab.hbs',
@@ -29,6 +53,8 @@ export const TEMPLATES = {
         'actors/adversary/partials/adv-equipment-tab.hbs',
     ACTOR_ADVERSARY_EFFECTS_TAB:
         'actors/adversary/partials/adv-effects-tab.hbs',
+    ACTOR_ADVERSARY_SKILLS_GROUP:
+        'actors/adversary/components/skills-group.hbs',
 
     //ITEM
     ITEM_DESCRIPTION_TAB: 'item/partials/item-description-tab.hbs',

@@ -2,6 +2,8 @@ import { ItemType } from '@system/types/cosmere';
 import { CosmereItem } from '@system/documents';
 import { ConnectionItemDataModel } from '@system/data/item';
 import { ConstructorOf } from '@system/types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
@@ -14,8 +16,7 @@ interface ConnectionItemState {
 export class CharacterConnectionsListComponent extends HandlebarsApplicationComponent<
     ConstructorOf<BaseActorSheet>
 > {
-    static TEMPLATE =
-        'systems/cosmere-rpg/templates/actors/character/components/connections-list.hbs';
+    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_CONNECTIONS_LIST}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions
