@@ -67,10 +67,9 @@ export class BaseActorSheet<
     /* eslint-enable @typescript-eslint/unbound-method */
 
     static PARTS = foundry.utils.mergeObject(super.PARTS, {
-        // navigation: {
-        //     template:
-        //         `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_NAVIGATION}`,
-        // },
+        navigation: {
+            template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_NAVIGATION}`,
+        },
     });
 
     static TABS = foundry.utils.mergeObject(super.TABS, {

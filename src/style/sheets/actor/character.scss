@@ -24,6 +24,47 @@
         }
     }
 
+    .drop-area {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 32px;
+        border: 2px dotted var(--plotweaver-color-faded);
+        border-radius: 4px;        
+        background-color: var(--plotweaver-color-sheet);
+        
+        font-family: var(--plotweaver-font-normal);
+        font-size: var(--font-size-12);
+        font-weight: 600;
+        color: var(--plotweaver-color-faded);
+        text-transform: uppercase;
+        filter: var(--plotweaver-drop-shadow);
+
+        opacity: 0.5;
+
+        &.dropping {
+            opacity: 1;
+        }
+    }
+
+    .icon-header {
+        font-family: var(--plotweaver-font-normal);
+        font-size: var(--font-size-12);
+        font-weight: 600;
+        text-transform: uppercase;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+
+        .title {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 0.25rem;
+        }
+    }
+
     /* --- Components --- */
 
     app-character-favorites {
@@ -31,36 +72,107 @@
         flex-direction: column;
         margin-top: 0.5rem;
 
-        .header {
-            font-family: var(--plotweaver-font-normal);
-            font-size: var(--font-size-12);
-            font-weight: 600;
+        .icon-header {
             color: var(--plotweaver-color-accent);
-            text-transform: uppercase;
         }
 
         .favorites-list {
 
         }
+    }
 
-        .drop-area {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 28px;
-            border: 2px dotted var(--plotweaver-color-faded);
-            border-radius: 4px;
-            
-            font-family: var(--plotweaver-font-normal);
-            font-size: var(--font-size-12);
-            font-weight: 600;
+    app-character-expertises {
+        .icon-header {
             color: var(--plotweaver-color-faded);
+        }
+
+        .expertises {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+            margin-top: 0.375rem;
+        }
+
+        .expertise {
+            font-family: var(--plotweaver-font-normal);
+            font-size: var(--font-size-10);
+            color: var(--plotweaver-color-faded);
+            border: 1px solid var(--plotweaver-color-faded);
+            padding: 0.15rem 0.4rem;
+            border-radius: 10px;
+            background-color: var(--plotweaver-color-base-2);
+        }
+    }
+
+    app-character-ancestry,
+    app-character-culture {
+        background-color: var(--plotweaver-color-dark-1);
+    }
+
+    app-character-paths-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.625rem;
+    }
+
+    app-character-paths-list .path {
+        background-color: var(--plotweaver-color-base-2);
+    }
+
+    app-character-ancestry,
+    app-character-culture,
+    app-character-paths-list .path {
+        position: relative;
+
+        .title {
+            display: flex;
+            padding: 0.375rem 1.125rem;
+            border: 2px solid var(--plotweaver-color-accent);
+            border-radius: 0;
+            flex-direction: column;
+            cursor: pointer;
             text-transform: uppercase;
+            z-index: 1;
+            position: relative;
 
-            opacity: 0.5;
+            .name {
+                font-family: var(--plotweaver-font-header);
+                font-size: var(--font-size-14);
+                color: var(--plotweaver-color-text-main);
 
-            &.dropping {
-                opacity: 1;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .controls {
+                font-size: var(--font-size-10);
+                color: var(--plotweaver-color-text-sub);
+            }
+
+            .item-type {                
+                font-family: var(--plotweaver-font-normal);
+                font-size: var(--font-size-10);
+                color: var(--plotweaver-color-accent);
+            }
+        }
+
+        .background-img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            right: 0;
+            opacity: 0.3;
+            overflow: hidden;
+            filter: saturate(0);
+
+            img {
+                position: relative;
+                width: 100%;
+                top: -80px;
             }
         }
     }
