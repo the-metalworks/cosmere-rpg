@@ -228,16 +228,18 @@
                 },
                 "Search": {
                     "Item": {
-                        "Placeholder": "Search Actions"
+                        "Placeholder": "Search actions"
                     },
                     "Equipment": {
-                        "Placeholder": "Search Items"
+                        "Placeholder": "Search items"
                     },
                     "Effects": {
-                        "Placeholder": "Search Effects"
+                        "Placeholder": "Search effects"
                     },
-                    "Clear": "Clear search",
-                    "ChangeSortDirection": "Change sort direction"
+                    "Clear": "Clear Filters",
+                    "Filter": "Filter By",
+                    "SortManually": "Sort Manually",
+                    "SortAlphabetically": "Sort Alphabetically"
                 },
                 "Details": {
                     "Purpose": "Purpose",

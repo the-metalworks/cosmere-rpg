@@ -20,7 +20,7 @@ import AppUtils from '@system/applications/utils';
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
 import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
-import { SortDirection } from './search-bar';
+import { SortMode } from './search-bar';
 
 interface ActionItemState {
     expanded?: boolean;
@@ -67,7 +67,7 @@ export interface ActorActionsListComponentRenderContext
     extends BaseActorSheetRenderContext {
     actionsSearch?: {
         text: string;
-        sort: SortDirection;
+        sort: SortMode;
     };
 }
 
@@ -259,7 +259,7 @@ export class ActorActionsListComponent extends HandlebarsApplicationComponent<
         });
 
         const searchText = context.actionsSearch?.text ?? '';
-        const sortDir = context.actionsSearch?.sort ?? SortDirection.Descending;
+        const sortMode = context.actionsSearch?.sort ?? SortMode.Alphabetic;
 
         // Prepare sections
         this.sections = this.prepareSections();
@@ -269,7 +269,7 @@ export class ActorActionsListComponent extends HandlebarsApplicationComponent<
             this.sections,
             activatableItems,
             searchText,
-            sortDir,
+            sortMode,
         );
 
         return {
@@ -427,7 +427,7 @@ export class ActorActionsListComponent extends HandlebarsApplicationComponent<
         sections: ListSection[],
         items: CosmereItem[],
         searchText: string,
-        sort: SortDirection,
+        sort: SortMode,
     ): Promise<ListSectionData[]> {
         // Filter items into sections, putting all items that don't fit into a section into a "Misc" section
         const itemsBySectionId = items.reduce(
@@ -450,13 +450,15 @@ export class ActorActionsListComponent extends HandlebarsApplicationComponent<
         return await Promise.all(
             sections.map(async (section) => {
                 // Get items for section, filter by search text, and sort
-                const sectionItems = (itemsBySectionId[section.id] ?? [])
-                    .filter((i) => i.name.toLowerCase().includes(searchText))
-                    .sort(
-                        (a, b) =>
-                            a.name.compare(b.name) *
-                            (sort === SortDirection.Descending ? 1 : -1),
+                let sectionItems = (itemsBySectionId[section.id] ?? []).filter(
+                    (i) => i.name.toLowerCase().includes(searchText),
+                );
+
+                if (sort === SortMode.Alphabetic) {
+                    sectionItems = sectionItems.sort(
+                        (a, b) => a.name.compare(b.name) * -1,
                     );
+                }
 
                 return {
                     ...section,

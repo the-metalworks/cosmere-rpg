@@ -242,7 +242,7 @@
             text-align: center;
         }
 
-        .container {            
+        .container {
             filter: var(--plotweaver-drop-shadow);
             position: relative;
             text-align: center;
@@ -289,6 +289,20 @@
                 gap: 0.625rem;
             }
         }
+
+        &:not(.active) {
+            display: none;
+        }
+    }
+
+    .icon {
+        &.active {
+            color: var(--plotweaver-color-text-sub);
+        }
+
+        &.faded {            
+            color: var(--plotweaver-color-faded);
+        }
     }
 
     nav {
@@ -320,7 +334,7 @@
                 }                
         
                 .value {                        
-                    font-size: var(--font-size-14);
+                    font-size: var(--font-size-13);
                     text-align: center;
                     color: var(--plotweaver-color-accent);
                     line-height: 36px;
@@ -795,6 +809,40 @@
                 &:not(.active) > div {
                     background-color: var(--plotweaver-color-base-1);
                 }
+            }
+        }
+    }
+
+    app-actor-search-bar {
+        .search-bar {
+            height: 40px;
+            background-color: var(--plotweaver-color-base-3);
+            border-radius: 6px;
+            padding: 0 0.75rem;
+            filter: var(--plotweaver-drop-shadow);
+
+            font-size: var(--font-size-13);
+            font-family: var(--plotweaver-font-normal);
+
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+
+            input {
+                color: var(--plotweaver-color-text-sub);
+                text-align: left;
+                flex: 1;
+
+                &::placeholder {
+                    color: var(--plotweaver-color-faded);
+                }
+            }
+
+            .controls {
+                font-size: var(--font-size-16);
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
             }
         }
     }

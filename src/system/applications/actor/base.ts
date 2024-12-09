@@ -21,7 +21,7 @@ import {
 } from '@system/applications/mixins';
 
 // Components
-import { SortDirection, SearchBarInputEvent } from './components';
+import { SortMode, SearchBarInputEvent } from './components';
 import { renderSystemTemplate, TEMPLATES } from '@src/system/utils/templates';
 
 const { ActorSheetV2 } = foundry.applications.sheets;
@@ -92,13 +92,13 @@ export class BaseActorSheet<
     }
 
     protected actionsSearchText = '';
-    protected actionsSearchSort: SortDirection = SortDirection.Descending;
+    protected actionsSearchSort: SortMode = SortMode.Alphabetic;
 
     protected equipmentSearchText = '';
-    protected equipmentSearchSort: SortDirection = SortDirection.Descending;
+    protected equipmentSearchSort: SortMode = SortMode.Alphabetic;
 
     protected effectsSearchText = '';
-    protected effectsSearchSort: SortDirection = SortDirection.Descending;
+    protected effectsSearchSort: SortMode = SortMode.Alphabetic;
 
     /* --- Accessors --- */
 

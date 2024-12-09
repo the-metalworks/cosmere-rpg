@@ -16,5 +16,5 @@ import './adversary';
 export {
     SearchBarInputEvent,
     SearchBarInputEventDetail,
-    SortDirection,
+    SortMode,
 } from './search-bar';

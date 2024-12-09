@@ -12,7 +12,7 @@ import AppUtils from '@system/applications/utils';
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
 import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
-import { SortDirection } from './search-bar';
+import { SortMode } from './search-bar';
 
 interface EquipmentItemState {
     expanded?: boolean;
@@ -58,7 +58,7 @@ export interface ListSectionData extends ListSection {
 interface RenderContext extends BaseActorSheetRenderContext {
     equipmentSearch: {
         text: string;
-        sort: SortDirection;
+        sort: SortMode;
     };
 }
 
@@ -296,17 +296,18 @@ export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<
         section: ListSection,
         items: CosmereItem[],
         filterText: string,
-        sort: SortDirection,
+        sort: SortMode,
     ) {
         // Get items for section, filter by search text, and sort
-        const sectionItems = items
+        let sectionItems = items
             .filter(section.filter)
-            .filter((i) => i.name.toLowerCase().includes(filterText))
-            .sort(
-                (a, b) =>
-                    a.name.compare(b.name) *
-                    (sort === SortDirection.Descending ? 1 : -1),
+            .filter((i) => i.name.toLowerCase().includes(filterText));
+
+        if (sort === SortMode.Alphabetic) {
+            sectionItems = sectionItems.sort(
+                (a, b) => a.name.compare(b.name) * -1,
             );
+        }
 
         return {
             ...section,

@@ -7,7 +7,7 @@ import { TEMPLATES } from '@src/system/utils/templates';
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
 import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
-import { SortDirection } from './search-bar';
+import { SortMode } from './search-bar';
 
 type EffectListType = 'inactive' | 'passive' | 'temporary';
 
@@ -20,7 +20,7 @@ type Params = {
 interface RenderContext extends BaseActorSheetRenderContext {
     effectsSearch: {
         text: string;
-        sort: SortDirection;
+        sort: SortMode;
     };
 }
 
@@ -70,14 +70,11 @@ export class ActorEffectsListComponent extends HandlebarsApplicationComponent<
             .filter((effect) => !effect.id.startsWith('cond'))
             .filter((effect) =>
                 effect.name.toLowerCase().includes(context.effectsSearch.text),
-            )
-            .sort(
-                (a, b) =>
-                    a.name.compare(b.name) *
-                    (context.effectsSearch.sort === SortDirection.Descending
-                        ? 1
-                        : -1),
             );
+
+        if (context.effectsSearch.sort === SortMode.Alphabetic) {
+            effects = effects.sort((a, b) => a.name.compare(b.name) * -1);
+        }
 
         // Filter effects down to the correct type
         if (params.type === 'inactive') {
