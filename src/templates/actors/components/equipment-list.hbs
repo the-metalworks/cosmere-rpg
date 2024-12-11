@@ -3,7 +3,7 @@
     <li class="item header">
         <section class="details">
             <span class="title">{{localize section.label}}</span>
-            <span class="subtitle">
+            <span class="subtitle wide">
                 {{localize "COSMERE.Actor.Sheet.Equipment.Quantity"}}
             </span>
             <span class="subtitle">
@@ -37,7 +37,7 @@
     >
         <section class="details">
             {{!-- Image --}}
-            <div class="col img" 
+            <div class="img" 
                 {{#if ctx.hasActivation}}
                 data-action="use-item"
                 data-tooltip="COSMERE.Actor.Sheet.Actions.Strike"
@@ -48,13 +48,13 @@
             </div>
 
             {{!-- Name --}}
-            <div class="col name" data-action="toggle-action-details">
-                <span class="title">{{item.name}}</span>
-                <span class="subtitle">{{{ctx.subtitle}}}</span>
+            <div class="name" data-action="toggle-action-details">
+                <span>{{item.name}}</span>
+                <span class="traits">{{{ctx.subtitle}}}</span>
             </div>
 
             {{!-- Quantity --}}
-            <div class="col quantity">
+            <div class="detail wide quantity">
                 {{#if ctx.hasQuantity}}
                 {{#if @root.editable}}
                 <a role="button"
@@ -79,7 +79,7 @@
             </div>
 
             {{!-- Weight --}}
-            <div class="col weight">
+            <div class="detail weight">
                 {{#if ctx.hasWeight}}
                 <i class="fa-solid fa-weight-hanging"></i>
                 <span class="val">{{ctx.weight.total}}</span>
@@ -89,59 +89,51 @@
             </div>
 
             {{!-- Equipped --}}
-            <div class="col equip {{#if ctx.equipped}}equipped{{/if}}">
-                {{#if ctx.isEquippable}}
-
+            <div class="detail equip">
+            {{#if ctx.isEquippable}}
                 {{#if (eq ctx.equip.type 'hold')}}
                 {{!-- Items equipped by holding them --}}
-
-                {{#if (eq ctx.equip.hold 'two_handed')}}
-                {{!-- Two handed item --}}
-                <a role="button"
-                    data-action="toggle-equip"
-                    {{#if ctx.equipped}}
-                    data-tooltip="{{localize ctx.equip.holdLabel}}"
+                    {{#if (eq ctx.equip.hold 'two_handed')}}
+                    {{!-- Two handed item --}}
+                    <a role="button"
+                        data-action="toggle-equip"
+                        {{#if ctx.equipped}}
+                        data-tooltip="{{localize ctx.equip.holdLabel}}"
+                        {{else}}
+                        data-tooltip="COSMERE.Item.Equip.Unequipped.Label"
+                        {{/if}}
+                    >
+                        <div class="hold-2h {{#if ctx.equipped}}equipped{{/if}}"></div>
+                    </a>                
                     {{else}}
-                    data-tooltip="COSMERE.Item.Equip.Unequipped.Label"
+                    {{!-- One handed item --}}
+                    <a role="button"
+                        data-action="cycle-equip"
+                        {{#if ctx.equipped}}
+                        data-tooltip="{{localize ctx.equip.handLabel}}"
+                        {{else}}
+                        data-tooltip="COSMERE.Item.Equip.Unequipped.Label"
+                        {{/if}}
+                    >
+                        <div class="hold-1h main-hand {{#if ctx.equipped}}{{#if (eq ctx.equip.hand 'main_hand')}}equipped{{/if}}{{/if}}"></div>
+                        <div class="hold-1h off-hand {{#if ctx.equipped}}{{#if (eq ctx.equip.hand 'off_hand')}}equipped{{/if}}{{/if}}"></div>
+                    </a>                
                     {{/if}}
-                >
-                    <img class="icon hold-2h" src="/systems/cosmere-rpg/assets/icons/ui/equip-2h.svg">
-                </a>
-                
-                {{else}}
-                {{!-- One handed item --}}
-                <a class="compound" role="button"
-                    data-action="cycle-equip"
-                    {{#if ctx.equipped}}
-                    data-tooltip="{{localize ctx.equip.handLabel}}"
-                    {{else}}
-                    data-tooltip="COSMERE.Item.Equip.Unequipped.Label"
-                    {{/if}}
-                >
-                    <img class="icon main-hand {{#if (not (eq ctx.equip.hand 'main_hand'))}}inactive{{/if}}" src="/systems/cosmere-rpg/assets/icons/ui/equip-1h-top.svg">
-                    <img class="icon off-hand {{#if (not (eq ctx.equip.hand 'off_hand'))}}inactive{{/if}}" src="/systems/cosmere-rpg/assets/icons/ui/equip-1h-bottom.svg">
-                </a>
-
-                </div>
-                {{/if}}
 
                 {{else}}
                 {{!-- Items equipped by wearing them --}}
-                <a role="button"
-                    data-action="toggle-equip"
-                    {{#if ctx.equipped}}
-                    data-tooltip="{{localize ctx.equip.typeLabel}}"
-                    {{else}}
-                    data-tooltip="COSMERE.Item.Equip.Unequipped.Label"
-                    {{/if}}
-                >
-                    <i class="icon fa-solid fa-shirt"></i>  
-                </a>
-
+                    <a role="button"
+                        data-action="toggle-equip"
+                        {{#if ctx.equipped}}
+                        data-tooltip="{{localize ctx.equip.typeLabel}}"
+                        {{else}}
+                        data-tooltip="COSMERE.Item.Equip.Unequipped.Label"
+                        {{/if}}
+                    >
+                        <i class="{{#if ctx.equipped}}equipped{{/if}} fa-solid fa-shield-halved"></i>
+                    </a>
                 {{/if}}
-
-                {{/if}}
-
+            {{/if}}
             </div>
 
             {{!-- Controls --}}

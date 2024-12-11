@@ -24,6 +24,10 @@
     --mask-attribute-right-svg: url('assets/icons/svg/sheet/mask_attribute_right.svg');
     --border-defense-svg: url('assets/icons/svg/sheet/border_defense.svg');
     --mask-defense-svg: url('assets/icons/svg/sheet/mask_defense.svg');
+
+    --mask-equip-2h-svg: url('assets/icons/svg/sheet/mask_equip_2h.svg');
+    --mask-equip-1h-top-svg: url('assets/icons/svg/sheet/mask_equip_1h_top.svg');
+    --mask-equip-1h-bot-svg: url('assets/icons/svg/sheet/mask_equip_1h_bot.svg');
     
     --rest-long-svg: url('assets/icons/svg/sheet/rest_button_long.svg');
     --rest-short-svg: url('assets/icons/svg/sheet/rest_button_short.svg');
@@ -220,7 +224,8 @@
 
             .scroll-container {
                 margin-top: 1.375rem;
-                width: calc(100% + 10px);
+                width: calc(100% + 0.875rem);
+                padding-right: 0.25rem;
                 overflow-y: auto;
                 overflow-x: hidden;
                 scrollbar-color: var(--plotweaver-color-base-6) var(--color-scrollbar-track);
@@ -960,11 +965,22 @@
                 .name {                    
                     font-size: var(--font-size-12);
                     color: var(--plotweaver-color-text-sub);
+                    display: flex;
+                    flex-direction: column;
+
+                    .traits {
+                        font-size: var(--font-size-10);
+                        color: var(--plotweaver-color-faded);
+
+                        .highlight {
+                            color: var(--plotweaver-color-accent);
+                        }
+                    }
                 }
 
                 .subtitle,
-                .detail {                    
-                    width: 32px;
+                .detail {
+                    width: 48px;
                     color: var(--plotweaver-color-text-sub);
                     font-size: var(--font-size-10);
                     text-transform: uppercase;
@@ -987,6 +1003,75 @@
                     
                     a {
                         width: 14px;
+                    }
+                }
+
+                .action {
+                    font-size: var(--font-size-12);
+                }
+
+                .quantity {
+                    font-size: var(--font-size-12);
+                    display: flex;
+                    justify-content: space-evenly;
+
+                    & > a {
+                        color: var(--plotweaver-color-faded);
+                    }
+                }
+
+                .weight {
+                    & > i {
+                        color: var(--plotweaver-color-faded);
+                    }
+                }
+
+                .none {
+                    color: var(--plotweaver-color-faded);
+                }
+
+                .equip {
+                    & > a {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+
+                        & > i {
+                            font-size: var(--font-size-12);
+                            color: var(--plotweaver-color-faded);
+                            
+                            &.equipped {
+                                color: var(--plotweaver-color-text-sub);
+                            }
+                        }
+                    }
+
+                    .hold-2h {
+                        width: 48px;
+                        height: 20px;
+                        mask: var(--mask-equip-2h-svg) no-repeat center;
+                    }
+
+                    .hold-1h {
+                        width: 48px;
+                        height: 10px;
+
+                        &.main-hand {
+                            mask: var(--mask-equip-1h-top-svg) no-repeat center;
+                        }
+
+                        &.off-hand {
+                            mask: var(--mask-equip-1h-bot-svg) no-repeat center;
+                        }
+                    }
+
+                    .hold-2h,
+                    .hold-1h {                        
+                        background-color: var(--plotweaver-color-faded);
+
+                        &.equipped {
+                            background-color: var(--plotweaver-color-text-sub);
+                        }
                     }
                 }
             }

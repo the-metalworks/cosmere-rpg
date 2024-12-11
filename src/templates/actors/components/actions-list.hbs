@@ -53,17 +53,19 @@
             </span>
 
             {{!-- Activation --}}
-            <div class="detail">
+            <div class="detail action">
                 {{#if ctx.hasActivation}}
-                {{#if ctx.activation.hasCost}}
-                <i class="cosmere-icon">
-                    {{#if (eq ctx.activation.cost.type "act")}}
-                    {{ ctx.activation.cost.value }}
+                    {{#if ctx.activation.hasCost}}
+                    <i class="cosmere-icon">
+                        {{#if (eq ctx.activation.cost.type "act")}}
+                        {{ ctx.activation.cost.value }}
+                        {{else}}
+                        {{cosmereDingbat ctx.activation.cost.type}}
+                        {{/if}}
+                    </i>
                     {{else}}
-                    {{cosmereDingbat ctx.activation.cost.type}}
-                    {{/if}}
-                </i>
-                {{/if}}
+                    <i class="cosmere-icon passive"></i>
+                    {{/if}}                    
                 {{/if}}
             </div>
 
