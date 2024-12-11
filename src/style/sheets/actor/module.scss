@@ -225,6 +225,12 @@
                 overflow-x: hidden;
                 scrollbar-color: var(--plotweaver-color-base-6) var(--color-scrollbar-track);
                 scrollbar-gutter: stable;
+                flex: 1;
+                filter: var(--plotweaver-drop-shadow);
+
+                .tab-body {
+                    overflow: visible;
+                }
             }
         }
     }
@@ -277,6 +283,7 @@
     .tab[data-tab] {
         display: flex;
         flex-direction: column;
+        gap: 0.75rem;
 
         &.split {
             flex-direction: row;
@@ -302,6 +309,22 @@
 
         &.faded {            
             color: var(--plotweaver-color-faded);
+        }
+    }
+
+    .collapsible {
+        .collapsible-content {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 250ms ease;
+
+            & > .wrapper {
+                overflow: hidden;
+            }
+        } 
+        
+        &.expanded .collapsible-content{
+            grid-template-rows: 1fr;
         }
     }
 
@@ -819,7 +842,6 @@
             background-color: var(--plotweaver-color-base-3);
             border-radius: 6px;
             padding: 0 0.75rem;
-            filter: var(--plotweaver-drop-shadow);
 
             font-size: var(--font-size-13);
             font-family: var(--plotweaver-font-normal);
@@ -845,5 +867,149 @@
                 gap: 0.75rem;
             }
         }
+    }
+
+    app-actor-actions-list,
+    app-actor-equipment-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+
+        .item-list {
+            background-color: var(--plotweaver-color-base-3);
+            border-radius: 6px;
+
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+
+            li {
+                margin: 0;
+                list-style-type: none;
+
+                &:not(:first-child):not(:last-child) {
+                    border-bottom: 1px dotted var(--plotweaver-color-faded);
+                }
+            }
+
+            .item {
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+                text-align: center;
+                justify-content: center;
+                padding: 0.375rem;
+
+                .details {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    gap: 0.75rem;
+                }
+
+                .description {
+                    text-align: justify;
+                }
+                
+                .img {
+                    width: 28px;
+                    height: 28px;
+                    border: 2px solid var(--plotweaver-color-accent);
+                    border-radius: 0;
+
+                    display: flex;
+                    position: relative;
+                    align-items: center;
+                    justify-content: center;
+
+                    .roll-icon {
+                        display: none;
+                        position: absolute;
+                        z-index: 1;
+                        border: none;
+                    }
+                }
+
+                &.usable .img {                    
+                    cursor: pointer;
+                
+                    &:hover {
+                        .roll-icon {
+                            display: block;
+                            opacity: 0.6;
+                            animation: rotating 2s linear infinite;
+                            width: 22px;
+                            height: 22px;
+                        }
+                    }
+                }
+
+                .title,
+                .name {
+                    font-family: var(--plotweaver-font-normal);
+                    text-align: left;
+                    flex: 1;
+                }
+
+                .title {        
+                    margin-left: 0.25rem;            
+                    font-size: var(--font-size-13);
+                    color: var(--plotweaver-color-text-main);
+                }
+
+                .name {                    
+                    font-size: var(--font-size-12);
+                    color: var(--plotweaver-color-text-sub);
+                }
+
+                .subtitle,
+                .detail {                    
+                    width: 32px;
+                    color: var(--plotweaver-color-text-sub);
+                    font-size: var(--font-size-10);
+                    text-transform: uppercase;
+
+                    &.wide {
+                        width: 76px;
+                    }
+                }
+
+                .subtitle {
+                    font-family: var(--plotweaver-font-header);                    
+                }
+
+                .controls {
+                    width: 34px;
+                    text-align: center;
+                    display: flex;                    
+                    gap: 0.375rem;
+                    justify-content: flex-end;
+                    
+                    a {
+                        width: 14px;
+                    }
+                }
+            }
+
+            .header {
+                min-height: 30px;
+                background-color: var(--plotweaver-color-base-1);
+                border-radius: 6px 6px 0 0;                
+                padding: 0 0.375rem;
+
+                &.basic {
+                    background-color: var(--plotweaver-color-dark-1);
+                }
+            }
+        }        
+    }
+}
+
+@keyframes rotating {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
     }
 }

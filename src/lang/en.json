@@ -152,15 +152,15 @@
                 },
                 "Item": {
                     "Edit": "Edit",
-                    "Details": "View details",
+                    "Details": "View/Hide Details",
                     "Remove": "Remove"
                 },
                 "Actions": {
                     "label": "Actions",
-                    "Activation": "Use",
+                    "Activation": "Action",
                     "Consume": "Cost",
                     "Uses": "Uses",
-                    "Use": "Use action",
+                    "Use": "Use Action",
                     "Strike": "Strike",
                     "BaseSectionName": "{type} Actions",
                     "MiscSectionName": "Miscellaneous Actions",

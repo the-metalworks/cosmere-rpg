@@ -198,9 +198,15 @@ export class ActorActionsListComponent extends HandlebarsApplicationComponent<
 
         // Set classes
         itemElement.toggleClass('expanded', this.itemState[itemId].expanded);
-        $(this.element!)
-            .find(`.details[data-item-id="${itemId}"]`)
-            .toggleClass('expanded', this.itemState[itemId].expanded);
+
+        itemElement
+            .find('a[data-action="toggle-action-details"')
+            .empty()
+            .append(
+                this.itemState[itemId].expanded
+                    ? '<i class="fa-solid fa-compress"></i>'
+                    : '<i class="fa-solid fa-expand"></i>',
+            );
     }
 
     public static onUseItem(this: ActorActionsListComponent, event: Event) {
