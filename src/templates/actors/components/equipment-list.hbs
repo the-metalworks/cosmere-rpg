@@ -140,7 +140,11 @@
             <div class="controls icon faded">
                 <a role="button"
                     data-action="toggle-action-details"
-                    data-tooltip="COSMERE.Actor.Sheet.Item.Details"
+                    {{#if state.expanded}}
+                    data-tooltip="GENERIC.HideDetails"
+                    {{else}}
+                    data-tooltip="GENERIC.ViewDetails"
+                    {{/if}}
                 >
                     {{#if state.expanded}}
                         <i class="fa-solid fa-compress"></i>

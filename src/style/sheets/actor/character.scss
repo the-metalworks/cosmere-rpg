@@ -65,6 +65,65 @@
         }
     }
 
+    .details-text {
+        .icon-header {
+            color: var(--plotweaver-color-faded);
+        }
+
+        textarea {
+            border: none;
+            outline: 0;
+            box-shadow: none;
+            border-radius: 6px;
+            background-color: var(--plotweaver-color-base-3);
+            font-family: var(--plotweaver-font-normal);
+            font-size: var(--font-size-11);
+            color: var(--plotweaver-color-text-sub);
+            min-height: 80px;
+            padding: 0.375rem;
+            margin-top: 0.375rem;
+            scrollbar-color: var(--plotweaver-color-base-6) var(--color-scrollbar-track);
+        }
+    }
+
+    .bullet-list {
+        .bullet {
+            font-size: 0.375rem;
+        }
+
+        .item {
+            padding: 0 0.375rem;
+
+            &.achieved .fade {
+                opacity: 0.4;
+            }
+
+            .details {
+                gap: 0.375rem;
+
+                .controls {
+                    width: auto;
+                }
+            }
+
+            &.new {
+                min-height: 30px;
+                background-color: color(from var(--plotweaver-color-base-3) srgb r g b / 0.4);
+                border-radius: 0 0 6px 6px;
+                font-family: var(--plotweaver-font-normal);
+                font-size: var(--font-size-11);
+                color: var(--plotweaver-color-faded);
+            }
+        }
+    }
+
+    .hide-completed {
+        margin-top: 0.375rem;
+        font-size: var(--font-size-10);
+        color: var(--plotweaver-color-faded);
+        text-align: right;
+    }
+
     /* --- Components --- */
 
     app-character-favorites {

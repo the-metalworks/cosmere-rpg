@@ -1,11 +1,7 @@
 <header class="sheet-header">
     <div class="title">
-        <h1 class="document-name">
-            {{#if isEditMode}}
-            <input class="value" type="text" name="name" value="{{actor.name}}">
-            {{else}}
-            {{actor.name}}
-            {{/if}}
+        <h1 class="document-name">            
+            <input class="value" type="text" name="name" value="{{actor.name}}" {{#unless isEditMode}}readonly{{/unless}}>           
         </h1>
         <div class="details">
             <span class="ancestry">{{ localize ancestryLabel }}</span>

@@ -55,7 +55,7 @@ export class CharacterConnectionsListComponent extends HandlebarsApplicationComp
             this.contextConnectionId = connectionId;
 
             const target = (event.currentTarget as HTMLElement).closest(
-                '.connection',
+                '.item',
             )!;
             const targetRect = target.getBoundingClientRect();
             const rootRect = this.element!.getBoundingClientRect();

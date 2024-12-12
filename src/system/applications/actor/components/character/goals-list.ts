@@ -56,7 +56,7 @@ export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<
             this.contextGoalId = goalId;
 
             const target = (event.currentTarget as HTMLElement).closest(
-                '.goal',
+                '.item',
             )!;
             const targetRect = target.getBoundingClientRect();
             const rootRect = this.element!.getBoundingClientRect();
