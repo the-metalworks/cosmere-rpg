@@ -593,7 +593,66 @@
                 background-color: var(--plotweaver-color-dark-1);
             }
         }
-    }   
+    }
+
+    .conditions-set {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        overflow: hidden;
+        background-color: var(--plotweaver-color-base-3);
+        border-radius: 0 0 6px 6px;
+
+        &:not(.editable) {
+            pointer-events: none;
+        }
+
+        .condition {
+            padding: 0.375rem;
+            font-size: var(--font-size-12);
+
+            &:is(.active) {
+                color: var(--plotweaver-color-text-sub);
+            }
+
+            &:not(.active) {
+                color: var(--plotweaver-color-faded);
+            }
+
+            &:not(:nth-last-child(-n + 3)) {
+                border-bottom: 1pt dashed var(--plotweaver-color-faded);
+            }
+
+            &:not(:nth-child(3n)) {
+                border-right: 1pt dashed var(--plotweaver-color-faded);
+            }
+
+            & > a {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 0.375rem;
+            }
+
+            .name {
+                font-family: var(--plotweaver-font-normal);
+                text-align: left;
+                flex: 1;
+            }
+
+            .condition-icon {
+                height: 18px;
+                width: 18px;
+
+                &:is(.active) {
+                    background-color: var(--plotweaver-color-text-sub);
+                }
+    
+                &:not(.active) {
+                    background-color: var(--plotweaver-color-faded);
+                }
+            }
+        }
+    }
 
     .pip-list {
         display: flex;
