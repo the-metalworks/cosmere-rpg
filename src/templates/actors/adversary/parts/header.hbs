@@ -1,11 +1,7 @@
 <header class="sheet-header">
     <div class="title">
         <h1 class="document-name">
-            {{#if isEditMode}}
-            <input class="value" type="text" name="name" value="{{actor.name}}">
-            {{else}}
-            {{actor.name}}
-            {{/if}}
+            <input class="value" type="text" name="name" value="{{actor.name}}" {{#unless isEditMode}}readonly{{/unless}}> 
         </h1>
         <div class="details">
             {{#if isEditMode}}
@@ -16,26 +12,29 @@
             <span class="role">{{localize roleLabel}}</span>
             {{/if}}
             <i class="cosmere-icon delim">o</i>
-            {{#if isEditMode}}
-            <select name="system.size">
-                {{selectOptions sizes selected=actor.system.size localize=true}}
-            </select>
-            {{else}}
-            <span class="size">{{localize sizeLabel}}</span>
-            {{/if}}
-
-            <span class="type">{{localize typeLabel}}</span>
-            {{#if isEditMode}}
-            <a data-action="edit-type"
-                data-tooltip="COSMERE.Actor.Sheet.EditType"
-            >
-                <i class="fa-solid fa-gear"></i>
-            </a>
-            {{/if}}
+            <div>                
+                {{#if isEditMode}}
+                <select name="system.size">
+                    {{selectOptions sizes selected=actor.system.size localize=true}}
+                </select>
+                {{else}}
+                <span class="size">{{localize sizeLabel}}</span>
+                {{/if}}
+                <span class="type">
+                    {{localize typeLabel}}
+                    {{#if isEditMode}}
+                        <a data-action="edit-type"
+                            data-tooltip="COSMERE.Actor.Sheet.EditType"
+                        >
+                            <i class="fa-solid fa-gear"></i>
+                        </a>
+                    {{/if}}
+                </span> 
+            </div>           
         </div>
     </div>
     <div class="level-details">
-        <div class="level">
+        <div class="sheet-stack level">
             <span class="label">{{localize "COSMERE.Actor.Sheet.Tier"}}</span>
             <div class="container">
                 <div class="background"></div>

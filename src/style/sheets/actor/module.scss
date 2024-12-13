@@ -3,15 +3,14 @@
 
 .sheet.actor {
     --border-sheet-corner-svg: url('assets/icons/svg/sheet/border_sheet_corner.svg');
+    --border-corner-svg: url('assets/icons/svg/sheet/border_corner.svg');
     --star-cosmere-svg: url('assets/icons/svg/sheet/star_cosmere.svg');
     
     --border-tab-closed-svg: url('assets/icons/svg/sheet/border_tab_closed.svg');
     --mask-tab-closed-svg: url('assets/icons/svg/sheet/mask_tab_closed.svg');    
     --border-tab-open-svg: url('assets/icons/svg/sheet/border_tab_open.svg');
     --mask-tab-open-svg: url('assets/icons/svg/sheet/mask_tab_open.svg');
-
-    --border-level-svg: url('assets/icons/svg/sheet/border_level.svg');
-    --mask-level-svg: url('assets/icons/svg/sheet/mask_level.svg');
+    
     --border-deflect-svg: url('assets/icons/svg/sheet/border_deflect.svg');
     --mask-deflect-svg: url('assets/icons/svg/sheet/mask_deflect.svg');
     --border-stat-svg: url('assets/icons/svg/sheet/border_stat.svg');
@@ -129,7 +128,8 @@
     }
 
     input[type="text"],
-    input[type="number"] {        
+    input[type="number"],
+    select {        
         margin: 0;
         padding: 0;
         text-align: left;
@@ -176,12 +176,8 @@
             align-items: center;
 
             .level {
-                .container {
-                    .background {
-                        mask: var(--mask-level-svg) no-repeat center;
-                    }
-    
-                    .star {                        
+                .container {    
+                    .star {
                         position: absolute;
                         left: 1px;
                         top: 1px;
@@ -190,10 +186,6 @@
                         background-color: var(--plotweaver-color-faded);
                         mask: var(--star-cosmere-svg) no-repeat center;
                         opacity: 0.5;
-                    }
-    
-                    .border {
-                        mask: var(--border-level-svg) no-repeat center;
                     }
                 }
             }
@@ -214,6 +206,19 @@
             flex-direction: column;
             flex: unset;
             padding-bottom: 0.75rem;
+
+            .scroll-container {
+                width: calc(100% + 0.875rem);
+                padding-right: 0.25rem;
+                overflow-y: auto;
+                overflow-x: hidden;
+                scrollbar-color: var(--plotweaver-color-base-6) var(--color-scrollbar-track);
+                scrollbar-gutter: stable;
+
+                .scroll-body {
+                    overflow: visible;
+                }
+            }
         }
 
         .col-main {
@@ -315,6 +320,24 @@
         &.faded {            
             color: var(--plotweaver-color-faded);
         }
+    }    
+
+    .icon-header {
+        font-family: var(--plotweaver-font-normal);
+        font-size: var(--font-size-12);
+        font-weight: 600;
+        text-transform: uppercase;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+
+        .title {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 0.25rem;
+        }
     }
 
     .collapsible {
@@ -388,8 +411,6 @@
     }
 
     .item-list {
-        border-radius: 6px;
-
         list-style-type: none;
         margin: 0;
         padding: 0;
@@ -398,9 +419,19 @@
             margin: 0;
             list-style-type: none;
 
-            &:not(:first-child):not(:last-child) {
-                border-bottom: 1px dotted var(--plotweaver-color-faded);
-            }
+            &:not(.favorite) {
+                &:not(:first-child):not(:last-child) {
+                    border-bottom: 1px dotted var(--plotweaver-color-faded);
+                }            
+    
+                &:last-child {
+                    border-radius: 0 0 6px 6px;
+    
+                    &:first-child {
+                        border-radius: 6px;
+                    }
+                }
+            }            
         }
 
         .item {
@@ -410,7 +441,7 @@
             text-align: center;
             justify-content: center;
             padding: 0.375rem;
-            background-color: var(--plotweaver-color-base-3);
+            background-color: var(--plotweaver-color-base-3);            
 
             .details {
                 display: flex;
@@ -495,6 +526,10 @@
                 &.wide {
                     width: 76px;
                 }
+
+                &.thin {
+                    width: 16px;
+                }
             }
 
             .subtitle {
@@ -513,12 +548,13 @@
                 }
             }
 
-            .action {
+            .action,
+            .quantity {
                 font-size: var(--font-size-12);
             }
 
-            .quantity {
-                font-size: var(--font-size-12);
+            .quantity,
+            .duration {
                 display: flex;
                 justify-content: space-evenly;
 
@@ -678,6 +714,59 @@
                 background-color: var(--plotweaver-color-base-1);
             }
         }
+    }    
+
+    .box-corners {
+        pointer-events: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border: none;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        .corner {
+            width: 10px;
+            height: 10px;
+            background-color: var(--plotweaver-color-accent);
+            mask: var(--border-corner-svg) no-repeat center;
+        }
+
+        .corner-pair {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .bot {
+            transform: scaleY(-1);
+        }
+
+        .right {
+            transform: scaleX(-1);
+        }
+    }   
+
+    .sidebar-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: var(--font-size-10);
+        color: var(--plotweaver-color-text-sub);
+        width: 100%;
+        margin-bottom: 0.125rem;
+
+        .label {
+            font-family: var(--plotweaver-font-header);
+            text-transform: uppercase;
+            text-align: left;
+        }
+
+        .controls {
+            text-align: right;
+        }
     }
 
     /* --- Components --- */
@@ -822,26 +911,6 @@
             flex-direction: column;
             align-items: flex-start;
             margin-bottom: 0.625rem;
-
-            .header {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                font-size: var(--font-size-10);
-                color: var(--plotweaver-color-text-sub);
-                width: 100%;
-                margin-bottom: 0.125rem;
-
-                .label {
-                    font-family: var(--plotweaver-font-header);
-                    text-transform: uppercase;
-                    text-align: left;
-                }
-
-                .controls {
-                    text-align: right;
-                }
-            }
 
             .bar {
                 .container {
@@ -1051,17 +1120,28 @@
         }
     }
 
-    app-actor-skills-group {
+    app-actor-skills-group,
+    app-adversary-skills-group {
         position: relative;
+
+        &:not(:has(*)) {
+            display: none;
+        }
 
         .skill-list {
             display: flex;
             flex-direction: column;
             margin: 0;
-            padding: 0.75rem 0.625rem;
+            padding: 0.625rem;
             border: 2px solid var(--plotweaver-color-accent);
             border-radius: 0;
             background-color: var(--plotweaver-color-base-2);
+            mask: radial-gradient(8px at 8px 8px, transparent 98%, black) -8px -8px;
+            list-style: none;
+
+            .skill {
+                list-style: none;
+            }
         }
     }
 
@@ -1069,7 +1149,7 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        gap: 0.875rem;
+        gap: 0.375rem;
         
         font-family: var(--plotweaver-font-normal);
         font-size: var(--font-size-10);
@@ -1141,7 +1221,8 @@
     }
 
     app-actor-actions-list,
-    app-actor-equipment-list {
+    app-actor-equipment-list,
+    app-adversary-actions-list {
         display: flex;
         flex-direction: column;
         gap: 0.75rem;        

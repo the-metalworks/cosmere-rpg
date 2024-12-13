@@ -1,4 +1,60 @@
-.sheet.actor.adversary {    
+.sheet.actor.adversary {
+    --border-tier-svg: url('assets/icons/svg/sheet/border_tier.svg');
+    --mask-tier-svg: url('assets/icons/svg/sheet/mask_tier.svg');
+
     max-width: 800px;
     max-height: 800px;
+
+    .sheet-header {
+        .title {
+            .details {                
+                color: var(--plotweaver-color-text-sub);
+                display: flex;
+                align-items: center;
+                gap: 0.375rem;
+
+                select {
+                    text-transform: uppercase;
+                    width: auto;
+                    height: auto;
+                    line-height: normal;
+                }
+            }
+        }
+
+        .level {
+            .container {
+                width: 42px;
+                height: 42px;
+
+                .background {
+                    mask: var(--mask-tier-svg) no-repeat center;
+                }
+    
+                .border {
+                    mask: var(--border-tier-svg) no-repeat center;
+                }
+
+                .value {                        
+                    font-size: var(--font-size-24);
+                    line-height: 42px;
+                }
+            }
+        }
+    }
+
+    .skills-column {
+        display: flex;
+        flex-direction: column;
+        gap: 0.675rem;
+        filter: var(--plotweaver-drop-shadow);
+    }
+
+    .adversary-expertises {
+        margin-top: 0.675rem;
+        
+        .icon-header {
+            color: var(--plotweaver-color-faded);
+        }
+    }
 }

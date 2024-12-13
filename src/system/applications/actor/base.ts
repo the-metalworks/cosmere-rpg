@@ -249,7 +249,7 @@ export class BaseActorSheet<
         const frame = await super._renderFrame(options);
 
         const corners = await renderSystemTemplate(
-            TEMPLATES.ACTOR_BASE_CORNERS,
+            TEMPLATES.ACTOR_BASE_SHEET_CORNERS,
             {},
         );
         $(frame).prepend(corners);

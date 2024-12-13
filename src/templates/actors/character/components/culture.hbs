@@ -1,20 +1,24 @@
 {{#if culture}}
-    <div class="title" data-action="view">    
-        <span class="name">
-            {{culture.label}}            
-            {{#if isEditMode}}
-            <div class="controls">
-                <a data-action="remove"
-                    data-tooltip="GENERIC.Button.Remove"
-                >
-                    <i class="fa-solid fa-trash"></i>
-                </a>
+<div class="border-box">
+    <div class="wrapper">
+        <div class="details">
+            <div class="title" data-action="view">    
+                <span class="name">
+                    {{culture.label}}            
+                    {{#if isEditMode}}
+                    <div class="controls">
+                        <a data-action="remove"
+                            data-tooltip="GENERIC.Button.Remove"
+                        >
+                            <i class="fa-solid fa-xmark"></i>
+                        </a>
+                    </div>
+                    {{/if}}
+                </span>
+                <span class="item-type">{{localize "TYPES.Item.culture"}}</span>
             </div>
-            {{/if}}
-        </span>
-        <span class="item-type">{{localize "TYPES.Item.culture"}}</span>
-    </div>
-
+        </div>
+    </div>    
     {{!-- NOTE: Currently available culture images are too low resolution to use here.
         Uncomment the following block if higher resolution images are available
         --}}
@@ -23,6 +27,8 @@
         <img src="{{culture.img}}">
     </div>
     {{/if}} --}}
+</div>    
+{{> box-corners }}   
 {{else}}
     <div class="culture drop-area">
         <span>{{localize "COSMERE.Actor.Sheet.CulturePlaceholder"}}</span>

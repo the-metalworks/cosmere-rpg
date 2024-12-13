@@ -10,7 +10,8 @@ export const TEMPLATES = {
 
     // ACTOR BASE
     ACTOR_BASE_NAVIGATION: 'actors/parts/navigation.hbs',
-    ACTOR_BASE_CORNERS: 'actors/parts/corners.hbs',
+    ACTOR_BASE_SHEET_CORNERS: 'actors/parts/sheet-corners.hbs',
+    ACTOR_BASE_BOX_CORNERS: 'actors/parts/box-corners.hbs',
     ACTOR_BASE_SEARCH_BAR: 'actors/components/search-bar.hbs',
     ACTOR_BASE_ACTIONS_LIST: 'actors/components/actions-list.hbs',
     ACTOR_BASE_EFFECTS_LIST: 'actors/components/effects-list.hbs',

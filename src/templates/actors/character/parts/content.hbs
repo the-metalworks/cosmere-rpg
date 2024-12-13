@@ -5,7 +5,11 @@
         {{app-actor-resource resource=resourceId}}
         {{/each}}
 
-        {{app-character-favorites class="list-component"}}
+        <div class="scroll-container">
+            <div class="scroll-body">
+                {{app-character-favorites class="list-component"}}
+           </div>
+        </div>
     </section>
     <section class="col-main">
         {{app-actor-attributes}}

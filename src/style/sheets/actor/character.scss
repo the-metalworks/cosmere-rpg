@@ -1,4 +1,7 @@
 .sheet.actor.character {
+    --border-level-svg: url('assets/icons/svg/sheet/border_level.svg');
+    --mask-level-svg: url('assets/icons/svg/sheet/mask_level.svg');
+
     max-width: 800px;
     max-height: 900px;
 
@@ -15,6 +18,14 @@
             .container {
                 width: 58px;
                 height: 58px;
+
+                .background {
+                    mask: var(--mask-level-svg) no-repeat center;
+                }
+    
+                .border {
+                    mask: var(--border-level-svg) no-repeat center;
+                }
 
                 .value {                        
                     font-size: var(--font-size-28);
@@ -44,24 +55,6 @@
 
         &.dropping {
             opacity: 1;
-        }
-    }
-
-    .icon-header {
-        font-family: var(--plotweaver-font-normal);
-        font-size: var(--font-size-12);
-        font-weight: 600;
-        text-transform: uppercase;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-
-        .title {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 0.25rem;
         }
     }
 
@@ -135,8 +128,25 @@
             color: var(--plotweaver-color-accent);
         }
 
-        .favorites-list {
+        .favorite-list {
+            margin-top: 0.375rem;
 
+            & > li {
+                margin-bottom: 0.375rem;
+            }
+
+            .item {
+                padding: 0;
+                background-color: transparent;
+
+                .detail {
+                    width: auto;
+                }
+
+                .controls {
+                    width: auto;
+                }
+            }
         }
     }
 
@@ -166,7 +176,9 @@
 
     app-character-ancestry,
     app-character-culture {
-        background-color: var(--plotweaver-color-dark-1);
+        .border-box {
+            background-color: var(--plotweaver-color-dark-1);
+        }
     }
 
     app-character-paths-list {
@@ -176,24 +188,40 @@
     }
 
     app-character-paths-list .path {
-        background-color: var(--plotweaver-color-base-2);
+        .border-box {
+            background-color: var(--plotweaver-color-base-2);
+        }        
     }
 
     app-character-ancestry,
     app-character-culture,
     app-character-paths-list .path {
-        position: relative;
+        position: relative;        
+
+        .border-box {
+            mask: radial-gradient(8px at 8px 8px, transparent 98%, black) -8px -8px;
+        }
+
+        .wrapper {            
+            border: 2px solid var(--plotweaver-color-accent);
+            border-radius: 0;
+            z-index: 1;
+            position: relative;
+        }   
+
+        .details {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+        }
 
         .title {
             display: flex;
             padding: 0.375rem 1.125rem;
-            border: 2px solid var(--plotweaver-color-accent);
-            border-radius: 0;
             flex-direction: column;
             cursor: pointer;
             text-transform: uppercase;
-            z-index: 1;
-            position: relative;
 
             .name {
                 font-family: var(--plotweaver-font-header);
@@ -201,11 +229,12 @@
                 color: var(--plotweaver-color-text-main);
 
                 display: flex;
-                align-items: center;
+                align-items: flex-start;
                 justify-content: space-between;
             }
 
             .controls {
+                margin-left: 0.125rem;
                 font-size: var(--font-size-10);
                 color: var(--plotweaver-color-text-sub);
             }
@@ -214,6 +243,41 @@
                 font-family: var(--plotweaver-font-normal);
                 font-size: var(--font-size-10);
                 color: var(--plotweaver-color-accent);
+            }
+        }
+
+        .skill-list {
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            padding: 0.375rem 0.625rem 0.75rem;
+            list-style: none;
+
+            .skill {
+                list-style: none;
+            }
+        }
+
+        .level {
+            .container {
+                width: 44px;
+                height: 44px;
+
+                .star {
+                    position: absolute;
+                    left: 1px;
+                    top: 1px;
+                    width: calc(100% - 2px);
+                    height: calc(100% - 2px);
+                    background-color: var(--plotweaver-color-faded);
+                    mask: var(--star-cosmere-svg) no-repeat center;
+                    opacity: 0.5;
+                }
+
+                .value {                        
+                    font-size: var(--font-size-20);
+                    line-height: 44px;
+                }
             }
         }
 
