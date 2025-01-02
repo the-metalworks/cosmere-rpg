@@ -794,6 +794,13 @@
             "Unconscious": "Unconscious"
         },
         "Sheet": {
+            "Descriptions": {
+                "ConciseHeader": "Concise Text",
+                "ToggleShow": "Show Concise Text Fields",
+                "ToggleHide": "Hide Concise Text Fields",
+                "Chat": "Post-To-Chat Text",
+                "Short": "Short Description"
+            },
             "Effects": {
                 "Label": "Effects",
                 "Inactive": "Inactive Effects",

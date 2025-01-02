@@ -2,19 +2,71 @@
 
 <div class="tab tab-content {{tab.cssClass}}" data-tab="description" data-group="primary">
     {{app-item-properties}}
-    {{#if @root.editable}}
-    <prose-mirror name="system.description.value" 
-        data-document-u-u-i-d="{{@root.item.uuid}}"
-        value="{{@root.item.system.description.value}}"
-        toggled="true"
-        collaborate="true">
-        {{{@root.descHtml}}}
-    </prose-mirror>
-    {{else}}
-    <div class="description-content-flat">
-        {{{@root.descHtml}}}
-    </div>
-    {{/if}}
+    <div class="descriptions">
+        {{#if @root.editable}}
+        <prose-mirror name="system.description.value" 
+            data-document-u-u-i-d="{{@root.item.uuid}}"
+            value="{{@root.item.system.description.value}}"
+            toggled="true"
+            collaborate="true">
+            {{{@root.descHtml}}}
+        </prose-mirror>
+        {{else}}
+        <div>
+            {{{@root.descHtml}}}
+        </div>
+        {{/if}}
+        <div class="form-group-stacked">
+            <div class="header">
+                <label>{{localize "COSMERE.Sheet.Descriptions.ConciseHeader"}}</label>
+                <div class="controls">
+                    {{#if @root.conciseTextCollapsed}}
+                    <a data-action="toggle-desc-collapsed"
+                        data-tooltip="COSMERE.Sheet.Descriptions.ToggleShow"
+                    >
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </a>
+                    {{else}}
+                    <a data-action="toggle-desc-collapsed"
+                        data-tooltip="COSMERE.Sheet.Descriptions.ToggleHide"
+                    >
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </a>
+                    {{/if}}
+                </div>
+            </div>
+            {{#if (not @root.conciseTextCollapsed)}}
+                <label>{{localize "COSMERE.Sheet.Descriptions.Chat"}}</label>
+                {{#if @root.editable}}
+                <prose-mirror name="system.description.chat" 
+                    data-document-u-u-i-d="{{@root.item.uuid}}"
+                    value="{{@root.item.system.description.chat}}"
+                    toggled="true"
+                    collaborate="true">
+                    {{{@root.descChatHtml}}}
+                </prose-mirror>
+                {{else}}
+                <div>
+                    {{{@root.descChatHtml}}}
+                </div>
+                {{/if}}
+                <label>{{localize "COSMERE.Sheet.Descriptions.Short"}}</label>
+                {{#if @root.editable}}
+                <prose-mirror name="system.description.short" 
+                    data-document-u-u-i-d="{{@root.item.uuid}}"
+                    value="{{@root.item.system.description.short}}"
+                    toggled="true"
+                    collaborate="true">
+                    {{{@root.descShortHtml}}}
+                </prose-mirror>
+                {{else}}
+                <div>
+                    {{{@root.descShortHtml}}}
+                </div>
+                {{/if}}
+            {{/if}}
+        </div>
+    </div> 
 </div>
 
 {{/with}}
