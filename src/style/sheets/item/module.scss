@@ -108,10 +108,6 @@
         width: 100%;
     }
 
-    .description-content-flat {
-        flex-direction: column;
-    }
-
     fieldset:not(:first-child) {
         margin-top: 0.5rem;
     }
@@ -156,18 +152,53 @@
     &.weapon {
         min-height: 500px;
     }
-
-    &.weapon {
-        app-prose-mirror-editor {
-            min-height: 300px;
-        }
-    }
 }
 
 /* --- Tabs ---*/
 
 .tab[data-tab='description'].active {
     display: flex;
+
+    .descriptions {
+        width: 100%;
+    }
+
+    prose-mirror {
+        &.active {
+            max-height: 80%;
+        }
+
+        &.inactive {
+            height: fit-content;
+            min-height: 50px;
+        }
+    }
+
+    .form-group-stacked {
+        padding-top: 1.5rem;
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: .5rem;
+
+            label {
+                flex: 2;
+            }
+
+            .controls {
+                margin-right: 0.5rem;
+            }
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        prose-mirror {
+            max-height: unset;
+        }
+    }
 }
 
 .tab[data-tab='details'].active {

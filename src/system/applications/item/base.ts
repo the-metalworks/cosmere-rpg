@@ -28,6 +28,9 @@ export class BaseItemSheet extends TabsApplicationMixin(
                 handler: this.onFormEvent,
                 submitOnChange: true,
             } as unknown,
+            actions: {
+                'toggle-desc-collapsed': BaseItemSheet.onToggleDescCollapsed,
+            },
         },
     );
     /* eslint-enable @typescript-eslint/unbound-method */
@@ -45,6 +48,8 @@ export class BaseItemSheet extends TabsApplicationMixin(
             },
         },
     );
+
+    private conciseDescriptionsCollapsed = true;
 
     get item(): CosmereItem {
         return super.document;
@@ -260,12 +265,20 @@ export class BaseItemSheet extends TabsApplicationMixin(
         void this.item.update(formData.object);
     }
 
+    /* --- Actions --- */
+    private static onToggleDescCollapsed(this: BaseItemSheet) {
+        this.conciseDescriptionsCollapsed = !this.conciseDescriptionsCollapsed;
+        void this.render();
+    }
+
     /* --- Context --- */
 
     public async _prepareContext(
         options: DeepPartial<foundry.applications.api.ApplicationV2.RenderOptions>,
     ) {
         let enrichedDescValue = undefined;
+        let enrichedDescChat = undefined;
+        let enrichedDescShort = undefined;
         if (this.item.hasDescription()) {
             if (
                 this.item.system.description!.value ===
@@ -278,6 +291,15 @@ export class BaseItemSheet extends TabsApplicationMixin(
             enrichedDescValue = await TextEditor.enrichHTML(
                 this.item.system.description!.value!,
             );
+            enrichedDescChat = await TextEditor.enrichHTML(
+                // NOTE: We use a logical OR here to catch both nullish values and empty string
+                // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+                this.item.system.description!.chat || '<p><em>None</em></p>',
+            );
+            enrichedDescShort = await TextEditor.enrichHTML(
+                // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+                this.item.system.description!.short || '<p><em>None</em></p>',
+            );
         }
         return {
             ...(await super._prepareContext(options)),
@@ -287,6 +309,9 @@ export class BaseItemSheet extends TabsApplicationMixin(
             ).fields,
             editable: this.isEditable,
             descHtml: enrichedDescValue,
+            conciseTextCollapsed: this.conciseDescriptionsCollapsed,
+            descChatHtml: enrichedDescChat,
+            descShortHtml: enrichedDescShort,
             sideTabs: getSystemSetting(SETTINGS.ITEM_SHEET_SIDE_TABS),
         };
     }
