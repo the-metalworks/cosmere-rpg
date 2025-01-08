@@ -153,16 +153,22 @@
             .document-name {
                 font-family: var(--plotweaver-font-header);
                 font-variant: small-caps;
-                font-weight: bold;
+                font-weight: 600;
+                font-size: var(--font-size-48);
                 text-transform: capitalize;
                 color: var(--plotweaver-color-text-main);
             }
 
             .details {
                 font-family: var(--plotweaver-font-normal);
-                font-size: var(--font-size-14);
+                font-size: var(--font-size-15);
                 font-weight: bold;
                 text-transform: uppercase;
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                flex-wrap: wrap;
+                gap: 0.25rem;
 
                 .delim {
                     color: var(--plotweaver-color-faded);
@@ -252,7 +258,8 @@
 
         .label {
             font-family: var(--plotweaver-font-header);
-            font-size: var(--font-size-10);
+            font-size: var(--font-size-9);
+            font-weight: 600;
             color: var(--plotweaver-color-text-sub);
             text-transform: uppercase;
             text-align: center;
@@ -284,6 +291,7 @@
             .value {
                 position: relative;
                 font-family: var(--plotweaver-font-header);
+                font-weight: 600;
                 color: var(--plotweaver-color-text-main);
                 z-index: 1;
             }
@@ -325,7 +333,7 @@
     .icon-header {
         font-family: var(--plotweaver-font-normal);
         font-size: var(--font-size-12);
-        font-weight: 600;
+        font-weight: bold;
         text-transform: uppercase;
         display: flex;
         flex-direction: row;
@@ -384,7 +392,8 @@
                     mask: var(--border-tab-closed-svg) no-repeat center;
                 }                
         
-                .value {                        
+                .value {
+                    font-family: var(--plotweaver-font-normal);
                     font-size: var(--font-size-13);
                     text-align: center;
                     color: var(--plotweaver-color-accent);
@@ -496,18 +505,21 @@
 
             .title {        
                 margin-left: 0.25rem;            
-                font-size: var(--font-size-13);
+                font-size: var(--font-size-15);
+                font-weight: 600;
                 color: var(--plotweaver-color-text-main);
             }
 
             .name {                    
-                font-size: var(--font-size-12);
+                font-size: var(--font-size-13);
+                font-weight: 600;
                 color: var(--plotweaver-color-text-sub);
                 display: flex;
                 flex-direction: column;
 
                 .traits {
                     font-size: var(--font-size-10);
+                    font-variant: lining-nums;
                     color: var(--plotweaver-color-faded);
 
                     .highlight {
@@ -520,7 +532,6 @@
             .detail {
                 width: 48px;
                 color: var(--plotweaver-color-text-sub);
-                font-size: var(--font-size-10);
                 text-transform: uppercase;
 
                 &.wide {
@@ -533,7 +544,15 @@
             }
 
             .subtitle {
-                font-family: var(--plotweaver-font-header);                    
+                font-family: var(--plotweaver-font-header);   
+                font-size: var(--font-size-8);                 
+            }
+
+            .detail {
+                font-family: var(--plotweaver-font-normal);   
+                font-size: var(--font-size-10);
+                font-weight: 600;
+                font-variant: lining-nums; 
             }
 
             .controls {
@@ -756,6 +775,7 @@
         font-size: var(--font-size-10);
         color: var(--plotweaver-color-text-sub);
         width: 100%;
+        height: 14px;
         margin-bottom: 0.125rem;
 
         .label {
@@ -858,8 +878,12 @@
 
                 .value {                        
                     font-size: var(--font-size-18);
-                    line-height: 34px;
+                    line-height: 40px;
                 }
+            }
+
+            .label {
+                margin-top: 0.25rem;
             }
         }
 
@@ -882,21 +906,23 @@
                     mask: var(--border-stat-svg) no-repeat center;
                 }
 
-                .value {                        
-                    font-size: var(--font-size-16);
-                    line-height: 28px;
-                    font-variant: small-caps;
-                }                
-
-                .unit {                        
-                    position: relative;
+                .value,
+                .unit {                    
                     font-family: var(--plotweaver-font-header);
                     color: var(--plotweaver-color-text-main);
-                    z-index: 1;
-                    font-size: var(--font-size-12);
-                    font-variant: small-caps;
-                    line-height: 28px;
+                    font-size: var(--font-size-14);
+                    line-height: 34px;
                 }
+
+                .unit {            
+                    font-variant: small-caps;            
+                    position: relative;
+                    z-index: 1;
+                }
+            }
+
+            .label {
+                margin-top: 0.25rem;
             }
         }
     }
@@ -946,7 +972,7 @@
     
                         font-weight: bold;
                         font-size: var(--font-size-14);
-                        line-height: 24px;
+                        line-height: 28px;
                         text-align: left;
 
                         .delim {
@@ -1083,6 +1109,7 @@
                             font-size: var(--font-size-24);
                             text-align: center;
                             height: 1.25rem;
+                            padding-top: 0.25rem;
                         }
                     }
 
@@ -1141,6 +1168,7 @@
 
             .skill {
                 list-style: none;
+                margin-bottom: 0.125rem;
             }
         }
     }
@@ -1153,6 +1181,7 @@
         
         font-family: var(--plotweaver-font-normal);
         font-size: var(--font-size-10);
+        font-weight: bold;
         text-transform: uppercase;
 
         [data-action] {
@@ -1162,7 +1191,9 @@
         .mod {
             font-family: var(--plotweaver-font-header);
             font-size: var(--font-size-12);
-            width: 18px;            
+            font-weight: 600;
+            padding-top: 0.25rem;
+            width: 20px;
             text-align: center;
 
             .operator {

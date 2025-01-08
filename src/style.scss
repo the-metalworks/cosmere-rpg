@@ -50,10 +50,13 @@
     --plotweaver-shadow-svg: drop-shadow(0 0 4px rgba(255, 0, 0, 0.6));
     --plotweaver-drop-shadow: drop-shadow(0px 0px 8px var(--plotweaver-shadow-45));
     
-    --plotweaver-font-normal: "Roboto", sans-serif;
-    --plotweaver-font-header: "Roboto Slab", serif;
+    --plotweaver-font-normal: "Laski Sans", sans-serif;
+    --plotweaver-font-header: "Penumbra Serif Std", serif;
     --plotweaver-font-condensed: "Roboto Condensed", sans-serif;
     --plotweaver-font-icons: "Cosmere Dingbats";
+
+    --font-size-8: 0.5rem;
+    --font-size-9: 0.563rem;
 
     /* ----------------------------------------- */
     /*  Default Generic Theme                    */
@@ -112,16 +115,19 @@
         }
 
         &.theme-light {
-            --plotweaver-color-accent: #ff0000;
-            --plotweaver-color-faded: #fff;
-            --plotweaver-color-sheet: #fff;
+            --plotweaver-color-accent: #c89b56;
+            --plotweaver-color-faded: #5e6c7e;
+            --plotweaver-color-sheet: #e9ebee;
 
-            --plotweaver-color-base-1: #fff;
-            --plotweaver-color-base-2: #fff;
-            --plotweaver-color-base-3: #fff;
-            --plotweaver-color-base-4: #fff;
-            --plotweaver-color-base-5: #fff;
-            --plotweaver-color-base-6: #fff;
+            --plotweaver-color-base-1: #010e2d;
+            --plotweaver-color-base-2: #10213e;
+            --plotweaver-color-base-3: #1b2d49;
+            --plotweaver-color-base-4: #263c5e;
+            --plotweaver-color-base-5: #456a95;
+            --plotweaver-color-base-6: #506684;
+
+            --plotweaver-color-text-main: var(--plotweaver-color-opportunity);
+            --plotweaver-color-text-sub: var(--plotweaver-color-dark-1);
         }
     }
 }

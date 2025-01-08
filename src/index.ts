@@ -178,29 +178,42 @@ function registerItemSheet(
  */
 function configureFonts() {
     Object.assign(CONFIG.fontDefinitions, {
-        Roboto: {
+        'Laski Sans': {
             editor: true,
             fonts: [
                 {
                     urls: [
-                        `systems/${SYSTEM_ID}/assets/fonts/roboto/Roboto-Regular.woff2`,
+                        'https://dl.dropboxusercontent.com/scl/fi/nmkznib787o24rt44mm9p/laskisans-regular.otf?rlkey=gg2yngqnauvz2q7zd9xn6h25k&st=czpz4jt8&raw=1&t=.otf',
                     ],
                 },
                 {
                     urls: [
-                        `systems/${SYSTEM_ID}/assets/fonts/roboto/Roboto-Bold.woff2`,
-                    ],
-                    weight: 'bold',
-                },
-                {
-                    urls: [
-                        `systems/${SYSTEM_ID}/assets/fonts/roboto/Roboto-Italic.woff2`,
+                        'https://dl.dropboxusercontent.com/scl/fi/v0lifke51txk125jzdvm6/laskisans-regular-italic.otf?rlkey=15w10u4pv6ouzphlhfb2r75x3&st=zfkeehpz&raw=1&t=.otf',
                     ],
                     style: 'italic',
                 },
                 {
                     urls: [
-                        `systems/${SYSTEM_ID}/assets/fonts/roboto/Roboto-BoldItalic.woff2`,
+                        'https://dl.dropboxusercontent.com/scl/fi/2i707gq4s57q216x2bqto/laskisans-semibold.otf?rlkey=x53ryzlwkyfp2dol32hr12n6p&st=fc9p0x8t&raw=1&t=.otf',
+                    ],
+                    weight: 600,
+                },
+                {
+                    urls: [
+                        'https://dl.dropboxusercontent.com/scl/fi/90n7e7ttrjuslgid5yv2f/laskisans-semibold-italic.otf?rlkey=98p9m5kyykqbjfqkdv7r72u97&st=c8hp19xv&raw=1&t=.otf',
+                    ],
+                    weight: 600,
+                    style: 'italic',
+                },
+                {
+                    urls: [
+                        'https://dl.dropboxusercontent.com/scl/fi/k6sejfsl8mhl8ypzcywfg/laskisans-bold.otf?rlkey=ow4y9fhy5d98h3shbkyhyrdnu&st=oil5p15c&raw=1&t=.otf',
+                    ],
+                    weight: 'bold',
+                },
+                {
+                    urls: [
+                        'https://dl.dropboxusercontent.com/scl/fi/y59o0gsr29cfgrnap3c1z/laskisans-bold-italic.otf?rlkey=5ep4lib9pq9jdiiijahs8yy4g&st=k5348fs7&raw=1&t=.otf',
                     ],
                     weight: 'bold',
                     style: 'italic',
@@ -236,29 +249,20 @@ function configureFonts() {
                 },
             ],
         },
-        'Roboto Slab': {
+        'Penumbra Serif Std': {
             editor: true,
             fonts: [
                 {
                     urls: [
-                        `systems/${SYSTEM_ID}/assets/fonts/roboto-slab/RobotoSlab-Regular.ttf`,
+                        'https://dl.dropboxusercontent.com/scl/fi/ob24u90ya4m6eosmla4hs/penumbraserifstd-semibold.otf?rlkey=c0ga31kretxudbm02t57e10f8&st=678wt0xc&raw=1&t=.otf',
                     ],
+                    weight: 600,
                 },
                 {
                     urls: [
-                        `systems/${SYSTEM_ID}/assets/fonts/roboto-slab/RobotoSlab-Bold.ttf`,
+                        'https://dl.dropboxusercontent.com/scl/fi/73rj8yhh8pprbgt05tz2d/penumbraserifstd-bold.otf?rlkey=hov5iqczrryf21cdn7ie5atw3&st=088flevw&raw=1&t=.otf',
                     ],
                     weight: 'bold',
-                },
-            ],
-        },
-        'Penumbra Web Pro': {
-            editor: true,
-            fonts: [
-                {
-                    urls: [
-                        `https://fonts.cdnfonts.com/s/56565/PenumbraWebPro-Serif.woff`,
-                    ],
                 },
             ],
         },
@@ -267,7 +271,7 @@ function configureFonts() {
             fonts: [
                 {
                     urls: [
-                        `https://dl.dropboxusercontent.com/scl/fi/9909gen4fd0oveyzfposx/CosmereDingbats-Regular.otf?rlkey=ig6odq9hxyo1st8kt3ujp1czz&st=72qrads3&raw=1`,
+                        'https://dl.dropboxusercontent.com/scl/fi/hw6bi1qi464s45n6441xf/cosmeredingbats-regular-5.otf?rlkey=nkottrz3i79vetcl7w43zb1al&st=dihwn99m&raw=1&t=.otf',
                     ],
                 },
             ],

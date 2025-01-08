@@ -3,8 +3,9 @@
     border-width: 1px;
     border-block-end-width: 2px;
     border-radius: 6px;
-    font-family: var(--plotweaver-font-normal);
+    font-family: var(--plotweaver-font-normal);    
     font-size: var(--font-size-13);
+    font-variant: lining-nums;
     position: relative;
     background: var(--plotweaver-color-parchment);
 
@@ -96,7 +97,10 @@
         .title {
             font-family: var(--plotweaver-font-header);
             font-size: var(--font-size-16);
-            font-weight: bold;
+            font-variant: small-caps;
+            line-height: 16px;
+            padding-top: 0.25rem;
+            font-weight: 600;
             color: var(--plotweaver-color-dark-3);
         }
 
@@ -172,7 +176,10 @@
                             .title {
                                 font-family: var(--plotweaver-font-header);
                                 font-size: var(--font-size-14);
+                                font-variant: small-caps;
                                 font-weight: bold;
+                                line-height: 14px;
+                                padding-top: 0.25rem;
                                 color: var(--plotweaver-color-dark-1);
 
                                 &.undone {
@@ -267,8 +274,9 @@
                         margin-bottom: 0.1rem;
                     }
 
-                    .subtitle {                        
-                        font-size: var(--font-size-12);
+                    .subtitle {                       
+                        font-weight: 600; 
+                        font-size: var(--font-size-13);
                         display: flex;
                         justify-content: flex-end;
                         align-items: center;
@@ -302,10 +310,7 @@
 
                     .dice-result {
                         .dice-roll-injury,
-                        .dice-roll-d20 {
-                            height: 32px;                            
-                        }
-
+                        .dice-roll-d20,
                         .dice-roll-damage {
                             height: 36px;
                         }
@@ -458,7 +463,7 @@
                             font-size: var(--font-size-24);
                             font-family: var(--plotweaver-font-normal);
                             color: var(--plotweaver-color-dark-1);
-                            padding: 0;
+                            padding: 0.125rem;
                             position: relative;
 
                             &.ignored {
