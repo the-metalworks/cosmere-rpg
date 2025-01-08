@@ -276,5 +276,15 @@ function configureFonts() {
                 },
             ],
         },
+        Shally: {
+            editor: true,
+            fonts: [
+                {
+                    urls: [
+                        'https://dl.dropboxusercontent.com/scl/fi/4w71b3yc3ob44dw298p4p/shally-regular.otf?rlkey=l5rsqfmncdknjfv50aeue96iz&st=jj3b2wfg&raw=1&t=.otf',
+                    ],
+                },
+            ],
+        },
     });
 }
