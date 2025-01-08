@@ -254,6 +254,12 @@ export class BaseActorSheet<
         );
         $(frame).prepend(corners);
 
+        const banners = await renderSystemTemplate(
+            TEMPLATES.ACTOR_BASE_SHEET_BACKGROUND,
+            {},
+        );
+        $(frame).prepend(banners);
+
         // Insert mode toggle
         if (this.isEditable) {
             $(this.window.title!).before(`

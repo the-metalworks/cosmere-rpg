@@ -99,6 +99,9 @@
     /* ----------------------------------------- */
     .cosmere-theme-stormlight {
         //TO-DO: Move to Stormlight Archive module
+        --plotweaver-banner-top: url('assets/art/banner_stormlight_top.png');
+        --plotweaver-banner-bot: url('assets/art/banner_stormlight_bot.png');
+
         &.theme-dark {
             --plotweaver-color-accent: #c9a760;
             --plotweaver-color-faded: #5e6c7e;
@@ -117,18 +120,18 @@
 
         &.theme-light {
             --plotweaver-color-accent: #c89b56;
-            --plotweaver-color-faded: #5e6c7e;
-            --plotweaver-color-sheet: #e9ebee;
+            --plotweaver-color-faded: #768ea8;
+            --plotweaver-color-sheet: #f3f3f3;
 
-            --plotweaver-color-base-1: #010e2d;
-            --plotweaver-color-base-2: #10213e;
-            --plotweaver-color-base-3: #1b2d49;
-            --plotweaver-color-base-4: #263c5e;
-            --plotweaver-color-base-5: #456a95;
-            --plotweaver-color-base-6: #506684;
+            --plotweaver-color-base-1: #ff00ff;
+            --plotweaver-color-base-2: #dde3ea;
+            --plotweaver-color-base-3: #ff00ff;
+            --plotweaver-color-base-4: #ff00ff;
+            --plotweaver-color-base-5: #ff00ff;
+            --plotweaver-color-base-6: #ff00ff;
 
-            --plotweaver-color-text-main: var(--plotweaver-color-opportunity);
-            --plotweaver-color-text-sub: var(--plotweaver-color-dark-1);
+            --plotweaver-color-text-main: #1c3b5f;
+            --plotweaver-color-text-sub: #231f20;
         }
     }
 }

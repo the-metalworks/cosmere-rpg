@@ -183,37 +183,37 @@ function configureFonts() {
             fonts: [
                 {
                     urls: [
-                        'https://dl.dropboxusercontent.com/scl/fi/nmkznib787o24rt44mm9p/laskisans-regular.otf?rlkey=gg2yngqnauvz2q7zd9xn6h25k&st=czpz4jt8&raw=1&t=.otf',
+                        'https://dl.dropboxusercontent.com/scl/fi/hurpbzjvud4y79wzo1qmy/laskisans-regular.woff2?rlkey=x0zcwzfm6eebo32sspe2k4vaf&st=an65ir3o&raw=1&t=.woff2',
                     ],
                 },
                 {
                     urls: [
-                        'https://dl.dropboxusercontent.com/scl/fi/v0lifke51txk125jzdvm6/laskisans-regular-italic.otf?rlkey=15w10u4pv6ouzphlhfb2r75x3&st=zfkeehpz&raw=1&t=.otf',
+                        'https://dl.dropboxusercontent.com/scl/fi/bjc6al0vethbf2iuzwyyx/laskisans-regular-italic.woff2?rlkey=jhzcjg9lhtz2i2txqalo99gli&st=66dgwytm&raw=1&t=.woff2',
                     ],
                     style: 'italic',
                 },
                 {
                     urls: [
-                        'https://dl.dropboxusercontent.com/scl/fi/2i707gq4s57q216x2bqto/laskisans-semibold.otf?rlkey=x53ryzlwkyfp2dol32hr12n6p&st=fc9p0x8t&raw=1&t=.otf',
+                        'https://dl.dropboxusercontent.com/scl/fi/a4jijkz42ipmdyitpmbxd/laskisans-semibold.woff2?rlkey=wbluvl1zwltyo3q9bu3jrvg0y&st=ce9ca470&raw=1&t=.woff2',
                     ],
                     weight: 600,
                 },
                 {
                     urls: [
-                        'https://dl.dropboxusercontent.com/scl/fi/90n7e7ttrjuslgid5yv2f/laskisans-semibold-italic.otf?rlkey=98p9m5kyykqbjfqkdv7r72u97&st=c8hp19xv&raw=1&t=.otf',
+                        'https://dl.dropboxusercontent.com/scl/fi/e5wxxfoi8mdsgegune2xj/laskisans-semibold-italic.woff2?rlkey=y6kqrwr8bmnidc2ekk5ki0pa8&st=p8sdfoqw&raw=1&t=.woff2',
                     ],
                     weight: 600,
                     style: 'italic',
                 },
                 {
                     urls: [
-                        'https://dl.dropboxusercontent.com/scl/fi/k6sejfsl8mhl8ypzcywfg/laskisans-bold.otf?rlkey=ow4y9fhy5d98h3shbkyhyrdnu&st=oil5p15c&raw=1&t=.otf',
+                        'https://dl.dropboxusercontent.com/scl/fi/hkmjpw6sw4pyezj557h78/laskisans-bold.woff2?rlkey=lhw92l3utcsi5hjgxylap7clq&st=8h5hzj3k&raw=1&t=.woff2',
                     ],
                     weight: 'bold',
                 },
                 {
                     urls: [
-                        'https://dl.dropboxusercontent.com/scl/fi/y59o0gsr29cfgrnap3c1z/laskisans-bold-italic.otf?rlkey=5ep4lib9pq9jdiiijahs8yy4g&st=k5348fs7&raw=1&t=.otf',
+                        'https://dl.dropboxusercontent.com/scl/fi/vr2aztvrotqq1kfvte764/laskisans-bold-italic.woff2?rlkey=xpcjdvbpt29z3vhj5p6gyk2a1&st=ae1h3tg0&raw=1&t=.woff2',
                     ],
                     weight: 'bold',
                     style: 'italic',
@@ -254,13 +254,13 @@ function configureFonts() {
             fonts: [
                 {
                     urls: [
-                        'https://dl.dropboxusercontent.com/scl/fi/ob24u90ya4m6eosmla4hs/penumbraserifstd-semibold.otf?rlkey=c0ga31kretxudbm02t57e10f8&st=678wt0xc&raw=1&t=.otf',
+                        'https://dl.dropboxusercontent.com/scl/fi/2j1lf6u9bomt98kczfp6y/penumbraserifstd-semibold.woff2?rlkey=bokq6lhb03ykbev021r897ek8&st=338qxdqi&raw=1&t=.woff2',
                     ],
                     weight: 600,
                 },
                 {
                     urls: [
-                        'https://dl.dropboxusercontent.com/scl/fi/73rj8yhh8pprbgt05tz2d/penumbraserifstd-bold.otf?rlkey=hov5iqczrryf21cdn7ie5atw3&st=088flevw&raw=1&t=.otf',
+                        'https://dl.dropboxusercontent.com/scl/fi/xuudjnlwwgznlofmgsv3o/penumbraserifstd-bold.woff2?rlkey=lqvjr1dsdnrph2dux1kocltgo&st=61a55kr9&raw=1&t=.woff2',
                     ],
                     weight: 'bold',
                 },
@@ -271,17 +271,17 @@ function configureFonts() {
             fonts: [
                 {
                     urls: [
-                        'https://dl.dropboxusercontent.com/scl/fi/hw6bi1qi464s45n6441xf/cosmeredingbats-regular-5.otf?rlkey=nkottrz3i79vetcl7w43zb1al&st=dihwn99m&raw=1&t=.otf',
+                        'https://dl.dropboxusercontent.com/scl/fi/e9olw2h4gnnxue5utcv0b/cosmeredingbats-regular.woff2?rlkey=ff8qwiubwtsno06cwtrow68z3&st=gulsaibc&raw=1&t=.woff2',
                     ],
                 },
             ],
         },
-        Shally: {
+        'Shally Handwritten': {
             editor: true,
             fonts: [
                 {
                     urls: [
-                        'https://dl.dropboxusercontent.com/scl/fi/4w71b3yc3ob44dw298p4p/shally-regular.otf?rlkey=l5rsqfmncdknjfv50aeue96iz&st=jj3b2wfg&raw=1&t=.otf',
+                        'https://dl.dropboxusercontent.com/scl/fi/xogyrq7wvzbhc77nlv0fx/shally-regular.woff2?rlkey=2eui52g7ervpt0n0wj7calg3a&st=mi4swhe8&raw=1&t=.woff2',
                     ],
                 },
             ],

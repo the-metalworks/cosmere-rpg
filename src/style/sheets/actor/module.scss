@@ -35,7 +35,7 @@
     overflow: visible;
     border: 3px solid var(--plotweaver-color-accent);
     border-radius: 0;
-    background: var(--plotweaver-color-sheet);
+    background-color: var(--plotweaver-color-sheet);
 
     &.minimized {
         border: none;
@@ -118,6 +118,46 @@
 
         .right {
             transform: scaleX(-1);
+        }
+    }
+
+    > .window-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border: none;
+
+        .texture {
+            background-image: url('assets/art/texture_sheet.png');
+            mix-blend-mode: multiply;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .banners {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 100%;
+            height: 100%;
+            opacity: 0.8;
+
+            .top, .bot {
+                height: 200px;
+            }
+
+            .top {
+                background-image: var(--plotweaver-banner-top);
+            }
+
+            .bot {
+                background-image: var(--plotweaver-banner-bot);
+            }
         }
     }
 
