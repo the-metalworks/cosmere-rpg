@@ -95,12 +95,11 @@
         }
     
         .title {
-            font-family: var(--plotweaver-font-header);
+            font-family: var(--plotweaver-font-normal);
             font-size: var(--font-size-16);
-            font-variant: small-caps;
             line-height: 16px;
             padding-top: 0.25rem;
-            font-weight: 600;
+            font-weight: bold;
             color: var(--plotweaver-color-dark-3);
         }
 
@@ -113,6 +112,8 @@
             font-size: var(--font-size-10);
             transform: translate(2px, -4px);
             flex: none;
+            gap: 0.25rem;
+            display: flex;
 
             time {
                 color: var(--plotweaver-color-dark-6);    
@@ -460,8 +461,9 @@
 
                         .dice-total {
                             font-weight: bold;
-                            font-size: var(--font-size-24);
-                            font-family: var(--plotweaver-font-normal);
+                            font-size: var(--font-size-22);
+                            font-family: var(--plotweaver-font-header);
+                            line-height: 36px;
                             color: var(--plotweaver-color-dark-1);
                             padding: 0.125rem;
                             position: relative;
@@ -491,6 +493,7 @@
 
                         .dice-subtotal {                            
                             transition: all 200ms ease;
+                            line-height: normal;
                             padding: 0 0.5rem;
                             font-weight: 600;
                             display: flex;
@@ -529,8 +532,9 @@
 
                                 .value {
                                     color: var(--plotweaver-color-dark-1);
-                                    font-size: var(--font-size-24);
-                                    font-family: var(--plotweaver-font-normal);
+                                    font-size: var(--font-size-22);
+                                    font-family: var(--plotweaver-font-header);
+                                    padding-top: 0.375rem;
                                 }
 
                                 .label {
