@@ -179,12 +179,9 @@
                             flex-direction: column;
     
                             .title {
-                                font-family: var(--plotweaver-font-header);
-                                font-size: var(--font-size-14);
-                                font-variant: small-caps;
+                                font-family: var(--plotweaver-font-normal);
+                                font-size: var(--font-size-15);
                                 font-weight: bold;
-                                line-height: 14px;
-                                padding-top: 0.25rem;
                                 color: var(--plotweaver-color-dark-1);
 
                                 &.undone {
@@ -237,7 +234,7 @@
                     .summary {
                         .name-stacked {
                             .title {
-                                font-size: var(--font-size-13);
+                                font-size: var(--font-size-14);
 
                                 strong {
                                     color: var(--plotweaver-color-complication);
@@ -251,7 +248,7 @@
                     .summary {
                         .name-stacked {
                             .title {
-                                font-size: var(--font-size-13);
+                                font-size: var(--font-size-14);
 
                                 strong {
                                     color: var(--plotweaver-color-health-front);
@@ -317,12 +314,8 @@
                         .dice-roll-injury,
                         .dice-roll-d20,
                         .dice-roll-damage {
-                            height: 36px;
-                        }
-
-                        .dice-roll-d20,
-                        .dice-roll-damage {
                             display: flex;
+                            height: 36px;
                         }
 
                         .dice-tooltip {
