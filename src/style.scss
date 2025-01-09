@@ -68,6 +68,7 @@
             --plotweaver-color-accent : #8a7e8b;
             --plotweaver-color-faded: #7d7d7d;
             --plotweaver-color-sheet: #111111;
+            --plotweaver-color-neutral: var(--plotweaver-color-dark-1);
 
             --plotweaver-color-base-1: #171717;
             --plotweaver-color-base-2: #1f1f1f;
@@ -78,12 +79,14 @@
 
             --plotweaver-color-text-main: var(--plotweaver-color-white);
             --plotweaver-color-text-sub: var(--plotweaver-color-off-white-2);
+            --plotweaver-color-text-accent: var(--plotweaver-color-accent);
         }
 
         &.theme-light {
             --plotweaver-color-accent: #fff;
             --plotweaver-color-faded: #fff;
             --plotweaver-color-sheet: #fff;
+            --plotweaver-color-neutral: var(--plotweaver-color-dark-7);
 
             --plotweaver-color-base-1: #fff;
             --plotweaver-color-base-2: #fff;
@@ -103,9 +106,10 @@
         --plotweaver-banner-bot: url('assets/art/banner_stormlight_bot.png');
 
         &.theme-dark {
-            --plotweaver-color-accent: #c9a760;
+            --plotweaver-color-accent: #d0a552;
             --plotweaver-color-faded: #5e6c7e;
             --plotweaver-color-sheet: #132137;
+            --plotweaver-color-neutral: var(--plotweaver-color-dark-1);
 
             --plotweaver-color-base-1: #010e2d;
             --plotweaver-color-base-2: #10213e;
@@ -116,22 +120,25 @@
 
             --plotweaver-color-text-main: var(--plotweaver-color-white);
             --plotweaver-color-text-sub: var(--plotweaver-color-off-white-2);
+            --plotweaver-color-text-accent: var(--plotweaver-color-accent);
         }
 
         &.theme-light {
-            --plotweaver-color-accent: #c89b56;
-            --plotweaver-color-faded: #768ea8;
-            --plotweaver-color-sheet: #f3f3f3;
+            --plotweaver-color-accent: #d0a552;
+            --plotweaver-color-faded: #62768b;
+            --plotweaver-color-sheet: #c0c2bb;
+            --plotweaver-color-neutral: var(--plotweaver-color-dark-7);
 
-            --plotweaver-color-base-1: #ff00ff;
-            --plotweaver-color-base-2: #dde3ea;
-            --plotweaver-color-base-3: #ff00ff;
-            --plotweaver-color-base-4: #ff00ff;
-            --plotweaver-color-base-5: #ff00ff;
-            --plotweaver-color-base-6: #ff00ff;
+            --plotweaver-color-base-1: #b1b6bb;
+            --plotweaver-color-base-2: #c6c8c2;
+            --plotweaver-color-base-3: #cdcec9;
+            --plotweaver-color-base-4: #91a5b9;
+            --plotweaver-color-base-5: #768ea8;
+            --plotweaver-color-base-6: #5e7286;
 
             --plotweaver-color-text-main: #1c3b5f;
             --plotweaver-color-text-sub: #231f20;
+            --plotweaver-color-text-accent: #162f4c;
         }
     }
 }

@@ -260,6 +260,7 @@
                 overflow-x: hidden;
                 scrollbar-color: var(--plotweaver-color-base-6) var(--color-scrollbar-track);
                 scrollbar-gutter: stable;
+                filter: var(--plotweaver-drop-shadow);
 
                 .scroll-body {
                     overflow: visible;
@@ -436,7 +437,7 @@
                     font-family: var(--plotweaver-font-normal);
                     font-size: var(--font-size-13);
                     text-align: center;
-                    color: var(--plotweaver-color-accent);
+                    color: var(--plotweaver-color-text-accent);
                     line-height: 36px;
                 }
             }
@@ -707,10 +708,18 @@
 
             &:is(.active) {
                 color: var(--plotweaver-color-text-sub);
+
+                & .condition-icon {
+                    background-color: var(--plotweaver-color-text-sub);
+                }
             }
 
             &:not(.active) {
                 color: var(--plotweaver-color-faded);
+
+                & .condition-icon {
+                    background-color: var(--plotweaver-color-faded);
+                }
             }
 
             &:not(:nth-last-child(-n + 3)) {
@@ -737,14 +746,6 @@
             .condition-icon {
                 height: 18px;
                 width: 18px;
-
-                &:is(.active) {
-                    background-color: var(--plotweaver-color-text-sub);
-                }
-    
-                &:not(.active) {
-                    background-color: var(--plotweaver-color-faded);
-                }
             }
         }
     }
@@ -1014,6 +1015,7 @@
                         font-size: var(--font-size-14);
                         line-height: 28px;
                         text-align: left;
+                        color: var(--plotweaver-color-white);
 
                         .delim {
                             color: var(--plotweaver-color-accent);
@@ -1252,7 +1254,7 @@
         }
 
         .attribute {
-            color: var(--plotweaver-color-accent);
+            color: var(--plotweaver-color-text-accent);
             width: 24px;
             text-align: center;
         }
