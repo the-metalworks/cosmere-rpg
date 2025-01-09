@@ -52,6 +52,10 @@
         }
     }
 
+    .cosmere-icon + .overlay {
+        bottom: 0;
+    }
+
     .message-header {
         margin-bottom: 0.5rem;
         position: relative;
@@ -482,6 +486,15 @@
                                 color: var(--plotweaver-color-complication);
                                 background: var(--plotweaver-color-complication-background);
                                 border-color: var(--plotweaver-color-complication);
+                            }
+
+                            &:has(.cosmere-icon) {
+                                line-height: 32px;
+                            }
+
+                            .cosmere-icon {
+                                vertical-align: middle;
+                                font-size: var(--font-size-18);
                             }
                         }
 
