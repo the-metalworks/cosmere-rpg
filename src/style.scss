@@ -150,29 +150,18 @@
 /* ----------------------------------------- */
 /*  Fonts                                    */
 /* ----------------------------------------- */
-@import url('https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap');
 
 .application h1,
-span.document-name {
-    font-family: 'Penumbra Web Pro';
-    font-variant: small-caps;
-
-    input {
-        font-variant: inherit;
-    }
-}
-
-.application h4 {
-    font-family: "Didact Gothic", sans-serif;
-}
-
-.application h5 {
-    font-family: "Didact Gothic", sans-serif;
+.application h4,
+.application h5,
+span.document-name {    
+    font-family: var(--plotweaver-font-normal);
 }
 
 .application {
-    font-family: "Didact Gothic", sans-serif;
-    font-size: 10pt;
+    font-family: var(--plotweaver-font-normal);
+    box-shadow: none;
+    filter: var(--plotweaver-sheet-shadow);
 }
 
 span.cosmere-icon,
