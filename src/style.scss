@@ -87,17 +87,21 @@
         }
 
         &.theme-light {
-            --plotweaver-color-accent: #fff;
-            --plotweaver-color-faded: #fff;
-            --plotweaver-color-sheet: #fff;
+            --plotweaver-color-accent: #443447;
+            --plotweaver-color-faded: #6e656f;
+            --plotweaver-color-sheet: #c0c2bb;
             --plotweaver-color-neutral: var(--plotweaver-color-dark-7);
 
-            --plotweaver-color-base-1: #fff;
-            --plotweaver-color-base-2: #fff;
-            --plotweaver-color-base-3: #fff;
-            --plotweaver-color-base-4: #fff;
-            --plotweaver-color-base-5: #fff;
-            --plotweaver-color-base-6: #fff;
+            --plotweaver-color-base-1: #bababa;
+            --plotweaver-color-base-2: #c6c8c2;
+            --plotweaver-color-base-3: #cdcec9;
+            --plotweaver-color-base-4: #ada5ae;
+            --plotweaver-color-base-5: #777777;
+            --plotweaver-color-base-6: #8a7e8b;
+
+            --plotweaver-color-text-main: var(--plotweaver-color-accent);
+            --plotweaver-color-text-sub: #2f2f2f;
+            --plotweaver-color-text-accent: #1f1f1f;
         }
     }
 
