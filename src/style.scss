@@ -44,6 +44,8 @@
     --plotweaver-background-5: rgb(0 0 0 / 5%);
 
     --plotweaver-shadow-15: rgba(0, 0, 0, 0.15);
+    --plotweaver-shadow-25: rgba(0, 0, 0, 0.25);
+    --plotweaver-shadow-35: rgba(0, 0, 0, 0.35);
     --plotweaver-shadow-45: rgba(0, 0, 0, 0.45);
     --plotweaver-shadow-55: rgba(0, 0, 0, 0.55);
     --plotweaver-shadow-65: rgba(0, 0, 0, 0.65);
@@ -56,6 +58,7 @@
     
     --plotweaver-font-normal: "Laski Sans", sans-serif;
     --plotweaver-font-header: "Penumbra Serif Std", serif;
+    --plotweaver-font-header-sc: "Penumbra Serif Std SC", serif;
     --plotweaver-font-condensed: "Roboto Condensed", sans-serif;
     --plotweaver-font-icons: "Cosmere Dingbats";
 
@@ -69,8 +72,10 @@
     .cosmere-theme-default {
         //TO-DO: Replace with Plotweaver colours
         &.theme-dark {
-            --plotweaver-color-accent : #8a7e8b;
-            --plotweaver-color-faded: #7d7d7d;
+            --plotweaver-sheet-texture: url('assets/art/texture_sheet_default_dark.png');
+
+            --plotweaver-color-accent : #888888;
+            --plotweaver-color-faded: #646464;
             --plotweaver-color-sheet: #111111;
             --plotweaver-color-neutral: var(--plotweaver-color-dark-1);
 
@@ -86,22 +91,24 @@
             --plotweaver-color-text-accent: var(--plotweaver-color-accent);
         }
 
-        &.theme-light {
-            --plotweaver-color-accent: #443447;
-            --plotweaver-color-faded: #6e656f;
-            --plotweaver-color-sheet: #c0c2bb;
-            --plotweaver-color-neutral: var(--plotweaver-color-dark-7);
+        &.theme-light {            
+            --plotweaver-sheet-texture: url('assets/art/texture_sheet_default_light.png');
+
+            --plotweaver-color-accent: #1f1f1f;
+            --plotweaver-color-faded: #707070;
+            --plotweaver-color-sheet: #e3e3e3;
+            --plotweaver-color-neutral: var(--plotweaver-color-light-2);
 
             --plotweaver-color-base-1: #bababa;
-            --plotweaver-color-base-2: #c6c8c2;
-            --plotweaver-color-base-3: #cdcec9;
-            --plotweaver-color-base-4: #ada5ae;
+            --plotweaver-color-base-2: #e3e3e3;
+            --plotweaver-color-base-3: #e3e3e3;
+            --plotweaver-color-base-4: #adadad;
             --plotweaver-color-base-5: #777777;
-            --plotweaver-color-base-6: #8a7e8b;
+            --plotweaver-color-base-6: #878787;
 
             --plotweaver-color-text-main: var(--plotweaver-color-accent);
             --plotweaver-color-text-sub: #2f2f2f;
-            --plotweaver-color-text-accent: #1f1f1f;
+            --plotweaver-color-text-accent: #030303;
         }
     }
 
@@ -110,12 +117,13 @@
     /* ----------------------------------------- */
     .cosmere-theme-stormlight {
         //TO-DO: Move to Stormlight Archive module
-        --plotweaver-banner-top: url('assets/art/banner_stormlight_top.png');
-        --plotweaver-banner-bot: url('assets/art/banner_stormlight_bot.png');
-
         &.theme-dark {
+            --plotweaver-banner-top: url('assets/art/banner_stormlight_dark_top.png');
+            --plotweaver-banner-bot: url('assets/art/banner_stormlight_dark_bot.png');
+            --plotweaver-sheet-texture: url('assets/art/texture_sheet_stormlight_dark.png');
+
             --plotweaver-color-accent: #d0a552;
-            --plotweaver-color-faded: #5e6c7e;
+            --plotweaver-color-faded: #6e7b8b;
             --plotweaver-color-sheet: #132137;
             --plotweaver-color-neutral: var(--plotweaver-color-dark-1);
 
@@ -132,14 +140,18 @@
         }
 
         &.theme-light {
+            --plotweaver-banner-top: url('assets/art/banner_stormlight_light_top.png');
+            --plotweaver-banner-bot: url('assets/art/banner_stormlight_light_bot.png');
+            --plotweaver-sheet-texture: url('assets/art/texture_sheet_stormlight_light.png');
+
             --plotweaver-color-accent: #d0a552;
             --plotweaver-color-faded: #62768b;
-            --plotweaver-color-sheet: #c0c2bb;
-            --plotweaver-color-neutral: var(--plotweaver-color-dark-7);
+            --plotweaver-color-sheet: #e0e4e7;
+            --plotweaver-color-neutral: var(--plotweaver-color-light-2);
 
             --plotweaver-color-base-1: #b1b6bb;
-            --plotweaver-color-base-2: #c6c8c2;
-            --plotweaver-color-base-3: #cdcec9;
+            --plotweaver-color-base-2: #e0e4e7;
+            --plotweaver-color-base-3: #e0e4e7;
             --plotweaver-color-base-4: #91a5b9;
             --plotweaver-color-base-5: #768ea8;
             --plotweaver-color-base-6: #5e7286;

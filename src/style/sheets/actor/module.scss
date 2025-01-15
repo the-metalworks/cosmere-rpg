@@ -130,8 +130,7 @@
         border: none;
 
         .texture {
-            background-image: url('assets/art/texture_sheet.png');
-            mix-blend-mode: multiply;
+            background-image: var(--plotweaver-sheet-texture);
             position: absolute;
             top: 0;
             left: 0;
@@ -145,7 +144,7 @@
             justify-content: space-between;
             width: 100%;
             height: 100%;
-            opacity: 0.8;
+            position: relative;
 
             .top, .bot {
                 height: 200px;
@@ -192,8 +191,7 @@
             align-items: flex-start;
 
             .document-name {
-                font-family: var(--plotweaver-font-header);
-                font-variant: small-caps;
+                font-family: var(--plotweaver-font-header-sc);
                 font-weight: 600;
                 font-size: var(--font-size-48);
                 text-transform: capitalize;
@@ -561,6 +559,7 @@
 
                 .traits {
                     font-size: var(--font-size-10);
+                    font-weight: bold;
                     font-variant: lining-nums;
                     color: var(--plotweaver-color-faded);
 
@@ -1159,10 +1158,16 @@
                 }
 
                 .defense {
+                    .label {
+                        font-family: var(--plotweaver-font-normal);
+                        font-size: var(--font-size-11);
+                        font-weight: bold;
+                        text-transform: uppercase;
+                    }
+
                     .container {
                         width: 40px;
                         height: 50px;
-                        margin-top: 10px;
             
                         .background {
                             mask: var(--mask-defense-svg) no-repeat center;

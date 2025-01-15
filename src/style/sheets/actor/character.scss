@@ -106,6 +106,7 @@
                 border-radius: 0 0 6px 6px;
                 font-family: var(--plotweaver-font-normal);
                 font-size: var(--font-size-11);
+                font-weight: 600;
                 color: var(--plotweaver-color-faded);
             }
         }
@@ -114,6 +115,7 @@
     .hide-completed {
         margin-top: 0.375rem;
         font-size: var(--font-size-10);
+        font-weight: 600;
         color: var(--plotweaver-color-faded);
         text-align: right;
     }
@@ -167,6 +169,7 @@
         .expertise {
             font-family: var(--plotweaver-font-normal);
             font-size: var(--font-size-11);
+            font-weight: 600;
             color: var(--plotweaver-color-faded);
             border: 1px solid var(--plotweaver-color-faded);
             padding: 0.15rem 0.4rem;
