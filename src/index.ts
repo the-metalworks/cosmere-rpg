@@ -266,6 +266,17 @@ function configureFonts() {
                 },
             ],
         },
+        'Penumbra Serif Std SC': {
+            editor: false,
+            fonts: [
+                {
+                    urls: [
+                        'https://dl.dropboxusercontent.com/scl/fi/42lf0vdev5a3fu61fxgfn/penumbraserifstd-smallcaps.woff2?rlkey=6tbcbf7kx43mb8pjpi9rr6rfy&st=hcfdsj9s&raw=1&t=.woff2',
+                    ],
+                    weight: 600,
+                },
+            ],
+        },
         'Cosmere Dingbats': {
             editor: true,
             fonts: [
