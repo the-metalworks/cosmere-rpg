@@ -1,5 +1,7 @@
 import { CosmereActor, CosmereItem } from '@system/documents';
 import { ConstructorOf } from '@system/types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 // Mixins
 import { DragDropComponentMixin } from '@system/applications/mixins/drag-drop';
@@ -15,8 +17,7 @@ import { BaseActorSheetRenderContext } from '../../base';
 export class CharacterFavoritesComponent extends DragDropComponentMixin(
     HandlebarsApplicationComponent,
 )<ConstructorOf<CharacterSheet>> {
-    static TEMPLATE =
-        'systems/cosmere-rpg/templates/actors/character/components/favorites.hbs';
+    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_FAVORITES}`;
 
     static DRAG_DROP = [
         {

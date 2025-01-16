@@ -3,68 +3,60 @@
         <img class="profile" src="{{actor.img}}" data-tooltip="{{actor.name}}" data-action="edit-img">
     </div>
 
-    {{#if (and editable displayRestButtons)}}
+    {{#if (and editable displayRestButtons)}}    
+    <a class="end-scene rest"
+        data-action="end-scene" 
+        data-tooltip="COSMERE.Actor.Sheet.EndScene"
+    >
+    </a>
+
     <a class="short-rest rest"
         data-action="short-rest" 
         data-tooltip="COSMERE.Actor.Sheet.ShortRest"
     >
-        <i class="fa-solid fa-utensils"></i>
     </a>
 
     <a class="long-rest rest" 
         data-action="long-rest" 
         data-tooltip="COSMERE.Actor.Sheet.LongRest"
     >
-        <i class="fa-solid fa-campground"></i>
     </a>
     {{/if}}
 
-    {{#if displayRecovery}}
-    <div class="deflect" 
-        data-tooltip="COSMERE.Actor.Statistics.Deflect"
-    >
-        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                 viewBox="0 0 32 38" xml:space="preserve">
-        <path fill="currentColor" d="M30,6.7V2h-4.7C25.1,1.4,25,0.7,25,0h-9H7c0,0.7-0.1,1.4-0.3,2H2v4.7C1.4,6.9,0.7,7,0,7v22c1.8,1.6,4.1,3.3,7,5
-            c3.3,1.9,6.4,3.2,9,4c2.6-0.8,5.7-2.1,9-4c2.9-1.7,5.2-3.4,7-5V7C31.3,7,30.6,6.9,30,6.7z M29,3v3.3c-1.5-0.7-2.6-1.9-3.3-3.3H29z
-             M3,3h3.3C5.6,4.5,4.5,5.6,3,6.3V3z M30,28.1c-1.9,1.6-3.9,3-6,4.2c-2.5,1.5-5.2,2.7-8,3.6c-2.8-0.9-5.5-2.2-8-3.6
-            c-2.1-1.2-4.1-2.6-6-4.2V8.8C5.4,8,8,5.4,8.8,2H16h7.2C24,5.4,26.6,8,30,8.8V28.1z"/>
-        </svg>
-        {{#with actor.system.deflect as |deflect|}}
-
-        <span class="value">{{derived deflect}}</span>
-
-        {{/with}}
-
-        {{#if isEditMode}}
-        <a data-action="configure-deflect"
-            data-tooltip="COSMERE.Actor.Sheet.ConfigureDeflect"
-        >
-            <i class="fa-solid fa-gear"></i>
-        </a>
-        {{/if}}
+    {{#if displayRecovery}}     
+    <div class="sheet-stack deflect">
+        <div class="container">
+            <div class="background"></div>
+            <div class="border"></div>
+            {{#with actor.system.deflect as |deflect|}}
+            <span class="value">{{derived deflect}}</span>
+            {{/with}}
+        </div>        
+        <span class="label">
+            {{localize "COSMERE.Actor.Statistics.Deflect"}}
+            {{#if isEditMode}}
+            <a data-action="configure-deflect"
+                data-tooltip="COSMERE.Actor.Sheet.ConfigureDeflect"
+            >
+                <i class="fa-solid fa-gear"></i>
+            </a>
+            {{/if}}
+        </span>
     </div>
     {{/if}}
 </div>
 
 <div class="derived-statistics flexrow">
     {{!-- Movement --}}
-    <div class="derived-stat movement">
+    <div class="sheet-stack derived-stat movement">
         <div class="container">
-            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                 viewBox="0 0 58 30" style="enable-background:new 0 0 58 30;" xml:space="preserve">
-            <path fill="currentColor" d="M58,7c-0.7,0-1.4-0.1-2-0.3V2h-4.7C51.1,1.4,51,0.7,51,0H7c0,0.7-0.1,1.4-0.3,2H2v4.7C1.4,6.9,0.7,7,0,7v16
-                c0.7,0,1.4,0.1,2,0.3V28h4.7C6.9,28.6,7,29.3,7,30h44c0-0.7,0.1-1.4,0.3-2H56v-4.7c0.6-0.2,1.3-0.3,2-0.3V7z M55,3v3.3
-                c-1.5-0.7-2.6-1.9-3.3-3.3H55z M3,3h3.3C5.6,4.5,4.5,5.6,3,6.3V3z M3,27v-3.3c1.5,0.7,2.6,1.9,3.3,3.3H3z M55,27h-3.3
-                c0.7-1.5,1.9-2.6,3.3-3.3V27z M56,21.2c-3.4,0.8-6,3.4-6.8,6.8H8.8C8,24.6,5.4,22,2,21.2V8.8C5.4,8,8,5.4,8.8,2h40.4
-                C50,5.4,52.6,8,56,8.8V21.2z"/>
-            </svg>
+            <div class="background"></div>
+            <div class="border"></div>
             <span class="value">{{derived actor.system.movement.rate}}</span>
             <span class="unit">ft</span>
         </div>
         <span class="label">
             {{localize "COSMERE.Actor.Statistics.MovementRate"}}
-
             {{#if isEditMode}}
             <a data-action="configure-movement-rate"
                 data-tooltip="COSMERE.Actor.Sheet.ConfigureMovement"
@@ -77,21 +69,14 @@
 
     {{!-- Recovery --}}
     {{#if displayRecovery}}
-    <div class="derived-stat recovery">
+    <div class="sheet-stack derived-stat recovery">
         <div class="container">
-            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                 viewBox="0 0 58 30" style="enable-background:new 0 0 58 30;" xml:space="preserve">
-            <path fill="currentColor" d="M58,7c-0.7,0-1.4-0.1-2-0.3V2h-4.7C51.1,1.4,51,0.7,51,0H7c0,0.7-0.1,1.4-0.3,2H2v4.7C1.4,6.9,0.7,7,0,7v16
-                c0.7,0,1.4,0.1,2,0.3V28h4.7C6.9,28.6,7,29.3,7,30h44c0-0.7,0.1-1.4,0.3-2H56v-4.7c0.6-0.2,1.3-0.3,2-0.3V7z M55,3v3.3
-                c-1.5-0.7-2.6-1.9-3.3-3.3H55z M3,3h3.3C5.6,4.5,4.5,5.6,3,6.3V3z M3,27v-3.3c1.5,0.7,2.6,1.9,3.3,3.3H3z M55,27h-3.3
-                c0.7-1.5,1.9-2.6,3.3-3.3V27z M56,21.2c-3.4,0.8-6,3.4-6.8,6.8H8.8C8,24.6,5.4,22,2,21.2V8.8C5.4,8,8,5.4,8.8,2h40.4
-                C50,5.4,52.6,8,56,8.8V21.2z"/>
-            </svg>
+            <div class="background"></div>
+            <div class="border"></div>
             <span class="value">{{derived actor.system.recovery.die}}</span>
         </div>
         <span class="label">
             {{localize "COSMERE.Actor.Statistics.RecoveryDie"}}
-
             {{#if isEditMode}}
             <a data-action="configure-recovery"
                 data-tooltip="COSMERE.Actor.Sheet.ConfigureRecovery"
@@ -102,18 +87,16 @@
         </span>
     </div>
     {{else}}
-    <div class="derived-stat">
-        <div class="deflect">
-            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                 viewBox="0 0 32 38" xml:space="preserve">
-            <path fill="currentColor" d="M30,6.7V2h-4.7C25.1,1.4,25,0.7,25,0h-9H7c0,0.7-0.1,1.4-0.3,2H2v4.7C1.4,6.9,0.7,7,0,7v22c1.8,1.6,4.1,3.3,7,5
-                c3.3,1.9,6.4,3.2,9,4c2.6-0.8,5.7-2.1,9-4c2.9-1.7,5.2-3.4,7-5V7C31.3,7,30.6,6.9,30,6.7z M29,3v3.3c-1.5-0.7-2.6-1.9-3.3-3.3H29z
-                 M3,3h3.3C5.6,4.5,4.5,5.6,3,6.3V3z M30,28.1c-1.9,1.6-3.9,3-6,4.2c-2.5,1.5-5.2,2.7-8,3.6c-2.8-0.9-5.5-2.2-8-3.6
-                c-2.1-1.2-4.1-2.6-6-4.2V8.8C5.4,8,8,5.4,8.8,2H16h7.2C24,5.4,26.6,8,30,8.8V28.1z"/>
-            </svg>
+    <div class="sheet-stack deflect">
+        <div class="container">
+            <div class="background"></div>
+            <div class="border"></div>
             {{#with actor.system.deflect as |deflect|}}
             <span class="value">{{derived deflect}}</span>
             {{/with}}
+        </div>
+        <span class="label">
+            {{localize "COSMERE.Actor.Statistics.Deflect"}}            
             {{#if isEditMode}}
             <a data-action="configure-deflect"
                 data-tooltip="COSMERE.Actor.Sheet.ConfigureDeflect"
@@ -121,25 +104,16 @@
                 <i class="fa-solid fa-gear"></i>
             </a>
             {{/if}}
-        </div>
-        <span class="label">
-            {{localize "COSMERE.Actor.Statistics.Deflect"}}
         </span>
     </div>
 
     {{/if}}
 
     {{!-- Senses --}}
-    <div class="derived-stat senses">
+    <div class="sheet-stack derived-stat senses">
         <div class="container">
-            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                 viewBox="0 0 58 30" xml:space="preserve">
-            <path fill="currentColor" d="M58,7c-0.7,0-1.4-0.1-2-0.3V2h-4.7C51.1,1.4,51,0.7,51,0H7c0,0.7-0.1,1.4-0.3,2H2v4.7C1.4,6.9,0.7,7,0,7v16
-                c0.7,0,1.4,0.1,2,0.3V28h4.7C6.9,28.6,7,29.3,7,30h44c0-0.7,0.1-1.4,0.3-2H56v-4.7c0.6-0.2,1.3-0.3,2-0.3V7z M55,3v3.3
-                c-1.5-0.7-2.6-1.9-3.3-3.3H55z M3,3h3.3C5.6,4.5,4.5,5.6,3,6.3V3z M3,27v-3.3c1.5,0.7,2.6,1.9,3.3,3.3H3z M55,27h-3.3
-                c0.7-1.5,1.9-2.6,3.3-3.3V27z M56,21.2c-3.4,0.8-6,3.4-6.8,6.8H8.8C8,24.6,5.4,22,2,21.2V8.8C5.4,8,8,5.4,8.8,2h40.4
-                C50,5.4,52.6,8,56,8.8V21.2z"/>
-            </svg>
+            <div class="background"></div>
+            <div class="border"></div>
             {{#with (derived actor.system.senses.range) as |range|}}
             {{#if (isNumMax range)}}
             <span class="value">—</span>
@@ -151,7 +125,6 @@
         </div>
         <span class="label">
             {{localize "COSMERE.Actor.Statistics.SensesRange"}}
-
             {{#if isEditMode}}
             <a data-action="configure-senses-range"
                 data-tooltip="COSMERE.Actor.Sheet.ConfigureSensesRange"

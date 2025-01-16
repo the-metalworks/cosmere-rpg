@@ -1,5 +1,7 @@
 import { ActorType } from '@system/types/cosmere';
 import { ConstructorOf } from '@system/types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 // Dialogs
 import { ConfigureMovementRateDialog } from '@system/applications/actor/dialogs/configure-movement-rate';
@@ -15,8 +17,7 @@ import { CosmereActor } from '@src/system/documents';
 export class ActorDetailsComponent extends HandlebarsApplicationComponent<
     ConstructorOf<BaseActorSheet>
 > {
-    static TEMPLATE =
-        'systems/cosmere-rpg/templates/actors/components/details.hbs';
+    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_DETAILS}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions
