@@ -33,9 +33,9 @@
     --rest-scene-svg: url('assets/icons/svg/sheet/rest_button_scene.svg');
 
     overflow: visible;
-    border: 3px solid var(--plotweaver-color-accent);
+    border: 3px solid var(--cosmere-color-accent);
     border-radius: 0;
-    background-color: var(--plotweaver-color-sheet);
+    background-color: var(--cosmere-color-sheet);
 
     &.minimized {
         border: none;
@@ -73,10 +73,10 @@
         z-index: 1;
         border: none;
         align-items: center;
-        filter: var(--plotweaver-drop-shadow);
+        filter: var(--cosmere-drop-shadow);
 
         button.header-control {
-            color: var(--plotweaver-color-text-sub);
+            color: var(--cosmere-color-text-sub);
             
             &:hover {
                 box-shadow: none;
@@ -104,12 +104,12 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        filter: var(--plotweaver-drop-shadow);
+        filter: var(--cosmere-drop-shadow);
 
         .corner {
             width: 50px;
             height: 50px;
-            background-color: var(--plotweaver-color-accent);
+            background-color: var(--cosmere-color-accent);
             mask: var(--border-sheet-corner-svg) no-repeat center;
         }
 
@@ -136,7 +136,7 @@
         border: none;
 
         .texture {
-            background-image: var(--plotweaver-sheet-texture);
+            background-image: var(--cosmere-sheet-texture);
             position: absolute;
             top: 0;
             left: 0;
@@ -157,11 +157,11 @@
             }
 
             .top {
-                background-image: var(--plotweaver-banner-top);
+                background-image: var(--cosmere-banner-top);
             }
 
             .bot {
-                background-image: var(--plotweaver-banner-bot);
+                background-image: var(--cosmere-banner-bot);
             }
         }
     }
@@ -197,15 +197,15 @@
             align-items: flex-start;
 
             .document-name {
-                font-family: var(--plotweaver-font-header-sc);
+                font-family: var(--cosmere-font-header-sc);
                 font-weight: 600;
                 font-size: var(--font-size-48);
                 text-transform: capitalize;
-                color: var(--plotweaver-color-text-main);
+                color: var(--cosmere-color-text-main);
             }
 
             .details {
-                font-family: var(--plotweaver-font-normal);
+                font-family: var(--cosmere-font-normal);
                 font-size: var(--font-size-15);
                 font-weight: bold;
                 text-transform: uppercase;
@@ -216,7 +216,7 @@
                 gap: 0.25rem;
 
                 .delim {
-                    color: var(--plotweaver-color-faded);
+                    color: var(--cosmere-color-faded);
                 }
             }
         }
@@ -234,7 +234,7 @@
                         top: 1px;
                         width: calc(100% - 2px);
                         height: calc(100% - 2px);
-                        background-color: var(--plotweaver-color-faded);
+                        background-color: var(--cosmere-color-faded);
                         mask: var(--star-cosmere-svg) no-repeat center;
                         opacity: 0.5;
                     }
@@ -263,9 +263,9 @@
                 padding-right: 0.25rem;
                 overflow-y: auto;
                 overflow-x: hidden;
-                scrollbar-color: var(--plotweaver-color-base-6) var(--color-scrollbar-track);
+                scrollbar-color: var(--cosmere-color-base-6) var(--color-scrollbar-track);
                 scrollbar-gutter: stable;
-                filter: var(--plotweaver-drop-shadow);
+                filter: var(--cosmere-drop-shadow);
 
                 .scroll-body {
                     overflow: visible;
@@ -285,10 +285,10 @@
                 padding-right: 0.25rem;
                 overflow-y: auto;
                 overflow-x: hidden;
-                scrollbar-color: var(--plotweaver-color-base-6) var(--color-scrollbar-track);
+                scrollbar-color: var(--cosmere-color-base-6) var(--color-scrollbar-track);
                 scrollbar-gutter: stable;
                 flex: 1;
-                filter: var(--plotweaver-drop-shadow);
+                filter: var(--cosmere-drop-shadow);
 
                 .tab-body {
                     overflow: visible;
@@ -303,16 +303,16 @@
         align-items: center;
 
         .label {
-            font-family: var(--plotweaver-font-header);
+            font-family: var(--cosmere-font-header);
             font-size: var(--font-size-9);
             font-weight: 600;
-            color: var(--plotweaver-color-text-sub);
+            color: var(--cosmere-color-text-sub);
             text-transform: uppercase;
             text-align: center;
         }
 
         .container {
-            filter: var(--plotweaver-drop-shadow);
+            filter: var(--cosmere-drop-shadow);
             position: relative;
             text-align: center;
 
@@ -322,7 +322,7 @@
                 top: 0px;    
                 width: 100%;
                 height: 100%;
-                background-color: var(--plotweaver-color-base-2);
+                background-color: var(--cosmere-color-base-2);
             }
 
             .border {
@@ -331,14 +331,14 @@
                 top: 0px;
                 width: 100%;
                 height: 100%;
-                background-color: var(--plotweaver-color-accent);
+                background-color: var(--cosmere-color-accent);
             }
 
             .value {
                 position: relative;
-                font-family: var(--plotweaver-font-header);
+                font-family: var(--cosmere-font-header);
                 font-weight: 600;
-                color: var(--plotweaver-color-text-main);
+                color: var(--cosmere-color-text-main);
                 z-index: 1;
             }
         }
@@ -368,16 +368,16 @@
 
     .icon {
         &.active {
-            color: var(--plotweaver-color-text-sub);
+            color: var(--cosmere-color-text-sub);
         }
 
         &.faded {            
-            color: var(--plotweaver-color-faded);
+            color: var(--cosmere-color-faded);
         }
     }    
 
     .icon-header {
-        font-family: var(--plotweaver-font-normal);
+        font-family: var(--cosmere-font-normal);
         font-size: var(--font-size-12);
         font-weight: bold;
         text-transform: uppercase;
@@ -431,7 +431,7 @@
 
                 .background {
                     mask: var(--mask-tab-closed-svg) no-repeat center;
-                    background-color: var(--plotweaver-color-sheet);
+                    background-color: var(--cosmere-color-sheet);
                 }
     
                 .border {
@@ -439,10 +439,10 @@
                 }                
         
                 .value {
-                    font-family: var(--plotweaver-font-normal);
+                    font-family: var(--cosmere-font-normal);
                     font-size: var(--font-size-13);
                     text-align: center;
-                    color: var(--plotweaver-color-text-accent);
+                    color: var(--cosmere-color-text-accent);
                     line-height: 36px;
                 }
             }
@@ -454,7 +454,7 @@
     
                     .background {
                         mask: var(--mask-tab-open-svg) no-repeat center;
-                        background-color: var(--plotweaver-color-base-4);
+                        background-color: var(--cosmere-color-base-4);
                     }
         
                     .border {
@@ -476,7 +476,7 @@
 
             &:not(.favorite) {
                 &:not(:first-child):not(:last-child) {
-                    border-bottom: 1px dotted var(--plotweaver-color-faded);
+                    border-bottom: 1px dotted var(--cosmere-color-faded);
                 }            
     
                 &:last-child {
@@ -496,7 +496,7 @@
             text-align: center;
             justify-content: center;
             padding: 0.375rem;
-            background-color: var(--plotweaver-color-base-3);            
+            background-color: var(--cosmere-color-base-3);            
 
             .details {
                 display: flex;
@@ -512,7 +512,7 @@
             .img {
                 width: 28px;
                 height: 28px;
-                border: 2px solid var(--plotweaver-color-accent);
+                border: 2px solid var(--cosmere-color-accent);
                 border-radius: 0;
 
                 display: flex;
@@ -544,7 +544,7 @@
 
             .title,
             .name {
-                font-family: var(--plotweaver-font-normal);
+                font-family: var(--cosmere-font-normal);
                 text-align: left;
                 flex: 1;
             }
@@ -553,13 +553,13 @@
                 margin-left: 0.25rem;            
                 font-size: var(--font-size-15);
                 font-weight: 600;
-                color: var(--plotweaver-color-text-main);
+                color: var(--cosmere-color-text-main);
             }
 
             .name {                    
                 font-size: var(--font-size-13);
                 font-weight: 600;
-                color: var(--plotweaver-color-text-sub);
+                color: var(--cosmere-color-text-sub);
                 display: flex;
                 flex-direction: column;
 
@@ -567,10 +567,10 @@
                     font-size: var(--font-size-10);
                     font-weight: bold;
                     font-variant: lining-nums;
-                    color: var(--plotweaver-color-faded);
+                    color: var(--cosmere-color-faded);
 
                     .highlight {
-                        color: var(--plotweaver-color-text-accent);
+                        color: var(--cosmere-color-text-accent);
                     }
                 }
             }
@@ -578,7 +578,7 @@
             .subtitle,
             .detail {
                 width: 48px;
-                color: var(--plotweaver-color-text-sub);
+                color: var(--cosmere-color-text-sub);
                 text-transform: uppercase;
 
                 &.wide {
@@ -591,12 +591,12 @@
             }
 
             .subtitle {
-                font-family: var(--plotweaver-font-header);   
+                font-family: var(--cosmere-font-header);   
                 font-size: var(--font-size-8);                 
             }
 
             .detail {
-                font-family: var(--plotweaver-font-normal);   
+                font-family: var(--cosmere-font-normal);   
                 font-size: var(--font-size-10);
                 font-weight: 600;
                 font-variant: lining-nums; 
@@ -625,18 +625,18 @@
                 justify-content: space-evenly;
 
                 & > a {
-                    color: var(--plotweaver-color-faded);
+                    color: var(--cosmere-color-faded);
                 }
             }
 
             .weight {
                 & > i {
-                    color: var(--plotweaver-color-faded);
+                    color: var(--cosmere-color-faded);
                 }
             }
 
             .none {
-                color: var(--plotweaver-color-faded);
+                color: var(--cosmere-color-faded);
             }
 
             .equip {
@@ -647,10 +647,10 @@
 
                     & > i {
                         font-size: var(--font-size-12);
-                        color: var(--plotweaver-color-faded);
+                        color: var(--cosmere-color-faded);
                         
                         &.equipped {
-                            color: var(--plotweaver-color-text-sub);
+                            color: var(--cosmere-color-text-sub);
                         }
                     }
                 }
@@ -676,10 +676,10 @@
 
                 .hold-2h,
                 .hold-1h {                        
-                    background-color: var(--plotweaver-color-faded);
+                    background-color: var(--cosmere-color-faded);
 
                     &.equipped {
-                        background-color: var(--plotweaver-color-text-sub);
+                        background-color: var(--cosmere-color-text-sub);
                     }
                 }
             }
@@ -687,12 +687,12 @@
 
         .header {
             min-height: 30px;
-            background-color: var(--plotweaver-color-base-1);
+            background-color: var(--cosmere-color-base-1);
             border-radius: 6px 6px 0 0;                
             padding: 0 0.375rem;
 
             &.basic {
-                background-color: var(--plotweaver-color-dark-1);
+                background-color: var(--cosmere-color-dark-1);
             }
         }
     }
@@ -701,7 +701,7 @@
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
         overflow: hidden;
-        background-color: var(--plotweaver-color-base-3);
+        background-color: var(--cosmere-color-base-3);
         border-radius: 0 0 6px 6px;
 
         &:not(.editable) {
@@ -713,27 +713,27 @@
             font-size: var(--font-size-12);
 
             &:is(.active) {
-                color: var(--plotweaver-color-text-sub);
+                color: var(--cosmere-color-text-sub);
 
                 & .condition-icon {
-                    background-color: var(--plotweaver-color-text-sub);
+                    background-color: var(--cosmere-color-text-sub);
                 }
             }
 
             &:not(.active) {
-                color: var(--plotweaver-color-faded);
+                color: var(--cosmere-color-faded);
 
                 & .condition-icon {
-                    background-color: var(--plotweaver-color-faded);
+                    background-color: var(--cosmere-color-faded);
                 }
             }
 
             &:not(:nth-last-child(-n + 3)) {
-                border-bottom: 1pt dashed var(--plotweaver-color-faded);
+                border-bottom: 1pt dashed var(--cosmere-color-faded);
             }
 
             &:not(:nth-child(3n)) {
-                border-right: 1pt dashed var(--plotweaver-color-faded);
+                border-right: 1pt dashed var(--cosmere-color-faded);
             }
 
             & > a {
@@ -744,7 +744,7 @@
             }
 
             .name {
-                font-family: var(--plotweaver-font-normal);
+                font-family: var(--cosmere-font-normal);
                 text-align: left;
                 flex: 1;
             }
@@ -768,16 +768,16 @@
             > div {
                 width: 10px;
                 height: 10px;
-                border: 1px solid var(--plotweaver-color-base-5);
+                border: 1px solid var(--cosmere-color-base-5);
                 border-radius: 50%;
             }
 
             &.active > div  {
-                background-color: var(--plotweaver-color-text-main);
+                background-color: var(--cosmere-color-text-main);
             }
 
             &:not(.active) > div {
-                background-color: var(--plotweaver-color-base-1);
+                background-color: var(--cosmere-color-base-1);
             }
         }
     }    
@@ -797,7 +797,7 @@
         .corner {
             width: 10px;
             height: 10px;
-            background-color: var(--plotweaver-color-accent);
+            background-color: var(--cosmere-color-accent);
             mask: var(--border-corner-svg) no-repeat center;
         }
 
@@ -820,13 +820,13 @@
         align-items: center;
         justify-content: space-between;
         font-size: var(--font-size-10);
-        color: var(--plotweaver-color-text-sub);
+        color: var(--cosmere-color-text-sub);
         width: 100%;
         height: 14px;
         margin-bottom: 0.125rem;
 
         .label {
-            font-family: var(--plotweaver-font-header);
+            font-family: var(--cosmere-font-header);
             text-transform: uppercase;
             text-align: left;
         }
@@ -853,9 +853,9 @@
                 aspect-ratio: 1 / 1;
                 overflow: hidden;
 
-                border: 4px solid var(--plotweaver-color-accent);
+                border: 4px solid var(--cosmere-color-accent);
                 border-radius: 50%;
-                filter: var(--plotweaver-drop-shadow);
+                filter: var(--cosmere-drop-shadow);
 
                 img {
                     width: 100%;
@@ -869,7 +869,7 @@
                 }
 
                 &::after {
-                    box-shadow: inset 0 0 60px var(--plotweaver-shadow-85);
+                    box-shadow: inset 0 0 60px var(--cosmere-shadow-85);
                     content: '';
                     display: block;
                     position: absolute;
@@ -884,7 +884,7 @@
                 position: absolute;
                 width: 22px;
                 height: 22px;
-                background-color: var(--plotweaver-color-text-sub);
+                background-color: var(--cosmere-color-text-sub);
 
                 &.end-scene {                    
                     top: -11px;
@@ -955,8 +955,8 @@
 
                 .value,
                 .unit {                    
-                    font-family: var(--plotweaver-font-header);
-                    color: var(--plotweaver-color-text-main);
+                    font-family: var(--cosmere-font-header);
+                    color: var(--cosmere-color-text-main);
                     font-size: var(--font-size-14);
                     line-height: 34px;
                 }
@@ -1021,10 +1021,10 @@
                         font-size: var(--font-size-14);
                         line-height: 28px;
                         text-align: left;
-                        color: var(--plotweaver-color-white);
+                        color: var(--cosmere-color-white);
 
                         .delim {
-                            color: var(--plotweaver-color-accent);
+                            color: var(--cosmere-color-accent);
                         }
                     }
 
@@ -1038,7 +1038,7 @@
                         width: 100%;
                         height: 100%;
                         
-                        font-family: var(--plotweaver-font-header);
+                        font-family: var(--cosmere-font-header);
                         font-weight: bold;
                         font-size: var(--font-size-14);
                         line-height: 24px;
@@ -1060,11 +1060,11 @@
             &.hea {
                 .bar .container {
                     .background {
-                        background-color: var(--plotweaver-color-health-back);
+                        background-color: var(--cosmere-color-health-back);
                     }
 
                     .inner-bar {
-                        background-color: var(--plotweaver-color-health-front);
+                        background-color: var(--cosmere-color-health-front);
                     }
                 }
             }
@@ -1072,11 +1072,11 @@
             &.foc {
                 .bar .container {
                     .background {
-                        background-color: var(--plotweaver-color-focus-back);
+                        background-color: var(--cosmere-color-focus-back);
                     }
                     
                     .inner-bar {
-                        background-color: var(--plotweaver-color-focus-front);
+                        background-color: var(--cosmere-color-focus-front);
                     }
                 }
             }
@@ -1084,11 +1084,11 @@
             &.inv {
                 .bar .container {
                     .background {
-                        background-color: var(--plotweaver-color-invest-back);
+                        background-color: var(--cosmere-color-invest-back);
                     }
 
                     .inner-bar {
-                        background-color: var(--plotweaver-color-invest-front);
+                        background-color: var(--cosmere-color-invest-front);
                     }
                 }
             }
@@ -1106,9 +1106,9 @@
             flex-direction: column;
 
             > .label {
-                font-family: var(--plotweaver-font-header);
+                font-family: var(--cosmere-font-header);
                 font-size: var(--font-size-12);
-                color: var(--plotweaver-color-text-sub);
+                color: var(--cosmere-color-text-sub);
                 text-transform: uppercase;
                 text-align: center;
                 margin-bottom: 0.25rem;
@@ -1144,11 +1144,11 @@
                         }
 
                         .title {
-                            font-family: var(--plotweaver-font-normal);
+                            font-family: var(--cosmere-font-normal);
                             font-size: var(--font-size-11);
                             font-weight: bold;
                             text-transform: uppercase;
-                            color: var(--plotweaver-color-text-sub);                            
+                            color: var(--cosmere-color-text-sub);                            
                             z-index: 1;                            
                             position: relative;
                         }
@@ -1165,7 +1165,7 @@
 
                 .defense {
                     .label {
-                        font-family: var(--plotweaver-font-normal);
+                        font-family: var(--cosmere-font-normal);
                         font-size: var(--font-size-11);
                         font-weight: bold;
                         text-transform: uppercase;
@@ -1214,9 +1214,9 @@
             flex-direction: column;
             margin: 0;
             padding: 0.625rem;
-            border: 2px solid var(--plotweaver-color-accent);
+            border: 2px solid var(--cosmere-color-accent);
             border-radius: 0;
-            background-color: var(--plotweaver-color-base-2);
+            background-color: var(--cosmere-color-base-2);
             mask: radial-gradient(8px at 8px 8px, transparent 98%, black) -8px -8px;
             list-style: none;
 
@@ -1233,7 +1233,7 @@
         align-items: center;
         gap: 0.375rem;
         
-        font-family: var(--plotweaver-font-normal);
+        font-family: var(--cosmere-font-normal);
         font-size: var(--font-size-10);
         font-weight: bold;
         text-transform: uppercase;
@@ -1243,7 +1243,7 @@
         }
 
         .mod {
-            font-family: var(--plotweaver-font-header);
+            font-family: var(--cosmere-font-header);
             font-size: var(--font-size-12);
             font-weight: 600;
             padding-top: 0.25rem;
@@ -1251,22 +1251,22 @@
             text-align: center;
 
             .operator {
-                color: var(--plotweaver-color-faded);
+                color: var(--cosmere-color-faded);
             }
 
             .val {                
-                color: var(--plotweaver-color-text-main);
+                color: var(--cosmere-color-text-main);
             }
         }
 
         .name {
-            color: var(--plotweaver-color-text-sub);
+            color: var(--cosmere-color-text-sub);
             text-align: left;
             flex: 1;
         }
 
         .attribute {
-            color: var(--plotweaver-color-text-accent);
+            color: var(--cosmere-color-text-accent);
             width: 24px;
             text-align: center;
         }
@@ -1275,24 +1275,24 @@
     app-actor-search-bar {
         .search-bar {
             height: 40px;
-            background-color: var(--plotweaver-color-base-3);
+            background-color: var(--cosmere-color-base-3);
             border-radius: 6px;
             padding: 0 0.75rem;
 
             font-size: var(--font-size-13);
-            font-family: var(--plotweaver-font-normal);
+            font-family: var(--cosmere-font-normal);
 
             display: flex;
             align-items: center;
             gap: 0.75rem;
 
             input {
-                color: var(--plotweaver-color-text-sub);
+                color: var(--cosmere-color-text-sub);
                 text-align: left;
                 flex: 1;
 
                 &::placeholder {
-                    color: var(--plotweaver-color-faded);
+                    color: var(--cosmere-color-faded);
                 }
             }
 
