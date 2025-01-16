@@ -54,7 +54,7 @@
 
     --plotweaver-shadow-svg: drop-shadow(0 0 4px rgba(255, 0, 0, 0.6));
     --plotweaver-drop-shadow: drop-shadow(0px 0px 8px var(--plotweaver-shadow-55));
-    --plotweaver-sheet-shadow: drop-shadow(0px 0px 10px var(--plotweaver-color-black));
+    --plotweaver-sheet-shadow: drop-shadow(0px 0px 10px var(--plotweaver-shadow-85));
     
     --plotweaver-font-normal: "Laski Sans", sans-serif;
     --plotweaver-font-header: "Penumbra Serif Std", serif;
@@ -178,6 +178,10 @@ span.document-name {
     font-family: var(--plotweaver-font-normal);
     box-shadow: none;
     filter: var(--plotweaver-sheet-shadow);
+}
+
+.application p {
+    font-size: var(--font-size-12);
 }
 
 span.cosmere-icon,
