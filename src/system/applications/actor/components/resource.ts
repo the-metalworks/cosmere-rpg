@@ -1,7 +1,8 @@
 import { Resource } from '@system/types/cosmere';
 import { ConstructorOf } from '@system/types/utils';
-
 import { Derived } from '@system/data/fields';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 // Dialog
 import { ConfigureResourceDialog } from '../dialogs/configure-resource';
@@ -20,8 +21,7 @@ export class ActorResourceComponent extends HandlebarsApplicationComponent<
     ConstructorOf<BaseActorSheet>,
     Params
 > {
-    static readonly TEMPLATE =
-        'systems/cosmere-rpg/templates/actors/components/resource.hbs';
+    static readonly TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_RESOURCE}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions

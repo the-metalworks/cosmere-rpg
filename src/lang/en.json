@@ -152,15 +152,15 @@
                 },
                 "Item": {
                     "Edit": "Edit",
-                    "Details": "View details",
+                    "Details": "View/Hide Details",
                     "Remove": "Remove"
                 },
                 "Actions": {
                     "label": "Actions",
-                    "Activation": "Use",
+                    "Activation": "Action",
                     "Consume": "Cost",
                     "Uses": "Uses",
-                    "Use": "Use action",
+                    "Use": "Use Action",
                     "Strike": "Strike",
                     "BaseSectionName": "{type} Actions",
                     "MiscSectionName": "Miscellaneous Actions",
@@ -208,8 +208,9 @@
                 "AncestryPlaceholder": "Add Ancestry",
                 "CulturePlaceholder": "Add Culture",
                 "PathPlaceholder": "Add Path",
-                "ShortRest": "Short rest",
-                "LongRest": "Long rest",
+                "EndScene": "End Scene",
+                "ShortRest": "Short Rest",
+                "LongRest": "Long Rest",
                 "ToggleShowSkills": "Show skills without ranks",
                 "ToggleCollapseSkills": "Hide skills without ranks",
                 "ConfigureDefense": "Configure Defense",
@@ -227,16 +228,18 @@
                 },
                 "Search": {
                     "Item": {
-                        "Placeholder": "Search Actions"
+                        "Placeholder": "Search actions"
                     },
                     "Equipment": {
-                        "Placeholder": "Search Items"
+                        "Placeholder": "Search items"
                     },
                     "Effects": {
-                        "Placeholder": "Search Effects"
+                        "Placeholder": "Search effects"
                     },
-                    "Clear": "Clear search",
-                    "ChangeSortDirection": "Change sort direction"
+                    "Clear": "Clear Filters",
+                    "Filter": "Filter By",
+                    "SortManually": "Sort Manually",
+                    "SortAlphabetically": "Sort Alphabetically"
                 },
                 "Details": {
                     "Purpose": "Purpose",

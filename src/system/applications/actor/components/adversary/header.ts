@@ -1,4 +1,6 @@
 import { ConstructorOf } from '@system/types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 // Dialogs
 import { EditCreatureTypeDialog } from '@system/applications/actor/dialogs/edit-creature-type';
@@ -16,8 +18,7 @@ import {
 export class AdversaryHeaderComponent extends HandlebarsApplicationComponent<
     ConstructorOf<AdversarySheet>
 > {
-    static TEMPLATE =
-        'systems/cosmere-rpg/templates/actors/adversary/components/header.hbs';
+    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_ADVERSARY_HEADER}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions

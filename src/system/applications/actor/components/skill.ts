@@ -1,5 +1,7 @@
 import { Skill } from '@system/types/cosmere';
 import { ConstructorOf, MouseButton } from '@system/types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
@@ -32,8 +34,7 @@ export class ActorSkillComponent extends HandlebarsApplicationComponent<
     ConstructorOf<BaseActorSheet>,
     Params
 > {
-    static readonly TEMPLATE =
-        'systems/cosmere-rpg/templates/actors/components/skill.hbs';
+    static readonly TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_SKILL}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions

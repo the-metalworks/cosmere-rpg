@@ -1,24 +1,38 @@
 <div class="search-bar">
-    <i class="fa-solid fa-magnifying-glass"></i>
+    <div class="icon faded">
+        <i class="fa-solid fa-magnifying-glass"></i>
+    </div>
     <input type="text" 
         id="actions-search"
         placeholder="{{placeholder}}"
         value="{{text}}"
     >
-    <div class="controls flexrow">
-        <a data-action="clear-actions-search"
+    <div class="controls">
+        <a class="icon {{#if text}}active{{else}}faded{{/if}}"
+            data-action="actions-clear-filter"
             data-tooltip="COSMERE.Actor.Sheet.Search.Clear"
         >
-            <i class="fa-solid fa-xmark" style="font-size: 1rem"></i>
+            <i class="fa-solid fa-xmark"></i>
         </a>
-        <a class="active" 
-            data-action="toggle-actions-search-sort-direction"
-            data-tooltip="COSMERE.Actor.Sheet.Search.ChangeSortDirection"
+        <a class="icon {{#if filter}}active{{else}}faded{{/if}}"
+            data-action="actions-filter-by"
+            data-tooltip="COSMERE.Actor.Sheet.Search.Filter"
         >
-            {{#if (eq sort 'desc')}}
+            <i class="fa-solid fa-filter"></i>
+        </a>
+        <a class="icon active" 
+            data-action="actions-toggle-sort"
+            {{#if (eq sort 'manual')}}
+            data-tooltip="COSMERE.Actor.Sheet.Search.SortManually"
+            {{else}}
+            data-tooltip="COSMERE.Actor.Sheet.Search.SortAlphabetically"
+            {{/if}}
+            
+        >
+            {{#if (eq sort 'manual')}}
             <i class="fa-solid fa-arrow-down-short-wide"></i>
             {{else}}
-            <i class="fa-solid fa-arrow-up-wide-short"></i>
+            <i class="fa-solid fa-arrow-down-a-z"></i>
             {{/if}}
         </a>
     </div>
