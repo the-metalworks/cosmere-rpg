@@ -89,9 +89,7 @@ export class ActorSearchBarComponent extends HandlebarsApplicationComponent<
         event.preventDefault();
         event.stopPropagation();
 
-        this.searchText = (
-            event.target as HTMLInputElement
-        ).value.toLocaleLowerCase(game.i18n!.lang);
+        this.searchText = (event.target as HTMLInputElement).value;
 
         await this.render();
         this.triggerChange();
@@ -103,7 +101,7 @@ export class ActorSearchBarComponent extends HandlebarsApplicationComponent<
     private triggerChange() {
         const event = new CustomEvent('search', {
             detail: {
-                text: this.searchText,
+                text: this.searchText.toLocaleLowerCase(game.i18n!.lang),
                 sort: this.sortDirection,
             },
         });
