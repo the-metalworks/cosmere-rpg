@@ -502,10 +502,17 @@
                     "Hint": "These rules are applied when the talent is obtained.",
                     "Type": {
                         "Items": "Grant Items",
+                        "Resource": "Grant Resource",
                         "Label": "Type"
                     },
                     "Items": {
                         "Label": "Items"
+                    },
+                    "Resource": {
+                        "Label": "Resource"
+                    },
+                    "Value": {
+                        "Label": "Value"
                     }
                 },
                 "Power": {
@@ -733,7 +740,10 @@
                         "Description": "Description",
                         "Create": "New rule",
                         "Edit": "Edit rule",
-                        "Delete": "Remove rule"
+                        "Delete": "Remove rule",
+                        "Resource": "Resource",
+                        "ResourceValue": "Value",
+                        "ResourceValuePlaceholder": "Granted Resource Value"
                     }
                 },
                 "Goal": {
@@ -831,6 +841,11 @@
             "wil": "Willpower",
             "awa": "Awareness",
             "pre": "Presence"
+        },
+        "Resource": {
+            "hea": "Health",
+            "foc": "Focus",
+            "inv": "Investiture"
         },
         "Skill": {
             "agi": "Agility",

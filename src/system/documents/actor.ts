@@ -412,6 +412,8 @@ export class CosmereActor<
                             ),
                         );
                     });
+                } else if (rule.type === Talent.GrantRule.Type.Resource) {
+                    console.log('Got resource rule', rule);
                 }
             });
         }

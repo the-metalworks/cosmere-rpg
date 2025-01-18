@@ -1,4 +1,4 @@
-import { Attribute, Skill } from '../cosmere';
+import { Attribute, Resource, Skill } from '../cosmere';
 
 export const enum Type {
     Ancestry = 'ancestry',
@@ -9,6 +9,7 @@ export const enum Type {
 export namespace GrantRule {
     export const enum Type {
         Items = 'items',
+        Resource = 'resource',
     }
 }
 
@@ -23,7 +24,20 @@ export interface ItemsGrantRule extends BaseGrantRule<GrantRule.Type.Items> {
     items: string[];
 }
 
-export type GrantRule = ItemsGrantRule;
+export interface ResourceGrantRule
+    extends BaseGrantRule<GrantRule.Type.Resource> {
+    /**
+     * The resource key to modify with this rule.
+     */
+    resource: Resource;
+
+    /**
+     * The value with which to modify the selected resource.
+     */
+    value: string;
+}
+
+export type GrantRule = ItemsGrantRule | ResourceGrantRule;
 
 export namespace Prerequisite {
     export const enum Type {

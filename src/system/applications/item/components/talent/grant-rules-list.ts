@@ -126,6 +126,13 @@ export class TalentGrantRulesList extends HandlebarsApplicationComponent<
                       ),
                   }
                 : {}),
+
+            ...(rule.type === Talent.GrantRule.Type.Resource
+                ? {
+                      resource: rule.resource,
+                      value: rule.value,
+                  }
+                : {}),
         };
     }
 }

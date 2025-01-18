@@ -269,6 +269,29 @@ export class TalentItemDataModel extends DataModelMixin<
                                 initial: null,
                             },
                         ),
+
+                        // Resource
+                        resource: new foundry.data.fields.StringField({
+                            required: false,
+                            nullable: false,
+                            choices: Object.entries(
+                                CONFIG.COSMERE.resources,
+                            ).reduce(
+                                (acc, [key, config]) => ({
+                                    ...acc,
+                                    [key]: config.label,
+                                }),
+                                {},
+                            ),
+                            blank: false,
+                            label: 'Cosmere.Item.Talent.GrantRule.Value.Label',
+                        }),
+                        value: new foundry.data.fields.StringField({
+                            required: false,
+                            nullable: false,
+                            blank: false,
+                            label: 'Cosmere.Item.Talent.GrantRule.ResourceValue',
+                        }),
                     },
                     {
                         nullable: true,
@@ -277,6 +300,13 @@ export class TalentItemDataModel extends DataModelMixin<
                                 if (!value.items)
                                     throw new Error(
                                         'Field "items" is required for grant rule of type "Items"',
+                                    );
+                            } else if (
+                                value.type === Talent.GrantRule.Type.Resource
+                            ) {
+                                if (!value.resource)
+                                    throw new Error(
+                                        'Field "resource" is required for grant rule of type "Resource"',
                                     );
                             } else {
                                 throw new Error(

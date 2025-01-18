@@ -583,6 +583,8 @@ const COSMERE: CosmereRPGConfig = {
                 types: {
                     [Talent.GrantRule.Type.Items]:
                         'COSMERE.Item.Talent.GrantRule.Type.Items',
+                    [Talent.GrantRule.Type.Resource]:
+                        'COSMERE.Item.Talent.GrantRule.Type.Resource',
                 },
             },
         },
