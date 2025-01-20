@@ -269,12 +269,23 @@
                         }
                     }
 
-                    .value {
+                    span, input {
                         color: var(--plotweaver-color-off-white-1);
                         z-index: 1;
                         font-size: 2rem;
+                    }
 
+                    span {
                         margin-bottom: 2px;
+                    }
+
+                    input {
+                        width: 100%;
+                        height: 100%;
+                        padding: 0 0 2px 0;
+                        background: color-mix(in srgb, var(--input-background-color) 50%, transparent);
+                        font-weight: bold;
+                        z-index: 1;
                     }
                 }
             }

@@ -85,9 +85,9 @@ export class CharacterPathsComponent extends HandlebarsApplicationComponent<
                             .rank,
                         mod: this.application.actor.system.skills[skillId].mod,
                     })),
-                level: this.application.actor.system.level.paths[
-                    path.system.id
-                ],
+                level: this.application.actor.talents.filter(
+                    (talent) => talent.pathId === path.id,
+                ).length,
             })),
         });
     }

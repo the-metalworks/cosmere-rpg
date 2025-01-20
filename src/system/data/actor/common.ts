@@ -532,32 +532,6 @@ export class CommonActorDataModel<
             this.defenses[group].value.value = 10 + attrsSum + bonus;
         });
 
-        // Derive resource max
-        (Object.keys(this.resources) as Resource[]).forEach((key) => {
-            // Get the resource
-            const resource = this.resources[key];
-
-            if (key === Resource.Health) {
-                // Get strength value
-                const strength = this.attributes.str.value;
-
-                // Assign max
-                resource.max.value = 10 + strength + (resource.max.bonus ?? 0);
-            } else if (key === Resource.Focus) {
-                // Get willpower value
-                const willpower = this.attributes.wil.value;
-
-                // Assign max
-                resource.max.value = 2 + willpower + (resource.max.bonus ?? 0);
-            }
-
-            // Get max
-            const max = Derived.getValue(resource.max)!;
-
-            // Ensure resource value is between max mand min
-            resource.value = Math.max(0, Math.min(max, resource.value));
-        });
-
         // Derive skill modifiers
         (Object.keys(this.skills) as Skill[]).forEach((skill) => {
             // Get the skill config
