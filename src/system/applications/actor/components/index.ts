@@ -5,6 +5,7 @@ import './details';
 import './effects-list';
 import './equipment-list';
 import './injuries-list';
+import './currency-list';
 import './resource';
 import './search-bar';
 import './skills-group';
