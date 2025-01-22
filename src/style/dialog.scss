@@ -1,69 +1,11 @@
-dialog.application {
-    label:has(+ input[type='checkbox'][readonly]) {
-        opacity: 0.5;
-    }
-
-    .form-group input::placeholder {
-        opacity: 0.5 !important;
-    }
-
-    form {
-        height: 100%;
-        overflow-y: auto;
-        overflow-x: hidden;
-        padding: 0.1rem;
-    }
-}
-
-dialog.application ul {
-    list-style: none;
-
-    margin: 0.25rem 0;
-    padding: 0;
-
-    li {
-        padding: 0.2rem 0;
-
-        &.form-group {
-            > a {
-                flex: unset;
-                margin-left: 0.5rem;
-            }
+.application.dialog {
+    &.release-notes {
+        max-height: 1000px;
+    
+        .window-content {
+            overflow: auto;
         }
     }
-}
 
-dialog.application .edit-expertises {
-    .form-group.add-custom {
-        height: 2rem;
-    }
-}
-
-dialog.application.attack-configuration,
-dialog.application.roll-configuration {
-    .dice-config {
-        .dice {
-            display: flex;
-
-            .col {
-                flex: 1;
-            }
-
-            .col.mode {
-                flex: 3;
-            }
-
-            &.header {
-                font-weight: bold;
-            }
-        }
-    }
-}
-
-.dialog.application.release-notes {
-    max-height: 1000px;
-
-    .window-content {
-        overflow: auto;
-    }
+    
 }

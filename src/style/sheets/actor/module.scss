@@ -1,11 +1,7 @@
 @import './character.scss';
 @import './adversary.scss';
 
-.sheet.actor {
-    --border-sheet-corner-svg: url('assets/icons/svg/sheet/border_sheet_corner.svg');
-    --border-corner-svg: url('assets/icons/svg/sheet/border_corner.svg');
-    --star-cosmere-svg: url('assets/icons/svg/sheet/star_cosmere.svg');
-    
+.application.sheet.actor {    
     --border-tab-closed-svg: url('assets/icons/svg/sheet/border_tab_closed.svg');
     --mask-tab-closed-svg: url('assets/icons/svg/sheet/mask_tab_closed.svg');    
     --border-tab-open-svg: url('assets/icons/svg/sheet/border_tab_open.svg');
@@ -30,69 +26,7 @@
     
     --rest-long-svg: url('assets/icons/svg/sheet/rest_button_long.svg');
     --rest-short-svg: url('assets/icons/svg/sheet/rest_button_short.svg');
-    --rest-scene-svg: url('assets/icons/svg/sheet/rest_button_scene.svg');
-
-    overflow: visible;
-    border: 3px solid var(--cosmere-color-accent);
-    border-radius: 0;
-    background-color: var(--cosmere-color-sheet);
-
-    &.minimized {
-        border: none;
-
-        > .window-corners {
-            display: none;
-        }
-
-        > .window-background {
-            display: none;
-        }
-
-        > .window-header {
-            padding: 0 0.5rem;
-        }
-    }
-
-    &:not(.minimized) {
-        > .window-header {
-            padding: 0 1.875rem;
-    
-            #mode-toggle {
-                display: unset;
-            }
-    
-            .window-title {
-                visibility: hidden;
-            }
-        }
-    }
-
-    > .window-header {
-        background: transparent;
-        position: relative;
-        z-index: 1;
-        border: none;
-        align-items: center;
-        filter: var(--cosmere-drop-shadow);
-
-        button.header-control {
-            color: var(--cosmere-color-text-sub);
-            
-            &:hover {
-                box-shadow: none;
-                text-shadow: 0 0 5px var(--color-shadow-primary);
-            }
-
-            &:focus {
-                outline: none;
-                box-shadow: none;
-            }
-        }
-
-        #mode-toggle {
-            display: none;
-        }
-    }
+    --rest-scene-svg: url('assets/icons/svg/sheet/rest_button_scene.svg');    
 
     > .window-corners {
         position: absolute;
@@ -164,12 +98,6 @@
                 background-image: var(--cosmere-banner-bot);
             }
         }
-    }
-
-    > .window-content {
-        backdrop-filter: blur(0rem);
-        overflow: visible;
-        padding: 0 1.875rem;
     }
 
     input[type="text"],
@@ -249,6 +177,7 @@
         align-content: flex-start;
         align-items: flex-start;
         gap: 1.125rem;
+        min-height: 0;
 
         .col-left {
             width: 180px;
@@ -756,65 +685,6 @@
         }
     }
 
-    .pip-list {
-        display: flex;
-        flex-direction: row;
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-        gap: 0.25rem;
-
-        .pip {
-            > div {
-                width: 10px;
-                height: 10px;
-                border: 1px solid var(--cosmere-color-base-5);
-                border-radius: 50%;
-            }
-
-            &.active > div  {
-                background-color: var(--cosmere-color-text-main);
-            }
-
-            &:not(.active) > div {
-                background-color: var(--cosmere-color-base-1);
-            }
-        }
-    }    
-
-    .box-corners {
-        pointer-events: none;
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        border: none;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-
-        .corner {
-            width: 10px;
-            height: 10px;
-            background-color: var(--cosmere-color-accent);
-            mask: var(--border-corner-svg) no-repeat center;
-        }
-
-        .corner-pair {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .bot {
-            transform: scaleY(-1);
-        }
-
-        .right {
-            transform: scaleX(-1);
-        }
-    }   
-
     .sidebar-header {
         display: flex;
         align-items: center;
@@ -1201,76 +1071,7 @@
         }
     }
 
-    app-actor-skills-group,
-    app-adversary-skills-group {
-        position: relative;
-
-        &:not(:has(*)) {
-            display: none;
-        }
-
-        .skill-list {
-            display: flex;
-            flex-direction: column;
-            margin: 0;
-            padding: 0.625rem;
-            border: 2px solid var(--cosmere-color-accent);
-            border-radius: 0;
-            background-color: var(--cosmere-color-base-2);
-            mask: radial-gradient(8px at 8px 8px, transparent 98%, black) -8px -8px;
-            list-style: none;
-
-            .skill {
-                list-style: none;
-                margin-bottom: 0.125rem;
-            }
-        }
-    }
-
-    app-actor-skill {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 0.375rem;
-        
-        font-family: var(--cosmere-font-normal);
-        font-size: var(--font-size-10);
-        font-weight: bold;
-        text-transform: uppercase;
-
-        [data-action] {
-            cursor: pointer;
-        }
-
-        .mod {
-            font-family: var(--cosmere-font-header);
-            font-size: var(--font-size-12);
-            font-weight: 600;
-            padding-top: 0.25rem;
-            width: 20px;
-            text-align: center;
-
-            .operator {
-                color: var(--cosmere-color-faded);
-            }
-
-            .val {                
-                color: var(--cosmere-color-text-main);
-            }
-        }
-
-        .name {
-            color: var(--cosmere-color-text-sub);
-            text-align: left;
-            flex: 1;
-        }
-
-        .attribute {
-            color: var(--cosmere-color-text-accent);
-            width: 24px;
-            text-align: center;
-        }
-    }
+    
 
     app-actor-search-bar {
         .search-bar {

@@ -94,6 +94,10 @@ export const TEMPLATES = {
 
     CHAT_OVERLAY_D20: 'chat/overlay-d20.hbs',
     CHAT_OVERLAY_CRIT: 'chat/overlay-crit.hbs',
+
+    //DIALOGS
+    DIALOG_ADVERSARY_CONFIGURE_SKILLS:
+        'actors/adversary/dialogs/configure-skills.hbs',
 } as const;
 
 /**
