@@ -1,6 +1,6 @@
-import { ArmorTraitId, WeaponTraitId } from '@system/types/cosmere';
+import { ArmorTraitId, Skill, WeaponTraitId } from '@system/types/cosmere';
 import { CosmereItem } from '@system/documents/item';
-import { DeepPartial, AnyObject } from '@system/types/utils';
+import { DeepPartial, AnyObject, NONE } from '@system/types/utils';
 
 // Mixins
 import { ComponentHandlebarsApplicationMixin } from '@system/applications/component-system';
@@ -73,10 +73,7 @@ export class BaseItemSheet extends TabsApplicationMixin(
             // Get the currency
             const currency = CONFIG.COSMERE.currencies[currencyId];
 
-            formData.set(
-                'system.price.currency',
-                currency ? currencyId : 'none',
-            );
+            formData.set('system.price.currency', currency ? currencyId : NONE);
 
             if (currency) {
                 // Get the primary denomination
@@ -86,7 +83,7 @@ export class BaseItemSheet extends TabsApplicationMixin(
 
                 formData.set(
                     'system.price.denomination.primary',
-                    primaryDenomination?.id ?? 'none',
+                    primaryDenomination?.id ?? NONE,
                 );
             }
         }
@@ -94,43 +91,54 @@ export class BaseItemSheet extends TabsApplicationMixin(
         if (this.item.hasActivation()) {
             if (
                 'system.activation.cost.type' in formData.object &&
-                formData.object['system.activation.cost.type'] === 'none'
+                formData.object['system.activation.cost.type'] === NONE
             )
                 formData.set('system.activation.cost.type', null);
 
             if (
                 'system.activation.consume.type' in formData.object &&
-                formData.object['system.activation.consume.type'] === 'none'
+                formData.object['system.activation.consume.type'] === NONE
             )
                 formData.set('system.activation.consume', null);
 
             if (
                 'system.activation.consume.resource' in formData.object &&
-                formData.object['system.activation.consume.resource'] === 'none'
+                formData.object['system.activation.consume.resource'] === NONE
             )
                 formData.set('system.activation.consume.resource', null);
 
             if (
                 'system.activation.skill' in formData.object &&
-                formData.object['system.activation.skill'] === 'none'
+                formData.object['system.activation.skill'] === NONE
             )
                 formData.set('system.activation.skill', null);
 
             if (
                 'system.activation.attribute' in formData.object &&
-                formData.object['system.activation.attribute'] === 'none'
+                formData.object['system.activation.attribute'] === 'default'
+            ) {
+                formData.set(
+                    'system.activation.attribute',
+                    CONFIG.COSMERE.skills[
+                        formData.object['system.activation.skill'] as Skill
+                    ].attribute,
+                );
+            }
+            if (
+                'system.activation.attribute' in formData.object &&
+                formData.object['system.activation.attribute'] === NONE
             )
                 formData.set('system.activation.attribute', null);
 
             if (
                 'system.activation.uses.type' in formData.object &&
-                formData.object['system.activation.uses.type'] === 'none'
+                formData.object['system.activation.uses.type'] === NONE
             )
                 formData.set('system.activation.uses', null);
 
             if (
                 'system.activation.uses.recharge' in formData.object &&
-                formData.object['system.activation.uses.recharge'] === 'none'
+                formData.object['system.activation.uses.recharge'] === NONE
             )
                 formData.set('system.activation.uses.recharge', null);
         }
@@ -145,19 +153,19 @@ export class BaseItemSheet extends TabsApplicationMixin(
 
             if (
                 'system.damage.type' in formData.object &&
-                formData.object['system.damage.type'] === 'none'
+                formData.object['system.damage.type'] === NONE
             )
                 formData.set('system.damage.type', null);
 
             if (
                 'system.damage.skill' in formData.object &&
-                formData.object['system.damage.skill'] === 'none'
+                formData.object['system.damage.skill'] === NONE
             )
                 formData.set('system.damage.skill', null);
 
             if (
                 'system.damage.attribute' in formData.object &&
-                formData.object['system.damage.attribute'] === 'none'
+                formData.object['system.damage.attribute'] === NONE
             )
                 formData.set('system.damage.attribute', null);
         }
@@ -165,7 +173,7 @@ export class BaseItemSheet extends TabsApplicationMixin(
         if (this.item.hasAttack()) {
             if (
                 'system.attack.range.unit' in formData.object &&
-                formData.object['system.attack.range.unit'] === 'none'
+                formData.object['system.attack.range.unit'] === NONE
             )
                 formData.set('system.attack.range', null);
         }

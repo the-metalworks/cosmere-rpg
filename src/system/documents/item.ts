@@ -10,7 +10,7 @@ import {
 } from '@system/types/cosmere';
 import { Goal } from '@system/types/item';
 import { GoalItemData } from '@system/data/item/goal';
-import { DeepPartial } from '@system/types/utils';
+import { DeepPartial, NONE, Nullable } from '@system/types/utils';
 
 import { CosmereActor } from './actor';
 
@@ -66,7 +66,6 @@ import { RollMode } from '@system/dice/types';
 import {
     determineConfigurationMode,
     getTargetDescriptors,
-    hasKey,
 } from '../utils/generic';
 import { MESSAGE_TYPES } from './chat-message';
 import { renderSystemTemplate, TEMPLATES } from '../utils/templates';
@@ -387,8 +386,9 @@ export class CosmereItem<
 
         // Get skill to use
         const skillId = options.skill ?? this.system.activation.skill;
-        if (!skillId) return null;
-        const skill = actor.system.skills[skillId];
+        const skill = skillId
+            ? actor.system.skills[skillId]
+            : { attribute: null, rank: 0 };
 
         // Get the attribute id
         const attributeId =
@@ -398,21 +398,28 @@ export class CosmereItem<
 
         // Set up actor data
         const data: D20RollData = this.getSkillTestRollData(
-            skillId,
+            skillId ? skillId : null,
             attributeId,
             actor,
         );
+
+        const parts = ['@mod'].concat(options.parts ?? []);
+        if (options.temporaryModifiers) parts.push(options.temporaryModifiers);
 
         // Perform the roll
         const roll = await d20Roll(
             foundry.utils.mergeObject(options, {
                 data,
                 chatMessage: false,
-                title: `${this.name} (${game.i18n!.localize(
-                    CONFIG.COSMERE.skills[skillId].label,
-                )})`,
-                defaultAttribute: skill.attribute,
-                parts: ['@mod'].concat(options.parts ?? []),
+                title: `${this.name} (${
+                    skillId
+                        ? game.i18n!.localize(
+                              CONFIG.COSMERE.skills[skillId].label,
+                          )
+                        : `${game.i18n!.localize('GENERIC.Custom')} ${game.i18n!.localize('GENERIC.Skill')}`
+                })`,
+                defaultAttribute: skill.attribute ? skill.attribute : undefined,
+                parts: parts,
                 plotDie: options.plotDie ?? this.system.activation.plotDie,
                 opportunity:
                     options.opportunity ?? this.system.activation.opportunity,
@@ -598,7 +605,6 @@ export class CosmereItem<
         // Get the skill to use during the skill test
         const skillTestSkillId =
             options.skillTest?.skill ?? this.system.activation.skill;
-        if (!skillTestSkillId) return null;
 
         // Get the skill to use during the damage roll
         const damageSkillId =
@@ -607,18 +613,23 @@ export class CosmereItem<
             skillTestSkillId;
 
         // Get the attribute to use during the skill test
-        let skillTestAttributeId =
+        let skillTestAttributeId: Nullable<Attribute> =
             options.skillTest?.attribute ??
             this.system.activation.attribute ??
-            actor.system.skills[skillTestSkillId].attribute;
+            null;
 
         // Get the attribute to use during the damage roll
-        const damageAttributeId =
+        const damageAttributeId: Nullable<Attribute> =
             options.damage?.attribute ??
             this.system.damage.attribute ??
-            actor.system.skills[damageSkillId].attribute;
+            (damageSkillId
+                ? actor.system.skills[damageSkillId].attribute
+                : null);
 
         options.skillTest ??= {};
+        options.skillTest.parts ??= this.system.activation.modifierFormula
+            ? [this.system.activation.modifierFormula]
+            : [];
         options.damage ??= {};
 
         // Handle key modifiers
@@ -643,14 +654,18 @@ export class CosmereItem<
         // Perform configuration
         if (!fastForward && options.configurable !== false) {
             const attackConfig = await AttackConfigurationDialog.show({
-                title: `${this.name} (${game.i18n!.localize(
-                    CONFIG.COSMERE.skills[skillTestSkillId].label,
-                )})`,
+                title: `${this.name} (${
+                    skillTestSkillId
+                        ? game.i18n!.localize(
+                              CONFIG.COSMERE.skills[skillTestSkillId].label,
+                          )
+                        : `${game.i18n!.localize('GENERIC.Custom')} ${game.i18n!.localize('GENERIC.Skill')}`
+                })`,
                 skillTest: {
                     ...options.skillTest,
                     parts: ['@mod'].concat(options.skillTest?.parts ?? []),
                     data: this.getSkillTestRollData(
-                        skillTestSkillId,
+                        skillTestSkillId ?? null,
                         skillTestAttributeId,
                         actor,
                     ),
@@ -673,6 +688,9 @@ export class CosmereItem<
 
             // If the dialog was closed, exit out of rolls
             if (!attackConfig) return null;
+
+            options.skillTest.temporaryModifiers =
+                attackConfig.skillTest.temporaryModifiers;
 
             skillTestAttributeId = attackConfig.attribute;
             options.rollMode = attackConfig.rollMode;
@@ -931,6 +949,9 @@ export class CosmereItem<
                     rolls.push(...damageRolls);
                 }
 
+                options.parts ??= this.system.activation.modifierFormula
+                    ? [this.system.activation.modifierFormula]
+                    : [];
                 if (this.system.activation.type === ActivationType.SkillTest) {
                     const roll = await this.roll({
                         ...options,
@@ -1159,22 +1180,26 @@ export class CosmereItem<
     }
 
     protected getSkillTestRollData(
-        skillId: Skill,
-        attributeId: Attribute,
+        skillId: Nullable<Skill>,
+        attributeId: Nullable<Attribute>,
         actor: CosmereActor,
     ): D20RollData {
-        const skill = actor.system.skills[skillId];
-        const attribute = actor.system.attributes[attributeId];
+        const skill = skillId
+            ? actor.system.skills[skillId]
+            : { attribute: null, rank: 0, mod: {} };
+        const attribute = attributeId
+            ? actor.system.attributes[attributeId]
+            : { value: 0, bonus: 0 };
         const mod = skill.rank + attribute.value + attribute.bonus;
 
         return {
             ...actor.getRollData(),
             mod,
             skill: {
-                id: skillId,
+                id: skillId ?? null,
                 rank: skill.rank,
                 mod: Derived.getValue(skill.mod) ?? 0,
-                attribute: attributeId,
+                attribute: attributeId ? attributeId : skill.attribute,
             },
             attribute: attribute.value,
         };
@@ -1182,12 +1207,14 @@ export class CosmereItem<
 
     protected getDamageRollData(
         skillId: Skill | undefined,
-        attributeId: Attribute | undefined,
+        attributeId: Nullable<Attribute> | undefined,
         actor: CosmereActor,
     ): DamageRollData {
         const skill = skillId ? actor.system.skills[skillId] : undefined;
         const attribute = attributeId
-            ? actor.system.attributes[attributeId]
+            ? attributeId
+                ? actor.system.attributes[attributeId]
+                : { value: 0, bonus: 0 }
             : undefined;
         const mod =
             skill !== undefined || attribute !== undefined
@@ -1204,7 +1231,7 @@ export class CosmereItem<
                       id: skillId!,
                       rank: skill.rank,
                       mod: Derived.getValue(skill.mod) ?? 0,
-                      attribute: attributeId!,
+                      attribute: attributeId! ? attributeId : skill.attribute,
                   }
                 : undefined,
             attribute: attribute?.value,
@@ -1230,7 +1257,7 @@ export namespace CosmereItem {
          * The attribute to be used with this item roll.
          * Used to roll the item with an alternate attribute.
          */
-        attribute?: Attribute;
+        attribute?: Nullable<Attribute>;
 
         /**
          * Whether or not to generate a chat message for this roll.
@@ -1279,6 +1306,11 @@ export namespace CosmereItem {
         parts?: string[];
 
         /**
+         * A dice formula stating any miscellanious other bonuses or negatives to the specific roll
+         */
+        temporaryModifiers?: string;
+
+        /**
          * What advantage modifier to apply to the roll
          *
          * @default AdvantageMode.None
@@ -1318,6 +1350,7 @@ export namespace CosmereItem {
             | 'skill'
             | 'attribute'
             | 'parts'
+            | 'temporaryModifiers'
             | 'opportunity'
             | 'complication'
             | 'plotDie'

@@ -190,9 +190,12 @@ export class CosmereChatMessage extends ChatMessage {
                 icon: 'fa-regular fa-dice-d20',
                 title: game.i18n!.localize('GENERIC.SkillTest'),
                 subtitle: {
-                    skill: CONFIG.COSMERE.skills[skill.id].label,
-                    attribute:
-                        CONFIG.COSMERE.attributes[skill.attribute].labelShort,
+                    skill: skill.id
+                        ? CONFIG.COSMERE.skills[skill.id].label
+                        : `${game.i18n!.localize('GENERIC.Custom')} ${game.i18n!.localize('GENERIC.Skill')}`,
+                    attribute: skill.attribute
+                        ? CONFIG.COSMERE.attributes[skill.attribute].labelShort
+                        : game.i18n?.localize('GENERIC.None'),
                 },
                 content: await d20Roll.getHTML(),
             },

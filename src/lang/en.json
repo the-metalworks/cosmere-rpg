@@ -677,7 +677,9 @@
                     "Cost": "Activation Cost",
                     "Consume": "Resource Consumption",
                     "Uses": "Limited Uses",
-                    "Recharge": "Recharge"
+                    "Recharge": "Recharge",
+                    "AdditionalFormula": "Roll Formula Extension",
+                    "AdditionalFormulaDescription": "Input any extra modifiers you wish to add to this item's d20 Skill Roll. This input will be treated as a dice formula, but any die you add won't be available for advantage/disadvantage currently. Paramters you can use: @mod, @attribute & @skill.rank refer to the values of the skills selected here, but the whole list of skills and attributes can be accessed - ask on the discord for help!"
                 },
                 "Attack": {
                     "Title": "Attack",
@@ -904,7 +906,8 @@
             "Apply": "Apply",
             "Graze": "Graze",
             "Full": "Full"
-        }
+        },
+        "TemporaryBonus": "Temporary Modifiers (formula)"
     },
     "ROLLS": {
         "Recovery": "[character] rolls their recovery die.",
@@ -1007,6 +1010,7 @@
     "GENERIC": {
         "Unknown": "Unknown",
         "None": "None",
+        "Custom": "Custom",
         "Default": "Default",
         "Document": "Document",
         "Formula": "Formula",
