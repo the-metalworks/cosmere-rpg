@@ -373,7 +373,7 @@ export class CosmereActor<
         // Check if the talent has grant rules
         if (item.system.grantRules.size > 0) {
             // Execute grant rules
-            item.system.grantRules.forEach((rule) => {
+            item.system.grantRules.forEach(async (rule) => {
                 if (rule.type === Talent.GrantRule.Type.Items) {
                     rule.items.forEach(async (itemUUID) => {
                         // Get document
@@ -413,7 +413,27 @@ export class CosmereActor<
                         );
                     });
                 } else if (rule.type === Talent.GrantRule.Type.Resource) {
-                    console.log('Got resource rule', rule);
+                    // Process the formula to provide a static effect
+                    const r = new foundry.dice.Roll(
+                        rule.value,
+                        this.getRollData(),
+                    );
+                    await r.evaluate();
+
+                    // Create an active effect from the parsed value
+                    await this.createEmbeddedDocuments('ActiveEffect', [
+                        {
+                            name: `${item.name} - Grant ${game.i18n!.localize(`COSMERE.Resource.${rule.resource}`)}`,
+                            changes: [
+                                {
+                                    mode: 4,
+                                    key: `system.resources.${rule.resource}.max.value`,
+                                    value: r.total,
+                                },
+                            ],
+                            img: item.img,
+                        },
+                    ]);
                 }
             });
         }
