@@ -111,56 +111,6 @@
             --cosmere-color-text-accent: #030303;
         }
     }
-
-    /* ----------------------------------------- */
-    /*  Stormlight Archive Theme                 */
-    /* ----------------------------------------- */
-    .cosmere-theme-stormlight {
-        //TO-DO: Move to Stormlight Archive module
-        &.theme-dark {
-            --cosmere-banner-top: url('assets/art/banner_stormlight_dark_top.webp');
-            --cosmere-banner-bot: url('assets/art/banner_stormlight_dark_bot.webp');
-            --cosmere-sheet-texture: url('assets/art/texture_sheet_stormlight_dark.webp');
-
-            --cosmere-color-accent: #d0a552;
-            --cosmere-color-faded: #6e7b8b;
-            --cosmere-color-sheet: #132137;
-            --cosmere-color-neutral: var(--cosmere-color-dark-1);
-
-            --cosmere-color-base-1: #010e2d;
-            --cosmere-color-base-2: #10213e;
-            --cosmere-color-base-3: #1b2d49;
-            --cosmere-color-base-4: #263c5e;
-            --cosmere-color-base-5: #456a95;
-            --cosmere-color-base-6: #506684;
-
-            --cosmere-color-text-main: var(--cosmere-color-white);
-            --cosmere-color-text-sub: var(--cosmere-color-off-white-2);
-            --cosmere-color-text-accent: var(--cosmere-color-accent);
-        }
-
-        &.theme-light {
-            --cosmere-banner-top: url('assets/art/banner_stormlight_light_top.webp');
-            --cosmere-banner-bot: url('assets/art/banner_stormlight_light_bot.webp');
-            --cosmere-sheet-texture: url('assets/art/texture_sheet_stormlight_light.webp');
-
-            --cosmere-color-accent: #d0a552;
-            --cosmere-color-faded: #62768b;
-            --cosmere-color-sheet: #e0e4e7;
-            --cosmere-color-neutral: var(--cosmere-color-light-2);
-
-            --cosmere-color-base-1: #b1b6bb;
-            --cosmere-color-base-2: #e0e4e7;
-            --cosmere-color-base-3: #e0e4e7;
-            --cosmere-color-base-4: #91a5b9;
-            --cosmere-color-base-5: #768ea8;
-            --cosmere-color-base-6: #5e7286;
-
-            --cosmere-color-text-main: #1c3b5f;
-            --cosmere-color-text-sub: #231f20;
-            --cosmere-color-text-accent: #050e21;
-        }
-    }
 }
 
 /* ----------------------------------------- */

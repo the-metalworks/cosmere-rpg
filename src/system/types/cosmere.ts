@@ -288,6 +288,4 @@ export const enum TurnSpeed {
 
 export const enum Theme {
     Default = 'default',
-    //TODO: Move to stormlight module
-    Stormlight = 'stormlight',
 }
