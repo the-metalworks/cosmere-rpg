@@ -79,7 +79,6 @@ const COSMERE: CosmereRPGConfig = {
 
     themes: {
         [Theme.Default]: 'COSMERE.Theme.Default',
-        [Theme.Stormlight]: 'COSMERE.Theme.Stormlight',
     },
 
     conditions: {

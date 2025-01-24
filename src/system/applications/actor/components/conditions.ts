@@ -1,5 +1,7 @@
 import { Condition } from '@system/types/cosmere';
 import { ConstructorOf } from '@system/types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
@@ -9,8 +11,7 @@ import { BaseActorSheet } from '../base';
 export class ActorConditionsComponent extends HandlebarsApplicationComponent<
     ConstructorOf<BaseActorSheet>
 > {
-    static readonly TEMPLATE =
-        'systems/cosmere-rpg/templates/actors/components/conditions.hbs';
+    static readonly TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_CONDITIONS}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions

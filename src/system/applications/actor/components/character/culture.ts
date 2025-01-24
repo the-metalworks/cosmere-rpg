@@ -1,6 +1,7 @@
 import { CultureItem } from '@system/documents/item';
-
 import { ConstructorOf } from '@system/types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
@@ -17,8 +18,7 @@ export class CharacterCultureComponent extends HandlebarsApplicationComponent<
     ConstructorOf<CharacterSheet>,
     Params
 > {
-    static TEMPLATE =
-        'systems/cosmere-rpg/templates/actors/character/components/culture.hbs';
+    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_CULTURE}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions

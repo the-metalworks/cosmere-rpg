@@ -178,29 +178,42 @@ function registerItemSheet(
  */
 function configureFonts() {
     Object.assign(CONFIG.fontDefinitions, {
-        Roboto: {
+        'Laski Sans': {
             editor: true,
             fonts: [
                 {
                     urls: [
-                        `systems/${SYSTEM_ID}/assets/fonts/roboto/Roboto-Regular.woff2`,
+                        'https://dl.dropboxusercontent.com/scl/fi/hurpbzjvud4y79wzo1qmy/laskisans-regular.woff2?rlkey=x0zcwzfm6eebo32sspe2k4vaf&st=an65ir3o&raw=1&t=.woff2',
                     ],
                 },
                 {
                     urls: [
-                        `systems/${SYSTEM_ID}/assets/fonts/roboto/Roboto-Bold.woff2`,
-                    ],
-                    weight: 'bold',
-                },
-                {
-                    urls: [
-                        `systems/${SYSTEM_ID}/assets/fonts/roboto/Roboto-Italic.woff2`,
+                        'https://dl.dropboxusercontent.com/scl/fi/bjc6al0vethbf2iuzwyyx/laskisans-regular-italic.woff2?rlkey=jhzcjg9lhtz2i2txqalo99gli&st=66dgwytm&raw=1&t=.woff2',
                     ],
                     style: 'italic',
                 },
                 {
                     urls: [
-                        `systems/${SYSTEM_ID}/assets/fonts/roboto/Roboto-BoldItalic.woff2`,
+                        'https://dl.dropboxusercontent.com/scl/fi/a4jijkz42ipmdyitpmbxd/laskisans-semibold.woff2?rlkey=wbluvl1zwltyo3q9bu3jrvg0y&st=ce9ca470&raw=1&t=.woff2',
+                    ],
+                    weight: 600,
+                },
+                {
+                    urls: [
+                        'https://dl.dropboxusercontent.com/scl/fi/e5wxxfoi8mdsgegune2xj/laskisans-semibold-italic.woff2?rlkey=y6kqrwr8bmnidc2ekk5ki0pa8&st=p8sdfoqw&raw=1&t=.woff2',
+                    ],
+                    weight: 600,
+                    style: 'italic',
+                },
+                {
+                    urls: [
+                        'https://dl.dropboxusercontent.com/scl/fi/hkmjpw6sw4pyezj557h78/laskisans-bold.woff2?rlkey=lhw92l3utcsi5hjgxylap7clq&st=8h5hzj3k&raw=1&t=.woff2',
+                    ],
+                    weight: 'bold',
+                },
+                {
+                    urls: [
+                        'https://dl.dropboxusercontent.com/scl/fi/vr2aztvrotqq1kfvte764/laskisans-bold-italic.woff2?rlkey=xpcjdvbpt29z3vhj5p6gyk2a1&st=ae1h3tg0&raw=1&t=.woff2',
                     ],
                     weight: 'bold',
                     style: 'italic',
@@ -236,29 +249,31 @@ function configureFonts() {
                 },
             ],
         },
-        'Roboto Slab': {
+        'Penumbra Serif Std': {
             editor: true,
             fonts: [
                 {
                     urls: [
-                        `systems/${SYSTEM_ID}/assets/fonts/roboto-slab/RobotoSlab-Regular.ttf`,
+                        'https://dl.dropboxusercontent.com/scl/fi/2j1lf6u9bomt98kczfp6y/penumbraserifstd-semibold.woff2?rlkey=bokq6lhb03ykbev021r897ek8&st=338qxdqi&raw=1&t=.woff2',
                     ],
+                    weight: 600,
                 },
                 {
                     urls: [
-                        `systems/${SYSTEM_ID}/assets/fonts/roboto-slab/RobotoSlab-Bold.ttf`,
+                        'https://dl.dropboxusercontent.com/scl/fi/xuudjnlwwgznlofmgsv3o/penumbraserifstd-bold.woff2?rlkey=lqvjr1dsdnrph2dux1kocltgo&st=61a55kr9&raw=1&t=.woff2',
                     ],
                     weight: 'bold',
                 },
             ],
         },
-        'Penumbra Web Pro': {
-            editor: true,
+        'Penumbra Serif Std SC': {
+            editor: false,
             fonts: [
                 {
                     urls: [
-                        `https://fonts.cdnfonts.com/s/56565/PenumbraWebPro-Serif.woff`,
+                        'https://dl.dropboxusercontent.com/scl/fi/42lf0vdev5a3fu61fxgfn/penumbraserifstd-smallcaps.woff2?rlkey=6tbcbf7kx43mb8pjpi9rr6rfy&st=hcfdsj9s&raw=1&t=.woff2',
                     ],
+                    weight: 600,
                 },
             ],
         },
@@ -267,7 +282,17 @@ function configureFonts() {
             fonts: [
                 {
                     urls: [
-                        `https://dl.dropboxusercontent.com/scl/fi/9909gen4fd0oveyzfposx/CosmereDingbats-Regular.otf?rlkey=ig6odq9hxyo1st8kt3ujp1czz&st=72qrads3&raw=1`,
+                        'https://dl.dropboxusercontent.com/scl/fi/e9olw2h4gnnxue5utcv0b/cosmeredingbats-regular.woff2?rlkey=ff8qwiubwtsno06cwtrow68z3&st=gulsaibc&raw=1&t=.woff2',
+                    ],
+                },
+            ],
+        },
+        'Shally Handwritten': {
+            editor: true,
+            fonts: [
+                {
+                    urls: [
+                        'https://dl.dropboxusercontent.com/scl/fi/xogyrq7wvzbhc77nlv0fx/shally-regular.woff2?rlkey=2eui52g7ervpt0n0wj7calg3a&st=mi4swhe8&raw=1&t=.woff2',
                     ],
                 },
             ],

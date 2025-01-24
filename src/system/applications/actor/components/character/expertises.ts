@@ -1,4 +1,6 @@
 import { ConstructorOf } from '@system/types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 // Dialog
 import { EditExpertisesDialog } from '../../dialogs/edit-expertises';
@@ -10,8 +12,7 @@ import { BaseActorSheet, BaseActorSheetRenderContext } from '../../base';
 export class CharacterExpertisesComponent extends HandlebarsApplicationComponent<
     ConstructorOf<BaseActorSheet>
 > {
-    static TEMPLATE =
-        'systems/cosmere-rpg/templates/actors/character/components/expertises.hbs';
+    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_EXPERTISES}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions

@@ -30,7 +30,7 @@ Hooks.on('ready', async () => {
         },
         flags: {
             [SYSTEM_ID]: {
-                headerImg: `systems/${SYSTEM_ID}/assets/icons/the-metalworks.png`,
+                headerImg: `systems/${SYSTEM_ID}/assets/art/the-metalworks.png`,
             },
         },
     });
