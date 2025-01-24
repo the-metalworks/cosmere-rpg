@@ -4,55 +4,67 @@
 /*  Globals                                  */
 /* ----------------------------------------- */
 :root {
-    --plotweaver-color-black: #000;
-    --plotweaver-color-dark-1: #111;
-    --plotweaver-color-dark-2: #222;
-    --plotweaver-color-dark-3: #333;
-    --plotweaver-color-dark-4: #444;
-    --plotweaver-color-dark-5: #555;
-    --plotweaver-color-dark-6: #666;
-    --plotweaver-color-dark-7: #777;
-    --plotweaver-color-light-1: #888;
-    --plotweaver-color-light-2: #999;
-    --plotweaver-color-light-3: #aaa;
-    --plotweaver-color-light-4: #bbb;
-    --plotweaver-color-light-5: #ccc;
-    --plotweaver-color-light-6: #ddd;
-    --plotweaver-color-light-7: #eee;
-    --plotweaver-color-white: #fff;
+    --cosmere-color-black: #000;
+    --cosmere-color-dark-1: #111;
+    --cosmere-color-dark-2: #222;
+    --cosmere-color-dark-3: #333;
+    --cosmere-color-dark-4: #444;
+    --cosmere-color-dark-5: #555;
+    --cosmere-color-dark-6: #666;
+    --cosmere-color-dark-7: #777;
+    --cosmere-color-light-1: #888;
+    --cosmere-color-light-2: #999;
+    --cosmere-color-light-3: #aaa;
+    --cosmere-color-light-4: #bbb;
+    --cosmere-color-light-5: #ccc;
+    --cosmere-color-light-6: #ddd;
+    --cosmere-color-light-7: #eee;
+    --cosmere-color-white: #fff;
 
-    --plotweaver-color-off-white-1: #f8f4f1;
-    --plotweaver-color-off-white-2: #f0f0e0;
+    --cosmere-color-off-white-1: #f8f4f1;
+    --cosmere-color-off-white-2: #f0f0e0;
 
-    --plotweaver-color-complication: #ab3d38;
-    --plotweaver-color-complication-text: #ab3d38;
-    --plotweaver-color-complication-background: #ffdddd;
-    --plotweaver-color-opportunity: #1e3c60;
-    --plotweaver-color-opportunity-text: #7fa4e9;
-    --plotweaver-color-opportunity-background: #dde5ff;
-    --plotweaver-color-parchment: #f1ebe8;
+    --cosmere-color-complication: #ab3d38;
+    --cosmere-color-complication-text: #ab3d38;
+    --cosmere-color-complication-background: #ffdddd;
+    --cosmere-color-opportunity: #1e3c60;
+    --cosmere-color-opportunity-text: #7fa4e9;
+    --cosmere-color-opportunity-background: #dde5ff;
+    --cosmere-color-parchment: #f1ebe8;
 
-    --plotweaver-color-health-front: #286f3e;
-    --plotweaver-color-health-back: #6b1b2a;
-    --plotweaver-color-focus-front: #6e45e4;
-    --plotweaver-color-focus-back: #281c4a;
-    --plotweaver-color-invest-front: #3e6abb;
-    --plotweaver-color-invest-back: #182845;
+    --cosmere-color-health-front: #286f3e;
+    --cosmere-color-health-back: #6b1b2a;
+    --cosmere-color-focus-front: #6e45e4;
+    --cosmere-color-focus-back: #281c4a;
+    --cosmere-color-invest-front: #3e6abb;
+    --cosmere-color-invest-back: #182845;
 
-    --plotweaver-background-25: rgb(0 0 0 / 25%);
-    --plotweaver-background-10: rgb(0 0 0 / 10%);
-    --plotweaver-background-5: rgb(0 0 0 / 5%);
+    --cosmere-background-25: rgb(0 0 0 / 25%);
+    --cosmere-background-10: rgb(0 0 0 / 10%);
+    --cosmere-background-5: rgb(0 0 0 / 5%);
 
-    --plotweaver-shadow-15: rgba(0, 0, 0, 0.15);
-    --plotweaver-shadow-45: rgba(0, 0, 0, 0.45);
-    --plotweaver-shadow-85: rgba(0, 0, 0, 0.85);
+    --cosmere-shadow-15: rgba(0, 0, 0, 0.15);
+    --cosmere-shadow-25: rgba(0, 0, 0, 0.25);
+    --cosmere-shadow-35: rgba(0, 0, 0, 0.35);
+    --cosmere-shadow-45: rgba(0, 0, 0, 0.45);
+    --cosmere-shadow-55: rgba(0, 0, 0, 0.55);
+    --cosmere-shadow-65: rgba(0, 0, 0, 0.65);
+    --cosmere-shadow-75: rgba(0, 0, 0, 0.75);
+    --cosmere-shadow-85: rgba(0, 0, 0, 0.85);
 
-    --plotweaver-shadow-svg: drop-shadow(0 0 4px rgba(255, 0, 0, 0.6));
+    --cosmere-shadow-svg: drop-shadow(0 0 4px rgba(255, 0, 0, 0.6));
+    --cosmere-drop-shadow: drop-shadow(0px 0px 8px var(--cosmere-shadow-55));
+    --cosmere-sheet-shadow: drop-shadow(0px 0px 10px var(--cosmere-shadow-85));
+    
+    --cosmere-font-normal: "Laski Sans", sans-serif;
+    --cosmere-font-header: "Penumbra Serif Std", serif;
+    --cosmere-font-header-sc: "Penumbra Serif Std SC", serif;
+    --cosmere-font-condensed: "Roboto Condensed", sans-serif;
+    --cosmere-font-icons: "Cosmere Dingbats";
 
-    --plotweaver-font-normal: "Roboto", sans-serif;
-    --plotweaver-font-header: "Roboto Slab", serif;
-    --plotweaver-font-condensed: "Roboto Condensed", sans-serif;
-    --plotweaver-font-icons: "Cosmere Dingbats";
+    --font-size-8: 0.5rem;
+    --font-size-9: 0.563rem;
+    --font-size-22: 1.375rem;
 
     /* ----------------------------------------- */
     /*  Default Generic Theme                    */
@@ -60,63 +72,43 @@
     .cosmere-theme-default {
         //TO-DO: Replace with Plotweaver colours
         &.theme-dark {
-            --plotweaver-color-accent : #ffcb74;
-            --plotweaver-color-accent-filter: invert(87%) sepia(11%) saturate(2171%) hue-rotate(332deg) brightness(101%) contrast(102%);
-            --plotweaver-color-faded: #f6f6f6;
-            --plotweaver-color-sheet: #111111;
+            --cosmere-sheet-texture: url('assets/art/texture_sheet_default_dark.webp');
 
-            --plotweaver-color-base-1: #000000;
-            --plotweaver-color-base-2: #1f1f1f;
-            --plotweaver-color-base-3: #2f2f2f;
-            --plotweaver-color-base-4: #3f3f3f;
-            --plotweaver-color-base-5: #4f4f4f;
-            --plotweaver-color-base-6: #5f5f5f;
+            --cosmere-color-accent : #888888;
+            --cosmere-color-faded: #646464;
+            --cosmere-color-sheet: #111111;
+            --cosmere-color-neutral: var(--cosmere-color-dark-1);
+
+            --cosmere-color-base-1: #171717;
+            --cosmere-color-base-2: #1f1f1f;
+            --cosmere-color-base-3: #2f2f2f;
+            --cosmere-color-base-4: #3f3f3f;
+            --cosmere-color-base-5: #4f4f4f;
+            --cosmere-color-base-6: #5f5f5f;
+
+            --cosmere-color-text-main: var(--cosmere-color-white);
+            --cosmere-color-text-sub: var(--cosmere-color-off-white-2);
+            --cosmere-color-text-accent: var(--cosmere-color-accent);
         }
 
-        &.theme-light {
-            --plotweaver-color-accent: #fff;
-            --plotweaver-color-faded: #fff;
-            --plotweaver-color-sheet: #fff;
+        &.theme-light {            
+            --cosmere-sheet-texture: url('assets/art/texture_sheet_default_light.webp');
 
-            --plotweaver-color-base-1: #fff;
-            --plotweaver-color-base-2: #fff;
-            --plotweaver-color-base-3: #fff;
-            --plotweaver-color-base-4: #fff;
-            --plotweaver-color-base-5: #fff;
-            --plotweaver-color-base-6: #fff;
-        }
-    }
+            --cosmere-color-accent: #1f1f1f;
+            --cosmere-color-faded: #707070;
+            --cosmere-color-sheet: #e3e3e3;
+            --cosmere-color-neutral: var(--cosmere-color-light-2);
 
-    /* ----------------------------------------- */
-    /*  Stormlight Archive Theme                 */
-    /* ----------------------------------------- */
-    .cosmere-theme-stormlight {
-        //TO-DO: Move to Stormlight Archive module
-        &.theme-dark {
-            --plotweaver-color-accent: #c9a760;
-            --plotweaver-color-accent-filter: invert(83%) sepia(4%) saturate(4272%) hue-rotate(356deg) brightness(85%) contrast(83%);
-            --plotweaver-color-faded: #5e6c7e;
-            --plotweaver-color-sheet: #132137;
+            --cosmere-color-base-1: #bababa;
+            --cosmere-color-base-2: #e3e3e3;
+            --cosmere-color-base-3: #e3e3e3;
+            --cosmere-color-base-4: #adadad;
+            --cosmere-color-base-5: #777777;
+            --cosmere-color-base-6: #878787;
 
-            --plotweaver-color-base-1: #010e2d;
-            --plotweaver-color-base-2: #10213e;
-            --plotweaver-color-base-3: #1b2d49;
-            --plotweaver-color-base-4: #263c5e;
-            --plotweaver-color-base-5: #456a95;
-            --plotweaver-color-base-6: #506684;
-        }
-
-        &.theme-light {
-            --plotweaver-color-accent: #ff0000;
-            --plotweaver-color-faded: #fff;
-            --plotweaver-color-sheet: #fff;
-
-            --plotweaver-color-base-1: #fff;
-            --plotweaver-color-base-2: #fff;
-            --plotweaver-color-base-3: #fff;
-            --plotweaver-color-base-4: #fff;
-            --plotweaver-color-base-5: #fff;
-            --plotweaver-color-base-6: #fff;
+            --cosmere-color-text-main: var(--cosmere-color-accent);
+            --cosmere-color-text-sub: #2f2f2f;
+            --cosmere-color-text-accent: #030303;
         }
     }
 }
@@ -124,43 +116,35 @@
 /* ----------------------------------------- */
 /*  Fonts                                    */
 /* ----------------------------------------- */
-@import url('https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap');
-@import url('https://fonts.cdnfonts.com/css/penumbra-web-pro');
 
 .application h1,
-span.document-name {
-    font-family: 'Penumbra Web Pro';
-    font-variant: small-caps;
-
-    input {
-        font-variant: inherit;
-    }
-}
-
-.application h4 {
-    font-family: "Didact Gothic", sans-serif;
-}
-
-.application h5 {
-    font-family: "Didact Gothic", sans-serif;
+.application h4,
+.application h5,
+span.document-name {    
+    font-family: var(--cosmere-font-normal);
 }
 
 .application {
-    font-family: "Didact Gothic", sans-serif;
-    font-size: 10pt;
+    font-family: var(--cosmere-font-normal);
+    box-shadow: none;
+    filter: var(--cosmere-sheet-shadow);
+}
+
+.application p {
+    font-size: var(--font-size-12);
 }
 
 span.cosmere-icon,
 em.cosmere-icon,
 i.cosmere-icon {
-    font-family: var(--plotweaver-font-icons) !important;
+    font-family: var(--cosmere-font-icons) !important;
 
     &.complication-color {
-        color: var(--plotweaver-color-complication-text);
+        color: var(--cosmere-color-complication-text);
     }
 
     &.complication {
-        color: var(--plotweaver-color-complication);
+        color: var(--cosmere-color-complication);
 
         &::after {
             content: 'C';
@@ -168,11 +152,11 @@ i.cosmere-icon {
     }
 
     &.opportunity-color {
-        color: var(--plotweaver-color-opportunity-text);
+        color: var(--cosmere-color-opportunity-text);
     }
 
     &.opportunity {
-        color: var(--plotweaver-color-opportunity);
+        color: var(--cosmere-color-opportunity);
 
         &::after {
             content: 'O';

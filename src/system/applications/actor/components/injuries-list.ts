@@ -2,6 +2,8 @@ import { InjuryType, ItemType } from '@system/types/cosmere';
 import { ConstructorOf } from '@system/types/utils';
 import { CosmereItem } from '@system/documents';
 import { InjuryItemDataModel } from '@system/data/item';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 import AppUtils from '@system/applications/utils';
 
@@ -12,8 +14,7 @@ import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
 export class ActorInjuriesListComponent extends HandlebarsApplicationComponent<
     ConstructorOf<BaseActorSheet>
 > {
-    static TEMPLATE =
-        'systems/cosmere-rpg/templates/actors/components/injuries-list.hbs';
+    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_INJURIES_LIST}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions

@@ -1,5 +1,7 @@
 import { AttributeGroup, Skill } from '@system/types/cosmere';
 import { ConstructorOf, MouseButton } from '@system/types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
@@ -19,8 +21,7 @@ export class AdversarySkillsGroupComponent extends HandlebarsApplicationComponen
     ConstructorOf<AdversarySheet>,
     Params
 > {
-    static TEMPLATE =
-        'systems/cosmere-rpg/templates/actors/adversary/components/skills-group.hbs';
+    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_ADVERSARY_SKILLS_GROUP}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions
