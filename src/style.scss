@@ -72,7 +72,7 @@
     .cosmere-theme-default {
         //TO-DO: Replace with Plotweaver colours
         &.theme-dark {
-            --cosmere-sheet-texture: url('assets/art/texture_sheet_default_dark.png');
+            --cosmere-sheet-texture: url('assets/art/texture_sheet_default_dark.webp');
 
             --cosmere-color-accent : #888888;
             --cosmere-color-faded: #646464;
@@ -92,7 +92,7 @@
         }
 
         &.theme-light {            
-            --cosmere-sheet-texture: url('assets/art/texture_sheet_default_light.png');
+            --cosmere-sheet-texture: url('assets/art/texture_sheet_default_light.webp');
 
             --cosmere-color-accent: #1f1f1f;
             --cosmere-color-faded: #707070;
@@ -118,9 +118,9 @@
     .cosmere-theme-stormlight {
         //TO-DO: Move to Stormlight Archive module
         &.theme-dark {
-            --cosmere-banner-top: url('assets/art/banner_stormlight_dark_top.png');
-            --cosmere-banner-bot: url('assets/art/banner_stormlight_dark_bot.png');
-            --cosmere-sheet-texture: url('assets/art/texture_sheet_stormlight_dark.png');
+            --cosmere-banner-top: url('assets/art/banner_stormlight_dark_top.webp');
+            --cosmere-banner-bot: url('assets/art/banner_stormlight_dark_bot.webp');
+            --cosmere-sheet-texture: url('assets/art/texture_sheet_stormlight_dark.webp');
 
             --cosmere-color-accent: #d0a552;
             --cosmere-color-faded: #6e7b8b;
@@ -140,9 +140,9 @@
         }
 
         &.theme-light {
-            --cosmere-banner-top: url('assets/art/banner_stormlight_light_top.png');
-            --cosmere-banner-bot: url('assets/art/banner_stormlight_light_bot.png');
-            --cosmere-sheet-texture: url('assets/art/texture_sheet_stormlight_light.png');
+            --cosmere-banner-top: url('assets/art/banner_stormlight_light_top.webp');
+            --cosmere-banner-bot: url('assets/art/banner_stormlight_light_bot.webp');
+            --cosmere-sheet-texture: url('assets/art/texture_sheet_stormlight_light.webp');
 
             --cosmere-color-accent: #d0a552;
             --cosmere-color-faded: #62768b;
