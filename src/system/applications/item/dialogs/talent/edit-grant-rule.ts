@@ -7,6 +7,7 @@ import { CollectionField } from '@system/data/fields';
 const { ApplicationV2 } = foundry.applications.api;
 
 import { ComponentHandlebarsApplicationMixin } from '@system/applications/component-system';
+import { Resource } from '@src/system/types/cosmere';
 
 type GrantRuleData = { _id: string } & Talent.GrantRule;
 
@@ -95,11 +96,22 @@ export class EditTalentGrantRuleDialog extends ComponentHandlebarsApplicationMix
         // Get type
         this.rule.type = formData.get('type') as Talent.GrantRule.Type;
 
+        // Items
         if (
             this.rule.type === Talent.GrantRule.Type.Items &&
             formData.has('items')
         ) {
             this.rule.items = formData.object.items as unknown as string[];
+        }
+
+        // Resource
+        else if (
+            this.rule.type === Talent.GrantRule.Type.Resource &&
+            formData.has('resource')
+        ) {
+            this.rule.resource = (formData.object.resource ??
+                Object.keys(CONFIG.COSMERE.resources)[0]) as Resource;
+            this.rule.value = formData.object.value as unknown as string;
         }
 
         // Render
@@ -125,6 +137,16 @@ export class EditTalentGrantRuleDialog extends ComponentHandlebarsApplicationMix
                     .grantRules as CollectionField<foundry.data.fields.SchemaField>
             ).model,
             ...this.rule,
+
+            resourceSelectOptions: Object.entries(
+                CONFIG.COSMERE.resources,
+            ).reduce(
+                (acc, [key, config]) => ({
+                    ...acc,
+                    [key]: config.label,
+                }),
+                {},
+            ),
         });
     }
 }

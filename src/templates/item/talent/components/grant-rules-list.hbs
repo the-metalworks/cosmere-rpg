@@ -32,6 +32,11 @@
                     {{/if}}
                 {{/each}}
             {{/if}}
+
+            {{#if (eq rule.type "resource")}}
+                <span>{{localize (concat "COSMERE.Resource." rule.resource)}}</span>
+                <span>{{rule.value}}</span>
+            {{/if}}
         </div>
         <div class="col controls flexrow">
             {{#if @root.editable}}
