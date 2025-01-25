@@ -240,12 +240,14 @@
                     }
 
                     input {
+                        position: absolute;
+                        left: 0;
+                        top: 0;
                         width: 100%;
                         height: 100%;
-                        padding: 0 0 2px 0;
-                        background: color-mix(in srgb, var(--input-background-color) 50%, transparent);
-                        font-weight: bold;
+                        padding: 5px 0 0 0;
                         z-index: 1;
+                        text-align: center;
                     }
                 }
             }
