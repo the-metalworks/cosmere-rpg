@@ -1,18 +1,71 @@
 {{#with (lookup tabsMap "description") as |tab|}}
 
 <div class="tab tab-content {{tab.cssClass}}" data-tab="description" data-group="primary">
-    {{app-item-properties}}
-    {{#if @root.editable}}
-    <prose-mirror name="system.description.value" 
-        data-document-u-u-i-d="{{@root.item.uuid}}"
-        value="{{@root.item.system.description.value}}"
-        toggled="true"
-        collaborate="true">
-        {{{@root.descHtml}}}
+    {{#if @root.isUpdateDescription}}
+    <prose-mirror name="{{@root.editDescName}}" data-document-u-u-i-d="{{@root.item.uuid}}"
+         value = "{{@root.descEditHtml}}"
+         toggled="false" collaborate="true">
+        {{{@root.descEditHtml}}}
     </prose-mirror>
     {{else}}
-    <div class="description-content-flat">
-        {{{@root.descHtml}}}
+    {{app-item-properties}}
+    <div class="description-list">
+        <div class="description-content-flat collapsible expanded" description-type="value">
+            <h2 class="header">
+                <i class="fa-solid fa-chevron-down" data-tooltip={{localize "COSMERE.Sheet.Descriptions.Collapsible"}}></i>
+                <div class="title">
+                    <span>{{localize "COSMERE.Sheet.Descriptions.DescriptionHeader"}}</span>
+                </div>
+                <div class="controls">
+                    {{#if @root.editable}}
+                    <a role="button" data-action="edit-description" data-tooltip={{localize "COSMERE.Sheet.Descriptions.Edit"}}>
+                        <i class="edit-img fa-solid fa-pen-to-square"></i>
+                    </a>
+                    {{/if}}
+                </div>
+            </h2>
+            <div class="collapsible-content">
+                <div class="wrapper">
+                    {{{@root.descHtml}}}
+                </div>
+            </div>
+        </div>
+        <div class="description-content-flat collapsible" description-type="short">
+            <h2 class="header">
+                <i class="fa-solid fa-chevron-down" data-tooltip={{localize "COSMERE.Sheet.Descriptions.Collapsible"}}></i>
+                <div class="title">
+                    <span>{{localize "COSMERE.Sheet.Descriptions.ShortHeader"}}</span>
+                </div>
+                {{#if @root.editable}}
+                <a role="button" data-action="edit-description" data-tooltip={{localize "COSMERE.Sheet.Descriptions.Edit"}}>
+                    <i class="edit-img fa-solid fa-pen-to-square"></i>
+                </a>
+                {{/if}}
+            </h2>
+            <div class="collapsible-content">
+                <div class="wrapper">
+                    {{{@root.shortDescHtml}}}
+                </div>
+            </div>
+        </div>
+        <div class="description-content-flat collapsible" description-type="chat">
+            <h2 class="header">
+                <i class="fa-solid fa-chevron-down" data-tooltip={{localize "COSMERE.Sheet.Descriptions.Collapsible"}}></i>
+                <div class="title">
+                    <span>{{localize "COSMERE.Sheet.Descriptions.ChatHeader"}}</span>
+                </div>
+                {{#if @root.editable}}
+                <a role="button" data-action="edit-description" data-tooltip={{localize "COSMERE.Sheet.Descriptions.Edit"}}>
+                    <i class="edit-img fa-solid fa-pen-to-square"></i>
+                </a>
+                {{/if}}
+            </h2>
+            <div class="collapsible-content">
+                <div class="wrapper">
+                    {{{@root.chatDescHtml}}}
+                </div>
+            </div>
+        </div>
     </div>
     {{/if}}
 </div>

@@ -1105,8 +1105,14 @@ export class CosmereItem<
     protected async getDescriptionHTML(): Promise<string | undefined> {
         if (!this.hasDescription()) return undefined;
 
-        const descriptionData = (this as CosmereItem<DescriptionItemData>)
-            .system.description?.value;
+        const descriptionData =
+            (this as CosmereItem<DescriptionItemData>).system.description
+                ?.chat ??
+            (this as CosmereItem<DescriptionItemData>).system.description
+                ?.short ??
+            (this as CosmereItem<DescriptionItemData>).system.description
+                ?.value;
+
         const description = await TextEditor.enrichHTML(descriptionData ?? '');
 
         const traitsNormal = [];

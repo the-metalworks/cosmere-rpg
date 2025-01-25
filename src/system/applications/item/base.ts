@@ -6,6 +6,7 @@ import { DeepPartial, AnyObject, NONE } from '@system/types/utils';
 import { ComponentHandlebarsApplicationMixin } from '@system/applications/component-system';
 import { TabsApplicationMixin } from '@system/applications/mixins';
 import { getSystemSetting, SETTINGS } from '@src/system/settings';
+import { DescriptionItemData } from '@src/system/data/item/mixins/description';
 
 const { ItemSheetV2 } = foundry.applications.sheets;
 
@@ -28,6 +29,9 @@ export class BaseItemSheet extends TabsApplicationMixin(
                 handler: this.onFormEvent,
                 submitOnChange: true,
             } as unknown,
+            actions: {
+                'edit-description': this.editDescription,
+            },
         },
     );
     /* eslint-enable @typescript-eslint/unbound-method */
@@ -45,6 +49,17 @@ export class BaseItemSheet extends TabsApplicationMixin(
             },
         },
     );
+
+    protected updateDescription = false;
+    protected editDescType = '';
+    protected editDescName = '';
+    protected descEditHtml = '';
+    protected expanded = false;
+
+    // Change name
+    get isUpdateDescription(): boolean {
+        return this.updateDescription;
+    }
 
     get item(): CosmereItem {
         return super.document;
@@ -274,17 +289,17 @@ export class BaseItemSheet extends TabsApplicationMixin(
         options: DeepPartial<foundry.applications.api.ApplicationV2.RenderOptions>,
     ) {
         let enrichedDescValue = undefined;
+        let enrichedShortDescValue = undefined;
+        let enrichedChatDescValue = undefined;
         if (this.item.hasDescription()) {
-            if (
-                this.item.system.description!.value ===
-                CONFIG.COSMERE.items.types[this.item.type].desc_placeholder
-            ) {
-                this.item.system.description!.value = game.i18n!.localize(
-                    this.item.system.description!.value!,
-                );
-            }
-            enrichedDescValue = await TextEditor.enrichHTML(
+            enrichedDescValue = await this.enrichDescription(
                 this.item.system.description!.value!,
+            );
+            enrichedShortDescValue = await this.enrichDescription(
+                this.item.system.description!.short!,
+            );
+            enrichedChatDescValue = await this.enrichDescription(
+                this.item.system.description!.chat!,
             );
         }
         return {
@@ -294,8 +309,60 @@ export class BaseItemSheet extends TabsApplicationMixin(
                 this.item.system.schema as foundry.data.fields.SchemaField
             ).fields,
             editable: this.isEditable,
+            isUpdateDescription: this.isUpdateDescription,
             descHtml: enrichedDescValue,
+            shortDescHtml: enrichedShortDescValue,
+            chatDescHtml: enrichedChatDescValue,
+            descEditHtml: this.descEditHtml,
+            editDescName: this.editDescName,
+            editDescType: this.editDescType,
             sideTabs: getSystemSetting(SETTINGS.ITEM_SHEET_SIDE_TABS),
         };
+    }
+
+    private async enrichDescription(desc: string) {
+        if (
+            desc === CONFIG.COSMERE.items.types[this.item.type].desc_placeholder
+        ) {
+            desc = game.i18n!.localize(desc);
+        }
+        return await TextEditor.enrichHTML(desc);
+    }
+
+    /* --- Actions --- */
+    private static async editDescription(this: BaseItemSheet, event: Event) {
+        // Get description element
+        const descElement = $(event.target!).closest('[description-type]');
+
+        // Get description type
+        this.editDescType = descElement.attr('description-type')!;
+
+        const item = this.item as CosmereItem<DescriptionItemData>;
+
+        if (this.editDescType === 'value') {
+            this.descEditHtml = item.system.description!.value!;
+        } else if (this.editDescType === 'short') {
+            this.descEditHtml = item.system.description!.short!;
+        } else if (this.editDescType === 'chat') {
+            this.descEditHtml = item.system.description!.chat!;
+        }
+
+        this.editDescName = 'system.description.' + this.editDescType;
+
+        this.updateDescription = true;
+
+        await this.render(true);
+    }
+
+    private onClickCollapsible(event: JQuery.ClickEvent) {
+        const target = event.currentTarget as HTMLElement;
+        target?.classList.toggle('expanded');
+    }
+
+    protected _onRender(context: AnyObject, options: AnyObject) {
+        super._onRender(context, options);
+        $(this.element)
+            .find('.collapsible')
+            .on('click', (event) => this.onClickCollapsible(event));
     }
 }
