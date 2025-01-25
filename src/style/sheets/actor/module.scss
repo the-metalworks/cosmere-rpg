@@ -157,6 +157,12 @@
                         mask: var(--star-cosmere-svg) no-repeat center;
                         opacity: 0.5;
                     }
+
+                    input {
+                        height: 100%;
+                        padding: 5px 0 0 0;
+                        text-align: center;
+                    }
                 }
             }
         }
