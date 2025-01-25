@@ -1,4 +1,8 @@
 .application.sheet {    
     border: 3px solid var(--cosmere-color-accent);
     border-radius: 0;
+
+    > .window-content {
+        padding: 0 1.875rem;
+    }
 }

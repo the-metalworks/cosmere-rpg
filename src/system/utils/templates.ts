@@ -96,6 +96,7 @@ export const TEMPLATES = {
     CHAT_OVERLAY_CRIT: 'chat/overlay-crit.hbs',
 
     //DIALOGS
+    DIALOG_BASE_EDIT_EXPERTISES: 'actors/dialogs/edit-expertises.hbs',
     DIALOG_ADVERSARY_CONFIGURE_SKILLS:
         'actors/adversary/dialogs/configure-skills.hbs',
 } as const;

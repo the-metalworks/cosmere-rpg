@@ -1,6 +1,88 @@
 .application.dialog {
     border: 1px solid var(--cosmere-color-accent);
-    border-radius: 6px;   
+    border-radius: 6px;
+
+    > .window-header {
+        padding: 0 0.75rem !important;
+
+        .window-title {
+            visibility: visible !important;
+            font-family: var(--cosmere-font-header);
+            font-size: var(--font-size-12);
+            color: var(--cosmere-color-text-sub);
+            text-transform: uppercase;
+            text-align: left;
+            padding-top: 0.25rem;
+        }
+    }
+
+    > .window-content {
+        padding: 0 0.75rem 0.75rem;
+    } 
+
+    .scroll-container {
+        width: calc(100% + 0.5rem);
+        padding-right: 0.25rem;
+        overflow-y: auto;
+        overflow-x: hidden;
+        scrollbar-color: var(--cosmere-color-base-6) var(--color-scrollbar-track);
+        scrollbar-gutter: stable;
+        filter: var(--cosmere-drop-shadow);
+    }    
+
+    input[type="checkbox"] {
+        margin: 0;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+
+        & > li {
+            margin: 0;
+            list-style-type: none;
+        }
+    }
+
+    .expertise-list {
+        .header {
+            min-height: 30px;
+            background-color: var(--cosmere-color-base-1);
+            border-radius: 6px 6px 0 0;
+            padding: 0 0.375rem;
+
+            .title {
+                margin-left: 0.25rem;
+                font-size: var(--font-size-15);
+                font-weight: 600;
+                color: var(--cosmere-color-text-main);
+            }
+        }
+
+        .bullet {
+            font-size: 0.375rem;
+            flex: 0;
+        }
+
+        .configured {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 0.375rem;
+            background-color: var(--cosmere-color-base-3);
+            gap: 0.375rem;
+        }
+
+        .add-custom {
+            min-height: 30px;
+            background-color: color(from var(--cosmere-color-base-3) srgb r g b / 0.4);
+            border-radius: 0 0 6px 6px;
+            font-family: var(--cosmere-font-normal);
+            font-size: var(--font-size-12);
+            font-weight: 600;
+            color: var(--cosmere-color-faded);
+        }
+    }    
 
     &.release-notes {
         max-height: 1000px;
@@ -10,23 +92,12 @@
         }
     }
 
-    &.configure-skills {
-        > .window-header {
-            padding: 0 0.75rem !important;
-
-            .window-title {
-                visibility: visible !important;
-                font-family: var(--cosmere-font-header);
-                font-size: var(--font-size-12);
-                color: var(--cosmere-color-text-sub);
-                text-transform: uppercase;
-                text-align: left;
-                padding-top: 0.25rem;
-            }
-        }
-
-        > .window-content {
-            padding: 0 0.75rem 0.75rem;
+    &.edit-expertises {
+        form {            
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            gap: 0.625rem;
         }
     }
 }

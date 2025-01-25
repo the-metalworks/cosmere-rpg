@@ -284,17 +284,7 @@
         &:not(.active) {
             display: none;
         }
-    }
-
-    .icon {
-        &.active {
-            color: var(--cosmere-color-text-sub);
-        }
-
-        &.faded {            
-            color: var(--cosmere-color-faded);
-        }
-    }    
+    }   
 
     .icon-header {
         font-family: var(--cosmere-font-normal);
@@ -397,7 +387,7 @@
             &:not(.favorite) {
                 &:not(:first-child):not(:last-child) {
                     border-bottom: 1px dotted var(--cosmere-color-faded);
-                }            
+                }
     
                 &:last-child {
                     border-radius: 0 0 6px 6px;

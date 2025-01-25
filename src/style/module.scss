@@ -84,9 +84,18 @@
     > .window-content {
         backdrop-filter: blur(0rem);
         overflow: visible;
-        padding: 0 1.875rem;
         min-height: 0;
-    }   
+    }    
+
+    .icon {
+        &.active {
+            color: var(--cosmere-color-text-sub);
+        }
+
+        &.faded {            
+            color: var(--cosmere-color-faded);
+        }
+    } 
 
     .skills-column {
         display: flex;
