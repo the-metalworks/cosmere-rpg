@@ -21,7 +21,8 @@ import {
 } from '@system/applications/mixins';
 
 // Components
-import { SortDirection, SearchBarInputEvent } from './components';
+import { SortMode, SearchBarInputEvent } from './components';
+import { renderSystemTemplate, TEMPLATES } from '@src/system/utils/templates';
 
 const { ActorSheetV2 } = foundry.applications.sheets;
 
@@ -67,8 +68,7 @@ export class BaseActorSheet<
 
     static PARTS = foundry.utils.mergeObject(super.PARTS, {
         navigation: {
-            template:
-                'systems/cosmere-rpg/templates/actors/parts/navigation.hbs',
+            template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_NAVIGATION}`,
         },
     });
 
@@ -92,13 +92,13 @@ export class BaseActorSheet<
     }
 
     protected actionsSearchText = '';
-    protected actionsSearchSort: SortDirection = SortDirection.Descending;
+    protected actionsSearchSort: SortMode = SortMode.Alphabetic;
 
     protected equipmentSearchText = '';
-    protected equipmentSearchSort: SortDirection = SortDirection.Descending;
+    protected equipmentSearchSort: SortMode = SortMode.Alphabetic;
 
     protected effectsSearchText = '';
-    protected effectsSearchSort: SortDirection = SortDirection.Descending;
+    protected effectsSearchSort: SortMode = SortMode.Alphabetic;
 
     /* --- Accessors --- */
 
@@ -247,6 +247,18 @@ export class BaseActorSheet<
         options: Partial<foundry.applications.api.ApplicationV2.RenderOptions>,
     ): Promise<HTMLElement> {
         const frame = await super._renderFrame(options);
+
+        const corners = await renderSystemTemplate(
+            TEMPLATES.ACTOR_BASE_SHEET_CORNERS,
+            {},
+        );
+        $(frame).prepend(corners);
+
+        const banners = await renderSystemTemplate(
+            TEMPLATES.ACTOR_BASE_SHEET_BACKGROUND,
+            {},
+        );
+        $(frame).prepend(banners);
 
         // Insert mode toggle
         if (this.isEditable) {

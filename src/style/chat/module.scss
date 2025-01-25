@@ -3,10 +3,11 @@
     border-width: 1px;
     border-block-end-width: 2px;
     border-radius: 6px;
-    font-family: var(--plotweaver-font-normal);
+    font-family: var(--cosmere-font-normal);    
     font-size: var(--font-size-13);
+    font-variant: lining-nums;
     position: relative;
-    background: var(--plotweaver-color-parchment);
+    background: var(--cosmere-color-parchment);
 
     .overlay {
         text-align: center !important;
@@ -32,7 +33,7 @@
 
                 &:hover {
                     cursor: pointer;
-                    filter: var(--plotweaver-shadow-svg);
+                    filter: var(--cosmere-shadow-svg);
                 }
             }
         }
@@ -49,6 +50,10 @@
                 margin-left: 25%;
             }
         }
+    }
+
+    .cosmere-icon + .overlay {
+        bottom: 0;
     }
 
     .message-header {
@@ -75,12 +80,12 @@
                 width: 38px;
                 height: 38px;
                 border-radius: 100%;
-                box-shadow: 0 0 6px var(--plotweaver-shadow-85);
+                box-shadow: 0 0 6px var(--cosmere-shadow-85);
                 object-fit: cover;
                 object-position: top;
                 border: none;
                 flex: none;
-                background: var(--plotweaver-color-dark-3);
+                background: var(--cosmere-color-dark-3);
             }
         }
 
@@ -94,24 +99,28 @@
         }
     
         .title {
-            font-family: var(--plotweaver-font-header);
+            font-family: var(--cosmere-font-normal);
             font-size: var(--font-size-16);
+            line-height: 16px;
+            padding-top: 0.25rem;
             font-weight: bold;
-            color: var(--plotweaver-color-dark-3);
+            color: var(--cosmere-color-dark-3);
         }
 
         .subtitle {
             font-size: var(--font-size-11);
-            color: var(--plotweaver-color-dark-6);
+            color: var(--cosmere-color-dark-6);
         }
 
         .message-metadata {
             font-size: var(--font-size-10);
             transform: translate(2px, -4px);
             flex: none;
+            gap: 0.25rem;
+            display: flex;
 
             time {
-                color: var(--plotweaver-color-dark-6);    
+                color: var(--cosmere-color-dark-6);    
             }
         }
     }
@@ -126,13 +135,13 @@
 
             .chat-card-section {
                 padding: 0.5rem;
-                border: 1px solid var(--plotweaver-color-light-1);
+                border: 1px solid var(--cosmere-color-light-1);
                 border-radius: 3px;
-                background: var(--plotweaver-color-off-white-1);
+                background: var(--cosmere-color-off-white-1);
                 overflow: hidden;
 
                 &.critical {
-                    border: 3px double var(--plotweaver-color-opportunity);
+                    border: 3px double var(--cosmere-color-opportunity);
                 }
 
                 &.description {
@@ -144,22 +153,22 @@
                         & > img {
                             width: 32px;
                             height: 32px;
-                            border: 2px solid var(--plotweaver-color-dark-3);
-                            box-shadow: 0 0 4px var(--plotweaver-shadow-45);
+                            border: 2px solid var(--cosmere-color-dark-3);
+                            box-shadow: 0 0 4px var(--cosmere-shadow-45);
                             border-radius: 0;
-                            background-color: var(--plotweaver-color-dark-6);
+                            background-color: var(--cosmere-color-dark-6);
                             object-fit: cover;
                             object-position: top;
                         }
 
                         & > .icon {
                             font-size: var(--font-size-16);
-                            color: var(--plotweaver-color-opportunity);
+                            color: var(--cosmere-color-opportunity);
                             padding-right: 0.25rem;
 
                             &.clickable:hover {
                                 cursor: pointer;
-                                filter: var(--plotweaver-shadow-svg);
+                                filter: var(--cosmere-shadow-svg);
                             }
                         }
 
@@ -170,10 +179,10 @@
                             flex-direction: column;
     
                             .title {
-                                font-family: var(--plotweaver-font-header);
-                                font-size: var(--font-size-14);
+                                font-family: var(--cosmere-font-normal);
+                                font-size: var(--font-size-15);
                                 font-weight: bold;
-                                color: var(--plotweaver-color-dark-1);
+                                color: var(--cosmere-color-dark-1);
 
                                 &.undone {
                                     strong {
@@ -184,15 +193,15 @@
                             
                             .subtitle {
                                 font-size: var(--font-size-10);
-                                color: var(--plotweaver-color-dark-6);
+                                color: var(--cosmere-color-dark-6);
                             }
                     
                             .traits {
                                 font-size: var(--font-size-10);
-                                color: var(--plotweaver-color-dark-6);
+                                color: var(--cosmere-color-dark-6);
                                 
                                 strong {
-                                    color: var(--plotweaver-color-opportunity);
+                                    color: var(--cosmere-color-opportunity);
                                     font-weight: 600;
                                 }
                             }                            
@@ -200,7 +209,7 @@
                     }
 
                     .details {
-                        font-family: var(--plotweaver-font-normal);
+                        font-family: var(--cosmere-font-normal);
                         font-size: var(--font-size-11);
                         padding: 0;
 
@@ -225,10 +234,10 @@
                     .summary {
                         .name-stacked {
                             .title {
-                                font-size: var(--font-size-13);
+                                font-size: var(--font-size-14);
 
                                 strong {
-                                    color: var(--plotweaver-color-complication);
+                                    color: var(--cosmere-color-complication);
                                 }
                             }
                         }
@@ -239,10 +248,10 @@
                     .summary {
                         .name-stacked {
                             .title {
-                                font-size: var(--font-size-13);
+                                font-size: var(--font-size-14);
 
                                 strong {
-                                    color: var(--plotweaver-color-health-front);
+                                    color: var(--cosmere-color-health-front);
                                 }
                             }
                         }
@@ -251,7 +260,7 @@
 
                 .section-header {
                     margin-bottom: 0.25rem;
-                    font-family: var(--plotweaver-font-normal);
+                    font-family: var(--cosmere-font-normal);
                     display: flex;
                     justify-content: space-between;
                     align-items: flex-start;
@@ -267,8 +276,9 @@
                         margin-bottom: 0.1rem;
                     }
 
-                    .subtitle {                        
-                        font-size: var(--font-size-12);
+                    .subtitle {
+                        font-weight: 600; 
+                        font-size: var(--font-size-13);
                         display: flex;
                         justify-content: flex-end;
                         align-items: center;
@@ -276,20 +286,20 @@
                         font-style: italic;                    
 
                         .skill {
-                            font-weight: 600;
-                            color: var(--plotweaver-color-opportunity);
+                            font-weight: bold;
+                            color: var(--cosmere-color-opportunity);
                         }
 
                         .attribute {
-                            color: var(--plotweaver-color-light-2);
+                            color: var(--cosmere-color-light-2);
                             text-transform: uppercase;
                         }
                     }
 
                     .types {
                         font-size: var(--font-size-10);
-                        font-family: var(--plotweaver-font-condensed);
-                        color: var(--plotweaver-color-dark-6) !important;
+                        font-family: var(--cosmere-font-condensed);
+                        color: var(--cosmere-color-dark-6) !important;
                         font-weight: 600;
                         text-transform: uppercase;
                     }
@@ -302,17 +312,10 @@
 
                     .dice-result {
                         .dice-roll-injury,
-                        .dice-roll-d20 {
-                            height: 32px;                            
-                        }
-
-                        .dice-roll-damage {
-                            height: 36px;
-                        }
-
                         .dice-roll-d20,
                         .dice-roll-damage {
                             display: flex;
+                            height: 36px;
                         }
 
                         .dice-tooltip {
@@ -354,12 +357,12 @@
                                         margin: 0;
 
                                         &.success, &.max {                                            
-                                            color: var(--plotweaver-color-opportunity);
+                                            color: var(--cosmere-color-opportunity);
                                             filter: sepia(1) hue-rotate(180deg);
                                         }
 
                                         &.failure, &.min {
-                                            color: var(--plotweaver-color-complication);
+                                            color: var(--cosmere-color-complication);
                                             filter: sepia(0.8) hue-rotate(-50deg);
                                         }
 
@@ -377,13 +380,13 @@
                                     }
 
                                     .constant {
-                                        font-family: var(--plotweaver-font-normal);
+                                        font-family: var(--cosmere-font-normal);
                                         font-weight: bold;
                                         font-size: var(--font-size-16);
                                         margin-left: 0.25rem;
 
                                         .sign {
-                                            color: var(--plotweaver-color-light-2);
+                                            color: var(--cosmere-color-light-2);
                                             font-weight: normal;
                                             margin-right: 2px;
                                         }
@@ -398,22 +401,22 @@
                                     position: relative;
 
                                     .label {
-                                        font-family: var(--plotweaver-font-condensed);
+                                        font-family: var(--cosmere-font-condensed);
                                         font-size: var(--font-size-10);
-                                        color: var(--plotweaver-color-dark-6);
+                                        color: var(--cosmere-color-dark-6);
                                         text-transform: uppercase;
                                         text-align: center;
                                     }
 
                                     .value {
-                                        font-family: var(--plotweaver-font-normal);
-                                        color: var(--plotweaver-color-dark-1);
+                                        font-family: var(--cosmere-font-normal);
+                                        color: var(--cosmere-color-dark-1);
                                         font-weight: bold;
                                         font-size: var(--font-size-20);
                                     }
 
                                     .sign {
-                                        color: var(--plotweaver-color-light-2);
+                                        color: var(--cosmere-color-light-2);
                                         font-weight: normal;
                                         margin-right: 2px;
                                     }
@@ -423,7 +426,8 @@
 
                         .dice-formula, .dice-total {
                             border-radius: 3px;
-                            background: var(--plotweaver-background-5);
+                            background: var(--cosmere-background-5);
+                            font-weight: 600;
                             padding: 0.25rem;
                             line-height: normal;
                             flex: auto;
@@ -432,10 +436,10 @@
                         }
 
                         .dice-formula.graze::before {
-                            font-family: var(--plotweaver-font-normal);
+                            font-family: var(--cosmere-font-normal);
                             font-size: var(--font-size-10);
                             font-weight: 600;
-                            color: var(--plotweaver-color-light-2);
+                            color: var(--cosmere-color-light-2);
                             
                             text-align: left !important;
                             flex-grow: 1;
@@ -455,10 +459,11 @@
 
                         .dice-total {
                             font-weight: bold;
-                            font-size: var(--font-size-24);
-                            font-family: var(--plotweaver-font-normal);
-                            color: var(--plotweaver-color-dark-1);
-                            padding: 0;
+                            font-size: var(--font-size-22);
+                            font-family: var(--cosmere-font-header);
+                            line-height: 36px;
+                            color: var(--cosmere-color-dark-1);
+                            padding: 0.125rem;
                             position: relative;
 
                             &.ignored {
@@ -466,15 +471,24 @@
                             }
 
                             &.opportunity {
-                                color: var(--plotweaver-color-opportunity);
-                                background: var(--plotweaver-color-opportunity-background);
-                                border-color: var(--plotweaver-color-opportunity);
+                                color: var(--cosmere-color-opportunity);
+                                background: var(--cosmere-color-opportunity-background);
+                                border-color: var(--cosmere-color-opportunity);
                             }
 
                             &.complication {
-                                color: var(--plotweaver-color-complication);
-                                background: var(--plotweaver-color-complication-background);
-                                border-color: var(--plotweaver-color-complication);
+                                color: var(--cosmere-color-complication);
+                                background: var(--cosmere-color-complication-background);
+                                border-color: var(--cosmere-color-complication);
+                            }
+
+                            &:has(.cosmere-icon) {
+                                line-height: 32px;
+                            }
+
+                            .cosmere-icon {
+                                vertical-align: middle;
+                                font-size: var(--font-size-18);
                             }
                         }
 
@@ -486,6 +500,7 @@
 
                         .dice-subtotal {                            
                             transition: all 200ms ease;
+                            line-height: normal;
                             padding: 0 0.5rem;
                             font-weight: 600;
                             display: flex;
@@ -493,15 +508,15 @@
                             width: 20%;
 
                             .value {
-                                color: var(--plotweaver-color-dark-6);
+                                color: var(--cosmere-color-dark-6);
                                 font-size: var(--font-size-12);
-                                font-family: var(--plotweaver-font-normal);
+                                font-family: var(--cosmere-font-normal);
                             }
 
                             .label {
-                                color: var(--plotweaver-color-light-1);
+                                color: var(--cosmere-color-light-1);
                                 font-size: var(--font-size-10);
-                                font-family: var(--plotweaver-font-condensed);
+                                font-family: var(--cosmere-font-condensed);
                                 text-transform: uppercase;
                             }
 
@@ -514,18 +529,19 @@
 
                                 &.left {                                    
                                     padding-left: 20%;
-                                    border-right: 1px solid var(--plotweaver-color-light-4);
+                                    border-right: 1px solid var(--cosmere-color-light-4);
                                 }
 
                                 &.right {
                                     padding-right: 20%;
-                                    border-left: 1px solid var(--plotweaver-color-light-4);
+                                    border-left: 1px solid var(--cosmere-color-light-4);
                                 }
 
                                 .value {
-                                    color: var(--plotweaver-color-dark-1);
-                                    font-size: var(--font-size-24);
-                                    font-family: var(--plotweaver-font-normal);
+                                    color: var(--cosmere-color-dark-1);
+                                    font-size: var(--font-size-22);
+                                    font-family: var(--cosmere-font-header);
+                                    padding-top: 0.375rem;
                                 }
 
                                 .label {
@@ -535,7 +551,7 @@
                         }                        
 
                         .dice-total.opportunity .dice-subtotal.active .value {
-                            color: var(--plotweaver-color-opportunity);
+                            color: var(--cosmere-color-opportunity);
                         }
                     }
                 }
@@ -548,7 +564,7 @@
                     align-items: center;
                     gap: 0.25rem;
                     font-size: var(--font-size-11);
-                    font-family: var(--plotweaver-font-normal);
+                    font-family: var(--cosmere-font-normal);
                     font-weight: bold;
                     text-transform: uppercase;
 
@@ -557,7 +573,7 @@
                     }
 
                     & > i:first-of-type {
-                        color: var(--plotweaver-color-light-2);
+                        color: var(--cosmere-color-light-2);
                     }
                 }
 
@@ -565,14 +581,14 @@
                 & > label::after {
                     content: "";
                     flex-basis: 50%;
-                    border-top: 1px dotted var(--plotweaver-color-dark-6);
+                    border-top: 1px dotted var(--cosmere-color-dark-6);
                     align-self: center;
                 }
 
                 .target-headers {
-                    color: var(--plotweaver-color-light-2);
+                    color: var(--cosmere-color-light-2);
                     font-size: var(--font-size-10);
-                    font-family: var(--plotweaver-font-condensed);
+                    font-family: var(--cosmere-font-condensed);
                     font-weight: 600;
                     text-transform: uppercase;
                     display: flex;
@@ -599,25 +615,25 @@
                         align-items: center;
                         cursor: pointer;
                         font-size: var(--font-size-13);
-                        font-family: var(--plotweaver-font-normal);
+                        font-family: var(--cosmere-font-normal);
                         font-weight: bold;
 
                         .name {
-                            color: var(--plotweaver-color-dark-1);
+                            color: var(--cosmere-color-dark-1);
                             width: 55%;
                         }
 
                         .result {                            
-                            color: var(--plotweaver-color-dark-4);
+                            color: var(--cosmere-color-dark-4);
                             width: 15%;
                             text-align: center;
 
                             .success {
-                                color: var(--plotweaver-color-health-front)
+                                color: var(--cosmere-color-health-front)
                             }
 
                             .failure {
-                                color: var(--plotweaver-color-complication)
+                                color: var(--cosmere-color-complication)
                             }
                         }
                     }
@@ -660,7 +676,7 @@
         padding-top: 5px;
         text-align: right !important;
         display: flex;
-        font-family: var(--plotweaver-font-normal);
+        font-family: var(--cosmere-font-normal);
         position: static;
 
         button {
@@ -681,15 +697,15 @@
             }
 
             &.damage {
-                color: var(--plotweaver-color-complication);
+                color: var(--cosmere-color-complication);
             }
 
             &.healing {
-                color: var(--plotweaver-color-health-front);
+                color: var(--cosmere-color-health-front);
             }
 
             &.focus {
-                color: var(--plotweaver-color-focus-front);
+                color: var(--cosmere-color-focus-front);
             }
         }
     }

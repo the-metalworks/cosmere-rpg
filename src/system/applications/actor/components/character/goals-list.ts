@@ -2,6 +2,7 @@ import { ItemType } from '@system/types/cosmere';
 import { GoalItem } from '@system/documents/item';
 import { ConstructorOf, MouseButton } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
@@ -14,8 +15,7 @@ const HIDE_COMPLETED_FLAG = 'goals.hide-completed';
 export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<
     ConstructorOf<CharacterSheet>
 > {
-    static TEMPLATE =
-        'systems/cosmere-rpg/templates/actors/character/components/goals-list.hbs';
+    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_GOALS_LIST}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions
@@ -56,7 +56,7 @@ export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<
             this.contextGoalId = goalId;
 
             const target = (event.currentTarget as HTMLElement).closest(
-                '.goal',
+                '.item',
             )!;
             const targetRect = target.getBoundingClientRect();
             const rootRect = this.element!.getBoundingClientRect();
