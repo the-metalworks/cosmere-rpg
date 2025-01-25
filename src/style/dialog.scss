@@ -1,4 +1,7 @@
 .application.dialog {
+    border: 1px solid var(--cosmere-color-accent);
+    border-radius: 6px;   
+
     &.release-notes {
         max-height: 1000px;
     
@@ -7,5 +10,23 @@
         }
     }
 
-    
+    &.configure-skills {
+        > .window-header {
+            padding: 0 0.75rem !important;
+
+            .window-title {
+                visibility: visible !important;
+                font-family: var(--cosmere-font-header);
+                font-size: var(--font-size-12);
+                color: var(--cosmere-color-text-sub);
+                text-transform: uppercase;
+                text-align: left;
+                padding-top: 0.25rem;
+            }
+        }
+
+        > .window-content {
+            padding: 0 0.75rem 0.75rem;
+        }
+    }
 }

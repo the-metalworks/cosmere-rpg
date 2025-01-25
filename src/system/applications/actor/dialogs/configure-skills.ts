@@ -22,7 +22,7 @@ export class ConfigureSkillsDialog extends ComponentHandlebarsApplicationMixin(
             classes: ['dialog', 'configure-skills'],
             tag: 'dialog',
             position: {
-                width: 400,
+                width: 300,
             },
         },
     );

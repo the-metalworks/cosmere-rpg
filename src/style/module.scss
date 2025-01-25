@@ -11,9 +11,8 @@
     --star-cosmere-svg: url('assets/icons/svg/sheet/star_cosmere.svg');
 
     overflow: visible;
-    border: 3px solid var(--cosmere-color-accent);
-    border-radius: 0;
-    background-color: var(--cosmere-color-sheet);
+    background-color: var(--cosmere-color-sheet);    
+    background-image: var(--cosmere-sheet-texture);
 
     &.minimized {
         border: none;
@@ -28,6 +27,12 @@
 
         > .window-header {
             padding: 0 0.5rem;
+
+            > button {
+                &:not([data-action="close"]) {
+                    display: none;
+                }
+            }
         }
     }
 
@@ -51,7 +56,11 @@
         z-index: 1;
         border: none;
         align-items: center;
-        filter: var(--cosmere-drop-shadow);
+        filter: var(--cosmere-drop-shadow);        
+
+        .window-title {
+            font-weight: 600;
+        }
 
         button.header-control {
             color: var(--cosmere-color-text-sub);

@@ -69,15 +69,6 @@
         bottom: 0;
         border: none;
 
-        .texture {
-            background-image: var(--cosmere-sheet-texture);
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-        }
-
         .banners {
             display: flex;
             flex-direction: column;
