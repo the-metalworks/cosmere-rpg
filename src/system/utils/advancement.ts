@@ -55,7 +55,6 @@ export function getAdvancementRulesForLevelChange(
 
 /**
  * Derives the max health of a character at the given level and strength.
- * NOTE: This function currently retroactively applies changes to strength. Unsure if this is intended.
  */
 export function deriveMaxHealth(level: number, strength: number): number;
 export function deriveMaxHealth(
