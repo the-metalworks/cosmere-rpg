@@ -87,6 +87,31 @@
         min-height: 0;
     }    
 
+    input[type="text"],
+    input[type="number"],
+    select {        
+        margin: 0;
+        padding: 0;
+        text-align: left;
+        font-size: inherit;
+        font-weight: inherit;
+        font-variant: inherit;
+        color: inherit;
+        background: transparent;
+        border: none;
+        border-radius: 0;
+        outline: none;
+        box-shadow: none;
+    }        
+
+    input[type="checkbox"] {
+        margin: 0;
+
+        --checkbox-checked-color: var(--cosmere-color-accent);
+        --checkbox-disabled-color: var(--cosmere-color-neutral);
+        --checkbox-background-color: color(from var(--cosmere-color-faded) srgb r g b / 0.4);
+    }
+
     .icon {
         &.active {
             color: var(--cosmere-color-text-sub);
