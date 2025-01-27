@@ -1105,12 +1105,12 @@ export class CosmereItem<
     protected async getDescriptionHTML(): Promise<string | undefined> {
         if (!this.hasDescription()) return undefined;
         // NOTE: We use logical OR's here to catch both nullish values and empty string
-        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
         const descriptionData =
             (this as CosmereItem<DescriptionItemData>).system.description
-                ?.chat ||
             // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+                ?.chat ||
             (this as CosmereItem<DescriptionItemData>).system.description
+            // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
                 ?.short ||
             (this as CosmereItem<DescriptionItemData>).system.description
                 ?.value;
