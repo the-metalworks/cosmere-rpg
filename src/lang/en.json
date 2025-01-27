@@ -796,6 +796,13 @@
             "Unconscious": "Unconscious"
         },
         "Sheet": {
+            "Descriptions": {
+              "DescriptionHeader": "Description",
+              "ShortHeader": "Short Description",
+              "ChatHeader": "Chat Description",
+              "Collapsible": "Toggle Collapsible",
+              "Edit": "Edit Description"  
+            },
             "Effects": {
                 "Label": "Effects",
                 "Inactive": "Inactive Effects",

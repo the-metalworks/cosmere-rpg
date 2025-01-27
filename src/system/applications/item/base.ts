@@ -6,6 +6,8 @@ import { DeepPartial, AnyObject, NONE } from '@system/types/utils';
 import { ComponentHandlebarsApplicationMixin } from '@system/applications/component-system';
 import { TabsApplicationMixin } from '@system/applications/mixins';
 import { getSystemSetting, SETTINGS } from '@src/system/settings';
+import { DescriptionItemData } from '@src/system/data/item/mixins/description';
+import HandlebarsApplicationMixin from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/client-esm/applications/api/handlebars-application.mjs';
 
 const { ItemSheetV2 } = foundry.applications.sheets;
 
@@ -28,6 +30,10 @@ export class BaseItemSheet extends TabsApplicationMixin(
                 handler: this.onFormEvent,
                 submitOnChange: true,
             } as unknown,
+            actions: {
+                'edit-description': this.editDescription,
+                save: this.onSave,
+            },
         },
     );
     /* eslint-enable @typescript-eslint/unbound-method */
@@ -45,6 +51,15 @@ export class BaseItemSheet extends TabsApplicationMixin(
             },
         },
     );
+
+    protected updatingDescription = false;
+    protected proseDescName = '';
+    protected proseDescHtml = '';
+    protected expanded = false;
+
+    get isUpdatingDescription(): boolean {
+        return this.updatingDescription;
+    }
 
     get item(): CosmereItem {
         return super.document;
@@ -274,17 +289,17 @@ export class BaseItemSheet extends TabsApplicationMixin(
         options: DeepPartial<foundry.applications.api.ApplicationV2.RenderOptions>,
     ) {
         let enrichedDescValue = undefined;
+        let enrichedShortDescValue = undefined;
+        let enrichedChatDescValue = undefined;
         if (this.item.hasDescription()) {
-            if (
-                this.item.system.description!.value ===
-                CONFIG.COSMERE.items.types[this.item.type].desc_placeholder
-            ) {
-                this.item.system.description!.value = game.i18n!.localize(
-                    this.item.system.description!.value!,
-                );
-            }
-            enrichedDescValue = await TextEditor.enrichHTML(
+            enrichedDescValue = await this.enrichDescription(
                 this.item.system.description!.value!,
+            );
+            enrichedShortDescValue = await this.enrichDescription(
+                this.item.system.description!.short!,
+            );
+            enrichedChatDescValue = await this.enrichDescription(
+                this.item.system.description!.chat!,
             );
         }
         return {
@@ -294,8 +309,73 @@ export class BaseItemSheet extends TabsApplicationMixin(
                 this.item.system.schema as foundry.data.fields.SchemaField
             ).fields,
             editable: this.isEditable,
+            isUpdatingDescription: this.isUpdatingDescription,
             descHtml: enrichedDescValue,
+            shortDescHtml: enrichedShortDescValue,
+            chatDescHtml: enrichedChatDescValue,
+            proseDescName: this.proseDescName,
+            proseDescHtml: this.proseDescHtml,
             sideTabs: getSystemSetting(SETTINGS.ITEM_SHEET_SIDE_TABS),
         };
+    }
+
+    private async enrichDescription(desc: string) {
+        if (
+            desc === CONFIG.COSMERE.items.types[this.item.type].desc_placeholder
+        ) {
+            desc = game.i18n!.localize(desc);
+        }
+        return await TextEditor.enrichHTML(desc);
+    }
+
+    /* --- Actions --- */
+
+    private static async editDescription(this: BaseItemSheet, event: Event) {
+        // Get description element
+        const descElement = $(event.target!).closest('[description-type]');
+
+        // Get description type
+        const proseDescType = descElement.attr('description-type')!;
+
+        const item = this.item as CosmereItem<DescriptionItemData>;
+
+        // Gets the description to display based on the type found
+        if (proseDescType === 'value') {
+            this.proseDescHtml = item.system.description!.value!;
+        } else if (proseDescType === 'short') {
+            this.proseDescHtml = item.system.description!.short!;
+        } else if (proseDescType === 'chat') {
+            this.proseDescHtml = item.system.description!.chat!;
+        }
+
+        // Gets name for use in prose mirror
+        this.proseDescName = 'system.description.' + proseDescType;
+
+        // Switches to prose mirror
+        this.updatingDescription = true;
+
+        await this.render(true);
+    }
+
+    private static async onSave(this: BaseItemSheet) {
+        // Swtiches back from prose mirror when save button is pressed
+        this.updatingDescription = false;
+        await this.render(true);
+    }
+
+    /* --- Lifecycle --- */
+
+    protected _onRender(context: AnyObject, options: AnyObject) {
+        super._onRender(context, options);
+        $(this.element)
+            .find('.collapsible')
+            .on('click', (event) => this.onClickCollapsible(event));
+    }
+
+    /* --- Event handlers --- */
+
+    private onClickCollapsible(event: JQuery.ClickEvent) {
+        const target = event.currentTarget as HTMLElement;
+        target?.classList.toggle('expanded');
     }
 }
