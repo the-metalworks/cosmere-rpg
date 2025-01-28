@@ -1,5 +1,7 @@
 import { CosmereActor } from '@system/documents';
 import { AnyObject } from '@system/types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 import { CommonActorData } from '@system/data/actor/common';
 import { Derived } from '@system/data/fields';
@@ -24,7 +26,7 @@ export class ConfigureMovementRateDialog extends HandlebarsApplicationMixin(
             classes: ['dialog', 'configure-movement-rate'],
             tag: 'dialog',
             position: {
-                width: 300,
+                width: 350,
             },
             actions: {
                 'update-movement': this.onUpdateMovementRate,
@@ -36,8 +38,7 @@ export class ConfigureMovementRateDialog extends HandlebarsApplicationMixin(
         foundry.utils.deepClone(super.PARTS),
         {
             form: {
-                template:
-                    'systems/cosmere-rpg/templates/actors/dialogs/configure-movement-rate.hbs',
+                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_BASE_CONFIGURE_MOVEMENT}`,
                 forms: {
                     form: {
                         handler: this.onFormEvent,

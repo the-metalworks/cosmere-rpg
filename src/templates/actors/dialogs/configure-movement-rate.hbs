@@ -1,7 +1,6 @@
 <form>
-    <div class="form-group">
+    <div class="form-group max">
         <input name="rate"
-            style="text-align: center; font-size: 15pt"
             type="number"
             value="{{derived rate}}"
             min="0"
@@ -11,14 +10,13 @@
             {{/if}}
         >
     </div>
-    <div class="form-group">
+    <div class="form-group field">
         <label>{{localize "GENERIC.Mode"}}</label>
         <select name="mode">
             {{selectOptions modes selected=mode localize=true}}
         </select>
     </div>
-    <br>
-    <div class="form-group">
+    <div class="form-group submit">
         <button data-action="update-movement" type="submit">
             {{localize "GENERIC.Button.Update"}}
         </button>

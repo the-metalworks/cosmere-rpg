@@ -1,9 +1,8 @@
 <form>
     {{!-- Value --}}
-    <div class="form-group">
+    <div class="form-group max">
         <input 
-            name="value" 
-            style="text-align: center; font-size: 15pt"
+            name="value"
             type="number" 
             min="0"
             step="1"
@@ -17,15 +16,33 @@
     </div>
 
     {{!-- Mode --}}
-    <div class="form-group">
+    <div class="form-group field">
         <label>{{localize "GENERIC.Mode"}}</label>
         <select name="mode">
             {{selectOptions modes selected=mode localize=true}}
         </select>
     </div>
 
+    {{!-- Bonus --}}
+    <div class="form-group field">
+        <label>{{localize "GENERIC.Bonus"}}</label>
+        <input 
+            name="bonus" 
+            {{#if (eq mode 'derived')}}
+            type="number" 
+            value="{{this.bonus}}" 
+            min="0" 
+            step="1" 
+            {{else}}
+            type="text"
+            value="—"
+            readonly
+            {{/if}}
+        >
+    </div>
+
     {{!-- Natural deflect --}}
-    <div class="form-group">
+    <div class="form-group field">
         <label>{{localize "COSMERE.Actor.Deflect.Natural.Label"}}</label>
         <input 
             name="natural" 
@@ -44,28 +61,8 @@
     <p class="hint">
         {{localize "COSMERE.Actor.Deflect.Natural.Hint"}}
     </p>
-
-    {{!-- Bonus --}}
-    <div class="form-group">
-        <label>{{localize "GENERIC.Bonus"}}</label>
-        <input 
-            name="bonus" 
-            {{#if (eq mode 'derived')}}
-            type="number" 
-            value="{{this.bonus}}" 
-            min="0" 
-            step="1" 
-            {{else}}
-            type="text"
-            value="—"
-            readonly
-            {{/if}}
-        >
-    </div>
-
     {{!-- Submit --}}
-    <br>
-    <div class="form-group">
+    <div class="form-group submit">
         <button data-action="update-deflect" type="submit">
             {{localize "GENERIC.Button.Update"}}
         </button>

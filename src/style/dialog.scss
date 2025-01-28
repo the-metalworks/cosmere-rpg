@@ -70,7 +70,6 @@
         }
 
         .custom {
-
             > a {
                 flex: 0;
                 padding-right: 0.313rem;
@@ -100,6 +99,89 @@
         }
     }
 
+    &.configure-resource,
+    &.configure-deflect,
+    &.configure-movement-rate,
+    &.configure-recovery-die,
+    &.configure-senses-range,
+    &.edit-expertises {
+        form {            
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+    }
+
+    &.edit-expertises {
+        form {            
+            gap: 0.625rem;
+        }
+    }
+
+    &.configure-resource,
+    &.configure-deflect,
+    &.configure-movement-rate,
+    &.configure-recovery-die,
+    &.configure-senses-range {
+        form {
+            gap: 0.25rem;
+        }
+
+        input {
+            color: var(--cosmere-color-text-sub);
+            font-variant: lining-nums;
+            font-weight: 600;
+            flex: 2;
+        }
+
+        input:read-only {                
+            color: var(--cosmere-color-faded);
+        }
+
+        select {
+            background-color: var(--cosmere-color-base-4);
+            border-radius: 6px;
+            padding: 0 0.25rem;
+            flex: 2;
+        }
+        
+        label {
+            color: var(--cosmere-color-faded);
+            text-align: right;
+            flex: 1;
+            font-weight: 600;
+        }
+
+        .max {
+            border-radius: 6px;
+            background-color: var(--cosmere-color-base-3);
+
+            > input {                
+                text-align: center;
+            }
+        }
+
+        .field {
+            gap: 0.625rem;
+            margin: 0;
+
+            > input {
+                border-radius: 6px;
+                background-color: var(--cosmere-color-base-3);                
+                padding: 0 0.25rem;
+            }
+        }
+
+        .hint {
+            color: var(--cosmere-color-faded);
+            margin: 0;
+        }
+
+        .submit {
+            margin-top: 0.625rem;
+        }
+    }
+
     &.configure-skills {
         .skills-column {            
             filter: var(--cosmere-drop-shadow);
@@ -114,12 +196,5 @@
         }
     }
 
-    &.edit-expertises {
-        form {            
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-            gap: 0.625rem;
-        }
-    }
+    
 }

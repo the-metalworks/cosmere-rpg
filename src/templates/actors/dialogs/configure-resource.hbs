@@ -1,12 +1,11 @@
 <form>
-    <div class="form-group">
+    <div class="form-group max">
         <input name="max"
             {{#if (eq mode 'derived')}}
             type="text"
             value="{{formula}}"
             readonly
             {{else}}
-            style="text-align: center; font-size: 15pt"
             type="number"
             min="0"
             step="1"
@@ -14,14 +13,13 @@
             {{/if}}
         >
     </div>
-    <div class="form-group">
+    <div class="form-group field">
         <label>{{localize "GENERIC.Mode"}}</label>
         <select name="mode">
             {{selectOptions modes selected=mode localize=true}}
         </select>
     </div>
-    <br>
-    <div class="form-group">
+    <div class="form-group submit">
         <button data-action="update-resource" type="submit">
             {{localize "GENERIC.Button.Update"}}
         </button>

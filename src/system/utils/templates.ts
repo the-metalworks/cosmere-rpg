@@ -97,6 +97,12 @@ export const TEMPLATES = {
 
     //DIALOGS
     DIALOG_BASE_EDIT_EXPERTISES: 'actors/dialogs/edit-expertises.hbs',
+    DIALOG_BASE_CONFIGURE_RESOURCE: 'actors/dialogs/configure-resource.hbs',
+    DIALOG_BASE_CONFIGURE_DEFLECT: 'actors/dialogs/configure-deflect.hbs',
+    DIALOG_BASE_CONFIGURE_RECOVERY: 'actors/dialogs/configure-recovery-die.hbs',
+    DIALOG_BASE_CONFIGURE_MOVEMENT:
+        'actors/dialogs/configure-movement-rate.hbs',
+    DIALOG_BASE_CONFIGURE_SENSES: 'actors/dialogs/configure-senses-range.hbs',
     DIALOG_ADVERSARY_CONFIGURE_SKILLS:
         'actors/adversary/dialogs/configure-skills.hbs',
 } as const;

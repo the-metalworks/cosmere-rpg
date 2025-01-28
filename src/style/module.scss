@@ -94,8 +94,6 @@
         padding: 0;
         text-align: left;
         font-size: inherit;
-        font-weight: inherit;
-        font-variant: inherit;
         color: inherit;
         background: transparent;
         border: none;
@@ -110,6 +108,19 @@
         --checkbox-checked-color: var(--cosmere-color-accent);
         --checkbox-disabled-color: var(--cosmere-color-neutral);
         --checkbox-background-color: color(from var(--cosmere-color-faded) srgb r g b / 0.4);
+    }
+
+    button {
+        color: var(--cosmere-color-text-sub);
+        border-color: var(--cosmere-color-faded);
+        background: var(--cosmere-color-base-1);
+
+        &:hover {            
+            color: var(--cosmere-color-text-main);
+            border-color: var(--cosmere-color-accent);
+            background: var(--cosmere-color-base-5);
+            box-shadow: 0 0 5px var(--cosmere-color-faded);
+        }
     }
 
     .icon {

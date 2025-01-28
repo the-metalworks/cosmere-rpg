@@ -1,9 +1,7 @@
 <form>
-    <div class="form-group">
+    <div class="form-group max">
         {{#with (derived range) as |value|}}
         <input name="range"
-            style="text-align: center; font-size: 15pt"
-
             {{#if (isNumMax value)}}
             type="text"
             value="—"
@@ -21,7 +19,13 @@
         >
         {{/with}}
     </div>
-    <div class="form-group">
+    <div class="form-group field">
+        <label>{{localize "GENERIC.Mode"}}</label>
+        <select name="mode">
+            {{selectOptions modes selected=mode localize=true}}
+        </select>
+    </div>
+    <div class="form-group field">
         <label>{{localize "DIALOG.ConfigureSensesRange.ObscuredUnaffected"}}</label>
         <input type="checkbox" 
             name="obscuredUnaffected"
@@ -33,13 +37,6 @@
             {{/if}}
         >
     </div>
-    <div class="form-group">
-        <label>{{localize "GENERIC.Mode"}}</label>
-        <select name="mode">
-            {{selectOptions modes selected=mode localize=true}}
-        </select>
-    </div>
-    <br>
     <div class="form-group">
         <button data-action="update-sense" type="submit">
             {{localize "GENERIC.Button.Update"}}
