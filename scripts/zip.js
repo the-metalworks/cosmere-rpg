@@ -6,20 +6,21 @@ import archiver from 'archiver';
 // Constants
 const BUILD_DIR = 'build';
 
-// Check for tag from input (optional)
-let tag = process.argv[2];
+// Check for filename from input (optional)
+let filename = process.argv[2];
 
 // Get latest tag from git
-if (!tag) {
-    tag = child_process.execSync('git describe --tags --abbrev=0').toString().trim();
+if (!filename) {
+    const tag = child_process.execSync('git describe --tags --abbrev=0').toString().trim();
+    
+    console.log(`Creating zip for tag: ${tag}`);
+
+    // Set filename
+    filename = `cosmere-rpg-${tag}.zip`;
 }
 
-console.log(`Creating zip for tag: ${tag}`);
-
 // Create a file to stream archive data to
-const output = fs.createWriteStream(
-    `cosmere-rpg-${tag}.zip`
-);
+const output = fs.createWriteStream(filename);
 
 // Create a new archive
 const archive = archiver('zip', {
