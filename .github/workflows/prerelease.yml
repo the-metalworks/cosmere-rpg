@@ -1,0 +1,92 @@
+name: prerelease
+run-name: Create prerelease
+on:
+  push:
+    branches:
+        - 'release-*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+            fetch-depth: 0
+
+      # Load the manifest into memory
+      - name: Load system manifest
+        id: manifest
+        uses: zoexx/github-action-json-file-properties@release
+        with:
+          file_path: "./src/system.json"
+
+      # Set up variables
+      - name: Set up vars
+        run: |
+          BRANCH=${{github.ref_name}}
+          RELEASE_VERSION=$(echo ${{github.ref_name}} | cut -d'-' -f2)
+          echo "RELEASE_VERSION=$RELEASE_VERSION" >> $GITHUB_ENV
+          echo "ZIP_NAME=cosmere-rpg-prerelease-$RELEASE_VERSION.zip" >> $GITHUB_ENV
+          echo "DOWNLOAD_URL=https://github.com/${{github.repository}}/releases/download/prerelease-$RELEASE_VERSION/cosmere-rpg-prerelease-$RELEASE_VERSION.zip" >> $GITHUB_ENV
+          echo "MANIFEST_URL=https://github.com/${{github.repository}}/releases/download/prerelease-$RELEASE_VERSION/system.json" >> $GITHUB_ENV
+
+      # Verify manifest
+      - name: Verify manifest
+        run: |
+          # Verify that the manifest version matches the branch
+          if [[ ! "${{env.RELEASE_VERSION}}" == $PACKAGE_VERSION ]]; then
+            echo "Manifest version does not match tag brach."
+            echo "Manifest version: $PACKAGE_VERSION"
+            echo "Branch: ${{env.RELEASE_VERSION}}"
+            echo "Please update the manifest version to match the branch."
+            exit 1
+          fi
+        env:
+          PACKAGE_VERSION: ${{ steps.manifest.outputs.version }}
+
+      # Update manifest
+      - name: Update manifest
+        uses: TomaszKandula/variable-substitution@v1.0.2
+        with:
+          files: "./src/system.json"
+        env:
+          version: "prerelease-${{ env.RELEASE_VERSION }}"
+          manifest: ${{ env.MANIFEST_URL }}
+          download: ${{ env.DOWNLOAD_URL }}
+
+      # Set up node 
+      - name: Use Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Install dependencies
+      - name: NPM install
+        run: |
+          npm ci
+
+      # Build
+      - name: Build release
+        run: |
+          npm run build:release
+
+      # Create release
+      - name: Create release
+        uses: ncipollo/release-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          name: "Pre-release ${{ env.RELEASE_VERSION }}"
+          tag: prerelease-${{ env.RELEASE_VERSION }}
+          artifacts: "./src/system.json, ./${{ env.ZIP_NAME }}"
+          draft: false
+          prerelease: true
+          allowUpdates: true
+          body: |
+            Pre-release build of ${{ env.RELEASE_VERSION }}. 
+            This build is automatically generated from the latest changes targeting the ${{ env.RELEASE_VERSION }} release.  
+            ⚠️ **This is a pre-release build and may contain bugs or incomplete features.** ⚠️  
+              
+            **Manifest url:** ${{ env.MANIFEST_URL }}
