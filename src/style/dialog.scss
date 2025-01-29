@@ -99,23 +99,29 @@
         }
     }
 
+    &.edit-expertises {
+        form {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            gap: 0.625rem;
+        }
+    }
+
     &.configure-resource,
     &.configure-deflect,
     &.configure-defense,
     &.configure-movement-rate,
     &.configure-recovery-die,
-    &.configure-senses-range,
-    &.edit-expertises {
+    &.configure-senses-range {
+        > .window-content {
+            filter: var(--cosmere-drop-shadow);
+        }
+
         form {            
             display: flex;
             flex-direction: column;
             flex: 1;
-        }
-    }
-
-    &.edit-expertises {
-        form {            
-            gap: 0.625rem;
         }
     }
 
