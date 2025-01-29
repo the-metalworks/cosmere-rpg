@@ -73,7 +73,7 @@ export class ActorEffectsListComponent extends HandlebarsApplicationComponent<
             );
 
         if (context.effectsSearch.sort === SortMode.Alphabetic) {
-            effects = effects.sort((a, b) => a.name.compare(b.name) * -1);
+            effects = effects.sort((a, b) => a.name.compare(b.name));
         }
 
         // Filter effects down to the correct type

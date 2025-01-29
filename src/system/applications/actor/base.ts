@@ -287,7 +287,7 @@ export class BaseActorSheet<
     ) {
         super._onRender(context, options);
 
-        if (options.parts.includes('sheet-content')) {
+        if (options.parts.includes('content')) {
             this.element
                 .querySelector('#actions-search')!
                 .addEventListener(
