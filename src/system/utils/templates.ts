@@ -99,6 +99,7 @@ export const TEMPLATES = {
     DIALOG_BASE_EDIT_EXPERTISES: 'actors/dialogs/edit-expertises.hbs',
     DIALOG_BASE_CONFIGURE_RESOURCE: 'actors/dialogs/configure-resource.hbs',
     DIALOG_BASE_CONFIGURE_DEFLECT: 'actors/dialogs/configure-deflect.hbs',
+    DIALOG_BASE_CONFIGURE_DEFENSE: 'actors/dialogs/configure-defense.hbs',
     DIALOG_BASE_CONFIGURE_RECOVERY: 'actors/dialogs/configure-recovery-die.hbs',
     DIALOG_BASE_CONFIGURE_MOVEMENT:
         'actors/dialogs/configure-movement-rate.hbs',

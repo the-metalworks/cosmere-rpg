@@ -48,44 +48,7 @@
                 visibility: hidden;
             }
         }
-    }
-
-    > .window-header {
-        background: transparent;
-        position: relative;
-        z-index: 1;
-        border: none;
-        align-items: center;
-        filter: var(--cosmere-drop-shadow);        
-
-        .window-title {
-            font-weight: 600;
-        }
-
-        button.header-control {
-            color: var(--cosmere-color-text-sub);
-            
-            &:hover {
-                box-shadow: none;
-                text-shadow: 0 0 5px var(--color-shadow-primary);
-            }
-
-            &:focus {
-                outline: none;
-                box-shadow: none;
-            }
-        }
-
-        #mode-toggle {
-            display: none;
-        }
-    }
-
-    > .window-content {
-        backdrop-filter: blur(0rem);
-        overflow: visible;
-        min-height: 0;
-    }    
+    }  
 
     input[type="text"],
     input[type="number"],
@@ -123,6 +86,46 @@
         }
     }
 
+    > .window-header {
+        background: transparent;
+        position: relative;
+        z-index: 1;
+        border: none;
+        align-items: center;
+        filter: var(--cosmere-drop-shadow);        
+
+        .window-title {
+            font-weight: 600;
+        }
+
+        button.header-control {
+            color: var(--cosmere-color-text-sub);
+            
+            &:hover {
+                box-shadow: none;
+                text-shadow: 0 0 5px var(--color-shadow-primary);
+                color: var(--cosmere-color-text-sub);           
+                background: none;                
+                box-shadow: none;
+            }
+
+            &:focus {
+                outline: none;
+                box-shadow: none;
+            }
+        }
+
+        #mode-toggle {
+            display: none;
+        }
+    }
+
+    > .window-content {
+        backdrop-filter: blur(0rem);
+        overflow: visible;
+        min-height: 0;
+    }
+    
     .icon {
         &.active {
             color: var(--cosmere-color-text-sub);

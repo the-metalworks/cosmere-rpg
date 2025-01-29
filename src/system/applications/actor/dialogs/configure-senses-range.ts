@@ -109,9 +109,9 @@ export class ConfigureSensesRangeDialog extends HandlebarsApplicationMixin(
         // Assign obscured affected
         if (
             this.mode === Derived.Mode.Override &&
-            target.name === 'obscuredUnaffected'
+            target.name === 'ignoreObscure'
         ) {
-            this.sensesData.range.override = formData.object.obscuredUnaffected
+            this.sensesData.range.override = formData.object.ignoreObscure
                 ? Number.MAX_VALUE
                 : 0;
         }

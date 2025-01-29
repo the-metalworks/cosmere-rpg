@@ -925,10 +925,10 @@
             "Title": "Configure Max {resource}: {actor}"
         },
         "LongRest": {
-            "ShouldPerform": "Perform long rest?"
+            "ShouldPerform": "Perform Long Rest?"
         },
         "ShortRest": {
-            "Title": "Short rest",
+            "Title": "Short Rest",
             "TendedToBy": "Tended to by"
         },
         "ConfigureDefense": {
@@ -939,7 +939,7 @@
         },
         "ConfigureSensesRange": {
             "Title": "Configure Senses Range: {actor}",
-            "ObscuredUnaffected": "Unaffected by obscured senses"
+            "IgnoreObscure": "Ignores Obscured"
         },
         "ConfigureRecoveryDie": {
             "Title": "Configure Recovery Die: {actor}"
