@@ -12,8 +12,6 @@ let tag = process.argv[2];
 // Get latest tag from git
 if (!tag) {
     tag = child_process.execSync('git describe --tags --abbrev=0').toString().trim();
-} else {
-    tag = `release-${tag}`;
 }
 
 console.log(`Creating zip for tag: ${tag}`);
