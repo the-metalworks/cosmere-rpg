@@ -6,8 +6,15 @@ import archiver from 'archiver';
 // Constants
 const BUILD_DIR = 'build';
 
+// Check for tag from input (optional)
+let tag = process.argv[2];
+
 // Get latest tag from git
-const tag = child_process.execSync('git describe --tags --abbrev=0').toString().trim();
+if (!tag) {
+    tag = child_process.execSync('git describe --tags --abbrev=0').toString().trim();
+} else {
+    tag = `release-${tag}`;
+}
 
 // Create a file to stream archive data to
 const output = fs.createWriteStream(
