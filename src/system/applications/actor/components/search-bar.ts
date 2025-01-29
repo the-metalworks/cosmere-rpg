@@ -84,23 +84,24 @@ export class ActorSearchBarComponent extends HandlebarsApplicationComponent<
 
     /* --- Event handlers --- */
 
-    private onSearchInput(event: Event) {
+    private async onSearchInput(event: Event) {
         if (event.type !== 'input') return;
         event.preventDefault();
         event.stopPropagation();
 
-        this.searchText = (
-            event.target as HTMLInputElement
-        ).value.toLowerCase();
+        this.searchText = (event.target as HTMLInputElement).value;
 
-        void this.render();
+        await this.render();
         this.triggerChange();
+
+        const search = $(this.element!).find('input')[0];
+        search.selectionStart = search.selectionEnd = this.searchText.length;
     }
 
     private triggerChange() {
         const event = new CustomEvent('search', {
             detail: {
-                text: this.searchText,
+                text: this.searchText.toLocaleLowerCase(game.i18n!.lang),
                 sort: this.sortDirection,
             },
         });
