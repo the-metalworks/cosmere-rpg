@@ -1,5 +1,7 @@
-### Patch 0.2.2
+### Patch 0.2.2 - Jan 2025
 Welcome to 2025 everyone! To begin the year of the Cosmere RPG off right, we're releasing this small patch with a few key improvements that you've been asking for.
+
+A quick heads-up: our plan is to do one more feature release (0.3.0) before spring which will contain some major new features and then we will be aiming for 1.0 release alongside the full RPG release. Therefore if you have a question, please check our Github repo to see what we have planned before asking questions like "Are you thinking of...".
 
 #### What's New
 - **Roll Modifiers**
@@ -20,7 +22,7 @@ Welcome to 2025 everyone! To begin the year of the Cosmere RPG off right, we're 
 
 ----
 
-### Patch 0.2.1
+### Patch 0.2.1 - Nov 2024
 A small release with fixes for bugs introduced with the last release and a handful of QoL updates.  
 
 ⚠️ **Important:** Release `0.2.0` of the playtest materials contains a bug causing all weapons to apply the damage modifer twice. Please update your playtest materials module to the latest version if you haven't already.
