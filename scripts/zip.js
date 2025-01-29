@@ -16,6 +16,8 @@ if (!tag) {
     tag = `release-${tag}`;
 }
 
+console.log(`Creating zip for tag: ${tag}`);
+
 // Create a file to stream archive data to
 const output = fs.createWriteStream(
     `cosmere-rpg-${tag}.zip`
