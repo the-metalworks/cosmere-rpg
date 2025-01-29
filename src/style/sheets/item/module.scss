@@ -168,6 +168,56 @@
 
 .tab[data-tab='description'].active {
     display: flex;
+
+    .header {
+        display:flex;
+        flex-direction: row;
+        align-items: center;
+        margin-top: 1rem;
+
+        .title {
+            flex: 1;
+            text-align: center
+        }
+    }
+
+    .description-list {
+        flex-direction: row;
+        width: 100%;
+
+        .edit-img {
+            flex-direction: column;
+            margin-left: auto;
+            margin-right: 0.5rem;
+        }
+
+        .collapsible {
+            cursor: pointer;
+    
+            .collapsible-content {
+                display: grid;
+                grid-template-rows: 0fr;
+                transition: grid-template-rows 250ms ease;
+    
+                & > .wrapper {
+                    overflow: hidden;
+                }
+            }
+    
+            .fa-chevron-down {
+                transform: rotate(-90deg);
+                transition: all 250ms ease;
+            }
+    
+            &.expanded .fa-chevron-down {
+                transform: rotate(0deg);
+            }
+            
+            &.expanded .collapsible-content {
+                grid-template-rows: 1fr;
+            }
+        }
+    }
 }
 
 .tab[data-tab='details'].active {

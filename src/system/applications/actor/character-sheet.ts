@@ -34,6 +34,7 @@ export class CharacterSheet extends BaseActorSheet {
             'sheet-content': {
                 template:
                     'systems/cosmere-rpg/templates/actors/character/parts/sheet-content.hbs',
+                scrollable: ['.tab-body'],
             },
         },
     );

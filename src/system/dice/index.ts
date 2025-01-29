@@ -2,7 +2,10 @@ import { Attribute } from '@system/types/cosmere';
 
 import { D20Roll, D20RollOptions, D20RollData } from './d20-roll';
 import { DamageRoll, DamageRollOptions, DamageRollData } from './damage-roll';
-import { determineConfigurationMode } from '../utils/generic';
+import {
+    determineConfigurationMode,
+    getFormulaDisplayString,
+} from '../utils/generic';
 import { AdvantageMode } from '../types/roll';
 
 export * from './d20-roll';
@@ -89,7 +92,7 @@ export async function d20Roll(
 
     // Construct the roll
     const roll = new D20Roll(
-        ['1d20'].concat(config.parts ?? []).join(' + '),
+        getFormulaDisplayString(['1d20'].concat(config.parts ?? [])),
         config.data,
         { ...config },
     );

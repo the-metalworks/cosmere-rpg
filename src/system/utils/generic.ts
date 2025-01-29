@@ -7,6 +7,7 @@ import {
     TargetingOptions,
 } from '../settings';
 import { AdvantageMode } from '../types/roll';
+import { NONE } from '../types/utils';
 
 /**
  * Determine if the keys of a requested keybinding are pressed.
@@ -57,6 +58,13 @@ export function hasKey<T extends object>(
     key: PropertyKey,
 ): key is keyof T {
     return key in obj;
+}
+
+/**
+ * Converts entries from input forms that will include human-readable "none" into nulls for easier identification in code.
+ */
+export function getNullableFromFormInput<T>(formField: string | null) {
+    return formField && formField !== NONE ? (formField as T) : null;
 }
 
 /**
@@ -140,6 +148,22 @@ export function getConstantFromRoll(roll: Roll) {
     }
 
     return constant;
+}
+
+/**
+ * Converts a list of the various parts of a formula into a displayable string.
+ *
+ * @param {string[]} diceParts A parts array as provided from the foundry Roll API.
+ * @returns {string} The human readable display string for the formula (without terms aggregated).
+ */
+export function getFormulaDisplayString(diceParts: string[]) {
+    const joined = diceParts
+        .join(' + ')
+        .replace(/\+ -/g, '-')
+        .replace(/\+ \+/g, '+');
+    return joined.endsWith(' + ') || joined.endsWith(' - ')
+        ? joined.substring(0, joined.length - 3)
+        : joined;
 }
 
 /**

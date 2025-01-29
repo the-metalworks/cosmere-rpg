@@ -52,6 +52,7 @@ export class AdversarySheet extends BaseActorSheet<AdversarySheetRenderContext> 
             'sheet-content': {
                 template:
                     'systems/cosmere-rpg/templates/actors/adversary/parts/sheet-content.hbs',
+                scrollable: ['.tab-body'],
             },
         },
     );

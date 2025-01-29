@@ -1,7 +1,11 @@
 import { Attribute } from '@system/types/cosmere';
 import { RollMode } from '@system/dice/types';
 import { AdvantageMode } from '@system/types/roll';
-import { AnyObject } from '@system/types/utils';
+import { AnyObject, NONE, Nullable } from '@system/types/utils';
+import {
+    getFormulaDisplayString,
+    getNullableFromFormInput,
+} from '@src/system/utils/generic';
 
 import { D20RollData } from '@system/dice/d20-roll';
 
@@ -30,6 +34,11 @@ export namespace RollConfigurationDialog {
         parts: string[];
 
         /**
+         * A dice formula stating any miscellaneous other bonuses or negatives to the specific roll
+         */
+        temporaryModifiers?: string;
+
+        /**
          * The data to be used when parsing the roll
          */
         data: D20RollData;
@@ -42,7 +51,7 @@ export namespace RollConfigurationDialog {
         /**
          * The attribute that is used for the roll by default
          */
-        defaultAttribute?: Attribute;
+        defaultAttribute?: Nullable<Attribute>;
 
         /**
          * The roll mode that should be selected by default
@@ -61,11 +70,12 @@ export namespace RollConfigurationDialog {
     }
 
     export interface Result {
-        attribute: Attribute;
+        attribute: Nullable<Attribute>;
         rollMode: RollMode;
         plotDie: boolean;
         advantageMode: AdvantageMode;
         advantageModePlot: AdvantageMode;
+        temporaryModifiers: string;
     }
 }
 
@@ -113,6 +123,7 @@ export class RollConfigurationDialog extends ComponentHandlebarsApplicationMixin
     /* eslint-enable @typescript-eslint/unbound-method */
 
     private submitted = false;
+    private originalFormulaSize = 0;
 
     private constructor(
         private data: RollConfigurationDialog.Data,
@@ -124,6 +135,7 @@ export class RollConfigurationDialog extends ComponentHandlebarsApplicationMixin
             },
         });
 
+        this.originalFormulaSize = this.data.parts.length;
         this.data.advantageMode ??= AdvantageMode.None;
         this.data.advantageModePlot ??= AdvantageMode.None;
     }
@@ -146,17 +158,30 @@ export class RollConfigurationDialog extends ComponentHandlebarsApplicationMixin
     ) {
         if (event instanceof SubmitEvent) return;
 
-        const attribute = formData.get('attribute') as Attribute;
+        const attribute = getNullableFromFormInput<Attribute>(
+            formData.get('attribute') as string,
+        );
         const rollMode = formData.get('rollMode') as RollMode;
         const plotDie = formData.get('plotDie') === 'true';
+        const tempMod = formData.get('temporaryMod')?.valueOf() as string;
+
+        // get rid of existing temp mod formula
+        if (this.data.parts.length > this.originalFormulaSize)
+            this.data.parts.pop();
+        // add the current ones in for display in the formula bar
+        this.data.parts.push(tempMod);
+        // store it
+        this.data.temporaryModifiers = tempMod;
 
         const skill = this.data.data.skill;
-        const attributeData = this.data.data.attributes[attribute];
+        const attributeData = attribute
+            ? this.data.data.attributes[attribute]
+            : { value: 0, bonus: 0 };
         const rank = skill.rank;
         const value = attributeData.value + attributeData.bonus;
 
         this.data.data.mod = rank + value;
-        this.data.defaultAttribute = attribute;
+        this.data.defaultAttribute = attribute ?? undefined;
         this.data.defaultRollMode = rollMode;
         this.data.plotDie = plotDie;
 
@@ -170,9 +195,12 @@ export class RollConfigurationDialog extends ComponentHandlebarsApplicationMixin
             attribute: HTMLSelectElement;
             rollMode: HTMLSelectElement;
             plotDie: HTMLInputElement;
+            temporaryMod: HTMLInputElement;
         };
 
-        const attribute = form.attribute.value as Attribute;
+        const attribute = getNullableFromFormInput<Attribute>(
+            form.attribute.value,
+        );
         const rollMode = form.rollMode.value as RollMode;
         const plotDie = form.plotDie.checked;
 
@@ -180,12 +208,15 @@ export class RollConfigurationDialog extends ComponentHandlebarsApplicationMixin
         const advantageModePlot =
             this.data.advantageModePlot ?? AdvantageMode.None;
 
+        const temporaryModifiers = form.temporaryMod.value;
+
         this.resolve({
             attribute,
             rollMode,
             plotDie,
             advantageMode,
             advantageModePlot,
+            temporaryModifiers,
         });
         this.submitted = true;
         void this.close();
@@ -222,7 +253,7 @@ export class RollConfigurationDialog extends ComponentHandlebarsApplicationMixin
 
     protected _prepareContext() {
         const formula = foundry.dice.Roll.replaceFormulaData(
-            this.data.parts.join(' + '),
+            getFormulaDisplayString(this.data.parts),
             this.data.data,
             {
                 missing: '0',
@@ -237,6 +268,7 @@ export class RollConfigurationDialog extends ComponentHandlebarsApplicationMixin
             plotDie: this.data.plotDie,
             advantageMode: this.data.advantageMode,
             advantageModePlot: this.data.advantageModePlot,
+            temporaryModifiers: this.data.temporaryModifiers,
 
             rollModes: CONFIG.Dice.rollModes,
             advantageModes: Object.entries(
@@ -251,13 +283,16 @@ export class RollConfigurationDialog extends ComponentHandlebarsApplicationMixin
                 }),
                 {},
             ),
-            attributes: Object.entries(CONFIG.COSMERE.attributes).reduce(
-                (acc, [key, config]) => ({
-                    ...acc,
-                    [key]: config.label,
-                }),
-                {},
-            ),
+            attributes: {
+                [NONE]: 'GENERIC.None',
+                ...Object.entries(CONFIG.COSMERE.attributes).reduce(
+                    (acc, [key, config]) => ({
+                        ...acc,
+                        [key]: config.label,
+                    }),
+                    {},
+                ),
+            },
         });
     }
 }

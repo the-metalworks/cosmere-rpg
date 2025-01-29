@@ -70,7 +70,7 @@ jobs:
       # Build
       - name: Build release
         run: |
-          npm run build:release
+          npm run build:release ${{ env.ZIP_NAME }}
 
       # Create release
       - name: Create release

@@ -1,4 +1,9 @@
-import { DamageType, InjuryType, Resource } from '@system/types/cosmere';
+import {
+    DamageType,
+    InjuryType,
+    ItemType,
+    Resource,
+} from '@system/types/cosmere';
 import { D20Roll } from '@system/dice/d20-roll';
 import { DamageRoll } from '@system/dice/damage-roll';
 
@@ -185,9 +190,12 @@ export class CosmereChatMessage extends ChatMessage {
                 icon: 'fa-regular fa-dice-d20',
                 title: game.i18n!.localize('GENERIC.SkillTest'),
                 subtitle: {
-                    skill: CONFIG.COSMERE.skills[skill.id].label,
-                    attribute:
-                        CONFIG.COSMERE.attributes[skill.attribute].labelShort,
+                    skill: skill.id
+                        ? CONFIG.COSMERE.skills[skill.id].label
+                        : `${game.i18n!.localize('GENERIC.Custom')} ${game.i18n!.localize('GENERIC.Skill')}`,
+                    attribute: skill.attribute
+                        ? CONFIG.COSMERE.attributes[skill.attribute].labelShort
+                        : game.i18n?.localize('GENERIC.None'),
                 },
                 content: await d20Roll.getHTML(),
             },
@@ -402,6 +410,35 @@ export class CosmereChatMessage extends ChatMessage {
         this.enrichD20Tooltip(injuryRoll, tooltip[0]);
         tooltip.prepend(section.find('.dice-formula'));
 
+        if (game.user!.isGM || this.isAuthor) {
+            section.find('.icon.clickable').on('click', async (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+
+                const button = event.currentTarget;
+                const action = button.dataset.action;
+
+                if (action === 'apply') {
+                    await Item.create(
+                        {
+                            type: ItemType.Injury,
+                            name: game.i18n!.localize(
+                                CONFIG.COSMERE.injury.types[data.type].label,
+                            ),
+                            system: {
+                                duration: {
+                                    remaining: durationRoll?.total ?? 0,
+                                },
+                            },
+                        },
+                        { parent: this.associatedActor },
+                    );
+                }
+            });
+        } else {
+            section.find('.icon.clickable').remove();
+        }
+
         html.find('.chat-card').append(section);
     }
 
@@ -459,8 +496,8 @@ export class CosmereChatMessage extends ChatMessage {
                           { calculation },
                       ),
                 tooltip: isHealing
-                    ? 'COSMERE.ChatMessage.UndoHealing'
-                    : 'COSMERE.ChatMessage.UndoDamage',
+                    ? 'COSMERE.ChatMessage.Buttons.UndoHealing'
+                    : 'COSMERE.ChatMessage.Buttons.UndoDamage',
                 undo,
             },
         );

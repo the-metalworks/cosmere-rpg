@@ -811,6 +811,16 @@ const COSMERE: CosmereRPGConfig = {
         },
     },
 
+    unarmedDamageScaling: {
+        strengthRanges: [
+            { min: 0, max: 2, formula: '1' },
+            { min: 3, max: 4, formula: '1d4' },
+            { min: 5, max: 6, formula: '1d8' },
+            { min: 7, max: 8, formula: '2d6' },
+            { min: 9, max: Infinity, formula: '2d10' },
+        ],
+    },
+
     dice: {
         advantageModes: {
             [AdvantageMode.Disadvantage]: 'DICE.AdvantageMode.Disadvantage',
