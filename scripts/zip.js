@@ -34,5 +34,7 @@ archive.pipe(output);
 // Add files to the archive
 archive.directory(BUILD_DIR, false);
 
+console.log(`Writing zip file to: ${output.path}`);
+
 // Finalize the archive
 archive.finalize();
