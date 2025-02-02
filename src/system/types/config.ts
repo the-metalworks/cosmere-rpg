@@ -283,6 +283,12 @@ export interface AdvancementRuleConfig {
     skillRanksOrTalents?: number;
 }
 
+export interface AttributeScale {
+    min: number;
+    max: number;
+    formula: string;
+}
+
 export interface CosmereRPGConfig {
     themes: Record<Theme, string>;
     sizes: Record<Size, SizeConfig>;
@@ -384,6 +390,10 @@ export interface CosmereRPGConfig {
     units: {
         weight: string[];
         distance: Record<string, string>;
+    };
+
+    unarmedDamageScaling: {
+        strengthRanges: AttributeScale[];
     };
 
     dice: {
