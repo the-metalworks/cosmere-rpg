@@ -170,6 +170,21 @@
     </div>
 </div>
 <div class="form-group">
+    <label>{{localize "COSMERE.Item.Sheet.Activation.AdditionalFormula"}}</label>
+    <div class="input-group">
+        <input name="system.activation.modifierFormula"
+            type="text"
+            value="{{item.system.activation.modifierFormula}}"
+            {{#if (not editable)}}
+            readonly
+            {{/if}}
+        >
+    </div>
+    <p class="notes">
+        {{localize "COSMERE.Item.Sheet.Activation.AdditionalFormulaDescription"}}
+    </p>
+</div>
+<div class="form-group">
     <label>{{localize "DICE.Plot.RaiseTheStakes"}}</label>
     <div class="input-group">
         <input type="checkbox" 

@@ -5,14 +5,14 @@ the (currently in Beta) Cosmere Roleplaying Game within Foundry VTT.
 ## Installation Instructions
 1. In Foundry VTT, go to **Game Systems** > **Install System**.
 2. Paste the following URL in the **Manifest URL** field:  
-   `https://raw.githubusercontent.com/stanavdb/cosmere-rpg/main/src/system.json`
+   `https://raw.githubusercontent.com/the-metalworks/cosmere-rpg/main/src/system.json`
 3. Click **Install**.
 
 ### Playtest Materials (Recommended)
 This module provides compendiums of the playtest materials, pre-configured for use in Foundry VTT.
 1. In Foundry VTT, go to **Add-on Modules** > **Install Module**.
 2. Paste the following URL in the **Manifest URL** field:  
-   `https://raw.githubusercontent.com/stanavdb/cosmere-rpg-worlds/main/playtest/module.json`
+   `https://raw.githubusercontent.com/the-metalworks/cosmere-rpg-worlds/main/playtest/module.json`
 3. Click **Install**.
 4. Activate the module in your world settings.
 
