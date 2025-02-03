@@ -6,12 +6,12 @@ import { Theme } from '../types/cosmere';
  */
 export const TEMPLATES = {
     GENERAL_TABS: 'general/tabs.hbs',
+    GENERAL_SHEET_CORNERS: 'general/sheet-corners.hbs',
+    GENERAL_SHEET_BACKGROUND: 'general/sheet-background.hbs',
     COMBAT_COMBATANT: 'combat/combatant.hbs',
 
     // ACTOR BASE
     ACTOR_BASE_NAVIGATION: 'actors/parts/navigation.hbs',
-    ACTOR_BASE_SHEET_CORNERS: 'actors/parts/sheet-corners.hbs',
-    ACTOR_BASE_SHEET_BACKGROUND: 'actors/parts/sheet-background.hbs',
     ACTOR_BASE_BOX_CORNERS: 'actors/parts/box-corners.hbs',
     ACTOR_BASE_SEARCH_BAR: 'actors/components/search-bar.hbs',
     ACTOR_BASE_ACTIONS_LIST: 'actors/components/actions-list.hbs',
@@ -59,6 +59,9 @@ export const TEMPLATES = {
         'actors/adversary/components/skills-group.hbs',
 
     //ITEM
+    ITEM_BASE_HEADER: 'item/parts/header.hbs',
+    ITEM_BASE_CONTENT: 'item/parts/content.hbs',
+
     ITEM_DESCRIPTION_TAB: 'item/partials/item-description-tab.hbs',
     ITEM_EFFECTS_TAB: 'item/partials/item-effects-tab.hbs',
     ITEM_DETAILS_TAB: 'item/partials/item-details-tab.hbs',

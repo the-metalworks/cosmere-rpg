@@ -1,7 +1,9 @@
 @import './character.scss';
 @import './adversary.scss';
 
-.application.sheet.actor {    
+.application.sheet.actor {
+    --border-sheet-corner-svg: url('assets/icons/svg/sheet/border_sheet_actor_corner.svg');
+
     --border-tab-closed-svg: url('assets/icons/svg/sheet/border_tab_closed.svg');
     --mask-tab-closed-svg: url('assets/icons/svg/sheet/mask_tab_closed.svg');    
     --border-tab-open-svg: url('assets/icons/svg/sheet/border_tab_open.svg');
@@ -26,69 +28,17 @@
     
     --rest-long-svg: url('assets/icons/svg/sheet/rest_button_long.svg');
     --rest-short-svg: url('assets/icons/svg/sheet/rest_button_short.svg');
-    --rest-scene-svg: url('assets/icons/svg/sheet/rest_button_scene.svg');    
+    --rest-scene-svg: url('assets/icons/svg/sheet/rest_button_scene.svg');     
 
     > .window-corners {
-        position: absolute;
-        top: -3px;
-        left: -3px;
-        right: -3px;
-        bottom: -3px;
-        border: none;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        filter: var(--cosmere-drop-shadow);
-
         .corner {
             width: 50px;
             height: 50px;
-            background-color: var(--cosmere-color-accent);
-            mask: var(--border-sheet-corner-svg) no-repeat center;
-        }
-
-        .corner-pair {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .bot {
-            transform: scaleY(-1);
-        }
-
-        .right {
-            transform: scaleX(-1);
         }
     }
 
-    > .window-background {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        border: none;
-
-        .banners {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            width: 100%;
-            height: 100%;
-            position: relative;
-
-            .top, .bot {
-                height: 200px;
-            }
-
-            .top {
-                background-image: var(--cosmere-banner-top);
-            }
-
-            .bot {
-                background-image: var(--cosmere-banner-bot);
-            }
-        }
+    > .window-content {
+        padding: 0 1.875rem;
     }
 
     .sheet-header {
@@ -290,22 +240,6 @@
             flex-direction: row;
             align-items: center;
             gap: 0.25rem;
-        }
-    }
-
-    .collapsible {
-        .collapsible-content {
-            display: grid;
-            grid-template-rows: 0fr;
-            transition: grid-template-rows 250ms ease;
-
-            & > .wrapper {
-                overflow: hidden;
-            }
-        } 
-        
-        &.expanded .collapsible-content{
-            grid-template-rows: 1fr;
         }
     }
 

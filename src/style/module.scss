@@ -5,8 +5,7 @@
 @import './style/components.scss';
 
 .application.sheet,
-.application.dialog {  
-    --border-sheet-corner-svg: url('assets/icons/svg/sheet/border_sheet_corner.svg');
+.application.dialog {
     --border-corner-svg: url('assets/icons/svg/sheet/border_corner.svg');
     --star-cosmere-svg: url('assets/icons/svg/sheet/star_cosmere.svg');
 
@@ -15,7 +14,8 @@
     background-image: var(--cosmere-sheet-texture);
 
     &.minimized {
-        border: none;
+        border: 1px solid var(--cosmere-color-accent);
+        border-radius: 6px;
 
         > .window-corners {
             display: none;
