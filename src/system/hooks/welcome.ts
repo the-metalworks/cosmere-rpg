@@ -1,5 +1,7 @@
 // Dialogs
 import { ReleaseNotesDialog } from '@system/applications/dialogs/release-notes';
+
+// Constants
 import {
     SYSTEM_ID,
     METALWORKS_DISCORD_INVITE,
@@ -7,6 +9,8 @@ import {
     GITHUB_CONTRIBUTING_URL,
     AUTHOR_NAME,
 } from '@system/constants';
+
+// Settings
 import { getSystemSetting, setSystemSetting, SETTINGS } from '../settings';
 
 Hooks.on('ready', async () => {
@@ -47,9 +51,9 @@ Hooks.on('ready', async () => {
     const currentVersion = game.system!.version;
 
     // The last used version of the system
-    const latestVersion = getSystemSetting(
+    const latestVersion = getSystemSetting<string>(
         SETTINGS.INTERNAL_LATEST_VERSION,
-    ) as string;
+    );
 
     const [currentMajor, currentMinor, currentPatch] = currentVersion
         .split('.')

@@ -9,7 +9,7 @@ import {
     Resource,
     InjuryType,
 } from '@system/types/cosmere';
-import { Talent } from '@system/types/item';
+import { Talent, TalentTree } from '@system/types/item';
 import {
     CosmereItem,
     CosmereItemData,
@@ -37,7 +37,10 @@ import { d20Roll, D20Roll, D20RollData, DamageRoll } from '@system/dice';
 // Dialogs
 import { ShortRestDialog } from '@system/applications/actor/dialogs/short-rest';
 import { MESSAGE_TYPES } from './chat-message';
+
+// Utils
 import { getTargetDescriptors } from '../utils/generic';
+import { characterMeetsTalentPrerequisites } from '@system/utils/talent-tree';
 
 export type CharacterActor = CosmereActor<CharacterActorDataModel>;
 export type AdversaryActor = CosmereActor<AdversaryActorDataModel>;
@@ -937,24 +940,15 @@ export class CosmereActor<
         return this.talents.some((talent) => talent.system.id === id);
     }
 
-    public hasTalentPrerequisites(talent: TalentItem): boolean {
-        return talent.system.prerequisitesArray.every((prereq) => {
-            switch (prereq.type) {
-                case Talent.Prerequisite.Type.Talent:
-                    return prereq.mode === Talent.Prerequisite.Mode.AllOf
-                        ? prereq.talents.every((ref) => this.hasTalent(ref.id))
-                        : prereq.talents.some((ref) => this.hasTalent(ref.id));
-                case Talent.Prerequisite.Type.Attribute:
-                    return (
-                        this.getAttributeMod(prereq.attribute) >= prereq.value
-                    );
-                case Talent.Prerequisite.Type.Skill:
-                    return this.getSkillMod(prereq.skill) >= prereq.rank;
-                case Talent.Prerequisite.Type.Level: // TEMP: Until leveling is implemented
-                default:
-                    return true;
-            }
-        });
+    /**
+     * Utility function to determine if the actor meets the
+     * given talent prerequisites.
+     */
+    public hasTalentPreRequisites(
+        prerequisites: Collection<TalentTree.Node.Prerequisite>,
+    ): boolean {
+        if (!this.isCharacter()) return false;
+        return characterMeetsTalentPrerequisites(this, prerequisites);
     }
 
     /* --- Helpers --- */
