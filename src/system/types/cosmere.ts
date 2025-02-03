@@ -66,7 +66,7 @@ export const enum Resource {
     Investiture = 'inv',
 }
 
-export const enum Skill {
+export enum Skill {
     Agility = 'agi',
     Athletics = 'ath',
     HeavyWeapons = 'hwp',
@@ -88,6 +88,7 @@ export const enum Skill {
     Persuasion = 'prs',
     Survival = 'sur',
 }
+// export type Skill = (typeof Skills)[keyof typeof Skills];
 
 export const enum DerivedStatistic {
     MovementRate = 'mvr',
@@ -288,6 +289,4 @@ export const enum TurnSpeed {
 
 export const enum Theme {
     Default = 'default',
-    //TODO: Move to stormlight module
-    Stormlight = 'stormlight',
 }

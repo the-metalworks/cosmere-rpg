@@ -1,4 +1,6 @@
 import { ConstructorOf } from '@system/types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
@@ -8,8 +10,7 @@ import { CharacterSheet } from '../../character-sheet';
 export class CharacterPathsComponent extends HandlebarsApplicationComponent<
     ConstructorOf<CharacterSheet>
 > {
-    static readonly TEMPLATE =
-        'systems/cosmere-rpg/templates/actors/character/components/paths.hbs';
+    static readonly TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_PATHS}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions
@@ -85,9 +86,9 @@ export class CharacterPathsComponent extends HandlebarsApplicationComponent<
                             .rank,
                         mod: this.application.actor.system.skills[skillId].mod,
                     })),
-                level: this.application.actor.system.level.paths[
-                    path.system.id
-                ],
+                level: this.application.actor.talents.filter(
+                    (talent) => talent.pathId === path.id,
+                ).length,
             })),
         });
     }

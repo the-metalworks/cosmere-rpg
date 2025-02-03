@@ -1,0 +1,108 @@
+{
+  "name": "Injury Effects",
+  "img": "icons/skills/wounds/bone-broken-marrow-yellow.webp",
+  "description": "",
+  "results": [
+      {
+          "type": "text",
+          "weight": 1,
+          "range": [
+              1,
+              2
+          ],
+          "drawn": false,
+          "_id": "gpJNDSRsoaWUM0T0",
+          "text": "<strong>Exausted (-1)</strong> Any Injury that lowers your overall stamina.",
+          "img": "icons/svg/sleep.svg",
+          "documentId": null,
+          "flags": {},
+          "_key": "!tables.results!VZKozajxpYEmjeL5.gpJNDSRsoaWUM0T0"
+      },
+      {
+          "type": "text",
+          "weight": 1,
+          "range": [
+              3,
+              3
+          ],
+          "drawn": false,
+          "_id": "hp5hWMYB10llrOtH",
+          "text": "<strong>Exausted (-2)</strong> Any Injury that lowers your overall stamina.",
+          "img": "icons/svg/sleep.svg",
+          "documentId": null,
+          "flags": {},
+          "_key": "!tables.results!VZKozajxpYEmjeL5.hp5hWMYB10llrOtH"
+      },
+      {
+          "type": "text",
+          "weight": 1,
+          "range": [
+              4,
+              5
+          ],
+          "drawn": false,
+          "_id": "fpye65P7pqocOxCq",
+          "text": "<strong>Slowed</strong> Injured leg or foot, or any injury that lowers your overall speed.",
+          "img": "icons/svg/net.svg",
+          "documentId": null,
+          "flags": {},
+          "_key": "!tables.results!VZKozajxpYEmjeL5.fpye65P7pqocOxCq"
+      },
+      {
+          "type": "text",
+          "weight": 1,
+          "range": [
+              6,
+              6
+          ],
+          "drawn": false,
+          "_id": "K6q4agriRKoldHkS",
+          "text": "<strong>Disoriented</strong> Injured head, or widespread injury that overwhelms your senses.",
+          "img": "icons/svg/stoned.svg",
+          "documentId": null,
+          "flags": {},
+          "_key": "!tables.results!VZKozajxpYEmjeL5.K6q4agriRKoldHkS"
+      },
+      {
+          "type": "text",
+          "weight": 1,
+          "range": [
+              7,
+              7
+          ],
+          "drawn": false,
+          "_id": "Xsus0oW97bVGoZEW",
+          "text": "<strong>Surprised</strong> Overwhelmed due to the shock of an injury.",
+          "img": "icons/svg/terror.svg",
+          "documentId": null,
+          "flags": {},
+          "_key": "!tables.results!VZKozajxpYEmjeL5.Xsus0oW97bVGoZEW"
+      },
+      {
+          "type": "text",
+          "weight": 1,
+          "range": [
+              8,
+              8
+          ],
+          "drawn": false,
+          "_id": "W2tWPsVNKlnoXpIo",
+          "text": "<strong>Can only use one hand</strong> Injured arm or hand, or any injury that lowers your overall coordination.",
+          "img": "icons/svg/cancel.svg",
+          "documentId": null,
+          "flags": {},
+          "_key": "!tables.results!VZKozajxpYEmjeL5.W2tWPsVNKlnoXpIo"
+      }
+  ],
+  "replacement": true,
+  "displayRoll": true,
+  "folder": null,
+  "ownership": {
+      "default": 0
+  },
+  "flags": {},
+  "formula": "1d8",
+  "_id": "VZKozajxpYEmjeL5",
+  "sort": 0,
+  "_key": "!tables!VZKozajxpYEmjeL5"
+}

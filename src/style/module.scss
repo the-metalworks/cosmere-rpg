@@ -51,8 +51,8 @@
         margin: 0.5em 0;
 
         .prerequisite {
-            border: 1px solid var(--plotweaver-color-dark-5);
-            background-color: var(--plotweaver-color-dark-2);
+            border: 1px solid var(--cosmere-color-dark-5);
+            background-color: var(--cosmere-color-dark-2);
             border-radius: .2rem;
             padding: 0 .2rem;
             margin: 0 .2rem;
@@ -63,15 +63,15 @@
             }
 
             &.unmet {
-                color: var(--plotweaver-color-complication-text);
-                border-color: var(--plotweaver-color-complication-text);
-                background-color: var(--plotweaver-color-complication-background-dark);
+                color: var(--cosmere-color-complication-text);
+                border-color: var(--cosmere-color-complication-text);
+                background-color: var(--cosmere-color-complication-background-dark);
             }
 
             &.met {
-                color: var(--plotweaver-color-opportunity-text);
-                border-color: var(--plotweaver-color-opportunity-text);
-                background-color: var(--plotweaver-color-opportunity-background-dark);
+                color: var(--cosmere-color-opportunity-text);
+                border-color: var(--cosmere-color-opportunity-text);
+                background-color: var(--cosmere-color-opportunity-background-dark);
             }
         }
     }

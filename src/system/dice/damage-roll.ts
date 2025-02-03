@@ -127,7 +127,28 @@ export class DamageRoll extends foundry.dice.Roll<DamageRollData> {
 
     public override async getTooltip(): Promise<string> {
         const tooltip = await super.getTooltip();
-        if (tooltip) return tooltip;
+
+        if (tooltip) {
+            const diceRolls = $(tooltip).find('.roll.die');
+            const firstPart = $(tooltip).find('.tooltip-part').first();
+
+            let total = 0;
+            $(tooltip)
+                .find('.value')
+                .each((_index, value) => {
+                    total += Number($(value).text());
+                });
+
+            firstPart.find('.dice-rolls').empty().append(diceRolls);
+            firstPart.find('.value').text(total);
+
+            const tooltipFinal = $(tooltip)
+                .find('.dice-tooltip')
+                .empty()
+                .append(firstPart);
+
+            return tooltipFinal[0].outerHTML;
+        }
 
         // Get dice terms
         const parts = [

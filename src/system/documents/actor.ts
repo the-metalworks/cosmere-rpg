@@ -33,6 +33,7 @@ import { PowerItemData } from '@system/data/item';
 import { Derived } from '@system/data/fields';
 import { SYSTEM_ID } from '../constants';
 import { d20Roll, D20Roll, D20RollData, DamageRoll } from '@system/dice';
+import { AttributeScale } from '../types/config';
 
 // Dialogs
 import { ShortRestDialog } from '@system/applications/actor/dialogs/short-rest';
@@ -907,6 +908,15 @@ export class CosmereActor<
                 }),
                 {} as Record<Skill, { rank: number; mod: number }>,
             ),
+
+            scalar: {
+                damage: {
+                    unarmed: this.getFormulaFromScalarAttribute(
+                        Attribute.Strength,
+                        CONFIG.COSMERE.unarmedDamageScaling.strengthRanges,
+                    ),
+                },
+            },
         };
     }
 
@@ -920,6 +930,22 @@ export class CosmereActor<
                 yield effect;
             }
         }
+    }
+
+    /**
+     * Utility Function to determine a formula value based on a scalar plot of an attribute value
+     */
+    public getFormulaFromScalarAttribute(
+        attr: Attribute,
+        scale: AttributeScale[],
+    ) {
+        const value = this.system.attributes[attr]?.value ?? 0;
+        for (const range of scale) {
+            if (value >= range.min && value <= range.max) {
+                return range.formula;
+            }
+        }
+        return 1;
     }
 
     /**

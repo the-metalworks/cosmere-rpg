@@ -152,15 +152,15 @@
                 },
                 "Item": {
                     "Edit": "Edit",
-                    "Details": "View details",
+                    "Details": "View/Hide Details",
                     "Remove": "Remove"
                 },
                 "Actions": {
                     "label": "Actions",
-                    "Activation": "Use",
+                    "Activation": "Action",
                     "Consume": "Cost",
                     "Uses": "Uses",
-                    "Use": "Use action",
+                    "Use": "Use Action",
                     "Strike": "Strike",
                     "BaseSectionName": "{type} Actions",
                     "MiscSectionName": "Miscellaneous Actions",
@@ -208,8 +208,9 @@
                 "AncestryPlaceholder": "Add Ancestry",
                 "CulturePlaceholder": "Add Culture",
                 "PathPlaceholder": "Add Path",
-                "ShortRest": "Short rest",
-                "LongRest": "Long rest",
+                "EndScene": "End Scene",
+                "ShortRest": "Short Rest",
+                "LongRest": "Long Rest",
                 "ToggleShowSkills": "Show skills without ranks",
                 "ToggleCollapseSkills": "Hide skills without ranks",
                 "ConfigureDefense": "Configure Defense",
@@ -227,16 +228,18 @@
                 },
                 "Search": {
                     "Item": {
-                        "Placeholder": "Search Actions"
+                        "Placeholder": "Search actions"
                     },
                     "Equipment": {
-                        "Placeholder": "Search Items"
+                        "Placeholder": "Search items"
                     },
                     "Effects": {
-                        "Placeholder": "Search Effects"
+                        "Placeholder": "Search effects"
                     },
-                    "Clear": "Clear search",
-                    "ChangeSortDirection": "Change sort direction"
+                    "Clear": "Clear Filters",
+                    "Filter": "Filter By",
+                    "SortManually": "Sort Manually",
+                    "SortAlphabetically": "Sort Alphabetically"
                 },
                 "Details": {
                     "Purpose": "Purpose",
@@ -743,7 +746,9 @@
                     "Cost": "Activation Cost",
                     "Consume": "Resource Consumption",
                     "Uses": "Limited Uses",
-                    "Recharge": "Recharge"
+                    "Recharge": "Recharge",
+                    "AdditionalFormula": "Roll Formula Extension",
+                    "AdditionalFormulaDescription": "Input any extra modifiers you wish to add to this item's d20 Skill Roll. This input will be treated as a dice formula, but any die you add won't be available for advantage/disadvantage currently. Paramters you can use: @mod, @attribute & @skill.rank refer to the values of the skills selected here, but the whole list of skills and attributes can be accessed - ask on the discord for help!"
                 },
                 "Attack": {
                     "Title": "Attack",
@@ -860,6 +865,13 @@
             "Unconscious": "Unconscious"
         },
         "Sheet": {
+            "Descriptions": {
+              "DescriptionHeader": "Description",
+              "ShortHeader": "Short Description",
+              "ChatHeader": "Chat Description",
+              "Collapsible": "Toggle Collapsible",
+              "Edit": "Edit Description"  
+            },
             "Effects": {
                 "Label": "Effects",
                 "Inactive": "Inactive Effects",
@@ -927,7 +939,10 @@
                 "ReduceFocus": "Click to reduce focus from selected token(s).",
                 "RollCrit": "Click to roll critical damage.",
                 "RollAdvantage": "Click to roll with advantage.",
-                "RollDisadvantage": "Click to roll with disadvantage."
+                "RollDisadvantage": "Click to roll with disadvantage.",
+                "ApplyInjury": "Click to apply injury to character.",
+                "UndoDamage": "Click to undo damage taken.",
+                "UndoHealing": "Click to undo healing."
             },
             "Trays": {
                 "Targets": "Targets"
@@ -941,14 +956,11 @@
             "ApplyDamage": "{actor} takes <strong>{amount} damage</strong>.",
             "ApplyHealing": "{actor} recovers <strong>{amount} health</strong>.",
             "DamageCalculation": "Damage Calculation: {calculation}",
-            "UndoDamage": "Click to undo damage taken.",
-            "UndoHealing": "Click to undo healing.",
             "ViewRollsDetails": "Roll Details",
             "Welcome": "<h2>Welcome to the Cosmere RPG System!</h2> <p>Thank you for trying out the community-developed Cosmere Roleplaying Game system! You're currently using version <strong>{version}</strong>. As this is an early release, some bugs or missing features are to be expected, but your feedback will help us improve the system. </p> <p>For discussions, updates, and support, join us on the <a href=\"{discordLink}\">Metalworks Discord</a> server.</p> <p>If you encounter any issues or have suggestions, we'd love to hear from you! Please report them on our <a href=\"{issuesLink}\">GitHub Issues page</a> or on the <a href=\"{discordLink}\">Metalworks Discord</a>. Be sure to review the <a href=\"{contributingLink}\">contribution guidelines</a> if you'd like to get involved in development. </p> <p>We're excited to have you on board and hope you enjoy playing in the Cosmere!</p>"
         },
         "Theme": {
-            "Default": "Default",
-            "Stormlight": "Stormlight Archive"
+            "Default": "Default"
         }
     },
     "DICE": {
@@ -969,7 +981,8 @@
             "Apply": "Apply",
             "Graze": "Graze",
             "Full": "Full"
-        }
+        },
+        "TemporaryBonus": "Temporary Modifiers (formula)"
     },
     "ROLLS": {
         "Recovery": "[character] rolls their recovery die.",
@@ -1072,6 +1085,7 @@
     "GENERIC": {
         "Unknown": "Unknown",
         "None": "None",
+        "Custom": "Custom",
         "Default": "Default",
         "Document": "Document",
         "Formula": "Formula",

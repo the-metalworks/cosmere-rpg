@@ -1,12 +1,13 @@
 import { ConstructorOf } from '@system/types/utils';
 import { CosmereItem } from '@system/documents';
-
 import { AppContextMenu } from '@system/applications/utils/context-menu';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
 import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
-import { SortDirection } from './search-bar';
+import { SortMode } from './search-bar';
 
 type EffectListType = 'inactive' | 'passive' | 'temporary';
 
@@ -19,7 +20,7 @@ type Params = {
 interface RenderContext extends BaseActorSheetRenderContext {
     effectsSearch: {
         text: string;
-        sort: SortDirection;
+        sort: SortMode;
     };
 }
 
@@ -34,8 +35,7 @@ export class ActorEffectsListComponent extends HandlebarsApplicationComponent<
     ConstructorOf<BaseActorSheet>,
     Params
 > {
-    static TEMPLATE =
-        'systems/cosmere-rpg/templates/actors/components/effects-list.hbs';
+    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_EFFECTS_LIST}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions
@@ -70,14 +70,11 @@ export class ActorEffectsListComponent extends HandlebarsApplicationComponent<
             .filter((effect) => !effect.id.startsWith('cond'))
             .filter((effect) =>
                 effect.name.toLowerCase().includes(context.effectsSearch.text),
-            )
-            .sort(
-                (a, b) =>
-                    a.name.compare(b.name) *
-                    (context.effectsSearch.sort === SortDirection.Descending
-                        ? 1
-                        : -1),
             );
+
+        if (context.effectsSearch.sort === SortMode.Alphabetic) {
+            effects = effects.sort((a, b) => a.name.compare(b.name));
+        }
 
         // Filter effects down to the correct type
         if (params.type === 'inactive') {
