@@ -7,6 +7,7 @@ import './style.scss';
 import './system/hooks';
 
 import { preloadHandlebarsTemplates } from './system/utils/handlebars';
+import { registerCustomEnrichers } from './system/utils/enrichers';
 import {
     registerDeferredSettings,
     registerSystemKeybindings,
@@ -109,6 +110,8 @@ Hooks.once('init', async () => {
     // Register settings
     registerSystemSettings();
     registerSystemKeybindings();
+
+    registerCustomEnrichers();
 
     // Load templates
     await preloadHandlebarsTemplates();

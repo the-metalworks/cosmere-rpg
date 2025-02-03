@@ -39,6 +39,7 @@ import { ShortRestDialog } from '@system/applications/actor/dialogs/short-rest';
 import { MESSAGE_TYPES } from './chat-message';
 import { getTargetDescriptors } from '../utils/generic';
 import { AttributeScale } from '../types/config';
+import { EnricherData } from '../utils/enrichers';
 
 export type CharacterActor = CosmereActor<CharacterActorDataModel>;
 export type AdversaryActor = CosmereActor<AdversaryActorDataModel>;
@@ -915,6 +916,12 @@ export class CosmereActor<
                 },
             },
         };
+    }
+
+    public getEnricherData() {
+        return {
+            name: this.name,
+        } as const satisfies EnricherData;
     }
 
     public *allApplicableEffects() {

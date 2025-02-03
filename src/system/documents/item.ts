@@ -69,6 +69,7 @@ import {
 } from '../utils/generic';
 import { MESSAGE_TYPES } from './chat-message';
 import { renderSystemTemplate, TEMPLATES } from '../utils/templates';
+import { EnricherData } from '../utils/enrichers';
 
 // Constants
 const CONSUME_CONFIGURATION_DIALOG_TEMPLATE =
@@ -1115,7 +1116,11 @@ export class CosmereItem<
                 ?.value;
         /* eslint-enable @typescript-eslint/prefer-nullish-coalescing */
 
-        const description = await TextEditor.enrichHTML(descriptionData ?? '');
+        const description = await TextEditor.enrichHTML(descriptionData ?? '', {
+            relativeTo: (this.parent ?? undefined) as
+                | foundry.abstract.Document.Any
+                | undefined,
+        });
 
         const traitsNormal = [];
         const traitsExpert = [];
@@ -1244,6 +1249,12 @@ export class CosmereItem<
                 : undefined,
             attribute: attribute?.value,
         };
+    }
+
+    public getEnricherData() {
+        return {
+            name: this.name,
+        } as const satisfies EnricherData;
     }
 }
 

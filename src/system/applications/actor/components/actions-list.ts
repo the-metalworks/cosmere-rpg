@@ -485,6 +485,11 @@ export class ActorActionsListComponent extends HandlebarsApplicationComponent<
                         ? {
                               descriptionHTML: await TextEditor.enrichHTML(
                                   item.system.description.value,
+                                  {
+                                      relativeTo: (item.parent ?? undefined) as
+                                          | foundry.abstract.Document.Any
+                                          | undefined,
+                                  },
                               ),
                           }
                         : {}),
