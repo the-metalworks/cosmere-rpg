@@ -1,6 +1,6 @@
 import { Attribute, Skill } from '@system/types/cosmere';
-import { TalentItem } from '@system/documents/item';
-import { Talent } from '@system/types/item';
+import { TalentTreeItem } from '@system/documents/item';
+import { TalentTree } from '@system/types/item';
 import { AnyObject } from '@system/types/utils';
 import { TalentItemData } from '@system/data/item/talent';
 
@@ -8,11 +8,7 @@ const { ApplicationV2 } = foundry.applications.api;
 
 import { ComponentHandlebarsApplicationMixin } from '@system/applications/component-system';
 
-type PrerequisiteData = {
-    id: string;
-} & TalentItemData['prerequisites'][keyof TalentItemData['prerequisites']];
-
-export class EditTalentPrerequisiteDialog extends ComponentHandlebarsApplicationMixin(
+export class EditNodePrerequisiteDialog extends ComponentHandlebarsApplicationMixin(
     ApplicationV2<AnyObject>,
 ) {
     /**
@@ -45,7 +41,7 @@ export class EditTalentPrerequisiteDialog extends ComponentHandlebarsApplication
         {
             form: {
                 template:
-                    'systems/cosmere-rpg/templates/item/talent/dialogs/edit-prerequisite.hbs',
+                    'systems/cosmere-rpg/templates/item/talent-tree/dialogs/edit-prerequisite.hbs',
                 forms: {
                     form: {
                         handler: this.onFormEvent,
@@ -58,38 +54,44 @@ export class EditTalentPrerequisiteDialog extends ComponentHandlebarsApplication
     /* eslint-enable @typescript-eslint/unbound-method */
 
     private constructor(
-        private talent: TalentItem,
-        private data: PrerequisiteData,
+        private tree: TalentTreeItem,
+        private node: TalentTree.TalentNode,
+        private data: TalentTree.Node.Prerequisite,
     ) {
         super({
-            id: `${talent.uuid}.Prerequisite.${data.id}`,
+            id: `${tree.uuid}.nodes.${node.id}.Prerequisite.${data.id}`,
         });
     }
 
     /* --- Statics --- */
 
-    public static async show(talent: TalentItem, data: PrerequisiteData) {
-        const dialog = new this(talent, foundry.utils.deepClone(data));
+    public static async show(
+        tree: TalentTreeItem,
+        node: TalentTree.TalentNode,
+        data: TalentTree.Node.Prerequisite,
+    ) {
+        const dialog = new this(tree, node, foundry.utils.deepClone(data));
         await dialog.render(true);
     }
 
     /* --- Actions --- */
 
-    private static onUpdatePrerequisite(this: EditTalentPrerequisiteDialog) {
+    private static onUpdatePrerequisite(this: EditNodePrerequisiteDialog) {
         if (
-            this.data.type === Talent.Prerequisite.Type.Attribute &&
+            this.data.type === TalentTree.Node.Prerequisite.Type.Attribute &&
             isNaN(this.data.value)
         ) {
             this.data.value = 1;
         } else if (
-            this.data.type === Talent.Prerequisite.Type.Skill &&
+            this.data.type === TalentTree.Node.Prerequisite.Type.Skill &&
             isNaN(this.data.rank)
         ) {
             this.data.rank = 1;
         }
 
-        void this.talent.update({
-            [`system.prerequisites.${this.data.id}`]: this.data,
+        void this.tree.update({
+            [`system.nodes.${this.node.id}.prerequisites.${this.data.id}`]:
+                this.data,
         });
         void this.close();
     }
@@ -97,7 +99,7 @@ export class EditTalentPrerequisiteDialog extends ComponentHandlebarsApplication
     /* --- Form --- */
 
     protected static onFormEvent(
-        this: EditTalentPrerequisiteDialog,
+        this: EditNodePrerequisiteDialog,
         event: Event,
         form: HTMLFormElement,
         formData: FormDataExtended,
@@ -105,27 +107,31 @@ export class EditTalentPrerequisiteDialog extends ComponentHandlebarsApplication
         if (event instanceof SubmitEvent) return;
 
         // Get type
-        const type = formData.get('type') as Talent.Prerequisite.Type;
+        const type = formData.get('type') as TalentTree.Node.Prerequisite.Type;
         this.data.type = type;
 
-        if (this.data.type === Talent.Prerequisite.Type.Attribute) {
+        if (this.data.type === TalentTree.Node.Prerequisite.Type.Attribute) {
             this.data.attribute = (formData.get('attribute') ??
                 Object.keys(CONFIG.COSMERE.attributes)[0]) as Attribute;
             this.data.value = parseInt(formData.get('value') as string, 10);
-        } else if (this.data.type === Talent.Prerequisite.Type.Skill) {
+        } else if (this.data.type === TalentTree.Node.Prerequisite.Type.Skill) {
             this.data.skill = (formData.get('skill') ??
                 Object.keys(CONFIG.COSMERE.skills)[0]) as Skill;
             this.data.rank = parseInt(formData.get('rank') as string, 10);
-        } else if (this.data.type === Talent.Prerequisite.Type.Talent) {
-            this.data.mode =
-                (formData.get('mode') as
-                    | Talent.Prerequisite.Mode
-                    | undefined) ?? Talent.Prerequisite.Mode.AnyOf;
-            this.data.talents ??= [];
-        } else if (this.data.type === Talent.Prerequisite.Type.Connection) {
+        } else if (
+            this.data.type === TalentTree.Node.Prerequisite.Type.Talent
+        ) {
+            // this.data.mode =
+            //     (formData.get('mode') as
+            //         | Talent.Prerequisite.Mode
+            //         | undefined) ?? Talent.Prerequisite.Mode.AnyOf;
+            // this.data.talents ??= [];
+        } else if (
+            this.data.type === TalentTree.Node.Prerequisite.Type.Connection
+        ) {
             this.data.description = formData.get('description') as string;
         } else if (
-            this.data.type === Talent.Prerequisite.Type.Level &&
+            this.data.type === TalentTree.Node.Prerequisite.Type.Level &&
             formData.has('level')
         ) {
             this.data.level = parseInt(formData.get('level') as string);
@@ -152,14 +158,14 @@ export class EditTalentPrerequisiteDialog extends ComponentHandlebarsApplication
     public _prepareContext(): Promise<AnyObject> {
         return Promise.resolve({
             editable: true,
-            rootTalent: this.talent,
-            schema: this.talent.system.schema._getField([
-                'prerequisites',
-                'model',
-            ]),
+            tree: this.tree,
+            node: this.node,
+            schema: this.tree.system.schema.getField(
+                'nodes.model.prerequisites.model',
+            ),
             ...this.data,
 
-            typeSelectOptions: this.talent.system.prerequisiteTypeSelectOptions,
+            typeSelectOptions: this.getPrequisiteTypeSelectOptions(),
             attributeSelectOptions: Object.entries(
                 CONFIG.COSMERE.attributes,
             ).reduce(
@@ -176,8 +182,16 @@ export class EditTalentPrerequisiteDialog extends ComponentHandlebarsApplication
                 }),
                 {},
             ),
-            prerequisiteModeSelectOptions:
-                CONFIG.COSMERE.items.talent.prerequisite.modes,
         });
+    }
+
+    /* --- Helpers --- */
+
+    private getPrequisiteTypeSelectOptions() {
+        return (
+            this.tree.system.schema.getField(
+                'nodes.model.prerequisites.model.type',
+            ) as foundry.data.fields.StringField
+        ).choices as Record<string, string>;
     }
 }

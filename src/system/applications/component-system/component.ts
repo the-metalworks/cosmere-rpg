@@ -28,7 +28,12 @@ export class HandlebarsApplicationComponent<
         ? R
         : never,
 > extends foundry.utils.EventEmitterMixin(Object) {
-    static emittedEvents = ['initialize', 'attachListeners', 'render'];
+    static emittedEvents = [
+        'initialize',
+        'attachListeners',
+        'render',
+        'destroy',
+    ];
 
     /**
      * The template entry-point for the Component
@@ -93,6 +98,7 @@ export class HandlebarsApplicationComponent<
                 (event as ComponentEvent<Params>).detail.params,
             ),
         );
+        this.addEventListener('destroy', this._onDestroy.bind(this));
     }
 
     public get element(): HTMLElement | undefined {
@@ -169,6 +175,11 @@ export class HandlebarsApplicationComponent<
      * @param params
      */
     protected _onAttachListeners(params: Params) {}
+
+    /**
+     * Actions performed at Component teardown.
+     */
+    protected _onDestroy() {}
 
     /* --- Registration --- */
 

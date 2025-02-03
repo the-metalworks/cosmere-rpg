@@ -1,30 +1,12 @@
-<div class="container">
-    <div class="grid" style="grid-template-columns: {{gridTemplate.columns}};">
-        {{#times rows as |row|}}
-            {{#times @root.columns as |column|}}
-                <div class="cell" data-row="{{row}}" data-column="{{column}}">
-                    {{#with (lookup (lookup @root.cells row) column) as |node|}}
-                        <div class="slot {{#if node.isContext}}context{{/if}} {{#if node.obtained}}obtained{{/if}} {{#if node.available}}available{{/if}}" 
-                            data-id="{{node.id}}" 
-                            {{#if (not @root.isEditMode)}}
-                                data-action="pick-talent"
-                                data-tooltip="{{inline-partial 
-                                    "talent-tree-node-tooltip" 
-                                    img=node.item.img
-                                    title=node.item.name
-                                    description=(lookup @root.enrichedDescriptions node.id)
-                                }}"
-                            {{/if}}
-                        >
-                            <img src="{{node.item.img}}"/>
-                        </div>
-                    {{else if @root.isEditMode}}
-                        <div class="slot empty"></div>
-                    {{/with}}
-                </div>
-            {{/times}}
-        {{/times}}
-    </div>
-
-    <div class="connections"></div>
-</div>
+{{#if isEditMode}}
+    {{app-talent-tree-editor
+        tree=item
+        contextActor=contextActor
+    }}
+{{else}}
+    {{app-talent-tree-view
+        tree=item
+        contextActor=contextActor
+        allowObtainTalents=true
+    }}
+{{/if}}

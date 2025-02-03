@@ -19,6 +19,9 @@ export default {
         // Removes the hash from the asset filename
         assetFileNames: '[name][extname]',
     },
+    external: [
+        '@pixi/core'
+    ],
     plugins: [
         // CSS
         scss(),
@@ -46,6 +49,7 @@ export default {
                 { src: 'src/patch-notes.md', dest: 'build/' },
             ],
         }),
+        pixiImportFix(),
     ],
 };
 
@@ -87,5 +91,23 @@ function markdownParser(config) {
                 fs.writeFileSync(dest, `<div>${markdown}</div>`);
             });
         } 
+    }
+}
+
+function pixiImportFix() {
+    return {
+        name: 'pixi-import-fix',
+        renderChunk: (code, chunk, options, meta) => {
+            return code.replace(
+                "import { Point, ObservablePoint, Rectangle, Filter, utils } from '@pixi/core';",
+                [
+                    'const Point = PIXI.Point;',
+                    'const ObservablePoint = PIXI.ObservablePoint;',
+                    'const Rectangle = PIXI.Rectangle;',
+                    'const Filter = PIXI.Filter;',
+                    'const utils = PIXI.utils;',
+                ].join('\n')
+            )
+        }
     }
 }

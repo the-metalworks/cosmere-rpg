@@ -1,0 +1,147 @@
+<div class="container">
+    <div class="view"></div>
+    <div class="menu open">
+        {{#if (not hasSelection)}}
+            {{!-- No select, general configuration --}}
+
+            {{!-- Name --}}
+            {{formGroup
+                documentSchema.fields.name
+                label=(localize "GENERIC.Name")
+                name="name"
+                value=tree.name
+                localize=true
+            }}
+            <br>
+
+            {{!-- View bounds --}}
+            <div class="form-group-stacked">
+                <div class="form-group">
+                    <label><b>{{localize "COSMERE.Item.TalentTree.ViewBounds.Label"}}</b></label>
+                    <button type="button" data-action="capture-view"
+                        data-tooltip="{{localize "COSMERE.Item.TalentTree.ViewBounds.CaptureTooltip"}}"
+                    >
+                        <i class="fas fa-crop-alt fa-fw"></i>
+                    </button>
+                </div>
+                <div class="form-group">
+                    <div class="form-fields">
+                        {{formField
+                            systemSchema.fields.viewBounds.fields.x
+                            value=tree.system.viewBounds.x
+                            localize=true
+                        }}
+                        {{formField
+                            systemSchema.fields.viewBounds.fields.y
+                            value=tree.system.viewBounds.y
+                            localize=true
+                        }}
+                        {{formField
+                            systemSchema.fields.viewBounds.fields.width
+                            value=tree.system.viewBounds.width
+                            localize=true
+                        }}
+                        {{formField
+                            systemSchema.fields.viewBounds.fields.height
+                            value=tree.system.viewBounds.height
+                            localize=true
+                        }}
+                    </div>
+                </div>
+            </div>
+            <br>
+
+            {{!-- Display --}}
+            <div class="form-group-stacked">
+                <label><b>{{localize "COSMERE.Item.TalentTree.Display.Label"}}</b></label>
+                <div class="form-group">
+                    <div class="form-fields">
+                        {{formField
+                            systemSchema.fields.display.fields.width
+                            value=tree.system.display.width
+                            localize=true
+                        }}
+                        {{formField
+                            systemSchema.fields.display.fields.height
+                            value=tree.system.display.height
+                            localize=true
+                        }}
+                    </div>
+                </div>
+            </div>
+            <br>
+
+            <div class="form-group">
+                <label><b>{{localize "COSMERE.Item.TalentTree.Background.Label"}}</b></label>
+            </div>
+            {{!-- Background image --}}
+            {{formGroup
+                systemSchema.fields.background.fields.img
+                value=tree.system.background.img
+                localize=true
+            }}
+            <div class="form-group">
+                <label>{{localize "COSMERE.Item.TalentTree.Background.Size.Label"}}</label>
+                <div class="form-group">
+                    <div class="form-fields">
+                        {{formField
+                            systemSchema.fields.background.fields.width
+                            value=tree.system.background.width
+                            localize=true
+                        }}
+                        {{formField
+                            systemSchema.fields.background.fields.height
+                            value=tree.system.background.height
+                            localize=true
+                        }}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>{{localize "COSMERE.Item.TalentTree.Background.Position.Label"}}</label>
+                <div class="form-group">
+                    <div class="form-fields">
+                        {{formField
+                            systemSchema.fields.background.fields.position.fields.x
+                            value=tree.system.background.position.x
+                            localize=true
+                        }}
+                        {{formField
+                            systemSchema.fields.background.fields.position.fields.y
+                            value=tree.system.background.position.y
+                            localize=true
+                        }}
+                    </div>
+                </div>
+            </div>
+        {{else}}
+            {{#if (eq selectedType "node")}}
+                <div class="form-group">
+                    <label>{{localize "GENERIC.Talent"}}</label>
+                    <div class="form-field">
+                        {{{itemLink}}}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>{{localize "COSMERE.Item.TalentTree.Node.Position.Label"}}</label>
+                    <div class="form-group">
+                        <label>{{localize "COSMERE.Item.TalentTree.Node.Position.X.Label"}}</label>
+                        <input type="number" name="node.position.x" value={{selected.position.x}} min="0" step="1">
+                    </div>
+                    <div class="form-group">
+                        <label>{{localize "COSMERE.Item.TalentTree.Node.Position.Y.Label"}}</label>
+                        <input type="number" name="node.position.y" value={{selected.position.y}} min="0" step="1">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label><b>{{localize "COSMERE.Item.TalentTree.Node.Prerequisites.Label"}}</b></label>
+                </div>
+                {{app-talent-tree-node-prerequisites
+                    node=selected
+                }}
+            {{/if}}
+        {{/if}}
+    </div>
+</div>
