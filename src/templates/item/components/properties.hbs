@@ -2,8 +2,8 @@
 <div class="properties-list">
     {{!-- Physical properties --}}
     {{#if isPhysical}}
-    <div class="form-group quantity">
-        <label>{{localize "COSMERE.Item.Sheet.Properties.Quantity"}}</label>
+    <div class="property quantity" data-tooltip="{{localize "COSMERE.Item.Sheet.Properties.Quantity"}}">
+        <i class="separator fa-solid fa-xmark"></i>
         <input name="system.quantity"
             type="number"
             min="0"
@@ -14,8 +14,8 @@
             {{/if}}
         >
     </div>
-    <div class="form-group weight">
-        <label>{{localize "COSMERE.Item.Sheet.Properties.Weight"}}</label>
+    <div class="property weight" data-tooltip="{{localize "COSMERE.Item.Sheet.Properties.Weight"}}">
+        <i class="separator fa-solid fa-weight-hanging"></i>
         <input name="system.weight.value"
             type="number"
             min="0"
@@ -25,21 +25,15 @@
             readonly
             {{/if}}
         >
-        <select name="system.weight.unit"
-            {{#if (not editable)}}
-            disabled
-            {{/if}}
-        >
-            {{selectOptions units.weight selected=item.system.weight.unit}}
-        </select>
     </div>
-    <div class="form-group price">
-        <label>{{localize "COSMERE.Item.Sheet.Properties.Price"}}</label>
+    <div class="property price">
+        <i class="separator fa-solid fa-coins"></i>
         <input name="system.price.value"
             type="number"
             min="0"
             step="0.01"
             value="{{item.system.price.value}}"
+            data-tooltip="{{localize "COSMERE.Item.Sheet.Properties.Price"}}"
             {{#if (not editable)}}
             readonly
             {{/if}}

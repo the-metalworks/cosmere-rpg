@@ -1,6 +1,5 @@
 {{#with (lookup tabsMap "description") as |tab|}}
 <div class="tab tab-content {{tab.cssClass}}" data-tab="description" data-group="primary">    
-    {{!-- {{app-item-properties}} --}}
     {{#if @root.isUpdatingDescription}}
     <prose-mirror name="{{@root.proseDescName}}" data-document-u-u-i-d="{{@root.item.uuid}}"
          value = "{{@root.proseDescHtml}}" collaborate="true">
