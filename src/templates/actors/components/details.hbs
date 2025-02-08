@@ -49,10 +49,10 @@
 <div class="derived-statistics flexrow">
     {{!-- Movement --}}
     <div class="sheet-stack derived-stat movement">
-        <div class="container">
+        <div class="container" data-tooltip="{{movementTooltip}}">
             <div class="background"></div>
             <div class="border"></div>
-            <span class="value">{{derived actor.system.movement.rate}}</span>
+            <span class="value">{{derived (lookup (lookup actor.system.movement preferredMovementType) "rate")}}</span>
             <span class="unit">ft</span>
         </div>
         <span class="label">

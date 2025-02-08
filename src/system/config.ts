@@ -32,6 +32,7 @@ import {
     EquipmentType,
     PowerType,
     Theme,
+    MovementType,
 } from './types/cosmere';
 import { AdvantageMode } from './types/roll';
 
@@ -74,6 +75,20 @@ const COSMERE: CosmereRPGConfig = {
         },
         [CreatureType.Animal]: {
             label: 'COSMERE.Actor.Type.Animal',
+        },
+    },
+
+    movement: {
+        types: {
+            [MovementType.Walk]: {
+                label: 'COSMERE.Actor.Movement.Type.Walk',
+            },
+            [MovementType.Swim]: {
+                label: 'COSMERE.Actor.Movement.Type.Swim',
+            },
+            [MovementType.Fly]: {
+                label: 'COSMERE.Actor.Movement.Type.Fly',
+            },
         },
     },
 
