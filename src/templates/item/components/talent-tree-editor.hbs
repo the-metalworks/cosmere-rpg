@@ -12,8 +12,15 @@
                 value=tree.name
                 localize=true
             }}
+            {{formGroup
+                documentSchema.fields.img
+                label=(localize "GENERIC.Image")
+                name="img"
+                value=tree.img
+                localize=true
+            }}
             <br>
-
+            
             {{!-- View bounds --}}
             <div class="form-group-stacked">
                 <div class="form-group">
