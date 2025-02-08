@@ -14,6 +14,7 @@ import {
 
 import { CharacterActor, CosmereActor } from '@system/documents/actor';
 import { CosmereItem } from '@system/documents/item';
+import { AttributeData } from '@system/data/actor';
 import { Derived } from '@system/data/fields';
 
 import { AnyObject } from '@src/system/types/utils';
@@ -111,13 +112,10 @@ Handlebars.registerHelper(
     },
 );
 
-Handlebars.registerHelper(
-    'bonus',
-    (obj?: { value: number; bonus?: number }) => {
-        if (!obj) return;
-        return obj.value + (obj.bonus ?? 0);
-    },
-);
+Handlebars.registerHelper('bonus', (obj?: AttributeData) => {
+    if (!obj) return;
+    return obj.value + (obj.bonus ?? 0);
+});
 
 Handlebars.registerHelper(
     'skillMod',

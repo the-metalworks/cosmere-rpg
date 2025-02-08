@@ -56,7 +56,7 @@ interface CurrencyDenominationData {
     convertedValue: Derived<number>;
 }
 
-interface AttributeData {
+export interface AttributeData {
     value: number;
     bonus: number;
 }
