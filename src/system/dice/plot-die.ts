@@ -51,6 +51,7 @@ export class PlotDie extends foundry.dice.terms.DiceTerm {
         dh: foundry.dice.terms.Die.prototype.drop.bind(this),
         dl: foundry.dice.terms.Die.prototype.drop.bind(this),
         p: 'pick',
+        gmp: 'pick',
     };
 
     /* --- Accessors --- */
