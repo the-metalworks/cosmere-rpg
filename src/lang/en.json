@@ -1004,6 +1004,9 @@
             "SelectRoll": "Select roll",
             "Warning": {
                 "PickedLessThanTotal": "Only {picked} of {total} picked"
+            },
+            "Error": {
+                "TooManyPicked": "Cannot pick more than {max} rolls"
             }
         }
     },

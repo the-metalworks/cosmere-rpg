@@ -110,6 +110,15 @@ export class PickDiceResultDialog extends ComponentHandlebarsApplicationMixin(
         // Get selected result
         const result = this.rolls[index];
 
+        // Ensure the amount picked is less than the amount to pick
+        if (this.picked.length >= this.data.amount && !!result.discarded) {
+            return void ui.notifications.error(
+                game.i18n!.format('DIALOG.PickDiceResult.Error.TooManyPicked', {
+                    max: this.data.amount,
+                }),
+            );
+        }
+
         // Toggle discarded
         result.discarded = !result.discarded;
 
