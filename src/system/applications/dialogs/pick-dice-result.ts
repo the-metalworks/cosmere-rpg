@@ -48,6 +48,7 @@ export class PickDiceResultDialog extends ComponentHandlebarsApplicationMixin(
             },
             actions: {
                 'select-result': this.onSelectResult,
+                submit: this.onSubmit,
             },
         },
     );
@@ -94,14 +95,12 @@ export class PickDiceResultDialog extends ComponentHandlebarsApplicationMixin(
     /* --- Accessors --- */
 
     get picked() {
-        return this.data.term.results.filter((result) => !result.discarded);
+        return this.rolls.filter((result) => !result.discarded);
     }
 
     /* --- Actions --- */
 
     private static onSelectResult(this: PickDiceResultDialog, event: Event) {
-        console.log('ON SELECT RESULT', event);
-
         // Get index
         const index = $(event.target!)
             .closest('[data-index]')
@@ -117,6 +116,8 @@ export class PickDiceResultDialog extends ComponentHandlebarsApplicationMixin(
         // If only 1 result needs to be selected, submit immediately
         if (!result.discarded && this.data.amount === 1) {
             PickDiceResultDialog.onSubmit.call(this);
+        } else {
+            void this.render(true);
         }
     }
 

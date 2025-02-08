@@ -21,4 +21,14 @@
             </div>
         {{/each}}
     </div>
+
+    {{#if (gt amountToPick 1)}}
+        <div class="form-group">
+            <button data-action="submit" 
+                type="submit"
+            >
+                {{ localize "GENERIC.Button.Continue" }}
+            </button>
+        </div>
+    {{/if}}
 </div>
