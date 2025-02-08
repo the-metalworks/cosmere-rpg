@@ -182,9 +182,8 @@ export class CharacterConnectionsListComponent extends HandlebarsApplicationComp
                         // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
                         item.system.description?.value || '<p>—</p>',
                         {
-                            relativeTo: (item.parent ?? undefined) as
-                                | foundry.abstract.Document.Any
-                                | undefined,
+                            relativeTo: (item as CosmereItem).system
+                                .parent as foundry.abstract.Document.Any,
                         },
                     ),
                 })),

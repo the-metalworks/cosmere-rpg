@@ -326,11 +326,7 @@ export class BaseItemSheet extends TabsApplicationMixin(
             desc = game.i18n!.localize(desc);
         }
         return await TextEditor.enrichHTML(desc, {
-            relativeTo: this.item.isEmbedded
-                ? (this.item.actor as foundry.abstract.Document.Any | undefined)
-                : ((this.item.parent ?? undefined) as
-                      | foundry.abstract.Document.Any
-                      | undefined),
+            relativeTo: this.document as foundry.abstract.Document.Any,
         });
     }
 

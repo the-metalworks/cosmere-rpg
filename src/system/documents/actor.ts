@@ -918,12 +918,6 @@ export class CosmereActor<
         };
     }
 
-    public getEnricherData() {
-        return {
-            name: this.name,
-        } as const satisfies EnricherData;
-    }
-
     public *allApplicableEffects() {
         for (const effect of super.allApplicableEffects()) {
             if (

@@ -7,7 +7,12 @@ interface EnricherConfig {
 }
 
 export interface EnricherData {
-    name: string;
+    actor: {
+        name?: string;
+    };
+    item: {
+        name: string;
+    };
 }
 
 const EnricherStyleOptions = {
@@ -115,10 +120,16 @@ function parseConfig(match: string) {
  * @returns {HTMLElement|null}                    An HTML element if the lookup could be built, otherwise null.
  *
  * @example Include an actor's name in its description:
- * ```[[lookup @name]]``
+ * ```[[lookup @actor.name]]``
  * becomes
  * ```html
  * <span class="lookup-value">Actor Name</span>
+ * ```
+ * @example Providing a fallback incase the item doesn't have the requested key (or you made a typo!):
+ * ```[[lookup @missing.name]]{Someone's Name}``
+ * becomes
+ * ```html
+ * <span class="lookup-value">Someone's Name</span>
  * ```
  */
 function enrichLookup(
@@ -143,11 +154,10 @@ function enrichLookup(
     }
 
     const data =
-        options?.relativeTo && options.relativeTo instanceof CosmereActor
-            ? options.relativeTo?.getEnricherData()
-            : options?.relativeTo instanceof CosmereItem
-              ? options.relativeTo.getEnricherData()
-              : { name: 'Character-Name' };
+        options?.relativeTo && options.relativeTo instanceof CosmereItem
+            ? options.relativeTo.getEnricherData()
+            : null;
+
     let value =
         (foundry.utils.getProperty(
             data ?? {},

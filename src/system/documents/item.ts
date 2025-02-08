@@ -1117,9 +1117,7 @@ export class CosmereItem<
         /* eslint-enable @typescript-eslint/prefer-nullish-coalescing */
 
         const description = await TextEditor.enrichHTML(descriptionData ?? '', {
-            relativeTo: (this.parent ?? undefined) as
-                | foundry.abstract.Document.Any
-                | undefined,
+            relativeTo: this.system.parent as foundry.abstract.Document.Any,
         });
 
         const traitsNormal = [];
@@ -1253,7 +1251,12 @@ export class CosmereItem<
 
     public getEnricherData() {
         return {
-            name: this.name,
+            actor: {
+                name: this.actor?.name,
+            },
+            item: {
+                name: this.name,
+            },
         } as const satisfies EnricherData;
     }
 }
