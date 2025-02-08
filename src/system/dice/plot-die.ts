@@ -1,3 +1,7 @@
+// Dialogs
+import { PickDiceResultDialog } from '@system/applications/dialogs/pick-dice-result';
+
+// Constants
 import { IMPORTED_RESOURCES } from '@system/constants';
 
 const SIDES: Record<number, string> = {
@@ -8,6 +12,8 @@ const SIDES: Record<number, string> = {
     5: `<img src="${IMPORTED_RESOURCES.PLOT_DICE_OP_IN_CHAT}" />`,
     6: `<img src="${IMPORTED_RESOURCES.PLOT_DICE_OP_IN_CHAT}" />`,
 };
+
+const PICK_MODIFIER_REGEX = /(gm)?p(\d+)?/i;
 
 export interface PlotDieData
     extends Partial<foundry.dice.terms.DiceTerm.TermData> {
@@ -44,6 +50,7 @@ export class PlotDie extends foundry.dice.terms.DiceTerm {
         d: foundry.dice.terms.Die.prototype.drop.bind(this),
         dh: foundry.dice.terms.Die.prototype.drop.bind(this),
         dl: foundry.dice.terms.Die.prototype.drop.bind(this),
+        p: 'pick',
     };
 
     /* --- Accessors --- */
@@ -85,5 +92,26 @@ export class PlotDie extends foundry.dice.terms.DiceTerm {
         result: foundry.dice.terms.DiceTerm.Result,
     ): string {
         return SIDES[result.result];
+    }
+
+    /* --- Modifiers --- */
+
+    /**
+     * Shows a pop-up that allows the user to pick the result
+     */
+    async pick(modifier: string) {
+        const rgx = new RegExp(PICK_MODIFIER_REGEX);
+        const match = rgx.exec(modifier);
+        if (!match) return false;
+
+        const [gm, numStr] = match.slice(1);
+        const isGm = !!gm; // NOTE: Unused at this time
+        const amount = Math.min(parseInt(numStr) || 1, this.number ?? 0);
+
+        // Show dialog
+        await PickDiceResultDialog.show({
+            term: this,
+            amount,
+        });
     }
 }

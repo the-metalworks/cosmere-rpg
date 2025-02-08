@@ -994,6 +994,17 @@
             "Notification": {
                 "TalentPicked": "Added talent {talent} to {actor}"
             }
+        },
+        "PickDiceResult": {
+            "Title": "Pick result",
+            "Header": {
+                "Plural": "Pick {num} rolls to keep",
+                "Singular": "Pick 1 roll to keep"
+            },
+            "SelectRoll": "Select roll",
+            "Warning": {
+                "PickedLessThanTotal": "Only {picked} of {total} picked"
+            }
         }
     },
     "COMPONENT": {
