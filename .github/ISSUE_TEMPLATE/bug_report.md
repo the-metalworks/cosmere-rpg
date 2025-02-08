@@ -2,7 +2,7 @@
 name: Bug report
 about: Create a report to help us improve
 title: ''
-labels: bug
+type: Bug
 assignees: ''
 
 ---
@@ -26,8 +26,11 @@ _If applicable, add screenshots to help explain your problem._
 **Foundry VTT Version**  
 _Please specify the version of Foundry you are using._
 
-**Cosmere RPG System Version**  
-_Please specify the version of the Cosmere RPG system._
+**Cosmere RPG System & Module Versions**  
+|**Name**|**Version**|
+|---|---|
+|**System**|_Please specify the version of the Cosmere RPG system._|
+||_Please specify the version of any of the other Metalworks official modules._|
 
 **Browser**  
 _If applicable, include the browser you're using (Chrome, Firefox, etc.)._
