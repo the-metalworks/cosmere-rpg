@@ -565,6 +565,7 @@ export class CosmereActor<
         let damageIgnore = 0;
         let damageImmune = 0;
         let healing = 0;
+        const appliedImmunities = new Map<DamageType, number>();
 
         instances.forEach((instance) => {
             // Get damage config
@@ -575,8 +576,18 @@ export class CosmereActor<
             const amount = Math.floor(instance.amount);
 
             // Check if actor is immune to damage type
-            if (!!instance.type && immunities.damage[instance.type])
-                return (damageImmune += amount);
+            if (!!instance.type && immunities.damage[instance.type]) {
+                // Add to total immune damage
+                damageImmune += instance.amount;
+
+                // Add individual immunities
+                appliedImmunities.set(
+                    instance.type,
+                    (appliedImmunities.get(instance.type) ?? 0) +
+                        instance.amount,
+                );
+                return;
+            }
 
             if (instance.type === DamageType.Healing) {
                 healing += amount;
@@ -590,11 +601,11 @@ export class CosmereActor<
             }
         });
 
-        const damageTotal =
+        const damageTaken =
             damageIgnore + Math.max(0, damageDeflect - this.deflect) - healing;
 
         // Apply damage
-        const newHealth = Math.max(0, health - damageTotal);
+        const newHealth = Math.max(0, health - damageTaken);
         await this.update({
             'system.resources.hea.value': newHealth,
         });
@@ -614,10 +625,11 @@ export class CosmereActor<
                 },
                 taken: {
                     health,
-                    damageTotal,
+                    damageTaken,
                     damageDeflect,
                     damageIgnore,
                     damageImmune,
+                    appliedImmunities: Object.fromEntries(appliedImmunities),
                     target: this.uuid,
                     undo: true,
                 },
