@@ -191,6 +191,10 @@
                 }
             }
 
+            > .collapsible-content {
+                padding: 0 0.25rem;
+            }
+
             &.expanded {
                 > .header::before {
                     transform: none;
@@ -214,10 +218,14 @@
             flex-direction: row;
             align-items: center;
             gap: 0.25rem;
-            
-            font-family: var(--cosmere-font-normal);
-            font-variant: lining-nums;
-            font-weight: 600;
+
+            > input,
+            > select {                
+                font-family: var(--cosmere-font-normal);
+                font-variant: lining-nums;
+                font-weight: 600;
+                field-sizing: content;
+            }
 
             > input {
                 color: var(--cosmere-color-text-sub);
@@ -226,7 +234,7 @@
             > select {
                 width: auto;
                 padding-bottom: 0.125rem;
-                margin-left: -0.5rem;
+                margin-left: -0.375rem;
             }
         }
     }
@@ -235,5 +243,56 @@
 
     app-item-properties {
         flex: 0;
+    }
+
+    prose-mirror {
+        flex: 1;
+        overflow: hidden;
+
+        menu {
+            --color-hover-bg: var(--cosmere-color-base-4);
+            --color-control-bg: var(--cosmere-color-base-4);
+            --color-form-label-hover: var(--cosmere-color-text-sub);
+            background: var(--cosmere-color-base-3);
+            justify-content: space-evenly;
+
+            button {
+                font-family: var(--cosmere-font-normal);
+                font-variant: lining-nums;
+                font-weight: 600;
+                color: var(--cosmere-color-faded);
+                background: none;
+                padding: 0;
+
+                &:hover {
+                    color: var(--cosmere-color-text-sub);
+                    box-shadow: none;
+                }
+
+                &:focus {
+                    outline: none;
+                    box-shadow: none;
+                }
+            }
+
+            .pm-dropdown i.fa-chevron-down {
+                color: var(--cosmere-color-faded);
+            }
+
+            .pm-dropdown:hover i {
+                color: var(--cosmere-color-text-sub);
+            }
+        }
+
+        .editor-container {
+            overflow: hidden auto;
+            margin-right: 0;
+
+            .editor-content {
+                position: unset;
+                min-height: 300px;
+                padding: 0.25rem 0.5rem;
+            }
+        }
     }
 }

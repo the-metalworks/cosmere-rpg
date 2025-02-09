@@ -78,7 +78,7 @@
         border-color: var(--cosmere-color-faded);
         background: var(--cosmere-color-base-1);
 
-        :not(.fa-solid) {
+        :not(.fa-solid, .fas) {
             font-family: var(--cosmere-font-normal);
             font-weight: 600;
         }

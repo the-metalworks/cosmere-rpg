@@ -12,7 +12,7 @@ export class WeaponItemSheet extends BaseItemSheet {
         {
             classes: [SYSTEM_ID, 'sheet', 'item', 'weapon'],
             position: {
-                width: 500,
+                width: 550,
             },
             window: {
                 resizable: false,
