@@ -57,6 +57,11 @@ interface CurrencyDenominationData {
     convertedValue: Derived<number>;
 }
 
+export interface AttributeData {
+    value: number;
+    bonus: number;
+}
+
 export interface CommonActorData {
     size: Size;
     type: {
@@ -72,7 +77,7 @@ export interface CommonActorData {
         damage: DamageType[];
         condition: Condition[];
     };
-    attributes: Record<Attribute, { value: number; bonus: number }>;
+    attributes: Record<Attribute, AttributeData>;
     defenses: Record<AttributeGroup, { value: Derived<number>; bonus: number }>;
     deflect: DeflectData;
     resources: Record<
@@ -526,9 +531,7 @@ export class CommonActorDataModel<
     public prepareDerivedData(): void {
         super.prepareDerivedData();
 
-        this.senses.range.value = awarenessToSensesRange(
-            this.attributes.awa.value,
-        );
+        this.senses.range.value = awarenessToSensesRange(this.attributes.awa);
 
         // Derive defenses
         (Object.keys(this.defenses) as AttributeGroup[]).forEach((group) => {
@@ -611,7 +614,7 @@ export class CommonActorDataModel<
 
         // Movement
         this.movement[MovementType.Walk].rate.value = speedToMovementRate(
-            this.attributes.spd.value,
+            this.attributes.spd,
         );
 
         // Lock other movement types to always use override
@@ -669,37 +672,41 @@ export class CommonActorDataModel<
 
         // Lifting & Carrying
         this.encumbrance.lift.value = strengthToLiftingCapacity(
-            this.attributes.str.value,
+            this.attributes.str,
         );
         this.encumbrance.carry.value = strengthToCarryingCapacity(
-            this.attributes.str.value,
+            this.attributes.str,
         );
     }
 }
 
 const SENSES_RANGES = [5, 10, 20, 50, 100, Number.MAX_VALUE];
-function awarenessToSensesRange(awareness: number) {
+function awarenessToSensesRange(attr: AttributeData) {
+    const awareness = attr.value + attr.bonus;
     return SENSES_RANGES[
         Math.min(Math.ceil(awareness / 2), SENSES_RANGES.length)
     ];
 }
 
 const MOVEMENT_RATES = [20, 25, 30, 40, 60, 80];
-function speedToMovementRate(speed: number) {
+function speedToMovementRate(attr: AttributeData) {
+    const speed = attr.value + attr.bonus;
     return MOVEMENT_RATES[
         Math.min(Math.ceil(speed / 2), MOVEMENT_RATES.length)
     ];
 }
 
 const LIFTING_CAPACITIES = [100, 200, 500, 1000, 5000, 10000];
-function strengthToLiftingCapacity(strength: number) {
+function strengthToLiftingCapacity(attr: AttributeData) {
+    const strength = attr.value + attr.bonus;
     return LIFTING_CAPACITIES[
         Math.min(Math.ceil(strength / 2), LIFTING_CAPACITIES.length)
     ];
 }
 
 const CARRYING_CAPACITIES = [50, 100, 250, 500, 2500, 5000];
-function strengthToCarryingCapacity(strength: number) {
+function strengthToCarryingCapacity(attr: AttributeData) {
+    const strength = attr.value + attr.bonus;
     return CARRYING_CAPACITIES[
         Math.min(Math.ceil(strength / 2), CARRYING_CAPACITIES.length)
     ];
