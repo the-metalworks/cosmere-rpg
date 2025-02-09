@@ -125,7 +125,8 @@
                 "LiftingCapactiy": "Lifting Capactiy",
                 "RecoveryDie": "Recover",
                 "Deflect": "Deflect",
-                "NoObscuredSense": "Unaffected by Obscured Senses."
+                "NoObscuredSense": "Unaffected by Obscured Senses.",
+                "Immunities": "Immunities"
             },
             "Deflect": {
                 "Natural": {
@@ -895,6 +896,9 @@
         },
         "Theme": {
             "Default": "Default"
+        },
+        "Damage": {
+            "IgnoreDeflect": "Ignore Deflect"
         }
     },
     "DICE": {
