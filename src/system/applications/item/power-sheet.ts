@@ -13,7 +13,6 @@ export class PowerItemSheet extends BaseItemSheet {
             classes: [SYSTEM_ID, 'sheet', 'item', 'armor'],
             position: {
                 width: 550,
-                height: 500,
             },
             window: {
                 resizable: true,

@@ -11,8 +11,7 @@ export class LootItemSheet extends BaseItemSheet {
         {
             classes: [SYSTEM_ID, 'sheet', 'item', 'loot'],
             position: {
-                width: 730,
-                height: 500,
+                width: 550,
             },
             window: {
                 resizable: true,

@@ -13,7 +13,6 @@ export class InjuryItemSheet extends BaseItemSheet {
             classes: [SYSTEM_ID, 'sheet', 'item', 'injury'],
             position: {
                 width: 550,
-                height: 500,
             },
             window: {
                 resizable: true,

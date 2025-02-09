@@ -12,7 +12,6 @@ export class TraitItemSheet extends BaseItemSheet {
             classes: [SYSTEM_ID, 'sheet', 'item', 'trait'],
             position: {
                 width: 550,
-                height: 500,
             },
             window: {
                 resizable: true,

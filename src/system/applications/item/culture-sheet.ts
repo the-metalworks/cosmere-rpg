@@ -12,7 +12,6 @@ export class CultureItemSheet extends BaseItemSheet {
             classes: [SYSTEM_ID, 'sheet', 'item', 'culture'],
             position: {
                 width: 550,
-                height: 500,
             },
             window: {
                 resizable: true,

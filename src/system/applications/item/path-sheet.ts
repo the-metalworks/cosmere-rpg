@@ -12,7 +12,6 @@ export class PathItemSheet extends BaseItemSheet {
             classes: [SYSTEM_ID, 'sheet', 'item', 'path'],
             position: {
                 width: 550,
-                height: 500,
             },
             window: {
                 resizable: true,

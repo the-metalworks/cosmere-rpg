@@ -12,7 +12,6 @@ export class ConnectionItemSheet extends BaseItemSheet {
             classes: [SYSTEM_ID, 'sheet', 'item', 'connection'],
             position: {
                 width: 550,
-                height: 500,
             },
             window: {
                 resizable: true,

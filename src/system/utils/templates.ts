@@ -61,6 +61,7 @@ export const TEMPLATES = {
     //ITEM
     ITEM_BASE_HEADER: 'item/parts/header.hbs',
     ITEM_BASE_CONTENT: 'item/parts/content.hbs',
+    ITEM_BASE_PROPERTIES: 'item/components/properties.hbs',
 
     ITEM_DESCRIPTION_TAB: 'item/partials/item-description-tab.hbs',
     ITEM_EFFECTS_TAB: 'item/partials/item-effects-tab.hbs',
@@ -79,6 +80,16 @@ export const TEMPLATES = {
     ITEM_PATH_DETAILS_TAB: 'item/path/partials/path-details-tab.hbs',
     ITEM_TALENT_TREE_NODE_TOOLTIP:
         'item/talent-tree/partials/talent-tree-node-tooltip.hbs',
+
+    ITEM_DETAILS_ID: 'item/components/details-id.hbs',
+    ITEM_DETAILS_ACTIVATION: 'item/components/details-activation.hbs',
+    ITEM_DETAILS_ATTACK: 'item/components/details-attack.hbs',
+    ITEM_DETAILS_DAMAGE: 'item/components/details-damage.hbs',
+    ITEM_DETAILS_EQUIP: 'item/components/details-equip.hbs',
+    ITEM_DETAILS_MODALITY: 'item/components/details-modality.hbs',
+    ITEM_DETAILS_TYPE: 'item/components/details-type.hbs',
+
+    ITEM_EFFECTS_LIST: 'item/components/effects-list.hbs',
 
     //CHAT
     CHAT_CARD_HEADER: 'chat/card-header.hbs',

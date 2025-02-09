@@ -10,8 +10,7 @@ export class AncestrySheet extends BaseItemSheet {
         {
             classes: [SYSTEM_ID, 'sheet', 'item', 'ancestry'],
             position: {
-                width: 600,
-                height: 550,
+                width: 550,
             },
             window: {
                 resizable: true,

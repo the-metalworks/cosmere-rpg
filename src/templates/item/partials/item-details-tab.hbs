@@ -1,13 +1,16 @@
 {{#with (lookup tabsMap "details") as |tab|}}
 
 <div class="tab tab-content {{tab.cssClass}}" data-tab="details" data-group="primary">
-    {{app-item-details-id}}
-    {{app-item-details-type}}
+    <fieldset>
+        <legend>Basics</legend>
+        {{app-item-details-id}}
+        {{app-item-details-type}}
+    </fieldset>
     {{app-item-details-equip}}
-    {{app-item-details-activation}}
+    {{!-- {{app-item-details-activation}}
     {{app-item-details-attack}}
     {{app-item-details-damage}}
-    {{app-item-details-modality}}
+    {{app-item-details-modality}} --}}
 </div>
 
 {{/with}}

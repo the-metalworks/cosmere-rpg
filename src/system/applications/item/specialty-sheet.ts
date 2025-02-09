@@ -12,7 +12,6 @@ export class SpecialtyItemSheet extends BaseItemSheet {
             classes: [SYSTEM_ID, 'sheet', 'item', 'specialty'],
             position: {
                 width: 550,
-                height: 500,
             },
             window: {
                 resizable: true,

@@ -1,12 +1,12 @@
 {{#if hasId}}
-<div class="form-group">
+<div class="form-group field">
     <label>{{localize systemFields.id.label}}</label>
     {{app-id-input
         name="system.id"
         value=item.system.id
     }}
 </div>
-<p class="notes">
+<p class="hint">
     {{localize systemFields.id.hint type=type}}
 </p>
 {{/if}}

@@ -1,6 +1,6 @@
 {{#if hasModality}}
     <h5>{{localize "COSMERE.Item.Sheet.Modality.Title"}}</h5>
-    <div class="form-group">
+    <div class="form-group field">
         <label>{{localize "COSMERE.Item.Sheet.Modality.HasModality"}}</label>
         <input type="checkbox" 
             name="modalityEnabled"
@@ -10,7 +10,7 @@
         >
     </div>
     {{#if modalityEnabled}}
-        <div class="form-group">
+        <div class="form-group field">
             <label>{{localize systemFields.modality.label}}</label>
             {{app-id-input
                 name="system.modality"
