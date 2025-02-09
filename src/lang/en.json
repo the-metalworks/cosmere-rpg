@@ -998,13 +998,10 @@
         "PickDiceResult": {
             "Title": "Pick result",
             "Header": {
-                "Plural": "Pick {num} rolls to keep",
+                "Plural": "Pick up to {num} rolls to keep",
                 "Singular": "Pick 1 roll to keep"
             },
             "SelectRoll": "Select roll",
-            "Warning": {
-                "PickedLessThanTotal": "Only {picked} of {total} picked"
-            },
             "Error": {
                 "TooManyPicked": "Cannot pick more than {max} rolls"
             }

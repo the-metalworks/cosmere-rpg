@@ -131,19 +131,6 @@ export class PickDiceResultDialog extends ComponentHandlebarsApplicationMixin(
     }
 
     private static onSubmit(this: PickDiceResultDialog) {
-        // Show warning if the amount picked was less than the amount to pick
-        if (this.picked.length < this.data.amount) {
-            ui.notifications.warn(
-                game.i18n!.format(
-                    'DIALOG.PickDiceResult.Warning.PickedLessThanTotal',
-                    {
-                        picked: this.picked.length,
-                        total: this.data.amount,
-                    },
-                ),
-            );
-        }
-
         // Apply to term
         this.data.term.results.forEach((result, index) => {
             const match = this.rolls[index];
