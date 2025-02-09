@@ -936,7 +936,7 @@ export class CosmereActor<
         attr: Attribute,
         scale: AttributeScale[],
     ) {
-        const value = this.system.attributes[attr]?.value ?? 0;
+        const value = Derived.getValue(this.system.attributes[attr]) ?? 0;
         for (const range of scale) {
             if (value >= range.min && value <= range.max) {
                 return range.formula;
