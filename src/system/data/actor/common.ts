@@ -1,6 +1,7 @@
 import {
     Size,
     CreatureType,
+    MovementType,
     Attribute,
     Resource,
     AttributeGroup,
@@ -110,9 +111,10 @@ export interface CommonActorData {
             total: Derived<number>;
         }
     >;
-    movement: {
-        rate: Derived<number>;
-    };
+    // movement: {
+    //     rate: Derived<number>;
+    // };
+    movement: Record<MovementType, { rate: Derived<number> }>;
     encumbrance: {
         lift: Derived<number>;
         carry: Derived<number>;
@@ -217,17 +219,7 @@ export class CommonActorDataModel<
                     },
                 },
             ),
-            movement: new foundry.data.fields.SchemaField({
-                rate: new DerivedValueField(
-                    new foundry.data.fields.NumberField({
-                        required: true,
-                        nullable: false,
-                        integer: true,
-                        min: 0,
-                        initial: 0,
-                    }),
-                ),
-            }),
+            movement: this.getMovementSchema(),
             injuries: new DerivedValueField(
                 new foundry.data.fields.NumberField({
                     required: true,
@@ -512,6 +504,30 @@ export class CommonActorDataModel<
         });
     }
 
+    private static getMovementSchema() {
+        const movementTypeConfigs = CONFIG.COSMERE.movement.types;
+
+        return new foundry.data.fields.SchemaField(
+            Object.entries(movementTypeConfigs).reduce(
+                (schema, [type, config]) => ({
+                    ...schema,
+                    [type]: new foundry.data.fields.SchemaField({
+                        rate: new DerivedValueField(
+                            new foundry.data.fields.NumberField({
+                                required: true,
+                                nullable: false,
+                                integer: true,
+                                min: 0,
+                                initial: 0,
+                            }),
+                        ),
+                    }),
+                }),
+                {} as Record<string, foundry.data.fields.SchemaField>,
+            ),
+        );
+    }
+
     public prepareDerivedData(): void {
         super.prepareDerivedData();
 
@@ -597,7 +613,14 @@ export class CommonActorDataModel<
         }
 
         // Movement
-        this.movement.rate.value = speedToMovementRate(this.attributes.spd);
+        this.movement[MovementType.Walk].rate.value = speedToMovementRate(
+            this.attributes.spd,
+        );
+
+        // Lock other movement types to always use override
+        (Object.keys(CONFIG.COSMERE.movement.types) as MovementType[])
+            .filter((type) => type !== MovementType.Walk)
+            .forEach((type) => (this.movement[type].rate.useOverride = true));
 
         // Injury count
         this.injuries.value = this.parent.items.filter(

@@ -251,6 +251,12 @@ export const enum DamageType {
     Healing = 'heal',
 }
 
+export const enum MovementType {
+    Walk = 'walk',
+    Swim = 'swim',
+    Fly = 'fly',
+}
+
 /* --- System --- */
 
 export const enum ActorType {
