@@ -90,7 +90,7 @@ export class ShortRestDialog extends foundry.applications.api.DialogV2 {
                 ),
             },
             tendedBy: options.tendedBy?.id ?? 'none',
-            formula: Derived.getValue(actor.system.recovery.die),
+            formula: actor.system.recovery.die.value,
         });
 
         // Render dialog and wrap as promise
@@ -136,10 +136,7 @@ export class ShortRestDialog extends foundry.applications.api.DialogV2 {
                     // Set formula
                     $(this.element)
                         .find('input[name="formula"]')
-                        .val(
-                            Derived.getValue(this.actor.system.recovery.die) ??
-                                '',
-                        );
+                        .val(this.actor.system.recovery.die.value ?? '');
                 } else {
                     // Get the character
                     const character = CosmereActor.get(
@@ -147,14 +144,13 @@ export class ShortRestDialog extends foundry.applications.api.DialogV2 {
                     ) as CharacterActor;
 
                     // Get the medicine modifier
-                    const mod =
-                        Derived.getValue(character.system.skills.med.mod) ?? 0;
+                    const mod = character.system.skills.med.mod.value ?? 0;
 
                     // Set formula
                     $(this.element)
                         .find('input[name="formula"]')
                         .val(
-                            `${Derived.getValue(this.actor.system.recovery.die)} + ${mod}`,
+                            `${this.actor.system.recovery.die.value} + ${mod}`,
                         );
                 }
             });

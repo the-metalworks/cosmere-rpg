@@ -145,7 +145,7 @@ export class CosmereActor<
     }
 
     public get deflect(): number {
-        return Derived.getValue(this.system.deflect) ?? 0;
+        return this.system.deflect.value;
     }
 
     public get ancestry(): AncestryItem | undefined {
@@ -256,7 +256,7 @@ export class CosmereActor<
                 max: Derived<number>;
             };
             const current = attr.value;
-            const max = Derived.getValue(attr.max)!;
+            const max = attr.max.value;
             const update = Math.clamp(
                 isDelta ? current + value : value,
                 0,
@@ -476,8 +476,7 @@ export class CosmereActor<
         const bonus = this.system.injuryRollBonus;
 
         // Get injuries modifier
-        const injuriesModifier =
-            (Derived.getValue(this.system.injuries) ?? 0) * -5;
+        const injuriesModifier = this.system.injuries.value * -5;
 
         // Build formula
         const formula = ['1d20', this.deflect, bonus, injuriesModifier].join(
@@ -665,7 +664,7 @@ export class CosmereActor<
         const data = this.getRollData() as Partial<D20RollData>;
 
         // Add attribute mod
-        data.mod = Derived.getValue(skill.mod)!;
+        data.mod = skill.mod.value;
         data.skill = {
             id: skillId,
             rank: skill.rank,
@@ -795,11 +794,11 @@ export class CosmereActor<
 
         // Get Medicine mod, if required
         const mod = options.tendedBy
-            ? Derived.getValue(options.tendedBy.system.skills.med.mod)
+            ? options.tendedBy.system.skills.med.mod.value
             : undefined;
 
         // Construct formula
-        const formula = [Derived.getValue(this.system.recovery.die), mod]
+        const formula = [this.system.recovery.die.value, mod]
             .filter((v) => !!v)
             .join(' + ');
 
@@ -868,12 +867,8 @@ export class CosmereActor<
 
         // Update the actor
         await this.update({
-            'system.resources.hea.value': Derived.getValue(
-                this.system.resources.hea.max,
-            ),
-            'system.resources.foc.value': Derived.getValue(
-                this.system.resources.foc.max,
-            ),
+            'system.resources.hea.value': this.system.resources.hea.max.value,
+            'system.resources.foc.value': this.system.resources.foc.max.value,
         });
     }
 
@@ -898,9 +893,7 @@ export class CosmereActor<
                     ...data,
                     [skillId]: {
                         rank: this.system.skills[skillId].rank,
-                        mod:
-                            Derived.getValue(this.system.skills[skillId].mod) ??
-                            0,
+                        mod: this.system.skills[skillId].mod.value,
                     },
                 }),
                 {} as Record<Skill, { rank: number; mod: number }>,
@@ -936,7 +929,7 @@ export class CosmereActor<
         attr: Attribute,
         scale: AttributeScale[],
     ) {
-        const value = Derived.getValue(this.system.attributes[attr]) ?? 0;
+        const value = this.system.attributes[attr].value;
         for (const range of scale) {
             if (value >= range.min && value <= range.max) {
                 return range.formula;

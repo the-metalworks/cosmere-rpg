@@ -18,7 +18,7 @@ export class CosmereTokenDocument extends TokenDocument {
             ) as { max: number | Derived<number> };
 
             if (typeof data.max === 'object') {
-                attr.max = Derived.getValue(data.max) ?? 0;
+                attr.max = data.max.value;
             }
         }
 
