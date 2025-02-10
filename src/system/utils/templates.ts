@@ -63,6 +63,17 @@ export const TEMPLATES = {
     ITEM_BASE_CONTENT: 'item/parts/content.hbs',
     ITEM_BASE_PROPERTIES: 'item/components/properties.hbs',
 
+    ITEM_ACTION_CONTENT: 'item/action/parts/content.hbs',
+    ITEM_ANCESTRY_CONTENT: 'item/ancestry/parts/content.hbs',
+    ITEM_ARMOR_CONTENT: 'item/armor/parts/content.hbs',
+    ITEM_GOAL_CONTENT: 'item/goal/parts/content.hbs',
+    ITEM_INJURY_CONTENT: 'item/injury/parts/content.hbs',
+    ITEM_LOOT_CONTENT: 'item/loot/parts/content.hbs',
+    ITEM_PATH_CONTENT: 'item/path/parts/content.hbs',
+    ITEM_POWER_CONTENT: 'item/power/parts/content.hbs',
+    ITEM_SPECIALTY_CONTENT: 'item/specialty/parts/content.hbs',
+    ITEM_TALENT_CONTENT: 'item/talent/parts/content.hbs',
+
     ITEM_DESCRIPTION_TAB: 'item/partials/item-description-tab.hbs',
     ITEM_EFFECTS_TAB: 'item/partials/item-effects-tab.hbs',
     ITEM_DETAILS_TAB: 'item/partials/item-details-tab.hbs',

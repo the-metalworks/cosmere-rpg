@@ -113,12 +113,27 @@
         }
     }
 
+    .scroll-container {
+        width: calc(100% + 0.875rem);
+        max-height: 700px;
+        padding-right: 0.25rem;
+        overflow-y: auto;
+        overflow-x: hidden;
+        scrollbar-color: var(--cosmere-color-base-6) var(--color-scrollbar-track);
+        scrollbar-gutter: stable;
+        margin-bottom: 0.75rem;
+        filter: var(--cosmere-drop-shadow);
+
+        .tab-body {
+            overflow: visible;
+        }
+    }
+
     .tab[data-tab] {
         display: flex;
         flex-direction: column;
         gap: 0.75rem;
-        margin-bottom: 0.75rem;
-        filter: var(--cosmere-drop-shadow);
+        margin-bottom: 0.125rem;
 
         &:not(.active) {
             display: none;
@@ -320,10 +335,15 @@
     app-item-details-equip,
     app-item-details-id,
     app-item-details-modality,
-    app-item-details-type {
+    app-item-details-type,
+    .item-details-form {
         display: flex;
         flex-direction: column;
         gap: 0.25rem;        
+
+        &:empty {
+            display: none;
+        }
 
         input {
             color: var(--cosmere-color-text-sub);
@@ -368,13 +388,17 @@
                     &::placeholder {
                         color: var(--cosmere-color-faded);
                     }
-                }                
+                }
 
                 > select {
                     background-color: var(--cosmere-color-base-4);
                     border-radius: 6px;
                     padding: 0 0.25rem;
                     flex: 2;
+                }
+
+                > .delim {
+                    flex: none;
                 }
             }
         }

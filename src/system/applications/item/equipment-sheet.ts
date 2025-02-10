@@ -1,6 +1,7 @@
 import { EquipmentItem } from '@system/documents/item';
 import { DeepPartial } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 // Base
 import { BaseItemSheet } from './base';
@@ -14,7 +15,7 @@ export class EquipmentItemSheet extends BaseItemSheet {
                 width: 550,
             },
             window: {
-                resizable: true,
+                resizable: false,
                 positioned: true,
             },
         },
@@ -34,9 +35,8 @@ export class EquipmentItemSheet extends BaseItemSheet {
     static PARTS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.PARTS),
         {
-            'sheet-content': {
-                template:
-                    'systems/cosmere-rpg/templates/item/parts/sheet-content.hbs',
+            content: {
+                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_BASE_CONTENT}`,
             },
         },
     );

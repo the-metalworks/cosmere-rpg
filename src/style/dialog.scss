@@ -148,40 +148,47 @@
 
         input[type="checkbox"] {
             flex: 0 0 20px;
-        }
-
-        select {
-            background-color: var(--cosmere-color-base-4);
-            border-radius: 6px;
-            padding: 0 0.25rem;
-            flex: 2;
-        }
+        }        
         
         label {
             color: var(--cosmere-color-text-sub);
             flex: 1;
             font-weight: 600;
-        }
+        }        
 
-        .max {
-            border-radius: 6px;
-            background-color: var(--cosmere-color-base-3);
-
-            > input {                
-                text-align: center;
-            }
-        }
-
-        .field {
+        .form-group {
             gap: 0.625rem;
             margin: 0;
 
-            > input[type="text"],
-            > input[type="number"] {
-                border-radius: 6px;
-                background-color: var(--cosmere-color-base-3);                
-                padding: 0 0.5rem;
-                margin-left: 0.25rem;
+            > .form-fields {
+                display: flex;
+                flex-direction: row;
+                flex: 2;
+
+                > input[type="text"],
+                > input[type="number"] {
+                    border-radius: 6px;
+                    background-color: var(--cosmere-color-base-3);                
+                    padding: 0 0.5rem;
+                    flex: 1;
+
+                    &::placeholder {
+                        color: var(--cosmere-color-faded);
+                    }
+                }
+
+                > select {
+                    background-color: var(--cosmere-color-base-4);
+                    border-radius: 6px;
+                    padding: 0 0.25rem;
+                    flex: 2;
+                }
+            }
+
+            &.max {
+                input {
+                    text-align: center;
+                }
             }
         }
 
