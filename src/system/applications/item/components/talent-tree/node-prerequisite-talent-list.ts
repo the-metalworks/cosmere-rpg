@@ -1,10 +1,10 @@
-import { Talent } from '@system/types/item';
+import { TalentTree } from '@system/types/item';
 import { CosmereItem, TalentItem } from '@system/documents/item';
 import { ConstructorOf } from '@system/types/utils';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
-import { EditTalentPrerequisiteDialog } from '../../dialogs/talent/edit-talent-prerequisite';
+import { EditNodePrerequisiteDialog } from '../../dialogs/talent-tree/edit-node-prerequisite';
 
 // Mixins
 import { DragDropComponentMixin } from '@system/applications/mixins/drag-drop';
@@ -12,19 +12,18 @@ import { DragDropComponentMixin } from '@system/applications/mixins/drag-drop';
 // NOTE: Must use type here instead of interface as an interface doesn't match AnyObject type
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 type Params = {
-    rootTalent: TalentItem;
-    talents: Talent.Prerequisite.TalentRef[];
-    mode: Talent.Prerequisite.Mode;
+    node: TalentTree.TalentNode;
+    talents: TalentTree.Node.Prerequisite.TalentRef[];
 };
 
-export class TalentPrerequisiteTalentListComponent extends DragDropComponentMixin(
+export class NodePrerequisiteTalentListComponent extends DragDropComponentMixin(
     HandlebarsApplicationComponent<
-        ConstructorOf<EditTalentPrerequisiteDialog>,
+        ConstructorOf<EditNodePrerequisiteDialog>,
         Params
     >,
 ) {
     static readonly TEMPLATE =
-        'systems/cosmere-rpg/templates/item/talent/components/prerequisite-talent-list.hbs';
+        'systems/cosmere-rpg/templates/item/talent-tree/components/prerequisite-talent-list.hbs';
 
     /**
      * NOTE: Unbound methods is the standard for defining actions
@@ -42,10 +41,16 @@ export class TalentPrerequisiteTalentListComponent extends DragDropComponentMixi
         },
     ];
 
+    /* --- Accessors --- */
+
+    public get node() {
+        return this.params!.node;
+    }
+
     /* --- Actions --- */
 
     private static onRemoveTalent(
-        this: TalentPrerequisiteTalentListComponent,
+        this: NodePrerequisiteTalentListComponent,
         event: Event,
     ) {
         // Get talent element
@@ -72,7 +77,6 @@ export class TalentPrerequisiteTalentListComponent extends DragDropComponentMixi
             type: string;
             uuid: string;
         };
-
         if (data.type !== 'Item') return;
 
         // Get document
@@ -82,7 +86,7 @@ export class TalentPrerequisiteTalentListComponent extends DragDropComponentMixi
         if (!item.isTalent()) return;
 
         // Check if the talent is the same as the root talent
-        if (item.system.id === this.params!.rootTalent.system.id) {
+        if (item.system.id === this.node.talentId) {
             return ui.notifications.warn(
                 game.i18n!.localize(
                     'GENERIC.Warning.TalentCannotBePrerequisiteOfItself',
@@ -144,6 +148,6 @@ export class TalentPrerequisiteTalentListComponent extends DragDropComponentMixi
 }
 
 // Register the component
-TalentPrerequisiteTalentListComponent.register(
-    'app-talent-prerequisite-talent-list',
+NodePrerequisiteTalentListComponent.register(
+    'app-node-prerequisite-talent-list',
 );

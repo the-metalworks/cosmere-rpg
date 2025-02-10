@@ -45,47 +45,200 @@ class TalentTreeNodeField extends foundry.data.fields.SchemaField {
 
         super(
             {
+                // General node fields
                 id: new foundry.data.fields.DocumentIdField({
                     required: true,
                     nullable: false,
                     blank: false,
-                    gmOnly: true,
                 }),
                 type: new foundry.data.fields.StringField({
                     required: false,
                     nullable: true,
                     blank: false,
-                    initial: TalentTree.Node.Type.Icon,
+                    initial: TalentTree.Node.Type.Talent,
                     choices: [
-                        TalentTree.Node.Type.Icon,
+                        TalentTree.Node.Type.Talent,
+                        TalentTree.Node.Type.Tree,
                         TalentTree.Node.Type.Text,
                     ],
-                    gmOnly: true,
-                }),
-                uuid: new foundry.data.fields.DocumentUUIDField({
-                    required: true,
-                    nullable: false,
-                    gmOnly: true,
                 }),
                 position: new foundry.data.fields.SchemaField(
                     {
-                        row: new foundry.data.fields.NumberField({
+                        x: new foundry.data.fields.NumberField({
                             required: true,
                             nullable: false,
-                            gmOnly: true,
                         }),
-                        column: new foundry.data.fields.NumberField({
+                        y: new foundry.data.fields.NumberField({
                             required: true,
                             nullable: false,
-                            gmOnly: true,
                         }),
                     },
                     {
                         required: true,
                         nullable: false,
-                        gmOnly: true,
                     },
                 ),
+
+                // Talent / Tree node fields
+                uuid: new foundry.data.fields.DocumentUUIDField({
+                    nullable: true,
+                }),
+                size: new foundry.data.fields.SchemaField(
+                    {
+                        width: new foundry.data.fields.NumberField({
+                            required: true,
+                            nullable: false,
+                            initial: 50,
+                        }),
+                        height: new foundry.data.fields.NumberField({
+                            required: true,
+                            nullable: false,
+                            initial: 50,
+                        }),
+                    },
+                    {
+                        required: false,
+                        nullable: true,
+                    },
+                ),
+                showName: new foundry.data.fields.BooleanField({
+                    nullable: true,
+                    initial: false,
+                }),
+                talentId: new foundry.data.fields.StringField({
+                    nullable: true,
+                }),
+
+                // Talent node fields
+                prerequisites: new CollectionField(
+                    new foundry.data.fields.SchemaField({
+                        id: new foundry.data.fields.StringField({
+                            required: true,
+                            nullable: false,
+                            blank: false,
+                        }),
+
+                        type: new foundry.data.fields.StringField({
+                            required: true,
+                            nullable: false,
+                            blank: false,
+                            choices:
+                                CONFIG.COSMERE.items.talentTree.node
+                                    .prerequisite.types,
+                        }),
+
+                        // Connection
+                        description: new foundry.data.fields.StringField(),
+
+                        // Attribute
+                        attribute: new foundry.data.fields.StringField({
+                            blank: false,
+                            choices: Object.entries(
+                                CONFIG.COSMERE.attributes,
+                            ).reduce(
+                                (acc, [key, config]) => ({
+                                    ...acc,
+                                    [key]: config.label,
+                                }),
+                                {},
+                            ),
+                        }),
+                        value: new foundry.data.fields.NumberField({
+                            min: 0,
+                            initial: 0,
+                        }),
+
+                        // Skill
+                        skill: new foundry.data.fields.StringField({
+                            blank: false,
+                            choices: Object.entries(
+                                CONFIG.COSMERE.skills,
+                            ).reduce(
+                                (acc, [key, config]) => ({
+                                    ...acc,
+                                    [key]: config.label,
+                                }),
+                                {},
+                            ),
+                        }),
+                        rank: new foundry.data.fields.NumberField({
+                            min: 1,
+                            initial: 1,
+                        }),
+
+                        // Talent
+                        talents: new CollectionField(
+                            new foundry.data.fields.SchemaField({
+                                uuid: new foundry.data.fields.StringField({
+                                    required: true,
+                                    nullable: false,
+                                    blank: false,
+                                }),
+                                id: new foundry.data.fields.StringField({
+                                    required: true,
+                                    nullable: false,
+                                    blank: false,
+                                }),
+                                label: new foundry.data.fields.StringField({
+                                    required: true,
+                                    nullable: false,
+                                    blank: false,
+                                }),
+                            }),
+                            {
+                                nullable: true,
+                            },
+                        ),
+
+                        // Level
+                        level: new foundry.data.fields.NumberField({
+                            min: 0,
+                            initial: 0,
+                            label: 'COSMERE.Item.Talent.Prerequisite.Level.Label',
+                        }),
+                    }),
+                    {
+                        nullable: true,
+                    },
+                ),
+                prerequisitesMet: new foundry.data.fields.BooleanField(),
+                connections: new CollectionField(
+                    new foundry.data.fields.SchemaField({
+                        id: new foundry.data.fields.DocumentIdField({
+                            required: true,
+                            nullable: false,
+                        }),
+                        prerequisiteId: new foundry.data.fields.DocumentIdField(
+                            {
+                                required: true,
+                                nullable: false,
+                            },
+                        ),
+                        path: new foundry.data.fields.ArrayField(
+                            new foundry.data.fields.SchemaField({
+                                x: new foundry.data.fields.NumberField({
+                                    required: true,
+                                    nullable: false,
+                                }),
+                                y: new foundry.data.fields.NumberField({
+                                    required: true,
+                                    nullable: false,
+                                }),
+                            }),
+                            {
+                                nullable: true,
+                            },
+                        ),
+                    }),
+                    {
+                        nullable: true,
+                    },
+                ),
+
+                // Text node fields
+                text: new foundry.data.fields.StringField({
+                    nullable: true,
+                }),
             },
             options,
             context,

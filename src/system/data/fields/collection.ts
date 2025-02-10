@@ -185,15 +185,13 @@ export class RecordCollection<T> implements Collection<T> {
         return 'RecordCollection';
     }
 
-    public toJSON(): (T extends { toJSON: (...args: any[]) => infer U }
-        ? U
-        : T)[] {
-        return this.contents.map((value) => {
+    public toJSON() {
+        return this.contents.reduce((acc, value) => {
             if (value && typeof value === 'object' && 'toJSON' in value) {
-                return { ...(value as any).toJSON(), _id: (value as any)._id };
+                value = { ...(value as any).toJSON(), _id: (value as any)._id };
             }
-            return value;
-        });
+            return { ...acc, [(value as any)._id]: value };
+        }, {} as any);
     }
     /* eslint-enable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment */
 }

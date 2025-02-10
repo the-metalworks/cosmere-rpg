@@ -85,6 +85,13 @@ declare namespace foundry {
                 name: string;
 
                 /**
+                 * A reference to the parent schema to which this DataField belongs.
+                 * This is assigned by SchemaField#initialize.
+                 * @internal
+                 */
+                parent: DataField | DataSchema;
+
+                /**
                  * The initially provided options which configure the data field
                  */
                 options: Options;
@@ -208,6 +215,8 @@ declare namespace foundry {
                  * @returns                       An exported representation of the field
                  */
                 toObject(value: any): any;
+
+                getField(path: string | string[]): DataField;
 
                 /**
                  * Recursively traverse a schema and retrieve a field specification by a given path
@@ -400,6 +409,37 @@ declare namespace foundry {
             class DocumentUUIDField extends StringField {
                 constructor(
                     options?: DocumentUUIDFieldOptions,
+                    context?: DataFieldContext,
+                );
+            }
+
+            interface FilePathFieldOptions extends StringFieldOptions {
+                /**
+                 * A set of categories in CONST.FILE_CATEGORIES which this field supports
+                 */
+                categories?: string[];
+
+                /**
+                 * Is embedded base64 data supported in lieu of a file path?
+                 * @default false
+                 */
+                base64?: boolean;
+
+                /**
+                 * Does this file path field allow wildcard characters?
+                 * @default false
+                 */
+                wildcard?: boolean;
+
+                /**
+                 * The initial values of the fields
+                 */
+                initial?: object;
+            }
+
+            class FilePathField extends StringField {
+                constructor(
+                    options?: FilePathFieldOptions,
                     context?: DataFieldContext,
                 );
             }

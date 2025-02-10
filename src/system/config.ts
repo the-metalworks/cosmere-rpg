@@ -36,7 +36,7 @@ import {
 } from './types/cosmere';
 import { AdvantageMode } from './types/roll';
 
-import { Talent, Goal } from './types/item';
+import { Talent, TalentTree, Goal } from './types/item';
 
 const COSMERE: CosmereRPGConfig = {
     sizes: {
@@ -756,30 +756,29 @@ const COSMERE: CosmereRPGConfig = {
                     label: 'COSMERE.Item.Talent.Type.Power',
                 },
             },
-            prerequisite: {
-                types: {
-                    [Talent.Prerequisite.Type.Talent]:
-                        'COSMERE.Item.Talent.Prerequisite.Type.Talent',
-                    [Talent.Prerequisite.Type.Attribute]:
-                        'COSMERE.Item.Talent.Prerequisite.Type.Attribute',
-                    [Talent.Prerequisite.Type.Skill]:
-                        'COSMERE.Item.Talent.Prerequisite.Type.Skill',
-                    [Talent.Prerequisite.Type.Connection]:
-                        'COSMERE.Item.Talent.Prerequisite.Type.Connection',
-                    [Talent.Prerequisite.Type.Level]:
-                        'COSMERE.Item.Talent.Prerequisite.Type.Level',
-                },
-                modes: {
-                    [Talent.Prerequisite.Mode.AnyOf]:
-                        'COSMERE.Item.Talent.Prerequisite.Mode.AnyOf',
-                    [Talent.Prerequisite.Mode.AllOf]:
-                        'COSMERE.Item.Talent.Prerequisite.Mode.AllOf',
-                },
-            },
             grantRules: {
                 types: {
                     [Talent.GrantRule.Type.Items]:
                         'COSMERE.Item.Talent.GrantRule.Type.Items',
+                },
+            },
+        },
+
+        talentTree: {
+            node: {
+                prerequisite: {
+                    types: {
+                        [TalentTree.Node.Prerequisite.Type.Talent]:
+                            'COSMERE.Item.Talent.Prerequisite.Type.Talent',
+                        [TalentTree.Node.Prerequisite.Type.Attribute]:
+                            'COSMERE.Item.Talent.Prerequisite.Type.Attribute',
+                        [TalentTree.Node.Prerequisite.Type.Skill]:
+                            'COSMERE.Item.Talent.Prerequisite.Type.Skill',
+                        [TalentTree.Node.Prerequisite.Type.Connection]:
+                            'COSMERE.Item.Talent.Prerequisite.Type.Connection',
+                        [TalentTree.Node.Prerequisite.Type.Level]:
+                            'COSMERE.Item.Talent.Prerequisite.Type.Level',
+                    },
                 },
             },
         },

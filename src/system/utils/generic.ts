@@ -171,9 +171,9 @@ export function getFormulaDisplayString(diceParts: string[]) {
  * @returns {Set} A set of tokens that the system considers as current targets.
  */
 export function getApplyTargets() {
-    const setting = getSystemSetting(
+    const setting = getSystemSetting<TargetingOptions>(
         SETTINGS.APPLY_BUTTONS_TO,
-    ) as TargetingOptions;
+    );
 
     const applyToTargeted =
         setting === TargetingOptions.TargetedOnly ||
