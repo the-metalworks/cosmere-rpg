@@ -25,7 +25,7 @@ dialog.application ul {
         padding: 0.2rem 0;
 
         &.form-group {
-            > a {
+            >a {
                 flex: unset;
                 margin-left: 0.5rem;
             }
@@ -65,5 +65,88 @@ dialog.application.roll-configuration {
 
     .window-content {
         overflow: auto;
+    }
+}
+
+.dialog.application.pick-dice-result {
+    h4 {
+        text-align: center;
+    }
+
+    .rolls {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .roll {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 48px;
+            height: 48px;
+            line-height: 48px;
+            float: left;
+            margin-right: 1px;
+            background-repeat: no-repeat;
+            background-size: 48px 48px;
+            font-size: var(--font-size-16);
+            color: #000;
+            font-weight: bold;
+            text-align: center;
+
+            cursor: pointer;
+            transition: .3s;
+
+            &.success, &.max {                                            
+                color: var(--cosmere-color-opportunity);
+                filter: sepia(1) hue-rotate(180deg);
+            }
+
+            &.failure, &.min {
+                color: var(--cosmere-color-complication);
+                filter: sepia(0.8) hue-rotate(-50deg);
+            }
+
+            &.discarded:not(:hover) {
+                color: inherit;
+                filter: sepia(0.5) contrast(0.75) opacity(0.4);
+            }
+
+            &.plotdie {
+                > img {
+                    width: 40px;
+                    border: none;
+                }
+            }
+
+            &:hover {
+                transform: scale(1.1);
+            }
+        }
+
+        .roll.d4 {
+            background-image: url("../../icons/svg/d4-grey.svg");
+        }
+
+        .roll.d6 {
+            background-image: url("../../icons/svg/d6-grey.svg");
+        }
+
+        .roll.d8 {
+            background-image: url("../../icons/svg/d8-grey.svg");
+        }
+
+        .roll.d10 {
+            background-image: url("../../icons/svg/d10-grey.svg");
+        }
+
+        .roll.d12 {
+            background-image: url("../../icons/svg/d12-grey.svg");
+        }
+
+        .roll.d20 {
+            background-image: url("../../icons/svg/d20-grey.svg");
+        }
     }
 }
