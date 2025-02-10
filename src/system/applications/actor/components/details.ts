@@ -102,10 +102,10 @@ export class ActorDetailsComponent extends HandlebarsApplicationComponent<
         )
             .map(
                 (type) =>
-                    [
-                        type,
-                        Derived.getValue(actor.system.movement[type].rate),
-                    ] as [MovementType, number],
+                    [type, actor.system.movement[type].rate.value] as [
+                        MovementType,
+                        number,
+                    ],
             )
             .filter(([, rate]) => rate > 0)
             .sort(([, rateA], [, rateB]) => rateB - rateA)[0]?.[0];
@@ -131,7 +131,7 @@ export class ActorDetailsComponent extends HandlebarsApplicationComponent<
         )
             .map(([type, config]) => ({
                 type,
-                rate: Derived.getValue(actor.system.movement[type].rate) ?? 0,
+                rate: actor.system.movement[type].rate.value ?? 0,
                 label: game.i18n!.localize(config.label),
             }))
             .filter(({ rate }) => rate > 0)

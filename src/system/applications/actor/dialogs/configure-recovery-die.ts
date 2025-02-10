@@ -68,7 +68,7 @@ export class ConfigureRecoveryDieDialog extends HandlebarsApplicationMixin(
         this.recoveryData = this.actor.system.recovery;
         this.recoveryData.die.override ??=
             this.recoveryData.die.value ?? RECOVERY_DICE[0];
-        this.mode = Derived.getMode(this.recoveryData.die);
+        this.mode = this.recoveryData.die.mode;
     }
 
     /* --- Statics --- */
@@ -103,7 +103,7 @@ export class ConfigureRecoveryDieDialog extends HandlebarsApplicationMixin(
         this.mode = formData.object.mode as Derived.Mode;
 
         // Assign mode
-        Derived.setMode(this.recoveryData.die, this.mode);
+        this.recoveryData.die.mode = this.mode;
 
         // Assign rate
         if (this.mode === Derived.Mode.Override && target.name === 'die')

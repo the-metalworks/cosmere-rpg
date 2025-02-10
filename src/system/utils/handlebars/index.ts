@@ -108,7 +108,7 @@ Handlebars.registerHelper(
     'derived',
     (derived?: Derived<string | number>, includeBonus = true) => {
         if (!derived) return;
-        return Derived.getValue(derived, includeBonus);
+        return includeBonus ? derived.value : derived.base;
     },
 );
 
