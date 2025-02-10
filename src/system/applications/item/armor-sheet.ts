@@ -15,7 +15,7 @@ export class ArmorItemSheet extends BaseItemSheet {
                 width: 550,
             },
             window: {
-                resizable: true,
+                resizable: false,
                 positioned: true,
             },
         },
