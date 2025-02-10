@@ -145,6 +145,13 @@
                 "Humanoid": "Humanoid",
                 "Animal": "Animal"
             },
+            "Movement": {
+                "Type": {
+                    "Walk": "Walk",
+                    "Swim": "Swim",
+                    "Fly": "Fly"
+                }
+            },
             "Sheet": {
                 "Header": {
                     "Editable": "Editable",

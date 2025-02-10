@@ -31,6 +31,7 @@ import {
     EquipmentType,
     PowerType,
     Theme,
+    MovementType,
 } from './cosmere';
 import { AdvantageMode } from './roll';
 
@@ -289,10 +290,17 @@ export interface AttributeScale {
     formula: string;
 }
 
+export interface MovementTypeConfig {
+    label: string;
+}
+
 export interface CosmereRPGConfig {
     themes: Record<Theme, string>;
     sizes: Record<Size, SizeConfig>;
     creatureTypes: Record<CreatureType, CreatureTypeConfig>;
+    movement: {
+        types: Record<MovementType, MovementTypeConfig>;
+    };
     conditions: Record<Condition, ConditionConfig>;
     injury: {
         types: Record<InjuryType, InjuryConfig>;
