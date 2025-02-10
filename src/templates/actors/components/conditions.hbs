@@ -6,7 +6,13 @@
     </li>
     <div class="conditions-set {{#if editable}}editable{{/if}}">
         {{#each conditions as |condition|}}
-        <div class="condition {{#if condition.active}}active{{/if}}" data-id="{{condition.id}}">
+        <div class="condition {{#if condition.active}}active{{/if}} {{#if condition.immune}}immune{{/if}}" 
+            data-id="{{condition.id}}"
+            {{#if condition.immune}}
+            data-tooltip="{{localize "COSMERE.Actor.Sheet.ImmuneTo" condition=(localize condition.name)}}"
+            {{else}}
+            {{/if}}
+        >
             <a data-action="toggle-condition-active">
                 <div class="condition-icon" style="mask:url('{{condition.icon}}') no-repeat center;mask-size:contain;"></div>
                 <span class="name">{{localize condition.name}}</span>

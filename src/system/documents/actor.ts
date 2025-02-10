@@ -283,6 +283,32 @@ export class CosmereActor<
         }
     }
 
+    public override toggleStatusEffect(
+        statusId: string,
+        options?: Actor.ToggleStatusEffectOptions,
+    ): Promise<ActiveEffect | boolean | undefined> {
+        // Check if actor is immune to status effect
+        if (
+            statusId in this.system.immunities.condition &&
+            this.system.immunities.condition[statusId as Condition]
+        ) {
+            // Notify
+            ui.notifications.warn(
+                game.i18n!.format('GENERIC.Warning.ActorConditionImmune', {
+                    actor: this.name,
+                    condition: game.i18n!.localize(
+                        CONFIG.COSMERE.conditions[statusId as Condition].label,
+                    ),
+                }),
+            );
+
+            return Promise.resolve(false);
+        }
+
+        // Handle as normal
+        return super.toggleStatusEffect(statusId, options);
+    }
+
     /* --- Handlers --- */
 
     protected preCreateEmbeddedDocuments(
