@@ -1,215 +1,218 @@
 {{#if hasActivation}}
+<fieldset>
 {{!-- Type --}}
-<h5>{{localize "COSMERE.Item.Sheet.Activation.Title"}}</h5>
-<div class="form-group field">
-    <label>{{localize "COSMERE.Item.Sheet.Activation.Type"}}</label>
-    <div class="input-group">
-        <select name="system.activation.type"
-            {{#if (not editable)}}
-            disabled
-            {{/if}}
-        >
-            {{selectOptions typeSelectOptions selected=item.system.activation.type localize=true}}
-        </select>
-    </div>
-</div>
+    <legend>{{localize "COSMERE.Item.Sheet.Activation.Title"}}</legend>
 
-{{#if hasActivationType}}
-
-{{!-- Cost --}}
-<div class="form-group field">
-    <label>{{localize "COSMERE.Item.Sheet.Activation.Cost"}}</label>
-    <div class="input-group">
-        {{#if (eq item.system.activation.cost.type "act")}}
-        <input name="system.activation.cost.value"
-            type="number"
-            min="0"
-            max="3"
-            step="1"
-            value="{{item.system.activation.cost.value}}"
-            {{#if (not editable)}}
-            readonly
-            {{/if}}
-        >
-        {{/if}}
-        <select name="system.activation.cost.type"
-            {{#if (not editable)}}
-            disabled
-            {{/if}}
-        >
-            {{selectOptions costTypeSelectOptions selected=item.system.activation.cost.type localize=true}}
-        </select>
-    </div>
-</div>
-
-{{!-- Resources --}}
-
-{{!-- Consume --}}
-<div class="form-group field consume">
-    <label>{{localize "COSMERE.Item.Sheet.Activation.Consume"}}</label>
-    <div class="input-group">
-        {{#if hasConsume}}
-        <input name="system.activation.consume.value"
-            type="number"
-            min="0"
-            step="1"
-            value="{{item.system.activation.consume.value}}"
-            {{#if (not editable)}}
-            readonly
-            {{/if}}
-        >
-        {{/if}}
-
-        {{#if (eq item.system.activation.consume.type "resource")}}
-        <select name="system.activation.consume.resource"
-            {{#if (not editable)}}
-            disabled
-            {{/if}}
-        >
-            {{selectOptions resourceSelectOptions selected=item.system.activation.consume.resource localize=true}}
-        </select>
-        {{/if}}
-
-        {{!-- TODO: Consume type = item --}}
-
-        <select name="system.activation.consume.type"
-            {{#if (not editable)}}
-            disabled
-            {{/if}}
-        >
-            {{selectOptions consumeTypeSelectOptions selected=item.system.activation.consume.type localize=true}}
-        </select>
-    </div>
-</div>
-
-{{!-- Uses --}}
-<div class="form-group field uses">
-    <label>{{localize "COSMERE.Item.Sheet.Activation.Uses"}}</label>
-    <div class="input-group">
-        {{#if hasUses}}
-        <input name="system.activation.uses.value"
-            type="number"
-            min="0"
-            step="1"
-            value="{{item.system.activation.uses.value}}"
-            {{#if (not editable)}}
-            readonly
-            {{/if}}
-        >
-        <span class="delim">/</span>
-        <input name="system.activation.uses.max"
-            type="number"
-            min="1"
-            step="1"
-            value="{{item.system.activation.uses.max}}"
-            {{#if (not editable)}}
-            readonly
-            {{/if}}
-        >
-        {{/if}}
-
-        <select name="system.activation.uses.type"
-            {{#if (not editable)}}
-            disabled
-            {{/if}}
-        >
-            {{selectOptions usesTypeSelectOptions selected=item.system.activation.uses.type localize=true}}
-        </select>
-    </div>
-</div>
-
-{{!-- Uses recharge --}}
-{{#if hasUses}}
-<div class="form-group field">
-    <label>{{localize "COSMERE.Item.Sheet.Activation.Recharge"}}</label>
-    <div class="input-group">
-        <select name="system.activation.uses.recharge"
-            {{#if (not editable)}}
-            disabled
-            {{/if}}
-        >
-            {{selectOptions rechargeSelectOptions selected=item.system.activation.uses.recharge localize=true}}
-        </select>
-    </div>
-</div>
-{{/if}}
-
-{{!-- Skill test --}}
-{{#if (eq item.system.activation.type "skill_test")}}
-<div class="form-group field">
-    <label>{{localize "GENERIC.Skill"}}</label>
-    <div class="input-group">
-        <select name="system.activation.skill"
-            {{#if (not editable)}}
-            disabled
-            {{/if}}
-        >
-            {{selectOptions skillSelectOptions selected=item.system.activation.skill localize=true}}
-        </select>
+    <div class="form-group">
+        <label>{{localize "COSMERE.Item.Sheet.Activation.Type"}}</label>
+        <div class="form-fields">
+            <select name="system.activation.type"
+                {{#if (not editable)}}
+                disabled
+                {{/if}}
+            >
+                {{selectOptions typeSelectOptions selected=item.system.activation.type localize=true}}
+            </select>
+        </div>
     </div>
 
-</div>
-<div class="form-group field">
-    <label>{{localize "GENERIC.Attribute"}}</label>
-    <div class="input-group">
-        {{#if hasSkill}}
-        <select name="system.activation.attribute"
-            {{#if (not editable)}}
-            disabled
+    {{#if hasActivationType}}
+
+    {{!-- Cost --}}
+    <div class="form-group">
+        <label>{{localize "COSMERE.Item.Sheet.Activation.Cost"}}</label>
+        <div class="form-fields">          
+            {{#if (eq item.system.activation.cost.type "act")}}
+            <input name="system.activation.cost.value"
+                type="number"
+                min="0"
+                max="3"
+                step="1"
+                value="{{item.system.activation.cost.value}}"
+                {{#if (not editable)}}
+                readonly
+                {{/if}}
+            >
             {{/if}}
-        >
-            {{selectOptions attributeSelectOptions selected=item.system.activation.attribute localize=true}}
-        </select>
-        {{else}}
-        <input
-            type="text"
-            value="—"
-            readonly
-        >
-        {{/if}}
+            <select name="system.activation.cost.type"
+                {{#if (not editable)}}
+                disabled
+                {{/if}}
+            >
+                {{selectOptions costTypeSelectOptions selected=item.system.activation.cost.type localize=true}}
+            </select>
+        </div>
     </div>
-</div>
-<div class="form-group field">
-    <label>{{localize "COSMERE.Item.Sheet.Activation.AdditionalFormula"}}</label>
-    <div class="input-group">
-        <input name="system.activation.modifierFormula"
-            type="text"
-            value="{{item.system.activation.modifierFormula}}"
-            {{#if (not editable)}}
-            readonly
+
+    {{!-- Resources --}}
+
+    {{!-- Consume --}}
+    <div class="form-group consume">
+        <label>{{localize "COSMERE.Item.Sheet.Activation.Consume"}}</label>
+        <div class="form-fields">
+            {{#if hasConsume}}
+            <input name="system.activation.consume.value"
+                type="number"
+                min="0"
+                step="1"
+                value="{{item.system.activation.consume.value}}"
+                {{#if (not editable)}}
+                readonly
+                {{/if}}
+            >
             {{/if}}
-        >
+
+            {{#if (eq item.system.activation.consume.type "resource")}}
+            <select name="system.activation.consume.resource"
+                {{#if (not editable)}}
+                disabled
+                {{/if}}
+            >
+                {{selectOptions resourceSelectOptions selected=item.system.activation.consume.resource localize=true}}
+            </select>
+            {{/if}}
+
+            {{!-- TODO: Consume type = item --}}
+
+            <select name="system.activation.consume.type"
+                {{#if (not editable)}}
+                disabled
+                {{/if}}
+            >
+                {{selectOptions consumeTypeSelectOptions selected=item.system.activation.consume.type localize=true}}
+            </select>
+        </div>
     </div>
-    <p class="notes">
+
+    {{!-- Uses --}}
+    <div class="form-group uses">
+        <label>{{localize "COSMERE.Item.Sheet.Activation.Uses"}}</label>
+        <div class="form-fields">
+            {{#if hasUses}}
+            <input name="system.activation.uses.value"
+                type="number"
+                min="0"
+                step="1"
+                value="{{item.system.activation.uses.value}}"
+                {{#if (not editable)}}
+                readonly
+                {{/if}}
+            >
+            <span class="delim">/</span>
+            <input name="system.activation.uses.max"
+                type="number"
+                min="1"
+                step="1"
+                value="{{item.system.activation.uses.max}}"
+                {{#if (not editable)}}
+                readonly
+                {{/if}}
+            >
+            {{/if}}
+
+            <select name="system.activation.uses.type"
+                {{#if (not editable)}}
+                disabled
+                {{/if}}
+            >
+                {{selectOptions usesTypeSelectOptions selected=item.system.activation.uses.type localize=true}}
+            </select>
+        </div>        
+    </div>
+
+    {{!-- Uses recharge --}}
+    {{#if hasUses}}
+    <div class="form-group">
+        <label>{{localize "COSMERE.Item.Sheet.Activation.Recharge"}}</label>
+        <div class="form-fields">
+            <select name="system.activation.uses.recharge"
+                {{#if (not editable)}}
+                disabled
+                {{/if}}
+            >
+                {{selectOptions rechargeSelectOptions selected=item.system.activation.uses.recharge localize=true}}
+            </select>
+        </div>        
+    </div>
+    {{/if}}
+
+    {{!-- Skill test --}}
+    {{#if (eq item.system.activation.type "skill_test")}}
+    <div class="form-group">
+        <label>{{localize "GENERIC.Skill"}}</label>
+        <div class="form-fields">
+            <select name="system.activation.skill"
+                {{#if (not editable)}}
+                disabled
+                {{/if}}
+            >
+                {{selectOptions skillSelectOptions selected=item.system.activation.skill localize=true}}
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>{{localize "GENERIC.Attribute"}}</label>
+        <div class="form-fields">
+            {{#if hasSkill}}
+            <select name="system.activation.attribute"
+                {{#if (not editable)}}
+                disabled
+                {{/if}}
+            >
+                {{selectOptions attributeSelectOptions selected=item.system.activation.attribute localize=true}}
+            </select>
+            {{else}}
+            <input
+                type="text"
+                value="—"
+                readonly
+            >
+            {{/if}}
+        </div>
+    </div>
+    <div class="form-group">
+        <label>{{localize "COSMERE.Item.Sheet.Activation.AdditionalFormula"}}</label>
+        <div class="form-fields">       
+            <input name="system.activation.modifierFormula"
+                type="text"
+                value="{{item.system.activation.modifierFormula}}"
+                {{#if (not editable)}}
+                readonly
+                {{/if}}
+            >
+        </div>        
+    </div>
+    <p class="hint">
         {{localize "COSMERE.Item.Sheet.Activation.AdditionalFormulaDescription"}}
     </p>
-</div>
-<div class="form-group field">
-    <label>{{localize "DICE.Plot.RaiseTheStakes"}}</label>
-    <div class="input-group">
-        <input type="checkbox" 
-            name="system.activation.plotDie"
-            {{#if item.system.activation.plotDie}}
-            checked
-            {{/if}}
-            {{#if (not editable)}}
-            disabled
-            {{/if}}
-        >
+    <div class="form-group">
+        <label>{{localize "DICE.Plot.RaiseTheStakes"}}</label>
+        <div class="form-fields">
+            <input type="checkbox" 
+                name="system.activation.plotDie"
+                {{#if item.system.activation.plotDie}}
+                checked
+                {{/if}}
+                {{#if (not editable)}}
+                disabled
+                {{/if}}
+            >
+        </div>        
     </div>
-</div>
-{{formGroup systemFields.activation.fields.opportunity 
-    value=item.system.activation.opportunity 
-    type="number"
-    placeholder="20"
-    localize=true
-}}
-{{formGroup systemFields.activation.fields.complication 
-    value=item.system.activation.complication 
-    type="number"
-    placeholder="1"
-    localize=true
-}}
-{{/if}}
-{{/if}}
+    {{formGroup systemFields.activation.fields.opportunity 
+        value=item.system.activation.opportunity 
+        type="number"
+        placeholder="20"
+        localize=true
+        class="field"
+    }}
+    {{formGroup systemFields.activation.fields.complication 
+        value=item.system.activation.complication 
+        type="number"
+        placeholder="1"
+        localize=true
+    }}
+    {{/if}}
+    {{/if}}
+</fieldset>
 {{/if}}

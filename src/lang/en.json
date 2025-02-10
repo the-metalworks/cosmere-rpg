@@ -663,7 +663,7 @@
                 },
                 "Equip": {
                     "Title": "Equipment Details",
-                    "AlwaysEquipped": "Is Always Equipped?",
+                    "AlwaysEquipped": "Always Equipped",
                     "Traits": "Traits",
                     "ExpertTraits": "Expert Traits",
                     "LoseTrait": "Loses [trait]",

@@ -118,6 +118,7 @@
         flex-direction: column;
         gap: 0.75rem;
         margin-bottom: 0.75rem;
+        filter: var(--cosmere-drop-shadow);
 
         &:not(.active) {
             display: none;
@@ -162,6 +163,57 @@
             text-transform: uppercase;
             color: var(--cosmere-color-text-sub);
             padding: 0 0.375rem;
+        }
+    }
+
+    .form-group-stacked {
+        .header {
+            display: flex;
+            flex-direction: row;
+            gap: 0.25rem;
+            justify-content: space-between;
+            align-items: center;
+
+            > label {
+                flex: none !important;
+            }
+
+            > span {
+                flex: 1;
+                font-style: italic;
+                color: var(--cosmere-color-faded);
+            }
+
+            .controls {
+                color: var(--cosmere-color-faded);
+            }
+        }
+    }
+
+    .traits-list {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        row-gap: 0.25rem;
+
+        .trait {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 0.25rem;
+
+            > label {
+                flex: none;
+            }
+
+            > input {
+                height: 20px;
+                field-sizing: content;
+                width: auto;
+                
+                &::placeholder {
+                    color: var(--cosmere-color-faded);
+                }
+            }
         }
     }
 
@@ -286,33 +338,43 @@
         input[type="checkbox"] {
             flex: 0 0 20px;
         }
-
-        select {
-            background-color: var(--cosmere-color-base-4);
-            border-radius: 6px;
-            padding: 0 0.25rem;
-            margin-left: 0.25rem;
-            flex: 2;
-        }
         
         label {
             color: var(--cosmere-color-text-sub);
             flex: 1;
             font-weight: 600;
+            font-variant: lining-nums;
         }
 
-        .field {
+        .form-group,
+        .form-group-stacked {
             gap: 0.625rem;
             margin: 0;
+            min-height: 24px;
 
-            > app-id-input {
+            > app-id-input,
+            > .form-fields {
+                display: flex;
+                flex-direction: row;
                 flex: 2;
-                border-radius: 6px;
-                background-color: var(--cosmere-color-base-3); 
 
                 > input[type="text"],
-                > input[type="number"] {               
+                > input[type="number"] {
+                    border-radius: 6px;
+                    background-color: var(--cosmere-color-base-3);              
                     padding: 0 0.5rem;
+                    flex: 1;
+
+                    &::placeholder {
+                        color: var(--cosmere-color-faded);
+                    }
+                }                
+
+                > select {
+                    background-color: var(--cosmere-color-base-4);
+                    border-radius: 6px;
+                    padding: 0 0.25rem;
+                    flex: 2;
                 }
             }
         }
