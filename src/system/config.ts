@@ -1007,14 +1007,38 @@ const COSMERE: CosmereRPGConfig = {
         },
     },
 
-    unarmedDamageScaling: {
-        strengthRanges: [
-            { min: 0, max: 2, formula: '1' },
-            { min: 3, max: 4, formula: '1d4' },
-            { min: 5, max: 6, formula: '1d8' },
-            { min: 7, max: 8, formula: '2d6' },
-            { min: 9, max: Infinity, formula: '2d10' },
-        ],
+    scaling: {
+        damage: {
+            unarmed: {
+                strength: [
+                    { min: 0, max: 2, formula: '1' },
+                    { min: 3, max: 4, formula: '1d4' },
+                    { min: 5, max: 6, formula: '1d8' },
+                    { min: 7, max: 8, formula: '2d6' },
+                    { min: 9, max: Infinity, formula: '2d10' },
+                ],
+            },
+        },
+        power: {
+            die: {
+                ranks: [
+                    { value: 1, formula: 'd4' },
+                    { value: 2, formula: 'd6' },
+                    { value: 3, formula: 'd8' },
+                    { value: 4, formula: 'd10' },
+                    { value: 5, formula: 'd12' },
+                ],
+            },
+            effectSize: {
+                ranks: [
+                    { value: 1, formula: Size.Small },
+                    { value: 2, formula: Size.Medium },
+                    { value: 3, formula: Size.Large },
+                    { value: 4, formula: Size.Huge },
+                    { value: 5, formula: Size.Garguantuan },
+                ],
+            },
+        },
     },
 
     dice: {

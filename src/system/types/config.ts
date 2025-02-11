@@ -284,11 +284,17 @@ export interface AdvancementRuleConfig {
     skillRanksOrTalents?: number;
 }
 
-export interface AttributeScale {
-    min: number;
-    max: number;
-    formula: string;
-}
+export type AttributeScale<T extends string = string> = {
+    formula: T;
+} & (
+    | {
+          min: number;
+          max: number;
+      }
+    | {
+          value: number;
+      }
+);
 
 export interface MovementTypeConfig {
     label: string;
@@ -404,11 +410,23 @@ export interface CosmereRPGConfig {
         distance: Record<string, string>;
     };
 
-    unarmedDamageScaling: {
-        strengthRanges: AttributeScale[];
-    };
-
     dice: {
         advantageModes: Record<AdvantageMode, string>;
+    };
+
+    scaling: {
+        damage: {
+            unarmed: {
+                strength: AttributeScale[];
+            };
+        };
+        power: {
+            die: {
+                ranks: AttributeScale[];
+            };
+            effectSize: {
+                ranks: AttributeScale<Size>[];
+            };
+        };
     };
 }
