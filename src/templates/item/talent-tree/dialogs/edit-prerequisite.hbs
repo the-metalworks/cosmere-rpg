@@ -11,30 +11,12 @@
 
     {{!-- Talent --}}
     {{#if (eq type "talent")}}
-    <div class="form-group">
-        <label>{{localize "GENERIC.Mode"}}</label>
-        <div class="form-fields">
-            {{#if (gt talents.length 1)}}
-            <select name="mode">
-                {{selectOptions prerequisiteModeSelectOptions selected=mode localize=true}}
-            </select>
-            {{else}}
-            <input type="text"
-                name="mode"
-                value="—"
-                readonly
-            >
-            {{/if}}
+        <div class="form-group">
+            {{app-node-prerequisite-talent-list
+                node=node
+                talents=talents
+            }}
         </div>
-    </div>
-
-    <div class="form-group">
-        {{app-talent-prerequisite-talent-list
-            rootTalent=rootTalent
-            talents=talents
-            mode=mode
-        }}
-    </div>
     {{/if}}
 
     {{!-- Attribute --}}

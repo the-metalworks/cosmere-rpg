@@ -2,21 +2,31 @@ import { Attribute } from '@system/types/cosmere';
 import { CosmereItem } from '@system/documents/item';
 import { ConstructorOf } from '@system/types/utils';
 
-import { Talent } from '@system/types/item';
+import { TalentTree } from '@system/types/item';
+
+// Utils
+import * as TalentTreeUtils from '@system/utils/talent-tree';
 
 // Dialogs
-import { EditTalentPrerequisiteDialog } from '../../dialogs/talent/edit-talent-prerequisite';
+import { EditNodePrerequisiteDialog } from '../../dialogs/talent-tree/edit-node-prerequisite';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
-import { TalentItemSheet } from '../../talent-sheet';
+import { TalentTreeItemSheet } from '../../talent-tree-sheet';
 import { BaseItemSheetRenderContext } from '../../base';
 
-export class TalentPrerequisitesComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<TalentItemSheet>
+// NOTE: Must use a type instead of an interface to match `AnyObject` type
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+type Params = {
+    node: TalentTree.TalentNode;
+};
+
+export class NodePrerequisitesComponent extends HandlebarsApplicationComponent<
+    ConstructorOf<TalentTreeItemSheet>,
+    Params
 > {
     static TEMPLATE =
-        'systems/cosmere-rpg/templates/item/talent/components/prerequisites.hbs';
+        'systems/cosmere-rpg/templates/item/talent-tree/components/prerequisites.hbs';
 
     /**
      * NOTE: Unbound methods is the standard for defining actions and forms
@@ -30,36 +40,41 @@ export class TalentPrerequisitesComponent extends HandlebarsApplicationComponent
     };
     /* eslint-enable @typescript-eslint/unbound-method */
 
+    /* --- Accessors --- */
+
+    public get node() {
+        return this.params?.node;
+    }
+
     /* --- Actions --- */
 
     private static async onCreatePrerequisite(
-        this: TalentPrerequisitesComponent,
+        this: NodePrerequisitesComponent,
         event: Event,
     ) {
         // Create a new prerequisite
-        const newRule: Talent.Prerequisite = {
-            type: Talent.Prerequisite.Type.Attribute,
+        const newRule: TalentTree.Node.Prerequisite = {
+            id: foundry.utils.randomID(),
+            type: TalentTree.Node.Prerequisite.Type.Attribute,
             attribute: Attribute.Strength,
             value: 1,
         };
 
-        // Generate a unique ID
-        const id = foundry.utils.randomID();
-
         // Add the new rule to the item
         await this.application.item.update({
-            [`system.prerequisites.${id}`]: newRule,
+            [`system.prerequisites.${newRule.id}`]: newRule,
         });
 
         // Show the edit dialog
-        await EditTalentPrerequisiteDialog.show(this.application.item, {
-            id,
-            ...newRule,
-        });
+        await EditNodePrerequisiteDialog.show(
+            this.application.item,
+            this.node!,
+            newRule,
+        );
     }
 
     private static onEditPrerequisite(
-        this: TalentPrerequisitesComponent,
+        this: NodePrerequisitesComponent,
         event: Event,
     ) {
         // Get the rule ID
@@ -67,18 +82,19 @@ export class TalentPrerequisitesComponent extends HandlebarsApplicationComponent
         if (!id) return;
 
         // Get the rule data
-        const rule = this.application.item.system.prerequisites[id];
+        const rule = this.node!.prerequisites.get(id);
         if (!rule) return;
 
         // Show the edit dialog
-        void EditTalentPrerequisiteDialog.show(this.application.item, {
-            id,
-            ...rule,
-        });
+        void EditNodePrerequisiteDialog.show(
+            this.application.item,
+            this.node!,
+            rule,
+        );
     }
 
     private static onDeletePrerequisite(
-        this: TalentPrerequisitesComponent,
+        this: NodePrerequisitesComponent,
         event: Event,
     ) {
         // Get the rule ID
@@ -86,15 +102,17 @@ export class TalentPrerequisitesComponent extends HandlebarsApplicationComponent
         if (!id) return;
 
         // Update the item
-        void this.application.item.update({
-            [`system.prerequisites.-=${id}`]: null,
-        });
+        void TalentTreeUtils.removePrerequisite(
+            this.node!,
+            id,
+            this.application.item,
+        );
     }
 
     /* --- Context --- */
 
     public async _prepareContext(
-        params: never,
+        params: Params,
         context: BaseItemSheetRenderContext,
     ) {
         return {
@@ -104,15 +122,13 @@ export class TalentPrerequisitesComponent extends HandlebarsApplicationComponent
     }
 
     private async preparePrerequisitesContext() {
-        // Get the prerequisites data
-        const {
-            prerequisitesArray: prerequisites,
-            prerequisiteTypeSelectOptions,
-        } = this.application.item.system;
+        // Get the prerequisites type select options
+        const prerequisiteTypeSelectOptions =
+            this.getPrerequisiteTypeSelectOptions();
 
         return {
             prerequisites: await Promise.all(
-                prerequisites.map(
+                this.node!.prerequisites.map(
                     this.preparePrerequisiteRuleContext.bind(this),
                 ),
             ),
@@ -120,20 +136,18 @@ export class TalentPrerequisitesComponent extends HandlebarsApplicationComponent
         };
     }
 
-    private async preparePrerequisiteRuleContext(rule: Talent.Prerequisite) {
+    private async preparePrerequisiteRuleContext(
+        rule: TalentTree.Node.Prerequisite,
+    ) {
+        const prerequisiteTypeSelectOptions =
+            this.getPrerequisiteTypeSelectOptions();
+
         return {
             ...rule,
-            typeLabel:
-                this.application.item.system.prerequisiteTypeSelectOptions[
-                    rule.type
-                ],
+            typeLabel: prerequisiteTypeSelectOptions[rule.type],
 
-            ...(rule.type === Talent.Prerequisite.Type.Talent
+            ...(rule.type === TalentTree.Node.Prerequisite.Type.Talent
                 ? {
-                      modeLabel:
-                          CONFIG.COSMERE.items.talent.prerequisite.modes[
-                              rule.mode
-                          ],
                       talents: await Promise.all(
                           rule.talents.map(async (ref) => {
                               // Look up doc
@@ -159,7 +173,15 @@ export class TalentPrerequisitesComponent extends HandlebarsApplicationComponent
         const rule = $(event.currentTarget!).closest('.rule[data-id]');
         return rule.data('id') as string | undefined;
     }
+
+    private getPrerequisiteTypeSelectOptions() {
+        return (
+            this.application.item.system.schema.getField(
+                'nodes._.prerequisites._.type',
+            ) as foundry.data.fields.StringField
+        ).choices as Record<string, string>;
+    }
 }
 
 // Register the component
-TalentPrerequisitesComponent.register('app-talent-prerequisites');
+NodePrerequisitesComponent.register('app-talent-tree-node-prerequisites');

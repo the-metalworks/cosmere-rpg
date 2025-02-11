@@ -1,5 +1,6 @@
 import { Attribute } from '@system/types/cosmere';
 
+import './modifiers';
 import { D20Roll, D20RollOptions, D20RollData } from './d20-roll';
 import { DamageRoll, DamageRollOptions, DamageRollData } from './damage-roll';
 import {

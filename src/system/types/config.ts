@@ -35,7 +35,7 @@ import {
 } from './cosmere';
 import { AdvantageMode } from './roll';
 
-import { Talent, Goal } from './item';
+import { Talent, TalentTree, Goal } from './item';
 
 export interface SizeConfig {
     label: string;
@@ -284,11 +284,17 @@ export interface AdvancementRuleConfig {
     skillRanksOrTalents?: number;
 }
 
-export interface AttributeScale {
-    min: number;
-    max: number;
-    formula: string;
-}
+export type AttributeScale<T extends string = string> = {
+    formula: T;
+} & (
+    | {
+          min: number;
+          max: number;
+      }
+    | {
+          value: number;
+      }
+);
 
 export interface MovementTypeConfig {
     label: string;
@@ -349,12 +355,16 @@ export interface CosmereRPGConfig {
 
         talent: {
             types: Record<Talent.Type, TalentTypeConfig>;
-            prerequisite: {
-                types: Record<Talent.Prerequisite.Type, string>;
-                modes: Record<Talent.Prerequisite.Mode, string>;
-            };
             grantRules: {
                 types: Record<Talent.GrantRule.Type, string>;
+            };
+        };
+
+        talentTree: {
+            node: {
+                prerequisite: {
+                    types: Record<TalentTree.Node.Prerequisite.Type, string>;
+                };
             };
         };
     };
@@ -400,11 +410,23 @@ export interface CosmereRPGConfig {
         distance: Record<string, string>;
     };
 
-    unarmedDamageScaling: {
-        strengthRanges: AttributeScale[];
-    };
-
     dice: {
         advantageModes: Record<AdvantageMode, string>;
+    };
+
+    scaling: {
+        damage: {
+            unarmed: {
+                strength: AttributeScale[];
+            };
+        };
+        power: {
+            die: {
+                ranks: AttributeScale[];
+            };
+            effectSize: {
+                ranks: AttributeScale<Size>[];
+            };
+        };
     };
 }

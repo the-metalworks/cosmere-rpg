@@ -8,8 +8,9 @@ import {
     DamageType,
     Resource,
     InjuryType,
+    Size,
 } from '@system/types/cosmere';
-import { Talent } from '@system/types/item';
+import { Talent, TalentTree } from '@system/types/item';
 import {
     CosmereItem,
     CosmereItemData,
@@ -33,12 +34,15 @@ import { PowerItemData } from '@system/data/item';
 import { Derived } from '@system/data/fields';
 import { SYSTEM_ID } from '../constants';
 import { d20Roll, D20Roll, D20RollData, DamageRoll } from '@system/dice';
+import { AttributeScale } from '../types/config';
 
 // Dialogs
 import { ShortRestDialog } from '@system/applications/actor/dialogs/short-rest';
 import { MESSAGE_TYPES } from './chat-message';
+
+// Utils
 import { getTargetDescriptors } from '../utils/generic';
-import { AttributeScale } from '../types/config';
+import { characterMeetsTalentPrerequisites } from '@system/utils/talent-tree';
 
 export type CharacterActor = CosmereActor<CharacterActorDataModel>;
 export type AdversaryActor = CosmereActor<AdversaryActorDataModel>;
@@ -101,6 +105,20 @@ export type CosmereActorRollData<T extends CommonActorData = CommonActorData> =
     } & {
         attr: Record<string, number>;
         skills: Record<string, { rank: number; mod: number }>;
+
+        scalar: {
+            damage: {
+                unarmed: string;
+            };
+
+            power: Record<
+                string,
+                {
+                    die: string;
+                    'effect-size': Size;
+                }
+            >;
+        };
     };
 
 // Constants
@@ -899,11 +917,44 @@ export class CosmereActor<
                 {} as Record<Skill, { rank: number; mod: number }>,
             ),
 
+            // Scalars
             scalar: {
                 damage: {
                     unarmed: this.getFormulaFromScalarAttribute(
                         Attribute.Strength,
-                        CONFIG.COSMERE.unarmedDamageScaling.strengthRanges,
+                        CONFIG.COSMERE.scaling.damage.unarmed.strength,
+                    ),
+                },
+                power: {
+                    ...this.powers.reduce(
+                        (scaling, power) => {
+                            // Get the power skill id
+                            const skillId = power.system.skill;
+                            if (!skillId) return scaling;
+
+                            // Get the skill
+                            const skill = this.system.skills[skillId];
+                            if (!skill?.unlocked) return scaling;
+
+                            // Add scaling
+                            scaling[power.system.id] = {
+                                die: this.getFormulaFromScalar(
+                                    skill.rank,
+                                    CONFIG.COSMERE.scaling.power.die.ranks,
+                                ),
+                                'effect-size': this.getFormulaFromScalar(
+                                    skill.rank,
+                                    CONFIG.COSMERE.scaling.power.effectSize
+                                        .ranks,
+                                ),
+                            };
+
+                            return scaling;
+                        },
+                        {} as Record<
+                            string,
+                            { die: string; 'effect-size': Size }
+                        >,
                     ),
                 },
             },
@@ -925,17 +976,31 @@ export class CosmereActor<
     /**
      * Utility Function to determine a formula value based on a scalar plot of an attribute value
      */
-    public getFormulaFromScalarAttribute(
-        attr: Attribute,
-        scale: AttributeScale[],
+    public getFormulaFromScalarAttribute<T extends string = string>(
+        attrId: Attribute,
+        scale: AttributeScale<T>[],
     ) {
-        const value = this.system.attributes[attr].value;
+        // Get the attribute
+        const attr = this.system.attributes[attrId];
+        const value = attr.value + attr.bonus;
+        return this.getFormulaFromScalar<T>(value, scale);
+    }
+
+    public getFormulaFromScalar<T extends string = string>(
+        value: number,
+        scale: AttributeScale<T>[],
+    ) {
         for (const range of scale) {
-            if (value >= range.min && value <= range.max) {
+            if (
+                ('value' in range && value === range.value) ||
+                ('min' in range && value >= range.min && value <= range.max)
+            ) {
                 return range.formula;
             }
         }
-        return 1;
+
+        // Default to the first (assumed lowest) formula
+        return scale[0].formula;
     }
 
     /**
@@ -956,24 +1021,15 @@ export class CosmereActor<
         return this.talents.some((talent) => talent.system.id === id);
     }
 
-    public hasTalentPrerequisites(talent: TalentItem): boolean {
-        return talent.system.prerequisitesArray.every((prereq) => {
-            switch (prereq.type) {
-                case Talent.Prerequisite.Type.Talent:
-                    return prereq.mode === Talent.Prerequisite.Mode.AllOf
-                        ? prereq.talents.every((ref) => this.hasTalent(ref.id))
-                        : prereq.talents.some((ref) => this.hasTalent(ref.id));
-                case Talent.Prerequisite.Type.Attribute:
-                    return (
-                        this.getAttributeMod(prereq.attribute) >= prereq.value
-                    );
-                case Talent.Prerequisite.Type.Skill:
-                    return this.getSkillMod(prereq.skill) >= prereq.rank;
-                case Talent.Prerequisite.Type.Level: // TEMP: Until leveling is implemented
-                default:
-                    return true;
-            }
-        });
+    /**
+     * Utility function to determine if the actor meets the
+     * given talent prerequisites.
+     */
+    public hasTalentPreRequisites(
+        prerequisites: Collection<TalentTree.Node.Prerequisite>,
+    ): boolean {
+        if (!this.isCharacter()) return false;
+        return characterMeetsTalentPrerequisites(this, prerequisites);
     }
 
     /* --- Helpers --- */
