@@ -65,7 +65,7 @@ export class ConfigureSensesRangeDialog extends HandlebarsApplicationMixin(
 
         this.sensesData = this.actor.system.senses;
         this.sensesData.range.override ??= this.sensesData.range.value ?? 0;
-        this.mode = Derived.getMode(this.sensesData.range);
+        this.mode = this.sensesData.range.mode;
     }
 
     /* --- Statics --- */
@@ -100,7 +100,7 @@ export class ConfigureSensesRangeDialog extends HandlebarsApplicationMixin(
         this.mode = formData.object.mode as Derived.Mode;
 
         // Assign mode
-        Derived.setMode(this.sensesData.range, this.mode);
+        this.sensesData.range.mode = this.mode;
 
         // Assign range
         if (this.mode === Derived.Mode.Override && target.name === 'range')

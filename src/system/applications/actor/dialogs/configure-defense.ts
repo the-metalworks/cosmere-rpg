@@ -74,11 +74,9 @@ export class ConfigureDefenseDialog extends HandlebarsApplicationMixin(
         });
 
         this.defenseData = this.actor.system.defenses[group];
-        this.defenseData.value.override =
-            this.defenseData.value.override ??
-            this.defenseData.value.value ??
-            10;
-        this.mode = Derived.getMode(this.defenseData.value);
+        this.defenseData.override =
+            this.defenseData.override ?? this.defenseData.value ?? 10;
+        this.mode = this.defenseData.mode;
     }
 
     /* --- Statics --- */
@@ -111,13 +109,13 @@ export class ConfigureDefenseDialog extends HandlebarsApplicationMixin(
         this.mode = formData.object.mode as Derived.Mode;
 
         if (this.mode === Derived.Mode.Override && target.name === 'formula')
-            this.defenseData.value.override = formData.object.formula as number;
+            this.defenseData.override = formData.object.formula as number;
 
         if (target.name === 'bonus')
             this.defenseData.bonus = formData.object.bonus as number;
 
         // Assign mode
-        Derived.setMode(this.defenseData.value, this.mode);
+        this.defenseData.mode = this.mode;
 
         // Render
         void this.render(true);
@@ -147,7 +145,7 @@ export class ConfigureDefenseDialog extends HandlebarsApplicationMixin(
             formula,
             mode: this.mode,
             modes: Derived.Modes,
-            override: this.defenseData.value.override!,
+            override: this.defenseData.override!,
             bonus: this.defenseData.bonus,
         });
     }

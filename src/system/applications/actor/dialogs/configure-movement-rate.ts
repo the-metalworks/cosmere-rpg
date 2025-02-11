@@ -108,7 +108,7 @@ export class ConfigureMovementRateDialog extends HandlebarsApplicationMixin(
                     Derived.Mode.Override) as Derived.Mode;
 
                 // Assign mode
-                Derived.setMode(this.movementData[type].rate, mode);
+                this.movementData[type].rate.mode = mode;
 
                 // Assign rate
                 if (
@@ -141,7 +141,7 @@ export class ConfigureMovementRateDialog extends HandlebarsApplicationMixin(
             Object.keys(CONFIG.COSMERE.movement.types) as MovementType[]
         ).map((type) => ({
             ...this.movementData[type].rate,
-            mode: Derived.getMode(this.movementData[type].rate),
+            mode: this.movementData[type].rate.mode,
             type,
             label: CONFIG.COSMERE.movement.types[type].label,
         }));

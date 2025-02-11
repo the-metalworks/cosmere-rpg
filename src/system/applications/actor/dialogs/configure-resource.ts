@@ -75,7 +75,7 @@ export class ConfigureResourceDialog extends HandlebarsApplicationMixin(
 
         this.resourceData = this.actor.system.resources[resourceId];
         this.resourceData.max.override ??= this.resourceData.max.value ?? 0;
-        this.mode = Derived.getMode(this.resourceData.max);
+        this.mode = this.resourceData.max.mode;
     }
 
     /* --- Statics --- */
@@ -110,7 +110,7 @@ export class ConfigureResourceDialog extends HandlebarsApplicationMixin(
         this.mode = formData.object.mode as Derived.Mode;
 
         // Assign mode
-        Derived.setMode(this.resourceData.max, this.mode);
+        this.resourceData.max.mode = this.mode;
 
         // Assign rate
         if (this.mode === Derived.Mode.Override && target.name === 'max')

@@ -65,11 +65,10 @@ export class ConfigureDeflectDialog extends HandlebarsApplicationMixin(
         });
 
         this.data = actor.system.deflect;
-        this.data.value ??= 0;
         this.data.natural ??= 0;
         this.data.override ??= this.data.value ?? 0;
         this.data.bonus ??= 0;
-        this.mode = Derived.getMode(this.data);
+        this.mode = this.data.mode;
     }
 
     /* --- Statics --- */
@@ -112,10 +111,10 @@ export class ConfigureDeflectDialog extends HandlebarsApplicationMixin(
 
         if (isNaN(this.data.override!)) this.data.override = 0;
         if (isNaN(this.data.natural!)) this.data.natural = 0;
-        if (isNaN(this.data.bonus!)) this.data.bonus = 0;
+        if (isNaN(this.data.bonus)) this.data.bonus = 0;
 
         // Assign mode
-        Derived.setMode(this.data, this.mode);
+        this.data.mode = this.mode;
 
         // Render
         void this.render(true);

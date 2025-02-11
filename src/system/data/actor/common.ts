@@ -78,7 +78,7 @@ export interface CommonActorData {
         condition: Condition[];
     };
     attributes: Record<Attribute, AttributeData>;
-    defenses: Record<AttributeGroup, { value: Derived<number>; bonus: number }>;
+    defenses: Record<AttributeGroup, Derived<number>>;
     deflect: DeflectData;
     resources: Record<
         Resource,
@@ -320,23 +320,15 @@ export class CommonActorDataModel<
         return new foundry.data.fields.SchemaField(
             Object.keys(defenses).reduce(
                 (schemas, key) => {
-                    schemas[key] = new foundry.data.fields.SchemaField({
-                        value: new DerivedValueField(
-                            new foundry.data.fields.NumberField({
-                                required: true,
-                                nullable: false,
-                                integer: true,
-                                min: 0,
-                                initial: 0,
-                            }),
-                        ),
-                        bonus: new foundry.data.fields.NumberField({
+                    schemas[key] = new DerivedValueField(
+                        new foundry.data.fields.NumberField({
                             required: true,
                             nullable: false,
                             integer: true,
+                            min: 0,
                             initial: 0,
                         }),
-                    });
+                    );
 
                     return schemas;
                 },
@@ -531,7 +523,7 @@ export class CommonActorDataModel<
     public prepareDerivedData(): void {
         super.prepareDerivedData();
 
-        this.senses.range.value = awarenessToSensesRange(this.attributes.awa);
+        this.senses.range.derived = awarenessToSensesRange(this.attributes.awa);
 
         // Derive defenses
         (Object.keys(this.defenses) as AttributeGroup[]).forEach((group) => {
@@ -548,7 +540,7 @@ export class CommonActorDataModel<
             const attrsSum = attrValues.reduce((sum, v) => sum + v, 0);
 
             // Assign defense
-            this.defenses[group].value.value = 10 + attrsSum + bonus;
+            this.defenses[group].derived = 10 + attrsSum + bonus;
         });
 
         // Derive skill modifiers
@@ -569,7 +561,7 @@ export class CommonActorDataModel<
             const attrValue = attribute.value + attribute.bonus;
 
             // Calculate mod
-            this.skills[skill].mod.value = attrValue + rank;
+            this.skills[skill].mod.derived = attrValue + rank;
         });
 
         // Derive non-core skill unlocks
@@ -609,11 +601,11 @@ export class CommonActorDataModel<
             const armorDeflect = armor?.system.deflect ?? 0;
 
             // Derive deflect
-            this.deflect.value = Math.max(natural, armorDeflect);
+            this.deflect.derived = Math.max(natural, armorDeflect);
         }
 
         // Movement
-        this.movement[MovementType.Walk].rate.value = speedToMovementRate(
+        this.movement[MovementType.Walk].rate.derived = speedToMovementRate(
             this.attributes.spd,
         );
 
@@ -623,7 +615,7 @@ export class CommonActorDataModel<
             .forEach((type) => (this.movement[type].rate.useOverride = true));
 
         // Injury count
-        this.injuries.value = this.parent.items.filter(
+        this.injuries.derived = this.parent.items.filter(
             (item) => item.type === ItemType.Injury,
         ).length;
 
@@ -648,18 +640,18 @@ export class CommonActorDataModel<
                 if (!primaryConfig) return;
 
                 // Set conversion rate
-                denom.conversionRate.value = primaryConfig.conversionRate;
+                denom.conversionRate.derived = primaryConfig.conversionRate;
 
                 if (denom.secondaryId && !!denominations.secondary) {
                     const secondaryConfig = denominations.secondary.find(
                         (d) => d.id === denom.secondaryId,
                     );
-                    denom.conversionRate.value *=
+                    denom.conversionRate.derived *=
                         secondaryConfig?.conversionRate ?? 1;
                 }
 
                 // Get converted value
-                denom.convertedValue.value =
+                denom.convertedValue.derived =
                     denom.amount * denom.conversionRate.value;
 
                 // Adjust derived total for this currency accordingly
@@ -667,14 +659,14 @@ export class CommonActorDataModel<
             });
 
             // Update derived total
-            currencyData.total.value = total;
+            currencyData.total.derived = total;
         });
 
         // Lifting & Carrying
-        this.encumbrance.lift.value = strengthToLiftingCapacity(
+        this.encumbrance.lift.derived = strengthToLiftingCapacity(
             this.attributes.str,
         );
-        this.encumbrance.carry.value = strengthToCarryingCapacity(
+        this.encumbrance.carry.derived = strengthToCarryingCapacity(
             this.attributes.str,
         );
     }
