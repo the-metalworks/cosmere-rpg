@@ -8,6 +8,7 @@ export const TEMPLATES = {
     GENERAL_TABS: 'general/tabs.hbs',
     GENERAL_SHEET_CORNERS: 'general/sheet-corners.hbs',
     GENERAL_SHEET_BACKGROUND: 'general/sheet-background.hbs',
+    GENERAL_DOCUMENT_DROP_LIST: 'general/components/document-drop-list.hbs',
     COMBAT_COMBATANT: 'combat/combatant.hbs',
 
     // ACTOR BASE
@@ -121,16 +122,20 @@ export const TEMPLATES = {
     CHAT_OVERLAY_CRIT: 'chat/overlay-crit.hbs',
 
     //DIALOGS
-    DIALOG_BASE_EDIT_EXPERTISES: 'actors/dialogs/edit-expertises.hbs',
-    DIALOG_BASE_CONFIGURE_RESOURCE: 'actors/dialogs/configure-resource.hbs',
-    DIALOG_BASE_CONFIGURE_DEFLECT: 'actors/dialogs/configure-deflect.hbs',
-    DIALOG_BASE_CONFIGURE_DEFENSE: 'actors/dialogs/configure-defense.hbs',
-    DIALOG_BASE_CONFIGURE_RECOVERY: 'actors/dialogs/configure-recovery-die.hbs',
-    DIALOG_BASE_CONFIGURE_MOVEMENT:
+    DIALOG_ACTOR_EDIT_EXPERTISES: 'actors/dialogs/edit-expertises.hbs',
+    DIALOG_ACTOR_CONFIGURE_RESOURCE: 'actors/dialogs/configure-resource.hbs',
+    DIALOG_ACTOR_CONFIGURE_DEFLECT: 'actors/dialogs/configure-deflect.hbs',
+    DIALOG_ACTOR_CONFIGURE_DEFENSE: 'actors/dialogs/configure-defense.hbs',
+    DIALOG_ACTOR_CONFIGURE_RECOVERY:
+        'actors/dialogs/configure-recovery-die.hbs',
+    DIALOG_ACTOR_CONFIGURE_MOVEMENT:
         'actors/dialogs/configure-movement-rate.hbs',
-    DIALOG_BASE_CONFIGURE_SENSES: 'actors/dialogs/configure-senses-range.hbs',
+    DIALOG_ACTOR_CONFIGURE_SENSES: 'actors/dialogs/configure-senses-range.hbs',
+
     DIALOG_ADVERSARY_CONFIGURE_SKILLS:
         'actors/adversary/dialogs/configure-skills.hbs',
+
+    DIALOG_ITEM_EDIT_REWARD: 'item/goal/dialogs/edit-reward.hbs',
 } as const;
 
 /**

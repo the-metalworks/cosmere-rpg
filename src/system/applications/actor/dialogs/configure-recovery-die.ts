@@ -41,7 +41,7 @@ export class ConfigureRecoveryDieDialog extends HandlebarsApplicationMixin(
         foundry.utils.deepClone(super.PARTS),
         {
             form: {
-                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_BASE_CONFIGURE_RECOVERY}`,
+                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ACTOR_CONFIGURE_RECOVERY}`,
                 forms: {
                     form: {
                         handler: this.onFormEvent,

@@ -39,7 +39,7 @@ export class ConfigureDefenseDialog extends HandlebarsApplicationMixin(
         foundry.utils.deepClone(super.PARTS),
         {
             form: {
-                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_BASE_CONFIGURE_DEFENSE}`,
+                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ACTOR_CONFIGURE_DEFENSE}`,
                 forms: {
                     form: {
                         handler: this.onFormEvent,

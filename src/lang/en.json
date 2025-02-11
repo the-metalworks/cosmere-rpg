@@ -1005,14 +1005,14 @@
     },
     "COMPONENT": {
         "DocumentReferenceInput": {
-            "Placeholder": "Drop a {type} here to create a reference",
+            "Placeholder": "Drop {type} here to create reference",
             "Warning": {
                 "WrongType": "The dropped Document must be of type {type}",
                 "WrongSubtype": "The dropped {type} must be of type {subtype}"
             }
         },
         "DocumentDropListComponent": {
-            "Placeholder": "Drop a {type} here to add it to the list",
+            "Placeholder": "Drop {type} here to add to list",
             "Warning": {
                 "DocumentAlreadyInList": "The dropped {type} is already in the list",
                 "WrongType": "The dropped Document must be of type {type}",

@@ -41,7 +41,7 @@ export class EditExpertisesDialog extends HandlebarsApplicationMixin(
         foundry.utils.deepClone(super.PARTS),
         {
             form: {
-                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_BASE_EDIT_EXPERTISES}`,
+                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ACTOR_EDIT_EXPERTISES}`,
                 // See note above
                 /* eslint-disable @typescript-eslint/unbound-method */
                 forms: {

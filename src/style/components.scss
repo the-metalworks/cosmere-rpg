@@ -107,38 +107,19 @@ app-multi-value-select {
 }
 
 app-document-drop-list {
-    --input-focus-outline-color: var(--color-cool-3);
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
 
-    display: block;
-    border: 1px dashed var(--color-dark-4);
-    padding: 0 0.5rem;
-    border-radius: 0.3rem;
-    outline: 1px solid transparent;
-    transition: outline-color 0.5s;
+    .document {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        height: 24px;
 
-    ul {
-        .document {
-            display: flex;
-            align-items: center;
-
-            .link {
-                flex: 1;
-                display: flex;
-                justify-content: center;
-            }
+        .controls > a {
+            color: var(--cosmere-color-faded);
         }
-    }
-
-    p {
-        text-align: center;
-        font-size: 10pt;
-        font-style: italic;
-        color: var(--color-dark-4);
-        text-shadow: 0 0 0.2rem black;
-    }
-
-    &.dragover {
-        outline: 2px solid var(--input-focus-outline-color);
-        box-shadow: 0 0 5px var(--color-shadow-primary);
     }
 }

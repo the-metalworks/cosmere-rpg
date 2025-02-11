@@ -113,7 +113,8 @@
     &.configure-defense,
     &.configure-movement-rate,
     &.configure-recovery-die,
-    &.configure-senses-range {
+    &.configure-senses-range,
+    &.edit-reward  {
         > .window-content {
             filter: var(--cosmere-drop-shadow);
         }
@@ -122,16 +123,6 @@
             display: flex;
             flex-direction: column;
             flex: 1;
-        }
-    }
-
-    &.configure-resource,
-    &.configure-deflect,
-    &.configure-defense,
-    &.configure-movement-rate,
-    &.configure-recovery-die,
-    &.configure-senses-range {
-        form {
             gap: 0.25rem;
         }
 

@@ -35,29 +35,6 @@
         }
     }
 
-    .drop-area {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 32px;
-        border: 2px dotted var(--cosmere-color-faded);
-        border-radius: 4px;        
-        background-color: var(--cosmere-color-sheet);
-        
-        font-family: var(--cosmere-font-normal);
-        font-size: var(--font-size-12);
-        font-weight: 600;
-        color: var(--cosmere-color-faded);
-        text-transform: uppercase;
-        filter: var(--cosmere-drop-shadow);
-
-        opacity: 0.5;
-
-        &.dropping {
-            opacity: 1;
-        }
-    }
-
     .details-text {
         .icon-header {
             color: var(--cosmere-color-faded);

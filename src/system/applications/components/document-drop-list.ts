@@ -1,4 +1,6 @@
 import { ConstructorOf } from '@system/types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
@@ -47,8 +49,7 @@ export class DocumentDropListComponent extends DragDropComponentMixin(
 ) {
     static FORM_ASSOCIATED = true;
 
-    static readonly TEMPLATE =
-        'systems/cosmere-rpg/templates/general/components/document-drop-list.hbs';
+    static readonly TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.GENERAL_DOCUMENT_DROP_LIST}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions
@@ -138,14 +139,14 @@ export class DocumentDropListComponent extends DragDropComponentMixin(
     protected override _onDragOver(event: DragEvent) {
         if (this.readonly) return;
 
-        $(this.element!).addClass('dragover');
+        $(this.element!).find('.drop-area').addClass('dropping');
     }
 
     protected override async _onDrop(event: DragEvent) {
         if (this.readonly) return;
 
         // Remove dragover class
-        $(this.element!).removeClass('dragover');
+        $(this.element!).find('.drop-area').removeClass('dropping');
 
         // Get data
         const data = TextEditor.getDragEventData(event) as unknown as {
@@ -220,7 +221,7 @@ export class DocumentDropListComponent extends DragDropComponentMixin(
         super._onAttachListeners(params);
 
         $(this.element!).on('dragleave', () => {
-            $(this.element!).removeClass('dragover');
+            $(this.element!).find('.drop-area').removeClass('dropping');
         });
     }
 
