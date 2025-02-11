@@ -115,7 +115,7 @@ export type CosmereActorRollData<T extends CommonActorData = CommonActorData> =
                 string,
                 {
                     die: string;
-                    effectSize: Size;
+                    'effect-size': Size;
                 }
             >;
         };
@@ -942,7 +942,7 @@ export class CosmereActor<
                                     skill.rank,
                                     CONFIG.COSMERE.scaling.power.die.ranks,
                                 ),
-                                effectSize: this.getFormulaFromScalar(
+                                'effect-size': this.getFormulaFromScalar(
                                     skill.rank,
                                     CONFIG.COSMERE.scaling.power.effectSize
                                         .ranks,
@@ -951,7 +951,10 @@ export class CosmereActor<
 
                             return scaling;
                         },
-                        {} as Record<string, { die: string; effectSize: Size }>,
+                        {} as Record<
+                            string,
+                            { die: string; 'effect-size': Size }
+                        >,
                     ),
                 },
             },
