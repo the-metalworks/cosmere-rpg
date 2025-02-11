@@ -529,6 +529,72 @@
                 },
                 "Height": {
                     "Label": "Height"
+                },
+                "Interaction": {
+                    "CreateConnection": "Select a talent to connect to."
+                },
+                "ViewBounds": {
+                    "Label": "View Bounds",
+                    "CaptureTooltip": "Capture current view bounds",
+                    "X": {
+                        "Label": "X"
+                    },
+                    "Y": {
+                        "Label": "Y"
+                    },
+                    "Width": {
+                        "Label": "Width"
+                    },
+                    "Height": {
+                        "Label": "Height"
+                    }
+                },
+                "Display": {
+                    "Label": "Window",
+                    "Width": {
+                        "Label": "Width"
+                    },
+                    "Height": {
+                        "Label": "Height"
+                    }
+                },
+                "Background": {
+                    "Label": "Background",
+                    "Img": {
+                        "Label": "Image"
+                    },
+                    "Size": {
+                        "Label": "Size",
+                        "Width": {
+                            "Label": "Width"
+                        },
+                        "Height": {
+                            "Label": "Height"
+                        }
+                    },
+                    "Position": {
+                        "Label": "Position",
+                        "X": {
+                            "Label": "X"
+                        },
+                        "Y": {
+                            "Label": "Y"
+                        }
+                    }
+                },
+                "Node": {
+                    "Prerequisites": {
+                        "Label": "Prerequisites"
+                    },
+                    "Position": {
+                        "Label": "Position",
+                        "X": {
+                            "Label": "X"
+                        },
+                        "Y": {
+                            "Label": "Y"
+                        }
+                    }  
                 }
             },
             "Activation": {
@@ -999,7 +1065,7 @@
                 "OutOfBounds": "The selected bounds would place at least one talent outside the tree."
             },
             "Notification": {
-                "TalentPicked": "Added talent {talent} to {actor}"
+                
             }
         }
     },
@@ -1047,10 +1113,12 @@
         "Rounds": "Rounds",
         "Clear": "Clear",
         "Name": "Name",
+        "Image": "Image",
         "Level": "Level",
         "Add": "Add",
         "Type": "Type",
         "Description": "Description",
+        "Talent": "Talent",
         "Button": {
             "Roll": "Roll",
             "Continue": "Continue",
@@ -1065,7 +1133,8 @@
         "Notification": {
             "GrazeFocusSpent": "Reduced focus by 1",
             "AddedItem": "Added {type} \"{item}\" to {actor}",
-            "IncreasedSkillRank": "Increased {actor}'s {skill} rank by {amount}"
+            "IncreasedSkillRank": "Increased {actor}'s {skill} rank by {amount}",
+            "TalentObtained": "Added talent {talent} to {actor}"
         },
         "Warning": {
             "NotImplemented": "Sorry! [action] is not implemented yet",

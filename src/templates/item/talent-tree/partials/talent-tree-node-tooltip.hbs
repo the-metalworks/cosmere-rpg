@@ -4,6 +4,38 @@
         <div class="bg-image" style="background-image: url('{{img}}')"></div>
     </div>
     <section style="text-align: left">
+        <div class="prerequisites">
+            <b>{{localize "COSMERE.Item.TalentTree.Node.Prerequisites.Label"}}:</b>
+            {{#each prerequisites as |prereq|}}
+                <div class="prerequisite {{#if @root.hasContextActor}}{{#if prereq.met}}met{{else}}unmet{{/if}}{{/if}}">
+                    {{#if (eq prereq.type "talent")}}
+                        <i class="fa-solid fa-star"></i>
+                        {{#each prereq.talents as |talent|}}
+                            <span>{{talent.label}}</span>
+                            <span>{{lower (localize "GENERIC.Talent")}}</span>
+                            {{#if (not @last)}}
+                                <span>or</span>
+                            {{/if}}
+                        {{/each}}
+                    {{else if (eq prereq.type "attribute")}}
+                        <i class="fa-solid fa-chart-column"></i>
+                        <span>{{localize (concat "COSMERE.Attribute." prereq.attribute)}}</span>
+                        <span>{{prereq.value}}+</span>
+                    {{else if (eq prereq.type "skill")}}
+                        <i class="fa-solid fa-bullseye"></i>
+                        <span>{{localize (concat "COSMERE.Skill." prereq.skill)}}</span>
+                        <span>{{prereq.rank}}+</span>
+                    {{else if (eq prereq.type "level")}}
+                        <i class="fa-solid fa-crown"></i>
+                        <span>{{localize "COSMERE.Actor.level"}}</span>
+                        <span>{{prereq.level}}+</span>
+                    {{else if (eq prereq.type "connection")}}
+                        <i class="fa-solid fa-users"></i>
+                        <span>{{prereq.description}}</span>
+                    {{/if}}
+                </div>
+            {{/each}}
+        </div>
         {{{description}}}
     </section>
 </div>

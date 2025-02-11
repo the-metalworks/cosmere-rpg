@@ -64,6 +64,9 @@ Handlebars.registerHelper(
     },
 );
 
+Handlebars.registerHelper('lower', (str: string) => str.toLowerCase());
+Handlebars.registerHelper('upper', (str: string) => str.toUpperCase());
+
 Handlebars.registerHelper(
     'perc',
     (value: number, max: number, floor = true) => {

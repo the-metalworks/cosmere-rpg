@@ -131,8 +131,6 @@ export function registerComponent(
                     detail: { params: getComponentParams(componentRef) },
                 }),
             );
-        } else {
-            componentRegistry[componentRef].dirty = false;
         }
 
         // Return result
@@ -264,14 +262,44 @@ export function deregisterApplicationInstance(
         ComponentHandlebarsApplication<ApplicationV2Constructor<AnyObject>>
     >,
 ) {
-    delete applicationInstances[application.id];
-
-    // Remove all components that belonged to this application
+    // Destroy all components that belonged to this application
     Object.keys(componentRegistry).forEach((componentRef) => {
         if (componentRef.startsWith(application.id)) {
-            delete componentRegistry[componentRef];
+            destroyComponent(componentRef);
         }
     });
+
+    // Remove application instance
+    delete applicationInstances[application.id];
+}
+
+export function destroyComponent(componentRef: string, recursive = true) {
+    // Get component instance
+    const instance = getComponentInstance(componentRef);
+    if (!instance)
+        throw new Error(
+            `Failed to destroy component. Invalid component ref "${componentRef}"`,
+        );
+
+    // Get all child components
+    const childRefs = Object.entries(componentRegistry)
+        .filter(([_, { parentRef }]) => parentRef === componentRef)
+        .map(([ref]) => ref);
+
+    // Destroy children
+    if (recursive) {
+        childRefs.forEach((childRef) => destroyComponent(childRef, true));
+    }
+
+    // Invoke lifecycle event
+    instance.dispatchEvent(
+        new CustomEvent('destroy', {
+            detail: { params: getComponentParams(componentRef) },
+        }),
+    );
+
+    // Remove from registry
+    delete componentRegistry[componentRef];
 }
 
 export function getComponentInstance(componentRef: string) {
@@ -325,6 +353,7 @@ export async function renderComponent(
     // Get all child components
     const childRefs = Object.entries(componentRegistry)
         .filter(([_, { parentRef }]) => parentRef === componentRef)
+        .filter(([_, { selector }]) => $(html).find(selector).length > 0)
         .map(([ref]) => ref);
 
     // Render children
@@ -336,6 +365,9 @@ export async function renderComponent(
         );
         replaceComponent(childRef, childHtml, $(html) as JQuery);
     }
+
+    // Mark as clean
+    componentRegistry[componentRef].dirty = false;
 
     // Return result
     return html;
@@ -476,7 +508,7 @@ export function attachComponentListeners(componentRef: string) {
     const htmlElement = getComponentElement(componentRef);
     if (!htmlElement)
         throw new Error(
-            `Failed to attach component listeners. Component element not set`,
+            `Failed to attach component listeners. Component element not set. Selector: "${instance.selector}" Ref: "${componentRef}"`,
         );
 
     // Get the component actions
@@ -523,11 +555,21 @@ export function attachComponentListeners(componentRef: string) {
     childRefs.forEach((childRef) => attachComponentListeners(childRef));
 }
 
-export function preRenderApplication(applicationId: string) {
+export function preRenderApplication(
+    applicationId: string,
+    parts: string[] | undefined,
+    componentRefs: string[] | undefined,
+) {
     // Mark all components as dirty
     Object.entries(componentRegistry)
         .filter(([ref]) => ref.startsWith(applicationId))
-        .forEach(([ref]) => {
+        .filter(
+            ([ref]) =>
+                (!parts && !componentRefs) ||
+                (parts?.includes(ref.split(':')[1]) ?? false) ||
+                componentRefs?.some((otherRef) => ref.startsWith(otherRef)),
+        )
+        .forEach(([ref, { selector, instance }]) => {
             componentRegistry[ref].dirty = true;
         });
 }
@@ -539,9 +581,10 @@ export function removeOrphanedComponents(applicationId: string) {
     );
 
     // Remove orphaned components
-    components.forEach(([ref, { dirty }]) => {
+    components.forEach(([ref, { dirty, selector, instance }]) => {
         if (dirty) {
-            delete componentRegistry[ref];
+            // Destroy component
+            destroyComponent(ref);
         }
     });
 }
@@ -620,4 +663,5 @@ export default {
     getApplicationComponents,
     registerApplicationInstance,
     deregisterApplicationInstance,
+    destroyComponent,
 };

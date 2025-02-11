@@ -5,6 +5,7 @@ import COSMERE from './system/config';
 
 import './style.scss';
 import './system/hooks';
+import './system/mixins';
 
 import { preloadHandlebarsTemplates } from './system/utils/handlebars';
 import {

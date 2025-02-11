@@ -35,7 +35,7 @@ import {
 } from './cosmere';
 import { AdvantageMode } from './roll';
 
-import { Talent, Goal } from './item';
+import { Talent, TalentTree, Goal } from './item';
 
 export interface SizeConfig {
     label: string;
@@ -349,12 +349,16 @@ export interface CosmereRPGConfig {
 
         talent: {
             types: Record<Talent.Type, TalentTypeConfig>;
-            prerequisite: {
-                types: Record<Talent.Prerequisite.Type, string>;
-                modes: Record<Talent.Prerequisite.Mode, string>;
-            };
             grantRules: {
                 types: Record<Talent.GrantRule.Type, string>;
+            };
+        };
+
+        talentTree: {
+            node: {
+                prerequisite: {
+                    types: Record<TalentTree.Node.Prerequisite.Type, string>;
+                };
             };
         };
     };
