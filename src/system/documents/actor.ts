@@ -8,6 +8,7 @@ import {
     DamageType,
     Resource,
     InjuryType,
+    Size,
 } from '@system/types/cosmere';
 import { Talent, TalentTree } from '@system/types/item';
 import {
@@ -104,6 +105,20 @@ export type CosmereActorRollData<T extends CommonActorData = CommonActorData> =
     } & {
         attr: Record<string, number>;
         skills: Record<string, { rank: number; mod: number }>;
+
+        scalar: {
+            damage: {
+                unarmed: string;
+            };
+
+            power: Record<
+                string,
+                {
+                    die: string;
+                    effectSize: Size;
+                }
+            >;
+        };
     };
 
 // Constants
@@ -902,11 +917,41 @@ export class CosmereActor<
                 {} as Record<Skill, { rank: number; mod: number }>,
             ),
 
+            // Scalars
             scalar: {
                 damage: {
                     unarmed: this.getFormulaFromScalarAttribute(
                         Attribute.Strength,
-                        CONFIG.COSMERE.unarmedDamageScaling.strengthRanges,
+                        CONFIG.COSMERE.scaling.damage.unarmed.strength,
+                    ),
+                },
+                power: {
+                    ...this.powers.reduce(
+                        (scaling, power) => {
+                            // Get the power skill id
+                            const skillId = power.system.skill;
+                            if (!skillId) return scaling;
+
+                            // Get the skill
+                            const skill = this.system.skills[skillId];
+                            if (!skill?.unlocked) return scaling;
+
+                            // Add scaling
+                            scaling[power.system.id] = {
+                                die: this.getFormulaFromScalar(
+                                    skill.rank,
+                                    CONFIG.COSMERE.scaling.power.die.ranks,
+                                ),
+                                effectSize: this.getFormulaFromScalar(
+                                    skill.rank,
+                                    CONFIG.COSMERE.scaling.power.effectSize
+                                        .ranks,
+                                ),
+                            };
+
+                            return scaling;
+                        },
+                        {} as Record<string, { die: string; effectSize: Size }>,
                     ),
                 },
             },
@@ -928,17 +973,31 @@ export class CosmereActor<
     /**
      * Utility Function to determine a formula value based on a scalar plot of an attribute value
      */
-    public getFormulaFromScalarAttribute(
-        attr: Attribute,
-        scale: AttributeScale[],
+    public getFormulaFromScalarAttribute<T extends string = string>(
+        attrId: Attribute,
+        scale: AttributeScale<T>[],
     ) {
-        const value = this.system.attributes[attr].value;
+        // Get the attribute
+        const attr = this.system.attributes[attrId];
+        const value = attr.value + attr.bonus;
+        return this.getFormulaFromScalar<T>(value, scale);
+    }
+
+    public getFormulaFromScalar<T extends string = string>(
+        value: number,
+        scale: AttributeScale<T>[],
+    ) {
         for (const range of scale) {
-            if (value >= range.min && value <= range.max) {
+            if (
+                ('value' in range && value === range.value) ||
+                ('min' in range && value >= range.min && value <= range.max)
+            ) {
                 return range.formula;
             }
         }
-        return 1;
+
+        // Default to the first (assumed lowest) formula
+        return scale[0].formula;
     }
 
     /**
