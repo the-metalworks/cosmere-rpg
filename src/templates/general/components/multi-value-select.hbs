@@ -1,3 +1,13 @@
+{{!-- Dropdown --}}
+{{#if (not readonly)}}
+<div class="new-select">
+    <select>
+        <option value="" disabled selected>{{localize (default placeholder "COMPONENT.MultiValueSelect.DefaultPlaceholder")}}</option>
+        {{selectOptions options localize=true}}
+    </select>
+</div>
+{{/if}}
+
 {{!-- Selected values --}}
 <div class="values">
     {{#each selected as |value|}}
@@ -16,13 +26,3 @@
         </div>
     {{/each}}
 </div>
-
-{{!-- Dropdown --}}
-{{#if (not readonly)}}
-<div class="new-select">
-    <select>
-        <option value="" disabled selected>{{localize (default placeholder "COMPONENT.MultiValueSelect.DefaultPlaceholder")}}</option>
-        {{selectOptions options localize=true}}
-    </select>
-</div>
-{{/if}}

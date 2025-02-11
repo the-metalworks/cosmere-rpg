@@ -1,21 +1,25 @@
 {{#with (lookup tabsMap "details") as |tab|}}
 
 <div class="tab tab-content {{tab.cssClass}}" data-tab="details" data-group="primary">
-    {{app-item-details-id}}
-    {{app-item-details-type}}
+    <fieldset>
+        <legend>{{localize "COSMERE.Item.Sheet.Basics"}}</legend>
+        {{app-item-details-id}}
+        {{app-item-details-type}}
+        <div class="item-details-form">
+            {{formGroup @root.systemFields.customSkill
+                value=@root.item.system.customSkill
+                localize=true
+            }}
 
-    {{formGroup @root.systemFields.customSkill
-        value=@root.item.system.customSkill
-        localize=true
-    }}
-
-    {{#if @root.item.system.customSkill}}
-        {{formGroup @root.systemFields.skill
-            value=@root.item.system.skill
-            localize=true
-            blank="GENERIC.None"
-        }}
-    {{/if}}
+            {{#if @root.item.system.customSkill}}
+                {{formGroup @root.systemFields.skill
+                    value=@root.item.system.skill
+                    localize=true
+                    blank="GENERIC.None"
+                }}
+            {{/if}}
+        </div>        
+    </fieldset>
     
     {{app-item-details-activation}}
 </div>

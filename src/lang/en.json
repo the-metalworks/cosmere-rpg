@@ -468,7 +468,7 @@
                     "Hint": "Used to uniquely identify this power. Should be the same as the identifier of the associated skill, unless a custom skill is used."
                 },
                 "CustomSkill": {
-                    "Label": "Use custom skill?",
+                    "Label": "Use Custom Skill",
                     "Hint": "If checked, configure a custom skill instead of the skill matching this power's identifier."
                 },
                 "Skill": {
@@ -1020,7 +1020,7 @@
             }
         },
         "MultiValueSelect": {
-            "DefaultPlaceholder": "Select an option"
+            "DefaultPlaceholder": "Select Option"
         }
     },
     "GENERIC": {

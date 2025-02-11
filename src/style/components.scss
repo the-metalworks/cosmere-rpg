@@ -81,28 +81,47 @@ app-document-reference-input {
 
 app-multi-value-select {
     display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
 
     .values {
         flex: 1;
         display: flex;
+        flex-direction: row;
         flex-wrap: wrap;
+        gap: 0.25rem;
 
         .value {
-            --background: rgba(0, 0, 0, 0.1);
-
             display: flex;
-            align-items: center;
-            background: var(--background);
-            padding: 1px 4px;
-            border: 1px solid var(--color-border-dark-tertiary);
-            border-radius: 2px;
-            white-space: nowrap;
-            margin: 0.12rem;
+            flex-direction: row;
+            gap: 0.25rem;
 
-            .controls {
-                margin-left: 0.25rem;
-            }
+            font-family: var(--cosmere-font-normal);
+            font-size: var(--font-size-11);
+            font-weight: 600;
+            color: var(--cosmere-color-faded);
+            border: 1px solid var(--cosmere-color-faded);
+            padding: 0.15rem 0.4rem;
+            border-radius: 10px;
+            background-color: var(--cosmere-color-base-2);
         }
+
+        // .value {
+        //     --background: rgba(0, 0, 0, 0.1);
+
+        //     display: flex;
+        //     align-items: center;
+        //     background: var(--background);
+        //     padding: 1px 4px;
+        //     border: 1px solid var(--color-border-dark-tertiary);
+        //     border-radius: 2px;
+        //     white-space: nowrap;
+        //     margin: 0.12rem;
+
+        //     .controls {
+        //         margin-left: 0.25rem;
+        //     }
+        // }
     }
 }
 
