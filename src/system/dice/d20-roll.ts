@@ -440,20 +440,19 @@ export class D20Roll extends foundry.dice.Roll<D20RollData> {
                 this.terms.push(
                     new foundry.dice.terms.OperatorTerm({
                         operator: '+',
-                    }) as foundry.dice.terms.RollTerm,
-                    new PlotDie() as foundry.dice.terms.RollTerm,
+                    }),
+                    new PlotDie(),
                 );
             }
 
-            // TODO: Figure out how to handle plot die advantage/disadvantage
-            // const plotDieTerm = this.terms.find((t) => t instanceof PlotDie)!;
-            // if (this.hasPlotAdvantage) {
-            //     plotDieTerm.number = 2;
-            //     plotDieTerm.modifiers.push('kh');
-            // } else if (this.hasPlotDisadvantage) {
-            //     plotDieTerm.number = 2;
-            //     plotDieTerm.modifiers.push('kl');
-            // }
+            const plotDieTerm = this.terms.find((t) => t instanceof PlotDie)!;
+            if (this.hasPlotAdvantage) {
+                plotDieTerm.number = 2;
+                plotDieTerm.modifiers.push('p');
+            } else if (this.hasPlotDisadvantage) {
+                plotDieTerm.number = 2;
+                plotDieTerm.modifiers.push('gmp');
+            }
         }
 
         // NOTE: Unused right now
