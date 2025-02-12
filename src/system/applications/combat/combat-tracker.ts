@@ -42,21 +42,18 @@ export class CosmereCombatTracker extends CombatTracker {
                 ) as TurnSpeed,
                 type: combatant.actor.type,
                 activated: combatant.getFlag(SYSTEM_ID, 'activated') as boolean,
-                isBoss:
-                    combatant.actor.type === ActorType.Adversary &&
-                    (combatant.actor as AdversaryActor).system.role ===
-                        AdversaryRole.Boss,
+                isBoss: combatant.getFlag(SYSTEM_ID, 'isBoss') as boolean,
             };
             //strips active player formatting
             newTurn.css = '';
             // ensure boss adversaries have both a fast and slow turn
             if (newTurn.isBoss) {
-                newTurn.turnSpeed = TurnSpeed.Fast;
-                const bossAltTurn = {
+                newTurn.turnSpeed = TurnSpeed.Slow;
+                const bossFastTurn = {
                     ...newTurn,
-                    turnSpeed: TurnSpeed.Slow,
+                    turnSpeed: TurnSpeed.Fast,
                 };
-                return [newTurn, bossAltTurn];
+                return [newTurn, bossFastTurn];
             }
             // provide current turn for non-boss combatants
             return newTurn;

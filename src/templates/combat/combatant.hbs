@@ -41,7 +41,9 @@
     {{/if}}
     <div class="cosmere-combatant-buttons">
         {{#if this.owner}}
-        <a class="cosmere-turn-speed-control" role="button" data-tooltip="COSMERE.Combat.ToggleTurn" data-control="toggleSpeed"></a>  
+        {{#unless this.isBoss}}
+        <a class="cosmere-turn-speed-control" role="button" data-tooltip="COSMERE.Combat.ToggleTurn" data-control="toggleSpeed"></a>
+        {{/unless}} 
         {{/if}}
         <a class="cosmere-activate-control {{#if this.activated}}cosmere-activate-control-activated{{/if}}" data-tooltip="COSMERE.Combat.Activate" {{#if this.owner}}data-control="activateCombatant"{{/if}}></a>    
     </div>

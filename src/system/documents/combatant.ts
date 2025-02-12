@@ -1,7 +1,7 @@
 import { DocumentModificationOptions } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/document.mjs';
 import { SchemaField } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/fields.mjs';
-import { CosmereActor } from './actor';
-import { ActorType, TurnSpeed } from '@src/system/types/cosmere';
+import { AdversaryActor, CosmereActor } from './actor';
+import { ActorType, AdversaryRole, TurnSpeed } from '@src/system/types/cosmere';
 import { SYSTEM_ID } from '../constants';
 
 export class CosmereCombatant extends Combatant {
@@ -20,6 +20,13 @@ export class CosmereCombatant extends Combatant {
         super._onCreate(data, options, userID);
         void this.setFlag(SYSTEM_ID, 'turnSpeed', TurnSpeed.Slow);
         void this.setFlag(SYSTEM_ID, 'activated', false);
+        void this.setFlag(
+            SYSTEM_ID,
+            'isBoss',
+            this.actor.isAdversary() &&
+                (this.actor as AdversaryActor).system.role ===
+                    AdversaryRole.Boss,
+        );
         void this.combat?.setInitiative(
             this.id!,
             this.generateInitiative(this.actor.type, TurnSpeed.Slow),
