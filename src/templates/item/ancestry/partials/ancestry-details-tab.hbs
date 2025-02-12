@@ -21,17 +21,21 @@
     </fieldset>
     <fieldset>
         <legend>{{localize "COSMERE.Item.Sheet.Ancestry.Advancement"}}</legend>
-        <div class="form-group">
-            <label>{{localize "COSMERE.Item.Sheet.Ancestry.FreePath"}}</label>
-            {{app-document-reference-input
-                name="system.advancement.extraPath"
-                value=@root.item.system.advancement.extraPath
-                type="Item"
-                subtype="path"
-                placeholder="COSMERE.Item.Sheet.Ancestry.PathReferencePlaceholder"
-                readonly=(not @root.editable)
-            }}
-        </div>
+        <div class="item-details-form">
+            <div class="form-group">
+                <label>{{localize "COSMERE.Item.Sheet.Ancestry.FreePath"}}</label>
+                <div class="form-fields">
+                    {{app-document-reference-input
+                        name="system.advancement.extraPath"
+                        value=@root.item.system.advancement.extraPath
+                        type="Item"
+                        subtype="path"
+                        placeholder="COSMERE.Item.Sheet.Ancestry.PathReferencePlaceholder"
+                        readonly=(not @root.editable)
+                    }}
+                </div>
+            </div>
+        </div>        
         {{!-- <h5>{{localize "COSMERE.Item.Sheet.Ancestry.FreeTalents"}}</h5> --}}
         {{app-ancestry-advancement-talent-list}}
 
