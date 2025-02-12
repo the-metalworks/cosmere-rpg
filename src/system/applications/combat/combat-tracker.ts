@@ -47,6 +47,8 @@ export class CosmereCombatTracker extends CombatTracker {
                     (combatant.actor as AdversaryActor).system.role ===
                         AdversaryRole.Boss,
             };
+            //strips active player formatting
+            newTurn.css = '';
             // ensure boss adversaries have both a fast and slow turn
             if (newTurn.isBoss) {
                 newTurn.turnSpeed = TurnSpeed.Fast;
@@ -56,8 +58,7 @@ export class CosmereCombatTracker extends CombatTracker {
                 };
                 return [newTurn, bossAltTurn];
             }
-            //strips active player formatting
-            newTurn.css = '';
+            // provide current turn for non-boss combatants
             return newTurn;
         });
 
