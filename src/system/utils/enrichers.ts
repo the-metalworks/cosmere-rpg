@@ -1,4 +1,6 @@
 import { CosmereActor, CosmereActorRollData, CosmereItem } from '../documents';
+import { Attribute, Skill } from '../types/cosmere';
+import { TargetDescriptor } from './generic';
 
 interface EnricherConfig {
     _config: string;
@@ -7,12 +9,33 @@ interface EnricherConfig {
 }
 
 export interface EnricherData {
-    actor: {
-        name?: string;
+    actor?: {
+        name: string;
+        type: string;
+        attributes: {
+            [AttributeShortName in Attribute]: number;
+        };
+        skills: {
+            [SkillShortName in Skill]: { ranks: number; mod: number };
+        };
+        health: { max: number; value: number };
+        focus: { max: number; value: number };
+        investiture: { max: number; value: number };
+        deflect: number;
+        movementSpeed: number;
+        sensesRange: number;
+        token?: {
+            name: string;
+        };
     };
     item: {
         name: string;
+        charges?: {
+            value: number;
+            max: number;
+        };
     };
+    target?: TargetDescriptor;
 }
 
 const EnricherStyleOptions = {
