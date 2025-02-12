@@ -49,7 +49,7 @@ export class DocumentDropListComponent extends DragDropComponentMixin(
 ) {
     static FORM_ASSOCIATED = true;
 
-    static readonly TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.GENERAL_DOCUMENT_DROP_LIST}`;
+    static readonly TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.COMPONENT_DOCUMENT_DROP_LIST}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions

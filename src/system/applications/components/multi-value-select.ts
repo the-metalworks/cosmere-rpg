@@ -45,7 +45,7 @@ export class MultiValueSelectComponent extends HandlebarsApplicationComponent<
 > {
     static FORM_ASSOCIATED = true;
 
-    static readonly TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.GENERAL_MULTI_VALUE_SELECT}`;
+    static readonly TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.COMPONENT_MULTI_VALUE_SELECT}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions

@@ -1,4 +1,6 @@
 import { AnyObject, ConstructorOf } from '@system/types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
@@ -10,8 +12,7 @@ import { DragDropComponentMixin } from '@system/applications/mixins/drag-drop';
 export class AdvancementTalentListComponent extends DragDropComponentMixin(
     HandlebarsApplicationComponent<ConstructorOf<AncestrySheet>>,
 ) {
-    static TEMPLATE =
-        'systems/cosmere-rpg/templates/item/ancestry/components/advancement-talent-list.hbs';
+    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_ANCESTRY_TALENT_LIST}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions

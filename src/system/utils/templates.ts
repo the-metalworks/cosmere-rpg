@@ -8,11 +8,13 @@ export const TEMPLATES = {
     GENERAL_TABS: 'general/tabs.hbs',
     GENERAL_SHEET_CORNERS: 'general/sheet-corners.hbs',
     GENERAL_SHEET_BACKGROUND: 'general/sheet-background.hbs',
-    GENERAL_DOCUMENT_DROP_LIST: 'general/components/document-drop-list.hbs',
-    GENERAL_DOCUMENT_REFERENCE_INPUT:
-        'general/components/document-reference-input.hbs',
-    GENERAL_MULTI_VALUE_SELECT: 'general/components/multi-value-select.hbs',
     COMBAT_COMBATANT: 'combat/combatant.hbs',
+
+    COMPONENT_DOCUMENT_DROP_LIST: 'general/components/document-drop-list.hbs',
+    COMPONENT_DOCUMENT_REFERENCE: 'general/components/document-reference.hbs',
+    COMPONENT_MULTI_VALUE_SELECT: 'general/components/multi-value-select.hbs',
+    COMPONENT_ID_INPUT: 'general/components/id-input.hbs',
+    COMPONENT_MULTI_STATE_TOGGLE: 'general/components/multi-state-toggle.hbs',
 
     // ACTOR BASE
     ACTOR_BASE_NAVIGATION: 'actors/parts/navigation.hbs',
@@ -105,6 +107,11 @@ export const TEMPLATES = {
     ITEM_DETAILS_TYPE: 'item/components/details-type.hbs',
 
     ITEM_EFFECTS_LIST: 'item/components/effects-list.hbs',
+    ITEM_ANCESTRY_TALENT_LIST:
+        'item/ancestry/components/advancement-talent-list.hbs',
+    ITEM_ANCESTRY_BONUS_TALENTS: 'item/ancestry/components/bonus-talents.hbs',
+    ITEM_GOAL_REWARDS_LIST: 'item/goal/components/rewards-list.hbs',
+    ITEM_TALENT_GRANT_RULES_LIST: 'item/talent/components/grant-rules-list.hbs',
 
     //CHAT
     CHAT_CARD_HEADER: 'chat/card-header.hbs',
