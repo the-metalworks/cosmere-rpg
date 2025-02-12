@@ -65,10 +65,12 @@ import { AdvantageMode } from '@system/types/roll';
 import { RollMode } from '@system/dice/types';
 import {
     determineConfigurationMode,
+    getApplyTargets,
     getTargetDescriptors,
 } from '../utils/generic';
 import { MESSAGE_TYPES } from './chat-message';
 import { renderSystemTemplate, TEMPLATES } from '../utils/templates';
+import { EnricherData } from '../utils/enrichers';
 
 // Constants
 const CONSUME_CONFIGURATION_DIALOG_TEMPLATE =
@@ -1115,7 +1117,9 @@ export class CosmereItem<
                 ?.value;
         /* eslint-enable @typescript-eslint/prefer-nullish-coalescing */
 
-        const description = await TextEditor.enrichHTML(descriptionData ?? '');
+        const description = await TextEditor.enrichHTML(descriptionData ?? '', {
+            relativeTo: this.system.parent as foundry.abstract.Document.Any,
+        });
 
         const traitsNormal = [];
         const traitsExpert = [];
@@ -1245,6 +1249,76 @@ export class CosmereItem<
                 : undefined,
             attribute: attribute?.value,
         };
+    }
+
+    public getEnricherData() {
+        let actor = undefined;
+        if (this.actor) {
+            const actorData = this.actor.system;
+            const tokens = this.actor.getActiveTokens();
+            actor = {
+                name: this.actor.name,
+                type: actorData.type.id,
+                attributes: Object.entries(actorData.attributes).reduce(
+                    (obj, [attr, scores]) => {
+                        obj[attr as Attribute] = scores.value;
+                        return obj;
+                    },
+                    {} as Record<Attribute, number>,
+                ),
+                skills: Object.entries(actorData.skills).reduce(
+                    (obj, [skill, details]) => {
+                        obj[skill as Skill] = {
+                            ranks: details.rank,
+                            mod: details.mod.value ?? 0,
+                        };
+                        return obj;
+                    },
+                    {} as Record<Skill, { ranks: number; mod: number }>,
+                ),
+                health: {
+                    max: actorData.resources.hea.max.value ?? 0,
+                    value: actorData.resources.hea.value,
+                },
+                focus: {
+                    max: actorData.resources.foc.max.value ?? 0,
+                    value: actorData.resources.foc.value,
+                },
+                investiture: {
+                    max: actorData.resources.inv.max.value ?? 0,
+                    value: actorData.resources.inv.value,
+                },
+                deflect: actorData.deflect.value ?? 0,
+                movementSpeed: {
+                    walk: actorData.movement.walk.rate.value ?? 0,
+                    fly: actorData.movement.fly.rate.value ?? 0,
+                    swim: actorData.movement.swim.rate.value ?? 0,
+                },
+                sensesRange: actorData.senses.range.value ?? 0,
+                token:
+                    tokens.length > 0
+                        ? {
+                              name: (tokens[0] as Token)?.name,
+                          }
+                        : undefined,
+            };
+        }
+
+        const targets = getTargetDescriptors();
+
+        return {
+            actor,
+            item: {
+                name: this.name,
+                charges: this.hasActivation()
+                    ? {
+                          value: this.system.activation.uses?.value ?? 0,
+                          max: this.system.activation.uses?.max ?? 0,
+                      }
+                    : undefined,
+            },
+            target: targets.length > 0 ? targets[0] : undefined,
+        } as const satisfies EnricherData;
     }
 }
 
