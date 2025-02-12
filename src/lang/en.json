@@ -711,7 +711,7 @@
                     "TalentIdDescription": "The identifier column should hold the identifier of the talent item you want characters with this Ancestry to have access to. The path identifier can only contain letters (a-z), numbers (0-9), dashes (-), and underscores (_).",
                     "Component": {
                         "AdvancementTalentList": {
-                            "DropTalent": "Drop Talent here to add it to the list",
+                            "DropTalent": "Drop Talent here to add to list",
                             "Warning": {
                                 "WrongType": "The dropped Document must be of type Talent"
                             }

@@ -9,6 +9,8 @@ export const TEMPLATES = {
     GENERAL_SHEET_CORNERS: 'general/sheet-corners.hbs',
     GENERAL_SHEET_BACKGROUND: 'general/sheet-background.hbs',
     GENERAL_DOCUMENT_DROP_LIST: 'general/components/document-drop-list.hbs',
+    GENERAL_DOCUMENT_REFERENCE_INPUT:
+        'general/components/document-reference-input.hbs',
     GENERAL_MULTI_VALUE_SELECT: 'general/components/multi-value-select.hbs',
     COMBAT_COMBATANT: 'combat/combatant.hbs',
 
