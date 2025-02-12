@@ -63,7 +63,239 @@
                 background-image: var(--cosmere-banner-bot);
             }
         }
-    }    
+    }
+
+    .item-list {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+
+        & > li {
+            margin: 0;
+            list-style-type: none;
+
+            &:not(.favorite) {
+                &:not(:first-child):not(:last-child) {
+                    border-bottom: 1px dotted var(--cosmere-color-faded);
+                }
+    
+                &:last-child {
+                    border-radius: 0 0 6px 6px;
+    
+                    &:first-child {
+                        border-radius: 6px;
+                    }
+                }
+            }            
+        }
+
+        .item {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            text-align: center;
+            justify-content: center;
+            padding: 0.375rem;
+            background-color: var(--cosmere-color-base-3);            
+
+            .details {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 0.75rem;
+            }
+
+            .description {
+                text-align: left;
+            }
+            
+            .img {
+                width: 28px;
+                height: 28px;
+                border: 2px solid var(--cosmere-color-accent);
+                border-radius: 0;
+
+                display: flex;
+                position: relative;
+                align-items: center;
+                justify-content: center;
+
+                .roll-icon {
+                    display: none;
+                    position: absolute;
+                    z-index: 1;
+                    border: none;
+                }
+            }
+
+            &.usable .img {                    
+                cursor: pointer;
+            
+                &:hover {
+                    .roll-icon {
+                        display: block;
+                        opacity: 0.6;
+                        animation: rotating 2s linear infinite;
+                        width: 22px;
+                        height: 22px;
+                    }
+                }
+            }
+
+            .title,
+            .name {
+                font-family: var(--cosmere-font-normal);
+                text-align: left;
+                flex: 1;
+            }
+
+            .title {        
+                margin-left: 0.25rem;            
+                font-size: var(--font-size-15);
+                font-weight: 600;
+                color: var(--cosmere-color-text-main);
+            }
+
+            .name {                    
+                font-size: var(--font-size-13);
+                font-weight: 600;
+                color: var(--cosmere-color-text-sub);
+                display: flex;
+                flex-direction: column;
+
+                .traits {
+                    font-size: var(--font-size-10);
+                    font-weight: bold;
+                    font-variant: lining-nums;
+                    color: var(--cosmere-color-faded);
+
+                    .highlight {
+                        color: var(--cosmere-color-text-accent);
+                    }
+                }
+            }
+
+            .subtitle,
+            .detail {
+                width: 48px;
+                color: var(--cosmere-color-text-sub);
+                text-transform: uppercase;
+
+                &.wide {
+                    width: 76px;
+                }
+
+                &.thin {
+                    width: 16px;
+                }
+            }
+
+            .subtitle {
+                font-family: var(--cosmere-font-header);   
+                font-size: var(--font-size-8);                 
+            }
+
+            .detail {
+                font-family: var(--cosmere-font-normal);   
+                font-size: var(--font-size-10);
+                font-weight: 600;
+                font-variant: lining-nums; 
+            }
+
+            .controls {
+                width: 34px;
+                text-align: center;
+                display: flex;                    
+                gap: 0.375rem;
+                justify-content: flex-end;
+                
+                a {
+                    width: 14px;
+                }
+            }
+
+            .action,
+            .quantity {
+                font-size: var(--font-size-12);
+            }
+
+            .quantity,
+            .duration {
+                display: flex;
+                justify-content: space-evenly;
+
+                & > a {
+                    color: var(--cosmere-color-faded);
+                }
+            }
+
+            .weight {
+                & > i {
+                    color: var(--cosmere-color-faded);
+                }
+            }
+
+            .none {
+                color: var(--cosmere-color-faded);
+            }
+
+            .equip {
+                & > a {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+
+                    & > i {
+                        font-size: var(--font-size-12);
+                        color: var(--cosmere-color-faded);
+                        
+                        &.equipped {
+                            color: var(--cosmere-color-text-sub);
+                        }
+                    }
+                }
+
+                .hold-2h {
+                    width: 48px;
+                    height: 20px;
+                    mask: var(--mask-equip-2h-svg) no-repeat center;
+                }
+
+                .hold-1h {
+                    width: 48px;
+                    height: 10px;
+
+                    &.main-hand {
+                        mask: var(--mask-equip-1h-top-svg) no-repeat center;
+                    }
+
+                    &.off-hand {
+                        mask: var(--mask-equip-1h-bot-svg) no-repeat center;
+                    }
+                }
+
+                .hold-2h,
+                .hold-1h {                        
+                    background-color: var(--cosmere-color-faded);
+
+                    &.equipped {
+                        background-color: var(--cosmere-color-text-sub);
+                    }
+                }
+            }
+        }
+
+        .header {
+            min-height: 30px;
+            background-color: var(--cosmere-color-base-1);
+            border-radius: 6px 6px 0 0;                
+            padding: 0 0.375rem;
+
+            &.basic {
+                background-color: var(--cosmere-color-dark-1);
+            }
+        }
+    }
 
     .collapsible {
         .collapsible-content {
