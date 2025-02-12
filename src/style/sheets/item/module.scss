@@ -347,6 +347,7 @@
             flex: 1;
             font-weight: 600;
             font-variant: lining-nums;
+            margin-top: 3px;
 
             .units {
                 color: var(--cosmere-color-faded);
@@ -368,7 +369,8 @@
         .form-group-stacked {
             gap: 0.625rem;
             margin: 0;
-            min-height: 24px;
+            min-height: 32px;
+            align-items: flex-start;
 
             > app-id-input,
             > .form-fields {
