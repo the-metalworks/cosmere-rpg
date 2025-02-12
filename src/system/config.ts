@@ -32,10 +32,11 @@ import {
     EquipmentType,
     PowerType,
     Theme,
+    MovementType,
 } from './types/cosmere';
 import { AdvantageMode } from './types/roll';
 
-import { Talent, Goal } from './types/item';
+import { Talent, TalentTree, Goal } from './types/item';
 
 const COSMERE: CosmereRPGConfig = {
     sizes: {
@@ -74,6 +75,20 @@ const COSMERE: CosmereRPGConfig = {
         },
         [CreatureType.Animal]: {
             label: 'COSMERE.Actor.Type.Animal',
+        },
+    },
+
+    movement: {
+        types: {
+            [MovementType.Walk]: {
+                label: 'COSMERE.Actor.Movement.Type.Walk',
+            },
+            [MovementType.Swim]: {
+                label: 'COSMERE.Actor.Movement.Type.Swim',
+            },
+            [MovementType.Fly]: {
+                label: 'COSMERE.Actor.Movement.Type.Fly',
+            },
         },
     },
 
@@ -741,30 +756,29 @@ const COSMERE: CosmereRPGConfig = {
                     label: 'COSMERE.Item.Talent.Type.Power',
                 },
             },
-            prerequisite: {
-                types: {
-                    [Talent.Prerequisite.Type.Talent]:
-                        'COSMERE.Item.Talent.Prerequisite.Type.Talent',
-                    [Talent.Prerequisite.Type.Attribute]:
-                        'COSMERE.Item.Talent.Prerequisite.Type.Attribute',
-                    [Talent.Prerequisite.Type.Skill]:
-                        'COSMERE.Item.Talent.Prerequisite.Type.Skill',
-                    [Talent.Prerequisite.Type.Connection]:
-                        'COSMERE.Item.Talent.Prerequisite.Type.Connection',
-                    [Talent.Prerequisite.Type.Level]:
-                        'COSMERE.Item.Talent.Prerequisite.Type.Level',
-                },
-                modes: {
-                    [Talent.Prerequisite.Mode.AnyOf]:
-                        'COSMERE.Item.Talent.Prerequisite.Mode.AnyOf',
-                    [Talent.Prerequisite.Mode.AllOf]:
-                        'COSMERE.Item.Talent.Prerequisite.Mode.AllOf',
-                },
-            },
             grantRules: {
                 types: {
                     [Talent.GrantRule.Type.Items]:
                         'COSMERE.Item.Talent.GrantRule.Type.Items',
+                },
+            },
+        },
+
+        talentTree: {
+            node: {
+                prerequisite: {
+                    types: {
+                        [TalentTree.Node.Prerequisite.Type.Talent]:
+                            'COSMERE.Item.Talent.Prerequisite.Type.Talent',
+                        [TalentTree.Node.Prerequisite.Type.Attribute]:
+                            'COSMERE.Item.Talent.Prerequisite.Type.Attribute',
+                        [TalentTree.Node.Prerequisite.Type.Skill]:
+                            'COSMERE.Item.Talent.Prerequisite.Type.Skill',
+                        [TalentTree.Node.Prerequisite.Type.Connection]:
+                            'COSMERE.Item.Talent.Prerequisite.Type.Connection',
+                        [TalentTree.Node.Prerequisite.Type.Level]:
+                            'COSMERE.Item.Talent.Prerequisite.Type.Level',
+                    },
                 },
             },
         },
@@ -993,14 +1007,38 @@ const COSMERE: CosmereRPGConfig = {
         },
     },
 
-    unarmedDamageScaling: {
-        strengthRanges: [
-            { min: 0, max: 2, formula: '1' },
-            { min: 3, max: 4, formula: '1d4' },
-            { min: 5, max: 6, formula: '1d8' },
-            { min: 7, max: 8, formula: '2d6' },
-            { min: 9, max: Infinity, formula: '2d10' },
-        ],
+    scaling: {
+        damage: {
+            unarmed: {
+                strength: [
+                    { min: 0, max: 2, formula: '1' },
+                    { min: 3, max: 4, formula: '1d4' },
+                    { min: 5, max: 6, formula: '1d8' },
+                    { min: 7, max: 8, formula: '2d6' },
+                    { min: 9, max: Infinity, formula: '2d10' },
+                ],
+            },
+        },
+        power: {
+            die: {
+                ranks: [
+                    { value: 1, formula: 'd4' },
+                    { value: 2, formula: 'd6' },
+                    { value: 3, formula: 'd8' },
+                    { value: 4, formula: 'd10' },
+                    { value: 5, formula: 'd12' },
+                ],
+            },
+            effectSize: {
+                ranks: [
+                    { value: 1, formula: Size.Small },
+                    { value: 2, formula: Size.Medium },
+                    { value: 3, formula: Size.Large },
+                    { value: 4, formula: Size.Huge },
+                    { value: 5, formula: Size.Garguantuan },
+                ],
+            },
+        },
     },
 
     dice: {

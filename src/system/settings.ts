@@ -141,7 +141,7 @@ export function registerDeferredSettings() {
         onChange: (s) => setTheme(document.body, s),
     });
 
-    setTheme(document.body, getSystemSetting(SETTINGS.SYSTEM_THEME) as Theme);
+    setTheme(document.body, getSystemSetting(SETTINGS.SYSTEM_THEME));
 }
 
 /**
@@ -192,11 +192,13 @@ export function registerSystemKeybindings() {
 
 /**
  * Retrieve a specific setting value for the provided key.
- * @param {string} settingKey The identifier of the setting to retrieve.
- * @returns {string|boolean} The value of the setting as set for the world/client.
+ * @param settingKey The identifier of the setting to retrieve.
+ * @returns The value of the setting as set for the world/client.
  */
-export function getSystemSetting(settingKey: string) {
-    return game.settings!.get(SYSTEM_ID, settingKey);
+export function getSystemSetting<
+    T extends string | boolean | number = string | boolean | number,
+>(settingKey: string) {
+    return game.settings!.get(SYSTEM_ID, settingKey) as T;
 }
 
 /**

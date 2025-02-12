@@ -1,3 +1,4 @@
+// Constants
 import { IMPORTED_RESOURCES } from '@system/constants';
 
 const SIDES: Record<number, string> = {
@@ -9,8 +10,7 @@ const SIDES: Record<number, string> = {
     6: `<img src="${IMPORTED_RESOURCES.PLOT_DICE_OP_IN_CHAT}" />`,
 };
 
-export interface PlotDieData
-    extends Partial<foundry.dice.terms.DiceTerm.TermData> {
+export interface PlotDieData extends Partial<foundry.dice.terms.Die.TermData> {
     /**
      * The number of dice of this term to roll
      * @default 1
@@ -23,7 +23,7 @@ export interface PlotDieData
     results?: foundry.dice.terms.DiceTerm.Result[];
 }
 
-export class PlotDie extends foundry.dice.terms.DiceTerm {
+export class PlotDie extends foundry.dice.terms.Die {
     public readonly isPlotDie = true;
 
     constructor(data: PlotDieData = {}) {
@@ -34,17 +34,6 @@ export class PlotDie extends foundry.dice.terms.DiceTerm {
     }
 
     static DENOMINATION = 'p';
-
-    static MODIFIERS = {
-        r: foundry.dice.terms.Die.prototype.reroll.bind(this),
-        rr: foundry.dice.terms.Die.prototype.rerollRecursive.bind(this),
-        k: foundry.dice.terms.Die.prototype.keep.bind(this),
-        kh: foundry.dice.terms.Die.prototype.keep.bind(this),
-        kl: foundry.dice.terms.Die.prototype.keep.bind(this),
-        d: foundry.dice.terms.Die.prototype.drop.bind(this),
-        dh: foundry.dice.terms.Die.prototype.drop.bind(this),
-        dl: foundry.dice.terms.Die.prototype.drop.bind(this),
-    };
 
     /* --- Accessors --- */
 

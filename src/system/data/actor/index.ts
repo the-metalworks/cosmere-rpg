@@ -10,3 +10,4 @@ export const config = {
 
 export { AdversaryActorData } from './adversary';
 export { CharacterActorData } from './character';
+export { CommonActorData, AttributeData } from './common';

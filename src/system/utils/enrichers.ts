@@ -22,7 +22,11 @@ export interface EnricherData {
         focus: { max: number; value: number };
         investiture: { max: number; value: number };
         deflect: number;
-        movementSpeed: number;
+        movementSpeed: {
+            walk: number;
+            fly: number;
+            swim: number;
+        };
         sensesRange: number;
         token?: {
             name: string;

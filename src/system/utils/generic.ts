@@ -171,9 +171,9 @@ export function getFormulaDisplayString(diceParts: string[]) {
  * @returns {Set} A set of tokens that the system considers as current targets.
  */
 export function getApplyTargets() {
-    const setting = getSystemSetting(
+    const setting = getSystemSetting<TargetingOptions>(
         SETTINGS.APPLY_BUTTONS_TO,
-    ) as TargetingOptions;
+    );
 
     const applyToTargeted =
         setting === TargetingOptions.TargetedOnly ||
@@ -234,9 +234,9 @@ export function getTargetDescriptors() {
     const targets = new Map<string, TargetDescriptor>();
     for (const token of game.user!.targets) {
         const { name, img, system, uuid } = (token.actor as CosmereActor) ?? {};
-        const phy = system?.defenses.phy.value.value ?? 10;
-        const cog = system?.defenses.cog.value.value ?? 10;
-        const spi = system?.defenses.spi.value.value ?? 10;
+        const phy = system?.defenses.phy.value ?? 10;
+        const cog = system?.defenses.cog.value ?? 10;
+        const spi = system?.defenses.spi.value ?? 10;
 
         if (uuid) {
             targets.set(uuid, { name, img, uuid, def: { phy, cog, spi } });

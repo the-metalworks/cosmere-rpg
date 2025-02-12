@@ -1198,7 +1198,7 @@ export class CosmereItem<
     ): D20RollData {
         const skill = skillId
             ? actor.system.skills[skillId]
-            : { attribute: null, rank: 0, mod: {} };
+            : { attribute: null, rank: 0, mod: 0 };
         const attribute = attributeId
             ? actor.system.attributes[attributeId]
             : { value: 0, bonus: 0 };
@@ -1210,7 +1210,8 @@ export class CosmereItem<
             skill: {
                 id: skillId ?? null,
                 rank: skill.rank,
-                mod: Derived.getValue(skill.mod) ?? 0,
+                mod:
+                    typeof skill.mod === 'number' ? skill.mod : skill.mod.value,
                 attribute: attributeId ? attributeId : skill.attribute,
             },
             attribute: attribute.value,
@@ -1242,7 +1243,7 @@ export class CosmereItem<
                 ? {
                       id: skillId!,
                       rank: skill.rank,
-                      mod: Derived.getValue(skill.mod) ?? 0,
+                      mod: skill.mod.value,
                       attribute: attributeId! ? attributeId : skill.attribute,
                   }
                 : undefined,
@@ -1288,7 +1289,11 @@ export class CosmereItem<
                     value: actorData.resources.inv.value,
                 },
                 deflect: actorData.deflect.value ?? 0,
-                movementSpeed: actorData.movement.rate.value ?? 0,
+                movementSpeed: {
+                    walk: actorData.movement.walk.rate.value ?? 0,
+                    fly: actorData.movement.fly.rate.value ?? 0,
+                    swim: actorData.movement.swim.rate.value ?? 0,
+                },
                 sensesRange: actorData.senses.range.value ?? 0,
                 token:
                     tokens.length > 0

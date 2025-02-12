@@ -100,7 +100,7 @@ export class ActorResourceComponent extends HandlebarsApplicationComponent<
 
         // Get value and max
         const value = resource.value;
-        const max = Derived.getValue(resource.max);
+        const max = resource.max.value;
 
         return Promise.resolve({
             ...context,

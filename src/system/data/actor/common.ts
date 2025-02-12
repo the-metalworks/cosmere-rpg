@@ -1,6 +1,7 @@
 import {
     Size,
     CreatureType,
+    MovementType,
     Attribute,
     Resource,
     AttributeGroup,
@@ -56,6 +57,11 @@ interface CurrencyDenominationData {
     convertedValue: Derived<number>;
 }
 
+export interface AttributeData {
+    value: number;
+    bonus: number;
+}
+
 export interface CommonActorData {
     size: Size;
     type: {
@@ -71,8 +77,8 @@ export interface CommonActorData {
         damage: DamageType[];
         condition: Condition[];
     };
-    attributes: Record<Attribute, { value: number; bonus: number }>;
-    defenses: Record<AttributeGroup, { value: Derived<number>; bonus: number }>;
+    attributes: Record<Attribute, AttributeData>;
+    defenses: Record<AttributeGroup, Derived<number>>;
     deflect: DeflectData;
     resources: Record<
         Resource,
@@ -105,9 +111,10 @@ export interface CommonActorData {
             total: Derived<number>;
         }
     >;
-    movement: {
-        rate: Derived<number>;
-    };
+    // movement: {
+    //     rate: Derived<number>;
+    // };
+    movement: Record<MovementType, { rate: Derived<number> }>;
     encumbrance: {
         lift: Derived<number>;
         carry: Derived<number>;
@@ -212,17 +219,7 @@ export class CommonActorDataModel<
                     },
                 },
             ),
-            movement: new foundry.data.fields.SchemaField({
-                rate: new DerivedValueField(
-                    new foundry.data.fields.NumberField({
-                        required: true,
-                        nullable: false,
-                        integer: true,
-                        min: 0,
-                        initial: 0,
-                    }),
-                ),
-            }),
+            movement: this.getMovementSchema(),
             injuries: new DerivedValueField(
                 new foundry.data.fields.NumberField({
                     required: true,
@@ -323,23 +320,15 @@ export class CommonActorDataModel<
         return new foundry.data.fields.SchemaField(
             Object.keys(defenses).reduce(
                 (schemas, key) => {
-                    schemas[key] = new foundry.data.fields.SchemaField({
-                        value: new DerivedValueField(
-                            new foundry.data.fields.NumberField({
-                                required: true,
-                                nullable: false,
-                                integer: true,
-                                min: 0,
-                                initial: 0,
-                            }),
-                        ),
-                        bonus: new foundry.data.fields.NumberField({
+                    schemas[key] = new DerivedValueField(
+                        new foundry.data.fields.NumberField({
                             required: true,
                             nullable: false,
                             integer: true,
+                            min: 0,
                             initial: 0,
                         }),
-                    });
+                    );
 
                     return schemas;
                 },
@@ -507,12 +496,34 @@ export class CommonActorDataModel<
         });
     }
 
+    private static getMovementSchema() {
+        const movementTypeConfigs = CONFIG.COSMERE.movement.types;
+
+        return new foundry.data.fields.SchemaField(
+            Object.entries(movementTypeConfigs).reduce(
+                (schema, [type, config]) => ({
+                    ...schema,
+                    [type]: new foundry.data.fields.SchemaField({
+                        rate: new DerivedValueField(
+                            new foundry.data.fields.NumberField({
+                                required: true,
+                                nullable: false,
+                                integer: true,
+                                min: 0,
+                                initial: 0,
+                            }),
+                        ),
+                    }),
+                }),
+                {} as Record<string, foundry.data.fields.SchemaField>,
+            ),
+        );
+    }
+
     public prepareDerivedData(): void {
         super.prepareDerivedData();
 
-        this.senses.range.value = awarenessToSensesRange(
-            this.attributes.awa.value,
-        );
+        this.senses.range.derived = awarenessToSensesRange(this.attributes.awa);
 
         // Derive defenses
         (Object.keys(this.defenses) as AttributeGroup[]).forEach((group) => {
@@ -529,7 +540,7 @@ export class CommonActorDataModel<
             const attrsSum = attrValues.reduce((sum, v) => sum + v, 0);
 
             // Assign defense
-            this.defenses[group].value.value = 10 + attrsSum + bonus;
+            this.defenses[group].derived = 10 + attrsSum + bonus;
         });
 
         // Derive skill modifiers
@@ -550,7 +561,7 @@ export class CommonActorDataModel<
             const attrValue = attribute.value + attribute.bonus;
 
             // Calculate mod
-            this.skills[skill].mod.value = attrValue + rank;
+            this.skills[skill].mod.derived = attrValue + rank;
         });
 
         // Derive non-core skill unlocks
@@ -590,16 +601,21 @@ export class CommonActorDataModel<
             const armorDeflect = armor?.system.deflect ?? 0;
 
             // Derive deflect
-            this.deflect.value = Math.max(natural, armorDeflect);
+            this.deflect.derived = Math.max(natural, armorDeflect);
         }
 
         // Movement
-        this.movement.rate.value = speedToMovementRate(
-            this.attributes.spd.value,
+        this.movement[MovementType.Walk].rate.derived = speedToMovementRate(
+            this.attributes.spd,
         );
 
+        // Lock other movement types to always use override
+        (Object.keys(CONFIG.COSMERE.movement.types) as MovementType[])
+            .filter((type) => type !== MovementType.Walk)
+            .forEach((type) => (this.movement[type].rate.useOverride = true));
+
         // Injury count
-        this.injuries.value = this.parent.items.filter(
+        this.injuries.derived = this.parent.items.filter(
             (item) => item.type === ItemType.Injury,
         ).length;
 
@@ -624,18 +640,18 @@ export class CommonActorDataModel<
                 if (!primaryConfig) return;
 
                 // Set conversion rate
-                denom.conversionRate.value = primaryConfig.conversionRate;
+                denom.conversionRate.derived = primaryConfig.conversionRate;
 
                 if (denom.secondaryId && !!denominations.secondary) {
                     const secondaryConfig = denominations.secondary.find(
                         (d) => d.id === denom.secondaryId,
                     );
-                    denom.conversionRate.value *=
+                    denom.conversionRate.derived *=
                         secondaryConfig?.conversionRate ?? 1;
                 }
 
                 // Get converted value
-                denom.convertedValue.value =
+                denom.convertedValue.derived =
                     denom.amount * denom.conversionRate.value;
 
                 // Adjust derived total for this currency accordingly
@@ -643,42 +659,46 @@ export class CommonActorDataModel<
             });
 
             // Update derived total
-            currencyData.total.value = total;
+            currencyData.total.derived = total;
         });
 
         // Lifting & Carrying
-        this.encumbrance.lift.value = strengthToLiftingCapacity(
-            this.attributes.str.value,
+        this.encumbrance.lift.derived = strengthToLiftingCapacity(
+            this.attributes.str,
         );
-        this.encumbrance.carry.value = strengthToCarryingCapacity(
-            this.attributes.str.value,
+        this.encumbrance.carry.derived = strengthToCarryingCapacity(
+            this.attributes.str,
         );
     }
 }
 
 const SENSES_RANGES = [5, 10, 20, 50, 100, Number.MAX_VALUE];
-function awarenessToSensesRange(awareness: number) {
+function awarenessToSensesRange(attr: AttributeData) {
+    const awareness = attr.value + attr.bonus;
     return SENSES_RANGES[
         Math.min(Math.ceil(awareness / 2), SENSES_RANGES.length)
     ];
 }
 
 const MOVEMENT_RATES = [20, 25, 30, 40, 60, 80];
-function speedToMovementRate(speed: number) {
+function speedToMovementRate(attr: AttributeData) {
+    const speed = attr.value + attr.bonus;
     return MOVEMENT_RATES[
         Math.min(Math.ceil(speed / 2), MOVEMENT_RATES.length)
     ];
 }
 
 const LIFTING_CAPACITIES = [100, 200, 500, 1000, 5000, 10000];
-function strengthToLiftingCapacity(strength: number) {
+function strengthToLiftingCapacity(attr: AttributeData) {
+    const strength = attr.value + attr.bonus;
     return LIFTING_CAPACITIES[
         Math.min(Math.ceil(strength / 2), LIFTING_CAPACITIES.length)
     ];
 }
 
 const CARRYING_CAPACITIES = [50, 100, 250, 500, 2500, 5000];
-function strengthToCarryingCapacity(strength: number) {
+function strengthToCarryingCapacity(attr: AttributeData) {
+    const strength = attr.value + attr.bonus;
     return CARRYING_CAPACITIES[
         Math.min(Math.ceil(strength / 2), CARRYING_CAPACITIES.length)
     ];

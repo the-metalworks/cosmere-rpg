@@ -1,6 +1,8 @@
-import { ActorType, TurnSpeed } from '@src/system/types/cosmere';
+import { ActorType, AdversaryRole, TurnSpeed } from '@src/system/types/cosmere';
 import { CosmereCombatant } from '@src/system/documents/combatant';
 import { SYSTEM_ID } from '@src/system/constants';
+import { AdversaryActor } from '@src/system/documents';
+import { combat } from '..';
 
 /**
  * Overrides default tracker template to implement slow/fast buckets and combatant activation button.
@@ -26,7 +28,7 @@ export class CosmereCombatTracker extends CombatTracker {
             slowNPC: CosmereTurn[];
         };
         //add combatant type, speed, and activation status to existing turn data.
-        data.turns = data.turns.map((turn) => {
+        data.turns = data.turns.flatMap((turn) => {
             const combatant: CosmereCombatant =
                 this.viewed!.getEmbeddedDocument(
                     'Combatant',
@@ -41,9 +43,24 @@ export class CosmereCombatTracker extends CombatTracker {
                 ) as TurnSpeed,
                 type: combatant.actor.type,
                 activated: combatant.getFlag(SYSTEM_ID, 'activated') as boolean,
+                isBoss: combatant.getFlag(SYSTEM_ID, 'isBoss') as boolean,
+                bossFastActivated: combatant.getFlag(
+                    SYSTEM_ID,
+                    'bossFastActivated',
+                ) as boolean,
             };
             //strips active player formatting
             newTurn.css = '';
+            // ensure boss adversaries have both a fast and slow turn
+            if (newTurn.isBoss) {
+                newTurn.turnSpeed = TurnSpeed.Slow;
+                const bossFastTurn = {
+                    ...newTurn,
+                    turnSpeed: TurnSpeed.Fast,
+                };
+                return [newTurn, bossFastTurn];
+            }
+            // provide current turn for non-boss combatants
             return newTurn;
         });
 
@@ -120,7 +137,12 @@ export class CosmereCombatTracker extends CombatTracker {
             li.dataset.combatantId!,
             {},
         ) as CosmereCombatant;
-        void combatant.setFlag(SYSTEM_ID, 'activated', true);
+        // Toggle the correct activation flag for bosses and nonbosses
+        if (!combatant.isBoss() || li.classList.contains(TurnSpeed.Slow)) {
+            void combatant.setFlag(SYSTEM_ID, 'activated', true);
+        } else {
+            void combatant.setFlag(SYSTEM_ID, 'bossFastActivated', true);
+        }
     }
 
     /**
@@ -145,6 +167,7 @@ export class CosmereCombatTracker extends CombatTracker {
             {},
         ) as CosmereCombatant;
         void combatant.setFlag(SYSTEM_ID, 'activated', false);
+        void combatant.setFlag(SYSTEM_ID, 'bossFastActivated', false);
     }
 
     /**
@@ -177,7 +200,7 @@ export class CosmereCombatTracker extends CombatTracker {
     }
 }
 
-interface CosmereTurn {
+export interface CosmereTurn {
     id: string;
     css: string;
     pending: number;
@@ -185,4 +208,6 @@ interface CosmereTurn {
     type?: ActorType;
     turnSpeed?: TurnSpeed;
     activated?: boolean;
+    isBoss?: boolean;
+    bossFastActivated?: boolean;
 }
