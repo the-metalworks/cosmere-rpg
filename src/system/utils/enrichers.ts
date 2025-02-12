@@ -48,18 +48,12 @@ const EnricherStyleOptions = {
     uppercase: (value: string) => value.toLocaleUpperCase(),
 } as const;
 
+/*
+ * Note: Left in some commented out options that I copied across
+ * from the 5e implementation that we might want to use later */
+
 export function registerCustomEnrichers() {
-    const stringNames = [
-        'award',
-        'check',
-        'concentration',
-        'damage',
-        'healing',
-        'item',
-        'save',
-        'skill',
-        'tool',
-    ];
+    const stringNames = ['check', 'damage', 'healing', 'item', 'skill'];
     CONFIG.TextEditor.enrichers.push(
         // {
         //   pattern: new RegExp(`\\[\\[/(?<type>${stringNames.join("|")}) (?<config>[^\\]]+)]](?:{(?<label>[^}]+)})?`, "gi"),
@@ -77,7 +71,6 @@ export function registerCustomEnrichers() {
     );
 
     // document.body.addEventListener("click", applyAction);
-    // document.body.addEventListener("click", awardAction);
     // document.body.addEventListener("click", rollAction);
 }
 
@@ -100,16 +93,14 @@ function enrichString(
     const processedConfig = parseConfig(config);
     processedConfig._input = match[0];
     switch (type.toLowerCase()) {
-        //   case "award": return enrichAward(config, label, options);
-        //   case "healing": config._isHealing = true;
-        //   case "damage": return enrichDamage(config, label, options);
+        // case "healing": config._isHealing = true;
+        // case "damage": return enrichDamage(config, label, options);
         // case "check":
         // case "skill": return enrichCheck(processedConfig, label, options);
-        //   case "tool": return enrichCheck(config, label, options);
         case 'lookup':
             return enrichLookup(processedConfig, label, options);
-        //   case "item": return enrichItem(config, label, options);
-        //   case "reference": return enrichReference(config, label, options);
+        // case "item": return enrichItem(config, label, options);
+        // case "reference": return enrichReference(config, label, options);
     }
     return null;
 }
@@ -128,10 +119,12 @@ function parseConfig(match: string) {
 
         if (value) {
             config[key] = ['true', 'false'].includes(valueLower)
-                ? valueLower === 'true'
+                ? // convert number/boolean values to their primitives
+                  valueLower === 'true'
                 : Number.isNumeric(value)
                   ? Number(value)
-                  : value.replace(/(^"|"$)/g, '');
+                  : // otherwise it's a string, we just trim any "s
+                    value.replace(/(^"|"$)/g, '');
             continue;
         }
         config.values.push(key.replace(/(^"|"$)/g, ''));
@@ -164,13 +157,16 @@ function enrichLookup(
     fallback?: string,
     options?: TextEditor.EnrichmentOptions,
 ) {
+    // Pull out the values passed in
     let keyPath = config.path as string;
     let style = config.style as string | undefined;
     for (const value of config.values) {
+        // get the data field name
         if (value.startsWith('@')) keyPath ??= value;
+        // if this wasn't the keyPath then flag any of the accepted style options
         style ??= Object.keys(EnricherStyleOptions).includes(value)
             ? value
-            : undefined;
+            : undefined; // discard anything else
     }
 
     if (!keyPath) {
@@ -180,6 +176,8 @@ function enrichLookup(
         return null;
     }
 
+    // Make sure we've been passed an Item
+    // N.B. if we want to use enrichers on the character notes sections or the like this will need a re-think
     const data =
         options?.relativeTo && options.relativeTo instanceof CosmereItem
             ? options.relativeTo.getEnricherData()
@@ -197,6 +195,7 @@ function enrichLookup(
             (Object.keys(
                 EnricherStyleOptions,
             ) as (keyof typeof EnricherStyleOptions)[])
+        // belt-and-braces to make sure we're only dealing with specifically accepted keywords
     ) {
         value =
             EnricherStyleOptions[style as keyof typeof EnricherStyleOptions](
@@ -204,6 +203,7 @@ function enrichLookup(
             );
     }
 
+    // insert the HTML element with the value
     const span = document.createElement('span');
     span.classList.add('lookup-value');
     if (!value) span.classList.add('not-found');
