@@ -353,7 +353,11 @@ export async function renderComponent(
     // Get all child components
     const childRefs = Object.entries(componentRegistry)
         .filter(([_, { parentRef }]) => parentRef === componentRef)
-        .filter(([_, { selector }]) => $(html).find(selector).length > 0)
+        .filter(
+            ([_, { selector, instance }]) =>
+                $(html).find(`${selector}[data-component-id="${instance.id}"]`)
+                    .length > 0,
+        )
         .map(([ref]) => ref);
 
     // Render children
