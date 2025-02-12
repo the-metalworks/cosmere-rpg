@@ -1,6 +1,7 @@
-import { ActorType, TurnSpeed } from '@src/system/types/cosmere';
+import { ActorType, AdversaryRole, TurnSpeed } from '@src/system/types/cosmere';
 import { CosmereCombatant } from '@src/system/documents/combatant';
 import { SYSTEM_ID } from '@src/system/constants';
+import { AdversaryActor } from '@src/system/documents';
 
 /**
  * Overrides default tracker template to implement slow/fast buckets and combatant activation button.
@@ -26,7 +27,7 @@ export class CosmereCombatTracker extends CombatTracker {
             slowNPC: CosmereTurn[];
         };
         //add combatant type, speed, and activation status to existing turn data.
-        data.turns = data.turns.map((turn) => {
+        data.turns = data.turns.flatMap((turn) => {
             const combatant: CosmereCombatant =
                 this.viewed!.getEmbeddedDocument(
                     'Combatant',
@@ -41,7 +42,20 @@ export class CosmereCombatTracker extends CombatTracker {
                 ) as TurnSpeed,
                 type: combatant.actor.type,
                 activated: combatant.getFlag(SYSTEM_ID, 'activated') as boolean,
+                isBoss:
+                    combatant.actor.type === ActorType.Adversary &&
+                    (combatant.actor as AdversaryActor).system.role ===
+                        AdversaryRole.Boss,
             };
+            // ensure boss adversaries have both a fast and slow turn
+            if (newTurn.isBoss) {
+                newTurn.turnSpeed = TurnSpeed.Fast;
+                const bossAltTurn = {
+                    ...newTurn,
+                    turnSpeed: TurnSpeed.Slow,
+                };
+                return [newTurn, bossAltTurn];
+            }
             //strips active player formatting
             newTurn.css = '';
             return newTurn;
@@ -185,4 +199,5 @@ interface CosmereTurn {
     type?: ActorType;
     turnSpeed?: TurnSpeed;
     activated?: boolean;
+    isBoss?: boolean;
 }
