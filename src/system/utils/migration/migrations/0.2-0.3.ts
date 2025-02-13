@@ -1,4 +1,4 @@
-import { ItemType } from '@system/types/cosmere';
+import { DamageType, ItemType } from '@system/types/cosmere';
 import {
     CosmereItem,
     CosmereItemData,
@@ -28,6 +28,7 @@ import {
 } from '@league-of-foundry-developers/foundry-vtt-types/src/types/utils.mjs';
 import { migrate } from '..';
 import { CosmereActor } from '@src/system/documents';
+import COSMERE from '@src/system/config';
 
 export default {
     from: '0.2',
@@ -197,6 +198,25 @@ async function migrateActors(actors: CosmereActor[]) {
                     ['system.movement.-=rate']: null,
                 });
             }
+
+            /**
+             * Damage Immunities
+             * This is a preemptive block based on the current immunities rework
+             */
+            // if (Array.isArray(actor.system.immunities.damage)) {
+            //     foundry.utils.mergeObject(changes,
+            //         Object.keys(COSMERE.damageTypes).reduce(
+            //             (acc, damageType) => ({
+            //                 ...acc,
+            //                 [`system.immunities.damage.${damageType}`]:
+            //                     (actor.system.immunities.damage as DamageType[]).includes(damageType as DamageType),
+            //             }),
+            //             {
+            //                 ['system.immunities.-=damage']: null,
+            //             },
+            //         ),
+            //     );
+            // }
 
             // Retrieve document
             const document = (game.actors as Collection<CosmereActor>).get(
