@@ -121,6 +121,9 @@ export interface CommonActorData {
     };
     expertises?: ExpertiseData[];
     languages?: string[];
+    biography?: string;
+    appearance?: string;
+    notes?: string;
 }
 
 export class CommonActorDataModel<
@@ -281,6 +284,22 @@ export class CommonActorDataModel<
             languages: new foundry.data.fields.ArrayField(
                 new foundry.data.fields.StringField(),
             ),
+
+            /**
+             * HTML Fields
+             */
+            biography: new foundry.data.fields.HTMLField({
+                label: 'COSMERE.Actor.Biography.Label',
+                initial: '',
+            }),
+            appearance: new foundry.data.fields.HTMLField({
+                label: 'COSMERE.Actor.Appearance.Label',
+                initial: '',
+            }),
+            notes: new foundry.data.fields.HTMLField({
+                label: 'COSMERE.Actor.Notes.Label',
+                initial: '',
+            }),
         };
     }
 
