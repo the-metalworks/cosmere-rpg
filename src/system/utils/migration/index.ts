@@ -3,12 +3,10 @@ import { SYSTEM_ID, SYSTEM_NAME } from '@src/system/constants';
 import { Migration } from '@src/system/types/migration';
 
 // Migrations
-// import MIGRATE_0_2__0_3 from './migrations/0.2-0.3';
+import MIGRATE_0_2__0_3 from './migrations/0.2-0.3';
 
 // Constants
-const MIGRATIONS: Migration[] = [
-    //MIGRATE_0_2__0_3,
-];
+const MIGRATIONS: Migration[] = [MIGRATE_0_2__0_3];
 
 /**
  * Check if the world requires migration between the two version
@@ -52,6 +50,8 @@ export async function migrate(from: string, to: string) {
             return;
         }
     }
+
+    console.log(`[${SYSTEM_ID}] Successfully migrated data`);
 }
 
 /* --- Helpers --- */
