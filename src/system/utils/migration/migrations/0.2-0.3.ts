@@ -38,8 +38,6 @@ export default {
         /**
          * Items
          */
-
-        // Retrieve raw sources
         const items = getRawDocumentSources('Item') as CosmereItem[];
 
         // Talent Trees
@@ -48,8 +46,6 @@ export default {
         /**
          * Actors
          */
-
-        // Retrieve raw sources
         const actors = getRawDocumentSources('Actor') as CosmereActor[];
         await migrateActors(actors);
     },
