@@ -74,6 +74,7 @@ export class BaseItemSheet extends TabsApplicationMixin(
     ) {
         if (event instanceof SubmitEvent) return;
 
+        // Handle prose mirror saving via hotkey
         if ((event.target as HTMLElement).className.includes('prosemirror')) {
             await this.saveDescription();
         }
