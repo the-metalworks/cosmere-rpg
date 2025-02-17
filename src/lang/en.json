@@ -1199,10 +1199,6 @@
         }
     },
     "SETTINGS": {
-        "itemSheetSideTabs": {
-            "name": "Vertical Side Tabs for Item Sheets",
-            "hint": "If enabled, item sheets use vertical tabs down the right-hand side, similar to the character sheet, instead of the default in-line horizontal ones."
-        },
         "skipRollDialogByDefault": {
             "name": "Skip Roll Dialog by Default",
             "hint": "If enabled, rolls will skip the roll configuration dialog when clicked, using the default roll configuration. The dialog can still be accessed by holding the 'Skip/Show Dialog' key modifier from the system controls."

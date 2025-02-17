@@ -6,7 +6,6 @@ import { renderSystemTemplate, TEMPLATES } from '@src/system/utils/templates';
 // Mixins
 import { ComponentHandlebarsApplicationMixin } from '@system/applications/component-system';
 import { TabsApplicationMixin } from '@system/applications/mixins';
-import { getSystemSetting, SETTINGS } from '@src/system/settings';
 import { DescriptionItemData } from '@src/system/data/item/mixins/description';
 
 const { ItemSheetV2 } = foundry.applications.sheets;
@@ -336,7 +335,6 @@ export class BaseItemSheet extends TabsApplicationMixin(
             chatDescHtml: enrichedChatDescValue,
             proseDescName: this.proseDescName,
             proseDescHtml: this.proseDescHtml,
-            sideTabs: getSystemSetting(SETTINGS.ITEM_SHEET_SIDE_TABS),
         };
     }
 
