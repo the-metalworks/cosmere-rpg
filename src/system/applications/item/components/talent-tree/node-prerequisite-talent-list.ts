@@ -13,7 +13,7 @@ import { DragDropComponentMixin } from '@system/applications/mixins/drag-drop';
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 type Params = {
     node: TalentTree.TalentNode;
-    talents: TalentTree.Node.Prerequisite.TalentRef[];
+    talents: Collection<TalentTree.Node.Prerequisite.TalentRef>;
 };
 
 export class NodePrerequisiteTalentListComponent extends DragDropComponentMixin(
@@ -47,6 +47,10 @@ export class NodePrerequisiteTalentListComponent extends DragDropComponentMixin(
         return this.params!.node;
     }
 
+    public get talents() {
+        return this.params!.talents;
+    }
+
     /* --- Actions --- */
 
     private static onRemoveTalent(
@@ -56,11 +60,11 @@ export class NodePrerequisiteTalentListComponent extends DragDropComponentMixin(
         // Get talent element
         const el = $(event.currentTarget!).closest('.talent');
 
-        // Get index
-        const index = el.data('item') as number;
+        // Get id
+        const id = el.data('id') as string;
 
         // Remove talent
-        this.params!.talents.splice(index, 1);
+        this.talents.delete(id);
 
         // Dispatch change event
         this.element!.dispatchEvent(new Event('change'));
@@ -95,7 +99,7 @@ export class NodePrerequisiteTalentListComponent extends DragDropComponentMixin(
         }
 
         // Check if a talent with the same ID is already in the list
-        const duplicateRef = this.params!.talents.find(
+        const duplicateRef = this.talents.find(
             (ref) => ref.id === item.system.id,
         );
         if (duplicateRef) {
@@ -117,7 +121,7 @@ export class NodePrerequisiteTalentListComponent extends DragDropComponentMixin(
         }
 
         // Add talent to the list
-        this.params!.talents.push({
+        this.talents.set(item.system.id, {
             id: item.system.id,
             uuid: item.uuid,
             label: item.name,
@@ -131,7 +135,7 @@ export class NodePrerequisiteTalentListComponent extends DragDropComponentMixin(
 
     public async _prepareContext(params: Params, context: never) {
         // Construct content links
-        const contentLinks = params.talents.map(
+        const contentLinks = this.talents.map(
             (ref) => `@UUID[${ref.uuid}]{${ref.label}}`,
         );
 
@@ -142,7 +146,10 @@ export class NodePrerequisiteTalentListComponent extends DragDropComponentMixin(
 
         return {
             ...params,
-            talentLinks: enrichedLinks,
+            talents: this.talents.map(({ id }, index) => ({
+                id,
+                link: enrichedLinks[index],
+            })),
         };
     }
 }

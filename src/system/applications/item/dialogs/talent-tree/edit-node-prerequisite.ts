@@ -4,6 +4,8 @@ import { TalentTree } from '@system/types/item';
 import { AnyObject } from '@system/types/utils';
 import { TalentItemData } from '@system/data/item/talent';
 
+import { RecordCollection } from '@system/data/fields/collection';
+
 const { ApplicationV2 } = foundry.applications.api;
 
 import { ComponentHandlebarsApplicationMixin } from '@system/applications/component-system';
@@ -121,11 +123,7 @@ export class EditNodePrerequisiteDialog extends ComponentHandlebarsApplicationMi
         } else if (
             this.data.type === TalentTree.Node.Prerequisite.Type.Talent
         ) {
-            // this.data.mode =
-            //     (formData.get('mode') as
-            //         | Talent.Prerequisite.Mode
-            //         | undefined) ?? Talent.Prerequisite.Mode.AnyOf;
-            // this.data.talents ??= [];
+            this.data.talents ??= new RecordCollection();
         } else if (
             this.data.type === TalentTree.Node.Prerequisite.Type.Connection
         ) {
