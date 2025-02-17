@@ -1,47 +1,55 @@
-<ul class="list-table">
-    <li class="header">
-        <div class="col level">
-            <span>{{localize "GENERIC.Level"}}</span>
+<div class="item-details-form">
+    <div class="form-group">
+        <label>{{localize "COSMERE.Item.Sheet.Ancestry.BonusTalents"}}</label>
+        <div class="form-fields">
         </div>
-        <div class="col quantity">
-            <span>#</span>
-        </div>
-        <div class="col restrictions">
-            <span>{{localize "COSMERE.Item.Sheet.Ancestry.Restrictions"}}</span>
-        </div>
-        <div class="col controls">
-            {{#if editable}}
-            <div></div>
-            <a data-action="add-rule"
-                data-tooltip="{{localize "COSMERE.Item.Sheet.Ancestry.Component.BonusTalents.Add"}}"
-            >
-                <i class="fas fa-plus"></i>
-            </a>
-            {{/if}}
-        </div>
+    </div>
+</div>
+
+<ul class="item-list">
+    <li class="item header">
+        <section class="details">
+            <span class="subtitle">{{localize "COSMERE.Sheet.Talents.AtLevel"}}</span>
+            <span class="subtitle">{{localize "DIALOG.EditBonusTalentsRule.Quantity"}}</span>
+            <span class="subtitle flexible">{{localize "COSMERE.Item.Sheet.Ancestry.Restrictions"}}</span>
+            <div class="controls icon active">
+                {{#if editable}}
+                <div></div>
+                <a data-action="add-rule"
+                    data-tooltip="{{localize "COSMERE.Item.Sheet.Ancestry.Component.BonusTalents.Add"}}"
+                >
+                    <i class="fas fa-plus"></i>
+                </a>
+                {{else}}
+                <div></div>
+                {{/if}}
+            </div>
+        </section>
     </li>
 
     {{#each levels as |rule index|}}
-    <li data-index="{{index}}">
-        <div class="col level">
-            <span>{{rule.level}}</span>
-        </div>
-        <div class="col quantity">
-            <span>{{rule.quantity}}</span>
-        </div>
-        <div class="col restrictions">
-            <span>{{default rule.restrictions '—'}}</span>
-        </div>
-        <div class="col controls">
-            {{#if @root.editable}}
-            <a data-action="edit-rule" data-tooltip="{{localize "GENERIC.Button.Edit"}}">
-                <i class="fas fa-edit"></i>
-            </a>
-            <a data-action="remove-rule" data-tooltip="{{localize "GENERIC.Button.Remove"}}">
-                <i class="fas fa-trash-alt"></i>
-            </a>
-            {{/if}}
-        </div>
+    <li class="item" data-index="{{index}}">
+        <section class="details">            
+            <div class="detail level">
+                <span>{{rule.level}}</span>
+            </div>
+            <div class="detail quantity">
+                <span>{{rule.quantity}}</span>
+            </div>
+            <div class="detail flexible restriction">
+                <span>{{default rule.restrictions '—'}}</span>
+            </div>
+            <div class="controls icon faded">
+                {{#if @root.editable}}
+                <a data-action="edit-rule" data-tooltip="{{localize "GENERIC.Button.Edit"}}">
+                    <i class="fas fa-edit"></i>
+                </a>
+                <a data-action="remove-rule" data-tooltip="{{localize "GENERIC.Button.Remove"}}">
+                    <i class="fas fa-trash-alt"></i>
+                </a>
+                {{/if}}
+            </div>
+        </section>
     </li>
     {{/each}}
 </ul>

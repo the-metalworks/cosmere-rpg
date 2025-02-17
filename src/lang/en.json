@@ -895,7 +895,7 @@
             },
             "Talents": {
                 "Label": "Talents",
-                "AcquiredAtLevel": "Acquired at Level",
+                "AtLevel": "At Level",
                 "Add": "New Talent",
                 "Edit": "Edit Talent",
                 "Delete": "Remove Talent",

@@ -38,7 +38,7 @@ export class AdvancementTalentListComponent extends DragDropComponentMixin(
         event: Event,
     ) {
         // Get the element
-        const el = $(event.currentTarget!).closest('.talent-ref');
+        const el = $(event.currentTarget!).closest('.talent');
 
         // Get the index
         const index = Number(el.data('item'));
@@ -60,7 +60,7 @@ export class AdvancementTalentListComponent extends DragDropComponentMixin(
         event: Event,
     ) {
         // Get the element
-        const el = $(event.currentTarget!).closest('.talent-ref');
+        const el = $(event.currentTarget!).closest('.talent');
 
         // Get the index
         const index = Number(el.data('item'));
@@ -77,13 +77,13 @@ export class AdvancementTalentListComponent extends DragDropComponentMixin(
     protected override _onDragOver(event: DragEvent) {
         if (!this.application.isEditable) return;
 
-        $(this.element!).addClass('dragover');
+        $(this.element!).find('.drop-area').addClass('dropping');
     }
 
     protected override async _onDrop(event: DragEvent) {
         if (!this.application.isEditable) return;
 
-        $(this.element!).removeClass('dragover');
+        $(this.element!).find('.drop-area').removeClass('dropping');
 
         // Get data
         const data = TextEditor.getDragEventData(event) as unknown as {
@@ -145,7 +145,7 @@ export class AdvancementTalentListComponent extends DragDropComponentMixin(
         super._onAttachListeners(params);
 
         $(this.element!).on('dragleave', () => {
-            $(this.element!).removeClass('dragover');
+            $(this.element!).find('.drop-area').removeClass('dropping');
         });
     }
 
@@ -194,10 +194,10 @@ export class AdvancementTalentListComponent extends DragDropComponentMixin(
         const talent = extraTalents[index];
 
         // Find the new element
-        const el = $(this.element!).find(`.talent-ref[data-item="${index}"]`);
+        const el = $(this.element!).find(`.talent[data-item="${index}"]`);
 
         // Get the level span
-        const level = el.find('.col.level span');
+        const level = el.find('.detail.level span');
 
         // Hide the level span
         level.hide();

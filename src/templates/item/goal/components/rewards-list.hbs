@@ -5,13 +5,13 @@
             <span class="subtitle wide">{{localize "GENERIC.Type"}}</span>
             <div class="controls icon active">
                 {{#if editable}}
-                    <a data-action="create-reward"
-                        data-tooltip="{{localize "COSMERE.Item.Sheet.Goal.Reward.Create"}}"
-                    >
-                        <i class="fas fa-plus"></i>
-                    </a>
+                <a data-action="create-reward"
+                    data-tooltip="{{localize "COSMERE.Item.Sheet.Goal.Reward.Create"}}"
+                >
+                    <i class="fas fa-plus"></i>
+                </a>
                 {{else}}
-                    <div></div>
+                <div></div>
                 {{/if}}
             </div>
         </section>
@@ -20,7 +20,6 @@
     {{#each rewards as |reward index|}}
     <li class="item reward" data-id="{{reward._id}}">
         <section class="details">
-            <div></div>
             <div class="name">
                 {{#if (eq reward.type "skill-ranks")}}
                 <span>
@@ -30,7 +29,7 @@
                     }}
                 </span>
                 {{else if (eq reward.type "items")}}
-                    <div class="reward-summary">                        
+                    <div class="document-list">
                         {{#each reward.items as |item|}}
                         {{{item.link}}}
                         {{/each}}

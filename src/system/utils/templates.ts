@@ -146,6 +146,7 @@ export const TEMPLATES = {
         'actors/adversary/dialogs/configure-skills.hbs',
 
     DIALOG_ITEM_EDIT_REWARD: 'item/goal/dialogs/edit-reward.hbs',
+    DIALOG_ITEM_EDIT_GRANT_RULE: 'item/talent/dialogs/edit-grant-rule.hbs',
 } as const;
 
 /**

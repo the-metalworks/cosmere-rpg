@@ -378,7 +378,6 @@
             gap: 0.625rem;
             margin: 0;
             min-height: 32px;
-            align-items: flex-start;
 
             > app-id-input,
             > .form-fields {
@@ -424,7 +423,7 @@
                     flex: none;
                 }
             }
-        }
+        }        
 
         .hint {
             color: var(--cosmere-color-faded);
@@ -484,11 +483,26 @@
     }
 
     app-goal-rewards-list {
-        .reward-summary {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            gap: 0.25rem;
+
+        .item.reward .details .name > span {
+            margin-left: 0.125rem;
+        }
+    }
+
+    app-ancestry-advancement-talent-list {
+        .drop-area {
+            margin: 0;
+        }
+
+        .item.talent .details .level > input {
+            height: 20px;
+            font-family: var(--cosmere-font-normal);
+            font-variant: lining-nums;
+            font-weight: 600;
+            font-size: var(--font-size-12);
+            field-sizing: content;
+            color: var(--cosmere-color-text-sub);
+            text-align: center;
         }
     }
 }
