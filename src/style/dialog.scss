@@ -108,6 +108,23 @@
         }
     }
 
+    .dialog-form.standard-form,
+    .dialog-content.standard-form {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        gap: 0.25rem;
+
+        .form-footer {
+            margin-top: 0.625rem;
+
+            > button {
+                height: auto;
+            }
+        }
+    }
+
+    .dialog-content.standard-form,
     &.configure-resource,
     &.configure-deflect,
     &.configure-defense,
@@ -215,7 +232,5 @@
         .window-content {
             overflow: auto;
         }
-    }
-
-    
+    }    
 }

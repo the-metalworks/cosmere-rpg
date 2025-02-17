@@ -489,7 +489,12 @@
         }
     }
 
-    app-ancestry-advancement-talent-list {
+    app-ancestry-advancement-talent-list,
+    app-ancestry-bonus-talents {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+
         .drop-area {
             margin: 0;
         }

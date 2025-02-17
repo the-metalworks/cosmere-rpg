@@ -142,6 +142,7 @@ export const TEMPLATES = {
         'actors/dialogs/configure-movement-rate.hbs',
     DIALOG_ACTOR_CONFIGURE_SENSES: 'actors/dialogs/configure-senses-range.hbs',
 
+    DIALOG_CHARACTER_SHORT_REST: 'actors/character/dialogs/short-rest.hbs',
     DIALOG_ADVERSARY_CONFIGURE_SKILLS:
         'actors/adversary/dialogs/configure-skills.hbs',
 
