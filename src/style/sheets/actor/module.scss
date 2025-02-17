@@ -41,6 +41,18 @@
         padding: 0 1.875rem;
     }
 
+    > .window-background {        
+        .banners {
+            .top {
+                background-image: var(--cosmere-banner-actor-top);
+            }
+
+            .bot {
+                background-image: var(--cosmere-banner-actor-bot);
+            }
+        }
+    }
+
     .sheet-header {
         margin-top: 0.5rem;
 

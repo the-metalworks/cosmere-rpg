@@ -114,7 +114,8 @@
     &.configure-movement-rate,
     &.configure-recovery-die,
     &.configure-senses-range,
-    &.edit-reward  {
+    &.edit-reward,
+    &.edit-bonus-talents-rule {
         > .window-content {
             filter: var(--cosmere-drop-shadow);
         }
@@ -159,9 +160,13 @@
                 > input[type="text"],
                 > input[type="number"] {
                     border-radius: 6px;
-                    background-color: var(--cosmere-color-base-3);                
+                    background-color: var(--cosmere-color-base-4);                
                     padding: 0 0.5rem;
                     flex: 1;
+
+                    &:read-only {
+                        background-color: var(--cosmere-color-base-3);
+                    }
 
                     &::placeholder {
                         color: var(--cosmere-color-faded);
@@ -173,6 +178,10 @@
                     border-radius: 6px;
                     padding: 0 0.25rem;
                     flex: 2;
+
+                    &:disabled {
+                        background-color: var(--cosmere-color-base-3);
+                    }
                 }
             }
 

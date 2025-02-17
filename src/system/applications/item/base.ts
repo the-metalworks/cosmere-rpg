@@ -295,11 +295,11 @@ export class BaseItemSheet extends TabsApplicationMixin(
 
         $(frame).prepend(corners);
 
-        // const banners = await renderSystemTemplate(
-        //     TEMPLATES.ACTOR_BASE_SHEET_BACKGROUND,
-        //     {},
-        // );
-        // $(frame).prepend(banners);
+        const banners = await renderSystemTemplate(
+            TEMPLATES.GENERAL_SHEET_BACKGROUND,
+            {},
+        );
+        $(frame).prepend(banners);
 
         return frame;
     }

@@ -20,6 +20,14 @@
     > .window-content {
         padding: 0 1.25rem;
         margin-top: -0.4rem;
+    }    
+
+    > .window-background {        
+        .banners {
+            .top {
+                background-image: var(--cosmere-banner-item-top);
+            }
+        }
     }
 
     .sheet-header {
@@ -381,9 +389,13 @@
                 input[type="text"],
                 input[type="number"] {
                     border-radius: 6px;
-                    background-color: var(--cosmere-color-base-3);              
+                    background-color: var(--cosmere-color-base-4);                
                     padding: 0 0.5rem;
                     flex: 1;
+
+                    &:read-only {
+                        background-color: var(--cosmere-color-base-3);
+                    }
 
                     &::placeholder {
                         color: var(--cosmere-color-faded);
@@ -402,6 +414,10 @@
                     border-radius: 6px;
                     padding: 0 0.25rem;
                     flex: 2;
+
+                    &:disabled {
+                        background-color: var(--cosmere-color-base-3);
+                    }
                 }
 
                 > .delim {
