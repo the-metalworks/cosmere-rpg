@@ -201,9 +201,6 @@ export function removePrerequisite(
             `Failed to remove prerequisite: No prerequisite found with id ${prereqId}`,
         );
 
-    // Ensure prerequisite is managed
-    if (!prereq.managed) return;
-
     // Find all connections that depend on this prerequisite
     const connections = node.connections
         .filter((connection) => connection.prerequisiteId === prereqId)
