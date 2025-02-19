@@ -68,6 +68,9 @@ export class NodePrerequisiteTalentListComponent extends DragDropComponentMixin(
 
         // Dispatch change event
         this.element!.dispatchEvent(new Event('change'));
+
+        // Re-render
+        void this.render();
     }
 
     /* --- Drag drop --- */
@@ -129,6 +132,9 @@ export class NodePrerequisiteTalentListComponent extends DragDropComponentMixin(
 
         // Dispatch change event
         this.element!.dispatchEvent(new Event('change'));
+
+        // Re-render
+        void this.render();
     }
 
     /* --- Context --- */

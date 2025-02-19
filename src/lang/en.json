@@ -584,7 +584,9 @@
                 },
                 "Node": {
                     "Prerequisites": {
-                        "Label": "Prerequisites"
+                        "Label": "Prerequisites",
+                        "OneOf": "One of",
+                        "CannotEditManaged": "Cannot edit managed prerequisite"
                     },
                     "Position": {
                         "Label": "Position",

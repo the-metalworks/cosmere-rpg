@@ -72,29 +72,78 @@ export class EditNodePrerequisiteDialog extends ComponentHandlebarsApplicationMi
         node: TalentTree.TalentNode,
         data: TalentTree.Node.Prerequisite,
     ) {
-        const dialog = new this(tree, node, foundry.utils.deepClone(data));
+        // Clone data
+        data = foundry.utils.deepClone(data);
+
+        if (data.type === TalentTree.Node.Prerequisite.Type.Talent) {
+            data.talents = new RecordCollection(
+                Array.from(data.talents.entries()),
+            );
+        }
+
+        const dialog = new this(tree, node, data);
         await dialog.render(true);
     }
 
     /* --- Actions --- */
 
     private static onUpdatePrerequisite(this: EditNodePrerequisiteDialog) {
-        if (
-            this.data.type === TalentTree.Node.Prerequisite.Type.Attribute &&
-            isNaN(this.data.value)
-        ) {
-            this.data.value = 1;
-        } else if (
-            this.data.type === TalentTree.Node.Prerequisite.Type.Skill &&
-            isNaN(this.data.rank)
-        ) {
-            this.data.rank = 1;
+        if (this.data.type === TalentTree.Node.Prerequisite.Type.Talent) {
+            // Get the old prerequisite state
+            const old = this.node.prerequisites.get(this.data.id);
+
+            // Get previous talents
+            const prevTalents =
+                old?.type === TalentTree.Node.Prerequisite.Type.Talent
+                    ? Array.from(old.talents.keys())
+                    : [];
+
+            console.log('prevTalents', prevTalents);
+
+            // Figure out which talents have been removed
+            const removedTalents = prevTalents.filter(
+                (id) =>
+                    !(
+                        this.data as TalentTree.Node.TalentPrerequisite
+                    ).talents.has(id),
+            );
+
+            void this.tree.update({
+                [`system.nodes.${this.node.id}.prerequisites.${this.data.id}`]:
+                    this.data,
+                [`system.nodes.${this.node.id}.prerequisites.${this.data.id}.talents`]:
+                    this.data.talents.toJSON(),
+
+                // Add removals
+                ...removedTalents.reduce(
+                    (acc, id) => ({
+                        ...acc,
+                        [`system.nodes.${this.node.id}.prerequisites.${this.data.id}.talents.-=${id}`]:
+                            {},
+                    }),
+                    {},
+                ),
+            });
+        } else {
+            if (
+                this.data.type ===
+                    TalentTree.Node.Prerequisite.Type.Attribute &&
+                isNaN(this.data.value)
+            ) {
+                this.data.value = 1;
+            } else if (
+                this.data.type === TalentTree.Node.Prerequisite.Type.Skill &&
+                isNaN(this.data.rank)
+            ) {
+                this.data.rank = 1;
+            }
+
+            void this.tree.update({
+                [`system.nodes.${this.node.id}.prerequisites.${this.data.id}`]:
+                    this.data,
+            });
         }
 
-        void this.tree.update({
-            [`system.nodes.${this.node.id}.prerequisites.${this.data.id}`]:
-                this.data,
-        });
         void this.close();
     }
 
