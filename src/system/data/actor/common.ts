@@ -546,9 +546,6 @@ export class CommonActorDataModel<
 
         // Derive defenses
         (Object.keys(this.defenses) as AttributeGroup[]).forEach((group) => {
-            // Get bonus
-            const bonus = this.defenses[group].bonus;
-
             // Get attributes
             const attrs = CONFIG.COSMERE.attributeGroups[group].attributes;
 
@@ -559,7 +556,7 @@ export class CommonActorDataModel<
             const attrsSum = attrValues.reduce((sum, v) => sum + v, 0);
 
             // Assign defense
-            this.defenses[group].derived = 10 + attrsSum + bonus;
+            this.defenses[group].derived = 10 + attrsSum;
         });
 
         // Derive skill modifiers
