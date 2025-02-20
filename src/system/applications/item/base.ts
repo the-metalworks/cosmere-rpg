@@ -66,13 +66,19 @@ export class BaseItemSheet extends TabsApplicationMixin(
 
     /* --- Form --- */
 
-    protected static onFormEvent(
+    protected static async onFormEvent(
         this: BaseItemSheet,
         event: Event,
         form: HTMLFormElement,
         formData: FormDataExtended,
     ) {
         if (event instanceof SubmitEvent) return;
+
+        // Handle prose mirror saving via hotkey
+        if ((event.target as HTMLElement).className.includes('prosemirror')) {
+            await this.saveDescription();
+        }
+
         if (!('name' in event.target!)) return;
 
         if (this.item.isPhysical() && 'system.price.unit' in formData.object) {
@@ -376,10 +382,11 @@ export class BaseItemSheet extends TabsApplicationMixin(
         await this.render(true);
     }
 
+    /**
+     * Provide a static callback for the prose mirror save button
+     */
     private static async onSave(this: BaseItemSheet) {
-        // Swtiches back from prose mirror when save button is pressed
-        this.updatingDescription = false;
-        await this.render(true);
+        await this.saveDescription();
     }
 
     /* --- Lifecycle --- */
@@ -396,5 +403,16 @@ export class BaseItemSheet extends TabsApplicationMixin(
     private onClickCollapsible(event: JQuery.ClickEvent) {
         const target = event.currentTarget as HTMLElement;
         target?.classList.toggle('expanded');
+    }
+
+    /* --- Helpers --- */
+
+    /**
+     * Helper to update the prose mirror edit state
+     */
+    private async saveDescription() {
+        // Switches back from prose mirror
+        this.updatingDescription = false;
+        await this.render(true);
     }
 }

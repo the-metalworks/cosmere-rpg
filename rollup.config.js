@@ -23,6 +23,8 @@ export default {
         '@pixi/core'
     ],
     plugins: [
+        clearOutputDir(),
+
         // CSS
         scss(),
 
@@ -54,6 +56,26 @@ export default {
 };
 
 /* --- Custom Plugins --- */
+
+/**
+ * Rollup plugin to clear the contents of the output directory before building.
+ */
+function clearOutputDir() {
+    return {
+        name: 'clear-output-dir',
+        buildStart() {
+            const outputDir = 'build';
+
+            // Clear contents of the output directory, if it exists
+            if (fs.existsSync(outputDir)) {
+                fs.rmSync(outputDir, { recursive: true });
+            }
+
+            // Ensure the output directory exists
+            fs.mkdirSync(outputDir);
+        }
+    }
+}
 
 function markdownParser(config) {
     return {

@@ -57,7 +57,7 @@ export class TalentItemSheet extends BaseItemSheet {
 
     /* --- Form --- */
 
-    protected static onFormEvent(
+    protected static async onFormEvent(
         this: TalentItemSheet,
         event: Event,
         form: HTMLFormElement,
@@ -70,7 +70,7 @@ export class TalentItemSheet extends BaseItemSheet {
             formData.set('system.path', null);
 
         // Invoke super
-        super.onFormEvent(event, form, formData);
+        await super.onFormEvent(event, form, formData);
     }
 
     /* --- Context --- */
