@@ -75,9 +75,11 @@ export function addConnection(
 
     const nodeChanges = {} as Record<string, unknown>;
 
-    // Find a talent prerequisite
+    // Find a managed talent prerequisite
     let talentPrereq = from.prerequisites.find(
-        (prereq) => prereq.type === TalentTree.Node.Prerequisite.Type.Talent,
+        (prereq) =>
+            prereq.type === TalentTree.Node.Prerequisite.Type.Talent &&
+            prereq.managed,
     );
 
     if (!talentPrereq) {
@@ -88,6 +90,7 @@ export function addConnection(
         nodeChanges[`prerequisites.${id}`] = {
             id,
             type: TalentTree.Node.Prerequisite.Type.Talent,
+            managed: true,
             talents: {
                 [to.talentId]: {
                     uuid: to.uuid,
@@ -147,15 +150,14 @@ export function removeConnection(
     if (!to || to.type !== TalentTree.Node.Type.Talent)
         throw new Error(`Failed to remove connection: Invalid to node ${toId}`);
 
-    // Find the prerequisite that connects the two nodes
-    const prereq = from.prerequisites.find(
-        (prereq) =>
-            prereq.type === TalentTree.Node.Prerequisite.Type.Talent &&
-            prereq.talents.some((talent) => talent.id === to.talentId),
-    ) as TalentTree.Node.TalentPrerequisite | undefined;
+    // Get the connection
+    const connection = from.connections.get(to.id);
+    if (!connection) return;
 
-    // if (!prereq)
-    //     throw new Error(`Failed to remove connection: No prerequisite found between ${fromId} and ${toId}`);
+    // Get the prereq
+    const prereq = from.prerequisites.get(
+        connection.prerequisiteId,
+    ) as TalentTree.Node.TalentPrerequisite;
 
     // Prepare node changes
     const nodeChanges = prereq
