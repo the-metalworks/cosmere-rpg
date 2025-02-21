@@ -1,10 +1,14 @@
 <div class="currency-list">
-    <div class="currency">
-        <img src="systems/cosmere-rpg/assets/icons/currency/spheres.png">
-        <span class="value">12345</span>
+    {{#each currencies as |currency|}}
+    <div class="currency" data-tooltip="{{currency.config.label}}">
+        <img src="{{currency.config.icon}}">
+        <input name="currency"
+            type="number"
+            min="0"
+            step="1"
+            value="{{derived currency.total}}"
+            readonly
+        >
     </div>
-    <div class="currency">
-        <img src="systems/cosmere-rpg/assets/icons/currency/spheres.png">
-        <span class="value">12345</span>
-    </div>
+    {{/each}}
 </div>
