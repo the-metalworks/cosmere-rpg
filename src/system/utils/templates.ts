@@ -55,6 +55,7 @@ export const TEMPLATES = {
         'actors/adversary/partials/adv-actions-tab.hbs',
     ACTOR_ADVERSARY_EQUIPMENT_TAB:
         'actors/adversary/partials/adv-equipment-tab.hbs',
+    ACTOR_ADVERSARY_NOTES_TAB: 'actors/adversary/partials/adv-notes-tab.hbs',
     ACTOR_ADVERSARY_EFFECTS_TAB:
         'actors/adversary/partials/adv-effects-tab.hbs',
     ACTOR_ADVERSARY_SKILLS_GROUP:

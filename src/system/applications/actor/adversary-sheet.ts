@@ -12,6 +12,10 @@ import { EditExpertisesDialog } from './dialogs/edit-expertises';
 import { BaseActorSheet, BaseActorSheetRenderContext } from './base';
 import { TEMPLATES } from '@src/system/utils/templates';
 
+const enum AdversarySheetTab {
+    Notes = 'notes',
+}
+
 export type AdversarySheetRenderContext = Omit<
     BaseActorSheetRenderContext,
     'actor'
@@ -52,6 +56,17 @@ export class AdversarySheet extends BaseActorSheet<AdversarySheetRenderContext> 
         {
             content: {
                 template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_ADVERSARY_CONTENT}`,
+            },
+        },
+    );
+
+    static TABS = foundry.utils.mergeObject(
+        foundry.utils.deepClone(super.TABS),
+        {
+            [AdversarySheetTab.Notes]: {
+                label: 'COSMERE.Actor.Sheet.Tabs.Notes',
+                icon: '<i class="fa-solid fa-scroll"></i>',
+                sortIndex: 25,
             },
         },
     );
