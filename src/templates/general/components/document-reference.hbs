@@ -1,0 +1,18 @@
+{{#if value}}
+<div class="content">
+    {{contentLink}}
+    {{#if (not readonly)}}
+    <div class="controls">
+        <a data-action="clear"
+            data-tooltip="GENERIC.Clear"
+        >
+            <i class="fa-solid fa-xmark"></i>
+        </a>
+    </div>
+    {{/if}}
+</div>
+{{else}}
+<p class="drop-area">
+    {{localize (default placeholder defaultPlaceholder)}}
+</p>
+{{/if}}

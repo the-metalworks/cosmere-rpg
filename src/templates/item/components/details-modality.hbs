@@ -1,13 +1,16 @@
 {{#if hasModality}}
-    <h5>{{localize "COSMERE.Item.Sheet.Modality.Title"}}</h5>
+<fieldset>
+    <legend>{{localize "COSMERE.Item.Sheet.Modality.Title"}}</legend>
     <div class="form-group">
         <label>{{localize "COSMERE.Item.Sheet.Modality.HasModality"}}</label>
-        <input type="checkbox" 
-            name="modalityEnabled"
-            {{#if modalityEnabled}}
-            checked
-            {{/if}}
-        >
+        <div class="form-fields">
+            <input type="checkbox" 
+                name="modalityEnabled"
+                {{#if modalityEnabled}}
+                checked
+                {{/if}}
+            >
+        </div>        
     </div>
     {{#if modalityEnabled}}
         <div class="form-group">
@@ -21,4 +24,5 @@
             {{localize systemFields.modality.hint}}
         </p>
     {{/if}}
+</fieldset>    
 {{/if}}

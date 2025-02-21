@@ -2,6 +2,8 @@ import { ConstructorOf, AnyObject } from '@system/types/utils';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 interface StateConfig {
     label: string;
@@ -21,8 +23,7 @@ export class MultiStateToggleComponent extends HandlebarsApplicationComponent<
     ConstructorOf<foundry.applications.api.ApplicationV2>,
     Params
 > {
-    static readonly TEMPLATE =
-        'systems/cosmere-rpg/templates/general/components/multi-state-toggle.hbs';
+    static readonly TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.COMPONENT_MULTI_STATE_TOGGLE}`;
 
     protected get states(): Record<string, StateConfig> {
         if (Array.isArray(this.params!.states)) {

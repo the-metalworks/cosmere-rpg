@@ -117,7 +117,6 @@ class TalentTreeNodeField extends foundry.data.fields.SchemaField {
                             nullable: false,
                             blank: false,
                         }),
-
                         type: new foundry.data.fields.StringField({
                             required: true,
                             nullable: false,
@@ -125,6 +124,11 @@ class TalentTreeNodeField extends foundry.data.fields.SchemaField {
                             choices:
                                 CONFIG.COSMERE.items.talentTree.node
                                     .prerequisite.types,
+                        }),
+                        managed: new foundry.data.fields.BooleanField({
+                            required: true,
+                            nullable: false,
+                            initial: false,
                         }),
 
                         // Connection

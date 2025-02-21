@@ -63,6 +63,12 @@ export namespace Node {
     interface BasePrerequisite<Type extends Prerequisite.Type> {
         id: string;
         type: Type;
+
+        /**
+         * Whether or not this prerequisite is managed by the system.
+         * Managed prerequisites cannot be manually edited by the user.
+         */
+        managed: boolean;
     }
 
     export interface ConnectionPrerequisite
