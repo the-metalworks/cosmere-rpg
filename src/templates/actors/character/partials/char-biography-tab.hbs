@@ -1,0 +1,33 @@
+{{#with (lookup tabsMap "biography") as |tab|}}
+
+<div class="tab tab-content split {{tab.cssClass}}" data-tab="biography" data-group="primary">
+    {{#if @root.isUpdatingHtmlField}}
+    <prose-mirror name="{{@root.proseFieldName}}" data-document-uuid="{{@root.actor.uuid}}"
+        value = "{{@root.proseFieldHtml}}" collaborate="true">
+        {{{@root.proseFieldHtml}}}    
+    </prose-mirror>
+    {{else}}
+    <section>
+        <div class="details-text biography">
+            <div class="icon-header">
+                <div class="title">
+                    <i class="fa-solid fa-scroll"></i>
+                    <span>{{localize "COSMERE.Actor.Sheet.Details.Biography"}}</span>
+                </div>
+            </div>
+            {{{@root.biographyHtml}}}
+        </div>
+        <div class="details-text appearance">
+            <div class="icon-header">
+                <div class="title">
+                    <i class="fa-solid fa-image-portrait"></i>
+                    <span>{{localize "COSMERE.Actor.Sheet.Details.Appearance"}}</span>
+                </div>
+            </div>
+            {{{@root.appearanceHtml}}}
+        </div>
+    </section>
+    {{/if}}
+</div>
+
+{{/with}}

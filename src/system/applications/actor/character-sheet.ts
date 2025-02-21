@@ -11,6 +11,7 @@ import { TEMPLATES } from '@src/system/utils/templates';
 const enum CharacterSheetTab {
     Details = 'details',
     Goals = 'goals',
+    Biography = 'biography',
 }
 
 export class CharacterSheet extends BaseActorSheet {
@@ -50,6 +51,12 @@ export class CharacterSheet extends BaseActorSheet {
                 label: 'COSMERE.Actor.Sheet.Tabs.Goals',
                 icon: '<i class="fa-solid fa-list"></i>',
                 sortIndex: 25,
+            },
+
+            [CharacterSheetTab.Biography]: {
+                label: 'COSMERE.Actor.Sheet.Tabs.Biography',
+                icon: '<i class="fa-solid fa-scroll"></i>',
+                sortIndex: 26,
             },
         },
     );
