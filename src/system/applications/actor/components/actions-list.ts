@@ -461,8 +461,8 @@ export class ActorActionsListComponent extends HandlebarsApplicationComponent<
                 );
 
                 if (sort === SortMode.Alphabetic) {
-                    sectionItems = sectionItems.sort(
-                        (a, b) => a.name.compare(b.name) * -1,
+                    sectionItems = sectionItems.sort((a, b) =>
+                        a.name.compare(b.name),
                     );
                 }
 

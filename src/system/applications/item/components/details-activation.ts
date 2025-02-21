@@ -1,5 +1,7 @@
 import { ActivationType } from '@system/types/cosmere';
-import { ConstructorOf } from '@system/types/utils';
+import { ConstructorOf, NONE } from '@system/types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
@@ -8,8 +10,7 @@ import { BaseItemSheet, BaseItemSheetRenderContext } from '../base';
 export class DetailsActivationComponent extends HandlebarsApplicationComponent<
     ConstructorOf<BaseItemSheet>
 > {
-    static TEMPLATE =
-        'systems/cosmere-rpg/templates/item/components/details-activation.hbs';
+    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_DETAILS_ACTIVATION}`;
 
     /* --- Context --- */
 
@@ -44,7 +45,7 @@ export class DetailsActivationComponent extends HandlebarsApplicationComponent<
                 {},
             ),
             costTypeSelectOptions: {
-                none: 'GENERIC.None',
+                [NONE]: 'GENERIC.None',
                 ...Object.entries(CONFIG.COSMERE.action.costs).reduce(
                     (acc, [key, config]) => ({
                         ...acc,
@@ -54,7 +55,7 @@ export class DetailsActivationComponent extends HandlebarsApplicationComponent<
                 ),
             },
             consumeTypeSelectOptions: {
-                none: 'GENERIC.None',
+                [NONE]: 'GENERIC.None',
                 ...Object.entries(
                     CONFIG.COSMERE.items.activation.consumeTypes,
                 ).reduce(
@@ -66,7 +67,7 @@ export class DetailsActivationComponent extends HandlebarsApplicationComponent<
                 ),
             },
             resourceSelectOptions: {
-                none: 'GENERIC.None',
+                [NONE]: 'GENERIC.None',
                 ...Object.entries(CONFIG.COSMERE.resources).reduce(
                     (acc, [key, config]) => ({
                         ...acc,
@@ -76,7 +77,7 @@ export class DetailsActivationComponent extends HandlebarsApplicationComponent<
                 ),
             },
             usesTypeSelectOptions: {
-                none: 'GENERIC.None',
+                [NONE]: 'GENERIC.None',
                 ...Object.entries(
                     CONFIG.COSMERE.items.activation.uses.types,
                 ).reduce(
@@ -88,7 +89,7 @@ export class DetailsActivationComponent extends HandlebarsApplicationComponent<
                 ),
             },
             rechargeSelectOptions: {
-                none: 'GENERIC.None',
+                [NONE]: 'GENERIC.None',
                 ...Object.entries(
                     CONFIG.COSMERE.items.activation.uses.recharge,
                 ).reduce(
@@ -100,7 +101,7 @@ export class DetailsActivationComponent extends HandlebarsApplicationComponent<
                 ),
             },
             skillSelectOptions: {
-                none: 'GENERIC.None',
+                [NONE]: 'GENERIC.None',
                 ...Object.entries(CONFIG.COSMERE.skills).reduce(
                     (acc, [key, config]) => ({
                         ...acc,
@@ -110,7 +111,8 @@ export class DetailsActivationComponent extends HandlebarsApplicationComponent<
                 ),
             },
             attributeSelectOptions: {
-                none: 'GENERIC.Default',
+                [NONE]: 'GENERIC.None',
+                default: 'GENERIC.Default',
                 ...Object.entries(CONFIG.COSMERE.attributes).reduce(
                     (acc, [key, config]) => ({
                         ...acc,

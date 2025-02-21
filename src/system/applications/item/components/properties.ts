@@ -1,4 +1,6 @@
 import { ConstructorOf } from '@system/types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
@@ -7,8 +9,7 @@ import { BaseItemSheet, BaseItemSheetRenderContext } from '../base';
 export class ItemPropertiesComponent extends HandlebarsApplicationComponent<
     ConstructorOf<BaseItemSheet>
 > {
-    static TEMPLATE =
-        'systems/cosmere-rpg/templates/item/components/properties.hbs';
+    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_BASE_PROPERTIES}`;
 
     /* --- Context --- */
 

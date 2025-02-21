@@ -1,6 +1,8 @@
 import { AttributeGroup } from '@system/types/cosmere';
 import { CosmereActor } from '@system/documents';
 import { AnyObject } from '@system/types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 import { CommonActorData } from '@system/data/actor/common';
 import { Derived } from '@system/data/fields';
@@ -37,8 +39,7 @@ export class ConfigureDeflectDialog extends HandlebarsApplicationMixin(
         foundry.utils.deepClone(super.PARTS),
         {
             form: {
-                template:
-                    'systems/cosmere-rpg/templates/actors/dialogs/configure-deflect.hbs',
+                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ACTOR_CONFIGURE_DEFLECT}`,
                 forms: {
                     form: {
                         handler: this.onFormEvent,
@@ -64,11 +65,10 @@ export class ConfigureDeflectDialog extends HandlebarsApplicationMixin(
         });
 
         this.data = actor.system.deflect;
-        this.data.value ??= 0;
         this.data.natural ??= 0;
         this.data.override ??= this.data.value ?? 0;
         this.data.bonus ??= 0;
-        this.mode = Derived.getMode(this.data);
+        this.mode = this.data.mode;
     }
 
     /* --- Statics --- */
@@ -111,10 +111,10 @@ export class ConfigureDeflectDialog extends HandlebarsApplicationMixin(
 
         if (isNaN(this.data.override!)) this.data.override = 0;
         if (isNaN(this.data.natural!)) this.data.natural = 0;
-        if (isNaN(this.data.bonus!)) this.data.bonus = 0;
+        if (isNaN(this.data.bonus)) this.data.bonus = 0;
 
         // Assign mode
-        Derived.setMode(this.data, this.mode);
+        this.data.mode = this.mode;
 
         // Render
         void this.render(true);

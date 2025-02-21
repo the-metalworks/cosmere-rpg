@@ -1,11 +1,10 @@
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 import { CharacterActor, CosmereActor } from '@system/documents';
 import { AnyObject } from '@system/types/utils';
 
-import { Derived } from '@system/data/fields';
-
 // Constants
-const TEMPLATE =
-    'systems/cosmere-rpg/templates/actors/character/dialogs/short-rest.hbs';
+const TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_CHARACTER_SHORT_REST}`;
 
 interface ShortRestDialogOptions {
     /**
@@ -90,7 +89,7 @@ export class ShortRestDialog extends foundry.applications.api.DialogV2 {
                 ),
             },
             tendedBy: options.tendedBy?.id ?? 'none',
-            formula: Derived.getValue(actor.system.recovery.die),
+            formula: actor.system.recovery.die.value,
         });
 
         // Render dialog and wrap as promise
@@ -136,10 +135,7 @@ export class ShortRestDialog extends foundry.applications.api.DialogV2 {
                     // Set formula
                     $(this.element)
                         .find('input[name="formula"]')
-                        .val(
-                            Derived.getValue(this.actor.system.recovery.die) ??
-                                '',
-                        );
+                        .val(this.actor.system.recovery.die.value ?? '');
                 } else {
                     // Get the character
                     const character = CosmereActor.get(
@@ -147,14 +143,13 @@ export class ShortRestDialog extends foundry.applications.api.DialogV2 {
                     ) as CharacterActor;
 
                     // Get the medicine modifier
-                    const mod =
-                        Derived.getValue(character.system.skills.med.mod) ?? 0;
+                    const mod = character.system.skills.med.mod.value ?? 0;
 
                     // Set formula
                     $(this.element)
                         .find('input[name="formula"]')
                         .val(
-                            `${Derived.getValue(this.actor.system.recovery.die)} + ${mod}`,
+                            `${this.actor.system.recovery.die.value} + ${mod}`,
                         );
                 }
             });

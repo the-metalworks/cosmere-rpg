@@ -1,4 +1,11 @@
+// Types
+import { Resource } from '@system/types/cosmere';
+import { DeepPartial, AnyObject } from '@system/types/utils';
+
 import { CommonActorDataModel, CommonActorData } from './common';
+
+// Utils
+import * as Advancement from '@system/utils/advancement';
 
 // Fields
 import { DerivedValueField, Derived, MappingField } from '../fields';
@@ -14,10 +21,16 @@ interface ConnectionData {
 }
 
 export interface CharacterActorData extends CommonActorData {
-    level: {
-        paths: Record<string, number>;
-        total: Derived<number>;
-    };
+    /* --- Advancement --- */
+    level: number;
+
+    /**
+     * Derived value for the maximum rank a skill can be.
+     * Based on the configured advancement rules.
+     */
+    maxSkillRank: number;
+
+    /* --- Derived statistics --- */
     recovery: { die: Derived<string> };
 
     /* --- Goals, Connections, Purpose, and Obstacle --- */
@@ -30,25 +43,25 @@ export interface CharacterActorData extends CommonActorData {
 export class CharacterActorDataModel extends CommonActorDataModel<CharacterActorData> {
     public static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), {
-            level: new foundry.data.fields.SchemaField({
-                paths: new MappingField(
-                    new foundry.data.fields.NumberField({
-                        integer: true,
-                        min: 0,
-                    }),
-                    {
-                        required: true,
-                        nullable: false,
-                    },
-                ),
-                total: new DerivedValueField(
-                    new foundry.data.fields.NumberField({
-                        min: 0,
-                        integer: true,
-                    }),
-                ),
+            /* --- Advancement --- */
+            level: new foundry.data.fields.NumberField({
+                required: true,
+                nullable: false,
+                integer: true,
+                min: 1,
+                initial: 1,
+                label: 'COSMERE.Actor.Level.Label',
             }),
 
+            maxSkillRank: new foundry.data.fields.NumberField({
+                required: true,
+                nullable: false,
+                integer: true,
+                initial: 2,
+                max: 5,
+            }),
+
+            /* --- Derived statistics --- */
             recovery: new foundry.data.fields.SchemaField({
                 die: new DerivedValueField(
                     new foundry.data.fields.StringField({
@@ -109,14 +122,54 @@ export class CharacterActorDataModel extends CommonActorDataModel<CharacterActor
     public prepareDerivedData() {
         super.prepareDerivedData();
 
-        this.level.total.value = Object.values(this.level.paths).reduce(
-            (sum, lvl) => sum + lvl,
-            0,
+        // Get advancement rules relevant to the character
+        const advancementRules = Advancement.getAdvancementRulesUpToLevel(
+            this.level,
         );
+        const currentAdvancementRule =
+            advancementRules[advancementRules.length - 1];
 
-        this.recovery.die.value = willpowerToRecoveryDie(
+        // Derive the tier
+        this.tier = currentAdvancementRule.tier;
+
+        // Derive the maximum skill rank
+        this.maxSkillRank = currentAdvancementRule.maxSkillRanks;
+
+        // Derive the recovery die based on the character's willpower
+        this.recovery.die.derived = willpowerToRecoveryDie(
             this.attributes.wil.value,
         );
+
+        // Derive resource max
+        (Object.keys(this.resources) as Resource[]).forEach((key) => {
+            // Get the resource
+            const resource = this.resources[key];
+
+            if (key === Resource.Health) {
+                // Get strength mod
+                const strength =
+                    this.attributes.str.value + this.attributes.str.bonus;
+
+                // Assign max
+                resource.max.derived = Advancement.deriveMaxHealth(
+                    advancementRules,
+                    strength,
+                );
+            } else if (key === Resource.Focus) {
+                // Get willpower mod
+                const willpower =
+                    this.attributes.wil.value + this.attributes.wil.bonus;
+
+                // Assign max
+                resource.max.derived = 2 + willpower;
+            }
+
+            // Get max
+            const max = resource.max.value;
+
+            // Ensure resource value is between max mand min
+            resource.value = Math.max(0, Math.min(max, resource.value));
+        });
     }
 }
 

@@ -1,19 +1,18 @@
-<ul>
-    {{#each documents as |doc index|}}
-        <li class="document" data-id="{{doc.uuid}}">
-            <div class="col link">
-                {{{doc.link}}}
-            </div>
-            <div class="col controls">
-                <a data-action="remove-document"
-                    data-tooltip="GENERIC.Button.Remove"
-                >
-                    <i class="fa-solid fa-trash"></i>
-                </a>
-            </div>
-    {{/each}}
-</ul>
-<p>
+{{#each documents as |doc index|}}
+    <div class="document" data-id="{{doc.uuid}}">
+        <div class="link">
+            {{{doc.link}}}
+        </div>
+        <div class="controls">
+            <a data-action="remove-document"
+                data-tooltip="GENERIC.Button.Remove"
+            >
+                <i class="fa-solid fa-trash"></i>
+            </a>
+        </div>
+    </div>
+{{/each}}
+<p class="drop-area">
     {{localize 
         (default 
             placeholder 

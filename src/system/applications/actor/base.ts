@@ -249,13 +249,13 @@ export class BaseActorSheet<
         const frame = await super._renderFrame(options);
 
         const corners = await renderSystemTemplate(
-            TEMPLATES.ACTOR_BASE_SHEET_CORNERS,
+            TEMPLATES.GENERAL_SHEET_CORNERS,
             {},
         );
         $(frame).prepend(corners);
 
         const banners = await renderSystemTemplate(
-            TEMPLATES.ACTOR_BASE_SHEET_BACKGROUND,
+            TEMPLATES.GENERAL_SHEET_BACKGROUND,
             {},
         );
         $(frame).prepend(banners);
@@ -287,7 +287,7 @@ export class BaseActorSheet<
     ) {
         super._onRender(context, options);
 
-        if (options.parts.includes('sheet-content')) {
+        if (options.parts.includes('content')) {
             this.element
                 .querySelector('#actions-search')!
                 .addEventListener(

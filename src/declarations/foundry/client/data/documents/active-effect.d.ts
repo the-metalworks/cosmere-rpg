@@ -217,4 +217,15 @@ declare class ActiveEffect<
      * Returns "None" (localized) if it has no origin, and "Unknown" (localized) if the origin cannot be resolved.
      */
     get sourceName(): string;
+
+    /**
+     * Apply this ActiveEffect to a provided Actor.
+     * @param actor     The Actor to whom this effect should be applied
+     * @param change    The change data being applied
+     * @returns          An object of property paths and their updated values.
+     */
+    public apply(
+        actor: Actor,
+        change: ActiveEffect.EffectChangeData,
+    ): Record<string, any>;
 }

@@ -8,7 +8,6 @@ import { setTheme } from './utils/templates';
 export const SETTINGS = {
     INTERNAL_FIRST_CREATION: 'firstTimeWorldCreation',
     INTERNAL_LATEST_VERSION: 'latestVersion',
-    ITEM_SHEET_SIDE_TABS: 'itemSheetSideTabs',
     ROLL_SKIP_DIALOG_DEFAULT: 'skipRollDialogByDefault',
     CHAT_ENABLE_OVERLAY_BUTTONS: 'enableOverlayButtons',
     CHAT_ENABLE_APPLY_BUTTONS: 'enableApplyButtons',
@@ -45,21 +44,20 @@ export function registerSystemSettings() {
         type: String,
     });
 
-    // SHEET SETTINGS
-    const sheetOptions = [
-        { name: SETTINGS.ITEM_SHEET_SIDE_TABS, default: false },
-    ];
+    // SHEET SETTINGS (temporarily disabled since there are no sheet options for now)
+    // const sheetOptions = [
+    // ];
 
-    sheetOptions.forEach((option) => {
-        game.settings!.register(SYSTEM_ID, option.name, {
-            name: game.i18n!.localize(`SETTINGS.${option.name}.name`),
-            hint: game.i18n!.localize(`SETTINGS.${option.name}.hint`),
-            scope: 'world',
-            config: true,
-            type: Boolean,
-            default: option.default,
-        });
-    });
+    // sheetOptions.forEach((option) => {
+    //     game.settings!.register(SYSTEM_ID, option.name, {
+    //         name: game.i18n!.localize(`SETTINGS.${option.name}.name`),
+    //         hint: game.i18n!.localize(`SETTINGS.${option.name}.hint`),
+    //         scope: 'world',
+    //         config: true,
+    //         type: Boolean,
+    //         default: option.default,
+    //     });
+    // });
 
     // ROLL SETTINGS
     const rollOptions = [
@@ -141,7 +139,7 @@ export function registerDeferredSettings() {
         onChange: (s) => setTheme(document.body, s),
     });
 
-    setTheme(document.body, getSystemSetting(SETTINGS.SYSTEM_THEME) as Theme);
+    setTheme(document.body, getSystemSetting(SETTINGS.SYSTEM_THEME));
 }
 
 /**
@@ -192,11 +190,13 @@ export function registerSystemKeybindings() {
 
 /**
  * Retrieve a specific setting value for the provided key.
- * @param {string} settingKey The identifier of the setting to retrieve.
- * @returns {string|boolean} The value of the setting as set for the world/client.
+ * @param settingKey The identifier of the setting to retrieve.
+ * @returns The value of the setting as set for the world/client.
  */
-export function getSystemSetting(settingKey: string) {
-    return game.settings!.get(SYSTEM_ID, settingKey);
+export function getSystemSetting<
+    T extends string | boolean | number = string | boolean | number,
+>(settingKey: string) {
+    return game.settings!.get(SYSTEM_ID, settingKey) as T;
 }
 
 /**

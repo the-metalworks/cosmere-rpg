@@ -310,9 +310,7 @@ export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<
             .filter((i) => i.name.toLowerCase().includes(filterText));
 
         if (sort === SortMode.Alphabetic) {
-            sectionItems = sectionItems.sort(
-                (a, b) => a.name.compare(b.name) * -1,
-            );
+            sectionItems = sectionItems.sort((a, b) => a.name.compare(b.name));
         }
 
         return {

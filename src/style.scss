@@ -27,9 +27,11 @@
     --cosmere-color-complication: #ab3d38;
     --cosmere-color-complication-text: #ab3d38;
     --cosmere-color-complication-background: #ffdddd;
+    --cosmere-color-complication-background-dark: #290706;
     --cosmere-color-opportunity: #1e3c60;
     --cosmere-color-opportunity-text: #7fa4e9;
     --cosmere-color-opportunity-background: #dde5ff;
+    --cosmere-color-opportunity-background-dark: #060d1e;
     --cosmere-color-parchment: #f1ebe8;
 
     --cosmere-color-health-front: #286f3e;
@@ -53,7 +55,7 @@
     --cosmere-shadow-85: rgba(0, 0, 0, 0.85);
 
     --cosmere-shadow-svg: drop-shadow(0 0 4px rgba(255, 0, 0, 0.6));
-    --cosmere-drop-shadow: drop-shadow(0px 0px 8px var(--cosmere-shadow-55));
+    --cosmere-drop-shadow: drop-shadow(0px 0px 8px var(--cosmere-shadow-25));
     --cosmere-sheet-shadow: drop-shadow(0px 0px 10px var(--cosmere-shadow-85));
     
     --cosmere-font-normal: "Laski Sans", sans-serif;
@@ -72,7 +74,7 @@
     .cosmere-theme-default {
         //TO-DO: Replace with Plotweaver colours
         &.theme-dark {
-            --cosmere-sheet-texture: url('assets/art/texture_sheet_default_dark.png');
+            --cosmere-sheet-texture: url('assets/art/texture_sheet_default_dark.webp');
 
             --cosmere-color-accent : #888888;
             --cosmere-color-faded: #646464;
@@ -92,7 +94,7 @@
         }
 
         &.theme-light {            
-            --cosmere-sheet-texture: url('assets/art/texture_sheet_default_light.png');
+            --cosmere-sheet-texture: url('assets/art/texture_sheet_default_light.webp');
 
             --cosmere-color-accent: #1f1f1f;
             --cosmere-color-faded: #707070;
@@ -109,56 +111,6 @@
             --cosmere-color-text-main: var(--cosmere-color-accent);
             --cosmere-color-text-sub: #2f2f2f;
             --cosmere-color-text-accent: #030303;
-        }
-    }
-
-    /* ----------------------------------------- */
-    /*  Stormlight Archive Theme                 */
-    /* ----------------------------------------- */
-    .cosmere-theme-stormlight {
-        //TO-DO: Move to Stormlight Archive module
-        &.theme-dark {
-            --cosmere-banner-top: url('assets/art/banner_stormlight_dark_top.png');
-            --cosmere-banner-bot: url('assets/art/banner_stormlight_dark_bot.png');
-            --cosmere-sheet-texture: url('assets/art/texture_sheet_stormlight_dark.png');
-
-            --cosmere-color-accent: #d0a552;
-            --cosmere-color-faded: #6e7b8b;
-            --cosmere-color-sheet: #132137;
-            --cosmere-color-neutral: var(--cosmere-color-dark-1);
-
-            --cosmere-color-base-1: #010e2d;
-            --cosmere-color-base-2: #10213e;
-            --cosmere-color-base-3: #1b2d49;
-            --cosmere-color-base-4: #263c5e;
-            --cosmere-color-base-5: #456a95;
-            --cosmere-color-base-6: #506684;
-
-            --cosmere-color-text-main: var(--cosmere-color-white);
-            --cosmere-color-text-sub: var(--cosmere-color-off-white-2);
-            --cosmere-color-text-accent: var(--cosmere-color-accent);
-        }
-
-        &.theme-light {
-            --cosmere-banner-top: url('assets/art/banner_stormlight_light_top.png');
-            --cosmere-banner-bot: url('assets/art/banner_stormlight_light_bot.png');
-            --cosmere-sheet-texture: url('assets/art/texture_sheet_stormlight_light.png');
-
-            --cosmere-color-accent: #d0a552;
-            --cosmere-color-faded: #62768b;
-            --cosmere-color-sheet: #e0e4e7;
-            --cosmere-color-neutral: var(--cosmere-color-light-2);
-
-            --cosmere-color-base-1: #b1b6bb;
-            --cosmere-color-base-2: #e0e4e7;
-            --cosmere-color-base-3: #e0e4e7;
-            --cosmere-color-base-4: #91a5b9;
-            --cosmere-color-base-5: #768ea8;
-            --cosmere-color-base-6: #5e7286;
-
-            --cosmere-color-text-main: #1c3b5f;
-            --cosmere-color-text-sub: #231f20;
-            --cosmere-color-text-accent: #050e21;
         }
     }
 }

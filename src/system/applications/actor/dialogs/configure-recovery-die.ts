@@ -1,5 +1,7 @@
 import { CharacterActor } from '@system/documents';
 import { AnyObject } from '@system/types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 import {
     CharacterActorData,
@@ -27,7 +29,7 @@ export class ConfigureRecoveryDieDialog extends HandlebarsApplicationMixin(
             classes: ['dialog', 'configure-recovery-die'],
             tag: 'dialog',
             position: {
-                width: 300,
+                width: 350,
             },
             actions: {
                 'update-recovery': this.onUpdateRecoveryDie,
@@ -39,8 +41,7 @@ export class ConfigureRecoveryDieDialog extends HandlebarsApplicationMixin(
         foundry.utils.deepClone(super.PARTS),
         {
             form: {
-                template:
-                    'systems/cosmere-rpg/templates/actors/dialogs/configure-recovery-die.hbs',
+                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ACTOR_CONFIGURE_RECOVERY}`,
                 forms: {
                     form: {
                         handler: this.onFormEvent,
@@ -68,7 +69,7 @@ export class ConfigureRecoveryDieDialog extends HandlebarsApplicationMixin(
         this.recoveryData = this.actor.system.recovery;
         this.recoveryData.die.override ??=
             this.recoveryData.die.value ?? RECOVERY_DICE[0];
-        this.mode = Derived.getMode(this.recoveryData.die);
+        this.mode = this.recoveryData.die.mode;
     }
 
     /* --- Statics --- */
@@ -103,7 +104,7 @@ export class ConfigureRecoveryDieDialog extends HandlebarsApplicationMixin(
         this.mode = formData.object.mode as Derived.Mode;
 
         // Assign mode
-        Derived.setMode(this.recoveryData.die, this.mode);
+        this.recoveryData.die.mode = this.mode;
 
         // Assign rate
         if (this.mode === Derived.Mode.Override && target.name === 'die')

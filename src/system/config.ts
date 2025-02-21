@@ -32,10 +32,11 @@ import {
     EquipmentType,
     PowerType,
     Theme,
+    MovementType,
 } from './types/cosmere';
 import { AdvantageMode } from './types/roll';
 
-import { Talent, Goal } from './types/item';
+import { Talent, TalentTree, Goal } from './types/item';
 
 const COSMERE: CosmereRPGConfig = {
     sizes: {
@@ -77,9 +78,22 @@ const COSMERE: CosmereRPGConfig = {
         },
     },
 
+    movement: {
+        types: {
+            [MovementType.Walk]: {
+                label: 'COSMERE.Actor.Movement.Type.Walk',
+            },
+            [MovementType.Swim]: {
+                label: 'COSMERE.Actor.Movement.Type.Swim',
+            },
+            [MovementType.Fly]: {
+                label: 'COSMERE.Actor.Movement.Type.Fly',
+            },
+        },
+    },
+
     themes: {
         [Theme.Default]: 'COSMERE.Theme.Default',
-        [Theme.Stormlight]: 'COSMERE.Theme.Stormlight',
     },
 
     conditions: {
@@ -371,6 +385,189 @@ const COSMERE: CosmereRPGConfig = {
         },
     },
 
+    advancement: {
+        rules: [
+            {
+                level: 1,
+                tier: 1,
+                maxSkillRanks: 2,
+                attributePoints: 12,
+                health: 10,
+                healthIncludeStrength: true,
+                skillRanks: 4,
+                talents: 1,
+            }, // Level 1
+            {
+                level: 2,
+                tier: 1,
+                maxSkillRanks: 2,
+                health: 5,
+                skillRanks: 2,
+                talents: 1,
+            }, // Level 2
+            {
+                level: 3,
+                tier: 1,
+                maxSkillRanks: 2,
+                attributePoints: 1,
+                health: 5,
+                skillRanks: 2,
+                talents: 1,
+            }, // Level 3
+            {
+                level: 4,
+                tier: 1,
+                maxSkillRanks: 2,
+                health: 5,
+                skillRanks: 2,
+                talents: 1,
+            }, // Level 4
+            {
+                level: 5,
+                tier: 1,
+                maxSkillRanks: 2,
+                health: 5,
+                skillRanks: 2,
+                talents: 1,
+            }, // Level 5
+            {
+                level: 6,
+                tier: 2,
+                maxSkillRanks: 3,
+                attributePoints: 1,
+                health: 4,
+                healthIncludeStrength: true,
+                skillRanks: 2,
+                talents: 1,
+            }, // Level 6
+            {
+                level: 7,
+                tier: 2,
+                maxSkillRanks: 3,
+                health: 4,
+                skillRanks: 2,
+                talents: 1,
+            }, // Level 7
+            {
+                level: 8,
+                tier: 2,
+                maxSkillRanks: 3,
+                health: 4,
+                skillRanks: 2,
+                talents: 1,
+            }, // Level 8
+            {
+                level: 9,
+                tier: 2,
+                maxSkillRanks: 3,
+                attributePoints: 1,
+                health: 4,
+                skillRanks: 2,
+                talents: 1,
+            }, // Level 9
+            {
+                level: 10,
+                tier: 2,
+                maxSkillRanks: 3,
+                health: 4,
+                skillRanks: 2,
+                talents: 1,
+            }, // Level 10
+            {
+                level: 11,
+                tier: 3,
+                maxSkillRanks: 4,
+                health: 3,
+                healthIncludeStrength: true,
+                skillRanks: 2,
+                talents: 1,
+            }, // Level 11
+            {
+                level: 12,
+                tier: 3,
+                maxSkillRanks: 4,
+                attributePoints: 1,
+                health: 3,
+                skillRanks: 2,
+                talents: 1,
+            }, // Level 12
+            {
+                level: 13,
+                tier: 3,
+                maxSkillRanks: 4,
+                health: 3,
+                skillRanks: 2,
+                talents: 1,
+            }, // Level 13
+            {
+                level: 14,
+                tier: 3,
+                maxSkillRanks: 4,
+                health: 3,
+                skillRanks: 2,
+                talents: 1,
+            }, // Level 14
+            {
+                level: 15,
+                tier: 3,
+                maxSkillRanks: 4,
+                attributePoints: 1,
+                health: 3,
+                skillRanks: 2,
+                talents: 1,
+            }, // Level 15
+            {
+                level: 16,
+                tier: 4,
+                maxSkillRanks: 5,
+                health: 2,
+                healthIncludeStrength: true,
+                skillRanks: 2,
+                talents: 1,
+            }, // Level 16
+            {
+                level: 17,
+                tier: 4,
+                maxSkillRanks: 5,
+                health: 2,
+                skillRanks: 2,
+                talents: 1,
+            }, // Level 17
+            {
+                level: 18,
+                tier: 4,
+                maxSkillRanks: 5,
+                attributePoints: 1,
+                health: 2,
+                skillRanks: 2,
+                talents: 1,
+            }, // Level 18
+            {
+                level: 19,
+                tier: 4,
+                maxSkillRanks: 5,
+                health: 2,
+                skillRanks: 2,
+                talents: 1,
+            }, // Level 19
+            {
+                level: 20,
+                tier: 4,
+                maxSkillRanks: 5,
+                health: 2,
+                skillRanks: 2,
+                talents: 1,
+            }, // Level 20
+            {
+                level: 21,
+                tier: 5,
+                maxSkillRanks: 5,
+                health: 1,
+                skillRanksOrTalents: 1,
+            }, // Level 21
+        ],
+    },
+
     paths: {
         types: {
             [PathType.Heroic]: {
@@ -559,30 +756,29 @@ const COSMERE: CosmereRPGConfig = {
                     label: 'COSMERE.Item.Talent.Type.Power',
                 },
             },
-            prerequisite: {
-                types: {
-                    [Talent.Prerequisite.Type.Talent]:
-                        'COSMERE.Item.Talent.Prerequisite.Type.Talent',
-                    [Talent.Prerequisite.Type.Attribute]:
-                        'COSMERE.Item.Talent.Prerequisite.Type.Attribute',
-                    [Talent.Prerequisite.Type.Skill]:
-                        'COSMERE.Item.Talent.Prerequisite.Type.Skill',
-                    [Talent.Prerequisite.Type.Connection]:
-                        'COSMERE.Item.Talent.Prerequisite.Type.Connection',
-                    [Talent.Prerequisite.Type.Level]:
-                        'COSMERE.Item.Talent.Prerequisite.Type.Level',
-                },
-                modes: {
-                    [Talent.Prerequisite.Mode.AnyOf]:
-                        'COSMERE.Item.Talent.Prerequisite.Mode.AnyOf',
-                    [Talent.Prerequisite.Mode.AllOf]:
-                        'COSMERE.Item.Talent.Prerequisite.Mode.AllOf',
-                },
-            },
             grantRules: {
                 types: {
                     [Talent.GrantRule.Type.Items]:
                         'COSMERE.Item.Talent.GrantRule.Type.Items',
+                },
+            },
+        },
+
+        talentTree: {
+            node: {
+                prerequisite: {
+                    types: {
+                        [TalentTree.Node.Prerequisite.Type.Talent]:
+                            'COSMERE.Item.Talent.Prerequisite.Type.Talent',
+                        [TalentTree.Node.Prerequisite.Type.Attribute]:
+                            'COSMERE.Item.Talent.Prerequisite.Type.Attribute',
+                        [TalentTree.Node.Prerequisite.Type.Skill]:
+                            'COSMERE.Item.Talent.Prerequisite.Type.Skill',
+                        [TalentTree.Node.Prerequisite.Type.Connection]:
+                            'COSMERE.Item.Talent.Prerequisite.Type.Connection',
+                        [TalentTree.Node.Prerequisite.Type.Level]:
+                            'COSMERE.Item.Talent.Prerequisite.Type.Level',
+                    },
                 },
             },
         },
@@ -808,6 +1004,40 @@ const COSMERE: CosmereRPGConfig = {
         weight: ['lb'],
         distance: {
             ft: 'UNITS.Distance.Feet',
+        },
+    },
+
+    scaling: {
+        damage: {
+            unarmed: {
+                strength: [
+                    { min: 0, max: 2, formula: '1' },
+                    { min: 3, max: 4, formula: '1d4' },
+                    { min: 5, max: 6, formula: '1d8' },
+                    { min: 7, max: 8, formula: '2d6' },
+                    { min: 9, max: Infinity, formula: '2d10' },
+                ],
+            },
+        },
+        power: {
+            die: {
+                ranks: [
+                    { value: 1, formula: 'd4' },
+                    { value: 2, formula: 'd6' },
+                    { value: 3, formula: 'd8' },
+                    { value: 4, formula: 'd10' },
+                    { value: 5, formula: 'd12' },
+                ],
+            },
+            effectSize: {
+                ranks: [
+                    { value: 1, formula: Size.Small },
+                    { value: 2, formula: Size.Medium },
+                    { value: 3, formula: Size.Large },
+                    { value: 4, formula: Size.Huge },
+                    { value: 5, formula: Size.Garguantuan },
+                ],
+            },
         },
     },
 

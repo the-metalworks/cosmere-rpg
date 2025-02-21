@@ -42,7 +42,17 @@
                 <div class="background"></div>
                 <div class="star"></div>
                 <div class="border"></div>
-                <span class="value">{{derived actor.system.level.total}}</span>
+
+                <input class="value"
+                    type="number"
+                    name="system.level",
+                    value="{{actor.system.level}}",
+                    min="1",
+                    step="1"
+                    {{#if (not isEditMode)}}
+                    readonly
+                    {{/if}}
+                >
             </div>
         </div>
     </div>

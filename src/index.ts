@@ -5,6 +5,7 @@ import COSMERE from './system/config';
 
 import './style.scss';
 import './system/hooks';
+import './system/mixins';
 
 import { preloadHandlebarsTemplates } from './system/utils/handlebars';
 import {
@@ -55,9 +56,10 @@ Hooks.once('init', async () => {
 
     CONFIG.Token.documentClass = documents.CosmereTokenDocument;
 
-    Roll.TOOLTIP_TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.CHAT_ROLL_TOOLTIP}`;
-
+    CONFIG.ActiveEffect.documentClass = documents.CosmereActiveEffect;
     CONFIG.ActiveEffect.legacyTransferral = false;
+
+    Roll.TOOLTIP_TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.CHAT_ROLL_TOOLTIP}`;
 
     // Add fonts
     configureFonts();

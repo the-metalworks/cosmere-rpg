@@ -7,6 +7,7 @@ import {
     TargetingOptions,
 } from '../settings';
 import { AdvantageMode } from '../types/roll';
+import { NONE } from '../types/utils';
 
 /**
  * Determine if the keys of a requested keybinding are pressed.
@@ -57,6 +58,13 @@ export function hasKey<T extends object>(
     key: PropertyKey,
 ): key is keyof T {
     return key in obj;
+}
+
+/**
+ * Converts entries from input forms that will include human-readable "none" into nulls for easier identification in code.
+ */
+export function getNullableFromFormInput<T>(formField: string | null) {
+    return formField && formField !== NONE ? (formField as T) : null;
 }
 
 /**
@@ -143,13 +151,29 @@ export function getConstantFromRoll(roll: Roll) {
 }
 
 /**
+ * Converts a list of the various parts of a formula into a displayable string.
+ *
+ * @param {string[]} diceParts A parts array as provided from the foundry Roll API.
+ * @returns {string} The human readable display string for the formula (without terms aggregated).
+ */
+export function getFormulaDisplayString(diceParts: string[]) {
+    const joined = diceParts
+        .join(' + ')
+        .replace(/\+ -/g, '-')
+        .replace(/\+ \+/g, '+');
+    return joined.endsWith(' + ') || joined.endsWith(' - ')
+        ? joined.substring(0, joined.length - 3)
+        : joined;
+}
+
+/**
  * Gets the current set of tokens that are selected or targeted (or both) depending on the chosen setting.
  * @returns {Set} A set of tokens that the system considers as current targets.
  */
 export function getApplyTargets() {
-    const setting = getSystemSetting(
+    const setting = getSystemSetting<TargetingOptions>(
         SETTINGS.APPLY_BUTTONS_TO,
-    ) as TargetingOptions;
+    );
 
     const applyToTargeted =
         setting === TargetingOptions.TargetedOnly ||
@@ -210,9 +234,9 @@ export function getTargetDescriptors() {
     const targets = new Map();
     for (const token of game.user!.targets) {
         const { name, img, system, uuid } = (token.actor as CosmereActor) ?? {};
-        const phy = system.defenses.phy.value.value ?? 10;
-        const cog = system.defenses.cog.value.value ?? 10;
-        const spi = system.defenses.spi.value.value ?? 10;
+        const phy = system.defenses.phy.value ?? 10;
+        const cog = system.defenses.cog.value ?? 10;
+        const spi = system.defenses.spi.value ?? 10;
 
         if (uuid) {
             targets.set(uuid, { name, img, uuid, def: { phy, cog, spi } });

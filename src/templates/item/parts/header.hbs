@@ -1,0 +1,17 @@
+<header class="sheet-header">
+    <div class="border"></div>
+    <div class="type-header">        
+        <span class="document-type">
+            {{localize typeLabel}}
+        </span>
+    </div>
+    <div class="item-header">        
+        <div class="portrait">
+            <img name="img" src="{{item.img}}" data-tooltip="{{item.name}}" data-action="edit-img">
+        </div>    
+        <span class="document-name">
+            <input class="value" name="name" type="text" value="{{item.name}}">
+        </span>
+        {{app-item-properties}}
+    </div>
+</header>
