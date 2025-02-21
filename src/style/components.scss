@@ -31,114 +31,82 @@ app-multi-state-toggle {
 }
 
 app-document-reference-input {
-    --input-background-color: var(--color-cool-4);
-    --input-border-color: transparent;
-    --input-text-color: var(--color-light-3);
-    --input-placeholder-color: var(--color-light-4);
-    --input-focus-outline-color: var(--color-cool-3);
-
-    &[readonly] {
-        --input-background-color: var(--color-cool-5);
-        --input-border-color: var(--color-cool-4);
-        --input-text-color: var(--color-light-4);
-    }
-}
-
-app-document-reference-input {
-    height: var(--input-height);
-    line-height: var(--input-height);
-    padding: 0 0.5rem;
-    background: var(--input-background-color);
-    border: 1px solid var(--input-border-color);
-    border-radius: 4px;
-    outline: 1px solid transparent;
-    color: var(--input-text-color);
-    user-select: text;
-    font-size: var(--font-size-14);
-    transition: outline-color 0.5s;
-
-    &.dragover {
-        outline: 2px solid var(--input-focus-outline-color);
-        box-shadow: 0 0 5px var(--color-shadow-primary);
-    }
-}
-
-app-document-reference-input {
     display: flex;
+    flex-direction: row;
     align-items: center;
-    padding: 0 0.5rem;
+
+    > * {
+        flex: 1;
+        min-height: 32px;
+    }
 
     .content {
-        flex: 1;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;        
+        min-height: 32px;
+        padding: 0 0.5rem;
+        border-radius: 6px;
+        background-color: var(--cosmere-color-base-3);
     }
 
-    .placeholder {
-        color: var(--input-placeholder-color);
-        opacity: 0.75;
-        font-style: italic;
+    .controls > a {
+        color: var(--cosmere-color-faded);
+    }
+
+    .drop-area {
+        margin: 0;
     }
 }
 
 app-multi-value-select {
     display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
 
     .values {
         flex: 1;
         display: flex;
+        flex-direction: row;
         flex-wrap: wrap;
+        gap: 0.25rem;
 
         .value {
-            --background: rgba(0, 0, 0, 0.1);
-
             display: flex;
-            align-items: center;
-            background: var(--background);
-            padding: 1px 4px;
-            border: 1px solid var(--color-border-dark-tertiary);
-            border-radius: 2px;
-            white-space: nowrap;
-            margin: 0.12rem;
+            flex-direction: row;
+            gap: 0.25rem;
 
-            .controls {
-                margin-left: 0.25rem;
-            }
+            font-family: var(--cosmere-font-normal);
+            font-size: var(--font-size-11);
+            font-weight: 600;
+            color: var(--cosmere-color-faded);
+            border: 1px solid var(--cosmere-color-faded);
+            padding: 0.15rem 0.4rem;
+            border-radius: 10px;
+            background-color: var(--cosmere-color-base-2);
         }
     }
 }
 
 app-document-drop-list {
-    --input-focus-outline-color: var(--color-cool-3);
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
 
-    display: block;
-    border: 1px dashed var(--color-dark-4);
-    padding: 0 0.5rem;
-    border-radius: 0.3rem;
-    outline: 1px solid transparent;
-    transition: outline-color 0.5s;
+    .document {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        height: 24px;
 
-    ul {
-        .document {
-            display: flex;
-            align-items: center;
-
-            .link {
-                flex: 1;
-                display: flex;
-                justify-content: center;
-            }
+        .controls > a {
+            color: var(--cosmere-color-faded);
         }
     }
 
-    p {
-        text-align: center;
-        font-size: 10pt;
-        font-style: italic;
-        color: var(--color-dark-4);
-        text-shadow: 0 0 0.2rem black;
-    }
-
-    &.dragover {
-        outline: 2px solid var(--input-focus-outline-color);
-        box-shadow: 0 0 5px var(--color-shadow-primary);
+    .drop-area {
+        margin: 0;
     }
 }

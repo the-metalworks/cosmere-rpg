@@ -1,152 +1,236 @@
-dialog.application {
-    label:has(+ input[type='checkbox'][readonly]) {
-        opacity: 0.5;
+.application.dialog {
+    border: 1px solid var(--cosmere-color-accent);
+    border-radius: 6px;
+
+    > .window-header {
+        padding: 0 0.75rem !important;
+
+        .window-title {
+            visibility: visible !important;
+            font-family: var(--cosmere-font-header);
+            font-size: var(--font-size-12);
+            color: var(--cosmere-color-text-sub);
+            text-transform: uppercase;
+            text-align: left;
+            padding-top: 0.25rem;
+        }
     }
 
-    .form-group input::placeholder {
-        opacity: 0.5 !important;
-    }
+    > .window-content {
+        padding: 0 0.75rem 0.75rem;
+    } 
 
-    form {
-        height: 100%;
+    .scroll-container {
+        width: calc(100% + 0.5rem);
+        padding-right: 0.25rem;
         overflow-y: auto;
         overflow-x: hidden;
-        padding: 0.1rem;
+        scrollbar-color: var(--cosmere-color-base-6) var(--color-scrollbar-track);
+        scrollbar-gutter: stable;
+        filter: var(--cosmere-drop-shadow);
     }
-}
 
-dialog.application ul {
-    list-style: none;
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
 
-    margin: 0.25rem 0;
-    padding: 0;
-
-    li {
-        padding: 0.2rem 0;
-
-        &.form-group {
-            >a {
-                flex: unset;
-                margin-left: 0.5rem;
-            }
+        & > li {
+            margin: 0;
+            list-style-type: none;
         }
     }
-}
 
-dialog.application .edit-expertises {
-    .form-group.add-custom {
-        height: 2rem;
-    }
-}
+    .expertise-list {
+        .header {
+            min-height: 30px;
+            background-color: var(--cosmere-color-base-1);
+            border-radius: 6px 6px 0 0;
+            padding: 0 0.375rem;
 
-dialog.application.attack-configuration,
-dialog.application.roll-configuration {
-    .dice-config {
-        .dice {
+            .title {
+                margin-left: 0.25rem;
+                font-size: var(--font-size-15);
+                font-weight: 600;
+                color: var(--cosmere-color-text-main);
+            }
+        }
+
+        .bullet {
+            font-size: 0.375rem;
+            flex: 0;
+        }
+
+        .configured, .custom {
             display: flex;
+            justify-content: space-between;
+            padding: 0 0.375rem;
+            background-color: var(--cosmere-color-base-3);
+            gap: 0.375rem;
+        }
 
-            .col {
+        .custom {
+            > a {
+                flex: 0;
+                padding-right: 0.313rem;
+                color: var(--cosmere-color-faded);
+            }
+
+            > input {
                 flex: 1;
+                height: 26px;
+                font-style: italic;                
             }
 
-            .col.mode {
-                flex: 3;
+            > input::placeholder {
+                color: var(--cosmere-color-faded);
             }
+        }
 
-            &.header {
-                font-weight: bold;
+        .add-custom {
+            min-height: 30px;
+            background-color: color(from var(--cosmere-color-base-3) srgb r g b / 0.7);
+            border-radius: 0 0 6px 6px;
+            font-family: var(--cosmere-font-normal);
+            font-size: var(--font-size-12);
+            font-weight: 600;
+            text-align: center;
+            color: var(--cosmere-color-faded);
+        }
+    }
+
+    &.edit-expertises {
+        form {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            gap: 0.625rem;
+        }
+    }
+
+    .dialog-form.standard-form,
+    .dialog-content.standard-form {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        gap: 0.25rem;
+
+        .form-footer {
+            margin-top: 0.625rem;
+
+            > button {
+                height: auto;
             }
         }
     }
-}
 
-.dialog.application.release-notes {
-    max-height: 1000px;
+    .dialog-content.standard-form,
+    &.configure-resource,
+    &.configure-deflect,
+    &.configure-defense,
+    &.configure-movement-rate,
+    &.configure-recovery-die,
+    &.configure-senses-range,
+    &.edit-reward,
+    &.edit-grant-rule,
+    &.edit-bonus-talents-rule {
+        > .window-content {
+            filter: var(--cosmere-drop-shadow);
+        }
 
-    .window-content {
-        overflow: auto;
-    }
-}
-
-.dialog.application.pick-dice-result {
-    h4 {
-        text-align: center;
-    }
-
-    .rolls {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        .roll {
+        form {            
             display: flex;
-            align-items: center;
-            justify-content: center;
+            flex-direction: column;
+            flex: 1;
+            gap: 0.25rem;
+        }
 
-            width: 48px;
-            height: 48px;
-            line-height: 48px;
-            float: left;
-            margin-right: 1px;
-            background-repeat: no-repeat;
-            background-size: 48px 48px;
-            font-size: var(--font-size-16);
-            color: #000;
-            font-weight: bold;
-            text-align: center;
+        input {
+            color: var(--cosmere-color-text-sub);
+            font-variant: lining-nums;
+            font-weight: 600;
+            flex: 2;
+        }
 
-            cursor: pointer;
-            transition: .3s;
+        input:read-only {                
+            color: var(--cosmere-color-faded);
+        }
 
-            &.success, &.max {                                            
-                color: var(--cosmere-color-opportunity);
-                filter: sepia(1) hue-rotate(180deg);
-            }
+        input[type="checkbox"] {
+            flex: 0 0 20px;
+        }        
+        
+        label {
+            color: var(--cosmere-color-text-sub);
+            flex: 1;
+            font-weight: 600;
+        }        
 
-            &.failure, &.min {
-                color: var(--cosmere-color-complication);
-                filter: sepia(0.8) hue-rotate(-50deg);
-            }
+        .form-group {
+            gap: 0.625rem;
+            margin: 0;
 
-            &.discarded:not(:hover) {
-                color: inherit;
-                filter: sepia(0.5) contrast(0.75) opacity(0.4);
-            }
+            > .form-fields {
+                display: flex;
+                flex-direction: row;
+                flex: 2;
 
-            &.plotdie {
-                > img {
-                    width: 40px;
-                    border: none;
+                > input[type="text"],
+                > input[type="number"] {
+                    border-radius: 6px;
+                    background-color: var(--cosmere-color-base-4);                
+                    padding: 0 0.5rem;
+                    flex: 1;
+
+                    &:read-only {
+                        background-color: var(--cosmere-color-base-3);
+                    }
+
+                    &::placeholder {
+                        color: var(--cosmere-color-faded);
+                    }
+                }
+
+                > select {
+                    background-color: var(--cosmere-color-base-4);
+                    border-radius: 6px;
+                    padding: 0 0.25rem;
+                    flex: 2;
+
+                    &:disabled {
+                        background-color: var(--cosmere-color-base-3);
+                    }
                 }
             }
 
-            &:hover {
-                transform: scale(1.1);
+            &.max {
+                input {
+                    text-align: center;
+                }
             }
         }
 
-        .roll.d4 {
-            background-image: url("../../icons/svg/d4-grey.svg");
+        .hint {
+            color: var(--cosmere-color-faded);
+            margin: 0;
         }
 
-        .roll.d6 {
-            background-image: url("../../icons/svg/d6-grey.svg");
-        }
-
-        .roll.d8 {
-            background-image: url("../../icons/svg/d8-grey.svg");
-        }
-
-        .roll.d10 {
-            background-image: url("../../icons/svg/d10-grey.svg");
-        }
-
-        .roll.d12 {
-            background-image: url("../../icons/svg/d12-grey.svg");
-        }
-
-        .roll.d20 {
-            background-image: url("../../icons/svg/d20-grey.svg");
+        .submit {
+            margin-top: 0.625rem;
         }
     }
+
+    &.configure-skills {
+        .skills-column {            
+            filter: var(--cosmere-drop-shadow);
+        }
+    }
+
+    &.release-notes {
+        max-height: 1000px;
+    
+        .window-content {
+            overflow: auto;
+        }
+    }    
 }

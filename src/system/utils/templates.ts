@@ -6,12 +6,18 @@ import { Theme } from '../types/cosmere';
  */
 export const TEMPLATES = {
     GENERAL_TABS: 'general/tabs.hbs',
+    GENERAL_SHEET_CORNERS: 'general/sheet-corners.hbs',
+    GENERAL_SHEET_BACKGROUND: 'general/sheet-background.hbs',
     COMBAT_COMBATANT: 'combat/combatant.hbs',
+
+    COMPONENT_DOCUMENT_DROP_LIST: 'general/components/document-drop-list.hbs',
+    COMPONENT_DOCUMENT_REFERENCE: 'general/components/document-reference.hbs',
+    COMPONENT_MULTI_VALUE_SELECT: 'general/components/multi-value-select.hbs',
+    COMPONENT_ID_INPUT: 'general/components/id-input.hbs',
+    COMPONENT_MULTI_STATE_TOGGLE: 'general/components/multi-state-toggle.hbs',
 
     // ACTOR BASE
     ACTOR_BASE_NAVIGATION: 'actors/parts/navigation.hbs',
-    ACTOR_BASE_SHEET_CORNERS: 'actors/parts/sheet-corners.hbs',
-    ACTOR_BASE_SHEET_BACKGROUND: 'actors/parts/sheet-background.hbs',
     ACTOR_BASE_BOX_CORNERS: 'actors/parts/box-corners.hbs',
     ACTOR_BASE_SEARCH_BAR: 'actors/components/search-bar.hbs',
     ACTOR_BASE_ACTIONS_LIST: 'actors/components/actions-list.hbs',
@@ -59,6 +65,21 @@ export const TEMPLATES = {
         'actors/adversary/components/skills-group.hbs',
 
     //ITEM
+    ITEM_BASE_HEADER: 'item/parts/header.hbs',
+    ITEM_BASE_CONTENT: 'item/parts/content.hbs',
+    ITEM_BASE_PROPERTIES: 'item/components/properties.hbs',
+
+    ITEM_ACTION_CONTENT: 'item/action/parts/content.hbs',
+    ITEM_ANCESTRY_CONTENT: 'item/ancestry/parts/content.hbs',
+    ITEM_ARMOR_CONTENT: 'item/armor/parts/content.hbs',
+    ITEM_GOAL_CONTENT: 'item/goal/parts/content.hbs',
+    ITEM_INJURY_CONTENT: 'item/injury/parts/content.hbs',
+    ITEM_LOOT_CONTENT: 'item/loot/parts/content.hbs',
+    ITEM_PATH_CONTENT: 'item/path/parts/content.hbs',
+    ITEM_POWER_CONTENT: 'item/power/parts/content.hbs',
+    ITEM_SPECIALTY_CONTENT: 'item/specialty/parts/content.hbs',
+    ITEM_TALENT_CONTENT: 'item/talent/parts/content.hbs',
+
     ITEM_DESCRIPTION_TAB: 'item/partials/item-description-tab.hbs',
     ITEM_EFFECTS_TAB: 'item/partials/item-effects-tab.hbs',
     ITEM_DETAILS_TAB: 'item/partials/item-details-tab.hbs',
@@ -77,6 +98,21 @@ export const TEMPLATES = {
     ITEM_TALENT_TREE_NODE_TOOLTIP:
         'item/talent-tree/partials/talent-tree-node-tooltip.hbs',
 
+    ITEM_DETAILS_ID: 'item/components/details-id.hbs',
+    ITEM_DETAILS_ACTIVATION: 'item/components/details-activation.hbs',
+    ITEM_DETAILS_ATTACK: 'item/components/details-attack.hbs',
+    ITEM_DETAILS_DAMAGE: 'item/components/details-damage.hbs',
+    ITEM_DETAILS_EQUIP: 'item/components/details-equip.hbs',
+    ITEM_DETAILS_MODALITY: 'item/components/details-modality.hbs',
+    ITEM_DETAILS_TYPE: 'item/components/details-type.hbs',
+
+    ITEM_EFFECTS_LIST: 'item/components/effects-list.hbs',
+    ITEM_ANCESTRY_TALENT_LIST:
+        'item/ancestry/components/advancement-talent-list.hbs',
+    ITEM_ANCESTRY_BONUS_TALENTS: 'item/ancestry/components/bonus-talents.hbs',
+    ITEM_GOAL_REWARDS_LIST: 'item/goal/components/rewards-list.hbs',
+    ITEM_TALENT_GRANT_RULES_LIST: 'item/talent/components/grant-rules-list.hbs',
+
     //CHAT
     CHAT_CARD_HEADER: 'chat/card-header.hbs',
     CHAT_CARD_CONTENT: 'chat/card-content.hbs',
@@ -94,6 +130,24 @@ export const TEMPLATES = {
 
     CHAT_OVERLAY_D20: 'chat/overlay-d20.hbs',
     CHAT_OVERLAY_CRIT: 'chat/overlay-crit.hbs',
+
+    //DIALOGS
+    DIALOG_ACTOR_EDIT_EXPERTISES: 'actors/dialogs/edit-expertises.hbs',
+    DIALOG_ACTOR_CONFIGURE_RESOURCE: 'actors/dialogs/configure-resource.hbs',
+    DIALOG_ACTOR_CONFIGURE_DEFLECT: 'actors/dialogs/configure-deflect.hbs',
+    DIALOG_ACTOR_CONFIGURE_DEFENSE: 'actors/dialogs/configure-defense.hbs',
+    DIALOG_ACTOR_CONFIGURE_RECOVERY:
+        'actors/dialogs/configure-recovery-die.hbs',
+    DIALOG_ACTOR_CONFIGURE_MOVEMENT:
+        'actors/dialogs/configure-movement-rate.hbs',
+    DIALOG_ACTOR_CONFIGURE_SENSES: 'actors/dialogs/configure-senses-range.hbs',
+
+    DIALOG_CHARACTER_SHORT_REST: 'actors/character/dialogs/short-rest.hbs',
+    DIALOG_ADVERSARY_CONFIGURE_SKILLS:
+        'actors/adversary/dialogs/configure-skills.hbs',
+
+    DIALOG_ITEM_EDIT_REWARD: 'item/goal/dialogs/edit-reward.hbs',
+    DIALOG_ITEM_EDIT_GRANT_RULE: 'item/talent/dialogs/edit-grant-rule.hbs',
 } as const;
 
 /**
