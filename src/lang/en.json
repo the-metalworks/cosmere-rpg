@@ -231,6 +231,8 @@
                     "Actions": "Actions",
                     "Equipment": "Equipment",
                     "Goals": "Goals",
+                    "Biography": "Biography",
+                    "Notes": "Notes",
                     "Effects": "Effects & Conditions"
                 },
                 "Search": {
@@ -263,7 +265,10 @@
                         "Label": "Connections",
                         "New": "Add New Connection",
                         "NewText": "New Connection"
-                    }
+                    },
+                    "Biography": "Biography",
+                    "Appearance": "Appearance",
+                    "Notes": "Notes"
                 },
                 "Skills": {
                     "AdjustTooltip": "Left Click to increase {skill}'s Rank.<br>Right Click to decrease {skill}'s Rank."
