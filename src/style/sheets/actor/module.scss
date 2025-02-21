@@ -795,6 +795,37 @@
         flex-direction: column;
         gap: 0.75rem;        
     }
+
+    app-actor-currency-list {
+        .currency-list {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+
+            .currency {
+                width: 72px;
+                line-height: 20px;
+                border-radius: 6px;
+                background-color: var(--cosmere-color-base-3);
+                padding: 0 0.25rem 0 0.75rem;
+                position: relative;
+
+                font-family: var(--cosmere-font-normal);
+                font-variant: lining-nums;
+                font-size: var(--font-size-10);
+                text-align: right;
+                color: var(--cosmere-color-text-main);
+
+                & > img {
+                    position: absolute;
+                    left: 0;
+                    top: 2px;
+                    border: none;
+                }
+            }
+        }
+    }
 }
 
 @keyframes rotating {
