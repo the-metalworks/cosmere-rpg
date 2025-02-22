@@ -13,7 +13,7 @@ export const SETTINGS = {
     CHAT_ENABLE_APPLY_BUTTONS: 'enableApplyButtons',
     CHAT_ALWAYS_SHOW_BUTTONS: 'alwaysShowApplyButtons',
     APPLY_BUTTONS_TO: 'applyButtonsTo',
-    DESCRIPTION_EXPAND_DEFAULT: 'expandDescriptionByDefault',
+    SHEET_EXPAND_DESCRIPTION_DEFAULT: 'expandDescriptionByDefault',
     SYSTEM_THEME: 'systemTheme',
 } as const;
 
@@ -45,20 +45,25 @@ export function registerSystemSettings() {
         type: String,
     });
 
-    // SHEET SETTINGS (temporarily disabled since there are no sheet options for now)
-    // const sheetOptions = [
-    // ];
+    // SHEET SETTINGS
+    const sheetOptions = [
+        {
+            name: SETTINGS.SHEET_EXPAND_DESCRIPTION_DEFAULT,
+            default: false,
+            scope: 'client',
+        },
+    ];
 
-    // sheetOptions.forEach((option) => {
-    //     game.settings!.register(SYSTEM_ID, option.name, {
-    //         name: game.i18n!.localize(`SETTINGS.${option.name}.name`),
-    //         hint: game.i18n!.localize(`SETTINGS.${option.name}.hint`),
-    //         scope: 'world',
-    //         config: true,
-    //         type: Boolean,
-    //         default: option.default,
-    //     });
-    // });
+    sheetOptions.forEach((option) => {
+        game.settings!.register(SYSTEM_ID, option.name, {
+            name: game.i18n!.localize(`SETTINGS.${option.name}.name`),
+            hint: game.i18n!.localize(`SETTINGS.${option.name}.hint`),
+            scope: option.scope as 'client' | 'world' | undefined,
+            config: true,
+            type: Boolean,
+            default: option.default,
+        });
+    });
 
     // ROLL SETTINGS
     const rollOptions = [
@@ -120,19 +125,6 @@ export function registerSystemSettings() {
                 `SETTINGS.${SETTINGS.APPLY_BUTTONS_TO}.choices.PrioritiseTargeted`,
             ),
         },
-    });
-
-    game.settings!.register(SYSTEM_ID, SETTINGS.DESCRIPTION_EXPAND_DEFAULT, {
-        name: game.i18n!.localize(
-            `SETTINGS.${SETTINGS.DESCRIPTION_EXPAND_DEFAULT}.name`,
-        ),
-        hint: game.i18n!.localize(
-            `SETTINGS.${SETTINGS.DESCRIPTION_EXPAND_DEFAULT}.hint`,
-        ),
-        scope: 'client',
-        config: true,
-        type: Boolean,
-        default: false,
     });
 }
 
