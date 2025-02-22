@@ -13,6 +13,7 @@ export const SETTINGS = {
     CHAT_ENABLE_APPLY_BUTTONS: 'enableApplyButtons',
     CHAT_ALWAYS_SHOW_BUTTONS: 'alwaysShowApplyButtons',
     APPLY_BUTTONS_TO: 'applyButtonsTo',
+    DESCRIPTION_EXPAND_DEFAULT: 'expandDescriptionByDefault',
     SYSTEM_THEME: 'systemTheme',
 } as const;
 
@@ -119,6 +120,19 @@ export function registerSystemSettings() {
                 `SETTINGS.${SETTINGS.APPLY_BUTTONS_TO}.choices.PrioritiseTargeted`,
             ),
         },
+    });
+
+    game.settings!.register(SYSTEM_ID, SETTINGS.DESCRIPTION_EXPAND_DEFAULT, {
+        name: game.i18n!.localize(
+            `SETTINGS.${SETTINGS.DESCRIPTION_EXPAND_DEFAULT}.name`,
+        ),
+        hint: game.i18n!.localize(
+            `SETTINGS.${SETTINGS.DESCRIPTION_EXPAND_DEFAULT}.hint`,
+        ),
+        scope: 'client',
+        config: true,
+        type: Boolean,
+        default: false,
     });
 }
 
