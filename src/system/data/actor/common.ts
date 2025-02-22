@@ -13,7 +13,7 @@ import {
     Condition,
 } from '@system/types/cosmere';
 import { CosmereActor } from '@system/documents/actor';
-import { ArmorItem } from '@system/documents';
+import { ArmorItem, LootItem } from '@system/documents';
 
 // Fields
 import { DerivedValueField, Derived } from '../fields/derived-value-field';
@@ -616,43 +616,23 @@ export class CommonActorDataModel<
             (item) => item.type === ItemType.Injury,
         ).length;
 
+        const money = this.parent.items.filter(
+            (item) =>
+                item.type === ItemType.Loot &&
+                (item as LootItem).system.isMoney,
+        ) as LootItem[];
+
         // Derive currency conversion values
         Object.keys(this.currency).forEach((currency) => {
-            // Get currency config
-            const currencyConfig = CONFIG.COSMERE.currencies[currency];
-
             // Get currency data
             const currencyData = this.currency[currency];
 
             let total = 0;
 
-            // Determine denomination derived values
-            currencyData.denominations.forEach((denom) => {
-                // Get denomination configs
-                const denominations = currencyConfig.denominations;
-                const primaryConfig = denominations.primary.find(
-                    (d) => d.id === denom.id,
-                );
+            money.forEach((item) => {
+                if (item.system.price.currency !== currency) return;
 
-                if (!primaryConfig) return;
-
-                // Set conversion rate
-                denom.conversionRate.derived = primaryConfig.conversionRate;
-
-                if (denom.secondaryId && !!denominations.secondary) {
-                    const secondaryConfig = denominations.secondary.find(
-                        (d) => d.id === denom.secondaryId,
-                    );
-                    denom.conversionRate.derived *=
-                        secondaryConfig?.conversionRate ?? 1;
-                }
-
-                // Get converted value
-                denom.convertedValue.derived =
-                    denom.amount * denom.conversionRate.value;
-
-                // Adjust derived total for this currency accordingly
-                total += denom.convertedValue.value;
+                total += item.system.price.baseValue;
             });
 
             // Update derived total
