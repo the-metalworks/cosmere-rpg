@@ -17,6 +17,7 @@ import {
     getConstantFromRoll,
     TargetDescriptor,
 } from '../utils/generic';
+import ApplicationV2 from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/client-esm/applications/api/application.mjs';
 
 export const MESSAGE_TYPES = {
     SKILL: 'skill',
@@ -837,6 +838,7 @@ export class CosmereChatMessage extends ChatMessage {
         event.stopPropagation();
 
         const button = event.currentTarget as HTMLElement;
+        const shiftHeld = event.shiftKey;
         const action = button.dataset.action;
         const multiplier = Number(button.dataset.multiplier);
 
@@ -844,11 +846,35 @@ export class CosmereChatMessage extends ChatMessage {
         if (targets.size === 0) return;
 
         if (action === 'apply-damage' && multiplier) {
+            let modifier = 0;
+            if (shiftHeld) {
+                modifier =
+                    (await foundry.applications.api.DialogV2.prompt({
+                        window: {
+                            title: 'Modify Damage',
+                        } as ApplicationV2.WindowConfiguration,
+                        content:
+                            '<input name="modifier" type="number" step="1" style="border: 1px solid black;border-radius: 5px;padding-left: 5%" autofocus>',
+                        ok: {
+                            label: 'Confirm',
+                            callback: (event, button, dialog) => {
+                                const element: HTMLInputElement =
+                                    button.form?.elements.namedItem(
+                                        'modifier',
+                                    ) as HTMLInputElement;
+                                return new Promise((resolve) =>
+                                    resolve(element.valueAsNumber),
+                                );
+                            },
+                        },
+                    })) ?? 0;
+            }
             const damageRolls = forceRolls ?? this.damageRolls;
             const damageToApply = damageRolls.map((r) => ({
                 amount:
-                    (this.useGraze ? (r.graze?.total ?? 0) : (r.total ?? 0)) *
-                    Math.abs(multiplier),
+                    (this.useGraze
+                        ? (r.graze?.total ?? 0) + modifier
+                        : (r.total ?? 0) + modifier) * Math.abs(multiplier),
                 type: multiplier < 0 ? DamageType.Healing : r.damageType,
             }));
 
