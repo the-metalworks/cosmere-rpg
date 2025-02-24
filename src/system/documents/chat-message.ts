@@ -851,12 +851,12 @@ export class CosmereChatMessage extends ChatMessage {
                 modifier =
                     (await foundry.applications.api.DialogV2.prompt({
                         window: {
-                            title: 'Modify Damage',
+                            title: `COSMERE.ChatMessage.ModifierDialog.${multiplier < 0 ? 'HealingTitle' : 'DamageTitle'}`,
                         } as ApplicationV2.WindowConfiguration,
                         content:
                             '<input name="modifier" type="number" step="1" style="border: 1px solid black;border-radius: 5px;padding-left: 5%" autofocus>',
                         ok: {
-                            label: 'Confirm',
+                            label: 'GENERIC.Button.Confirm',
                             callback: (event, button, dialog) => {
                                 const element: HTMLInputElement =
                                     button.form?.elements.namedItem(
@@ -892,12 +892,12 @@ export class CosmereChatMessage extends ChatMessage {
                 modifier =
                     (await foundry.applications.api.DialogV2.prompt({
                         window: {
-                            title: 'Modify Damage',
+                            title: 'COSMERE.ChatMessage.ModifierDialog.FocusTitle',
                         } as ApplicationV2.WindowConfiguration,
                         content:
                             '<input name="modifier" type="number" min="0" step="1" style="border: 1px solid black;border-radius: 5px;padding-left: 5%" autofocus>',
                         ok: {
-                            label: 'Confirm',
+                            label: 'GENERIC.Button.Confirm',
                             callback: (event, button, dialog) => {
                                 const element: HTMLInputElement =
                                     button.form?.elements.namedItem(

@@ -964,6 +964,11 @@
             },
             "ApplyDamage": "{actor} takes <strong>{amount} damage</strong>.",
             "ApplyHealing": "{actor} recovers <strong>{amount} health</strong>.",
+			"ModifierDialog": {
+				"DamageTitle": "Modify Damage",
+				"HealingTitle": "Modify Healing",
+				"FocusTitle": "Modify Focus Loss"
+			},
             "DamageCalculation": "Damage Calculation: {calculation}",
             "ViewRollsDetails": "Roll Details",
             "Welcome": "<h2>Welcome to the Cosmere RPG System!</h2> <p>Thank you for trying out the community-developed Cosmere Roleplaying Game system! You're currently using version <strong>{version}</strong>. As this is an early release, some bugs or missing features are to be expected, but your feedback will help us improve the system. </p> <p>For discussions, updates, and support, join us on the <a href=\"{discordLink}\">Metalworks Discord</a> server.</p> <p>If you encounter any issues or have suggestions, we'd love to hear from you! Please report them on our <a href=\"{issuesLink}\">GitHub Issues page</a> or on the <a href=\"{discordLink}\">Metalworks Discord</a>. Be sure to review the <a href=\"{contributingLink}\">contribution guidelines</a> if you'd like to get involved in development. </p> <p>We're excited to have you on board and hope you enjoy playing in the Cosmere!</p>"
@@ -1141,7 +1146,8 @@
             "Cancel": "Cancel",
             "Update": "Update",
             "RemoveFavorite": "Remove Favorite",
-            "Favorite":  "Favorite"
+            "Favorite":  "Favorite",
+			"Confirm": "Confirm"
         },
         "Notification": {
             "GrazeFocusSpent": "Reduced focus by 1",
