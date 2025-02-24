@@ -887,12 +887,36 @@ export class CosmereChatMessage extends ChatMessage {
         }
 
         if (action === 'reduce-focus') {
+            let modifier = 0;
+            if (shiftHeld) {
+                modifier =
+                    (await foundry.applications.api.DialogV2.prompt({
+                        window: {
+                            title: 'Modify Damage',
+                        } as ApplicationV2.WindowConfiguration,
+                        content:
+                            '<input name="modifier" type="number" min="0" step="1" style="border: 1px solid black;border-radius: 5px;padding-left: 5%" autofocus>',
+                        ok: {
+                            label: 'Confirm',
+                            callback: (event, button, dialog) => {
+                                const element: HTMLInputElement =
+                                    button.form?.elements.namedItem(
+                                        'modifier',
+                                    ) as HTMLInputElement;
+                                return new Promise((resolve) =>
+                                    resolve(element.valueAsNumber),
+                                );
+                            },
+                        },
+                    })) ?? 0;
+            }
             await Promise.all(
                 Array.from(targets).map(async (t) => {
                     const target = (t as Token).actor as CosmereActor;
                     return await target.update({
                         'system.resources.foc.value':
-                            target.system.resources.foc.value - 1,
+                            target.system.resources.foc.value -
+                            Math.max(1 + modifier, 1),
                     });
                 }),
             );
