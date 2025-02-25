@@ -1,5 +1,3 @@
-import { CosmereItem } from '../documents';
-
 export interface Migration {
     /**
      * The version this migration upgrades from

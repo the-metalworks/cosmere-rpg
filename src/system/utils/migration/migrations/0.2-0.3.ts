@@ -1,34 +1,19 @@
-import { DamageType, ItemType } from '@system/types/cosmere';
-import {
-    CosmereItem,
-    CosmereItemData,
-    TalentItem,
-    TalentTreeItem,
-} from '@system/documents/item';
-import { TalentTree, Talent } from '@system/types/item';
+import { ActorType, ItemType } from '@system/types/cosmere';
+import { CosmereItem, TalentTreeItem } from '@system/documents/item';
+import { TalentTree } from '@system/types/item';
 
 // Utils
 import { getRawDocumentSources } from '@system/utils/data';
 
 // Types
 import { Migration } from '@system/types/migration';
+import { AnyObject, InvalidCollection } from '@src/system/types/utils';
+import { CosmereActor } from '@src/system/documents';
+import { Derived } from '@src/system/data/fields';
+import { CharacterActorDataModel } from '@src/system/data/actor/character';
 
 // Constants
 import { SYSTEM_ID } from '@system/constants';
-import { TalentTreeItemData } from '@src/system/data/item';
-import {
-    ConfiguredCollectionClassForName,
-    InternalGame,
-} from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/client/game.mjs';
-import { AnyObject, ConstructorOf } from '@src/system/types/utils';
-import { ConfiguredDocumentClass } from '@league-of-foundry-developers/foundry-vtt-types/src/types/helperTypes.mjs';
-import {
-    AnyConstructor,
-    AnyConstructorFor,
-} from '@league-of-foundry-developers/foundry-vtt-types/src/types/utils.mjs';
-import { migrate } from '..';
-import { CosmereActor } from '@src/system/documents';
-import COSMERE from '@src/system/config';
 
 export default {
     from: '0.2',
@@ -188,8 +173,10 @@ async function migrateActors(actors: CosmereActor[]) {
             const changes = {};
 
             /**
-             * Movement Speed
+             * Common Actor Data
              */
+
+            /* --- Movement --- */
             if ('rate' in actor.system.movement) {
                 foundry.utils.mergeObject(changes, {
                     ['system.movement.walk.rate']: actor.system.movement.rate,
@@ -199,10 +186,8 @@ async function migrateActors(actors: CosmereActor[]) {
                 });
             }
 
-            /**
-             * Damage Immunities
-             * This is a preemptive block based on the current immunities rework
-             */
+            /* --- Damage Immunities --- */
+            // This is a preemptive block based on the current immunities rework
             // if (Array.isArray(actor.system.immunities.damage)) {
             //     foundry.utils.mergeObject(changes,
             //         Object.keys(COSMERE.damageTypes).reduce(
@@ -218,16 +203,30 @@ async function migrateActors(actors: CosmereActor[]) {
             //     );
             // }
 
+            /**
+             * Character Data
+             */
+            if (actor.type === ActorType.Character) {
+                /* --- Advancement ---*/
+                if (isNaN((actor.system as CharacterActorDataModel).level)) {
+                    foundry.utils.mergeObject(changes, {
+                        ['system.level']: 0,
+                    });
+                }
+            }
+
             // Retrieve document
-            const document = (game.actors as Collection<CosmereActor>).get(
-                actor._id,
-                { strict: true },
-            );
+            const document = (
+                game.actors as InvalidCollection<CosmereActor>
+            ).get(actor._id, {
+                strict: true,
+                invalid: true,
+            });
 
             console.log(`[${SYSTEM_ID}] Actor changes:`, changes);
 
             // Apply changes
-            await document.update(changes);
+            await document.update(changes, { diff: false });
         }),
     );
 }

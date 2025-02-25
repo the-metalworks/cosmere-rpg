@@ -38,3 +38,16 @@ export enum MouseButton {
      */
     Secondary = 2,
 }
+
+// Collection which can retrieve invalid data
+export type InvalidCollection<T> = Collection<T> & {
+    /**
+     * Get a requested item from the collection, including invalid entries
+     */
+    get(
+        key: string,
+        { strict, invalid }: { strict: boolean; invalid: boolean },
+    ): T;
+
+    invalidDocumentIds: Set<string>;
+};
