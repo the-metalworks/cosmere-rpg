@@ -1115,6 +1115,7 @@
         "Document": "Document",
         "Formula": "Formula",
         "Value": "Value",
+        "Modifier": "Modifier",
         "Skill": "Skill",
         "Attribute": "Attribute",
         "SkillTest": "Skill Test",

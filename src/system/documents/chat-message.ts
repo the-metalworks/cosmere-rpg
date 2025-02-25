@@ -18,6 +18,7 @@ import {
     TargetDescriptor,
 } from '../utils/generic';
 import ApplicationV2 from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/client-esm/applications/api/application.mjs';
+import { DamageModifierDialog } from '../applications/actor/dialogs/damage-card-modifier';
 
 export const MESSAGE_TYPES = {
     SKILL: 'skill',
@@ -848,26 +849,10 @@ export class CosmereChatMessage extends ChatMessage {
         if (action === 'apply-damage' && multiplier) {
             let modifier = 0;
             if (shiftHeld) {
-                modifier =
-                    (await foundry.applications.api.DialogV2.prompt({
-                        window: {
-                            title: `COSMERE.ChatMessage.ModifierDialog.${multiplier < 0 ? 'HealingTitle' : 'DamageTitle'}`,
-                        } as ApplicationV2.WindowConfiguration,
-                        content:
-                            '<input name="modifier" type="number" step="1" style="border: 1px solid black;border-radius: 5px;padding-left: 5%" autofocus>',
-                        ok: {
-                            label: 'GENERIC.Button.Confirm',
-                            callback: (event, button, dialog) => {
-                                const element: HTMLInputElement =
-                                    button.form?.elements.namedItem(
-                                        'modifier',
-                                    ) as HTMLInputElement;
-                                return new Promise((resolve) =>
-                                    resolve(element.valueAsNumber),
-                                );
-                            },
-                        },
-                    })) ?? 0;
+                modifier = await DamageModifierDialog.show({
+                    isHealing: multiplier < 0,
+                    action: action,
+                });
             }
             const damageRolls = forceRolls ?? this.damageRolls;
             const damageToApply = damageRolls.map((r) => ({
@@ -889,34 +874,17 @@ export class CosmereChatMessage extends ChatMessage {
         if (action === 'reduce-focus') {
             let modifier = 0;
             if (shiftHeld) {
-                modifier =
-                    (await foundry.applications.api.DialogV2.prompt({
-                        window: {
-                            title: 'COSMERE.ChatMessage.ModifierDialog.FocusTitle',
-                        } as ApplicationV2.WindowConfiguration,
-                        content:
-                            '<input name="modifier" type="number" min="0" step="1" style="border: 1px solid black;border-radius: 5px;padding-left: 5%" autofocus>',
-                        ok: {
-                            label: 'GENERIC.Button.Confirm',
-                            callback: (event, button, dialog) => {
-                                const element: HTMLInputElement =
-                                    button.form?.elements.namedItem(
-                                        'modifier',
-                                    ) as HTMLInputElement;
-                                return new Promise((resolve) =>
-                                    resolve(element.valueAsNumber),
-                                );
-                            },
-                        },
-                    })) ?? 0;
+                modifier = await DamageModifierDialog.show({
+                    isHealing: false,
+                    action: action,
+                });
             }
             await Promise.all(
                 Array.from(targets).map(async (t) => {
                     const target = (t as Token).actor as CosmereActor;
                     return await target.update({
                         'system.resources.foc.value':
-                            target.system.resources.foc.value -
-                            Math.max(1 + modifier, 1),
+                            target.system.resources.foc.value - (1 + modifier),
                     });
                 }),
             );
