@@ -1248,6 +1248,7 @@
         "skipDialogDefault": "Skip/Show Dialog",
         "skipDialogAdvantage": "Skip Dialog with Advantage",
         "skipDialogDisadvantage": "Skip Dialog with Disadvantage",
-        "skipDialogRaiseStakes": "Skip Dialog with Raise Stakes"
+        "skipDialogRaiseStakes": "Skip Dialog with Raise Stakes",
+        "modifyDialogDamageCard": "Show Dialog to Modify Damage Card Value"
     }
 }

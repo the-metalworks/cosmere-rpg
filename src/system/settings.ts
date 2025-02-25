@@ -156,6 +156,7 @@ export const KEYBINDINGS = {
     SKIP_DIALOG_ADVANTAGE: 'skipDialogAdvantage',
     SKIP_DIALOG_DISADVANTAGE: 'skipDialogDisadvantage',
     SKIP_DIALOG_RAISE_STAKES: 'skipDialogRaiseStakes',
+    MODIFY_DIALOG_DAMAGE_CARD: 'modifyDialogDamageCard',
 } as const;
 
 /**
@@ -183,6 +184,10 @@ export function registerSystemKeybindings() {
         {
             name: KEYBINDINGS.SKIP_DIALOG_RAISE_STAKES,
             editable: [{ key: 'KeyQ' }],
+        },
+        {
+            name: KEYBINDINGS.MODIFY_DIALOG_DAMAGE_CARD,
+            editable: [{ key: 'ShiftLeft' }, { key: 'ShiftRight' }],
         },
     ];
 

@@ -11,8 +11,9 @@ import { CosmereActor } from './actor';
 import { renderSystemTemplate, TEMPLATES } from '../utils/templates';
 import { SYSTEM_ID } from '../constants';
 import { AdvantageMode } from '../types/roll';
-import { getSystemSetting, SETTINGS } from '../settings';
+import { getSystemSetting, KEYBINDINGS, SETTINGS } from '../settings';
 import {
+    areKeysPressed,
     getApplyTargets,
     getConstantFromRoll,
     TargetDescriptor,
@@ -839,7 +840,9 @@ export class CosmereChatMessage extends ChatMessage {
         event.stopPropagation();
 
         const button = event.currentTarget as HTMLElement;
-        const shiftHeld = event.shiftKey;
+        const promptModify = areKeysPressed(
+            KEYBINDINGS.MODIFY_DIALOG_DAMAGE_CARD,
+        );
         const action = button.dataset.action;
         const multiplier = Number(button.dataset.multiplier);
 
@@ -847,13 +850,12 @@ export class CosmereChatMessage extends ChatMessage {
         if (targets.size === 0) return;
 
         if (action === 'apply-damage' && multiplier) {
-            let modifier = 0;
-            if (shiftHeld) {
-                modifier = await DamageModifierDialog.show({
-                    isHealing: multiplier < 0,
-                    action: action,
-                });
-            }
+            const modifier = promptModify
+                ? await DamageModifierDialog.show({
+                      isHealing: multiplier < 0,
+                      action: action,
+                  })
+                : 0;
             const damageRolls = forceRolls ?? this.damageRolls;
             const damageToApply = damageRolls.map((r) => ({
                 amount:
@@ -872,13 +874,12 @@ export class CosmereChatMessage extends ChatMessage {
         }
 
         if (action === 'reduce-focus') {
-            let modifier = 0;
-            if (shiftHeld) {
-                modifier = await DamageModifierDialog.show({
-                    isHealing: false,
-                    action: action,
-                });
-            }
+            const modifier = promptModify
+                ? await DamageModifierDialog.show({
+                      isHealing: multiplier < 0,
+                      action: action,
+                  })
+                : 0;
             await Promise.all(
                 Array.from(targets).map(async (t) => {
                     const target = (t as Token).actor as CosmereActor;
