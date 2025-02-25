@@ -254,9 +254,9 @@ export class BaseActorSheet<
         form: HTMLFormElement,
         formData: FormDataExtended,
     ) {
+        // Handle notes fields separately
         if ((event.target as HTMLElement).className.includes('prosemirror')) {
             await this.saveHtmlField();
-            console.log(formData.object);
             void this.actor.update(formData.object);
             return;
         }
