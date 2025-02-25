@@ -1,30 +1,32 @@
 {{#with (lookup tabsMap "goals") as |tab|}}
 
 <div class="tab tab-content split {{tab.cssClass}}" data-tab="goals" data-group="primary">
-    {{#if @root.isUpdatingHtmlField}}
-    <prose-mirror name="{{@root.proseFieldName}}" data-document-u-u-i-d="{{@root.actor.uuid}}"
-        value = "{{@root.proseFieldHtml}}" collaborate="true">
-        {{{@root.proseFieldHtml}}}    
-    </prose-mirror>
-    {{else}}
     <section>
-        <div class="details-text notes">
+        <div class="details-text purpose">
             <div class="icon-header">
                 <div class="title">
-                    <i class="fa-solid fa-file-pen"></i>
-                    <span>{{localize "COSMERE.Actor.Sheet.Details.Notes"}}</span>
+                    <i class="fa-solid fa-seedling"></i>
+                    <span>{{localize "COSMERE.Actor.Sheet.Details.Purpose"}}</span>
                 </div>
-            </div>
-            {{{@root.notesHtml}}}
+            </div>            
+            <textarea name="system.purpose" {{#if (not @root.isEditMode)}}readonly{{/if}}>{{@root.actor.system.purpose}}</textarea>
         </div>
-    </section>
-    <section>
+
         {{app-character-goals-list}}
     </section>
     <section>
+        <div class="details-text obstacle">
+            <div class="icon-header">
+                <div class="title">
+                    <i class="fa-solid fa-heart-crack"></i>
+                    <span>{{localize "COSMERE.Actor.Sheet.Details.Obstacle"}}</span>
+                </div>
+            </div>            
+            <textarea name="system.obstacle" {{#if (not @root.isEditMode)}}readonly{{/if}}>{{@root.actor.system.obstacle}}</textarea>
+        </div>
+
         {{app-character-connections-list}}
     </section>
-    {{/if}}
 </div>
 
 {{/with}}

@@ -231,7 +231,6 @@
                     "Actions": "Actions",
                     "Equipment": "Equipment",
                     "Goals": "Goals",
-                    "Biography": "Biography",
                     "Notes": "Notes",
                     "Effects": "Effects & Conditions"
                 },
@@ -266,9 +265,24 @@
                         "New": "Add New Connection",
                         "NewText": "New Connection"
                     },
-                    "Biography": "Biography",
-                    "Appearance": "Appearance",
-                    "Notes": "Notes"
+                    "Biography": {
+                        "Label": "Biography",
+                        "Edit": "Edit Biography",
+                        "Show": "Show Biography",
+                        "Hide": "Collapse Biography"
+                    },
+                    "Appearance": {
+                        "Label": "Appearance",
+                        "Edit": "Edit Appearance",
+                        "Show": "Show Appearance",
+                        "Hide": "Collapse Appearance"
+                    },
+                    "Notes": {
+                        "Label": "Notes",
+                        "Edit": "Edit Notes",
+                        "Show": "Show Notes",
+                        "Hide": "Collapse Notes"
+                    }
                 },
                 "Skills": {
                     "AdjustTooltip": "Left Click to increase {skill}'s Rank.<br>Right Click to decrease {skill}'s Rank."

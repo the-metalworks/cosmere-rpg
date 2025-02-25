@@ -30,6 +30,7 @@ export const TEMPLATES = {
     ACTOR_BASE_RESOURCE: 'actors/components/resource.hbs',
     ACTOR_BASE_SKILL: 'actors/components/skill.hbs',
     ACTOR_BASE_SKILLS_GROUP: 'actors/components/skills-group.hbs',
+    ACTOR_BASE_NOTES_FIELDS: 'actors/components/notes-fields.hbs',
 
     // ACTOR CHARACTER
     ACTOR_CHARACTER_HEADER: 'actors/character/parts/header.hbs',
@@ -41,8 +42,7 @@ export const TEMPLATES = {
     ACTOR_CHARACTER_EQUIPMENT_TAB:
         'actors/character/partials/char-equipment-tab.hbs',
     ACTOR_CHARACTER_GOALS_TAB: 'actors/character/partials/char-goals-tab.hbs',
-    ACTOR_CHARACTER_BIOGRAPHY_TAB:
-        'actors/character/partials/char-biography-tab.hbs',
+    ACTOR_CHARACTER_NOTES_TAB: 'actors/character/partials/char-notes-tab.hbs',
     ACTOR_CHARACTER_EFFECTS_TAB:
         'actors/character/partials/char-effects-tab.hbs',
     ACTOR_CHARACTER_ANCESTRY: 'actors/character/components/ancestry.hbs',

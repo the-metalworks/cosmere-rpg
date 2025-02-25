@@ -31,6 +31,7 @@ export type ActorSheetMode = 'view' | 'edit';
 export const enum BaseSheetTab {
     Actions = 'actions',
     Equipment = 'equipment',
+    Notes = 'notes',
     Effects = 'effects',
 }
 
@@ -83,6 +84,10 @@ export class BaseActorSheet<
             label: 'COSMERE.Actor.Sheet.Tabs.Equipment',
             icon: '<i class="fa-solid fa-suitcase"></i>',
         },
+        [BaseSheetTab.Notes]: {
+            label: 'COSMERE.Actor.Sheet.Tabs.Notes',
+            icon: '<i class="fa-solid fa-scroll"></i>',
+        },
         [BaseSheetTab.Effects]: {
             label: 'COSMERE.Actor.Sheet.Tabs.Effects',
             icon: '<i class="fa-solid fa-bolt"></i>',
@@ -92,6 +97,7 @@ export class BaseActorSheet<
     protected updatingHtmlField = false;
     protected proseFieldName = '';
     protected proseFieldHtml = '';
+    protected expanded = false;
 
     get isUpdatingHtmlField(): boolean {
         return this.updatingHtmlField;
@@ -236,6 +242,7 @@ export class BaseActorSheet<
      * Provide a static callback for the prose mirror save button
      */
     private static async onSave(this: BaseActorSheet) {
+        console.log('onSave called');
         await this.saveHtmlField();
     }
 
@@ -247,6 +254,13 @@ export class BaseActorSheet<
         form: HTMLFormElement,
         formData: FormDataExtended,
     ) {
+        if ((event.target as HTMLElement).className.includes('prosemirror')) {
+            await this.saveHtmlField();
+            console.log(formData.object);
+            void this.actor.update(formData.object);
+            return;
+        }
+
         if (
             !(event.target instanceof HTMLInputElement) &&
             !(event.target instanceof HTMLTextAreaElement) &&
@@ -254,10 +268,6 @@ export class BaseActorSheet<
         )
             return;
         if (!event.target.name) return;
-
-        if (event.target.className.includes('prosemirror')) {
-            await this.saveHtmlField();
-        }
 
         Object.keys(this.actor.system.resources).forEach((resourceId) => {
             let resourceValue = formData.object[
@@ -355,6 +365,10 @@ export class BaseActorSheet<
                     this.onEffectsSearchChange.bind(this) as EventListener,
                 );
         }
+
+        $(this.element)
+            .find('.collapsible')
+            .on('click', (event) => this.onClickCollapsible(event));
     }
 
     /* --- Event handlers --- */
@@ -367,6 +381,11 @@ export class BaseActorSheet<
             parts: [],
             components: ['app-actor-actions-list'],
         });
+    }
+
+    protected onClickCollapsible(event: JQuery.ClickEvent) {
+        const target = event.currentTarget as HTMLElement;
+        target?.classList.toggle('expanded');
     }
 
     protected onEquipmentSearchChange(event: SearchBarInputEvent) {
@@ -395,9 +414,9 @@ export class BaseActorSheet<
         options: DeepPartial<foundry.applications.api.ApplicationV2.RenderOptions>,
     ) {
         // Get enriched versions of HTML fields
-        let enrichedBiographyValue = '';
-        let enrichedAppearanceValue = '';
-        let enrichedNotesValue = '';
+        let enrichedBiographyValue = undefined;
+        let enrichedAppearanceValue = undefined;
+        let enrichedNotesValue = undefined;
         if (this.actor.system.biography) {
             enrichedBiographyValue = await TextEditor.enrichHTML(
                 this.actor.system.biography,
@@ -455,6 +474,7 @@ export class BaseActorSheet<
      * Helper to update the prose mirror edit state
      */
     private async saveHtmlField() {
+        console.log('Saving HTML Field');
         // Switches back from prose mirror
         this.updatingHtmlField = false;
         await this.render(true);
