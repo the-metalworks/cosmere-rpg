@@ -328,6 +328,9 @@ export class BaseItemSheet extends TabsApplicationMixin(
                 this.item.system.description!.chat!,
             );
         }
+        const expandDefaultSetting =
+            game.settings?.get('cosmere-rpg', 'expandDescriptionByDefault') ??
+            false;
         return {
             ...(await super._prepareContext(options)),
             item: this.item,
@@ -341,6 +344,7 @@ export class BaseItemSheet extends TabsApplicationMixin(
             chatDescHtml: enrichedChatDescValue,
             proseDescName: this.proseDescName,
             proseDescHtml: this.proseDescHtml,
+            expandDefault: expandDefaultSetting,
         };
     }
 
