@@ -840,9 +840,11 @@ export class CosmereChatMessage extends ChatMessage {
         event.stopPropagation();
 
         const button = event.currentTarget as HTMLElement;
-        const promptModify = areKeysPressed(
-            KEYBINDINGS.MODIFY_DIALOG_DAMAGE_CARD,
-        );
+        const promptModify =
+            !game.settings?.get(
+                'cosmere-rpg',
+                'skipDamageModDialogByDefault',
+            ) || areKeysPressed(KEYBINDINGS.SKIP_DIALOG_DEFAULT);
         const action = button.dataset.action;
         const multiplier = Number(button.dataset.multiplier);
 
