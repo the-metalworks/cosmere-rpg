@@ -1,5 +1,5 @@
 <div class="html-field-list">
-    <div class="html-field collapsible expanded" field-type="biography">
+    <div class="html-field collapsible {{#if @root.biographyHtml}}expanded{{/if}}" field-type="biography">
         <h2 class="header">
             <span class="title">{{localize "COSMERE.Actor.Sheet.Details.Biography.Label"}}</span>
             {{#if @root.editable}}
@@ -16,7 +16,7 @@
             </div>
         </div>
     </div>
-    <div class="html-field collapsible expanded" field-type="appearance">
+    <div class="html-field collapsible {{#if @root.appearanceHtml}}expanded{{/if}}" field-type="appearance">
         <h2 class="header">
             <span class="title">{{localize "COSMERE.Actor.Sheet.Details.Appearance.Label"}}</span>
             {{#if @root.editable}}
