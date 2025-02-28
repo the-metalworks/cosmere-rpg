@@ -104,4 +104,15 @@ declare class Actor<
         isDelta: boolean,
         isBar: boolean,
     ): Promise<Actor | undefined>;
+
+    /**
+     * Create an Actor from a given source object.
+     * This is necessary for migrations to reinitialize invalid actors,
+     * because the game.actors collection only accepts an instance of the
+     * system type, and not this class itself.
+     * @param source    Initial document data which comes from a trusted source
+     * @param context   Model construction context
+     * @returns         An instance of the new Actor. This should be recast.
+     */
+    public static fromSource(source: object, context: any = {}): this;
 }

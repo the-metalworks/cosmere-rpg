@@ -3,13 +3,15 @@ import { CosmereItem, TalentTreeItem } from '@system/documents/item';
 import { TalentTree } from '@system/types/item';
 
 // Utils
-import { getRawDocumentSources } from '@system/utils/data';
+import {
+    fixInvalidDocument as fixDocumentIfInvalid,
+    getPossiblyInvalidDocument,
+    getRawDocumentSources,
+} from '@system/utils/data';
 
 // Types
 import { Migration } from '@system/types/migration';
-import { AnyObject, InvalidCollection } from '@src/system/types/utils';
 import { CosmereActor } from '@src/system/documents';
-import { Derived } from '@src/system/data/fields';
 import { CharacterActorDataModel } from '@src/system/data/actor/character';
 
 // Constants
@@ -19,8 +21,6 @@ export default {
     from: '0.2',
     to: '0.3',
     execute: async () => {
-        console.log(`[${SYSTEM_ID}] Running migration 0.2 -> 0.3`);
-
         /**
          * Items
          */
@@ -216,17 +216,16 @@ async function migrateActors(actors: CosmereActor[]) {
             }
 
             // Retrieve document
-            const document = (
-                game.actors as InvalidCollection<CosmereActor>
-            ).get(actor._id, {
-                strict: true,
-                invalid: true,
-            });
-
-            console.log(`[${SYSTEM_ID}] Actor changes:`, changes);
+            const document = getPossiblyInvalidDocument<CosmereActor>(
+                'Actor',
+                actor._id,
+            );
 
             // Apply changes
             await document.update(changes, { diff: false });
+
+            // Ensure invalid documents are properly instantiated
+            fixDocumentIfInvalid('Actor', actor._id);
         }),
     );
 }

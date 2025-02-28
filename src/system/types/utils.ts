@@ -1,3 +1,5 @@
+import { CosmereActor, CosmereItem } from '../documents';
+
 export {
     DeepPartial,
     AnyObject,
@@ -50,4 +52,22 @@ export type InvalidCollection<T> = Collection<T> & {
     ): T;
 
     invalidDocumentIds: Set<string>;
+};
+
+// Structure of globalThis when game is running that allows sidebar access
+export interface GlobalUI {
+    ui: {
+        sidebar: Sidebar;
+    };
+}
+
+/**
+ * System-specific document types for clean migration typing.
+ */
+export type CosmereDocument = CosmereActor | CosmereItem;
+type CosmereDocumentClass = typeof CosmereActor | typeof CosmereItem;
+
+export const COSMERE_DOCUMENT_CLASSES: Record<string, CosmereDocumentClass> = {
+    Actor: CosmereActor,
+    Item: CosmereItem,
 };

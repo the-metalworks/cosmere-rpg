@@ -4,6 +4,7 @@ import { Migration } from '@src/system/types/migration';
 
 // Migrations
 import MIGRATE_0_2__0_3 from './migrations/0.2-0.3';
+import { GlobalUI } from '@src/system/types/utils';
 
 // Constants
 const MIGRATIONS: Migration[] = [MIGRATE_0_2__0_3];
@@ -41,17 +42,33 @@ export async function migrate(from: string, to: string) {
         );
     });
 
+    if (migrations.length === 0) {
+        console.log(
+            `[${SYSTEM_ID}] Migration is not required for this version.`,
+        );
+        return;
+    }
+
     // Execute migrations in order
     for (const migration of migrations) {
         try {
+            console.log(`[${SYSTEM_ID}] Migration ${from} -> ${to}: Running`);
             await migration.execute();
+            console.log(`[${SYSTEM_ID}] Migration ${from} -> ${to}: Succeeded`);
         } catch (err) {
             console.error(`[${SYSTEM_ID}] Error running data migration:`, err);
+            console.log(
+                `[${SYSTEM_ID}] Migration ${from} -> ${to}: Failed, exiting`,
+            );
             return;
         }
     }
 
-    console.log(`[${SYSTEM_ID}] Successfully migrated data`);
+    // Re-render sidebar to include re-validated documents
+    console.log(
+        `[${SYSTEM_ID}] Successfully migrated data! Refreshing sidebar...`,
+    );
+    await (globalThis as unknown as GlobalUI).ui.sidebar.render();
 }
 
 /* --- Helpers --- */
