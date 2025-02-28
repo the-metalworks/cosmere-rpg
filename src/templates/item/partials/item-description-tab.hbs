@@ -1,5 +1,5 @@
 {{#with (lookup tabsMap "description") as |tab|}}
-<div class="tab tab-content {{tab.cssClass}}" data-tab="description" data-group="primary">    
+<div class="tab tab-content {{tab.cssClass}}" data-tab="description" data-group="primary">
     {{#if @root.isUpdatingDescription}}
     <prose-mirror name="{{@root.proseDescName}}" data-document-u-u-i-d="{{@root.item.uuid}}"
          value = "{{@root.proseDescHtml}}" collaborate="true">
@@ -7,7 +7,7 @@
     </prose-mirror>
     {{else}}
     <div class="description-list">
-        <div class="description collapsible" description-type="value">
+        <div class="description collapsible {{#if @root.expandDefault}}expanded{{/if}}" description-type="value">
             <h2 class="header">
                 <span class="title">{{localize "COSMERE.Sheet.Descriptions.DescriptionHeader"}}</span>
                 {{#if @root.editable}}
