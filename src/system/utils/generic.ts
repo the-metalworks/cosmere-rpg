@@ -112,7 +112,7 @@ export function determineConfigurationMode(
  */
 export function isFastForward() {
     const skipKeyPressed = areKeysPressed(KEYBINDINGS.SKIP_DIALOG_DEFAULT);
-    const skipByDefault = getSystemSetting(SETTINGS.ROLL_SKIP_DIALOG_DEFAULT);
+    const skipByDefault = getSystemSetting(SETTINGS.DIALOG_ROLL_SKIP_DEFAULT);
 
     return (
         (skipByDefault && !skipKeyPressed) || (!skipByDefault && skipKeyPressed)
