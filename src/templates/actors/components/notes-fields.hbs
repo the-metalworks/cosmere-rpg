@@ -1,0 +1,53 @@
+<div class="html-field-list">
+    <div class="html-field collapsible {{#if @root.biographyHtml}}expanded{{/if}}" field-type="biography">
+        <h2 class="header">
+            <span class="title">{{localize "COSMERE.Actor.Sheet.Details.Biography.Label"}}</span>
+            {{#if @root.editable}}
+            <a role="button" data-action="edit-html-field" data-tooltip="COSMERE.Actor.Sheet.Details.Biography.Edit">
+                <i class="edit-img fa-solid fa-feather"></i>
+            </a>
+            {{else}}
+            <a><i class="fa-solid fa-lock"></i></a>
+            {{/if}}
+        </h2>
+        <div class="collapsible-content">
+            <div class="wrapper">
+                {{{@root.biographyHtml}}}
+            </div>
+        </div>
+    </div>
+    <div class="html-field collapsible {{#if @root.appearanceHtml}}expanded{{/if}}" field-type="appearance">
+        <h2 class="header">
+            <span class="title">{{localize "COSMERE.Actor.Sheet.Details.Appearance.Label"}}</span>
+            {{#if @root.editable}}
+            <a role="button" data-action="edit-html-field" data-tooltip="COSMERE.Actor.Sheet.Details.Appearance.Edit">
+                <i class="edit-img fa-solid fa-feather"></i>
+            </a>
+            {{else}}
+            <a><i class="fa-solid fa-lock"></i></a>
+            {{/if}}
+        </h2>
+        <div class="collapsible-content">
+            <div class="wrapper">
+                {{{@root.appearanceHtml}}}
+            </div>
+        </div>
+    </div>
+    <div class="html-field collapsible" field-type="notes">
+        <h2 class="header">
+            <span class="title">{{localize "COSMERE.Actor.Sheet.Details.Notes.Label"}}</span>
+            {{#if @root.editable}}
+            <a role="button" data-action="edit-html-field" data-tooltip="COSMERE.Actor.Sheet.Details.Notes.Edit">
+                <i class="edit-img fa-solid fa-feather"></i>
+            </a>
+            {{else}}
+            <a><i class="fa-solid fa-lock"></i></a>
+            {{/if}}
+        </h2>
+        <div class="collapsible-content">
+            <div class="wrapper">
+                {{{@root.notesHtml}}}
+            </div>
+        </div>
+    </div>
+</div>

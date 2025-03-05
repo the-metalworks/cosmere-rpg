@@ -31,6 +31,7 @@ export type ActorSheetMode = 'view' | 'edit';
 export const enum BaseSheetTab {
     Actions = 'actions',
     Equipment = 'equipment',
+    Notes = 'notes',
     Effects = 'effects',
 }
 
@@ -51,6 +52,8 @@ export class BaseActorSheet<
         {
             actions: {
                 'toggle-mode': this.onToggleMode,
+                'edit-html-field': this.editHtmlField,
+                save: this.onSave,
             },
             form: {
                 handler: this.onFormEvent,
@@ -81,11 +84,24 @@ export class BaseActorSheet<
             label: 'COSMERE.Actor.Sheet.Tabs.Equipment',
             icon: '<i class="fa-solid fa-suitcase"></i>',
         },
+        [BaseSheetTab.Notes]: {
+            label: 'COSMERE.Actor.Sheet.Tabs.Notes',
+            icon: '<i class="fa-solid fa-scroll"></i>',
+        },
         [BaseSheetTab.Effects]: {
             label: 'COSMERE.Actor.Sheet.Tabs.Effects',
             icon: '<i class="fa-solid fa-bolt"></i>',
         },
     });
+
+    protected updatingHtmlField = false;
+    protected proseFieldName = '';
+    protected proseFieldHtml = '';
+    protected expanded = false;
+
+    get isUpdatingHtmlField(): boolean {
+        return this.updatingHtmlField;
+    }
 
     get actor(): CosmereActor {
         return super.document;
@@ -197,14 +213,54 @@ export class BaseActorSheet<
         );
     }
 
+    private static async editHtmlField(this: BaseActorSheet, event: Event) {
+        // Get html field element
+        const fieldElement = $(event.target!).closest('[field-type]');
+
+        // Get field type
+        const proseFieldType = fieldElement.attr('field-type')!;
+
+        // Gets the field to display based on the type found
+        if (proseFieldType === 'biography') {
+            this.proseFieldHtml = this.actor.system.biography ?? '';
+        } else if (proseFieldType === 'appearance') {
+            this.proseFieldHtml = this.actor.system.appearance ?? '';
+        } else if (proseFieldType === 'notes') {
+            this.proseFieldHtml = this.actor.system.notes ?? '';
+        }
+
+        // Gets name for use in prose mirror
+        this.proseFieldName = 'system.' + proseFieldType;
+
+        // Switches to prose mirror
+        this.updatingHtmlField = true;
+
+        await this.render(true);
+    }
+
+    /**
+     * Provide a static callback for the prose mirror save button
+     */
+    private static async onSave(this: BaseActorSheet) {
+        console.log('onSave called');
+        await this.saveHtmlField();
+    }
+
     /* --- Form --- */
 
-    public static onFormEvent(
+    public static async onFormEvent(
         this: BaseActorSheet,
         event: Event,
         form: HTMLFormElement,
         formData: FormDataExtended,
     ) {
+        // Handle notes fields separately
+        if ((event.target as HTMLElement).className.includes('prosemirror')) {
+            await this.saveHtmlField();
+            void this.actor.update(formData.object);
+            return;
+        }
+
         if (
             !(event.target instanceof HTMLInputElement) &&
             !(event.target instanceof HTMLTextAreaElement) &&
@@ -309,6 +365,10 @@ export class BaseActorSheet<
                     this.onEffectsSearchChange.bind(this) as EventListener,
                 );
         }
+
+        $(this.element)
+            .find('.collapsible')
+            .on('click', (event) => this.onClickCollapsible(event));
     }
 
     /* --- Event handlers --- */
@@ -321,6 +381,11 @@ export class BaseActorSheet<
             parts: [],
             components: ['app-actor-actions-list'],
         });
+    }
+
+    protected onClickCollapsible(event: JQuery.ClickEvent) {
+        const target = event.currentTarget as HTMLElement;
+        target?.classList.toggle('expanded');
     }
 
     protected onEquipmentSearchChange(event: SearchBarInputEvent) {
@@ -348,6 +413,26 @@ export class BaseActorSheet<
     public async _prepareContext(
         options: DeepPartial<foundry.applications.api.ApplicationV2.RenderOptions>,
     ) {
+        // Get enriched versions of HTML fields
+        let enrichedBiographyValue = undefined;
+        let enrichedAppearanceValue = undefined;
+        let enrichedNotesValue = undefined;
+        if (this.actor.system.biography) {
+            enrichedBiographyValue = await TextEditor.enrichHTML(
+                this.actor.system.biography,
+            );
+        }
+        if (this.actor.system.appearance) {
+            enrichedAppearanceValue = await TextEditor.enrichHTML(
+                this.actor.system.appearance,
+            );
+        }
+        if (this.actor.system.notes) {
+            enrichedNotesValue = await TextEditor.enrichHTML(
+                this.actor.system.notes,
+            );
+        }
+
         return {
             ...(await super._prepareContext(options)),
             actor: this.actor,
@@ -355,6 +440,14 @@ export class BaseActorSheet<
             editable: this.isEditable,
             mode: this.mode,
             isEditMode: this.mode === 'edit' && this.isEditable,
+
+            // Prose mirror state
+            isUpdatingHtmlField: this.isUpdatingHtmlField,
+            biographyHtml: enrichedBiographyValue,
+            appearanceHtml: enrichedAppearanceValue,
+            notesHtml: enrichedNotesValue,
+            proseFieldName: this.proseFieldName,
+            proseFieldHtml: this.proseFieldHtml,
 
             resources: Object.keys(this.actor.system.resources),
             attributeGroups: Object.keys(CONFIG.COSMERE.attributeGroups),
@@ -373,5 +466,17 @@ export class BaseActorSheet<
                 sort: this.effectsSearchSort,
             },
         };
+    }
+
+    /* --- Helpers --- */
+
+    /**
+     * Helper to update the prose mirror edit state
+     */
+    private async saveHtmlField() {
+        console.log('Saving HTML Field');
+        // Switches back from prose mirror
+        this.updatingHtmlField = false;
+        await this.render(true);
     }
 }

@@ -6,8 +6,8 @@
         {{{@root.proseDescHtml}}}
     </prose-mirror>
     {{else}}
-    <div class="description-list">
-        <div class="description collapsible {{#if @root.expandDefault}}expanded{{/if}}" description-type="value">
+    <div class="html-field-list">
+        <div class="html-field collapsible {{#if @root.expandDefault}}expanded{{/if}}" description-type="value">
             <h2 class="header">
                 <span class="title">{{localize "COSMERE.Sheet.Descriptions.DescriptionHeader"}}</span>
                 {{#if @root.editable}}
@@ -24,7 +24,7 @@
                 </div>
             </div>
         </div>
-        <div class="description collapsible" description-type="short">
+        <div class="html-field collapsible" description-type="short">
             <h2 class="header">
                 <span class="title">{{localize "COSMERE.Sheet.Descriptions.ShortHeader"}}</span>
                 {{#if @root.editable}}
@@ -41,7 +41,7 @@
                 </div>
             </div>
         </div>
-        <div class="description collapsible" description-type="chat">
+        <div class="html-field collapsible" description-type="chat">
             <h2 class="header">
                 <span class="title">{{localize "COSMERE.Sheet.Descriptions.ChatHeader"}}</span>
                 {{#if @root.editable}}
