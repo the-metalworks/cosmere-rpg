@@ -1,8 +1,8 @@
 <ul>
-    {{#each talentLinks as |element index|}}
-    <li class="talent" data-item="{{index}}">
+    {{#each talents as |talent|}}
+    <li class="talent" data-id="{{talent.id}}">
         <div class="col link">
-            {{{element}}}
+            {{{talent.link}}}
         </div>
         <div class="col controls">
             <a data-action="remove-talent"

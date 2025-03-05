@@ -1,4 +1,4 @@
-.sheet.actor.adversary {
+.application.sheet.actor.adversary {
     --border-tier-svg: url('assets/icons/svg/sheet/border_tier.svg');
     --mask-tier-svg: url('assets/icons/svg/sheet/mask_tier.svg');
 
@@ -41,12 +41,6 @@
                 }
             }
         }
-    }
-
-    .skills-column {
-        display: flex;
-        flex-direction: column;
-        gap: 0.675rem;
     }
 
     .adversary-expertises {

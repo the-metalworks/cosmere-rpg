@@ -1,13 +1,12 @@
 import { ArmorTraitId, Skill, WeaponTraitId } from '@system/types/cosmere';
 import { CosmereItem } from '@system/documents/item';
 import { DeepPartial, AnyObject, NONE } from '@system/types/utils';
+import { renderSystemTemplate, TEMPLATES } from '@src/system/utils/templates';
 
 // Mixins
 import { ComponentHandlebarsApplicationMixin } from '@system/applications/component-system';
 import { TabsApplicationMixin } from '@system/applications/mixins';
-import { getSystemSetting, SETTINGS } from '@src/system/settings';
 import { DescriptionItemData } from '@src/system/data/item/mixins/description';
-import HandlebarsApplicationMixin from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/client-esm/applications/api/handlebars-application.mjs';
 
 const { ItemSheetV2 } = foundry.applications.sheets;
 
@@ -67,13 +66,19 @@ export class BaseItemSheet extends TabsApplicationMixin(
 
     /* --- Form --- */
 
-    protected static onFormEvent(
+    protected static async onFormEvent(
         this: BaseItemSheet,
         event: Event,
         form: HTMLFormElement,
         formData: FormDataExtended,
     ) {
         if (event instanceof SubmitEvent) return;
+
+        // Handle prose mirror saving via hotkey
+        if ((event.target as HTMLElement).className.includes('prosemirror')) {
+            await this.saveDescription();
+        }
+
         if (!('name' in event.target!)) return;
 
         if (this.item.isPhysical() && 'system.price.unit' in formData.object) {
@@ -283,6 +288,27 @@ export class BaseItemSheet extends TabsApplicationMixin(
         void this.item.update(formData.object);
     }
 
+    protected async _renderFrame(
+        options: Partial<foundry.applications.api.ApplicationV2.RenderOptions>,
+    ): Promise<HTMLElement> {
+        const frame = await super._renderFrame(options);
+
+        const corners = await renderSystemTemplate(
+            TEMPLATES.GENERAL_SHEET_CORNERS,
+            {},
+        );
+
+        $(frame).prepend(corners);
+
+        const banners = await renderSystemTemplate(
+            TEMPLATES.GENERAL_SHEET_BACKGROUND,
+            {},
+        );
+        $(frame).prepend(banners);
+
+        return frame;
+    }
+
     /* --- Context --- */
 
     public async _prepareContext(
@@ -302,6 +328,9 @@ export class BaseItemSheet extends TabsApplicationMixin(
                 this.item.system.description!.chat!,
             );
         }
+        const expandDefaultSetting =
+            game.settings?.get('cosmere-rpg', 'expandDescriptionByDefault') ??
+            false;
         return {
             ...(await super._prepareContext(options)),
             item: this.item,
@@ -315,7 +344,7 @@ export class BaseItemSheet extends TabsApplicationMixin(
             chatDescHtml: enrichedChatDescValue,
             proseDescName: this.proseDescName,
             proseDescHtml: this.proseDescHtml,
-            sideTabs: getSystemSetting(SETTINGS.ITEM_SHEET_SIDE_TABS),
+            expandDefault: expandDefaultSetting,
         };
     }
 
@@ -359,10 +388,11 @@ export class BaseItemSheet extends TabsApplicationMixin(
         await this.render(true);
     }
 
+    /**
+     * Provide a static callback for the prose mirror save button
+     */
     private static async onSave(this: BaseItemSheet) {
-        // Swtiches back from prose mirror when save button is pressed
-        this.updatingDescription = false;
-        await this.render(true);
+        await this.saveDescription();
     }
 
     /* --- Lifecycle --- */
@@ -379,5 +409,16 @@ export class BaseItemSheet extends TabsApplicationMixin(
     private onClickCollapsible(event: JQuery.ClickEvent) {
         const target = event.currentTarget as HTMLElement;
         target?.classList.toggle('expanded');
+    }
+
+    /* --- Helpers --- */
+
+    /**
+     * Helper to update the prose mirror edit state
+     */
+    private async saveDescription() {
+        // Switches back from prose mirror
+        this.updatingDescription = false;
+        await this.render(true);
     }
 }

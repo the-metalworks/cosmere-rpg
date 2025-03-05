@@ -1,5 +1,7 @@
 import { ActivationType } from '@system/types/cosmere';
 import { ConstructorOf } from '@system/types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
@@ -8,8 +10,7 @@ import { BaseItemSheet, BaseItemSheetRenderContext } from '../base';
 export class DetailsDamageComponent extends HandlebarsApplicationComponent<
     ConstructorOf<BaseItemSheet>
 > {
-    static TEMPLATE =
-        'systems/cosmere-rpg/templates/item/components/details-damage.hbs';
+    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_DETAILS_DAMAGE}`;
 
     /* eslint-disable @typescript-eslint/unbound-method */
     static ACTIONS = {

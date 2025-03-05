@@ -876,7 +876,6 @@ export class CosmereActor<
                             callback: async () => resolve(false),
                         },
                     ],
-                    modal: true,
                 }).render(true);
             });
 

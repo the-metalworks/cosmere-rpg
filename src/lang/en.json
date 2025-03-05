@@ -101,8 +101,8 @@
                 "label_p": "Skills",
                 "Agility": "Agility",
                 "Athletics": "Athletics",
-                "HeavyWeapons": "Heavy Weapons",
-                "LightWeapons": "Light Weapons",
+                "HeavyWeapons": "Heavy Weaponry",
+                "LightWeapons": "Light Weaponry",
                 "Stealth": "Stealth",
                 "Thievery": "Thievery",
                 "Crafting": "Crafting",
@@ -231,6 +231,7 @@
                     "Actions": "Actions",
                     "Equipment": "Equipment",
                     "Goals": "Goals",
+                    "Notes": "Notes",
                     "Effects": "Effects & Conditions"
                 },
                 "Search": {
@@ -263,6 +264,24 @@
                         "Label": "Connections",
                         "New": "Add New Connection",
                         "NewText": "New Connection"
+                    },
+                    "Biography": {
+                        "Label": "Biography",
+                        "Edit": "Edit Biography",
+                        "Show": "Show Biography",
+                        "Hide": "Collapse Biography"
+                    },
+                    "Appearance": {
+                        "Label": "Appearance",
+                        "Edit": "Edit Appearance",
+                        "Show": "Show Appearance",
+                        "Hide": "Collapse Appearance"
+                    },
+                    "Notes": {
+                        "Label": "Notes",
+                        "Edit": "Edit Notes",
+                        "Show": "Show Notes",
+                        "Hide": "Collapse Notes"
                     }
                 },
                 "Skills": {
@@ -468,7 +487,7 @@
                     "Hint": "Used to uniquely identify this power. Should be the same as the identifier of the associated skill, unless a custom skill is used."
                 },
                 "CustomSkill": {
-                    "Label": "Use custom skill?",
+                    "Label": "Use Custom Skill",
                     "Hint": "If checked, configure a custom skill instead of the skill matching this power's identifier."
                 },
                 "Skill": {
@@ -584,7 +603,9 @@
                 },
                 "Node": {
                     "Prerequisites": {
-                        "Label": "Prerequisites"
+                        "Label": "Prerequisites",
+                        "OneOf": "One of",
+                        "CannotEditManaged": "Cannot edit system generated prerequisite"
                     },
                     "Position": {
                         "Label": "Position",
@@ -594,7 +615,7 @@
                         "Y": {
                             "Label": "Y"
                         }
-                    }  
+                    }
                 }
             },
             "Activation": {
@@ -707,11 +728,11 @@
                     "FreeTalents": "Free Talents",
                     "BonusTalents": "Bonus Talents",
                     "Restrictions": "Restrictions",
-                    "PathReferencePlaceholder": "Drop a Path here to set a free path",
+                    "PathReferencePlaceholder": "Drop Path Here to Set Free Path",
                     "TalentIdDescription": "The identifier column should hold the identifier of the talent item you want characters with this Ancestry to have access to. The path identifier can only contain letters (a-z), numbers (0-9), dashes (-), and underscores (_).",
                     "Component": {
                         "AdvancementTalentList": {
-                            "DropTalent": "Drop a Talent here to add it to the list",
+                            "DropTalent": "Drop Talent here to add to list",
                             "Warning": {
                                 "WrongType": "The dropped Document must be of type Talent"
                             }
@@ -736,7 +757,7 @@
                 },
                 "Equip": {
                     "Title": "Equipment Details",
-                    "AlwaysEquipped": "Is Always Equipped?",
+                    "AlwaysEquipped": "Always Equipped",
                     "Traits": "Traits",
                     "ExpertTraits": "Expert Traits",
                     "LoseTrait": "Loses [trait]",
@@ -775,7 +796,7 @@
                 },
                 "Modality": {
                     "Title": "Modality",
-                    "HasModality": "Has Modality?"
+                    "HasModality": "Has Modality"
                 },
                 "Talent": {
                     "PathId": "Path Identifier",
@@ -877,7 +898,7 @@
               "ShortHeader": "Short Description",
               "ChatHeader": "Chat Description",
               "Collapsible": "Toggle Collapsible",
-              "Edit": "Edit Description"  
+              "Edit": "Edit Description"
             },
             "Effects": {
                 "Label": "Effects",
@@ -895,7 +916,7 @@
             },
             "Talents": {
                 "Label": "Talents",
-                "AcquiredAtLevel": "Acquired at Level",
+                "AtLevel": "At Level",
                 "Add": "New Talent",
                 "Edit": "Edit Talent",
                 "Delete": "Remove Talent",
@@ -962,6 +983,11 @@
             },
             "ApplyDamage": "{actor} takes <strong>{amount} damage</strong>.",
             "ApplyHealing": "{actor} recovers <strong>{amount} health</strong>.",
+            "ModifierDialog": {
+                "DamageTitle": "Modify Damage",
+                "HealingTitle": "Modify Healing",
+                "FocusTitle": "Modify Focus Loss"
+            },
             "DamageCalculation": "Damage Calculation: {calculation}",
             "ViewRollsDetails": "Roll Details",
             "Welcome": "<h2>Welcome to the Cosmere RPG System!</h2> <p>Thank you for trying out the community-developed Cosmere Roleplaying Game system! You're currently using version <strong>{version}</strong>. As this is an early release, some bugs or missing features are to be expected, but your feedback will help us improve the system. </p> <p>For discussions, updates, and support, join us on the <a href=\"{discordLink}\">Metalworks Discord</a> server.</p> <p>If you encounter any issues or have suggestions, we'd love to hear from you! Please report them on our <a href=\"{issuesLink}\">GitHub Issues page</a> or on the <a href=\"{discordLink}\">Metalworks Discord</a>. Be sure to review the <a href=\"{contributingLink}\">contribution guidelines</a> if you'd like to get involved in development. </p> <p>We're excited to have you on board and hope you enjoy playing in the Cosmere!</p>"
@@ -1009,10 +1035,10 @@
             "Title": "Configure Max {resource}: {actor}"
         },
         "LongRest": {
-            "ShouldPerform": "Perform long rest?"
+            "ShouldPerform": "Perform Long Rest?"
         },
         "ShortRest": {
-            "Title": "Short rest",
+            "Title": "Short Rest",
             "TendedToBy": "Tended to by"
         },
         "ConfigureDefense": {
@@ -1023,7 +1049,7 @@
         },
         "ConfigureSensesRange": {
             "Title": "Configure Senses Range: {actor}",
-            "ObscuredUnaffected": "Unaffected by obscured senses"
+            "IgnoreObscure": "Ignores Obscured"
         },
         "ConfigureRecoveryDie": {
             "Title": "Configure Recovery Die: {actor}"
@@ -1065,7 +1091,7 @@
                 "OutOfBounds": "The selected bounds would place at least one talent outside the tree."
             },
             "Notification": {
-                
+
             }
         },
         "PickDiceResult": {
@@ -1082,14 +1108,14 @@
     },
     "COMPONENT": {
         "DocumentReferenceInput": {
-            "Placeholder": "Drop a {type} here to create a reference",
+            "Placeholder": "Drop {type} here to create reference",
             "Warning": {
                 "WrongType": "The dropped Document must be of type {type}",
                 "WrongSubtype": "The dropped {type} must be of type {subtype}"
             }
         },
         "DocumentDropListComponent": {
-            "Placeholder": "Drop a {type} here to add it to the list",
+            "Placeholder": "Drop {type} here to add to list",
             "Warning": {
                 "DocumentAlreadyInList": "The dropped {type} is already in the list",
                 "WrongType": "The dropped Document must be of type {type}",
@@ -1097,7 +1123,7 @@
             }
         },
         "MultiValueSelect": {
-            "DefaultPlaceholder": "Select an option"
+            "DefaultPlaceholder": "Select Option"
         }
     },
     "GENERIC": {
@@ -1108,6 +1134,7 @@
         "Document": "Document",
         "Formula": "Formula",
         "Value": "Value",
+        "Modifier": "Modifier",
         "Skill": "Skill",
         "Attribute": "Attribute",
         "SkillTest": "Skill Test",
@@ -1139,7 +1166,8 @@
             "Cancel": "Cancel",
             "Update": "Update",
             "RemoveFavorite": "Remove Favorite",
-            "Favorite":  "Favorite"
+            "Favorite":  "Favorite",
+            "Confirm": "Confirm"
         },
         "Notification": {
             "GrazeFocusSpent": "Reduced focus by 1",
@@ -1199,18 +1227,18 @@
         }
     },
     "SETTINGS": {
-        "itemSheetSideTabs": {
-            "name": "Vertical Side Tabs for Item Sheets",
-            "hint": "If enabled, item sheets use vertical tabs down the right-hand side, similar to the character sheet, instead of the default in-line horizontal ones."
-        },
         "skipRollDialogByDefault": {
             "name": "Skip Roll Dialog by Default",
             "hint": "If enabled, rolls will skip the roll configuration dialog when clicked, using the default roll configuration. The dialog can still be accessed by holding the 'Skip/Show Dialog' key modifier from the system controls."
         },
+        "skipDamageModDialogByDefault": {
+            "name": "Skip Damage Modifier Dialog by Default",
+            "hint": "If enabled, the damage/healing card in chat will skip the modifier dialog when clicked, using the value shown in the card directly. The dialog can still be accessed by holding the 'Skip/Show Dialog' key modifier from the system controls."
+        },
         "enableOverlayButtons": {
             "name": "Enable Overlay Buttons",
             "hint": "When outputting a skill test or damage roll, enable overlay buttons on the chat message that offer additional functionality for the roll."
-        },         
+        },
         "enableApplyButtons": {
             "name": "Enable Apply Buttons",
             "hint": "When outputting a damage roll, enable buttons on the chat message that allow for damage or healing to be applied to tokens, or to reduce focus from those tokens."
@@ -1230,6 +1258,10 @@
                 "PrioritiseTargeted": "Prioritise Targeted Tokens"
             }
         },
+		"expandDescriptionByDefault": {
+			"name": "Expand Item Description By Default",
+			"hint": "Determines whether the description section of an item should be expanded by default when opening the item sheet."
+		},
         "systemTheme": {
             "name": "Preferred System Theme",
             "hint": "Specify the themed set of colours to use for system documents and interface elements. The selected theme will respect the prefered Dark/Light mode selected in the core settings."

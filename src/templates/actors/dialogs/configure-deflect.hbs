@@ -1,71 +1,76 @@
 <form>
     {{!-- Value --}}
-    <div class="form-group">
-        <input 
-            name="value" 
-            style="text-align: center; font-size: 15pt"
-            type="number" 
-            min="0"
-            step="1"
-            {{#if (eq mode 'derived')}}
-            value="{{value}}" 
-            readonly
-            {{else}}
-            value="{{override}}"
-            {{/if}}
-        >
+    <div class="form-group max">
+        <div class="form-fields">
+            <input 
+                name="value"
+                type="number" 
+                min="0"
+                step="1"
+                {{#if (eq mode 'derived')}}
+                value="{{value}}" 
+                readonly
+                {{else}}
+                value="{{override}}"
+                {{/if}}
+            >
+        </div>        
     </div>
 
     {{!-- Mode --}}
     <div class="form-group">
         <label>{{localize "GENERIC.Mode"}}</label>
-        <select name="mode">
-            {{selectOptions modes selected=mode localize=true}}
-        </select>
+        <div class="form-fields">
+            <select name="mode">
+                {{selectOptions modes selected=mode localize=true}}
+            </select>
+        </div>        
+    </div>
+
+    {{!-- Bonus --}}
+    <div class="form-group">
+        <label>{{localize "GENERIC.Bonus"}}</label>
+        <div class="form-fields">
+            <input 
+                name="bonus" 
+                {{#if (eq mode 'derived')}}
+                type="number" 
+                value="{{this.bonus}}" 
+                min="0" 
+                step="1" 
+                {{else}}
+                type="text"
+                value="—"
+                readonly
+                {{/if}}
+            >
+        </div>        
     </div>
 
     {{!-- Natural deflect --}}
     <div class="form-group">
         <label>{{localize "COSMERE.Actor.Deflect.Natural.Label"}}</label>
-        <input 
-            name="natural" 
-            {{#if (eq mode 'derived')}}
-            type="number" 
-            value="{{this.natural}}" 
-            min="0" 
-            step="1" 
-            {{else}}
-            type="text"
-            value="—"
-            readonly
-            {{/if}}
-        >
+        <div class="form-fields">
+            <input 
+                name="natural" 
+                {{#if (eq mode 'derived')}}
+                type="number" 
+                value="{{this.natural}}" 
+                min="0" 
+                step="1" 
+                {{else}}
+                type="text"
+                value="—"
+                readonly
+                {{/if}}
+            >
+        </div>        
     </div>
     <p class="hint">
         {{localize "COSMERE.Actor.Deflect.Natural.Hint"}}
     </p>
-
-    {{!-- Bonus --}}
-    <div class="form-group">
-        <label>{{localize "GENERIC.Bonus"}}</label>
-        <input 
-            name="bonus" 
-            {{#if (eq mode 'derived')}}
-            type="number" 
-            value="{{this.bonus}}" 
-            min="0" 
-            step="1" 
-            {{else}}
-            type="text"
-            value="—"
-            readonly
-            {{/if}}
-        >
-    </div>
-
     {{!-- Submit --}}
-    <br>
-    <div class="form-group">
+    <div class="form-group submit">
         <button data-action="update-deflect" type="submit">
             {{localize "GENERIC.Button.Update"}}
         </button>

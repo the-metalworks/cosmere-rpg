@@ -1,8 +1,9 @@
 import { TalentItem } from '@system/documents/item';
 import { Talent } from '@system/types/item';
 import { AnyObject } from '@system/types/utils';
-
 import { CollectionField } from '@system/data/fields';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 const { ApplicationV2 } = foundry.applications.api;
 
@@ -24,7 +25,7 @@ export class EditTalentGrantRuleDialog extends ComponentHandlebarsApplicationMix
             window: {
                 title: 'DIALOG.EditGrantRule.Title',
                 minimizable: false,
-                resizable: true,
+                resizable: false,
                 positioned: true,
             },
             classes: ['dialog', 'edit-grant-rule'],
@@ -42,8 +43,7 @@ export class EditTalentGrantRuleDialog extends ComponentHandlebarsApplicationMix
         foundry.utils.deepClone(super.PARTS),
         {
             form: {
-                template:
-                    'systems/cosmere-rpg/templates/item/talent/dialogs/edit-grant-rule.hbs',
+                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ITEM_EDIT_GRANT_RULE}`,
                 forms: {
                     form: {
                         handler: this.onFormEvent,

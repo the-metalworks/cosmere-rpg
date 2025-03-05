@@ -1,55 +1,63 @@
 {{#with (lookup tabsMap "details") as |tab|}}
-
 <div class="tab tab-content {{tab.cssClass}}" data-tab="details" data-group="primary">
-    {{app-item-details-type}}
+    <fieldset>
+        <legend>{{localize "COSMERE.Item.Sheet.Basics"}}</legend>
+        {{app-item-details-type}}
+    </fieldset>
 
     {{!-- Injury specific fields --}}
-    <h5>{{localize "COSMERE.Item.Sheet.Injury.Duration"}}</h5>
-    <div class="form-group">
-        <label>
-            {{localize "COSMERE.Item.Sheet.Injury.InitialDuration"}}
-            <span class="units">({{localize "GENERIC.Units.Days"}})</span>
-        </label>
-
-        {{#if (not @root.isPermanent)}}
-        <input name="system.duration.initial"
-            type="number"
-            min="0"
-            step="1"
-            value="{{@root.item.system.duration.initial}}"
-            {{#if (not @root.editable)}}
-            readonly
-            {{/if}}
-        >
-        {{else}}
-        <input type="text"
-            value="—"
-            readonly
-        >
-        {{/if}}
-    </div>
-    <div class="form-group">
-        <label>
-            {{localize "COSMERE.Item.Sheet.Injury.RemainingDuration"}}
-            <span class="units">({{localize "GENERIC.Units.Days"}})</span>
-        </label>
-        {{#if (not @root.isPermanent)}}
-        <input name="system.duration.remaining"
-            type="number"
-            min="0"
-            step="1"
-            value="{{@root.item.system.duration.remaining}}"
-            {{#if (not @root.editable)}}
-            readonly
-            {{/if}}
-        >
-        {{else}}
-        <input type="text"
-            value="—"
-            readonly
-        >
-        {{/if}}
-    </div>
+    <fieldset>
+        <legend>{{localize "COSMERE.Item.Sheet.Injury.Duration"}}</legend>
+        <div class="item-details-form">
+            <div class="form-group">
+                <label>
+                    {{localize "COSMERE.Item.Sheet.Injury.InitialDuration"}}
+                    <span class="units">({{localize "GENERIC.Units.Days"}})</span>
+                </label>
+                <div class="form-fields">
+                    {{#if (not @root.isPermanent)}}
+                    <input name="system.duration.initial"
+                        type="number"
+                        min="0"
+                        step="1"
+                        value="{{@root.item.system.duration.initial}}"
+                        {{#if (not @root.editable)}}
+                        readonly
+                        {{/if}}
+                    >
+                    {{else}}
+                    <input type="text"
+                        value="—"
+                        readonly
+                    >
+                    {{/if}}
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    {{localize "COSMERE.Item.Sheet.Injury.RemainingDuration"}}
+                    <span class="units">({{localize "GENERIC.Units.Days"}})</span>
+                </label>
+                <div class="form-fields">
+                    {{#if (not @root.isPermanent)}}
+                    <input name="system.duration.remaining"
+                        type="number"
+                        min="0"
+                        step="1"
+                        value="{{@root.item.system.duration.remaining}}"
+                        {{#if (not @root.editable)}}
+                        readonly
+                        {{/if}}
+                    >
+                    {{else}}
+                    <input type="text"
+                        value="—"
+                        readonly
+                    >
+                    {{/if}}
+                </div>                
+            </div>
+        </div>        
+    </fieldset>    
 </div>
-
 {{/with}}

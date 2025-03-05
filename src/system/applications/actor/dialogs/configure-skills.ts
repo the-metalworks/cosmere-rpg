@@ -1,11 +1,12 @@
 import { CosmereActor } from '@system/documents';
 import { AnyObject, DeepPartial } from '@system/types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 // Mixins
 import { ComponentHandlebarsApplicationMixin } from '@system/applications/component-system';
-import HandlebarsApplicationMixin from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/client-esm/applications/api/handlebars-application.mjs';
 
-const { ApplicationV2, DocumentSheetV2 } = foundry.applications.api;
+const { ApplicationV2 } = foundry.applications.api;
 
 export class ConfigureSkillsDialog extends ComponentHandlebarsApplicationMixin(
     ApplicationV2<AnyObject>,
@@ -21,7 +22,7 @@ export class ConfigureSkillsDialog extends ComponentHandlebarsApplicationMixin(
             classes: ['dialog', 'configure-skills'],
             tag: 'dialog',
             position: {
-                width: 400,
+                width: 300,
             },
         },
     );
@@ -30,8 +31,7 @@ export class ConfigureSkillsDialog extends ComponentHandlebarsApplicationMixin(
         foundry.utils.deepClone(super.PARTS),
         {
             form: {
-                template:
-                    'systems/cosmere-rpg/templates/actors/adversary/dialogs/configure-skills.hbs',
+                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ADVERSARY_CONFIGURE_SKILLS}`,
             },
         },
     );
