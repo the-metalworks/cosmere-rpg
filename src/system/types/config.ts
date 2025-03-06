@@ -104,6 +104,7 @@ export interface PathTypeConfig {
 
 export interface CurrencyConfig {
     label: string;
+    icon: string;
     denominations: {
         primary: CurrencyDenominationConfig[];
         secondary?: CurrencyDenominationConfig[];
