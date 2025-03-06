@@ -231,6 +231,7 @@
                     "Actions": "Actions",
                     "Equipment": "Equipment",
                     "Goals": "Goals",
+                    "Notes": "Notes",
                     "Effects": "Effects & Conditions"
                 },
                 "Search": {
@@ -263,6 +264,24 @@
                         "Label": "Connections",
                         "New": "Add New Connection",
                         "NewText": "New Connection"
+                    },
+                    "Biography": {
+                        "Label": "Biography",
+                        "Edit": "Edit Biography",
+                        "Show": "Show Biography",
+                        "Hide": "Collapse Biography"
+                    },
+                    "Appearance": {
+                        "Label": "Appearance",
+                        "Edit": "Edit Appearance",
+                        "Show": "Show Appearance",
+                        "Hide": "Collapse Appearance"
+                    },
+                    "Notes": {
+                        "Label": "Notes",
+                        "Edit": "Edit Notes",
+                        "Show": "Show Notes",
+                        "Hide": "Collapse Notes"
                     }
                 },
                 "Skills": {
