@@ -367,11 +367,17 @@ export class BaseActorSheet<
         }
 
         $(this.element)
-            .find('.collapsible')
-            .on('click', (event) => this.onClickCollapsible(event));
+            .find('.html-field.collapsible')
+            .on('click', (event) => this.onClickCollapsibleHtmlField(event));
     }
 
     /* --- Event handlers --- */
+
+    protected onClickCollapsibleHtmlField(event: JQuery.ClickEvent) {
+        event.stopPropagation();
+        const target = event.currentTarget as HTMLElement;
+        target?.classList.toggle('expanded');
+    }
 
     protected onActionsSearchChange(event: SearchBarInputEvent) {
         this.actionsSearchText = event.detail.text;
@@ -381,11 +387,6 @@ export class BaseActorSheet<
             parts: [],
             components: ['app-actor-actions-list'],
         });
-    }
-
-    protected onClickCollapsible(event: JQuery.ClickEvent) {
-        const target = event.currentTarget as HTMLElement;
-        target?.classList.toggle('expanded');
     }
 
     protected onEquipmentSearchChange(event: SearchBarInputEvent) {
