@@ -209,8 +209,6 @@ export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<
         if (!item) return;
         if (!item.isPhysical()) return;
 
-        this.triggerCurrencyChange();
-
         await item.update(
             {
                 'system.quantity': Math.max(0, item.system.quantity - 1),
@@ -218,6 +216,8 @@ export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<
             { render: false },
         );
         await this.render();
+
+        this.triggerCurrencyChange();
     }
 
     public static async onIncreaseQuantity(
@@ -229,8 +229,6 @@ export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<
         if (!item) return;
         if (!item.isPhysical()) return;
 
-        this.triggerCurrencyChange();
-
         await item.update(
             {
                 'system.quantity': item.system.quantity + 1,
@@ -238,6 +236,8 @@ export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<
             { render: false },
         );
         await this.render();
+
+        this.triggerCurrencyChange();
     }
 
     /* --- Event handlers --- */
