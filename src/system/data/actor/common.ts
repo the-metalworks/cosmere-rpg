@@ -651,7 +651,7 @@ export class CommonActorDataModel<
             money.forEach((item) => {
                 if (item.system.price.currency !== currency) return;
 
-                total += item.system.price.baseValue;
+                total += item.system.price.baseValue * item.system.quantity;
             });
 
             // Update derived total
