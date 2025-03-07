@@ -364,6 +364,13 @@ export class BaseActorSheet<
                     'search',
                     this.onEffectsSearchChange.bind(this) as EventListener,
                 );
+
+            this.element
+                .querySelector('app-actor-equipment-list')
+                ?.addEventListener(
+                    'currency',
+                    this.onCurrencyChange.bind(this) as EventListener,
+                );
         }
 
         $(this.element)
@@ -406,6 +413,13 @@ export class BaseActorSheet<
         void this.render({
             parts: [],
             components: ['app-actor-effects-list'],
+        });
+    }
+
+    protected onCurrencyChange(event: CustomEvent) {
+        void this.render({
+            parts: [],
+            components: ['app-actor-currency-list'],
         });
     }
 
