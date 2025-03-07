@@ -209,6 +209,8 @@ export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<
         if (!item) return;
         if (!item.isPhysical()) return;
 
+        this.triggerCurrencyChange();
+
         await item.update(
             {
                 'system.quantity': Math.max(0, item.system.quantity - 1),
@@ -227,6 +229,8 @@ export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<
         if (!item) return;
         if (!item.isPhysical()) return;
 
+        this.triggerCurrencyChange();
+
         await item.update(
             {
                 'system.quantity': item.system.quantity + 1,
@@ -234,6 +238,13 @@ export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<
             { render: false },
         );
         await this.render();
+    }
+
+    /* --- Event handlers --- */
+    private triggerCurrencyChange() {
+        const event = new CustomEvent('currency', {});
+
+        this.element!.dispatchEvent(event);
     }
 
     /* --- Context --- */
