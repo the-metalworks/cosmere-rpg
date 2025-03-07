@@ -405,6 +405,7 @@ export class BaseItemSheet extends TabsApplicationMixin(
     /* --- Event handlers --- */
 
     private onClickCollapsible(event: JQuery.ClickEvent) {
+        event.stopPropagation();
         const target = event.currentTarget as HTMLElement;
         target?.classList.toggle('expanded');
     }
