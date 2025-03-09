@@ -360,6 +360,8 @@ export class BaseItemSheet extends TabsApplicationMixin(
     /* --- Actions --- */
 
     private static async editDescription(this: BaseItemSheet, event: Event) {
+        event.stopPropagation();
+
         // Get description element
         const descElement = $(event.target!).closest('[description-type]');
 
@@ -405,7 +407,6 @@ export class BaseItemSheet extends TabsApplicationMixin(
     /* --- Event handlers --- */
 
     private onClickCollapsible(event: JQuery.ClickEvent) {
-        event.stopPropagation();
         const target = event.currentTarget as HTMLElement;
         target?.classList.toggle('expanded');
     }
