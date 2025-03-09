@@ -214,6 +214,8 @@ export class BaseActorSheet<
     }
 
     private static async editHtmlField(this: BaseActorSheet, event: Event) {
+        event.stopPropagation();
+
         // Get html field element
         const fieldElement = $(event.target!).closest('[field-type]');
 
@@ -381,7 +383,6 @@ export class BaseActorSheet<
     /* --- Event handlers --- */
 
     protected onClickCollapsibleHtmlField(event: JQuery.ClickEvent) {
-        event.stopPropagation();
         const target = event.currentTarget as HTMLElement;
         target?.classList.toggle('expanded');
     }
