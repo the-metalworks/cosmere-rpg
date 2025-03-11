@@ -76,7 +76,7 @@
         &.theme-dark {
             --cosmere-banner-actor-top: url('assets/art/banner_actor_cosmere_top_dark.webp');
             --cosmere-banner-actor-bot: url('assets/art/banner_actor_cosmere_bot_dark.webp');
-            // --cosmere-banner-item-top: url('/modules/cosmere-rpg-stormlight-handbook/assets/art/banner_item_stormlight_top_dark.webp');
+            --cosmere-banner-item-top: url('assets/art/banner_actor_cosmere_top_dark.webp');
             --cosmere-sheet-texture: url('assets/art/texture_sheet_cosmere_dark.webp');
 
             --cosmere-color-accent : #beaa8a;
@@ -99,6 +99,7 @@
         &.theme-light {            
             --cosmere-banner-actor-top: url('assets/art/banner_actor_cosmere_top_light.webp');
             --cosmere-banner-actor-bot: url('assets/art/banner_actor_cosmere_bot_light.webp');
+            --cosmere-banner-item-top: url('assets/art/banner_actor_cosmere_top_light.webp');
             --cosmere-sheet-texture: url('assets/art/texture_sheet_cosmere_light.webp');
 
             --cosmere-color-accent: #504538;
