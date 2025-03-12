@@ -1135,9 +1135,11 @@
         "Formula": "Formula",
         "Value": "Value",
         "Modifier": "Modifier",
+        "DC": "DC",
         "Skill": "Skill",
         "Attribute": "Attribute",
         "SkillTest": "Skill Test",
+        "Test": "Test",
         "Plot": "Plot",
         "Damage": "Damage",
         "Cost": "Cost",
@@ -1186,6 +1188,17 @@
             "TalentCannotBePrerequisiteOfItself": "A talent cannot be a prerequisite of itself",
             "DuplicatePrerequisiteTalentRef": "A talent with id {talentId} already exists ({talentName})",
             "ItemAlreadyInTree": "An item with id \"{itemId}\" already exists in the {name} talent tree"
+        },
+        "Enrichers": {
+            "Test": {
+                "Against": "against",
+                "VsDefense": "against the target's",
+                "NoSkill": "No Skill Provided"
+            },
+            "Lookup": {
+                "NoPath": "No Lookup Path Provided"
+            },
+            "Error": "ENRICHER ERROR"
         },
         "DerivedValue": {
             "Mode": {

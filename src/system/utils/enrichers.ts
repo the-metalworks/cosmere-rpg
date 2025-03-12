@@ -1,5 +1,6 @@
 import { CosmereActor, CosmereActorRollData, CosmereItem } from '../documents';
-import { Attribute, Skill } from '../types/cosmere';
+import { AttributeConfig, SkillConfig } from '../types/config';
+import { Attribute, AttributeGroup, Skill } from '../types/cosmere';
 import { TargetDescriptor } from './generic';
 
 interface EnricherConfig {
@@ -32,7 +33,7 @@ export interface EnricherData {
             name: string;
         };
     };
-    item: {
+    item?: {
         name: string;
         charges?: {
             value: number;
@@ -53,12 +54,15 @@ const EnricherStyleOptions = {
  * from the 5e implementation that we might want to use later */
 
 export function registerCustomEnrichers() {
-    const stringNames = ['check', 'damage', 'healing', 'item', 'skill'];
+    const stringNames = ['test', 'damage', 'healing', 'item'];
     CONFIG.TextEditor.enrichers.push(
-        // {
-        //   pattern: new RegExp(`\\[\\[/(?<type>${stringNames.join("|")}) (?<config>[^\\]]+)]](?:{(?<label>[^}]+)})?`, "gi"),
-        //   enricher: enrichString
-        // },
+        {
+            pattern: new RegExp(
+                `\\[\\[(?<type>${stringNames.join('|')}) (?<config>[^\\]]+)]](?:{(?<label>[^}]+)})?`,
+                'gi',
+            ),
+            enricher: enrichString,
+        },
         {
             pattern:
                 /\[\[(?<type>lookup) (?<config>[^\]]+)]](?:{(?<label>[^}]+)})?/gi,
@@ -71,8 +75,10 @@ export function registerCustomEnrichers() {
     );
 
     // document.body.addEventListener("click", applyAction);
-    // document.body.addEventListener("click", rollAction);
+    document.body.addEventListener('click', rollAction); // I dislike adding this globally to generic "click"
 }
+
+/* --- Helpers --- */
 
 /**
  * Parse the enriched string and provide the appropriate content.
@@ -95,8 +101,8 @@ function enrichString(
     switch (type.toLowerCase()) {
         // case "healing": config._isHealing = true;
         // case "damage": return enrichDamage(config, label, options);
-        // case "check":
-        // case "skill": return enrichCheck(processedConfig, label, options);
+        case 'test':
+            return enrichTest(processedConfig, label, options);
         case 'lookup':
             return enrichLookup(processedConfig, label, options);
         // case "item": return enrichItem(config, label, options);
@@ -131,6 +137,53 @@ function parseConfig(match: string) {
     }
     return config;
 }
+
+function createErrorSpan(text: string) {
+    const span = document.createElement('span');
+    span.innerText = `[${game.i18n?.localize('GENERIC.Enrichers.Error')} - ${game.i18n?.localize(text)}]`;
+    return span;
+}
+
+function buildRollLabel(
+    config: EnricherConfig,
+    skill?: SkillConfig,
+    attr?: AttributeConfig,
+) {
+    let linkLabel = '',
+        postLink = '';
+    if (skill) {
+        linkLabel = `<b>${game.i18n?.localize(skill.label)}</b> `;
+        const attributeName = attr
+            ? game.i18n?.localize(attr?.label)
+            : undefined;
+        if (attributeName) {
+            linkLabel = `${linkLabel}(${attributeName}) `;
+        }
+        linkLabel = `${linkLabel}${game.i18n?.localize('GENERIC.Test')} `;
+    }
+    if (config.dc && !config.defence)
+        postLink = `${game.i18n?.localize('GENERIC.Enrichers.Test.Against')} ${game.i18n?.localize('GENERIC.DC')} ${config.dc as string | number}`;
+    if (config.defence)
+        postLink = `${game.i18n?.localize('GENERIC.Enrichers.Test.VsDefense')} ${config.defenceName as string} ${game.i18n?.localize('COSMERE.Actor.Statistics.Defense')}${config.dc ? ` (${game.i18n?.localize('GENERIC.DC')}: ${config.dc as number})` : ''}`;
+    return { linkLabel, postLink };
+}
+
+function createTestLink(linkLabel: string, postLink: string, options?: string) {
+    const span = document.createElement('span');
+    span.classList.add('roll-link');
+
+    const link = document.createElement('a');
+    link.dataset.action = 'roll';
+    link.dataset.options = options;
+    link.innerHTML = `<i class="fa-solid fa-dice-d20"></i>${linkLabel}`;
+
+    span.insertAdjacentElement('beforeend', link);
+    span.insertAdjacentText('beforeend', postLink);
+
+    return span;
+}
+
+/* --- Enrichers --- */
 
 /**
  * Enrich a property lookup.
@@ -170,16 +223,13 @@ function enrichLookup(
     }
 
     if (!keyPath) {
-        console.warn(
-            `Lookup path must be defined to enrich ${config._input as string}.`,
-        );
-        return null;
+        return createErrorSpan('GENERIC.Enrichers.Lookup.NoPath');
     }
 
-    // Make sure we've been passed an Item
-    // N.B. if we want to use enrichers on the character notes sections or the like this will need a re-think
     const data =
-        options?.relativeTo && options.relativeTo instanceof CosmereItem
+        options?.relativeTo &&
+        (options.relativeTo instanceof CosmereItem ||
+            options.relativeTo instanceof CosmereActor)
             ? options.relativeTo.getEnricherData()
             : null;
 
@@ -210,3 +260,154 @@ function enrichLookup(
     span.innerText = value ?? keyPath;
     return span;
 }
+
+/**
+ * Enrich a Test (dice roll) link to perform a specific attribute or skill test. If an attribute is provided
+ * along with a skill, then the skill test will always use the provided attribute. Otherwise it will use
+ * the character's default attribute for that skill.
+ * @param {object} config                           Configuration data.
+ * @param {string} [label]                          Optional label to replace default text.
+ * @param {TextEditor.EnrichmentOptions} options    Options provided to customize text enrichment.
+ * @returns {HTMLElement|null}                      An HTML link if the check could be built, otherwise null.
+ *
+ * @example Create an Intimidation test:
+ * ```[[/test skill=inm]]```
+ * becomes
+ * ```html
+ * <a class="roll-action" data-type="test" data-ability="str">
+ *   <i class="fa-solid fa-dice-d20"></i> Intimidation test
+ * </a>
+ * ```
+ *
+ * @example Create a Lore test with a DC and default attribute:
+ * ```[[/test skill=lor dc=20]]```
+ * becomes
+ * ```html
+ * <a class="roll-action" data-type="test" data-skill="lor" data-dc="20">
+ *   <i class="fa-solid fa-dice-d20"></i> DC 20 Lore (Intellect) test
+ * </a>
+ * ```
+ *
+ * @example Create an agility test using strength:
+ * ```[[/test skill=agi attribute=str]]```
+ * becomes
+ * ```html
+ * <a class="roll-action" data-type="test" data-ability="str" data-skill="agi">
+ *   <i class="fa-solid fa-dice-d20"></i> Agility (Strength) test
+ * </a>
+ * ```
+ *
+ * @example Formulas used for DCs will be resolved using data provided to the description (not the roller):
+ * ```[[/test skill=dec dc=12+@actor.attributes.int]]```
+ * becomes
+ * ```html
+ * <a class="roll-action" data-type="test" data-attribute="pre" data-dc="15">
+ *   <i class="fa-solid fa-dice-d20"></i> DC 15 Deception test
+ * </a>
+ * ```
+ */
+function enrichTest(
+    config: EnricherConfig,
+    label?: string,
+    options?: TextEditor.EnrichmentOptions,
+) {
+    let skillConfig: SkillConfig | undefined = undefined;
+    let attributeConfig: AttributeConfig | undefined = undefined;
+    if (config.skill && typeof config.skill === 'string') {
+        skillConfig = CONFIG.COSMERE.skills[config.skill as Skill];
+    }
+    if (!skillConfig) {
+        return createErrorSpan('GENERIC.Enrichers.Test.NoSkill');
+    }
+    if (config.attribute && typeof config.attribute === 'string') {
+        attributeConfig =
+            CONFIG.COSMERE.attributes[config.attribute as Attribute];
+    }
+
+    const data = (
+        options?.relativeTo as unknown as CosmereActor | CosmereItem
+    ).getEnricherData();
+    if (config.dc && typeof config.dc === 'string') {
+        try {
+            const evaluator = new Roll(config.dc, data);
+            config.dc = evaluator.isDeterministic
+                ? evaluator.evaluateSync().total
+                : 0;
+        } catch (error) {
+            console.error(error);
+            config.dc = 0;
+        }
+    }
+    if (config.defence) {
+        config.defenceName =
+            game.i18n?.localize(
+                CONFIG.COSMERE.attributeGroups[config.defence as AttributeGroup]
+                    .label,
+            ) ?? 'Defence';
+        config.dc = (
+            (game.actors as Actors).get(data.target?.uuid ?? '') as CosmereActor
+        )?.system.defenses[config.defence as AttributeGroup].value;
+    }
+
+    const labelText = label
+        ? { linkLabel: label, postLink: '' }
+        : buildRollLabel(config, skillConfig, attributeConfig);
+
+    const linkOptions = JSON.stringify({
+        actorId:
+            options?.relativeTo instanceof CosmereActor
+                ? options.relativeTo.uuid
+                : (options?.relativeTo as unknown as CosmereItem).actor?.uuid,
+        skill: skillConfig?.key,
+        attribute: attributeConfig?.key,
+        dc: config.dc,
+        target: data.target,
+    });
+
+    return createTestLink(labelText.linkLabel, labelText.postLink, linkOptions);
+}
+
+/* --- Event Handlers --- */
+
+async function rollAction(event: Event) {
+    const element = (event.target as HTMLElement)?.closest('.roll-link');
+    if (!element || !(element instanceof HTMLElement)) return;
+    event.stopPropagation();
+    // ui.notifications.info("Roll clicked!");
+
+    const link = (event.target as HTMLElement)?.closest('a');
+    if (!link || !(link instanceof HTMLElement)) return;
+
+    const { action, options } = link.dataset;
+
+    const parsedOptions = JSON.parse(options ?? '') as {
+        actorId: string;
+        [k: string]: string;
+    };
+
+    if (action === 'roll') {
+        const actor = (game.actors as Actors).get(
+            parsedOptions.actorId.split('.')[1],
+        ) as CosmereActor;
+        if (actor && parsedOptions.skill) {
+            await actor.rollSkill(
+                parsedOptions.skill as Skill,
+                parsedOptions.attribute
+                    ? { attribute: parsedOptions.attribute as Attribute }
+                    : undefined,
+            );
+            return;
+        }
+    }
+}
+
+/* TODO:
+ * [ ] fix the collapsible functionality for notes tab & chat cards (probably other instances too...)
+ * [ ] add the relativeTo option to the prosemirror instances for notes tab.
+ * [ ] link styling
+ * [ ] Damage/Healing Enricher?
+ *
+ * Strech Goals:
+ * - Item use Enricher
+ * - Reference Enricher?
+ */

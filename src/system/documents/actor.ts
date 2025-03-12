@@ -43,6 +43,7 @@ import { MESSAGE_TYPES } from './chat-message';
 // Utils
 import { getTargetDescriptors } from '../utils/generic';
 import { characterMeetsTalentPrerequisites } from '@system/utils/talent-tree';
+import { EnricherData } from '../utils/enrichers';
 
 export type CharacterActor = CosmereActor<CharacterActorDataModel>;
 export type AdversaryActor = CosmereActor<AdversaryActorDataModel>;
@@ -958,6 +959,63 @@ export class CosmereActor<
                 },
             },
         };
+    }
+
+    public getEnricherData() {
+        const tokens = this.getActiveTokens();
+        const actor = {
+            name: this.name,
+            type: this.system.type.id,
+            attributes: Object.entries(this.system.attributes).reduce(
+                (obj, [attr, scores]) => {
+                    obj[attr as Attribute] = scores.value;
+                    return obj;
+                },
+                {} as Record<Attribute, number>,
+            ),
+            skills: Object.entries(this.system.skills).reduce(
+                (obj, [skill, details]) => {
+                    obj[skill as Skill] = {
+                        ranks: details.rank,
+                        mod: details.mod.value ?? 0,
+                    };
+                    return obj;
+                },
+                {} as Record<Skill, { ranks: number; mod: number }>,
+            ),
+            health: {
+                max: this.system.resources.hea.max.value ?? 0,
+                value: this.system.resources.hea.value,
+            },
+            focus: {
+                max: this.system.resources.foc.max.value ?? 0,
+                value: this.system.resources.foc.value,
+            },
+            investiture: {
+                max: this.system.resources.inv.max.value ?? 0,
+                value: this.system.resources.inv.value,
+            },
+            deflect: this.system.deflect.value ?? 0,
+            movementSpeed: {
+                walk: this.system.movement.walk.rate.value ?? 0,
+                fly: this.system.movement.fly.rate.value ?? 0,
+                swim: this.system.movement.swim.rate.value ?? 0,
+            },
+            sensesRange: this.system.senses.range.value ?? 0,
+            token:
+                tokens.length > 0
+                    ? {
+                          name: (tokens[0] as Token)?.name,
+                      }
+                    : undefined,
+        };
+
+        const targets = getTargetDescriptors();
+
+        return {
+            actor,
+            target: targets.length > 0 ? targets[0] : undefined,
+        } as const satisfies EnricherData;
     }
 
     public *allApplicableEffects() {
