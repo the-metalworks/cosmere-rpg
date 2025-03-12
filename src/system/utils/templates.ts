@@ -24,6 +24,7 @@ export const TEMPLATES = {
     ACTOR_BASE_EFFECTS_LIST: 'actors/components/effects-list.hbs',
     ACTOR_BASE_EQUIPMENT_LIST: 'actors/components/equipment-list.hbs',
     ACTOR_BASE_INJURIES_LIST: 'actors/components/injuries-list.hbs',
+    ACTOR_BASE_CURRENCY_LIST: 'actors/components/currency-list.hbs',
     ACTOR_BASE_ATTRIBUTES: 'actors/components/attributes.hbs',
     ACTOR_BASE_CONDITIONS: 'actors/components/conditions.hbs',
     ACTOR_BASE_DETAILS: 'actors/components/details.hbs',

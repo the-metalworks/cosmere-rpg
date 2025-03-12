@@ -216,6 +216,8 @@ export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<
             { render: false },
         );
         await this.render();
+
+        this.triggerCurrencyChange();
     }
 
     public static async onIncreaseQuantity(
@@ -234,6 +236,15 @@ export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<
             { render: false },
         );
         await this.render();
+
+        this.triggerCurrencyChange();
+    }
+
+    /* --- Event handlers --- */
+    private triggerCurrencyChange() {
+        const event = new CustomEvent('currency', {});
+
+        this.element!.dispatchEvent(event);
     }
 
     /* --- Context --- */

@@ -283,6 +283,7 @@ export function registerCurrency(data: CurrencyConfigData, force = false) {
     // Add to currency config
     CONFIG.COSMERE.currencies[data.id] = {
         label: data.label,
+        icon: data.icon,
         denominations: data.denominations,
     };
 }

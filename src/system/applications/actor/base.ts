@@ -214,6 +214,8 @@ export class BaseActorSheet<
     }
 
     private static async editHtmlField(this: BaseActorSheet, event: Event) {
+        event.stopPropagation();
+
         // Get html field element
         const fieldElement = $(event.target!).closest('[field-type]');
 
@@ -364,14 +366,26 @@ export class BaseActorSheet<
                     'search',
                     this.onEffectsSearchChange.bind(this) as EventListener,
                 );
+
+            this.element
+                .querySelector('app-actor-equipment-list')
+                ?.addEventListener(
+                    'currency',
+                    this.onCurrencyChange.bind(this) as EventListener,
+                );
         }
 
         $(this.element)
-            .find('.collapsible')
-            .on('click', (event) => this.onClickCollapsible(event));
+            .find('.html-field.collapsible')
+            .on('click', (event) => this.onClickCollapsibleHtmlField(event));
     }
 
     /* --- Event handlers --- */
+
+    protected onClickCollapsibleHtmlField(event: JQuery.ClickEvent) {
+        const target = event.currentTarget as HTMLElement;
+        target?.classList.toggle('expanded');
+    }
 
     protected onActionsSearchChange(event: SearchBarInputEvent) {
         this.actionsSearchText = event.detail.text;
@@ -381,11 +395,6 @@ export class BaseActorSheet<
             parts: [],
             components: ['app-actor-actions-list'],
         });
-    }
-
-    protected onClickCollapsible(event: JQuery.ClickEvent) {
-        const target = event.currentTarget as HTMLElement;
-        target?.classList.toggle('expanded');
     }
 
     protected onEquipmentSearchChange(event: SearchBarInputEvent) {
@@ -405,6 +414,13 @@ export class BaseActorSheet<
         void this.render({
             parts: [],
             components: ['app-actor-effects-list'],
+        });
+    }
+
+    protected onCurrencyChange(event: CustomEvent) {
+        void this.render({
+            parts: [],
+            components: ['app-actor-currency-list'],
         });
     }
 
