@@ -26,7 +26,7 @@ export default {
          */
         const items = getRawDocumentSources('Item') as CosmereItem[];
 
-        // Talent Trees
+        /* --- Talent Trees --- */
         await migrateTalentTrees(items);
 
         /**
@@ -187,7 +187,7 @@ async function migrateActors(actors: CosmereActor[]) {
             }
 
             /* --- Damage Immunities --- */
-            // This is a preemptive block based on the current immunities rework
+            /* --- This is a preemptive block based on the current immunities rework --- */
             // if (Array.isArray(actor.system.immunities.damage)) {
             //     foundry.utils.mergeObject(changes,
             //         Object.keys(COSMERE.damageTypes).reduce(
@@ -206,6 +206,7 @@ async function migrateActors(actors: CosmereActor[]) {
             /**
              * Character Data
              */
+
             if (actor.type === ActorType.Character) {
                 /* --- Advancement ---*/
                 if (isNaN((actor.system as CharacterActorDataModel).level)) {
