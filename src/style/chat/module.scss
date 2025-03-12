@@ -355,6 +355,7 @@
                                     .roll {
                                         float: unset;
                                         margin: 0;
+                                        height: 24px;
 
                                         &.success, &.max {                                            
                                             color: var(--cosmere-color-opportunity);
