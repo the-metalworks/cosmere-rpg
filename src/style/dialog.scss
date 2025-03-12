@@ -222,10 +222,6 @@
     }
 
     &.pick-dice-result {
-        .header {
-
-        }
-
         .dice-rolls {
             display: flex;
             flex-wrap: wrap;
@@ -240,7 +236,22 @@
                 background-repeat: no-repeat;
                 background-size: 48px 48px;
 
-                > img {
+                &.success, &.max {
+                    color: var(--cosmere-color-opportunity);
+                    filter: sepia(1) hue-rotate(180deg);
+                }
+
+                &.failure, &.min {
+                    color: var(--cosmere-color-complication);
+                    filter: sepia(0.8) hue-rotate(-50deg);
+                }
+
+                &.rerolled, &.discarded {
+                    color: inherit;
+                    filter: sepia(0.5) contrast(0.75) opacity(0.4);
+                }
+
+                &.plotdie > img {
                     width: 48px;
                     height: 48px;
                     border: 0;

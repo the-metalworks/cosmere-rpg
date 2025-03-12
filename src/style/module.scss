@@ -99,12 +99,16 @@
             font-family: var(--cosmere-font-normal);
             font-weight: 600;
         }
-        
+
         &:hover {            
             color: var(--cosmere-color-text-main);
             border-color: var(--cosmere-color-accent);
             background: var(--cosmere-color-base-5);
             box-shadow: 0 0 5px var(--cosmere-color-faded);
+        }
+        
+        &:disabled {
+            opacity: 0.4;
         }
     }
 

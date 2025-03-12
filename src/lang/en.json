@@ -1095,14 +1095,11 @@
             }
         },
         "PickDiceResult": {
-            "Title": "Pick result",
-            "Header": {
-                "Plural": "Pick up to {num} rolls to keep",
-                "Singular": "Pick 1 roll to keep"
-            },
-            "SelectRoll": "Select roll",
+            "Title": "Pick Result",
+            "Header": "Picks Remaining:",
+            "SelectRoll": "Select Roll",
             "Error": {
-                "TooManyPicked": "Cannot pick more than {max} rolls"
+                "TooManyPicked": "Cannot pick more than {max} roll(s)!"
             }
         }
     },

@@ -121,11 +121,7 @@ export class PickDiceResultDialog extends ComponentHandlebarsApplicationMixin(
         result.discarded = !result.discarded;
 
         // If only 1 result needs to be selected, submit immediately
-        if (!result.discarded && this.data.amount === 1) {
-            PickDiceResultDialog.onSubmit.call(this);
-        } else {
-            void this.render(true);
-        }
+        void this.render(true);
     }
 
     private static onSubmit(this: PickDiceResultDialog) {
@@ -169,16 +165,7 @@ export class PickDiceResultDialog extends ComponentHandlebarsApplicationMixin(
             die: isPlotDie ? 'd6' : this.data.term.denomination,
             faces: this.data.term.faces ?? 0,
             rolls: this.rolls,
-            amountToPick: this.data.amount,
-            amountPicked: this.picked.length,
-            headerText:
-                this.data.amount > 1
-                    ? game.i18n!.format('DIALOG.PickDiceResult.Header.Plural', {
-                          num: this.data.amount,
-                      })
-                    : game.i18n!.localize(
-                          'DIALOG.PickDiceResult.Header.Singular',
-                      ),
+            amountLeft: this.data.amount - this.picked.length,
             plotDie: {
                 c2: IMPORTED_RESOURCES.PLOT_DICE_C2_IN_CHAT,
                 c4: IMPORTED_RESOURCES.PLOT_DICE_C4_IN_CHAT,
