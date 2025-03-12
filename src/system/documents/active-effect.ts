@@ -21,7 +21,7 @@ function tryApplyRollData(actor: Actor, value: string): string {
         const data = actor.getRollData() as AnyObject;
 
         // Treat the change value as a formula and evaluate it
-        value = new Roll(value, data).evaluateSync().formula;
+        value = new Roll(value, data).evaluateSync().total.toString();
         return value;
     } catch {
         return value;

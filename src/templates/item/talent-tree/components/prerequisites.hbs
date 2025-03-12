@@ -26,7 +26,7 @@
         <div class="col description">
             {{#if (eq rule.type "talent")}}
                 {{#if (gt rule.talents.length 1)}}
-                    <span>{{localize rule.modeLabel}}:</span>
+                    <span>{{localize "COSMERE.Item.TalentTree.Node.Prerequisites.OneOf"}}:</span>
                 {{/if}}
                 {{#each rule.talents as |ref|}}
                     {{{ref.link}}}
@@ -48,16 +48,20 @@
         </div>
         <div class="col controls flexrow">
             {{#if @root.editable}}
-            <a data-action="edit-prerequisite"
-                data-tooltip="COSMERE.Item.Sheet.Talent.Prerequisites.Edit"
-            >
-                <i class="fa-solid fa-pen-to-square"></i>
-            </a>
-            <a data-action="delete-prerequisite"
-                data-tooltip="COSMERE.Item.Sheet.Talent.Prerequisites.Delete"
-            >
-                <i class="fa-solid fa-trash"></i>
-            </a>
+                {{#if (not rule.managed)}}
+                    <a data-action="edit-prerequisite"
+                        data-tooltip="COSMERE.Item.Sheet.Talent.Prerequisites.Edit"
+                    >
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
+                    <a data-action="delete-prerequisite"
+                        data-tooltip="COSMERE.Item.Sheet.Talent.Prerequisites.Delete"
+                    >
+                        <i class="fa-solid fa-trash"></i>
+                    </a>
+                {{else}}
+                    <i data-tooltip="COSMERE.Item.TalentTree.Node.Prerequisites.CannotEditManaged" class="fa-solid fa-lock"></i>
+                {{/if}}
             {{/if}}
         </div>
     </li>

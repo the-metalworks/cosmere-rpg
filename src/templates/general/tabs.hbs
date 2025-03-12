@@ -1,12 +1,11 @@
 <nav class="sheet-navigation sheet-tabs tabs">
     {{#each tabs as |tab|}}
+    {{#if ../ignoreLabel}}
     <a class="sheet-stack {{tab.cssClass}}"
         data-tab="{{tab.id}}"
         data-group="{{tab.group}}"
         data-action="tab"
-        {{#if ../ignoreLabel}}
         data-tooltip="{{localize tab.label}}"
-        {{/if}}
     >
         <div class="container">
             <div class="background"></div>
@@ -15,11 +14,17 @@
                 {{#if tab.icon}}
                     {{{tab.icon}}}
                 {{/if}}
-                {{#if (not ../ignoreLabel)}}
-                <label>{{localize tab.label}}</label>
-                {{/if}}
             </span>
-        </div>        
+        </div>
     </a>
+    {{else}}
+    <a class="{{tab.cssClass}}"
+        data-tab="{{tab.id}}"
+        data-group="{{tab.group}}"
+        data-action="tab"
+    >
+        {{localize tab.label}}
+    </a>
+    {{/if}}
     {{/each}}
 </nav>

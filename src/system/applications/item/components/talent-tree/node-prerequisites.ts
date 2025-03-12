@@ -58,6 +58,7 @@ export class NodePrerequisitesComponent extends HandlebarsApplicationComponent<
             type: TalentTree.Node.Prerequisite.Type.Attribute,
             attribute: Attribute.Strength,
             value: 1,
+            managed: false,
         };
 
         // Add the new rule to the item
@@ -85,6 +86,9 @@ export class NodePrerequisitesComponent extends HandlebarsApplicationComponent<
         const rule = this.node!.prerequisites.get(id);
         if (!rule) return;
 
+        // Ensure rule isn't managed
+        if (rule.managed) return;
+
         // Show the edit dialog
         void EditNodePrerequisiteDialog.show(
             this.application.item,
@@ -100,6 +104,13 @@ export class NodePrerequisitesComponent extends HandlebarsApplicationComponent<
         // Get the rule ID
         const id = this.getRuleIdFromEvent(event);
         if (!id) return;
+
+        // Get the rule data
+        const rule = this.node!.prerequisites.get(id);
+        if (!rule) return;
+
+        // Ensure rule isn't managed
+        if (rule.managed) return;
 
         // Update the item
         void TalentTreeUtils.removePrerequisite(
