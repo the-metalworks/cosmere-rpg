@@ -156,6 +156,7 @@ export const TEMPLATES = {
     DIALOG_CHAT_MODIFY_DAMAGE: 'chat/dialogs/damage-modifier.hbs',
 
     DIALOG_ROLL_PICK_DICE_RESULT: 'roll/dialogs/pick-dice-result.hbs',
+    DIALOG_ROLL_CONFIGURATION: 'roll/dialogs/roll-configuration.hbs',
 } as const;
 
 /**

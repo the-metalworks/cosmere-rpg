@@ -1015,7 +1015,10 @@
             "Graze": "Graze",
             "Full": "Full"
         },
-        "TemporaryBonus": "Temporary Modifiers (formula)"
+        "TemporaryBonus": {
+            "Label": "Temporary Bonus",
+            "Hint": "Enter an optional formula to apply as a temporary modifier to this skill test."
+        }
     },
     "ROLLS": {
         "Recovery": "[character] rolls their recovery die.",
@@ -1059,6 +1062,9 @@
         },
         "EditTalentPrerequisite": {
             "Title": "Edit Prerequisite"
+        },
+        "ConfigureRoll": {
+            "Title": "Configure Rolls"
         },
         "ConfigureAttack": {
             "AdvantageMode": {

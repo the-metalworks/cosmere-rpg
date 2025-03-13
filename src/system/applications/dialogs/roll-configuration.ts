@@ -2,11 +2,12 @@ import { Attribute } from '@system/types/cosmere';
 import { RollMode } from '@system/dice/types';
 import { AdvantageMode } from '@system/types/roll';
 import { AnyObject, NONE, Nullable } from '@system/types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 import {
     getFormulaDisplayString,
     getNullableFromFormInput,
 } from '@src/system/utils/generic';
-
 import { D20RollData } from '@system/dice/d20-roll';
 
 // Mixins
@@ -92,6 +93,7 @@ export class RollConfigurationDialog extends ComponentHandlebarsApplicationMixin
         {
             window: {
                 minimizable: false,
+                resizable: false,
                 positioned: true,
             },
             classes: ['dialog', 'roll-configuration'],
@@ -109,8 +111,7 @@ export class RollConfigurationDialog extends ComponentHandlebarsApplicationMixin
         foundry.utils.deepClone(super.PARTS),
         {
             form: {
-                template:
-                    'systems/cosmere-rpg/templates/roll/dialogs/d20-config.hbs',
+                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ROLL_CONFIGURATION}`,
                 forms: {
                     form: {
                         handler: this.onFormEvent,
