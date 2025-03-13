@@ -1096,7 +1096,7 @@
         },
         "PickDiceResult": {
             "Title": "Pick Result",
-            "Header": "Picks Remaining:",
+            "Header": "Left to Pick:",
             "SelectRoll": "Select Roll",
             "Error": {
                 "TooManyPicked": "Cannot pick more than {max} roll(s)!"
