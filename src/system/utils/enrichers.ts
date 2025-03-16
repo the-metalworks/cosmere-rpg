@@ -73,9 +73,6 @@ export function registerCustomEnrichers() {
         //   enricher: enrichString
         // }
     );
-
-    // document.body.addEventListener("click", applyAction);
-    document.body.addEventListener('click', rollAction); // I dislike adding this globally to generic "click"
 }
 
 /* --- Helpers --- */
@@ -173,7 +170,8 @@ function createTestLink(linkLabel: string, postLink: string, options?: string) {
     span.classList.add('roll-link');
 
     const link = document.createElement('a');
-    link.dataset.action = 'roll';
+    link.dataset.action = 'trigger-enricher';
+    link.dataset.type = 'roll';
     link.dataset.options = options;
     link.innerHTML = `<i class="fa-solid fa-dice-d20"></i>${linkLabel}`;
 
@@ -369,41 +367,44 @@ function enrichTest(
 
 /* --- Event Handlers --- */
 
-async function rollAction(event: Event) {
+export async function enricherAction(event: Event) {
     const element = (event.target as HTMLElement)?.closest('.roll-link');
     if (!element || !(element instanceof HTMLElement)) return;
     event.stopPropagation();
-    // ui.notifications.info("Roll clicked!");
 
     const link = (event.target as HTMLElement)?.closest('a');
     if (!link || !(link instanceof HTMLElement)) return;
 
-    const { action, options } = link.dataset;
+    const { type, options } = link.dataset;
 
     const parsedOptions = JSON.parse(options ?? '') as {
         actorId: string;
         [k: string]: string;
     };
 
-    if (action === 'roll') {
-        const actor = (game.actors as Actors).get(
-            parsedOptions.actorId.split('.')[1],
-        ) as CosmereActor;
-        if (actor && parsedOptions.skill) {
-            await actor.rollSkill(
-                parsedOptions.skill as Skill,
-                parsedOptions.attribute
-                    ? { attribute: parsedOptions.attribute as Attribute }
-                    : undefined,
-            );
-            return;
-        }
+    if (type === 'roll') {
+        await rollAction(parsedOptions);
+    }
+}
+
+async function rollAction(options: { actorId: string; [k: string]: string }) {
+    const actor = (game.actors as Actors).get(
+        options.actorId.split('.')[1],
+    ) as CosmereActor;
+    if (actor && options.skill) {
+        await actor.rollSkill(
+            options.skill as Skill,
+            options.attribute
+                ? { attribute: options.attribute as Attribute }
+                : undefined,
+        );
+        return;
     }
 }
 
 /* TODO:
- * [ ] fix the collapsible functionality for notes tab & chat cards (probably other instances too...)
- * [ ] add the relativeTo option to the prosemirror instances for notes tab.
+ * [X] fix the collapsible functionality for notes tab & chat cards (probably other instances too...)
+ * [X] add the relativeTo option to the prosemirror instances for notes tab.
  * [ ] link styling
  * [ ] Damage/Healing Enricher?
  *

@@ -20,6 +20,7 @@ import {
 } from '../utils/generic';
 import ApplicationV2 from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/client-esm/applications/api/application.mjs';
 import { DamageModifierDialog } from '../applications/actor/dialogs/damage-card-modifier';
+import { enricherAction } from '../utils/enrichers';
 
 export const MESSAGE_TYPES = {
     SKILL: 'skill',
@@ -176,6 +177,12 @@ export class CosmereChatMessage extends ChatMessage {
         if (!description) return;
 
         html.find('.chat-card').append(description);
+
+        // need to loop as there may be multiple enricher outputs per description
+        // also converts the event listener to pure js so that we don't need to overload the utility
+        html.find('[data-action="trigger-enricher"]').each((index, element) => {
+            element.addEventListener('click', enricherAction);
+        });
     }
 
     protected async enrichSkillTest(html: JQuery) {
