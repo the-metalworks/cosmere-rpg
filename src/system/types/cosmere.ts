@@ -257,6 +257,11 @@ export const enum MovementType {
     Fly = 'fly',
 }
 
+export const enum RestType {
+    Short = 'short',
+    Long = 'long',
+}
+
 /* --- System --- */
 
 export const enum ActorType {
