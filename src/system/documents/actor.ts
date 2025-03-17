@@ -43,6 +43,7 @@ import { MESSAGE_TYPES } from './chat-message';
 // Utils
 import { getTargetDescriptors } from '../utils/generic';
 import { characterMeetsTalentPrerequisites } from '@system/utils/talent-tree';
+import { CosmereHooks } from '../types/hooks';
 
 export type CharacterActor = CosmereActor<CharacterActorDataModel>;
 export type AdversaryActor = CosmereActor<AdversaryActorDataModel>;
@@ -602,11 +603,33 @@ export class CosmereActor<
         const damageTotal =
             damageIgnore + Math.max(0, damageDeflect - this.deflect) - healing;
 
+        /**
+         * Hook: preApplyDamage
+         *
+         * Passes the damage calculated, unadjusted for the actual remaining health
+         */
+        Hooks.call<CosmereHooks.ApplyDamage>(
+            'cosmere.preApplyDamage',
+            this,
+            damageTotal,
+        );
+
         // Apply damage
         const newHealth = Math.max(0, health - damageTotal);
         await this.update({
             'system.resources.hea.value': newHealth,
         });
+
+        /**
+         * Hook: postApplyDamage
+         *
+         * Passes the damage actually applied to the character
+         */
+        Hooks.callAll<CosmereHooks.ApplyDamage>(
+            'cosmere.postApplyDamage',
+            this,
+            health - newHealth,
+        );
 
         if (chatMessage) {
             const messageConfig = {
