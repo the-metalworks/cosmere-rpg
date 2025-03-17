@@ -37,17 +37,6 @@ export namespace CosmereHooks {
     ) => boolean;
 
     /**
-     * Data Derivation Hooks
-     *
-     * - postActorDataDerivation
-     * - postItemDataDerivation
-     */
-    export type DataDerivation<T extends CosmereActor | CosmereItem> = (
-        document: T,
-        data: CosmereActorRollData,
-    ) => boolean;
-
-    /**
      * Rest Hooks
      *
      * - preRest
