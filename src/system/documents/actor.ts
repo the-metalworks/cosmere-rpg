@@ -608,11 +608,14 @@ export class CosmereActor<
          *
          * Passes the damage calculated, unadjusted for the actual remaining health
          */
-        Hooks.call<CosmereHooks.ApplyDamage>(
-            'cosmere.preApplyDamage',
-            this,
-            damageTotal,
-        );
+        if (
+            Hooks.call<CosmereHooks.ApplyDamage>(
+                'cosmere.preApplyDamage',
+                this,
+                damageTotal,
+            ) === false
+        )
+            return;
 
         // Apply damage
         const newHealth = Math.max(0, health - damageTotal);

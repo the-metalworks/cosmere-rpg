@@ -8,6 +8,7 @@ export namespace CosmereHooks {
      * - preApplyDamage
      * - postApplyDamage
      */
+
     export type ApplyDamage = (actor: CosmereActor, amount: number) => boolean;
 
     /**
@@ -16,6 +17,7 @@ export namespace CosmereHooks {
      * - preApplyInjury
      * - postApplyInjury
      */
+
     export type PreApplyInjury = (
         message: ChatMessage,
         actor: CosmereActor | null,
@@ -36,6 +38,7 @@ export namespace CosmereHooks {
      *
      * - chatMessageInteracted
      */
+
     export type MessageInteracted = (
         message: ChatMessage,
         event: JQuery.Event,
@@ -52,6 +55,7 @@ export namespace CosmereHooks {
      * - postShortRest
      * - postLongRest
      */
+
     export type Rest = (actor: CosmereActor, duration: RestType) => boolean;
 
     /**
@@ -62,6 +66,7 @@ export namespace CosmereHooks {
      * - postRoll
      * - postRollConfiguration
      */
+
     export type PreRoll = () => boolean; // TODO
     export type PostRoll = () => boolean; // TODO
     export type PostRollConfig = () => boolean; // TODO

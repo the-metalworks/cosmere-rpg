@@ -420,6 +420,9 @@ export class CosmereChatMessage extends ChatMessage {
                 event.preventDefault();
                 event.stopPropagation();
 
+                // Handle interaction hook
+                if (this.onInteraction(event) === false) return;
+
                 const button = event.currentTarget;
                 const action = button.dataset.action;
 
@@ -542,6 +545,9 @@ export class CosmereChatMessage extends ChatMessage {
             section.find('.icon.clickable').on('click', async (event) => {
                 event.preventDefault();
                 event.stopPropagation();
+
+                // Handle interaction hook
+                if (this.onInteraction(event) === false) return;
 
                 const button = event.currentTarget;
                 const action = button.dataset.action;
@@ -847,6 +853,9 @@ export class CosmereChatMessage extends ChatMessage {
         event.preventDefault();
         event.stopPropagation();
 
+        // Handle interaction hook
+        if (this.onInteraction(event) === false) return;
+
         const clone = await Promise.all(
             this.rolls.map(async (roll) => await roll.reroll()),
         );
@@ -869,6 +878,9 @@ export class CosmereChatMessage extends ChatMessage {
     ) {
         event.preventDefault();
         event.stopPropagation();
+
+        // Handle interaction hook
+        if (this.onInteraction(event) === false) return;
 
         const button = event.currentTarget as HTMLElement;
         const promptModify =
@@ -991,5 +1003,27 @@ export class CosmereChatMessage extends ChatMessage {
      */
     private onOverlayHoverEnd(html: JQuery) {
         html.find('.overlay').attr('style', 'display: none;');
+    }
+
+    /**
+     * Helpers
+     */
+
+    /**
+     * Call interaction hook
+     * @param event
+     * @private
+     */
+    private onInteraction(event: JQuery.Event): boolean {
+        /**
+         * Hook: chatMessageInteracted
+         *
+         * Pass message and triggering event
+         */
+        return Hooks.call<CosmereHooks.MessageInteracted>(
+            'cosmere.chatMessageInteracted',
+            this,
+            event,
+        );
     }
 }
