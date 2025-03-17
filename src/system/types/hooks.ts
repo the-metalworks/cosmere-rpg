@@ -1,10 +1,5 @@
-import {
-    CosmereActor,
-    CosmereActorRollData,
-    CosmereItem,
-    InjuryItem,
-} from '../documents';
-import { RestType } from './cosmere';
+import { CosmereActor, InjuryItem } from '../documents';
+import { InjuryType, RestType } from './cosmere';
 
 export namespace CosmereHooks {
     /**
@@ -21,8 +16,18 @@ export namespace CosmereHooks {
      * - preApplyInjury
      * - postApplyInjury
      */
-    export type ApplyInjury = (
-        actor: CosmereActor,
+    export type PreApplyInjury = (
+        message: ChatMessage,
+        actor: CosmereActor | null,
+        data: {
+            type: InjuryType;
+            duration: number;
+        },
+    ) => boolean;
+
+    export type PostApplyInjury = (
+        message: ChatMessage,
+        actor: CosmereActor | null,
         injury: InjuryItem,
     ) => boolean;
 

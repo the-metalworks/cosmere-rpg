@@ -20,6 +20,8 @@ import {
 } from '../utils/generic';
 import ApplicationV2 from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/client-esm/applications/api/application.mjs';
 import { DamageModifierDialog } from '../applications/actor/dialogs/damage-card-modifier';
+import { InjuryItem } from './item';
+import { CosmereHooks } from '../types/hooks';
 
 export const MESSAGE_TYPES = {
     SKILL: 'skill',
@@ -422,7 +424,24 @@ export class CosmereChatMessage extends ChatMessage {
                 const action = button.dataset.action;
 
                 if (action === 'apply') {
-                    await Item.create(
+                    const duration = durationRoll?.total ?? 0;
+
+                    /**
+                     * Hook: preApplyInjury
+                     *
+                     * Passes the injury data
+                     */
+                    if (
+                        Hooks.call<CosmereHooks.PreApplyInjury>(
+                            'cosmere.preApplyInjury',
+                            this,
+                            this.associatedActor,
+                            { type: data.type, duration },
+                        ) === false
+                    )
+                        return;
+
+                    const injuryItem = (await Item.create(
                         {
                             type: ItemType.Injury,
                             name: game.i18n!.localize(
@@ -430,11 +449,23 @@ export class CosmereChatMessage extends ChatMessage {
                             ),
                             system: {
                                 duration: {
-                                    remaining: durationRoll?.total ?? 0,
+                                    remaining: duration,
                                 },
                             },
                         },
                         { parent: this.associatedActor },
+                    )) as unknown as InjuryItem;
+
+                    /**
+                     * Hook: postApplyInjury
+                     *
+                     * Passes the created injury item
+                     */
+                    Hooks.callAll<CosmereHooks.PostApplyInjury>(
+                        'cosmere.postApplyInjury',
+                        this,
+                        this.associatedActor,
+                        injuryItem,
                     );
                 }
             });
