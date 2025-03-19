@@ -98,6 +98,8 @@ export const TEMPLATES = {
     ITEM_TALENT_TREE_NODE_TOOLTIP:
         'item/talent-tree/partials/talent-tree-node-tooltip.hbs',
 
+    ITEM_PATH_TALENTS_TAB: 'item/path/partials/path-talents-tab.hbs',
+
     ITEM_DETAILS_ID: 'item/components/details-id.hbs',
     ITEM_DETAILS_ACTIVATION: 'item/components/details-activation.hbs',
     ITEM_DETAILS_ATTACK: 'item/components/details-attack.hbs',

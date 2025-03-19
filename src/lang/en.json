@@ -480,6 +480,10 @@
                 }
             },
             "Path": {
+                "TalentTree": {
+                    "Label": "Talent Tree",
+                    "Hint": "Talent tree that contains all talents for this path. This tree is displayed on the \"talents\" tab."
+                },
                 "LinkedSkills": {
                     "Label": "Linked Skills",
                     "Hint": "These skills are displayed alongside the path in the character sheet."
@@ -690,7 +694,8 @@
                 "Tabs": {
                     "Description": "Description",
                     "Effects": "Effects",
-                    "Details": "Details"
+                    "Details": "Details",
+                    "Talents": "Talents"
                 },
                 "Identifier": {
                     "Label": "Identifier",
@@ -822,6 +827,10 @@
                         "Create": "New Reward",
                         "SkillRanksDescriptionValue": "{ranks} ranks in {skill}"
                     }
+                },
+                "Path": {
+                    "TalentTreePlaceholder": "Drop Talent Tree Here",
+                    "NoTalentsConfigured": "No Talents Configured"
                 }
             }
         },

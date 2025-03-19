@@ -109,6 +109,8 @@ export class TalentTreeViewComponent<
     public async resize() {
         this.app!.resize();
 
+        this.initializeCanvasView();
+
         // Render canvas
         await this.canvasTree!.refresh();
         await this.renderCanvas(true);
