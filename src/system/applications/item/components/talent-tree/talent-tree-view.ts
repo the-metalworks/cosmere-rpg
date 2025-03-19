@@ -126,7 +126,7 @@ export class TalentTreeViewComponent<
         this._selectedType = 'node';
 
         // Select node
-        this.canvasTree!.nodes.find(
+        this.canvasTree!.nodes!.find(
             (n) =>
                 n instanceof CanvasElements.Nodes.TalentNode &&
                 n.data.id === node.id,
@@ -145,16 +145,16 @@ export class TalentTreeViewComponent<
         if (!this.selected) return;
 
         if (this.selectedType === 'node') {
-            this.canvasTree!.nodes.find(
+            this.canvasTree!.nodes!.find(
                 (n) =>
                     n instanceof CanvasElements.Nodes.TalentNode &&
                     n.data.id === (this.selected as TalentTree.Node).id,
             )?.deselect();
         } else {
-            this.canvasTree!.connections.find(
+            this.canvasTree!.connections!.find(
                 (c) =>
-                    c.from.id === (this.selected as NodeConnection).from &&
-                    c.to.id === (this.selected as NodeConnection).to,
+                    c.from.data.id === (this.selected as NodeConnection).from &&
+                    c.to.data.id === (this.selected as NodeConnection).to,
             )?.deselect();
         }
 
@@ -446,7 +446,7 @@ export class TalentTreeViewComponent<
         const node = event.node.data;
 
         // Get node view position
-        const viewPos = this.viewport!.worldToView(node.position);
+        const viewPos = event.node.getGlobalPosition();
 
         // Get node size
         const nodeSize = {
@@ -493,7 +493,9 @@ export class TalentTreeViewComponent<
                     };
                 }),
                 description: await TextEditor.enrichHTML(
-                    item.system.description?.value ?? '',
+                    item.system.description?.short ??
+                        item.system.description?.value ??
+                        '',
                 ),
                 hasContextActor: !!this.contextActor,
             },
@@ -526,10 +528,10 @@ export class TalentTreeViewComponent<
         game.tooltip!.deactivate();
 
         // Remove tooltip root
-        const tooltipRoot = this.element!.querySelector(
+        const tooltipRoot = this.element!.querySelectorAll(
             '.talent-tree-tooltip-root',
         );
-        if (tooltipRoot) tooltipRoot.remove();
+        tooltipRoot.forEach((el) => el.remove());
     }
 
     /* --- Context --- */
