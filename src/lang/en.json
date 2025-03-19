@@ -1064,7 +1064,8 @@
             "Title": "Edit Prerequisite"
         },
         "ConfigureRoll": {
-            "Title": "Configure Rolls"
+            "Title": "Configure Rolls",
+            "Hint": "Left click or right click any individual die to apply advantage or disadvantage respectively."
         },
         "ConfigureAttack": {
             "AdvantageMode": {

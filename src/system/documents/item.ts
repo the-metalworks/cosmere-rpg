@@ -661,6 +661,11 @@ export class CosmereItem<
                           )
                         : `${game.i18n!.localize('GENERIC.Custom')} ${game.i18n!.localize('GENERIC.Skill')}`
                 })`,
+                defaultAttribute: skillTestAttributeId,
+                defaultRollMode: options.rollMode,
+                raiseStakes:
+                    options.skillTest?.plotDie ??
+                    this.system.activation.plotDie,
                 skillTest: {
                     ...options.skillTest,
                     parts: ['@mod'].concat(options.skillTest?.parts ?? []),
@@ -669,9 +674,6 @@ export class CosmereItem<
                         skillTestAttributeId,
                         actor,
                     ),
-                    plotDie:
-                        options.skillTest?.plotDie ??
-                        this.system.activation.plotDie,
                 },
                 damageRoll: {
                     ...options.damage,
@@ -681,28 +683,24 @@ export class CosmereItem<
                         skillTestAttributeId,
                         actor,
                     ),
+                    dice: [],
                 },
-                defaultAttribute: skillTestAttributeId,
-                defaultRollMode: options.rollMode,
+                plotDie: {},
             });
 
             // If the dialog was closed, exit out of rolls
             if (!attackConfig) return null;
 
             options.skillTest.temporaryModifiers =
-                attackConfig.skillTest.temporaryModifiers;
-
+                attackConfig.temporaryModifiers;
             skillTestAttributeId = attackConfig.attribute;
             options.rollMode = attackConfig.rollMode;
-
-            options.skillTest.plotDie = attackConfig.skillTest.plotDie;
-            options.skillTest.advantageMode =
-                attackConfig.skillTest.advantageMode;
+            options.skillTest.plotDie = attackConfig.plotDie;
+            options.skillTest.advantageMode = attackConfig.advantageMode;
             options.skillTest.advantageModePlot =
-                attackConfig.skillTest.advantageModePlot;
+                attackConfig.advantageModePlot;
 
-            options.damage.advantageMode =
-                attackConfig.damageRoll.advantageMode;
+            //options.damage.advantageMode = attackConfig.advantageModeDamage;
         }
 
         // Roll the skill test
