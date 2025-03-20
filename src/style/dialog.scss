@@ -265,12 +265,21 @@
                 height: 20px;
                 background-size: 20px 20px;
                 line-height: 20px;
-                font-size: var(--font-size-14);
+                font-size: var(--font-size-14);  
+                cursor: pointer;              
+
+                &:hover {
+                    filter: var(--cosmere-shadow-svg);
+                }
 
                 &.advantage {
                     color: var(--cosmere-color-opportunity);
                     filter: sepia(1) hue-rotate(180deg);
                     font-family: "Font Awesome 6 Pro";
+
+                    &:hover {
+                        filter: sepia(1) hue-rotate(180deg) var(--cosmere-shadow-svg);
+                    }
 
                     &::before {
                         content: "\f35b"
@@ -281,6 +290,10 @@
                     color: var(--cosmere-color-complication);
                     filter: sepia(0.8) hue-rotate(-50deg);
                     font-family: "Font Awesome 6 Pro";
+
+                    &:hover {
+                        filter: sepia(0.8) hue-rotate(-50deg) var(--cosmere-shadow-svg);
+                    }
 
                     &::before {
                         content: "\f358"
