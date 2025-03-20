@@ -365,6 +365,22 @@ export class AttackConfigurationDialog extends ComponentHandlebarsApplicationMix
         $(this.element).prop('open', true);
 
         $(this.element)
+            .find('.roll-config.test .dice-tooltip .dice-rolls .roll.die')
+            .addClass(this.data.skillTest.advantageMode ?? AdvantageMode.None);
+
+        $(this.element)
+            .find('.roll-config.plot .dice-tooltip .dice-rolls .roll.die')
+            .addClass(this.data.plotDie.advantageMode ?? AdvantageMode.None);
+
+        this.data.damageRoll.dice.forEach((die, index) => {
+            $(this.element)
+                .find(
+                    `.roll-config.damage .dice-tooltip .dice-rolls .roll.die[data-index=${index}]`,
+                )
+                .addClass(die.advantageMode ?? AdvantageMode.None);
+        });
+
+        $(this.element)
             .find('.dice-tooltip .dice-rolls .roll.die')
             .on('mousedown', this.onClickConfigureDie.bind(this));
     }

@@ -277,6 +277,14 @@ export class RollConfigurationDialog extends ComponentHandlebarsApplicationMixin
         $(this.element).prop('open', true);
 
         $(this.element)
+            .find('.roll-config.test .dice-tooltip .dice-rolls .roll.die')
+            .addClass(this.data.skillTest.advantageMode ?? AdvantageMode.None);
+
+        $(this.element)
+            .find('.roll-config.plot .dice-tooltip .dice-rolls .roll.die')
+            .addClass(this.data.plotDie.advantageMode ?? AdvantageMode.None);
+
+        $(this.element)
             .find('.dice-tooltip .dice-rolls .roll.die')
             .on('mousedown', this.onClickConfigureDie.bind(this));
     }
