@@ -491,13 +491,14 @@ export class CosmereItem<
             actor,
         );
 
+        const formula = options.overrideFormula ?? this.system.damage.formula;
         // Perform the roll
         const roll = await damageRoll(
             foundry.utils.mergeObject(options, {
                 formula:
                     rollData.mod !== undefined
-                        ? `${this.system.damage.formula} + ${rollData.mod}`
-                        : this.system.damage.formula,
+                        ? `${formula} + ${rollData.mod}`
+                        : formula,
                 damageType: this.system.damage.type,
                 mod: rollData.mod,
                 data: rollData,
@@ -521,7 +522,8 @@ export class CosmereItem<
         diceOnlyRoll.filterTermsSafely(
             (term) =>
                 term instanceof foundry.dice.terms.DiceTerm ||
-                term instanceof foundry.dice.terms.OperatorTerm,
+                term instanceof foundry.dice.terms.OperatorTerm ||
+                term instanceof foundry.dice.terms.PoolTerm,
         );
 
         // Ensure there is at least one term in the unmodded roll
@@ -700,7 +702,32 @@ export class CosmereItem<
             options.skillTest.advantageModePlot =
                 attackConfig.advantageModePlot;
 
-            //options.damage.advantageMode = attackConfig.advantageModeDamage;
+            if (
+                attackConfig.advantageModeDamage.some(
+                    (a) =>
+                        (a.advantageMode ?? AdvantageMode.None) !==
+                        AdvantageMode.None,
+                )
+            ) {
+                const pools: Record<number, string[]> = {};
+                for (const mode of attackConfig.advantageModeDamage) {
+                    pools[mode.poolIndex] ??= [];
+
+                    const state = mode.advantageMode ?? AdvantageMode.None;
+                    pools[mode.poolIndex].push(
+                        `${state !== AdvantageMode.None ? 2 : 1}${mode.die.denomination}${state === AdvantageMode.Advantage ? 'kh' : state === AdvantageMode.Disadvantage ? 'kl' : ''}`,
+                    );
+                }
+
+                const parts = [];
+                for (const pool of Object.values(pools)) {
+                    parts.push(
+                        pool.length > 1 ? `{${pool.join(',')}}` : pool[0],
+                    );
+                }
+
+                options.damage.overrideFormula = parts.join(' + ');
+            }
         }
 
         // Roll the skill test
@@ -917,9 +944,7 @@ export class CosmereItem<
                         opportunity: options.opportunity,
                         complication: options.complication,
                     },
-                    damage: {
-                        advantageMode: options.advantageModeDamage,
-                    },
+                    damage: {},
                     chatMessage: false,
                 });
                 if (!attackResult) return null;
@@ -1313,6 +1338,12 @@ export namespace CosmereItem {
         parts?: string[];
 
         /**
+         * A formula to override the default formula passed in for the damage roll.
+         * Used when configuring individual dice in a damage roll with advantage/disadvantage.
+         */
+        overrideFormula?: string;
+
+        /**
          * A dice formula stating any miscellanious other bonuses or negatives to the specific roll
          */
         temporaryModifiers?: string;
@@ -1364,7 +1395,7 @@ export namespace CosmereItem {
             | 'advantageMode'
             | 'advantageModePlot'
         >;
-        damage?: Pick<RollOptions, 'advantageMode' | 'skill' | 'attribute'>;
+        damage?: Pick<RollOptions, 'overrideFormula' | 'skill' | 'attribute'>;
     }
 
     export interface UseOptions extends RollOptions {
