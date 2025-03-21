@@ -10,13 +10,9 @@ import {
 } from '@system/types/cosmere';
 import { Goal } from '@system/types/item';
 import { GoalItemData } from '@system/data/item/goal';
-import { DeepPartial, NONE, Nullable } from '@system/types/utils';
-
+import { DeepPartial, Nullable } from '@system/types/utils';
 import { CosmereActor } from './actor';
-
 import { SYSTEM_ID } from '../constants';
-
-import { Derived } from '@system/data/fields';
 
 // Dialogs
 import { AttackConfigurationDialog } from '@system/applications/dialogs/attack-configuration';
@@ -69,12 +65,10 @@ import {
 } from '../utils/generic';
 import { MESSAGE_TYPES } from './chat-message';
 import { renderSystemTemplate, TEMPLATES } from '../utils/templates';
+import { ItemConsumeDialog } from '../applications/item/dialogs/item-consume';
 
 // Constants
-const CONSUME_CONFIGURATION_DIALOG_TEMPLATE =
-    'systems/cosmere-rpg/templates/item/dialog/item-consume.hbs';
-const ACTIVITY_CARD_TEMPLATE =
-    'systems/cosmere-rpg/templates/chat/activity-card.hbs';
+const CONSUME_CONFIGURATION_DIALOG_TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ITEM_CONSUME}`;
 
 interface ShowConsumeDialogOptions {
     /**
@@ -1054,39 +1048,14 @@ export class CosmereItem<
                   ? '[TODO ITEM]'
                   : game.i18n!.localize('GENERIC.Unknown');
 
-        // Render the dialog inner HTML
-        const content = await renderTemplate(
-            CONSUME_CONFIGURATION_DIALOG_TEMPLATE,
-            {
-                consumedResourceLabel,
-                amount,
-                shouldConsume,
-            },
-        );
-
-        // Return promise that resolves with the dialog result
-        return new Promise((resolve) => {
-            new Dialog({
-                title,
-                content,
-                buttons: {
-                    continue: {
-                        label: game.i18n!.localize('GENERIC.Button.Continue'),
-                        callback: (html) => {
-                            const form = $(html)[0].querySelector(
-                                'form',
-                            )! as HTMLFormElement & {
-                                shouldConsume: HTMLInputElement;
-                            };
-
-                            resolve(form.shouldConsume.checked);
-                        },
-                    },
-                },
-                default: 'continue',
-                close: () => resolve(null),
-            }).render(true);
+        // Show the dialog if required
+        const result = await ItemConsumeDialog.show(this, {
+            resource: consumedResourceLabel,
+            amount,
+            shouldConsume,
         });
+
+        return result.shouldConsume;
     }
 
     /* --- Functions --- */

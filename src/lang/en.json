@@ -1026,8 +1026,8 @@
     },
     "DIALOG": {
         "ItemConsume": {
-            "Title": "Consume resource",
-            "ShouldConsume": "Consume resource?"
+            "Title": "Consume Resource",
+            "ShouldConsume": "Consume {amount} {resource}?"
         },
         "EditExpertise": {
             "Remove": "Remove",
