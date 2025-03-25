@@ -39,12 +39,12 @@
 
         .border {
             position: absolute;
-            left: -3px;
+            left: 0px;
             top: 0px;
             width: calc(100% + 6px);
             height: 105px;
             background-color: var(--cosmere-color-accent);
-            mask: var(--border-header-svg) no-repeat center;
+            mask: var(--border-header-svg) no-repeat;
             pointer-events: none;
         }
 
@@ -76,6 +76,7 @@
             margin-top: -1.75rem;
             margin-left: 1px;
             gap: 0.75rem;
+            width: 100%;
 
             .portrait {
                 aspect-ratio: 1 / 1;
