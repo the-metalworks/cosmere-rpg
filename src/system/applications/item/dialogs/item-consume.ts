@@ -32,7 +32,7 @@ interface ItemConsumeDialogResult {
 export class ItemConsumeDialog extends foundry.applications.api.DialogV2 {
     private constructor(
         private item: CosmereItem,
-        private resolve: (result: ItemConsumeDialogResult) => void,
+        private resolve: (result: ItemConsumeDialogResult | null) => void,
         content: string,
         title?: string,
     ) {
@@ -54,12 +54,18 @@ export class ItemConsumeDialog extends foundry.applications.api.DialogV2 {
         });
     }
 
+    /* --- Lifecycle --- */
+
+    protected _onClose() {
+        this.resolve(null);
+    }
+
     /* --- Statics --- */
 
     public static async show(
         item: CosmereItem,
         options: ItemConsumeDialogOptions = {},
-    ): Promise<ItemConsumeDialogResult> {
+    ): Promise<ItemConsumeDialogResult | null> {
         // Render dialog inner HTML
         const content = await renderTemplate(TEMPLATE, {
             label: game.i18n!.format('DIALOG.ItemConsume.ShouldConsume', {

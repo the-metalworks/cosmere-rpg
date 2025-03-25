@@ -1055,7 +1055,7 @@ export class CosmereItem<
             shouldConsume,
         });
 
-        return result.shouldConsume;
+        return result?.shouldConsume ?? null;
     }
 
     /* --- Functions --- */
