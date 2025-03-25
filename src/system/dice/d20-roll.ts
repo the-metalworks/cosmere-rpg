@@ -244,12 +244,14 @@ export class D20Roll extends foundry.dice.Roll<D20RollData> {
     /* --- Public Functions --- */
 
     public async configureDialog(
-        data: Omit<RollConfigurationDialog.Data, 'parts'>,
+        data: RollConfigurationDialog.Data,
     ): Promise<D20Roll | null> {
+        // Populate parts list
+        data.skillTest.parts = [this.parts];
+
         // Show the dialog
         const result = await RollConfigurationDialog.show({
             ...data,
-            parts: [this.parts],
         });
         if (!result) return null;
 

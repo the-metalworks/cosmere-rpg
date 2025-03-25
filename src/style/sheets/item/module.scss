@@ -305,17 +305,6 @@
             .units {
                 color: var(--cosmere-color-faded);
             }
-
-            .info {
-                font-size: var(--font-size-11);
-                color: var(--cosmere-color-faded);
-                margin-left: 0.125rem;
-                cursor: help;
-                
-                &:hover {
-                    text-shadow: 0 0 6px var(--color-shadow-primary);
-                }
-            }
         }
 
         .form-group,

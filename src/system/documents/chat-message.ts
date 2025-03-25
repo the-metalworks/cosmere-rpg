@@ -20,6 +20,7 @@ import {
 } from '../utils/generic';
 import ApplicationV2 from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/client-esm/applications/api/application.mjs';
 import { DamageModifierDialog } from '../applications/actor/dialogs/damage-card-modifier';
+import { AnyObject } from '../types/utils';
 
 export const MESSAGE_TYPES = {
     SKILL: 'skill',
@@ -739,7 +740,7 @@ export class CosmereChatMessage extends ChatMessage {
                 this.rolls.map(async (roll) => {
                     if (!(roll instanceof DamageRoll)) return roll;
 
-                    const crit = await new DamageRoll(roll.formula, roll.data, {
+                    const crit = new DamageRoll(roll.formula, roll.data, {
                         damageType: roll.damageType,
                         mod: roll.mod,
                         source: roll.source,
@@ -748,10 +749,17 @@ export class CosmereChatMessage extends ChatMessage {
                         maximize: true,
                         minimize: false,
                         critical: true,
-                    }).evaluate({ maximize: true });
+                    });
+
+                    roll.dice.forEach((die, index) => {
+                        die.results.forEach((r) => (r.result = die.faces ?? 0));
+                        crit.dice[index].results = die.results;
+                    });
+
+                    await crit.evaluate();
 
                     if (roll.graze) {
-                        const graze = await new DamageRoll(
+                        const graze = new DamageRoll(
                             roll.graze.formula,
                             roll.graze.data,
                             {
@@ -765,8 +773,18 @@ export class CosmereChatMessage extends ChatMessage {
                                 minimize: false,
                                 critical: true,
                             },
-                        ).evaluate({ maximize: true });
+                        );
 
+                        DamageRoll.fromData(
+                            roll.graze as unknown as foundry.dice.Roll.Data,
+                        ).dice.forEach((die, index) => {
+                            die.results.forEach(
+                                (r) => (r.result = die.faces ?? 0),
+                            );
+                            graze.dice[index].results = die.results;
+                        });
+
+                        await graze.evaluate();
                         crit.graze = graze;
                     }
 

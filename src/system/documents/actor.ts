@@ -805,10 +805,9 @@ export class CosmereActor<
         if (options.dialog) {
             const result = await ShortRestDialog.show(this, options);
 
-            if (!result.performRest) return;
-            else {
-                options.tendedBy = result.tendedBy;
-            }
+            if (!result?.performRest) return;
+
+            options.tendedBy = result.tendedBy;
         }
 
         // Get Medicine mod, if required
