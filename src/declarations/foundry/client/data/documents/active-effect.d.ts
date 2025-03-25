@@ -185,6 +185,7 @@ declare class ActiveEffect<
     public disabled: boolean;
     public origin: string | null;
     public duration: ActiveEffect.EffectDurationData;
+    public statuses: Set<string>;
 
     /**
      * Is there some system logic that makes this active effect ineligible for application?
@@ -228,4 +229,10 @@ declare class ActiveEffect<
         actor: Actor,
         change: ActiveEffect.EffectChangeData,
     ): Record<string, any>;
+
+    /**
+     * Display changes to active effects as scrolling Token status text.
+     * @param {boolean} enabled     Is the active effect currently enabled?
+     */
+    protected _displayScrollingStatus(enabled: boolean);
 }

@@ -186,7 +186,10 @@
                         "Weight": "Weight"
                     }
                 },
-                "Conditions": "Conditions",
+                "Conditions": {
+                    "Label": "Conditions",
+                    "CumulativeConditionTooltip": "Left click to increase the amount.<br>Right click to decrease the amount."
+                },
                 "Injuries": {
                     "Label": "Injuries",
                     "Duration": "Duration",

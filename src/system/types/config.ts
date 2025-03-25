@@ -51,6 +51,18 @@ export interface ConditionConfig {
     label: string;
     icon: string;
     reference?: string;
+
+    /**
+     * Whether the condition is cumulative.
+     */
+    cumulative?: boolean;
+
+    /**
+     * Transform the count value for display.
+     *
+     * @example Used for exhaustion to display "Exhaustion [-1]" instead of "Exhaution [1]".
+     */
+    countDisplayTansform?: (count: number) => string;
 }
 
 export interface InjuryConfig {

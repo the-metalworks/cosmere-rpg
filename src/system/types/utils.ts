@@ -2,6 +2,7 @@ export {
     DeepPartial,
     AnyObject,
     EmptyObject,
+    AnyMutableObject,
 } from '@league-of-foundry-developers/foundry-vtt-types/src/types/utils.mjs';
 
 // Constant to improve UI consistency

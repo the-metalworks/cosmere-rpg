@@ -1,4 +1,5 @@
 import { ActorType, Condition, ItemType } from './system/types/cosmere';
+import { AnyMutableObject } from './system/types/utils';
 import { SYSTEM_ID } from './system/constants';
 import { TEMPLATES } from './system/utils/templates';
 import COSMERE from './system/config';
@@ -56,7 +57,10 @@ Hooks.once('init', async () => {
 
     CONFIG.Token.documentClass = documents.CosmereTokenDocument;
 
-    CONFIG.ActiveEffect.documentClass = documents.CosmereActiveEffect;
+    (CONFIG.ActiveEffect as AnyMutableObject).dataModels =
+        dataModels.activeEffect.config;
+    CONFIG.ActiveEffect.documentClass =
+        documents.CosmereActiveEffect as typeof ActiveEffect;
     CONFIG.ActiveEffect.legacyTransferral = false;
 
     Roll.TOOLTIP_TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.CHAT_ROLL_TOOLTIP}`;
@@ -143,6 +147,15 @@ function registerStatusEffects() {
             name: config.label,
             img: config.icon,
             _id: `cond${condition}`.padEnd(16, '0'),
+
+            ...(config.cumulative
+                ? {
+                      system: {
+                          isCumulative: true,
+                          count: 1,
+                      },
+                  }
+                : {}),
         };
     });
 
