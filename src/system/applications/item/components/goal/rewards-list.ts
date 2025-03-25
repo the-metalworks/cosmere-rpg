@@ -2,6 +2,8 @@ import { Skill } from '@system/types/cosmere';
 import { Goal } from '@system/types/item';
 import { CosmereItem, GoalItem, PowerItem } from '@system/documents/item';
 import { ConstructorOf } from '@system/types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 // Dialogs
 import { EditGoalRewardDialog } from '@system/applications/item/dialogs/goal/edit-reward';
@@ -21,8 +23,7 @@ export class RewardsListComponent extends HandlebarsApplicationComponent<
     ConstructorOf<GoalItemSheet>,
     Params
 > {
-    static readonly TEMPLATE =
-        'systems/cosmere-rpg/templates/item/goal/components/rewards-list.hbs';
+    static readonly TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_GOAL_REWARDS_LIST}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions

@@ -1,6 +1,8 @@
 import { Talent } from '@system/types/item';
 import { CosmereItem } from '@system/documents/item';
 import { ConstructorOf } from '@system/types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 // Dialogs
 import { EditTalentGrantRuleDialog } from '../../dialogs/talent/edit-grant-rule';
@@ -13,8 +15,7 @@ import { BaseItemSheetRenderContext } from '../../base';
 export class TalentGrantRulesList extends HandlebarsApplicationComponent<
     ConstructorOf<TalentItemSheet>
 > {
-    static readonly TEMPLATE =
-        'systems/cosmere-rpg/templates/item/talent/components/grant-rules-list.hbs';
+    static readonly TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_TALENT_GRANT_RULES_LIST}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions and forms

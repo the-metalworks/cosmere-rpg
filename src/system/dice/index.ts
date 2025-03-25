@@ -1,5 +1,6 @@
 import { Attribute } from '@system/types/cosmere';
 
+import './modifiers';
 import { D20Roll, D20RollOptions, D20RollData } from './d20-roll';
 import { DamageRoll, DamageRollOptions, DamageRollData } from './damage-roll';
 import {
@@ -103,14 +104,18 @@ export async function d20Roll(
             config.configurable !== false
                 ? await roll.configureDialog({
                       title: config.title,
-                      plotDie: config.plotDie,
+                      raiseStakes: config.plotDie,
                       defaultRollMode:
                           config.rollMode ??
                           game.settings!.get('core', 'rollMode'),
                       defaultAttribute:
                           config.defaultAttribute ??
                           config.data.skill.attribute,
-                      data: config.data,
+                      skillTest: {
+                          data: config.data,
+                          parts: [],
+                      },
+                      plotDie: {},
                   })
                 : roll;
         if (configured === null) return null;

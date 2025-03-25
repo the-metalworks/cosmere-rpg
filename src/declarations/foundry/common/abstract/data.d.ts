@@ -257,6 +257,10 @@ namespace foundry {
             static metadata: DocumentMetadata;
 
             readonly system: Schema;
+            readonly _stats: {
+                systemId: string | null;
+                systemVersion: string | null;
+            };
 
             get flags(): Record<string, any>;
             get pack(): string | undefined;
@@ -882,6 +886,15 @@ namespace foundry {
              * Called before {@link ClientDocument#prepareDerivedData} in {@link ClientDocument#prepareData}.
              */
             public prepareDerivedData();
+
+            /* --- Deprecations and Compatibility --- */
+
+            /**
+             * Migrate candidate source data for this DataModel which may require initial cleaning or transformations.
+             * @param source           The candidate source data from which the model will be constructed
+             * @returns                Migrated source data, if necessary
+             */
+            static migrateData(source: object): object;
         }
 
         declare class TypeDataModel<

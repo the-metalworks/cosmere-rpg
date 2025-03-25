@@ -1,52 +1,52 @@
-<ul class="list-table">
-    <li class="rule header">
-        <div class="col type">
-            <span>{{localize systemFields.grantRules.model.fields.type.label}}</span>
-        </div>
-        <div class="col description">
-            <span>{{localize "COSMERE.Item.Sheet.Talent.GrantRules.Description"}}</span>
-        </div>
-        <div class="col controls flexrow">
-            {{#if editable}}
-            <div></div>
-            <a data-action="create-rule" 
-                data-tooltip="COSMERE.Item.Sheet.Talent.GrantRules.Create"
-            >
-                <i class="fa-solid fa-plus"></i>
-            </a>
-            {{/if}}
-        </div>
+<ul class="item-list reward-list">
+    <li class="item header">        
+        <section class="details">
+            <span class="title">{{localize "COSMERE.Item.Sheet.Talent.GrantRules.Description"}}</span>
+            <span class="subtitle wide">{{localize systemFields.grantRules.model.fields.type.label}}</span>
+            <div class="controls icon active">
+                {{#if editable}}
+                <a data-action="create-rule" 
+                    data-tooltip="COSMERE.Item.Sheet.Talent.GrantRules.Create"
+                >
+                    <i class="fa-solid fa-plus"></i>
+                </a>
+                {{else}}
+                <div></div>
+                {{/if}}
+            </div>
+        </section>
     </li>
 
     {{#each rules as |rule|}}
-    <li class="rule" data-id="{{rule._id}}">
-        <div class="col type">
-            <span>{{localize rule.typeLabel}}</span>
-        </div>
-        <div class="col description">
-            {{#if (eq rule.type "items")}}
-                {{#each rule.items as |item|}}
-                    {{{item.link}}}
-                    {{#if (not @last)}}
-                        <span>,</span>
-                    {{/if}}
-                {{/each}}
-            {{/if}}
-        </div>
-        <div class="col controls flexrow">
-            {{#if @root.editable}}
-            <a data-action="edit-rule" 
-                data-tooltip="COSMERE.Item.Sheet.Talent.GrantRules.Edit"
-            >
-                <i class="fa-solid fa-pen-to-square"></i>
-            </a>
-            <a data-action="delete-rule" 
-                data-tooltip="COSMERE.Item.Sheet.Talent.GrantRules.Delete"
-            >
-                <i class="fa-solid fa-trash"></i>
-            </a>
-            {{/if}}
-        </div>
+    <li class="item rule" data-id="{{rule._id}}">
+        <section class="details">            
+            <div class="name">
+                {{#if (eq rule.type "items")}}
+                    <div class="document-list">
+                        {{#each rule.items as |item|}}
+                        {{{item.link}}}
+                        {{/each}}
+                    </div>
+                {{/if}}
+            </div>
+            <div class="detail wide">
+                <span>{{localize rule.typeLabel}}</span>
+            </div>
+            <div class="controls icon faded">
+                {{#if @root.editable}}
+                <a data-action="edit-rule" 
+                    data-tooltip="COSMERE.Item.Sheet.Talent.GrantRules.Edit"
+                >
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </a>
+                <a data-action="delete-rule" 
+                    data-tooltip="COSMERE.Item.Sheet.Talent.GrantRules.Delete"
+                >
+                    <i class="fa-solid fa-trash"></i>
+                </a>
+                {{/if}}
+            </div>
+        </section>
     </li>
     {{/each}}
 </ul>

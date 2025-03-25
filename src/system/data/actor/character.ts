@@ -136,7 +136,7 @@ export class CharacterActorDataModel extends CommonActorDataModel<CharacterActor
         this.maxSkillRank = currentAdvancementRule.maxSkillRanks;
 
         // Derive the recovery die based on the character's willpower
-        this.recovery.die.value = willpowerToRecoveryDie(
+        this.recovery.die.derived = willpowerToRecoveryDie(
             this.attributes.wil.value,
         );
 
@@ -151,20 +151,21 @@ export class CharacterActorDataModel extends CommonActorDataModel<CharacterActor
                     this.attributes.str.value + this.attributes.str.bonus;
 
                 // Assign max
-                resource.max.value =
-                    Advancement.deriveMaxHealth(advancementRules, strength) +
-                    (resource.max.bonus ?? 0);
+                resource.max.derived = Advancement.deriveMaxHealth(
+                    advancementRules,
+                    strength,
+                );
             } else if (key === Resource.Focus) {
                 // Get willpower mod
                 const willpower =
                     this.attributes.wil.value + this.attributes.wil.bonus;
 
                 // Assign max
-                resource.max.value = 2 + willpower + (resource.max.bonus ?? 0);
+                resource.max.derived = 2 + willpower;
             }
 
             // Get max
-            const max = Derived.getValue(resource.max)!;
+            const max = resource.max.value;
 
             // Ensure resource value is between max mand min
             resource.value = Math.max(0, Math.min(max, resource.value));

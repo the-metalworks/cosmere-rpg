@@ -8,12 +8,13 @@ import { setTheme } from './utils/templates';
 export const SETTINGS = {
     INTERNAL_FIRST_CREATION: 'firstTimeWorldCreation',
     INTERNAL_LATEST_VERSION: 'latestVersion',
-    ITEM_SHEET_SIDE_TABS: 'itemSheetSideTabs',
-    ROLL_SKIP_DIALOG_DEFAULT: 'skipRollDialogByDefault',
+    DIALOG_ROLL_SKIP_DEFAULT: 'skipRollDialogByDefault',
+    DIALOG_DAMAGE_MODIFIER_SKIP_DEFAULT: 'skipDamageModDialogByDefault',
     CHAT_ENABLE_OVERLAY_BUTTONS: 'enableOverlayButtons',
     CHAT_ENABLE_APPLY_BUTTONS: 'enableApplyButtons',
     CHAT_ALWAYS_SHOW_BUTTONS: 'alwaysShowApplyButtons',
     APPLY_BUTTONS_TO: 'applyButtonsTo',
+    SHEET_EXPAND_DESCRIPTION_DEFAULT: 'expandDescriptionByDefault',
     SYSTEM_THEME: 'systemTheme',
 } as const;
 
@@ -47,26 +48,31 @@ export function registerSystemSettings() {
 
     // SHEET SETTINGS
     const sheetOptions = [
-        { name: SETTINGS.ITEM_SHEET_SIDE_TABS, default: false },
+        {
+            name: SETTINGS.SHEET_EXPAND_DESCRIPTION_DEFAULT,
+            default: false,
+            scope: 'client',
+        },
     ];
 
     sheetOptions.forEach((option) => {
         game.settings!.register(SYSTEM_ID, option.name, {
             name: game.i18n!.localize(`SETTINGS.${option.name}.name`),
             hint: game.i18n!.localize(`SETTINGS.${option.name}.hint`),
-            scope: 'world',
+            scope: option.scope as 'client' | 'world' | undefined,
             config: true,
             type: Boolean,
             default: option.default,
         });
     });
 
-    // ROLL SETTINGS
-    const rollOptions = [
-        { name: SETTINGS.ROLL_SKIP_DIALOG_DEFAULT, default: false },
+    // DIALOG SKIP SETTINGS
+    const dialogOptions = [
+        { name: SETTINGS.DIALOG_ROLL_SKIP_DEFAULT, default: false },
+        { name: SETTINGS.DIALOG_DAMAGE_MODIFIER_SKIP_DEFAULT, default: true },
     ];
 
-    rollOptions.forEach((option) => {
+    dialogOptions.forEach((option) => {
         game.settings!.register(SYSTEM_ID, option.name, {
             name: game.i18n!.localize(`SETTINGS.${option.name}.name`),
             hint: game.i18n!.localize(`SETTINGS.${option.name}.hint`),
@@ -141,7 +147,7 @@ export function registerDeferredSettings() {
         onChange: (s) => setTheme(document.body, s),
     });
 
-    setTheme(document.body, getSystemSetting(SETTINGS.SYSTEM_THEME) as Theme);
+    setTheme(document.body, getSystemSetting(SETTINGS.SYSTEM_THEME));
 }
 
 /**
@@ -192,11 +198,13 @@ export function registerSystemKeybindings() {
 
 /**
  * Retrieve a specific setting value for the provided key.
- * @param {string} settingKey The identifier of the setting to retrieve.
- * @returns {string|boolean} The value of the setting as set for the world/client.
+ * @param settingKey The identifier of the setting to retrieve.
+ * @returns The value of the setting as set for the world/client.
  */
-export function getSystemSetting(settingKey: string) {
-    return game.settings!.get(SYSTEM_ID, settingKey);
+export function getSystemSetting<
+    T extends string | boolean | number = string | boolean | number,
+>(settingKey: string) {
+    return game.settings!.get(SYSTEM_ID, settingKey) as T;
 }
 
 /**

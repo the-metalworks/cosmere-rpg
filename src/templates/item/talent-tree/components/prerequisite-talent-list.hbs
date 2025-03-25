@@ -1,0 +1,19 @@
+<ul>
+    {{#each talents as |talent|}}
+    <li class="talent" data-id="{{talent.id}}">
+        <div class="col link">
+            {{{talent.link}}}
+        </div>
+        <div class="col controls">
+            <a data-action="remove-talent"
+                data-tooltip="GENERIC.Button.Remove"
+            >
+                <i class="fa-solid fa-trash"></i>
+            </a>
+        </div>
+    </li>
+    {{/each}}
+</ul>
+<p>
+    {{localize "COSMERE.Item.Sheet.Talent.Prerequisites.DropTalents"}}
+</p>

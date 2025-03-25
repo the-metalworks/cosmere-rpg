@@ -19,7 +19,12 @@ export default {
         // Removes the hash from the asset filename
         assetFileNames: '[name][extname]',
     },
+    external: [
+        '@pixi/core'
+    ],
     plugins: [
+        clearOutputDir(),
+
         // CSS
         scss(),
 
@@ -46,10 +51,31 @@ export default {
                 { src: 'src/patch-notes.md', dest: 'build/' },
             ],
         }),
+        pixiImportFix(),
     ],
 };
 
 /* --- Custom Plugins --- */
+
+/**
+ * Rollup plugin to clear the contents of the output directory before building.
+ */
+function clearOutputDir() {
+    return {
+        name: 'clear-output-dir',
+        buildStart() {
+            const outputDir = 'build';
+
+            // Clear contents of the output directory, if it exists
+            if (fs.existsSync(outputDir)) {
+                fs.rmSync(outputDir, { recursive: true });
+            }
+
+            // Ensure the output directory exists
+            fs.mkdirSync(outputDir);
+        }
+    }
+}
 
 function markdownParser(config) {
     return {
@@ -87,5 +113,23 @@ function markdownParser(config) {
                 fs.writeFileSync(dest, `<div>${markdown}</div>`);
             });
         } 
+    }
+}
+
+function pixiImportFix() {
+    return {
+        name: 'pixi-import-fix',
+        renderChunk: (code, chunk, options, meta) => {
+            return code.replace(
+                "import { Point, ObservablePoint, Rectangle, Filter, utils } from '@pixi/core';",
+                [
+                    'const Point = PIXI.Point;',
+                    'const ObservablePoint = PIXI.ObservablePoint;',
+                    'const Rectangle = PIXI.Rectangle;',
+                    'const Filter = PIXI.Filter;',
+                    'const utils = PIXI.utils;',
+                ].join('\n')
+            )
+        }
     }
 }

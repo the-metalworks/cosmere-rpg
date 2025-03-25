@@ -112,7 +112,7 @@ export function determineConfigurationMode(
  */
 export function isFastForward() {
     const skipKeyPressed = areKeysPressed(KEYBINDINGS.SKIP_DIALOG_DEFAULT);
-    const skipByDefault = getSystemSetting(SETTINGS.ROLL_SKIP_DIALOG_DEFAULT);
+    const skipByDefault = getSystemSetting(SETTINGS.DIALOG_ROLL_SKIP_DEFAULT);
 
     return (
         (skipByDefault && !skipKeyPressed) || (!skipByDefault && skipKeyPressed)
@@ -151,6 +151,28 @@ export function getConstantFromRoll(roll: Roll) {
 }
 
 /**
+ * Toggles a given Advantage Mode to the correct advantage mode given the corresponding click used.
+ * @param {AdvantageMode} current The current Advantage Mode to cycle from.
+ * @param {boolean} leftClick Was the click a left click or a right click.
+ * @returns {AdvantageMode} The resulting cycled Advantage Mode.
+ */
+export function toggleAdvantageMode(
+    current: AdvantageMode,
+    leftClick: boolean,
+) {
+    switch (current) {
+        case AdvantageMode.None:
+            return leftClick
+                ? AdvantageMode.Advantage
+                : AdvantageMode.Disadvantage;
+        case AdvantageMode.Advantage:
+            return leftClick ? AdvantageMode.None : AdvantageMode.Disadvantage;
+        case AdvantageMode.Disadvantage:
+            return leftClick ? AdvantageMode.Advantage : AdvantageMode.None;
+    }
+}
+
+/**
  * Converts a list of the various parts of a formula into a displayable string.
  *
  * @param {string[]} diceParts A parts array as provided from the foundry Roll API.
@@ -171,9 +193,9 @@ export function getFormulaDisplayString(diceParts: string[]) {
  * @returns {Set} A set of tokens that the system considers as current targets.
  */
 export function getApplyTargets() {
-    const setting = getSystemSetting(
+    const setting = getSystemSetting<TargetingOptions>(
         SETTINGS.APPLY_BUTTONS_TO,
-    ) as TargetingOptions;
+    );
 
     const applyToTargeted =
         setting === TargetingOptions.TargetedOnly ||
@@ -234,9 +256,9 @@ export function getTargetDescriptors() {
     const targets = new Map();
     for (const token of game.user!.targets) {
         const { name, img, system, uuid } = (token.actor as CosmereActor) ?? {};
-        const phy = system.defenses.phy.value.value ?? 10;
-        const cog = system.defenses.cog.value.value ?? 10;
-        const spi = system.defenses.spi.value.value ?? 10;
+        const phy = system.defenses.phy.value ?? 10;
+        const cog = system.defenses.cog.value ?? 10;
+        const spi = system.defenses.spi.value ?? 10;
 
         if (uuid) {
             targets.set(uuid, { name, img, uuid, def: { phy, cog, spi } });

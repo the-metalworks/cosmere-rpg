@@ -1,12 +1,14 @@
 {{#if isTyped}}
 <div class="form-group">
     <label>{{localize "COSMERE.Item.Sheet.Type"}}</label>
-    <select name="system.type"
-        {{#if (not editable)}}
-        disabled
-        {{/if}}
-    >
-        {{selectOptions item.system.typeSelectOptions selected=item.system.type localize=true}}
-    </select>
+    <div class="form-fields">
+        <select name="system.type"
+            {{#if (not editable)}}
+            disabled
+            {{/if}}
+        >
+            {{selectOptions item.system.typeSelectOptions selected=item.system.type localize=true}}
+        </select>
+    </div>    
 </div>
 {{/if}}

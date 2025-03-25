@@ -15,6 +15,11 @@ export class CosmereCombat extends Combat {
                 'activated',
                 combatant.isDefeated ? true : false,
             );
+            void combatant.setFlag(
+                SYSTEM_ID,
+                'bossFastActivated',
+                combatant.isDefeated ? true : false,
+            );
         }
     }
 

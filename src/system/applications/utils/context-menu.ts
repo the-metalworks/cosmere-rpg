@@ -28,7 +28,7 @@ export namespace AppContextMenu {
         /**
          * The items to display in the context menu.
          */
-        items: Item[] | ((element: HTMLElement) => Item[]);
+        items?: Item[] | ((element: HTMLElement) => Item[]);
 
         /**
          * The selectors to bind the context menu to.
@@ -83,7 +83,7 @@ export class AppContextMenu {
     private constructor(
         private parent: AppContextMenu.Parent,
         private anchor: AppContextMenu.Anchor,
-        items:
+        items?:
             | AppContextMenu.Item[]
             | ((element: HTMLElement) => AppContextMenu.Item[]),
     ) {
@@ -108,6 +108,7 @@ export class AppContextMenu {
      * matching the selectors.
      *
      * This function takes care of re-binding on render.
+     * If no selectors are provided, simply call `show` on the context menu.
      */
     public static create(config: AppContextMenu.Config): AppContextMenu {
         // Destructure config
@@ -177,30 +178,60 @@ export class AppContextMenu {
                             : undefined;
 
                     setTimeout(() => {
-                        void this.show(element, positioning);
+                        void this.show(element, undefined, positioning);
                     });
                 }
             });
         });
     }
 
-    public async show(element: HTMLElement, positioning?: Positioning) {
+    public show(
+        element: HTMLElement,
+        items?: AppContextMenu.Item[],
+        positioning?: Positioning,
+    ): Promise<void>;
+    public show(
+        items: AppContextMenu.Item[],
+        positioning: Positioning,
+    ): Promise<void>;
+    public async show(...args: unknown[]): Promise<void> {
+        const firstArgIsElement = args[0] instanceof HTMLElement;
+
+        const element = firstArgIsElement
+            ? (args[0] as HTMLElement)
+            : this.contextElement;
+
+        let positioning = !firstArgIsElement
+            ? (args[1] as Positioning)
+            : args.length === 3
+              ? (args[2] as Positioning)
+              : undefined;
+
+        // Set items
+        this.items = !firstArgIsElement
+            ? (args[0] as AppContextMenu.Item[])
+            : (this.itemsFn?.(element!) ?? this.items)!;
+
         // If the context element is different and items are dynamic, always re-render
-        if (element !== this.contextElement && this.itemsFn)
+        if (
+            firstArgIsElement &&
+            element !== this.contextElement &&
+            this.itemsFn
+        )
             this.rendered = false;
+
+        // If the first argument is not an element, re-render
+        if (!firstArgIsElement) this.rendered = false;
 
         // Set the context element
         this.contextElement = element;
 
-        // Get items
-        if (this.itemsFn) this.items = this.itemsFn(this.contextElement);
-
         // If not rendered yet, render now
         if (!this.rendered) await this.render();
 
-        if (!positioning) {
+        if (firstArgIsElement) {
             // Get element bounds
-            const elementBounds = element.getBoundingClientRect();
+            const elementBounds = element!.getBoundingClientRect();
             const rootBounds = this.parent.element.getBoundingClientRect();
 
             // Figure out positioning with anchor
@@ -218,10 +249,10 @@ export class AppContextMenu {
         }
 
         // Set positioning
-        $(this._element!).css('top', `${positioning.top}px`);
-        if ('right' in positioning)
+        $(this._element!).css('top', `${positioning!.top}px`);
+        if ('right' in positioning!)
             $(this._element!).css('right', `${positioning.right}px`);
-        else $(this._element!).css('left', `${positioning.left}px`);
+        else $(this._element!).css('left', `${positioning!.left}px`);
 
         // Remove hidden
         $(this._element!).addClass('expanded');
@@ -255,6 +286,9 @@ export class AppContextMenu {
     }
 
     public async render(): Promise<void> {
+        // Clean up old element
+        if (this._element) this.destroy();
+
         // Render the element
         this._element = await this.renderElement();
 

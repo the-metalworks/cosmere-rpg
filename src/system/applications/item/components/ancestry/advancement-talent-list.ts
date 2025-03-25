@@ -1,4 +1,6 @@
 import { AnyObject, ConstructorOf } from '@system/types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
@@ -10,8 +12,7 @@ import { DragDropComponentMixin } from '@system/applications/mixins/drag-drop';
 export class AdvancementTalentListComponent extends DragDropComponentMixin(
     HandlebarsApplicationComponent<ConstructorOf<AncestrySheet>>,
 ) {
-    static TEMPLATE =
-        'systems/cosmere-rpg/templates/item/ancestry/components/advancement-talent-list.hbs';
+    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_ANCESTRY_TALENT_LIST}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions
@@ -37,7 +38,7 @@ export class AdvancementTalentListComponent extends DragDropComponentMixin(
         event: Event,
     ) {
         // Get the element
-        const el = $(event.currentTarget!).closest('.talent-ref');
+        const el = $(event.currentTarget!).closest('.talent');
 
         // Get the index
         const index = Number(el.data('item'));
@@ -59,7 +60,7 @@ export class AdvancementTalentListComponent extends DragDropComponentMixin(
         event: Event,
     ) {
         // Get the element
-        const el = $(event.currentTarget!).closest('.talent-ref');
+        const el = $(event.currentTarget!).closest('.talent');
 
         // Get the index
         const index = Number(el.data('item'));
@@ -76,13 +77,13 @@ export class AdvancementTalentListComponent extends DragDropComponentMixin(
     protected override _onDragOver(event: DragEvent) {
         if (!this.application.isEditable) return;
 
-        $(this.element!).addClass('dragover');
+        $(this.element!).find('.drop-area').addClass('dropping');
     }
 
     protected override async _onDrop(event: DragEvent) {
         if (!this.application.isEditable) return;
 
-        $(this.element!).removeClass('dragover');
+        $(this.element!).find('.drop-area').removeClass('dropping');
 
         // Get data
         const data = TextEditor.getDragEventData(event) as unknown as {
@@ -144,7 +145,7 @@ export class AdvancementTalentListComponent extends DragDropComponentMixin(
         super._onAttachListeners(params);
 
         $(this.element!).on('dragleave', () => {
-            $(this.element!).removeClass('dragover');
+            $(this.element!).find('.drop-area').removeClass('dropping');
         });
     }
 
@@ -193,10 +194,10 @@ export class AdvancementTalentListComponent extends DragDropComponentMixin(
         const talent = extraTalents[index];
 
         // Find the new element
-        const el = $(this.element!).find(`.talent-ref[data-item="${index}"]`);
+        const el = $(this.element!).find(`.talent[data-item="${index}"]`);
 
         // Get the level span
-        const level = el.find('.col.level span');
+        const level = el.find('.detail.level span');
 
         // Hide the level span
         level.hide();

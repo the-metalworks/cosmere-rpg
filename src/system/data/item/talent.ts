@@ -69,24 +69,6 @@ export interface TalentItemData
      */
     hasPower?: boolean;
 
-    prerequisites: Record<string, Talent.Prerequisite>;
-    readonly prerequisitesArray: ({ id: string } & Talent.Prerequisite)[];
-    readonly prerequisiteTypeSelectOptions: Record<
-        Talent.Prerequisite.Type,
-        string
-    >;
-
-    /**
-     * Derived value that indicates whether or not the
-     * prerequisites have been met.
-     * If no prerequisites are defined for this talent
-     * This value will be `true`.
-     *
-     * NOTE: We have no way of checking connections as
-     * they're just plain strings.
-     */
-    prerequisitesMet: boolean;
-
     /**
      * Rules that are executed when this talent is
      * obtained by an actor.
@@ -148,103 +130,6 @@ export class TalentItemDataModel extends DataModelMixin<
             }),
             hasPower: new foundry.data.fields.BooleanField(),
 
-            prerequisites: new MappingField(
-                new foundry.data.fields.SchemaField(
-                    {
-                        type: new foundry.data.fields.StringField({
-                            required: true,
-                            nullable: false,
-                            blank: false,
-                            choices:
-                                CONFIG.COSMERE.items.talent.prerequisite.types,
-                        }),
-
-                        // Connection
-                        description: new foundry.data.fields.StringField(),
-
-                        // Attribute
-                        attribute: new foundry.data.fields.StringField({
-                            blank: false,
-                            choices: Object.entries(
-                                CONFIG.COSMERE.attributes,
-                            ).reduce(
-                                (acc, [key, config]) => ({
-                                    ...acc,
-                                    [key]: config.label,
-                                }),
-                                {},
-                            ),
-                        }),
-                        value: new foundry.data.fields.NumberField({
-                            min: 0,
-                            initial: 0,
-                        }),
-
-                        // Skill
-                        skill: new foundry.data.fields.StringField({
-                            blank: false,
-                            choices: Object.entries(
-                                CONFIG.COSMERE.skills,
-                            ).reduce(
-                                (acc, [key, config]) => ({
-                                    ...acc,
-                                    [key]: config.label,
-                                }),
-                                {},
-                            ),
-                        }),
-                        rank: new foundry.data.fields.NumberField({
-                            min: 1,
-                            initial: 1,
-                        }),
-
-                        // Talent
-                        label: new foundry.data.fields.StringField({
-                            nullable: true,
-                        }),
-                        talents: new foundry.data.fields.ArrayField(
-                            new foundry.data.fields.SchemaField({
-                                uuid: new foundry.data.fields.StringField({
-                                    required: true,
-                                    nullable: false,
-                                    blank: false,
-                                }),
-                                id: new foundry.data.fields.StringField({
-                                    required: true,
-                                    nullable: false,
-                                    blank: false,
-                                }),
-                                label: new foundry.data.fields.StringField({
-                                    required: true,
-                                    nullable: false,
-                                    blank: false,
-                                }),
-                            }),
-                            {
-                                nullable: true,
-                            },
-                        ),
-                        mode: new foundry.data.fields.StringField({
-                            nullable: true,
-                            blank: false,
-                            choices:
-                                CONFIG.COSMERE.items.talent.prerequisite.modes,
-                        }),
-
-                        // Level
-                        level: new foundry.data.fields.NumberField({
-                            min: 0,
-                            initial: 0,
-                            label: 'COSMERE.Item.Talent.Prerequisite.Level.Label',
-                        }),
-                    },
-                    {
-                        nullable: true,
-                    },
-                ),
-            ),
-            prerequisitesMet: new foundry.data.fields.BooleanField(),
-
             grantRules: new CollectionField(
                 new foundry.data.fields.SchemaField(
                     {
@@ -296,30 +181,6 @@ export class TalentItemDataModel extends DataModelMixin<
         });
     }
 
-    get prerequisitesArray(): ({ id: string } & Talent.Prerequisite)[] {
-        return Object.entries(this.prerequisites).map(([id, prerequisite]) => ({
-            id,
-            ...prerequisite,
-        }));
-    }
-
-    get prerequisiteTypeSelectOptions() {
-        const choices = (
-            (
-                this.schema.fields
-                    .prerequisites as MappingField<foundry.data.fields.SchemaField>
-            ).model.fields.type as foundry.data.fields.StringField
-        ).choices as Record<Talent.Prerequisite.Type, string>;
-
-        return Object.entries(choices).reduce(
-            (acc, [key, label]) => ({
-                ...acc,
-                [key]: label,
-            }),
-            {} as Record<Talent.Prerequisite.Type, string>,
-        );
-    }
-
     public prepareDerivedData() {
         super.prepareDerivedData();
 
@@ -357,33 +218,33 @@ export class TalentItemDataModel extends DataModelMixin<
                 ) ?? false;
         }
 
-        if (!actor) {
-            this.prerequisitesMet = false;
-        } else {
-            this.prerequisitesMet = this.prerequisitesArray.every(
-                (prerequisite) => {
-                    switch (prerequisite.type) {
-                        case Talent.Prerequisite.Type.Talent:
-                            return actor.items.some(
-                                (item) =>
-                                    item.isTalent() &&
-                                    item.id === prerequisite.id,
-                            );
-                        case Talent.Prerequisite.Type.Skill:
-                            return (
-                                actor.system.skills[prerequisite.skill].rank >=
-                                (prerequisite.rank ?? 1)
-                            );
-                        case Talent.Prerequisite.Type.Attribute:
-                            return (
-                                actor.system.attributes[prerequisite.attribute]
-                                    .value >= (prerequisite.value ?? 1)
-                            );
-                        default:
-                            return true;
-                    }
-                },
-            );
-        }
+        // if (!actor) {
+        //     this.prerequisitesMet = false;
+        // } else {
+        //     this.prerequisitesMet = this.prerequisitesArray.every(
+        //         (prerequisite) => {
+        //             switch (prerequisite.type) {
+        //                 case Talent.Prerequisite.Type.Talent:
+        //                     return actor.items.some(
+        //                         (item) =>
+        //                             item.isTalent() &&
+        //                             item.id === prerequisite.id,
+        //                     );
+        //                 case Talent.Prerequisite.Type.Skill:
+        //                     return (
+        //                         actor.system.skills[prerequisite.skill].rank >=
+        //                         (prerequisite.rank ?? 1)
+        //                     );
+        //                 case Talent.Prerequisite.Type.Attribute:
+        //                     return (
+        //                         actor.system.attributes[prerequisite.attribute]
+        //                             .value >= (prerequisite.value ?? 1)
+        //                     );
+        //                 default:
+        //                     return true;
+        //             }
+        //         },
+        //     );
+        // }
     }
 }

@@ -1,6 +1,8 @@
 import { ExpertiseType } from '@system/types/cosmere';
 import { CosmereActor } from '@system/documents';
 import { AnyObject } from '@system/types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
@@ -19,7 +21,7 @@ export class EditExpertisesDialog extends HandlebarsApplicationMixin(
             tag: 'dialog',
             position: {
                 width: 300,
-                height: 600,
+                height: 800,
             },
 
             /**
@@ -39,8 +41,7 @@ export class EditExpertisesDialog extends HandlebarsApplicationMixin(
         foundry.utils.deepClone(super.PARTS),
         {
             form: {
-                template:
-                    'systems/cosmere-rpg/templates/actors/character/dialogs/edit-expertises.hbs',
+                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ACTOR_EDIT_EXPERTISES}`,
                 // See note above
                 /* eslint-disable @typescript-eslint/unbound-method */
                 forms: {
@@ -111,7 +112,8 @@ export class EditExpertisesDialog extends HandlebarsApplicationMixin(
 
         // Generate element
         const el = $(`
-            <li id="temp-custom" class="form-group custom temp">
+            <li id="temp-custom" class="form-group custom temp">                
+                <i class="bullet fade icon faded fa-solid fa-diamond"></i>
                 <input type="text" placeholder="${game.i18n!.localize('DIALOG.EditExpertise.AddPlaceholder')}">
                 <a><i class="fa-solid fa-trash"></i></a>
             </li>

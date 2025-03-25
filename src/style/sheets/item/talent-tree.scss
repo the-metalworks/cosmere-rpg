@@ -1,164 +1,56 @@
-.sheet.item.talent-tree {
-    .window-header {
-        .actor-select {
-            display: flex;
-            align-items: center;
-
-            select {
-                margin-left: 1rem;
-                height: unset;
-            }
-        }
-    }
-
+.application.sheet.item.talent-tree {
     .window-content {
-        padding: 10px
-    }
+        padding: 0;
 
-    .container {
-        flex: 1;
-        display: flex;
-        position: relative;
-
-        .grid {
-            display: grid;
-            flex: 1;
-            pointer-events: none;
-
-            .cell {
-                display: flex;
-                align-items: stretch;
-                justify-content: stretch;
-                aspect-ratio: 1;
-    
-                .slot {
-                    flex: 1;
-                    margin: 10px;
-    
-                    border-radius: 0.3rem;
-                    overflow: hidden;
-                    z-index: 1;
-        
-                    border-width: 1px;
-                    border-style: solid;
-                    border-color: var(--color-light-1);
-        
-                    outline: 1px solid transparent;
-                    transition: outline-color 0.5s;
-
-                    * {
-                        pointer-events: none;
-                    }
-        
-                    &.empty {
-                        border-style: dotted;
-                        box-shadow: inset 0 0 0.75rem rgba(0, 0, 0, 0.6);
-                    }
-
-                    &:not(.empty) {
-                        pointer-events: all;
-                    }
-        
-                    &.dragover {
-                        outline: 2px solid var(--color-cool-3);
-                        box-shadow: 0 0 5px var(--color-shadow-primary);
-                    }
-                }
-            }
-        }
-
-        .connections {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: 0;
-
-            pointer-events: none;
-
-            .connection {
-                position: absolute;
-                background: white;
-                height: 0.3rem;
-                transform-origin: left;
-
-                display: flex;
-                align-items: center;
-                justify-content: center;
-
-                color: #9c0000;
-                font-size: 1rem;
-                text-shadow: 0.1rem 0.1rem 0.5rem BLACK;
-
-                &.obtained, &.available {
-                    z-index: 1;
-                }
-            }
-        }
-    }
-
-    &.mode-edit {
-        .slot.context {
-            position: relative;
-
-            &::after {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                box-shadow: inset 0 0 1rem var(--color-light-1);
-                opacity: 1;
-                animation: pulseOpacity 2s infinite;
-            }
-        }
-
-        .slot:not(.empty) {
-            cursor: grab;
-        }
-
-        .connection {
-            cursor: pointer;
-            pointer-events: all;
-
-            outline: 1px solid transparent;
-            transition: outline-color 0.5s;
-
-            &:hover {
-                box-shadow: 0 0 5px var(--color-shadow-primary);
-            }
-
-            &.selected {
-                outline: 2px solid var(--color-cool-3);
-            }
-        }
-    }
-
-    &.actor-selected {
-        &.mode-view {
-            .slot:not(.obtained), .connection:not(.obtained):not(.available) {
-                filter: saturate(.2) contrast(0.85) brightness(0.75);
-            }
-
-            .slot.available {
-                border-style: dashed;
-                border-width: .1rem;
-                cursor: pointer;
-            }
+        > app-talent-tree-view, > app-talent-tree-editor {
+            width: 100%;
+            height: 100%;
         }
     }
 }
 
-@keyframes pulseOpacity {
-    0% {
-        opacity: 0;
+app-talent-tree-view{
+    position: relative;
+
+    > .view {
+        width: 100%;
+        height: 100%;
     }
-    50% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
+}
+
+app-talent-tree-editor {
+    > .container {
+        position: relative;
+        display: flex;
+        width: 100%;
+        height: 100%;
+
+        .view {
+            flex: 1;
+        }
+
+        .menu {
+            // position: absolute;
+            // top: 0;
+            // bottom: 0;
+            
+            width: 25rem;
+            right: -25rem;
+            transition: right 0.3s;
+
+            background: var(--background);
+            border-left: 1px solid var(--color-border-dark-2);
+            padding: 0.2rem 0.5rem;
+
+            font-size: .7rem;
+
+            input {
+                font-size: .7rem;
+            }
+
+            &.open {
+                right: 0;
+            }
+        }
     }
 }

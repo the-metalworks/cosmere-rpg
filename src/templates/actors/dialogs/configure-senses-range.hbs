@@ -1,30 +1,38 @@
 <form>
-    <div class="form-group">
-        {{#with (derived range) as |value|}}
-        <input name="range"
-            style="text-align: center; font-size: 15pt"
+    <div class="form-group max">
+        <div class="form-fields">
+            {{#with (derived range) as |value|}}
+            <input name="range"
+                {{#if (isNumMax value)}}
+                type="text"
+                value="—"
 
-            {{#if (isNumMax value)}}
-            type="text"
-            value="—"
+                {{else}}
+                type="number"
+                value="{{value}}"
+                min="0"
+                step="1"
+                {{/if}}
 
-            {{else}}
-            type="number"
-            value="{{value}}"
-            min="0"
-            step="1"
-            {{/if}}
-
-            {{#if (or (eq @root.mode 'derived') (isNumMax value))}}
-            readonly
-            {{/if}}
-        >
-        {{/with}}
+                {{#if (or (eq @root.mode 'derived') (isNumMax value))}}
+                readonly
+                {{/if}}
+            >
+            {{/with}}
+        </div>        
     </div>
     <div class="form-group">
-        <label>{{localize "DIALOG.ConfigureSensesRange.ObscuredUnaffected"}}</label>
+        <label>{{localize "GENERIC.Mode"}}</label>
+        <div class="form-fields">
+            <select name="mode">
+                {{selectOptions modes selected=mode localize=true}}
+            </select>
+        </div>        
+    </div>
+    <div class="form-group">
+        <label>{{localize "DIALOG.ConfigureSensesRange.IgnoreObscure"}}</label>
         <input type="checkbox" 
-            name="obscuredUnaffected"
+            name="ignoreObscure"
             {{#if (isNumMax (derived range))}}
             checked
             {{/if}}
@@ -33,14 +41,7 @@
             {{/if}}
         >
     </div>
-    <div class="form-group">
-        <label>{{localize "GENERIC.Mode"}}</label>
-        <select name="mode">
-            {{selectOptions modes selected=mode localize=true}}
-        </select>
-    </div>
-    <br>
-    <div class="form-group">
+    <div class="form-group submit">
         <button data-action="update-sense" type="submit">
             {{localize "GENERIC.Button.Update"}}
         </button>

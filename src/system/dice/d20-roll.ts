@@ -244,12 +244,14 @@ export class D20Roll extends foundry.dice.Roll<D20RollData> {
     /* --- Public Functions --- */
 
     public async configureDialog(
-        data: Omit<RollConfigurationDialog.Data, 'parts'>,
+        data: RollConfigurationDialog.Data,
     ): Promise<D20Roll | null> {
+        // Populate parts list
+        data.skillTest.parts = [this.parts];
+
         // Show the dialog
         const result = await RollConfigurationDialog.show({
             ...data,
-            parts: [this.parts],
         });
         if (!result) return null;
 
@@ -440,20 +442,19 @@ export class D20Roll extends foundry.dice.Roll<D20RollData> {
                 this.terms.push(
                     new foundry.dice.terms.OperatorTerm({
                         operator: '+',
-                    }) as foundry.dice.terms.RollTerm,
-                    new PlotDie() as foundry.dice.terms.RollTerm,
+                    }),
+                    new PlotDie(),
                 );
             }
 
-            // TODO: Figure out how to handle plot die advantage/disadvantage
-            // const plotDieTerm = this.terms.find((t) => t instanceof PlotDie)!;
-            // if (this.hasPlotAdvantage) {
-            //     plotDieTerm.number = 2;
-            //     plotDieTerm.modifiers.push('kh');
-            // } else if (this.hasPlotDisadvantage) {
-            //     plotDieTerm.number = 2;
-            //     plotDieTerm.modifiers.push('kl');
-            // }
+            const plotDieTerm = this.terms.find((t) => t instanceof PlotDie)!;
+            if (this.hasPlotAdvantage) {
+                plotDieTerm.number = 2;
+                plotDieTerm.modifiers.push('p');
+            } else if (this.hasPlotDisadvantage) {
+                plotDieTerm.number = 2;
+                plotDieTerm.modifiers.push('gmp');
+            }
         }
 
         // NOTE: Unused right now
