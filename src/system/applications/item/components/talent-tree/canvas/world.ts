@@ -35,13 +35,15 @@ export interface RightClickNodeEvent<
 > extends NodeEvent<Node> {}
 export interface MouseOverNodeEvent<
     Node extends CanvasElements.Nodes.BaseNode = CanvasElements.Nodes.BaseNode,
-> extends NodeEvent<Node> {}
+> extends NodeEvent<Node> {
+    position: PIXI.IPointData;
+}
 export interface MouseOutNodeEvent<
     Node extends CanvasElements.Nodes.BaseNode = CanvasElements.Nodes.BaseNode,
 > extends NodeEvent<Node> {}
 
 export interface ConnectionEvent {
-    connection: CanvasElements.Connection;
+    connection: CanvasElements.BaseConnection;
     from: CanvasElements.Nodes.TalentNode;
     to: CanvasElements.Nodes.TalentNode;
 }
@@ -86,7 +88,7 @@ export class TalentTreeWorld extends World {
         this.on('click', (event) => {
             if (event.target instanceof CanvasElements.Nodes.BaseNode) {
                 this.onClickNode(event);
-            } else if (event.target instanceof CanvasElements.Connection) {
+            } else if (event.target instanceof CanvasElements.BaseConnection) {
                 this.onClickConnection(event);
             }
         });
@@ -94,7 +96,7 @@ export class TalentTreeWorld extends World {
         this.on('rightclick', (event) => {
             if (event.target instanceof CanvasElements.Nodes.BaseNode) {
                 this.onRightClickNode(event);
-            } else if (event.target instanceof CanvasElements.Connection) {
+            } else if (event.target instanceof CanvasElements.BaseConnection) {
                 this.onRightClickConnection(event);
             }
         });
@@ -127,7 +129,7 @@ export class TalentTreeWorld extends World {
         if (this.interactionState !== 'none') return;
 
         // Find the node
-        const node = this.tree.nodes.find((n) => n.data === from)!;
+        const node = this.tree.nodes!.find((n) => n.data === from)!;
 
         this.interactionState = 'create-connection';
         this.contextElement = node;
@@ -231,14 +233,14 @@ export class TalentTreeWorld extends World {
         // Prevent the event from bubbling up
         event.stopPropagation();
 
-        const connection = event.target as CanvasElements.Connection;
-
-        // Get the node canvas elements
-        const from = this.tree.nodes.find((n) => n.data === connection.from)!;
-        const to = this.tree.nodes.find((n) => n.data === connection.to)!;
+        const connection = event.target as CanvasElements.BaseConnection;
 
         // Dispatch event
-        this.emit('click-connection', { connection, from, to });
+        this.emit('click-connection', {
+            connection,
+            from: connection.from,
+            to: connection.to,
+        });
     }
 
     private onRightClickNode(event: PIXI.FederatedMouseEvent) {
@@ -260,14 +262,15 @@ export class TalentTreeWorld extends World {
         // Prevent the event from bubbling up
         event.stopPropagation();
 
-        const connection = event.target as CanvasElements.Connection;
-
-        // Get the node canvas elements
-        const from = this.tree.nodes.find((n) => n.data === connection.from)!;
-        const to = this.tree.nodes.find((n) => n.data === connection.to)!;
+        const connection = event.target as CanvasElements.BaseConnection;
 
         // Dispatch event
-        this.emit('rightclick-connection', { ...event, connection, from, to });
+        this.emit('rightclick-connection', {
+            ...event,
+            connection,
+            from: connection.from,
+            to: connection.to,
+        });
     }
 
     private onMouseOverNode(event: PIXI.FederatedMouseEvent) {

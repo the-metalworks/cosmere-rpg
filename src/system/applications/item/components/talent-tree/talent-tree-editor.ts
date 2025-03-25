@@ -1,4 +1,8 @@
-import { CosmereItem, TalentTreeItem } from '@system/documents/item';
+import {
+    CosmereItem,
+    TalentItem,
+    TalentTreeItem,
+} from '@system/documents/item';
 import { TalentTree, Talent } from '@system/types/item';
 import { NodeConnection } from './types';
 
@@ -119,9 +123,18 @@ export class TalentTreeEditorComponent extends TalentTreeViewComponent {
         // Get the item
         const item = (await fromUuid(data.uuid)) as CosmereItem | null;
 
-        // Validate item
-        if (!item?.isTalent()) return;
+        // Handle item
+        if (item?.isTalent())
+            await this.onDropTalent(event, item as TalentItem);
+        else if (item?.isTalentTree())
+            await this.onDropTalentTree(event, item as TalentTreeItem);
 
+        // Refresh tree
+        await this.canvasTree!.refresh();
+        await this.renderCanvas();
+    }
+
+    protected async onDropTalent(event: DragEvent, item: TalentItem) {
         // Get the item ids for all the nodes in the tree
         const itemIds = this.tree.system.nodes
             .filter((node) => node.type === TalentTree.Node.Type.Talent)
@@ -165,10 +178,43 @@ export class TalentTreeEditorComponent extends TalentTreeViewComponent {
 
         // Add node to tree
         await TalentTreeUtils.addNode(newNode, this.tree, { render: false });
+    }
 
-        // Refresh tree
-        await this.canvasTree!.refresh();
-        await this.renderCanvas();
+    protected async onDropTalentTree(event: DragEvent, item: TalentTreeItem) {
+        // Get the talent tree uuids for all the nodes in the tree
+        const treeUuids = this.tree.system.nodes
+            .filter((node) => node.type === TalentTree.Node.Type.Tree)
+            .map((node) => node.uuid);
+
+        // Ensure the item isn't already present in the tree
+        if (treeUuids.includes(item.uuid)) {
+            return ui.notifications.warn(
+                game.i18n!.format('GENERIC.Warning.ItemAlreadyInTree', {
+                    itemId: item.uuid,
+                    name: this.tree.name,
+                }),
+            );
+        }
+
+        // Convert drop position to world space
+        const dropPos = this.app!.viewport.viewToWorld(
+            {
+                x: event.offsetX - GRID_SIZE / 2,
+                y: event.offsetY - GRID_SIZE / 2,
+            },
+            true,
+        );
+
+        // Create node
+        const newNode: TalentTree.TreeNode = {
+            id: foundry.utils.randomID(),
+            type: TalentTree.Node.Type.Tree,
+            position: dropPos,
+            uuid: item.uuid,
+        };
+
+        // Add node to tree
+        await TalentTreeUtils.addNode(newNode, this.tree, { render: false });
     }
 
     /* --- Event handlers --- */
