@@ -1015,7 +1015,10 @@
             "Graze": "Graze",
             "Full": "Full"
         },
-        "TemporaryBonus": "Temporary Modifiers (formula)"
+        "TemporaryBonus": {
+            "Label": "Temporary Bonus",
+            "Hint": "Enter an optional formula to apply as a temporary modifier to this skill test."
+        }
     },
     "ROLLS": {
         "Recovery": "[character] rolls their recovery die.",
@@ -1023,8 +1026,8 @@
     },
     "DIALOG": {
         "ItemConsume": {
-            "Title": "Consume resource",
-            "ShouldConsume": "Consume resource?"
+            "Title": "Consume Resource",
+            "ShouldConsume": "Consume {amount} {resource}?"
         },
         "EditExpertise": {
             "Remove": "Remove",
@@ -1059,6 +1062,10 @@
         },
         "EditTalentPrerequisite": {
             "Title": "Edit Prerequisite"
+        },
+        "ConfigureRoll": {
+            "Title": "Configure Rolls",
+            "Hint": "Left click or right click any individual die to apply advantage or disadvantage respectively."
         },
         "ConfigureAttack": {
             "AdvantageMode": {
@@ -1095,14 +1102,11 @@
             }
         },
         "PickDiceResult": {
-            "Title": "Pick result",
-            "Header": {
-                "Plural": "Pick up to {num} rolls to keep",
-                "Singular": "Pick 1 roll to keep"
-            },
-            "SelectRoll": "Select roll",
+            "Title": "Pick Result",
+            "Header": "Left to Pick:",
+            "SelectRoll": "Select Roll",
             "Error": {
-                "TooManyPicked": "Cannot pick more than {max} rolls"
+                "TooManyPicked": "Cannot pick more than {max} roll(s)!"
             }
         }
     },

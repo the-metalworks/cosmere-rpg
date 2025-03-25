@@ -29,7 +29,7 @@ interface ShortRestDialogResult {
 export class ShortRestDialog extends foundry.applications.api.DialogV2 {
     private constructor(
         private actor: CharacterActor,
-        private resolve: (result: ShortRestDialogResult) => void,
+        private resolve: (result: ShortRestDialogResult | null) => void,
         content: string,
     ) {
         super({
@@ -56,12 +56,18 @@ export class ShortRestDialog extends foundry.applications.api.DialogV2 {
         });
     }
 
+    /* --- Lifecycle --- */
+
+    protected _onClose() {
+        this.resolve(null);
+    }
+
     /* --- Statics --- */
 
     public static async show(
         actor: CharacterActor,
         options: ShortRestDialogOptions = {},
-    ): Promise<ShortRestDialogResult> {
+    ): Promise<ShortRestDialogResult | null> {
         // Get all player characters (except for the resting character)
         const playerCharacters = (game.users as Collection<User>)
             .map((user) => user.character)

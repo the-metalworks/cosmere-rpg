@@ -104,14 +104,18 @@ export async function d20Roll(
             config.configurable !== false
                 ? await roll.configureDialog({
                       title: config.title,
-                      plotDie: config.plotDie,
+                      raiseStakes: config.plotDie,
                       defaultRollMode:
                           config.rollMode ??
                           game.settings!.get('core', 'rollMode'),
                       defaultAttribute:
                           config.defaultAttribute ??
                           config.data.skill.attribute,
-                      data: config.data,
+                      skillTest: {
+                          data: config.data,
+                          parts: [],
+                      },
+                      plotDie: {},
                   })
                 : roll;
         if (configured === null) return null;

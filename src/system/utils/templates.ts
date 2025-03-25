@@ -150,10 +150,14 @@ export const TEMPLATES = {
     DIALOG_ADVERSARY_CONFIGURE_SKILLS:
         'actors/adversary/dialogs/configure-skills.hbs',
 
+    DIALOG_ITEM_CONSUME: 'item/dialog/item-consume.hbs',
     DIALOG_ITEM_EDIT_REWARD: 'item/goal/dialogs/edit-reward.hbs',
     DIALOG_ITEM_EDIT_GRANT_RULE: 'item/talent/dialogs/edit-grant-rule.hbs',
 
     DIALOG_CHAT_MODIFY_DAMAGE: 'chat/dialogs/damage-modifier.hbs',
+
+    DIALOG_ROLL_PICK_DICE_RESULT: 'roll/dialogs/pick-dice-result.hbs',
+    DIALOG_ROLL_CONFIGURATION: 'roll/dialogs/roll-configuration.hbs',
 } as const;
 
 /**

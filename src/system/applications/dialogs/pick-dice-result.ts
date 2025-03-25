@@ -1,4 +1,6 @@
 import { AnyObject } from '@system/types/utils';
+import { IMPORTED_RESOURCES, SYSTEM_ID } from '@system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 // Dice
 import { PlotDie } from '@system/dice/plot-die';
@@ -7,9 +9,6 @@ import { PlotDie } from '@system/dice/plot-die';
 import { ComponentHandlebarsApplicationMixin } from '@system/applications/component-system';
 
 const { ApplicationV2 } = foundry.applications.api;
-
-// Constants
-import { IMPORTED_RESOURCES } from '@system/constants';
 
 export namespace PickDiceResultDialog {
     export interface Data {
@@ -38,13 +37,13 @@ export class PickDiceResultDialog extends ComponentHandlebarsApplicationMixin(
         {
             window: {
                 minimizable: false,
-                resizable: true,
+                resizable: false,
                 title: 'DIALOG.PickDiceResult.Title',
             },
             classes: ['dialog', 'pick-dice-result'],
             tag: 'dialog',
             position: {
-                width: 400,
+                width: 300,
             },
             actions: {
                 'select-result': this.onSelectResult,
@@ -58,8 +57,7 @@ export class PickDiceResultDialog extends ComponentHandlebarsApplicationMixin(
         foundry.utils.deepClone(super.PARTS),
         {
             form: {
-                template:
-                    'systems/cosmere-rpg/templates/roll/dialogs/pick-dice-result.hbs',
+                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ROLL_PICK_DICE_RESULT}`,
             },
         },
     );
@@ -123,11 +121,7 @@ export class PickDiceResultDialog extends ComponentHandlebarsApplicationMixin(
         result.discarded = !result.discarded;
 
         // If only 1 result needs to be selected, submit immediately
-        if (!result.discarded && this.data.amount === 1) {
-            PickDiceResultDialog.onSubmit.call(this);
-        } else {
-            void this.render(true);
-        }
+        void this.render(true);
     }
 
     private static onSubmit(this: PickDiceResultDialog) {
@@ -171,16 +165,7 @@ export class PickDiceResultDialog extends ComponentHandlebarsApplicationMixin(
             die: isPlotDie ? 'd6' : this.data.term.denomination,
             faces: this.data.term.faces ?? 0,
             rolls: this.rolls,
-            amountToPick: this.data.amount,
-            amountPicked: this.picked.length,
-            headerText:
-                this.data.amount > 1
-                    ? game.i18n!.format('DIALOG.PickDiceResult.Header.Plural', {
-                          num: this.data.amount,
-                      })
-                    : game.i18n!.localize(
-                          'DIALOG.PickDiceResult.Header.Singular',
-                      ),
+            amountLeft: this.data.amount - this.picked.length,
             plotDie: {
                 c2: IMPORTED_RESOURCES.PLOT_DICE_C2_IN_CHAT,
                 c4: IMPORTED_RESOURCES.PLOT_DICE_C4_IN_CHAT,
