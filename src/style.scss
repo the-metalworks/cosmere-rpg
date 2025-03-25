@@ -69,24 +69,27 @@
     --font-size-22: 1.375rem;
 
     /* ----------------------------------------- */
-    /*  Default Generic Theme                    */
+    /*  Default Cosmere Theme                    */
     /* ----------------------------------------- */
     .cosmere-theme-default {
         //TO-DO: Replace with Plotweaver colours
         &.theme-dark {
-            --cosmere-sheet-texture: url('assets/art/texture_sheet_default_dark.webp');
+            --cosmere-banner-actor-top: url('assets/art/banner_actor_cosmere_top_dark.webp');
+            --cosmere-banner-actor-bot: url('assets/art/banner_actor_cosmere_bot_dark.webp');
+            --cosmere-banner-item-top: url('assets/art/banner_actor_cosmere_top_dark.webp');
+            --cosmere-sheet-texture: url('assets/art/texture_sheet_cosmere_dark.webp');
 
-            --cosmere-color-accent : #888888;
-            --cosmere-color-faded: #646464;
-            --cosmere-color-sheet: #111111;
+            --cosmere-color-accent : #beaa8a;
+            --cosmere-color-faded: #857d6a;
+            --cosmere-color-sheet: #081127;
             --cosmere-color-neutral: var(--cosmere-color-dark-1);
 
-            --cosmere-color-base-1: #171717;
-            --cosmere-color-base-2: #1f1f1f;
-            --cosmere-color-base-3: #2f2f2f;
-            --cosmere-color-base-4: #3f3f3f;
-            --cosmere-color-base-5: #4f4f4f;
-            --cosmere-color-base-6: #5f5f5f;
+            --cosmere-color-base-1: #1d2945;
+            --cosmere-color-base-2: #0d172f;
+            --cosmere-color-base-3: #141d30;
+            --cosmere-color-base-4: #21293d;
+            --cosmere-color-base-5: #5b616e;
+            --cosmere-color-base-6: #2c3445;
 
             --cosmere-color-text-main: var(--cosmere-color-white);
             --cosmere-color-text-sub: var(--cosmere-color-off-white-2);
@@ -94,23 +97,26 @@
         }
 
         &.theme-light {            
-            --cosmere-sheet-texture: url('assets/art/texture_sheet_default_light.webp');
+            --cosmere-banner-actor-top: url('assets/art/banner_actor_cosmere_top_light.webp');
+            --cosmere-banner-actor-bot: url('assets/art/banner_actor_cosmere_bot_light.webp');
+            --cosmere-banner-item-top: url('assets/art/banner_actor_cosmere_top_light.webp');
+            --cosmere-sheet-texture: url('assets/art/texture_sheet_cosmere_light.webp');
 
-            --cosmere-color-accent: #1f1f1f;
-            --cosmere-color-faded: #707070;
-            --cosmere-color-sheet: #e3e3e3;
+            --cosmere-color-accent: #504538;
+            --cosmere-color-faded: #9c876e;
+            --cosmere-color-sheet: #d9cdbf;
             --cosmere-color-neutral: var(--cosmere-color-light-2);
 
-            --cosmere-color-base-1: #bababa;
-            --cosmere-color-base-2: #e3e3e3;
-            --cosmere-color-base-3: #e3e3e3;
-            --cosmere-color-base-4: #adadad;
-            --cosmere-color-base-5: #777777;
-            --cosmere-color-base-6: #878787;
+            --cosmere-color-base-1: #c6b094;
+            --cosmere-color-base-2: #eadfd2;
+            --cosmere-color-base-3: #ddd2c5;
+            --cosmere-color-base-4: #aea499;
+            --cosmere-color-base-5: #7b6b57;
+            --cosmere-color-base-6: #596d79;
 
-            --cosmere-color-text-main: var(--cosmere-color-accent);
-            --cosmere-color-text-sub: #2f2f2f;
-            --cosmere-color-text-accent: #030303;
+            --cosmere-color-text-main: #2f4858;
+            --cosmere-color-text-sub: #374955;
+            --cosmere-color-text-accent: #504538;
         }
     }
 }

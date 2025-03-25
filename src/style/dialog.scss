@@ -133,7 +133,9 @@
     &.configure-senses-range,
     &.edit-reward,
     &.edit-grant-rule,
-    &.edit-bonus-talents-rule {
+    &.edit-bonus-talents-rule,
+    &.pick-dice-result,
+    &.roll-configuration {
         > .window-content {
             filter: var(--cosmere-drop-shadow);
         }
@@ -217,6 +219,138 @@
 
         .submit {
             margin-top: 0.625rem;
+        }
+    }
+
+    &.roll-configuration {
+        fieldset {
+            margin-top: 0.5rem;
+
+            .roll-config {
+                margin: 0 0.5rem;
+                display: flex;
+                flex-direction: row;
+                gap: 0.75rem;
+                align-items: center;
+
+                font-family: var(--cosmere-font-normal);
+                font-size: var(--font-size-12);
+                font-weight: 600;
+                font-variant: lining-nums;                
+
+                .title {
+                    flex: 1;
+                    color: var(--cosmere-color-text-sub);
+                    text-transform: uppercase;
+                }
+
+                .formula {
+                    flex: 2;
+                    color: var(--cosmere-color-faded);
+                    background-color: var(--cosmere-color-base-3);
+                    border-radius: 6px;
+                    text-align: center;
+                    padding: 0.5rem;
+                }
+
+                .dice-tooltip {
+                    flex: 2;
+                }
+            }
+        }
+
+        .dice-rolls {
+            .roll {
+                min-width: 20px;
+                height: 20px;
+                background-size: 20px 20px;
+                line-height: 20px;
+                font-size: var(--font-size-14);  
+                cursor: pointer;              
+
+                &:hover {
+                    filter: var(--cosmere-shadow-svg);
+                }
+
+                &.advantage {
+                    color: var(--cosmere-color-opportunity);
+                    filter: sepia(1) hue-rotate(180deg);
+                    font-family: "Font Awesome 6 Pro";
+
+                    &:hover {
+                        filter: sepia(1) hue-rotate(180deg) var(--cosmere-shadow-svg);
+                    }
+
+                    &::before {
+                        content: "\f35b"
+                    }
+                }
+
+                &.disadvantage {
+                    color: var(--cosmere-color-complication);
+                    filter: sepia(0.8) hue-rotate(-50deg);
+                    font-family: "Font Awesome 6 Pro";
+
+                    &:hover {
+                        filter: sepia(0.8) hue-rotate(-50deg) var(--cosmere-shadow-svg);
+                    }
+
+                    &::before {
+                        content: "\f358"
+                    }
+                }
+            }
+        }        
+    }
+
+    &.pick-dice-result,
+    &.roll-configuration {
+        .dice-rolls {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 0.25rem;
+
+            .roll {
+                position: relative;
+                background-repeat: no-repeat;
+
+                &.success, &.max {
+                    color: var(--cosmere-color-opportunity);
+                    filter: sepia(1) hue-rotate(180deg);
+                }
+
+                &.failure, &.min {
+                    color: var(--cosmere-color-complication);
+                    filter: sepia(0.8) hue-rotate(-50deg);
+                }
+
+                &.rerolled, &.discarded {
+                    color: inherit;
+                    filter: sepia(0.5) contrast(0.75) opacity(0.4);
+                }
+
+                &.plotdie > img {
+                    border: 0;
+                    border-radius: 0;
+                }
+            }
+        }
+    }
+
+    &.pick-dice-result {
+        .dice-rolls {
+            .roll {
+                min-width: 48px;
+                height: 48px;
+                background-size: 48px 48px;
+
+                &.plotdie > img {
+                    width: 48px;
+                    height: 48px;
+                }
+            }
         }
     }
 

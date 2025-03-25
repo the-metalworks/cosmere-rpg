@@ -360,6 +360,8 @@ export class BaseItemSheet extends TabsApplicationMixin(
     /* --- Actions --- */
 
     private static async editDescription(this: BaseItemSheet, event: Event) {
+        event.stopPropagation();
+
         // Get description element
         const descElement = $(event.target!).closest('[description-type]');
 

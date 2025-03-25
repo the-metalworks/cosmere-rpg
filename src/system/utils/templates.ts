@@ -24,12 +24,14 @@ export const TEMPLATES = {
     ACTOR_BASE_EFFECTS_LIST: 'actors/components/effects-list.hbs',
     ACTOR_BASE_EQUIPMENT_LIST: 'actors/components/equipment-list.hbs',
     ACTOR_BASE_INJURIES_LIST: 'actors/components/injuries-list.hbs',
+    ACTOR_BASE_CURRENCY_LIST: 'actors/components/currency-list.hbs',
     ACTOR_BASE_ATTRIBUTES: 'actors/components/attributes.hbs',
     ACTOR_BASE_CONDITIONS: 'actors/components/conditions.hbs',
     ACTOR_BASE_DETAILS: 'actors/components/details.hbs',
     ACTOR_BASE_RESOURCE: 'actors/components/resource.hbs',
     ACTOR_BASE_SKILL: 'actors/components/skill.hbs',
     ACTOR_BASE_SKILLS_GROUP: 'actors/components/skills-group.hbs',
+    ACTOR_BASE_NOTES_FIELDS: 'actors/components/notes-fields.hbs',
 
     // ACTOR CHARACTER
     ACTOR_CHARACTER_HEADER: 'actors/character/parts/header.hbs',
@@ -41,6 +43,7 @@ export const TEMPLATES = {
     ACTOR_CHARACTER_EQUIPMENT_TAB:
         'actors/character/partials/char-equipment-tab.hbs',
     ACTOR_CHARACTER_GOALS_TAB: 'actors/character/partials/char-goals-tab.hbs',
+    ACTOR_CHARACTER_NOTES_TAB: 'actors/character/partials/char-notes-tab.hbs',
     ACTOR_CHARACTER_EFFECTS_TAB:
         'actors/character/partials/char-effects-tab.hbs',
     ACTOR_CHARACTER_ANCESTRY: 'actors/character/components/ancestry.hbs',
@@ -59,6 +62,7 @@ export const TEMPLATES = {
         'actors/adversary/partials/adv-actions-tab.hbs',
     ACTOR_ADVERSARY_EQUIPMENT_TAB:
         'actors/adversary/partials/adv-equipment-tab.hbs',
+    ACTOR_ADVERSARY_NOTES_TAB: 'actors/adversary/partials/adv-notes-tab.hbs',
     ACTOR_ADVERSARY_EFFECTS_TAB:
         'actors/adversary/partials/adv-effects-tab.hbs',
     ACTOR_ADVERSARY_SKILLS_GROUP:
@@ -148,8 +152,14 @@ export const TEMPLATES = {
     DIALOG_ADVERSARY_CONFIGURE_SKILLS:
         'actors/adversary/dialogs/configure-skills.hbs',
 
+    DIALOG_ITEM_CONSUME: 'item/dialog/item-consume.hbs',
     DIALOG_ITEM_EDIT_REWARD: 'item/goal/dialogs/edit-reward.hbs',
     DIALOG_ITEM_EDIT_GRANT_RULE: 'item/talent/dialogs/edit-grant-rule.hbs',
+
+    DIALOG_CHAT_MODIFY_DAMAGE: 'chat/dialogs/damage-modifier.hbs',
+
+    DIALOG_ROLL_PICK_DICE_RESULT: 'roll/dialogs/pick-dice-result.hbs',
+    DIALOG_ROLL_CONFIGURATION: 'roll/dialogs/roll-configuration.hbs',
 } as const;
 
 /**

@@ -11,12 +11,16 @@ import { CosmereActor } from './actor';
 import { renderSystemTemplate, TEMPLATES } from '../utils/templates';
 import { SYSTEM_ID } from '../constants';
 import { AdvantageMode } from '../types/roll';
-import { getSystemSetting, SETTINGS } from '../settings';
+import { getSystemSetting, KEYBINDINGS, SETTINGS } from '../settings';
 import {
+    areKeysPressed,
     getApplyTargets,
     getConstantFromRoll,
     TargetDescriptor,
 } from '../utils/generic';
+import ApplicationV2 from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/client-esm/applications/api/application.mjs';
+import { DamageModifierDialog } from '../applications/actor/dialogs/damage-card-modifier';
+import { AnyObject } from '../types/utils';
 
 export const MESSAGE_TYPES = {
     SKILL: 'skill',
@@ -736,7 +740,7 @@ export class CosmereChatMessage extends ChatMessage {
                 this.rolls.map(async (roll) => {
                     if (!(roll instanceof DamageRoll)) return roll;
 
-                    const crit = await new DamageRoll(roll.formula, roll.data, {
+                    const crit = new DamageRoll(roll.formula, roll.data, {
                         damageType: roll.damageType,
                         mod: roll.mod,
                         source: roll.source,
@@ -745,10 +749,17 @@ export class CosmereChatMessage extends ChatMessage {
                         maximize: true,
                         minimize: false,
                         critical: true,
-                    }).evaluate({ maximize: true });
+                    });
+
+                    roll.dice.forEach((die, index) => {
+                        die.results.forEach((r) => (r.result = die.faces ?? 0));
+                        crit.dice[index].results = die.results;
+                    });
+
+                    await crit.evaluate();
 
                     if (roll.graze) {
-                        const graze = await new DamageRoll(
+                        const graze = new DamageRoll(
                             roll.graze.formula,
                             roll.graze.data,
                             {
@@ -762,8 +773,18 @@ export class CosmereChatMessage extends ChatMessage {
                                 minimize: false,
                                 critical: true,
                             },
-                        ).evaluate({ maximize: true });
+                        );
 
+                        DamageRoll.fromData(
+                            roll.graze as unknown as foundry.dice.Roll.Data,
+                        ).dice.forEach((die, index) => {
+                            die.results.forEach(
+                                (r) => (r.result = die.faces ?? 0),
+                            );
+                            graze.dice[index].results = die.results;
+                        });
+
+                        await graze.evaluate();
                         crit.graze = graze;
                     }
 
@@ -837,6 +858,11 @@ export class CosmereChatMessage extends ChatMessage {
         event.stopPropagation();
 
         const button = event.currentTarget as HTMLElement;
+        const promptModify =
+            !game.settings?.get(
+                'cosmere-rpg',
+                'skipDamageModDialogByDefault',
+            ) || areKeysPressed(KEYBINDINGS.SKIP_DIALOG_DEFAULT);
         const action = button.dataset.action;
         const multiplier = Number(button.dataset.multiplier);
 
@@ -844,11 +870,18 @@ export class CosmereChatMessage extends ChatMessage {
         if (targets.size === 0) return;
 
         if (action === 'apply-damage' && multiplier) {
+            const modifier = promptModify
+                ? await DamageModifierDialog.show({
+                      isHealing: multiplier < 0,
+                      action: action,
+                  })
+                : 0;
             const damageRolls = forceRolls ?? this.damageRolls;
             const damageToApply = damageRolls.map((r) => ({
                 amount:
-                    (this.useGraze ? (r.graze?.total ?? 0) : (r.total ?? 0)) *
-                    Math.abs(multiplier),
+                    (this.useGraze
+                        ? (r.graze?.total ?? 0) + modifier
+                        : (r.total ?? 0) + modifier) * Math.abs(multiplier),
                 type: multiplier < 0 ? DamageType.Healing : r.damageType,
             }));
 
@@ -861,12 +894,18 @@ export class CosmereChatMessage extends ChatMessage {
         }
 
         if (action === 'reduce-focus') {
+            const modifier = promptModify
+                ? await DamageModifierDialog.show({
+                      isHealing: multiplier < 0,
+                      action: action,
+                  })
+                : 0;
             await Promise.all(
                 Array.from(targets).map(async (t) => {
                     const target = (t as Token).actor as CosmereActor;
                     return await target.update({
                         'system.resources.foc.value':
-                            target.system.resources.foc.value - 1,
+                            target.system.resources.foc.value - (1 + modifier),
                     });
                 }),
             );

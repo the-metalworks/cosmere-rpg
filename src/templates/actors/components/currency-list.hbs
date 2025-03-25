@@ -1,0 +1,14 @@
+<div class="currency-list">
+    {{#each currencies as |currency|}}
+    <div class="currency" data-tooltip="{{currency.config.label}}">
+        <img src="{{currency.config.icon}}">
+        <input name="currency"
+            type="number"
+            min="0"
+            step="1"
+            value="{{derived currency.total}}"
+            readonly
+        >
+    </div>
+    {{/each}}
+</div>

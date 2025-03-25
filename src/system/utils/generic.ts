@@ -112,7 +112,7 @@ export function determineConfigurationMode(
  */
 export function isFastForward() {
     const skipKeyPressed = areKeysPressed(KEYBINDINGS.SKIP_DIALOG_DEFAULT);
-    const skipByDefault = getSystemSetting(SETTINGS.ROLL_SKIP_DIALOG_DEFAULT);
+    const skipByDefault = getSystemSetting(SETTINGS.DIALOG_ROLL_SKIP_DEFAULT);
 
     return (
         (skipByDefault && !skipKeyPressed) || (!skipByDefault && skipKeyPressed)
@@ -148,6 +148,28 @@ export function getConstantFromRoll(roll: Roll) {
     }
 
     return constant;
+}
+
+/**
+ * Toggles a given Advantage Mode to the correct advantage mode given the corresponding click used.
+ * @param {AdvantageMode} current The current Advantage Mode to cycle from.
+ * @param {boolean} leftClick Was the click a left click or a right click.
+ * @returns {AdvantageMode} The resulting cycled Advantage Mode.
+ */
+export function toggleAdvantageMode(
+    current: AdvantageMode,
+    leftClick: boolean,
+) {
+    switch (current) {
+        case AdvantageMode.None:
+            return leftClick
+                ? AdvantageMode.Advantage
+                : AdvantageMode.Disadvantage;
+        case AdvantageMode.Advantage:
+            return leftClick ? AdvantageMode.None : AdvantageMode.Disadvantage;
+        case AdvantageMode.Disadvantage:
+            return leftClick ? AdvantageMode.Advantage : AdvantageMode.None;
+    }
 }
 
 /**

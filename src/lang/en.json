@@ -231,6 +231,7 @@
                     "Actions": "Actions",
                     "Equipment": "Equipment",
                     "Goals": "Goals",
+                    "Notes": "Notes",
                     "Effects": "Effects & Conditions"
                 },
                 "Search": {
@@ -263,6 +264,24 @@
                         "Label": "Connections",
                         "New": "Add New Connection",
                         "NewText": "New Connection"
+                    },
+                    "Biography": {
+                        "Label": "Biography",
+                        "Edit": "Edit Biography",
+                        "Show": "Show Biography",
+                        "Hide": "Collapse Biography"
+                    },
+                    "Appearance": {
+                        "Label": "Appearance",
+                        "Edit": "Edit Appearance",
+                        "Show": "Show Appearance",
+                        "Hide": "Collapse Appearance"
+                    },
+                    "Notes": {
+                        "Label": "Notes",
+                        "Edit": "Edit Notes",
+                        "Show": "Show Notes",
+                        "Hide": "Collapse Notes"
                     }
                 },
                 "Skills": {
@@ -973,12 +992,17 @@
             },
             "ApplyDamage": "{actor} takes <strong>{amount} damage</strong>.",
             "ApplyHealing": "{actor} recovers <strong>{amount} health</strong>.",
+            "ModifierDialog": {
+                "DamageTitle": "Modify Damage",
+                "HealingTitle": "Modify Healing",
+                "FocusTitle": "Modify Focus Loss"
+            },
             "DamageCalculation": "Damage Calculation: {calculation}",
             "ViewRollsDetails": "Roll Details",
             "Welcome": "<h2>Welcome to the Cosmere RPG System!</h2> <p>Thank you for trying out the community-developed Cosmere Roleplaying Game system! You're currently using version <strong>{version}</strong>. As this is an early release, some bugs or missing features are to be expected, but your feedback will help us improve the system. </p> <p>For discussions, updates, and support, join us on the <a href=\"{discordLink}\">Metalworks Discord</a> server.</p> <p>If you encounter any issues or have suggestions, we'd love to hear from you! Please report them on our <a href=\"{issuesLink}\">GitHub Issues page</a> or on the <a href=\"{discordLink}\">Metalworks Discord</a>. Be sure to review the <a href=\"{contributingLink}\">contribution guidelines</a> if you'd like to get involved in development. </p> <p>We're excited to have you on board and hope you enjoy playing in the Cosmere!</p>"
         },
         "Theme": {
-            "Default": "Default"
+            "Default": "Cosmere"
         }
     },
     "DICE": {
@@ -1000,7 +1024,10 @@
             "Graze": "Graze",
             "Full": "Full"
         },
-        "TemporaryBonus": "Temporary Modifiers (formula)"
+        "TemporaryBonus": {
+            "Label": "Temporary Bonus",
+            "Hint": "Enter an optional formula to apply as a temporary modifier to this skill test."
+        }
     },
     "ROLLS": {
         "Recovery": "[character] rolls their recovery die.",
@@ -1008,8 +1035,8 @@
     },
     "DIALOG": {
         "ItemConsume": {
-            "Title": "Consume resource",
-            "ShouldConsume": "Consume resource?"
+            "Title": "Consume Resource",
+            "ShouldConsume": "Consume {amount} {resource}?"
         },
         "EditExpertise": {
             "Remove": "Remove",
@@ -1044,6 +1071,10 @@
         },
         "EditTalentPrerequisite": {
             "Title": "Edit Prerequisite"
+        },
+        "ConfigureRoll": {
+            "Title": "Configure Rolls",
+            "Hint": "Left click or right click any individual die to apply advantage or disadvantage respectively."
         },
         "ConfigureAttack": {
             "AdvantageMode": {
@@ -1080,14 +1111,11 @@
             }
         },
         "PickDiceResult": {
-            "Title": "Pick result",
-            "Header": {
-                "Plural": "Pick up to {num} rolls to keep",
-                "Singular": "Pick 1 roll to keep"
-            },
-            "SelectRoll": "Select roll",
+            "Title": "Pick Result",
+            "Header": "Left to Pick:",
+            "SelectRoll": "Select Roll",
             "Error": {
-                "TooManyPicked": "Cannot pick more than {max} rolls"
+                "TooManyPicked": "Cannot pick more than {max} roll(s)!"
             }
         }
     },
@@ -1119,6 +1147,7 @@
         "Document": "Document",
         "Formula": "Formula",
         "Value": "Value",
+        "Modifier": "Modifier",
         "Skill": "Skill",
         "Attribute": "Attribute",
         "SkillTest": "Skill Test",
@@ -1150,7 +1179,8 @@
             "Cancel": "Cancel",
             "Update": "Update",
             "RemoveFavorite": "Remove Favorite",
-            "Favorite":  "Favorite"
+            "Favorite":  "Favorite",
+            "Confirm": "Confirm"
         },
         "Notification": {
             "GrazeFocusSpent": "Reduced focus by 1",
@@ -1214,6 +1244,10 @@
             "name": "Skip Roll Dialog by Default",
             "hint": "If enabled, rolls will skip the roll configuration dialog when clicked, using the default roll configuration. The dialog can still be accessed by holding the 'Skip/Show Dialog' key modifier from the system controls."
         },
+        "skipDamageModDialogByDefault": {
+            "name": "Skip Damage Modifier Dialog by Default",
+            "hint": "If enabled, the damage/healing card in chat will skip the modifier dialog when clicked, using the value shown in the card directly. The dialog can still be accessed by holding the 'Skip/Show Dialog' key modifier from the system controls."
+        },
         "enableOverlayButtons": {
             "name": "Enable Overlay Buttons",
             "hint": "When outputting a skill test or damage roll, enable overlay buttons on the chat message that offer additional functionality for the roll."
@@ -1243,7 +1277,7 @@
 		},
         "systemTheme": {
             "name": "Preferred System Theme",
-            "hint": "Specify the themed set of colours to use for system documents and interface elements. The selected theme will respect the prefered Dark/Light mode selected in the core settings."
+            "hint": "Specify the themed set of colours to use for system documents and interface elements. The selected theme will respect the preferred Dark/Light mode selected in the core settings."
         }
     },
     "KEYBINDINGS": {

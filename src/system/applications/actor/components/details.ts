@@ -1,9 +1,8 @@
 import { ActorType, MovementType } from '@system/types/cosmere';
 import { MovementTypeConfig } from '@system/types/config';
 import { ConstructorOf } from '@system/types/utils';
-
-import { SYSTEM_ID } from '@system/constants';
-import { TEMPLATES } from '@system/utils/templates';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 // Fields
 import { Derived } from '@system/data/fields';
