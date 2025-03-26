@@ -74,8 +74,8 @@ export interface CommonActorData {
         range: Derived<number>;
     };
     immunities: {
-        damage: DamageType[];
-        condition: Condition[];
+        damage: Record<DamageType, boolean>;
+        condition: Record<Condition, boolean>;
     };
     attributes: Record<Attribute, AttributeData>;
     defenses: Record<AttributeGroup, Derived<number>>;
@@ -174,22 +174,7 @@ export class CommonActorDataModel<
                     initial: true,
                 }),
             }),
-            immunities: new foundry.data.fields.SchemaField({
-                damage: new foundry.data.fields.ArrayField(
-                    new foundry.data.fields.StringField({
-                        nullable: false,
-                        blank: false,
-                        choices: Object.keys(CONFIG.COSMERE.damageTypes),
-                    }),
-                ),
-                conditions: new foundry.data.fields.ArrayField(
-                    new foundry.data.fields.StringField({
-                        nullable: false,
-                        blank: false,
-                        choices: Object.keys(CONFIG.COSMERE.conditions),
-                    }),
-                ),
-            }),
+            immunities: this.getImmunitiesSchema(),
             attributes: this.getAttributesSchema(),
             defenses: this.getDefensesSchema(),
             resources: this.getResourcesSchema(),
@@ -513,6 +498,64 @@ export class CommonActorDataModel<
                 }),
             ),
         });
+    }
+
+    private static getImmunitiesSchema() {
+        return new foundry.data.fields.SchemaField(
+            {
+                damage: this.getDamageImmunitiesSchema(),
+                condition: this.getConditionImmunitiesSchema(),
+            },
+            {
+                required: true,
+            },
+        );
+    }
+
+    private static getDamageImmunitiesSchema() {
+        const damageTypes = Object.keys(
+            CONFIG.COSMERE.damageTypes,
+        ) as DamageType[];
+
+        return new foundry.data.fields.SchemaField(
+            damageTypes.reduce(
+                (schema, type) => ({
+                    ...schema,
+                    [type]: new foundry.data.fields.BooleanField({
+                        required: true,
+                        nullable: false,
+                        initial: false,
+                    }),
+                }),
+                {} as Record<string, foundry.data.fields.BooleanField>,
+            ),
+            {
+                required: true,
+            },
+        );
+    }
+
+    private static getConditionImmunitiesSchema() {
+        const conditions = Object.keys(
+            CONFIG.COSMERE.conditions,
+        ) as Condition[];
+
+        return new foundry.data.fields.SchemaField(
+            conditions.reduce(
+                (schema, condition) => ({
+                    ...schema,
+                    [condition]: new foundry.data.fields.BooleanField({
+                        required: true,
+                        nullable: false,
+                        initial: false,
+                    }),
+                }),
+                {} as Record<string, foundry.data.fields.BooleanField>,
+            ),
+            {
+                required: true,
+            },
+        );
     }
 
     private static getMovementSchema() {
