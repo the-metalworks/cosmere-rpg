@@ -227,6 +227,10 @@ async function migrateActors(actors: CosmereActor[]) {
     );
 }
 
+/**
+ * Helper function for immunities code reuse. Updates the `changes` object
+ * according to the requested immunity type
+ */
 function migrateImmunities(changes: AnyObject, isDamage: boolean) {
     const config = isDamage ? COSMERE.damageTypes : COSMERE.conditions;
 
@@ -239,6 +243,8 @@ function migrateImmunities(changes: AnyObject, isDamage: boolean) {
                     false,
             }),
             {
+                // Note: the key for conditions is mismatched because it was
+                // renamed in this version. Damage was unchanged in name.
                 [`system.immunities.-=${isDamage ? 'damage' : 'conditions'}`]:
                     null,
             } as Record<string, boolean | null>,
