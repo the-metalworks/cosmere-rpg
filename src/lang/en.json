@@ -125,7 +125,8 @@
                 "LiftingCapactiy": "Lifting Capactiy",
                 "RecoveryDie": "Recover",
                 "Deflect": "Deflect",
-                "NoObscuredSense": "Unaffected by Obscured Senses."
+                "NoObscuredSense": "Unaffected by Obscured Senses.",
+                "Immunities": "Immunities"
             },
             "Deflect": {
                 "Natural": {
@@ -226,6 +227,7 @@
                 "ConfigureSensesRange": "Configure Senses Range",
                 "ConfigureRecovery": "Configure Recovery Die",
                 "RollInjury": "Roll Injury",
+                "ImmuneTo": "Immune to {condition}",
                 "Tabs": {
                     "Details": "Details",
                     "Actions": "Actions",
@@ -499,6 +501,10 @@
                 }
             },
             "Path": {
+                "TalentTree": {
+                    "Label": "Talent Tree",
+                    "Hint": "Talent tree that contains all talents for this path. This tree is displayed on the \"talents\" tab."
+                },
                 "LinkedSkills": {
                     "Label": "Linked Skills",
                     "Hint": "These skills are displayed alongside the path in the character sheet."
@@ -709,7 +715,8 @@
                 "Tabs": {
                     "Description": "Description",
                     "Effects": "Effects",
-                    "Details": "Details"
+                    "Details": "Details",
+                    "Talents": "Talents"
                 },
                 "Identifier": {
                     "Label": "Identifier",
@@ -841,6 +848,10 @@
                         "Create": "New Reward",
                         "SkillRanksDescriptionValue": "{ranks} ranks in {skill}"
                     }
+                },
+                "Path": {
+                    "TalentTreePlaceholder": "Drop Talent Tree Here",
+                    "NoTalentsConfigured": "No Talents Configured"
                 }
             }
         },
@@ -994,6 +1005,9 @@
         },
         "Theme": {
             "Default": "Cosmere"
+        },
+        "Damage": {
+            "IgnoreDeflect": "Ignore Deflect"
         }
     },
     "DICE": {
@@ -1015,7 +1029,10 @@
             "Graze": "Graze",
             "Full": "Full"
         },
-        "TemporaryBonus": "Temporary Modifiers (formula)"
+        "TemporaryBonus": {
+            "Label": "Temporary Bonus",
+            "Hint": "Enter an optional formula to apply as a temporary modifier to this skill test."
+        }
     },
     "ROLLS": {
         "Recovery": "[character] rolls their recovery die.",
@@ -1023,8 +1040,8 @@
     },
     "DIALOG": {
         "ItemConsume": {
-            "Title": "Consume resource",
-            "ShouldConsume": "Consume resource?"
+            "Title": "Consume Resource",
+            "ShouldConsume": "Consume {amount} {resource}?"
         },
         "EditExpertise": {
             "Remove": "Remove",
@@ -1059,6 +1076,10 @@
         },
         "EditTalentPrerequisite": {
             "Title": "Edit Prerequisite"
+        },
+        "ConfigureRoll": {
+            "Title": "Configure Rolls",
+            "Hint": "Left click or right click any individual die to apply advantage or disadvantage respectively."
         },
         "ConfigureAttack": {
             "AdvantageMode": {
@@ -1095,14 +1116,11 @@
             }
         },
         "PickDiceResult": {
-            "Title": "Pick result",
-            "Header": {
-                "Plural": "Pick up to {num} rolls to keep",
-                "Singular": "Pick 1 roll to keep"
-            },
-            "SelectRoll": "Select roll",
+            "Title": "Pick Result",
+            "Header": "Left to Pick:",
+            "SelectRoll": "Select Roll",
             "Error": {
-                "TooManyPicked": "Cannot pick more than {max} rolls"
+                "TooManyPicked": "Cannot pick more than {max} roll(s)!"
             }
         }
     },
@@ -1185,7 +1203,8 @@
             "NoFocus": "Not enough focus to perform this action",
             "TalentCannotBePrerequisiteOfItself": "A talent cannot be a prerequisite of itself",
             "DuplicatePrerequisiteTalentRef": "A talent with id {talentId} already exists ({talentName})",
-            "ItemAlreadyInTree": "An item with id \"{itemId}\" already exists in the {name} talent tree"
+            "ItemAlreadyInTree": "An item with id \"{itemId}\" already exists in the {name} talent tree",
+            "ActorConditionImmune": "{actor} is immune to {condition}"
         },
         "DerivedValue": {
             "Mode": {

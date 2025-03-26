@@ -58,6 +58,9 @@ export class ActorConditionsComponent extends HandlebarsApplicationComponent<
                     name: config.label,
                     icon: config.icon,
                     active: this.application.actor.conditions.has(id),
+                    immune: this.application.actor.system.immunities.condition[
+                        id
+                    ],
                 };
             }),
         });

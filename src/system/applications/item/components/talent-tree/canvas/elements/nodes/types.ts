@@ -1,7 +1,12 @@
+import { TalentTree } from '@system/types/item';
 import { PIXICanvasApplication, Drawable } from '@system/applications/canvas';
+
+// Constants
+import { GRID_SIZE } from '../../../constants';
 
 interface NodeData {
     id: string;
+    type: TalentTree.Node.Type;
     position: PIXI.IPointData;
 }
 
@@ -22,9 +27,22 @@ export abstract class BaseNode extends Drawable {
         this.cursor = 'pointer';
     }
 
-    public refresh() {
+    /* --- Accessors --- */
+
+    public get size() {
+        return {
+            width: GRID_SIZE,
+            height: GRID_SIZE,
+        };
+    }
+
+    /* --- Public functions --- */
+
+    public refresh(): Promise<void> {
         this.x = this.data.position.x;
         this.y = this.data.position.y;
+
+        return Promise.resolve();
     }
 
     public select() {

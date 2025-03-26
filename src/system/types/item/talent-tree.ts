@@ -176,12 +176,7 @@ export interface TreeNode extends BaseNode<Node.Type.Tree> {
     /**
      * The UUID of the TalentTreeItem the node refers to.
      */
-    uuid?: string;
-
-    /**
-     * Object containing the TalentTreeItem data
-     */
-    item: Pick<TalentTreeItem, 'name' | 'type' | 'img' | 'system'>;
+    uuid: string;
 }
 
 export interface TextNode extends BaseNode<Node.Type.Text> {

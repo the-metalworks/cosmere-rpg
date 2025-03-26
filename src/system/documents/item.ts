@@ -10,13 +10,9 @@ import {
 } from '@system/types/cosmere';
 import { Goal } from '@system/types/item';
 import { GoalItemData } from '@system/data/item/goal';
-import { DeepPartial, NONE, Nullable } from '@system/types/utils';
-
+import { DeepPartial, Nullable } from '@system/types/utils';
 import { CosmereActor } from './actor';
-
 import { SYSTEM_ID } from '../constants';
-
-import { Derived } from '@system/data/fields';
 
 // Dialogs
 import { AttackConfigurationDialog } from '@system/applications/dialogs/attack-configuration';
@@ -69,12 +65,10 @@ import {
 } from '../utils/generic';
 import { MESSAGE_TYPES } from './chat-message';
 import { renderSystemTemplate, TEMPLATES } from '../utils/templates';
+import { ItemConsumeDialog } from '../applications/item/dialogs/item-consume';
 
 // Constants
-const CONSUME_CONFIGURATION_DIALOG_TEMPLATE =
-    'systems/cosmere-rpg/templates/item/dialog/item-consume.hbs';
-const ACTIVITY_CARD_TEMPLATE =
-    'systems/cosmere-rpg/templates/chat/activity-card.hbs';
+const CONSUME_CONFIGURATION_DIALOG_TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ITEM_CONSUME}`;
 
 interface ShowConsumeDialogOptions {
     /**
@@ -491,13 +485,14 @@ export class CosmereItem<
             actor,
         );
 
+        const formula = options.overrideFormula ?? this.system.damage.formula;
         // Perform the roll
         const roll = await damageRoll(
             foundry.utils.mergeObject(options, {
                 formula:
                     rollData.mod !== undefined
-                        ? `${this.system.damage.formula} + ${rollData.mod}`
-                        : this.system.damage.formula,
+                        ? `${formula} + ${rollData.mod}`
+                        : formula,
                 damageType: this.system.damage.type,
                 mod: rollData.mod,
                 data: rollData,
@@ -521,7 +516,8 @@ export class CosmereItem<
         diceOnlyRoll.filterTermsSafely(
             (term) =>
                 term instanceof foundry.dice.terms.DiceTerm ||
-                term instanceof foundry.dice.terms.OperatorTerm,
+                term instanceof foundry.dice.terms.OperatorTerm ||
+                term instanceof foundry.dice.terms.PoolTerm,
         );
 
         // Ensure there is at least one term in the unmodded roll
@@ -661,6 +657,11 @@ export class CosmereItem<
                           )
                         : `${game.i18n!.localize('GENERIC.Custom')} ${game.i18n!.localize('GENERIC.Skill')}`
                 })`,
+                defaultAttribute: skillTestAttributeId,
+                defaultRollMode: options.rollMode,
+                raiseStakes:
+                    options.skillTest?.plotDie ??
+                    this.system.activation.plotDie,
                 skillTest: {
                     ...options.skillTest,
                     parts: ['@mod'].concat(options.skillTest?.parts ?? []),
@@ -669,9 +670,6 @@ export class CosmereItem<
                         skillTestAttributeId,
                         actor,
                     ),
-                    plotDie:
-                        options.skillTest?.plotDie ??
-                        this.system.activation.plotDie,
                 },
                 damageRoll: {
                     ...options.damage,
@@ -681,28 +679,49 @@ export class CosmereItem<
                         skillTestAttributeId,
                         actor,
                     ),
+                    dice: [],
                 },
-                defaultAttribute: skillTestAttributeId,
-                defaultRollMode: options.rollMode,
+                plotDie: {},
             });
 
             // If the dialog was closed, exit out of rolls
             if (!attackConfig) return null;
 
             options.skillTest.temporaryModifiers =
-                attackConfig.skillTest.temporaryModifiers;
-
+                attackConfig.temporaryModifiers;
             skillTestAttributeId = attackConfig.attribute;
             options.rollMode = attackConfig.rollMode;
-
-            options.skillTest.plotDie = attackConfig.skillTest.plotDie;
-            options.skillTest.advantageMode =
-                attackConfig.skillTest.advantageMode;
+            options.skillTest.plotDie = attackConfig.plotDie;
+            options.skillTest.advantageMode = attackConfig.advantageMode;
             options.skillTest.advantageModePlot =
-                attackConfig.skillTest.advantageModePlot;
+                attackConfig.advantageModePlot;
 
-            options.damage.advantageMode =
-                attackConfig.damageRoll.advantageMode;
+            if (
+                attackConfig.advantageModeDamage.some(
+                    (a) =>
+                        (a.advantageMode ?? AdvantageMode.None) !==
+                        AdvantageMode.None,
+                )
+            ) {
+                const pools: Record<number, string[]> = {};
+                for (const mode of attackConfig.advantageModeDamage) {
+                    pools[mode.poolIndex] ??= [];
+
+                    const state = mode.advantageMode ?? AdvantageMode.None;
+                    pools[mode.poolIndex].push(
+                        `${state !== AdvantageMode.None ? 2 : 1}${mode.die.denomination}${state === AdvantageMode.Advantage ? 'kh' : state === AdvantageMode.Disadvantage ? 'kl' : ''}`,
+                    );
+                }
+
+                const parts = [];
+                for (const pool of Object.values(pools)) {
+                    parts.push(
+                        pool.length > 1 ? `{${pool.join(',')}}` : pool[0],
+                    );
+                }
+
+                options.damage.overrideFormula = parts.join(' + ');
+            }
         }
 
         // Roll the skill test
@@ -919,9 +938,7 @@ export class CosmereItem<
                         opportunity: options.opportunity,
                         complication: options.complication,
                     },
-                    damage: {
-                        advantageMode: options.advantageModeDamage,
-                    },
+                    damage: {},
                     chatMessage: false,
                 });
                 if (!attackResult) return null;
@@ -1031,39 +1048,14 @@ export class CosmereItem<
                   ? '[TODO ITEM]'
                   : game.i18n!.localize('GENERIC.Unknown');
 
-        // Render the dialog inner HTML
-        const content = await renderTemplate(
-            CONSUME_CONFIGURATION_DIALOG_TEMPLATE,
-            {
-                consumedResourceLabel,
-                amount,
-                shouldConsume,
-            },
-        );
-
-        // Return promise that resolves with the dialog result
-        return new Promise((resolve) => {
-            new Dialog({
-                title,
-                content,
-                buttons: {
-                    continue: {
-                        label: game.i18n!.localize('GENERIC.Button.Continue'),
-                        callback: (html) => {
-                            const form = $(html)[0].querySelector(
-                                'form',
-                            )! as HTMLFormElement & {
-                                shouldConsume: HTMLInputElement;
-                            };
-
-                            resolve(form.shouldConsume.checked);
-                        },
-                    },
-                },
-                default: 'continue',
-                close: () => resolve(null),
-            }).render(true);
+        // Show the dialog if required
+        const result = await ItemConsumeDialog.show(this, {
+            resource: consumedResourceLabel,
+            amount,
+            shouldConsume,
         });
+
+        return result?.shouldConsume ?? null;
     }
 
     /* --- Functions --- */
@@ -1315,6 +1307,12 @@ export namespace CosmereItem {
         parts?: string[];
 
         /**
+         * A formula to override the default formula passed in for the damage roll.
+         * Used when configuring individual dice in a damage roll with advantage/disadvantage.
+         */
+        overrideFormula?: string;
+
+        /**
          * A dice formula stating any miscellanious other bonuses or negatives to the specific roll
          */
         temporaryModifiers?: string;
@@ -1366,7 +1364,7 @@ export namespace CosmereItem {
             | 'advantageMode'
             | 'advantageModePlot'
         >;
-        damage?: Pick<RollOptions, 'advantageMode' | 'skill' | 'attribute'>;
+        damage?: Pick<RollOptions, 'overrideFormula' | 'skill' | 'attribute'>;
     }
 
     export interface UseOptions extends RollOptions {
