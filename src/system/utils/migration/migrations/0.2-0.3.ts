@@ -1,4 +1,9 @@
-import { ActorType, ItemType } from '@system/types/cosmere';
+import {
+    ActorType,
+    Condition,
+    DamageType,
+    ItemType,
+} from '@system/types/cosmere';
 import { CosmereItem, TalentTreeItem } from '@system/documents/item';
 import { TalentTree } from '@system/types/item';
 
@@ -16,6 +21,8 @@ import { CharacterActorDataModel } from '@src/system/data/actor/character';
 
 // Constants
 import { SYSTEM_ID } from '@system/constants';
+import COSMERE from '@src/system/config';
+import { AnyObject } from '@src/system/types/utils';
 
 export default {
     from: '0.2',
@@ -186,22 +193,19 @@ async function migrateActors(actors: CosmereActor[]) {
                 });
             }
 
-            /* --- Damage Immunities --- */
-            /* --- This is a preemptive block based on the current immunities rework --- */
-            // if (Array.isArray(actor.system.immunities.damage)) {
-            //     foundry.utils.mergeObject(changes,
-            //         Object.keys(COSMERE.damageTypes).reduce(
-            //             (acc, damageType) => ({
-            //                 ...acc,
-            //                 [`system.immunities.damage.${damageType}`]:
-            //                     (actor.system.immunities.damage as DamageType[]).includes(damageType as DamageType),
-            //             }),
-            //             {
-            //                 ['system.immunities.-=damage']: null,
-            //             },
-            //         ),
-            //     );
-            // }
+            /* --- Damage and Condition Immunities --- */
+            if (Array.isArray(actor.system.immunities.damage)) {
+                foundry.utils.mergeObject(
+                    changes,
+                    getImmunityChanges(actor, true),
+                );
+            }
+            if (Array.isArray(actor.system.immunities.condition)) {
+                foundry.utils.mergeObject(
+                    changes,
+                    getImmunityChanges(actor, false),
+                );
+            }
 
             /**
              * Character Data
@@ -228,5 +232,30 @@ async function migrateActors(actors: CosmereActor[]) {
             // Ensure invalid documents are properly instantiated
             fixDocumentIfInvalid('Actor', actor._id);
         }),
+    );
+}
+
+function getImmunityChanges(
+    actor: CosmereActor,
+    isDamage: boolean,
+): Record<string, boolean | null> {
+    const config = isDamage ? COSMERE.damageTypes : COSMERE.conditions;
+    const baseKey = isDamage ? 'damage' : 'condition';
+
+    return Object.keys(config).reduce(
+        (acc, key) => ({
+            ...acc,
+            [`system.immunities.${baseKey}.${key}`]: isDamage
+                ? (
+                      actor.system.immunities.damage as unknown as DamageType[]
+                  ).includes(key as DamageType)
+                : (
+                      actor.system.immunities
+                          .condition as unknown as Condition[]
+                  ).includes(key as Condition),
+        }),
+        {
+            [`system.immunities.-=${baseKey}`]: null,
+        } as Record<string, boolean | null>,
     );
 }
