@@ -451,16 +451,20 @@ export class CosmereChatMessage extends ChatMessage {
 
         const {
             health,
-            damageTotal,
+            damageTaken,
             damageDeflect,
             damageIgnore,
+            damageImmune,
+            appliedImmunities,
             target,
             undo,
         } = this.getFlag(SYSTEM_ID, MESSAGE_TYPES.DAMAGE_TAKEN) as {
             health: number;
-            damageTotal: number;
+            damageTaken: number;
             damageDeflect: number;
             damageIgnore: number;
+            damageImmune: number;
+            appliedImmunities: Record<DamageType, number>;
             target: string;
             undo: boolean;
         };
@@ -470,17 +474,50 @@ export class CosmereChatMessage extends ChatMessage {
         if (!actor) return;
 
         // Whether or not the damage is actually healing
-        const isHealing = damageTotal < 0;
+        const isHealing = damageTaken < 0;
+
+        const damageImmuneTooltip = [
+            `<div><b>${game.i18n!.localize('COSMERE.Actor.Statistics.Immunities')}</b></div>`,
+            ...(Object.entries(appliedImmunities) as [DamageType, number][])
+                .sort(([, amountA], [, amountB]) => amountB - amountA)
+                .map(
+                    ([damageType, amount]) => `
+                    <div>
+                        <span>${game.i18n!.localize(
+                            CONFIG.COSMERE.damageTypes[damageType].label,
+                        )}</span>
+                        <span>${amount}</span>
+                    </div>
+                `,
+                ),
+        ].join('');
 
         const calculationDeflect =
             damageDeflect > 0
-                ? `${damageDeflect} - ${actor.deflect} <i class='fas fa-shield-halved'></i>`
+                ? `${actor.deflect} <i data-tooltip="COSMERE.Actor.Statistics.Deflect" class='fas fa-shield-halved'></i>`
                 : undefined;
         const calculationIgnore =
             damageIgnore > 0
-                ? `${damageIgnore} <i class='fas fa-shield-slash'></i>`
+                ? `${damageIgnore} <i data-tooltip="COSMERE.Damage.IgnoreDeflect" class='fas fa-shield-slash'></i>`
                 : undefined;
-        const calculation = `${calculationDeflect ?? ''}${calculationDeflect && calculationIgnore ? ' + ' : ''}${calculationIgnore ?? ''}`;
+        const calculationImmune =
+            damageImmune > 0
+                ? `${damageImmune} <i data-tooltip="${damageImmuneTooltip}" class="fa-solid fa-shield-virus"></i>`
+                : undefined;
+
+        // Combine calculations
+        const calculation = [
+            [
+                damageDeflect + damageImmune,
+                calculationDeflect,
+                calculationImmune,
+            ]
+                .filter((v) => !!v)
+                .join(' - '),
+            calculationIgnore,
+        ]
+            .filter((v) => !!v)
+            .join(' + ');
 
         const sectionHTML = await renderSystemTemplate(
             TEMPLATES.CHAT_CARD_DAMAGE_TAKEN,
@@ -491,7 +528,7 @@ export class CosmereChatMessage extends ChatMessage {
                     : 'icons/skills/wounds/injury-stitched-flesh-red.webp',
                 title: game.i18n!.format(
                     `COSMERE.ChatMessage.${isHealing ? 'ApplyHealing' : 'ApplyDamage'}`,
-                    { actor: actor.name, amount: Math.abs(damageTotal) },
+                    { actor: actor.name, amount: Math.abs(damageTaken) },
                 ),
                 subtitle: isHealing
                     ? undefined
@@ -520,7 +557,7 @@ export class CosmereChatMessage extends ChatMessage {
                     await actor.update({
                         'system.resources.hea.value':
                             actor.system.resources[Resource.Health].value +
-                            (health > damageTotal ? damageTotal : health),
+                            (health > damageTaken ? damageTaken : health),
                     });
 
                     await this.setFlag(SYSTEM_ID, 'taken.undo', false);

@@ -15,6 +15,11 @@ export interface PathItemData
         TypedItemData<PathType>,
         DescriptionItemData {
     /**
+     * The UUID of the talent tree that gets displayed on the talents tab.
+     */
+    talentTree?: string;
+
+    /**
      * The non-core skills linked to this path.
      * These skills are displayed with the path in the sheet.
      */
@@ -44,6 +49,14 @@ export class PathItemDataModel extends DataModelMixin<
 ) {
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), {
+            talentTree: new foundry.data.fields.DocumentUUIDField({
+                required: false,
+                nullable: true,
+                blank: false,
+                label: 'COSMERE.Item.Path.TalentTree.Label',
+                hint: 'COSMERE.Item.Path.TalentTree.Hint',
+            }),
+
             linkedSkills: new foundry.data.fields.ArrayField(
                 new foundry.data.fields.StringField({
                     required: true,

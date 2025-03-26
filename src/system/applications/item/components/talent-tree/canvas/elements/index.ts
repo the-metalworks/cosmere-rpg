@@ -1,3 +1,3 @@
 export { TalentTreeCanvasElement as TalentTree } from './tree';
-export { Connection } from './connection';
+export { BaseConnection, TalentsConnection } from './connection';
 export * as Nodes from './nodes';

@@ -16,6 +16,9 @@ import { TalentItem } from '@system/documents/item';
 // Import base node
 import { BaseNode } from './types';
 
+// Nodes
+import { TalentTreeNode } from './tree-node';
+
 export class TalentNode extends BaseNode {
     // Redeclare data type
     public declare readonly data: TalentTree.TalentNode;
@@ -51,9 +54,9 @@ export class TalentNode extends BaseNode {
         // Set filters
         this.filters = [
             new GlowFilter({
-                distance: 11,
-                outerStrength: 1,
-                alpha: 0.2,
+                distance: 15,
+                outerStrength: 1.5,
+                alpha: 0,
                 quality: 0.2,
                 color: 0x7fa4e9,
             }),
@@ -125,6 +128,11 @@ export class TalentNode extends BaseNode {
         return actor.hasTalentPreRequisites(this.data.prerequisites);
     }
 
+    public get parentNode() {
+        const parent = this.parent.parent;
+        return parent instanceof TalentTreeNode ? parent : null;
+    }
+
     /* --- Event handlers --- */
 
     private onMouseOver(event: PIXI.FederatedMouseEvent) {
@@ -132,9 +140,9 @@ export class TalentNode extends BaseNode {
         if (this.isTalentObtained || !this.isTalentAvailable) return;
 
         // Get available connections from this node
-        const connections = this.canvas.world.tree.connections
-            .filter((connection) => connection.from.id === this.data.id)
-            .filter((connection) => connection.isConnectionAvailable);
+        const connections = this.parentNode!.connections!.filter(
+            (connection) => connection.from.data.id === this.data.id,
+        ).filter((connection) => connection.isAvailable);
 
         // Get glow filter
         const glowFilter = this.glowFilter;
@@ -144,7 +152,7 @@ export class TalentNode extends BaseNode {
             new AnimationFunction({
                 func: function (this: Animation, delta: number) {
                     colorMatrixFilter.saturate(
-                        0.1 + this.progress * 0.9,
+                        0.5 + this.progress * 0.5,
                         false,
                     );
                     colorMatrixFilter.brightness(
@@ -153,12 +161,8 @@ export class TalentNode extends BaseNode {
                     );
 
                     connections.forEach((c) => {
-                        c.colorMatrixFilter.saturate(
-                            0.1 + this.progress * 0.9,
-                            false,
-                        );
-                        c.colorMatrixFilter.brightness(
-                            0.6 + this.progress * 0.4,
+                        c.colorMatrixFilter.greyscale(
+                            0.1 + this.progress * 0.1,
                             false,
                         );
                     });
@@ -169,6 +173,7 @@ export class TalentNode extends BaseNode {
             }),
         );
 
+        glowFilter.alpha = 0.2;
         this.hoverAnimations.push(
             new AnimationFunction({
                 // Animate glow filter outer strength from 0 to 2 and back
@@ -182,6 +187,7 @@ export class TalentNode extends BaseNode {
                 callback: () => {
                     // Reset outer strength
                     glowFilter.outerStrength = 1;
+                    glowFilter.alpha = 0;
                 },
             }),
         );
@@ -195,22 +201,22 @@ export class TalentNode extends BaseNode {
         if (this.isTalentObtained || !this.isTalentAvailable) return;
 
         // Get available connections from this node
-        const connections = this.canvas.world.tree.connections
-            .filter((connection) => connection.from.id === this.data.id)
-            .filter((connection) => connection.isConnectionAvailable);
+        const connections = this.parentNode!.connections!.filter(
+            (connection) => connection.from.data.id === this.data.id,
+        ).filter((connection) => connection.isAvailable);
 
         // Stop animations
         this.hoverAnimations.forEach((animation) => animation.stop());
         this.hoverAnimations = [];
 
         // Reset color matrix filter
+        this.colorMatrixFilter.reset();
         this.colorMatrixFilter.saturate(0.5, false);
         this.colorMatrixFilter.brightness(0.6, false);
 
         // Reset connections
         connections.forEach((c) => {
-            c.colorMatrixFilter.saturate(0.5, false);
-            c.colorMatrixFilter.brightness(0.6, false);
+            c.colorMatrixFilter.greyscale(0.1, false);
         });
     }
 
@@ -306,7 +312,10 @@ export class TalentNode extends BaseNode {
         // Update filters
         if (!this.canvas.world.editable && !!this.canvas.world.contextActor) {
             if (!this.isTalentObtained) {
+                this.glowFilter.alpha = 0;
+
                 if (this.isTalentAvailable) {
+                    this.colorMatrixFilter.reset();
                     this.colorMatrixFilter.saturate(0.5, false);
                     this.colorMatrixFilter.brightness(0.6, false);
                     this.cursor = 'pointer';
@@ -316,12 +325,26 @@ export class TalentNode extends BaseNode {
                 }
             } else {
                 this.colorMatrixFilter.reset();
+                this.glowFilter.alpha = 0.4;
                 this.cursor = 'pointer';
             }
         } else {
             this.colorMatrixFilter.reset();
             this.cursor = this.canvas.world.editable ? 'pointer' : 'default';
         }
+    }
+
+    /* --- Lifecycle --- */
+
+    public override async refresh() {
+        await super.refresh();
+
+        if (!this.parentNode) return;
+
+        this.eventMode =
+            !this.canvas.world.editable || this.parentNode.contentEditable
+                ? 'static'
+                : 'none';
     }
 }
 

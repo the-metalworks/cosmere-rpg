@@ -95,6 +95,9 @@ export class ActorConditionsComponent extends HandlebarsApplicationComponent<
                     icon: config.icon,
                     active,
                     stackable: config.stackable,
+                    immune: this.application.actor.system.immunities.condition[
+                        id
+                    ],
                 };
 
                 if (!active || !config.stackable) return baseContext;

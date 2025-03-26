@@ -6,7 +6,6 @@
     </li>
     <div class="conditions-set {{#if editable}}editable{{/if}}">
         {{#each conditions as |condition|}}
-        <div class="condition {{#if condition.active}}active{{/if}}" data-id="{{condition.id}}">
             <a data-action="cycle-condition" 
                 {{#if condition.stackable}}
                     data-tooltip="COSMERE.Actor.Sheet.Conditions.StackableConditionTooltip"
