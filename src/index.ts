@@ -148,10 +148,10 @@ function registerStatusEffects() {
             img: config.icon,
             _id: `cond${condition}`.padEnd(16, '0'),
 
-            ...(config.cumulative
+            ...(config.stackable
                 ? {
                       system: {
-                          isCumulative: true,
+                          isStackable: true,
                           count: 1,
                       },
                   }

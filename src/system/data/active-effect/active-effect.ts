@@ -1,13 +1,13 @@
 interface ActiveEffectData {
     /**
-     * Whether the effect is cumulative.
+     * Whether the effect can stack be stacked.
      */
-    isCumulative: boolean;
+    isStackable: boolean;
 
     /**
-     * The number of stacked instances of this effect. Used for cumulative effects.
+     * The number of stacked instances of this effect. Used for stackable effects.
      */
-    count?: number;
+    stacks?: number;
 }
 
 export class ActiveEffectDataModel extends foundry.abstract.TypeDataModel<
@@ -16,11 +16,11 @@ export class ActiveEffectDataModel extends foundry.abstract.TypeDataModel<
 > {
     static defineSchema() {
         return {
-            isCumulative: new foundry.data.fields.BooleanField({
+            isStackable: new foundry.data.fields.BooleanField({
                 required: true,
                 initial: false,
             }),
-            count: new foundry.data.fields.NumberField({
+            stacks: new foundry.data.fields.NumberField({
                 required: false,
                 nullable: true,
                 min: 0,

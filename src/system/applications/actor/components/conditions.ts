@@ -46,7 +46,7 @@ export class ActorConditionsComponent extends HandlebarsApplicationComponent<
         // Get the config
         const config = CONFIG.COSMERE.conditions[condition];
 
-        if (config.cumulative && active) {
+        if (config.stackable && active) {
             const cycleUp = event.type === 'click';
 
             // Get the condition effect
@@ -55,13 +55,13 @@ export class ActorConditionsComponent extends HandlebarsApplicationComponent<
                     effect.isCondition && effect.statuses.has(condition),
             )!;
 
-            // Calculate the new count
-            const newCount = cycleUp ? effect.count + 1 : effect.count - 1;
+            // Calculate the new stacks
+            const newStacks = cycleUp ? effect.stacks + 1 : effect.stacks - 1;
 
-            if (newCount > 0) {
+            if (newStacks > 0) {
                 // Update the effect
                 await effect.update({
-                    'system.count': newCount,
+                    'system.stacks': newStacks,
                 });
             } else {
                 await this.application.actor.toggleStatusEffect(condition);
@@ -94,10 +94,10 @@ export class ActorConditionsComponent extends HandlebarsApplicationComponent<
                     name: config.label,
                     icon: config.icon,
                     active,
-                    cumulative: config.cumulative,
+                    stackable: config.stackable,
                 };
 
-                if (!active || !config.cumulative) return baseContext;
+                if (!active || !config.stackable) return baseContext;
                 else {
                     // Get all effects that apply the condition
                     const effects =
@@ -107,14 +107,14 @@ export class ActorConditionsComponent extends HandlebarsApplicationComponent<
 
                     // Calculate the total count
                     const count = effects.reduce(
-                        (total, effect) => total + effect.count,
+                        (total, effect) => total + effect.stacks,
                         0,
                     );
 
                     return {
                         ...baseContext,
-                        count: config.countDisplayTansform
-                            ? config.countDisplayTansform(count)
+                        stacks: config.stacksDisplayTransform
+                            ? config.stacksDisplayTransform(count)
                             : count,
                     };
                 }

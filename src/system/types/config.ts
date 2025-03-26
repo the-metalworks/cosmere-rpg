@@ -53,16 +53,16 @@ export interface ConditionConfig {
     reference?: string;
 
     /**
-     * Whether the condition is cumulative.
+     * Whether the condition is stackable.
      */
-    cumulative?: boolean;
+    stackable?: boolean;
 
     /**
-     * Transform the count value for display.
+     * Transform the `stacks` value for display.
      *
      * @example Used for exhaustion to display "Exhaustion [-1]" instead of "Exhaution [1]".
      */
-    countDisplayTansform?: (count: number) => string;
+    stacksDisplayTransform?: (count: number) => string;
 }
 
 export interface InjuryConfig {

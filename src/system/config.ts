@@ -120,8 +120,8 @@ const COSMERE: CosmereRPGConfig = {
         [Condition.Exhausted]: {
             label: 'COSMERE.Conditions.Exhausted',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/exhausted.svg',
-            cumulative: true,
-            countDisplayTansform: (count) => (-count).toFixed(),
+            stackable: true,
+            stacksDisplayTransform: (stacks) => (-stacks).toFixed(),
         },
         [Condition.Focused]: {
             label: 'COSMERE.Conditions.Focused',

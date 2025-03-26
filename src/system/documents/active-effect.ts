@@ -7,11 +7,11 @@ export class CosmereActiveEffect extends ActiveEffect<ActiveEffectDataModel> {
     /* --- Accessors --- */
 
     /**
-     * The number of stacked instances of this effect. Used for cumulative effects.
-     * Shorthand for `system.count`.
+     * The number of stacked instances of this effect. Used for stackable effects.
+     * Shorthand for `system.stacks`.
      */
-    public get count() {
-        return this.system.count ?? 1;
+    public get stacks() {
+        return this.system.stacks ?? 1;
     }
 
     /**
@@ -33,11 +33,11 @@ export class CosmereActiveEffect extends ActiveEffect<ActiveEffectDataModel> {
     }
 
     /**
-     * Whether this effect is cumulative.
-     * Shorthand for `system.isCumulative`.
+     * Whether this effect is stackable.
+     * Shorthand for `system.isStackable`.
      */
-    public get isCumulative() {
-        return this.system.isCumulative;
+    public get isStackable() {
+        return this.system.isStackable;
     }
 
     /* --- Lifecylce --- */
@@ -50,15 +50,15 @@ export class CosmereActiveEffect extends ActiveEffect<ActiveEffectDataModel> {
         if ((await super._preCreate(data, options, user)) === false)
             return false;
 
-        if (this.isCondition && this.isCumulative && this.count >= 1) {
+        if (this.isCondition && this.isStackable && this.stacks >= 1) {
             const config =
                 CONFIG.COSMERE.conditions[this.statuses.first() as Condition];
 
             this.updateSource({
                 name: `${game.i18n!.localize(config.label)} [${
-                    config.countDisplayTansform
-                        ? config.countDisplayTansform(this.count)
-                        : this.count
+                    config.stacksDisplayTransform
+                        ? config.stacksDisplayTransform(this.stacks)
+                        : this.stacks
                 }]`,
             });
         }
@@ -70,21 +70,21 @@ export class CosmereActiveEffect extends ActiveEffect<ActiveEffectDataModel> {
         user: foundry.documents.BaseUser,
     ): Promise<boolean | void> {
         if (
-            foundry.utils.hasProperty(data, 'system.count') &&
+            foundry.utils.hasProperty(data, 'system.stacks') &&
             this.isCondition &&
-            this.isCumulative
+            this.isStackable
         ) {
-            const count = foundry.utils.getProperty(
+            const stacks = foundry.utils.getProperty(
                 data,
-                'system.count',
+                'system.stacks',
             ) as number;
             const config =
                 CONFIG.COSMERE.conditions[this.statuses.first() as Condition];
 
             data.name = `${game.i18n!.localize(config.label)} [${
-                config.countDisplayTansform
-                    ? config.countDisplayTansform(count)
-                    : count
+                config.stacksDisplayTransform
+                    ? config.stacksDisplayTransform(stacks)
+                    : stacks
             }]`;
         }
 
@@ -99,9 +99,9 @@ export class CosmereActiveEffect extends ActiveEffect<ActiveEffectDataModel> {
         await super._onUpdate(changed, options, userId);
 
         if (
-            foundry.utils.hasProperty(changed, 'system.count') &&
+            foundry.utils.hasProperty(changed, 'system.stacks') &&
             this.isCondition &&
-            this.isCumulative
+            this.isStackable
         ) {
             this._displayScrollingStatus(this.active);
         }
@@ -114,8 +114,8 @@ export class CosmereActiveEffect extends ActiveEffect<ActiveEffectDataModel> {
             value: tryApplyRollData(actor, change.value),
         };
 
-        if (this.isCumulative) {
-            newChange.value = `( ${newChange.value} ) * ${this.count}`;
+        if (this.isStackable) {
+            newChange.value = `( ${newChange.value} ) * ${this.stacks}`;
         }
 
         // Execute the standard ActiveEffect application logic
