@@ -193,19 +193,11 @@ async function migrateActors(actors: CosmereActor[]) {
                 });
             }
 
-            /* --- Damage and Condition Immunities --- */
-            if (Array.isArray(actor.system.immunities.damage)) {
-                foundry.utils.mergeObject(
-                    changes,
-                    getImmunityChanges(actor, true),
-                );
-            }
-            if (Array.isArray(actor.system.immunities.condition)) {
-                foundry.utils.mergeObject(
-                    changes,
-                    getImmunityChanges(actor, false),
-                );
-            }
+            /* --- Damage Immunities --- */
+            migrateImmunities(changes, true);
+
+            /* --- Condition Immunities --- */
+            migrateImmunities(changes, false);
 
             /**
              * Character Data
@@ -215,7 +207,7 @@ async function migrateActors(actors: CosmereActor[]) {
                 /* --- Advancement ---*/
                 if (isNaN((actor.system as CharacterActorDataModel).level)) {
                     foundry.utils.mergeObject(changes, {
-                        ['system.level']: 0,
+                        ['system.level']: 1,
                     });
                 }
             }
@@ -235,27 +227,21 @@ async function migrateActors(actors: CosmereActor[]) {
     );
 }
 
-function getImmunityChanges(
-    actor: CosmereActor,
-    isDamage: boolean,
-): Record<string, boolean | null> {
+function migrateImmunities(changes: AnyObject, isDamage: boolean) {
     const config = isDamage ? COSMERE.damageTypes : COSMERE.conditions;
-    const baseKey = isDamage ? 'damage' : 'condition';
 
-    return Object.keys(config).reduce(
-        (acc, key) => ({
-            ...acc,
-            [`system.immunities.${baseKey}.${key}`]: isDamage
-                ? (
-                      actor.system.immunities.damage as unknown as DamageType[]
-                  ).includes(key as DamageType)
-                : (
-                      actor.system.immunities
-                          .condition as unknown as Condition[]
-                  ).includes(key as Condition),
-        }),
-        {
-            [`system.immunities.-=${baseKey}`]: null,
-        } as Record<string, boolean | null>,
+    foundry.utils.mergeObject(
+        changes,
+        Object.keys(config).reduce(
+            (acc, key) => ({
+                ...acc,
+                [`system.immunities.${isDamage ? 'damage' : 'condition'}.${key}`]:
+                    false,
+            }),
+            {
+                [`system.immunities.-=${isDamage ? 'damage' : 'conditions'}`]:
+                    null,
+            } as Record<string, boolean | null>,
+        ),
     );
 }
