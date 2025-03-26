@@ -1,4 +1,4 @@
-import { ConstructorOf } from '@system/types/utils';
+import { ConstructorOf, AnyObject } from '@system/types/utils';
 
 // Constants
 const PRIMARY_TAB_GROUP = 'primary';
@@ -47,6 +47,21 @@ export function TabsApplicationMixin<
         public static TABS: Record<string, ApplicationTab> = {};
 
         public tabGroups: Record<string, string> = {};
+
+        public override changeTab(
+            tab: string,
+            group: string,
+            options?: AnyObject,
+        ): void {
+            super.changeTab(tab, group, options);
+
+            // Invoke tab change
+            this.onTabChange(tab, group);
+        }
+
+        /* --- Lifecycle --- */
+
+        protected onTabChange(tab: string, group: string) {}
 
         /* --- Context --- */
 
