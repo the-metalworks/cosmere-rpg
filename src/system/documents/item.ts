@@ -66,6 +66,7 @@ import {
 import { MESSAGE_TYPES } from './chat-message';
 import { renderSystemTemplate, TEMPLATES } from '../utils/templates';
 import { ItemConsumeDialog } from '../applications/item/dialogs/item-consume';
+import { CosmereHooks } from '../types/hooks';
 
 // Constants
 const CONSUME_CONFIGURATION_DIALOG_TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ITEM_CONSUME}`;
@@ -649,6 +650,16 @@ export class CosmereItem<
 
         // Perform configuration
         if (!fastForward && options.configurable !== false) {
+            /**
+             * Hook: preAttackRollConfiguration
+             */
+            if (
+                Hooks.call<
+                    CosmereHooks.RollConfig<CosmereItem.RollAttackOptions>
+                >('cosmere.preAttackRollConfiguration', options) === false
+            )
+                return null;
+
             const attackConfig = await AttackConfigurationDialog.show({
                 title: `${this.name} (${
                     skillTestSkillId
@@ -722,6 +733,13 @@ export class CosmereItem<
 
                 options.damage.overrideFormula = parts.join(' + ');
             }
+
+            /**
+             * Hook: postAttackRollConfiguration
+             */
+            Hooks.callAll<
+                CosmereHooks.RollConfig<CosmereItem.RollAttackOptions>
+            >('cosmere.postAttackRollConfiguration', options);
         }
 
         // Roll the skill test
