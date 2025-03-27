@@ -242,7 +242,7 @@ export const enum AttackType {
     Ranged = 'ranged',
 }
 
-export const enum DamageType {
+export enum DamageType {
     Energy = 'energy',
     Impact = 'impact',
     Keen = 'keen',

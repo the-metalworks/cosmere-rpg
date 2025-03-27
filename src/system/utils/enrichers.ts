@@ -1,6 +1,14 @@
-import { CosmereActor, CosmereActorRollData, CosmereItem } from '../documents';
+import { SYSTEM_ID } from '../constants';
+import { DamageRoll } from '../dice';
+import { CosmereActor, CosmereItem, MESSAGE_TYPES } from '../documents';
 import { AttributeConfig, SkillConfig } from '../types/config';
-import { Attribute, AttributeGroup, Skill } from '../types/cosmere';
+import {
+    Attribute,
+    AttributeGroup,
+    DamageType,
+    Size,
+    Skill,
+} from '../types/cosmere';
 import { TargetDescriptor } from './generic';
 
 interface EnricherConfig {
@@ -49,6 +57,9 @@ const EnricherStyleOptions = {
     uppercase: (value: string) => value.toLocaleUpperCase(),
 } as const;
 
+const getActor = (actorId: string) =>
+    (game.actors as Actors).get(actorId) as CosmereActor;
+
 /*
  * Note: Left in some commented out options that I copied across
  * from the 5e implementation that we might want to use later */
@@ -96,8 +107,12 @@ function enrichString(
     const processedConfig = parseConfig(config);
     processedConfig._input = match[0];
     switch (type.toLowerCase()) {
-        // case "healing": config._isHealing = true;
-        // case "damage": return enrichDamage(config, label, options);
+        case 'healing': {
+            processedConfig.healing = true;
+            return enrichDamage(processedConfig, label, options);
+        }
+        case 'damage':
+            return enrichDamage(processedConfig, label, options);
         case 'test':
             return enrichTest(processedConfig, label, options);
         case 'lookup':
@@ -141,7 +156,7 @@ function createErrorSpan(text: string) {
     return span;
 }
 
-function buildRollLabel(
+function buildTestLabel(
     config: EnricherConfig,
     skill?: SkillConfig,
     attr?: AttributeConfig,
@@ -149,14 +164,14 @@ function buildRollLabel(
     let linkLabel = '',
         postLink = '';
     if (skill) {
-        linkLabel = `<b>${game.i18n?.localize(skill.label)}</b> `;
+        linkLabel = `${game.i18n?.localize(skill.label)} `;
         const attributeName = attr
             ? game.i18n?.localize(attr?.label)
             : undefined;
         if (attributeName) {
             linkLabel = `${linkLabel}(${attributeName}) `;
         }
-        linkLabel = `${linkLabel}${game.i18n?.localize('GENERIC.Test')} `;
+        linkLabel = `${linkLabel}${game.i18n?.localize('GENERIC.Test')}`;
     }
     if (config.dc && !config.defence)
         postLink = `${game.i18n?.localize('GENERIC.Enrichers.Test.Against')} ${game.i18n?.localize('GENERIC.DC')} ${config.dc as string | number}`;
@@ -165,18 +180,23 @@ function buildRollLabel(
     return { linkLabel, postLink };
 }
 
-function createTestLink(linkLabel: string, postLink: string, options?: string) {
+function createRollLink(
+    linkLabel: string,
+    postLink: string,
+    type: string,
+    options?: string,
+) {
     const span = document.createElement('span');
-    span.classList.add('roll-link');
+    span.classList.add('enricher-link');
 
     const link = document.createElement('a');
     link.dataset.action = 'trigger-enricher';
-    link.dataset.type = 'roll';
+    link.dataset.type = type;
     link.dataset.options = options;
-    link.innerHTML = `<i class="fa-solid fa-dice-d20"></i>${linkLabel}`;
+    link.innerHTML = `<i class="fa-solid fa-dice-d20"></i> ${linkLabel}`;
 
     span.insertAdjacentElement('beforeend', link);
-    span.insertAdjacentText('beforeend', postLink);
+    span.insertAdjacentText('beforeend', ` ${postLink}`);
 
     return span;
 }
@@ -342,14 +362,14 @@ function enrichTest(
                 CONFIG.COSMERE.attributeGroups[config.defence as AttributeGroup]
                     .label,
             ) ?? 'Defence';
-        config.dc = (
-            (game.actors as Actors).get(data.target?.uuid ?? '') as CosmereActor
-        )?.system.defenses[config.defence as AttributeGroup].value;
+        config.dc = getActor(data.target?.uuid ?? '')?.system.defenses[
+            config.defence as AttributeGroup
+        ].value;
     }
 
     const labelText = label
         ? { linkLabel: label, postLink: '' }
-        : buildRollLabel(config, skillConfig, attributeConfig);
+        : buildTestLabel(config, skillConfig, attributeConfig);
 
     const linkOptions = JSON.stringify({
         actorId:
@@ -362,13 +382,119 @@ function enrichTest(
         target: data.target,
     });
 
-    return createTestLink(labelText.linkLabel, labelText.postLink, linkOptions);
+    return createRollLink(
+        labelText.linkLabel,
+        labelText.postLink,
+        'test',
+        linkOptions,
+    );
+}
+
+async function enrichDamage(
+    config: EnricherConfig,
+    label: string,
+    options?: TextEditor.EnrichmentOptions,
+) {
+    const formulaParts = [];
+    // extract input params
+    const { values } = config;
+    let { formula, type, healing, setValue } = config;
+    if (formula) formulaParts.push(formula);
+    if (healing) {
+        if (type)
+            return createErrorSpan('GENERIC.Enrichers.Damage.DoubleTyped');
+        type = 'Healing';
+    }
+    if (type === 'Healing') healing = true;
+    for (const value of values) {
+        if (value.toLowerCase() === 'average') {
+            if (!setValue) setValue = true;
+        } else if (
+            value.toLowerCase() === 'healing' ||
+            value.toLowerCase() === 'heal'
+        ) {
+            if (!healing) {
+                healing = true;
+                type = 'Healing';
+            }
+        } else if (value in DamageType) {
+            if (!type) type = value;
+            if (value.toLowerCase() === 'healing') healing = true;
+        } else formulaParts.push(value);
+    }
+    // Check we got things passed in correctly
+    if (formulaParts.length === 0)
+        return createErrorSpan('GENERIC.Enrichers.Damage.NoFormula');
+    if (!type) return createErrorSpan('GENERIC.Enrichers.Damage.NoType');
+    if (typeof type !== 'string' || !(type in DamageType))
+        return createErrorSpan('GENERIC.Enrichers.Damage.BadType');
+
+    // grab the actor (we need the roll data unfortunately)
+    const actorId =
+        options?.relativeTo instanceof CosmereActor
+            ? options.relativeTo.uuid
+            : (options?.relativeTo as unknown as CosmereItem).actor?.uuid;
+    const actor = getActor(actorId?.split('.')[1] ?? '');
+
+    // convert any actor properties passed in
+    // const tempRoll = Roll.defaultImplementation;
+    // formula = tempRoll.replaceFormulaData(formulaParts.join(" + "), actor.getRollData() ?? {});
+    // Collate like terms - this will need tweaking when allowing multiple damage types if we got that route
+    const terms = Roll.simplifyTerms(
+        Roll.defaultImplementation.parse(
+            formulaParts.join(' + '),
+            actor.getRollData(),
+        ),
+    );
+    formula = terms.map((t) => t.formula).join(' ');
+    // calculate the average
+    const minRoll = Roll.create(formula).evaluate({ minimize: true });
+    const maxRoll = Roll.create(formula).evaluate({ maximize: true });
+    const rawAverage = Math.floor(
+        ((await minRoll).total + (await maxRoll).total) / 2,
+    );
+    if (setValue && typeof setValue !== 'number') setValue = rawAverage;
+
+    // Set up the display content
+
+    // encode the data for the click action
+    const linkOptions = {
+        actorId,
+        formula: setValue,
+        healing,
+        damageType: healing ? 'heal' : type.toLowerCase(),
+    };
+
+    // If there is a set value given, we'll need a pair of links
+    const container = document.createElement('span');
+    if (setValue) {
+        const valueLink = createRollLink(
+            `${setValue}`,
+            '',
+            'damage',
+            JSON.stringify(linkOptions),
+        );
+        container.insertAdjacentElement('afterbegin', valueLink);
+    }
+
+    linkOptions.formula = formula;
+    const labelText = label
+        ? label
+        : `${setValue ? `(` : ''}${formula}${setValue ? ')' : ''} ${type}`;
+    const poolLink = createRollLink(
+        labelText,
+        !healing && !label ? ' damage' : '',
+        'damage',
+        JSON.stringify(linkOptions),
+    );
+    container.insertAdjacentElement('beforeend', poolLink);
+    return container;
 }
 
 /* --- Event Handlers --- */
 
 export async function enricherAction(event: Event) {
-    const element = (event.target as HTMLElement)?.closest('.roll-link');
+    const element = (event.target as HTMLElement)?.closest('.enricher-link');
     if (!element || !(element instanceof HTMLElement)) return;
     event.stopPropagation();
 
@@ -382,15 +508,16 @@ export async function enricherAction(event: Event) {
         [k: string]: string;
     };
 
-    if (type === 'roll') {
+    if (type === 'test') {
         await rollAction(parsedOptions);
+    }
+    if (type === 'damage') {
+        await damageAction(parsedOptions);
     }
 }
 
 async function rollAction(options: { actorId: string; [k: string]: string }) {
-    const actor = (game.actors as Actors).get(
-        options.actorId.split('.')[1],
-    ) as CosmereActor;
+    const actor = getActor(options.actorId.split('.')[1]);
     if (actor && options.skill) {
         await actor.rollSkill(
             options.skill as Skill,
@@ -402,13 +529,30 @@ async function rollAction(options: { actorId: string; [k: string]: string }) {
     }
 }
 
-/* TODO:
- * [X] fix the collapsible functionality for notes tab & chat cards (probably other instances too...)
- * [X] add the relativeTo option to the prosemirror instances for notes tab.
- * [ ] link styling
- * [ ] Damage/Healing Enricher?
- *
- * Strech Goals:
- * - Item use Enricher
- * - Reference Enricher?
- */
+async function damageAction(options: { actorId: string; [k: string]: string }) {
+    const actor = getActor(options.actorId.split('.')[1]);
+    if (actor && options.formula) {
+        const roll = new DamageRoll(
+            String(options.formula),
+            actor.getRollData(),
+            { damageType: options.damageType as DamageType },
+        );
+        await roll.evaluate();
+
+        // Create chat message
+        const messageConfig = {
+            user: game.user!.id,
+            speaker: ChatMessage.getSpeaker({ actor }) as ChatSpeakerData,
+            rolls: [roll],
+            flags: {
+                [SYSTEM_ID]: {
+                    message: {
+                        type: MESSAGE_TYPES.ACTION,
+                    },
+                },
+            },
+        };
+
+        await ChatMessage.create(messageConfig);
+    }
+}

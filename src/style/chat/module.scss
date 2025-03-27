@@ -529,7 +529,10 @@
 
                                 &.left {                                    
                                     padding-left: 20%;
-                                    border-right: 1px solid var(--cosmere-color-light-4);
+                                    
+                                    &:has(+ .right) {
+                                        border-right: 1px solid var(--cosmere-color-light-4);
+                                    }
                                 }
 
                                 &.right {
@@ -710,6 +713,21 @@
         }
     }
 
+    .enricher-link {
+        a {
+            border-radius: 4px;
+            background: var(--cosmere-color-base-1);
+            margin: .1rem;
+            padding: .13rem;
+            font-weight: bold;
+
+            &:hover {
+                border-color: var(--cosmere-color-accent);
+                background: var(--cosmere-color-base-5);
+                box-shadow: 0 0 5px var(--cosmere-color-faded);
+            }
+        }
+    }
     
 }
 

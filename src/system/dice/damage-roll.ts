@@ -193,11 +193,14 @@ export class DamageRoll extends foundry.dice.Roll<DamageRollData> {
     public replaceDieResults(sourceDicePool: foundry.dice.terms.DiceTerm[]) {
         sourceDicePool.forEach((die) => {
             let numDiceToAlter = die.number ?? 0;
+            let index = 0;
             while (numDiceToAlter > 0) {
-                const nextDie = this.dice.find(
+                index = this.dice.findIndex(
                     (newDie) => newDie.faces === die.faces,
+                    index,
                 );
-                if (!nextDie) return;
+                if (index === -1) return;
+                const nextDie = this.dice[index];
                 nextDie.results = die.results;
                 numDiceToAlter--;
             }

@@ -323,6 +323,7 @@ export class CosmereChatMessage extends ChatMessage {
                 totalNormal: this.totalDamageNormal,
                 totalGraze: this.totalDamageGraze,
                 critical,
+                showGraze: this.damageRolls.some((roll) => roll.options.graze),
             },
         );
 
@@ -332,12 +333,18 @@ export class CosmereChatMessage extends ChatMessage {
               })
             : undefined;
 
+        const isHealing = !types.some(
+            (type) =>
+                type !== CONFIG.COSMERE.damageTypes[DamageType.Healing].label,
+        );
         const sectionHTML = await renderSystemTemplate(
             TEMPLATES.CHAT_CARD_SECTION,
             {
                 type: 'damage',
-                icon: 'fa-solid fa-burst',
-                title: game.i18n!.localize('GENERIC.Damage'),
+                icon: isHealing ? 'fa-solid fa-burst' : 'fa-solid fa-heart',
+                title: game.i18n!.localize(
+                    isHealing ? 'GENERIC.Damage' : 'GENERIC.Healing',
+                ),
                 content: damageHTML,
                 footer,
                 critical,

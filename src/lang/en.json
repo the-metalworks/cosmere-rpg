@@ -1142,6 +1142,7 @@
         "Test": "Test",
         "Plot": "Plot",
         "Damage": "Damage",
+        "Healing": "Healing",
         "Cost": "Cost",
         "Configure": "Configure",
         "DistanceUnit": "ft.",
@@ -1194,6 +1195,12 @@
                 "Against": "against",
                 "VsDefense": "against the target's",
                 "NoSkill": "No Skill Provided"
+            },
+            "Damage": {
+                "NoFormula": "No Formula or Dice Terms Provided",
+                "NoType": "No Damage Type Provided",
+                "DoubleType": "Damage Type Defined More Than Once",
+                "BadType": "Damage Type Not Supported"
             },
             "Lookup": {
                 "NoPath": "No Lookup Path Provided"
