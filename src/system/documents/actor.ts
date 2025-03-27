@@ -810,6 +810,7 @@ export class CosmereActor<
         };
         data.attribute = attribute.value + attribute.bonus;
         data.attributes = this.system.attributes;
+        data.context = 'Skill';
 
         // Prepare roll data
         const flavor = `${game.i18n!.localize(
@@ -951,7 +952,7 @@ export class CosmereActor<
             .filter((v) => !!v)
             .join(' + ');
 
-        // Evaluate the roll
+        // Configure the roll
         const roll = Roll.create(formula);
 
         /**
@@ -965,6 +966,7 @@ export class CosmereActor<
         )
             return;
 
+        // Evaluate the roll
         await roll.evaluate();
 
         /**

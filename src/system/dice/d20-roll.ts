@@ -33,6 +33,7 @@ export type D20RollData<
         attribute: Nullable<Attribute>;
     };
     attribute: number;
+    context: string; // The context the roll exists in, for hooks
 };
 
 export interface D20RollOptions

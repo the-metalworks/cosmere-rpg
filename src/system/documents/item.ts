@@ -1203,6 +1203,7 @@ export class CosmereItem<
                 attribute: attributeId ? attributeId : skill.attribute,
             },
             attribute: attribute.value,
+            context: 'Item',
         };
     }
 

@@ -8,6 +8,7 @@ import {
     getFormulaDisplayString,
 } from '../utils/generic';
 import { AdvantageMode } from '../types/roll';
+import { CosmereHooks } from '../types/hooks';
 
 export * from './d20-roll';
 export * from './damage-roll';
@@ -98,7 +99,29 @@ export async function d20Roll(
         { ...config },
     );
 
+    /**
+     * Hook: preRoll
+     */
+    if (
+        Hooks.call<CosmereHooks.PreRoll>(
+            `cosmere.pre${config.data.context}Roll`,
+            roll,
+        ) === false
+    )
+        return null;
+
     if (!fastForward) {
+        /**
+         * Hook: preRollConfiguration
+         */
+        if (
+            Hooks.call<CosmereHooks.RollConfig<D20RollConfigration>>(
+                `cosmere.pre${config.data.context}RollConfiguration`,
+                config,
+            ) === false
+        )
+            return null;
+
         // Prompt dialog to configure the d20 roll
         const configured =
             config.configurable !== false
@@ -118,11 +141,28 @@ export async function d20Roll(
                       plotDie: {},
                   })
                 : roll;
+
+        /**
+         * Hook: postRollConfiguration
+         */
+        Hooks.callAll<CosmereHooks.RollConfig<D20RollConfigration>>(
+            `cosmere.post${config.data.context}RollConfiguration`,
+            config,
+        );
+
         if (configured === null) return null;
     }
 
     // Evaluate the configure roll
     await roll.evaluate();
+
+    /**
+     * Hook: postRoll
+     */
+    Hooks.callAll<CosmereHooks.PostRoll>(
+        `cosmere.post${config.data.context}Roll`,
+        roll,
+    );
 
     if (roll && config.chatMessage !== false) {
         await roll.toMessage(config.messageData, config);
@@ -146,8 +186,21 @@ export async function damageRoll(
         critical: config.critical,
     });
 
+    /**
+     * Hook: preDamageRoll
+     */
+    // Note: this setup doesn't allow for early exits from hook listeners,
+    // in order to not modify the function signature and not jeopardize
+    // the results with additional side effects.
+    Hooks.callAll<CosmereHooks.PreRoll>('cosmere.preDamageRoll', roll);
+
     // Evaluate the roll
     await roll.evaluate();
+
+    /**
+     * Hook: postDamageRoll
+     */
+    Hooks.callAll<CosmereHooks.PostRoll>('cosmere.postDamageRoll', roll);
 
     // Return result
     return roll;
