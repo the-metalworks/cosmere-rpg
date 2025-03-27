@@ -533,6 +533,17 @@ export class CosmereActor<
         // Roll
         const roll = new foundry.dice.Roll(formula);
 
+        /**
+         * Hook: preRollInjuryType
+         */
+        if (
+            Hooks.call<CosmereHooks.PreRoll>(
+                'cosmere.preRollInjuryType',
+                roll,
+            ) === false
+        )
+            return;
+
         // NOTE: Draw function type definition is wrong, must use `any` type as a workaround
         /* eslint-disable @typescript-eslint/no-explicit-any */
         const draw = await table.draw({
@@ -543,6 +554,17 @@ export class CosmereActor<
 
         // Get result
         const result = draw.results[0] as TableResult;
+
+        /**
+         * Hook: postRollInjuryType
+         *
+         * Passes the actual roll, and the table draw result
+         */
+        Hooks.callAll<CosmereHooks.PostRoll>(
+            'cosmere.postRollInjuryType',
+            roll,
+            result,
+        );
 
         // Get injury data
         const data: { type: InjuryType; durationFormula: string } =
@@ -555,8 +577,30 @@ export class CosmereActor<
         ) {
             // Roll duration
             const durationRoll = new foundry.dice.Roll(data.durationFormula);
+
+            /**
+             * Hook: preRollInjuryDuration
+             */
+            if (
+                Hooks.call<CosmereHooks.PreRoll>(
+                    'cosmere.preRollInjuryDuration',
+                    durationRoll,
+                ) === false
+            )
+                return;
+
             await durationRoll.evaluate();
             rolls.push(durationRoll);
+
+            /**
+             * Hook: postRollInjuryDuration
+             *
+             * Passes the evaluated roll
+             */
+            Hooks.callAll<CosmereHooks.PostRoll>(
+                'cosmere.postRollInjuryDuration',
+                durationRoll,
+            );
         }
 
         const flags = {} as Record<string, any>;

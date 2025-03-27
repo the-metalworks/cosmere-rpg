@@ -62,7 +62,9 @@ export namespace CosmereHooks {
      * - postRollConfiguration
      */
 
-    export type PreRoll = () => boolean; // TODO
-    export type PostRoll = () => boolean; // TODO
+    export type PreRoll = (roll: Roll) => boolean;
+    export type PostRoll =
+        | ((roll: Roll) => boolean)
+        | ((roll: Roll, result: TableResult) => boolean);
     export type PostRollConfig = () => boolean; // TODO
 }
