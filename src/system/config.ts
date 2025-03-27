@@ -117,13 +117,11 @@ const COSMERE: CosmereRPGConfig = {
             label: 'COSMERE.Conditions.Encumbered',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/encumbered.svg',
         },
-        [Condition.Enhanced]: {
-            label: 'COSMERE.Conditions.Enhanced',
-            icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/enhanced.svg',
-        },
         [Condition.Exhausted]: {
             label: 'COSMERE.Conditions.Exhausted',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/exhausted.svg',
+            stackable: true,
+            stacksDisplayTransform: (stacks) => (-stacks).toFixed(),
         },
         [Condition.Focused]: {
             label: 'COSMERE.Conditions.Focused',

@@ -24,7 +24,6 @@ export const enum Condition {
     Determined = 'determined',
     Disoriented = 'disoriented',
     Empowered = 'empowered',
-    Enhanced = 'enhanced',
     Exhausted = 'exhausted',
     Encumbered = 'encumbered',
     Focused = 'focused',

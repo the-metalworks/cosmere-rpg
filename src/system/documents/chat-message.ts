@@ -8,6 +8,7 @@ import { D20Roll } from '@system/dice/d20-roll';
 import { DamageRoll } from '@system/dice/damage-roll';
 
 import { CosmereActor } from './actor';
+import { InjuryItem } from './item';
 import { renderSystemTemplate, TEMPLATES } from '../utils/templates';
 import { SYSTEM_ID } from '../constants';
 import { AdvantageMode } from '../types/roll';
@@ -20,7 +21,7 @@ import {
 } from '../utils/generic';
 import ApplicationV2 from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/client-esm/applications/api/application.mjs';
 import { DamageModifierDialog } from '../applications/actor/dialogs/damage-card-modifier';
-import { InjuryItem } from './item';
+import { AnyObject } from '../types/utils';
 import { CosmereHooks } from '../types/hooks';
 
 export const MESSAGE_TYPES = {
@@ -484,16 +485,20 @@ export class CosmereChatMessage extends ChatMessage {
 
         const {
             health,
-            damageTotal,
+            damageTaken,
             damageDeflect,
             damageIgnore,
+            damageImmune,
+            appliedImmunities,
             target,
             undo,
         } = this.getFlag(SYSTEM_ID, MESSAGE_TYPES.DAMAGE_TAKEN) as {
             health: number;
-            damageTotal: number;
+            damageTaken: number;
             damageDeflect: number;
             damageIgnore: number;
+            damageImmune: number;
+            appliedImmunities: Record<DamageType, number>;
             target: string;
             undo: boolean;
         };
@@ -503,17 +508,50 @@ export class CosmereChatMessage extends ChatMessage {
         if (!actor) return;
 
         // Whether or not the damage is actually healing
-        const isHealing = damageTotal < 0;
+        const isHealing = damageTaken < 0;
+
+        const damageImmuneTooltip = [
+            `<div><b>${game.i18n!.localize('COSMERE.Actor.Statistics.Immunities')}</b></div>`,
+            ...(Object.entries(appliedImmunities) as [DamageType, number][])
+                .sort(([, amountA], [, amountB]) => amountB - amountA)
+                .map(
+                    ([damageType, amount]) => `
+                    <div>
+                        <span>${game.i18n!.localize(
+                            CONFIG.COSMERE.damageTypes[damageType].label,
+                        )}</span>
+                        <span>${amount}</span>
+                    </div>
+                `,
+                ),
+        ].join('');
 
         const calculationDeflect =
             damageDeflect > 0
-                ? `${damageDeflect} - ${actor.deflect} <i class='fas fa-shield-halved'></i>`
+                ? `${actor.deflect} <i data-tooltip="COSMERE.Actor.Statistics.Deflect" class='fas fa-shield-halved'></i>`
                 : undefined;
         const calculationIgnore =
             damageIgnore > 0
-                ? `${damageIgnore} <i class='fas fa-shield-slash'></i>`
+                ? `${damageIgnore} <i data-tooltip="COSMERE.Damage.IgnoreDeflect" class='fas fa-shield-slash'></i>`
                 : undefined;
-        const calculation = `${calculationDeflect ?? ''}${calculationDeflect && calculationIgnore ? ' + ' : ''}${calculationIgnore ?? ''}`;
+        const calculationImmune =
+            damageImmune > 0
+                ? `${damageImmune} <i data-tooltip="${damageImmuneTooltip}" class="fa-solid fa-shield-virus"></i>`
+                : undefined;
+
+        // Combine calculations
+        const calculation = [
+            [
+                damageDeflect + damageImmune,
+                calculationDeflect,
+                calculationImmune,
+            ]
+                .filter((v) => !!v)
+                .join(' - '),
+            calculationIgnore,
+        ]
+            .filter((v) => !!v)
+            .join(' + ');
 
         const sectionHTML = await renderSystemTemplate(
             TEMPLATES.CHAT_CARD_DAMAGE_TAKEN,
@@ -524,7 +562,7 @@ export class CosmereChatMessage extends ChatMessage {
                     : 'icons/skills/wounds/injury-stitched-flesh-red.webp',
                 title: game.i18n!.format(
                     `COSMERE.ChatMessage.${isHealing ? 'ApplyHealing' : 'ApplyDamage'}`,
-                    { actor: actor.name, amount: Math.abs(damageTotal) },
+                    { actor: actor.name, amount: Math.abs(damageTaken) },
                 ),
                 subtitle: isHealing
                     ? undefined
@@ -556,7 +594,7 @@ export class CosmereChatMessage extends ChatMessage {
                     await actor.update({
                         'system.resources.hea.value':
                             actor.system.resources[Resource.Health].value +
-                            (health > damageTotal ? damageTotal : health),
+                            (health > damageTaken ? damageTaken : health),
                     });
 
                     await this.setFlag(SYSTEM_ID, 'taken.undo', false);
@@ -776,7 +814,7 @@ export class CosmereChatMessage extends ChatMessage {
                 this.rolls.map(async (roll) => {
                     if (!(roll instanceof DamageRoll)) return roll;
 
-                    const crit = await new DamageRoll(roll.formula, roll.data, {
+                    const crit = new DamageRoll(roll.formula, roll.data, {
                         damageType: roll.damageType,
                         mod: roll.mod,
                         source: roll.source,
@@ -785,10 +823,17 @@ export class CosmereChatMessage extends ChatMessage {
                         maximize: true,
                         minimize: false,
                         critical: true,
-                    }).evaluate({ maximize: true });
+                    });
+
+                    roll.dice.forEach((die, index) => {
+                        die.results.forEach((r) => (r.result = die.faces ?? 0));
+                        crit.dice[index].results = die.results;
+                    });
+
+                    await crit.evaluate();
 
                     if (roll.graze) {
-                        const graze = await new DamageRoll(
+                        const graze = new DamageRoll(
                             roll.graze.formula,
                             roll.graze.data,
                             {
@@ -802,8 +847,18 @@ export class CosmereChatMessage extends ChatMessage {
                                 minimize: false,
                                 critical: true,
                             },
-                        ).evaluate({ maximize: true });
+                        );
 
+                        DamageRoll.fromData(
+                            roll.graze as unknown as foundry.dice.Roll.Data,
+                        ).dice.forEach((die, index) => {
+                            die.results.forEach(
+                                (r) => (r.result = die.faces ?? 0),
+                            );
+                            graze.dice[index].results = die.results;
+                        });
+
+                        await graze.evaluate();
                         crit.graze = graze;
                     }
 

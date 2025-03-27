@@ -1,5 +1,8 @@
 import { Condition } from '@system/types/cosmere';
-import { ConstructorOf } from '@system/types/utils';
+import { AnyObject, ConstructorOf, MouseButton } from '@system/types/utils';
+
+import { CosmereActiveEffect } from '@system/documents/active-effect';
+
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
@@ -19,13 +22,16 @@ export class ActorConditionsComponent extends HandlebarsApplicationComponent<
      */
     /* eslint-disable @typescript-eslint/unbound-method */
     static readonly ACTIONS = {
-        'toggle-condition-active': this.onToggleConditionActive,
+        'cycle-condition': {
+            handler: this.onCycleCondition,
+            buttons: [MouseButton.Primary, MouseButton.Secondary],
+        },
     };
     /* eslint-enable @typescript-eslint/unbound-method */
 
     /* --- Actions --- */
 
-    public static async onToggleConditionActive(
+    public static async onCycleCondition(
         this: ActorConditionsComponent,
         event: Event,
     ) {
@@ -34,8 +40,36 @@ export class ActorConditionsComponent extends HandlebarsApplicationComponent<
             .closest('[data-id]')
             .data('id') as Condition;
 
-        // Toggle the status effect for the condition
-        await this.application.actor.toggleStatusEffect(condition);
+        // Whether the condition is active
+        const active = this.application.actor.conditions.has(condition);
+
+        // Get the config
+        const config = CONFIG.COSMERE.conditions[condition];
+
+        if (config.stackable && active) {
+            const cycleUp = event.type === 'click';
+
+            // Get the condition effect
+            const effect = this.application.actor.appliedEffects.find(
+                (effect) =>
+                    effect.isCondition && effect.statuses.has(condition),
+            )!;
+
+            // Calculate the new stacks
+            const newStacks = cycleUp ? effect.stacks + 1 : effect.stacks - 1;
+
+            if (newStacks > 0) {
+                // Update the effect
+                await effect.update({
+                    'system.stacks': newStacks,
+                });
+            } else {
+                await this.application.actor.toggleStatusEffect(condition);
+            }
+        } else if (event.type === 'click') {
+            // Toggle the status effect for the condition
+            await this.application.actor.toggleStatusEffect(condition);
+        }
     }
 
     /* --- Context --- */
@@ -53,12 +87,40 @@ export class ActorConditionsComponent extends HandlebarsApplicationComponent<
                 // Get the config
                 const config = CONFIG.COSMERE.conditions[id];
 
-                return {
+                const active = this.application.actor.conditions.has(id);
+
+                const baseContext = {
                     id,
                     name: config.label,
                     icon: config.icon,
-                    active: this.application.actor.conditions.has(id),
+                    active,
+                    stackable: config.stackable,
+                    immune: this.application.actor.system.immunities.condition[
+                        id
+                    ],
                 };
+
+                if (!active || !config.stackable) return baseContext;
+                else {
+                    // Get all effects that apply the condition
+                    const effects =
+                        this.application.actor.appliedEffects.filter((effect) =>
+                            effect.statuses.has(id),
+                        );
+
+                    // Calculate the total count
+                    const count = effects.reduce(
+                        (total, effect) => total + effect.stacks,
+                        0,
+                    );
+
+                    return {
+                        ...baseContext,
+                        stacks: config.stacksDisplayTransform
+                            ? config.stacksDisplayTransform(count)
+                            : count,
+                    };
+                }
             }),
         });
     }

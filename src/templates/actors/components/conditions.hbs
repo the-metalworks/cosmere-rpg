@@ -1,19 +1,29 @@
 <ul class="item-list">
     <li class="item header">
         <section class="details">            
-            <span class="title">{{localize "COSMERE.Actor.Sheet.Conditions"}}</span>
+            <span class="title">{{localize "COSMERE.Actor.Sheet.Conditions.Label"}}</span>
         </section>
     </li>
     <div class="conditions-set {{#if editable}}editable{{/if}}">
         {{#each conditions as |condition|}}
-        <div class="condition {{#if condition.active}}active{{/if}}" data-id="{{condition.id}}">
-            <a data-action="toggle-condition-active">
+            <a data-action="cycle-condition" 
+                {{#if condition.stackable}}
+                    data-tooltip="COSMERE.Actor.Sheet.Conditions.StackableConditionTooltip"
+                {{/if}}
+            >
                 <div class="condition-icon" style="mask:url('{{condition.icon}}') no-repeat center;mask-size:contain;"></div>
-                <span class="name">{{localize condition.name}}</span>
+
+                <span class="name">
+                    {{localize condition.name}}
+                    {{#if (and condition.stackable condition.active)}}
+                        <span class="stacks">[{{condition.stacks}}]</span>
+                    {{/if}}
+                </span>
+
                 {{#if condition.active}}
-                <i class="fa-solid fa-toggle-on"></i>
+                    <i class="fa-solid fa-toggle-on"></i>
                 {{else}}
-                <i class="fa-solid fa-toggle-off"></i>
+                    <i class="fa-solid fa-toggle-off"></i>
                 {{/if}}
             </a>
         </div>
