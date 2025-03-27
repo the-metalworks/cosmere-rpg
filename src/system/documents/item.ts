@@ -654,9 +654,11 @@ export class CosmereItem<
              * Hook: preAttackRollConfiguration
              */
             if (
-                Hooks.call<
-                    CosmereHooks.RollConfig<CosmereItem.RollAttackOptions>
-                >('cosmere.preAttackRollConfiguration', options) === false
+                Hooks.call<CosmereHooks.RollConfig>(
+                    'cosmere.preAttackRollConfiguration',
+                    options, // Config
+                    this, // Source
+                ) === false
             )
                 return null;
 
@@ -737,9 +739,11 @@ export class CosmereItem<
             /**
              * Hook: postAttackRollConfiguration
              */
-            Hooks.callAll<
-                CosmereHooks.RollConfig<CosmereItem.RollAttackOptions>
-            >('cosmere.postAttackRollConfiguration', options);
+            Hooks.callAll<CosmereHooks.RollConfig>(
+                'cosmere.postAttackRollConfiguration',
+                options, // Config
+                this, // Source
+            );
         }
 
         // Roll the skill test
@@ -1221,7 +1225,10 @@ export class CosmereItem<
                 attribute: attributeId ? attributeId : skill.attribute,
             },
             attribute: attribute.value,
+
+            // Hook data
             context: 'Item',
+            source: this,
         };
     }
 
@@ -1255,6 +1262,9 @@ export class CosmereItem<
                   }
                 : undefined,
             attribute: attribute?.value,
+
+            // Hook data
+            source: this,
         };
     }
 }

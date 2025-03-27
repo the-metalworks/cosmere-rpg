@@ -1,5 +1,5 @@
 import { Attribute, Skill } from '@system/types/cosmere';
-import { CosmereActorRollData } from '@system/documents/actor';
+import { CosmereActor, CosmereActorRollData } from '@system/documents/actor';
 import { AdvantageMode } from '@system/types/roll';
 
 // Dialogs
@@ -10,6 +10,7 @@ import { RollMode } from './types';
 import { hasKey } from '../utils/generic';
 import { renderSystemTemplate, TEMPLATES } from '../utils/templates';
 import { Nullable } from '../types/utils';
+import { CosmereItem } from '../documents';
 
 // Constants
 const CONFIGURATION_DIALOG_TEMPLATE =
@@ -33,7 +34,10 @@ export type D20RollData<
         attribute: Nullable<Attribute>;
     };
     attribute: number;
-    context: string; // The context the roll exists in, for hooks
+
+    /* --- For hooks --- */
+    context: string; // The roll context, for naming
+    source: CosmereActor | CosmereItem; // The source document
 };
 
 export interface D20RollOptions

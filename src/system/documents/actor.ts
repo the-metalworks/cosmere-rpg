@@ -539,7 +539,8 @@ export class CosmereActor<
         if (
             Hooks.call<CosmereHooks.PreRoll>(
                 'cosmere.preRollInjuryType',
-                roll,
+                roll, // Roll object
+                this, // Source
             ) === false
         )
             return;
@@ -557,13 +558,12 @@ export class CosmereActor<
 
         /**
          * Hook: postRollInjuryType
-         *
-         * Passes the actual roll, and the table draw result
          */
         Hooks.callAll<CosmereHooks.PostRoll>(
             'cosmere.postRollInjuryType',
-            roll,
-            result,
+            roll, // Evaluated roll
+            result, // Table result
+            this, // Source
         );
 
         // Get injury data
@@ -584,7 +584,8 @@ export class CosmereActor<
             if (
                 Hooks.call<CosmereHooks.PreRoll>(
                     'cosmere.preRollInjuryDuration',
-                    durationRoll,
+                    durationRoll, // Roll object
+                    this, // Source
                 ) === false
             )
                 return;
@@ -599,7 +600,9 @@ export class CosmereActor<
              */
             Hooks.callAll<CosmereHooks.PostRoll>(
                 'cosmere.postRollInjuryDuration',
-                durationRoll,
+                durationRoll, // Roll object
+                this, // Source
+                {}, // Options
             );
         }
 
@@ -961,7 +964,8 @@ export class CosmereActor<
         if (
             Hooks.call<CosmereHooks.PreRoll>(
                 'cosmere.preShortRestRecoveryRoll',
-                roll,
+                roll, // Roll object
+                this, // Source
             ) === false
         )
             return;
@@ -974,7 +978,9 @@ export class CosmereActor<
          */
         Hooks.callAll<CosmereHooks.PostRoll>(
             'cosmere.postShortRestRecoveryRoll',
-            roll,
+            roll, // Roll object
+            this, // Source
+            {}, // Options
         );
 
         // Set up flavor

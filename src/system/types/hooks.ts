@@ -1,4 +1,4 @@
-import { CosmereActor, InjuryItem } from '../documents';
+import { CosmereActor, CosmereItem, InjuryItem } from '../documents';
 import { InjuryType, RestType } from './cosmere';
 
 export namespace CosmereHooks {
@@ -62,9 +62,25 @@ export namespace CosmereHooks {
      * - pre/postRollConfiguration
      */
 
-    export type PreRoll = (roll: Roll) => boolean;
+    export type PreRoll = (
+        roll: Roll,
+        source: CosmereActor | CosmereItem,
+        options?: unknown,
+    ) => boolean;
     export type PostRoll =
-        | ((roll: Roll) => boolean)
-        | ((roll: Roll, result: TableResult) => boolean);
-    export type RollConfig<T> = (config: T) => boolean;
+        | ((
+              roll: Roll,
+              source: CosmereActor | CosmereItem,
+              options?: unknown,
+          ) => boolean)
+        | ((
+              roll: Roll,
+              tableResult: TableResult,
+              source: CosmereActor | CosmereItem,
+              options?: unknown,
+          ) => boolean);
+    export type RollConfig = (
+        config: unknown,
+        source: CosmereActor | CosmereItem,
+    ) => boolean;
 }
