@@ -9,6 +9,7 @@ import {
     Resource,
     InjuryType,
     Size,
+    RestType,
 } from '@system/types/cosmere';
 import { Talent, TalentTree } from '@system/types/item';
 import {
@@ -658,7 +659,7 @@ export class CosmereActor<
             Hooks.call<CosmereHooks.ApplyDamage>(
                 'cosmere.preApplyDamage',
                 this,
-                damageTotal,
+                damageTaken,
             ) === false
         )
             return;
@@ -883,6 +884,19 @@ export class CosmereActor<
             options.tendedBy = result.tendedBy;
         }
 
+        /**
+         * Hook: preRest
+         */
+        if (
+            Hooks.call<CosmereHooks.Rest>(
+                'cosmere.preRest',
+                this,
+                RestType.Short,
+            ) === false
+        ) {
+            return;
+        }
+
         // Get Medicine mod, if required
         const mod = options.tendedBy
             ? options.tendedBy.system.skills.med.mod.value
@@ -911,6 +925,15 @@ export class CosmereActor<
         await roll.toMessage({
             flavor,
         });
+
+        /**
+         * Hook: postRest
+         */
+        Hooks.callAll<CosmereHooks.Rest>(
+            'cosmere.postRest',
+            this,
+            RestType.Short,
+        );
     }
 
     /**
@@ -955,11 +978,32 @@ export class CosmereActor<
             if (!shouldContinue) return;
         }
 
+        /**
+         * Hook: preRest
+         */
+        if (
+            Hooks.call<CosmereHooks.Rest>(
+                'cosmere.preRest',
+                this,
+                RestType.Long,
+            ) === false
+        )
+            return;
+
         // Update the actor
         await this.update({
             'system.resources.hea.value': this.system.resources.hea.max.value,
             'system.resources.foc.value': this.system.resources.foc.max.value,
         });
+
+        /**
+         * Hook: postRest
+         */
+        Hooks.callAll<CosmereHooks.Rest>(
+            'cosmere.postRest',
+            this,
+            RestType.Long,
+        );
     }
 
     public getRollData(): CosmereActorRollData<SystemType> {

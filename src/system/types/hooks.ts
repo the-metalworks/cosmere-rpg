@@ -48,12 +48,7 @@ export namespace CosmereHooks {
      * Rest Hooks
      *
      * - preRest
-     * - preShortRest
-     * - preLongRest
-     *
      * - postRest
-     * - postShortRest
-     * - postLongRest
      */
 
     export type Rest = (actor: CosmereActor, duration: RestType) => boolean;
@@ -62,8 +57,8 @@ export namespace CosmereHooks {
      * Roll Hooks
      *
      * - preRoll
-     *
      * - postRoll
+     *
      * - postRollConfiguration
      */
 
