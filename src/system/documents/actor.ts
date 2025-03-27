@@ -953,7 +953,27 @@ export class CosmereActor<
 
         // Evaluate the roll
         const roll = Roll.create(formula);
+
+        /**
+         * Hook: preShortRestRecoveryRoll
+         */
+        if (
+            Hooks.call<CosmereHooks.PreRoll>(
+                'cosmere.preShortRestRecoveryRoll',
+                roll,
+            ) === false
+        )
+            return;
+
         await roll.evaluate();
+
+        /**
+         * Hook: postShortRestRecoveryRoll
+         */
+        Hooks.callAll<CosmereHooks.PostRoll>(
+            'cosmere.postShortRestRecoveryRoll',
+            roll,
+        );
 
         // Set up flavor
         let flavor = game
