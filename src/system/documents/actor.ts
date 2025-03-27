@@ -21,6 +21,7 @@ import {
     GoalItem,
     PowerItem,
 } from '@system/documents/item';
+import { CosmereActiveEffect } from '@system/documents/active-effect';
 
 import {
     CommonActorData,
@@ -133,7 +134,7 @@ export class CosmereActor<
     SystemType extends CommonActorData = T extends CommonActorDataModel<infer S>
         ? S
         : never,
-> extends Actor<T, CosmereItem> {
+> extends Actor<T, CosmereItem, CosmereActiveEffect> {
     // Redeclare `actor.type` to specifically be of `ActorType`.
     // This way we avoid casting everytime we want to check/use its type
     declare type: ActorType;
@@ -144,8 +145,8 @@ export class CosmereActor<
         return this.statuses as Set<Condition>;
     }
 
-    public get applicableEffects(): ActiveEffect[] {
-        const effects = new Array<ActiveEffect>();
+    public get applicableEffects(): CosmereActiveEffect[] {
+        const effects = new Array<CosmereActiveEffect>();
         for (const effect of this.allApplicableEffects()) {
             effects.push(effect);
         }

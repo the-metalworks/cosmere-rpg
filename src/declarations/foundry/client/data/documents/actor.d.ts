@@ -16,6 +16,7 @@ declare namespace Actor {
 declare class Actor<
     D extends foundry.abstract.DataModel = foundry.abstract.DataModel,
     I extends Item = Item,
+    AE extends ActiveEffect = ActiveEffect,
 > extends _ClientDocumentMixin<D>(foundry.documents.BaseActor<D>) {
     public readonly type: string;
     public readonly name: string;
@@ -29,9 +30,9 @@ declare class Actor<
     statuses: Set<string>;
 
     get items(): Collection<I>;
-    get effects(): Collection<ActiveEffect>;
+    get effects(): Collection<AE>;
     get isToken(): boolean;
-    get appliedEffects(): ActiveEffect[];
+    get appliedEffects(): AE[];
     get token(): TokenDocument;
 
     /**
@@ -77,7 +78,7 @@ declare class Actor<
      * of the Actor's owned Items.
      * @yields {ActiveEffect}
      */
-    public *allApplicableEffects(): Generator<ActiveEffect, void, void>;
+    public *allApplicableEffects(): Generator<AE, void, void>;
 
     /**
      * Determine default artwork based on the provided actor data.
