@@ -38,11 +38,11 @@ export class PlotDie extends foundry.dice.terms.Die {
     /* --- Accessors --- */
 
     get rolledComplication(): boolean {
-        return this.results[0]?.failure ?? false;
+        return this.results.find((r) => !r.discarded)?.failure ?? false;
     }
 
     get rolledOpportunity(): boolean {
-        return this.results[0]?.success ?? false;
+        return this.results.find((r) => !r.discarded)?.success ?? false;
     }
 
     /* --- Functions --- */

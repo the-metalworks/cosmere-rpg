@@ -21,6 +21,7 @@ import {
     GoalItem,
     PowerItem,
 } from '@system/documents/item';
+import { CosmereActiveEffect } from '@system/documents/active-effect';
 
 import {
     CommonActorData,
@@ -134,7 +135,7 @@ export class CosmereActor<
     SystemType extends CommonActorData = T extends CommonActorDataModel<infer S>
         ? S
         : never,
-> extends Actor<T, CosmereItem> {
+> extends Actor<T, CosmereItem, CosmereActiveEffect> {
     // Redeclare `actor.type` to specifically be of `ActorType`.
     // This way we avoid casting everytime we want to check/use its type
     declare type: ActorType;
@@ -145,8 +146,8 @@ export class CosmereActor<
         return this.statuses as Set<Condition>;
     }
 
-    public get applicableEffects(): ActiveEffect[] {
-        const effects = new Array<ActiveEffect>();
+    public get applicableEffects(): CosmereActiveEffect[] {
+        const effects = new Array<CosmereActiveEffect>();
         for (const effect of this.allApplicableEffects()) {
             effects.push(effect);
         }
@@ -300,6 +301,32 @@ export class CosmereActor<
         } else {
             await super.modifyTokenAttribute(attribute, value, isDelta, isBar);
         }
+    }
+
+    public override toggleStatusEffect(
+        statusId: string,
+        options?: Actor.ToggleStatusEffectOptions,
+    ): Promise<ActiveEffect | boolean | undefined> {
+        // Check if actor is immune to status effect
+        if (
+            statusId in this.system.immunities.condition &&
+            this.system.immunities.condition[statusId as Condition]
+        ) {
+            // Notify
+            ui.notifications.warn(
+                game.i18n!.format('GENERIC.Warning.ActorConditionImmune', {
+                    actor: this.name,
+                    condition: game.i18n!.localize(
+                        CONFIG.COSMERE.conditions[statusId as Condition].label,
+                    ),
+                }),
+            );
+
+            return Promise.resolve(false);
+        }
+
+        // Handle as normal
+        return super.toggleStatusEffect(statusId, options);
     }
 
     /* --- Handlers --- */
@@ -555,7 +582,7 @@ export class CosmereActor<
 
     /**
      * Utility function to apply damage to this actor.
-     * This function will automatically apply deflect and
+     * This function will automatically apply deflect & immunities and
      * send a chat message.
      */
     public async applyDamage(
@@ -576,9 +603,14 @@ export class CosmereActor<
         // Get health resource
         const health = this.system.resources[Resource.Health].value;
 
+        // Get immunities
+        const immunities = this.system.immunities;
+
         let damageDeflect = 0;
         let damageIgnore = 0;
+        let damageImmune = 0;
         let healing = 0;
+        const appliedImmunities = new Map<DamageType, number>();
 
         instances.forEach((instance) => {
             // Get damage config
@@ -587,6 +619,20 @@ export class CosmereActor<
                 : { ignoreDeflect: false };
 
             const amount = Math.floor(instance.amount);
+
+            // Check if actor is immune to damage type
+            if (!!instance.type && immunities.damage[instance.type]) {
+                // Add to total immune damage
+                damageImmune += instance.amount;
+
+                // Add individual immunities
+                appliedImmunities.set(
+                    instance.type,
+                    (appliedImmunities.get(instance.type) ?? 0) +
+                        instance.amount,
+                );
+                return;
+            }
 
             if (instance.type === DamageType.Healing) {
                 healing += amount;
@@ -600,11 +646,11 @@ export class CosmereActor<
             }
         });
 
-        const damageTotal =
+        const damageTaken =
             damageIgnore + Math.max(0, damageDeflect - this.deflect) - healing;
 
         // Apply damage
-        const newHealth = Math.max(0, health - damageTotal);
+        const newHealth = Math.max(0, health - damageTaken);
         await this.update({
             'system.resources.hea.value': newHealth,
         });
@@ -624,9 +670,11 @@ export class CosmereActor<
                 },
                 taken: {
                     health,
-                    damageTotal,
+                    damageTaken,
                     damageDeflect,
                     damageIgnore,
+                    damageImmune,
+                    appliedImmunities: Object.fromEntries(appliedImmunities),
                     target: this.uuid,
                     undo: true,
                 },
@@ -805,10 +853,9 @@ export class CosmereActor<
         if (options.dialog) {
             const result = await ShortRestDialog.show(this, options);
 
-            if (!result.performRest) return;
-            else {
-                options.tendedBy = result.tendedBy;
-            }
+            if (!result?.performRest) return;
+
+            options.tendedBy = result.tendedBy;
         }
 
         // Get Medicine mod, if required

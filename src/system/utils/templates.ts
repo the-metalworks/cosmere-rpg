@@ -102,6 +102,8 @@ export const TEMPLATES = {
     ITEM_TALENT_TREE_NODE_TOOLTIP:
         'item/talent-tree/partials/talent-tree-node-tooltip.hbs',
 
+    ITEM_PATH_TALENTS_TAB: 'item/path/partials/path-talents-tab.hbs',
+
     ITEM_DETAILS_ID: 'item/components/details-id.hbs',
     ITEM_DETAILS_ACTIVATION: 'item/components/details-activation.hbs',
     ITEM_DETAILS_ATTACK: 'item/components/details-attack.hbs',
@@ -150,10 +152,14 @@ export const TEMPLATES = {
     DIALOG_ADVERSARY_CONFIGURE_SKILLS:
         'actors/adversary/dialogs/configure-skills.hbs',
 
+    DIALOG_ITEM_CONSUME: 'item/dialog/item-consume.hbs',
     DIALOG_ITEM_EDIT_REWARD: 'item/goal/dialogs/edit-reward.hbs',
     DIALOG_ITEM_EDIT_GRANT_RULE: 'item/talent/dialogs/edit-grant-rule.hbs',
 
     DIALOG_CHAT_MODIFY_DAMAGE: 'chat/dialogs/damage-modifier.hbs',
+
+    DIALOG_ROLL_PICK_DICE_RESULT: 'roll/dialogs/pick-dice-result.hbs',
+    DIALOG_ROLL_CONFIGURATION: 'roll/dialogs/roll-configuration.hbs',
 } as const;
 
 /**

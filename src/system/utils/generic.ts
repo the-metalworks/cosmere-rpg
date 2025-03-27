@@ -151,6 +151,28 @@ export function getConstantFromRoll(roll: Roll) {
 }
 
 /**
+ * Toggles a given Advantage Mode to the correct advantage mode given the corresponding click used.
+ * @param {AdvantageMode} current The current Advantage Mode to cycle from.
+ * @param {boolean} leftClick Was the click a left click or a right click.
+ * @returns {AdvantageMode} The resulting cycled Advantage Mode.
+ */
+export function toggleAdvantageMode(
+    current: AdvantageMode,
+    leftClick: boolean,
+) {
+    switch (current) {
+        case AdvantageMode.None:
+            return leftClick
+                ? AdvantageMode.Advantage
+                : AdvantageMode.Disadvantage;
+        case AdvantageMode.Advantage:
+            return leftClick ? AdvantageMode.None : AdvantageMode.Disadvantage;
+        case AdvantageMode.Disadvantage:
+            return leftClick ? AdvantageMode.Advantage : AdvantageMode.None;
+    }
+}
+
+/**
  * Converts a list of the various parts of a formula into a displayable string.
  *
  * @param {string[]} diceParts A parts array as provided from the foundry Roll API.

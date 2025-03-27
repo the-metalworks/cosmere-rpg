@@ -51,6 +51,18 @@ export interface ConditionConfig {
     label: string;
     icon: string;
     reference?: string;
+
+    /**
+     * Whether the condition is stackable.
+     */
+    stackable?: boolean;
+
+    /**
+     * Transform the `stacks` value for display.
+     *
+     * @example Used for exhaustion to display "Exhaustion [-1]" instead of "Exhaution [1]".
+     */
+    stacksDisplayTransform?: (count: number) => string;
 }
 
 export interface InjuryConfig {
