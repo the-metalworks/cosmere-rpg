@@ -38,11 +38,7 @@ export async function migrate(from: string, to: string) {
     /**
      * Hook: preMigration
      */
-    if (
-        Hooks.call<CosmereHooks.Migration>('cosmere.preMigration', from, to) ===
-        false
-    )
-        return;
+    Hooks.callAll<CosmereHooks.Migration>('cosmere.preMigration', from, to);
 
     // Get all migrations between the versions
     const migrations = MIGRATIONS.filter((migration) => {
@@ -64,14 +60,11 @@ export async function migrate(from: string, to: string) {
         /**
          * Hook: preMigrationVersion
          */
-        if (
-            Hooks.call<CosmereHooks.Migration>(
-                'cosmere.preMigrationVersion',
-                migration.from,
-                migration.to,
-            ) === false
-        )
-            return;
+        Hooks.callAll<CosmereHooks.Migration>(
+            'cosmere.preMigrationVersion',
+            migration.from,
+            migration.to,
+        );
 
         try {
             console.log(
