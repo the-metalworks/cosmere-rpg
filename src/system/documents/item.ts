@@ -66,6 +66,7 @@ import {
 import { MESSAGE_TYPES } from './chat-message';
 import { renderSystemTemplate, TEMPLATES } from '../utils/templates';
 import { ItemConsumeDialog } from '../applications/item/dialogs/item-consume';
+import { CosmereHooks } from '../types/hooks';
 
 // Constants
 const CONSUME_CONFIGURATION_DIALOG_TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ITEM_CONSUME}`;
@@ -395,6 +396,7 @@ export class CosmereItem<
             skillId ? skillId : null,
             attributeId,
             actor,
+            options.isAttack,
         );
 
         const parts = ['@mod'].concat(options.parts ?? []);
@@ -649,6 +651,18 @@ export class CosmereItem<
 
         // Perform configuration
         if (!fastForward && options.configurable !== false) {
+            /**
+             * Hook: preAttackRollConfiguration
+             */
+            if (
+                Hooks.call<CosmereHooks.RollConfig>(
+                    'cosmere.preAttackRollConfiguration',
+                    options, // Config
+                    this, // Source
+                ) === false
+            )
+                return null;
+
             const attackConfig = await AttackConfigurationDialog.show({
                 title: `${this.name} (${
                     skillTestSkillId
@@ -669,6 +683,7 @@ export class CosmereItem<
                         skillTestSkillId ?? null,
                         skillTestAttributeId,
                         actor,
+                        true,
                     ),
                 },
                 damageRoll: {
@@ -722,6 +737,15 @@ export class CosmereItem<
 
                 options.damage.overrideFormula = parts.join(' + ');
             }
+
+            /**
+             * Hook: postAttackRollConfiguration
+             */
+            Hooks.callAll<CosmereHooks.RollConfig>(
+                'cosmere.postAttackRollConfiguration',
+                options, // Config
+                this, // Source
+            );
         }
 
         // Roll the skill test
@@ -734,6 +758,7 @@ export class CosmereItem<
             speaker: options.speaker,
             configurable: false,
             chatMessage: false,
+            isAttack: true,
         }))!;
 
         // Roll the damage
@@ -1183,6 +1208,7 @@ export class CosmereItem<
         skillId: Nullable<Skill>,
         attributeId: Nullable<Attribute>,
         actor: CosmereActor,
+        isAttack?: boolean,
     ): D20RollData {
         const skill = skillId
             ? actor.system.skills[skillId]
@@ -1203,6 +1229,10 @@ export class CosmereItem<
                 attribute: attributeId ? attributeId : skill.attribute,
             },
             attribute: attribute.value,
+
+            // Hook data
+            context: isAttack ? 'Attack' : 'Item',
+            source: this,
         };
     }
 
@@ -1236,6 +1266,9 @@ export class CosmereItem<
                   }
                 : undefined,
             attribute: attribute?.value,
+
+            // Hook data
+            source: this,
         };
     }
 }
@@ -1328,6 +1361,11 @@ export namespace CosmereItem {
          * What advantage modifer to apply to the plot die roll
          */
         advantageModePlot?: AdvantageMode;
+
+        /**
+         * Whether the current roll is an attack, for hook context
+         */
+        isAttack?: boolean;
     }
 
     export type RollDamageOptions = Omit<
