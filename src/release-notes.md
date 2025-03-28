@@ -83,7 +83,8 @@ These changes bring the mechanics in line with the rules at last — and the int
 - Improvements to how derived statistics are calculated and updated  
 - Active Effects can now use actor roll data  
 - Attribute bonuses now apply correctly to scalar attributes  
-- Additional movement types added    
+- Additional movement types added
+- Added **hooks** for various system events — documentation coming soon    
 
 ##### 🐛 Fixes & Polish
 - Ctrl+S now properly saves item descriptions
