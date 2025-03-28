@@ -10,7 +10,10 @@ export namespace CosmereHooks {
      * - postApplyDamage
      */
 
-    export type ApplyDamage = (actor: CosmereActor, amount: number) => boolean;
+    export type ApplyDamage = (
+        actor: CosmereActor,
+        damage: DamageValues,
+    ) => boolean;
 
     /**
      * Apply Injury Hooks
@@ -105,4 +108,13 @@ export namespace CosmereHooks {
         config: unknown,
         source: CosmereDocument,
     ) => boolean;
+
+    /**
+     * Miscellaneous types
+     */
+
+    export interface DamageValues {
+        calculated: number; // Total damage calculation
+        dealt?: number; // Actual damage dealt to actor
+    }
 }

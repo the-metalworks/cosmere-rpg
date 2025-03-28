@@ -697,35 +697,39 @@ export class CosmereActor<
         const damageTaken =
             damageIgnore + Math.max(0, damageDeflect - this.deflect) - healing;
 
+        // Store in an object to pass by reference into hooks
+        const damage: CosmereHooks.DamageValues = {
+            // Unadjusted damage calculation
+            calculated: damageTaken,
+        };
+
         /**
          * Hook: preApplyDamage
-         *
-         * Passes the damage calculated, unadjusted for the actual remaining health
          */
         if (
             Hooks.call<CosmereHooks.ApplyDamage>(
                 'cosmere.preApplyDamage',
                 this,
-                damageTaken,
+                damage,
             ) === false
         )
             return;
 
         // Apply damage
-        const newHealth = Math.max(0, health - damageTaken);
+        const newHealth = Math.max(0, health - damage.calculated);
         await this.update({
             'system.resources.hea.value': newHealth,
         });
+        // Actual damage that was applied
+        damage.dealt = health - newHealth;
 
         /**
          * Hook: postApplyDamage
-         *
-         * Passes the damage actually applied to the character
          */
         Hooks.callAll<CosmereHooks.ApplyDamage>(
             'cosmere.postApplyDamage',
             this,
-            health - newHealth,
+            damage,
         );
 
         if (chatMessage) {
@@ -743,7 +747,7 @@ export class CosmereActor<
                 },
                 taken: {
                     health,
-                    damageTaken,
+                    damageTaken: damage.calculated,
                     damageDeflect,
                     damageIgnore,
                     damageImmune,
