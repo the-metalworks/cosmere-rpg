@@ -5,6 +5,7 @@ import { Migration } from '@src/system/types/migration';
 // Migrations
 import MIGRATE_0_2__0_3 from './migrations/0.2-0.3';
 import { GlobalUI } from '@src/system/types/utils';
+import { CosmereHooks } from '@src/system/types/hooks';
 
 // Constants
 const MIGRATIONS: Migration[] = [MIGRATE_0_2__0_3];
@@ -34,6 +35,15 @@ export async function migrate(from: string, to: string) {
     from = simplifyVersion(from);
     to = simplifyVersion(to);
 
+    /**
+     * Hook: preMigration
+     */
+    if (
+        Hooks.call<CosmereHooks.Migration>('cosmere.preMigration', from, to) ===
+        false
+    )
+        return;
+
     // Get all migrations between the versions
     const migrations = MIGRATIONS.filter((migration) => {
         return (
@@ -51,17 +61,42 @@ export async function migrate(from: string, to: string) {
 
     // Execute migrations in order
     for (const migration of migrations) {
+        /**
+         * Hook: preMigrationVersion
+         */
+        if (
+            Hooks.call<CosmereHooks.Migration>(
+                'cosmere.preMigrationVersion',
+                migration.from,
+                migration.to,
+            ) === false
+        )
+            return;
+
         try {
-            console.log(`[${SYSTEM_ID}] Migration ${from} -> ${to}: Running`);
+            console.log(
+                `[${SYSTEM_ID}] Migration ${migration.from} -> ${migration.to}: Running`,
+            );
             await migration.execute();
-            console.log(`[${SYSTEM_ID}] Migration ${from} -> ${to}: Succeeded`);
+            console.log(
+                `[${SYSTEM_ID}] Migration ${migration.from} -> ${migration.to}: Succeeded`,
+            );
         } catch (err) {
             console.error(`[${SYSTEM_ID}] Error running data migration:`, err);
             console.log(
-                `[${SYSTEM_ID}] Migration ${from} -> ${to}: Failed, exiting`,
+                `[${SYSTEM_ID}] Migration ${migration.from} -> ${migration.to}: Failed, exiting`,
             );
             return;
         }
+
+        /**
+         * Hooks: postMigrationVersion
+         */
+        Hooks.callAll<CosmereHooks.Migration>(
+            'cosmere.postMigrationVersion',
+            migration.from,
+            migration.to,
+        );
     }
 
     // Re-render sidebar to include re-validated documents
@@ -69,6 +104,11 @@ export async function migrate(from: string, to: string) {
         `[${SYSTEM_ID}] Successfully migrated data! Refreshing sidebar...`,
     );
     await (globalThis as unknown as GlobalUI).ui.sidebar.render();
+
+    /**
+     * Hook: postMigration
+     */
+    Hooks.callAll<CosmereHooks.Migration>('cosmere.postMigration', from, to);
 }
 
 /* --- Helpers --- */
