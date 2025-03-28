@@ -97,10 +97,6 @@ const COSMERE: CosmereRPGConfig = {
     },
 
     conditions: {
-        [Condition.Afflicted]: {
-            label: 'COSMERE.Conditions.Afflicted',
-            icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/afflicted.svg',
-        },
         [Condition.Determined]: {
             label: 'COSMERE.Conditions.Determined',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/determined.svg',
@@ -112,10 +108,6 @@ const COSMERE: CosmereRPGConfig = {
         [Condition.Empowered]: {
             label: 'COSMERE.Conditions.Empowered',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/empowered.svg',
-        },
-        [Condition.Encumbered]: {
-            label: 'COSMERE.Conditions.Encumbered',
-            icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/encumbered.svg',
         },
         [Condition.Exhausted]: {
             label: 'COSMERE.Conditions.Exhausted',
