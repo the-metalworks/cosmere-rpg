@@ -20,12 +20,10 @@ export const enum CreatureType {
  * A non-exhaustive list of conditions
  */
 export const enum Condition {
-    Afflicted = 'afflicted',
     Determined = 'determined',
     Disoriented = 'disoriented',
     Empowered = 'empowered',
     Exhausted = 'exhausted',
-    Encumbered = 'encumbered',
     Focused = 'focused',
     Immobilized = 'immobilized',
     Prone = 'prone',

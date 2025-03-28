@@ -168,43 +168,6 @@ export class TalentTreeItemDataModel extends DataModelMixin<
         });
     }
 
-    static migrateData(source: AnyObject) {
-        if ('nodes' in source && typeof source.nodes === 'object') {
-            Object.entries(
-                source.nodes as Record<
-                    string,
-                    {
-                        type: string;
-                        position: {
-                            x: number;
-                            y: number;
-                            column?: number;
-                            row?: number;
-                        };
-                    }
-                >,
-            ).forEach(([key, node]) => {
-                if ('type' in node && !VALID_NODE_TYPES.includes(node.type)) {
-                    node.type = TalentTree.Node.Type.Talent;
-                }
-
-                if ('position' in node) {
-                    if ('column' in node.position) {
-                        node.position.x = node.position.column! * 50 * 2;
-                        delete node.position.column;
-                    }
-
-                    if ('row' in node.position) {
-                        node.position.y = node.position.row! * 50 * 2;
-                        delete node.position.row;
-                    }
-                }
-            });
-        }
-
-        return super.migrateData(source) as AnyObject;
-    }
-
     public prepareDerivedData() {
         // Get item
         const item = this.parent;
