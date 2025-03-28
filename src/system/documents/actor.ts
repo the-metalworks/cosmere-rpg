@@ -538,7 +538,7 @@ export class CosmereActor<
          */
         if (
             Hooks.call<CosmereHooks.PreRoll>(
-                'cosmere.preRollInjuryType',
+                'cosmere.preInjuryTypeRoll',
                 roll, // Roll object
                 this, // Source
             ) === false
@@ -560,7 +560,7 @@ export class CosmereActor<
          * Hook: postRollInjuryType
          */
         Hooks.callAll<CosmereHooks.PostRoll>(
-            'cosmere.postRollInjuryType',
+            'cosmere.postInjuryTypeRoll',
             roll, // Evaluated roll
             result, // Table result
             this, // Source
@@ -583,7 +583,7 @@ export class CosmereActor<
              */
             if (
                 Hooks.call<CosmereHooks.PreRoll>(
-                    'cosmere.preRollInjuryDuration',
+                    'cosmere.preInjuryDurationRoll',
                     durationRoll, // Roll object
                     this, // Source
                 ) === false
@@ -599,7 +599,7 @@ export class CosmereActor<
              * Passes the evaluated roll
              */
             Hooks.callAll<CosmereHooks.PostRoll>(
-                'cosmere.postRollInjuryDuration',
+                'cosmere.postInjuryDurationRoll',
                 durationRoll, // Roll object
                 this, // Source
                 {}, // Options

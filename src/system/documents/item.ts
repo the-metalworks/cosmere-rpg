@@ -396,6 +396,7 @@ export class CosmereItem<
             skillId ? skillId : null,
             attributeId,
             actor,
+            options.isAttack,
         );
 
         const parts = ['@mod'].concat(options.parts ?? []);
@@ -682,6 +683,7 @@ export class CosmereItem<
                         skillTestSkillId ?? null,
                         skillTestAttributeId,
                         actor,
+                        true,
                     ),
                 },
                 damageRoll: {
@@ -756,6 +758,7 @@ export class CosmereItem<
             speaker: options.speaker,
             configurable: false,
             chatMessage: false,
+            isAttack: true,
         }))!;
 
         // Roll the damage
@@ -1205,6 +1208,7 @@ export class CosmereItem<
         skillId: Nullable<Skill>,
         attributeId: Nullable<Attribute>,
         actor: CosmereActor,
+        isAttack?: boolean,
     ): D20RollData {
         const skill = skillId
             ? actor.system.skills[skillId]
@@ -1227,7 +1231,7 @@ export class CosmereItem<
             attribute: attribute.value,
 
             // Hook data
-            context: 'Item',
+            context: isAttack ? 'Attack' : 'Item',
             source: this,
         };
     }
@@ -1357,6 +1361,11 @@ export namespace CosmereItem {
          * What advantage modifer to apply to the plot die roll
          */
         advantageModePlot?: AdvantageMode;
+
+        /**
+         * Whether the current roll is an attack, for hook context
+         */
+        isAttack?: boolean;
     }
 
     export type RollDamageOptions = Omit<
