@@ -423,6 +423,10 @@ export interface CosmereRPGConfig {
         distance: Record<string, string>;
     };
 
+    unarmedDamageScaling: {
+        strengthRanges: AttributeScale[];
+    };
+
     dice: {
         advantageModes: Record<AdvantageMode, string>;
     };

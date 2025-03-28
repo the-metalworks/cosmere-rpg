@@ -194,7 +194,6 @@ export class AttackConfigurationDialog extends ComponentHandlebarsApplicationMix
 
         this.data.skillTest.parts.unshift('1d20');
         this.originalFormulaSize = this.data.skillTest.parts.length;
-
         this.data.skillTest.advantageMode ??= AdvantageMode.None;
         this.data.plotDie.advantageMode ??= AdvantageMode.None;
 
