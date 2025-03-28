@@ -239,7 +239,7 @@ export function characterMeetsPrerequisiteRule(
 ) {
     switch (prereq.type) {
         case TalentTree.Node.Prerequisite.Type.Talent:
-            return Array.from(prereq.talents).every((ref) =>
+            return Array.from(prereq.talents).some((ref) =>
                 actor.hasTalent(ref.id),
             );
         case TalentTree.Node.Prerequisite.Type.Attribute:
@@ -249,7 +249,7 @@ export function characterMeetsPrerequisiteRule(
         case TalentTree.Node.Prerequisite.Type.Skill:
             return actor.system.skills[prereq.skill].rank >= prereq.rank;
         case TalentTree.Node.Prerequisite.Type.Level:
-            return true; // TODO
+            return actor.system.level >= prereq.level;
         case TalentTree.Node.Prerequisite.Type.Connection:
             return true; // No way to check connections
         default:
