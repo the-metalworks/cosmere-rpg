@@ -5,6 +5,8 @@ import './details';
 import './effects-list';
 import './equipment-list';
 import './injuries-list';
+import './currency-list';
+import './notes-fields';
 import './resource';
 import './search-bar';
 import './skills-group';
@@ -16,5 +18,5 @@ import './adversary';
 export {
     SearchBarInputEvent,
     SearchBarInputEventDetail,
-    SortDirection,
+    SortMode,
 } from './search-bar';

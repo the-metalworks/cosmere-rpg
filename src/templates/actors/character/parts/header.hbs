@@ -1,11 +1,7 @@
 <header class="sheet-header">
     <div class="title">
-        <h1 class="document-name">
-            {{#if isEditMode}}
-            <input class="value" type="text" name="name" value="{{actor.name}}">
-            {{else}}
-            {{actor.name}}
-            {{/if}}
+        <h1 class="document-name">            
+            <input class="value" type="text" name="name" value="{{actor.name}}" {{#unless isEditMode}}readonly{{/unless}}>           
         </h1>
         <div class="details">
             <span class="ancestry">{{ localize ancestryLabel }}</span>
@@ -40,10 +36,23 @@
         </div>
     </div>
     <div class="level-details">
-        <div class="level">
+        <div class="sheet-stack level">
             <span class="label">{{localize "COSMERE.Actor.Sheet.Level"}}</span>
             <div class="container">
-                <span class="value">{{derived actor.system.level.total}}</span>
+                <div class="background"></div>
+                <div class="star"></div>
+                <div class="border"></div>
+
+                <input class="value"
+                    type="number"
+                    name="system.level",
+                    value="{{actor.system.level}}",
+                    min="1",
+                    step="1"
+                    {{#if (not isEditMode)}}
+                    readonly
+                    {{/if}}
+                >
             </div>
         </div>
     </div>

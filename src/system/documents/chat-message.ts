@@ -8,15 +8,21 @@ import { D20Roll } from '@system/dice/d20-roll';
 import { DamageRoll } from '@system/dice/damage-roll';
 
 import { CosmereActor } from './actor';
+import { InjuryItem } from './item';
 import { renderSystemTemplate, TEMPLATES } from '../utils/templates';
 import { SYSTEM_ID } from '../constants';
 import { AdvantageMode } from '../types/roll';
-import { getSystemSetting, SETTINGS } from '../settings';
+import { getSystemSetting, KEYBINDINGS, SETTINGS } from '../settings';
 import {
+    areKeysPressed,
     getApplyTargets,
     getConstantFromRoll,
     TargetDescriptor,
 } from '../utils/generic';
+import ApplicationV2 from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/client-esm/applications/api/application.mjs';
+import { DamageModifierDialog } from '../applications/actor/dialogs/damage-card-modifier';
+import { AnyObject } from '../types/utils';
+import { CosmereHooks } from '../types/hooks';
 
 export const MESSAGE_TYPES = {
     SKILL: 'skill',
@@ -415,11 +421,31 @@ export class CosmereChatMessage extends ChatMessage {
                 event.preventDefault();
                 event.stopPropagation();
 
+                // Handle interaction hook
+                if (this.onInteraction(event) === false) return;
+
                 const button = event.currentTarget;
                 const action = button.dataset.action;
 
                 if (action === 'apply') {
-                    await Item.create(
+                    const duration = durationRoll?.total ?? 0;
+
+                    /**
+                     * Hook: preApplyInjury
+                     *
+                     * Passes the injury data
+                     */
+                    if (
+                        Hooks.call<CosmereHooks.PreApplyInjury>(
+                            'cosmere.preApplyInjury',
+                            this,
+                            this.associatedActor,
+                            { type: data.type, duration },
+                        ) === false
+                    )
+                        return;
+
+                    const injuryItem = (await Item.create(
                         {
                             type: ItemType.Injury,
                             name: game.i18n!.localize(
@@ -427,11 +453,23 @@ export class CosmereChatMessage extends ChatMessage {
                             ),
                             system: {
                                 duration: {
-                                    remaining: durationRoll?.total ?? 0,
+                                    remaining: duration,
                                 },
                             },
                         },
                         { parent: this.associatedActor },
+                    )) as unknown as InjuryItem;
+
+                    /**
+                     * Hook: postApplyInjury
+                     *
+                     * Passes the created injury item
+                     */
+                    Hooks.callAll<CosmereHooks.PostApplyInjury>(
+                        'cosmere.postApplyInjury',
+                        this,
+                        this.associatedActor,
+                        injuryItem,
                     );
                 }
             });
@@ -447,16 +485,20 @@ export class CosmereChatMessage extends ChatMessage {
 
         const {
             health,
-            damageTotal,
+            damageTaken,
             damageDeflect,
             damageIgnore,
+            damageImmune,
+            appliedImmunities,
             target,
             undo,
         } = this.getFlag(SYSTEM_ID, MESSAGE_TYPES.DAMAGE_TAKEN) as {
             health: number;
-            damageTotal: number;
+            damageTaken: number;
             damageDeflect: number;
             damageIgnore: number;
+            damageImmune: number;
+            appliedImmunities: Record<DamageType, number>;
             target: string;
             undo: boolean;
         };
@@ -466,17 +508,50 @@ export class CosmereChatMessage extends ChatMessage {
         if (!actor) return;
 
         // Whether or not the damage is actually healing
-        const isHealing = damageTotal < 0;
+        const isHealing = damageTaken < 0;
+
+        const damageImmuneTooltip = [
+            `<div><b>${game.i18n!.localize('COSMERE.Actor.Statistics.Immunities')}</b></div>`,
+            ...(Object.entries(appliedImmunities) as [DamageType, number][])
+                .sort(([, amountA], [, amountB]) => amountB - amountA)
+                .map(
+                    ([damageType, amount]) => `
+                    <div>
+                        <span>${game.i18n!.localize(
+                            CONFIG.COSMERE.damageTypes[damageType].label,
+                        )}</span>
+                        <span>${amount}</span>
+                    </div>
+                `,
+                ),
+        ].join('');
 
         const calculationDeflect =
             damageDeflect > 0
-                ? `${damageDeflect} - ${actor.deflect} <i class='fas fa-shield-halved'></i>`
+                ? `${actor.deflect} <i data-tooltip="COSMERE.Actor.Statistics.Deflect" class='fas fa-shield-halved'></i>`
                 : undefined;
         const calculationIgnore =
             damageIgnore > 0
-                ? `${damageIgnore} <i class='fas fa-shield-slash'></i>`
+                ? `${damageIgnore} <i data-tooltip="COSMERE.Damage.IgnoreDeflect" class='fas fa-shield-slash'></i>`
                 : undefined;
-        const calculation = `${calculationDeflect ?? ''}${calculationDeflect && calculationIgnore ? ' + ' : ''}${calculationIgnore ?? ''}`;
+        const calculationImmune =
+            damageImmune > 0
+                ? `${damageImmune} <i data-tooltip="${damageImmuneTooltip}" class="fa-solid fa-shield-virus"></i>`
+                : undefined;
+
+        // Combine calculations
+        const calculation = [
+            [
+                damageDeflect + damageImmune,
+                calculationDeflect,
+                calculationImmune,
+            ]
+                .filter((v) => !!v)
+                .join(' - '),
+            calculationIgnore,
+        ]
+            .filter((v) => !!v)
+            .join(' + ');
 
         const sectionHTML = await renderSystemTemplate(
             TEMPLATES.CHAT_CARD_DAMAGE_TAKEN,
@@ -487,7 +562,7 @@ export class CosmereChatMessage extends ChatMessage {
                     : 'icons/skills/wounds/injury-stitched-flesh-red.webp',
                 title: game.i18n!.format(
                     `COSMERE.ChatMessage.${isHealing ? 'ApplyHealing' : 'ApplyDamage'}`,
-                    { actor: actor.name, amount: Math.abs(damageTotal) },
+                    { actor: actor.name, amount: Math.abs(damageTaken) },
                 ),
                 subtitle: isHealing
                     ? undefined
@@ -509,6 +584,9 @@ export class CosmereChatMessage extends ChatMessage {
                 event.preventDefault();
                 event.stopPropagation();
 
+                // Handle interaction hook
+                if (this.onInteraction(event) === false) return;
+
                 const button = event.currentTarget;
                 const action = button.dataset.action;
 
@@ -516,7 +594,7 @@ export class CosmereChatMessage extends ChatMessage {
                     await actor.update({
                         'system.resources.hea.value':
                             actor.system.resources[Resource.Health].value +
-                            (health > damageTotal ? damageTotal : health),
+                            (health > damageTaken ? damageTaken : health),
                     });
 
                     await this.setFlag(SYSTEM_ID, 'taken.undo', false);
@@ -736,7 +814,7 @@ export class CosmereChatMessage extends ChatMessage {
                 this.rolls.map(async (roll) => {
                     if (!(roll instanceof DamageRoll)) return roll;
 
-                    const crit = await new DamageRoll(roll.formula, roll.data, {
+                    const crit = new DamageRoll(roll.formula, roll.data, {
                         damageType: roll.damageType,
                         mod: roll.mod,
                         source: roll.source,
@@ -745,10 +823,17 @@ export class CosmereChatMessage extends ChatMessage {
                         maximize: true,
                         minimize: false,
                         critical: true,
-                    }).evaluate({ maximize: true });
+                    });
+
+                    roll.dice.forEach((die, index) => {
+                        die.results.forEach((r) => (r.result = die.faces ?? 0));
+                        crit.dice[index].results = die.results;
+                    });
+
+                    await crit.evaluate();
 
                     if (roll.graze) {
-                        const graze = await new DamageRoll(
+                        const graze = new DamageRoll(
                             roll.graze.formula,
                             roll.graze.data,
                             {
@@ -762,8 +847,18 @@ export class CosmereChatMessage extends ChatMessage {
                                 minimize: false,
                                 critical: true,
                             },
-                        ).evaluate({ maximize: true });
+                        );
 
+                        DamageRoll.fromData(
+                            roll.graze as unknown as foundry.dice.Roll.Data,
+                        ).dice.forEach((die, index) => {
+                            die.results.forEach(
+                                (r) => (r.result = die.faces ?? 0),
+                            );
+                            graze.dice[index].results = die.results;
+                        });
+
+                        await graze.evaluate();
                         crit.graze = graze;
                     }
 
@@ -813,6 +908,9 @@ export class CosmereChatMessage extends ChatMessage {
         event.preventDefault();
         event.stopPropagation();
 
+        // Handle interaction hook
+        if (this.onInteraction(event) === false) return;
+
         const clone = await Promise.all(
             this.rolls.map(async (roll) => await roll.reroll()),
         );
@@ -836,7 +934,15 @@ export class CosmereChatMessage extends ChatMessage {
         event.preventDefault();
         event.stopPropagation();
 
+        // Handle interaction hook
+        if (this.onInteraction(event) === false) return;
+
         const button = event.currentTarget as HTMLElement;
+        const promptModify =
+            !game.settings?.get(
+                'cosmere-rpg',
+                'skipDamageModDialogByDefault',
+            ) || areKeysPressed(KEYBINDINGS.SKIP_DIALOG_DEFAULT);
         const action = button.dataset.action;
         const multiplier = Number(button.dataset.multiplier);
 
@@ -844,11 +950,18 @@ export class CosmereChatMessage extends ChatMessage {
         if (targets.size === 0) return;
 
         if (action === 'apply-damage' && multiplier) {
+            const modifier = promptModify
+                ? await DamageModifierDialog.show({
+                      isHealing: multiplier < 0,
+                      action: action,
+                  })
+                : 0;
             const damageRolls = forceRolls ?? this.damageRolls;
             const damageToApply = damageRolls.map((r) => ({
                 amount:
-                    (this.useGraze ? (r.graze?.total ?? 0) : (r.total ?? 0)) *
-                    Math.abs(multiplier),
+                    (this.useGraze
+                        ? (r.graze?.total ?? 0) + modifier
+                        : (r.total ?? 0) + modifier) * Math.abs(multiplier),
                 type: multiplier < 0 ? DamageType.Healing : r.damageType,
             }));
 
@@ -861,12 +974,18 @@ export class CosmereChatMessage extends ChatMessage {
         }
 
         if (action === 'reduce-focus') {
+            const modifier = promptModify
+                ? await DamageModifierDialog.show({
+                      isHealing: multiplier < 0,
+                      action: action,
+                  })
+                : 0;
             await Promise.all(
                 Array.from(targets).map(async (t) => {
                     const target = (t as Token).actor as CosmereActor;
                     return await target.update({
                         'system.resources.foc.value':
-                            target.system.resources.foc.value - 1,
+                            target.system.resources.foc.value - (1 + modifier),
                     });
                 }),
             );
@@ -939,5 +1058,27 @@ export class CosmereChatMessage extends ChatMessage {
      */
     private onOverlayHoverEnd(html: JQuery) {
         html.find('.overlay').attr('style', 'display: none;');
+    }
+
+    /**
+     * Helpers
+     */
+
+    /**
+     * Call interaction hook
+     * @param event
+     * @private
+     */
+    private onInteraction(event: JQuery.Event): boolean {
+        /**
+         * Hook: chatMessageInteracted
+         *
+         * Pass message and triggering event
+         */
+        return Hooks.call<CosmereHooks.MessageInteracted>(
+            'cosmere.chatMessageInteracted',
+            this,
+            event,
+        );
     }
 }

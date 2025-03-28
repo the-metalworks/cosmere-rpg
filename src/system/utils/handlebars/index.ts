@@ -10,10 +10,12 @@ import {
     DamageType,
     HoldType,
     AttackType,
+    TurnSpeed,
 } from '@src/system/types/cosmere';
 
 import { CharacterActor, CosmereActor } from '@system/documents/actor';
 import { CosmereItem } from '@system/documents/item';
+import { AttributeData } from '@system/data/actor';
 import { Derived } from '@system/data/fields';
 
 import { AnyObject } from '@src/system/types/utils';
@@ -21,6 +23,7 @@ import { AnyObject } from '@src/system/types/utils';
 import { ItemContext, ItemContextOptions } from './types';
 import { TEMPLATES } from '../templates';
 import { SYSTEM_ID } from '@src/system/constants';
+import { CosmereTurn } from '@src/system/applications/combat';
 
 Handlebars.registerHelper('add', (a: number, b: number) => a + b);
 Handlebars.registerHelper('sub', (a: number, b: number) => a - b);
@@ -62,6 +65,9 @@ Handlebars.registerHelper(
         return from.replaceAll(searchValue, replaceValue);
     },
 );
+
+Handlebars.registerHelper('lower', (str: string) => str.toLowerCase());
+Handlebars.registerHelper('upper', (str: string) => str.toUpperCase());
 
 Handlebars.registerHelper(
     'perc',
@@ -107,17 +113,14 @@ Handlebars.registerHelper(
     'derived',
     (derived?: Derived<string | number>, includeBonus = true) => {
         if (!derived) return;
-        return Derived.getValue(derived, includeBonus);
+        return includeBonus ? derived.value : derived.base;
     },
 );
 
-Handlebars.registerHelper(
-    'bonus',
-    (obj?: { value: number; bonus?: number }) => {
-        if (!obj) return;
-        return obj.value + (obj.bonus ?? 0);
-    },
-);
+Handlebars.registerHelper('bonus', (obj?: AttributeData) => {
+    if (!obj) return;
+    return obj.value + (obj.bonus ?? 0);
+});
 
 Handlebars.registerHelper(
     'skillMod',
@@ -477,6 +480,16 @@ Handlebars.registerHelper(
 
 Handlebars.registerHelper('damageTypeConfig', (type: DamageType) => {
     return CONFIG.COSMERE.damageTypes[type];
+});
+
+Handlebars.registerHelper('getCombatActedState', (turn: CosmereTurn) => {
+    // use default activated for boss slow turns, and all other combatants' turns
+    if (!turn.isBoss || turn.turnSpeed === TurnSpeed.Slow) {
+        return turn.activated;
+    }
+
+    // track a boss's additional fast turn separately
+    return turn.bossFastActivated;
 });
 
 export async function preloadHandlebarsTemplates() {

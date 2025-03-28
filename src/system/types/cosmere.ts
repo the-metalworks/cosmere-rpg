@@ -20,13 +20,10 @@ export const enum CreatureType {
  * A non-exhaustive list of conditions
  */
 export const enum Condition {
-    Afflicted = 'afflicted',
     Determined = 'determined',
     Disoriented = 'disoriented',
     Empowered = 'empowered',
-    Enhanced = 'enhanced',
     Exhausted = 'exhausted',
-    Encumbered = 'encumbered',
     Focused = 'focused',
     Immobilized = 'immobilized',
     Prone = 'prone',
@@ -251,6 +248,17 @@ export const enum DamageType {
     Healing = 'heal',
 }
 
+export const enum MovementType {
+    Walk = 'walk',
+    Swim = 'swim',
+    Fly = 'fly',
+}
+
+export const enum RestType {
+    Short = 'short',
+    Long = 'long',
+}
+
 /* --- System --- */
 
 export const enum ActorType {
@@ -289,6 +297,4 @@ export const enum TurnSpeed {
 
 export const enum Theme {
     Default = 'default',
-    //TODO: Move to stormlight module
-    Stormlight = 'stormlight',
 }

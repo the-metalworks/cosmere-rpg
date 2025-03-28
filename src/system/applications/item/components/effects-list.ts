@@ -1,4 +1,6 @@
 import { ConstructorOf } from '@system/types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
@@ -23,8 +25,7 @@ export class ItemEffectsListComponent extends HandlebarsApplicationComponent<
     ConstructorOf<BaseItemSheet>,
     Params
 > {
-    static TEMPLATE =
-        'systems/cosmere-rpg/templates/item/components/effects-list.hbs';
+    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_EFFECTS_LIST}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions

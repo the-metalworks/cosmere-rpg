@@ -1,5 +1,11 @@
-import { ActorType } from '@system/types/cosmere';
+import { ActorType, MovementType } from '@system/types/cosmere';
+import { MovementTypeConfig } from '@system/types/config';
 import { ConstructorOf } from '@system/types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
+
+// Fields
+import { Derived } from '@system/data/fields';
 
 // Dialogs
 import { ConfigureMovementRateDialog } from '@system/applications/actor/dialogs/configure-movement-rate';
@@ -15,8 +21,7 @@ import { CosmereActor } from '@src/system/documents';
 export class ActorDetailsComponent extends HandlebarsApplicationComponent<
     ConstructorOf<BaseActorSheet>
 > {
-    static TEMPLATE =
-        'systems/cosmere-rpg/templates/actors/components/details.hbs';
+    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_DETAILS}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions
@@ -90,12 +95,55 @@ export class ActorDetailsComponent extends HandlebarsApplicationComponent<
     ) {
         const actor = this.application.actor;
 
+        // Determine movement type with the highest movement rate
+        const preferredMovementType = (
+            Object.keys(CONFIG.COSMERE.movement.types) as MovementType[]
+        )
+            .map(
+                (type) =>
+                    [type, actor.system.movement[type].rate.value] as [
+                        MovementType,
+                        number,
+                    ],
+            )
+            .filter(([, rate]) => rate > 0)
+            .sort(([, rateA], [, rateB]) => rateB - rateA)[0]?.[0];
+
         return Promise.resolve({
             ...context,
             type: actor.type,
             displayRestButtons: actor.type === ActorType.Character,
             displayRecovery: actor.type === ActorType.Character,
+            preferredMovementType,
+            movementTooltip: this.generateMovementTooltip(),
         });
+    }
+
+    private generateMovementTooltip() {
+        const actor = this.application.actor;
+
+        const entries = (
+            Object.entries(CONFIG.COSMERE.movement.types) as [
+                MovementType,
+                MovementTypeConfig,
+            ][]
+        )
+            .map(([type, config]) => ({
+                type,
+                rate: actor.system.movement[type].rate.value ?? 0,
+                label: game.i18n!.localize(config.label),
+            }))
+            .filter(({ rate }) => rate > 0)
+            .map(
+                ({ rate, label }) => `
+                <div>
+                    <span><b>${label}:</b></span>
+                    <span>${rate} ft.</span>
+                </div>
+            `,
+            );
+
+        return `${entries.join('')}`;
     }
 }
 

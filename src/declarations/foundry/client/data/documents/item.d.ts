@@ -56,4 +56,15 @@ declare class Item<
     public toAnchor(
         options?: Partial<EnrichmentAnchorOptions>,
     ): HTMLAnchorElement;
+
+    /**
+     * Create an Item from a given source object.
+     * This is necessary for migrations to reinitialize invalid items,
+     * because the game.items collection only accepts an instance of the
+     * system type, and not this class itself.
+     * @param source    Initial document data which comes from a trusted source
+     * @param context   Model construction context
+     * @returns         An instance of the new Actor. This should be recast.
+     */
+    public static fromSource(source: object, context: any = {}): this;
 }

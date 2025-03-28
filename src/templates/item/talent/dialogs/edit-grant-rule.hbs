@@ -8,18 +8,18 @@
 
     {{!-- Items rule --}}
     {{#if (eq type "items")}}
-        <div class="form-group">
+        <fieldset>
+            <legend>{{localize "COSMERE.Item.Goal.Reward.Type.Items"}}</legend>
             {{app-document-drop-list
                 name="items"
                 value=items
                 type="Item"
             }}
-        </div>
+        </fieldset>
     {{/if}}
 
     {{!-- Submit --}}
-    <br>
-    <div class="form-group">
+    <div class="form-group submit">
         <button data-action="update" type="submit">
             {{localize "GENERIC.Button.Update"}}
         </button>

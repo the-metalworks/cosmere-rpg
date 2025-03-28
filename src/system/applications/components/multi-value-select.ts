@@ -4,6 +4,8 @@ import {
     DeepPartial,
     EmptyObject,
 } from '@system/types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 // Component imports
 import {
@@ -43,8 +45,7 @@ export class MultiValueSelectComponent extends HandlebarsApplicationComponent<
 > {
     static FORM_ASSOCIATED = true;
 
-    static readonly TEMPLATE =
-        'systems/cosmere-rpg/templates/general/components/multi-value-select.hbs';
+    static readonly TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.COMPONENT_MULTI_VALUE_SELECT}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions

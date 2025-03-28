@@ -2,8 +2,9 @@ import { Skill } from '@system/types/cosmere';
 import { GoalItem } from '@system/documents/item';
 import { Goal } from '@system/types/item';
 import { AnyObject } from '@system/types/utils';
-
 import { CollectionField } from '@system/data/fields';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 const { ApplicationV2 } = foundry.applications.api;
 
@@ -27,13 +28,13 @@ export class EditGoalRewardDialog extends ComponentHandlebarsApplicationMixin(
             window: {
                 title: 'DIALOG.EditGrantRule.Title',
                 minimizable: false,
-                resizable: true,
+                resizable: false,
                 positioned: true,
             },
             classes: ['dialog', 'edit-reward'],
             tag: 'dialog',
             position: {
-                width: 425,
+                width: 350,
             },
             actions: {
                 update: this.onUpdateReward,
@@ -45,8 +46,7 @@ export class EditGoalRewardDialog extends ComponentHandlebarsApplicationMixin(
         foundry.utils.deepClone(super.PARTS),
         {
             form: {
-                template:
-                    'systems/cosmere-rpg/templates/item/goal/dialogs/edit-reward.hbs',
+                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ITEM_EDIT_REWARD}`,
                 forms: {
                     form: {
                         handler: this.onFormEvent,

@@ -1,28 +1,28 @@
 <form>
-    <div class="form-group">
-        {{#if (eq mode 'derived')}}
-        <input name="die"
-            type="text"
-            style="text-align: center; font-size: 15pt"
-            value="{{derived die}}"
-            readonly
-        >
-        {{else}}
-        <select name="die"
-            style="text-align: center; font-size: 15pt"
-        >
-            {{selectOptions recoveryDice selected=override}}
-        </select>
-        {{/if}}
+    <div class="form-group max">
+        <div class="form-fields">
+            {{#if (eq mode 'derived')}}
+            <input name="die"
+                type="text"
+                value="{{derived die}}"
+                readonly
+            >
+            {{else}}
+            <select name="die">
+                {{selectOptions recoveryDice selected=override}}
+            </select>
+            {{/if}}
+        </div>        
     </div>
     <div class="form-group">
         <label>{{localize "GENERIC.Mode"}}</label>
-        <select name="mode">
-            {{selectOptions modes selected=mode localize=true}}
-        </select>
+        <div class="form-fields">
+            <select name="mode">
+                {{selectOptions modes selected=mode localize=true}}
+            </select>
+        </div>        
     </div>
-    <br>
-    <div class="form-group">
+    <div class="form-group submit">
         <button data-action="update-recovery" type="submit">
             {{localize "GENERIC.Button.Update"}}
         </button>

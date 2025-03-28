@@ -1,5 +1,5 @@
 import { Attribute, Skill } from '@system/types/cosmere';
-import { CosmereActorRollData } from '@system/documents/actor';
+import { CosmereActor, CosmereActorRollData } from '@system/documents/actor';
 import { AdvantageMode } from '@system/types/roll';
 
 // Dialogs
@@ -10,6 +10,7 @@ import { RollMode } from './types';
 import { hasKey } from '../utils/generic';
 import { renderSystemTemplate, TEMPLATES } from '../utils/templates';
 import { Nullable } from '../types/utils';
+import { CosmereItem } from '../documents';
 
 // Constants
 const CONFIGURATION_DIALOG_TEMPLATE =
@@ -33,6 +34,10 @@ export type D20RollData<
         attribute: Nullable<Attribute>;
     };
     attribute: number;
+
+    /* --- For hooks --- */
+    context: string; // The roll context, for naming
+    source: CosmereActor | CosmereItem; // The source document
 };
 
 export interface D20RollOptions
@@ -244,12 +249,14 @@ export class D20Roll extends foundry.dice.Roll<D20RollData> {
     /* --- Public Functions --- */
 
     public async configureDialog(
-        data: Omit<RollConfigurationDialog.Data, 'parts'>,
+        data: RollConfigurationDialog.Data,
     ): Promise<D20Roll | null> {
+        // Populate parts list
+        data.skillTest.parts = [this.parts];
+
         // Show the dialog
         const result = await RollConfigurationDialog.show({
             ...data,
-            parts: [this.parts],
         });
         if (!result) return null;
 
@@ -440,20 +447,19 @@ export class D20Roll extends foundry.dice.Roll<D20RollData> {
                 this.terms.push(
                     new foundry.dice.terms.OperatorTerm({
                         operator: '+',
-                    }) as foundry.dice.terms.RollTerm,
-                    new PlotDie() as foundry.dice.terms.RollTerm,
+                    }),
+                    new PlotDie(),
                 );
             }
 
-            // TODO: Figure out how to handle plot die advantage/disadvantage
-            // const plotDieTerm = this.terms.find((t) => t instanceof PlotDie)!;
-            // if (this.hasPlotAdvantage) {
-            //     plotDieTerm.number = 2;
-            //     plotDieTerm.modifiers.push('kh');
-            // } else if (this.hasPlotDisadvantage) {
-            //     plotDieTerm.number = 2;
-            //     plotDieTerm.modifiers.push('kl');
-            // }
+            const plotDieTerm = this.terms.find((t) => t instanceof PlotDie)!;
+            if (this.hasPlotAdvantage) {
+                plotDieTerm.number = 2;
+                plotDieTerm.modifiers.push('p');
+            } else if (this.hasPlotDisadvantage) {
+                plotDieTerm.number = 2;
+                plotDieTerm.modifiers.push('gmp');
+            }
         }
 
         // NOTE: Unused right now

@@ -1,7 +1,15 @@
 <div class="resource {{resource.id}}" data-id="{{resource.id}}">
-    <div class="header">
+    <div class="sidebar-header">
         <span class="label">{{localize resource.label}}</span>
-        <div class="controls">
+        <div class="controls">            
+            {{#if (eq resource.id "hea")}}
+            <a role="button"
+                data-action="roll-injury"
+                data-tooltip="COSMERE.Actor.Sheet.RollInjury"
+            >
+                <i class="fa-solid fa-heart-pulse"></i>
+            </a>
+            {{/if}}
             {{#if isEditMode}}
             <a role="button"
                 data-action="configure-resource"
@@ -9,23 +17,22 @@
             >
                 <i class="fa-solid fa-gear"></i>
             </a>
-            {{else if (eq resource.id "hea")}}
-            <a role="button"
-                data-action="roll-injury"
-                data-tooltip="COSMERE.Actor.Sheet.RollInjury"
-            >
-                <i class="fa-solid fa-heart-crack"></i>
-            </a>
             {{/if}}
         </div>
     </div>
-    <div class="bar {{#if editable}}editable{{/if}}" data-action="edit-value">
-        <div class="value">
-            <span class="current">{{resource.value}}</span>
-            <span class="delim">/</span>
-            <span class="max">{{resource.max}}</span>
+    <div class="sheet-stack bar {{#if editable}}editable{{/if}}" data-action="edit-value">
+        <div class="container">            
+            <div class="background"></div>
+            <div class="inner">
+                <div class="inner-bar" style="width: {{perc resource.value resource.max}};"></div>
+            </div>
+            <div class="border"></div>
+            <div class="value">
+                <span class="current">{{resource.value}}</span>
+                <span class="delim">/</span>
+                <span class="max">{{resource.max}}</span>
+            </div>
+            <input type="text" name="system.resources.{{resource.id}}.value" value="{{resource.value}}">            
         </div>
-        <div class="inner-bar" style="width: {{perc resource.value resource.max}};"></div>
-        <input type="text" name="system.resources.{{resource.id}}.value" value="{{resource.value}}">
     </div>
 </div>

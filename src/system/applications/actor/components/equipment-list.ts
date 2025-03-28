@@ -2,8 +2,9 @@ import { EquipHand, ItemType } from '@system/types/cosmere';
 import { CosmereItem } from '@system/documents/item';
 import { CosmereActor } from '@system/documents/actor';
 import { ConstructorOf } from '@system/types/utils';
-
 import { AppContextMenu } from '@system/applications/utils/context-menu';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 // Utils
 import AppUtils from '@system/applications/utils';
@@ -11,7 +12,7 @@ import AppUtils from '@system/applications/utils';
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
 import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
-import { SortDirection } from './search-bar';
+import { SortMode } from './search-bar';
 
 interface EquipmentItemState {
     expanded?: boolean;
@@ -57,15 +58,14 @@ export interface ListSectionData extends ListSection {
 interface RenderContext extends BaseActorSheetRenderContext {
     equipmentSearch: {
         text: string;
-        sort: SortDirection;
+        sort: SortMode;
     };
 }
 
 export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<
     ConstructorOf<BaseActorSheet>
 > {
-    static TEMPLATE =
-        'systems/cosmere-rpg/templates/actors/components/equipment-list.hbs';
+    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_EQUIPMENT_LIST}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions
@@ -107,9 +107,15 @@ export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<
 
         // Set classes
         itemElement.toggleClass('expanded', this.itemState[itemId].expanded);
-        $(this.element!)
-            .find(`.details[data-item-id="${itemId}"]`)
-            .toggleClass('expanded', this.itemState[itemId].expanded);
+
+        itemElement
+            .find('a[data-action="toggle-action-details"')
+            .empty()
+            .append(
+                this.itemState[itemId].expanded
+                    ? '<i class="fa-solid fa-compress"></i>'
+                    : '<i class="fa-solid fa-expand"></i>',
+            );
     }
 
     public static onUseItem(this: ActorEquipmentListComponent, event: Event) {
@@ -210,6 +216,8 @@ export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<
             { render: false },
         );
         await this.render();
+
+        this.triggerCurrencyChange();
     }
 
     public static async onIncreaseQuantity(
@@ -228,6 +236,15 @@ export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<
             { render: false },
         );
         await this.render();
+
+        this.triggerCurrencyChange();
+    }
+
+    /* --- Event handlers --- */
+    private triggerCurrencyChange() {
+        const event = new CustomEvent('currency', {});
+
+        this.element!.dispatchEvent(event);
     }
 
     /* --- Context --- */
@@ -296,17 +313,16 @@ export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<
         section: ListSection,
         items: CosmereItem[],
         filterText: string,
-        sort: SortDirection,
+        sort: SortMode,
     ) {
         // Get items for section, filter by search text, and sort
-        const sectionItems = items
+        let sectionItems = items
             .filter(section.filter)
-            .filter((i) => i.name.toLowerCase().includes(filterText))
-            .sort(
-                (a, b) =>
-                    a.name.compare(b.name) *
-                    (sort === SortDirection.Descending ? 1 : -1),
-            );
+            .filter((i) => i.name.toLowerCase().includes(filterText));
+
+        if (sort === SortMode.Alphabetic) {
+            sectionItems = sectionItems.sort((a, b) => a.name.compare(b.name));
+        }
 
         return {
             ...section,

@@ -1,0 +1,14 @@
+{{#with (lookup tabsMap "notes") as |tab|}}
+
+<div class="tab tab-content {{tab.cssClass}}" data-tab="notes" data-group="primary">
+    {{#if (and @root.isUpdatingHtmlField tab.active)}}
+    <prose-mirror name="{{@root.proseFieldName}}" data-document-uuid="{{@root.actor.uuid}}"
+        value = "{{@root.proseFieldHtml}}" collaborate="true">
+        {{{@root.proseFieldHtml}}}    
+    </prose-mirror>
+    {{else}}
+    {{app-actor-notes-fields}}
+    {{/if}}
+</div>
+
+{{/with}}

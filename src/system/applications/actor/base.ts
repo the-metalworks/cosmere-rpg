@@ -21,7 +21,8 @@ import {
 } from '@system/applications/mixins';
 
 // Components
-import { SortDirection, SearchBarInputEvent } from './components';
+import { SortMode, SearchBarInputEvent } from './components';
+import { renderSystemTemplate, TEMPLATES } from '@src/system/utils/templates';
 
 const { ActorSheetV2 } = foundry.applications.sheets;
 
@@ -30,6 +31,7 @@ export type ActorSheetMode = 'view' | 'edit';
 export const enum BaseSheetTab {
     Actions = 'actions',
     Equipment = 'equipment',
+    Notes = 'notes',
     Effects = 'effects',
 }
 
@@ -50,6 +52,8 @@ export class BaseActorSheet<
         {
             actions: {
                 'toggle-mode': this.onToggleMode,
+                'edit-html-field': this.editHtmlField,
+                save: this.onSave,
             },
             form: {
                 handler: this.onFormEvent,
@@ -67,8 +71,7 @@ export class BaseActorSheet<
 
     static PARTS = foundry.utils.mergeObject(super.PARTS, {
         navigation: {
-            template:
-                'systems/cosmere-rpg/templates/actors/parts/navigation.hbs',
+            template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_NAVIGATION}`,
         },
     });
 
@@ -81,24 +84,37 @@ export class BaseActorSheet<
             label: 'COSMERE.Actor.Sheet.Tabs.Equipment',
             icon: '<i class="fa-solid fa-suitcase"></i>',
         },
+        [BaseSheetTab.Notes]: {
+            label: 'COSMERE.Actor.Sheet.Tabs.Notes',
+            icon: '<i class="fa-solid fa-scroll"></i>',
+        },
         [BaseSheetTab.Effects]: {
             label: 'COSMERE.Actor.Sheet.Tabs.Effects',
             icon: '<i class="fa-solid fa-bolt"></i>',
         },
     });
 
+    protected updatingHtmlField = false;
+    protected proseFieldName = '';
+    protected proseFieldHtml = '';
+    protected expanded = false;
+
+    get isUpdatingHtmlField(): boolean {
+        return this.updatingHtmlField;
+    }
+
     get actor(): CosmereActor {
         return super.document;
     }
 
     protected actionsSearchText = '';
-    protected actionsSearchSort: SortDirection = SortDirection.Descending;
+    protected actionsSearchSort: SortMode = SortMode.Alphabetic;
 
     protected equipmentSearchText = '';
-    protected equipmentSearchSort: SortDirection = SortDirection.Descending;
+    protected equipmentSearchSort: SortMode = SortMode.Alphabetic;
 
     protected effectsSearchText = '';
-    protected effectsSearchSort: SortDirection = SortDirection.Descending;
+    protected effectsSearchSort: SortMode = SortMode.Alphabetic;
 
     /* --- Accessors --- */
 
@@ -197,14 +213,56 @@ export class BaseActorSheet<
         );
     }
 
+    private static async editHtmlField(this: BaseActorSheet, event: Event) {
+        event.stopPropagation();
+
+        // Get html field element
+        const fieldElement = $(event.target!).closest('[field-type]');
+
+        // Get field type
+        const proseFieldType = fieldElement.attr('field-type')!;
+
+        // Gets the field to display based on the type found
+        if (proseFieldType === 'biography') {
+            this.proseFieldHtml = this.actor.system.biography ?? '';
+        } else if (proseFieldType === 'appearance') {
+            this.proseFieldHtml = this.actor.system.appearance ?? '';
+        } else if (proseFieldType === 'notes') {
+            this.proseFieldHtml = this.actor.system.notes ?? '';
+        }
+
+        // Gets name for use in prose mirror
+        this.proseFieldName = 'system.' + proseFieldType;
+
+        // Switches to prose mirror
+        this.updatingHtmlField = true;
+
+        await this.render(true);
+    }
+
+    /**
+     * Provide a static callback for the prose mirror save button
+     */
+    private static async onSave(this: BaseActorSheet) {
+        console.log('onSave called');
+        await this.saveHtmlField();
+    }
+
     /* --- Form --- */
 
-    public static onFormEvent(
+    public static async onFormEvent(
         this: BaseActorSheet,
         event: Event,
         form: HTMLFormElement,
         formData: FormDataExtended,
     ) {
+        // Handle notes fields separately
+        if ((event.target as HTMLElement).className.includes('prosemirror')) {
+            await this.saveHtmlField();
+            void this.actor.update(formData.object);
+            return;
+        }
+
         if (
             !(event.target instanceof HTMLInputElement) &&
             !(event.target instanceof HTMLTextAreaElement) &&
@@ -248,6 +306,18 @@ export class BaseActorSheet<
     ): Promise<HTMLElement> {
         const frame = await super._renderFrame(options);
 
+        const corners = await renderSystemTemplate(
+            TEMPLATES.GENERAL_SHEET_CORNERS,
+            {},
+        );
+        $(frame).prepend(corners);
+
+        const banners = await renderSystemTemplate(
+            TEMPLATES.GENERAL_SHEET_BACKGROUND,
+            {},
+        );
+        $(frame).prepend(banners);
+
         // Insert mode toggle
         if (this.isEditable) {
             $(this.window.title!).before(`
@@ -275,7 +345,7 @@ export class BaseActorSheet<
     ) {
         super._onRender(context, options);
 
-        if (options.parts.includes('sheet-content')) {
+        if (options.parts.includes('content')) {
             this.element
                 .querySelector('#actions-search')!
                 .addEventListener(
@@ -296,10 +366,26 @@ export class BaseActorSheet<
                     'search',
                     this.onEffectsSearchChange.bind(this) as EventListener,
                 );
+
+            this.element
+                .querySelector('app-actor-equipment-list')
+                ?.addEventListener(
+                    'currency',
+                    this.onCurrencyChange.bind(this) as EventListener,
+                );
         }
+
+        $(this.element)
+            .find('.html-field.collapsible')
+            .on('click', (event) => this.onClickCollapsibleHtmlField(event));
     }
 
     /* --- Event handlers --- */
+
+    protected onClickCollapsibleHtmlField(event: JQuery.ClickEvent) {
+        const target = event.currentTarget as HTMLElement;
+        target?.classList.toggle('expanded');
+    }
 
     protected onActionsSearchChange(event: SearchBarInputEvent) {
         this.actionsSearchText = event.detail.text;
@@ -331,11 +417,38 @@ export class BaseActorSheet<
         });
     }
 
+    protected onCurrencyChange(event: CustomEvent) {
+        void this.render({
+            parts: [],
+            components: ['app-actor-currency-list'],
+        });
+    }
+
     /* --- Context --- */
 
     public async _prepareContext(
         options: DeepPartial<foundry.applications.api.ApplicationV2.RenderOptions>,
     ) {
+        // Get enriched versions of HTML fields
+        let enrichedBiographyValue = undefined;
+        let enrichedAppearanceValue = undefined;
+        let enrichedNotesValue = undefined;
+        if (this.actor.system.biography) {
+            enrichedBiographyValue = await TextEditor.enrichHTML(
+                this.actor.system.biography,
+            );
+        }
+        if (this.actor.system.appearance) {
+            enrichedAppearanceValue = await TextEditor.enrichHTML(
+                this.actor.system.appearance,
+            );
+        }
+        if (this.actor.system.notes) {
+            enrichedNotesValue = await TextEditor.enrichHTML(
+                this.actor.system.notes,
+            );
+        }
+
         return {
             ...(await super._prepareContext(options)),
             actor: this.actor,
@@ -343,6 +456,14 @@ export class BaseActorSheet<
             editable: this.isEditable,
             mode: this.mode,
             isEditMode: this.mode === 'edit' && this.isEditable,
+
+            // Prose mirror state
+            isUpdatingHtmlField: this.isUpdatingHtmlField,
+            biographyHtml: enrichedBiographyValue,
+            appearanceHtml: enrichedAppearanceValue,
+            notesHtml: enrichedNotesValue,
+            proseFieldName: this.proseFieldName,
+            proseFieldHtml: this.proseFieldHtml,
 
             resources: Object.keys(this.actor.system.resources),
             attributeGroups: Object.keys(CONFIG.COSMERE.attributeGroups),
@@ -361,5 +482,17 @@ export class BaseActorSheet<
                 sort: this.effectsSearchSort,
             },
         };
+    }
+
+    /* --- Helpers --- */
+
+    /**
+     * Helper to update the prose mirror edit state
+     */
+    private async saveHtmlField() {
+        console.log('Saving HTML Field');
+        // Switches back from prose mirror
+        this.updatingHtmlField = false;
+        await this.render(true);
     }
 }

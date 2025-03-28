@@ -1,6 +1,6 @@
 # Foundry VTT - Cosmere Roleplaying Game System
-
-Welcome to the Foundry VTT Cosmere Roleplaying Game System! This community project provides the core system for running the Cosmere Roleplaying Game in Foundry VTT.
+Welcome to the Foundry VTT Cosmere Roleplaying Game System! This community project provides the core system for running 
+the (currently in Beta) Cosmere Roleplaying Game within Foundry VTT.
 
 ## Installation Instructions
 1. In Foundry VTT, go to **Game Systems** > **Install System**.
@@ -25,9 +25,8 @@ This module provides a compendium containing the Bridge Nine playtest adventure,
 4. Activate the module in your world settings.
 
 ## Feature requests and bug reports
-
-If you encounter any bugs or have ideas for new features, please report them by creating an [Issue](https://github.com/stanavdb/cosmere-rpg/issues). For guidelines on Issues see [CONTRIBUTING.md](./CONTRIBUTING.md).
+If you encounter any bugs or wish to share ideas for new features, please let us know by creating an [Issue](https://github.com/stanavdb/cosmere-rpg/issues). 
+For guidelines on how to create Issues, please see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## Contributing
-
-Want to contribute? Check out [CONTRIBUTING.md](./CONTRIBUTING.md).
+Wish to contribute? Check out [CONTRIBUTING.md](./CONTRIBUTING.md).

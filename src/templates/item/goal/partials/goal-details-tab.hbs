@@ -1,16 +1,22 @@
 {{#with (lookup tabsMap "details") as |tab|}}
 
 <div class="tab tab-content {{tab.cssClass}}" data-tab="details" data-group="primary">
-    {{app-item-details-id}}
-    {{formGroup @root.systemFields.level 
-        value=@root.item.system.level 
-        localize=true
-    }}
-
-    <h5>{{localize "COSMERE.Item.Sheet.Goal.Reward.Title"}}</h5>
-    {{app-goal-rewards-list
-        rewards=@root.item.system.rewards
-    }}
+    <fieldset>
+        <legend>{{localize "COSMERE.Item.Sheet.Basics"}}</legend> 
+        {{app-item-details-id}}
+        <div class="item-details-form">
+            {{formGroup @root.systemFields.level 
+                value=@root.item.system.level 
+                localize=true
+            }}
+        </div>        
+    </fieldset>
+    <fieldset>
+        <legend>{{localize "COSMERE.Item.Sheet.Goal.Reward.Title"}}</legend>        
+        {{app-goal-rewards-list
+            rewards=@root.item.system.rewards
+        }}
+    </fieldset>
 </div>
 
 {{/with}}

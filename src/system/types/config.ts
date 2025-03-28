@@ -31,10 +31,11 @@ import {
     EquipmentType,
     PowerType,
     Theme,
+    MovementType,
 } from './cosmere';
 import { AdvantageMode } from './roll';
 
-import { Talent, Goal } from './item';
+import { Talent, TalentTree, Goal } from './item';
 
 export interface SizeConfig {
     label: string;
@@ -50,6 +51,18 @@ export interface ConditionConfig {
     label: string;
     icon: string;
     reference?: string;
+
+    /**
+     * Whether the condition is stackable.
+     */
+    stackable?: boolean;
+
+    /**
+     * Transform the `stacks` value for display.
+     *
+     * @example Used for exhaustion to display "Exhaustion [-1]" instead of "Exhaution [1]".
+     */
+    stacksDisplayTransform?: (count: number) => string;
 }
 
 export interface InjuryConfig {
@@ -103,6 +116,7 @@ export interface PathTypeConfig {
 
 export interface CurrencyConfig {
     label: string;
+    icon: string;
     denominations: {
         primary: CurrencyDenominationConfig[];
         secondary?: CurrencyDenominationConfig[];
@@ -232,16 +246,80 @@ export interface PowerTypeConfig {
     plural: string;
 }
 
-export interface AttributeScale {
-    min: number;
-    max: number;
-    formula: string;
+export interface AdvancementRuleConfig {
+    /**
+     * The level at which this rule applies.
+     */
+    level: number;
+
+    /**
+     * The tier the level falls into.
+     */
+    tier: number;
+
+    /**
+     * The maximum number of skill ranks that can be acquired for any
+     * given skill at this level.
+     */
+    maxSkillRanks: number;
+
+    /**
+     * The amount of attribute points granted at this level.
+     */
+    attributePoints?: number;
+
+    /**
+     * The amount of health granted at this level.
+     */
+    health?: number;
+
+    /**
+     * Whether to include the strength attribute in the health granted.
+     *
+     * @default false
+     */
+    healthIncludeStrength?: boolean;
+
+    /**
+     * The amount of skill ranks granted at this level.
+     */
+    skillRanks?: number;
+
+    /**
+     * The amount of talents granted at this level.
+     */
+    talents?: number;
+
+    /**
+     * The amount of skill ranks OR talents granted at this level.
+     * This is used when the character must choose between skill ranks and talents.
+     */
+    skillRanksOrTalents?: number;
+}
+
+export type AttributeScale<T extends string = string> = {
+    formula: T;
+} & (
+    | {
+          min: number;
+          max: number;
+      }
+    | {
+          value: number;
+      }
+);
+
+export interface MovementTypeConfig {
+    label: string;
 }
 
 export interface CosmereRPGConfig {
     themes: Record<Theme, string>;
     sizes: Record<Size, SizeConfig>;
     creatureTypes: Record<CreatureType, CreatureTypeConfig>;
+    movement: {
+        types: Record<MovementType, MovementTypeConfig>;
+    };
     conditions: Record<Condition, ConditionConfig>;
     injury: {
         types: Record<InjuryType, InjuryConfig>;
@@ -252,6 +330,10 @@ export interface CosmereRPGConfig {
     attributes: Record<Attribute, AttributeConfig>;
     resources: Record<Resource, ResourceConfig>;
     skills: Record<Skill, SkillConfig>;
+    advancement: {
+        rules: AdvancementRuleConfig[];
+    };
+
     currencies: Record<string, CurrencyConfig>;
 
     paths: {
@@ -286,12 +368,16 @@ export interface CosmereRPGConfig {
 
         talent: {
             types: Record<Talent.Type, TalentTypeConfig>;
-            prerequisite: {
-                types: Record<Talent.Prerequisite.Type, string>;
-                modes: Record<Talent.Prerequisite.Mode, string>;
-            };
             grantRules: {
                 types: Record<Talent.GrantRule.Type, string>;
+            };
+        };
+
+        talentTree: {
+            node: {
+                prerequisite: {
+                    types: Record<TalentTree.Node.Prerequisite.Type, string>;
+                };
             };
         };
     };
@@ -343,5 +429,21 @@ export interface CosmereRPGConfig {
 
     dice: {
         advantageModes: Record<AdvantageMode, string>;
+    };
+
+    scaling: {
+        damage: {
+            unarmed: {
+                strength: AttributeScale[];
+            };
+        };
+        power: {
+            die: {
+                ranks: AttributeScale[];
+            };
+            effectSize: {
+                ranks: AttributeScale<Size>[];
+            };
+        };
     };
 }

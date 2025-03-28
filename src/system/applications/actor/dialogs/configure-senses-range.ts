@@ -1,5 +1,7 @@
 import { CosmereActor } from '@system/documents';
 import { AnyObject } from '@system/types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 import { CommonActorData } from '@system/data/actor/common';
 import { Derived } from '@system/data/fields';
@@ -24,7 +26,7 @@ export class ConfigureSensesRangeDialog extends HandlebarsApplicationMixin(
             classes: ['dialog', 'configure-senses-range'],
             tag: 'dialog',
             position: {
-                width: 300,
+                width: 350,
             },
             actions: {
                 'update-sense': this.onUpdateSensesRange,
@@ -36,8 +38,7 @@ export class ConfigureSensesRangeDialog extends HandlebarsApplicationMixin(
         foundry.utils.deepClone(super.PARTS),
         {
             form: {
-                template:
-                    'systems/cosmere-rpg/templates/actors/dialogs/configure-senses-range.hbs',
+                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ACTOR_CONFIGURE_SENSES}`,
                 forms: {
                     form: {
                         handler: this.onFormEvent,
@@ -64,7 +65,7 @@ export class ConfigureSensesRangeDialog extends HandlebarsApplicationMixin(
 
         this.sensesData = this.actor.system.senses;
         this.sensesData.range.override ??= this.sensesData.range.value ?? 0;
-        this.mode = Derived.getMode(this.sensesData.range);
+        this.mode = this.sensesData.range.mode;
     }
 
     /* --- Statics --- */
@@ -99,7 +100,7 @@ export class ConfigureSensesRangeDialog extends HandlebarsApplicationMixin(
         this.mode = formData.object.mode as Derived.Mode;
 
         // Assign mode
-        Derived.setMode(this.sensesData.range, this.mode);
+        this.sensesData.range.mode = this.mode;
 
         // Assign range
         if (this.mode === Derived.Mode.Override && target.name === 'range')
@@ -108,9 +109,9 @@ export class ConfigureSensesRangeDialog extends HandlebarsApplicationMixin(
         // Assign obscured affected
         if (
             this.mode === Derived.Mode.Override &&
-            target.name === 'obscuredUnaffected'
+            target.name === 'ignoreObscure'
         ) {
-            this.sensesData.range.override = formData.object.obscuredUnaffected
+            this.sensesData.range.override = formData.object.ignoreObscure
                 ? Number.MAX_VALUE
                 : 0;
         }

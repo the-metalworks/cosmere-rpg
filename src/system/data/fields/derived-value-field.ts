@@ -11,30 +11,6 @@ export namespace Derived {
         [Mode.Derived]: 'GENERIC.DerivedValue.Mode.Derived',
         [Mode.Override]: 'GENERIC.DerivedValue.Mode.Override',
     };
-
-    export function getValue<T extends number | string | boolean>(
-        derived: Derived<T>,
-        includeBonus = true,
-    ) {
-        const value = derived.useOverride ? derived.override : derived.value;
-
-        return includeBonus && 'bonus' in derived
-            ? (value as number) + derived.bonus!
-            : value;
-    }
-
-    export function getMode<T extends number | string | boolean>(
-        derived: Derived<T>,
-    ) {
-        return derived.useOverride ? Mode.Override : Mode.Derived;
-    }
-
-    export function setMode<T extends number | string | boolean>(
-        derived: Derived<T>,
-        mode: Mode,
-    ) {
-        derived.useOverride = mode === Mode.Override;
-    }
 }
 
 export interface DerivedValueFieldOptions
@@ -46,11 +22,20 @@ export interface DerivedValueFieldOptions
  * Type for dealing with derived values.
  * Provides standard functionality for manual overrides
  */
-export type Derived<T extends number | string | boolean> = {
+export type Derived<
+    T extends number | string | boolean = number | string | boolean,
+> = {
+    /**
+     * The final value.
+     * This is either the derived value or the override value, depending on the `useOverride` flag.
+     * Additionally if the value is a number, the bonus is added to the final value.
+     */
+    readonly value: T;
+
     /**
      * The derived value
      */
-    value?: T;
+    derived: T;
 
     /**
      * The override value to use if `useOverride` is set to true
@@ -60,8 +45,27 @@ export type Derived<T extends number | string | boolean> = {
     /**
      * Whether or not the override value should be used (rather than the derived)
      */
-    useOverride?: boolean;
-} & (T extends number ? { bonus?: number } : EmptyObject);
+    useOverride: boolean;
+
+    /**
+     * The mode of the derived value (derived or override).
+     * This serves as a getter/setter for the `useOverride` flag
+     */
+    mode: Derived.Mode;
+} & (T extends number
+    ? {
+          /**
+           * The final value before the bonus is added.
+           * This is either the derived value or the override value, depending on the `useOverride` flag.
+           */
+          readonly base: number;
+
+          /**
+           * Additional bonus to add to the value
+           */
+          bonus: number;
+      }
+    : EmptyObject);
 
 export class DerivedValueField<
     ElementField extends
@@ -80,7 +84,7 @@ export class DerivedValueField<
             {
                 ...options?.additionalFields,
 
-                value: element,
+                derived: element,
                 override: new ((Object.getPrototypeOf(element) as object)
                     .constructor as ConstructorOf<ElementField>)({
                     ...element.options,
@@ -107,5 +111,49 @@ export class DerivedValueField<
             options,
             context,
         );
+    }
+
+    public override initialize(
+        value: Omit<Derived, 'value' | 'base'>,
+        model: object,
+        options?: object,
+    ) {
+        value = super.initialize(value, model, options) as Omit<
+            Derived,
+            'value' | 'base'
+        >;
+
+        if (!Object.hasOwn(value, 'value')) {
+            Object.defineProperties(value, {
+                value: {
+                    get: function (this: Derived) {
+                        if ('bonus' in this) {
+                            return this.base + this.bonus;
+                        } else {
+                            return this.useOverride
+                                ? this.override
+                                : this.derived;
+                        }
+                    },
+                },
+                base: {
+                    get: function (this: Derived) {
+                        return this.useOverride ? this.override : this.derived;
+                    },
+                },
+                mode: {
+                    get: function (this: Derived) {
+                        return this.useOverride
+                            ? Derived.Mode.Override
+                            : Derived.Mode.Derived;
+                    },
+                    set: function (this: Derived, mode: Derived.Mode) {
+                        this.useOverride = mode === Derived.Mode.Override;
+                    },
+                },
+            });
+        }
+
+        return value;
     }
 }

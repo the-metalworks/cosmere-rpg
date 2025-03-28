@@ -1,5 +1,7 @@
 // Dialogs
 import { ReleaseNotesDialog } from '@system/applications/dialogs/release-notes';
+
+// Constants
 import {
     SYSTEM_ID,
     METALWORKS_DISCORD_INVITE,
@@ -7,7 +9,12 @@ import {
     GITHUB_CONTRIBUTING_URL,
     AUTHOR_NAME,
 } from '@system/constants';
+
+// Settings
 import { getSystemSetting, setSystemSetting, SETTINGS } from '../settings';
+
+// Migration
+import { migrate, requiresMigration } from '../utils/migration';
 
 Hooks.on('ready', async () => {
     // Ensure this message is only displayed when creating a new world
@@ -30,7 +37,7 @@ Hooks.on('ready', async () => {
         },
         flags: {
             [SYSTEM_ID]: {
-                headerImg: `systems/${SYSTEM_ID}/assets/icons/the-metalworks.png`,
+                headerImg: `systems/${SYSTEM_ID}/assets/art/the-metalworks.png`,
             },
         },
     });
@@ -47,9 +54,9 @@ Hooks.on('ready', async () => {
     const currentVersion = game.system!.version;
 
     // The last used version of the system
-    const latestVersion = getSystemSetting(
+    const latestVersion = getSystemSetting<string>(
         SETTINGS.INTERNAL_LATEST_VERSION,
-    ) as string;
+    );
 
     const [currentMajor, currentMinor, currentPatch] = currentVersion
         .split('.')
@@ -69,6 +76,11 @@ Hooks.on('ready', async () => {
         void ReleaseNotesDialog.show({
             patch: !(currentMajor > latestMajor || currentMinor > latestMinor),
         });
+
+        // Migrate data from the previous version of the system
+        if (requiresMigration(latestVersion, currentVersion)) {
+            await migrate(latestVersion, currentVersion);
+        }
 
         // Record the latest version of the system
         await setSystemSetting(

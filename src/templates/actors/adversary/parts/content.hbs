@@ -1,0 +1,75 @@
+<section class="sheet-content flexrow">
+    <section class="col-left">
+        {{app-actor-details}}
+        {{#each resources as |resourceId|}}
+        {{app-actor-resource resource=resourceId}}
+        {{/each}}
+
+        <div class="scroll-container">
+            <div class="scroll-body">
+                <section>
+                    <div class="sidebar-header">
+                        <span class="label">{{localize "COSMERE.Actor.Skill.label_p"}}</span>
+                        <div class="controls">            
+                            <a data-action="toggle-skills-collapsed"
+                                data-tooltip="COSMERE.Actor.Sheet.{{#if skillsCollapsed}}ToggleShowSkills{{else}}ToggleCollapseSkills{{/if}}"
+                            >
+                                {{#if skillsCollapsed}}
+                                <i class="fa-solid fa-eye"></i>
+                                {{else}}
+                                <i class="fa-solid fa-eye-slash"></i>
+                                {{/if}}
+                            </a>
+
+                            {{#if isEditMode}}
+                            <a data-action="configure-skills"
+                                data-tooltip="COSMERE.Actor.Sheet.ConfigureSkills"
+                            >
+                                <i class="fa-solid fa-gear"></i>
+                            </a>
+                            {{/if}}
+                        </div>
+                    </div>
+                    <section class="skills-column">
+                    {{#each attributeGroups as |group|}}
+                    {{app-adversary-skills-group collapsed=@root.skillsCollapsed group-id=group}}
+                    {{/each}}
+                    </section>
+                </section>
+
+                {{#if isEditMode}}
+                <section class="adversary-expertises">                    
+                    <div class="icon-header">
+                        <div class="title">
+                            <i class="fa-solid fa-book"></i>
+                            <span>{{localize "COSMERE.Actor.Sheet.Expertises"}}</span>
+                        </div>
+                        <div class="controls">
+                            {{#if isEditMode}}
+                            <a role="button"
+                                data-action="edit-expertises"
+                                data-tooltip="COSMERE.Actor.Sheet.EditExpertises"
+                            >
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                            {{/if}}
+                        </div>
+                    </div>
+                </section>
+                {{/if}}
+           </div>
+        </div>
+    </section>
+    <section class="col-main">
+        {{app-adversary-header}}
+        {{app-actor-attributes}}
+        <div class="scroll-container">
+            <div class="tab-body">
+                {{> adv-actions-tab}}
+                {{> adv-equipment-tab}}
+                {{> adv-notes-tab}}
+                {{> adv-effects-tab}}
+            </div>
+        </div>        
+    </section>
+</section>

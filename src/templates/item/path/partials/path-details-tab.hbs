@@ -1,22 +1,48 @@
 {{#with (lookup tabsMap "details") as |tab|}}
 
 <div class="tab tab-content {{tab.cssClass}}" data-tab="details" data-group="primary">
-    {{app-item-details-id}}
-    {{app-item-details-type}}
+    <fieldset>
+        <legend>{{localize "COSMERE.Item.Sheet.Basics"}}</legend>
+        {{app-item-details-id}}
+        {{app-item-details-type}}
 
-    <div class="form-group">
-        <label>{{localize @root.systemFields.linkedSkills.label}}</label>
-        <div class="form-fields">
-            {{app-multi-value-select
-                name="system.linkedSkills"
-                value=@root.item.system.linkedSkills
-                options=@root.linkedSkillsOptions
-            }}
+        {{!-- Talent tree --}}
+        <div class="item-details-form">
+            <div class="form-group">
+                <label>
+                    {{localize @root.systemFields.talentTree.label}}
+                    <i class="info fa-regular fa-circle-question" data-tooltip="{{localize @root.systemFields.talentTree.hint}}"></i>
+                </label>
+                <div class="form-fields">
+                    {{app-document-reference-input
+                        name="system.talentTree"
+                        value=@root.item.system.talentTree
+                        type="Item"
+                        subtype="talent_tree"
+                        placeholder="COSMERE.Item.Sheet.Path.TalentTreePlaceholder"
+                        readonly=(not @root.editable)
+                    }}
+                </div>
+            </div>
         </div>
-    </div>
-    <p class="hint">
-        {{localize @root.systemFields.linkedSkills.hint}}
-    </p>
+
+        {{!-- Linked skills --}}
+        <div class="item-details-form">
+            <div class="form-group">
+                <label>{{localize @root.systemFields.linkedSkills.label}}</label>
+                <div class="form-fields">
+                    {{app-multi-value-select
+                        name="system.linkedSkills"
+                        value=@root.item.system.linkedSkills
+                        options=@root.linkedSkillsOptions
+                    }}
+                </div>
+            </div>
+            <p class="hint">
+                {{localize @root.systemFields.linkedSkills.hint}}
+            </p>
+        </div>
+    </fieldset>    
 </div>
 
 {{/with}}

@@ -1,10 +1,11 @@
 {{#if hasAttack}}
-    <h5>{{localize "COSMERE.Item.Sheet.Attack.Title"}}</h5>
+<fieldset>
+    <legend>{{localize "COSMERE.Item.Sheet.Attack.Title"}}</legend>
 
     {{!-- Attack type --}}
     <div class="form-group">
         <label>{{localize "COSMERE.Item.Sheet.Attack.Type"}}</label>
-        <div class="input-group">
+        <div class="form-fields">
             <select name="system.attack.type"
                 {{#if (not editable)}}
                 disabled
@@ -18,7 +19,7 @@
     {{!-- Range --}}
     <div class="form-group">
         <label>{{localize "COSMERE.Item.Sheet.Attack.Range"}}</label>
-        <div class="input-group">
+        <div class="form-fields">
             {{#if hasRange}}
             <input type="number" 
                 name="system.attack.range.value" 
@@ -49,4 +50,5 @@
             </select>
         </div>
     </div>
+</fieldset>    
 {{/if}}

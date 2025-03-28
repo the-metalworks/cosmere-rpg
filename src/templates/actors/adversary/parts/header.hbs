@@ -1,0 +1,56 @@
+<header class="sheet-header">
+    <div class="title">
+        <h1 class="document-name">
+            <input class="value" type="text" name="name" value="{{actor.name}}" {{#unless isEditMode}}readonly{{/unless}}> 
+        </h1>
+        <div class="details">
+            {{#if isEditMode}}
+            <select name="system.role">
+                {{selectOptions roles selected=actor.system.role localize=true}}
+            </select>
+            {{else}}
+            <span class="role">{{localize roleLabel}}</span>
+            {{/if}}
+            <i class="cosmere-icon delim">o</i>
+            <div>                
+                {{#if isEditMode}}
+                <select name="system.size">
+                    {{selectOptions sizes selected=actor.system.size localize=true}}
+                </select>
+                {{else}}
+                <span class="size">{{localize sizeLabel}}</span>
+                {{/if}}
+                <span class="type">
+                    {{localize typeLabel}}
+                    {{#if isEditMode}}
+                        <a data-action="edit-type"
+                            data-tooltip="COSMERE.Actor.Sheet.EditType"
+                        >
+                            <i class="fa-solid fa-gear"></i>
+                        </a>
+                    {{/if}}
+                </span> 
+            </div>           
+        </div>
+    </div>
+    <div class="level-details">
+        <div class="sheet-stack level">
+            <span class="label">{{localize "COSMERE.Actor.Sheet.Tier"}}</span>
+            <div class="container">
+                <div class="background"></div>
+                <div class="star"></div>
+                <div class="border"></div>
+                <input class="value"
+                    type="number"
+                    name="system.tier",
+                    value="{{actor.system.tier}}",
+                    min="1",
+                    step="1"
+                    {{#if (not isEditMode)}}
+                    readonly
+                    {{/if}}
+                >
+            </div>
+        </div>
+    </div>
+</header>

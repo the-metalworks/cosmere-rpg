@@ -1,14 +1,14 @@
 {{#with (lookup tabsMap "goals") as |tab|}}
 
-<div class="tab tab-content split flexrow {{tab.cssClass}}" data-tab="goals" data-group="primary">
+<div class="tab tab-content split {{tab.cssClass}}" data-tab="goals" data-group="primary">
     <section>
         <div class="details-text purpose">
-            <div class="label">
-                <i class="fa-solid fa-seedling"></i>
-                <span>
-                    {{localize "COSMERE.Actor.Sheet.Details.Purpose"}}
-                </span>
-            </div>
+            <div class="icon-header">
+                <div class="title">
+                    <i class="fa-solid fa-seedling"></i>
+                    <span>{{localize "COSMERE.Actor.Sheet.Details.Purpose"}}</span>
+                </div>
+            </div>            
             <textarea name="system.purpose" {{#if (not @root.isEditMode)}}readonly{{/if}}>{{@root.actor.system.purpose}}</textarea>
         </div>
 
@@ -16,12 +16,12 @@
     </section>
     <section>
         <div class="details-text obstacle">
-            <div class="label">
-                <i class="fa-solid fa-heart-crack"></i>
-                <span>
-                    {{localize "COSMERE.Actor.Sheet.Details.Obstacle"}}
-                </span>
-            </div>
+            <div class="icon-header">
+                <div class="title">
+                    <i class="fa-solid fa-heart-crack"></i>
+                    <span>{{localize "COSMERE.Actor.Sheet.Details.Obstacle"}}</span>
+                </div>
+            </div>            
             <textarea name="system.obstacle" {{#if (not @root.isEditMode)}}readonly{{/if}}>{{@root.actor.system.obstacle}}</textarea>
         </div>
 

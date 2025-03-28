@@ -1,5 +1,7 @@
 import { BonusTalentsRule } from '@system/data/item/ancestry';
 import { AnyObject, ConstructorOf } from '@system/types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 // Dialogs
 import { EditBonusTalentsRuleDialog } from '../../dialogs/talent/edit-bonus-talents-rule';
@@ -11,8 +13,7 @@ import { AncestrySheet } from '../../ancestry-sheet';
 export class AncestryBonusTalentsComponent extends HandlebarsApplicationComponent<
     ConstructorOf<AncestrySheet>
 > {
-    static TEMPLATE =
-        'systems/cosmere-rpg/templates/item/ancestry/components/bonus-talents.hbs';
+    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_ANCESTRY_BONUS_TALENTS}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions

@@ -16,6 +16,7 @@ declare namespace Actor {
 declare class Actor<
     D extends foundry.abstract.DataModel = foundry.abstract.DataModel,
     I extends Item = Item,
+    AE extends ActiveEffect = ActiveEffect,
 > extends _ClientDocumentMixin<D>(foundry.documents.BaseActor<D>) {
     public readonly type: string;
     public readonly name: string;
@@ -29,9 +30,9 @@ declare class Actor<
     statuses: Set<string>;
 
     get items(): Collection<I>;
-    get effects(): Collection<ActiveEffect>;
+    get effects(): Collection<AE>;
     get isToken(): boolean;
-    get appliedEffects(): ActiveEffect[];
+    get appliedEffects(): AE[];
     get token(): TokenDocument;
 
     /**
@@ -58,8 +59,8 @@ declare class Actor<
     ): Promise<ActiveEffect | boolean | undefined>;
 
     /**
-     * Retrieve an Array of active tokens which represent this Actor in the current canvas Scene. 
-     * If the canvas is not currently active, or there are no linked actors, the returned Array will be empty. 
+     * Retrieve an Array of active tokens which represent this Actor in the current canvas Scene.
+     * If the canvas is not currently active, or there are no linked actors, the returned Array will be empty.
      * If the Actor is a synthetic token actor, only the exact Token which it represents will be returned.
      * @param linked Limit results to Tokens which are linked to the Actor. Otherwise, return all Tokens even those which are not linked.
      * @param document Return the Document instance rather than the PlaceableObject
@@ -67,7 +68,7 @@ declare class Actor<
      */
     public getActiveTokens(
         linked?: boolean,
-        document?: boolean
+        document?: boolean,
     ): (TokenDocument | Token)[];
 
     /**
@@ -77,7 +78,7 @@ declare class Actor<
      * of the Actor's owned Items.
      * @yields {ActiveEffect}
      */
-    public *allApplicableEffects(): Generator<ActiveEffect, void, void>;
+    public *allApplicableEffects(): Generator<AE, void, void>;
 
     /**
      * Determine default artwork based on the provided actor data.
@@ -104,4 +105,15 @@ declare class Actor<
         isDelta: boolean,
         isBar: boolean,
     ): Promise<Actor | undefined>;
+
+    /**
+     * Create an Actor from a given source object.
+     * This is necessary for migrations to reinitialize invalid actors,
+     * because the game.actors collection only accepts an instance of the
+     * system type, and not this class itself.
+     * @param source    Initial document data which comes from a trusted source
+     * @param context   Model construction context
+     * @returns         An instance of the new Actor. This should be recast.
+     */
+    public static fromSource(source: object, context: any = {}): this;
 }

@@ -1,5 +1,7 @@
 import { AttributeGroup, Attribute } from '@system/types/cosmere';
 import { ConstructorOf } from '@system/types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 // Dialogs
 import { ConfigureDefenseDialog } from '@system/applications/actor/dialogs/configure-defense';
@@ -11,8 +13,7 @@ import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
 export class ActorAttributesComponent extends HandlebarsApplicationComponent<
     ConstructorOf<BaseActorSheet>
 > {
-    static TEMPLATE =
-        'systems/cosmere-rpg/templates/actors/components/attributes.hbs';
+    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_ATTRIBUTES}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions and forms
