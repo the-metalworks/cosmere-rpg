@@ -22,7 +22,21 @@ import { CharacterActorDataModel } from '@src/system/data/actor/character';
 // Constants
 import { SYSTEM_ID } from '@system/constants';
 import COSMERE from '@src/system/config';
-import { AnyObject } from '@src/system/types/utils';
+import { AnyMutableObject, AnyObject } from '@src/system/types/utils';
+
+interface LegacyTalentTreeDataModel {
+    nodes: Collection<LegacyNode>;
+}
+
+interface LegacyNode {
+    id: string;
+    type: 'icon' | 'text';
+    uuid: string;
+    position: {
+        row: number;
+        column: number;
+    };
+}
 
 export default {
     from: '0.2',
@@ -31,7 +45,7 @@ export default {
         /**
          * Items
          */
-        const items = getRawDocumentSources('Item') as CosmereItem[];
+        const items = await getRawDocumentSources('Item');
 
         /* --- Talent Trees --- */
         await migrateTalentTrees(items);
@@ -39,7 +53,7 @@ export default {
         /**
          * Actors
          */
-        const actors = getRawDocumentSources('Actor') as CosmereActor[];
+        const actors = await getRawDocumentSources('Actor');
         await migrateActors(actors);
     },
 } as Migration;
@@ -51,130 +65,108 @@ export default {
 /**
  * Helper function to process talent trees
  */
-async function migrateTalentTrees(items: CosmereItem[]) {
+async function migrateTalentTrees(items: AnyObject[]) {
     // Get all talent tree items
     const talentTreeItems = items.filter(
         (i) => i.type === ItemType.TalentTree,
-    ) as TalentTreeItem[];
+    ) as CosmereItem<LegacyTalentTreeDataModel>[];
 
     // Migrate talent tree items
     await Promise.all(
         talentTreeItems.map(async (treeItem) => {
-            const changes = {};
+            const changes: AnyMutableObject = {};
 
             // Migrate nodes
             await Promise.all(
-                Object.entries(treeItem.system.nodes).map(
-                    async ([id, node]: [string, TalentTree.Node]) => {
-                        if (node.type === TalentTree.Node.Type.Talent) {
-                            if ('uuid' in node) {
-                                // Get item
-                                const item = (await fromUuid(
-                                    node.uuid,
-                                )) as unknown as CosmereItem;
+                treeItem.system.nodes.map(async (node) => {
+                    if (!node.uuid) {
+                        console.warn(
+                            `[${SYSTEM_ID}] Migration of talent tree "${treeItem._id}" failed. Node "${node.id}" is missing field UUID`,
+                        );
+                        return;
+                    }
 
-                                if (!!item && item.isTalent()) {
-                                    // Add change
-                                    foundry.utils.mergeObject(changes, {
-                                        [`system.nodes.${id}.item`]:
-                                            item.toObject(),
-                                    });
+                    // Get the item
+                    const item = (await fromUuid(node.uuid)) as unknown as
+                        | CosmereItem
+                        | undefined;
+                    if (!item?.isTalent()) {
+                        console.warn(
+                            `[${SYSTEM_ID}] Migration of talent tree "${treeItem._id}" failed. Could not find talent item "${node.uuid}"`,
+                        );
+                        return;
+                    }
 
-                                    // Get all talent prerequisite
-                                    const talentPrereqRules = Object.entries(
-                                        node.prerequisites,
-                                    )
-                                        .map(
-                                            ([id, prereq]: [
-                                                string,
-                                                TalentTree.Node.Prerequisite,
-                                            ]) => ({ ...prereq, id }),
-                                        )
-                                        .filter(
-                                            (prereq) =>
-                                                prereq.type ===
-                                                TalentTree.Node.Prerequisite
-                                                    .Type.Talent,
-                                        );
-                                    // .filter(prereq => prereq.mode === TalentTree.Node.Prerequisite.Mode.AnyOf || prereq.talents.size === 1);
-
-                                    // Get required talents
-                                    const requiredTalentUUIDs =
-                                        talentPrereqRules
-                                            .map((prereq) => [
-                                                ...prereq.talents.values(),
-                                            ])
-                                            .flat()
-                                            .map((ref) => ref.uuid);
-
-                                    // Find connection node ids for required talents
-                                    const connectionNodeIds = Object.entries(
-                                        treeItem.system.nodes,
-                                    )
-                                        .filter(
-                                            ([id, node]: [
-                                                string,
-                                                TalentTree.Node,
-                                            ]) =>
-                                                node.type ===
-                                                TalentTree.Node.Type.Talent,
-                                        )
-                                        .filter(
-                                            ([id, node]: [
-                                                string,
-                                                TalentTree.TalentNode,
-                                            ]) =>
-                                                requiredTalentUUIDs.includes(
-                                                    node.uuid,
-                                                ),
-                                        )
-                                        .map(
-                                            ([id, node]: [
-                                                string,
-                                                TalentTree.Node,
-                                            ]) => id,
-                                        );
-
-                                    // Set connections
-                                    foundry.utils.mergeObject(changes, {
-                                        [`system.nodes.${id}.connections`]:
-                                            connectionNodeIds.reduce(
-                                                (acc, id) => ({
-                                                    ...acc,
-                                                    [id]: {
-                                                        id,
-                                                    },
-                                                }),
-                                                {},
-                                            ),
-                                    });
-                                } else {
-                                    // Remove node
-                                    foundry.utils.mergeObject(changes, {
-                                        [`system.nodes.-=${id}`]: null,
-                                    });
-                                }
-                            }
-                        }
-                    },
-                ),
+                    changes[`system.nodes.${node.id}`] = {
+                        id: node.id,
+                        type: TalentTree.Node.Type.Talent,
+                        position: {
+                            x: node.position.column * 50 * 2,
+                            y: node.position.row * 50 * 2,
+                        },
+                        talentId: item.system.id,
+                        uuid: node.uuid,
+                        size: {
+                            width: 50,
+                            height: 50,
+                        },
+                        prerequisites: {},
+                        connections: {},
+                    };
+                }),
             );
 
+            // Determine width and height
+            const width =
+                Math.max(
+                    ...treeItem.system.nodes.map(
+                        (node) => node.position.column,
+                    ),
+                ) *
+                50 *
+                2;
+            const height =
+                Math.max(
+                    ...treeItem.system.nodes.map((node) => node.position.row),
+                ) *
+                50 *
+                2;
+
+            // Set view bounds
+            changes['system.viewBounds'] = {
+                x: 0,
+                y: 0,
+                width: width + 50,
+                height: height + 50,
+            };
+
+            // Set display size
+            changes['system.display'] = {
+                width: width + 50,
+                height: height + 50,
+            };
+
             // Retrieve document
-            const document = (game.items as Collection<CosmereItem>).get(
+            const document = getPossiblyInvalidDocument<CosmereItem>(
+                'Item',
                 treeItem._id,
-                { strict: true },
             );
 
             console.log(`[${SYSTEM_ID}] Talent tree changes:`, changes);
 
             // Apply changes
-            await document.update(changes);
+            document.updateSource(changes, { diff: false });
+            await document.update(changes, { diff: false });
+
+            // Ensure invalid documents are properly instantiated
+            fixDocumentIfInvalid('Item', document);
         }),
     );
 }
 
-async function migrateActors(actors: CosmereActor[]) {
+// NOTE: Use any here as we're dealing with raw actor data
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment */
+async function migrateActors(actors: any[]) {
     await Promise.all(
         actors.map(async (actor) => {
             const changes = {};
@@ -219,13 +211,15 @@ async function migrateActors(actors: CosmereActor[]) {
             );
 
             // Apply changes
+            document.updateSource(changes, { diff: false });
             await document.update(changes, { diff: false });
 
             // Ensure invalid documents are properly instantiated
-            fixDocumentIfInvalid('Actor', actor._id);
+            fixDocumentIfInvalid('Actor', document);
         }),
     );
 }
+/* eslint-enable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment */
 
 /**
  * Helper function for immunities code reuse. Updates the `changes` object

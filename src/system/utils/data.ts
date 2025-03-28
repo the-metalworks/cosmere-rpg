@@ -1,6 +1,7 @@
 import { DocumentConstructor } from '@league-of-foundry-developers/foundry-vtt-types/src/types/helperTypes.mjs';
 
 import {
+    AnyObject,
     COSMERE_DOCUMENT_CLASSES,
     CosmereDocument,
     InvalidCollection,
@@ -20,8 +21,20 @@ function getCollectionForDocumentType(
     return collection;
 }
 
-export function getRawDocumentSources(documentType: string): unknown[] {
-    return getCollectionForDocumentType(documentType)._source;
+export async function getRawDocumentSources<T = AnyObject>(
+    documentType: string,
+): Promise<AnyObject[]> {
+    // NOTE: Use any type here as it keeps resolving to ManageCompendiumRequest instead of DocumentSocketRequest
+    const { result } = await SocketInterface.dispatch('modifyDocument', {
+        type: documentType,
+        operation: {
+            query: {},
+        },
+        action: 'get',
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } as any);
+
+    return (result as AnyObject[] | undefined) ?? [];
 }
 
 /**
@@ -88,11 +101,12 @@ export function addDocumentToCollection(
  * This eliminates the need to reload after migrations finish,
  * in order for those actors to appear in the sidebar.
  */
-export function fixInvalidDocument(documentType: string, id: string) {
-    if (isDocumentInvalid(documentType, id)) {
-        const document = getPossiblyInvalidDocument(documentType, id);
-
-        addDocumentToCollection(documentType, id, document);
+export function fixInvalidDocument(
+    documentType: string,
+    document: CosmereDocument,
+) {
+    if (isDocumentInvalid(documentType, document.id)) {
+        addDocumentToCollection(documentType, document.id, document);
     }
 }
 
