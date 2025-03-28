@@ -1,6 +1,6 @@
-import { CosmereActor, CosmereItem, InjuryItem } from '../documents';
+import { CosmereActor, InjuryItem } from '../documents';
 import { InjuryType, RestType } from './cosmere';
-import { AnyObject, CosmereDocument } from './utils';
+import { CosmereDocument } from './utils';
 
 export namespace CosmereHooks {
     /**
