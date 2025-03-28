@@ -6,10 +6,12 @@
                     <div class="dice-formula">{{formulaNormal}}</div>
                     {{{tooltipNormal}}}
                 </div>
+                {{#if showGraze}}
                 <div>
                     <div class="dice-formula graze">{{formulaGraze}}</div>
                     {{{tooltipGraze}}}
                 </div>
+                {{/if}}
             </div>
         </div>
         <div class="dice-roll-damage">
@@ -18,10 +20,12 @@
                     <span class="label">{{localize "DICE.Damage.Full"}}</span>
                     <span class="value">{{totalNormal}}</span>
                 </div>
+                {{#if showGraze}}
                 <div class="dice-subtotal right ">
                     <span class="label">{{localize "DICE.Damage.Graze"}}</span>
                     <span class="value">{{totalGraze}}</span>
                 </div>
+                {{/if}}
             </h4>
         </div>
     </div>
