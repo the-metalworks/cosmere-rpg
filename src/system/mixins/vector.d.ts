@@ -4,22 +4,22 @@ declare namespace GlobalMixins {
          * Adds other to this point
          * @param other
          */
-        add(other: PIXI.IPointData): Point;
+        add(other: PIXI.IPointData): PIXI.Point;
 
         /**
          * Subtracts other from this point
          */
-        subtract(other: PIXI.IPointData): Point;
+        subtract(other: PIXI.IPointData): PIXI.Point;
 
         /**
          * Multiplies this point by another point
          */
-        multiply(other: PIXI.IPointData): Point;
+        multiply(other: PIXI.IPointData): PIXI.Point;
 
         /**
          * Multiplies this point by a scalar value
          */
-        multiplyScalar(scalar: number): Point;
+        multiplyScalar(scalar: number): PIXI.Point;
 
         /**
          * Computes the dot product of other with this point.
