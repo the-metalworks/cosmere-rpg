@@ -129,11 +129,8 @@ function pixiImportFix() {
         name: 'pixi-import-fix',
         renderChunk: (code, chunk, options, meta) => {
             return code.replace(
-                "import { Point, ObservablePoint, Rectangle, Filter, utils } from '@pixi/core';",
+                "import { Filter, utils } from '@pixi/core';",
                 [
-                    'const Point = PIXI.Point;',
-                    'const ObservablePoint = PIXI.ObservablePoint;',
-                    'const Rectangle = PIXI.Rectangle;',
                     'const Filter = PIXI.Filter;',
                     'const utils = PIXI.utils;',
                 ].join('\n')
