@@ -1011,6 +1011,9 @@
         },
         "Damage": {
             "IgnoreDeflect": "Ignore Deflect"
+        },
+        "Migration": {
+            "DocumentMigrationFailed": "Failed to migrate {type} \"{name}\". {error}"
         }
     },
     "DICE": {
