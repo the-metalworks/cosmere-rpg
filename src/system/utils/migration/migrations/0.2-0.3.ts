@@ -209,6 +209,7 @@ async function migrateActors(actors: any[]) {
                 if (actor.type === ActorType.Character) {
                     /* --- Advancement ---*/
                     if (
+                        !(actor.system as CharacterActorDataModel).level ||
                         isNaN((actor.system as CharacterActorDataModel).level)
                     ) {
                         foundry.utils.mergeObject(changes, {
