@@ -13,6 +13,7 @@ import {
     getPossiblyInvalidDocument,
     getRawDocumentSources,
 } from '@system/utils/data';
+import { handleDocumentMigrationError } from '../utils';
 
 // Types
 import { Migration } from '@system/types/migration';
@@ -22,10 +23,14 @@ import { CharacterActorDataModel } from '@src/system/data/actor/character';
 // Constants
 import { SYSTEM_ID } from '@system/constants';
 import COSMERE from '@src/system/config';
-import { AnyMutableObject, AnyObject } from '@src/system/types/utils';
+import {
+    AnyMutableObject,
+    RawDocumentData,
+    AnyObject,
+} from '@src/system/types/utils';
 
 interface LegacyTalentTreeDataModel {
-    nodes: Collection<LegacyNode>;
+    nodes: Record<string, LegacyNode>;
 }
 
 interface LegacyNode {
@@ -65,157 +70,167 @@ export default {
 /**
  * Helper function to process talent trees
  */
-async function migrateTalentTrees(items: AnyObject[]) {
+async function migrateTalentTrees(items: RawDocumentData[]) {
     // Get all talent tree items
     const talentTreeItems = items.filter(
-        (i) => i.type === ItemType.TalentTree,
-    ) as CosmereItem<LegacyTalentTreeDataModel>[];
+        (i) => i.type === (ItemType.TalentTree as string),
+    ) as unknown as RawDocumentData<LegacyTalentTreeDataModel>[];
 
     // Migrate talent tree items
     await Promise.all(
         talentTreeItems.map(async (treeItem) => {
-            const changes: AnyMutableObject = {};
+            try {
+                const changes: AnyMutableObject = {};
 
-            // Migrate nodes
-            await Promise.all(
-                treeItem.system.nodes.map(async (node) => {
-                    if (!node.uuid) {
-                        console.warn(
-                            `[${SYSTEM_ID}] Migration of talent tree "${treeItem._id}" failed. Node "${node.id}" is missing field UUID`,
-                        );
-                        return;
-                    }
+                // Migrate nodes
+                await Promise.all(
+                    Object.entries(treeItem.system.nodes).map(
+                        async ([id, node]) => {
+                            if (!node.uuid)
+                                throw new Error(
+                                    `Node "${node.id}" is missing required field UUID`,
+                                );
 
-                    // Get the item
-                    const item = (await fromUuid(node.uuid)) as unknown as
-                        | CosmereItem
-                        | undefined;
-                    if (!item?.isTalent()) {
-                        console.warn(
-                            `[${SYSTEM_ID}] Migration of talent tree "${treeItem._id}" failed. Could not find talent item "${node.uuid}"`,
-                        );
-                        return;
-                    }
+                            // Get the item
+                            const item = (await fromUuid(
+                                node.uuid,
+                            )) as unknown as CosmereItem | undefined;
+                            if (!item?.isTalent())
+                                throw new Error(
+                                    `Could not find talent item "${node.uuid}" referenced by node "${node.id}"`,
+                                );
 
-                    changes[`system.nodes.${node.id}`] = {
-                        id: node.id,
-                        type: TalentTree.Node.Type.Talent,
-                        position: {
-                            x: node.position.column * 50 * 2,
-                            y: node.position.row * 50 * 2,
+                            changes[`system.nodes.${id}`] = {
+                                id: id,
+                                type: TalentTree.Node.Type.Talent,
+                                position: {
+                                    x: node.position.column * 50 * 2,
+                                    y: node.position.row * 50 * 2,
+                                },
+                                talentId: item.system.id,
+                                uuid: node.uuid,
+                                size: {
+                                    width: 50,
+                                    height: 50,
+                                },
+                                prerequisites: {},
+                                connections: {},
+                            };
                         },
-                        talentId: item.system.id,
-                        uuid: node.uuid,
-                        size: {
-                            width: 50,
-                            height: 50,
-                        },
-                        prerequisites: {},
-                        connections: {},
-                    };
-                }),
-            );
-
-            // Determine width and height
-            const width =
-                Math.max(
-                    ...treeItem.system.nodes.map(
-                        (node) => node.position.column,
                     ),
-                ) *
-                50 *
-                2;
-            const height =
-                Math.max(
-                    ...treeItem.system.nodes.map((node) => node.position.row),
-                ) *
-                50 *
-                2;
+                );
 
-            // Set view bounds
-            changes['system.viewBounds'] = {
-                x: 0,
-                y: 0,
-                width: width + 50,
-                height: height + 50,
-            };
+                // Determine width and height
+                const width =
+                    Math.max(
+                        ...Object.entries(treeItem.system.nodes).map(
+                            ([id, node]) => node.position.column,
+                        ),
+                    ) *
+                    50 *
+                    2;
+                const height =
+                    Math.max(
+                        ...Object.entries(treeItem.system.nodes).map(
+                            ([id, node]) => node.position.row,
+                        ),
+                    ) *
+                    50 *
+                    2;
 
-            // Set display size
-            changes['system.display'] = {
-                width: width + 50,
-                height: height + 50,
-            };
+                // Set view bounds
+                changes['system.viewBounds'] = {
+                    x: 0,
+                    y: 0,
+                    width: width + 50,
+                    height: height + 50,
+                };
 
-            // Retrieve document
-            const document = getPossiblyInvalidDocument<CosmereItem>(
-                'Item',
-                treeItem._id,
-            );
+                // Set display size
+                changes['system.display'] = {
+                    width: width + 50,
+                    height: height + 50,
+                };
 
-            console.log(`[${SYSTEM_ID}] Talent tree changes:`, changes);
+                // Retrieve document
+                const document = getPossiblyInvalidDocument<CosmereItem>(
+                    'Item',
+                    treeItem._id,
+                );
 
-            // Apply changes
-            document.updateSource(changes, { diff: false });
-            await document.update(changes, { diff: false });
+                // Apply changes
+                document.updateSource(changes, { diff: false });
+                await document.update(changes, { diff: false });
 
-            // Ensure invalid documents are properly instantiated
-            fixDocumentIfInvalid('Item', document);
+                // Ensure invalid documents are properly instantiated
+                fixDocumentIfInvalid('Item', document);
+            } catch (err: unknown) {
+                handleDocumentMigrationError(err, 'Item', treeItem);
+            }
         }),
     );
 }
 
 // NOTE: Use any here as we're dealing with raw actor data
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment */
-async function migrateActors(actors: any[]) {
+async function migrateActors(actors: RawDocumentData<any>[]) {
     await Promise.all(
         actors.map(async (actor) => {
-            const changes = {};
+            try {
+                const changes = {};
 
-            /**
-             * Common Actor Data
-             */
+                /**
+                 * Common Actor Data
+                 */
 
-            /* --- Movement --- */
-            if ('rate' in actor.system.movement) {
-                foundry.utils.mergeObject(changes, {
-                    ['system.movement.walk.rate']: actor.system.movement.rate,
-                    ['system.movement.fly.rate']: 0,
-                    ['system.movement.swim.rate']: 0,
-                    ['system.movement.-=rate']: null,
-                });
-            }
-
-            /* --- Damage Immunities --- */
-            migrateImmunities(changes, true);
-
-            /* --- Condition Immunities --- */
-            migrateImmunities(changes, false);
-
-            /**
-             * Character Data
-             */
-
-            if (actor.type === ActorType.Character) {
-                /* --- Advancement ---*/
-                if (isNaN((actor.system as CharacterActorDataModel).level)) {
+                /* --- Movement --- */
+                if ('rate' in actor.system.movement) {
                     foundry.utils.mergeObject(changes, {
-                        ['system.level']: 1,
+                        ['system.movement.walk.rate']:
+                            actor.system.movement.rate,
+                        ['system.movement.fly.rate']: 0,
+                        ['system.movement.swim.rate']: 0,
+                        ['system.movement.-=rate']: null,
                     });
                 }
+
+                /* --- Damage Immunities --- */
+                migrateImmunities(changes, true);
+
+                /* --- Condition Immunities --- */
+                migrateImmunities(changes, false);
+
+                /**
+                 * Character Data
+                 */
+
+                if (actor.type === (ActorType.Character as string)) {
+                    /* --- Advancement ---*/
+                    if (
+                        !(actor.system as CharacterActorDataModel).level ||
+                        isNaN((actor.system as CharacterActorDataModel).level)
+                    ) {
+                        foundry.utils.mergeObject(changes, {
+                            ['system.level']: 1,
+                        });
+                    }
+                }
+
+                // Retrieve document
+                const document = getPossiblyInvalidDocument<CosmereActor>(
+                    'Actor',
+                    actor._id,
+                );
+
+                // Apply changes
+                document.updateSource(changes, { diff: false });
+                await document.update(changes, { diff: false });
+
+                // Ensure invalid documents are properly instantiated
+                fixDocumentIfInvalid('Actor', document);
+            } catch (err: unknown) {
+                handleDocumentMigrationError(err, 'Actor', actor);
             }
-
-            // Retrieve document
-            const document = getPossiblyInvalidDocument<CosmereActor>(
-                'Actor',
-                actor._id,
-            );
-
-            // Apply changes
-            document.updateSource(changes, { diff: false });
-            await document.update(changes, { diff: false });
-
-            // Ensure invalid documents are properly instantiated
-            fixDocumentIfInvalid('Actor', document);
         }),
     );
 }
