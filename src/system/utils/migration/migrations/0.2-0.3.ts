@@ -13,6 +13,7 @@ import {
     getPossiblyInvalidDocument,
     getRawDocumentSources,
 } from '@system/utils/data';
+import { handleDocumentMigrationError } from '../utils';
 
 // Types
 import { Migration } from '@system/types/migration';
@@ -22,7 +23,11 @@ import { CharacterActorDataModel } from '@src/system/data/actor/character';
 // Constants
 import { SYSTEM_ID } from '@system/constants';
 import COSMERE from '@src/system/config';
-import { AnyMutableObject, AnyObject } from '@src/system/types/utils';
+import {
+    AnyMutableObject,
+    RawDocumentData,
+    AnyObject,
+} from '@src/system/types/utils';
 
 interface LegacyTalentTreeDataModel {
     nodes: Record<string, LegacyNode>;
@@ -65,11 +70,11 @@ export default {
 /**
  * Helper function to process talent trees
  */
-async function migrateTalentTrees(items: AnyObject[]) {
+async function migrateTalentTrees(items: RawDocumentData[]) {
     // Get all talent tree items
     const talentTreeItems = items.filter(
-        (i) => i.type === ItemType.TalentTree,
-    ) as CosmereItem<LegacyTalentTreeDataModel>[];
+        (i) => i.type === (ItemType.TalentTree as string),
+    ) as unknown as RawDocumentData<LegacyTalentTreeDataModel>[];
 
     // Migrate talent tree items
     await Promise.all(
@@ -81,23 +86,19 @@ async function migrateTalentTrees(items: AnyObject[]) {
                 await Promise.all(
                     Object.entries(treeItem.system.nodes).map(
                         async ([id, node]) => {
-                            if (!node.uuid) {
-                                console.warn(
-                                    `[${SYSTEM_ID}] Migration of talent tree "${id}" failed. Node "${node.id}" is missing field UUID`,
+                            if (!node.uuid)
+                                throw new Error(
+                                    `Node "${node.id}" is missing required field UUID`,
                                 );
-                                return;
-                            }
 
                             // Get the item
                             const item = (await fromUuid(
                                 node.uuid,
                             )) as unknown as CosmereItem | undefined;
-                            if (!item?.isTalent()) {
-                                console.warn(
-                                    `[${SYSTEM_ID}] Migration of talent tree "${id}" failed. Could not find talent item "${node.uuid}"`,
+                            if (!item?.isTalent())
+                                throw new Error(
+                                    `Could not find talent item "${node.uuid}" referenced by node "${node.id}"`,
                                 );
-                                return;
-                            }
 
                             changes[`system.nodes.${id}`] = {
                                 id: id,
@@ -164,10 +165,7 @@ async function migrateTalentTrees(items: AnyObject[]) {
                 // Ensure invalid documents are properly instantiated
                 fixDocumentIfInvalid('Item', document);
             } catch (err: unknown) {
-                console.error(
-                    `[${SYSTEM_ID}] Failed to migrate talent tree "${treeItem.name}":`,
-                    err,
-                );
+                handleDocumentMigrationError(err, 'Item', treeItem);
             }
         }),
     );
@@ -175,7 +173,7 @@ async function migrateTalentTrees(items: AnyObject[]) {
 
 // NOTE: Use any here as we're dealing with raw actor data
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment */
-async function migrateActors(actors: any[]) {
+async function migrateActors(actors: RawDocumentData<any>[]) {
     await Promise.all(
         actors.map(async (actor) => {
             try {
@@ -206,7 +204,7 @@ async function migrateActors(actors: any[]) {
                  * Character Data
                  */
 
-                if (actor.type === ActorType.Character) {
+                if (actor.type === (ActorType.Character as string)) {
                     /* --- Advancement ---*/
                     if (
                         !(actor.system as CharacterActorDataModel).level ||
@@ -231,10 +229,7 @@ async function migrateActors(actors: any[]) {
                 // Ensure invalid documents are properly instantiated
                 fixDocumentIfInvalid('Actor', document);
             } catch (err: unknown) {
-                console.error(
-                    `[${SYSTEM_ID}] Failed to migrate actor "${actor.name}":`,
-                    err,
-                );
+                handleDocumentMigrationError(err, 'Actor', actor);
             }
         }),
     );
