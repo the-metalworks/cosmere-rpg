@@ -2,13 +2,7 @@ import { SYSTEM_ID } from '../constants';
 import { DamageRoll } from '../dice';
 import { CosmereActor, CosmereItem, MESSAGE_TYPES } from '../documents';
 import { AttributeConfig, SkillConfig } from '../types/config';
-import {
-    Attribute,
-    AttributeGroup,
-    DamageType,
-    Size,
-    Skill,
-} from '../types/cosmere';
+import { Attribute, AttributeGroup, DamageType, Skill } from '../types/cosmere';
 import { TargetDescriptor } from './generic';
 
 interface EnricherConfig {
@@ -436,10 +430,8 @@ async function enrichDamage(
             : (options?.relativeTo as unknown as CosmereItem).actor?.uuid;
     const actor = getActor(actorId?.split('.')[1] ?? '');
 
-    // convert any actor properties passed in
-    // const tempRoll = Roll.defaultImplementation;
-    // formula = tempRoll.replaceFormulaData(formulaParts.join(" + "), actor.getRollData() ?? {});
-    // Collate like terms - this will need tweaking when allowing multiple damage types if we got that route
+    // convert any actor properties passed in. Note: currently it doesn't collate like terms...
+    // This will need tweaking when allowing multiple damage types if we got that route
     const terms = Roll.simplifyTerms(
         Roll.defaultImplementation.parse(
             formulaParts.join(' + '),

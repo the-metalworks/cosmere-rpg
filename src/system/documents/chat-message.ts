@@ -19,9 +19,7 @@ import {
     getConstantFromRoll,
     TargetDescriptor,
 } from '../utils/generic';
-import ApplicationV2 from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/client-esm/applications/api/application.mjs';
 import { DamageModifierDialog } from '../applications/actor/dialogs/damage-card-modifier';
-import { AnyObject } from '../types/utils';
 import { CosmereHooks } from '../types/hooks';
 import { enricherAction } from '../utils/enrichers';
 
@@ -831,7 +829,7 @@ export class CosmereChatMessage extends ChatMessage {
                     const crit = new DamageRoll(roll.formula, roll.data, {
                         damageType: roll.damageType,
                         mod: roll.mod,
-                        source: roll.source,
+                        damageSourceName: roll.damageSourceName,
                         advantageMode:
                             roll.options.advantageMode ?? AdvantageMode.None,
                         maximize: true,
@@ -853,7 +851,7 @@ export class CosmereChatMessage extends ChatMessage {
                             {
                                 damageType: roll.graze.damageType,
                                 mod: roll.graze.mod,
-                                source: roll.graze.source,
+                                damageSourceName: roll.graze.damageSourceName,
                                 advantageMode:
                                     roll.graze.options.advantageMode ??
                                     AdvantageMode.None,

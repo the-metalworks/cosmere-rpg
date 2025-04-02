@@ -1151,6 +1151,9 @@ export class CosmereActor<
                     ),
                 },
             },
+
+            // Hook data
+            source: this,
         };
     }
 
