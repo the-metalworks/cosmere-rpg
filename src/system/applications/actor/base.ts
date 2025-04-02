@@ -23,6 +23,7 @@ import {
 // Components
 import { SortMode, SearchBarInputEvent } from './components';
 import { renderSystemTemplate, TEMPLATES } from '@src/system/utils/templates';
+import { enricherAction } from '@src/system/utils/enrichers';
 
 const { ActorSheetV2 } = foundry.applications.sheets;
 
@@ -53,6 +54,7 @@ export class BaseActorSheet<
             actions: {
                 'toggle-mode': this.onToggleMode,
                 'edit-html-field': this.editHtmlField,
+                'trigger-enricher': enricherAction,
                 save: this.onSave,
             },
             form: {
@@ -436,16 +438,19 @@ export class BaseActorSheet<
         if (this.actor.system.biography) {
             enrichedBiographyValue = await TextEditor.enrichHTML(
                 this.actor.system.biography,
+                { relativeTo: this.document as foundry.abstract.Document.Any },
             );
         }
         if (this.actor.system.appearance) {
             enrichedAppearanceValue = await TextEditor.enrichHTML(
                 this.actor.system.appearance,
+                { relativeTo: this.document as foundry.abstract.Document.Any },
             );
         }
         if (this.actor.system.notes) {
             enrichedNotesValue = await TextEditor.enrichHTML(
                 this.actor.system.notes,
+                { relativeTo: this.document as foundry.abstract.Document.Any },
             );
         }
 

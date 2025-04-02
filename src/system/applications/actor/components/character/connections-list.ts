@@ -181,6 +181,10 @@ export class CharacterConnectionsListComponent extends HandlebarsApplicationComp
                         // NOTE: We use a logical OR here to catch both nullish values and empty string
                         // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
                         item.system.description?.value || '<p>—</p>',
+                        {
+                            relativeTo: (item as CosmereItem).system
+                                .parent as foundry.abstract.Document.Any,
+                        },
                     ),
                 })),
             ),

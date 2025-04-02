@@ -116,7 +116,7 @@ export interface PathTypeConfig {
 
 export interface CurrencyConfig {
     label: string;
-    icon: string;
+    icon: string | undefined;
     denominations: {
         primary: CurrencyDenominationConfig[];
         secondary?: CurrencyDenominationConfig[];
@@ -421,10 +421,6 @@ export interface CosmereRPGConfig {
     units: {
         weight: string[];
         distance: Record<string, string>;
-    };
-
-    unarmedDamageScaling: {
-        strengthRanges: AttributeScale[];
     };
 
     dice: {

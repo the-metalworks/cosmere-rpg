@@ -22,21 +22,31 @@ export class ActorCurrencyListComponent extends HandlebarsApplicationComponent<
 
     /* --- Context --- */
 
-    public _prepareContext(
+    public async _prepareContext(
         params: object,
         context: BaseActorSheetRenderContext,
     ) {
         return Promise.resolve({
             ...context,
 
-            currencies: Object.keys(CONFIG.COSMERE.currencies).map(
-                this.prepareCurrency.bind(this),
+            currencies: await Promise.all(
+                Object.keys(CONFIG.COSMERE.currencies).map(
+                    this.prepareCurrency.bind(this),
+                ),
             ),
         });
     }
 
-    private prepareCurrency(currencyId: string) {
-        const currencyConfig = CONFIG.COSMERE.currencies[currencyId];
+    private async prepareCurrency(currencyId: string) {
+        const currencyConfig = foundry.utils.duplicate(
+            CONFIG.COSMERE.currencies[currencyId],
+        );
+
+        try {
+            await FilePicker.browse('data', currencyConfig.icon ?? '');
+        } catch (ex) {
+            currencyConfig.icon = undefined;
+        }
 
         return {
             id: currencyId,

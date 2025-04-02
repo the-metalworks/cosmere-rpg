@@ -341,6 +341,10 @@ export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<
                         ? {
                               descriptionHTML: await TextEditor.enrichHTML(
                                   item.system.description.value,
+                                  {
+                                      relativeTo: (item as CosmereItem).system
+                                          .parent as foundry.abstract.Document.Any,
+                                  },
                               ),
                           }
                         : {}),
