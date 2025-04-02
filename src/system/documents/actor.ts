@@ -9,6 +9,7 @@ import {
     Resource,
     InjuryType,
     Size,
+    RestType,
 } from '@system/types/cosmere';
 import { Talent, TalentTree } from '@system/types/item';
 import {
@@ -44,6 +45,7 @@ import { MESSAGE_TYPES } from './chat-message';
 // Utils
 import { getTargetDescriptors } from '../utils/generic';
 import { characterMeetsTalentPrerequisites } from '@system/utils/talent-tree';
+import { CosmereHooks } from '../types/hooks';
 import { EnricherData } from '../utils/enrichers';
 
 export type CharacterActor = CosmereActor<CharacterActorDataModel>;
@@ -532,6 +534,18 @@ export class CosmereActor<
         // Roll
         const roll = new foundry.dice.Roll(formula);
 
+        /**
+         * Hook: preRollInjuryType
+         */
+        if (
+            Hooks.call<CosmereHooks.PreRoll>(
+                'cosmere.preInjuryTypeRoll',
+                roll, // Roll object
+                this, // Source
+            ) === false
+        )
+            return;
+
         // NOTE: Draw function type definition is wrong, must use `any` type as a workaround
         /* eslint-disable @typescript-eslint/no-explicit-any */
         const draw = await table.draw({
@@ -542,6 +556,16 @@ export class CosmereActor<
 
         // Get result
         const result = draw.results[0] as TableResult;
+
+        /**
+         * Hook: postRollInjuryType
+         */
+        Hooks.callAll<CosmereHooks.PostRoll>(
+            'cosmere.postInjuryTypeRoll',
+            roll, // Evaluated roll
+            result, // Table result
+            this, // Source
+        );
 
         // Get injury data
         const data: { type: InjuryType; durationFormula: string } =
@@ -554,8 +578,33 @@ export class CosmereActor<
         ) {
             // Roll duration
             const durationRoll = new foundry.dice.Roll(data.durationFormula);
+
+            /**
+             * Hook: preRollInjuryDuration
+             */
+            if (
+                Hooks.call<CosmereHooks.PreRoll>(
+                    'cosmere.preInjuryDurationRoll',
+                    durationRoll, // Roll object
+                    this, // Source
+                ) === false
+            )
+                return;
+
             await durationRoll.evaluate();
             rolls.push(durationRoll);
+
+            /**
+             * Hook: postRollInjuryDuration
+             *
+             * Passes the evaluated roll
+             */
+            Hooks.callAll<CosmereHooks.PostRoll>(
+                'cosmere.postInjuryDurationRoll',
+                durationRoll, // Roll object
+                this, // Source
+                {}, // Options
+            );
         }
 
         const flags = {} as Record<string, any>;
@@ -649,11 +698,40 @@ export class CosmereActor<
         const damageTaken =
             damageIgnore + Math.max(0, damageDeflect - this.deflect) - healing;
 
+        // Store in an object to pass by reference into hooks
+        const damage: CosmereHooks.DamageValues = {
+            // Unadjusted damage calculation
+            calculated: damageTaken,
+        };
+
+        /**
+         * Hook: preApplyDamage
+         */
+        if (
+            Hooks.call<CosmereHooks.ApplyDamage>(
+                'cosmere.preApplyDamage',
+                this,
+                damage,
+            ) === false
+        )
+            return;
+
         // Apply damage
-        const newHealth = Math.max(0, health - damageTaken);
+        const newHealth = Math.max(0, health - damage.calculated);
         await this.update({
             'system.resources.hea.value': newHealth,
         });
+        // Actual damage that was applied
+        damage.dealt = health - newHealth;
+
+        /**
+         * Hook: postApplyDamage
+         */
+        Hooks.callAll<CosmereHooks.ApplyDamage>(
+            'cosmere.postApplyDamage',
+            this,
+            damage,
+        );
 
         if (chatMessage) {
             const messageConfig = {
@@ -670,7 +748,7 @@ export class CosmereActor<
                 },
                 taken: {
                     health,
-                    damageTaken,
+                    damageTaken: damage.calculated,
                     damageDeflect,
                     damageIgnore,
                     damageImmune,
@@ -740,6 +818,7 @@ export class CosmereActor<
         };
         data.attribute = attribute.value + attribute.bonus;
         data.attributes = this.system.attributes;
+        data.context = 'Skill';
 
         // Prepare roll data
         const flavor = `${game.i18n!.localize(
@@ -858,6 +937,19 @@ export class CosmereActor<
             options.tendedBy = result.tendedBy;
         }
 
+        /**
+         * Hook: preRest
+         */
+        if (
+            Hooks.call<CosmereHooks.Rest>(
+                'cosmere.preRest',
+                this,
+                RestType.Short,
+            ) === false
+        ) {
+            return;
+        }
+
         // Get Medicine mod, if required
         const mod = options.tendedBy
             ? options.tendedBy.system.skills.med.mod.value
@@ -868,9 +960,33 @@ export class CosmereActor<
             .filter((v) => !!v)
             .join(' + ');
 
-        // Evaluate the roll
+        // Configure the roll
         const roll = Roll.create(formula);
+
+        /**
+         * Hook: preShortRestRecoveryRoll
+         */
+        if (
+            Hooks.call<CosmereHooks.PreRoll>(
+                'cosmere.preShortRestRecoveryRoll',
+                roll, // Roll object
+                this, // Source
+            ) === false
+        )
+            return;
+
+        // Evaluate the roll
         await roll.evaluate();
+
+        /**
+         * Hook: postShortRestRecoveryRoll
+         */
+        Hooks.callAll<CosmereHooks.PostRoll>(
+            'cosmere.postShortRestRecoveryRoll',
+            roll, // Roll object
+            this, // Source
+            {}, // Options
+        );
 
         // Set up flavor
         let flavor = game
@@ -886,6 +1002,15 @@ export class CosmereActor<
         await roll.toMessage({
             flavor,
         });
+
+        /**
+         * Hook: postRest
+         */
+        Hooks.callAll<CosmereHooks.Rest>(
+            'cosmere.postRest',
+            this,
+            RestType.Short,
+        );
     }
 
     /**
@@ -930,11 +1055,32 @@ export class CosmereActor<
             if (!shouldContinue) return;
         }
 
+        /**
+         * Hook: preRest
+         */
+        if (
+            Hooks.call<CosmereHooks.Rest>(
+                'cosmere.preRest',
+                this,
+                RestType.Long,
+            ) === false
+        )
+            return;
+
         // Update the actor
         await this.update({
             'system.resources.hea.value': this.system.resources.hea.max.value,
             'system.resources.foc.value': this.system.resources.foc.max.value,
         });
+
+        /**
+         * Hook: postRest
+         */
+        Hooks.callAll<CosmereHooks.Rest>(
+            'cosmere.postRest',
+            this,
+            RestType.Long,
+        );
     }
 
     public getRollData(): CosmereActorRollData<SystemType> {

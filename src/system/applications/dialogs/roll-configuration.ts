@@ -82,10 +82,10 @@ export namespace RollConfigurationDialog {
     export interface Result {
         attribute: Nullable<Attribute>;
         rollMode: RollMode;
-        temporaryModifiers: string;
         plotDie: boolean;
         advantageMode: AdvantageMode;
         advantageModePlot: AdvantageMode;
+        temporaryModifiers: string;
     }
 }
 

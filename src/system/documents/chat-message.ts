@@ -8,6 +8,7 @@ import { D20Roll } from '@system/dice/d20-roll';
 import { DamageRoll } from '@system/dice/damage-roll';
 
 import { CosmereActor } from './actor';
+import { InjuryItem } from './item';
 import { renderSystemTemplate, TEMPLATES } from '../utils/templates';
 import { SYSTEM_ID } from '../constants';
 import { AdvantageMode } from '../types/roll';
@@ -21,6 +22,7 @@ import {
 import ApplicationV2 from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/client-esm/applications/api/application.mjs';
 import { DamageModifierDialog } from '../applications/actor/dialogs/damage-card-modifier';
 import { AnyObject } from '../types/utils';
+import { CosmereHooks } from '../types/hooks';
 import { enricherAction } from '../utils/enrichers';
 
 export const MESSAGE_TYPES = {
@@ -433,11 +435,31 @@ export class CosmereChatMessage extends ChatMessage {
                 event.preventDefault();
                 event.stopPropagation();
 
+                // Handle interaction hook
+                if (this.onInteraction(event) === false) return;
+
                 const button = event.currentTarget;
                 const action = button.dataset.action;
 
                 if (action === 'apply') {
-                    await Item.create(
+                    const duration = durationRoll?.total ?? 0;
+
+                    /**
+                     * Hook: preApplyInjury
+                     *
+                     * Passes the injury data
+                     */
+                    if (
+                        Hooks.call<CosmereHooks.PreApplyInjury>(
+                            'cosmere.preApplyInjury',
+                            this,
+                            this.associatedActor,
+                            { type: data.type, duration },
+                        ) === false
+                    )
+                        return;
+
+                    const injuryItem = (await Item.create(
                         {
                             type: ItemType.Injury,
                             name: game.i18n!.localize(
@@ -445,11 +467,23 @@ export class CosmereChatMessage extends ChatMessage {
                             ),
                             system: {
                                 duration: {
-                                    remaining: durationRoll?.total ?? 0,
+                                    remaining: duration,
                                 },
                             },
                         },
                         { parent: this.associatedActor },
+                    )) as unknown as InjuryItem;
+
+                    /**
+                     * Hook: postApplyInjury
+                     *
+                     * Passes the created injury item
+                     */
+                    Hooks.callAll<CosmereHooks.PostApplyInjury>(
+                        'cosmere.postApplyInjury',
+                        this,
+                        this.associatedActor,
+                        injuryItem,
                     );
                 }
             });
@@ -563,6 +597,9 @@ export class CosmereChatMessage extends ChatMessage {
             section.find('.icon.clickable').on('click', async (event) => {
                 event.preventDefault();
                 event.stopPropagation();
+
+                // Handle interaction hook
+                if (this.onInteraction(event) === false) return;
 
                 const button = event.currentTarget;
                 const action = button.dataset.action;
@@ -885,6 +922,9 @@ export class CosmereChatMessage extends ChatMessage {
         event.preventDefault();
         event.stopPropagation();
 
+        // Handle interaction hook
+        if (this.onInteraction(event) === false) return;
+
         const clone = await Promise.all(
             this.rolls.map(async (roll) => await roll.reroll()),
         );
@@ -907,6 +947,9 @@ export class CosmereChatMessage extends ChatMessage {
     ) {
         event.preventDefault();
         event.stopPropagation();
+
+        // Handle interaction hook
+        if (this.onInteraction(event) === false) return;
 
         const button = event.currentTarget as HTMLElement;
         const promptModify =
@@ -1029,5 +1072,27 @@ export class CosmereChatMessage extends ChatMessage {
      */
     private onOverlayHoverEnd(html: JQuery) {
         html.find('.overlay').attr('style', 'display: none;');
+    }
+
+    /**
+     * Helpers
+     */
+
+    /**
+     * Call interaction hook
+     * @param event
+     * @private
+     */
+    private onInteraction(event: JQuery.Event): boolean {
+        /**
+         * Hook: chatMessageInteracted
+         *
+         * Pass message and triggering event
+         */
+        return Hooks.call<CosmereHooks.MessageInteracted>(
+            'cosmere.chatMessageInteracted',
+            this,
+            event,
+        );
     }
 }

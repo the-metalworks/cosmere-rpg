@@ -13,6 +13,9 @@ import {
 // Settings
 import { getSystemSetting, setSystemSetting, SETTINGS } from '../settings';
 
+// Migration
+import { migrate, requiresMigration } from '../utils/migration';
+
 Hooks.on('ready', async () => {
     // Ensure this message is only displayed when creating a new world
     if (!game.user!.isGM || !getSystemSetting(SETTINGS.INTERNAL_FIRST_CREATION))
@@ -73,6 +76,11 @@ Hooks.on('ready', async () => {
         void ReleaseNotesDialog.show({
             patch: !(currentMajor > latestMajor || currentMinor > latestMinor),
         });
+
+        // Migrate data from the previous version of the system
+        if (requiresMigration(latestVersion, currentVersion)) {
+            await migrate(latestVersion, currentVersion);
+        }
 
         // Record the latest version of the system
         await setSystemSetting(

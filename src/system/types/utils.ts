@@ -1,9 +1,12 @@
+import { CosmereActor, CosmereItem } from '../documents';
+
 export {
     DeepPartial,
     AnyObject,
     EmptyObject,
     AnyMutableObject,
 } from '@league-of-foundry-developers/foundry-vtt-types/src/types/utils.mjs';
+import { AnyObject } from '@league-of-foundry-developers/foundry-vtt-types/src/types/utils.mjs';
 
 // Constant to improve UI consistency
 export const NONE = 'none';
@@ -38,4 +41,49 @@ export enum MouseButton {
      * Usually the right mouse button.
      */
     Secondary = 2,
+}
+
+// Collection which can retrieve invalid data
+export type InvalidCollection<T> = Collection<T> & {
+    /**
+     * Get a requested item from the collection, including invalid entries
+     */
+    get(
+        key: string,
+        { strict, invalid }: { strict: boolean; invalid: boolean },
+    ): T;
+
+    invalidDocumentIds: Set<string>;
+};
+
+// Structure of globalThis when game is running that allows sidebar access
+export interface GlobalUI {
+    ui: {
+        sidebar: Sidebar;
+    };
+}
+
+/**
+ * System-specific document types for clean migration typing.
+ */
+export type CosmereDocument = CosmereActor | CosmereItem;
+type CosmereDocumentClass = typeof CosmereActor | typeof CosmereItem;
+
+export const COSMERE_DOCUMENT_CLASSES: Record<string, CosmereDocumentClass> = {
+    Actor: CosmereActor,
+    Item: CosmereItem,
+};
+
+export interface RawDocumentData<T = AnyObject> {
+    _id: string;
+    type: string;
+    name: string;
+    flags: Record<string, unknown>;
+    folder: string | null;
+    sort: number;
+    permission: {
+        default: number;
+        [key: string]: number;
+    };
+    system: T;
 }

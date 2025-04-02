@@ -2,6 +2,7 @@ import { DamageType, Skill, Attribute } from '@system/types/cosmere';
 import { CosmereActorRollData } from '@system/documents/actor';
 import { AdvantageMode } from '@system/types/roll';
 import RollTerm from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/client-esm/dice/terms/term.mjs';
+import { CosmereItem } from '../documents';
 
 export type DamageRollData<
     ActorRollData extends CosmereActorRollData = CosmereActorRollData,
@@ -21,6 +22,9 @@ export type DamageRollData<
         unmodded: DamageRoll;
         dice: DamageRoll;
     };
+
+    // For hooks
+    source: CosmereItem;
 };
 
 export interface DamageRollOptions
