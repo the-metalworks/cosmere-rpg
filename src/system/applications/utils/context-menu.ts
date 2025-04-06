@@ -232,7 +232,9 @@ export class AppContextMenu {
         if (firstArgIsElement) {
             // Get element bounds
             const elementBounds = element!.getBoundingClientRect();
-            const rootBounds = this.parent.element.getBoundingClientRect();
+            const rootBounds = (
+                this.parent.element.closest('.tab-body') ?? this.parent.element
+            ).getBoundingClientRect();
 
             // Figure out positioning with anchor
             positioning = {
