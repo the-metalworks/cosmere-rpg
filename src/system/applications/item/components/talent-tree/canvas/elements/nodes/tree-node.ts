@@ -406,8 +406,6 @@ export class TalentTreeNode extends BaseNode {
                 );
                 this.connectionsLayer.addChild(connectionElement);
             } else {
-                console.log('added connection', connection, this.item.id);
-
                 // Find the talent node
                 const talentNode = this.nodesLayer.children.find(
                     (child) => child.data.id === connection.talentId,
