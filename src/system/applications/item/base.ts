@@ -7,6 +7,7 @@ import { renderSystemTemplate, TEMPLATES } from '@src/system/utils/templates';
 import { ComponentHandlebarsApplicationMixin } from '@system/applications/component-system';
 import { TabsApplicationMixin } from '@system/applications/mixins';
 import { DescriptionItemData } from '@src/system/data/item/mixins/description';
+import { enricherAction } from '@src/system/utils/enrichers';
 
 const { ItemSheetV2 } = foundry.applications.sheets;
 
@@ -31,6 +32,7 @@ export class BaseItemSheet extends TabsApplicationMixin(
             } as unknown,
             actions: {
                 'edit-description': this.editDescription,
+                'trigger-enricher': enricherAction,
                 save: this.onSave,
             },
         },
@@ -354,7 +356,9 @@ export class BaseItemSheet extends TabsApplicationMixin(
         ) {
             desc = game.i18n!.localize(desc);
         }
-        return await TextEditor.enrichHTML(desc);
+        return await TextEditor.enrichHTML(desc, {
+            relativeTo: this.document as foundry.abstract.Document.Any,
+        });
     }
 
     /* --- Actions --- */

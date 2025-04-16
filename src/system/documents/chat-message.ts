@@ -19,10 +19,9 @@ import {
     getConstantFromRoll,
     TargetDescriptor,
 } from '../utils/generic';
-import ApplicationV2 from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/client-esm/applications/api/application.mjs';
 import { DamageModifierDialog } from '../applications/actor/dialogs/damage-card-modifier';
-import { AnyObject } from '../types/utils';
 import { CosmereHooks } from '../types/hooks';
+import { enricherAction } from '../utils/enrichers';
 
 export const MESSAGE_TYPES = {
     SKILL: 'skill',
@@ -179,6 +178,12 @@ export class CosmereChatMessage extends ChatMessage {
         if (!description) return;
 
         html.find('.chat-card').append(description);
+
+        // need to loop as there may be multiple enricher outputs per description
+        // also converts the event listener to pure js so that we don't need to overload the utility
+        html.find('[data-action="trigger-enricher"]').each((index, element) => {
+            element.addEventListener('click', enricherAction);
+        });
     }
 
     protected async enrichSkillTest(html: JQuery) {
@@ -319,6 +324,7 @@ export class CosmereChatMessage extends ChatMessage {
                 totalNormal: this.totalDamageNormal,
                 totalGraze: this.totalDamageGraze,
                 critical,
+                showGraze: this.damageRolls.some((roll) => roll.options.graze),
             },
         );
 
@@ -328,12 +334,18 @@ export class CosmereChatMessage extends ChatMessage {
               })
             : undefined;
 
+        const isHealing = !types.some(
+            (type) =>
+                type !== CONFIG.COSMERE.damageTypes[DamageType.Healing].label,
+        );
         const sectionHTML = await renderSystemTemplate(
             TEMPLATES.CHAT_CARD_SECTION,
             {
                 type: 'damage',
-                icon: 'fa-solid fa-burst',
-                title: game.i18n!.localize('GENERIC.Damage'),
+                icon: isHealing ? 'fa-solid fa-burst' : 'fa-solid fa-heart',
+                title: game.i18n!.localize(
+                    isHealing ? 'GENERIC.Damage' : 'GENERIC.Healing',
+                ),
                 content: damageHTML,
                 footer,
                 critical,
@@ -817,7 +829,7 @@ export class CosmereChatMessage extends ChatMessage {
                     const crit = new DamageRoll(roll.formula, roll.data, {
                         damageType: roll.damageType,
                         mod: roll.mod,
-                        source: roll.source,
+                        damageSourceName: roll.damageSourceName,
                         advantageMode:
                             roll.options.advantageMode ?? AdvantageMode.None,
                         maximize: true,
@@ -839,7 +851,7 @@ export class CosmereChatMessage extends ChatMessage {
                             {
                                 damageType: roll.graze.damageType,
                                 mod: roll.graze.mod,
-                                source: roll.graze.source,
+                                damageSourceName: roll.graze.damageSourceName,
                                 advantageMode:
                                     roll.graze.options.advantageMode ??
                                     AdvantageMode.None,
