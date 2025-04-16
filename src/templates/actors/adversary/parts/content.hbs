@@ -37,26 +37,9 @@
                     </section>
                 </section>
 
-                {{#if isEditMode}}
                 <section class="adversary-expertises">                    
-                    <div class="icon-header">
-                        <div class="title">
-                            <i class="fa-solid fa-book"></i>
-                            <span>{{localize "COSMERE.Actor.Sheet.Expertises"}}</span>
-                        </div>
-                        <div class="controls">
-                            {{#if isEditMode}}
-                            <a role="button"
-                                data-action="edit-expertises"
-                                data-tooltip="COSMERE.Actor.Sheet.EditExpertises"
-                            >
-                                <i class="fa-solid fa-pen-to-square"></i>
-                            </a>
-                            {{/if}}
-                        </div>
-                    </div>
+                    {{app-actor-expertises}}
                 </section>
-                {{/if}}
            </div>
         </div>
     </section>
