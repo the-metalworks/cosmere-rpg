@@ -510,12 +510,18 @@ export class CosmereChatMessage extends ChatMessage {
         // Whether or not the damage is actually healing
         const isHealing = damageTaken < 0;
 
-        const damageImmuneTooltip = [
-            `<div><b>${game.i18n!.localize('COSMERE.Actor.Statistics.Immunities')}</b></div>`,
-            ...(Object.entries(appliedImmunities) as [DamageType, number][])
-                .sort(([, amountA], [, amountB]) => amountB - amountA)
-                .map(
-                    ([damageType, amount]) => `
+        let immunityList = Object.entries(appliedImmunities) as [
+            DamageType,
+            number,
+        ][];
+        immunityList = immunityList.sort(
+            ([, amountA], [, amountB]) => amountB - amountA,
+        );
+        const immunitiesBreakdown =
+            immunityList.length > 3
+                ? `${damageImmune} <i class="fa-solid fa-shield" data-tooltip="${immunityList
+                      .map(
+                          ([damageType, amount]) => `
                     <div>
                         <span>${game.i18n!.localize(
                             CONFIG.COSMERE.damageTypes[damageType].label,
@@ -523,9 +529,15 @@ export class CosmereChatMessage extends ChatMessage {
                         <span>${amount}</span>
                     </div>
                 `,
-                ),
-        ].join('');
-
+                      )
+                      .join('')}"</i>`
+                : immunityList.map(
+                      ([damageType, amount]) => `
+                    ${amount} <span class="fa-stack small" data-tooltip="${game.i18n?.localize('GENERIC.Immune')}: ${damageType}">
+                        <i class="fa-solid fa-shield fa-stack-2x"></i>
+                        <i class="fa-solid ${CONFIG.COSMERE.damageTypes[damageType].icon} fa-stack-1x fa-inverse"></i>
+                    </span>`,
+                  );
         const calculationDeflect =
             damageDeflect > 0
                 ? `${actor.deflect} <i data-tooltip="COSMERE.Actor.Statistics.Deflect" class='fas fa-shield-halved'></i>`
@@ -535,9 +547,7 @@ export class CosmereChatMessage extends ChatMessage {
                 ? `${damageIgnore} <i data-tooltip="COSMERE.Damage.IgnoreDeflect" class='fas fa-shield-slash'></i>`
                 : undefined;
         const calculationImmune =
-            damageImmune > 0
-                ? `${damageImmune} <i data-tooltip="${damageImmuneTooltip}" class="fa-solid fa-shield-virus"></i>`
-                : undefined;
+            damageImmune > 0 ? immunitiesBreakdown : undefined;
 
         // Combine calculations
         const calculation = [

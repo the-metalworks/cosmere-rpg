@@ -1161,6 +1161,7 @@
         "SkillTest": "Skill Test",
         "Plot": "Plot",
         "Damage": "Damage",
+        "Immune": "Immune",
         "Cost": "Cost",
         "Configure": "Configure",
         "DistanceUnit": "ft.",
