@@ -1,0 +1,26 @@
+<div class="icon-header">
+    <div class="title">
+        <i class="fa-solid fa-shield"></i>
+        <span>{{localize "COSMERE.Actor.Statistics.Immunities"}}</span>
+    </div>
+    <div class="controls">
+        {{#if isEditMode}}
+        <a role="button"
+            data-action="edit-immunities"
+            data-tooltip="COSMERE.Actor.Sheet.EditImmunities"
+        >
+            <i class="fa-solid fa-pen-to-square"></i>
+        </a>
+        {{/if}}
+    </div>
+</div>
+<div class="immunities">
+    {{#each immunities as |immunity|}}
+    {{#if immunity.isImmune}}
+    <div class="immunity" data-id="{{immunity.name}}">
+        <span class="name">{{localize immunity.label}}</span>
+        <span class="type">({{localize immunity.typeLabel}})</span>
+    </div>
+    {{/if}}
+    {{/each}}
+</div>

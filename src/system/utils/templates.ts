@@ -26,6 +26,7 @@ export const TEMPLATES = {
     ACTOR_BASE_INJURIES_LIST: 'actors/components/injuries-list.hbs',
     ACTOR_BASE_CURRENCY_LIST: 'actors/components/currency-list.hbs',
     ACTOR_BASE_ATTRIBUTES: 'actors/components/attributes.hbs',
+    ACTOR_BASE_IMMUNITIES: 'actors/components/immunities.hbs',
     ACTOR_BASE_EXPERTISES: 'actors/components/expertises.hbs',
     ACTOR_BASE_CONDITIONS: 'actors/components/conditions.hbs',
     ACTOR_BASE_DETAILS: 'actors/components/details.hbs',
@@ -139,6 +140,7 @@ export const TEMPLATES = {
 
     //DIALOGS
     DIALOG_ACTOR_EDIT_EXPERTISES: 'actors/dialogs/edit-expertises.hbs',
+    DIALOG_ACTOR_EDIT_IMMUNITIES: 'actors/dialogs/edit-immunities.hbs',
     DIALOG_ACTOR_CONFIGURE_RESOURCE: 'actors/dialogs/configure-resource.hbs',
     DIALOG_ACTOR_CONFIGURE_DEFLECT: 'actors/dialogs/configure-deflect.hbs',
     DIALOG_ACTOR_CONFIGURE_DEFENSE: 'actors/dialogs/configure-defense.hbs',

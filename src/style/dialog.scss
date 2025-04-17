@@ -41,7 +41,7 @@
         }
     }
 
-    .expertise-list {
+    .expertise-list, .immunities-list {
         .header {
             min-height: 30px;
             background-color: var(--cosmere-color-base-1);
@@ -59,6 +59,11 @@
         .bullet {
             font-size: 0.375rem;
             flex: 0;
+
+            &.fa-stack {
+                flex: .2;
+                font-size: var(--font-size-10);
+            }
         }
 
         .configured, .custom {
@@ -99,7 +104,7 @@
         }
     }
 
-    &.edit-expertises {
+    &.edit-expertises, &.edit-immunities {
         form {
             display: flex;
             flex-direction: column;

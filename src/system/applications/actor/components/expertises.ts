@@ -9,7 +9,7 @@ import { EditExpertisesDialog } from '../dialogs/edit-expertises';
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
 import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
 
-export class CharacterExpertisesComponent extends HandlebarsApplicationComponent<
+export class ActorExpertisesComponent extends HandlebarsApplicationComponent<
     ConstructorOf<BaseActorSheet>
 > {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_EXPERTISES}`;
@@ -26,7 +26,7 @@ export class CharacterExpertisesComponent extends HandlebarsApplicationComponent
 
     /* --- Actions --- */
 
-    private static async onEditExpertises(this: CharacterExpertisesComponent) {
+    private static async onEditExpertises(this: ActorExpertisesComponent) {
         await EditExpertisesDialog.show(this.application.actor);
     }
 
@@ -50,4 +50,4 @@ export class CharacterExpertisesComponent extends HandlebarsApplicationComponent
 }
 
 // Register
-CharacterExpertisesComponent.register('app-actor-expertises');
+ActorExpertisesComponent.register('app-actor-expertises');

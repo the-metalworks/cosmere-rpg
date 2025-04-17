@@ -32,6 +32,7 @@ import {
     PowerType,
     Theme,
     MovementType,
+    ImmunityType,
 } from './cosmere';
 import { AdvantageMode } from './roll';
 
@@ -203,6 +204,10 @@ export interface DamageTypeConfig {
     label: string;
     icon?: string;
     ignoreDeflect?: boolean;
+}
+
+export interface ImmunityTypeConfig {
+    label: string;
 }
 
 export interface ItemTypeConfig {
@@ -414,6 +419,7 @@ export interface CosmereRPGConfig {
     };
 
     damageTypes: Record<DamageType, DamageTypeConfig>;
+    immunityTypes: Record<ImmunityType, ImmunityTypeConfig>;
 
     cultures: Record<string, CultureConfig>;
     ancestries: Record<string, AncestriesConfig>;

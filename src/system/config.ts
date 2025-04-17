@@ -33,6 +33,7 @@ import {
     PowerType,
     Theme,
     MovementType,
+    ImmunityType,
 } from './types/cosmere';
 import { AdvantageMode } from './types/roll';
 
@@ -817,6 +818,15 @@ const COSMERE: CosmereRPGConfig = {
         },
         [ExpertiseType.Weapon]: {
             label: 'COSMERE.Actor.Character.Expertise.Weapon',
+        },
+    },
+
+    immunityTypes: {
+        [ImmunityType.Damage]: {
+            label: 'GENERIC.Damage',
+        },
+        [ImmunityType.Condition]: {
+            label: 'GENERIC.Condition',
         },
     },
 
