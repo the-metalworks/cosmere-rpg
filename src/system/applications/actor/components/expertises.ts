@@ -3,16 +3,16 @@ import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
 // Dialog
-import { EditExpertisesDialog } from '../../dialogs/edit-expertises';
+import { EditExpertisesDialog } from '../dialogs/edit-expertises';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
-import { BaseActorSheet, BaseActorSheetRenderContext } from '../../base';
+import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
 
-export class CharacterExpertisesComponent extends HandlebarsApplicationComponent<
+export class ActorExpertisesComponent extends HandlebarsApplicationComponent<
     ConstructorOf<BaseActorSheet>
 > {
-    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_EXPERTISES}`;
+    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_EXPERTISES}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions
@@ -26,7 +26,7 @@ export class CharacterExpertisesComponent extends HandlebarsApplicationComponent
 
     /* --- Actions --- */
 
-    private static async onEditExpertises(this: CharacterExpertisesComponent) {
+    private static async onEditExpertises(this: ActorExpertisesComponent) {
         await EditExpertisesDialog.show(this.application.actor);
     }
 
@@ -50,4 +50,4 @@ export class CharacterExpertisesComponent extends HandlebarsApplicationComponent
 }
 
 // Register
-CharacterExpertisesComponent.register('app-character-expertises');
+ActorExpertisesComponent.register('app-actor-expertises');

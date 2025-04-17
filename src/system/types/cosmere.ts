@@ -259,6 +259,11 @@ export const enum RestType {
     Long = 'long',
 }
 
+export const enum ImmunityType {
+    Damage = 'damage',
+    Condition = 'condition',
+}
+
 /* --- System --- */
 
 export const enum ActorType {

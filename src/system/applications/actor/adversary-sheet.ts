@@ -6,7 +6,6 @@ import { SearchBarInputEvent } from './components';
 
 // Dialogs
 import { ConfigureSkillsDialog } from './dialogs/configure-skills';
-import { EditExpertisesDialog } from './dialogs/edit-expertises';
 
 // Base
 import { BaseActorSheet, BaseActorSheetRenderContext } from './base';
@@ -41,7 +40,6 @@ export class AdversarySheet extends BaseActorSheet<AdversarySheetRenderContext> 
             actions: {
                 'toggle-skills-collapsed': this.onToggleSkillsCollapsed,
                 'configure-skills': this.onConfigureSkills,
-                'edit-expertises': this.onEditExpertises,
             },
         },
     );
@@ -77,10 +75,6 @@ export class AdversarySheet extends BaseActorSheet<AdversarySheetRenderContext> 
 
     private static onConfigureSkills(this: AdversarySheet) {
         void ConfigureSkillsDialog.show(this.actor);
-    }
-
-    private static onEditExpertises(this: AdversarySheet) {
-        void EditExpertisesDialog.show(this.actor);
     }
 
     /* --- Event handlers --- */
