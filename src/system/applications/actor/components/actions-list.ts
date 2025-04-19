@@ -348,14 +348,14 @@ export class ActorActionsListComponent extends HandlebarsApplicationComponent<
                           ),
                           default: false,
                           filter: (item: CosmereItem) =>
-                              item.isTalent() &&
+                              (item.isTalent() || item.isAction()) &&
                               item.system.ancestry === ancestry.system.id,
                           new: (parent: CosmereActor) =>
                               CosmereItem.create(
                                   {
-                                      type: ItemType.Talent,
+                                      type: ItemType.Action,
                                       name: game.i18n!.localize(
-                                          'COSMERE.Item.Type.Talent.New',
+                                          'COSMERE.Item.Type.Action.New',
                                       ),
                                       system: {
                                           ancestry: ancestry.system.id,
