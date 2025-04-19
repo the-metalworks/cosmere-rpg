@@ -165,8 +165,13 @@ function getFullIndexRecursive(
     data?: Handlebars.HelperOptions['data'],
 ): string | undefined {
     if (!data) return;
-    return [data.index ?? '0', getFullIndexRecursive(data._parent)]
-        .filter((v) => !!v)
+    return [
+        data.index ?? '0',
+        '_parent' in data && 'index' in data._parent
+            ? getFullIndexRecursive(data._parent)
+            : null,
+    ]
+        .filter((v) => v !== null)
         .join('.');
 }
 /* eslint-enable @typescript-eslint/no-unsafe-member-access */
