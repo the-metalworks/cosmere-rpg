@@ -62,8 +62,15 @@ export class PathItemSheet extends BaseItemSheet {
 
     /* --- Lifecycle --- */
 
-    protected override async onTabChange(tab: string, group: string) {
-        if (tab === 'talents') {
+    protected _onFirstRender(context: unknown, options: unknown): void {
+        super._onFirstRender(context, options);
+
+        // Invoke on tab change
+        void this.onTabChange();
+    }
+
+    protected override async onTabChange() {
+        if (this.tab === 'talents') {
             // Look up talent tree
             const talentTree = this.item.system.talentTree
                 ? ((await fromUuid(this.item.system.talentTree)) as unknown as

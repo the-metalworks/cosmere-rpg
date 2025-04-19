@@ -48,6 +48,10 @@ export function TabsApplicationMixin<
 
         public tabGroups: Record<string, string> = {};
 
+        public get tab(): string {
+            return this.tabGroups[PRIMARY_TAB_GROUP] ?? '';
+        }
+
         public override changeTab(
             tab: string,
             group: string,
