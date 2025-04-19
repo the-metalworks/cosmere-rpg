@@ -206,6 +206,9 @@ export class DocumentReferenceInputComponent extends DragDropComponentMixin(
     protected override _onRender(params: Params) {
         super._onRender(params);
 
+        // Set value
+        this.element!.value = this.value ?? '';
+
         // Set name
         if (this.params!.name) {
             this.name = this.params!.name;
