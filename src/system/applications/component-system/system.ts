@@ -150,8 +150,26 @@ export function registerComponent(
             class extends HTMLElement {
                 static formAssociated = true;
 
-                public value: unknown;
                 public name: string | undefined;
+                private _value: unknown;
+                private internals: ElementInternals;
+
+                constructor() {
+                    super();
+
+                    this.internals = this.attachInternals();
+                }
+
+                public set value(value: unknown) {
+                    this._value = value;
+                    this.internals.setFormValue(
+                        value as string | File | FormData | null,
+                    );
+                }
+
+                public get value() {
+                    return this._value;
+                }
             },
         );
     }
@@ -467,6 +485,20 @@ export function replaceComponent(
     const element = (root ?? $(app.element)).find(
         `${instance.selector}[data-component-id="${instance.id}"]`,
     );
+
+    // Retain value if the element is form associated
+    if (
+        !!componentRegistry[componentRef].element &&
+        element.get(0) !== componentRegistry[componentRef].element &&
+        componentClsRegistry[instance.selector].FORM_ASSOCIATED
+    ) {
+        // Assign value to the new element
+        (element.get(0) as unknown as { value: unknown }).value = (
+            componentRegistry[componentRef].element as unknown as {
+                value: unknown;
+            }
+        ).value;
+    }
 
     // Assign element
     componentRegistry[componentRef].element = element.get(0);
