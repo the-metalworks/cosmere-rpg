@@ -44,6 +44,8 @@ export class ActorExpertisesComponent extends HandlebarsApplicationComponent<
                     ...expertise,
                     typeLabel:
                         CONFIG.COSMERE.expertiseTypes[expertise.type].label,
+                    typeIcon:
+                        CONFIG.COSMERE.expertiseTypes[expertise.type].icon,
                 })) ?? [],
         });
     }

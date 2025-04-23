@@ -806,18 +806,23 @@ const COSMERE: CosmereRPGConfig = {
     expertiseTypes: {
         [ExpertiseType.Armor]: {
             label: 'COSMERE.Actor.Character.Expertise.Armor',
+            icon: 'fa-solid fa-helmet-battle',
         },
         [ExpertiseType.Cultural]: {
             label: 'COSMERE.Actor.Character.Expertise.Cultural',
+            icon: 'fa-regular fa-earth-asia',
         },
         [ExpertiseType.Specialist]: {
             label: 'COSMERE.Actor.Character.Expertise.Specialist',
+            icon: 'fa-solid fa-pen-nib',
         },
         [ExpertiseType.Utility]: {
             label: 'COSMERE.Actor.Character.Expertise.Utility',
+            icon: 'fa-solid fa-wrench',
         },
         [ExpertiseType.Weapon]: {
             label: 'COSMERE.Actor.Character.Expertise.Weapon',
+            icon: 'fa-solid fa-sword',
         },
     },
 

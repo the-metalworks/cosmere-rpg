@@ -18,7 +18,8 @@
     {{#each expertises as |expertise|}}
     <div class="expertise" data-id="{{expertise.id}}">
         <span class="name">{{expertise.label}}</span>
-        <span class="type">({{localize expertise.typeLabel}})</span>
+        <span class="separator">|</span>
+        <span><i class="{{expertise.typeIcon}}"></i></span>
     </div>
     {{/each}}
 </div>
