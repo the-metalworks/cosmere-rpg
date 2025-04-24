@@ -172,7 +172,7 @@
                     "Strike": "Strike",
                     "BaseSectionName": "{type} Actions",
                     "MiscSectionName": "Miscellaneous Actions",
-                    "NewItem": "Add Action"
+                    "NewItem": "Add {type}"
                 },
                 "Equipment": {
                     "Quantity": "Quantity",
