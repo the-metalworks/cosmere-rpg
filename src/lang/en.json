@@ -313,6 +313,7 @@
                 "Weapon": {
                     "label": "Weapon",
                     "label_plural": "Weapons",
+                    "label_action": "Weapon Action",
                     "desc_placeholder": "Edit this to describe what this weapon is & how it looks.",
                     "New": "New Weapon"
                 },
@@ -325,6 +326,7 @@
                 "Equipment": {
                     "label": "Equipment",
                     "label_plural": "Equipment",
+                    "label_action": "Equipment Action",
                     "desc_placeholder": "Edit this to describe what this piece of equipment is & how it looks.",
                     "New": "New Equipment"
                 },
