@@ -6,6 +6,7 @@ import { TEMPLATES } from '@src/system/utils/templates';
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
 import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
+import { getSystemSetting, SETTINGS } from '@src/system/settings';
 
 // NOTE: Must use a type instead of an interface to match `AnyObject` type
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
@@ -70,10 +71,9 @@ export class ActorSkillComponent extends HandlebarsApplicationComponent<
         // Check if click is left or right mouse button
         const incrementBool: boolean = event.type === 'click' ? true : false;
         // Check if the legacy behavior is toggled on
-        const shouldIncDec: boolean = game.settings?.get(
-            'cosmere-rpg',
-            'skillIncrementDecrementToggle',
-        ) as boolean;
+        const shouldIncDec: boolean = getSystemSetting(
+            SETTINGS.SHEET_SKILL_INCDEC_TOGGLE,
+        );
 
         // Get skill id
         const skillId = $(event.currentTarget!)
@@ -147,10 +147,7 @@ export class ActorSkillComponent extends HandlebarsApplicationComponent<
 
             editable: !this.readonly,
             pips: this.pips,
-            legacyMode: game.settings?.get(
-                'cosmere-rpg',
-                'skillIncrementDecrementToggle',
-            ),
+            legacyMode: getSystemSetting(SETTINGS.SHEET_SKILL_INCDEC_TOGGLE),
         });
     }
 }
