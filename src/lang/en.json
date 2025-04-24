@@ -1289,7 +1289,7 @@
 			"hint": "Determines whether the description section of an item should be expanded by default when opening the item sheet."
 		},
 		"skillIncrementDecrementToggle": {
-			"name": "(Legacy) Skill Pip Increment/Decrement Toggle",
+			"name": "Enable Skill Pip Increment Behavior",
 			"hint": "Determines whether the skill pips increment/decrement on left click or right click, rather than setting to the clicked rank."
 		},
         "systemTheme": {
