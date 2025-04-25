@@ -7,13 +7,13 @@
 	.st1{fill:#346CB5;}
 	.st2{fill:#EE9A21;}
 </style>
-<g id="toggle_to_fast">
-</g>
 <g id="toggle_to_slow">
 </g>
-<g id="fast_turn">
+<g id="toggle_to_fast_1_">
 </g>
 <g id="slow_turn">
+</g>
+<g id="fast_turn_1_">
 </g>
 <g id="Layer_6">
 	<path class="st0" d="M8.5,4C7.7,4,7,4.7,7,5.5S7.7,7,8.5,7v0.5c0,2,0.8,3.9,2.2,5.3l3.2,3.2l-3.2,3.2c-1.4,1.4-2.2,3.3-2.2,5.3V25
