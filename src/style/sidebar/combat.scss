@@ -39,6 +39,15 @@
 
     .combatant {
         border: none;
+
+        &.defeated {
+            color: var(--cosmere-color-complication-text);
+
+            > img {
+                opacity: 0.3;
+                transform: scale(0.75);
+            }
+        }
     }
     
     .combatant-name {        
@@ -66,7 +75,6 @@
         background-size: 32px;
         background-position: center;
         background-repeat: no-repeat;
-        margin: 0 0.1em;
 
         &:hover {
             filter: var(--cosmere-shadow-svg);
