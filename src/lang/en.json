@@ -889,7 +889,7 @@
             "SlowAdversaries": "Slow Adversaries",
             "ToggleTurn": "Toggle Turn Speed",
             "ResetActivation": "Reset Activation",
-            "Activate": "Mark as having acted"
+            "Activate": "Mark as Acted"
         },
         "Conditions": {
             "Afflicted": "Afflicted",
