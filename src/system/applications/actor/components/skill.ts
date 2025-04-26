@@ -69,7 +69,7 @@ export class ActorSkillComponent extends HandlebarsApplicationComponent<
         event.preventDefault();
 
         // Check if click is left or right mouse button
-        const incrementBool: boolean = event.type === 'click' ? true : false;
+        const isLeftClick: boolean = event.type === 'click' ? true : false;
         // Check if the legacy behavior is toggled on
         const shouldIncDec: boolean = getSystemSetting(
             SETTINGS.SHEET_SKILL_INCDEC_TOGGLE,
@@ -95,14 +95,11 @@ export class ActorSkillComponent extends HandlebarsApplicationComponent<
             // Set the skill rank to the clicked pip, clear the clicked pip, or clear all ranks on rightclick
             await this.application.actor.modifySkillRank(
                 skillId,
-                incrementBool ? changeAmount : -999,
+                isLeftClick ? changeAmount : -999,
             );
         } else {
             // Increment/Decrement the skill rank based on click type
-            await this.application.actor.modifySkillRank(
-                skillId,
-                incrementBool,
-            );
+            await this.application.actor.modifySkillRank(skillId, isLeftClick);
         }
     }
 
