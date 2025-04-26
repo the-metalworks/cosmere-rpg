@@ -893,20 +893,25 @@
         },
         "Conditions": {
             "Afflicted": "Afflicted",
+            "Blind": "Blind",
+            "Burrowing": "Burrowing",
             "Determined": "Determined",
             "Disoriented": "Disoriented",
             "Empowered": "Empowered",
             "Enhanced": "Enhanced",
-            "Encumbered": "Encumbered",
             "Exhausted": "Exhausted",
+            "Flying": "Flying",
             "Focused": "Focused",
+            "Hidden": "Hidden",
             "Immobilized": "Immobilized",
+            "Invisible": "Invisible",
             "Prone": "Prone",
             "Restrained": "Restrained",
             "Slowed": "Slowed",
             "Stunned": "Stunned",
             "Surprised": "Surprised",
-            "Unconscious": "Unconscious"
+            "Unconscious": "Unconscious",
+            "Dead": "Dead"
         },
         "Sheet": {
             "Descriptions": {

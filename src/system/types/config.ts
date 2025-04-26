@@ -51,6 +51,7 @@ export interface ConditionConfig {
     label: string;
     icon: string;
     reference?: string;
+    sheet: boolean;
 
     /**
      * Whether the condition is stackable.

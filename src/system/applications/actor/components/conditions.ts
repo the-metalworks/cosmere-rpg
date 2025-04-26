@@ -1,8 +1,5 @@
 import { Condition } from '@system/types/cosmere';
-import { AnyObject, ConstructorOf, MouseButton } from '@system/types/utils';
-
-import { CosmereActiveEffect } from '@system/documents/active-effect';
-
+import { ConstructorOf, MouseButton } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
@@ -81,47 +78,46 @@ export class ActorConditionsComponent extends HandlebarsApplicationComponent<
         return Promise.resolve({
             ...context,
 
-            conditions: (
-                Object.keys(CONFIG.COSMERE.conditions) as Condition[]
-            ).map((id) => {
-                // Get the config
-                const config = CONFIG.COSMERE.conditions[id];
+            conditions: (Object.keys(CONFIG.COSMERE.conditions) as Condition[])
+                .filter((id) => CONFIG.COSMERE.conditions[id].sheet)
+                .map((id) => {
+                    // Get the config
+                    const config = CONFIG.COSMERE.conditions[id];
 
-                const active = this.application.actor.conditions.has(id);
+                    const active = this.application.actor.conditions.has(id);
 
-                const baseContext = {
-                    id,
-                    name: config.label,
-                    icon: config.icon,
-                    active,
-                    stackable: config.stackable,
-                    immune: this.application.actor.system.immunities.condition[
-                        id
-                    ],
-                };
+                    const baseContext = {
+                        id,
+                        name: config.label,
+                        icon: config.icon,
+                        active,
+                        stackable: config.stackable,
+                        immune: this.application.actor.system.immunities
+                            .condition[id],
+                    };
 
-                if (!active || !config.stackable) return baseContext;
-                else {
-                    // Get all effects that apply the condition
-                    const effects =
-                        this.application.actor.appliedEffects.filter((effect) =>
-                            effect.statuses.has(id),
+                    if (!active || !config.stackable) return baseContext;
+                    else {
+                        // Get all effects that apply the condition
+                        const effects =
+                            this.application.actor.appliedEffects.filter(
+                                (effect) => effect.statuses.has(id),
+                            );
+
+                        // Calculate the total count
+                        const count = effects.reduce(
+                            (total, effect) => total + effect.stacks,
+                            0,
                         );
 
-                    // Calculate the total count
-                    const count = effects.reduce(
-                        (total, effect) => total + effect.stacks,
-                        0,
-                    );
-
-                    return {
-                        ...baseContext,
-                        stacks: config.stacksDisplayTransform
-                            ? config.stacksDisplayTransform(count)
-                            : count,
-                    };
-                }
-            }),
+                        return {
+                            ...baseContext,
+                            stacks: config.stacksDisplayTransform
+                                ? config.stacksDisplayTransform(count)
+                                : count,
+                        };
+                    }
+                }),
         });
     }
 }
