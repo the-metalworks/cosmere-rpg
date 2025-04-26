@@ -88,12 +88,9 @@ export class ActorSkillComponent extends HandlebarsApplicationComponent<
             // Get current skill rank
             const currentRank: number =
                 this.application.actor.system.skills[skillId].rank;
-            // Determine if rank and pip clicked match
-            const isSameRank: boolean = currentRank == rankIndex + 1;
-            // We want to decrement by 1 if they match, otherwise increase by the difference between clicked ranks
-            const changeAmount: number = isSameRank
-                ? -1
-                : rankIndex + 1 - currentRank;
+
+            // We want to increase or decrease based on the relative position of the clicked pip to the current rank
+            const changeAmount: number = rankIndex + 1 - currentRank;
 
             // Set the skill rank to the clicked pip, clear the clicked pip, or clear all ranks on rightclick
             await this.application.actor.modifySkillRank(
