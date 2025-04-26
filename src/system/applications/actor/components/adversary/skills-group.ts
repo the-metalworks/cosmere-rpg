@@ -31,10 +31,6 @@ export class AdversarySkillsGroupComponent extends HandlebarsApplicationComponen
     /* eslint-disable @typescript-eslint/unbound-method */
     static readonly ACTIONS = {
         'roll-skill': this.onRollSkill,
-        'adjust-skill-rank': {
-            handler: this.onAdjustSkillRank,
-            buttons: [MouseButton.Primary, MouseButton.Secondary],
-        },
     };
     /* eslint-enable @typescript-eslint/unbound-method */
 
@@ -50,58 +46,6 @@ export class AdversarySkillsGroupComponent extends HandlebarsApplicationComponen
             .closest('[data-id]')
             .data('id') as Skill;
         void this.application.actor.rollSkill(skillId);
-    }
-
-    public static async onAdjustSkillRank(
-        this: AdversarySkillsGroupComponent,
-        event: Event,
-    ) {
-        event.preventDefault();
-
-        // Check if click is left or right mouse button
-        const incrementBool: boolean = event.type === 'click' ? true : false;
-        // Check if the legacy behavior is toggled on
-        const shouldIncDec: boolean = getSystemSetting(
-            SETTINGS.SHEET_SKILL_INCDEC_TOGGLE,
-        );
-
-        // Get skill id
-        const skillId = $(event.currentTarget!)
-            .closest('[data-id]')
-            .data('id') as Skill;
-
-        if (!shouldIncDec) {
-            // Get the index of the clicked pip
-            const rankIndex: number = $(event.currentTarget!).data(
-                'index',
-            ) as number;
-            // Get current skill rank
-            const currentRank: number =
-                this.application.actor.system.skills[skillId].rank;
-            // Determine if rank and pip clicked match
-            const isSameRank: boolean = currentRank == rankIndex + 1;
-            // We want to decrement by 1 if they match, otherwise increase by the difference between clicked ranks
-            const changeAmount: number = isSameRank
-                ? -1
-                : rankIndex + 1 - currentRank;
-
-            // Set the skill rank to the clicked pip, clear the clicked pip, or clear all ranks on rightclick
-            await this.application.actor.modifySkillRank(
-                skillId,
-                incrementBool ? changeAmount : -999,
-                false,
-            );
-        } else {
-            // Increment/Decrement the skill rank based on click type
-            await this.application.actor.modifySkillRank(
-                skillId,
-                incrementBool,
-                false,
-            );
-        }
-
-        // Only re-render this component
-        void this.render();
     }
 
     /* --- Context --- */
