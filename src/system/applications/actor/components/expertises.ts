@@ -40,13 +40,15 @@ export class ActorExpertisesComponent extends HandlebarsApplicationComponent<
             ...context,
 
             expertises:
-                this.application.actor.system.expertises?.map((expertise) => ({
-                    ...expertise,
-                    typeLabel:
-                        CONFIG.COSMERE.expertiseTypes[expertise.type].label,
-                    typeIcon:
-                        CONFIG.COSMERE.expertiseTypes[expertise.type].icon,
-                })) ?? [],
+                this.application.actor.system.expertises
+                    ?.map((expertise) => ({
+                        ...expertise,
+                        typeLabel:
+                            CONFIG.COSMERE.expertiseTypes[expertise.type].label,
+                        typeIcon:
+                            CONFIG.COSMERE.expertiseTypes[expertise.type].icon,
+                    }))
+                    .sort((e1, e2) => e1.type.compare(e2.type)) ?? [],
         });
     }
 }

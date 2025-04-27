@@ -208,6 +208,7 @@ export interface DamageTypeConfig {
 
 export interface ImmunityTypeConfig {
     label: string;
+    icon: string;
 }
 
 export interface ItemTypeConfig {

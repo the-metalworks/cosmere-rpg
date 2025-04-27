@@ -7,7 +7,8 @@
 
         <div class="scroll-container">
             <div class="scroll-body">
-                <section>
+                {{app-actor-immunities}}
+                <section class="adversary-skills">
                     <div class="sidebar-header">
                         <span class="label">{{localize "COSMERE.Actor.Skill.label_p"}}</span>
                         <div class="controls">            
@@ -36,17 +37,13 @@
                     {{/each}}
                     </section>
                 </section>
-
-                <section class="adversary-expertises">                    
-                    {{app-actor-expertises}}
-                </section>
            </div>
         </div>
     </section>
     <section class="col-main">
         {{app-adversary-header}}
         {{app-actor-attributes}}
-        {{app-actor-immunities}}
+        {{app-actor-expertises}}
         <div class="scroll-container">
             <div class="tab-body">
                 {{> adv-actions-tab}}

@@ -1,3 +1,4 @@
+{{#if (or hasImmunity isEditMode)}}
 <div class="icon-header">
     <div class="title">
         <i class="fa-solid fa-shield"></i>
@@ -14,13 +15,18 @@
         {{/if}}
     </div>
 </div>
+{{/if}}
+{{#if hasImmunity}}
 <div class="immunities">
     {{#each immunities as |immunity|}}
     {{#if immunity.isImmune}}
-    <div class="immunity" data-id="{{immunity.name}}">
-        <span class="name">{{localize immunity.label}}</span>
-        <span class="type">({{localize immunity.typeLabel}})</span>
+    <div class="immunity" data-id="{{immunity.name}}"
+        data-tooltip="{{immunity.label}} ({{immunity.typeLabel}})">
+        <span class="name">{{immunity.label}}</span>
+        <span class="separator">|</span>
+        <span><i class="{{immunity.typeIcon}}" aria-label="{{immunity.typeLabel}}"></i></span>
     </div>
     {{/if}}
     {{/each}}
 </div>
+{{/if}}

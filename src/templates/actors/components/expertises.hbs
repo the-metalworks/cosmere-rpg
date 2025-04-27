@@ -16,10 +16,11 @@
 </div>
 <div class="expertises">
     {{#each expertises as |expertise|}}
-    <div class="expertise" data-id="{{expertise.id}}">
+    <div class="expertise" data-id="{{expertise.id}}"
+        data-tooltip="{{expertise.label}} ({{localize expertise.typeLabel}})">
         <span class="name">{{expertise.label}}</span>
         <span class="separator">|</span>
-        <span><i class="{{expertise.typeIcon}}"></i></span>
+        <span><i class="{{expertise.typeIcon}}" aria-label="{{localize expertise.typeLabel}}"></i></span>
     </div>
     {{/each}}
 </div>

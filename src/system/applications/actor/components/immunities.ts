@@ -37,30 +37,40 @@ export class ActorImmunitiesComponent extends HandlebarsApplicationComponent<
         params: object,
         context: BaseActorSheetRenderContext,
     ) {
+        const immunities = [
+            ...Object.entries(
+                this.application.actor.system.immunities?.damage,
+            ).map(([immunityName, value]) => ({
+                name: immunityName,
+                label: game.i18n?.localize(
+                    CONFIG.COSMERE.damageTypes[immunityName as DamageType]
+                        .label,
+                ),
+                isImmune: value,
+                typeIcon: CONFIG.COSMERE.immunityTypes.damage.icon,
+                typeLabel: game.i18n?.localize(
+                    CONFIG.COSMERE.immunityTypes.damage.label,
+                ),
+            })),
+            ...Object.entries(
+                this.application.actor.system.immunities?.condition,
+            ).map(([immunityName, value]) => ({
+                name: immunityName,
+                label: game.i18n?.localize(
+                    CONFIG.COSMERE.conditions[immunityName as Condition].label,
+                ),
+                isImmune: value,
+                typeIcon: CONFIG.COSMERE.immunityTypes.condition.icon,
+                typeLabel: game.i18n?.localize(
+                    CONFIG.COSMERE.immunityTypes.condition.label,
+                ),
+            })),
+        ];
+
         return Promise.resolve({
             ...context,
-
-            immunities: [
-                ...Object.entries(
-                    this.application.actor.system.immunities?.damage,
-                ).map(([immunityName, value]) => ({
-                    name: immunityName,
-                    label: CONFIG.COSMERE.damageTypes[
-                        immunityName as DamageType
-                    ].label,
-                    isImmune: value,
-                    typeLabel: CONFIG.COSMERE.immunityTypes.damage.label,
-                })),
-                ...Object.entries(
-                    this.application.actor.system.immunities?.condition,
-                ).map(([immunityName, value]) => ({
-                    name: immunityName,
-                    label: CONFIG.COSMERE.conditions[immunityName as Condition]
-                        .label,
-                    isImmune: value,
-                    typeLabel: CONFIG.COSMERE.immunityTypes.condition.label,
-                })),
-            ],
+            immunities,
+            hasImmunity: immunities.length > 0,
         });
     }
 }

@@ -814,7 +814,7 @@ const COSMERE: CosmereRPGConfig = {
         },
         [ExpertiseType.Specialist]: {
             label: 'COSMERE.Actor.Character.Expertise.Specialist',
-            icon: 'fa-solid fa-pen-nib',
+            icon: 'fa-solid fa-award',
         },
         [ExpertiseType.Utility]: {
             label: 'COSMERE.Actor.Character.Expertise.Utility',
@@ -829,9 +829,11 @@ const COSMERE: CosmereRPGConfig = {
     immunityTypes: {
         [ImmunityType.Damage]: {
             label: 'GENERIC.Damage',
+            icon: 'fa-solid fa-heart-crack',
         },
         [ImmunityType.Condition]: {
             label: 'GENERIC.Condition',
+            icon: 'fa-solid fa-bolt',
         },
     },
 

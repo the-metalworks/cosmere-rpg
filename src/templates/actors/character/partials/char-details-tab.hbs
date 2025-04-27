@@ -5,28 +5,29 @@
         {{#each @root.attributeGroups as |group|}}
             {{app-actor-skills-group group-id=group}}
         {{/each}}
-        {{app-actor-expertises}}
     </section>
-    <section class="paths">
-        {{#if @root.actor.ancestry}}
-            {{app-character-ancestry}}
-        {{else}}
-        <div class="ancestry drop-area">
-            <span>{{localize "COSMERE.Actor.Sheet.AncestryPlaceholder"}}</span>
+    <section>
+        <div class="lineage">
+            {{#if @root.actor.ancestry}}
+                {{app-character-ancestry}}
+            {{else}}
+            <div class="ancestry drop-area">
+                <span>{{localize "COSMERE.Actor.Sheet.AncestryPlaceholder"}}</span>
+            </div>
+            {{/if}}
+            
+            {{#if (gt @root.actor.cultures.length 0)}}
+                {{#each @root.actor.cultures as |culture|}}
+                    {{app-character-culture culture=culture}}
+                {{/each}}
+            {{else}}
+            <div class="culture drop-area">
+                <span>{{localize "COSMERE.Actor.Sheet.CulturePlaceholder"}}</span>
+            </div>
+            {{/if}}
+            
+            {{app-character-paths-list}}
         </div>
-        {{/if}}
-        
-        {{#if (gt @root.actor.cultures.length 0)}}
-            {{#each @root.actor.cultures as |culture|}}
-                {{app-character-culture culture=culture}}
-            {{/each}}
-        {{else}}
-        <div class="culture drop-area">
-            <span>{{localize "COSMERE.Actor.Sheet.CulturePlaceholder"}}</span>
-        </div>
-        {{/if}}
-        
-        {{app-character-paths-list}}
     </section>
 </div>
 
