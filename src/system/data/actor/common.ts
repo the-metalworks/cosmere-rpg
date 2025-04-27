@@ -585,6 +585,8 @@ export class CommonActorDataModel<
     public prepareDerivedData(): void {
         super.prepareDerivedData();
 
+        console.log('Preparing derived data for actor', this.parent.uuid);
+
         this.senses.range.derived = awarenessToSensesRange(this.attributes.awa);
 
         // Derive defenses
