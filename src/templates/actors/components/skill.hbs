@@ -27,7 +27,7 @@
                 </li>
             {{/each}}
             {{#each (numberRange (sub 5 skill.rank))}}
-                <li class="pip">
+                <li class="pip{{#if (gt (add (add @index 1) ../skill.rank) ../maxSkillRank)}} locked{{/if}}">
                     <div {{#if ../editable}}data-action="adjust-skill-rank" data-index='{{add @index ../skill.rank}}'{{/if}}></div>
                 </li>
             {{/each}}
