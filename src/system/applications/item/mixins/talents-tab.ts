@@ -21,7 +21,7 @@ export function TalentsTabMixin<
             {
                 talents: {
                     label: 'COSMERE.Item.Sheet.Tabs.Talents',
-                    icon: '<i class="fa-solid fa-sword"></i>',
+                    icon: '<i class="fa-solid fa-sitemap"></i>',
                     sortIndex: 14,
                 },
             },
