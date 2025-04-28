@@ -318,7 +318,7 @@ export class CosmereActor<
                 game.i18n!.format('GENERIC.Warning.ActorConditionImmune', {
                     actor: this.name,
                     condition: game.i18n!.localize(
-                        CONFIG.COSMERE.conditions[statusId as Condition].label,
+                        CONFIG.COSMERE.statuses[statusId as Condition].label,
                     ),
                 }),
             );

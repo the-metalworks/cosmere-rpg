@@ -41,7 +41,7 @@ export class ActorConditionsComponent extends HandlebarsApplicationComponent<
         const active = this.application.actor.conditions.has(condition);
 
         // Get the config
-        const config = CONFIG.COSMERE.conditions[condition];
+        const config = CONFIG.COSMERE.statuses[condition];
 
         if (config.stackable && active) {
             const cycleUp = event.type === 'click';
@@ -78,11 +78,11 @@ export class ActorConditionsComponent extends HandlebarsApplicationComponent<
         return Promise.resolve({
             ...context,
 
-            conditions: (Object.keys(CONFIG.COSMERE.conditions) as Condition[])
-                .filter((id) => CONFIG.COSMERE.conditions[id].sheet)
+            conditions: (Object.keys(CONFIG.COSMERE.statuses) as Condition[])
+                .filter((id) => CONFIG.COSMERE.statuses[id].condition)
                 .map((id) => {
                     // Get the config
-                    const config = CONFIG.COSMERE.conditions[id];
+                    const config = CONFIG.COSMERE.statuses[id];
 
                     const active = this.application.actor.conditions.has(id);
 

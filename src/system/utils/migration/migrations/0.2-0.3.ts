@@ -241,7 +241,7 @@ async function migrateActors(actors: RawDocumentData<any>[]) {
  * according to the requested immunity type
  */
 function migrateImmunities(changes: AnyObject, isDamage: boolean) {
-    const config = isDamage ? COSMERE.damageTypes : COSMERE.conditions;
+    const config = isDamage ? COSMERE.damageTypes : COSMERE.statuses;
 
     foundry.utils.mergeObject(
         changes,

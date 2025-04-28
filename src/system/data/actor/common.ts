@@ -536,9 +536,7 @@ export class CommonActorDataModel<
     }
 
     private static getConditionImmunitiesSchema() {
-        const conditions = Object.keys(
-            CONFIG.COSMERE.conditions,
-        ) as Condition[];
+        const conditions = Object.keys(CONFIG.COSMERE.statuses) as Condition[];
 
         return new foundry.data.fields.SchemaField(
             conditions.reduce(

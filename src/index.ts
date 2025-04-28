@@ -132,15 +132,15 @@ Hooks.once('ready', () => {
 
 /**
  * Helper function to register the configured
- * conditions as status effects.
+ * statuses as status effects.
  */
 function registerStatusEffects() {
     // Map conditions to status effects
     const statusEffects = (
-        Object.keys(CONFIG.COSMERE.conditions) as Condition[]
+        Object.keys(CONFIG.COSMERE.statuses) as Condition[]
     ).map((condition) => {
         // Get the config
-        const config = CONFIG.COSMERE.conditions[condition];
+        const config = CONFIG.COSMERE.statuses[condition];
 
         return {
             id: condition,

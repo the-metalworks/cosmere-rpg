@@ -52,7 +52,7 @@ export class CosmereActiveEffect extends ActiveEffect<ActiveEffectDataModel> {
 
         if (this.isCondition && this.isStackable && this.stacks >= 1) {
             const config =
-                CONFIG.COSMERE.conditions[this.statuses.first() as Condition];
+                CONFIG.COSMERE.statuses[this.statuses.first() as Condition];
 
             this.updateSource({
                 name: `${game.i18n!.localize(config.label)} [${
@@ -79,7 +79,7 @@ export class CosmereActiveEffect extends ActiveEffect<ActiveEffectDataModel> {
                 'system.stacks',
             ) as number;
             const config =
-                CONFIG.COSMERE.conditions[this.statuses.first() as Condition];
+                CONFIG.COSMERE.statuses[this.statuses.first() as Condition];
 
             data.name = `${game.i18n!.localize(config.label)} [${
                 config.stacksDisplayTransform
