@@ -128,19 +128,6 @@ function tryApplyRollData(actor: Actor, value: string): string {
         // Grab the roll data from the actor
         const data = actor.getRollData() as AnyObject;
 
-        // // Grab the actor data model class
-        // const ActorDataModelClass = CONFIG.Actor.dataModels[actor.type];
-
-        // // Clone the actor data to avoid modifying the original
-        // const tempSystem = new ActorDataModelClass(actor.system.toObject(), { parent: actor });
-
-        // // Derive data
-        // tempSystem.prepareBaseData();
-        // tempSystem.prepareDerivedData();
-
-        // // Merge the roll data with the actor data
-        // foundry.utils.mergeObject(data, tempSystem.toObject(false));
-
         // Treat the change value as a formula and evaluate it
         value = new Roll(value, data).evaluateSync().total.toString();
         return value;
