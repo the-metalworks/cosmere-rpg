@@ -506,10 +506,6 @@
                 }
             },
             "Path": {
-                "TalentTree": {
-                    "Label": "Talent Tree",
-                    "Hint": "Talent tree that contains all talents for this path. This tree is displayed on the \"talents\" tab."
-                },
                 "LinkedSkills": {
                     "Label": "Linked Skills",
                     "Hint": "These skills are displayed alongside the path in the character sheet."
@@ -857,6 +853,13 @@
                 "Path": {
                     "TalentTreePlaceholder": "Drop Talent Tree Here",
                     "NoTalentsConfigured": "No Talents Configured"
+                },
+                "TalentsProvider": {
+                    "Title": "Talents",
+                    "TalentTree": {
+                        "Label": "Talent Tree",
+                        "Hint": "Talent tree that contains all talents for this path. This tree is displayed on the \"talents\" tab."
+                    }
                 }
             }
         },
