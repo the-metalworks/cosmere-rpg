@@ -1,9 +1,4 @@
-import {
-    ActorType,
-    Condition,
-    DamageType,
-    ItemType,
-} from '@system/types/cosmere';
+import { ActorType, Status, DamageType, ItemType } from '@system/types/cosmere';
 import { CosmereItem, TalentTreeItem } from '@system/documents/item';
 import { TalentTree } from '@system/types/item';
 

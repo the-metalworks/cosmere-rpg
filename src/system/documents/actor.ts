@@ -2,7 +2,7 @@ import {
     Skill,
     Attribute,
     ActorType,
-    Condition,
+    Status,
     ItemType,
     ExpertiseType,
     DamageType,
@@ -143,8 +143,8 @@ export class CosmereActor<
 
     /* --- Accessors --- */
 
-    public get conditions(): Set<Condition> {
-        return this.statuses as Set<Condition>;
+    public get conditions(): Set<Status> {
+        return this.statuses as Set<Status>;
     }
 
     public get applicableEffects(): CosmereActiveEffect[] {
@@ -311,14 +311,14 @@ export class CosmereActor<
         // Check if actor is immune to status effect
         if (
             statusId in this.system.immunities.condition &&
-            this.system.immunities.condition[statusId as Condition]
+            this.system.immunities.condition[statusId as Status]
         ) {
             // Notify
             ui.notifications.warn(
                 game.i18n!.format('GENERIC.Warning.ActorConditionImmune', {
                     actor: this.name,
                     condition: game.i18n!.localize(
-                        CONFIG.COSMERE.statuses[statusId as Condition].label,
+                        CONFIG.COSMERE.statuses[statusId as Status].label,
                     ),
                 }),
             );

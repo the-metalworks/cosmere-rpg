@@ -19,7 +19,7 @@ export const enum CreatureType {
 /**
  * A non-exhaustive list of conditions
  */
-export const enum Condition {
+export const enum Status {
     Afflicted = 'afflicted',
     Blind = 'blind',
     Burrowing = 'burrowing',

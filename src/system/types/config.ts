@@ -1,7 +1,7 @@
 import {
     Size,
     CreatureType,
-    Condition,
+    Status,
     InjuryType,
     AttributeGroup,
     Attribute,
@@ -321,7 +321,7 @@ export interface CosmereRPGConfig {
     movement: {
         types: Record<MovementType, MovementTypeConfig>;
     };
-    statuses: Record<Condition, StatusConfig>;
+    statuses: Record<Status, StatusConfig>;
     injury: {
         types: Record<InjuryType, InjuryConfig>;
         durationTable: string;

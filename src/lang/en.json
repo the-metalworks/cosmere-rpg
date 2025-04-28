@@ -891,7 +891,7 @@
             "ResetActivation": "Reset Activation",
             "Activate": "Mark as Acted"
         },
-        "Conditions": {
+        "Status": {
             "Afflicted": "Afflicted",
             "Blind": "Blind",
             "Burrowing": "Burrowing",

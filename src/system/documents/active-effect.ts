@@ -1,4 +1,4 @@
-import { Condition } from '@system/types/cosmere';
+import { Status } from '@system/types/cosmere';
 import { ActiveEffectDataModel } from '@system/data/active-effect/active-effect';
 
 import { AnyMutableObject, AnyObject } from '@system/types/utils';
@@ -52,7 +52,7 @@ export class CosmereActiveEffect extends ActiveEffect<ActiveEffectDataModel> {
 
         if (this.isCondition && this.isStackable && this.stacks >= 1) {
             const config =
-                CONFIG.COSMERE.statuses[this.statuses.first() as Condition];
+                CONFIG.COSMERE.statuses[this.statuses.first() as Status];
 
             this.updateSource({
                 name: `${game.i18n!.localize(config.label)} [${
@@ -79,7 +79,7 @@ export class CosmereActiveEffect extends ActiveEffect<ActiveEffectDataModel> {
                 'system.stacks',
             ) as number;
             const config =
-                CONFIG.COSMERE.statuses[this.statuses.first() as Condition];
+                CONFIG.COSMERE.statuses[this.statuses.first() as Status];
 
             data.name = `${game.i18n!.localize(config.label)} [${
                 config.stacksDisplayTransform

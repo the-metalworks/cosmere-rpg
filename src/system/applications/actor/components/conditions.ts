@@ -1,4 +1,4 @@
-import { Condition } from '@system/types/cosmere';
+import { Status } from '@system/types/cosmere';
 import { ConstructorOf, MouseButton } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
@@ -35,7 +35,7 @@ export class ActorConditionsComponent extends HandlebarsApplicationComponent<
         // Get condition
         const condition = $(event.target!)
             .closest('[data-id]')
-            .data('id') as Condition;
+            .data('id') as Status;
 
         // Whether the condition is active
         const active = this.application.actor.conditions.has(condition);
@@ -78,7 +78,7 @@ export class ActorConditionsComponent extends HandlebarsApplicationComponent<
         return Promise.resolve({
             ...context,
 
-            conditions: (Object.keys(CONFIG.COSMERE.statuses) as Condition[])
+            conditions: (Object.keys(CONFIG.COSMERE.statuses) as Status[])
                 .filter((id) => CONFIG.COSMERE.statuses[id].condition)
                 .map((id) => {
                     // Get the config

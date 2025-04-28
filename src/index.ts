@@ -1,4 +1,4 @@
-import { ActorType, Condition, ItemType } from './system/types/cosmere';
+import { ActorType, Status, ItemType } from './system/types/cosmere';
 import { AnyMutableObject } from './system/types/utils';
 import { SYSTEM_ID } from './system/constants';
 import { TEMPLATES } from './system/utils/templates';
@@ -135,18 +135,18 @@ Hooks.once('ready', () => {
  * statuses as status effects.
  */
 function registerStatusEffects() {
-    // Map conditions to status effects
+    // Map statuses to status effects
     const statusEffects = (
-        Object.keys(CONFIG.COSMERE.statuses) as Condition[]
-    ).map((condition) => {
+        Object.keys(CONFIG.COSMERE.statuses) as Status[]
+    ).map((status) => {
         // Get the config
-        const config = CONFIG.COSMERE.statuses[condition];
+        const config = CONFIG.COSMERE.statuses[status];
 
         return {
-            id: condition,
+            id: status,
             name: config.label,
             img: config.icon,
-            _id: `cond${condition}`.padEnd(16, '0'),
+            _id: `cond${status}`.padEnd(16, '0'),
 
             ...(config.stackable
                 ? {
