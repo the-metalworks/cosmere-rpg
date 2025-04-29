@@ -201,6 +201,10 @@
             .header {
                 cursor: pointer;
 
+                > label {
+                    cursor: pointer;
+                }
+
                 .collapse-label {
                     display: block;
                 }
@@ -340,6 +344,14 @@
             gap: 0.625rem;
             margin: 0;
             min-height: 32px;
+
+            &.collapsible {
+                gap: 0;
+
+                &.expanded {
+                    gap: 0.25rem;
+                }
+            }
 
             > app-id-input,
             > .form-fields {
