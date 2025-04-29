@@ -537,7 +537,7 @@ async function rollAction(options: { actorId: string; [k: string]: string }) {
 }
 
 async function damageAction(options: { actorId: string; [k: string]: string }) {
-    const actor = await getActor(options.actorId);
+    const actor = await getActor(options.actorId ?? '');
     if (actor && options.formula) {
         const roll = new DamageRoll(
             String(options.formula),
