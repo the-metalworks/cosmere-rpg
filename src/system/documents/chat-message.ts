@@ -994,7 +994,7 @@ export class CosmereChatMessage extends ChatMessage {
 
     /**
      * Handles collapsible sections expansion on click event.
-     * @param {PointerEvent} event  The triggering event.
+     * @param {JQuery.ClickEvent} event  The triggering event.
      */
     private onClickCollapsible(event: JQuery.ClickEvent) {
         event.stopPropagation();
@@ -1004,7 +1004,7 @@ export class CosmereChatMessage extends ChatMessage {
 
     /**
      * Handle target selection and panning.
-     * @param {Event} event The triggering event.
+     * @param {JQuery.ClickEvent} event The triggering event.
      * @returns {Promise} A promise that resolves once the canvas pan has completed.
      * @protected
      */

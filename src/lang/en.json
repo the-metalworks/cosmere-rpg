@@ -771,10 +771,7 @@
                     "LoseTrait": "Loses [trait]",
                     "ModifyTraitValue": "[trait] [[value]] >",
                     "ModifyTraitValueFull": "[trait] [[value]] > [[newValue]]",
-                    "TraitsShow": "Show All Traits",
-                    "TraitsHide": "Hide Traits",
-                    "ExpertTraitsShow": "Show All Expert Traits",
-                    "ExpertTraitsHide": "Hide Expert Traits"
+                    "ViewTraits": "View Traits"
                 },
                 "Activation": {
                     "Title": "Usage",

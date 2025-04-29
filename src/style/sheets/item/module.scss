@@ -196,6 +196,33 @@
                 color: var(--cosmere-color-faded);
             }
         }
+
+        &.collapsible {
+            .header {
+                cursor: pointer;
+
+                .collapse-label {
+                    display: block;
+                }
+
+                .controls {
+                    transition: all 250ms ease;
+                    transform: rotate(90deg);
+                }
+            }
+        }
+
+        &.expanded {
+            .header {
+                .collapse-label {
+                    display: none;
+                }
+
+                .controls {
+                    transform: none;
+                }
+            }
+        }
     }
 
     .traits-list {
@@ -302,7 +329,6 @@
             flex: 1;
             font-weight: 600;
             font-variant: lining-nums;
-            margin-top: 3px;
 
             .units {
                 color: var(--cosmere-color-faded);
@@ -368,7 +394,6 @@
     }
 
     app-goal-rewards-list {
-
         .item.reward .details .name > span {
             margin-left: 0.125rem;
         }
