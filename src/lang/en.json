@@ -773,6 +773,10 @@
                     "ModifyTraitValueFull": "[trait] [[value]] > [[newValue]]",
                     "ViewTraits": "View Traits"
                 },
+                "Armor": {                    
+                    "DeflectedTypes": "Deflected Damage Types",
+                    "ViewDeflected": "View Deflected Types"
+                },
                 "Activation": {
                     "Title": "Usage",
                     "Type": "Activation Type",
