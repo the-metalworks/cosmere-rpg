@@ -336,15 +336,17 @@ export class CosmereChatMessage extends ChatMessage {
 
         const isHealing = !types.some(
             (type) =>
-                type !== CONFIG.COSMERE.damageTypes[DamageType.Healing].label,
+                !CONFIG.COSMERE.damageTypes[DamageType.Healing].label.includes(
+                    type,
+                ),
         );
         const sectionHTML = await renderSystemTemplate(
             TEMPLATES.CHAT_CARD_SECTION,
             {
                 type: 'damage',
-                icon: isHealing ? 'fa-solid fa-burst' : 'fa-solid fa-heart',
+                icon: isHealing ? 'fa-solid fa-heart' : 'fa-solid fa-burst',
                 title: game.i18n!.localize(
-                    isHealing ? 'GENERIC.Damage' : 'GENERIC.Healing',
+                    isHealing ? 'GENERIC.Healing' : 'GENERIC.Damage',
                 ),
                 content: damageHTML,
                 footer,
