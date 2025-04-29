@@ -51,8 +51,23 @@ const EnricherStyleOptions = {
     uppercase: (value: string) => value.toLocaleUpperCase(),
 } as const;
 
-const getActor = (actorId: string) =>
+const getActor = async (actorId: string) =>
+    actorId.startsWith('Compendium')
+        ? await getActorFromCompendium(actorId)
+        : getActorFromCollection(actorId.split('.')[1] ?? '');
+
+const getActorFromCollection = (actorId: string) =>
     (game.actors as Actors).get(actorId) as CosmereActor;
+
+const getActorFromCompendium = async (uuid: string) => {
+    const components = uuid.split('.');
+    const pack = `${components[1]}.${components[2]}`; // Get pack name
+    const actorId = components[4] ?? '';
+
+    return (await game.packs
+        ?.get(pack)
+        ?.getDocument(actorId)) as unknown as CosmereActor;
+};
 
 /*
  * Note: Left in some commented out options that I copied across
@@ -318,7 +333,7 @@ function enrichLookup(
  * </a>
  * ```
  */
-function enrichTest(
+async function enrichTest(
     config: EnricherConfig,
     label?: string,
     options?: TextEditor.EnrichmentOptions,
@@ -356,7 +371,7 @@ function enrichTest(
                 CONFIG.COSMERE.attributeGroups[config.defence as AttributeGroup]
                     .label,
             ) ?? 'Defence';
-        config.dc = getActor(data.target?.uuid ?? '')?.system.defenses[
+        config.dc = (await getActor(data.target?.uuid ?? ''))?.system.defenses[
             config.defence as AttributeGroup
         ].value;
     }
@@ -428,14 +443,14 @@ async function enrichDamage(
         options?.relativeTo instanceof CosmereActor
             ? options.relativeTo.uuid
             : (options?.relativeTo as unknown as CosmereItem).actor?.uuid;
-    const actor = getActor(actorId?.split('.')[1] ?? '');
+    const actor = await getActor(actorId ?? '');
 
     // convert any actor properties passed in. Note: currently it doesn't collate like terms...
     // This will need tweaking when allowing multiple damage types if we got that route
     const terms = Roll.simplifyTerms(
         Roll.defaultImplementation.parse(
             formulaParts.join(' + '),
-            actor.getRollData(),
+            actor?.getRollData() ?? {},
         ),
     );
     formula = terms.map((t) => t.formula).join(' ');
@@ -509,7 +524,7 @@ export async function enricherAction(event: Event) {
 }
 
 async function rollAction(options: { actorId: string; [k: string]: string }) {
-    const actor = getActor(options.actorId.split('.')[1]);
+    const actor = await getActor(options.actorId ?? '');
     if (actor && options.skill) {
         await actor.rollSkill(
             options.skill as Skill,
@@ -522,7 +537,7 @@ async function rollAction(options: { actorId: string; [k: string]: string }) {
 }
 
 async function damageAction(options: { actorId: string; [k: string]: string }) {
-    const actor = getActor(options.actorId.split('.')[1]);
+    const actor = await getActor(options.actorId);
     if (actor && options.formula) {
         const roll = new DamageRoll(
             String(options.formula),
