@@ -286,9 +286,19 @@ export class CollectionField<
         return new this.CollectionClass();
     }
 
-    public override initialize(value: RecordCollection<unknown>) {
+    public override initialize(
+        value: RecordCollection<unknown>,
+        model: object,
+        options?: object,
+    ) {
         if (!value) return new this.CollectionClass();
-        return foundry.utils.deepClone(value);
+        value = foundry.utils.deepClone(value);
+
+        Array.from(value.entries()).forEach(([id, v]) => {
+            value.set(id, this.model.initialize(v, model, options));
+        });
+
+        return value;
     }
 
     public override toObject(value: RecordCollection<unknown>) {

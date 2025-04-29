@@ -12,6 +12,7 @@ import { EquippableItemMixin, EquippableItemData } from './mixins/equippable';
 import { TraitsItemMixin, TraitsItemData } from './mixins/traits';
 import { PhysicalItemMixin, PhysicalItemData } from './mixins/physical';
 import { ExpertiseItemMixin, ExpertiseItemData } from './mixins/expertise';
+import { EventsItemMixin, EventsItemData } from './mixins/events';
 
 export interface ArmorItemData
     extends IdItemData,
@@ -19,7 +20,8 @@ export interface ArmorItemData
         EquippableItemData,
         ExpertiseItemData,
         TraitsItemData<ArmorTraitId>,
-        PhysicalItemData {
+        PhysicalItemData,
+        EventsItemData {
     deflect: number;
 }
 
@@ -42,6 +44,7 @@ export class ArmorItemDataModel extends DataModelMixin<
     ExpertiseItemMixin(),
     TraitsItemMixin(),
     PhysicalItemMixin(),
+    EventsItemMixin(),
 ) {
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), {

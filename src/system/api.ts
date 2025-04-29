@@ -1,3 +1,4 @@
+// Types
 import {
     Skill,
     EquipmentType,
@@ -8,13 +9,16 @@ import {
     ActionType,
     Theme,
 } from '@system/types/cosmere';
-
 import {
     CurrencyConfig,
     SkillConfig,
     PowerTypeConfig,
     ActionTypeConfig,
 } from '@system/types/config';
+import { Events as ItemEvents } from '@system/types/item';
+
+// Utils
+import * as EventSystemUtils from '@system/utils/item/event-system';
 
 interface SkillConfigData extends Omit<SkillConfig, 'key'> {
     /**
@@ -308,6 +312,37 @@ export function registerTheme(data: ThemeConfigData, force = false) {
     CONFIG.COSMERE.themes[data.id as Theme] = data.label;
 }
 
+interface ItemEventHandlerConfigData {
+    type: string;
+    label: string;
+    executor: ItemEvents.HandlerExecutor;
+    configSchema: foundry.data.fields.DataSchema;
+}
+
+export function registerItemEventHandlerType(
+    data: ItemEventHandlerConfigData,
+    force = false,
+) {
+    if (!CONFIG.COSMERE)
+        throw new Error('Cannot access api until after system is initialized.');
+
+    if (data.type === 'none')
+        throw new Error('Cannot register item event handler with type "none".');
+
+    if (data.type in CONFIG.COSMERE.items.events.handlers && !force)
+        throw new Error('Cannot override existing item event handler type.');
+
+    // Add to event handlers config
+    CONFIG.COSMERE.items.events.handlers[data.type] = {
+        label: data.label,
+        documentClass: EventSystemUtils.constructHandlerClass(
+            data.type,
+            data.executor,
+            data.configSchema,
+        ),
+    };
+}
+
 /* --- Default Export --- */
 
 export default {
@@ -322,4 +357,5 @@ export default {
     registerAncestry,
     registerCurrency,
     registerTheme,
+    registerItemEventHandlerType,
 };

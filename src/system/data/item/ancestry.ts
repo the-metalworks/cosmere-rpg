@@ -8,6 +8,7 @@ import {
     DescriptionItemMixin,
     DescriptionItemData,
 } from './mixins/description';
+import { EventsItemMixin, EventsItemData } from './mixins/events';
 
 interface TalentGrant {
     uuid: string;
@@ -20,7 +21,11 @@ export interface BonusTalentsRule {
     restrictions: string;
 }
 
-export interface AncestryItemData extends IdItemData, DescriptionItemData {
+export interface AncestryItemData
+    extends IdItemData,
+        DescriptionItemData,
+        EventsItemData,
+        EventsItemData {
     size: Size;
     type: {
         id: CreatureType;
@@ -54,6 +59,7 @@ export class AncestryItemDataModel extends DataModelMixin<
     DescriptionItemMixin({
         value: 'COSMERE.Item.Type.Ancestry.desc_placeholder',
     }),
+    EventsItemMixin(),
 ) {
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), {

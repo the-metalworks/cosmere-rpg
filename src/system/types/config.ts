@@ -35,7 +35,7 @@ import {
 } from './cosmere';
 import { AdvantageMode } from './roll';
 
-import { Talent, TalentTree, Goal } from './item';
+import { Talent, TalentTree, Goal, Events as ItemEvents } from './item';
 
 export interface SizeConfig {
     label: string;
@@ -313,6 +313,11 @@ export interface MovementTypeConfig {
     label: string;
 }
 
+export interface HandlerTypeConfig {
+    label: string;
+    documentClass: ItemEvents.HandlerCls;
+}
+
 export interface CosmereRPGConfig {
     themes: Record<Theme, string>;
     sizes: Record<Size, SizeConfig>;
@@ -379,6 +384,10 @@ export interface CosmereRPGConfig {
                     types: Record<TalentTree.Node.Prerequisite.Type, string>;
                 };
             };
+        };
+
+        events: {
+            handlers: Record<string, HandlerTypeConfig>;
         };
     };
 

@@ -753,7 +753,6 @@ const COSMERE: CosmereRPGConfig = {
                 },
             },
         },
-
         talentTree: {
             node: {
                 prerequisite: {
@@ -771,6 +770,10 @@ const COSMERE: CosmereRPGConfig = {
                     },
                 },
             },
+        },
+
+        events: {
+            handlers: {}, // Default handlers registered using the api
         },
     },
 

@@ -12,7 +12,7 @@ import { Goal } from '@system/types/item';
 import { GoalItemData } from '@system/data/item/goal';
 import { DeepPartial, Nullable } from '@system/types/utils';
 import { CosmereActor } from './actor';
-import { SYSTEM_ID } from '../constants';
+import { SYSTEM_ID } from '@system/constants';
 
 // Dialogs
 import { AttackConfigurationDialog } from '@system/applications/dialogs/attack-configuration';
@@ -47,6 +47,7 @@ import { EquippableItemData } from '@system/data/item/mixins/equippable';
 import { DescriptionItemData } from '@system/data/item/mixins/description';
 import { IdItemData } from '@system/data/item/mixins/id';
 import { ModalityItemData } from '@system/data/item/mixins/modality';
+import { EventsItemData } from '@system/data/item/mixins/events';
 
 // Rolls
 import {
@@ -62,11 +63,11 @@ import { RollMode } from '@system/dice/types';
 import {
     determineConfigurationMode,
     getTargetDescriptors,
-} from '../utils/generic';
+} from '@system/utils/generic';
 import { MESSAGE_TYPES } from './chat-message';
-import { renderSystemTemplate, TEMPLATES } from '../utils/templates';
-import { ItemConsumeDialog } from '../applications/item/dialogs/item-consume';
-import { CosmereHooks } from '../types/hooks';
+import { renderSystemTemplate, TEMPLATES } from '@system/utils/templates';
+import { ItemConsumeDialog } from '@system/applications/item/dialogs/item-consume';
+import { CosmereHooks } from '@system/types/hooks';
 
 // Constants
 const CONSUME_CONFIGURATION_DIALOG_TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ITEM_CONSUME}`;
@@ -236,6 +237,13 @@ export class CosmereItem<
      */
     public hasModality(): this is CosmereItem<ModalityItemData> {
         return 'modality' in this.system;
+    }
+
+    /**
+     * Does this item have events?
+     */
+    public hasEvents(): this is CosmereItem<EventsItemData> {
+        return 'events' in this.system;
     }
 
     /* --- Accessors --- */

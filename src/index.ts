@@ -5,8 +5,9 @@ import { TEMPLATES } from './system/utils/templates';
 import COSMERE from './system/config';
 
 import './style.scss';
-import './system/hooks';
 import './system/mixins';
+
+import { registerItemEventSystemHandler } from './system/hooks';
 
 import { preloadHandlebarsTemplates } from './system/utils/handlebars';
 import {
@@ -67,6 +68,9 @@ Hooks.once('init', async () => {
 
     // Add fonts
     configureFonts();
+
+    // Register item event system handlers
+    registerItemEventSystemHandler();
 
     Actors.unregisterSheet('core', ActorSheet);
     registerActorSheet(ActorType.Character, applications.actor.CharacterSheet);

@@ -1,0 +1,40 @@
+import { Event } from './event';
+import { ConstructorOf } from '@system/types/utils';
+
+/**
+ * Enum representing the type of handler for an event.
+ * Handlers can be anything from adding/removing items to actors, equipping/unequipping items, or using them.
+ */
+export const enum HandlerType {
+    GrantItems = 'grant-items',
+    RemoveItems = 'remove-items',
+
+    // Utility handlers (technically covered by UpdateItem & UpdateActor, but provide a nice shorthand)
+    ModifyAttribute = 'modify-attribute',
+    SetAttribute = 'set-attribute',
+    ModifySkillRank = 'modify-skill-rank',
+    SetSkillRank = 'set-skill-rank',
+    GrantExpertise = 'grant-expertise',
+    RemoveExpertise = 'remove-expertise',
+
+    // General purpose
+    UpdateItem = 'update-item',
+    UpdateActor = 'update-actor',
+    ExecuteMacro = 'execute-macro',
+}
+
+export type HandlerConfig<T = unknown> = {
+    type: HandlerType;
+} & T;
+
+export type HandlerExecutor<E extends Event = Event> = (
+    event: E,
+) => void | boolean | Promise<void | boolean>;
+
+export interface IHandler {
+    type: HandlerType;
+    execute: HandlerExecutor;
+}
+
+export type HandlerCls = ConstructorOf<IHandler> &
+    typeof foundry.abstract.DataModel;

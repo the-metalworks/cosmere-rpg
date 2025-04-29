@@ -9,11 +9,13 @@ import {
     DescriptionItemMixin,
     DescriptionItemData,
 } from './mixins/description';
+import { EventsItemMixin, EventsItemData } from './mixins/events';
 
 export interface PathItemData
     extends IdItemData,
         TypedItemData<PathType>,
-        DescriptionItemData {
+        DescriptionItemData,
+        EventsItemData {
     /**
      * The UUID of the talent tree that gets displayed on the talents tab.
      */
@@ -46,6 +48,7 @@ export class PathItemDataModel extends DataModelMixin<
     DescriptionItemMixin({
         value: 'COSMERE.Item.Type.Path.desc_placeholder',
     }),
+    EventsItemMixin(),
 ) {
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), {
