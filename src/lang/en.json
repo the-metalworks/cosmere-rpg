@@ -897,7 +897,7 @@
         },
         "Status": {
             "Afflicted": "Afflicted",
-            "Blind": "Blind",
+            "Blind": "Senseblind",
             "Burrowing": "Burrowing",
             "Determined": "Determined",
             "Disoriented": "Disoriented",
