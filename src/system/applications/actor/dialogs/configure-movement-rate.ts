@@ -140,7 +140,7 @@ export class ConfigureMovementRateDialog extends HandlebarsApplicationMixin(
         const movementRates = (
             Object.keys(CONFIG.COSMERE.movement.types) as MovementType[]
         ).map((type) => ({
-            ...this.movementData[type].rate,
+            rate: this.movementData[type].rate,
             mode: this.movementData[type].rate.mode,
             type,
             label: CONFIG.COSMERE.movement.types[type].label,

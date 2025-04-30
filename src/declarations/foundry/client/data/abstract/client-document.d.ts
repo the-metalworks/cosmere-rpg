@@ -36,6 +36,12 @@ declare class ClientDocument {
     public prepareBaseData();
 
     /**
+     * Prepare all embedded Document instances which exist within this primary Document.
+     * @memberof ClientDocumentMixin#
+     */
+    public prepareEmbeddedDocuments();
+
+    /**
      * Apply transformations of derivations to the values of the source data object.
      * Compute data fields whose values are not stored to the database.
      *
