@@ -1,3 +1,4 @@
+import { DamageType } from '@system/types/cosmere';
 import { ConstructorOf } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
@@ -26,12 +27,16 @@ export class DetailsDeflectComponent extends HandlebarsApplicationComponent<
     private prepareDeflectedTypesData() {
         const item = this.application.item;
 
+        if (!item.isArmor()) return null;
+
         return Object.entries(CONFIG.COSMERE.damageTypes).map(
             ([id, config]) => {
+                const deflectData = item.system.deflects[id as DamageType];
+
                 return {
                     id,
                     label: config.label,
-                    active: !(config.ignoreDeflect ?? false),
+                    active: deflectData?.defaultActive,
                 };
             },
         );
@@ -39,8 +44,16 @@ export class DetailsDeflectComponent extends HandlebarsApplicationComponent<
 
     private prepareDeflectedTypesString() {
         const item = this.application.item;
+        if (!item.hasDeflect()) return null;
 
-        return 'test';
+        return item.system.deflectsArray
+            .filter((deflect) => deflect.defaultActive)
+            .map((deflect) => {
+                const config = CONFIG.COSMERE.damageTypes[deflect.id];
+
+                return game.i18n!.localize(config.label);
+            })
+            .join(', ');
     }
 }
 

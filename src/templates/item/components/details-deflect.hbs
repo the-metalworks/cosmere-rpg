@@ -34,7 +34,7 @@
                     {{#each deflectedTypes as |deflected|}}
                     <div class="trait">
                         <input type="checkbox" 
-                            name="" 
+                            name="{{concat "system.deflects." deflected.id ".defaultActive"}}" 
                             {{#if deflected.active}}
                             checked
                             {{/if}}
