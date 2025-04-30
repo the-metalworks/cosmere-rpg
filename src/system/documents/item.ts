@@ -1287,56 +1287,8 @@ export class CosmereItem<
     public getEnricherData() {
         let actor = undefined;
         if (this.actor) {
-            const actorData = this.actor.system;
-            const tokens = this.actor.getActiveTokens();
-            actor = {
-                name: this.actor.name,
-                type: actorData.type.id,
-                attributes: Object.entries(actorData.attributes).reduce(
-                    (obj, [attr, scores]) => {
-                        obj[attr as Attribute] = scores.value;
-                        return obj;
-                    },
-                    {} as Record<Attribute, number>,
-                ),
-                skills: Object.entries(actorData.skills).reduce(
-                    (obj, [skill, details]) => {
-                        obj[skill as Skill] = {
-                            ranks: details.rank,
-                            mod: details.mod.value ?? 0,
-                        };
-                        return obj;
-                    },
-                    {} as Record<Skill, { ranks: number; mod: number }>,
-                ),
-                health: {
-                    max: actorData.resources.hea.max.value ?? 0,
-                    value: actorData.resources.hea.value,
-                },
-                focus: {
-                    max: actorData.resources.foc.max.value ?? 0,
-                    value: actorData.resources.foc.value,
-                },
-                investiture: {
-                    max: actorData.resources.inv.max.value ?? 0,
-                    value: actorData.resources.inv.value,
-                },
-                deflect: actorData.deflect.value ?? 0,
-                movementSpeed: {
-                    walk: actorData.movement.walk.rate.value ?? 0,
-                    fly: actorData.movement.fly.rate.value ?? 0,
-                    swim: actorData.movement.swim.rate.value ?? 0,
-                },
-                sensesRange: actorData.senses.range.value ?? 0,
-                token:
-                    tokens.length > 0
-                        ? {
-                              name: (tokens[0] as Token)?.name,
-                          }
-                        : undefined,
-            };
+            actor = this.actor.getRollData();
         }
-
         const targets = getTargetDescriptors();
 
         return {

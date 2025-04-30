@@ -107,6 +107,7 @@ export type CosmereActorRollData<T extends CommonActorData = CommonActorData> =
     {
         [K in keyof T]: T[K];
     } & {
+        name: string;
         attr: Record<string, number>;
         skills: Record<string, { rank: number; mod: number }>;
 
@@ -122,6 +123,12 @@ export type CosmereActorRollData<T extends CommonActorData = CommonActorData> =
                     'effect-size': Size;
                 }
             >;
+        };
+        // this comes from the enricher use case, don't know if there's anything on a token
+        // that isn't on the actor doc so probably not helpful at all in rolls, but moving it here
+        // as per the 30/04 meeting outcome.
+        token?: {
+            name: string;
         };
     };
 
@@ -1108,9 +1115,11 @@ export class CosmereActor<
     }
 
     public getRollData(): CosmereActorRollData<SystemType> {
+        const tokens = this.getActiveTokens();
         return {
             ...(super.getRollData() as SystemType),
 
+            name: this.name,
             // Attributes shorthand
             attr: (
                 Object.keys(CONFIG.COSMERE.attributes) as Attribute[]
@@ -1176,60 +1185,18 @@ export class CosmereActor<
                 },
             },
 
+            token:
+                tokens.length > 0
+                    ? { name: (tokens[0] as Token)?.name }
+                    : undefined,
+
             // Hook data
             source: this,
         };
     }
 
     public getEnricherData() {
-        const tokens = this.getActiveTokens();
-        const actor = {
-            name: this.name,
-            type: this.system.type.id,
-            attributes: Object.entries(this.system.attributes).reduce(
-                (obj, [attr, scores]) => {
-                    obj[attr as Attribute] = scores.value;
-                    return obj;
-                },
-                {} as Record<Attribute, number>,
-            ),
-            skills: Object.entries(this.system.skills).reduce(
-                (obj, [skill, details]) => {
-                    obj[skill as Skill] = {
-                        ranks: details.rank,
-                        mod: details.mod.value ?? 0,
-                    };
-                    return obj;
-                },
-                {} as Record<Skill, { ranks: number; mod: number }>,
-            ),
-            health: {
-                max: this.system.resources.hea.max.value ?? 0,
-                value: this.system.resources.hea.value,
-            },
-            focus: {
-                max: this.system.resources.foc.max.value ?? 0,
-                value: this.system.resources.foc.value,
-            },
-            investiture: {
-                max: this.system.resources.inv.max.value ?? 0,
-                value: this.system.resources.inv.value,
-            },
-            deflect: this.system.deflect.value ?? 0,
-            movementSpeed: {
-                walk: this.system.movement.walk.rate.value ?? 0,
-                fly: this.system.movement.fly.rate.value ?? 0,
-                swim: this.system.movement.swim.rate.value ?? 0,
-            },
-            sensesRange: this.system.senses.range.value ?? 0,
-            token:
-                tokens.length > 0
-                    ? {
-                          name: (tokens[0] as Token)?.name,
-                      }
-                    : undefined,
-        };
-
+        const actor = this.getRollData();
         const targets = getTargetDescriptors();
 
         return {

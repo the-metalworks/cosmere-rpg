@@ -344,7 +344,12 @@ export class CosmereChatMessage extends ChatMessage {
             TEMPLATES.CHAT_CARD_SECTION,
             {
                 type: 'damage',
-                icon: isHealing ? 'fa-solid fa-heart' : 'fa-solid fa-burst',
+                icon:
+                    (CONFIG.COSMERE.damageTypes[
+                        types.first()?.toLowerCase() as DamageType
+                    ].icon ?? isHealing)
+                        ? 'fa-solid fa-heart'
+                        : 'fa-solid fa-heart-crack',
                 title: game.i18n!.localize(
                     isHealing ? 'GENERIC.Healing' : 'GENERIC.Damage',
                 ),

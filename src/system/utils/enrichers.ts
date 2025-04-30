@@ -12,29 +12,7 @@ interface EnricherConfig {
 }
 
 export interface EnricherData {
-    actor?: {
-        name: string;
-        type: string;
-        attributes: {
-            [AttributeShortName in Attribute]: number;
-        };
-        skills: {
-            [SkillShortName in Skill]: { ranks: number; mod: number };
-        };
-        health: { max: number; value: number };
-        focus: { max: number; value: number };
-        investiture: { max: number; value: number };
-        deflect: number;
-        movementSpeed: {
-            walk: number;
-            fly: number;
-            swim: number;
-        };
-        sensesRange: number;
-        token?: {
-            name: string;
-        };
-    };
+    actor?: ReturnType<CosmereActor['getRollData']>;
     item?: {
         name: string;
         charges?: {
