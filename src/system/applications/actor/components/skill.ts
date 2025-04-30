@@ -1,4 +1,4 @@
-import { Skill } from '@system/types/cosmere';
+import { ActorType, Skill } from '@system/types/cosmere';
 import { ConstructorOf, MouseButton } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
@@ -6,6 +6,8 @@ import { TEMPLATES } from '@src/system/utils/templates';
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
 import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
+import { getSystemSetting, SETTINGS } from '@src/system/settings';
+import { CharacterActor } from '@src/system/documents';
 
 // NOTE: Must use a type instead of an interface to match `AnyObject` type
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
@@ -67,15 +69,39 @@ export class ActorSkillComponent extends HandlebarsApplicationComponent<
     ) {
         event.preventDefault();
 
-        const incrementBool: boolean = event.type === 'click' ? true : false;
+        // Check if click is left or right mouse button
+        const isLeftClick: boolean = event.type === 'click' ? true : false;
+        // Check if the legacy behavior is toggled on
+        const shouldIncDec: boolean = getSystemSetting(
+            SETTINGS.SHEET_SKILL_INCDEC_TOGGLE,
+        );
 
         // Get skill id
         const skillId = $(event.currentTarget!)
             .closest('[data-id]')
             .data('id') as Skill;
 
-        // Modify skill rank
-        await this.application.actor.modifySkillRank(skillId, incrementBool);
+        if (!shouldIncDec) {
+            // Get the index of the clicked pip
+            const rankIndex: number = $(event.currentTarget!).data(
+                'index',
+            ) as number;
+            // Get current skill rank
+            const currentRank: number =
+                this.application.actor.system.skills[skillId].rank;
+
+            // We want to increase or decrease based on the relative position of the clicked pip to the current rank
+            const changeAmount: number = rankIndex + 1 - currentRank;
+
+            // Set the skill rank to the clicked pip, clear the clicked pip, or clear all ranks on rightclick
+            await this.application.actor.modifySkillRank(
+                skillId,
+                isLeftClick ? changeAmount : -999,
+            );
+        } else {
+            // Increment/Decrement the skill rank based on click type
+            await this.application.actor.modifySkillRank(skillId, isLeftClick);
+        }
     }
 
     /* --- Accessors --- */
@@ -100,6 +126,12 @@ export class ActorSkillComponent extends HandlebarsApplicationComponent<
         // Get skill config
         const config = CONFIG.COSMERE.skills[params.skill];
 
+        let maxSkillRank = 5;
+        if (this.application.actor.type === ActorType.Character) {
+            const actor = this.application.actor as CharacterActor;
+            maxSkillRank = actor.system.maxSkillRank;
+        }
+
         // Get attribute config
         const attributeConfig = CONFIG.COSMERE.attributes[config.attribute];
 
@@ -116,6 +148,8 @@ export class ActorSkillComponent extends HandlebarsApplicationComponent<
 
             editable: !this.readonly,
             pips: this.pips,
+            maxSkillRank: maxSkillRank,
+            legacyMode: getSystemSetting(SETTINGS.SHEET_SKILL_INCDEC_TOGGLE),
         });
     }
 }
