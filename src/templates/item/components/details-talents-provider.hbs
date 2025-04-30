@@ -1,0 +1,22 @@
+{{#if isTalentsProvider}}
+    <fieldset>
+        <legend>{{localize "COSMERE.Item.Sheet.TalentsProvider.Title"}}</legend>
+
+        <div class="form-group"> 
+            <label>
+                {{localize systemFields.talentTree.label}}
+                <i class="info fa-regular fa-circle-question" data-tooltip="{{localize systemFields.talentTree.hint}}"></i>
+            </label>
+            <div class="form-fields">
+                {{app-document-reference-input
+                    name="system.talentTree"
+                    value=item.system.talentTree
+                    type="Item"
+                    subtype="talent_tree"
+                    placeholder="COSMERE.Item.Sheet.Path.TalentTreePlaceholder"
+                    readonly=(not editable)
+                }}
+            </div>
+        </div>
+    </fieldset>
+{{/if}}

@@ -208,6 +208,30 @@ export class CosmereActor<
 
     /* --- Lifecycle --- */
 
+    public prepareData() {
+        super.prepareData();
+        this.applyActiveEffects();
+    }
+
+    public prepareEmbeddedDocuments() {
+        /**
+         * NOTE: This is a workaround for the fact that in base Foundry, the Actor invokes
+         * the applyActiveEffects method during the prepareEmbeddedDocuments method, leaving
+         * us unable to access derived values in ActiveEffects.
+         */
+        /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
+
+        // Grab the Actor's parent class' prepareEmbeddedDocuments method
+        const parentProto = Object.getPrototypeOf(Object.getPrototypeOf(this));
+        const grandparentProto = Object.getPrototypeOf(parentProto);
+        const f = grandparentProto.prepareEmbeddedDocuments as () => void;
+
+        /* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
+
+        // Call the parent class' prepareEmbeddedDocuments method
+        f.call(this);
+    }
+
     protected override _initialize(options?: object) {
         super._initialize(options);
 
@@ -1214,17 +1238,17 @@ export class CosmereActor<
         } as const satisfies EnricherData;
     }
 
-    public *allApplicableEffects() {
-        for (const effect of super.allApplicableEffects()) {
-            if (
-                !(effect.parent instanceof CosmereItem) ||
-                !effect.parent.isEquippable() ||
-                effect.parent.system.equipped
-            ) {
-                yield effect;
-            }
-        }
-    }
+    // public *allApplicableEffects() {
+    //     for (const effect of super.allApplicableEffects()) {
+    //         if (
+    //             !(effect.parent instanceof CosmereItem) ||
+    //             !effect.parent.isEquippable() ||
+    //             effect.parent.system.equipped
+    //         ) {
+    //             yield effect;
+    //         }
+    //     }
+    // }
 
     /**
      * Utility Function to determine a formula value based on a scalar plot of an attribute value
