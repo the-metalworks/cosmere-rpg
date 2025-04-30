@@ -202,10 +202,10 @@
             }
 
             &.locked > div  {
-                background-color: var(--cosmere-color-base-5);
+                opacity: 0.35;
             }
 
-            &:not(.active, .locked) > div {
+            &:not(.active) > div {
                 background-color: var(--cosmere-color-base-1);
             }
         }
