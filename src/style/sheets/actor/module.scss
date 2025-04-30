@@ -759,7 +759,61 @@
                 }
             }
         }
-    }    
+    }
+
+    app-actor-expertises, app-actor-immunities {
+        .icon-header {
+            color: var(--cosmere-color-faded);
+        }
+
+        .expertises, .immunities {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+            margin-top: 0.375rem;
+        }
+
+        .expertise, .immunity {
+            font-family: var(--cosmere-font-normal);
+            font-size: var(--font-size-10);
+            font-weight: bold;
+            font-variant: lining-nums;
+            text-transform: uppercase;
+            color: var(--cosmere-color-faded);
+
+            border: 1px solid var(--cosmere-color-faded);
+            padding: 0.125rem 0.25rem;
+            border-radius: 6px;
+            background-color: var(--cosmere-color-base-2);
+            
+            display: flex;
+            flex-direction: row;
+            gap: 0.125rem;
+
+            > .separator {
+                line-height: 10px;
+                opacity: 0.8;
+            }
+        }
+    }
+
+    app-actor-immunities {
+        margin-top: 0.675rem;
+        margin-bottom: 0.625rem;
+    }
+
+    app-actor-expertises {
+        border-bottom: 1px solid var(--cosmere-color-accent);
+        border-left: 1px solid var(--cosmere-color-accent);
+        border-right: 1px solid var(--cosmere-color-accent);
+        border-bottom-right-radius: 6px;
+        border-bottom-left-radius: 6px;
+
+        background-color: var(--cosmere-color-base-2);
+
+        padding: .3rem
+    }
 
     app-actor-search-bar {
         .search-bar {

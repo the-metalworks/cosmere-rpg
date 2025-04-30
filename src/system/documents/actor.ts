@@ -10,6 +10,7 @@ import {
     InjuryType,
     Size,
     RestType,
+    ImmunityType,
 } from '@system/types/cosmere';
 import { Talent, TalentTree } from '@system/types/item';
 import {
@@ -1204,6 +1205,19 @@ export class CosmereActor<
                 (expertise) => expertise.type === type && expertise.id === id,
             ) ?? false
         );
+    }
+
+    /**
+     * Utility function to determine if an actor has a given immunity
+     * I know there's a neater way to do this...
+     */
+    public hasImmunity(
+        type: ImmunityType,
+        name: DamageType | Condition,
+    ): boolean {
+        return type === ImmunityType.Damage
+            ? this.system.immunities[type][name as DamageType]
+            : this.system.immunities[type][name as Condition];
     }
 
     /**

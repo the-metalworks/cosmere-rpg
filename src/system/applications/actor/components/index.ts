@@ -11,6 +11,8 @@ import './resource';
 import './search-bar';
 import './skills-group';
 import './skill';
+import './expertises';
+import './immunities';
 
 import './character';
 import './adversary';

@@ -110,7 +110,7 @@
         }
 
         .favorite-list {
-            margin-top: 0.375rem;
+            margin-top: 0.675rem;
 
             & > li {
                 margin-bottom: 0.375rem;
@@ -131,36 +131,17 @@
         }
     }
 
-    app-character-expertises {
-        .icon-header {
-            color: var(--cosmere-color-faded);
-        }
-
-        .expertises {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            gap: 0.25rem;
-            margin-top: 0.375rem;
-        }
-
-        .expertise {
-            font-family: var(--cosmere-font-normal);
-            font-size: var(--font-size-11);
-            font-weight: 600;
-            color: var(--cosmere-color-faded);
-            border: 1px solid var(--cosmere-color-faded);
-            padding: 0.15rem 0.4rem;
-            border-radius: 10px;
-            background-color: var(--cosmere-color-base-2);
-        }
-    }
-
     app-character-ancestry,
     app-character-culture {
         .border-box {
             background-color: var(--cosmere-color-neutral);
         }
+    }
+
+    .lineage {
+        display: flex;
+        flex-direction: column;
+        gap: 0.625rem;
     }
 
     app-character-paths-list {
