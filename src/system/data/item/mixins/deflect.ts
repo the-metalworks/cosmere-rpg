@@ -31,6 +31,8 @@ export function DeflectItemMixin<P extends CosmereItem>() {
     ) => {
         return class extends base {
             static defineSchema() {
+                const damageTypes = CONFIG.COSMERE.damageTypes;
+
                 return foundry.utils.mergeObject(super.defineSchema(), {
                     deflect: new foundry.data.fields.NumberField({
                         required: true,
@@ -38,21 +40,43 @@ export function DeflectItemMixin<P extends CosmereItem>() {
                         min: 0,
                         integer: true,
                     }),
-                    deflects: new MappingField(
-                        new foundry.data.fields.SchemaField({
-                            defaultActive: new foundry.data.fields.BooleanField(
-                                {
-                                    required: true,
-                                    nullable: false,
-                                    initial: true,
-                                },
-                            ),
-                            active: new foundry.data.fields.BooleanField({
-                                required: true,
-                                nullable: false,
-                                initial: true,
-                            }),
-                        }),
+                    deflects: new foundry.data.fields.SchemaField(
+                        Object.keys(damageTypes).reduce(
+                            (schemas, key) => {
+                                schemas[key] =
+                                    new foundry.data.fields.SchemaField({
+                                        defaultActive:
+                                            new foundry.data.fields.BooleanField(
+                                                {
+                                                    required: true,
+                                                    nullable: false,
+                                                    initial: !(
+                                                        damageTypes[
+                                                            key as DamageType
+                                                        ].ignoreDeflect ?? false
+                                                    ),
+                                                },
+                                            ),
+                                        active: new foundry.data.fields.BooleanField(
+                                            {
+                                                required: true,
+                                                nullable: false,
+                                                initial: !(
+                                                    damageTypes[
+                                                        key as DamageType
+                                                    ].ignoreDeflect ?? false
+                                                ),
+                                            },
+                                        ),
+                                    });
+
+                                return schemas;
+                            },
+                            {} as Record<
+                                string,
+                                foundry.data.fields.SchemaField
+                            >,
+                        ),
                     ),
                 });
             }
