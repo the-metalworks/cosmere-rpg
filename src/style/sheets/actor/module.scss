@@ -762,8 +762,6 @@
     }
 
     app-actor-expertises, app-actor-immunities {
-        margin-top: 0.675rem;
-
         .icon-header {
             color: var(--cosmere-color-faded);
         }
@@ -798,6 +796,23 @@
                 opacity: 0.8;
             }
         }
+    }
+
+    app-actor-immunities {
+        margin-top: 0.675rem;
+        margin-bottom: 0.625rem;
+    }
+
+    app-actor-expertises {
+        border-bottom: 1px solid var(--cosmere-color-accent);
+        border-left: 1px solid var(--cosmere-color-accent);
+        border-right: 1px solid var(--cosmere-color-accent);
+        border-bottom-right-radius: 6px;
+        border-bottom-left-radius: 6px;
+
+        background-color: var(--cosmere-color-base-2);
+
+        padding: .3rem
     }
 
     app-actor-search-bar {
