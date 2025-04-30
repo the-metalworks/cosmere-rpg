@@ -89,6 +89,8 @@ export const TEMPLATES = {
     ITEM_EFFECTS_TAB: 'item/partials/item-effects-tab.hbs',
     ITEM_DETAILS_TAB: 'item/partials/item-details-tab.hbs',
     ITEM_INJURY_DETAILS_TAB: 'item/injury/partials/injury-details-tab.hbs',
+    ITEM_TALENTS_TAB: 'item/partials/item-talents-tab.hbs',
+
     ITEM_SPECIALTY_DETAILS_TAB:
         'item/specialty/partials/specialty-details-tab.hbs',
     ITEM_LOOT_DETAILS_TAB: 'item/loot/partials/loot-details-tab.hbs',
@@ -103,8 +105,6 @@ export const TEMPLATES = {
     ITEM_TALENT_TREE_NODE_TOOLTIP:
         'item/talent-tree/partials/talent-tree-node-tooltip.hbs',
 
-    ITEM_PATH_TALENTS_TAB: 'item/path/partials/path-talents-tab.hbs',
-
     ITEM_DETAILS_ID: 'item/components/details-id.hbs',
     ITEM_DETAILS_ACTIVATION: 'item/components/details-activation.hbs',
     ITEM_DETAILS_ATTACK: 'item/components/details-attack.hbs',
@@ -112,6 +112,8 @@ export const TEMPLATES = {
     ITEM_DETAILS_EQUIP: 'item/components/details-equip.hbs',
     ITEM_DETAILS_MODALITY: 'item/components/details-modality.hbs',
     ITEM_DETAILS_TYPE: 'item/components/details-type.hbs',
+    ITEM_DETAILS_TALENTS_PROVIDER:
+        'item/components/details-talents-provider.hbs',
 
     ITEM_EFFECTS_LIST: 'item/components/effects-list.hbs',
     ITEM_ANCESTRY_TALENT_LIST:

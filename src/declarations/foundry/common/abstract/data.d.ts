@@ -872,12 +872,27 @@ namespace foundry {
             update(data?: object);
 
             /**
+             * Prepare data for the Document. This method is called automatically by the DataModel#_initialize workflow.
+             * This method provides an opportunity for Document classes to define special data preparation logic.
+             * The work done by this method should be idempotent. There are situations in which prepareData may be called more
+             * than once.
+             * @memberof ClientDocumentMixin#
+             */
+            public prepareData();
+
+            /**
              * Apply transformations of derivations to the values of the source data object.
              * Compute data fields whose values are not stored to the database.
              *
              * Called before {@link ClientDocument#prepareDerivedData} in {@link ClientDocument#prepareData}.
              */
             public prepareBaseData();
+
+            /**
+             * Prepare all embedded Document instances which exist within this primary Document.
+             * @memberof ClientDocumentMixin#
+             */
+            public repareEmbeddedDocuments();
 
             /**
              * Apply transformations of derivations to the values of the source data object.
