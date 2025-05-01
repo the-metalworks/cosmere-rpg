@@ -1,3 +1,5 @@
+import { CosmereActor } from './actor';
+import { MESSAGE_TYPES } from './chat-message';
 import {
     ItemType,
     Skill,
@@ -9,13 +11,7 @@ import {
     ActionCostType,
 } from '@system/types/cosmere';
 import { Goal } from '@system/types/item';
-import { GoalItemData } from '@system/data/item/goal';
 import { DeepPartial, Nullable } from '@system/types/utils';
-import { CosmereActor } from './actor';
-import { SYSTEM_ID } from '@system/constants';
-
-// Dialogs
-import { AttackConfigurationDialog } from '@system/applications/dialogs/attack-configuration';
 
 // Data model
 import {
@@ -33,6 +29,7 @@ import {
     LootItemDataModel,
     EquipmentItemDataModel,
     GoalItemDataModel,
+    GoalItemData,
     PowerItemDataModel,
     TalentTreeItemDataModel,
 } from '@system/data/item';
@@ -60,14 +57,23 @@ import {
 } from '@system/dice';
 import { AdvantageMode } from '@system/types/roll';
 import { RollMode } from '@system/dice/types';
+
+// Hooks
+import { CosmereHooks } from '@system/hooks';
+
+// Utils
 import {
     determineConfigurationMode,
     getTargetDescriptors,
 } from '@system/utils/generic';
-import { MESSAGE_TYPES } from './chat-message';
 import { renderSystemTemplate, TEMPLATES } from '@system/utils/templates';
+
+// Dialogs
+import { AttackConfigurationDialog } from '@system/applications/dialogs/attack-configuration';
 import { ItemConsumeDialog } from '@system/applications/item/dialogs/item-consume';
-import { CosmereHooks } from '@system/types/hooks';
+
+// Constants
+import { SYSTEM_ID } from '@system/constants';
 
 // Constants
 const CONSUME_CONFIGURATION_DIALOG_TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ITEM_CONSUME}`;
@@ -663,8 +669,8 @@ export class CosmereItem<
              * Hook: preAttackRollConfiguration
              */
             if (
-                Hooks.call<CosmereHooks.RollConfig>(
-                    'cosmere.preAttackRollConfiguration',
+                Hooks.call<CosmereHooks.PreAttackRollConfiguration>(
+                    CosmereHooks.PreAttackRollConfiguration,
                     options, // Config
                     this, // Source
                 ) === false
@@ -749,8 +755,8 @@ export class CosmereItem<
             /**
              * Hook: postAttackRollConfiguration
              */
-            Hooks.callAll<CosmereHooks.RollConfig>(
-                'cosmere.postAttackRollConfiguration',
+            Hooks.callAll<CosmereHooks.PostAttackRollConfiguration>(
+                CosmereHooks.PostAttackRollConfiguration,
                 options, // Config
                 this, // Source
             );

@@ -32,11 +32,14 @@ import { CharacterActorDataModel } from '@system/data/actor/character';
 import { AdversaryActorDataModel } from '@system/data/actor/adversary';
 
 import { PowerItemData } from '@system/data/item';
-
 import { Derived } from '@system/data/fields';
-import { SYSTEM_ID } from '../constants';
+
 import { d20Roll, D20Roll, D20RollData, DamageRoll } from '@system/dice';
-import { AttributeScale } from '../types/config';
+
+import { AttributeScale } from '@system/types/config';
+
+// Hooks
+import { CosmereHooks } from '@system/hooks';
 
 // Dialogs
 import { ShortRestDialog } from '@system/applications/actor/dialogs/short-rest';
@@ -45,7 +48,9 @@ import { MESSAGE_TYPES } from './chat-message';
 // Utils
 import { getTargetDescriptors } from '../utils/generic';
 import { characterMeetsTalentPrerequisites } from '@system/utils/talent-tree';
-import { CosmereHooks } from '../types/hooks';
+
+// Constants
+import { SYSTEM_ID } from '../constants';
 
 export type CharacterActor = CosmereActor<CharacterActorDataModel>;
 export type AdversaryActor = CosmereActor<AdversaryActorDataModel>;
@@ -537,8 +542,8 @@ export class CosmereActor<
          * Hook: preRollInjuryType
          */
         if (
-            Hooks.call<CosmereHooks.PreRoll>(
-                'cosmere.preInjuryTypeRoll',
+            Hooks.call<CosmereHooks.PreInjuryTypeRoll>(
+                CosmereHooks.PreInjuryTypeRoll,
                 roll, // Roll object
                 this, // Source
             ) === false
@@ -559,8 +564,8 @@ export class CosmereActor<
         /**
          * Hook: postRollInjuryType
          */
-        Hooks.callAll<CosmereHooks.PostRoll>(
-            'cosmere.postInjuryTypeRoll',
+        Hooks.callAll<CosmereHooks.PostInjuryTypeRoll>(
+            CosmereHooks.PostInjuryTypeRoll,
             roll, // Evaluated roll
             result, // Table result
             this, // Source
@@ -582,8 +587,8 @@ export class CosmereActor<
              * Hook: preRollInjuryDuration
              */
             if (
-                Hooks.call<CosmereHooks.PreRoll>(
-                    'cosmere.preInjuryDurationRoll',
+                Hooks.call<CosmereHooks.PreInjuryDurationRoll>(
+                    CosmereHooks.PreInjuryDurationRoll,
                     durationRoll, // Roll object
                     this, // Source
                 ) === false
@@ -598,8 +603,8 @@ export class CosmereActor<
              *
              * Passes the evaluated roll
              */
-            Hooks.callAll<CosmereHooks.PostRoll>(
-                'cosmere.postInjuryDurationRoll',
+            Hooks.callAll<CosmereHooks.PostInjuryDurationRoll>(
+                CosmereHooks.PostInjuryDurationRoll,
                 durationRoll, // Roll object
                 this, // Source
                 {}, // Options
@@ -707,8 +712,8 @@ export class CosmereActor<
          * Hook: preApplyDamage
          */
         if (
-            Hooks.call<CosmereHooks.ApplyDamage>(
-                'cosmere.preApplyDamage',
+            Hooks.call<CosmereHooks.PreApplyDamage>(
+                CosmereHooks.PreApplyDamage,
                 this,
                 damage,
             ) === false
@@ -726,8 +731,8 @@ export class CosmereActor<
         /**
          * Hook: postApplyDamage
          */
-        Hooks.callAll<CosmereHooks.ApplyDamage>(
-            'cosmere.postApplyDamage',
+        Hooks.callAll<CosmereHooks.PostApplyDamage>(
+            CosmereHooks.PostApplyDamage,
             this,
             damage,
         );
@@ -940,8 +945,8 @@ export class CosmereActor<
          * Hook: preRest
          */
         if (
-            Hooks.call<CosmereHooks.Rest>(
-                'cosmere.preRest',
+            Hooks.call<CosmereHooks.PreRest>(
+                CosmereHooks.PreRest,
                 this,
                 RestType.Short,
             ) === false
@@ -966,8 +971,8 @@ export class CosmereActor<
          * Hook: preShortRestRecoveryRoll
          */
         if (
-            Hooks.call<CosmereHooks.PreRoll>(
-                'cosmere.preShortRestRecoveryRoll',
+            Hooks.call<CosmereHooks.PreShortRestRecoveryRoll>(
+                CosmereHooks.PreShortRestRecoveryRoll,
                 roll, // Roll object
                 this, // Source
             ) === false
@@ -980,8 +985,8 @@ export class CosmereActor<
         /**
          * Hook: postShortRestRecoveryRoll
          */
-        Hooks.callAll<CosmereHooks.PostRoll>(
-            'cosmere.postShortRestRecoveryRoll',
+        Hooks.callAll<CosmereHooks.PostShortRestRecoveryRoll>(
+            CosmereHooks.PostShortRestRecoveryRoll,
             roll, // Roll object
             this, // Source
             {}, // Options
@@ -1005,8 +1010,8 @@ export class CosmereActor<
         /**
          * Hook: postRest
          */
-        Hooks.callAll<CosmereHooks.Rest>(
-            'cosmere.postRest',
+        Hooks.callAll<CosmereHooks.PostRest>(
+            CosmereHooks.PostRest,
             this,
             RestType.Short,
         );
@@ -1058,8 +1063,8 @@ export class CosmereActor<
          * Hook: preRest
          */
         if (
-            Hooks.call<CosmereHooks.Rest>(
-                'cosmere.preRest',
+            Hooks.call<CosmereHooks.PreRest>(
+                CosmereHooks.PreRest,
                 this,
                 RestType.Long,
             ) === false
@@ -1075,8 +1080,8 @@ export class CosmereActor<
         /**
          * Hook: postRest
          */
-        Hooks.callAll<CosmereHooks.Rest>(
-            'cosmere.postRest',
+        Hooks.callAll<CosmereHooks.PostRest>(
+            CosmereHooks.PostRest,
             this,
             RestType.Long,
         );

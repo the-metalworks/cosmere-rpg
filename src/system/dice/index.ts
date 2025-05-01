@@ -1,14 +1,18 @@
 import { Attribute } from '@system/types/cosmere';
+import { AdvantageMode } from '@system/types/roll';
 
 import './modifiers';
 import { D20Roll, D20RollOptions, D20RollData } from './d20-roll';
 import { DamageRoll, DamageRollOptions, DamageRollData } from './damage-roll';
+
+// Hooks
+import { CosmereHooks } from '@system/hooks';
+
+// Utils
 import {
     determineConfigurationMode,
     getFormulaDisplayString,
-} from '../utils/generic';
-import { AdvantageMode } from '../types/roll';
-import { CosmereHooks } from '../types/hooks';
+} from '@system/utils/generic';
 
 export * from './d20-roll';
 export * from './damage-roll';
@@ -104,7 +108,7 @@ export async function d20Roll(
      */
     if (
         Hooks.call<CosmereHooks.PreRoll>(
-            `cosmere.pre${config.data.context}Roll`,
+            CosmereHooks.PreRoll(config.data.context),
             roll, // Roll object
             config.data.source, // Source
             config, // Options
@@ -117,8 +121,8 @@ export async function d20Roll(
          * Hook: preRollConfiguration
          */
         if (
-            Hooks.call<CosmereHooks.RollConfig>(
-                `cosmere.pre${config.data.context}RollConfiguration`,
+            Hooks.call<CosmereHooks.PreRollConfiguration>(
+                CosmereHooks.PreRollConfiguration(config.data.context),
                 config, // Config
                 config.data.source, // Source
             ) === false
@@ -148,8 +152,8 @@ export async function d20Roll(
         /**
          * Hook: postRollConfiguration
          */
-        Hooks.callAll<CosmereHooks.RollConfig>(
-            `cosmere.post${config.data.context}RollConfiguration`,
+        Hooks.callAll<CosmereHooks.PostRollConfiguration>(
+            CosmereHooks.PostRollConfiguration(config.data.context),
             config, // Config
             config.data.source, // Source
         );
@@ -164,7 +168,7 @@ export async function d20Roll(
      * Hook: postRoll
      */
     Hooks.callAll<CosmereHooks.PostRoll>(
-        `cosmere.post${config.data.context}Roll`,
+        CosmereHooks.PostRoll(config.data.context),
         roll, // Roll object
         config.data.source, // Source
         config, // Options
@@ -198,8 +202,8 @@ export async function damageRoll(
     // Note: this setup doesn't allow for early exits from hook listeners,
     // in order to not modify the function signature and not jeopardize
     // the results with additional side effects.
-    Hooks.callAll<CosmereHooks.PreRoll>(
-        'cosmere.preDamageRoll',
+    Hooks.callAll<CosmereHooks.PreDamageRoll>(
+        CosmereHooks.PreDamageRoll,
         roll, // Roll object
         config.data.source, // Source
         config, // Options
@@ -211,8 +215,8 @@ export async function damageRoll(
     /**
      * Hook: postDamageRoll
      */
-    Hooks.callAll<CosmereHooks.PostRoll>(
-        'cosmere.postDamageRoll',
+    Hooks.callAll<CosmereHooks.PostDamageRoll>(
+        CosmereHooks.PostDamageRoll,
         roll, // Roll object
         config.data.source, // Source
         config, // Options

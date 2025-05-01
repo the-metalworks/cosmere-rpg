@@ -9,20 +9,29 @@ import { DamageRoll } from '@system/dice/damage-roll';
 
 import { CosmereActor } from './actor';
 import { InjuryItem } from './item';
-import { renderSystemTemplate, TEMPLATES } from '../utils/templates';
-import { SYSTEM_ID } from '../constants';
-import { AdvantageMode } from '../types/roll';
-import { getSystemSetting, KEYBINDINGS, SETTINGS } from '../settings';
+
+import { AdvantageMode } from '@system/types/roll';
+
+// Hooks
+import { CosmereHooks } from '@system/hooks';
+
+// Settings
+import { getSystemSetting, KEYBINDINGS, SETTINGS } from '@system/settings';
+
+// Utils
 import {
     areKeysPressed,
     getApplyTargets,
     getConstantFromRoll,
     TargetDescriptor,
-} from '../utils/generic';
-import ApplicationV2 from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/client-esm/applications/api/application.mjs';
-import { DamageModifierDialog } from '../applications/actor/dialogs/damage-card-modifier';
-import { AnyObject } from '../types/utils';
-import { CosmereHooks } from '../types/hooks';
+} from '@system/utils/generic';
+import { renderSystemTemplate, TEMPLATES } from '@system/utils/templates';
+
+// Dialogs
+import { DamageModifierDialog } from '@system/applications/actor/dialogs/damage-card-modifier';
+
+// Constants
+import { SYSTEM_ID } from '@system/constants';
 
 export const MESSAGE_TYPES = {
     SKILL: 'skill',
@@ -437,7 +446,7 @@ export class CosmereChatMessage extends ChatMessage {
                      */
                     if (
                         Hooks.call<CosmereHooks.PreApplyInjury>(
-                            'cosmere.preApplyInjury',
+                            CosmereHooks.PreApplyInjury,
                             this,
                             this.associatedActor,
                             { type: data.type, duration },
@@ -466,7 +475,7 @@ export class CosmereChatMessage extends ChatMessage {
                      * Passes the created injury item
                      */
                     Hooks.callAll<CosmereHooks.PostApplyInjury>(
-                        'cosmere.postApplyInjury',
+                        CosmereHooks.PostApplyInjury,
                         this,
                         this.associatedActor,
                         injuryItem,
@@ -1076,7 +1085,7 @@ export class CosmereChatMessage extends ChatMessage {
          * Pass message and triggering event
          */
         return Hooks.call<CosmereHooks.MessageInteracted>(
-            'cosmere.chatMessageInteracted',
+            CosmereHooks.MessageInteracted,
             this,
             event,
         );

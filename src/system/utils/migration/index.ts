@@ -4,8 +4,10 @@ import { Migration } from '@src/system/types/migration';
 
 // Migrations
 import MIGRATE_0_2__0_3 from './migrations/0.2-0.3';
-import { GlobalUI } from '@src/system/types/utils';
-import { CosmereHooks } from '@src/system/types/hooks';
+import { GlobalUI } from '@system/types/utils';
+
+// Hooks
+import { CosmereHooks } from '@system/hooks';
 
 // Constants
 const MIGRATIONS: Migration[] = [MIGRATE_0_2__0_3];
@@ -38,7 +40,11 @@ export async function migrate(from: string, to: string) {
     /**
      * Hook: preMigration
      */
-    Hooks.callAll<CosmereHooks.Migration>('cosmere.preMigration', from, to);
+    Hooks.callAll<CosmereHooks.PreMigration>(
+        CosmereHooks.PreMigration,
+        from,
+        to,
+    );
 
     // Get all migrations between the versions
     const migrations = MIGRATIONS.filter((migration) => {
@@ -60,8 +66,8 @@ export async function migrate(from: string, to: string) {
         /**
          * Hook: preMigrationVersion
          */
-        Hooks.callAll<CosmereHooks.Migration>(
-            'cosmere.preMigrationVersion',
+        Hooks.callAll<CosmereHooks.PreMigrateVersion>(
+            'cosmere.preMigrateVersion',
             migration.from,
             migration.to,
         );
@@ -85,8 +91,8 @@ export async function migrate(from: string, to: string) {
         /**
          * Hooks: postMigrationVersion
          */
-        Hooks.callAll<CosmereHooks.Migration>(
-            'cosmere.postMigrationVersion',
+        Hooks.callAll<CosmereHooks.PostMigrateVersion>(
+            CosmereHooks.PostMigrateVersion,
             migration.from,
             migration.to,
         );
@@ -101,7 +107,11 @@ export async function migrate(from: string, to: string) {
     /**
      * Hook: postMigration
      */
-    Hooks.callAll<CosmereHooks.Migration>('cosmere.postMigration', from, to);
+    Hooks.callAll<CosmereHooks.PostMigration>(
+        CosmereHooks.PostMigration,
+        from,
+        to,
+    );
 }
 
 /* --- Helpers --- */
