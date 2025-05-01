@@ -1,17 +1,14 @@
 import { ActorType, AdversaryRole, TurnSpeed } from '@src/system/types/cosmere';
 import { CosmereCombatant } from '@src/system/documents/combatant';
 import { SYSTEM_ID } from '@src/system/constants';
-import { AdversaryActor } from '@src/system/documents';
-import { combat } from '..';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 /**
  * Overrides default tracker template to implement slow/fast buckets and combatant activation button.
  */
 export class CosmereCombatTracker extends CombatTracker {
-    // Note: lint rules wants this to be exposed as a readonly field, but base class implements a getter.
-    // eslint-disable-next-line @typescript-eslint/class-literal-property-style
     override get template() {
-        return 'systems/cosmere-rpg/templates/combat/combat-tracker.hbs';
+        return `systems/${SYSTEM_ID}/templates/${TEMPLATES.COMBAT_TRACKER}`;
     }
 
     /**
