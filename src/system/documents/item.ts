@@ -37,7 +37,10 @@ import {
     TalentTreeItemDataModel,
 } from '@system/data/item';
 
-import { ActivatableItemData } from '@system/data/item/mixins/activatable';
+import {
+    ActivatableItemData,
+    ItemConsumeData,
+} from '@system/data/item/mixins/activatable';
 import { AttackingItemData } from '@system/data/item/mixins/attacking';
 import { DamagingItemData } from '@system/data/item/mixins/damaging';
 import { PhysicalItemData } from '@system/data/item/mixins/physical';
@@ -836,64 +839,72 @@ export class CosmereItem<
         const consumptionAvailable =
             options.shouldConsume !== false && !!this.system.activation.consume;
 
+        console.log('test');
         // Determine if we should handle resource consumption
-        const shouldConsume =
-            consumptionAvailable &&
-            (options.shouldConsume === true ||
-                (await this.showConsumeDialog()));
+        let consumeResponse: ItemConsumeData[] | null = null;
+        if (consumptionAvailable && !options.shouldConsume) {
+            consumeResponse = await this.showConsumeDialog();
 
-        // If the dialog was closed, exit out of use action
-        if (shouldConsume === null) return null;
+            // If the dialog was closed, exit out of use action
+            if (consumeResponse === null) return null;
+        }
 
+        console.log(consumeResponse);
         // Handle resource consumption
-        if (shouldConsume) {
-            const consumeType = this.system.activation.consume!.type;
-            const consumeAmount = this.system.activation.consume!.value;
+        if (!!consumeResponse && consumeResponse.length > 0) {
+            // Process each included resource consumption
+            for (const consumption of consumeResponse) {
+                // Get the current amount
+                let currentAmount: number;
+                switch (consumption.type) {
+                    case ItemConsumeType.Resource:
+                        currentAmount =
+                            actor.system.resources[consumption.resource!].value;
+                        break;
+                    // case ItemConsumeType.Item:
+                    // TODO
+                    default:
+                        currentAmount = 0;
+                }
 
-            // The the current amount
-            const currentAmount =
-                consumeType === ItemConsumeType.Resource
-                    ? actor.system.resources[
-                          this.system.activation.consume!.resource!
-                      ].value
-                    : consumeType === ItemConsumeType.Item
-                      ? 0 // TODO: Figure out how to handle item consumption
-                      : 0;
+                // Validate that there's enough resource to consume
+                const newAmount = currentAmount - consumption.value;
+                if (newAmount < 0) {
+                    ui.notifications.warn(
+                        game.i18n!.localize(
+                            'GENERIC.Warning.NotEnoughResource',
+                        ),
+                    );
+                    return null;
+                }
 
-            // Validate we can consume the amount
-            const newAmount = currentAmount - consumeAmount;
-            if (newAmount < 0) {
-                ui.notifications.warn(
-                    game.i18n!.localize('GENERIC.Warning.NotEnoughResource'),
-                );
-                return null;
-            }
-
-            // Add post roll action to consume the resource
-            postRoll.push(() => {
-                if (consumeType === ItemConsumeType.Resource) {
-                    // Handle actor resource consumption
-                    void actor.update({
-                        system: {
-                            resources: {
-                                [this.system.activation.consume!
-                                    .resource as string]: {
-                                    value: newAmount,
+                // Add post roll action to consume the resource
+                postRoll.push(() => {
+                    if (consumption.type === ItemConsumeType.Resource) {
+                        // Handle actor resource consumption
+                        void actor.update({
+                            system: {
+                                resources: {
+                                    [consumption.resource!]: {
+                                        value: newAmount,
+                                    },
                                 },
                             },
-                        },
-                    });
-                } else if (consumeType === ItemConsumeType.Item) {
-                    // Handle item consumption
-                    // TODO: Figure out how to handle item consumption
+                        });
+                    } else if (consumption.type === ItemConsumeType.Item) {
+                        // Handle item consumption
+                        // TODO: Figure out how to handle item consumption
 
-                    ui.notifications.warn(
-                        game
-                            .i18n!.localize('GENERIC.Warning.NotImplemented')
-                            .replace('[action]', 'Item consumption'),
-                    );
-                }
-            });
+                        ui.notifications.warn(
+                            game
+                                .i18n!.localize(
+                                    'GENERIC.Warning.NotImplemented',
+                                )
+                                .replace('[action]', 'Item consumption'),
+                        );
+                    }
+                });
+            }
         }
 
         // Handle item uses
@@ -1058,37 +1069,39 @@ export class CosmereItem<
 
     protected async showConsumeDialog(
         options: ShowConsumeDialogOptions = {},
-    ): Promise<boolean | null> {
-        if (!this.hasActivation()) return false;
-        if (!this.system.activation.consume) return false;
+    ): Promise<ItemConsumeData[] | null> {
+        if (!this.hasActivation()) return null;
+        if (!this.system.activation.consume) return null;
 
-        const consumeType =
-            options.consumeType ?? this.system.activation.consume.type;
-        const shouldConsume = options.shouldConsume ?? true;
-        const amount = this.system.activation.consume.value;
-        const title =
-            options.title ?? game.i18n!.localize('DIALOG.ItemConsume.Title');
+        const consumeOptions = this.system.activation.consume.map(
+            (consumptionData) => {
+                const consumeType = options.consumeType ?? consumptionData.type;
+                const shouldConsume = options.shouldConsume ?? true;
+                const amount = consumptionData.value;
 
-        // Determine consumed resource label
-        const consumedResourceLabel =
-            consumeType === ItemConsumeType.Resource
-                ? game.i18n!.localize(
-                      CONFIG.COSMERE.resources[
-                          this.system.activation.consume.resource!
-                      ].label,
-                  )
-                : consumeType === ItemConsumeType.Item
-                  ? '[TODO ITEM]'
-                  : game.i18n!.localize('GENERIC.Unknown');
+                const label =
+                    consumeType === ItemConsumeType.Resource
+                        ? game.i18n!.localize(
+                              CONFIG.COSMERE.resources[
+                                  consumptionData.resource!
+                              ].label,
+                          )
+                        : consumeType === ItemConsumeType.Item
+                          ? '[TODO ITEM]'
+                          : game.i18n!.localize('GENERIC.Unknown');
+
+                return {
+                    resource: label,
+                    amount,
+                    shouldConsume,
+                };
+            },
+        );
 
         // Show the dialog if required
-        const result = await ItemConsumeDialog.show(this, {
-            resource: consumedResourceLabel,
-            amount,
-            shouldConsume,
-        });
+        const result = await ItemConsumeDialog.show(this, consumeOptions);
 
-        return result?.shouldConsume ?? null;
+        return result?.consumption ?? null;
     }
 
     /* --- Functions --- */

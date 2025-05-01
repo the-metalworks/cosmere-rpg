@@ -1,6 +1,9 @@
 import { SYSTEM_ID } from '@src/system/constants';
+import { ItemConsumeData } from '@src/system/data/item/mixins/activatable';
 import { CosmereItem } from '@src/system/documents';
+import { ItemConsumeType } from '@src/system/types/cosmere';
 import { TEMPLATES } from '@src/system/utils/templates';
+import { resourceUsage } from 'process';
 
 // Constants
 const TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ITEM_CONSUME}`;
@@ -24,9 +27,9 @@ interface ItemConsumeDialogOptions {
 
 interface ItemConsumeDialogResult {
     /**
-     * Whether or not to carry out the consume.
+     * Resource(s) to consume
      */
-    shouldConsume: boolean;
+    consumption: ItemConsumeData[];
 }
 
 export class ItemConsumeDialog extends foundry.applications.api.DialogV2 {
@@ -64,16 +67,19 @@ export class ItemConsumeDialog extends foundry.applications.api.DialogV2 {
 
     public static async show(
         item: CosmereItem,
-        options: ItemConsumeDialogOptions = {},
+        options: ItemConsumeDialogOptions[] = [],
     ): Promise<ItemConsumeDialogResult | null> {
         // Render dialog inner HTML
         const content = await renderTemplate(TEMPLATE, {
-            label: game.i18n!.format('DIALOG.ItemConsume.ShouldConsume', {
-                amount: options.amount ?? 0,
-                resource:
-                    options.resource ?? game.i18n!.localize('GENERIC.Unknown'),
-            }),
-            shouldConsume: options.shouldConsume ?? true,
+            resources: options.map((option) => ({
+                labels: game.i18n!.format('DIALOG.ItemConsume.ShouldConsume', {
+                    amount: option.amount ?? 0,
+                    resource:
+                        option.resource ??
+                        game.i18n!.localize('GENERIC.Unknown'),
+                }),
+                shouldConsume: option.shouldConsume ?? true,
+            })),
         });
 
         // Render dialog and wrap as promise
@@ -86,10 +92,38 @@ export class ItemConsumeDialog extends foundry.applications.api.DialogV2 {
 
     private onContinue() {
         const form = this.element.querySelector('form')! as HTMLFormElement & {
-            shouldConsume: HTMLInputElement;
+            consumables: HTMLInputElement[];
         };
 
+        console.log('Got form', form);
+
+        // Collate all valid consumption options
+        const collated = form.consumables
+            .map((elem) => {
+                // Only consume checked elements
+                if (!elem.checked) return null;
+
+                return {
+                    type: elem.name as ItemConsumeType,
+                    value: 0,
+                };
+            })
+            .filter((elem) => !!elem)
+            .reduce<Record<string, number>>((acc, consumable) => {
+                const existing = acc[consumable.type] ?? 0;
+                acc[consumable.type] = existing + consumable.value;
+                return acc;
+            }, {});
+
+        // Reconstruct list
+        const consumption = Object.entries(collated).map(([k, v]) => ({
+            type: k as ItemConsumeType,
+            value: v,
+        }));
+
         // Resolve
-        this.resolve({ shouldConsume: form.shouldConsume.checked });
+        this.resolve({
+            consumption,
+        });
     }
 }

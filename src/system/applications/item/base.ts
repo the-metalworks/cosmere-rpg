@@ -1,12 +1,24 @@
-import { ArmorTraitId, Skill, WeaponTraitId } from '@system/types/cosmere';
+import {
+    ArmorTraitId,
+    ItemConsumeType,
+    Resource,
+    Skill,
+    WeaponTraitId,
+} from '@system/types/cosmere';
 import { CosmereItem } from '@system/documents/item';
-import { DeepPartial, AnyObject, NONE } from '@system/types/utils';
+import {
+    DeepPartial,
+    AnyObject,
+    NONE,
+    AnyMutableObject,
+} from '@system/types/utils';
 import { renderSystemTemplate, TEMPLATES } from '@src/system/utils/templates';
 
 // Mixins
 import { ComponentHandlebarsApplicationMixin } from '@system/applications/component-system';
 import { TabsApplicationMixin } from '@system/applications/mixins';
 import { DescriptionItemData } from '@src/system/data/item/mixins/description';
+import { ItemConsumeData } from '@src/system/data/item/mixins/activatable';
 
 const { ItemSheetV2 } = foundry.applications.sheets;
 
@@ -81,6 +93,8 @@ export class BaseItemSheet extends TabsApplicationMixin(
 
         if (!('name' in event.target!)) return;
 
+        console.log('Got item form event', event, formData);
+
         if (this.item.isPhysical() && 'system.price.unit' in formData.object) {
             // Get currency id
             const [currencyId, denominationId] = (
@@ -116,18 +130,6 @@ export class BaseItemSheet extends TabsApplicationMixin(
                 formData.set('system.activation.cost.type', null);
 
             if (
-                'system.activation.consume.type' in formData.object &&
-                formData.object['system.activation.consume.type'] === NONE
-            )
-                formData.set('system.activation.consume', null);
-
-            if (
-                'system.activation.consume.resource' in formData.object &&
-                formData.object['system.activation.consume.resource'] === NONE
-            )
-                formData.set('system.activation.consume.resource', null);
-
-            if (
                 'system.activation.skill' in formData.object &&
                 formData.object['system.activation.skill'] === NONE
             )
@@ -161,6 +163,14 @@ export class BaseItemSheet extends TabsApplicationMixin(
                 formData.object['system.activation.uses.recharge'] === NONE
             )
                 formData.set('system.activation.uses.recharge', null);
+
+            // Handle consumption
+            const consumption = this.getUpdatedConsumption(formData);
+            if (consumption.length === 0) {
+                formData.set('system.activation.consume', null);
+            } else {
+                formData.set('system.activation.consume', consumption);
+            }
         }
 
         if (this.item.hasDamage()) {
@@ -420,5 +430,57 @@ export class BaseItemSheet extends TabsApplicationMixin(
         // Switches back from prose mirror
         this.updatingDescription = false;
         await this.render(true);
+    }
+
+    /**
+     * Helper to track activation consumption changes
+     */
+    private getUpdatedConsumption(
+        formData: FormDataExtended,
+    ): ItemConsumeData[] {
+        const consumeData = new Map<number, AnyMutableObject>();
+
+        const consumeFormKeys = Object.keys(formData.object).filter((k) =>
+            k.startsWith('system.activation.consume'),
+        );
+
+        consumeFormKeys.forEach((formKey) => {
+            // Index can be empty, assuming there isn't an existing
+            // consumption configured.
+            const parts = /\[(\d*)\]\.(\w+)$/.exec(formKey);
+
+            if (!parts || parts.length < 2) {
+                console.error('Bad form key:', formKey);
+                return;
+            }
+
+            // Invalid or missing indices will always be sorted to the front,
+            // without overwriting existing data.
+            const i = parseInt(parts[1]) || -1;
+            const dataKey = parts[2];
+
+            const existingConsumeData = consumeData.get(i) ?? {
+                type: ItemConsumeType.Resource,
+                value: 0,
+                resource: Resource.Focus,
+            };
+
+            existingConsumeData[dataKey] = formData.get(formKey);
+
+            if (existingConsumeData.type === NONE) {
+                consumeData.delete(i);
+            } else {
+                consumeData.set(i, existingConsumeData);
+            }
+
+            // Clean up form data to remove the old keys
+            delete formData.object[formKey];
+        });
+
+        return [...consumeData.entries()]
+            .sort(([a], [b]) => {
+                return a - b;
+            })
+            .map(([_, v]) => v as unknown as ItemConsumeData);
     }
 }
