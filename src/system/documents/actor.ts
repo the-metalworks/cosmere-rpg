@@ -207,11 +207,6 @@ export class CosmereActor<
 
     /* --- Lifecycle --- */
 
-    public prepareData() {
-        super.prepareData();
-        this.applyActiveEffects();
-    }
-
     public prepareEmbeddedDocuments() {
         /**
          * NOTE: This is a workaround for the fact that in base Foundry, the Actor invokes
@@ -229,6 +224,11 @@ export class CosmereActor<
 
         // Call the parent class' prepareEmbeddedDocuments method
         f.call(this);
+    }
+
+    public prepareDerivedData() {
+        super.prepareDerivedData();
+        this.applyActiveEffects();
     }
 
     protected override _initialize(options?: object) {
