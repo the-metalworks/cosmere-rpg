@@ -773,6 +773,7 @@ const COSMERE: CosmereRPGConfig = {
         },
 
         events: {
+            types: {}, // Default events registered using the api
             handlers: {}, // Default handlers registered using the api
         },
     },

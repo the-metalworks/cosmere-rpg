@@ -18,10 +18,10 @@ export interface RuleData<C = unknown> {
 
     /**
      * The event for which this rule is triggered.
-     * Typed as `ItemEvents.EventType | 'none'` for consistency within the project,
-     * but can be any string.
+     *
+     * @default 'none'
      */
-    event: ItemEvents.EventType | 'none';
+    event: string;
 
     /**
      * The handler for this rule
@@ -41,7 +41,12 @@ export class Rule extends foundry.abstract.DataModel {
             }),
             event: new foundry.data.fields.StringField({
                 required: true,
+                blank: false,
                 initial: 'none',
+                choices: () => [
+                    ...Object.keys(CONFIG.COSMERE.items.events.types),
+                    'none',
+                ],
             }),
             handler: new HandlerField({
                 required: true,

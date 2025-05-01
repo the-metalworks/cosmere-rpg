@@ -313,7 +313,15 @@ export interface MovementTypeConfig {
     label: string;
 }
 
-export interface HandlerTypeConfig {
+export interface ItemEventTypeConfig {
+    label: string;
+    hook: string;
+    // NOTE: Allow any type as conditions should be able to freely match hook signatures
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    condition?: (...args: any[]) => boolean;
+}
+
+export interface ItemEventHandlerTypeConfig {
     label: string;
     documentClass: ItemEvents.HandlerCls;
 }
@@ -387,7 +395,8 @@ export interface CosmereRPGConfig {
         };
 
         events: {
-            handlers: Record<string, HandlerTypeConfig>;
+            types: Record<string, ItemEventTypeConfig>;
+            handlers: Record<string, ItemEventHandlerTypeConfig>;
         };
     };
 

@@ -14,6 +14,7 @@ import {
     SkillConfig,
     PowerTypeConfig,
     ActionTypeConfig,
+    ItemEventTypeConfig,
 } from '@system/types/config';
 import { Events as ItemEvents } from '@system/types/item';
 
@@ -312,6 +313,32 @@ export function registerTheme(data: ThemeConfigData, force = false) {
     CONFIG.COSMERE.themes[data.id as Theme] = data.label;
 }
 
+interface ItemEventTypeConfigData extends ItemEventTypeConfig {
+    type: string;
+}
+
+export function registerItemEventType(
+    data: ItemEventTypeConfigData,
+    force = false,
+) {
+    if (!CONFIG.COSMERE)
+        throw new Error('Cannot access api until after system is initialized.');
+
+    if (data.type in CONFIG.COSMERE.items.events.types && !force)
+        throw new Error('Cannot override existing item event type config.');
+
+    if (force) {
+        console.warn('Registering item event type with force=true.');
+    }
+
+    // Add to item event types
+    CONFIG.COSMERE.items.events.types[data.type] = {
+        label: data.label,
+        hook: data.hook,
+        condition: data.condition,
+    };
+}
+
 interface ItemEventHandlerConfigData {
     type: string;
     label: string;
@@ -357,5 +384,6 @@ export default {
     registerAncestry,
     registerCurrency,
     registerTheme,
+    registerItemEventType,
     registerItemEventHandlerType,
 };
