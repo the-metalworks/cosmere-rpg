@@ -9,13 +9,10 @@ import { SYSTEM_ID } from '@system/constants';
  * - postApplyDamage
  */
 
-export type ApplyDamage = (
-    actor: CosmereActor,
-    damage: DamageValues,
-) => boolean;
-export type PreApplyDamage = ApplyDamage;
+export type ApplyDamage<R> = (actor: CosmereActor, damage: DamageValues) => R;
+export type PreApplyDamage = ApplyDamage<boolean>;
 export const PreApplyDamage = `${SYSTEM_ID}.preApplyDamage` as const;
-export type PostApplyDamage = ApplyDamage;
+export type PostApplyDamage = ApplyDamage<void>;
 export const PostApplyDamage = `${SYSTEM_ID}.postApplyDamage` as const;
 
 /**

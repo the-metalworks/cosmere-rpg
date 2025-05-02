@@ -475,6 +475,9 @@ export class CosmereActor<
     public async setMode(modality: string, mode: string) {
         await this.setFlag(SYSTEM_ID, `mode.${modality}`, mode);
 
+        // Check if modality update was blocked
+        if (this.getMode(modality) !== mode) return;
+
         // Get all effects for this modality
         const effects = this.applicableEffects.filter(
             (effect) =>
@@ -504,6 +507,9 @@ export class CosmereActor<
     public async clearMode(modality: string) {
         await this.unsetFlag(SYSTEM_ID, `mode.${modality}`);
 
+        // Check if modality update was blocked
+        if (this.getMode(modality)) return;
+
         // Get all effects for this modality
         const effects = this.effects.filter(
             (effect) =>
@@ -516,6 +522,10 @@ export class CosmereActor<
         for (const effect of effects) {
             void effect.update({ disabled: true });
         }
+    }
+
+    public getMode(modality: string): string | null {
+        return this.getFlag(SYSTEM_ID, `mode.${modality}`);
     }
 
     public async rollInjury() {

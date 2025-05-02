@@ -838,6 +838,15 @@ export class CosmereItem<
             return null;
         }
 
+        // Hook: preItemUse
+        if (
+            Hooks.call<CosmereHooks.PreUseItem>(
+                CosmereHooks.PreUseItem,
+                this, // Source
+            ) === false
+        )
+            return null;
+
         // Determine whether or not resource consumption is available
         const consumptionAvailable =
             options.shouldConsume !== false && !!this.system.activation.consume;
@@ -925,7 +934,12 @@ export class CosmereItem<
         }
 
         // Handle talent mode activation
-        if (this.hasModality() && this.system.modality) {
+        if (
+            this.hasId() &&
+            this.hasModality() &&
+            this.system.modality &&
+            !!this.actor
+        ) {
             // Add post roll action to activate the mode
             postRoll.push(() => {
                 // Handle mode activation
@@ -960,6 +974,17 @@ export class CosmereItem<
                 targets: getTargetDescriptors(),
             },
         };
+
+        // Add hook call to post roll actions
+        postRoll.push(() => {
+            /**
+             * Hook: useItem
+             */
+            Hooks.callAll<CosmereHooks.UseItem>(
+                CosmereHooks.UseItem,
+                this, // Source
+            );
+        });
 
         if (rollRequired) {
             const rolls: foundry.dice.Roll[] = [];

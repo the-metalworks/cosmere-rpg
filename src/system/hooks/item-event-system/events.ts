@@ -1,8 +1,19 @@
 import { CosmereItem } from '@system/documents/item';
 import { CosmereActor } from '@system/documents/actor';
 import { ItemEventTypeConfig } from '@system/types/config';
+import { RestType } from '@system/types/cosmere';
 
-const EVENTS: (Omit<ItemEventTypeConfig, 'label'> & { type: string })[] = [
+import { DeepPartial } from '@system/types/utils';
+
+// Hooks
+import * as CosmereHooks from '../definition';
+
+type EventDefinition = Omit<ItemEventTypeConfig, 'label' | 'host'> &
+    Partial<Pick<ItemEventTypeConfig, 'host'>> & {
+        type: string;
+    };
+
+const EVENTS: EventDefinition[] = [
     // General CRUD operations
     { type: 'create', hook: 'createItem' },
     { type: 'update', hook: 'updateItem' },
@@ -21,11 +32,54 @@ const EVENTS: (Omit<ItemEventTypeConfig, 'label'> & { type: string })[] = [
         condition: (_: CosmereItem, options: { parent: CosmereActor | null }) =>
             !!options.parent,
     },
-    // Equip = 'equip',
-    // Unequip = 'unequip',
-    // Use = 'use',
-    // ModeActivate = 'mode-activate', // Only for items that have a modality (e.g. stances)
-    // ModeDeactivate = 'mode-deactivate',
+    {
+        type: 'equip',
+        hook: 'updateItem',
+        condition: (_: CosmereItem, change: DeepPartial<CosmereItem>) => {
+            return (
+                foundry.utils.getProperty(change, 'system.equipped') === true
+            );
+        },
+    },
+    {
+        type: 'unequip',
+        hook: 'updateItem',
+        condition: (_: CosmereItem, change: DeepPartial<CosmereItem>) => {
+            return (
+                foundry.utils.getProperty(change, 'system.equipped') === false
+            );
+        },
+    },
+    { type: 'use', hook: CosmereHooks.UseItem },
+    { type: 'mode-activate', hook: CosmereHooks.ModeActivateItem },
+    { type: 'mode-deactivate', hook: CosmereHooks.ModeDeactivateItem },
+
+    // General Actor events
+    { type: 'update-actor', hook: 'updateActor' },
+    {
+        type: 'apply-damage-actor',
+        hook: CosmereHooks.PostApplyDamage,
+        transform: (actor: CosmereActor) => ({ document: actor }),
+    },
+    {
+        type: 'apply-injury-actor',
+        hook: CosmereHooks.PostApplyInjury,
+        transform: (actor: CosmereActor) => ({ document: actor }),
+    },
+    {
+        type: 'short-rest-actor',
+        hook: CosmereHooks.PostRest,
+        condition: (_: CosmereActor, duration: RestType) =>
+            duration === RestType.Short,
+        transform: (actor: CosmereActor) => ({ document: actor }),
+    },
+    {
+        type: 'long-rest-actor',
+        hook: CosmereHooks.PostRest,
+        condition: (_: CosmereActor, duration: RestType) =>
+            duration === RestType.Long,
+        transform: (actor: CosmereActor) => ({ document: actor }),
+    },
 ];
 
 export function registerEventTypes() {
