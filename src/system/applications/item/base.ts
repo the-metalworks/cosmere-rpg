@@ -19,6 +19,7 @@ import { ComponentHandlebarsApplicationMixin } from '@system/applications/compon
 import { TabsApplicationMixin } from '@system/applications/mixins';
 import { DescriptionItemData } from '@src/system/data/item/mixins/description';
 import { ItemConsumeData } from '@src/system/data/item/mixins/activatable';
+import { SYSTEM_ID } from '@src/system/constants';
 
 const { ItemSheetV2 } = foundry.applications.sheets;
 
@@ -433,7 +434,7 @@ export class BaseItemSheet extends TabsApplicationMixin(
     }
 
     /**
-     * Helper to track activation consumption changes
+     * Helper to manage activation consumption changes
      */
     private getUpdatedConsumption(
         formData: FormDataExtended,
@@ -450,7 +451,7 @@ export class BaseItemSheet extends TabsApplicationMixin(
             const parts = /\[(\d*)\]\.(\w+)$/.exec(formKey);
 
             if (!parts || parts.length < 2) {
-                console.error('Bad form key:', formKey);
+                console.error(`[${SYSTEM_ID}] Bad form key: ${formKey}`);
                 return;
             }
 
@@ -467,6 +468,8 @@ export class BaseItemSheet extends TabsApplicationMixin(
 
             existingConsumeData[dataKey] = formData.get(formKey);
 
+            // Use "None" to remove entries,
+            // otherwise we have a (theoretically) valid type, so use it.
             if (existingConsumeData.type === NONE) {
                 consumeData.delete(i);
             } else {
