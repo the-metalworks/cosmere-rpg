@@ -715,6 +715,11 @@
                 "Hint": "Identifier of the modality this talent belongs to. (e.g. \"stance\")"
             },
             "AttackFlavor": "[actor] attacks with their [item].",
+            "EventSystem": {
+                "Notifications": {
+                    "LoopError": "Too many events fired in a short time. Aborting execution to prevent infinite loop."
+                }
+            },
             "Sheet": {
                 "Basics": "Basics",
                 "Tabs": {

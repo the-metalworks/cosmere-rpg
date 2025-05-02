@@ -29,10 +29,11 @@ const EVENTS: (Omit<ItemEventTypeConfig, 'label'> & { type: string })[] = [
 ];
 
 export function registerEventTypes() {
-    EVENTS.forEach(({ type, hook, condition }) => {
+    EVENTS.forEach(({ type, hook, host, condition }) => {
         cosmereRPG.api.registerItemEventType({
             type,
             hook,
+            host,
             condition,
             label: `COSMERE.Item.Events.Type.${type}`,
         });

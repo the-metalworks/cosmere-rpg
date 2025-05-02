@@ -313,7 +313,9 @@ export function registerTheme(data: ThemeConfigData, force = false) {
     CONFIG.COSMERE.themes[data.id as Theme] = data.label;
 }
 
-interface ItemEventTypeConfigData extends ItemEventTypeConfig {
+interface ItemEventTypeConfigData
+    extends Omit<ItemEventTypeConfig, 'host'>,
+        Partial<Pick<ItemEventTypeConfig, 'host'>> {
     type: string;
 }
 
@@ -335,6 +337,7 @@ export function registerItemEventType(
     CONFIG.COSMERE.items.events.types[data.type] = {
         label: data.label,
         hook: data.hook,
+        host: data.host ?? ItemEvents.Event.ExecutionHost.Owner,
         condition: data.condition,
     };
 }

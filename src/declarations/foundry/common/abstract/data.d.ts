@@ -265,6 +265,10 @@ namespace foundry {
             get flags(): Record<string, any>;
             get pack(): string | undefined;
             get compendium(): CompendiumCollection<Document> | undefined;
+            get ownership(): Record<
+                string,
+                foundry.CONST.DOCUMENT_OWNERSHIP_LEVELS
+            >;
 
             /**
              * The canonical name of this Document type, for example "Actor".

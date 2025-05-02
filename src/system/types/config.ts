@@ -316,9 +316,22 @@ export interface MovementTypeConfig {
 export interface ItemEventTypeConfig {
     label: string;
     hook: string;
+    host: ItemEvents.Event.ExecutionHost;
     // NOTE: Allow any type as conditions should be able to freely match hook signatures
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    condition?: (...args: any[]) => boolean;
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    /**
+     * Whether or not the hook invocation should cause the event to be fired.
+     */
+    condition?: (...args: any[]) => boolean | Promise<boolean>;
+    /**
+     * Function to transform the hook arguments into a fixed set of arguments.
+     */
+    transform?: (...args: any[]) => {
+        document: foundry.abstract.Document;
+        options?: object;
+        userId?: string;
+    };
+    /* eslint-enable @typescript-eslint/no-explicit-any */
 }
 
 export interface ItemEventHandlerTypeConfig {
