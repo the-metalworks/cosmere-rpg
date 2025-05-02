@@ -1,10 +1,10 @@
 <form>
-    <div class="form-group">
+    <div class="form-group" id="consumables">
         {{#each resources as |resource|}}
             <label>
                 <span>{{resource.label}}</span>
             </label>
-            <input type="checkbox" name="{{resource.label}}" {{#if resource.shouldConsume}}checked{{/if}}>
+            <input id="{{resource.id}}" type="checkbox" name="{{resource.label}}" {{#if resource.shouldConsume}}checked{{/if}}>
         {{/each}}
     </div>
 </form>

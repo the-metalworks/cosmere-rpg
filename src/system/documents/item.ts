@@ -839,7 +839,6 @@ export class CosmereItem<
         const consumptionAvailable =
             options.shouldConsume !== false && !!this.system.activation.consume;
 
-        console.log('test');
         // Determine if we should handle resource consumption
         let consumeResponse: ItemConsumeData[] | null = null;
         if (consumptionAvailable && !options.shouldConsume) {
@@ -849,7 +848,6 @@ export class CosmereItem<
             if (consumeResponse === null) return null;
         }
 
-        console.log(consumeResponse);
         // Handle resource consumption
         if (!!consumeResponse && consumeResponse.length > 0) {
             // Process each included resource consumption
@@ -1091,7 +1089,9 @@ export class CosmereItem<
                           : game.i18n!.localize('GENERIC.Unknown');
 
                 return {
+                    type: consumeType,
                     resource: label,
+                    resourceId: consumptionData.resource ?? 'unknown',
                     amount,
                     shouldConsume,
                 };

@@ -14,9 +14,19 @@ interface ItemConsumeDialogOptions {
     amount?: number;
 
     /**
-     * The resource or item to consume
+     * The type of consumption
+     */
+    type?: ItemConsumeType;
+
+    /**
+     * The localized name of the resource or item to consume
      */
     resource?: string;
+
+    /**
+     * The id of the resource
+     */
+    resourceId?: string;
 
     /**
      * Whether or not to carry out the consume.
@@ -70,8 +80,9 @@ export class ItemConsumeDialog extends foundry.applications.api.DialogV2 {
     ): Promise<ItemConsumeDialogResult | null> {
         // Render dialog inner HTML
         const content = await renderTemplate(TEMPLATE, {
-            resources: options.map((option) => ({
-                labels: game.i18n!.format('DIALOG.ItemConsume.ShouldConsume', {
+            resources: options.map((option, i) => ({
+                id: `${option.type ?? 'None'}-${option.resourceId ?? 'None'}-${option.amount ?? 'None'}-${i}`,
+                label: game.i18n!.format('DIALOG.ItemConsume.ShouldConsume', {
                     amount: option.amount ?? 0,
                     resource:
                         option.resource ??
@@ -90,37 +101,44 @@ export class ItemConsumeDialog extends foundry.applications.api.DialogV2 {
     /* --- Actions --- */
 
     private onContinue() {
-        const form = this.element.querySelector('form')! as HTMLFormElement & {
-            consumables: HTMLInputElement[];
-        };
-
-        console.log('Got form', form);
+        const form = this.element.querySelector('form')!;
 
         // Collate all valid consumption options, accumulating value
         // for all options which share the exact same target for
         // consumption.
-        const collated = form.consumables
+        const collated = [
+            ...form.querySelector('#consumables')!.childNodes.values(),
+        ]
             .map((elem) => {
                 // Only consume checked elements
-                if (!elem.checked) return null;
+                if (!(elem instanceof HTMLInputElement) || !elem.checked)
+                    return null;
 
-                return {
-                    type: elem.name as ItemConsumeType,
-                    value: 0,
-                    ...(elem.name === (ItemConsumeType.Resource as string)
+                // Get any additional information from the id
+                // Only destructure the first 3; the last value is the index,
+                // which only exists to assert uniqueness.
+                const [consumeType, consumeFrom, consumeVal] = elem.id.split(
+                    '-',
+                ) as [ItemConsumeType, string, string];
+                const consumeData = {
+                    ...(consumeType === ItemConsumeType.Resource
                         ? {
-                              // TODO: fix this placeholder
-                              resource: elem.closest('select')
-                                  ?.value as Resource,
+                              resource: consumeFrom as Resource,
                           }
                         : {}),
+                };
+
+                return {
+                    type: consumeType,
+                    value: parseInt(consumeVal) || 0,
+                    ...consumeData,
                 };
             })
             .filter((elem) => !!elem)
             .reduce<Record<string, ItemConsumeData>>((acc, consumable) => {
                 // Get specific key, including the consume type and the actual
                 // value that's meant to be consumed.
-                let key = consumable.type;
+                let key = consumable.type as string;
                 switch (consumable.type) {
                     case ItemConsumeType.Resource:
                         key += `.${consumable.resource!}`;
