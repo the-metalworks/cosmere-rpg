@@ -1,9 +1,8 @@
 import { SYSTEM_ID } from '@src/system/constants';
 import { ItemConsumeData } from '@src/system/data/item/mixins/activatable';
 import { CosmereItem } from '@src/system/documents';
-import { ItemConsumeType } from '@src/system/types/cosmere';
+import { ItemConsumeType, Resource } from '@src/system/types/cosmere';
 import { TEMPLATES } from '@src/system/utils/templates';
-import { resourceUsage } from 'process';
 
 // Constants
 const TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ITEM_CONSUME}`;
@@ -97,7 +96,9 @@ export class ItemConsumeDialog extends foundry.applications.api.DialogV2 {
 
         console.log('Got form', form);
 
-        // Collate all valid consumption options
+        // Collate all valid consumption options, accumulating value
+        // for all options which share the exact same target for
+        // consumption.
         const collated = form.consumables
             .map((elem) => {
                 // Only consume checked elements
@@ -106,20 +107,38 @@ export class ItemConsumeDialog extends foundry.applications.api.DialogV2 {
                 return {
                     type: elem.name as ItemConsumeType,
                     value: 0,
+                    ...(elem.name === (ItemConsumeType.Resource as string)
+                        ? {
+                              // TODO: fix this placeholder
+                              resource: elem.closest('select')
+                                  ?.value as Resource,
+                          }
+                        : {}),
                 };
             })
             .filter((elem) => !!elem)
-            .reduce<Record<string, number>>((acc, consumable) => {
-                const existing = acc[consumable.type] ?? 0;
-                acc[consumable.type] = existing + consumable.value;
+            .reduce<Record<string, ItemConsumeData>>((acc, consumable) => {
+                // Get specific key, including the consume type and the actual
+                // value that's meant to be consumed.
+                let key = consumable.type;
+                switch (consumable.type) {
+                    case ItemConsumeType.Resource:
+                        key += `.${consumable.resource!}`;
+                        break;
+                }
+
+                const existing = acc[key];
+                if (!existing) {
+                    acc[key] = { ...consumable };
+                } else {
+                    acc[key].value += consumable.value;
+                }
+
                 return acc;
             }, {});
 
         // Reconstruct list
-        const consumption = Object.entries(collated).map(([k, v]) => ({
-            type: k as ItemConsumeType,
-            value: v,
-        }));
+        const consumption = Object.entries(collated).map(([_, v]) => v);
 
         // Resolve
         this.resolve({
