@@ -12,26 +12,26 @@
 {{#if pips}}
     <div class="skill-pips ranks">
         {{#if editable}}
-            <a data-action="adjust-skill-rank" 
-                data-tooltip="{{localize "COSMERE.Actor.Sheet.Skills.AdjustTooltip" (localize skill.label)}}"
-            >
+            {{#if legacyMode}}
+                <a data-tooltip="{{localize "COSMERE.Actor.Sheet.Skills.AdjustTooltip" skill=(localize skill.label)}}">
+            {{else}}
+                <a data-tooltip="{{localize "COSMERE.Actor.Sheet.Skills.SetTooltip" skill=(localize skill.label)}}">
+            {{/if}}
         {{else}}
             <div>
         {{/if}}
-
         <ul class="pip-list">
-            {{#times skill.rank}}
+            {{#each (numberRange skill.rank)}}
                 <li class="pip active">
-                    <div></div>
+                    <div {{#if ../editable}}data-action="adjust-skill-rank" data-index='{{@index}}'{{/if}}></div>
                 </li>
-            {{/times}}
-            {{#times (sub 5 skill.rank)}}
-                <li class="pip">
-                    <div></div>
+            {{/each}}
+            {{#each (numberRange (sub 5 skill.rank))}}
+                <li class="pip{{#if (gt (add (add @index 1) ../skill.rank) ../maxSkillRank)}} locked{{/if}}">
+                    <div {{#if ../editable}}data-action="adjust-skill-rank" data-index='{{add @index ../skill.rank}}'{{/if}}></div>
                 </li>
-            {{/times}}
+            {{/each}}
         </ul>
-
         {{#if editable}}
             </a>
         {{else}}

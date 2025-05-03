@@ -892,7 +892,7 @@ namespace foundry {
              * Prepare all embedded Document instances which exist within this primary Document.
              * @memberof ClientDocumentMixin#
              */
-            public repareEmbeddedDocuments();
+            public prepareEmbeddedDocuments();
 
             /**
              * Apply transformations of derivations to the values of the source data object.
