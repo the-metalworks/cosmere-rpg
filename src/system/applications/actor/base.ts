@@ -378,14 +378,14 @@ export class BaseActorSheet<
         }
 
         $(this.element)
-            .find('.html-field.collapsible')
+            .find('.html-field.collapsible > h2')
             .on('click', (event) => this.onClickCollapsibleHtmlField(event));
     }
 
     /* --- Event handlers --- */
 
     protected onClickCollapsibleHtmlField(event: JQuery.ClickEvent) {
-        const target = event.currentTarget as HTMLElement;
+        const target = (event.currentTarget as HTMLElement).parentElement;
         target?.classList.toggle('expanded');
     }
 

@@ -86,7 +86,7 @@ export class CosmereChatMessage extends ChatMessage {
         await this.enrichCardHeader(html);
         await this.enrichCardContent(html);
 
-        html.find('.collapsible').on('click', (event) =>
+        html.find('.collapsible > .summary').on('click', (event) =>
             this.onClickCollapsible(event),
         );
 
@@ -1017,7 +1017,7 @@ export class CosmereChatMessage extends ChatMessage {
      */
     private onClickCollapsible(event: JQuery.ClickEvent) {
         event.stopPropagation();
-        const target = event.currentTarget as HTMLElement;
+        const target = (event.currentTarget as HTMLElement).parentElement;
         target?.classList.toggle('expanded');
     }
 
