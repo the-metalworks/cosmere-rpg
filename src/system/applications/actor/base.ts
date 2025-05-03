@@ -23,7 +23,6 @@ import {
 // Components
 import { SortMode, SearchBarInputEvent } from './components';
 import { renderSystemTemplate, TEMPLATES } from '@src/system/utils/templates';
-import { enricherAction } from '@src/system/utils/enrichers';
 
 const { ActorSheetV2 } = foundry.applications.sheets;
 
@@ -54,7 +53,6 @@ export class BaseActorSheet<
             actions: {
                 'toggle-mode': this.onToggleMode,
                 'edit-html-field': this.editHtmlField,
-                'trigger-enricher': enricherAction,
                 save: this.onSave,
             },
             form: {

@@ -1,8 +1,7 @@
-import { SYSTEM_ID } from '../constants';
-import { DamageRoll } from '../dice';
-import { CosmereActor, CosmereItem, MESSAGE_TYPES } from '../documents';
+import { CosmereActor, CosmereItem } from '../documents';
 import { AttributeConfig, SkillConfig } from '../types/config';
 import { Attribute, AttributeGroup, DamageType, Skill } from '../types/cosmere';
+import { getActor } from './actor';
 import { TargetDescriptor } from './generic';
 
 interface EnricherConfig {
@@ -28,24 +27,6 @@ const EnricherStyleOptions = {
     lowercase: (value: string) => value.toLocaleLowerCase(),
     uppercase: (value: string) => value.toLocaleUpperCase(),
 } as const;
-
-const getActor = async (actorId: string) =>
-    actorId.startsWith('Compendium')
-        ? await getActorFromCompendium(actorId)
-        : getActorFromCollection(actorId.split('.')[1] ?? '');
-
-const getActorFromCollection = (actorId: string) =>
-    (game.actors as Actors).get(actorId) as CosmereActor;
-
-const getActorFromCompendium = async (uuid: string) => {
-    const components = uuid.split('.');
-    const pack = `${components[1]}.${components[2]}`; // Get pack name
-    const actorId = components[4] ?? '';
-
-    return (await game.packs
-        ?.get(pack)
-        ?.getDocument(actorId)) as unknown as CosmereActor;
-};
 
 /*
  * Note: Left in some commented out options that I copied across
@@ -171,20 +152,15 @@ function createRollLink(
     linkLabel: string,
     postLink: string,
     type: string,
-    options?: string,
+    options?: Record<string, unknown>,
 ) {
     const span = document.createElement('span');
     span.classList.add('enricher-link');
-
-    const link = document.createElement('a');
-    link.dataset.action = 'trigger-enricher';
-    link.dataset.type = type;
-    link.dataset.options = options;
-    link.innerHTML = `<i class="fa-solid fa-dice-d20"></i> ${linkLabel}`;
-
-    span.insertAdjacentElement('beforeend', link);
-    span.insertAdjacentText('beforeend', ` ${postLink}`);
-
+    span.innerHTML = `
+        <a onclick="Hooks.call('trigger${type.titleCase()}Enricher', ${JSON.stringify(options).replaceAll('"', '&quot;')})">
+            <i class="fa-solid fa-dice-d20"></i> ${linkLabel}
+        </a> ${postLink}
+    `;
     return span;
 }
 
@@ -358,16 +334,17 @@ async function enrichTest(
         ? { linkLabel: label, postLink: '' }
         : buildTestLabel(config, skillConfig, attributeConfig);
 
-    const linkOptions = JSON.stringify({
+    const linkOptions = {
         actorId:
             options?.relativeTo instanceof CosmereActor
                 ? options.relativeTo.uuid
-                : (options?.relativeTo as unknown as CosmereItem).actor?.uuid,
-        skill: skillConfig?.key,
-        attribute: attributeConfig?.key,
-        dc: config.dc,
+                : ((options?.relativeTo as unknown as CosmereItem).actor
+                      ?.uuid ?? ''),
+        skill: skillConfig?.key ?? '',
+        attribute: attributeConfig?.key ?? '',
+        dc: config.dc as string,
         target: data.target,
-    });
+    };
 
     return createRollLink(
         labelText.linkLabel,
@@ -457,7 +434,7 @@ async function enrichDamage(
             `${setValue}`,
             '',
             'damage',
-            JSON.stringify(linkOptions),
+            linkOptions,
         );
         container.insertAdjacentElement('afterbegin', valueLink);
     }
@@ -470,74 +447,8 @@ async function enrichDamage(
         labelText,
         !healing && !label ? ' damage' : '',
         'damage',
-        JSON.stringify(linkOptions),
+        linkOptions,
     );
     container.insertAdjacentElement('beforeend', poolLink);
     return container;
-}
-
-/* --- Event Handlers --- */
-
-export async function enricherAction(event: Event) {
-    const element = (event.target as HTMLElement)?.closest('.enricher-link');
-    if (!element || !(element instanceof HTMLElement)) return;
-    event.stopPropagation();
-
-    const link = (event.target as HTMLElement)?.closest('a');
-    if (!link || !(link instanceof HTMLElement)) return;
-
-    const { type, options } = link.dataset;
-
-    const parsedOptions = JSON.parse(options ?? '') as {
-        actorId: string;
-        [k: string]: string;
-    };
-
-    if (type === 'test') {
-        await rollAction(parsedOptions);
-    }
-    if (type === 'damage') {
-        await damageAction(parsedOptions);
-    }
-}
-
-async function rollAction(options: { actorId: string; [k: string]: string }) {
-    const actor = await getActor(options.actorId ?? '');
-    if (actor && options.skill) {
-        await actor.rollSkill(
-            options.skill as Skill,
-            options.attribute
-                ? { attribute: options.attribute as Attribute }
-                : undefined,
-        );
-        return;
-    }
-}
-
-async function damageAction(options: { actorId: string; [k: string]: string }) {
-    const actor = await getActor(options.actorId ?? '');
-    if (actor && options.formula) {
-        const roll = new DamageRoll(
-            String(options.formula),
-            actor.getRollData(),
-            { damageType: options.damageType as DamageType },
-        );
-        await roll.evaluate();
-
-        // Create chat message
-        const messageConfig = {
-            user: game.user!.id,
-            speaker: ChatMessage.getSpeaker({ actor }) as ChatSpeakerData,
-            rolls: [roll],
-            flags: {
-                [SYSTEM_ID]: {
-                    message: {
-                        type: MESSAGE_TYPES.ACTION,
-                    },
-                },
-            },
-        };
-
-        await ChatMessage.create(messageConfig);
-    }
 }

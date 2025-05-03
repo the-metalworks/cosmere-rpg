@@ -21,7 +21,6 @@ import {
 } from '../utils/generic';
 import { DamageModifierDialog } from '../applications/actor/dialogs/damage-card-modifier';
 import { CosmereHooks } from '../types/hooks';
-import { enricherAction } from '../utils/enrichers';
 
 export const MESSAGE_TYPES = {
     SKILL: 'skill',
@@ -86,8 +85,9 @@ export class CosmereChatMessage extends ChatMessage {
         await this.enrichCardHeader(html);
         await this.enrichCardContent(html);
 
-        html.find('.collapsible > .summary').on('click', (event) =>
-            this.onClickCollapsible(event),
+        html.find('.collapsible > .summary, .dice-result').on(
+            'click',
+            (event) => this.onClickCollapsible(event),
         );
 
         return html;
@@ -178,12 +178,6 @@ export class CosmereChatMessage extends ChatMessage {
         if (!description) return;
 
         html.find('.chat-card').append(description);
-
-        // need to loop as there may be multiple enricher outputs per description
-        // also converts the event listener to pure js so that we don't need to overload the utility
-        html.find('[data-action="trigger-enricher"]').each((index, element) => {
-            element.addEventListener('click', enricherAction);
-        });
     }
 
     protected async enrichSkillTest(html: JQuery) {
@@ -345,11 +339,12 @@ export class CosmereChatMessage extends ChatMessage {
             {
                 type: 'damage',
                 icon:
-                    (CONFIG.COSMERE.damageTypes[
-                        types.first()?.toLowerCase() as DamageType
-                    ].icon ?? isHealing)
+                    // This will need to be handled better when we do proper multi damage support
+                    isHealing
                         ? 'fa-solid fa-heart'
-                        : 'fa-solid fa-heart-crack',
+                        : (CONFIG.COSMERE.damageTypes[
+                              types.first()?.toLowerCase() as DamageType
+                          ].icon ?? 'fa-solid fa-heart-crack'),
                 title: game.i18n!.localize(
                     isHealing ? 'GENERIC.Healing' : 'GENERIC.Damage',
                 ),
