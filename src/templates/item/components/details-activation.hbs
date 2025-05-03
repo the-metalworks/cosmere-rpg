@@ -49,7 +49,7 @@
     {{!-- Consume --}}
     <div class="form-group consume">
         <label>{{localize "COSMERE.Item.Sheet.Activation.Consume"}}</label>
-        <div>
+        <div class="form-fields-list">
             {{#each consume}}
             <div class="form-fields">
                 <input name="system.activation.consume[{{@index}}].value"
@@ -81,18 +81,26 @@
                 >
                     {{selectOptions ../consumeTypeSelectOptions selected=this.type localize=true}}
                 </select>
+                
+                <div class="extra">
+                    {{#unless @last}}
+                    <span class="icon faded"><i class="fa-solid fa-ampersand"></i></span>
+                    {{else}}
+                    <a class="icon active" data-action="add-consumption-option"><i class="fa-solid fa-plus"></i></a>
+                    {{/unless}}
+                </div>
             </div>
-            {{else}}
-            <select name="system.activation.consume[].type"
-                {{#if (not editable)}}
-                disabled
-                {{/if}}
-            >
-                {{selectOptions consumeTypeSelectOptions selected="none" localize=true}}
-            </select>
+            {{else}}            
+            <div class="form-fields">
+                <select name="system.activation.consume[].type"
+                    {{#if (not editable)}}
+                    disabled
+                    {{/if}}
+                >
+                    {{selectOptions consumeTypeSelectOptions selected="none" localize=true}}
+                </select>
+            </div>
             {{/each}}
-
-            <button data-action="add-consumption-option">+</button>
         </div>
     </div>
 

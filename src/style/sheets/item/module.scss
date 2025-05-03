@@ -315,6 +315,13 @@
             margin: 0;
             min-height: 32px;
 
+            .form-fields-list {
+                display: flex;
+                flex-direction: column;
+                flex: 2;
+                gap: 0.25rem;
+            }
+
             > app-id-input,
             .form-fields {
                 display: flex;
@@ -353,6 +360,10 @@
                     &:disabled {
                         background-color: var(--cosmere-color-base-3);
                     }
+                }
+
+                > .extra {
+                    flex: 0;
                 }
 
                 > .delim {
