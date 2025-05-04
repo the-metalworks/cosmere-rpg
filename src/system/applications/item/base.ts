@@ -94,8 +94,6 @@ export class BaseItemSheet extends TabsApplicationMixin(
 
         if (!('name' in event.target!)) return;
 
-        console.log('Got item form event', event, formData);
-
         if (this.item.isPhysical() && 'system.price.unit' in formData.object) {
             // Get currency id
             const [currencyId, denominationId] = (
@@ -445,6 +443,9 @@ export class BaseItemSheet extends TabsApplicationMixin(
             k.startsWith('system.activation.consume'),
         );
 
+        // Track removed options, to ensure a later key doesn't recreate
+        // one that has already been intentionally untracked
+        const removedOptions: number[] = [];
         consumeFormKeys.forEach((formKey) => {
             // Index can be empty, assuming there isn't an existing
             // consumption configured.
@@ -457,8 +458,14 @@ export class BaseItemSheet extends TabsApplicationMixin(
 
             // Invalid or missing indices will always be sorted to the front,
             // without overwriting existing data.
-            const i = parseInt(parts[1]) || -1;
-            const dataKey = parts[2];
+            let i = parseInt(parts[1]);
+            if (isNaN(i)) i = -1;
+
+            // Ignore form keys for options which have already been deleted
+            if (removedOptions.includes(i)) {
+                delete formData.object[formKey];
+                return;
+            }
 
             const existingConsumeData = consumeData.get(i) ?? {
                 type: ItemConsumeType.Resource,
@@ -466,12 +473,18 @@ export class BaseItemSheet extends TabsApplicationMixin(
                 resource: Resource.Focus,
             };
 
+            const dataKey = parts[2];
             existingConsumeData[dataKey] = formData.get(formKey);
 
             // Use "None" to remove entries,
             // otherwise we have a (theoretically) valid type, so use it.
-            if (existingConsumeData.type === NONE) {
+            if (
+                existingConsumeData.type === NONE ||
+                (existingConsumeData.type === ItemConsumeType.Resource &&
+                    existingConsumeData.resource === NONE)
+            ) {
                 consumeData.delete(i);
+                removedOptions.push(i);
             } else {
                 consumeData.set(i, existingConsumeData);
             }

@@ -60,8 +60,6 @@ export class DetailsActivationComponent extends HandlebarsApplicationComponent<
         // Get the activation data
         const { activation } = this.application.item.system;
 
-        console.log(activation);
-
         return {
             hasActivationType: activation.type !== ActivationType.None,
             hasActivationCost: !!activation.cost.type,
