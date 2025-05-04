@@ -53,6 +53,9 @@ export class ItemConsumeDialog extends foundry.applications.api.DialogV2 {
             window: {
                 title: title ?? 'DIALOG.ItemConsume.Title',
             },
+            position: {
+                width: 350,
+            },
             content,
             buttons: [
                 {
@@ -107,7 +110,7 @@ export class ItemConsumeDialog extends foundry.applications.api.DialogV2 {
         // for all options which share the exact same target for
         // consumption.
         const collated = [
-            ...form.querySelector('#consumables')!.childNodes.values(),
+            ...form.querySelectorAll('#consumables .form-group input').values(),
         ]
             .map((elem) => {
                 // Only consume checked elements
