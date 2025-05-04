@@ -88,7 +88,7 @@ export class ItemConsumeDialog extends foundry.applications.api.DialogV2 {
                         option.resource ??
                         game.i18n!.localize('GENERIC.Unknown'),
                 }),
-                shouldConsume: option.shouldConsume ?? true,
+                shouldConsume: option.shouldConsume ?? false,
             })),
         });
 

@@ -1072,9 +1072,10 @@ export class CosmereItem<
         if (!this.system.activation.consume) return null;
 
         const consumeOptions = this.system.activation.consume.map(
-            (consumptionData) => {
+            (consumptionData, i) => {
                 const consumeType = options.consumeType ?? consumptionData.type;
-                const shouldConsume = options.shouldConsume ?? true;
+                // Only automatically check first option, or anything overridden.
+                const shouldConsume = options.shouldConsume ?? i === 0;
                 const amount = consumptionData.value;
 
                 const label =
