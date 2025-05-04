@@ -341,9 +341,9 @@
                 }
             }
 
-            &.immune {
-                [class*="fa-toggle-"] {
-                    opacity: .1;
+            &:is(.immune) {
+                > a {
+                    opacity: 0.3;
                 }
             }
 
@@ -364,6 +364,7 @@
 
             .name {
                 font-family: var(--cosmere-font-normal);
+                font-weight: 600;
                 text-align: left;
                 flex: 1;
             }

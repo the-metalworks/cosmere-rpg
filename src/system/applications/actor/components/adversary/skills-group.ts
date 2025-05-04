@@ -9,6 +9,7 @@ import {
     AdversarySheet,
     AdversarySheetRenderContext,
 } from '../../adversary-sheet';
+import { getSystemSetting, SETTINGS } from '@src/system/settings';
 
 // NOTE: Must use type here instead of interface as an interface doesn't match AnyObject type
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
@@ -30,10 +31,6 @@ export class AdversarySkillsGroupComponent extends HandlebarsApplicationComponen
     /* eslint-disable @typescript-eslint/unbound-method */
     static readonly ACTIONS = {
         'roll-skill': this.onRollSkill,
-        'adjust-skill-rank': {
-            handler: this.onAdjustSkillRank,
-            buttons: [MouseButton.Primary, MouseButton.Secondary],
-        },
     };
     /* eslint-enable @typescript-eslint/unbound-method */
 
@@ -49,30 +46,6 @@ export class AdversarySkillsGroupComponent extends HandlebarsApplicationComponen
             .closest('[data-id]')
             .data('id') as Skill;
         void this.application.actor.rollSkill(skillId);
-    }
-
-    public static async onAdjustSkillRank(
-        this: AdversarySkillsGroupComponent,
-        event: Event,
-    ) {
-        event.preventDefault();
-
-        const incrementBool: boolean = event.type === 'click' ? true : false;
-
-        // Get skill id
-        const skillId = $(event.currentTarget!)
-            .closest('[data-id]')
-            .data('id') as Skill;
-
-        // Modify skill rank
-        await this.application.actor.modifySkillRank(
-            skillId,
-            incrementBool,
-            false,
-        );
-
-        // Only re-render this component
-        void this.render();
     }
 
     /* --- Context --- */
