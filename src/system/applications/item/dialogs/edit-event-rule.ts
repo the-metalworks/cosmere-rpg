@@ -32,7 +32,7 @@ export class ItemEditEventRuleDialog extends ComponentHandlebarsApplicationMixin
             classes: ['dialog', 'edit-event-rule'],
             tag: 'dialog',
             position: {
-                width: 350,
+                width: 500,
             },
             actions: {
                 update: this.onUpdateRule,
@@ -68,7 +68,7 @@ export class ItemEditEventRuleDialog extends ComponentHandlebarsApplicationMixin
     /* --- Statics --- */
 
     public static async show(item: CosmereItem, rule: Rule) {
-        const dialog = new this(item, foundry.utils.deepClone(rule));
+        const dialog = new this(item, rule.clone() as Rule);
         await dialog.render(true);
     }
 
@@ -93,6 +93,8 @@ export class ItemEditEventRuleDialog extends ComponentHandlebarsApplicationMixin
 
         // Ignore submit events
         if (event instanceof SubmitEvent) return;
+
+        console.log('Form event', formData.object);
 
         // Update the rule with the form data
         this.rule.updateSource(formData.object);

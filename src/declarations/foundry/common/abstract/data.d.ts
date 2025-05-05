@@ -825,10 +825,7 @@ namespace foundry {
              * @param context Context options passed to the data model constructor
              * @returns The cloned Document instance
              */
-            clone(
-                data?: object,
-                context?: object,
-            ): Document | Promise<Document>;
+            clone(data?: object, context?: object): this | Promise<this>;
 
             /**
              * Validate the data contained in the document to check for type and content

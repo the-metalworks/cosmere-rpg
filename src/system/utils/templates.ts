@@ -165,6 +165,9 @@ export const TEMPLATES = {
 
     DIALOG_ROLL_PICK_DICE_RESULT: 'roll/dialogs/pick-dice-result.hbs',
     DIALOG_ROLL_CONFIGURATION: 'roll/dialogs/roll-configuration.hbs',
+
+    // ITEM EVENT SYSTEM HANDLERS
+    IES_HANDLER_EXECUTE_MACRO: 'item/event-system/handlers/execute-macro.hbs',
 } as const;
 
 /**
