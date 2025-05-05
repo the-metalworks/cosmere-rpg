@@ -1,8 +1,7 @@
 import { CosmereItem } from '@src/system/documents';
 import { Rule } from '@system/data/item/event-system';
 
-import { Events as EventSystem } from '@system/types/item';
-import { AnyObject } from '@system/types/utils';
+import { AnyMutableObject, AnyObject } from '@system/types/utils';
 
 // Component imports
 import { ComponentHandlebarsApplicationMixin } from '@system/applications/component-system';
@@ -110,9 +109,27 @@ export class ItemEditEventRuleDialog extends ComponentHandlebarsApplicationMixin
         $(this.element).prop('open', true);
     }
 
+    protected async _preRender(context: AnyMutableObject, options: unknown) {
+        await super._preRender(context, options);
+
+        // Handle handler config rendering
+        const handlerConfigHtml = await this.rule.handler.configRenderer?.({
+            ...context,
+            handler: this.rule.handler,
+
+            // Emulate component system
+            __application: this,
+            partId: 'form',
+        });
+
+        context.shouldAutoPopulateConfigFields = !handlerConfigHtml;
+        context.handlerConfigHtml = handlerConfigHtml;
+    }
+
     /* --- Context --- */
 
     public _prepareContext() {
+        // Prepare the context
         return Promise.resolve({
             editable: true,
             item: this.item,

@@ -17,6 +17,7 @@ import {
     ItemEventTypeConfig,
 } from '@system/types/config';
 import { Events as ItemEvents } from '@system/types/item';
+import { AnyObject } from '@system/types/utils';
 
 // Utils
 import * as EventSystemUtils from '@system/utils/item/event-system';
@@ -349,8 +350,14 @@ interface ItemEventHandlerConfigData {
     executor: ItemEvents.HandlerExecutor;
     config: {
         schema: foundry.data.fields.DataSchema;
-        template?: string;
-    };
+    } & (
+        | {
+              template?: string;
+          }
+        | {
+              render?: (data: AnyObject) => Promise<string>;
+          }
+    );
 }
 
 export function registerItemEventHandlerType(

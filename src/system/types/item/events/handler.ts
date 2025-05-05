@@ -1,5 +1,5 @@
 import { Event } from './event';
-import { ConstructorOf } from '@system/types/utils';
+import { ConstructorOf, AnyObject } from '@system/types/utils';
 
 /**
  * Enum representing the type of handler for an event.
@@ -35,7 +35,7 @@ export interface IHandler {
     type: HandlerType;
     typeLabel: string;
     configSchema: { fields: foundry.data.fields.DataSchema };
-    configTemplate: string | null;
+    configRenderer: ((data: AnyObject) => Promise<string>) | null;
     execute: HandlerExecutor;
 }
 

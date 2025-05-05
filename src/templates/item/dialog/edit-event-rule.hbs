@@ -23,13 +23,20 @@
         }}
 
         {{!-- Handler config fields --}}
-        {{#each (entries rule.handler.configSchema.fields) as |entry|}}
-            {{formGroup entry.value
-                value=(lookup @root.rule.handler entry.key)
-                name=(concat "handler." entry.key)
-                localize=true
-            }}
-        {{/each}}
+        {{#if shouldAutoPopulateConfigFields}}
+            {{!-- Auto generate fields based on schema --}}
+            {{#each (entries rule.handler.configSchema.fields) as |entry|}}
+                {{formGroup entry.value
+                    value=(lookup @root.rule.handler entry.key)
+                    name=(concat "handler." entry.key)
+                    localize=true
+                }}
+            {{/each}}
+        {{else}}
+            {{!-- Custom rendered fields --}}
+            {{{handlerConfigHtml}}}
+        {{/if}}
+
     </fieldset>
 
     {{!-- Submit --}}

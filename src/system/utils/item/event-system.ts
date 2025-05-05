@@ -4,14 +4,21 @@ import {
     HandlerExecutor,
     HandlerCls,
 } from '@system/types/item/events';
+import { AnyObject } from '@system/types/utils';
 
 export function constructHandlerClass(
     type: string,
     executor: HandlerExecutor,
     config: {
         schema: foundry.data.fields.DataSchema;
-        template?: string;
-    },
+    } & (
+        | {
+              template?: string;
+          }
+        | {
+              render?: (data: AnyObject) => Promise<string>;
+          }
+    ),
 ) {
     return class Handler extends foundry.abstract.DataModel {
         public declare type: HandlerType | 'none';
@@ -32,8 +39,12 @@ export function constructHandlerClass(
             };
         }
 
-        public get configTemplate() {
-            return config.template ?? null;
+        public get configRenderer() {
+            return 'render' in config && config.render
+                ? config.render
+                : 'template' in config && config.template
+                  ? (data: AnyObject) => renderTemplate(config.template!, data)
+                  : null;
         }
 
         static defineSchema() {
