@@ -44,6 +44,10 @@ export class BaseItemSheet extends TabsApplicationMixin(
                 label: 'COSMERE.Item.Sheet.Tabs.Description',
                 icon: '<i class="fa-solid fa-feather-pointed"></i>',
             },
+            events: {
+                label: 'COSMERE.Item.Sheet.Tabs.Events',
+                icon: '<i class="fa-solid fa-eject"></i>',
+            },
             effects: {
                 label: 'COSMERE.Item.Sheet.Tabs.Effects',
                 icon: '<i class="fa-solid fa-bolt"></i>',

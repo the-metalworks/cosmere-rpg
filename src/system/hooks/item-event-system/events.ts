@@ -83,13 +83,14 @@ const EVENTS: EventDefinition[] = [
 ];
 
 export function registerEventTypes() {
-    EVENTS.forEach(({ type, hook, host, condition }) => {
+    EVENTS.forEach(({ type, hook, host, condition, transform }) => {
         cosmereRPG.api.registerItemEventType({
             type,
             hook,
             host,
             condition,
-            label: `COSMERE.Item.Events.Type.${type}`,
+            transform,
+            label: `COSMERE.Item.EventSystem.Event.Types.${type}.Label`,
         });
     });
 }

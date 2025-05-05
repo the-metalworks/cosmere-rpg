@@ -14,19 +14,21 @@ export function register() {
     cosmereRPG.api.registerItemEventHandlerType({
         type: HandlerType.GrantItems,
         label: 'Grant Items',
-        configSchema: {
-            // We may want to move schema definition to data folder
-            items: new foundry.data.fields.ArrayField(
-                new foundry.data.fields.DocumentUUIDField({
-                    type: 'Item',
-                }),
-                {
-                    required: true,
-                    initial: [],
-                    label: 'Items',
-                    hint: 'Items to grant',
-                },
-            ),
+        config: {
+            schema: {
+                // We may want to move schema definition to data folder
+                items: new foundry.data.fields.SetField(
+                    new foundry.data.fields.DocumentUUIDField({
+                        type: 'Item',
+                    }),
+                    {
+                        required: true,
+                        initial: [],
+                        label: 'Items',
+                        hint: 'Items to grant',
+                    },
+                ),
+            },
         },
         executor: async function (
             this: GrantItemsHandlerConfigData,

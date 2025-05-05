@@ -5,6 +5,8 @@ export { Event } from './event';
 export { HandlerType, HandlerExecutor, IHandler, HandlerCls } from './handler';
 
 export interface Rule {
+    id: string;
+    description: string;
     event: string;
     handler: HandlerConfig;
 }

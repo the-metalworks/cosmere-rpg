@@ -1,5 +1,6 @@
 import './header';
 import './effects-list';
+import './event-rules-list';
 import './details-id';
 import './details-type';
 import './details-equip';

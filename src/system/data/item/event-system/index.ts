@@ -9,6 +9,8 @@ export interface RuleData<C = unknown> {
      */
     id: string;
 
+    description: string;
+
     /**
      * The sort order of the Rule.
      * This is used to determine the order in which the rules are displayed.
@@ -26,14 +28,21 @@ export interface RuleData<C = unknown> {
     /**
      * The handler for this rule
      */
-    handler: ItemEvents.IHandler & C;
+    handler: ItemEvents.IHandler & C & foundry.abstract.DataModel;
 }
 
-export class Rule extends foundry.abstract.DataModel {
+export class Rule extends foundry.abstract.DataModel<RuleData> {
     static defineSchema() {
         return {
-            // TODO: Id disabled because of collection field bug
-            // id: new foundry.data.fields.DocumentIdField({ initial: () => foundry.utils.randomID() }),
+            id: new foundry.data.fields.DocumentIdField({
+                initial: () => foundry.utils.randomID(),
+                readonly: false,
+            }),
+            description: new foundry.data.fields.StringField({
+                required: true,
+                initial: '',
+                label: 'Description', // TODO: Localize
+            }),
             order: new foundry.data.fields.NumberField({
                 initial: 0,
                 integer: true,
@@ -43,14 +52,29 @@ export class Rule extends foundry.abstract.DataModel {
                 required: true,
                 blank: false,
                 initial: 'none',
-                choices: () => [
-                    ...Object.keys(CONFIG.COSMERE.items.events.types),
-                    'none',
-                ],
+                choices: () => ({
+                    none: 'None',
+                    ...Object.entries(CONFIG.COSMERE.items.events.types).reduce(
+                        (choices, [id, config]) => ({
+                            ...choices,
+                            [id]: config.label,
+                        }),
+                        {},
+                    ),
+                }),
+                label: 'Trigger',
             }),
             handler: new HandlerField({
                 required: true,
             }),
         };
+    }
+
+    /* --- Accessors --- */
+
+    public get eventTypeLabel(): string {
+        return this.event !== 'none'
+            ? CONFIG.COSMERE.items.events.types[this.event].label
+            : 'GENERIC.None';
     }
 }

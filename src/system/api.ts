@@ -339,6 +339,7 @@ export function registerItemEventType(
         hook: data.hook,
         host: data.host ?? ItemEvents.Event.ExecutionHost.Owner,
         condition: data.condition,
+        transform: data.transform,
     };
 }
 
@@ -346,7 +347,10 @@ interface ItemEventHandlerConfigData {
     type: string;
     label: string;
     executor: ItemEvents.HandlerExecutor;
-    configSchema: foundry.data.fields.DataSchema;
+    config: {
+        schema: foundry.data.fields.DataSchema;
+        template?: string;
+    };
 }
 
 export function registerItemEventHandlerType(
@@ -368,7 +372,7 @@ export function registerItemEventHandlerType(
         documentClass: EventSystemUtils.constructHandlerClass(
             data.type,
             data.executor,
-            data.configSchema,
+            data.config,
         ),
     };
 }

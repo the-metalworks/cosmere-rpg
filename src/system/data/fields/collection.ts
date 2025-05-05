@@ -21,10 +21,9 @@ export class RecordCollection<T> implements Collection<T> {
     }
 
     get contents(): T[] {
-        return Object.entries(this).map(([key, value]) => ({
-            ...value,
-            _id: key,
-        }));
+        return Object.entries(this).map(([key, value]) =>
+            'id' in value ? value : { ...value, _id: key },
+        );
     }
 
     public find<S extends T>(
@@ -37,7 +36,11 @@ export class RecordCollection<T> implements Collection<T> {
         condition: (e: T, index: number, collection: Collection<T>) => boolean,
     ): T | undefined {
         return Object.entries(this).find(([key, value], index) =>
-            condition({ ...value, _id: key }, index, this),
+            condition(
+                'id' in value ? value : { ...value, _id: key },
+                index,
+                this,
+            ),
         )?.[1];
     }
 
@@ -52,7 +55,11 @@ export class RecordCollection<T> implements Collection<T> {
     ): T[] {
         return Object.entries(this)
             .filter(([key, value], index) =>
-                condition({ ...value, _id: key }, index, this),
+                condition(
+                    'id' in value ? value : { ...value, _id: key },
+                    index,
+                    this,
+                ),
             )
             .map(([key, value]) => value);
     }
@@ -98,7 +105,11 @@ export class RecordCollection<T> implements Collection<T> {
         transformer: (entity: T, index: number, collection: Collection<T>) => M,
     ): M[] {
         return Object.entries(this).map(([key, value], index) =>
-            transformer({ ...value, _id: key }, index, this),
+            transformer(
+                'id' in value ? value : { ...value, _id: key },
+                index,
+                this,
+            ),
         );
     }
 
@@ -113,7 +124,12 @@ export class RecordCollection<T> implements Collection<T> {
     ): A {
         return Object.entries(this).reduce(
             (accumulator, [key, value], index) =>
-                evaluator(accumulator, { ...value, _id: key }, index, this),
+                evaluator(
+                    accumulator,
+                    'id' in value ? value : { ...value, _id: key },
+                    index,
+                    this,
+                ),
             initialValue,
         );
     }
@@ -126,7 +142,11 @@ export class RecordCollection<T> implements Collection<T> {
         ) => boolean,
     ): boolean {
         return Object.entries(this).some(([key, value], index) =>
-            condition({ ...value, _id: key }, index, this),
+            condition(
+                'id' in value ? value : { ...value, _id: key },
+                index,
+                this,
+            ),
         );
     }
 
@@ -158,11 +178,10 @@ export class RecordCollection<T> implements Collection<T> {
     }
 
     public values(): IterableIterator<T> {
-        return Object.keys(this)
-            .map((key) => ({
-                ...this.get(key)!,
-                _id: key,
-            }))
+        return Object.entries(this)
+            .map(([key, value]) =>
+                'id' in value ? value : { ...value, _id: key },
+            )
             [Symbol.iterator]();
     }
 
@@ -210,11 +229,11 @@ export class CollectionField<
     }
 
     protected override _cleanType(
-        value: RecordCollection<unknown>,
+        value: Record<string, unknown>,
         options?: object,
     ) {
-        Array.from(value.entries()).forEach(([id, v]) => {
-            value.set(id, this.model.clean(v, options));
+        Array.from(Object.entries(value)).forEach(([id, v]) => {
+            value[id] = this.model.clean(v, options);
         });
 
         return value;
@@ -224,9 +243,13 @@ export class CollectionField<
         value: unknown,
         options?: foundry.data.fields.DataFieldValidationOptions,
     ): boolean | foundry.data.fields.DataModelValidationFailure | void {
-        if (!(value instanceof this.CollectionClass))
-            throw new Error('must be a RecordCollection');
-        const errors = this._validateValues(value, options);
+        if (foundry.utils.getType(value) !== 'Object')
+            throw new Error('must be a RecordCollection object');
+
+        const errors = this._validateValues(
+            value as Record<string, unknown>,
+            options,
+        );
         if (!foundry.utils.isEmpty(errors)) {
             // Create validatior failure
             const failure =
@@ -241,14 +264,14 @@ export class CollectionField<
     }
 
     protected _validateValues(
-        value: RecordCollection<unknown>,
+        value: Record<string, unknown>,
         options?: foundry.data.fields.DataFieldValidationOptions,
     ) {
         const errors: Record<
             string,
             foundry.data.validation.DataModelValidationFailure
         > = {};
-        Array.from(value.entries()).forEach(([id, v]) => {
+        Object.entries(value).forEach(([id, v]) => {
             const error = this.model.validate(
                 v,
                 options,
@@ -262,24 +285,32 @@ export class CollectionField<
     }
 
     protected override _cast(value: object) {
-        const result =
+        // Get entries
+        const entries =
             value instanceof this.CollectionClass
-                ? value
+                ? Array.from<[string, unknown]>(value.entries())
                 : foundry.utils.getType(value) === 'Map'
-                  ? new this.CollectionClass(
-                        Array.from((value as Map<string, unknown>).entries()),
-                    )
+                  ? Array.from((value as Map<string, unknown>).entries())
                   : foundry.utils.getType(value) === 'Object'
-                    ? new this.CollectionClass(Object.entries(value))
+                    ? (Object.entries(value) as [string, unknown][])
                     : foundry.utils.getType(value) === 'Array'
-                      ? new this.CollectionClass(
-                            (value as { _id?: string; id?: string }[]).map(
-                                (v, i) => [v._id ?? v.id ?? i.toString(), v],
-                            ),
+                      ? (value as { _id?: string; id?: string }[]).map(
+                            (v, i) =>
+                                [v._id ?? v.id ?? i.toString(), v] as [
+                                    string,
+                                    unknown,
+                                ],
                         )
-                      : new this.CollectionClass();
+                      : [];
 
-        return result;
+        // Reduce entries to Record<string, unknown>
+        return entries.reduce(
+            (acc, [key, value]) => ({
+                ...acc,
+                [key]: value,
+            }),
+            {} as Record<string, unknown>,
+        );
     }
 
     public override getInitialValue() {
@@ -287,18 +318,19 @@ export class CollectionField<
     }
 
     public override initialize(
-        value: RecordCollection<unknown>,
+        value: Record<string, unknown>,
         model: object,
         options?: object,
     ) {
         if (!value) return new this.CollectionClass();
         value = foundry.utils.deepClone(value);
+        const collection = new this.CollectionClass(Object.entries(value));
 
-        Array.from(value.entries()).forEach(([id, v]) => {
-            value.set(id, this.model.initialize(v, model, options));
+        Array.from(collection.entries()).forEach(([id, v]) => {
+            collection.set(id, this.model.initialize(v, model, options));
         });
 
-        return value;
+        return collection;
     }
 
     public override toObject(value: RecordCollection<unknown>) {

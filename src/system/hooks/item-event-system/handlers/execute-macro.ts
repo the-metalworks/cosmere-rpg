@@ -10,14 +10,15 @@ export function register() {
     cosmereRPG.api.registerItemEventHandlerType({
         type: HandlerType.ExecuteMacro,
         label: 'Execute Macro',
-        configSchema: {
-            uuid: new foundry.data.fields.DocumentUUIDField({
-                type: 'Macro',
-                required: true,
-                initial: null,
-                label: 'Macro',
-                hint: 'The macro to execute',
-            }),
+        config: {
+            schema: {
+                uuid: new foundry.data.fields.DocumentUUIDField({
+                    type: 'Macro',
+                    required: true,
+                    initial: null,
+                    label: 'Macro',
+                }),
+            },
         },
         executor: async function (
             this: ExecuteMacroHandlerConfigData,

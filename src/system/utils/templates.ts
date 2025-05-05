@@ -87,6 +87,8 @@ export const TEMPLATES = {
     ITEM_DESCRIPTION_TAB: 'item/partials/item-description-tab.hbs',
     ITEM_EFFECTS_TAB: 'item/partials/item-effects-tab.hbs',
     ITEM_DETAILS_TAB: 'item/partials/item-details-tab.hbs',
+    ITEM_EVENTS_TAB: 'item/partials/item-events-tab.hbs',
+
     ITEM_INJURY_DETAILS_TAB: 'item/injury/partials/injury-details-tab.hbs',
     ITEM_SPECIALTY_DETAILS_TAB:
         'item/specialty/partials/specialty-details-tab.hbs',
@@ -113,6 +115,8 @@ export const TEMPLATES = {
     ITEM_DETAILS_TYPE: 'item/components/details-type.hbs',
 
     ITEM_EFFECTS_LIST: 'item/components/effects-list.hbs',
+    ITEM_EVENT_RULES_LIST: 'item/components/event-rules-list.hbs',
+
     ITEM_ANCESTRY_TALENT_LIST:
         'item/ancestry/components/advancement-talent-list.hbs',
     ITEM_ANCESTRY_BONUS_TALENTS: 'item/ancestry/components/bonus-talents.hbs',
@@ -153,6 +157,7 @@ export const TEMPLATES = {
         'actors/adversary/dialogs/configure-skills.hbs',
 
     DIALOG_ITEM_CONSUME: 'item/dialog/item-consume.hbs',
+    DIALOG_ITEM_EDIT_EVENT_RULE: 'item/dialog/edit-event-rule.hbs',
     DIALOG_ITEM_EDIT_REWARD: 'item/goal/dialogs/edit-reward.hbs',
     DIALOG_ITEM_EDIT_GRANT_RULE: 'item/talent/dialogs/edit-grant-rule.hbs',
 

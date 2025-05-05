@@ -1,11 +1,19 @@
+import { constructHandlerClass } from '@system/utils/item/event-system';
+
+// Constants
+const NONE_HANDLER_CLASS = constructHandlerClass('none', () => {}, {
+    schema: {},
+});
+
 export class HandlerField extends foundry.data.fields.ObjectField {
     /**
      * Get the model for the given handler type
      */
     public static getModelForType(type: string) {
-        return (
-            CONFIG.COSMERE.items.events.handlers[type]?.documentClass ?? null
-        );
+        return type !== 'none'
+            ? (CONFIG.COSMERE.items.events.handlers[type]?.documentClass ??
+                  null)
+            : NONE_HANDLER_CLASS;
     }
 
     protected override _cleanType(value: unknown, options?: object) {
@@ -43,11 +51,8 @@ export class HandlerField extends foundry.data.fields.ObjectField {
         return cls.schema.validate(value, options);
     }
 
-    protected override _cast(value: { type: string }) {
-        // Get model
-        const cls = HandlerField.getModelForType(value.type);
-
-        return value instanceof cls ? value : new cls(value, {});
+    protected override _cast(value: unknown) {
+        return typeof value === 'object' ? value : {};
     }
 
     public override getInitialValue(data: { type: string }) {
@@ -68,7 +73,12 @@ export class HandlerField extends foundry.data.fields.ObjectField {
 
         // Initialize value
         return cls
-            ? new cls(value, { parent: model, ...options })
+            ? value instanceof cls
+                ? value
+                : new cls(foundry.utils.deepClone(value), {
+                      parent: model,
+                      ...options,
+                  })
             : foundry.utils.deepClone(value);
     }
 }

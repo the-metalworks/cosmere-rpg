@@ -33,6 +33,9 @@ export type HandlerExecutor<E extends Event = Event> = (
 
 export interface IHandler {
     type: HandlerType;
+    typeLabel: string;
+    configSchema: { fields: foundry.data.fields.DataSchema };
+    configTemplate: string | null;
     execute: HandlerExecutor;
 }
 
