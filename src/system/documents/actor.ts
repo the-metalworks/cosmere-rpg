@@ -840,7 +840,9 @@ export class CosmereActor<
         const data = this.getRollData() as Partial<D20RollData>;
 
         // Add attribute mod
-        data.mod = skill.mod.value;
+        data.mod = options.attribute
+            ? attribute.value + skill.rank
+            : skill.mod.value;
         data.skill = {
             id: skillId,
             rank: skill.rank,

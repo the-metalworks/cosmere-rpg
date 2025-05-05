@@ -199,7 +199,10 @@ export class CosmereChatMessage extends ChatMessage {
                         ? CONFIG.COSMERE.skills[skill.id].label
                         : `${game.i18n!.localize('GENERIC.Custom')} ${game.i18n!.localize('GENERIC.Skill')}`,
                     attribute: skill.attribute
-                        ? CONFIG.COSMERE.attributes[skill.attribute].labelShort
+                        ? CONFIG.COSMERE.attributes[
+                              d20Roll?.options?.defaultAttribute ??
+                                  skill.attribute
+                          ].labelShort
                         : game.i18n?.localize('GENERIC.None'),
                 },
                 content: await d20Roll.getHTML(),

@@ -161,7 +161,7 @@ function createRollLink(
     const span = document.createElement('span');
     span.classList.add('enricher-link');
     span.innerHTML = `
-        <a onclick="Hooks.call('trigger${type.titleCase()}Enricher', ${options?.actorId}, ${options?.source}, ${JSON.stringify(options?.data).replaceAll('"', '&quot;')})">
+        <a onclick="Hooks.call('trigger${type.titleCase()}Enricher', &quot;${options?.actorId}&quot;, &quot;${options?.source}&quot;, ${JSON.stringify(options?.data).replaceAll('"', '&quot;')})">
             <i class="fa-solid fa-dice-d20"></i> ${linkLabel}
         </a> ${postLink}
     `;
