@@ -152,12 +152,16 @@ function createRollLink(
     linkLabel: string,
     postLink: string,
     type: string,
-    options?: Record<string, unknown>,
+    options?: {
+        actorId?: string;
+        source: string;
+        data: Record<string, unknown>;
+    },
 ) {
     const span = document.createElement('span');
     span.classList.add('enricher-link');
     span.innerHTML = `
-        <a onclick="Hooks.call('trigger${type.titleCase()}Enricher', ${JSON.stringify(options).replaceAll('"', '&quot;')})">
+        <a onclick="Hooks.call('trigger${type.titleCase()}Enricher', ${options?.actorId}, ${options?.source}, ${JSON.stringify(options?.data).replaceAll('"', '&quot;')})">
             <i class="fa-solid fa-dice-d20"></i> ${linkLabel}
         </a> ${postLink}
     `;
@@ -334,16 +338,19 @@ async function enrichTest(
         ? { linkLabel: label, postLink: '' }
         : buildTestLabel(config, skillConfig, attributeConfig);
 
+    const source = options?.relativeTo;
     const linkOptions = {
         actorId:
-            options?.relativeTo instanceof CosmereActor
-                ? options.relativeTo.uuid
-                : ((options?.relativeTo as unknown as CosmereItem).actor
-                      ?.uuid ?? ''),
-        skill: skillConfig?.key ?? '',
-        attribute: attributeConfig?.key ?? '',
-        dc: config.dc as string,
-        target: data.target,
+            source instanceof CosmereActor
+                ? source.uuid
+                : ((source as unknown as CosmereItem).actor?.uuid ?? ''),
+        source: source?.uuid ?? '',
+        data: {
+            skill: skillConfig?.key ?? '',
+            attribute: attributeConfig?.key ?? '',
+            dc: config.dc as string,
+            target: data.target,
+        },
     };
 
     return createRollLink(
@@ -393,11 +400,12 @@ async function enrichDamage(
     if (typeof type !== 'string' || !(type in DamageType))
         return createErrorSpan('GENERIC.Enrichers.Damage.BadType');
 
+    const source = options?.relativeTo;
     // grab the actor (we need the roll data unfortunately)
     const actorId =
-        options?.relativeTo instanceof CosmereActor
-            ? options.relativeTo.uuid
-            : (options?.relativeTo as unknown as CosmereItem).actor?.uuid;
+        source instanceof CosmereActor
+            ? source.uuid
+            : (source as unknown as CosmereItem).actor?.uuid;
     const actor = await getActor(actorId ?? '');
 
     // convert any actor properties passed in. Note: currently it doesn't collate like terms...
@@ -422,9 +430,12 @@ async function enrichDamage(
     // encode the data for the click action
     const linkOptions = {
         actorId,
-        formula: setValue,
-        healing,
-        damageType: healing ? 'heal' : type.toLowerCase(),
+        source: source?.uuid ?? '',
+        data: {
+            formula: setValue,
+            healing,
+            damageType: healing ? 'heal' : type.toLowerCase(),
+        },
     };
 
     // If there is a set value given, we'll need a pair of links
@@ -439,7 +450,7 @@ async function enrichDamage(
         container.insertAdjacentElement('afterbegin', valueLink);
     }
 
-    linkOptions.formula = formula;
+    linkOptions.data.formula = formula;
     const labelText = label
         ? label
         : `${setValue ? `(` : ''}${formula}${setValue ? ')' : ''} ${type}`;
