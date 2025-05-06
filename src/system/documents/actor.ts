@@ -690,6 +690,13 @@ export class CosmereActor<
                 ? CONFIG.COSMERE.damageTypes[instance.type]
                 : { ignoreDeflect: false };
 
+            // Checks if damage should be deflected or not
+            const ignoreDeflect = instance.type
+                ? this.system.deflect.types
+                    ? !this.system.deflect.types[instance.type]
+                    : damageConfig.ignoreDeflect
+                : false;
+
             const amount = Math.floor(instance.amount);
 
             // Check if actor is immune to damage type
@@ -711,7 +718,7 @@ export class CosmereActor<
                 return;
             }
 
-            if (damageConfig.ignoreDeflect) {
+            if (ignoreDeflect) {
                 damageIgnore += amount;
             } else {
                 damageDeflect += amount;
