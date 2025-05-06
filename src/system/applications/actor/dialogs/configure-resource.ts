@@ -88,7 +88,12 @@ export class ConfigureResourceDialog extends HandlebarsApplicationMixin(
 
     private static onUpdateResource(this: ConfigureResourceDialog) {
         void this.actor.update({
-            [`system.resources.${this.resourceId}`]: this.resourceData,
+            [`system.resources.${this.resourceId}`]: {
+                max: {
+                    mode: this.mode,
+                    override: this.resourceData.max.override,
+                },
+            },
         });
         void this.close();
     }
