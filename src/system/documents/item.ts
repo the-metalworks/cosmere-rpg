@@ -960,6 +960,7 @@ export class CosmereItem<
                 type: MESSAGE_TYPES.ACTION,
                 description: await this.getDescriptionHTML(),
                 targets: getTargetDescriptors(),
+                item: this.id,
             },
         };
 
