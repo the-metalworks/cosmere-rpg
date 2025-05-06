@@ -881,8 +881,7 @@ namespace foundry {
             public prepareData();
 
             /**
-             * Apply transformations of derivations to the values of the source data object.
-             * Compute data fields whose values are not stored to the database.
+             * Prepare data related to this Document itself, before any embedded Documents or derived data is computed.
              *
              * Called before {@link ClientDocument#prepareDerivedData} in {@link ClientDocument#prepareData}.
              */

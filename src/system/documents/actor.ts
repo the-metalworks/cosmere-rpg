@@ -229,6 +229,7 @@ export class CosmereActor<
     public prepareDerivedData() {
         super.prepareDerivedData();
         this.applyActiveEffects();
+        this.system.prepareSecondaryDerivedData();
     }
 
     protected override _initialize(options?: object) {
