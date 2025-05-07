@@ -707,6 +707,12 @@ export class CommonActorDataModel<
             this.attributes.str,
         );
     }
+
+    /**
+     * Apply secondary data derivations to this Data Model.
+     * This is called after Active Effects are applied.
+     */
+    public prepareSecondaryDerivedData(): void {}
 }
 
 const SENSES_RANGES = [5, 10, 20, 50, 100, Number.MAX_VALUE];
