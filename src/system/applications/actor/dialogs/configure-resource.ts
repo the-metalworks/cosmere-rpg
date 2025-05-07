@@ -90,7 +90,7 @@ export class ConfigureResourceDialog extends HandlebarsApplicationMixin(
         void this.actor.update({
             [`system.resources.${this.resourceId}`]: {
                 max: {
-                    mode: this.mode,
+                    useOverride: this.resourceData.max.useOverride,
                     override: this.resourceData.max.override,
                 },
             },
