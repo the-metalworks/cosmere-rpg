@@ -4,6 +4,8 @@ import { Attribute, AttributeGroup, DamageType, Skill } from '../types/cosmere';
 import { getActor } from './actor';
 import { TargetDescriptor } from './generic';
 
+// Full Documentation: https://github.com/the-metalworks/cosmere-rpg/wiki/Enrichers
+
 interface EnricherConfig {
     _config: string;
     values: string[];
@@ -183,12 +185,7 @@ function createRollLink(
  * ```html
  * <span class="lookup-value">Actor Name</span>
  * ```
- * @example Providing a fallback incase the item doesn't have the requested key (or you made a typo!):
- * ```[[lookup @missing.name]]{Someone's Name}``
- * becomes
- * ```html
- * <span class="lookup-value">Someone's Name</span>
- * ```
+ * For full examples see https://github.com/the-metalworks/cosmere-rpg/wiki/Enrichers#data-lookups
  */
 function enrichLookup(
     config: EnricherConfig,
@@ -256,40 +253,17 @@ function enrichLookup(
  * @returns {HTMLElement|null}                      An HTML link if the check could be built, otherwise null.
  *
  * @example Create an Intimidation test:
- * ```[[/test skill=inm]]```
+ * ```[[test skill=inm]]```
  * becomes
  * ```html
- * <a class="roll-action" data-type="test" data-ability="str">
- *   <i class="fa-solid fa-dice-d20"></i> Intimidation test
- * </a>
+ * <span class="enricher-link">
+ *      <a onclick="Hooks.on('triggerTestEnricher', "Actor.####", "Source.uuid",{"skill":"inm", "attribute"=""})">
+ *          <i class="fa-solid fa-dice-d20"></i> Intimidation test
+ *      </a>
+ * </span>
  * ```
  *
- * @example Create a Lore test with a DC and default attribute:
- * ```[[/test skill=lor dc=20]]```
- * becomes
- * ```html
- * <a class="roll-action" data-type="test" data-skill="lor" data-dc="20">
- *   <i class="fa-solid fa-dice-d20"></i> DC 20 Lore (Intellect) test
- * </a>
- * ```
- *
- * @example Create an agility test using strength:
- * ```[[/test skill=agi attribute=str]]```
- * becomes
- * ```html
- * <a class="roll-action" data-type="test" data-ability="str" data-skill="agi">
- *   <i class="fa-solid fa-dice-d20"></i> Agility (Strength) test
- * </a>
- * ```
- *
- * @example Formulas used for DCs will be resolved using data provided to the description (not the roller):
- * ```[[/test skill=dec dc=12+@actor.attributes.int]]```
- * becomes
- * ```html
- * <a class="roll-action" data-type="test" data-attribute="pre" data-dc="15">
- *   <i class="fa-solid fa-dice-d20"></i> DC 15 Deception test
- * </a>
- * ```
+ * For full examples see https://github.com/the-metalworks/cosmere-rpg/wiki/Enrichers#tests
  */
 async function enrichTest(
     config: EnricherConfig,
@@ -328,7 +302,9 @@ async function enrichTest(
             game.i18n?.localize(
                 CONFIG.COSMERE.attributeGroups[config.defence as AttributeGroup]
                     .label,
-            ) ?? 'Defence';
+            ) ??
+            game.i18n?.localize('COSMERE.Actor.Statistics.Defense') ??
+            'Bad Config';
         config.dc = (await getActor(data.target?.uuid ?? ''))?.system.defenses[
             config.defence as AttributeGroup
         ].value;
@@ -361,6 +337,27 @@ async function enrichTest(
     );
 }
 
+/**
+ * Enrich the text with a button to make a roll and produce a damage/healing chat card.
+ *
+ * @param {object} config                           Configuration data.
+ * @param {string} [label]                          Optional label to replace default text.
+ * @param {TextEditor.EnrichmentOptions} options    Options provided to customize text enrichment.
+ * @returns {HTMLElement|null}                      An HTML link if the check could be built, otherwise null.
+ *
+ * @example Simple damage roll:
+ * ```[[damage 2d8 Vital]]```
+ * becomes
+ * ```html
+ * <span class="enricher-link">
+ *      <a onclick="Hooks.on('triggerDamageEnricher', "Actor.####", "Source.uuid",{"formula":"2d8", "damageType":"vital"})">
+ *          <i class="fa-solid fa-dice-d20"></i> 2d8 Vital
+ *      </a> damage
+ * </span>
+ * ```
+ *
+ * For full examples see https://github.com/the-metalworks/cosmere-rpg/wiki/Enrichers#damage--healing
+ */
 async function enrichDamage(
     config: EnricherConfig,
     label: string,
