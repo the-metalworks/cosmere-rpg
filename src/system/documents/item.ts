@@ -62,12 +62,14 @@ import { AdvantageMode } from '@system/types/roll';
 import { RollMode } from '@system/dice/types';
 import {
     determineConfigurationMode,
+    getApplyTargets,
     getTargetDescriptors,
 } from '../utils/generic';
 import { MESSAGE_TYPES } from './chat-message';
 import { renderSystemTemplate, TEMPLATES } from '../utils/templates';
 import { ItemConsumeDialog } from '../applications/item/dialogs/item-consume';
 import { CosmereHooks } from '../types/hooks';
+import { EnricherData } from '../utils/enrichers';
 
 // Constants
 const CONSUME_CONFIGURATION_DIALOG_TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ITEM_CONSUME}`;
@@ -1140,7 +1142,9 @@ export class CosmereItem<
                 ?.value;
         /* eslint-enable @typescript-eslint/prefer-nullish-coalescing */
 
-        const description = await TextEditor.enrichHTML(descriptionData ?? '');
+        const description = await TextEditor.enrichHTML(descriptionData ?? '', {
+            relativeTo: this.system.parent as foundry.abstract.Document.Any,
+        });
 
         const traitsNormal = [];
         const traitsExpert = [];
@@ -1278,6 +1282,28 @@ export class CosmereItem<
             // Hook data
             source: this,
         };
+    }
+
+    public getEnricherData() {
+        let actor = undefined;
+        if (this.actor) {
+            actor = this.actor.getRollData();
+        }
+        const targets = getTargetDescriptors();
+
+        return {
+            actor,
+            item: {
+                name: this.name,
+                charges: this.hasActivation()
+                    ? {
+                          value: this.system.activation.uses?.value ?? 0,
+                          max: this.system.activation.uses?.max ?? 0,
+                      }
+                    : undefined,
+            },
+            target: targets.length > 0 ? targets[0] : undefined,
+        } as const satisfies EnricherData;
     }
 }
 

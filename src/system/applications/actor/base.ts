@@ -376,14 +376,14 @@ export class BaseActorSheet<
         }
 
         $(this.element)
-            .find('.html-field.collapsible')
+            .find('.html-field.collapsible > h2')
             .on('click', (event) => this.onClickCollapsibleHtmlField(event));
     }
 
     /* --- Event handlers --- */
 
     protected onClickCollapsibleHtmlField(event: JQuery.ClickEvent) {
-        const target = event.currentTarget as HTMLElement;
+        const target = (event.currentTarget as HTMLElement).parentElement;
         target?.classList.toggle('expanded');
     }
 
@@ -436,16 +436,19 @@ export class BaseActorSheet<
         if (this.actor.system.biography) {
             enrichedBiographyValue = await TextEditor.enrichHTML(
                 this.actor.system.biography,
+                { relativeTo: this.document as foundry.abstract.Document.Any },
             );
         }
         if (this.actor.system.appearance) {
             enrichedAppearanceValue = await TextEditor.enrichHTML(
                 this.actor.system.appearance,
+                { relativeTo: this.document as foundry.abstract.Document.Any },
             );
         }
         if (this.actor.system.notes) {
             enrichedNotesValue = await TextEditor.enrichHTML(
                 this.actor.system.notes,
+                { relativeTo: this.document as foundry.abstract.Document.Any },
             );
         }
 
