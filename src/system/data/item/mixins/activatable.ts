@@ -16,6 +16,12 @@ interface ItemResourceData {
     recharge?: ItemRechargeType;
 }
 
+export interface ItemConsumeData {
+    type: ItemConsumeType;
+    value: number;
+    resource?: Resource;
+}
+
 export interface ActivatableItemData {
     activation: {
         type: ActivationType;
@@ -23,11 +29,7 @@ export interface ActivatableItemData {
             value?: number;
             type?: ActionCostType;
         };
-        consume?: {
-            type: ItemConsumeType;
-            value: number;
-            resource?: Resource;
-        };
+        consume?: ItemConsumeData[];
         uses?: {
             type: ItemUseType;
             value: number;
@@ -90,40 +92,43 @@ export function ActivatableItemMixin<P extends CosmereItem>() {
                                 required: true,
                             },
                         ),
-                        consume: new foundry.data.fields.SchemaField(
-                            {
-                                type: new foundry.data.fields.StringField({
-                                    required: true,
-                                    nullable: false,
-                                    blank: false,
-                                    choices: Object.keys(
-                                        CONFIG.COSMERE.items.activation
-                                            .consumeTypes,
-                                    ),
-                                    initial: ItemConsumeType.Resource,
-                                }),
-                                value: new foundry.data.fields.NumberField({
-                                    required: true,
-                                    nullable: false,
-                                    min: 0,
-                                    integer: true,
-                                    initial: 0,
-                                }),
-                                resource: new foundry.data.fields.StringField({
-                                    blank: false,
-                                    choices: [
-                                        ...Object.keys(
-                                            CONFIG.COSMERE.resources,
+                        consume: new foundry.data.fields.ArrayField(
+                            new foundry.data.fields.SchemaField(
+                                {
+                                    type: new foundry.data.fields.StringField({
+                                        required: true,
+                                        nullable: false,
+                                        blank: false,
+                                        choices: Object.keys(
+                                            CONFIG.COSMERE.items.activation
+                                                .consumeTypes,
                                         ),
-                                    ],
-                                    initial: Resource.Focus,
-                                }),
-                            },
-                            {
-                                required: false,
-                                nullable: true,
-                                initial: null,
-                            },
+                                        initial: ItemConsumeType.Resource,
+                                    }),
+                                    value: new foundry.data.fields.NumberField({
+                                        required: true,
+                                        nullable: false,
+                                        min: 0,
+                                        integer: true,
+                                        initial: 0,
+                                    }),
+                                    resource:
+                                        new foundry.data.fields.StringField({
+                                            blank: false,
+                                            choices: [
+                                                ...Object.keys(
+                                                    CONFIG.COSMERE.resources,
+                                                ),
+                                            ],
+                                            initial: Resource.Focus,
+                                        }),
+                                },
+                                {
+                                    required: false,
+                                    nullable: true,
+                                    initial: null,
+                                },
+                            ),
                         ),
                         flavor: new foundry.data.fields.HTMLField(),
                         skill: new foundry.data.fields.StringField({

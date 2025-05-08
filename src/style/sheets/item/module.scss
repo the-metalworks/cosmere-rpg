@@ -1,5 +1,5 @@
 @import './talent-tree.scss';
-@import './path.scss';
+@import './talents-provider.scss';
 
 .application.sheet.item {
     --border-sheet-corner-svg: url('assets/icons/svg/sheet/border_sheet_item_corner.svg');
@@ -315,8 +315,15 @@
             margin: 0;
             min-height: 32px;
 
+            .form-fields-list {
+                display: flex;
+                flex-direction: column;
+                flex: 2;
+                gap: 0.25rem;
+            }
+
             > app-id-input,
-            > .form-fields {
+            .form-fields {
                 display: flex;
                 flex-direction: row;
                 flex: 2;
@@ -353,6 +360,10 @@
                     &:disabled {
                         background-color: var(--cosmere-color-base-3);
                     }
+                }
+
+                > .extra {
+                    flex: 0;
                 }
 
                 > .delim {

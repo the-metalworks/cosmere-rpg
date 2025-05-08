@@ -6,6 +6,7 @@ export {
     EmptyObject,
     AnyMutableObject,
 } from '@league-of-foundry-developers/foundry-vtt-types/src/types/utils.mjs';
+import { AnyObject } from '@league-of-foundry-developers/foundry-vtt-types/src/types/utils.mjs';
 
 // Constant to improve UI consistency
 export const NONE = 'none';
@@ -72,3 +73,17 @@ export const COSMERE_DOCUMENT_CLASSES: Record<string, CosmereDocumentClass> = {
     Actor: CosmereActor,
     Item: CosmereItem,
 };
+
+export interface RawDocumentData<T = AnyObject> {
+    _id: string;
+    type: string;
+    name: string;
+    flags: Record<string, unknown>;
+    folder: string | null;
+    sort: number;
+    permission: {
+        default: number;
+        [key: string]: number;
+    };
+    system: T;
+}

@@ -5,7 +5,10 @@ import { TEMPLATES } from '@src/system/utils/templates';
 
 import { BaseItemSheet } from './base';
 
-export class AncestrySheet extends BaseItemSheet {
+// Mixins
+import { TalentsTabMixin } from './mixins/talents-tab';
+
+export class AncestrySheet extends TalentsTabMixin(BaseItemSheet) {
     static DEFAULT_OPTIONS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.DEFAULT_OPTIONS),
         {
@@ -49,6 +52,12 @@ export class AncestrySheet extends BaseItemSheet {
     public async _prepareContext(
         options: DeepPartial<foundry.applications.api.ApplicationV2.RenderOptions>,
     ) {
+        // Check if the ancestry has a talent tree set
+        const hasTalentTree = this.item.system.talentTree !== null;
+
+        // Enable the talents tab if the ancestry has a talent tree set
+        this.tabs.talents.enabled = hasTalentTree;
+
         return {
             ...(await super._prepareContext(options)),
         };

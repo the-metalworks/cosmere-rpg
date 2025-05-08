@@ -10,7 +10,7 @@ import {
     DeflectSource,
     ItemType,
     DamageType,
-    Condition,
+    Status,
 } from '@system/types/cosmere';
 import { CosmereActor } from '@system/documents/actor';
 import { ArmorItem, LootItem } from '@system/documents';
@@ -75,7 +75,7 @@ export interface CommonActorData {
     };
     immunities: {
         damage: Record<DamageType, boolean>;
-        condition: Record<Condition, boolean>;
+        condition: Record<Status, boolean>;
     };
     attributes: Record<Attribute, AttributeData>;
     defenses: Record<AttributeGroup, Derived<number>>;
@@ -536,9 +536,7 @@ export class CommonActorDataModel<
     }
 
     private static getConditionImmunitiesSchema() {
-        const conditions = Object.keys(
-            CONFIG.COSMERE.conditions,
-        ) as Condition[];
+        const conditions = Object.keys(CONFIG.COSMERE.statuses) as Status[];
 
         return new foundry.data.fields.SchemaField(
             conditions.reduce(

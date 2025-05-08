@@ -116,4 +116,9 @@ declare class Actor<
      * @returns         An instance of the new Actor. This should be recast.
      */
     public static fromSource(source: object, context: any = {}): this;
+
+    /**
+     * Apply any transformations to the Actor data which are caused by ActiveEffects.
+     */
+    public applyActiveEffects(): void;
 }

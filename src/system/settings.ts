@@ -15,6 +15,7 @@ export const SETTINGS = {
     CHAT_ALWAYS_SHOW_BUTTONS: 'alwaysShowApplyButtons',
     APPLY_BUTTONS_TO: 'applyButtonsTo',
     SHEET_EXPAND_DESCRIPTION_DEFAULT: 'expandDescriptionByDefault',
+    SHEET_SKILL_INCDEC_TOGGLE: 'skillIncrementDecrementToggle',
     SYSTEM_THEME: 'systemTheme',
 } as const;
 
@@ -50,6 +51,11 @@ export function registerSystemSettings() {
     const sheetOptions = [
         {
             name: SETTINGS.SHEET_EXPAND_DESCRIPTION_DEFAULT,
+            default: false,
+            scope: 'client',
+        },
+        {
+            name: SETTINGS.SHEET_SKILL_INCDEC_TOGGLE,
             default: false,
             scope: 'client',
         },

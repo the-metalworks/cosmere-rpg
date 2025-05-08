@@ -66,7 +66,7 @@ export interface ItemContext {
         consumesResource: boolean;
         consumesItem: boolean;
         resource: string;
-    }>;
+    }>[];
 
     hasUses: boolean;
     uses: Partial<{

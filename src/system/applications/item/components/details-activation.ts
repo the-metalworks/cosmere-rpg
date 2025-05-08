@@ -1,4 +1,8 @@
-import { ActivationType } from '@system/types/cosmere';
+import {
+    ActivationType,
+    ItemConsumeType,
+    Resource,
+} from '@system/types/cosmere';
 import { ConstructorOf, NONE } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
@@ -11,6 +15,34 @@ export class DetailsActivationComponent extends HandlebarsApplicationComponent<
     ConstructorOf<BaseItemSheet>
 > {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_DETAILS_ACTIVATION}`;
+
+    /**
+     * NOTE: Unbound methods is the standard for defining actions
+     * within ApplicationV2
+     */
+    /* eslint-disable @typescript-eslint/unbound-method */
+    static readonly ACTIONS = {
+        'add-consumption-option': this.addConsumptionOption,
+    };
+    /* eslint-enable @typescript-eslint/unbound-method */
+
+    /* --- Actions --- */
+    protected static addConsumptionOption(this: DetailsActivationComponent) {
+        if (!this.application.item.hasActivation()) return;
+
+        // Get the activation data
+        const { activation } = this.application.item.system;
+
+        activation.consume?.push({
+            type: ItemConsumeType.Resource,
+            value: 0,
+            resource: Resource.Focus,
+        });
+
+        void this.application.item.update({
+            ['system.activation.consume']: activation.consume,
+        });
+    }
 
     /* --- Context --- */
 
@@ -31,7 +63,7 @@ export class DetailsActivationComponent extends HandlebarsApplicationComponent<
         return {
             hasActivationType: activation.type !== ActivationType.None,
             hasActivationCost: !!activation.cost.type,
-            hasConsume: !!activation.consume,
+            consume: activation.consume,
             hasUses: !!activation.uses,
             hasSkill: !!activation.skill,
 
