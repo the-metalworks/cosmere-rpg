@@ -1,10 +1,9 @@
-import { DocumentConstructor } from '@league-of-foundry-developers/foundry-vtt-types/src/types/helperTypes.mjs';
-
 import {
     AnyObject,
     COSMERE_DOCUMENT_CLASSES,
     CosmereDocument,
     InvalidCollection,
+    RawDocumentData,
 } from '../types/utils';
 
 /**
@@ -12,7 +11,7 @@ import {
  */
 function getCollectionForDocumentType(
     documentType: string,
-): WorldCollection<DocumentConstructor, string> {
+): WorldCollection<foundry.abstract.Document.AnyConstructor, string> {
     const collection = game.collections?.get(documentType);
     if (!collection) {
         throw new Error(`Failed to retrieve "${documentType}" collection`);
@@ -21,9 +20,9 @@ function getCollectionForDocumentType(
     return collection;
 }
 
-export async function getRawDocumentSources<T = AnyObject>(
-    documentType: string,
-): Promise<AnyObject[]> {
+export async function getRawDocumentSources<
+    T extends RawDocumentData = RawDocumentData,
+>(documentType: string): Promise<T[]> {
     // NOTE: Use any type here as it keeps resolving to ManageCompendiumRequest instead of DocumentSocketRequest
     const { result } = await SocketInterface.dispatch('modifyDocument', {
         type: documentType,
@@ -34,7 +33,7 @@ export async function getRawDocumentSources<T = AnyObject>(
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any);
 
-    return (result as AnyObject[] | undefined) ?? [];
+    return (result as T[] | undefined) ?? [];
 }
 
 /**

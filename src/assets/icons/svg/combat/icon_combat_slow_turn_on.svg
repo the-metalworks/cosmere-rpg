@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 24.3.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 32 32" style="enable-background:new 0 0 32 32;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#DDDDDD;}
+	.st1{fill:#346CB5;}
+	.st2{fill:#EE9A21;}
+</style>
+<g id="toggle_to_slow">
+</g>
+<g id="toggle_to_fast_1_">
+</g>
+<g id="slow_turn">
+	<path class="st0" d="M8.7,1C7.8,1,7.2,1.7,7.2,2.5S7.8,4,8.7,4h0.8v1.6C4.7,6.3,1,10.4,1,15.2C1,20.6,5.5,25,11,25s10-4.4,10-9.8
+		c0-2-0.6-3.8-1.6-5.3l1.2-1.1c0.6-0.6,0.6-1.5,0-2.1s-1.6-0.6-2.2,0l-1,1c-1.4-1.1-3-1.8-4.8-2.1V4h0.8c0.9,0,1.5-0.7,1.5-1.5
+		S14.2,1,13.3,1H11H8.7z M12.2,10v6c0,0.6-0.5,1.1-1.2,1.1S9.8,16.6,9.8,16v-6c0-0.6,0.5-1.1,1.2-1.1S12.2,9.4,12.2,10z"/>
+	<g>
+		<path class="st1" d="M25.3,24.9L15.1,31v-4.3L8.1,31v-4.3L1,31V19l7.1,4.1V19l7.1,4.1V19L25.3,24.9z"/>
+	</g>
+</g>
+<g id="fast_turn_1_">
+</g>
+<g id="Layer_6">
+</g>
+<g id="guides">
+</g>
+</svg>

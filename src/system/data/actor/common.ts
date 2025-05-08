@@ -10,7 +10,7 @@ import {
     DeflectSource,
     ItemType,
     DamageType,
-    Condition,
+    Status,
 } from '@system/types/cosmere';
 import { CosmereActor } from '@system/documents/actor';
 import { ArmorItem, LootItem } from '@system/documents';
@@ -25,6 +25,12 @@ interface DeflectData extends Derived<number> {
      * when the natural value is higher than the derived value.
      */
     natural?: number;
+
+    /**
+     * A map of which damage types are deflected or
+     * not deflected by the actor.
+     */
+    types?: Record<DamageType, boolean>;
 
     /**
      * The source of the deflect value
@@ -75,7 +81,7 @@ export interface CommonActorData {
     };
     immunities: {
         damage: Record<DamageType, boolean>;
-        condition: Record<Condition, boolean>;
+        condition: Record<Status, boolean>;
     };
     attributes: Record<Attribute, AttributeData>;
     defenses: Record<AttributeGroup, Derived<number>>;
@@ -536,9 +542,7 @@ export class CommonActorDataModel<
     }
 
     private static getConditionImmunitiesSchema() {
-        const conditions = Object.keys(
-            CONFIG.COSMERE.conditions,
-        ) as Condition[];
+        const conditions = Object.keys(CONFIG.COSMERE.statuses) as Status[];
 
         return new foundry.data.fields.SchemaField(
             conditions.reduce(
@@ -644,20 +648,38 @@ export class CommonActorDataModel<
             // Get natural deflect value
             const natural = this.deflect.natural ?? 0;
 
+            this.deflect.types = Object.keys(CONFIG.COSMERE.damageTypes).reduce(
+                (obj, type) => {
+                    obj[type as DamageType] = false;
+                    return obj;
+                },
+                {} as Record<DamageType, boolean>,
+            );
+
             // Find equipped armor with the highest deflect value
             const armor = this.parent.items
                 .filter((item) => item.isArmor())
                 .filter((item) => item.system.equipped)
                 .reduce(
-                    (highest, item) =>
-                        !highest || item.system.deflect > highest.system.deflect
+                    (highest, item) => {
+                        return !highest ||
+                            item.system.deflect > highest.system.deflect
                             ? item
-                            : highest,
+                            : highest;
+                    },
                     null as ArmorItem | null,
                 );
 
-            // Get armor deflect value
+            // Get armor deflect value and types
             const armorDeflect = armor?.system.deflect ?? 0;
+
+            if (armor) {
+                Object.keys(armor.system.deflects).forEach(
+                    (type) =>
+                        (this.deflect.types![type as DamageType] ||=
+                            armor.system.deflects[type as DamageType].active),
+                );
+            }
 
             // Derive deflect
             this.deflect.derived = Math.max(natural, armorDeflect);

@@ -64,42 +64,34 @@
             {{/if}}
         </div>        
     </div>
-    <div class="form-group-stacked">
-        <div class="header">
+    <div class="form-group-stacked collapsible {{#unless grazeInputCollapsed}}expanded{{/unless}}">
+        <div class="header" data-action="toggle-graze-collapsed">
             <label>{{localize "COSMERE.Item.Sheet.Damage.GrazeOverride"}}</label>
             <div class="controls">
-                {{#if grazeInputCollapsed}}
-                <a data-action="toggle-graze-collapsed"
-                    data-tooltip="COSMERE.Item.Sheet.Damage.GrazeShow"
-                >
-                    <i class="fa-solid fa-chevron-left"></i>
-                </a>
-                {{else}}
-                <a data-action="toggle-graze-collapsed"
-                    data-tooltip="COSMERE.Item.Sheet.Damage.GrazeHide"
-                >
+                <a data-tooltip="COSMERE.Item.Sheet.Damage.ViewGraze">
                     <i class="fa-solid fa-chevron-down"></i>
                 </a>
-                {{/if}}
             </div>
         </div>
-        {{#if (not grazeInputCollapsed)}}
-        <div class="form-group">
-            <label>{{localize "COSMERE.Item.Sheet.Damage.GrazeFormula"}}</label>
-            <div class="form-fields">
-                <input name="system.damage.grazeOverrideFormula"
-                    type="text"
-                    value="{{item.system.damage.grazeOverrideFormula}}"
-                    {{#if (not editable)}}
-                    readonly
-                    {{/if}}
-                >
+        <div class="collapsible-content">
+            <div class="wrapper">
+                <div class="form-group">
+                    <label>{{localize "COSMERE.Item.Sheet.Damage.GrazeFormula"}}</label>
+                    <div class="form-fields">
+                        <input name="system.damage.grazeOverrideFormula"
+                            type="text"
+                            value="{{item.system.damage.grazeOverrideFormula}}"
+                            {{#if (not editable)}}
+                            readonly
+                            {{/if}}
+                        >
+                    </div>
+                </div>
+                <p class="hint">
+                    {{localize "COSMERE.Item.Sheet.Damage.GrazeHint"}}
+                </p>
             </div>
         </div>
-        <p class="hint">
-            {{localize "COSMERE.Item.Sheet.Damage.GrazeHint"}}
-        </p>
-        {{/if}}
     </div>
     {{/if}}
 </fieldset>

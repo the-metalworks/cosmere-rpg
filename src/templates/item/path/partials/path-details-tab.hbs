@@ -6,26 +6,6 @@
         {{app-item-details-id}}
         {{app-item-details-type}}
 
-        {{!-- Talent tree --}}
-        <div class="item-details-form">
-            <div class="form-group">
-                <label>
-                    {{localize @root.systemFields.talentTree.label}}
-                    <i class="info fa-regular fa-circle-question" data-tooltip="{{localize @root.systemFields.talentTree.hint}}"></i>
-                </label>
-                <div class="form-fields">
-                    {{app-document-reference-input
-                        name="system.talentTree"
-                        value=@root.item.system.talentTree
-                        type="Item"
-                        subtype="talent_tree"
-                        placeholder="COSMERE.Item.Sheet.Path.TalentTreePlaceholder"
-                        readonly=(not @root.editable)
-                    }}
-                </div>
-            </div>
-        </div>
-
         {{!-- Linked skills --}}
         <div class="item-details-form">
             <div class="form-group">
@@ -43,6 +23,8 @@
             </p>
         </div>
     </fieldset>    
+
+    {{app-item-details-talents-provider}}
 </div>
 
 {{/with}}

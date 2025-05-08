@@ -47,6 +47,7 @@ import { EquippableItemData } from '@system/data/item/mixins/equippable';
 import { DescriptionItemData } from '@system/data/item/mixins/description';
 import { IdItemData } from '@system/data/item/mixins/id';
 import { ModalityItemData } from '@system/data/item/mixins/modality';
+import { TalentsProviderData } from '@system/data/item/mixins/talents-provider';
 
 // Rolls
 import {
@@ -67,6 +68,7 @@ import { MESSAGE_TYPES } from './chat-message';
 import { renderSystemTemplate, TEMPLATES } from '../utils/templates';
 import { ItemConsumeDialog } from '../applications/item/dialogs/item-consume';
 import { CosmereHooks } from '../types/hooks';
+import { DeflectItemData } from '../data/item/mixins/deflect';
 
 // Constants
 const CONSUME_CONFIGURATION_DIALOG_TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ITEM_CONSUME}`;
@@ -211,6 +213,13 @@ export class CosmereItem<
     }
 
     /**
+     * Does this item have a deflect value?
+     */
+    public hasDeflect(): this is CosmereItem<DeflectItemData> {
+        return 'deflect' in this.system;
+    }
+
+    /**
      * Can this item be equipped?
      */
     public isEquippable(): this is CosmereItem<EquippableItemData> {
@@ -236,6 +245,13 @@ export class CosmereItem<
      */
     public hasModality(): this is CosmereItem<ModalityItemData> {
         return 'modality' in this.system;
+    }
+
+    /**
+     * Does this item provide talents?
+     */
+    public isTalentsProvider(): this is CosmereItem<TalentsProviderData> {
+        return 'talentTree' in this.system;
     }
 
     /* --- Accessors --- */
@@ -944,6 +960,7 @@ export class CosmereItem<
                 type: MESSAGE_TYPES.ACTION,
                 description: await this.getDescriptionHTML(),
                 targets: getTargetDescriptors(),
+                item: this.id,
             },
         };
 

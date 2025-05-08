@@ -16,7 +16,7 @@
                 {{#if @root.editable}}
                     {{#if section.canAddNewItems}}
                         <a data-action="new-item"
-                            data-tooltip="COSMERE.Actor.Sheet.Actions.NewItem"
+                            data-tooltip="{{localize "COSMERE.Actor.Sheet.Actions.NewItem" type=(localize section.name)}}"
                         >
                             <i class="fa-solid fa-plus"></i>
                         </a>
@@ -25,21 +25,21 @@
                     {{/if}}
                 {{/if}}
             </div>
-        </section>        
+        </section>
     </li>
 
     {{#each section.items as |item|}}
     {{#with (lookup @root.itemState item.id) as |state|}}
-    {{#with (itemContext item) as |ctx|}}    
+    {{#with (itemContext item) as |ctx|}}
     {{#with (lookup section.itemData item.id) as |data|}}
 
-    <li class="item usable collapsible {{#if state.expanded}}expanded{{/if}}" 
-        data-item-id="{{item.id}}" 
+    <li class="item usable collapsible {{#if state.expanded}}expanded{{/if}}"
+        data-item-id="{{item.id}}"
         {{#if @root.editable}}data-drag="true"{{/if}}
     >
         <section class="details">
             {{!-- Image --}}
-            <div class="img" 
+            <div class="img"
                 data-action="use-item"
                 data-tooltip="COSMERE.Actor.Sheet.Actions.Use"
             >
@@ -65,7 +65,7 @@
                     </i>
                     {{else}}
                     <i class="cosmere-icon passive"></i>
-                    {{/if}}                    
+                    {{/if}}
                 {{/if}}
             </div>
 
@@ -137,7 +137,7 @@
                 </a>
                 {{/if}}
             </div>
-        </section>        
+        </section>
 
         <section class="description collapsible-content">
             <div class="wrapper">

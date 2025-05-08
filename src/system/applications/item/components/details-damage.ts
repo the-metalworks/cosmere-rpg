@@ -23,7 +23,6 @@ export class DetailsDamageComponent extends HandlebarsApplicationComponent<
 
     private static onToggleGrazeCollapsed(this: DetailsDamageComponent) {
         this.grazeOverrideCollapsed = !this.grazeOverrideCollapsed;
-        void this.render();
     }
 
     /* --- Context --- */

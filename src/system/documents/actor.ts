@@ -2,7 +2,7 @@ import {
     Skill,
     Attribute,
     ActorType,
-    Condition,
+    Status,
     ItemType,
     ExpertiseType,
     DamageType,
@@ -100,6 +100,11 @@ interface ApplyDamageOptions {
      * @default true
      */
     chatMessage?: boolean;
+
+    /**
+     * The item, if any, from which the damage is originating
+     */
+    originatingItem?: CosmereItem;
 }
 
 export type CosmereActorRollData<T extends CommonActorData = CommonActorData> =
@@ -143,8 +148,8 @@ export class CosmereActor<
 
     /* --- Accessors --- */
 
-    public get conditions(): Set<Condition> {
-        return this.statuses as Set<Condition>;
+    public get conditions(): Set<Status> {
+        return this.statuses as Set<Status>;
     }
 
     public get applicableEffects(): CosmereActiveEffect[] {
@@ -206,6 +211,30 @@ export class CosmereActor<
     }
 
     /* --- Lifecycle --- */
+
+    public prepareEmbeddedDocuments() {
+        /**
+         * NOTE: This is a workaround for the fact that in base Foundry, the Actor invokes
+         * the applyActiveEffects method during the prepareEmbeddedDocuments method, leaving
+         * us unable to access derived values in ActiveEffects.
+         */
+        /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
+
+        // Grab the Actor's parent class' prepareEmbeddedDocuments method
+        const parentProto = Object.getPrototypeOf(Object.getPrototypeOf(this));
+        const grandparentProto = Object.getPrototypeOf(parentProto);
+        const f = grandparentProto.prepareEmbeddedDocuments as () => void;
+
+        /* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
+
+        // Call the parent class' prepareEmbeddedDocuments method
+        f.call(this);
+    }
+
+    public prepareDerivedData() {
+        super.prepareDerivedData();
+        this.applyActiveEffects();
+    }
 
     protected override _initialize(options?: object) {
         super._initialize(options);
@@ -311,14 +340,14 @@ export class CosmereActor<
         // Check if actor is immune to status effect
         if (
             statusId in this.system.immunities.condition &&
-            this.system.immunities.condition[statusId as Condition]
+            this.system.immunities.condition[statusId as Status]
         ) {
             // Notify
             ui.notifications.warn(
                 game.i18n!.format('GENERIC.Warning.ActorConditionImmune', {
                     actor: this.name,
                     condition: game.i18n!.localize(
-                        CONFIG.COSMERE.conditions[statusId as Condition].label,
+                        CONFIG.COSMERE.statuses[statusId as Status].label,
                     ),
                 }),
             );
@@ -634,20 +663,9 @@ export class CosmereActor<
      * send a chat message.
      */
     public async applyDamage(
-        ...config: DamageInstance[] | [...DamageInstance[], ApplyDamageOptions]
+        instances: DamageInstance[],
+        options: ApplyDamageOptions = {},
     ) {
-        // Check if the last argument is an options object
-        const hasOptions =
-            config.length > 0 && !('amount' in config[config.length - 1]);
-
-        // Get instances
-        const instances = (
-            hasOptions ? config.slice(0, -1) : config
-        ) as DamageInstance[];
-        const { chatMessage = true } = (
-            hasOptions ? config[config.length - 1] : {}
-        ) as ApplyDamageOptions;
-
         // Get health resource
         const health = this.system.resources[Resource.Health].value;
 
@@ -665,6 +683,19 @@ export class CosmereActor<
             const damageConfig = instance.type
                 ? CONFIG.COSMERE.damageTypes[instance.type]
                 : { ignoreDeflect: false };
+
+            const pierce =
+                options.originatingItem?.isWeapon() &&
+                options.originatingItem?.system.traits.pierce.active;
+
+            // Checks if damage should be deflected or not
+            const ignoreDeflect =
+                (pierce ?? false) ||
+                (instance.type
+                    ? this.system.deflect.types
+                        ? !this.system.deflect.types[instance.type]
+                        : damageConfig.ignoreDeflect
+                    : false);
 
             const amount = Math.floor(instance.amount);
 
@@ -687,7 +718,7 @@ export class CosmereActor<
                 return;
             }
 
-            if (damageConfig.ignoreDeflect) {
+            if (ignoreDeflect) {
                 damageIgnore += amount;
             } else {
                 damageDeflect += amount;
@@ -732,7 +763,7 @@ export class CosmereActor<
             damage,
         );
 
-        if (chatMessage) {
+        if (options.chatMessage ?? true) {
             const messageConfig = {
                 user: game.user!.id,
                 speaker: ChatMessage.getSpeaker({
@@ -763,7 +794,9 @@ export class CosmereActor<
     }
 
     public async applyHealing(amount: number) {
-        return this.applyDamage({ amount, type: DamageType.Healing });
+        return this.applyDamage([
+            { amount, type: DamageType.Healing } as DamageInstance,
+        ]);
     }
 
     /**
@@ -1153,17 +1186,17 @@ export class CosmereActor<
         };
     }
 
-    public *allApplicableEffects() {
-        for (const effect of super.allApplicableEffects()) {
-            if (
-                !(effect.parent instanceof CosmereItem) ||
-                !effect.parent.isEquippable() ||
-                effect.parent.system.equipped
-            ) {
-                yield effect;
-            }
-        }
-    }
+    // public *allApplicableEffects() {
+    //     for (const effect of super.allApplicableEffects()) {
+    //         if (
+    //             !(effect.parent instanceof CosmereItem) ||
+    //             !effect.parent.isEquippable() ||
+    //             effect.parent.system.equipped
+    //         ) {
+    //             yield effect;
+    //         }
+    //     }
+    // }
 
     /**
      * Utility Function to determine a formula value based on a scalar plot of an attribute value

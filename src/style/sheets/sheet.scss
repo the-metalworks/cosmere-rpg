@@ -428,5 +428,11 @@
                 padding: 0.25rem 0.5rem;
             }
         }
+
+        > textarea {
+            min-height: 300px;
+            padding: 0.25rem 0.5rem;
+            scrollbar-color: var(--cosmere-color-base-6) var(--color-scrollbar-track);
+        }
     }
 }

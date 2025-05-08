@@ -8,7 +8,7 @@ import { D20Roll } from '@system/dice/d20-roll';
 import { DamageRoll } from '@system/dice/damage-roll';
 
 import { CosmereActor } from './actor';
-import { InjuryItem } from './item';
+import { CosmereItem, InjuryItem } from './item';
 import { renderSystemTemplate, TEMPLATES } from '../utils/templates';
 import { SYSTEM_ID } from '../constants';
 import { AdvantageMode } from '../types/roll';
@@ -19,9 +19,7 @@ import {
     getConstantFromRoll,
     TargetDescriptor,
 } from '../utils/generic';
-import ApplicationV2 from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/client-esm/applications/api/application.mjs';
 import { DamageModifierDialog } from '../applications/actor/dialogs/damage-card-modifier';
-import { AnyObject } from '../types/utils';
 import { CosmereHooks } from '../types/hooks';
 
 export const MESSAGE_TYPES = {
@@ -47,6 +45,16 @@ export class CosmereChatMessage extends ChatMessage {
         }
         return game.actors?.get(this.speaker.actor);
         /* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-member-access */
+    }
+
+    public get associatedItem(): CosmereItem | null {
+        /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+        return this.associatedActor
+            ? (this.associatedActor.items.get(
+                  this.flags[SYSTEM_ID].message.item,
+              ) ?? null)
+            : null;
+        /* eslint-enable @typescript-eslint/no-unsafe-member-access */
     }
 
     public get d20Rolls(): D20Roll[] {
@@ -939,10 +947,8 @@ export class CosmereChatMessage extends ChatMessage {
 
         const button = event.currentTarget as HTMLElement;
         const promptModify =
-            !game.settings?.get(
-                'cosmere-rpg',
-                'skipDamageModDialogByDefault',
-            ) || areKeysPressed(KEYBINDINGS.SKIP_DIALOG_DEFAULT);
+            !getSystemSetting(SETTINGS.DIALOG_DAMAGE_MODIFIER_SKIP_DEFAULT) ||
+            areKeysPressed(KEYBINDINGS.SKIP_DIALOG_DEFAULT);
         const action = button.dataset.action;
         const multiplier = Number(button.dataset.multiplier);
 
@@ -968,7 +974,9 @@ export class CosmereChatMessage extends ChatMessage {
             await Promise.all(
                 Array.from(targets).map(async (t) => {
                     const target = (t as Token).actor as CosmereActor;
-                    return await target.applyDamage(...damageToApply);
+                    return await target.applyDamage(damageToApply, {
+                        originatingItem: this.associatedItem ?? undefined,
+                    });
                 }),
             );
         }
@@ -994,7 +1002,7 @@ export class CosmereChatMessage extends ChatMessage {
 
     /**
      * Handles collapsible sections expansion on click event.
-     * @param {PointerEvent} event  The triggering event.
+     * @param {JQuery.ClickEvent} event  The triggering event.
      */
     private onClickCollapsible(event: JQuery.ClickEvent) {
         event.stopPropagation();
@@ -1004,7 +1012,7 @@ export class CosmereChatMessage extends ChatMessage {
 
     /**
      * Handle target selection and panning.
-     * @param {Event} event The triggering event.
+     * @param {JQuery.ClickEvent} event The triggering event.
      * @returns {Promise} A promise that resolves once the canvas pan has completed.
      * @protected
      */
