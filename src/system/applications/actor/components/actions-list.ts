@@ -98,6 +98,30 @@ const STATIC_SECTIONS = {
                 { parent },
             ) as Promise<CosmereItem>,
     },
+    Armor: {
+        id: 'armor',
+        label: 'COSMERE.Item.Type.Armor.label_plural',
+        name: 'COSMERE.Item.Type.Armor.label_action',
+        default: false,
+        filter: (item: CosmereItem) => item.isArmor(),
+        new: (parent: CosmereActor) =>
+            CosmereItem.create(
+                {
+                    type: ItemType.Equipment,
+                    name: game.i18n!.localize('COSMERE.Item.Type.Armor.New'),
+                    system: {
+                        activation: {
+                            type: ActivationType.Utility,
+                            cost: {
+                                type: ActionCostType.Action,
+                                value: 1,
+                            },
+                        },
+                    },
+                },
+                { parent },
+            ) as Promise<CosmereItem>,
+    },
     Equipment: {
         id: 'equipment',
         label: 'COSMERE.Item.Type.Equipment.label_plural',
@@ -378,7 +402,7 @@ export class ActorActionsListComponent extends HandlebarsApplicationComponent<
                       },
                   ]
                 : []),
-
+            STATIC_SECTIONS.Armor,
             STATIC_SECTIONS.Equipment,
             STATIC_SECTIONS.BasicActions,
             STATIC_SECTIONS.MiscActions,
