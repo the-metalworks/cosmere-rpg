@@ -8,7 +8,7 @@ import { EditImmunitiesDialog } from '../dialogs/edit-immunities';
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
 import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
-import { Condition, DamageType } from '@src/system/types/cosmere';
+import { DamageType, Status } from '@src/system/types/cosmere';
 
 export class ActorImmunitiesComponent extends HandlebarsApplicationComponent<
     ConstructorOf<BaseActorSheet>
@@ -57,7 +57,7 @@ export class ActorImmunitiesComponent extends HandlebarsApplicationComponent<
             ).map(([immunityName, value]) => ({
                 name: immunityName,
                 label: game.i18n?.localize(
-                    CONFIG.COSMERE.conditions[immunityName as Condition].label,
+                    CONFIG.COSMERE.statuses[immunityName as Status].label,
                 ),
                 isImmune: value,
                 typeIcon: CONFIG.COSMERE.immunityTypes.condition.icon,

@@ -1,6 +1,6 @@
 {
     "name": "cosmere-rpg",
-    "version": "0.3.0",
+    "version": "1.0.0",
     "private": true,
     "type": "module",
     "scripts": {
@@ -52,7 +52,6 @@
         "@pixi-essentials/svg": "^3.0.0",
         "@pixi/filter-drop-shadow": "^5.2.0",
         "@pixi/filter-glow": "^5.2.1",
-        "@pixi/math-extras": "^7.4.2",
         "spark-md5": "^3.0.2"
     }
 }

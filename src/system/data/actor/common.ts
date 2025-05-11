@@ -10,13 +10,14 @@ import {
     DeflectSource,
     ItemType,
     DamageType,
-    Condition,
+    Status,
 } from '@system/types/cosmere';
 import { CosmereActor } from '@system/documents/actor';
 import { ArmorItem, LootItem } from '@system/documents';
 
 // Fields
 import { DerivedValueField, Derived } from '../fields/derived-value-field';
+import { CosmereDocument } from '@src/system/types/utils';
 
 interface DeflectData extends Derived<number> {
     /**
@@ -75,7 +76,7 @@ export interface CommonActorData {
     };
     immunities: {
         damage: Record<DamageType, boolean>;
-        condition: Record<Condition, boolean>;
+        condition: Record<Status, boolean>;
     };
     attributes: Record<Attribute, AttributeData>;
     defenses: Record<AttributeGroup, Derived<number>>;
@@ -124,6 +125,9 @@ export interface CommonActorData {
     biography?: string;
     appearance?: string;
     notes?: string;
+
+    // For Hooks
+    source: CosmereDocument;
 }
 
 export class CommonActorDataModel<
@@ -536,9 +540,7 @@ export class CommonActorDataModel<
     }
 
     private static getConditionImmunitiesSchema() {
-        const conditions = Object.keys(
-            CONFIG.COSMERE.conditions,
-        ) as Condition[];
+        const conditions = Object.keys(CONFIG.COSMERE.statuses) as Status[];
 
         return new foundry.data.fields.SchemaField(
             conditions.reduce(
@@ -709,6 +711,12 @@ export class CommonActorDataModel<
             this.attributes.str,
         );
     }
+
+    /**
+     * Apply secondary data derivations to this Data Model.
+     * This is called after Active Effects are applied.
+     */
+    public prepareSecondaryDerivedData(): void {}
 }
 
 const SENSES_RANGES = [5, 10, 20, 50, 100, Number.MAX_VALUE];

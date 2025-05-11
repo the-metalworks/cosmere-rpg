@@ -9,16 +9,16 @@ import {
     DescriptionItemMixin,
     DescriptionItemData,
 } from './mixins/description';
+import {
+    TalentsProviderMixin,
+    TalentsProviderData,
+} from './mixins/talents-provider';
 
 export interface PathItemData
     extends IdItemData,
         TypedItemData<PathType>,
-        DescriptionItemData {
-    /**
-     * The UUID of the talent tree that gets displayed on the talents tab.
-     */
-    talentTree?: string;
-
+        DescriptionItemData,
+        TalentsProviderData {
     /**
      * The non-core skills linked to this path.
      * These skills are displayed with the path in the sheet.
@@ -46,17 +46,10 @@ export class PathItemDataModel extends DataModelMixin<
     DescriptionItemMixin({
         value: 'COSMERE.Item.Type.Path.desc_placeholder',
     }),
+    TalentsProviderMixin(),
 ) {
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), {
-            talentTree: new foundry.data.fields.DocumentUUIDField({
-                required: false,
-                nullable: true,
-                blank: false,
-                label: 'COSMERE.Item.Path.TalentTree.Label',
-                hint: 'COSMERE.Item.Path.TalentTree.Hint',
-            }),
-
             linkedSkills: new foundry.data.fields.ArrayField(
                 new foundry.data.fields.StringField({
                     required: true,

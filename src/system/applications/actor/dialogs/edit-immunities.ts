@@ -1,9 +1,8 @@
-import { Condition, DamageType, ImmunityType } from '@system/types/cosmere';
+import { Status, DamageType, ImmunityType } from '@system/types/cosmere';
 import { CosmereActor } from '@system/documents';
 import { AnyObject } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
-import { ConditionConfig } from '@src/system/types/config';
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
@@ -280,11 +279,10 @@ export class EditImmunitiesDialog extends HandlebarsApplicationMixin(
             ([name]) => (currentImmunities.damage[name as DamageType] = true),
         );
         conditionRemovals.forEach(
-            ([name]) =>
-                (currentImmunities.condition[name as Condition] = false),
+            ([name]) => (currentImmunities.condition[name as Status] = false),
         );
         conditionAdditions.forEach(
-            ([name]) => (currentImmunities.condition[name as Condition] = true),
+            ([name]) => (currentImmunities.condition[name as Status] = true),
         );
 
         // // Set labels for custom expertises
@@ -338,7 +336,7 @@ export class EditImmunitiesDialog extends HandlebarsApplicationMixin(
                     ),
                 },
                 condition: {
-                    ...Object.entries(CONFIG.COSMERE.conditions).reduce(
+                    ...Object.entries(CONFIG.COSMERE.statuses).reduce(
                         (
                             acc: Record<string, string>,
                             [condiName, condiConfig],
@@ -384,11 +382,11 @@ export class EditImmunitiesDialog extends HandlebarsApplicationMixin(
                 }),
             );
         } else if (type === ImmunityType.Condition) {
-            return Object.entries(CONFIG.COSMERE.conditions).map(
+            return Object.entries(CONFIG.COSMERE.statuses).map(
                 ([name, config]) => ({
                     name,
                     ...config,
-                    isImmune: this.actor.hasImmunity(type, name as Condition),
+                    isImmune: this.actor.hasImmunity(type, name as Status),
                 }),
             );
         } else {
@@ -405,7 +403,7 @@ export class EditImmunitiesDialog extends HandlebarsApplicationMixin(
             );
         } else if (type === ImmunityType.Condition) {
             return game.i18n!.localize(
-                Object.entries(CONFIG.COSMERE.conditions)?.find(
+                Object.entries(CONFIG.COSMERE.statuses)?.find(
                     ([conditionName]) => conditionName === name,
                 )?.[1].label ?? '',
             );

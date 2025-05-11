@@ -66,13 +66,21 @@ function clearOutputDir() {
         buildStart() {
             const outputDir = 'build';
 
-            // Clear contents of the output directory, if it exists
+            // Check if the output directory exists
             if (fs.existsSync(outputDir)) {
-                fs.rmSync(outputDir, { recursive: true });
-            }
+                // Get all output directory contents
+                const files = fs.readdirSync(outputDir)
+                    .filter(file => file !== 'packs') // Ignore packs directory
+                    .map(file => path.join(outputDir, file));
 
-            // Ensure the output directory exists
-            fs.mkdirSync(outputDir);
+                // Remove all files in the output directory
+                files.forEach(file => {
+                    fs.rmSync(file, { recursive: true, force: true });
+                });
+            } else {
+                // Ensure the output directory exists
+                fs.mkdirSync(outputDir);
+            }
         }
     }
 }
@@ -121,11 +129,8 @@ function pixiImportFix() {
         name: 'pixi-import-fix',
         renderChunk: (code, chunk, options, meta) => {
             return code.replace(
-                "import { Point, ObservablePoint, Rectangle, Filter, utils } from '@pixi/core';",
+                "import { Filter, utils } from '@pixi/core';",
                 [
-                    'const Point = PIXI.Point;',
-                    'const ObservablePoint = PIXI.ObservablePoint;',
-                    'const Rectangle = PIXI.Rectangle;',
                     'const Filter = PIXI.Filter;',
                     'const utils = PIXI.utils;',
                 ].join('\n')

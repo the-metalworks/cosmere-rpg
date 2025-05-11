@@ -341,9 +341,9 @@
                 }
             }
 
-            &.immune {
-                [class*="fa-toggle-"] {
-                    opacity: .1;
+            &:is(.immune) {
+                > a {
+                    opacity: 0.3;
                 }
             }
 
@@ -364,6 +364,7 @@
 
             .name {
                 font-family: var(--cosmere-font-normal);
+                font-weight: 600;
                 text-align: left;
                 flex: 1;
             }
@@ -886,6 +887,15 @@
                     left: -8px;
                     top: 2px;
                     border: none;
+                }
+
+                .fallback {
+                    width: 16px;
+                    height: 16px;
+                    position: absolute;
+                    left: -8px;
+                    top: 2px;
+                    color: var(--cosmere-color-accent);
                 }
             }
         }

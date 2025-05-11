@@ -76,6 +76,7 @@ const STATIC_SECTIONS = {
     Weapons: {
         id: 'weapons',
         label: 'COSMERE.Item.Type.Weapon.label_plural',
+        name: 'COSMERE.Item.Type.Weapon.label_action',
         default: false,
         filter: (item: CosmereItem) => item.isWeapon(),
         new: (parent: CosmereActor) =>
@@ -97,9 +98,34 @@ const STATIC_SECTIONS = {
                 { parent },
             ) as Promise<CosmereItem>,
     },
+    Armor: {
+        id: 'armor',
+        label: 'COSMERE.Item.Type.Armor.label_plural',
+        name: 'COSMERE.Item.Type.Armor.label_action',
+        default: false,
+        filter: (item: CosmereItem) => item.isArmor(),
+        new: (parent: CosmereActor) =>
+            CosmereItem.create(
+                {
+                    type: ItemType.Equipment,
+                    name: game.i18n!.localize('COSMERE.Item.Type.Armor.New'),
+                    system: {
+                        activation: {
+                            type: ActivationType.Utility,
+                            cost: {
+                                type: ActionCostType.Action,
+                                value: 1,
+                            },
+                        },
+                    },
+                },
+                { parent },
+            ) as Promise<CosmereItem>,
+    },
     Equipment: {
         id: 'equipment',
         label: 'COSMERE.Item.Type.Equipment.label_plural',
+        name: 'COSMERE.Item.Type.Equipment.label_action',
         default: false,
         filter: (item: CosmereItem) => item.isEquipment(),
         new: (parent: CosmereActor) =>
@@ -125,6 +151,7 @@ const STATIC_SECTIONS = {
     BasicActions: {
         id: 'basic-actions',
         label: 'COSMERE.Item.Action.Type.Basic.label_plural',
+        name: 'COSMERE.Item.Action.Type.Basic.label',
         default: true,
         filter: (item: CosmereItem) =>
             item.isAction() && item.system.type === ActionType.Basic,
@@ -311,6 +338,7 @@ export class ActorActionsListComponent extends HandlebarsApplicationComponent<
                         type: path.name,
                     },
                 ),
+                name: `${path.name} ${game.i18n?.localize('COSMERE.Item.Type.Action.label')}`,
                 default: true,
                 filter: (item: CosmereItem) =>
                     item.isTalent() && item.system.path === path.system.id,
@@ -346,16 +374,17 @@ export class ActorActionsListComponent extends HandlebarsApplicationComponent<
                                   type: ancestry.name,
                               },
                           ),
+                          name: `${ancestry.name} ${game.i18n?.localize('COSMERE.Item.Type.Action.label')}`,
                           default: false,
                           filter: (item: CosmereItem) =>
-                              item.isTalent() &&
+                              (item.isTalent() || item.isAction()) &&
                               item.system.ancestry === ancestry.system.id,
                           new: (parent: CosmereActor) =>
                               CosmereItem.create(
                                   {
-                                      type: ItemType.Talent,
+                                      type: ItemType.Action,
                                       name: game.i18n!.localize(
-                                          'COSMERE.Item.Type.Talent.New',
+                                          'COSMERE.Item.Type.Action.New',
                                       ),
                                       system: {
                                           ancestry: ancestry.system.id,
@@ -373,7 +402,7 @@ export class ActorActionsListComponent extends HandlebarsApplicationComponent<
                       },
                   ]
                 : []),
-
+            STATIC_SECTIONS.Armor,
             STATIC_SECTIONS.Equipment,
             STATIC_SECTIONS.BasicActions,
             STATIC_SECTIONS.MiscActions,
@@ -394,6 +423,7 @@ export class ActorActionsListComponent extends HandlebarsApplicationComponent<
             return {
                 id: type,
                 label: game.i18n!.localize(config.plural),
+                name: `${config.label} ${game.i18n?.localize('COSMERE.Item.Type.Action.label')}`,
                 default: false,
                 filter: (item: CosmereItem) =>
                     item.isPower() && item.system.type === type,
@@ -485,6 +515,10 @@ export class ActorActionsListComponent extends HandlebarsApplicationComponent<
                         ? {
                               descriptionHTML: await TextEditor.enrichHTML(
                                   item.system.description.value,
+                                  {
+                                      relativeTo: (item as CosmereItem).system
+                                          .parent as foundry.abstract.Document.Any,
+                                  },
                               ),
                           }
                         : {}),

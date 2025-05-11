@@ -27,6 +27,14 @@ export interface ApplicationTab {
      * @default 'primary'
      */
     group?: string;
+
+    /**
+     * Whether this tab is enabled or not.
+     * If this is set to false, the tab will not be shown in the UI.
+     *
+     * @default true
+     */
+    enabled?: boolean;
 }
 
 /**
@@ -47,6 +55,19 @@ export function TabsApplicationMixin<
         public static TABS: Record<string, ApplicationTab> = {};
 
         public tabGroups: Record<string, string> = {};
+
+        private _tabs?: Record<string, ApplicationTab>;
+
+        public get tab(): string {
+            return this.tabGroups[PRIMARY_TAB_GROUP] ?? '';
+        }
+
+        public get tabs(): Record<string, ApplicationTab> {
+            if (!this._tabs)
+                this._tabs = (this.constructor as typeof mixin).TABS;
+
+            return this._tabs;
+        }
 
         public override changeTab(
             tab: string,
@@ -69,7 +90,7 @@ export function TabsApplicationMixin<
             options: Partial<foundry.applications.api.ApplicationV2.RenderOptions>,
         ) {
             // Get tabs list
-            const tabsList = (this.constructor as typeof mixin).TABS;
+            const tabsList = this.tabs;
 
             // Construct tabs data
             const tabsData = Object.entries(tabsList)
@@ -96,16 +117,18 @@ export function TabsApplicationMixin<
             });
 
             // Construct tabs
-            const tabs = tabsData.map((tab) => {
-                const active = this.tabGroups[tab.group] === tab.id;
-                const cssClass = active ? 'active' : '';
+            const tabs = tabsData
+                .map((tab) => {
+                    const active = this.tabGroups[tab.group] === tab.id;
+                    const cssClass = active ? 'active' : '';
 
-                return {
-                    ...tab,
-                    active,
-                    cssClass,
-                };
-            });
+                    return {
+                        ...tab,
+                        active,
+                        cssClass,
+                    };
+                })
+                .filter((tab) => tab.enabled !== false);
 
             // Construct tabs map
             const tabsMap = tabs.reduce(

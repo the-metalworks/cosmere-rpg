@@ -19,19 +19,27 @@ export const enum CreatureType {
 /**
  * A non-exhaustive list of conditions
  */
-export const enum Condition {
+export const enum Status {
+    Afflicted = 'afflicted',
+    Blind = 'blind',
+    Burrowing = 'burrowing',
     Determined = 'determined',
     Disoriented = 'disoriented',
     Empowered = 'empowered',
+    Enhanced = 'enhanced',
     Exhausted = 'exhausted',
+    Flying = 'flying',
     Focused = 'focused',
+    Hidden = 'hidden',
     Immobilized = 'immobilized',
+    Invisible = 'invisible',
     Prone = 'prone',
     Restrained = 'restrained',
     Slowed = 'slowed',
     Stunned = 'stunned',
     Surprised = 'surprised',
-    Unconcious = 'unconcious',
+    Unconscious = 'unconscious',
+    Dead = 'dead',
 }
 
 export const enum InjuryType {
@@ -239,7 +247,7 @@ export const enum AttackType {
     Ranged = 'ranged',
 }
 
-export const enum DamageType {
+export enum DamageType {
     Energy = 'energy',
     Impact = 'impact',
     Keen = 'keen',

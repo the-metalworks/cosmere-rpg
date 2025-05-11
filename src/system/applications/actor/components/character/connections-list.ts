@@ -57,12 +57,18 @@ export class CharacterConnectionsListComponent extends HandlebarsApplicationComp
             const target = (event.currentTarget as HTMLElement).closest(
                 '.item',
             )!;
+
+            const tabBody = (event.currentTarget as HTMLElement).closest(
+                '.tab-body',
+            )!;
+
             const targetRect = target.getBoundingClientRect();
+            const tabRect = tabBody.getBoundingClientRect();
             const rootRect = this.element!.getBoundingClientRect();
 
             this.controlsDropdownPosition = {
                 top: targetRect.bottom - rootRect.top,
-                right: rootRect.right - targetRect.right,
+                right: tabRect.right - targetRect.right,
             };
         } else {
             this.contextConnectionId = null;
@@ -181,6 +187,10 @@ export class CharacterConnectionsListComponent extends HandlebarsApplicationComp
                         // NOTE: We use a logical OR here to catch both nullish values and empty string
                         // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
                         item.system.description?.value || '<p>—</p>',
+                        {
+                            relativeTo: (item as CosmereItem).system
+                                .parent as foundry.abstract.Document.Any,
+                        },
                     ),
                 })),
             ),
