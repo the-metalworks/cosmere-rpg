@@ -163,6 +163,16 @@ export class CharacterActorDataModel extends CommonActorDataModel<CharacterActor
                 // Assign max
                 resource.max.derived = 2 + willpower;
             }
+        });
+    }
+
+    public override prepareSecondaryDerivedData(): void {
+        super.prepareSecondaryDerivedData();
+
+        // Clamp resource values to their max values
+        (Object.keys(this.resources) as Resource[]).forEach((key) => {
+            // Get the resource
+            const resource = this.resources[key];
 
             // Get max
             const max = resource.max.value;

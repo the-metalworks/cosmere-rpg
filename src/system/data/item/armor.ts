@@ -9,6 +9,10 @@ import {
     DescriptionItemData,
 } from './mixins/description';
 import { EquippableItemMixin, EquippableItemData } from './mixins/equippable';
+import {
+    ActivatableItemMixin,
+    ActivatableItemData,
+} from './mixins/activatable';
 import { TraitsItemMixin, TraitsItemData } from './mixins/traits';
 import { DeflectItemMixin, DeflectItemData } from './mixins/deflect';
 import { PhysicalItemMixin, PhysicalItemData } from './mixins/physical';
@@ -18,6 +22,7 @@ export interface ArmorItemData
     extends IdItemData,
         DescriptionItemData,
         EquippableItemData,
+        ActivatableItemData,
         ExpertiseItemData,
         TraitsItemData<ArmorTraitId>,
         DeflectItemData,
@@ -39,6 +44,7 @@ export class ArmorItemDataModel extends DataModelMixin<
             choices: [EquipType.Wear],
         },
     }),
+    ActivatableItemMixin(),
     ExpertiseItemMixin(),
     TraitsItemMixin(),
     DeflectItemMixin(),

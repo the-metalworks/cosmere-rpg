@@ -354,7 +354,9 @@ export class BaseItemSheet extends TabsApplicationMixin(
         ) {
             desc = game.i18n!.localize(desc);
         }
-        return await TextEditor.enrichHTML(desc);
+        return await TextEditor.enrichHTML(desc, {
+            relativeTo: this.document as foundry.abstract.Document.Any,
+        });
     }
 
     /* --- Actions --- */

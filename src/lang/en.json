@@ -321,6 +321,7 @@
                 "Armor": {
                     "label": "Armor",
                     "label_plural": "Armor",
+                    "label_action": "Armor Action",
                     "desc_placeholder": "Edit this to describe what this armor is & how it looks.",
                     "New": "New Armor"
                 },
@@ -1170,11 +1171,14 @@
         "Formula": "Formula",
         "Value": "Value",
         "Modifier": "Modifier",
+        "DC": "DC",
         "Skill": "Skill",
         "Attribute": "Attribute",
         "SkillTest": "Skill Test",
+        "Test": "Test",
         "Plot": "Plot",
         "Damage": "Damage",
+        "Healing": "Healing",
         "Cost": "Cost",
         "Configure": "Configure",
         "DistanceUnit": "ft.",
@@ -1222,6 +1226,23 @@
             "DuplicatePrerequisiteTalentRef": "A talent with id {talentId} already exists ({talentName})",
             "ItemAlreadyInTree": "An item with id \"{itemId}\" already exists in the {name} talent tree",
             "ActorConditionImmune": "{actor} is immune to {condition}"
+        },
+        "Enrichers": {
+            "Test": {
+                "Against": "against",
+                "VsDefense": "against the target's",
+                "NoSkill": "No Skill Provided"
+            },
+            "Damage": {
+                "NoFormula": "No Formula or Dice Terms Provided",
+                "NoType": "No Damage Type Provided",
+                "DoubleType": "Damage Type Defined More Than Once",
+                "BadType": "Damage Type Not Supported"
+            },
+            "Lookup": {
+                "NoPath": "No Lookup Path Provided"
+            },
+            "Error": "ENRICHER ERROR"
         },
         "DerivedValue": {
             "Mode": {
