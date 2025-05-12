@@ -1,12 +1,16 @@
-import { SYSTEM_ID } from '../constants';
 import { DamageRoll } from '../dice';
 import { MESSAGE_TYPES } from '../documents';
 import { Attribute, DamageType, Skill } from '../types/cosmere';
-import { CosmereHooks } from '../types/hooks';
 import { getActor } from '../utils/actor';
 
-Hooks.on<CosmereHooks.EnricherTrigger>(
-    'triggerTestEnricher',
+// Hooks
+import { CosmereHooks } from '@system/hooks';
+
+// Constants
+import { SYSTEM_ID } from '@system/constants';
+
+Hooks.on<CosmereHooks.TestEnricherTrigger>(
+    CosmereHooks.TestEnricherTrigger,
     async (actorId: string, source: string, data: Record<string, string>) => {
         const actor = await getActor(actorId ?? '');
         if (actor && data.skill) {
@@ -21,8 +25,8 @@ Hooks.on<CosmereHooks.EnricherTrigger>(
     },
 );
 
-Hooks.on<CosmereHooks.EnricherTrigger>(
-    'triggerDamageEnricher',
+Hooks.on<CosmereHooks.DamageEnricherTrigger>(
+    CosmereHooks.DamageEnricherTrigger,
     async (actorId: string, source: string, data: Record<string, string>) => {
         const actor = await getActor(actorId ?? '');
         if (actor && data.formula) {
