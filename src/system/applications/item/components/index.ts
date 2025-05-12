@@ -8,6 +8,7 @@ import './details-activation';
 import './details-attack';
 import './details-damage';
 import './details-modality';
+import './details-talents-provider';
 import './properties';
 
 import './talent';

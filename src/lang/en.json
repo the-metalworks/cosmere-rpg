@@ -290,7 +290,8 @@
                     }
                 },
                 "Skills": {
-                    "AdjustTooltip": "Left Click to increase {skill}'s Rank.<br>Right Click to decrease {skill}'s Rank."
+                    "AdjustTooltip": "Left Click to increase {skill}'s Rank.<br>Right Click to decrease {skill}'s Rank.",
+                    "SetTooltip": "Left Click to adjust {skill}'s Rank.<br>Right Click to clear {skill}'s Rank."
                 }
             }
         },
@@ -320,6 +321,7 @@
                 "Armor": {
                     "label": "Armor",
                     "label_plural": "Armor",
+                    "label_action": "Armor Action",
                     "desc_placeholder": "Edit this to describe what this armor is & how it looks.",
                     "New": "New Armor"
                 },
@@ -506,10 +508,6 @@
                 }
             },
             "Path": {
-                "TalentTree": {
-                    "Label": "Talent Tree",
-                    "Hint": "Talent tree that contains all talents for this path. This tree is displayed on the \"talents\" tab."
-                },
                 "LinkedSkills": {
                     "Label": "Linked Skills",
                     "Hint": "These skills are displayed alongside the path in the character sheet."
@@ -927,6 +925,13 @@
                 "Path": {
                     "TalentTreePlaceholder": "Drop Talent Tree Here",
                     "NoTalentsConfigured": "No Talents Configured"
+                },
+                "TalentsProvider": {
+                    "Title": "Talents",
+                    "TalentTree": {
+                        "Label": "Talent Tree",
+                        "Hint": "Talent tree that contains all talents for this path. This tree is displayed on the \"talents\" tab."
+                    }
                 }
             }
         },
@@ -959,24 +964,29 @@
             "SlowAdversaries": "Slow Adversaries",
             "ToggleTurn": "Toggle Turn Speed",
             "ResetActivation": "Reset Activation",
-            "Activate": "Mark as having acted"
+            "Activate": "Mark as Acted"
         },
-        "Conditions": {
+        "Status": {
             "Afflicted": "Afflicted",
+            "Blind": "Senseblind",
+            "Burrowing": "Burrowing",
             "Determined": "Determined",
             "Disoriented": "Disoriented",
             "Empowered": "Empowered",
             "Enhanced": "Enhanced",
-            "Encumbered": "Encumbered",
             "Exhausted": "Exhausted",
+            "Flying": "Flying",
             "Focused": "Focused",
+            "Hidden": "Hidden",
             "Immobilized": "Immobilized",
+            "Invisible": "Invisible",
             "Prone": "Prone",
             "Restrained": "Restrained",
             "Slowed": "Slowed",
             "Stunned": "Stunned",
             "Surprised": "Surprised",
-            "Unconscious": "Unconscious"
+            "Unconscious": "Unconscious",
+            "Dead": "Dead"
         },
         "Sheet": {
             "Descriptions": {
@@ -1234,11 +1244,14 @@
         "Formula": "Formula",
         "Value": "Value",
         "Modifier": "Modifier",
+        "DC": "DC",
         "Skill": "Skill",
         "Attribute": "Attribute",
         "SkillTest": "Skill Test",
+        "Test": "Test",
         "Plot": "Plot",
         "Damage": "Damage",
+        "Healing": "Healing",
         "Cost": "Cost",
         "Configure": "Configure",
         "DistanceUnit": "ft.",
@@ -1286,6 +1299,23 @@
             "DuplicatePrerequisiteTalentRef": "A talent with id {talentId} already exists ({talentName})",
             "ItemAlreadyInTree": "An item with id \"{itemId}\" already exists in the {name} talent tree",
             "ActorConditionImmune": "{actor} is immune to {condition}"
+        },
+        "Enrichers": {
+            "Test": {
+                "Against": "against",
+                "VsDefense": "against the target's",
+                "NoSkill": "No Skill Provided"
+            },
+            "Damage": {
+                "NoFormula": "No Formula or Dice Terms Provided",
+                "NoType": "No Damage Type Provided",
+                "DoubleType": "Damage Type Defined More Than Once",
+                "BadType": "Damage Type Not Supported"
+            },
+            "Lookup": {
+                "NoPath": "No Lookup Path Provided"
+            },
+            "Error": "ENRICHER ERROR"
         },
         "DerivedValue": {
             "Mode": {
@@ -1361,6 +1391,10 @@
 		"expandDescriptionByDefault": {
 			"name": "Expand Item Description By Default",
 			"hint": "Determines whether the description section of an item should be expanded by default when opening the item sheet."
+		},
+		"skillIncrementDecrementToggle": {
+			"name": "Enable Skill Pip Increment Behavior",
+			"hint": "Determines whether the skill pips increment/decrement on left click or right click, rather than setting to the clicked rank."
 		},
         "systemTheme": {
             "name": "Preferred System Theme",

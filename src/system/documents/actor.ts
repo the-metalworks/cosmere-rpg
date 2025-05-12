@@ -2,7 +2,7 @@ import {
     Skill,
     Attribute,
     ActorType,
-    Condition,
+    Status,
     ItemType,
     ExpertiseType,
     DamageType,
@@ -47,6 +47,7 @@ import { MESSAGE_TYPES } from './chat-message';
 
 // Utils
 import { getTargetDescriptors } from '../utils/generic';
+import { EnricherData } from '../utils/enrichers';
 import { characterMeetsTalentPrerequisites } from '@system/utils/talent-tree';
 
 // Constants
@@ -111,6 +112,7 @@ export type CosmereActorRollData<T extends CommonActorData = CommonActorData> =
     {
         [K in keyof T]: T[K];
     } & {
+        name: string;
         attr: Record<string, number>;
         skills: Record<string, { rank: number; mod: number }>;
 
@@ -126,6 +128,12 @@ export type CosmereActorRollData<T extends CommonActorData = CommonActorData> =
                     'effect-size': Size;
                 }
             >;
+        };
+        // this comes from the enricher use case, don't know if there's anything on a token
+        // that isn't on the actor doc so probably not helpful at all in rolls, but moving it here
+        // as per the 30/04 meeting outcome.
+        token?: {
+            name: string;
         };
     };
 
@@ -148,8 +156,8 @@ export class CosmereActor<
 
     /* --- Accessors --- */
 
-    public get conditions(): Set<Condition> {
-        return this.statuses as Set<Condition>;
+    public get conditions(): Set<Status> {
+        return this.statuses as Set<Status>;
     }
 
     public get applicableEffects(): CosmereActiveEffect[] {
@@ -211,6 +219,31 @@ export class CosmereActor<
     }
 
     /* --- Lifecycle --- */
+
+    public prepareEmbeddedDocuments() {
+        /**
+         * NOTE: This is a workaround for the fact that in base Foundry, the Actor invokes
+         * the applyActiveEffects method during the prepareEmbeddedDocuments method, leaving
+         * us unable to access derived values in ActiveEffects.
+         */
+        /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
+
+        // Grab the Actor's parent class' prepareEmbeddedDocuments method
+        const parentProto = Object.getPrototypeOf(Object.getPrototypeOf(this));
+        const grandparentProto = Object.getPrototypeOf(parentProto);
+        const f = grandparentProto.prepareEmbeddedDocuments as () => void;
+
+        /* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
+
+        // Call the parent class' prepareEmbeddedDocuments method
+        f.call(this);
+    }
+
+    public prepareDerivedData() {
+        super.prepareDerivedData();
+        this.applyActiveEffects();
+        this.system.prepareSecondaryDerivedData();
+    }
 
     protected override _initialize(options?: object) {
         super._initialize(options);
@@ -316,14 +349,14 @@ export class CosmereActor<
         // Check if actor is immune to status effect
         if (
             statusId in this.system.immunities.condition &&
-            this.system.immunities.condition[statusId as Condition]
+            this.system.immunities.condition[statusId as Status]
         ) {
             // Notify
             ui.notifications.warn(
                 game.i18n!.format('GENERIC.Warning.ActorConditionImmune', {
                     actor: this.name,
                     condition: game.i18n!.localize(
-                        CONFIG.COSMERE.conditions[statusId as Condition].label,
+                        CONFIG.COSMERE.statuses[statusId as Status].label,
                     ),
                 }),
             );
@@ -823,7 +856,9 @@ export class CosmereActor<
         const data = this.getRollData() as Partial<D20RollData>;
 
         // Add attribute mod
-        data.mod = skill.mod.value;
+        data.mod = options.attribute
+            ? attribute.value + skill.rank
+            : skill.mod.value;
         data.skill = {
             id: skillId,
             rank: skill.rank,
@@ -1098,9 +1133,11 @@ export class CosmereActor<
     }
 
     public getRollData(): CosmereActorRollData<SystemType> {
+        const tokens = this.getActiveTokens();
         return {
             ...(super.getRollData() as SystemType),
 
+            name: this.name,
             // Attributes shorthand
             attr: (
                 Object.keys(CONFIG.COSMERE.attributes) as Attribute[]
@@ -1165,20 +1202,38 @@ export class CosmereActor<
                     ),
                 },
             },
+
+            token:
+                tokens.length > 0
+                    ? { name: (tokens[0] as Token)?.name }
+                    : undefined,
+
+            // Hook data
+            source: this,
         };
     }
 
-    public *allApplicableEffects() {
-        for (const effect of super.allApplicableEffects()) {
-            if (
-                !(effect.parent instanceof CosmereItem) ||
-                !effect.parent.isEquippable() ||
-                effect.parent.system.equipped
-            ) {
-                yield effect;
-            }
-        }
+    public getEnricherData() {
+        const actor = this.getRollData();
+        const targets = getTargetDescriptors();
+
+        return {
+            actor,
+            target: targets.length > 0 ? targets[0] : undefined,
+        } as const satisfies EnricherData;
     }
+
+    // public *allApplicableEffects() {
+    //     for (const effect of super.allApplicableEffects()) {
+    //         if (
+    //             !(effect.parent instanceof CosmereItem) ||
+    //             !effect.parent.isEquippable() ||
+    //             effect.parent.system.equipped
+    //         ) {
+    //             yield effect;
+    //         }
+    //     }
+    // }
 
     /**
      * Utility Function to determine a formula value based on a scalar plot of an attribute value

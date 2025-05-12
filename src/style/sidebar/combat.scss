@@ -1,35 +1,126 @@
-.cosmere-combatant-buttons {
-    display: flex;
-    text-align: center;
-    justify-content: flex-end;
+.combat-sidebar .combat-tracker-header {
+    border: none;
 }
 
-.cosmere-turn-speed-control,
-.cosmere-activate-control {
-    display: block;
-    width: 40px;
-    height: var(--sidebar-item-height);
-    background-size: 32px;
-    background-position: center;
-    background-repeat: no-repeat;
-    margin: 0 0.1em;
+.combat-sidebar #combat-tracker {
+    --combat-fast-turn-svg: url('assets/icons/svg/combat/icon_combat_fast_turn_on.svg');
+    --combat-fast-turn-hover-svg: url('assets/icons/svg/combat/icon_combat_fast_turn_hover.svg');
+    --combat-slow-turn-svg: url('assets/icons/svg/combat/icon_combat_slow_turn_on.svg');
+    --combat-slow-turn-hover-svg: url('assets/icons/svg/combat/icon_combat_slow_turn_hover.svg');
+    --combat-turn-pending-svg: url('assets/icons/svg/combat/icon_combat_turn_pending.svg');
+    --combat-turn-hover-svg: url('assets/icons/svg/combat/icon_combat_turn_hover.svg');
+    --combat-turn-done-svg: url('assets/icons/svg/combat/icon_combat_turn_done.svg');
+
+    overflow-x: hidden;
+    
+    .combat-phase {
+        padding: 0.5rem 0px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-top: 1px solid var(--color-border-dark-1);
+        border-bottom: 1px solid var(--color-border-dark-1);
+
+        &.fast {
+            background-color: var(--cosmere-color-turn-fast);
+        }
+
+        &.slow {
+            background-color: var(--cosmere-color-turn-slow);
+        }
+
+        .title {
+            font-family: var(--cosmere-font-header);
+            font-size: var(--font-size-12);
+            text-transform: uppercase;
+            padding-top: 0.25rem;
+        }
+    }
+
+    .combatant {
+        border: none;
+
+        &.defeated {
+            color: var(--cosmere-color-complication-text);
+
+            > img {
+                opacity: 0.3;
+                transform: scale(0.75);
+            }
+        }
+    }
+    
+    .combatant-name {        
+        font-family: var(--cosmere-font-normal);
+        font-size: var(--font-size-15);
+        font-weight: 600;
+    }
+    
+    .combatant-turn-controls {
+        display: flex;
+        text-align: center;
+        justify-content: center;
+        flex: 0;
+        margin-right: 0.25rem;
+    }
+    
+    .combatant-turn-speed-control,
+    .combatant-turn-finish-control {
+        cursor: pointer;
+        filter: var(--cosmere-drop-shadow);
+
+        display: block;
+        width: 32px;
+        height: var(--sidebar-item-height);
+        background-size: 32px;
+        background-position: center;
+        background-repeat: no-repeat;
+
+        &:hover {
+            filter: var(--cosmere-shadow-svg);
+        }
+    }
+    
+    .combatant-turn-speed-control {
+        &.fast {
+            background-image: var(--combat-fast-turn-svg);
+
+            &:hover {
+                background-image: var(--combat-fast-turn-hover-svg);
+            }
+        }
+
+        &.slow {
+            background-image: var(--combat-slow-turn-svg);
+
+            &:hover {
+                background-image: var(--combat-slow-turn-hover-svg);
+            }
+        }
+    }
+    
+    .combatant-turn-finish-control {
+        &:not(.done) {            
+            background-image: var(--combat-turn-pending-svg);
+
+            &:hover {
+                background-image: var(--combat-turn-hover-svg);
+                animation: rotating 2s linear infinite;
+            }
+        }
+
+        &.done {            
+            background-image: var(--combat-turn-done-svg);
+            opacity: 0.4;
+        }
+    }
 }
 
-.cosmere-turn-speed-control {
-    background-image: url(/icons/svg/clockwork.svg);
-}
-
-.cosmere-activate-control {
-    background-image: url(/icons/svg/combat.svg);
-}
-
-.cosmere-activate-control-activated {
-    filter: brightness(40%);
-}
-
-.combat-phase {
-    padding: 0.5rem 0px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+@keyframes rotating {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }

@@ -1,4 +1,4 @@
-import { ActorType, Condition, ItemType } from './system/types/cosmere';
+import { ActorType, Status, ItemType } from './system/types/cosmere';
 import { AnyMutableObject } from './system/types/utils';
 import { SYSTEM_ID } from './system/constants';
 import { TEMPLATES } from './system/utils/templates';
@@ -10,6 +10,7 @@ import './system/mixins';
 import { registerItemEventSystem } from './system/hooks';
 
 import { preloadHandlebarsTemplates } from './system/utils/handlebars';
+import { registerCustomEnrichers } from './system/utils/enrichers';
 import {
     registerDeferredSettings,
     registerSystemKeybindings,
@@ -113,12 +114,39 @@ Hooks.once('init', async () => {
     // @ts-expect-error see note
     CONFIG.Dice.rolls.push(dice.DamageRoll);
 
+    CONFIG.Canvas.visionModes.sense = new VisionMode({
+        id: 'sense',
+        label: 'COSMERE.Actor.Statistics.SensesRange',
+        canvas: {
+            shader: ColorAdjustmentsSamplerShader,
+            uniforms: { contrast: 0, saturation: -1.0, brightness: 0 },
+        },
+        lighting: {
+            levels: {
+                [VisionMode.LIGHTING_LEVELS.DIM]:
+                    VisionMode.LIGHTING_LEVELS.BRIGHT,
+            },
+            background: { visibility: VisionMode.LIGHTING_VISIBILITY.REQUIRED },
+        },
+        vision: {
+            darkness: { adaptive: false },
+            defaults: {
+                attenuation: 0,
+                contrast: 0,
+                saturation: -1.0,
+                brightness: 0,
+            },
+        },
+    });
+
     // Register status effects
     registerStatusEffects();
 
     // Register settings
     registerSystemSettings();
     registerSystemKeybindings();
+
+    registerCustomEnrichers();
 
     // Load templates
     await preloadHandlebarsTemplates();
@@ -136,21 +164,21 @@ Hooks.once('ready', () => {
 
 /**
  * Helper function to register the configured
- * conditions as status effects.
+ * statuses as status effects.
  */
 function registerStatusEffects() {
-    // Map conditions to status effects
+    // Map statuses to status effects
     const statusEffects = (
-        Object.keys(CONFIG.COSMERE.conditions) as Condition[]
-    ).map((condition) => {
+        Object.keys(CONFIG.COSMERE.statuses) as Status[]
+    ).map((status) => {
         // Get the config
-        const config = CONFIG.COSMERE.conditions[condition];
+        const config = CONFIG.COSMERE.statuses[status];
 
         return {
-            id: condition,
+            id: status,
             name: config.label,
             img: config.icon,
-            _id: `cond${condition}`.padEnd(16, '0'),
+            _id: `cond${status}`.padEnd(16, '0'),
 
             ...(config.stackable
                 ? {

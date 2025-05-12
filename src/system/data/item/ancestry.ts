@@ -8,6 +8,10 @@ import {
     DescriptionItemMixin,
     DescriptionItemData,
 } from './mixins/description';
+import {
+    TalentsProviderMixin,
+    TalentsProviderData,
+} from './mixins/talents-provider';
 import { EventsItemMixin, EventsItemData } from './mixins/events';
 
 interface TalentGrant {
@@ -24,7 +28,7 @@ export interface BonusTalentsRule {
 export interface AncestryItemData
     extends IdItemData,
         DescriptionItemData,
-        EventsItemData,
+        TalentsProviderData,
         EventsItemData {
     size: Size;
     type: {
@@ -59,6 +63,7 @@ export class AncestryItemDataModel extends DataModelMixin<
     DescriptionItemMixin({
         value: 'COSMERE.Item.Type.Ancestry.desc_placeholder',
     }),
+    TalentsProviderMixin(),
     EventsItemMixin(),
 ) {
     static defineSchema() {

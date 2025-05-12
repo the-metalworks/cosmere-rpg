@@ -96,8 +96,9 @@ export class CosmereChatMessage extends ChatMessage {
         await this.enrichCardHeader(html);
         await this.enrichCardContent(html);
 
-        html.find('.collapsible').on('click', (event) =>
-            this.onClickCollapsible(event),
+        html.find('.collapsible > .summary, .dice-result').on(
+            'click',
+            (event) => this.onClickCollapsible(event),
         );
 
         return html;
@@ -209,7 +210,10 @@ export class CosmereChatMessage extends ChatMessage {
                         ? CONFIG.COSMERE.skills[skill.id].label
                         : `${game.i18n!.localize('GENERIC.Custom')} ${game.i18n!.localize('GENERIC.Skill')}`,
                     attribute: skill.attribute
-                        ? CONFIG.COSMERE.attributes[skill.attribute].labelShort
+                        ? CONFIG.COSMERE.attributes[
+                              d20Roll?.options?.defaultAttribute ??
+                                  skill.attribute
+                          ].labelShort
                         : game.i18n?.localize('GENERIC.None'),
                 },
                 content: await d20Roll.getHTML(),
@@ -328,6 +332,7 @@ export class CosmereChatMessage extends ChatMessage {
                 totalNormal: this.totalDamageNormal,
                 totalGraze: this.totalDamageGraze,
                 critical,
+                showGraze: this.damageRolls.some((roll) => roll.options.graze),
             },
         );
 
@@ -337,12 +342,26 @@ export class CosmereChatMessage extends ChatMessage {
               })
             : undefined;
 
+        const isHealing = !types.some(
+            (type) =>
+                !CONFIG.COSMERE.damageTypes[DamageType.Healing].label.includes(
+                    type,
+                ),
+        );
         const sectionHTML = await renderSystemTemplate(
             TEMPLATES.CHAT_CARD_SECTION,
             {
                 type: 'damage',
-                icon: 'fa-solid fa-burst',
-                title: game.i18n!.localize('GENERIC.Damage'),
+                icon:
+                    // This will need to be handled better when we do proper multi damage support
+                    isHealing
+                        ? 'fa-solid fa-heart'
+                        : (CONFIG.COSMERE.damageTypes[
+                              types.first()?.toLowerCase() as DamageType
+                          ].icon ?? 'fa-solid fa-heart-crack'),
+                title: game.i18n!.localize(
+                    isHealing ? 'GENERIC.Healing' : 'GENERIC.Damage',
+                ),
                 content: damageHTML,
                 footer,
                 critical,
@@ -826,7 +845,7 @@ export class CosmereChatMessage extends ChatMessage {
                     const crit = new DamageRoll(roll.formula, roll.data, {
                         damageType: roll.damageType,
                         mod: roll.mod,
-                        source: roll.source,
+                        damageSourceName: roll.damageSourceName,
                         advantageMode:
                             roll.options.advantageMode ?? AdvantageMode.None,
                         maximize: true,
@@ -848,7 +867,7 @@ export class CosmereChatMessage extends ChatMessage {
                             {
                                 damageType: roll.graze.damageType,
                                 mod: roll.graze.mod,
-                                source: roll.graze.source,
+                                damageSourceName: roll.graze.damageSourceName,
                                 advantageMode:
                                     roll.graze.options.advantageMode ??
                                     AdvantageMode.None,
@@ -1007,7 +1026,7 @@ export class CosmereChatMessage extends ChatMessage {
      */
     private onClickCollapsible(event: JQuery.ClickEvent) {
         event.stopPropagation();
-        const target = event.currentTarget as HTMLElement;
+        const target = (event.currentTarget as HTMLElement).parentElement;
         target?.classList.toggle('expanded');
     }
 

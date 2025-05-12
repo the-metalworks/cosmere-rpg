@@ -253,12 +253,12 @@ export interface TargetDescriptor {
  * @returns {TargetDescriptor[]}
  */
 export function getTargetDescriptors() {
-    const targets = new Map();
+    const targets = new Map<string, TargetDescriptor>();
     for (const token of game.user!.targets) {
         const { name, img, system, uuid } = (token.actor as CosmereActor) ?? {};
-        const phy = system.defenses.phy.value ?? 10;
-        const cog = system.defenses.cog.value ?? 10;
-        const spi = system.defenses.spi.value ?? 10;
+        const phy = system?.defenses.phy.value ?? 10;
+        const cog = system?.defenses.cog.value ?? 10;
+        const spi = system?.defenses.spi.value ?? 10;
 
         if (uuid) {
             targets.set(uuid, { name, img, uuid, def: { phy, cog, spi } });

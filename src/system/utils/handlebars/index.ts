@@ -92,6 +92,11 @@ Handlebars.registerHelper(
 );
 
 Handlebars.registerHelper(
+    'numberRange',
+    (count: number, min?: number): number[] => Array.fromRange(count, min),
+);
+
+Handlebars.registerHelper(
     'isNumMax',
     (value: number) => value === Number.MAX_VALUE,
 );

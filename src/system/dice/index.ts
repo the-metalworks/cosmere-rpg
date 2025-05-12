@@ -192,7 +192,7 @@ export async function damageRoll(
         allowStrings: config.allowStrings,
         maximize: config.maximize,
         minimize: config.minimize,
-        source: config.source,
+        damageSourceName: config.damageSourceName,
         critical: config.critical,
     });
 

@@ -1,42 +1,53 @@
-### Patch 0.2.2 - Jan 2025
-Welcome to 2025 everyone! To begin the year of the Cosmere RPG off right, we're releasing this small patch with a few key improvements that you've been asking for.
+### Patch 0.3.1 - May 2025
 
-A quick heads-up: our plan is to do one more feature release (0.3.0) before spring which will contain some major new features and then we will be aiming for 1.0 release alongside the full RPG release. Therefore if you have a question, please check our Github repo to see what we have planned before asking questions like "Are you thinking of...".
+A final pre-release patch, mostly this fixes fairly major bugs and niggles with the system that required workarounds for standard play or were waiting on us to make some direction decisions about the code base.
 
-#### What's New
-- **Roll Modifiers**
-  - Added functionality to add global modifiers to any item with a Skill Roll Activation through the Item Details tab.
-  - Added functionality to set Ad-hoc modifiers to any roll in the roll configuration dialog.
-  - These can both make use of the @ syntax to pull through Character stats
-  - *Warning - the @ syntax might not be perfect for the temporary modifiers. Please let us know if you have recreatable issues!*
-- Added **Scaling Damage Dice** for Unarmed Attacks!
-  - ⬆️**Data Update:** This change creates a new @ property (`scalar.damage.unarmed`) that can be used in item damage roll formulas, therefore existing characters using the existing item will not get updated automatically.<br />We are also releasing 0.2.2 of the playtest materials module with those items updated, but for any existing games you will need to either import the new unarmed attack from there, or manually update existing actors.
-- Added **Multiple Descriptions** to Items
-  - Now you can insert different descriptions for an item with different levels of verbosity based on what you want to see where.
-  - We have Chat, Short and Standard in order of priority for which is printed to the chat card.
-- **Injuries** can now be rolled and applied from the chat card
+... Buuut we might also have slipped in a little QoL feature that we were aiming for 1.0 but finished a little earlier! 🎉
 
-#### Fixes
-- **Actor Sheets:** Fixed an issue where using or recharging an item would reset the scroll position of the equipement list screen.
-- **Chat Cards:** Improved the dice breakdown to handle multiple damage die rolls.
+## Feature Highlights
+
+### Enrichers are here! ⚡
+
+We have now added some custom enrichers for the Prosemirror editors in the system (excluding journals for now). These will provide some much needed relief for GMs wanting to make generic items (or use any of our compendium contents in multiple places when release arrives 😉) and not wanting to have to manually edit a load of boilerplate text for core functions of the system.
+
+In brief this boils down to:
+* You can now type `[[<enricher> <value> <options>]]` in item descriptions and PC notes fields and have cool stuff happen. This will even work in the chat panels
+* Current offerings include:
+  * a `lookup` that will insert the relevant value into the text where you want it.
+  * a `test` tag that prints out a button in the description to quickly roll a skill test for the relevant actor
+  * a `damage`/`healing` tag that produces a button which rolls a pool of dice as if they were a damage roll then prints to chat.
+
+Of course each of these has a number of options you can use to tweak the full behaviour, but look at the [full documentation](https://github.com/the-metalworks/cosmere-rpg/wiki/Enrichers) to get the best picture.
+
+For the more techy-minded out there, the interactable buttons are triggering their effects through the foundry Hook system, so feel free to extend these actions them to your heart's content. In future we may even look at having the enrichment process itself trigger a Hook, so watch this space for even more fun stuff!
+
+#### Work In Progress
+As this is still early days for us and there will be those of you who have different play and prep styles to us, you may think of something to do with these enrichers we haven't planned for yet, so do get in touch and pass on your feedback, bugs and (hopefully) some praise 😉
 
 ----
 
-### Patch 0.2.1 - Nov 2024
-A small release with fixes for bugs introduced with the last release and a handful of QoL updates.  
+### 🛠️ Full Changelog
 
-⚠️ **Important:** Release `0.2.0` of the playtest materials contains a bug causing all weapons to apply the damage modifer twice. Please update your playtest materials module to the latest version if you haven't already.
+💄 **Styling & UI**
+* Context menu for list items on the actor sheet improved location and closing mechanisms (#282)
+* Custom Movement Rates now stick around once focus moves from the input dialog (#322)
+* Various form fields will no longer get reset when other fields are updated separately (#306)
+* Collapsible elements will now only toggle when their header line is clicked, to allow for interaction with enriched items in the body. (#242)
+* Switching to HTML edit mode for prosemirror editors no longer restricts the editor's size (#317)
+* Combat tracker has had a new lick of paint (#30)
+* Talent trees are now addable to Ancestries (#313)
+* Skills can now be set to a specific rank by clicking the pip rather than cycling up/down. (#137)
+  * The previous method is available behind a setting
+* Currencies now have a fall back icon (#303)
 
-#### What's New  
-- **Chat Cards:**  
-  - Added reroll functionality.  
-  - Added animation when switching between regular damage and graze.  
-  - Added the ability to upgrade a damage roll to a critical.  
-  - Improved damage notifications styling.  
-- **Character Sheet:**  
-  - Added a context menu option to mark Actions and Items as favorites.  
+🧬 **Character System & Advancement**
+* Setting a Resource's Max to be custom will no longer add any bonus present on update indefinitely (#346)
+* Resource Bars with bonuses added to the max value will now account for them and clamp correctly (#347)
+* Ancestry talents will now appear in the ancestry section of the actions list (#296)
 
-#### Fixes  
-- **Items:** Fixed an issue where dragging and dropping items onto the favorites section didn’t mark them correctly.  
-- **Goals:** Resolved bug preventing new goals from being added.  
-- **Damage Rolls:** Fixed an issue where rolls with no dice would cause an error and break. 
+📊 **System Mechanics & Data**
+* Powers and Surges can now roll damage (#333)
+
+🐛 **Misc Fixes & Polish**
+* Actors no longer randomly ignore walls on maps (#300)
+* Talent trees will now render correctly when opening an Item directly to the talents tab (#295)
