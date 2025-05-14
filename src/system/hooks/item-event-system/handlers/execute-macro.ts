@@ -1,5 +1,3 @@
-import { CosmereItem } from '@system/documents/item';
-import { CosmereActor } from '@system/documents/actor';
 import { HandlerType, Event } from '@system/types/item/events';
 
 import { ConstructorOf } from '@system/types/utils';

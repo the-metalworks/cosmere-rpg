@@ -171,6 +171,10 @@ export const TEMPLATES = {
 
     // ITEM EVENT SYSTEM HANDLERS
     IES_HANDLER_EXECUTE_MACRO: 'item/event-system/handlers/execute-macro.hbs',
+    IES_HANDLER_GRANT_ITEMS: 'item/event-system/handlers/grant-items.hbs',
+    IES_HANDLER_REMOVE_ITEMS: 'item/event-system/handlers/remove-items.hbs',
+    IES_HANDLER_MODIFY_ATTRIBUTE:
+        'item/event-system/handlers/modify-attribute.hbs',
 } as const;
 
 /**
