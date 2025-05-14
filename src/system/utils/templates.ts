@@ -178,6 +178,7 @@ export const TEMPLATES = {
     IES_HANDLER_SET_ATTRIBUTE: 'item/event-system/handlers/set-attribute.hbs',
     IES_HANDLER_MODIFY_SKILL_RANK:
         'item/event-system/handlers/modify-skill-rank.hbs',
+    IES_HANDLER_SET_SKILL_RANK: 'item/event-system/handlers/set-skill-rank.hbs',
 } as const;
 
 /**
