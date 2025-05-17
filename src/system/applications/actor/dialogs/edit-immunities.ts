@@ -317,6 +317,7 @@ export class EditImmunitiesDialog extends HandlebarsApplicationMixin(
                 return {
                     type,
                     label: config.label,
+                    icon: config.label,
                     configuredImmunities:
                         this.getConfiguredImmunitiesForType(type),
                 };

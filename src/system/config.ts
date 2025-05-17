@@ -858,34 +858,34 @@ const COSMERE: CosmereRPGConfig = {
     expertiseTypes: {
         [ExpertiseType.Armor]: {
             label: 'COSMERE.Actor.Character.Expertise.Armor',
-            icon: 'fa-solid fa-helmet-battle',
+            icon: 'fas fa-helmet-battle',
         },
         [ExpertiseType.Cultural]: {
             label: 'COSMERE.Actor.Character.Expertise.Cultural',
-            icon: 'fa-regular fa-earth-asia',
+            icon: 'far fa-earth-asia',
         },
         [ExpertiseType.Specialist]: {
             label: 'COSMERE.Actor.Character.Expertise.Specialist',
-            icon: 'fa-solid fa-award',
+            icon: 'fas fa-award',
         },
         [ExpertiseType.Utility]: {
             label: 'COSMERE.Actor.Character.Expertise.Utility',
-            icon: 'fa-solid fa-wrench',
+            icon: 'fas fa-wrench',
         },
         [ExpertiseType.Weapon]: {
             label: 'COSMERE.Actor.Character.Expertise.Weapon',
-            icon: 'fa-solid fa-sword',
+            icon: 'fas fa-sword',
         },
     },
 
     immunityTypes: {
         [ImmunityType.Damage]: {
             label: 'GENERIC.Damage',
-            icon: 'fa-solid fa-heart-crack',
+            icon: 'fas fa-heart-crack',
         },
         [ImmunityType.Condition]: {
             label: 'GENERIC.Condition',
-            icon: 'fa-solid fa-bolt',
+            icon: 'fas fa-bolt',
         },
     },
 
