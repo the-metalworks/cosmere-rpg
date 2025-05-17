@@ -763,9 +763,11 @@
     }
 
     app-actor-expertises,
-    app-actor-immunities {
+    app-actor-immunities,
+    app-adversary-skills {
         .icon-header {
             color: var(--cosmere-color-faded);
+            cursor: pointer;
         }
     }
 

@@ -1,0 +1,44 @@
+{{#if (or hasActiveSkills isEditMode)}}
+<div class="collapsible expanded">
+    <div class="icon-header">
+        <div class="title">
+            <i class="fa-solid fa-briefcase"></i>
+            <span>{{localize "COSMERE.Actor.Skill.label_p"}}</span>
+        </div>
+        <div class="controls">
+            <a role="button"
+                data-action="toggle-skills-collapsed"
+                data-tooltip="COSMERE.Actor.Sheet.{{#if skillsCollapsed}}ToggleShowSkills{{else}}ToggleCollapseSkills{{/if}}"
+            >
+                {{#if skillsCollapsed}}
+                <i class="fa-solid fa-eye"></i>
+                {{else}}
+                <i class="fa-solid fa-eye-slash"></i>
+                {{/if}}
+            </a>
+            {{#if isEditMode}}
+            <a role="button"
+                data-action="configure-skills"
+                data-tooltip="COSMERE.Actor.Sheet.ConfigureSkills"
+            >
+                <i class="fa-solid fa-gear"></i>
+            </a>
+            {{/if}}
+        </div>
+    </div>    
+    <div class="pills-list collapsible-content">
+        <div class="wrapper">
+            {{#each skills as |skill|}}
+            {{#if skill.active}}
+            <div class="pill" data-id="{{skill.id}}"
+                data-tooltip="{{localize skill.config.label}} ({{localize skill.attributeLabel}})">
+                <span class="name">{{localize skill.config.label}}</span>
+                <span class="separator">|</span>
+                <span>+{{skill.rank}}</span>
+            </div>
+            {{/if}}
+            {{/each}}
+        </div>        
+    </div>
+</div>
+{{/if}}

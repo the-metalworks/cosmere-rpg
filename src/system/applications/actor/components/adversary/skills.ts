@@ -1,5 +1,5 @@
 import { AttributeGroup, Skill } from '@system/types/cosmere';
-import { ConstructorOf, MouseButton } from '@system/types/utils';
+import { ConstructorOf } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
@@ -9,7 +9,6 @@ import {
     AdversarySheet,
     AdversarySheetRenderContext,
 } from '../../adversary-sheet';
-import { getSystemSetting, SETTINGS } from '@src/system/settings';
 
 // NOTE: Must use type here instead of interface as an interface doesn't match AnyObject type
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
@@ -18,11 +17,11 @@ type Params = {
     collapsed: boolean;
 };
 
-export class AdversarySkillsGroupComponent extends HandlebarsApplicationComponent<
+export class AdversarySkillsComponent extends HandlebarsApplicationComponent<
     ConstructorOf<AdversarySheet>,
     Params
 > {
-    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_ADVERSARY_SKILLS_GROUP}`;
+    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_ADVERSARY_SKILLS}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions
@@ -36,10 +35,7 @@ export class AdversarySkillsGroupComponent extends HandlebarsApplicationComponen
 
     /* --- Actions --- */
 
-    public static onRollSkill(
-        this: AdversarySkillsGroupComponent,
-        event: Event,
-    ) {
+    public static onRollSkill(this: AdversarySkillsComponent, event: Event) {
         event.preventDefault();
 
         const skillId = $(event.currentTarget!)
@@ -54,27 +50,28 @@ export class AdversarySkillsGroupComponent extends HandlebarsApplicationComponen
         params: Params,
         context: AdversarySheetRenderContext,
     ) {
-        // Get the attribute group config
-        const groupConfig = CONFIG.COSMERE.attributeGroups[params['group-id']];
-
         // Get the skill ids
-        const skillIds = groupConfig.attributes
-            .map((attrId) => CONFIG.COSMERE.attributes[attrId])
-            .map((attr) => attr.skills)
-            .flat()
-            .sort((a, b) => a.localeCompare(b)); // Sort alphabetically
+        const skillIds = Object.keys(CONFIG.COSMERE.skills).sort((a, b) =>
+            a.localeCompare(b),
+        ) as Skill[]; // Sort alphabetically
 
         // Get skills
         const skills = skillIds
-            .map((skillId) => ({
-                id: skillId,
-                config: CONFIG.COSMERE.skills[skillId],
-                ...this.application.actor.system.skills[skillId],
-                active:
-                    (!CONFIG.COSMERE.skills[skillId].hiddenUntilAcquired &&
-                        !params.collapsed) ||
-                    this.application.actor.system.skills[skillId].rank >= 1,
-            }))
+            .map((skillId) => {
+                const skillConfig = CONFIG.COSMERE.skills[skillId];
+
+                return {
+                    id: skillId,
+                    config: skillConfig,
+                    attributeLabel:
+                        CONFIG.COSMERE.attributes[skillConfig.attribute].label,
+                    ...this.application.actor.system.skills[skillId],
+                    active:
+                        (!skillConfig.hiddenUntilAcquired &&
+                            !params.collapsed) ||
+                        this.application.actor.system.skills[skillId].rank >= 1,
+                };
+            })
             .sort((a, b) => {
                 const _a = a.config.hiddenUntilAcquired ? 1 : 0;
                 const _b = b.config.hiddenUntilAcquired ? 1 : 0;
@@ -84,7 +81,6 @@ export class AdversarySkillsGroupComponent extends HandlebarsApplicationComponen
         return Promise.resolve({
             ...context,
 
-            id: params['group-id'],
             collapsed: params.collapsed,
             skills,
             hasActiveSkills: skills.some((skill) => skill.active),
@@ -93,4 +89,4 @@ export class AdversarySkillsGroupComponent extends HandlebarsApplicationComponen
 }
 
 // Register
-AdversarySkillsGroupComponent.register('app-adversary-skills-group');
+AdversarySkillsComponent.register('app-adversary-skills');
