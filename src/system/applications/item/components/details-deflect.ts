@@ -12,7 +12,24 @@ export class DetailsDeflectComponent extends HandlebarsApplicationComponent<
 > {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_DETAILS_DEFLECT}`;
 
+    /**
+     * NOTE: Unbound methods is the standard for defining actions and forms
+     * within ApplicationV2
+     */
+    /* eslint-disable @typescript-eslint/unbound-method */
+    static ACTIONS = {
+        'toggle-deflected-collapsed':
+            DetailsDeflectComponent.onToggleDeflectedCollapsed,
+    };
+    /* eslint-enable @typescript-eslint/unbound-method */
+
+    private deflectedTypesCollapsed = true;
+
     /* --- Actions --- */
+
+    private static onToggleDeflectedCollapsed(this: DetailsDeflectComponent) {
+        this.deflectedTypesCollapsed = !this.deflectedTypesCollapsed;
+    }
 
     /* --- Context --- */
 
