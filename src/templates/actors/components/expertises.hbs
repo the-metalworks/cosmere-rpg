@@ -1,5 +1,5 @@
-<div class="collapsible expanded">
-    <div class="icon-header">
+<div class="collapsible {{#unless sectionCollapsed}}expanded{{/unless}}">
+    <div class="icon-header" data-action="toggle-collapsed">
         <div class="title">
             <i class="fa-solid fa-book"></i>
             <span>{{localize "COSMERE.Actor.Sheet.Expertises"}}</span>

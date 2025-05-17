@@ -1,4 +1,4 @@
-import { ConstructorOf } from '@system/types/utils';
+import { AnyObject, ConstructorOf } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
@@ -21,14 +21,27 @@ export class ActorImmunitiesComponent extends HandlebarsApplicationComponent<
      */
     /* eslint-disable @typescript-eslint/unbound-method */
     static ACTIONS = {
+        'toggle-collapsed': this.onToggleCollapsed,
         'edit-immunities': this.onEditImmunities,
     };
     /* eslint-enable @typescript-eslint/unbound-method */
 
+    private sectionCollapsed = false;
+
     /* --- Actions --- */
 
-    private static async onEditImmunities(this: ActorImmunitiesComponent) {
+    private static async onEditImmunities(
+        this: ActorImmunitiesComponent,
+        event: Event,
+    ) {
+        event.preventDefault();
+        event.stopPropagation();
+
         await EditImmunitiesDialog.show(this.application.actor);
+    }
+
+    private static onToggleCollapsed(this: ActorImmunitiesComponent) {
+        this.sectionCollapsed = !this.sectionCollapsed;
     }
 
     /* --- Context --- */
@@ -72,6 +85,23 @@ export class ActorImmunitiesComponent extends HandlebarsApplicationComponent<
             immunities,
             hasImmunity: immunities.length > 0,
         });
+    }
+
+    /* --- Lifecycle --- */
+
+    protected _onRender(params: AnyObject): void {
+        super._onRender(params);
+
+        $(this.element!)
+            .find('.collapsible .icon-header')
+            .on('click', (event) => this.onClickCollapsible(event));
+    }
+
+    /* --- Event handlers --- */
+
+    private onClickCollapsible(event: JQuery.ClickEvent) {
+        const target = event.currentTarget as HTMLElement;
+        target?.parentElement?.classList.toggle('expanded');
     }
 }
 

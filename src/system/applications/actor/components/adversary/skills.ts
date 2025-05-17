@@ -1,4 +1,4 @@
-import { AttributeGroup, Skill } from '@system/types/cosmere';
+import { Skill } from '@system/types/cosmere';
 import { ConstructorOf } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
@@ -9,12 +9,12 @@ import {
     AdversarySheet,
     AdversarySheetRenderContext,
 } from '../../adversary-sheet';
+import { ConfigureSkillsDialog } from '../../dialogs/configure-skills';
 
 // NOTE: Must use type here instead of interface as an interface doesn't match AnyObject type
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 type Params = {
-    'group-id': AttributeGroup;
-    collapsed: boolean;
+    skillsCollapsed: boolean;
 };
 
 export class AdversarySkillsComponent extends HandlebarsApplicationComponent<
@@ -29,19 +29,54 @@ export class AdversarySkillsComponent extends HandlebarsApplicationComponent<
      */
     /* eslint-disable @typescript-eslint/unbound-method */
     static readonly ACTIONS = {
+        'toggle-collapsed': this.onToggleCollapsed,
         'roll-skill': this.onRollSkill,
+        'toggle-skills-collapsed': this.onToggleSkillsCollapsed,
+        'configure-skills': this.onConfigureSkills,
     };
     /* eslint-enable @typescript-eslint/unbound-method */
+
+    private sectionCollapsed = false;
 
     /* --- Actions --- */
 
     public static onRollSkill(this: AdversarySkillsComponent, event: Event) {
         event.preventDefault();
+        event.stopPropagation();
 
         const skillId = $(event.currentTarget!)
             .closest('[data-id]')
             .data('id') as Skill;
         void this.application.actor.rollSkill(skillId);
+    }
+
+    private static onToggleCollapsed(this: AdversarySkillsComponent) {
+        this.sectionCollapsed = !this.sectionCollapsed;
+    }
+
+    private static onToggleSkillsCollapsed(
+        this: AdversarySkillsComponent,
+        event: Event,
+    ) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        // Update the flag
+        void this.application.actor.setFlag(
+            SYSTEM_ID,
+            'sheet.skillsCollapsed',
+            !this.application.areSkillsCollapsed,
+        );
+    }
+
+    private static onConfigureSkills(
+        this: AdversarySkillsComponent,
+        event: Event,
+    ) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        void ConfigureSkillsDialog.show(this.application.actor);
     }
 
     /* --- Context --- */
@@ -68,7 +103,7 @@ export class AdversarySkillsComponent extends HandlebarsApplicationComponent<
                     ...this.application.actor.system.skills[skillId],
                     active:
                         (!skillConfig.hiddenUntilAcquired &&
-                            !params.collapsed) ||
+                            !this.application.areSkillsCollapsed) ||
                         this.application.actor.system.skills[skillId].rank >= 1,
                 };
             })
@@ -81,10 +116,27 @@ export class AdversarySkillsComponent extends HandlebarsApplicationComponent<
         return Promise.resolve({
             ...context,
 
-            collapsed: params.collapsed,
+            skillsCollapsed: this.application.areSkillsCollapsed,
             skills,
             hasActiveSkills: skills.some((skill) => skill.active),
         });
+    }
+
+    /* --- Lifecycle --- */
+
+    protected _onRender(params: Params): void {
+        super._onRender(params);
+
+        $(this.element!)
+            .find('.collapsible .icon-header')
+            .on('click', (event) => this.onClickCollapsible(event));
+    }
+
+    /* --- Event handlers --- */
+
+    private onClickCollapsible(event: JQuery.ClickEvent) {
+        const target = event.currentTarget as HTMLElement;
+        target?.parentElement?.classList.toggle('expanded');
     }
 }
 
