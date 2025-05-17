@@ -44,6 +44,15 @@
         </span>
     </div>
     {{/if}}
+
+    <button class="expertises-toggle" data-action="toggle-expertises">
+        <i class="fa-solid fa-book"></i>
+    </button>
+
+    <div id="expertises-popover">
+        {{app-actor-expertises}}
+        {{> box-corners}}
+    </div>
 </div>
 
 <div class="derived-statistics flexrow">
