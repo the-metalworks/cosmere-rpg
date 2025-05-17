@@ -5,13 +5,7 @@ import { MappingField } from '@system/data/fields';
 
 interface DeflectData {
     /**
-     * Whether or not this deflect type is active by default.
-     */
-    defaultActive: boolean;
-
-    /**
      * Whether or not this trait is currently active.
-     * This is a derived value.
      */
     active: boolean;
 }
@@ -45,18 +39,6 @@ export function DeflectItemMixin<P extends CosmereItem>() {
                             (schemas, key) => {
                                 schemas[key] =
                                     new foundry.data.fields.SchemaField({
-                                        defaultActive:
-                                            new foundry.data.fields.BooleanField(
-                                                {
-                                                    required: true,
-                                                    nullable: false,
-                                                    initial: !(
-                                                        damageTypes[
-                                                            key as DamageType
-                                                        ].ignoreDeflect ?? false
-                                                    ),
-                                                },
-                                            ),
                                         active: new foundry.data.fields.BooleanField(
                                             {
                                                 required: true,
@@ -87,14 +69,6 @@ export function DeflectItemMixin<P extends CosmereItem>() {
                 )
                     .map(([id, deflect]) => ({ id, ...deflect }))
                     .sort((a, b) => a.id.localeCompare(b.id));
-            }
-
-            public prepareDerivedData(): void {
-                super.prepareDerivedData();
-
-                Object.values<DeflectData>(this.deflects).forEach((deflect) => {
-                    deflect.active = deflect.defaultActive;
-                });
             }
         };
     };

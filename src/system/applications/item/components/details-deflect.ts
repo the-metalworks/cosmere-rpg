@@ -36,7 +36,7 @@ export class DetailsDeflectComponent extends HandlebarsApplicationComponent<
                 return {
                     id,
                     label: config.label,
-                    active: deflectData?.defaultActive,
+                    active: deflectData?.active,
                 };
             },
         );
@@ -47,7 +47,7 @@ export class DetailsDeflectComponent extends HandlebarsApplicationComponent<
         if (!item.hasDeflect()) return null;
 
         return item.system.deflectsArray
-            .filter((deflect) => deflect.defaultActive)
+            .filter((deflect) => deflect.active)
             .map((deflect) => {
                 const config = CONFIG.COSMERE.damageTypes[deflect.id];
 
