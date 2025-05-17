@@ -35,7 +35,7 @@ export class CosmereChatMessage extends ChatMessage {
     private totalDamageGraze = 0;
 
     /* --- Accessors --- */
-    public get associatedActor(): CosmereActor | null {
+    public get actorSource(): CosmereActor | null {
         // NOTE: game.scenes resolves to any type
         /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-member-access */
         if (this.speaker.scene && this.speaker.token) {
@@ -47,12 +47,11 @@ export class CosmereChatMessage extends ChatMessage {
         /* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-member-access */
     }
 
-    public get associatedItem(): CosmereItem | null {
+    public get itemSource(): CosmereItem | null {
         /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-        return this.associatedActor
-            ? (this.associatedActor.items.get(
-                  this.flags[SYSTEM_ID].message.item,
-              ) ?? null)
+        return this.actorSource
+            ? (this.actorSource.items.get(this.flags[SYSTEM_ID].message.item) ??
+                  null)
             : null;
         /* eslint-enable @typescript-eslint/no-unsafe-member-access */
     }
@@ -104,7 +103,7 @@ export class CosmereChatMessage extends ChatMessage {
     }
 
     protected async enrichCardHeader(html: JQuery) {
-        const actor = this.associatedActor;
+        const actor = this.actorSource;
 
         let img;
         let name;
@@ -400,7 +399,7 @@ export class CosmereChatMessage extends ChatMessage {
         );
 
         let title;
-        const actor = this.associatedActor?.name ?? 'Actor';
+        const actor = this.actorSource?.name ?? 'Actor';
         switch (data.type) {
             case InjuryType.Death:
                 title = game.i18n!.format(
@@ -466,7 +465,7 @@ export class CosmereChatMessage extends ChatMessage {
                         Hooks.call<CosmereHooks.PreApplyInjury>(
                             'cosmere.preApplyInjury',
                             this,
-                            this.associatedActor,
+                            this.actorSource,
                             { type: data.type, duration },
                         ) === false
                     )
@@ -484,7 +483,7 @@ export class CosmereChatMessage extends ChatMessage {
                                 },
                             },
                         },
-                        { parent: this.associatedActor },
+                        { parent: this.actorSource },
                     )) as unknown as InjuryItem;
 
                     /**
@@ -495,7 +494,7 @@ export class CosmereChatMessage extends ChatMessage {
                     Hooks.callAll<CosmereHooks.PostApplyInjury>(
                         'cosmere.postApplyInjury',
                         this,
-                        this.associatedActor,
+                        this.actorSource,
                         injuryItem,
                     );
                 }
@@ -994,7 +993,7 @@ export class CosmereChatMessage extends ChatMessage {
                 Array.from(targets).map(async (t) => {
                     const target = (t as Token).actor as CosmereActor;
                     return await target.applyDamage(damageToApply, {
-                        originatingItem: this.associatedItem ?? undefined,
+                        originatingItem: this.itemSource ?? undefined,
                     });
                 }),
             );

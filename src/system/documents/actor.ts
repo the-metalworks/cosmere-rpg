@@ -672,9 +672,11 @@ export class CosmereActor<
      * send a chat message.
      */
     public async applyDamage(
-        instances: DamageInstance[],
+        instances: DamageInstance | DamageInstance[],
         options: ApplyDamageOptions = {},
     ) {
+        if (!Array.isArray(instances)) instances = [instances];
+
         // Get health resource
         const health = this.system.resources[Resource.Health].value;
 

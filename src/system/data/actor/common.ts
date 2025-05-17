@@ -214,6 +214,7 @@ export class CommonActorDataModel<
                                 CONFIG.COSMERE.deflect.sources,
                             ),
                         }),
+                        types: this.getDamageDeflectTypesSchema(),
                     },
                 },
             ),
@@ -510,6 +511,30 @@ export class CommonActorDataModel<
         });
     }
 
+    private static getDamageDeflectTypesSchema() {
+        const damageTypes = Object.keys(
+            CONFIG.COSMERE.damageTypes,
+        ) as DamageType[];
+
+        return new foundry.data.fields.SchemaField(
+            damageTypes.reduce(
+                (schema, type) => ({
+                    ...schema,
+                    [type]: new foundry.data.fields.BooleanField({
+                        required: true,
+                        nullable: false,
+                        initial:
+                            !CONFIG.COSMERE.damageTypes[type].ignoreDeflect,
+                    }),
+                }),
+                {} as Record<string, foundry.data.fields.BooleanField>,
+            ),
+            {
+                required: true,
+            },
+        );
+    }
+
     private static getImmunitiesSchema() {
         return new foundry.data.fields.SchemaField(
             {
@@ -680,7 +705,7 @@ export class CommonActorDataModel<
             if (armor) {
                 Object.keys(armor.system.deflects).forEach(
                     (type) =>
-                        (this.deflect.types![type as DamageType] ||=
+                        (this.deflect.types![type as DamageType] =
                             armor.system.deflects[type as DamageType].active),
                 );
             }
