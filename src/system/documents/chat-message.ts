@@ -228,8 +228,8 @@ export class CosmereChatMessage extends ChatMessage {
 
         const d20Roll = this.d20Rolls[0];
 
-        const success = '<i class="fa-solid fa-check success"></i>';
-        const failure = '<i class="fa-solid fa-times failure"></i>';
+        const success = '<i class="fas fa-check success"></i>';
+        const failure = '<i class="fas fa-times failure"></i>';
 
         const targetData = [];
         for (const target of targets) {
@@ -341,13 +341,14 @@ export class CosmereChatMessage extends ChatMessage {
             TEMPLATES.CHAT_CARD_SECTION,
             {
                 type: 'damage',
-                icon:
+                icon: `fas ${
                     // This will need to be handled better when we do proper multi damage support
                     isHealing
-                        ? 'fa-solid fa-heart'
+                        ? 'fa-heart'
                         : (CONFIG.COSMERE.damageTypes[
                               types.first()?.toLowerCase() as DamageType
-                          ].icon ?? 'fa-solid fa-heart-crack'),
+                          ].icon ?? 'fa-heart-crack')
+                }`,
                 title: game.i18n!.localize(
                     isHealing ? 'GENERIC.Healing' : 'GENERIC.Damage',
                 ),
@@ -536,7 +537,7 @@ export class CosmereChatMessage extends ChatMessage {
         );
         const immunitiesBreakdown =
             immunityList.length > 3
-                ? `${damageImmune} <i class="fa-solid fa-shield" data-tooltip="${immunityList
+                ? `${damageImmune} <i class="fas fa-shield" data-tooltip="${immunityList
                       .map(
                           ([damageType, amount]) => `
                     <div>
@@ -551,8 +552,8 @@ export class CosmereChatMessage extends ChatMessage {
                 : immunityList.map(
                       ([damageType, amount]) => `
                     ${amount} <span class="fa-stack small" data-tooltip="${game.i18n?.localize('GENERIC.Immune')}: ${damageType}">
-                        <i class="fa-solid fa-shield fa-stack-2x"></i>
-                        <i class="fa-solid ${CONFIG.COSMERE.damageTypes[damageType].icon} fa-stack-1x fa-inverse"></i>
+                        <i class="fas fa-shield fa-stack-2x"></i>
+                        <i class="fas ${CONFIG.COSMERE.damageTypes[damageType].icon} fa-stack-1x fa-inverse"></i>
                     </span>`,
                   );
         const calculationDeflect =
