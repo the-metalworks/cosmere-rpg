@@ -6,35 +6,6 @@
         {{/each}}
         <div class="scroll-container">
             <div class="scroll-body">
-                {{!-- <section class="adversary-skills">
-                    <div class="sidebar-header">
-                        <span class="label">{{localize "COSMERE.Actor.Skill.label_p"}}</span>
-                        <div class="controls">            
-                            <a data-action="toggle-skills-collapsed"
-                                data-tooltip="COSMERE.Actor.Sheet.{{#if skillsCollapsed}}ToggleShowSkills{{else}}ToggleCollapseSkills{{/if}}"
-                            >
-                                {{#if skillsCollapsed}}
-                                <i class="fa-solid fa-eye"></i>
-                                {{else}}
-                                <i class="fa-solid fa-eye-slash"></i>
-                                {{/if}}
-                            </a>
-
-                            {{#if isEditMode}}
-                            <a data-action="configure-skills"
-                                data-tooltip="COSMERE.Actor.Sheet.ConfigureSkills"
-                            >
-                                <i class="fa-solid fa-gear"></i>
-                            </a>
-                            {{/if}}
-                        </div>
-                    </div>
-                    <section class="skills-column">
-                    {{#each attributeGroups as |group|}}
-                    {{app-adversary-skills-group collapsed=@root.skillsCollapsed group-id=group}}
-                    {{/each}}
-                    </section>
-                </section> --}}
                 {{app-adversary-skills collapsed=@root.skillsCollapsed}}
                 {{app-actor-expertises}}
                 {{app-actor-immunities}}
