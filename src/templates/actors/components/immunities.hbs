@@ -1,32 +1,34 @@
 {{#if (or hasImmunity isEditMode)}}
-<div class="icon-header">
-    <div class="title">
-        <i class="fa-solid fa-shield"></i>
-        <span>{{localize "COSMERE.Actor.Statistics.Immunities"}}</span>
+<div class="collapsible expanded">
+    <div class="icon-header">
+        <div class="title">
+            <i class="fa-solid fa-shield"></i>
+            <span>{{localize "COSMERE.Actor.Statistics.Immunities"}}</span>
+        </div>
+        <div class="controls">
+            {{#if isEditMode}}
+            <a role="button"
+                data-action="edit-immunities"
+                data-tooltip="COSMERE.Actor.Sheet.EditImmunities"
+            >
+                <i class="fa-solid fa-pen-to-square"></i>
+            </a>
+            {{/if}}
+        </div>
     </div>
-    <div class="controls">
-        {{#if isEditMode}}
-        <a role="button"
-            data-action="edit-immunities"
-            data-tooltip="COSMERE.Actor.Sheet.EditImmunities"
-        >
-            <i class="fa-solid fa-pen-to-square"></i>
-        </a>
-        {{/if}}
+    <div class="pills-list collapsible-content">
+        <div class="wrapper">
+            {{#each immunities as |immunity|}}
+            {{#if immunity.isImmune}}
+            <div class="pill" data-id="{{immunity.name}}"
+                data-tooltip="{{immunity.label}} ({{immunity.typeLabel}})">
+                <span class="name">{{immunity.label}}</span>
+                <span class="separator">|</span>
+                <span><i class="{{immunity.typeIcon}}" aria-label="{{immunity.typeLabel}}"></i></span>
+            </div>
+            {{/if}}
+            {{/each}}
+        </div>        
     </div>
-</div>
-{{/if}}
-{{#if hasImmunity}}
-<div class="immunities">
-    {{#each immunities as |immunity|}}
-    {{#if immunity.isImmune}}
-    <div class="immunity" data-id="{{immunity.name}}"
-        data-tooltip="{{immunity.label}} ({{immunity.typeLabel}})">
-        <span class="name">{{immunity.label}}</span>
-        <span class="separator">|</span>
-        <span><i class="{{immunity.typeIcon}}" aria-label="{{immunity.typeLabel}}"></i></span>
-    </div>
-    {{/if}}
-    {{/each}}
 </div>
 {{/if}}

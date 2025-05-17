@@ -418,8 +418,6 @@
                 border-radius: 50%;
                 filter: var(--cosmere-drop-shadow);
 
-                anchor-name: --portrait;
-
                 img {
                     width: 100%;
                     object-fit: cover;
@@ -466,52 +464,6 @@
                     right: -11px;
                     mask: var(--rest-long-svg) no-repeat center;
                 }
-            }
-
-            .expertises-toggle {
-                position-anchor: --portrait;
-                position: absolute;
-                top: calc(anchor(bottom) - 50px);
-                left: calc(anchor(right) - 40px);
-
-                height: 30px;
-                width: 30px;
-
-                background-color: var(--cosmere-color-base-2);
-                border-radius: 50%;
-                border: 2px solid var(--cosmere-color-accent);
-                // box-shadow: var(--cosmere-drop-shadow);
-
-                font-size: var(--font-size-16);
-                // color: var(--cosmere-color-text-sub);
-                // text-align: center;
-                padding-left: .7rem;
-
-                anchor-name: --expertise-button;
-            }
-
-            #expertises-popover {
-                position-anchor: --expertise-button;
-                position: absolute;
-                top: anchor(bottom);
-                left: anchor(right);
-                margin-left: -.6rem;
-                margin-top: -.6rem;
-                display: none;
-                z-index: var(--z-index-ui);
-
-                padding: 0.8rem;
-                border: 2px solid var(--cosmere-color-accent);
-                border-radius: 0;
-                background-color: var(--cosmere-color-base-2);
-                mask: radial-gradient(10px at 10px 10px, transparent 98%, black) -10px -10px;
-                width: 350px;
-            }
-
-            #expertises-popover.expertises-opened, 
-            .expertises-toggle:hover ~ #expertises-popover, 
-            #expertises-popover:hover, #expertises-popover:focus-within {
-                display: block;
             }
 
             .deflect {
@@ -810,46 +762,11 @@
         }
     }
 
-    app-actor-expertises, app-actor-immunities {
+    app-actor-expertises,
+    app-actor-immunities {
         .icon-header {
             color: var(--cosmere-color-faded);
         }
-
-        .expertises, .immunities {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            gap: 0.25rem;
-            margin-top: 0.375rem;
-        }
-
-        .expertise, .immunity {
-            font-family: var(--cosmere-font-normal);
-            font-size: var(--font-size-10);
-            font-weight: bold;
-            font-variant: lining-nums;
-            text-transform: uppercase;
-            color: var(--cosmere-color-faded);
-
-            border: 1px solid var(--cosmere-color-faded);
-            padding: 0.125rem 0.25rem;
-            border-radius: 6px;
-            background-color: var(--cosmere-color-base-2);
-            
-            display: flex;
-            flex-direction: row;
-            gap: 0.125rem;
-
-            > .separator {
-                line-height: 10px;
-                opacity: 0.8;
-            }
-        }
-    }
-
-    app-actor-immunities {
-        margin-top: 0.675rem;
-        margin-bottom: 0.625rem;
     }
 
     app-actor-search-bar {

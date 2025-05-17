@@ -4,11 +4,9 @@
         {{#each resources as |resourceId|}}
         {{app-actor-resource resource=resourceId}}
         {{/each}}
-
         <div class="scroll-container">
             <div class="scroll-body">
-                {{app-actor-immunities}}
-                <section class="adversary-skills">
+                {{!-- <section class="adversary-skills">
                     <div class="sidebar-header">
                         <span class="label">{{localize "COSMERE.Actor.Skill.label_p"}}</span>
                         <div class="controls">            
@@ -36,14 +34,15 @@
                     {{app-adversary-skills-group collapsed=@root.skillsCollapsed group-id=group}}
                     {{/each}}
                     </section>
-                </section>
+                </section> --}}
+                {{app-actor-expertises}}
+                {{app-actor-immunities}}
            </div>
         </div>
     </section>
     <section class="col-main">
         {{app-adversary-header}}
         {{app-actor-attributes}}
-        {{!-- {{app-actor-expertises}} --}}
         <div class="scroll-container">
             <div class="tab-body">
                 {{> adv-actions-tab}}

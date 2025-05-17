@@ -53,7 +53,6 @@ export class BaseActorSheet<
             actions: {
                 'toggle-mode': this.onToggleMode,
                 'edit-html-field': this.editHtmlField,
-                'toggle-expertises': this.toggleExpertises,
                 save: this.onSave,
             },
             form: {
@@ -239,15 +238,6 @@ export class BaseActorSheet<
         this.updatingHtmlField = true;
 
         await this.render(true);
-    }
-
-    private static toggleExpertises(this: BaseActorSheet, event: Event) {
-        event.stopPropagation();
-        const container = document.getElementById('expertises-popover');
-        const toggledClass = 'expertises-opened';
-        if (container?.classList.contains(toggledClass))
-            container.classList.remove(toggledClass);
-        else if (container) container.classList.add(toggledClass);
     }
 
     /**
