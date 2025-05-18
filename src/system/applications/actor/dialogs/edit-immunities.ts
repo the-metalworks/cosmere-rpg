@@ -23,17 +23,6 @@ export class EditImmunitiesDialog extends HandlebarsApplicationMixin(
                 width: 300,
                 height: 800,
             },
-
-            /**
-             * NOTE: Unbound methods is the standard for defining actions and forms
-             * within ApplicationV2
-             */
-            // /* eslint-disable @typescript-eslint/unbound-method */
-            // actions: {
-            //     'add-custom-immunities': this.onAddCustomImmunity,
-            //     'remove-custom-immunities': this.onRemoveCustomImmunity,
-            // },
-            // /* eslint-enable @typescript-eslint/unbound-method */
         },
     );
 
@@ -68,113 +57,6 @@ export class EditImmunitiesDialog extends HandlebarsApplicationMixin(
         await new EditImmunitiesDialog(actor).render(true);
     }
 
-    /* --- Actions --- */
-
-    // private static onRemoveCustomImmunity(
-    //     this: EditImmunitiesDialog,
-    //     event: Event,
-    // ) {
-    //     // Get action element
-    //     const actionElement = $(event.target!).closest('[data-action]');
-
-    //     // Get id and type
-    //     const id = actionElement.data('id') as string;
-    //     const type = actionElement.data('category') as ImmunityType;
-
-    //     // Get immunities
-    //     const immunities = this.actor.system.immunities ?? [];
-
-    //     // Find index
-    //     const index = immunities.findIndex(
-    //         (expertise) => expertise.type === type && expertise.id === id,
-    //     );
-
-    //     // Remove
-    //     immunities.splice(index, 1);
-
-    //     // Update
-    //     void this.actor.update({
-    //         'system.expertises': immunities,
-    //     });
-
-    //     // Remove
-    //     $(event.target!).closest('li').remove();
-    // }
-
-    // private static onAddCustomImmunity(
-    //     this: EditImmunitiesDialog,
-    //     event: Event,
-    // ) {
-    //     // Look up the category
-    //     const category = $(event.target!)
-    //         .closest('[data-category]')
-    //         .data('category') as ImmunityType;
-
-    //     // Generate element
-    //     const el = $(`
-    //         <li id="temp-custom" class="form-group custom temp">
-    //             <i class="bullet fade icon faded fa-solid fa-diamond"></i>
-    //             <input type="text" placeholder="${game.i18n!.localize('DIALOG.EditExpertise.AddPlaceholder')}">
-    //             <a><i class="fa-solid fa-trash"></i></a>
-    //         </li>
-    //     `).get(0)!;
-
-    //     // Insert element
-    //     $(event.target!).closest('li').before(el);
-
-    //     // Find input element
-    //     const inputEl = $(el).find('input');
-
-    //     // Focus
-    //     inputEl.trigger('focus');
-    //     inputEl.on('focusout', async () => {
-    //         const val = inputEl.val();
-    //         if (val) {
-    //             const label = val;
-    //             const id = val.toLowerCase();
-
-    //             if (this.actor.hasExpertise(category, id)) {
-    //                 ui.notifications.warn(
-    //                     game.i18n!.localize(
-    //                         'GENERIC.Warning.NoDuplicateExpertises',
-    //                     ),
-    //                 );
-    //             } else {
-    //                 // Get expertises
-    //                 const expertises = this.actor.system.expertises ?? [];
-
-    //                 // Add expertise
-    //                 expertises.push({
-    //                     id,
-    //                     label,
-    //                     type: category,
-    //                     custom: true,
-    //                 });
-
-    //                 // Update the actor
-    //                 await this.actor.update({
-    //                     'system.expertises': expertises,
-    //                 });
-
-    //                 // Render
-    //                 void this.render();
-    //             }
-    //         }
-
-    //         // Clean up
-    //         el.remove();
-    //     });
-
-    //     inputEl.on('keypress', (event) => {
-    //         if (event.which !== 13) return; // Enter key
-
-    //         event.preventDefault();
-    //         event.stopPropagation();
-
-    //         inputEl.trigger('focusout');
-    //     });
-    // }
-
     /* --- Form --- */
 
     private static onFormEvent(
@@ -203,22 +85,6 @@ export class EditImmunitiesDialog extends HandlebarsApplicationMixin(
             })
             .filter((i) => i.isImmune)
             .partition((i) => i.type === ImmunityType.Condition);
-
-        // const customExpertises = paths
-        //     .filter((path) => typeof data[path] === 'string')
-        //     .map((path) => {
-        //         const [type, id] = path.split('.');
-        //         return {
-        //             id,
-        //             type: type as ImmunityType,
-        //             hasExpertise: true,
-        //             label: data[path] as string,
-        //             custom: true,
-        //         };
-        //     });
-
-        // // Contact to single array
-        // const expertises = [...configuredImmunities, ...customExpertises];
 
         // Get immunities
         const currentImmunities = this.actor.system.immunities;
@@ -285,15 +151,6 @@ export class EditImmunitiesDialog extends HandlebarsApplicationMixin(
             ([name]) => (currentImmunities.condition[name as Status] = true),
         );
 
-        // // Set labels for custom expertises
-        // customExpertises.forEach((e) => {
-        //     const index = currentImmunities.findIndex(
-        //         (o) => o.id === e.id && o.type === e.type,
-        //     );
-
-        //     currentImmunities[index].label = e.label;
-        // });
-
         // Update actor
         void this.actor.update({
             'system.immunities': currentImmunities,
@@ -317,7 +174,7 @@ export class EditImmunitiesDialog extends HandlebarsApplicationMixin(
                 return {
                     type,
                     label: config.label,
-                    icon: config.label,
+                    icon: config.icon,
                     configuredImmunities:
                         this.getConfiguredImmunitiesForType(type),
                 };
