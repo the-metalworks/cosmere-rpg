@@ -1,5 +1,5 @@
 import { Skill } from '@system/types/cosmere';
-import { ConstructorOf } from '@system/types/utils';
+import { AnyObject, ConstructorOf } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
@@ -11,15 +11,8 @@ import {
 } from '../../adversary-sheet';
 import { ConfigureSkillsDialog } from '../../dialogs/configure-skills';
 
-// NOTE: Must use type here instead of interface as an interface doesn't match AnyObject type
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-type Params = {
-    skillsCollapsed: boolean;
-};
-
 export class AdversarySkillsComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<AdversarySheet>,
-    Params
+    ConstructorOf<AdversarySheet>
 > {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_ADVERSARY_SKILLS}`;
 
@@ -29,14 +22,15 @@ export class AdversarySkillsComponent extends HandlebarsApplicationComponent<
      */
     /* eslint-disable @typescript-eslint/unbound-method */
     static readonly ACTIONS = {
-        'toggle-collapsed': this.onToggleCollapsed,
         'roll-skill': this.onRollSkill,
-        'toggle-skills-collapsed': this.onToggleSkillsCollapsed,
+        'toggle-hide-unranked': this.onToggleHideUnranked,
         'configure-skills': this.onConfigureSkills,
     };
     /* eslint-enable @typescript-eslint/unbound-method */
 
-    private sectionCollapsed = false;
+    private sectionCollapsed =
+        this.application.actor.getFlag(SYSTEM_ID, 'sheet.skillsCollapsed') ||
+        false;
 
     /* --- Actions --- */
 
@@ -50,11 +44,7 @@ export class AdversarySkillsComponent extends HandlebarsApplicationComponent<
         void this.application.actor.rollSkill(skillId);
     }
 
-    private static onToggleCollapsed(this: AdversarySkillsComponent) {
-        this.sectionCollapsed = !this.sectionCollapsed;
-    }
-
-    private static onToggleSkillsCollapsed(
+    private static onToggleHideUnranked(
         this: AdversarySkillsComponent,
         event: Event,
     ) {
@@ -64,8 +54,8 @@ export class AdversarySkillsComponent extends HandlebarsApplicationComponent<
         // Update the flag
         void this.application.actor.setFlag(
             SYSTEM_ID,
-            'sheet.skillsCollapsed',
-            !this.application.areSkillsCollapsed,
+            'sheet.hideUnranked',
+            !this.application.hideUnrankedSkills,
         );
     }
 
@@ -82,7 +72,7 @@ export class AdversarySkillsComponent extends HandlebarsApplicationComponent<
     /* --- Context --- */
 
     public _prepareContext(
-        params: Params,
+        params: never,
         context: AdversarySheetRenderContext,
     ) {
         // Get the skill ids
@@ -103,7 +93,7 @@ export class AdversarySkillsComponent extends HandlebarsApplicationComponent<
                     ...this.application.actor.system.skills[skillId],
                     active:
                         (!skillConfig.hiddenUntilAcquired &&
-                            !this.application.areSkillsCollapsed) ||
+                            !this.application.hideUnrankedSkills) ||
                         this.application.actor.system.skills[skillId].rank >= 1,
                 };
             })
@@ -116,7 +106,8 @@ export class AdversarySkillsComponent extends HandlebarsApplicationComponent<
         return Promise.resolve({
             ...context,
 
-            skillsCollapsed: this.application.areSkillsCollapsed,
+            sectionCollapsed: this.sectionCollapsed,
+            hideUnranked: this.application.hideUnrankedSkills,
             skills,
             hasActiveSkills: skills.some((skill) => skill.active),
         });
@@ -124,7 +115,7 @@ export class AdversarySkillsComponent extends HandlebarsApplicationComponent<
 
     /* --- Lifecycle --- */
 
-    protected _onRender(params: Params): void {
+    protected _onRender(params: AnyObject): void {
         super._onRender(params);
 
         $(this.element!)
@@ -137,6 +128,14 @@ export class AdversarySkillsComponent extends HandlebarsApplicationComponent<
     private onClickCollapsible(event: JQuery.ClickEvent) {
         const target = event.currentTarget as HTMLElement;
         target?.parentElement?.classList.toggle('expanded');
+
+        // Update the flag for next render
+        void this.application.actor.setFlag(
+            SYSTEM_ID,
+            'sheet.skillsCollapsed',
+            !this.application.areSkillsCollapsed,
+        );
+        this.sectionCollapsed = !this.sectionCollapsed;
     }
 }
 

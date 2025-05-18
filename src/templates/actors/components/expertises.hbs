@@ -1,7 +1,8 @@
+{{#if (or isEditMode hasExpertises)}}
 <div class="collapsible {{#unless sectionCollapsed}}expanded{{/unless}}">
-    <div class="icon-header" data-action="toggle-collapsed">
+    <div class="icon-header">
         <div class="title">
-            <i class="fa-solid fa-book"></i>
+            <i class="fas fa-book"></i>
             <span>{{localize "COSMERE.Actor.Sheet.Expertises"}}</span>
         </div>
         <div class="controls">
@@ -10,7 +11,7 @@
                 data-action="edit-expertises"
                 data-tooltip="COSMERE.Actor.Sheet.EditExpertises"
             >
-                <i class="fa-solid fa-pen-to-square"></i>
+                <i class="fas fa-pen-to-square"></i>
             </a>
             {{/if}}
         </div>
@@ -28,3 +29,4 @@
         </div>        
     </div>
 </div>
+{{/if}}

@@ -50,6 +50,10 @@ export class AdversarySheet extends BaseActorSheet<AdversarySheetRenderContext> 
         return this.actor.getFlag(SYSTEM_ID, 'sheet.skillsCollapsed') ?? false;
     }
 
+    get hideUnrankedSkills() {
+        return this.actor.getFlag(SYSTEM_ID, 'sheet.hideUnranked') ?? false;
+    }
+
     /* --- Event handlers --- */
 
     protected onActionsSearchChange(event: SearchBarInputEvent) {
@@ -71,6 +75,7 @@ export class AdversarySheet extends BaseActorSheet<AdversarySheetRenderContext> 
             ...(await super._prepareContext(options)),
 
             skillsCollapsed: this.areSkillsCollapsed,
+            hideUnrankedSkills: this.hideUnrankedSkills,
         };
     }
 }

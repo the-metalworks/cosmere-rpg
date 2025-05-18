@@ -2,18 +2,18 @@
 <div class="collapsible {{#unless sectionCollapsed}}expanded{{/unless}}">
     <div class="icon-header">
         <div class="title">
-            <i class="fa-solid fa-briefcase"></i>
+            <i class="fas fa-briefcase"></i>
             <span>{{localize "COSMERE.Actor.Skill.label_p"}}</span>
         </div>
         <div class="controls">
             <a role="button"
-                data-action="toggle-skills-collapsed"
-                data-tooltip="COSMERE.Actor.Sheet.{{#if skillsCollapsed}}ToggleShowSkills{{else}}ToggleCollapseSkills{{/if}}"
+                data-action="toggle-hide-unranked"
+                data-tooltip="COSMERE.Actor.Sheet.{{#if hideUnranked}}ToggleShowSkills{{else}}ToggleCollapseSkills{{/if}}"
             >
-                {{#if skillsCollapsed}}
-                <i class="fa-solid fa-eye"></i>
+                {{#if hideUnranked}}
+                <i class="fas fa-eye"></i>
                 {{else}}
-                <i class="fa-solid fa-eye-slash"></i>
+                <i class="fas fa-eye-slash"></i>
                 {{/if}}
             </a>
             {{#if isEditMode}}
@@ -21,7 +21,7 @@
                 data-action="configure-skills"
                 data-tooltip="COSMERE.Actor.Sheet.ConfigureSkills"
             >
-                <i class="fa-solid fa-gear"></i>
+                <i class="fas fa-gear"></i>
             </a>
             {{/if}}
         </div>

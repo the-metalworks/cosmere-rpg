@@ -1,8 +1,8 @@
-{{#if (or hasImmunity isEditMode)}}
+{{#if (or hasImmunities isEditMode)}}
 <div class="collapsible {{#unless sectionCollapsed}}expanded{{/unless}}">
     <div class="icon-header">
         <div class="title">
-            <i class="fa-solid fa-shield"></i>
+            <i class="fas fa-shield"></i>
             <span>{{localize "COSMERE.Actor.Statistics.Immunities"}}</span>
         </div>
         <div class="controls">
@@ -11,7 +11,7 @@
                 data-action="edit-immunities"
                 data-tooltip="COSMERE.Actor.Sheet.EditImmunities"
             >
-                <i class="fa-solid fa-pen-to-square"></i>
+                <i class="fas fa-pen-to-square"></i>
             </a>
             {{/if}}
         </div>

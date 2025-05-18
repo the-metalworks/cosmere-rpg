@@ -20,12 +20,15 @@ export class ActorExpertisesComponent extends HandlebarsApplicationComponent<
      */
     /* eslint-disable @typescript-eslint/unbound-method */
     static ACTIONS = {
-        'toggle-collapsed': this.onToggleCollapsed,
         'edit-expertises': this.onEditExpertises,
     };
     /* eslint-enable @typescript-eslint/unbound-method */
 
-    private sectionCollapsed = false;
+    private sectionCollapsed =
+        this.application.actor.getFlag(
+            SYSTEM_ID,
+            'sheet.expertisesCollapsed',
+        ) || false;
 
     /* --- Actions --- */
 
@@ -39,10 +42,6 @@ export class ActorExpertisesComponent extends HandlebarsApplicationComponent<
         await EditExpertisesDialog.show(this.application.actor);
     }
 
-    private static onToggleCollapsed(this: ActorExpertisesComponent) {
-        this.sectionCollapsed = !this.sectionCollapsed;
-    }
-
     /* --- Context --- */
 
     public _prepareContext(
@@ -51,6 +50,8 @@ export class ActorExpertisesComponent extends HandlebarsApplicationComponent<
     ) {
         return Promise.resolve({
             ...context,
+
+            sectionCollapsed: this.sectionCollapsed,
 
             expertises:
                 this.application.actor.system.expertises
@@ -80,6 +81,14 @@ export class ActorExpertisesComponent extends HandlebarsApplicationComponent<
     private onClickCollapsible(event: JQuery.ClickEvent) {
         const target = event.currentTarget as HTMLElement;
         target?.parentElement?.classList.toggle('expanded');
+
+        // Update the flag for next render
+        void this.application.actor.setFlag(
+            SYSTEM_ID,
+            'sheet.expertisesCollapsed',
+            !this.application.areExpertisesCollapsed,
+        );
+        this.sectionCollapsed = !this.sectionCollapsed;
     }
 }
 

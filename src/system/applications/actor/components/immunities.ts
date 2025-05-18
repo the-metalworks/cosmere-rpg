@@ -21,12 +21,15 @@ export class ActorImmunitiesComponent extends HandlebarsApplicationComponent<
      */
     /* eslint-disable @typescript-eslint/unbound-method */
     static ACTIONS = {
-        'toggle-collapsed': this.onToggleCollapsed,
         'edit-immunities': this.onEditImmunities,
     };
     /* eslint-enable @typescript-eslint/unbound-method */
 
-    private sectionCollapsed = false;
+    private sectionCollapsed =
+        this.application.actor.getFlag(
+            SYSTEM_ID,
+            'sheet.immunitiesCollapsed',
+        ) || false;
 
     /* --- Actions --- */
 
@@ -38,10 +41,6 @@ export class ActorImmunitiesComponent extends HandlebarsApplicationComponent<
         event.stopPropagation();
 
         await EditImmunitiesDialog.show(this.application.actor);
-    }
-
-    private static onToggleCollapsed(this: ActorImmunitiesComponent) {
-        this.sectionCollapsed = !this.sectionCollapsed;
     }
 
     /* --- Context --- */
@@ -82,8 +81,8 @@ export class ActorImmunitiesComponent extends HandlebarsApplicationComponent<
 
         return Promise.resolve({
             ...context,
+            sectionCollapsed: this.sectionCollapsed,
             immunities,
-            hasImmunity: immunities.length > 0,
         });
     }
 
@@ -102,6 +101,14 @@ export class ActorImmunitiesComponent extends HandlebarsApplicationComponent<
     private onClickCollapsible(event: JQuery.ClickEvent) {
         const target = event.currentTarget as HTMLElement;
         target?.parentElement?.classList.toggle('expanded');
+
+        // Update the flag for next render
+        void this.application.actor.setFlag(
+            SYSTEM_ID,
+            'sheet.immunitiesCollapsed',
+            !this.application.areImmunitiesCollapsed,
+        );
+        this.sectionCollapsed = !this.sectionCollapsed;
     }
 }
 
