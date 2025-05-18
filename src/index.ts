@@ -9,6 +9,7 @@ import './system/hooks';
 import './system/mixins';
 
 import { preloadHandlebarsTemplates } from './system/utils/handlebars';
+import { registerCustomEnrichers } from './system/utils/enrichers';
 import {
     registerDeferredSettings,
     registerSystemKeybindings,
@@ -109,12 +110,39 @@ Hooks.once('init', async () => {
     // @ts-expect-error see note
     CONFIG.Dice.rolls.push(dice.DamageRoll);
 
+    CONFIG.Canvas.visionModes.sense = new VisionMode({
+        id: 'sense',
+        label: 'COSMERE.Actor.Statistics.SensesRange',
+        canvas: {
+            shader: ColorAdjustmentsSamplerShader,
+            uniforms: { contrast: 0, saturation: -1.0, brightness: 0 },
+        },
+        lighting: {
+            levels: {
+                [VisionMode.LIGHTING_LEVELS.DIM]:
+                    VisionMode.LIGHTING_LEVELS.BRIGHT,
+            },
+            background: { visibility: VisionMode.LIGHTING_VISIBILITY.REQUIRED },
+        },
+        vision: {
+            darkness: { adaptive: false },
+            defaults: {
+                attenuation: 0,
+                contrast: 0,
+                saturation: -1.0,
+                brightness: 0,
+            },
+        },
+    });
+
     // Register status effects
     registerStatusEffects();
 
     // Register settings
     registerSystemSettings();
     registerSystemKeybindings();
+
+    registerCustomEnrichers();
 
     // Load templates
     await preloadHandlebarsTemplates();

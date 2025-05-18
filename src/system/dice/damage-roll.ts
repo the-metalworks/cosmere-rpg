@@ -22,9 +22,6 @@ export type DamageRollData<
         unmodded: DamageRoll;
         dice: DamageRoll;
     };
-
-    // For hooks
-    source: CosmereItem;
 };
 
 export interface DamageRollOptions
@@ -48,7 +45,7 @@ export interface DamageRollOptions
     /**
      * Where did this damage come from?
      */
-    source?: string;
+    damageSourceName?: string;
 
     /**
      * Nested Roll item for graze damage
@@ -86,8 +83,8 @@ export class DamageRoll extends foundry.dice.Roll<DamageRollData> {
         return this.options.mod;
     }
 
-    get source(): string | undefined {
-        return this.options.source;
+    get damageSourceName(): string | undefined {
+        return this.options.damageSourceName;
     }
 
     get graze(): DamageRoll | undefined {

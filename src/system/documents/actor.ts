@@ -46,6 +46,7 @@ import { MESSAGE_TYPES } from './chat-message';
 import { getTargetDescriptors } from '../utils/generic';
 import { characterMeetsTalentPrerequisites } from '@system/utils/talent-tree';
 import { CosmereHooks } from '../types/hooks';
+import { EnricherData } from '../utils/enrichers';
 
 export type CharacterActor = CosmereActor<CharacterActorDataModel>;
 export type AdversaryActor = CosmereActor<AdversaryActorDataModel>;
@@ -106,6 +107,7 @@ export type CosmereActorRollData<T extends CommonActorData = CommonActorData> =
     {
         [K in keyof T]: T[K];
     } & {
+        name: string;
         attr: Record<string, number>;
         skills: Record<string, { rank: number; mod: number }>;
 
@@ -121,6 +123,12 @@ export type CosmereActorRollData<T extends CommonActorData = CommonActorData> =
                     'effect-size': Size;
                 }
             >;
+        };
+        // this comes from the enricher use case, don't know if there's anything on a token
+        // that isn't on the actor doc so probably not helpful at all in rolls, but moving it here
+        // as per the 30/04 meeting outcome.
+        token?: {
+            name: string;
         };
     };
 
@@ -229,6 +237,7 @@ export class CosmereActor<
     public prepareDerivedData() {
         super.prepareDerivedData();
         this.applyActiveEffects();
+        this.system.prepareSecondaryDerivedData();
     }
 
     protected override _initialize(options?: object) {
@@ -832,7 +841,9 @@ export class CosmereActor<
         const data = this.getRollData() as Partial<D20RollData>;
 
         // Add attribute mod
-        data.mod = skill.mod.value;
+        data.mod = options.attribute
+            ? attribute.value + skill.rank
+            : skill.mod.value;
         data.skill = {
             id: skillId,
             rank: skill.rank,
@@ -1107,9 +1118,11 @@ export class CosmereActor<
     }
 
     public getRollData(): CosmereActorRollData<SystemType> {
+        const tokens = this.getActiveTokens();
         return {
             ...(super.getRollData() as SystemType),
 
+            name: this.name,
             // Attributes shorthand
             attr: (
                 Object.keys(CONFIG.COSMERE.attributes) as Attribute[]
@@ -1174,7 +1187,25 @@ export class CosmereActor<
                     ),
                 },
             },
+
+            token:
+                tokens.length > 0
+                    ? { name: (tokens[0] as Token)?.name }
+                    : undefined,
+
+            // Hook data
+            source: this,
         };
+    }
+
+    public getEnricherData() {
+        const actor = this.getRollData();
+        const targets = getTargetDescriptors();
+
+        return {
+            actor,
+            target: targets.length > 0 ? targets[0] : undefined,
+        } as const satisfies EnricherData;
     }
 
     // public *allApplicableEffects() {
