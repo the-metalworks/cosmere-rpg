@@ -179,34 +179,6 @@ export class EditImmunitiesDialog extends HandlebarsApplicationMixin(
                         this.getConfiguredImmunitiesForType(type),
                 };
             }),
-            icons: {
-                damage: {
-                    ...Object.entries(CONFIG.COSMERE.damageTypes).reduce(
-                        (
-                            acc: Record<string, string>,
-                            [damageType, damageConfig],
-                        ) => ({
-                            ...acc,
-                            [damageType]:
-                                damageConfig.icon ?? 'fa-circle-exclamation',
-                        }),
-                        {},
-                    ),
-                },
-                condition: {
-                    ...Object.entries(CONFIG.COSMERE.statuses).reduce(
-                        (
-                            acc: Record<string, string>,
-                            [condiName, condiConfig],
-                        ) => ({
-                            ...acc,
-                            [condiName]:
-                                condiConfig.icon ?? 'fa-circle-exclamation',
-                        }),
-                        {},
-                    ),
-                },
-            },
         });
     }
 

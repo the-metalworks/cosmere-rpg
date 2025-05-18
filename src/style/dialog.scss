@@ -68,6 +68,17 @@
                 flex: .2;
                 font-size: var(--font-size-10);
             }
+
+            i.fa-stack-1x {
+                line-height: 1.2rem;
+                color: var(--cosmere-color-off-white-2);
+            }
+
+            .condition-icon {
+                height: 13px;
+                margin-top: .15rem;
+                background-color: var(--cosmere-color-off-white-2);
+            }
         }
 
         .configured, .custom {
