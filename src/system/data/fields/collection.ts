@@ -1,4 +1,15 @@
-export type CollectionFieldOptions = foundry.data.fields.DataFieldOptions;
+import { AnyObject } from '@system/types/utils';
+
+export interface CollectionFieldOptions<T = AnyObject>
+    extends foundry.data.fields.DataFieldOptions {
+    /**
+     * The field to draw the item key from.
+     * Alternatively, you can use a function to generate the key.
+     *
+     * @default "id"
+     */
+    key?: keyof T | ((item: T) => string);
+}
 
 /**
  * A collection that is backed by a record object instead of a Map.
@@ -205,11 +216,11 @@ export class RecordCollection<T> implements Collection<T> {
     }
 
     public toJSON() {
-        return this.contents.reduce((acc, value) => {
+        return Array.from(this.entries()).reduce((acc, [key, value]) => {
             if (value && typeof value === 'object' && 'toJSON' in value) {
-                value = { ...(value as any).toJSON(), _id: (value as any)._id };
+                value = (value as any).toJSON();
             }
-            return { ...acc, [(value as any)._id]: value };
+            return { ...acc, [key]: value };
         }, {} as any);
     }
     /* eslint-enable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment */
@@ -218,10 +229,13 @@ export class RecordCollection<T> implements Collection<T> {
 export class CollectionField<
     ElementField extends
         foundry.data.fields.DataField = foundry.data.fields.DataField,
+    T = AnyObject,
 > extends foundry.data.fields.ObjectField {
+    declare options: CollectionFieldOptions<T>;
+
     constructor(
         public readonly model: ElementField,
-        options: CollectionFieldOptions = {},
+        options: CollectionFieldOptions<T> = {},
         context?: foundry.data.fields.DataFieldContext,
         private CollectionClass: typeof RecordCollection = RecordCollection,
     ) {
@@ -232,8 +246,21 @@ export class CollectionField<
         value: Record<string, unknown>,
         options?: object,
     ) {
-        Array.from(Object.entries(value)).forEach(([id, v]) => {
-            value[id] = this.model.clean(v, options);
+        Array.from(Object.entries(value)).forEach(([key, v]) => {
+            const cleaned = this.model.clean(v, options) as T & {
+                id?: string;
+                _id?: string;
+            };
+
+            // Determine the key
+            const prevKey = key;
+            key = this.getItemKey(cleaned) ?? key;
+
+            // Set the value
+            if (key !== prevKey && prevKey !== `-=${key}`) {
+                delete value[prevKey];
+                value[key] = cleaned;
+            }
         });
 
         return value;
@@ -294,9 +321,9 @@ export class CollectionField<
                   : foundry.utils.getType(value) === 'Object'
                     ? (Object.entries(value) as [string, unknown][])
                     : foundry.utils.getType(value) === 'Array'
-                      ? (value as { _id?: string; id?: string }[]).map(
+                      ? (value as ({ _id?: string; id?: string } & T)[]).map(
                             (v, i) =>
-                                [v._id ?? v.id ?? i.toString(), v] as [
+                                [this.getItemKey(v) ?? i, v] as [
                                     string,
                                     unknown,
                                 ],
@@ -350,5 +377,15 @@ export class CollectionField<
 
         path.shift();
         return this.model._getField(path);
+    }
+
+    private getItemKey(
+        item: T & { id?: string; _id?: string },
+    ): string | undefined {
+        return typeof this.options.key === 'function'
+            ? this.options.key(item)
+            : ((item[this.options.key ?? 'id'] as string | undefined) ??
+                  item._id ??
+                  undefined);
     }
 }

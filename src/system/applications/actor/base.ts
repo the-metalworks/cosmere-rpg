@@ -39,6 +39,7 @@ export const enum BaseSheetTab {
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type BaseActorSheetRenderContext = {
     actor: CosmereActor;
+    isEditMode: boolean;
 };
 
 export class BaseActorSheet<

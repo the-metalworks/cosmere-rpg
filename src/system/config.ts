@@ -861,9 +861,11 @@ const COSMERE: CosmereRPGConfig = {
     expertiseTypes: {
         [ExpertiseType.Armor]: {
             label: 'COSMERE.Actor.Character.Expertise.Armor',
+            configRegistryKey: 'armors',
         },
         [ExpertiseType.Cultural]: {
             label: 'COSMERE.Actor.Character.Expertise.Cultural',
+            configRegistryKey: 'cultures',
         },
         [ExpertiseType.Specialist]: {
             label: 'COSMERE.Actor.Character.Expertise.Specialist',
@@ -873,6 +875,7 @@ const COSMERE: CosmereRPGConfig = {
         },
         [ExpertiseType.Weapon]: {
             label: 'COSMERE.Actor.Character.Expertise.Weapon',
+            configRegistryKey: 'weapons',
         },
     },
 

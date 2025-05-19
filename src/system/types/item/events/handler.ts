@@ -14,8 +14,8 @@ export const enum HandlerType {
     SetAttribute = 'set-attribute',
     ModifySkillRank = 'modify-skill-rank',
     SetSkillRank = 'set-skill-rank',
-    GrantExpertise = 'grant-expertise',
-    RemoveExpertise = 'remove-expertise',
+    GrantExpertises = 'grant-expertises',
+    RemoveExpertises = 'remove-expertises',
 
     // General purpose
     UpdateItem = 'update-item',

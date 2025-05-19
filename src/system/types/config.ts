@@ -151,6 +151,12 @@ export interface ArmorConfig {
 export interface ExpertiseTypeConfig {
     label: string;
     icon?: string;
+
+    /**
+     * The key of the registry in the CONFIG.COSMERE object of the
+     * default configured entries for this expertise type.
+     */
+    configRegistryKey?: keyof CosmereRPGConfig;
 }
 
 export interface TraitConfig {

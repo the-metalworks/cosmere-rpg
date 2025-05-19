@@ -6,7 +6,6 @@ import {
     Resource,
     AttributeGroup,
     Skill,
-    ExpertiseType,
     DeflectSource,
     ItemType,
     DamageType,
@@ -15,9 +14,13 @@ import {
 import { CosmereActor } from '@system/documents/actor';
 import { ArmorItem, LootItem } from '@system/documents';
 
+import { CosmereDocument } from '@src/system/types/utils';
+
 // Fields
 import { DerivedValueField, Derived } from '../fields/derived-value-field';
-import { CosmereDocument } from '@src/system/types/utils';
+import { ExpertisesField, Expertise } from './fields/expertises-field';
+
+export { Expertise } from './fields/expertises-field';
 
 interface DeflectData extends Derived<number> {
     /**
@@ -31,14 +34,6 @@ interface DeflectData extends Derived<number> {
      * The source of the deflect value
      */
     source?: DeflectSource;
-}
-
-export interface ExpertiseData {
-    type: ExpertiseType;
-    id: string;
-    label: string;
-    custom?: boolean;
-    locked?: boolean;
 }
 
 interface CurrencyDenominationData {
@@ -112,15 +107,12 @@ export interface CommonActorData {
             total: Derived<number>;
         }
     >;
-    // movement: {
-    //     rate: Derived<number>;
-    // };
     movement: Record<MovementType, { rate: Derived<number> }>;
     encumbrance: {
         lift: Derived<number>;
         carry: Derived<number>;
     };
-    expertises?: ExpertiseData[];
+    expertises: Collection<Expertise>;
     languages?: string[];
     biography?: string;
     appearance?: string;
@@ -247,29 +239,9 @@ export class CommonActorDataModel<
                     }),
                 ),
             }),
-            expertises: new foundry.data.fields.ArrayField(
-                new foundry.data.fields.SchemaField({
-                    type: new foundry.data.fields.StringField({
-                        required: true,
-                        nullable: false,
-                        blank: false,
-                        initial: ExpertiseType.Cultural,
-                        choices: Object.keys(CONFIG.COSMERE.expertiseTypes),
-                    }),
-                    id: new foundry.data.fields.StringField({
-                        required: true,
-                        nullable: false,
-                        blank: false,
-                    }),
-                    label: new foundry.data.fields.StringField({
-                        required: true,
-                        nullable: false,
-                        blank: false,
-                    }),
-                    custom: new foundry.data.fields.BooleanField(),
-                    locked: new foundry.data.fields.BooleanField(),
-                }),
-            ),
+            expertises: new ExpertisesField({
+                required: true,
+            }),
             languages: new foundry.data.fields.ArrayField(
                 new foundry.data.fields.StringField(),
             ),

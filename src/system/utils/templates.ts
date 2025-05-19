@@ -16,6 +16,7 @@ export const TEMPLATES = {
     COMPONENT_MULTI_VALUE_SELECT: 'general/components/multi-value-select.hbs',
     COMPONENT_ID_INPUT: 'general/components/id-input.hbs',
     COMPONENT_MULTI_STATE_TOGGLE: 'general/components/multi-state-toggle.hbs',
+    COMPONENT_EXPERTISES_LIST: 'general/components/expertises-list.hbs',
 
     // ACTOR BASE
     ACTOR_BASE_NAVIGATION: 'actors/parts/navigation.hbs',
@@ -49,7 +50,6 @@ export const TEMPLATES = {
         'actors/character/partials/char-effects-tab.hbs',
     ACTOR_CHARACTER_ANCESTRY: 'actors/character/components/ancestry.hbs',
     ACTOR_CHARACTER_CULTURE: 'actors/character/components/culture.hbs',
-    ACTOR_CHARACTER_EXPERTISES: 'actors/character/components/expertises.hbs',
     ACTOR_CHARACTER_FAVORITES: 'actors/character/components/favorites.hbs',
     ACTOR_CHARACTER_PATHS: 'actors/character/components/paths.hbs',
     ACTOR_CHARACTER_CONNECTIONS_LIST:
@@ -145,7 +145,6 @@ export const TEMPLATES = {
     CHAT_OVERLAY_CRIT: 'chat/overlay-crit.hbs',
 
     //DIALOGS
-    DIALOG_ACTOR_EDIT_EXPERTISES: 'actors/dialogs/edit-expertises.hbs',
     DIALOG_ACTOR_CONFIGURE_RESOURCE: 'actors/dialogs/configure-resource.hbs',
     DIALOG_ACTOR_CONFIGURE_DEFLECT: 'actors/dialogs/configure-deflect.hbs',
     DIALOG_ACTOR_CONFIGURE_DEFENSE: 'actors/dialogs/configure-defense.hbs',
@@ -169,6 +168,8 @@ export const TEMPLATES = {
     DIALOG_ROLL_PICK_DICE_RESULT: 'roll/dialogs/pick-dice-result.hbs',
     DIALOG_ROLL_CONFIGURATION: 'roll/dialogs/roll-configuration.hbs',
 
+    DIALOG_EDIT_EXPERTISES: 'general/dialogs/edit-expertises.hbs',
+
     // ITEM EVENT SYSTEM HANDLERS
     IES_HANDLER_EXECUTE_MACRO: 'item/event-system/handlers/execute-macro.hbs',
     IES_HANDLER_GRANT_ITEMS: 'item/event-system/handlers/grant-items.hbs',
@@ -179,6 +180,8 @@ export const TEMPLATES = {
     IES_HANDLER_MODIFY_SKILL_RANK:
         'item/event-system/handlers/modify-skill-rank.hbs',
     IES_HANDLER_SET_SKILL_RANK: 'item/event-system/handlers/set-skill-rank.hbs',
+    IES_HANDLER_GRANT_EXPERTISES:
+        'item/event-system/handlers/grant-expertises.hbs',
 } as const;
 
 /**

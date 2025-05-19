@@ -6,7 +6,7 @@ import { SearchBarInputEvent } from './components';
 
 // Dialogs
 import { ConfigureSkillsDialog } from './dialogs/configure-skills';
-import { EditExpertisesDialog } from './dialogs/edit-expertises';
+import { EditExpertisesDialog } from '@system/applications/dialogs/edit-expertises';
 
 // Base
 import { BaseActorSheet, BaseActorSheetRenderContext } from './base';

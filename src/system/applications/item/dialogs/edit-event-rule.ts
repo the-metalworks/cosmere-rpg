@@ -1,10 +1,14 @@
 import { CosmereItem } from '@src/system/documents';
 import { Rule } from '@system/data/item/event-system';
+import { EventsItemData } from '@system/data/item/mixins/events';
 
 import { AnyMutableObject, AnyObject } from '@system/types/utils';
 
 // Component imports
 import { ComponentHandlebarsApplicationMixin } from '@system/applications/component-system';
+
+// Utils
+import { getObjectChanges } from '@system/utils/data';
 
 // Constants
 import { SYSTEM_ID } from '@src/system/constants';
@@ -57,7 +61,7 @@ export class ItemEditEventRuleDialog extends ComponentHandlebarsApplicationMixin
     /* eslint-enable @typescript-eslint/unbound-method */
 
     private constructor(
-        private item: CosmereItem,
+        private item: CosmereItem<EventsItemData>,
         private rule: Rule,
     ) {
         super({
@@ -67,7 +71,7 @@ export class ItemEditEventRuleDialog extends ComponentHandlebarsApplicationMixin
 
     /* --- Statics --- */
 
-    public static async show(item: CosmereItem, rule: Rule) {
+    public static async show(item: CosmereItem<EventsItemData>, rule: Rule) {
         const dialog = new this(item, rule.clone() as Rule);
         await dialog.render(true);
     }
@@ -75,8 +79,24 @@ export class ItemEditEventRuleDialog extends ComponentHandlebarsApplicationMixin
     /* --- Actions --- */
 
     private static onUpdateRule(this: ItemEditEventRuleDialog) {
+        // Get changes
+        const changes = foundry.utils.mergeObject(
+            getObjectChanges(
+                this.item.system.events.get(this.rule.id)!.toObject(),
+                this.rule.toObject(),
+            ),
+            {
+                /**
+                 * NOTE: We have to always include the handler type in the changes
+                 * otherwise the handler field cannot determine which schema to use
+                 * for validation.
+                 */
+                'handler.type': this.rule.handler.type,
+            },
+        );
+
         void this.item.update({
-            [`system.events.${this.rule.id}`]: this.rule.toJSON(),
+            [`system.events.${this.rule.id}`]: changes,
         });
         void this.close();
     }
@@ -94,10 +114,25 @@ export class ItemEditEventRuleDialog extends ComponentHandlebarsApplicationMixin
         // Ignore submit events
         if (event instanceof SubmitEvent) return;
 
-        console.log('Form event', formData.object);
+        // Prepare changes
+        const changes = Object.entries(formData.object).reduce(
+            (changes, [key, value]) => {
+                if (typeof value === 'object') {
+                    changes[key] = getObjectChanges(
+                        foundry.utils.getProperty(this.rule, key),
+                        value,
+                    );
+                } else {
+                    changes[key] = value;
+                }
+
+                return changes;
+            },
+            {} as AnyMutableObject,
+        );
 
         // Update the rule with the form data
-        this.rule.updateSource(formData.object);
+        this.rule.updateSource(changes);
 
         // Render
         void this.render(true);

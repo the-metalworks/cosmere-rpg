@@ -27,6 +27,7 @@ import { CosmereActiveEffect } from '@system/documents/active-effect';
 import {
     CommonActorData,
     CommonActorDataModel,
+    Expertise,
 } from '@system/data/actor/common';
 import { CharacterActorDataModel } from '@system/data/actor/character';
 import { AdversaryActorDataModel } from '@system/data/actor/adversary';
@@ -49,6 +50,7 @@ import { MESSAGE_TYPES } from './chat-message';
 import { getTargetDescriptors } from '../utils/generic';
 import { EnricherData } from '../utils/enrichers';
 import { characterMeetsTalentPrerequisites } from '@system/utils/talent-tree';
+import { containsExpertise } from '@system/utils/actor';
 
 // Constants
 import { SYSTEM_ID } from '../constants';
@@ -1268,12 +1270,12 @@ export class CosmereActor<
     /**
      * Utility function to determine if an actor has a given expertise
      */
-    public hasExpertise(type: ExpertiseType, id: string): boolean {
-        return (
-            this.system.expertises?.some(
-                (expertise) => expertise.type === type && expertise.id === id,
-            ) ?? false
-        );
+    public hasExpertise(expertise: Expertise): boolean;
+    public hasExpertise(type: ExpertiseType, id: string): boolean;
+    public hasExpertise(
+        ...args: [Expertise] | [ExpertiseType, string]
+    ): boolean {
+        return containsExpertise(this.system.expertises, ...args);
     }
 
     /**
