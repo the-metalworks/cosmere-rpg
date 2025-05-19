@@ -697,7 +697,8 @@ export class CosmereActor<
 
             const pierce =
                 options.originatingItem?.isWeapon() &&
-                options.originatingItem?.system.traits.pierce.active;
+                (options.originatingItem?.system?.traits?.pierce?.active ??
+                    false);
 
             // Checks if damage should be deflected or not
             const ignoreDeflect =
