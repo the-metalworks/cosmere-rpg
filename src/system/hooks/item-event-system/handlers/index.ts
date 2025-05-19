@@ -5,6 +5,7 @@ import { register as registerSetAttributeHandler } from './set-attribute';
 import { register as registerModifySkillRankHandler } from './modify-skill-rank';
 import { register as registerSetSkillRankHandler } from './set-skill-rank';
 import { register as registerGrantExpertisesHandler } from './grant-expertises';
+import { register as registerRemoveExpertisesHandler } from './remove-expertises';
 import { register as registerExecuteMacroHandler } from './execute-macro';
 
 export function registerHandlers() {
@@ -15,5 +16,6 @@ export function registerHandlers() {
     registerModifySkillRankHandler();
     registerSetSkillRankHandler();
     registerGrantExpertisesHandler();
+    registerRemoveExpertisesHandler();
     registerExecuteMacroHandler();
 }
