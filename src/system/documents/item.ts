@@ -70,6 +70,7 @@ import { renderSystemTemplate, TEMPLATES } from '../utils/templates';
 import { ItemConsumeDialog } from '../applications/item/dialogs/item-consume';
 import { CosmereHooks } from '../types/hooks';
 import { EnricherData } from '../utils/enrichers';
+import { DeflectItemData } from '../data/item/mixins/deflect';
 
 // Constants
 const CONSUME_CONFIGURATION_DIALOG_TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ITEM_CONSUME}`;
@@ -211,6 +212,13 @@ export class CosmereItem<
      */
     public hasTraits(): this is CosmereItem<TraitsItemData> {
         return 'traits' in this.system;
+    }
+
+    /**
+     * Does this item have a deflect value?
+     */
+    public hasDeflect(): this is CosmereItem<DeflectItemData> {
+        return 'deflect' in this.system;
     }
 
     /**
@@ -954,6 +962,7 @@ export class CosmereItem<
                 type: MESSAGE_TYPES.ACTION,
                 description: await this.getDescriptionHTML(),
                 targets: getTargetDescriptors(),
+                item: this.id,
             },
         };
 

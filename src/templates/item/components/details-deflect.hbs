@@ -1,0 +1,52 @@
+<fieldset>
+    <legend>{{localize "COSMERE.Item.Armor.Deflect"}}</legend>
+
+    <div class="form-group">
+        <label>{{localize "COSMERE.Item.Armor.Deflect"}}</label>
+        <div class="form-fields">
+            <input 
+                name="system.deflect"
+                type="number" 
+                min="0"
+                step="1"
+                value="{{item.system.deflect}}"
+                {{#if (not @root.editable)}}
+                readonly
+                {{/if}}
+            >
+        </div>
+    </div>
+
+    {{!-- Damage Types --}}
+    <div class="form-group-stacked collapsible {{#unless deflectedTypesCollapsed}}expanded{{/unless}}">
+        <div class="header" data-action="toggle-deflected-collapsed">
+            <label>{{localize "COSMERE.Item.Sheet.Armor.DeflectedTypes"}}</label>
+            <span class="collapse-label">{{deflectedTypesString}}</span>
+            <div class="controls">
+                <a data-tooltip="COSMERE.Item.Sheet.Armor.ViewDeflected">
+                    <i class="fa-solid fa-chevron-down"></i>
+                </a>
+            </div>
+        </div>
+        <div class="collapsible-content">
+            <div class="wrapper">
+                <div class="traits-list">
+                    {{#each deflectedTypes as |deflected|}}
+                    <div class="trait">
+                        <input type="checkbox" 
+                            name="{{concat "system.deflects." deflected.id ".active"}}" 
+                            {{#if deflected.active}}
+                            checked
+                            {{/if}}
+                            {{#if (not @root.editable)}}
+                            readonly
+                            {{/if}}
+                        >
+                        <label>{{localize deflected.label}}</label>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+    </div>
+</fieldset>  

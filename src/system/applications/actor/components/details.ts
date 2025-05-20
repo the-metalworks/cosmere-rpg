@@ -1,4 +1,4 @@
-import { ActorType, MovementType } from '@system/types/cosmere';
+import { ActorType, DamageType, MovementType } from '@system/types/cosmere';
 import { MovementTypeConfig } from '@system/types/config';
 import { ConstructorOf } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
@@ -116,7 +116,27 @@ export class ActorDetailsComponent extends HandlebarsApplicationComponent<
             displayRecovery: actor.type === ActorType.Character,
             preferredMovementType,
             movementTooltip: this.generateMovementTooltip(),
+            deflectTooltip: this.generateDeflectTooltip(),
         });
+    }
+
+    private generateDeflectTooltip() {
+        const actor = this.application.actor;
+
+        if (!actor.system.deflect.types) return null;
+
+        const entries = Object.keys(CONFIG.COSMERE.damageTypes)
+            .filter(
+                (key) =>
+                    actor.system.deflect.types![key as DamageType] ?? false,
+            )
+            .map((key) =>
+                game.i18n!.localize(
+                    CONFIG.COSMERE.damageTypes[key as DamageType].label,
+                ),
+            );
+
+        return `${game.i18n!.localize('COSMERE.Actor.Statistics.Deflect')}: ${entries.join(', ')}`;
     }
 
     private generateMovementTooltip() {
