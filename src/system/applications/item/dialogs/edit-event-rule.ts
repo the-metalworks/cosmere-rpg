@@ -117,10 +117,10 @@ export class ItemEditEventRuleDialog extends ComponentHandlebarsApplicationMixin
         // Prepare changes
         const changes = Object.entries(formData.object).reduce(
             (changes, [key, value]) => {
-                if (typeof value === 'object') {
+                if (foundry.utils.getType(value) === 'Object') {
                     changes[key] = getObjectChanges(
                         foundry.utils.getProperty(this.rule, key),
-                        value,
+                        value as unknown as object,
                     );
                 } else {
                     changes[key] = value;

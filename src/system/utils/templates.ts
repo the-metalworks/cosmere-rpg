@@ -17,6 +17,8 @@ export const TEMPLATES = {
     COMPONENT_ID_INPUT: 'general/components/id-input.hbs',
     COMPONENT_MULTI_STATE_TOGGLE: 'general/components/multi-state-toggle.hbs',
     COMPONENT_EXPERTISES_LIST: 'general/components/expertises-list.hbs',
+    COMPONENT_DOCUMENT_CHANGES_LIST:
+        'general/components/document-changes-list.hbs',
 
     // ACTOR BASE
     ACTOR_BASE_NAVIGATION: 'actors/parts/navigation.hbs',
@@ -182,6 +184,9 @@ export const TEMPLATES = {
     IES_HANDLER_SET_SKILL_RANK: 'item/event-system/handlers/set-skill-rank.hbs',
     IES_HANDLER_GRANT_EXPERTISES:
         'item/event-system/handlers/grant-expertises.hbs',
+    IES_HANDLER_REMOVE_EXPERTISES:
+        'item/event-system/handlers/remove-expertises.hbs',
+    IES_HANDLER_UPDATE_ITEM: 'item/event-system/handlers/update-item.hbs',
 } as const;
 
 /**
