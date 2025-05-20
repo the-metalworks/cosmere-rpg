@@ -132,7 +132,7 @@ export class ItemEditEventRuleDialog extends ComponentHandlebarsApplicationMixin
         );
 
         // Update the rule with the form data
-        this.rule.updateSource(changes);
+        this.rule.updateSource(changes, { fallback: true });
 
         // Render
         void this.render(true);

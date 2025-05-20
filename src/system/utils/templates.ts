@@ -187,6 +187,7 @@ export const TEMPLATES = {
     IES_HANDLER_REMOVE_EXPERTISES:
         'item/event-system/handlers/remove-expertises.hbs',
     IES_HANDLER_UPDATE_ITEM: 'item/event-system/handlers/update-item.hbs',
+    IES_HANDLER_UPDATE_ACTOR: 'item/event-system/handlers/update-actor.hbs',
 } as const;
 
 /**
