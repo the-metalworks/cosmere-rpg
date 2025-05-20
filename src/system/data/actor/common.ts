@@ -635,26 +635,26 @@ export class CommonActorDataModel<
             this.defenses[group].derived = 10 + attrsSum;
         });
 
-        // Derive skill modifiers
-        (Object.keys(this.skills) as Skill[]).forEach((skill) => {
-            // Get the skill config
-            const skillConfig = CONFIG.COSMERE.skills[skill];
+        // // Derive skill modifiers
+        // (Object.keys(this.skills) as Skill[]).forEach((skill) => {
+        //     // Get the skill config
+        //     const skillConfig = CONFIG.COSMERE.skills[skill];
 
-            // Get the attribute associated with this skill
-            const attributeId = skillConfig.attribute;
+        //     // Get the attribute associated with this skill
+        //     const attributeId = skillConfig.attribute;
 
-            // Get attribute
-            const attribute = this.attributes[attributeId];
+        //     // Get attribute
+        //     const attribute = this.attributes[attributeId];
 
-            // Get skill rank
-            const rank = this.skills[skill].rank;
+        //     // Get skill rank
+        //     const rank = this.skills[skill].rank;
 
-            // Get attribute value
-            const attrValue = attribute.value + attribute.bonus;
+        //     // Get attribute value
+        //     const attrValue = attribute.value + attribute.bonus;
 
-            // Calculate mod
-            this.skills[skill].mod.derived = attrValue + rank;
-        });
+        //     // Calculate mod
+        //     this.skills[skill].mod.derived = attrValue + rank;
+        // });
 
         // Derive non-core skill unlocks
         (Object.keys(this.skills) as Skill[]).forEach((skill) => {
@@ -765,7 +765,28 @@ export class CommonActorDataModel<
      * Apply secondary data derivations to this Data Model.
      * This is called after Active Effects are applied.
      */
-    public prepareSecondaryDerivedData(): void {}
+    public prepareSecondaryDerivedData(): void {
+        // Derive skill modifiers
+        (Object.keys(this.skills) as Skill[]).forEach((skill) => {
+            // Get the skill config
+            const skillConfig = CONFIG.COSMERE.skills[skill];
+
+            // Get the attribute associated with this skill
+            const attributeId = skillConfig.attribute;
+
+            // Get attribute
+            const attribute = this.attributes[attributeId];
+
+            // Get skill rank
+            const rank = this.skills[skill].rank;
+
+            // Get attribute value
+            const attrValue = attribute.value + attribute.bonus;
+
+            // Calculate mod
+            this.skills[skill].mod.derived = attrValue + rank;
+        });
+    }
 }
 
 const SENSES_RANGES = [5, 10, 20, 50, 100, Number.MAX_VALUE];
