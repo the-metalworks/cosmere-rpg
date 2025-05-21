@@ -1,14 +1,19 @@
-{{!-- TODO: Localize --}}
 <ul class="item-list {{#if (not readonly)}}editable{{/if}}">
     <li class="item header">
         <section class="details">
-            <span class="title">Attribute Key</span>
-            <span class="title">Change Mode</span>
-            <span class="title">Effect Value</span>
+            <span class="title">
+                {{localize "COMPONENTS.DocumentChangesList.Header.Key"}}
+            </span>
+            <span class="title">
+                {{localize "COMPONENTS.DocumentChangesList.Header.Mode"}}
+            </span>
+            <span class="title">
+                {{localize "COMPONENTS.DocumentChangesList.Header.Value"}}
+            </span>
             <div class="controls icon active">
                 {{#if (not readonly)}}
                     <a data-action="add-change" 
-                        data-tooltip="Add Change">
+                        data-tooltip="COMPONENTS.DocumentChangesList.Add">
                         <i class="fa-solid fa-plus"></i>
                     </a>
                 {{else}}
@@ -59,7 +64,7 @@
                 <div class="controls icon faded">
                     {{#if (not readonly)}}
                         <a data-action="remove-change" 
-                            data-tooltip="Remove Change">
+                            data-tooltip="COMPONENTS.DocumentChangesList.Remove">
                             <i class="fa-solid fa-trash"></i>
                         </a>
                     {{/if}}

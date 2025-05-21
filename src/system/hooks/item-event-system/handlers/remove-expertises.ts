@@ -15,11 +15,10 @@ interface RemoveExpertiseHandlerConfigData {
     expertises: Collection<Expertise>;
 }
 
-// TODO: Localization
 export function register() {
     cosmereRPG.api.registerItemEventHandlerType({
         type: HandlerType.RemoveExpertises,
-        label: 'Remove Expertises',
+        label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.RemoveExpertises}.Title`,
         config: {
             schema: {
                 expertises: new ExpertisesField({

@@ -17,11 +17,10 @@ interface SetSkillRankHandlerConfigData {
     value: number;
 }
 
-// TODO: Localization
 export function register() {
     cosmereRPG.api.registerItemEventHandlerType({
         type: HandlerType.SetSkillRank,
-        label: 'Set Skill Rank',
+        label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.SetSkillRank}.Title`,
         config: {
             schema: {
                 skill: new foundry.data.fields.StringField({
@@ -38,14 +37,14 @@ export function register() {
                                 }),
                                 {},
                             ),
-                    label: 'Skill',
+                    label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.SetSkillRank}.Skill.Label`,
                 }),
                 value: new foundry.data.fields.NumberField({
                     required: true,
                     initial: 1,
                     integer: true,
-                    label: 'Value',
-                    hint: 'The value to set the skill rank to.',
+                    label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.SetSkillRank}.Value.Label`,
+                    hint: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.SetSkillRank}.Value.Hint`,
                 }),
             },
             template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.IES_HANDLER_SET_SKILL_RANK}`,

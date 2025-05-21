@@ -23,11 +23,10 @@ interface ModifyAttributeHandlerConfigData {
     bonus: boolean;
 }
 
-// TODO: Localization
 export function register() {
     cosmereRPG.api.registerItemEventHandlerType({
         type: HandlerType.ModifyAttribute,
-        label: 'Modify Attribute',
+        label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.ModifyAttribute}.Title`,
         config: {
             schema: {
                 attribute: new foundry.data.fields.StringField({
@@ -44,20 +43,20 @@ export function register() {
                                 }),
                                 {},
                             ),
-                    label: 'Attribute',
+                    label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.ModifyAttribute}.Attribute.Label`,
                 }),
                 amount: new foundry.data.fields.NumberField({
                     required: true,
                     initial: 1,
                     integer: true,
-                    label: 'Amount',
-                    hint: 'The amount to modify (increase/decrease) the attribute by.',
+                    label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.ModifyAttribute}.Amount.Label`,
+                    hint: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.ModifyAttribute}.Amount.Hint`,
                 }),
                 bonus: new foundry.data.fields.BooleanField({
                     required: true,
                     initial: false,
-                    label: 'Modify Bonus',
-                    hint: 'Whether to modify the attribute bonus instead of the attribute itself.',
+                    label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.ModifyAttribute}.Bonus.Label`,
+                    hint: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.ModifyAttribute}.Bonus.Hint`,
                 }),
             },
             template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.IES_HANDLER_MODIFY_ATTRIBUTE}`,

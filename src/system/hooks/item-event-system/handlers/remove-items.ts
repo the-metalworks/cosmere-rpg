@@ -26,26 +26,25 @@ interface RemoveItemsHandlerConfigData {
     items: string[];
 }
 
-// TODO: Localization
 export function register() {
     cosmereRPG.api.registerItemEventHandlerType({
         type: HandlerType.RemoveItems,
-        label: 'Remove Items',
+        label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.RemoveItems}.Title`,
         config: {
             schema: {
                 reduceQuantity: new foundry.data.fields.BooleanField({
                     required: true,
                     initial: false,
-                    label: 'Reduce Quantity',
-                    hint: 'Whether to reduce the quantity of physical items instead of removing them outright.\nItems reduced to 0 quantity will be removed.',
+                    label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.RemoveItems}.ReduceQuantity.Label`,
+                    hint: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.RemoveItems}.ReduceQuantity.Hint`,
                 }),
                 amount: new foundry.data.fields.NumberField({
                     required: true,
                     initial: 1,
                     min: 1,
                     integer: true,
-                    label: 'Amount',
-                    hint: 'The amount of quantity to remove. Only used if "Reduce Quantity" is enabled and the item is physical.',
+                    label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.RemoveItems}.Amount.Label`,
+                    hint: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.RemoveItems}.Amount.Hint`,
                 }),
                 items: new foundry.data.fields.ArrayField(
                     new foundry.data.fields.DocumentUUIDField({
@@ -54,7 +53,7 @@ export function register() {
                     {
                         required: true,
                         initial: [],
-                        label: 'Items',
+                        label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.RemoveItems}.Items.Label`,
                     },
                 ),
             },
@@ -129,19 +128,6 @@ export function register() {
                 actor.deleteEmbeddedDocuments('Item', itemRemovals),
                 actor.updateEmbeddedDocuments('Item', itemUpdates),
             ]);
-
-            // Notify the user
-            referenceItems.forEach((item) => {
-                ui.notifications.info(
-                    `Removed item ${item.name}${
-                        this.reduceQuantity &&
-                        this.amount > 1 &&
-                        item.isPhysical()
-                            ? ` (x${this.amount.toFixed()})`
-                            : ''
-                    } from actor ${event.item.actor!.name}`,
-                );
-            });
         },
     });
 }

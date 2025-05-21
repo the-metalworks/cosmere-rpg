@@ -776,7 +776,167 @@
                             "Label": "Actor Long Rest",
                             "Description": "Triggered when the item's parent actor takes a long rest."
                         }
-                    }   
+                    },
+                    "Rule": {
+                        "Description": {
+                            "Label": "Description"
+                        },
+                        "Trigger": {
+                            "Label": "Trigger"
+                        },
+                        "NewRuleDescription": "New Rule"
+                    },
+                    "Handler": {
+                        "Types": {
+                            "grant-expertises": {
+                                "Title": "Grand Expertises"
+                            },
+                            "grant-items": {
+                                "Title": "Grant Items",
+                                "AllowDuplicates": {
+                                    "Label": "Allow Duplicates",
+                                    "Hint": "Whether to grant items to the actor even if they already have them"
+                                },
+                                "IncreaseQuantity": {
+                                    "Label": "Increase Quantity",
+                                    "Hint": "Whether to increase the quantity of physical items if the actor already has them"
+                                },
+                                "Amount": {
+                                    "Label": "Amount",
+                                    "Hint": "The quantity to grant. Only used if \"Increase Quantity\" is enabled and the item is physical"
+                                },
+                                "Items": {
+                                    "Label": "Items"
+                                }
+                            },
+                            "modify-attribute": {
+                                "Title": "Modify Attribute",
+                                "Attribute": {
+                                    "Label": "Attribute"
+                                },
+                                "Amount": {
+                                    "Label": "Amount",
+                                    "Hint": "The amount to modify the attribute by. Can be positive or negative."
+                                },
+                                "Bonus": {
+                                    "Label": "Modify Bonus",
+                                    "Hint": "Whether to modify the attribute bonus instead of the attribute itself."
+                                }
+                            },
+                            "modify-skill-rank": {
+                                "Title": "Modify Skill Rank",
+                                "Skill": {
+                                    "Label": "Skill"
+                                },
+                                "Amount": {
+                                    "Label": "Amount",
+                                    "Hint": "The amount to modify the skill rank by. Can be positive or negative."
+                                }
+                            },
+                            "remove-expertises": {
+                                "Title": "Remove Expertises"
+                            },
+                            "remove-items": {
+                                "Title": "Remove Items",
+                                "Items": {
+                                    "ReduceQuantity": {
+                                        "Label": "Reduce Quantity",
+                                        "Hint": "Whether to reduce the quantity of physical items instead of removing them outright.\nItems reduced to 0 quantity will be removed."
+                                    },
+                                    "Amount": {
+                                        "Label": "Amount",
+                                        "Hint": "The amount of quantity to remove. Only used if \"Reduce Quantity\" is enabled and the item is physical."
+                                    },
+                                    "Items": {
+                                        "Label": "Items"
+                                    }
+                                }
+                            },
+                            "set-attribute": {
+                                "Title": "Set Attribute",
+                                "Attribute": {
+                                    "Label": "Attribute"
+                                },
+                                "Value": {
+                                    "Label": "Value",
+                                    "Hint": "The value to set the attribute to."
+                                },
+                                "Bonus": {
+                                    "Label": "Set Bonus",
+                                    "Hint": "Whether to set the attribute bonus instead of the attribute itself."
+                                }
+                            },
+                            "set-skill-rank": {
+                                "Title": "Set Skill Rank",
+                                "Skill": {
+                                    "Label": "Skill"
+                                },
+                                "Value": {
+                                    "Label": "Value",
+                                    "Hint": "The value to set the skill rank to."
+                                }
+                            },
+                            "update-actor": {
+                                "Title": "Update Actor",
+                                "Target": {
+                                    "Label": "Target",
+                                    "Hint": "The target actor to update. If not set, the item's parent actor will be used.",
+                                    "Choices": {
+                                        "parent": "Parent Actor",
+                                        "global": "Global"
+                                    }
+                                },
+                                "UUID": {
+                                    "Label": "Actor"
+                                },
+                                "Changes": {
+                                    "Label": "Changes"
+                                }
+                            },
+                            "update-item": {
+                                "Title": "Update Item",
+                                "Target": {
+                                    "Label": "Target",
+                                    "Choices": {
+                                        "self": "Self",
+                                        "sibling": "Other on same Actor",
+                                        "global": "Global"
+                                    }
+                                },
+                                "UUID": {
+                                    "Label": "Item"
+                                },
+                                "MatchMode": {
+                                    "Label": "Match Mode",
+                                    "Hint": "How to match the item to update.\nIdentifier matches by the identifier set under Details.\nName matches by exact name, case sensitive.\nUUID matches only the exact item.",
+                                    "Choices": {
+                                        "identifier": "Identifier",
+                                        "name": "Name",
+                                        "uuid": "UUID"
+                                    }
+                                },
+                                "MatchAll": {
+                                    "Label": "Match All",
+                                    "Hint": "Whether to match all items or just the first one encountered."
+                                },
+                                "Changes": {
+                                    "Label": "Changes"
+                                }
+                            },
+                            "execute-macro": {
+                                "Title": "Execute Macro",
+                                "MacroType": {
+                                    "Label": "Macro Type"
+                                },
+                                "Inline": {
+                                    "Label": "Inline"
+                                },
+                                "UUID": {
+                                    "Label": "Macro"
+                                }
+                            }
+                        }
+                    }
                 },
                 "Notifications": {
                     "LoopError": "Too many events fired in a short time. Aborting execution to prevent infinite loop."
@@ -1233,6 +1393,15 @@
         },
         "MultiValueSelect": {
             "DefaultPlaceholder": "Select Option"
+        },
+        "DocumentChangesList": {
+            "Header": {
+                "Key": "Attribute Key",
+                "Mode": "Change Mode",
+                "Value": "Value"
+            },
+            "Add": "Add Change",
+            "Remove": "Remove Change"
         }
     },
     "GENERIC": {

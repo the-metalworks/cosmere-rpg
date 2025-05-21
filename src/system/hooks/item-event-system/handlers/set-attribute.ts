@@ -23,11 +23,10 @@ interface SetAttributeHandlerConfigData {
     bonus: boolean;
 }
 
-// TODO: Localization
 export function register() {
     cosmereRPG.api.registerItemEventHandlerType({
         type: HandlerType.SetAttribute,
-        label: 'Set Attribute',
+        label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.SetAttribute}.Title`,
         config: {
             schema: {
                 attribute: new foundry.data.fields.StringField({
@@ -44,20 +43,20 @@ export function register() {
                                 }),
                                 {},
                             ),
-                    label: 'Attribute',
+                    label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.SetAttribute}.Attribute.Label`,
                 }),
                 value: new foundry.data.fields.NumberField({
                     required: true,
                     initial: 1,
                     integer: true,
-                    label: 'Value',
-                    hint: 'The value to set the attribute to.',
+                    label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.SetAttribute}.Value.Label`,
+                    hint: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.SetAttribute}.Value.Hint`,
                 }),
                 bonus: new foundry.data.fields.BooleanField({
                     required: true,
                     initial: false,
-                    label: 'Set Bonus',
-                    hint: 'Whether to set the attribute bonus instead of the attribute itself.',
+                    label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.SetAttribute}.Bonus.Label`,
+                    hint: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.SetAttribute}.Bonus.Hint`,
                 }),
             },
             template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.IES_HANDLER_SET_ATTRIBUTE}`,

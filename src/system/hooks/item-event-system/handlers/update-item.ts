@@ -30,23 +30,22 @@ interface UpdateItemHandlerConfigData {
     changes: ChangeData[];
 }
 
-// TODO: Localize
 export function register() {
     cosmereRPG.api.registerItemEventHandlerType({
         type: HandlerType.UpdateItem,
-        label: 'Update Item',
+        label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UpdateItem}.Title`,
         config: {
             schema: {
                 target: new foundry.data.fields.StringField({
                     choices: {
-                        [UpdateItemTarget.Self]: 'Self',
-                        [UpdateItemTarget.Sibling]: 'Other on same Actor',
-                        [UpdateItemTarget.Global]: 'Global',
+                        [UpdateItemTarget.Self]: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UpdateItem}.Target.Choices.${UpdateItemTarget.Self}`,
+                        [UpdateItemTarget.Sibling]: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UpdateItem}.Target.Choices.${UpdateItemTarget.Sibling}`,
+                        [UpdateItemTarget.Global]: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UpdateItem}.Target.Choices.${UpdateItemTarget.Global}`,
                     },
                     initial: UpdateItemTarget.Self,
                     required: true,
                     blank: false,
-                    label: 'Target',
+                    label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UpdateItem}.Target.Label`,
                 }),
                 uuid: new foundry.data.fields.DocumentUUIDField({
                     type: 'Item',
@@ -58,18 +57,18 @@ export function register() {
                     nullable: true,
                     initial: MatchMode.Identifier,
                     choices: {
-                        [MatchMode.Identifier]: 'Identifier',
-                        [MatchMode.Name]: 'Name',
-                        [MatchMode.UUID]: 'UUID',
+                        [MatchMode.Identifier]: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UpdateItem}.MatchMode.Choices.${MatchMode.Identifier}`,
+                        [MatchMode.Name]: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UpdateItem}.MatchMode.Choices.${MatchMode.Name}`,
+                        [MatchMode.UUID]: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UpdateItem}.MatchMode.Choices.${MatchMode.UUID}`,
                     },
-                    label: 'Match Mode',
-                    hint: 'How to match the item to update.\nIdentifier matches by the identifier set under Details.\nName matches by exact name, case sensitive.\nUUID matches only the exact item.',
+                    label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UpdateItem}.MatchMode.Label`,
+                    hint: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UpdateItem}.MatchMode.Hint`,
                 }),
                 matchAll: new foundry.data.fields.BooleanField({
                     initial: false,
                     nullable: true,
-                    label: 'Match All',
-                    hint: 'Whether to match all items or just the first one encountered.',
+                    label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UpdateItem}.MatchAll.Label`,
+                    hint: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UpdateItem}.MatchAll.Hint`,
                 }),
                 changes: new foundry.data.fields.ArrayField(
                     new foundry.data.fields.SchemaField(
@@ -78,7 +77,7 @@ export function register() {
                     {
                         required: true,
                         initial: [],
-                        label: 'Changes',
+                        label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UpdateItem}.Changes.Label`,
                     },
                 ),
             },

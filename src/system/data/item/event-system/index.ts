@@ -41,7 +41,7 @@ export class Rule extends foundry.abstract.DataModel<RuleData> {
             description: new foundry.data.fields.StringField({
                 required: true,
                 initial: '',
-                label: 'Description', // TODO: Localize
+                label: 'COSMERE.Item.Event.Rule.Description.Label',
             }),
             order: new foundry.data.fields.NumberField({
                 initial: 0,
@@ -62,7 +62,7 @@ export class Rule extends foundry.abstract.DataModel<RuleData> {
                         {},
                     ),
                 }),
-                label: 'Trigger',
+                label: 'COSMERE.Item.Event.Rule.Event.Label',
             }),
             handler: new HandlerField({
                 required: true,
@@ -75,6 +75,6 @@ export class Rule extends foundry.abstract.DataModel<RuleData> {
     public get eventTypeLabel(): string {
         return this.event !== 'none'
             ? CONFIG.COSMERE.items.events.types[this.event].label
-            : 'GENERIC.None';
+            : 'None';
     }
 }

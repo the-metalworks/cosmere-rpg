@@ -21,28 +21,27 @@ interface UpdateActorHandlerConfigData {
     changes: ChangeData[];
 }
 
-// TODO: Localize
 export function register() {
     cosmereRPG.api.registerItemEventHandlerType({
         type: HandlerType.UpdateActor,
-        label: 'Update Actor',
+        label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UpdateActor}.Title`,
         config: {
             schema: {
                 target: new foundry.data.fields.StringField({
                     choices: {
-                        [UpdateActorTarget.Parent]: 'Parent Actor',
-                        [UpdateActorTarget.Global]: 'Global',
+                        [UpdateActorTarget.Parent]: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UpdateActor}.Target.Choices.${UpdateActorTarget.Parent}`,
+                        [UpdateActorTarget.Global]: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UpdateActor}.Target.Choices.${UpdateActorTarget.Global}`,
                     },
                     initial: UpdateActorTarget.Parent,
                     required: true,
                     blank: false,
-                    label: 'Target',
+                    label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UpdateActor}.Target.Label`,
                 }),
                 uuid: new foundry.data.fields.DocumentUUIDField({
                     type: 'Actor',
                     initial: null,
                     nullable: true,
-                    label: 'Actor',
+                    label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UpdateActor}.UUID.Label`,
                 }),
                 changes: new foundry.data.fields.ArrayField(
                     new foundry.data.fields.SchemaField(
@@ -51,7 +50,7 @@ export function register() {
                     {
                         required: true,
                         initial: [],
-                        label: 'Changes',
+                        label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UpdateActor}.Changes.Label`,
                     },
                 ),
             },
@@ -72,8 +71,6 @@ export function register() {
                     : event.item.actor;
             if (!actor) return;
 
-            console.log('Updating actor', actor.name);
-
             // Construct changes object
             const changes = this.changes.reduce(
                 (acc, change) => ({
@@ -82,8 +79,6 @@ export function register() {
                 }),
                 {},
             );
-
-            console.log('Changes', changes);
 
             // Update the actor
             await actor.update(changes);

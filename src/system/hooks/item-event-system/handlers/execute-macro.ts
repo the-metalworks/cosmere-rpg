@@ -15,7 +15,6 @@ interface ExecuteMacroHandlerConfigData {
     } | null;
 }
 
-// TODO: Localize
 export function register() {
     // Get the macro schema
     const macroSchema = (
@@ -24,24 +23,25 @@ export function register() {
     ).defineSchema();
 
     // Re-assign type field label
-    macroSchema.type.label = 'Macro Type';
+    macroSchema.type.label = `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.ExecuteMacro}.MacroType.Label`;
     (macroSchema.type as foundry.data.fields.StringField).choices = () =>
         CONFIG.Macro.typeLabels;
 
     cosmereRPG.api.registerItemEventHandlerType({
         type: HandlerType.ExecuteMacro,
-        label: 'Execute Macro',
+        label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.ExecuteMacro}.Title`,
         config: {
             schema: {
                 inline: new foundry.data.fields.BooleanField({
                     required: true,
                     initial: false,
-                    label: 'Inline',
+                    label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.ExecuteMacro}.Inline.Label`,
                 }),
                 uuid: new foundry.data.fields.DocumentUUIDField({
                     type: 'Macro',
                     initial: null,
-                    label: 'Macro',
+                    nullable: true,
+                    label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.ExecuteMacro}.UUID.Label`,
                 }),
                 macro: new foundry.data.fields.SchemaField(
                     {

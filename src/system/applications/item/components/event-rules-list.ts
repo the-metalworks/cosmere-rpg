@@ -46,7 +46,9 @@ export class ItemEventRulesListComponent extends HandlebarsApplicationComponent<
         await this.item.update({
             [`system.events.${id}`]: {
                 id,
-                description: 'New Rule', // TODO: Localize
+                description: game.i18n!.localize(
+                    'COSMERE.Item.Event.Rule.NewRuleDescription',
+                ),
                 event: 'none',
                 handler: {
                     type: 'none',

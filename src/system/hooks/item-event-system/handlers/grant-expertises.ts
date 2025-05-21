@@ -1,4 +1,3 @@
-import { ExpertiseType } from '@system/types/cosmere';
 import { HandlerType, Event } from '@system/types/item/events';
 import { Expertise } from '@system/data/actor/common';
 
@@ -16,11 +15,10 @@ interface GrantExpertiseHandlerConfigData {
     expertises: Collection<Expertise>;
 }
 
-// TODO: Localization
 export function register() {
     cosmereRPG.api.registerItemEventHandlerType({
         type: HandlerType.GrantExpertises,
-        label: 'Grant Expertises',
+        label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.GrantExpertises}.Title`,
         config: {
             schema: {
                 expertises: new ExpertisesField({
