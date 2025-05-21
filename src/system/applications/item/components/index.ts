@@ -3,6 +3,7 @@ import './effects-list';
 import './details-id';
 import './details-type';
 import './details-equip';
+import './details-deflect';
 import './details-activation';
 import './details-attack';
 import './details-damage';

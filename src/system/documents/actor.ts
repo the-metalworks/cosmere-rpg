@@ -102,6 +102,11 @@ interface ApplyDamageOptions {
      * @default true
      */
     chatMessage?: boolean;
+
+    /**
+     * The item, if any, from which the damage is originating
+     */
+    originatingItem?: CosmereItem;
 }
 
 export type CosmereActorRollData<T extends CommonActorData = CommonActorData> =
@@ -668,19 +673,10 @@ export class CosmereActor<
      * send a chat message.
      */
     public async applyDamage(
-        ...config: DamageInstance[] | [...DamageInstance[], ApplyDamageOptions]
+        instances: DamageInstance | DamageInstance[],
+        options: ApplyDamageOptions = {},
     ) {
-        // Check if the last argument is an options object
-        const hasOptions =
-            config.length > 0 && !('amount' in config[config.length - 1]);
-
-        // Get instances
-        const instances = (
-            hasOptions ? config.slice(0, -1) : config
-        ) as DamageInstance[];
-        const { chatMessage = true } = (
-            hasOptions ? config[config.length - 1] : {}
-        ) as ApplyDamageOptions;
+        if (!Array.isArray(instances)) instances = [instances];
 
         // Get health resource
         const health = this.system.resources[Resource.Health].value;
@@ -699,6 +695,20 @@ export class CosmereActor<
             const damageConfig = instance.type
                 ? CONFIG.COSMERE.damageTypes[instance.type]
                 : { ignoreDeflect: false };
+
+            const pierce =
+                options.originatingItem?.isWeapon() &&
+                (options.originatingItem?.system?.traits?.pierce?.active ??
+                    false);
+
+            // Checks if damage should be deflected or not
+            const ignoreDeflect =
+                (pierce ?? false) ||
+                (instance.type
+                    ? this.system.deflect.types
+                        ? !this.system.deflect.types[instance.type]
+                        : damageConfig.ignoreDeflect
+                    : false);
 
             const amount = Math.floor(instance.amount);
 
@@ -721,7 +731,7 @@ export class CosmereActor<
                 return;
             }
 
-            if (damageConfig.ignoreDeflect) {
+            if (ignoreDeflect) {
                 damageIgnore += amount;
             } else {
                 damageDeflect += amount;
@@ -766,7 +776,7 @@ export class CosmereActor<
             damage,
         );
 
-        if (chatMessage) {
+        if (options.chatMessage ?? true) {
             const messageConfig = {
                 user: game.user!.id,
                 speaker: ChatMessage.getSpeaker({
@@ -797,7 +807,9 @@ export class CosmereActor<
     }
 
     public async applyHealing(amount: number) {
-        return this.applyDamage({ amount, type: DamageType.Healing });
+        return this.applyDamage([
+            { amount, type: DamageType.Healing } as DamageInstance,
+        ]);
     }
 
     /**
