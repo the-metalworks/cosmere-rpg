@@ -1,16 +1,17 @@
-import { DamageRoll } from '../dice';
-import { MESSAGE_TYPES } from '../documents';
-import { Attribute, DamageType, Skill } from '../types/cosmere';
-import { getActor } from '../utils/actor';
+import { DamageRoll } from '@system/dice';
+import { MESSAGE_TYPES } from '@system/documents/chat-message';
+import { Attribute, DamageType, Skill } from '@system/types/cosmere';
+import { CosmereHooks } from '@system/types/hooks';
 
-// Hooks
-import { CosmereHooks } from '@system/hooks';
+// Utils
+import { getActor } from '@system/utils/actor';
 
 // Constants
 import { SYSTEM_ID } from '@system/constants';
+import { HOOKS } from '@system/constants/hooks';
 
-Hooks.on<CosmereHooks.TestEnricherTrigger>(
-    CosmereHooks.TestEnricherTrigger,
+Hooks.on<CosmereHooks.TriggerTestEnricher>(
+    HOOKS.TRIGGER_TEST_ENRICHER,
     async (actorId: string, source: string, data: Record<string, string>) => {
         const actor = await getActor(actorId ?? '');
         if (actor && data.skill) {
@@ -25,8 +26,8 @@ Hooks.on<CosmereHooks.TestEnricherTrigger>(
     },
 );
 
-Hooks.on<CosmereHooks.DamageEnricherTrigger>(
-    CosmereHooks.DamageEnricherTrigger,
+Hooks.on<CosmereHooks.TriggerDamageEnricher>(
+    HOOKS.TRIGGER_DAMAGE_ENRICHER,
     async (actorId: string, source: string, data: Record<string, string>) => {
         const actor = await getActor(actorId ?? '');
         if (actor && data.formula) {

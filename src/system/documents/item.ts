@@ -11,6 +11,7 @@ import {
     ActionCostType,
 } from '@system/types/cosmere';
 import { Goal } from '@system/types/item';
+import { CosmereHooks } from '@system/types/hooks';
 import { DeepPartial, Nullable } from '@system/types/utils';
 
 // Data model
@@ -59,9 +60,6 @@ import {
 import { AdvantageMode } from '@system/types/roll';
 import { RollMode } from '@system/dice/types';
 
-// Hooks
-import { CosmereHooks } from '@system/hooks';
-
 // Utils
 import {
     determineConfigurationMode,
@@ -77,6 +75,7 @@ import { ItemConsumeDialog } from '@system/applications/item/dialogs/item-consum
 
 // Constants
 import { SYSTEM_ID } from '@system/constants';
+import { HOOKS } from '@system/constants/hooks';
 
 // Constants
 const CONSUME_CONFIGURATION_DIALOG_TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ITEM_CONSUME}`;
@@ -680,7 +679,7 @@ export class CosmereItem<
              */
             if (
                 Hooks.call<CosmereHooks.PreAttackRollConfiguration>(
-                    CosmereHooks.PreAttackRollConfiguration,
+                    HOOKS.PRE_ATTACK_ROLL_CONFIGURATION,
                     options, // Config
                     this, // Source
                 ) === false
@@ -763,10 +762,10 @@ export class CosmereItem<
             }
 
             /**
-             * Hook: postAttackRollConfiguration
+             * Hook: attackRollConfiguration
              */
-            Hooks.callAll<CosmereHooks.PostAttackRollConfiguration>(
-                CosmereHooks.PostAttackRollConfiguration,
+            Hooks.callAll<CosmereHooks.AttackRollConfiguration>(
+                HOOKS.ATTACK_ROLL_CONFIGURATION,
                 options, // Config
                 this, // Source
             );
@@ -851,7 +850,7 @@ export class CosmereItem<
         // Hook: preItemUse
         if (
             Hooks.call<CosmereHooks.PreUseItem>(
-                CosmereHooks.PreUseItem,
+                HOOKS.PRE_USE_ITEM,
                 this, // Source
             ) === false
         )
@@ -991,7 +990,7 @@ export class CosmereItem<
              * Hook: useItem
              */
             Hooks.callAll<CosmereHooks.UseItem>(
-                CosmereHooks.UseItem,
+                HOOKS.USE_ITEM,
                 this, // Source
             );
         });

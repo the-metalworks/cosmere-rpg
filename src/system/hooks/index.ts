@@ -1,5 +1,3 @@
-export * as CosmereHooks from './definition';
-
 import './modules/dice-so-nice';
 import './welcome';
 import './actor';

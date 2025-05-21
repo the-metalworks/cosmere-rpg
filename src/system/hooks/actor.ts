@@ -1,11 +1,10 @@
 import { CosmereActor } from '@system/documents/actor';
+import { CosmereHooks } from '@system/types/hooks';
 import { DeepPartial } from '@system/types/utils';
-
-// Hooks
-import { CosmereHooks } from '@system/hooks';
 
 // Constants
 import { SYSTEM_ID } from '@system/constants';
+import { HOOKS } from '@system/constants/hooks';
 
 /* --- Modality --- */
 
@@ -37,7 +36,7 @@ Hooks.on(
                      */
                     if (
                         Hooks.call<CosmereHooks.PreModeDeactivateItem>(
-                            CosmereHooks.PreModeDeactivateItem,
+                            HOOKS.PRE_MODE_DEACTIVATE_ITEM,
                             currentModalityItem,
                         ) === false
                     ) {
@@ -60,7 +59,7 @@ Hooks.on(
                      */
                     if (
                         Hooks.call<CosmereHooks.PreModeActivateItem>(
-                            CosmereHooks.PreModeActivateItem,
+                            HOOKS.PRE_MODE_ACTIVATE_ITEM,
                             newModalityItem,
                         ) === false
                     ) {
@@ -99,7 +98,7 @@ Hooks.on(
                      * Hook: modeDeactivateItem
                      */
                     Hooks.callAll<CosmereHooks.ModeDeactivateItem>(
-                        CosmereHooks.ModeDeactivateItem,
+                        HOOKS.MODE_DEACTIVATE_ITEM,
                         currentModalityItem,
                     );
                 }
@@ -118,7 +117,7 @@ Hooks.on(
                      * Hook: modeActivateItem
                      */
                     Hooks.callAll<CosmereHooks.ModeActivateItem>(
-                        CosmereHooks.ModeActivateItem,
+                        HOOKS.MODE_ACTIVATE_ITEM,
                         newModalityItem,
                     );
                 }

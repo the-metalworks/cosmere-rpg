@@ -5,8 +5,8 @@ import { RestType } from '@system/types/cosmere';
 
 import { DeepPartial } from '@system/types/utils';
 
-// Hooks
-import * as CosmereHooks from '../definition';
+// Constants
+import { HOOKS } from '@system/constants/hooks';
 
 type EventDefinition = Omit<ItemEventTypeConfig, 'label' | 'host'> &
     Partial<Pick<ItemEventTypeConfig, 'host'>> & {
@@ -50,32 +50,32 @@ const EVENTS: EventDefinition[] = [
             );
         },
     },
-    { type: 'use', hook: CosmereHooks.UseItem },
-    { type: 'mode-activate', hook: CosmereHooks.ModeActivateItem },
-    { type: 'mode-deactivate', hook: CosmereHooks.ModeDeactivateItem },
+    { type: 'use', hook: HOOKS.USE_ITEM },
+    { type: 'mode-activate', hook: HOOKS.MODE_ACTIVATE_ITEM },
+    { type: 'mode-deactivate', hook: HOOKS.MODE_DEACTIVATE_ITEM },
 
     // General Actor events
     { type: 'update-actor', hook: 'updateActor' },
     {
         type: 'apply-damage-actor',
-        hook: CosmereHooks.PostApplyDamage,
+        hook: HOOKS.APPLY_DAMAGE,
         transform: (actor: CosmereActor) => ({ document: actor }),
     },
     {
         type: 'apply-injury-actor',
-        hook: CosmereHooks.PostApplyInjury,
+        hook: HOOKS.APPLY_INJURY,
         transform: (actor: CosmereActor) => ({ document: actor }),
     },
     {
         type: 'short-rest-actor',
-        hook: CosmereHooks.PostRest,
+        hook: HOOKS.REST,
         condition: (_: CosmereActor, duration: RestType) =>
             duration === RestType.Short,
         transform: (actor: CosmereActor) => ({ document: actor }),
     },
     {
         type: 'long-rest-actor',
-        hook: CosmereHooks.PostRest,
+        hook: HOOKS.REST,
         condition: (_: CosmereActor, duration: RestType) =>
             duration === RestType.Long,
         transform: (actor: CosmereActor) => ({ document: actor }),

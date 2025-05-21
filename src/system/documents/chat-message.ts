@@ -11,9 +11,7 @@ import { CosmereActor } from './actor';
 import { InjuryItem } from './item';
 
 import { AdvantageMode } from '@system/types/roll';
-
-// Hooks
-import { CosmereHooks } from '@system/hooks';
+import { CosmereHooks } from '@system/types/hooks';
 
 // Settings
 import { getSystemSetting, KEYBINDINGS, SETTINGS } from '@system/settings';
@@ -32,6 +30,7 @@ import { DamageModifierDialog } from '@system/applications/actor/dialogs/damage-
 
 // Constants
 import { SYSTEM_ID } from '@system/constants';
+import { HOOKS } from '@system/constants/hooks';
 
 export const MESSAGE_TYPES = {
     SKILL: 'skill',
@@ -465,7 +464,7 @@ export class CosmereChatMessage extends ChatMessage {
                      */
                     if (
                         Hooks.call<CosmereHooks.PreApplyInjury>(
-                            CosmereHooks.PreApplyInjury,
+                            HOOKS.PRE_APPLY_INJURY,
                             this,
                             this.associatedActor,
                             { type: data.type, duration },
@@ -489,12 +488,12 @@ export class CosmereChatMessage extends ChatMessage {
                     )) as unknown as InjuryItem;
 
                     /**
-                     * Hook: postApplyInjury
+                     * Hook: applyInjury
                      *
                      * Passes the created injury item
                      */
-                    Hooks.callAll<CosmereHooks.PostApplyInjury>(
-                        CosmereHooks.PostApplyInjury,
+                    Hooks.callAll<CosmereHooks.ApplyInjury>(
+                        HOOKS.APPLY_INJURY,
                         this,
                         this.associatedActor,
                         injuryItem,
@@ -1099,12 +1098,12 @@ export class CosmereChatMessage extends ChatMessage {
      */
     private onInteraction(event: JQuery.Event): boolean {
         /**
-         * Hook: chatMessageInteracted
+         * Hook: chatMessageInteract
          *
          * Pass message and triggering event
          */
-        return Hooks.call<CosmereHooks.MessageInteracted>(
-            CosmereHooks.MessageInteracted,
+        return Hooks.call<CosmereHooks.MessageInteract>(
+            HOOKS.MESSAGE_INTERACTED,
             this,
             event,
         );
