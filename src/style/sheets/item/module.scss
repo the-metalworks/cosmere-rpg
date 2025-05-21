@@ -184,6 +184,7 @@
             gap: 0.25rem;
             justify-content: space-between;
             align-items: center;
+            height: 32px;
 
             > label {
                 flex: none !important;
@@ -197,6 +198,37 @@
 
             .controls {
                 color: var(--cosmere-color-faded);
+            }
+        }
+
+        &.collapsible {
+            .header {
+                cursor: pointer;
+
+                > label {
+                    cursor: pointer;
+                }
+
+                .collapse-label {
+                    display: block;
+                }
+
+                .controls {
+                    transition: all 250ms ease;
+                    transform: rotate(90deg);
+                }
+            }
+        }
+
+        &.expanded {
+            .header {
+                .collapse-label {
+                    display: none;
+                }
+
+                .controls {
+                    transform: none;
+                }
             }
         }
     }
@@ -274,6 +306,7 @@
     app-item-details-attack,
     app-item-details-damage,
     app-item-details-equip,
+    app-item-details-deflect,
     app-item-details-id,
     app-item-details-modality,
     app-item-details-type,
@@ -305,7 +338,6 @@
             flex: 1;
             font-weight: 600;
             font-variant: lining-nums;
-            margin-top: 3px;
 
             .units {
                 color: var(--cosmere-color-faded);
@@ -317,13 +349,20 @@
             gap: 0.625rem;
             margin: 0;
             min-height: 32px;
+          
+            &.collapsible {
+                gap: 0;
+
+                &.expanded {
+                    gap: 0.5rem;
+                }
+            }
 
             .form-fields-list {
                 display: flex;
                 flex-direction: column;
                 flex: 2;
                 gap: 0.25rem;
-            }
 
             > app-id-input,
             .form-fields {
@@ -382,7 +421,6 @@
     }
 
     app-goal-rewards-list {
-
         .item.reward .details .name > span {
             margin-left: 0.125rem;
         }

@@ -110,6 +110,7 @@ export const TEMPLATES = {
     ITEM_DETAILS_ATTACK: 'item/components/details-attack.hbs',
     ITEM_DETAILS_DAMAGE: 'item/components/details-damage.hbs',
     ITEM_DETAILS_EQUIP: 'item/components/details-equip.hbs',
+    ITEM_DETAILS_DEFLECT: 'item/components/details-deflect.hbs',
     ITEM_DETAILS_MODALITY: 'item/components/details-modality.hbs',
     ITEM_DETAILS_TYPE: 'item/components/details-type.hbs',
     ITEM_DETAILS_TALENTS_PROVIDER:
