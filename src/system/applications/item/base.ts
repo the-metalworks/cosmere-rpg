@@ -406,15 +406,15 @@ export class BaseItemSheet extends TabsApplicationMixin(
     protected _onRender(context: AnyObject, options: AnyObject) {
         super._onRender(context, options);
         $(this.element)
-            .find('.collapsible > h2')
+            .find('.collapsible .header')
             .on('click', (event) => this.onClickCollapsible(event));
     }
 
     /* --- Event handlers --- */
 
     private onClickCollapsible(event: JQuery.ClickEvent) {
-        const target = (event.currentTarget as HTMLElement).parentElement;
-        target?.classList.toggle('expanded');
+        const target = event.currentTarget as HTMLElement;
+        target?.parentElement?.classList.toggle('expanded');
     }
 
     /* --- Helpers --- */

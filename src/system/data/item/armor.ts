@@ -1,4 +1,4 @@
-import { EquipType, ArmorTraitId } from '@system/types/cosmere';
+import { EquipType, ArmorTraitId, DamageType } from '@system/types/cosmere';
 import { CosmereItem } from '@src/system/documents';
 
 // Mixins
@@ -14,6 +14,7 @@ import {
     ActivatableItemData,
 } from './mixins/activatable';
 import { TraitsItemMixin, TraitsItemData } from './mixins/traits';
+import { DeflectItemMixin, DeflectItemData } from './mixins/deflect';
 import { PhysicalItemMixin, PhysicalItemData } from './mixins/physical';
 import { ExpertiseItemMixin, ExpertiseItemData } from './mixins/expertise';
 import { EventsItemMixin, EventsItemData } from './mixins/events';
@@ -25,10 +26,9 @@ export interface ArmorItemData
         ActivatableItemData,
         ExpertiseItemData,
         TraitsItemData<ArmorTraitId>,
+        DeflectItemData,
         PhysicalItemData,
-        EventsItemData {
-    deflect: number;
-}
+        EventsItemData {}
 
 export class ArmorItemDataModel extends DataModelMixin<
     ArmorItemData,
@@ -49,17 +49,7 @@ export class ArmorItemDataModel extends DataModelMixin<
     ActivatableItemMixin(),
     ExpertiseItemMixin(),
     TraitsItemMixin(),
+    DeflectItemMixin(),
     PhysicalItemMixin(),
     EventsItemMixin(),
-) {
-    static defineSchema() {
-        return foundry.utils.mergeObject(super.defineSchema(), {
-            deflect: new foundry.data.fields.NumberField({
-                required: true,
-                initial: 0,
-                min: 0,
-                integer: true,
-            }),
-        });
-    }
-}
+) {}

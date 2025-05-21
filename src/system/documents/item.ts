@@ -47,6 +47,7 @@ import { IdItemData } from '@system/data/item/mixins/id';
 import { ModalityItemData } from '@system/data/item/mixins/modality';
 import { TalentsProviderData } from '@system/data/item/mixins/talents-provider';
 import { EventsItemData } from '@system/data/item/mixins/events';
+import { DeflectItemData } from '@system/data/item/mixins/deflect';
 
 // Rolls
 import {
@@ -217,6 +218,13 @@ export class CosmereItem<
      */
     public hasTraits(): this is CosmereItem<TraitsItemData> {
         return 'traits' in this.system;
+    }
+
+    /**
+     * Does this item have a deflect value?
+     */
+    public hasDeflect(): this is CosmereItem<DeflectItemData> {
+        return 'deflect' in this.system;
     }
 
     /**
@@ -981,6 +989,7 @@ export class CosmereItem<
                 type: MESSAGE_TYPES.ACTION,
                 description: await this.getDescriptionHTML(),
                 targets: getTargetDescriptors(),
+                item: this.id,
             },
         };
 
