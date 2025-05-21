@@ -1,5 +1,5 @@
 import { CosmereActor } from '@system/documents/actor';
-import { HandlerType, Event } from '@system/types/item/events';
+import { HandlerType, Event } from '@system/types/item/event-system';
 
 import { ChangeData, ChangeDataModel } from '@system/data/item/misc/change';
 

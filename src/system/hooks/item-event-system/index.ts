@@ -2,7 +2,7 @@ import { CosmereDocument } from '@system/documents';
 import { CosmereItem } from '@system/documents/item';
 import { CosmereActor } from '@system/documents/actor';
 
-import { Event } from '@system/types/item/events';
+import { Event } from '@system/types/item/event-system';
 import { ItemEventTypeConfig } from '@system/types/config';
 
 import { registerEventTypes } from './events';

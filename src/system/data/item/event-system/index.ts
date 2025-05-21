@@ -1,4 +1,4 @@
-import { Events as ItemEvents } from '@system/types/item';
+import { EventSystem as ItemEventSystem } from '@system/types/item';
 
 // Fields
 import { HandlerField } from './fields/handler-field';
@@ -28,7 +28,7 @@ export interface RuleData<C = unknown> {
     /**
      * The handler for this rule
      */
-    handler: ItemEvents.IHandler & C & foundry.abstract.DataModel;
+    handler: ItemEventSystem.IHandler & C & foundry.abstract.DataModel;
 }
 
 export class Rule extends foundry.abstract.DataModel<RuleData> {

@@ -3,7 +3,7 @@ import {
     HandlerType,
     HandlerExecutor,
     HandlerCls,
-} from '@system/types/item/events';
+} from '@system/types/item/event-system';
 import { AnyObject } from '@system/types/utils';
 
 export function constructHandlerClass(

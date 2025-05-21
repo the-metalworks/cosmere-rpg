@@ -1,4 +1,4 @@
-import { HandlerType, Event } from '@system/types/item/events';
+import { HandlerType, Event } from '@system/types/item/event-system';
 
 import { ConstructorOf } from '@system/types/utils';
 

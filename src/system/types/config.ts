@@ -35,7 +35,12 @@ import {
 } from './cosmere';
 import { AdvantageMode } from './roll';
 
-import { Talent, TalentTree, Goal, Events as ItemEvents } from './item';
+import {
+    Talent,
+    TalentTree,
+    Goal,
+    EventSystem as ItemEventSystem,
+} from './item';
 
 export interface SizeConfig {
     label: string;
@@ -323,7 +328,7 @@ export interface MovementTypeConfig {
 export interface ItemEventTypeConfig {
     label: string;
     hook: string;
-    host: ItemEvents.Event.ExecutionHost;
+    host: ItemEventSystem.Event.ExecutionHost;
     // NOTE: Allow any type as conditions should be able to freely match hook signatures
     /* eslint-disable @typescript-eslint/no-explicit-any */
     /**
@@ -343,7 +348,7 @@ export interface ItemEventTypeConfig {
 
 export interface ItemEventHandlerTypeConfig {
     label: string;
-    documentClass: ItemEvents.HandlerCls;
+    documentClass: ItemEventSystem.HandlerCls;
 }
 
 export interface CosmereRPGConfig {

@@ -3,4 +3,4 @@ export * as Goal from './goal';
 export * as TalentTree from './talent-tree';
 
 // Events system
-export * as Events from './events';
+export * as EventSystem from './event-system';

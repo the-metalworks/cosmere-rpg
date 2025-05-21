@@ -16,7 +16,7 @@ import {
     ActionTypeConfig,
     ItemEventTypeConfig,
 } from '@system/types/config';
-import { Events as ItemEvents } from '@system/types/item';
+import { EventSystem as ItemEventSystem } from '@system/types/item';
 import { AnyObject } from '@system/types/utils';
 
 // Utils
@@ -338,7 +338,7 @@ export function registerItemEventType(
     CONFIG.COSMERE.items.events.types[data.type] = {
         label: data.label,
         hook: data.hook,
-        host: data.host ?? ItemEvents.Event.ExecutionHost.Owner,
+        host: data.host ?? ItemEventSystem.Event.ExecutionHost.Owner,
         condition: data.condition,
         transform: data.transform,
     };
@@ -347,7 +347,7 @@ export function registerItemEventType(
 interface ItemEventHandlerConfigData {
     type: string;
     label: string;
-    executor: ItemEvents.HandlerExecutor;
+    executor: ItemEventSystem.HandlerExecutor;
     config: {
         schema: foundry.data.fields.DataSchema;
     } & (
