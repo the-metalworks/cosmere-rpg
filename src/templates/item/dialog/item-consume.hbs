@@ -1,9 +1,12 @@
 <form>
     <div id="consumables">        
         {{#each resources as |resource|}}
-        <div class="form-group">
+        <div class="form-group" id="{{resource.id}}">
             <label>{{resource.label}}</label>
-            <input id="{{resource.id}}" type="checkbox" name="{{resource.label}}" {{#if resource.shouldConsume}}checked{{/if}}>
+            {{#if resource.amount}}
+            <input id="{{resource.id}}-amount" type="number" name="{{resource.label}}-amount" min="{{resource.amount.min}}" max="{{resource.amount.max}}">
+            {{/if}}
+            <input id="{{resource.id}}-shouldConsume" type="checkbox" name="{{resource.label}}-shouldConsume" {{#if resource.shouldConsume}}checked{{/if}}>
         </div>
         {{/each}}
     </div>

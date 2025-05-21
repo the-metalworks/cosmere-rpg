@@ -876,7 +876,7 @@ export class CosmereItem<
                 }
 
                 // Validate that there's enough resource to consume
-                const newAmount = currentAmount - consumption.value;
+                const newAmount = currentAmount - consumption.value.actual!;
                 if (newAmount < 0) {
                     ui.notifications.warn(
                         game.i18n!.localize(

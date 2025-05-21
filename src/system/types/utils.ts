@@ -87,3 +87,9 @@ export interface RawDocumentData<T = AnyObject> {
     };
     system: T;
 }
+
+export interface NumberRange {
+    min: number;
+    max: number;
+    actual?: number;
+}

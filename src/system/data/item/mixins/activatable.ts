@@ -9,6 +9,7 @@ import {
     ItemRechargeType,
 } from '@system/types/cosmere';
 import { CosmereItem } from '@system/documents';
+import { NumberRange } from '@src/system/types/utils';
 
 interface ItemResourceData {
     value: number;
@@ -18,7 +19,7 @@ interface ItemResourceData {
 
 export interface ItemConsumeData {
     type: ItemConsumeType;
-    value: number;
+    value: NumberRange;
     resource?: Resource;
 }
 
@@ -105,12 +106,34 @@ export function ActivatableItemMixin<P extends CosmereItem>() {
                                         ),
                                         initial: ItemConsumeType.Resource,
                                     }),
-                                    value: new foundry.data.fields.NumberField({
-                                        required: true,
-                                        nullable: false,
-                                        min: 0,
-                                        integer: true,
-                                        initial: 0,
+                                    value: new foundry.data.fields.SchemaField({
+                                        min: new foundry.data.fields.NumberField(
+                                            {
+                                                required: true,
+                                                nullable: false,
+                                                min: 0,
+                                                integer: true,
+                                                initial: 0,
+                                            },
+                                        ),
+                                        max: new foundry.data.fields.NumberField(
+                                            {
+                                                required: true,
+                                                nullable: false,
+                                                min: 0,
+                                                integer: true,
+                                                initial: 0,
+                                            },
+                                        ),
+                                        actual: new foundry.data.fields.NumberField(
+                                            {
+                                                required: false,
+                                                nullable: false,
+                                                min: 0,
+                                                integer: true,
+                                                initial: 0,
+                                            },
+                                        ),
                                     }),
                                     resource:
                                         new foundry.data.fields.StringField({

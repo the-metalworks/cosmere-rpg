@@ -2,6 +2,7 @@ import { SYSTEM_ID } from '@src/system/constants';
 import { ItemConsumeData } from '@src/system/data/item/mixins/activatable';
 import { CosmereItem } from '@src/system/documents';
 import { ItemConsumeType, Resource } from '@src/system/types/cosmere';
+import { NumberRange } from '@src/system/types/utils';
 import { TEMPLATES } from '@src/system/utils/templates';
 
 // Constants
@@ -11,7 +12,7 @@ interface ItemConsumeDialogOptions {
     /**
      * The amount to consume
      */
-    amount?: number;
+    amount?: NumberRange;
 
     /**
      * The type of consumption
@@ -83,16 +84,60 @@ export class ItemConsumeDialog extends foundry.applications.api.DialogV2 {
     ): Promise<ItemConsumeDialogResult | null> {
         // Render dialog inner HTML
         const content = await renderTemplate(TEMPLATE, {
-            resources: options.map((option, i) => ({
-                id: `${option.type ?? 'None'}-${option.resourceId ?? 'None'}-${option.amount ?? 'None'}-${i}`,
-                label: game.i18n!.format('DIALOG.ItemConsume.ShouldConsume', {
-                    amount: option.amount ?? 0,
-                    resource:
-                        option.resource ??
-                        game.i18n!.localize('GENERIC.Unknown'),
-                }),
-                shouldConsume: option.shouldConsume ?? false,
-            })),
+            resources: options.map((option, i) => {
+                const resource =
+                    option.resource ?? game.i18n!.localize('GENERIC.Unknown');
+                let label = game.i18n!.localize(
+                    'DIALOG.ItemConsume.ShouldConsume.None',
+                );
+                let isVariable = false;
+
+                if (option.amount) {
+                    // Static consumption
+                    if (option.amount.min === option.amount.max) {
+                        label = game.i18n!.format(
+                            'DIALOG.ItemConsume.ShouldConsume.Static',
+                            {
+                                amount: option.amount.min,
+                                resource,
+                            },
+                        );
+                        // Optional consumption
+                    } else if (option.amount.min === 0) {
+                        label = game.i18n!.format(
+                            'DIALOG.ItemConsume.ShouldConsume.Optional',
+                            {
+                                ...option.amount,
+                                resource,
+                            },
+                        );
+                        isVariable = true;
+                        // Dynamic consumption
+                    } else {
+                        label = game.i18n!.format(
+                            'DIALOG.ItemConsume.ShouldConsume.Dynamic',
+                            {
+                                ...option.amount,
+                                resource,
+                            },
+                        );
+                        isVariable = true;
+                    }
+                }
+
+                const resourceType = option.type ?? 'None';
+                const resourceId = option.resourceId ?? 'None';
+                const resourceAmount = option.amount
+                    ? `${option.amount.min}-${option.amount.max}`
+                    : '0-0';
+
+                return {
+                    id: `${resourceType}-${resourceId}-${resourceAmount}-${i}`,
+                    label,
+                    amount: isVariable ? option.amount : null,
+                    shouldConsume: option.shouldConsume ?? false,
+                };
+            }),
         });
 
         // Render dialog and wrap as promise
@@ -110,19 +155,36 @@ export class ItemConsumeDialog extends foundry.applications.api.DialogV2 {
         // for all options which share the exact same target for
         // consumption.
         const collated = [
-            ...form.querySelectorAll('#consumables .form-group input').values(),
+            ...form.querySelectorAll('#consumables .form-group').values(),
         ]
             .map((elem) => {
+                // Get inputs
+                const amountInput = elem.querySelector(`#${elem.id}-amount`);
+                const shouldConsumeInput = elem.querySelector(
+                    `#${elem.id}-shouldConsume`,
+                );
+
                 // Only consume checked elements
-                if (!(elem instanceof HTMLInputElement) || !elem.checked)
+                if (
+                    !(shouldConsumeInput instanceof HTMLInputElement) ||
+                    !shouldConsumeInput.checked
+                )
+                    return null;
+
+                // Only consume from valid amount inputs, when present
+                if (!!amountInput && !(amountInput instanceof HTMLInputElement))
                     return null;
 
                 // Get any additional information from the id
-                // Only destructure the first 3; the last value is the index,
+                // Only destructure the first 4; the last value is the index,
                 // which only exists to assert uniqueness.
-                const [consumeType, consumeFrom, consumeVal] = elem.id.split(
-                    '-',
-                ) as [ItemConsumeType, string, string];
+                const [consumeType, consumeFrom, consumeMin, consumeMax] =
+                    elem.id.split('-') as [
+                        ItemConsumeType,
+                        string,
+                        string,
+                        string,
+                    ];
                 const consumeData = {
                     ...(consumeType === ItemConsumeType.Resource
                         ? {
@@ -131,9 +193,22 @@ export class ItemConsumeDialog extends foundry.applications.api.DialogV2 {
                         : {}),
                 };
 
+                const range: NumberRange = {
+                    min: parseInt(consumeMin) || 0,
+                    max: parseInt(consumeMax) || 0,
+                    actual: 0,
+                };
+
+                // Pass actual consumption back to item
+                if (range.min === range.max) {
+                    range.actual = range.min;
+                } else if (amountInput) {
+                    range.actual = amountInput.valueAsNumber;
+                }
+
                 return {
                     type: consumeType,
-                    value: parseInt(consumeVal) || 0,
+                    value: range,
                     ...consumeData,
                 };
             })
@@ -152,7 +227,7 @@ export class ItemConsumeDialog extends foundry.applications.api.DialogV2 {
                 if (!existing) {
                     acc[key] = { ...consumable };
                 } else {
-                    acc[key].value += consumable.value;
+                    acc[key].value.actual! += consumable.value.actual!;
                 }
 
                 return acc;

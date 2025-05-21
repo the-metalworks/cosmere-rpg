@@ -6,6 +6,8 @@ import {
 } from '../../data';
 import { CosmereItem } from '@src/system/documents';
 import { handleDocumentMigrationError } from '../utils';
+import { ItemConsumeData } from '@src/system/data/item/mixins/activatable';
+import { ItemConsumeType } from '@src/system/types/cosmere';
 
 export default {
     from: '0.3',
@@ -42,11 +44,23 @@ async function migrateItems(items: RawDocumentData<any>[]) {
                         'consume' in item.system.activation &&
                         !Array.isArray(item.system.activation.consume)
                     ) {
+                        const newConsumption: ItemConsumeData[] = [];
+
+                        if (item.system.activation.consume) {
+                            newConsumption.push({
+                                type: item.system.activation.consume
+                                    .type as ItemConsumeType,
+                                value: {
+                                    min: item.system.activation.consume
+                                        .value as number,
+                                    max: item.system.activation.consume
+                                        .value as number,
+                                },
+                            } as ItemConsumeData);
+                        }
+
                         foundry.utils.mergeObject(changes, {
-                            ['system.activation.consume']: item.system
-                                .activation.consume
-                                ? [item.system.activation.consume]
-                                : [],
+                            ['system.activation.consume']: newConsumption,
                         });
                     }
                 }
