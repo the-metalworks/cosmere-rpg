@@ -635,27 +635,6 @@ export class CommonActorDataModel<
             this.defenses[group].derived = 10 + attrsSum;
         });
 
-        // // Derive skill modifiers
-        // (Object.keys(this.skills) as Skill[]).forEach((skill) => {
-        //     // Get the skill config
-        //     const skillConfig = CONFIG.COSMERE.skills[skill];
-
-        //     // Get the attribute associated with this skill
-        //     const attributeId = skillConfig.attribute;
-
-        //     // Get attribute
-        //     const attribute = this.attributes[attributeId];
-
-        //     // Get skill rank
-        //     const rank = this.skills[skill].rank;
-
-        //     // Get attribute value
-        //     const attrValue = attribute.value + attribute.bonus;
-
-        //     // Calculate mod
-        //     this.skills[skill].mod.derived = attrValue + rank;
-        // });
-
         // Derive non-core skill unlocks
         (Object.keys(this.skills) as Skill[]).forEach((skill) => {
             if (CONFIG.COSMERE.skills[skill].core) return;
