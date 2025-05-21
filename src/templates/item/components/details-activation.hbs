@@ -53,10 +53,8 @@
             {{#each consume}}
             <div class="form-fields">
                 <input name="system.activation.consume[{{@index}}].value"
-                    type="number"
-                    min="0"
-                    step="1"
-                    value="{{this.value}}"
+                    type="text"
+                    value="{{resourceCostInput this.value}}"
                     {{#if (not ../editable)}}
                     readonly
                     {{/if}}

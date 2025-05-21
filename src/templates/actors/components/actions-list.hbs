@@ -7,7 +7,7 @@
                 {{localize "COSMERE.Actor.Sheet.Actions.Activation"}}
             </span>
             <span class="subtitle wide">
-                {{localize "COSMERE.Actor.Sheet.Actions.Consume"}}
+                {{localize "COSMERE.Actor.Sheet.Actions.Consume.label"}}
             </span>
             <span class="subtitle">
                 {{localize "COSMERE.Actor.Sheet.Actions.Uses"}}
@@ -75,7 +75,7 @@
                 {{#if ctx.hasConsume}}
 
                 {{#if ctx.consume.consumesResource}}
-                <span>{{ ctx.consume.value }} {{localize ctx.consume.resourceLabel }}</span>
+                <span>{{resourceCostLabel ctx.consume.value ctx.consume.resourceLabel}}</span>
                 {{/if}}
 
                 {{!-- TODO: Item consume --}}

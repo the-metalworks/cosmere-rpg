@@ -11,6 +11,7 @@ import {
     AnyObject,
     NONE,
     AnyMutableObject,
+    NumberRange,
 } from '@system/types/utils';
 import { renderSystemTemplate, TEMPLATES } from '@src/system/utils/templates';
 
@@ -476,7 +477,26 @@ export class BaseItemSheet extends TabsApplicationMixin(
             };
 
             const dataKey = parts[2];
-            existingConsumeData[dataKey] = formData.get(formKey);
+
+            // Parse actual value range from input text
+            if (dataKey === 'value') {
+                const valueInput = formData.get(formKey)?.toString() ?? '0';
+
+                let valueParts = valueInput
+                    .split('-')
+                    .map((num) => parseInt(num))
+                    .filter((num) => !isNaN(num) && num >= 0);
+
+                // Fall back to 0 if whole input is invalid
+                if (valueParts.length === 0) valueParts = [0];
+
+                existingConsumeData[dataKey] = {
+                    min: valueParts[0],
+                    max: valueParts.length > 1 ? valueParts[1] : valueParts[0],
+                } as NumberRange;
+            } else {
+                existingConsumeData[dataKey] = formData.get(formKey);
+            }
 
             // Use "None" to remove entries,
             // otherwise we have a (theoretically) valid type, so use it.

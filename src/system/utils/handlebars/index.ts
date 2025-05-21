@@ -11,6 +11,7 @@ import {
     HoldType,
     AttackType,
     TurnSpeed,
+    Resource,
 } from '@src/system/types/cosmere';
 
 import { CharacterActor, CosmereActor } from '@system/documents/actor';
@@ -18,7 +19,7 @@ import { CosmereItem } from '@system/documents/item';
 import { AttributeData } from '@system/data/actor';
 import { Derived } from '@system/data/fields';
 
-import { AnyObject } from '@src/system/types/utils';
+import { AnyObject, NumberRange } from '@src/system/types/utils';
 
 import { ItemContext, ItemContextOptions } from './types';
 import { TEMPLATES } from '../templates';
@@ -497,6 +498,44 @@ Handlebars.registerHelper('getCombatActedState', (turn: CosmereTurn) => {
 
     // track a boss's additional fast turn separately
     return turn.bossFastActivated;
+});
+
+Handlebars.registerHelper(
+    'resourceCostLabel',
+    (value: NumberRange, resource: Resource) => {
+        if (value.min === value.max) {
+            return game.i18n!.format(
+                'COSMERE.Actor.Sheet.Actions.Consume.Static',
+                {
+                    amount: value.min,
+                    resource,
+                },
+            );
+        } else if (value.min === 0) {
+            return game.i18n!.format(
+                'COSMERE.Actor.Sheet.Actions.Consume.Optional',
+                {
+                    amount: value.max,
+                    resource,
+                },
+            );
+        } else {
+            return game.i18n!.format(
+                'COSMERE.Actor.Sheet.Actions.Consume.Dynamic',
+                {
+                    ...value,
+                    resource,
+                },
+            );
+        }
+    },
+);
+
+Handlebars.registerHelper('resourceCostInput', (value: NumberRange) => {
+    if (value.min !== value.max) {
+        return `${value.min}-${value.max}`;
+    }
+    return value.min.toString();
 });
 
 export async function preloadHandlebarsTemplates() {

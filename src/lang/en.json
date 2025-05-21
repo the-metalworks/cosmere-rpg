@@ -166,7 +166,12 @@
                 "Actions": {
                     "label": "Actions",
                     "Activation": "Action",
-                    "Consume": "Cost",
+                    "Consume": {
+                        "label": "Cost",
+                        "Static": "{amount} {resource}",
+                        "Optional": "Up to {amount} {resource}",
+                        "Dynamic": "{min}-{max} {resource}"
+                    },
                     "Uses": "Uses",
                     "Use": "Use Action",
                     "Strike": "Strike",
@@ -1059,7 +1064,12 @@
     "DIALOG": {
         "ItemConsume": {
             "Title": "Consume Resource",
-            "ShouldConsume": "Consume {amount} {resource}?"
+            "ShouldConsume": {
+                "None": "None",
+                "Static": "Consume {amount} {resource}?",
+                "Optional": "Consume up to {amount} {resource}:",
+                "Dynamic": "Consume {min}-{max} {resource}:"
+            }
         },
         "EditExpertise": {
             "Remove": "Remove",
