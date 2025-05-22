@@ -11,10 +11,9 @@ import {
     HoldType,
     AttackType,
     TurnSpeed,
-    Resource,
 } from '@src/system/types/cosmere';
 
-import { CharacterActor, CosmereActor } from '@system/documents/actor';
+import { CosmereActor } from '@system/documents/actor';
 import { CosmereItem } from '@system/documents/item';
 import { AttributeData } from '@system/data/actor';
 import { Derived } from '@system/data/fields';
@@ -25,6 +24,7 @@ import { ItemContext, ItemContextOptions } from './types';
 import { TEMPLATES } from '../templates';
 import { SYSTEM_ID } from '@src/system/constants';
 import { CosmereTurn } from '@src/system/applications/combat';
+import { ItemConsumeData } from '@src/system/data/item/mixins/activatable';
 
 Handlebars.registerHelper('add', (a: number, b: number) => a + b);
 Handlebars.registerHelper('sub', (a: number, b: number) => a - b);
@@ -500,42 +500,46 @@ Handlebars.registerHelper('getCombatActedState', (turn: CosmereTurn) => {
     return turn.bossFastActivated;
 });
 
-Handlebars.registerHelper(
-    'resourceCostLabel',
-    (value: NumberRange, resource: Resource) => {
-        if (value.min === value.max) {
-            return game.i18n!.format(
-                'COSMERE.Actor.Sheet.Actions.Consume.Static',
-                {
-                    amount: value.min,
-                    resource,
-                },
-            );
-        } else if (value.min === 0) {
-            return game.i18n!.format(
-                'COSMERE.Actor.Sheet.Actions.Consume.Optional',
-                {
-                    amount: value.max,
-                    resource,
-                },
-            );
-        } else {
-            return game.i18n!.format(
-                'COSMERE.Actor.Sheet.Actions.Consume.Dynamic',
-                {
-                    ...value,
-                    resource,
-                },
-            );
-        }
-    },
-);
+Handlebars.registerHelper('resourceCostLabel', (consume: ItemConsumeData) => {
+    const { value } = consume;
+    const resource = game.i18n!.localize(
+        consume.resource
+            ? CONFIG.COSMERE.resources[consume.resource].label
+            : 'GENERIC.Unknown',
+    );
+
+    if (value.min === value.max) {
+        return game.i18n!.format('COSMERE.Actor.Sheet.Actions.Consume.Static', {
+            amount: value.min,
+            resource,
+        });
+    } else if (value.max === -1) {
+        return game.i18n!.format(
+            'COSMERE.Actor.Sheet.Actions.Consume.RangeUncapped',
+            {
+                amount: value.min,
+                resource,
+            },
+        );
+    } else {
+        return game.i18n!.format(
+            'COSMERE.Actor.Sheet.Actions.Consume.RangeCapped',
+            {
+                ...value,
+                resource,
+            },
+        );
+    }
+});
 
 Handlebars.registerHelper('resourceCostInput', (value: NumberRange) => {
-    if (value.min !== value.max) {
+    if (value.min === value.max) {
+        return value.min.toString();
+    } else if (value.max === -1) {
+        return `${value.min}+`;
+    } else {
         return `${value.min}-${value.max}`;
     }
-    return value.min.toString();
 });
 
 export async function preloadHandlebarsTemplates() {

@@ -480,20 +480,40 @@ export class BaseItemSheet extends TabsApplicationMixin(
 
             // Parse actual value range from input text
             if (dataKey === 'value') {
+                const newConsumeData: NumberRange = {
+                    min: 0,
+                    max: 0,
+                };
+
                 const valueInput = formData.get(formKey)?.toString() ?? '0';
+                const valueParts = valueInput.split('-');
 
-                let valueParts = valueInput
-                    .split('-')
-                    .map((num) => parseInt(num))
-                    .filter((num) => !isNaN(num) && num >= 0);
+                if (valueParts.length === 1) {
+                    const value = valueParts[0];
+                    const isRange = value.endsWith('+');
 
-                // Fall back to 0 if whole input is invalid
-                if (valueParts.length === 0) valueParts = [0];
+                    const parsed = parseInt(value);
+                    if (!isNaN(parsed)) {
+                        newConsumeData.min = parsed;
 
-                existingConsumeData[dataKey] = {
-                    min: valueParts[0],
-                    max: valueParts.length > 1 ? valueParts[1] : valueParts[0],
-                } as NumberRange;
+                        newConsumeData.max = isRange ? -1 : parsed;
+                    }
+                } else {
+                    const base = parseInt(valueParts[0]);
+                    const cap = parseInt(valueParts[1]);
+
+                    if (!isNaN(base)) {
+                        newConsumeData.min = base;
+                    }
+
+                    if (!isNaN(cap)) {
+                        newConsumeData.max = cap;
+                    } else {
+                        newConsumeData.max = newConsumeData.min;
+                    }
+                }
+
+                existingConsumeData[dataKey] = newConsumeData;
             } else {
                 existingConsumeData[dataKey] = formData.get(formKey);
             }

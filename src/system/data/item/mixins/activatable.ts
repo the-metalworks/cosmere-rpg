@@ -120,7 +120,7 @@ export function ActivatableItemMixin<P extends CosmereItem>() {
                                             {
                                                 required: true,
                                                 nullable: false,
-                                                min: 0,
+                                                min: -1,
                                                 integer: true,
                                                 initial: 0,
                                             },

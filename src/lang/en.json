@@ -169,8 +169,9 @@
                     "Consume": {
                         "label": "Cost",
                         "Static": "{amount} {resource}",
-                        "Optional": "Up to {amount} {resource}",
-                        "Dynamic": "{min}-{max} {resource}"
+                        "RangeCapped": "{min}-{max} {resource}",
+                        "RangeUncapped": "{amount} or more {resource}",
+                        "Multiple": "Multiple Costs"
                     },
                     "Uses": "Uses",
                     "Use": "Use Action",
@@ -1067,8 +1068,8 @@
             "ShouldConsume": {
                 "None": "None",
                 "Static": "Consume {amount} {resource}?",
-                "Optional": "Consume up to {amount} {resource}:",
-                "Dynamic": "Consume {min}-{max} {resource}:"
+                "RangeCapped": "Consume {min}-{max} {resource}:",
+                "RangeUncapped": "Consume {amount} or more {resource}:"
             }
         },
         "EditExpertise": {

@@ -74,17 +74,25 @@
                 {{!-- Consume --}}
                 {{#if ctx.hasConsume}}
 
-                {{#if ctx.consume.consumesResource}}
-                <span>{{resourceCostLabel ctx.consume.value ctx.consume.resourceLabel}}</span>
-                {{/if}}
+                    {{#if (gt ctx.consume.length 1)}}
+                        <span>{{localize "COSMERE.Actor.Sheet.Actions.Consume.Multiple"}}</span>
+                    {{else}}
+                    {{#if (eq ctx.consume.length 1)}}
+                        {{#with ctx.consume.[0] as |consume|}}
+                        {{#if consume.consumesResource}}
+                        <span>{{resourceCostLabel consume}}</span>
+                        {{/if}}
 
-                {{!-- TODO: Item consume --}}
-                {{#if ctx.consume.consumesItem}}
-                <span>—</span>
-                {{/if}}
+                        {{!-- TODO: Item consume --}}
+                        {{#if consume.consumesItem}}
+                        <span>—</span>
+                        {{/if}}
+                        {{/with}}
+                    {{/if}}
+                    {{/if}}
 
                 {{else}}
-                <span>—</span>
+                    <span>—</span>
                 {{/if}}
             </div>
 
