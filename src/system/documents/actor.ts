@@ -855,7 +855,7 @@ export class CosmereActor<
 
         // Add attribute mod
         data.mod = options.attribute
-            ? attribute.value + skill.rank
+            ? attribute.value + attribute.bonus + skill.rank
             : skill.mod.value;
         data.skill = {
             id: skillId,
