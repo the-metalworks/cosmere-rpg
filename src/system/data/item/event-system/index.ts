@@ -41,7 +41,7 @@ export class Rule extends foundry.abstract.DataModel<RuleData> {
             description: new foundry.data.fields.StringField({
                 required: true,
                 initial: '',
-                label: 'COSMERE.Item.Event.Rule.Description.Label',
+                label: 'COSMERE.Item.EventSystem.Event.Rule.Description.Label',
             }),
             order: new foundry.data.fields.NumberField({
                 initial: 0,
@@ -62,7 +62,7 @@ export class Rule extends foundry.abstract.DataModel<RuleData> {
                         {},
                     ),
                 }),
-                label: 'COSMERE.Item.Event.Rule.Event.Label',
+                label: 'COSMERE.Item.EventSystem.Event.Rule.Event.Label',
             }),
             handler: new HandlerField({
                 required: true,

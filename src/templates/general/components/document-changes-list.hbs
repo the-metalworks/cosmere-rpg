@@ -2,18 +2,18 @@
     <li class="item header">
         <section class="details">
             <span class="title">
-                {{localize "COMPONENTS.DocumentChangesList.Header.Key"}}
+                {{localize "COMPONENT.DocumentChangesList.Header.Key"}}
             </span>
             <span class="title">
-                {{localize "COMPONENTS.DocumentChangesList.Header.Mode"}}
+                {{localize "COMPONENT.DocumentChangesList.Header.Mode"}}
             </span>
             <span class="title">
-                {{localize "COMPONENTS.DocumentChangesList.Header.Value"}}
+                {{localize "COMPONENT.DocumentChangesList.Header.Value"}}
             </span>
             <div class="controls icon active">
                 {{#if (not readonly)}}
                     <a data-action="add-change" 
-                        data-tooltip="COMPONENTS.DocumentChangesList.Add">
+                        data-tooltip="COMPONENT.DocumentChangesList.Add">
                         <i class="fa-solid fa-plus"></i>
                     </a>
                 {{else}}
@@ -64,7 +64,7 @@
                 <div class="controls icon faded">
                     {{#if (not readonly)}}
                         <a data-action="remove-change" 
-                            data-tooltip="COMPONENTS.DocumentChangesList.Remove">
+                            data-tooltip="COMPONENT.DocumentChangesList.Remove">
                             <i class="fa-solid fa-trash"></i>
                         </a>
                     {{/if}}
