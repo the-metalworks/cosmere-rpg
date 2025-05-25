@@ -769,6 +769,20 @@ const COSMERE: CosmereRPGConfig = {
                 },
             },
         },
+        weapon: {
+            types: {
+                [WeaponType.Light]: {
+                    label: 'COSMERE.Item.Weapon.Type.Light',
+                },
+                [WeaponType.Heavy]: {
+                    label: 'COSMERE.Item.Weapon.Type.Heavy',
+                },
+                [WeaponType.Special]: {
+                    label: 'COSMERE.Item.Weapon.Type.Special',
+                },
+            },
+        },
+
         equipment: {
             types: {
                 [EquipmentType.Basic]: {
@@ -827,18 +841,6 @@ const COSMERE: CosmereRPGConfig = {
     },
 
     currencies: {},
-
-    weaponTypes: {
-        [WeaponType.Light]: {
-            label: 'COSMERE.Item.Weapon.Type.Light',
-        },
-        [WeaponType.Heavy]: {
-            label: 'COSMERE.Item.Weapon.Type.Heavy',
-        },
-        [WeaponType.Special]: {
-            label: 'COSMERE.Item.Weapon.Type.Special',
-        },
-    },
 
     // TODO: These should reference their respective item ids in the compendium
     weapons: {
