@@ -1090,6 +1090,19 @@ const COSMERE: CosmereRPGConfig = {
             [AdvantageMode.Advantage]: 'DICE.AdvantageMode.Advantage',
         },
     },
+
+    sheet: {
+        actor: {
+            components: {
+                actions: {
+                    sections: {
+                        static: {},
+                        dynamic: {},
+                    },
+                },
+            },
+        },
+    },
 };
 
 export default COSMERE;

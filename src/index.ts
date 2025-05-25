@@ -146,6 +146,9 @@ Hooks.once('init', async () => {
 
     // Load templates
     await preloadHandlebarsTemplates();
+
+    // Set configuration through API
+    applications.actor.configure();
 });
 
 Hooks.once('setup', () => {

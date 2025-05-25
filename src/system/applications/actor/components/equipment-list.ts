@@ -1,18 +1,23 @@
 import { EquipHand, ItemType } from '@system/types/cosmere';
+import { ConstructorOf } from '@system/types/utils';
+import { ItemListSection } from '@system/types/application/actor/components/item-list';
+
+// Documents
 import { CosmereItem } from '@system/documents/item';
 import { CosmereActor } from '@system/documents/actor';
-import { ConstructorOf } from '@system/types/utils';
-import { AppContextMenu } from '@system/applications/utils/context-menu';
-import { SYSTEM_ID } from '@src/system/constants';
-import { TEMPLATES } from '@src/system/utils/templates';
 
 // Utils
 import AppUtils from '@system/applications/utils';
+import { AppContextMenu } from '@system/applications/utils/context-menu';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
 import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
 import { SortMode } from './search-bar';
+
+// Constants
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 interface EquipmentItemState {
     expanded?: boolean;
@@ -22,35 +27,7 @@ interface AdditionalItemData {
     descriptionHTML?: string;
 }
 
-export interface ListSection {
-    /**
-     * The id of the section
-     */
-    id: string;
-
-    /**
-     * Nicely formatted label for the section
-     */
-    label: string;
-
-    /**
-     * Whether this section counts as default.
-     * Default sections are always shown in edit mode, even if they are empty.
-     */
-    default: boolean;
-
-    /**
-     * Filter function to determine if an item should be included in this section
-     */
-    filter: (item: CosmereItem) => boolean;
-
-    /**
-     * Factory function to create a new item of this type
-     */
-    new?: (parent: CosmereActor) => Promise<CosmereItem | null | undefined>;
-}
-
-export interface ListSectionData extends ListSection {
+interface ListSectionData extends ItemListSection {
     items: CosmereItem[];
     itemData: Record<string, AdditionalItemData>;
 }
@@ -83,7 +60,7 @@ export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<
     };
     /* eslint-enable @typescript-eslint/unbound-method */
 
-    protected sections: ListSection[] = [];
+    protected sections: ItemListSection[] = [];
 
     /**
      * Map of id to state
@@ -290,7 +267,7 @@ export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<
         };
     }
 
-    protected prepareSection(type: ItemType): ListSection {
+    protected prepareSection(type: ItemType): ItemListSection {
         return {
             id: type,
             label: CONFIG.COSMERE.items.types[type].labelPlural,
@@ -310,7 +287,7 @@ export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<
     }
 
     protected async prepareSectionData(
-        section: ListSection,
+        section: ItemListSection,
         items: CosmereItem[],
         filterText: string,
         sort: SortMode,
