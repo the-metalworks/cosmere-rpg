@@ -8,7 +8,7 @@ import {
     ArmorTraitId,
     ActionCostType,
 } from '@system/types/cosmere';
-import { Goal } from '@system/types/item';
+import { Goal, Talent } from '@system/types/item';
 import { GoalItemData } from '@system/data/item/goal';
 import { DeepPartial, Nullable } from '@system/types/utils';
 import { CosmereActor } from './actor';
@@ -284,6 +284,30 @@ export class CosmereItem<
 
         // Check if the actor has the mode active
         return activeMode === this.system.id;
+    }
+
+    /**
+     * The source of this item.
+     * Only used for:
+     * - Talents
+     */
+    public get source(): T extends TalentItemDataModel
+        ? Talent.Source | null
+        : never {
+        if (!this.isTalent()) return void 0 as never;
+        return this.getFlag(SYSTEM_ID, 'source');
+    }
+
+    /**
+     * Sets the source of this item.
+     * Only used for:
+     * - Talents
+     */
+    public set source(
+        value: T extends TalentItemDataModel ? Talent.Source | null : never,
+    ) {
+        if (!this.isTalent()) return;
+        void this.setFlag(SYSTEM_ID, 'source', value);
     }
 
     /* --- Lifecycle --- */

@@ -8,9 +8,6 @@ import { ConstructorOf } from '@system/types/utils';
 import { TalentTree, Talent } from '@system/types/item';
 import { NodeConnection } from './types';
 
-// TEMP Debug
-import { Debug } from './debug';
-
 // Utils
 import * as TalentTreeUtils from '@system/utils/talent-tree';
 import { AppContextMenu } from '@system/applications/utils/context-menu';
@@ -38,10 +35,14 @@ import {
     RightClickConnectionEvent,
 } from './canvas';
 
+// Constants
+import { SYSTEM_ID } from '@system/constants';
+
 // NOTE: Must use type here instead of interface as an interface doesn't match AnyObject type
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type TalentTreeViewComponentParams = {
     tree: TalentTreeItem;
+    source?: Talent.Source;
     contextActor?: CharacterActor;
     allowObtainTalents?: boolean;
 };
@@ -416,9 +417,22 @@ export class TalentTreeViewComponent<
             const item = (await fromUuid(node.uuid)) as TalentItem | null;
             if (!item) return;
 
+            // Determine the source
+            const source = this.params!.source ?? {
+                type: Talent.SourceType.Tree,
+                id: this.tree.id,
+                uuid: this.tree.uuid,
+            };
+
             // Obtain talent
             await this.contextActor.createEmbeddedDocuments('Item', [
-                item.toObject(),
+                foundry.utils.mergeObject(item.toObject(), {
+                    flags: {
+                        [SYSTEM_ID]: {
+                            source: source,
+                        },
+                    },
+                }),
             ]);
 
             // Notification
