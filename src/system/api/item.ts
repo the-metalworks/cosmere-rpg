@@ -1,51 +1,24 @@
 import {
-    Skill,
     EquipmentType,
     WeaponId,
     ArmorId,
     PathType,
     PowerType,
     ActionType,
-    Theme,
+    WeaponType,
 } from '@system/types/cosmere';
 
 import {
-    CurrencyConfig,
-    SkillConfig,
     PowerTypeConfig,
     ActionTypeConfig,
+    PathTypeConfig,
+    EquipmentTypeConfig,
+    WeaponTypeConfig,
+    WeaponConfig,
+    ArmorConfig,
+    CultureConfig,
+    AncestryConfig,
 } from '@system/types/config';
-
-interface SkillConfigData extends Omit<SkillConfig, 'key'> {
-    /**
-     * Unique id for the skill.
-     */
-    id: string;
-}
-
-export function registerSkill(data: SkillConfigData, force = false) {
-    if (!CONFIG.COSMERE)
-        throw new Error('Cannot access api until after system is initialized.');
-
-    if (data.id in CONFIG.COSMERE.skills && !force)
-        throw new Error('Cannot override existing skill config.');
-
-    if (force) {
-        console.warn('Registering skill with force=true.');
-    }
-
-    // Add to skills config
-    CONFIG.COSMERE.skills[data.id as Skill] = {
-        key: data.id,
-        label: data.label,
-        attribute: data.attribute,
-        core: data.core,
-        hiddenUntilAcquired: data.hiddenUntilAcquired,
-    };
-
-    // Add to attribute's skills list
-    CONFIG.COSMERE.attributes[data.attribute].skills.push(data.id as Skill);
-}
 
 interface PowerTypeConfigData extends PowerTypeConfig {
     /**
@@ -76,9 +49,11 @@ export function registerPowerType(data: PowerTypeConfigData, force = false) {
     };
 }
 
-interface PathTypeConfigData {
+interface PathTypeConfigData extends PathTypeConfig {
+    /**
+     * Unique id for the path type.
+     */
     id: string;
-    label: string;
 }
 
 export function registerPathType(data: PathTypeConfigData, force = false) {
@@ -99,6 +74,9 @@ export function registerPathType(data: PathTypeConfigData, force = false) {
 }
 
 interface ActionTypeConfigData extends ActionTypeConfig {
+    /**
+     * Unique id for the action type.
+     */
     id: string;
 }
 
@@ -122,9 +100,11 @@ export function registerActionType(data: ActionTypeConfigData, force = false) {
     };
 }
 
-interface EquipmentTypeConfigData {
+interface EquipmentTypeConfigData extends EquipmentTypeConfig {
+    /**
+     * Unique id for the equipment type.
+     */
     id: string;
-    label: string;
 }
 
 export function registerEquipmentType(
@@ -147,11 +127,37 @@ export function registerEquipmentType(
     };
 }
 
-interface WeaponConfigData {
+interface WeaponTypeConfigData extends WeaponTypeConfig {
+    /**
+     * Unique id for the weapon type.
+     */
     id: string;
-    label: string;
-    reference: string;
-    specialExpertise?: boolean;
+}
+
+export function registerWeaponType(data: WeaponTypeConfigData, force = false) {
+    if (!CONFIG.COSMERE)
+        throw new Error('Cannot access api until after system is initialized.');
+
+    if (data.id in CONFIG.COSMERE.items.weapon.types && !force)
+        throw new Error('Cannot override existing weapon type config.');
+
+    if (force) {
+        console.warn('Registering weapon type with force=true.');
+    }
+
+    // Add to weapon types
+    CONFIG.COSMERE.items.weapon.types[data.id as WeaponType] = {
+        label: data.label,
+    };
+}
+
+/* --- Registry --- */
+
+interface WeaponConfigData extends WeaponConfig {
+    /**
+     * Unique id for the weapon.
+     */
+    id: string;
 }
 
 export function registerWeapon(data: WeaponConfigData, force = false) {
@@ -173,10 +179,11 @@ export function registerWeapon(data: WeaponConfigData, force = false) {
     };
 }
 
-interface ArmorConfigData {
+interface ArmorConfigData extends ArmorConfig {
+    /**
+     * Unique id for the armor.
+     */
     id: string;
-    label: string;
-    reference: string;
 }
 
 export function registerArmor(data: ArmorConfigData, force = false) {
@@ -197,10 +204,11 @@ export function registerArmor(data: ArmorConfigData, force = false) {
     };
 }
 
-interface CultureConfigData {
+interface CultureConfigData extends CultureConfig {
+    /**
+     * Unique id for the culture.
+     */
     id: string;
-    label: string;
-    reference: string;
 }
 
 export function registerCulture(data: CultureConfigData, force = false) {
@@ -221,10 +229,11 @@ export function registerCulture(data: CultureConfigData, force = false) {
     };
 }
 
-interface AncestryConfigData {
+interface AncestryConfigData extends AncestryConfig {
+    /**
+     * Unique id for the ancestry.
+     */
     id: string;
-    label: string;
-    reference: string;
 }
 
 export function registerAncestry(data: AncestryConfigData, force = false) {
@@ -244,82 +253,3 @@ export function registerAncestry(data: AncestryConfigData, force = false) {
         reference: data.reference,
     };
 }
-
-interface CurrencyConfigData extends CurrencyConfig {
-    id: string;
-}
-
-export function registerCurrency(data: CurrencyConfigData, force = false) {
-    if (!CONFIG.COSMERE)
-        throw new Error('Cannot access api until after system is initialized.');
-
-    if (data.id in CONFIG.COSMERE.currencies && !force)
-        throw new Error('Cannot override existing currency config.');
-
-    if (force) {
-        console.warn('Registering currency with force=true.');
-    }
-
-    // Ensure a base denomination is configured
-    if (!data.denominations.primary.some((d) => d.base))
-        throw new Error(`Currency ${data.id} must have a base denomination.`);
-    if (
-        data.denominations.secondary &&
-        !data.denominations.secondary.some((d) => d.base)
-    )
-        throw new Error(
-            `Secondary denominations for currency ${data.id} must have a base denomination.`,
-        );
-
-    // Get base denomination
-    const baseDenomination = data.denominations.primary.find((d) => d.base)!;
-
-    // Ensure base denomination has a unit
-    if (!baseDenomination.unit)
-        throw new Error(
-            `Base denomination ${baseDenomination.id} for currency ${data.id} must have a unit.`,
-        );
-
-    // Add to currency config
-    CONFIG.COSMERE.currencies[data.id] = {
-        label: data.label,
-        icon: data.icon,
-        denominations: data.denominations,
-    };
-}
-
-interface ThemeConfigData {
-    id: string;
-    label: string;
-}
-
-export function registerTheme(data: ThemeConfigData, force = false) {
-    if (!CONFIG.COSMERE)
-        throw new Error('Cannot access api until after system is initialized.');
-
-    if (data.id in CONFIG.COSMERE.themes && !force)
-        throw new Error('Cannot override existing theme config.');
-
-    if (force) {
-        console.warn('Registering theme with force=true.');
-    }
-
-    // Add to themes config
-    CONFIG.COSMERE.themes[data.id as Theme] = data.label;
-}
-
-/* --- Default Export --- */
-
-export default {
-    registerSkill,
-    registerPowerType,
-    registerEquipmentType,
-    registerPathType,
-    registerActionType,
-    registerWeapon,
-    registerArmor,
-    registerCulture,
-    registerAncestry,
-    registerCurrency,
-    registerTheme,
-};
