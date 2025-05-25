@@ -1,4 +1,17 @@
-#tooltip {
+#tooltip {    
+    background-color: var(--cosmere-color-sheet);
+    background-image: var(--cosmere-sheet-texture);
+    border: 1px solid var(--cosmere-color-faded);
+    border-radius: 6px;
+    padding: 0.5rem;
+
+    font-family: var(--cosmere-font-normal);
+    font-size: var(--font-size-13);
+    font-variant: lining-nums;
+    font-weight: 600;
+    line-height: var(--font-size-13);
+    color: var(--cosmere-color-text-sub);
+
     .talenttip {
         .header {
             display: flex;
