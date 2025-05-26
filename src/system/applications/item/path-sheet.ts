@@ -1,8 +1,6 @@
-import { PathItem, TalentTreeItem } from '@system/documents/item';
-import { CharacterActor } from '@system/documents/actor';
+import { PathItem } from '@system/documents/item';
 import { DeepPartial } from '@system/types/utils';
-import { SYSTEM_ID } from '@src/system/constants';
-import { TEMPLATES } from '@src/system/utils/templates';
+import { Talent } from '@system/types/item';
 
 // Base
 import { BaseItemSheet } from './base';
@@ -10,7 +8,14 @@ import { BaseItemSheet } from './base';
 // Mixins
 import { TalentsTabMixin } from './mixins/talents-tab';
 
-export class PathItemSheet extends TalentsTabMixin(BaseItemSheet) {
+// Constants
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
+
+export class PathItemSheet extends TalentsTabMixin(
+    Talent.SourceType.Path,
+    BaseItemSheet,
+) {
     static DEFAULT_OPTIONS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.DEFAULT_OPTIONS),
         {
