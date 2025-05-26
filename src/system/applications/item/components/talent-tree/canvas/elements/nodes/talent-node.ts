@@ -74,6 +74,13 @@ export class TalentNode extends BaseNode {
 
     /* --- Accessors --- */
 
+    public override get size() {
+        return {
+            width: this.data.size.width,
+            height: this.data.size.height,
+        };
+    }
+
     public get glowFilter() {
         return this.filters![0] as GlowFilter;
     }
