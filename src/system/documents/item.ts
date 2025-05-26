@@ -871,7 +871,9 @@ export class CosmereItem<
 
         // Determine whether or not resource consumption is available
         const consumptionAvailable =
-            options.shouldConsume !== false && !!this.system.activation.consume;
+            options.shouldConsume !== false &&
+            !!this.system.activation.consume &&
+            this.system.activation.consume.length > 0;
 
         // Determine if we should handle resource consumption
         let consumeResponse: ItemConsumeData[] | null = null;
