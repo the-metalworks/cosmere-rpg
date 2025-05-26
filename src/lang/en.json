@@ -169,9 +169,10 @@
                     "Consume": {
                         "label": "Cost",
                         "Static": "{amount} {resource}",
-                        "RangeCapped": "{min}-{max} {resource}",
-                        "RangeUncapped": "{amount} or more {resource}",
-                        "Multiple": "Multiple Costs"
+                        "RangeCapped": "{min} - {max} {resource}",
+                        "RangeUncapped": "{amount}+ {resource}",
+                        "Multiple": "Various",
+                        "Optional": "{label} (Optional)"
                     },
                     "Uses": "Uses",
                     "Use": "Use Action",
