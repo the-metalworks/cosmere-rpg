@@ -74,14 +74,16 @@
                 {{!-- Consume --}}
                 {{#if ctx.hasConsume}}
 
-                {{#if ctx.consume.consumesResource}}
-                <span>{{ ctx.consume.value }} {{localize ctx.consume.resourceLabel }}</span>
+                {{#with ctx.consume.[0] as |consume|}}
+                {{#if consume.consumesResource}}
+                <span>{{ consume.value }} {{localize consume.resourceLabel }}</span>
                 {{/if}}
 
                 {{!-- TODO: Item consume --}}
-                {{#if ctx.consume.consumesItem}}
+                {{#if consume.consumesItem}}
                 <span>—</span>
                 {{/if}}
+                {{/with}}
 
                 {{else}}
                 <span>—</span>

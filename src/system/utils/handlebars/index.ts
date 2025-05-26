@@ -349,32 +349,34 @@ Handlebars.registerHelper(
 
                 // Check if the activation consumes some resource
                 if (item.system.activation.consume) {
-                    const consumesResource =
-                        item.system.activation.consume.type ===
-                        ItemConsumeType.Resource;
-                    const consumesItem =
-                        item.system.activation.consume.type ===
-                        ItemConsumeType.Item;
+                    context.consume = [];
 
-                    // Get resource
-                    const resource = item.system.activation.consume.resource;
+                    for (const consumable of item.system.activation.consume) {
+                        const consumesResource =
+                            consumable.type === ItemConsumeType.Resource;
+                        const consumesItem =
+                            consumable.type === ItemConsumeType.Item;
 
-                    context.hasConsume = true;
-                    context.consume = {
-                        type: item.system.activation.consume.type,
-                        value: item.system.activation.consume.value,
-                        consumesResource,
-                        consumesItem,
+                        // Get resource
+                        const resource = consumable.resource;
 
-                        ...(resource
-                            ? {
-                                  resource:
-                                      item.system.activation.consume.resource,
-                                  resourceLabel:
-                                      CONFIG.COSMERE.resources[resource].label,
-                              }
-                            : {}),
-                    };
+                        context.hasConsume = true;
+                        context.consume.push({
+                            type: consumable.type,
+                            value: consumable.value,
+                            consumesResource,
+                            consumesItem,
+
+                            ...(resource
+                                ? {
+                                      resource: consumable.resource,
+                                      resourceLabel:
+                                          CONFIG.COSMERE.resources[resource]
+                                              .label,
+                                  }
+                                : {}),
+                        });
+                    }
                 }
 
                 if (item.system.activation.uses) {
