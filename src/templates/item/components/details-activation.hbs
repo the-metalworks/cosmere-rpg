@@ -49,38 +49,58 @@
     {{!-- Consume --}}
     <div class="form-group consume">
         <label>{{localize "COSMERE.Item.Sheet.Activation.Consume"}}</label>
-        <div class="form-fields">
-            {{#if hasConsume}}
-            <input name="system.activation.consume.value"
-                type="number"
-                min="0"
-                step="1"
-                value="{{item.system.activation.consume.value}}"
-                {{#if (not editable)}}
-                readonly
-                {{/if}}
-            >
-            {{/if}}
+        <div class="form-fields-list">
+            {{#each consume}}
+            <div class="form-fields">
+                <input name="system.activation.consume[{{@index}}].value"
+                    type="number"
+                    min="0"
+                    step="1"
+                    value="{{this.value}}"
+                    {{#if (not ../editable)}}
+                    readonly
+                    {{/if}}
+                >
 
-            {{#if (eq item.system.activation.consume.type "resource")}}
-            <select name="system.activation.consume.resource"
-                {{#if (not editable)}}
-                disabled
+                {{#if (eq this.type "resource")}}
+                <select name="system.activation.consume[{{@index}}].resource"
+                    {{#if (not ../editable)}}
+                    disabled
+                    {{/if}}
+                >
+                    {{selectOptions ../resourceSelectOptions selected=this.resource localize=true}}
+                </select>
                 {{/if}}
-            >
-                {{selectOptions resourceSelectOptions selected=item.system.activation.consume.resource localize=true}}
-            </select>
-            {{/if}}
 
-            {{!-- TODO: Consume type = item --}}
+                {{!-- TODO: Consume type = item --}}
 
-            <select name="system.activation.consume.type"
-                {{#if (not editable)}}
-                disabled
-                {{/if}}
-            >
-                {{selectOptions consumeTypeSelectOptions selected=item.system.activation.consume.type localize=true}}
-            </select>
+                <select name="system.activation.consume[{{@index}}].type"
+                    {{#if (not ../editable)}}
+                    disabled
+                    {{/if}}
+                >
+                    {{selectOptions ../consumeTypeSelectOptions selected=this.type localize=true}}
+                </select>
+                
+                <div class="extra">
+                    {{#unless @last}}
+                    <span class="icon faded"><i class="fa-solid fa-bars"></i></span>
+                    {{else}}
+                    <a class="icon active" data-action="add-consumption-option"><i class="fa-solid fa-plus"></i></a>
+                    {{/unless}}
+                </div>
+            </div>
+            {{else}}            
+            <div class="form-fields">
+                <select name="system.activation.consume[].type"
+                    {{#if (not editable)}}
+                    disabled
+                    {{/if}}
+                >
+                    {{selectOptions consumeTypeSelectOptions selected="none" localize=true}}
+                </select>
+            </div>
+            {{/each}}
         </div>
     </div>
 

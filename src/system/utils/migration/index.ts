@@ -4,11 +4,12 @@ import { Migration } from '@src/system/types/migration';
 
 // Migrations
 import MIGRATE_0_2__0_3 from './migrations/0.2-0.3';
+import MIGRATE_0_3__1_0 from './migrations/0.3-1.0';
 import { GlobalUI } from '@src/system/types/utils';
 import { CosmereHooks } from '@src/system/types/hooks';
 
 // Constants
-const MIGRATIONS: Migration[] = [MIGRATE_0_2__0_3];
+const MIGRATIONS: Migration[] = [MIGRATE_0_2__0_3, MIGRATE_0_3__1_0];
 
 /**
  * Check if the world requires migration between the two version
