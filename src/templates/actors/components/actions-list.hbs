@@ -73,7 +73,6 @@
             <div class="detail wide">
                 {{!-- Consume --}}
                 {{#if ctx.hasConsume}}
-
                     {{#if (gt ctx.consume.length 1)}}
                         <span>{{localize "COSMERE.Actor.Sheet.Actions.Consume.Multiple"}}</span>
                     {{else}}
@@ -90,7 +89,6 @@
                         {{/with}}
                     {{/if}}
                     {{/if}}
-
                 {{else}}
                     <span>—</span>
                 {{/if}}

@@ -61,6 +61,7 @@ async function migrateItems(items: RawDocumentData<any>[]) {
 
                         foundry.utils.mergeObject(changes, {
                             ['system.activation.consume']: newConsumption,
+
                         });
                     }
                 }
