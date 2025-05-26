@@ -16,7 +16,7 @@
                 {{#if @root.editable}}
                     {{#if section.canAddNewItems}}
                         <a data-action="new-item"
-                            data-tooltip="{{localize "COSMERE.Actor.Sheet.Actions.NewItem" type=(localize section.name)}}"
+                            data-tooltip="{{section.createItemTooltip}}"
                         >
                             <i class="fa-solid fa-plus"></i>
                         </a>

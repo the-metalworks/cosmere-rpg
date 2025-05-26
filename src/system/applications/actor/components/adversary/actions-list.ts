@@ -4,13 +4,16 @@ import {
     ActivationType,
     ActionCostType,
 } from '@system/types/cosmere';
-import { CosmereItem, CosmereActor } from '@system/documents';
+import { ItemListSection } from '@system/types/application/actor/components/item-list';
+
+// Documents
+import { CosmereItem } from '@system/documents/item';
+import { CosmereActor } from '@system/documents/actor';
 
 // Components
 import {
     ActorActionsListComponent,
     ActorActionsListComponentRenderContext,
-    ListSection,
 } from '../actions-list';
 import { SortMode } from '../search-bar';
 
@@ -86,7 +89,7 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
 
     /* --- Helpers --- */
 
-    private prepareSection(type: ItemType): ListSection {
+    private prepareSection(type: ItemType): ItemListSection {
         return {
             id: type,
             label: CONFIG.COSMERE.items.types[type].labelPlural,
@@ -121,7 +124,7 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
     }
 
     private async prepareSectionData(
-        section: ListSection,
+        section: ItemListSection,
         items: CosmereItem[],
         searchText: string,
         sort: SortMode,

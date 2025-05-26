@@ -5,22 +5,30 @@ import {
     ActionCostType,
     ItemConsumeType,
     Resource,
-    PowerType,
 } from '@system/types/cosmere';
-import { CosmereItem } from '@system/documents/item';
-import { CosmereActor } from '@system/documents';
 import { ConstructorOf } from '@system/types/utils';
-import { AppContextMenu } from '@system/applications/utils/context-menu';
-import { SYSTEM_ID } from '@src/system/constants';
-import { TEMPLATES } from '@src/system/utils/templates';
+import { Talent } from '@system/types/item';
+import {
+    ItemListSection,
+    DynamicItemListSectionGenerator,
+} from '@system/types/application/actor/components/item-list';
+
+// Documents
+import { CosmereItem } from '@system/documents/item';
+import { CosmereActor } from '@system/documents/actor';
 
 // Utils
 import AppUtils from '@system/applications/utils';
+import { AppContextMenu } from '@system/applications/utils/context-menu';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
 import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
 import { SortMode } from './search-bar';
+
+// Constants
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 interface ActionItemState {
     expanded?: boolean;
@@ -30,35 +38,7 @@ interface AdditionalItemData {
     descriptionHTML?: string;
 }
 
-export interface ListSection {
-    /**
-     * The id of the section
-     */
-    id: string;
-
-    /**
-     * Nicely formatted label for the section
-     */
-    label: string;
-
-    /**
-     * Whether this section counts as default.
-     * Default sections are always shown in edit mode, even if they are empty.
-     */
-    default: boolean;
-
-    /**
-     * Filter function to determine if an item should be included in this section
-     */
-    filter: (item: CosmereItem) => boolean;
-
-    /**
-     * Factory function to create a new item of this type
-     */
-    new?: (parent: CosmereActor) => Promise<CosmereItem | null | undefined>;
-}
-
-export interface ListSectionData extends ListSection {
+interface ItemListSectionData extends ItemListSection {
     items: CosmereItem[];
     itemData: Record<string, AdditionalItemData>;
 }
@@ -72,11 +52,12 @@ export interface ActorActionsListComponentRenderContext
 }
 
 // Constants
-const STATIC_SECTIONS = {
-    Weapons: {
+export const STATIC_SECTIONS: Record<string, ItemListSection> = {
+    weapons: {
         id: 'weapons',
+        sortOrder: 0,
         label: 'COSMERE.Item.Type.Weapon.label_plural',
-        name: 'COSMERE.Item.Type.Weapon.label_action',
+        itemTypeLabel: 'COSMERE.Item.Type.Weapon.label_action',
         default: false,
         filter: (item: CosmereItem) => item.isWeapon(),
         new: (parent: CosmereActor) =>
@@ -98,10 +79,11 @@ const STATIC_SECTIONS = {
                 { parent },
             ) as Promise<CosmereItem>,
     },
-    Armor: {
+    armor: {
         id: 'armor',
+        sortOrder: 400,
         label: 'COSMERE.Item.Type.Armor.label_plural',
-        name: 'COSMERE.Item.Type.Armor.label_action',
+        itemTypeLabel: 'COSMERE.Item.Type.Armor.label_action',
         default: false,
         filter: (item: CosmereItem) => item.isArmor(),
         new: (parent: CosmereActor) =>
@@ -122,10 +104,11 @@ const STATIC_SECTIONS = {
                 { parent },
             ) as Promise<CosmereItem>,
     },
-    Equipment: {
+    equipment: {
         id: 'equipment',
+        sortOrder: 500,
         label: 'COSMERE.Item.Type.Equipment.label_plural',
-        name: 'COSMERE.Item.Type.Equipment.label_action',
+        itemTypeLabel: 'COSMERE.Item.Type.Equipment.label_action',
         default: false,
         filter: (item: CosmereItem) => item.isEquipment(),
         new: (parent: CosmereActor) =>
@@ -148,10 +131,11 @@ const STATIC_SECTIONS = {
                 { parent },
             ) as Promise<CosmereItem>,
     },
-    BasicActions: {
+    'basic-actions': {
         id: 'basic-actions',
+        sortOrder: 600,
         label: 'COSMERE.Item.Action.Type.Basic.label_plural',
-        name: 'COSMERE.Item.Action.Type.Basic.label',
+        itemTypeLabel: 'COSMERE.Item.Action.Type.Basic.label_action',
         default: true,
         filter: (item: CosmereItem) =>
             item.isAction() && item.system.type === ActionType.Basic,
@@ -174,14 +158,157 @@ const STATIC_SECTIONS = {
                 { parent },
             ) as Promise<CosmereItem>,
     },
+};
 
-    // Section for any items that don't fit into the other categories
-    MiscActions: {
-        id: 'misc-actions',
-        label: 'COSMERE.Actor.Sheet.Actions.MiscSectionName',
-        default: false,
-        filter: () => false, // Filter function is not used for this section
-    },
+export const DYNAMIC_SECTIONS: Record<string, DynamicItemListSectionGenerator> =
+    {
+        powers: (actor: CosmereActor) => {
+            // Get powers
+            const powers = actor.powers;
+
+            // Get list of unique power types
+            const powerTypes = [...new Set(powers.map((p) => p.system.type))];
+
+            return powerTypes.map((type) => {
+                // Get config
+                const config = CONFIG.COSMERE.power.types[type];
+
+                return {
+                    id: type,
+                    sortOrder: 100,
+                    label: game.i18n!.localize(config.plural),
+                    itemTypeLabel: game.i18n!.localize(config.label),
+                    default: false,
+                    filter: (item: CosmereItem) =>
+                        (item.isPower() && item.system.type === type) ||
+                        (item.isTalent() &&
+                            item.source?.type === Talent.SourceType.Power),
+                    new: (parent: CosmereActor) =>
+                        CosmereItem.create(
+                            {
+                                type: ItemType.Power,
+                                name: game.i18n!.format(
+                                    'COSMERE.Item.Type.Power.New',
+                                    {
+                                        type: game.i18n!.localize(config.label),
+                                    },
+                                ),
+                                system: {
+                                    type,
+                                    activation: {
+                                        type: ActivationType.Utility,
+                                        cost: {
+                                            type: ActionCostType.Action,
+                                            value: 1,
+                                        },
+                                        consume: {
+                                            type: ItemConsumeType.Resource,
+                                            resource: Resource.Investiture,
+                                            value: 1,
+                                        },
+                                    },
+                                },
+                            },
+                            { parent },
+                        ) as Promise<CosmereItem>,
+                } as ItemListSection;
+            });
+        },
+        paths: (actor: CosmereActor) => {
+            // Get paths
+            const paths = actor.paths;
+
+            return paths.map((path) => ({
+                id: path.system.id,
+                sortOrder: 200,
+                label: game.i18n!.format(
+                    'COSMERE.Actor.Sheet.Actions.BaseSectionName',
+                    {
+                        type: path.name,
+                    },
+                ),
+                itemTypeLabel: `${path.name} ${game.i18n?.localize('COSMERE.Item.Type.Action.label')}`,
+                default: true,
+                filter: (item: CosmereItem) =>
+                    item.isTalent() &&
+                    (item.system.path === path.system.id ||
+                        (item.source?.type === Talent.SourceType.Path &&
+                            item.source?.id === path.system.id)),
+                new: (parent: CosmereActor) =>
+                    CosmereItem.create(
+                        {
+                            type: ItemType.Talent,
+                            name: game.i18n!.localize(
+                                'COSMERE.Item.Type.Talent.New',
+                            ),
+                            system: {
+                                path: path.system.id,
+                                activation: {
+                                    type: ActivationType.Utility,
+                                    cost: {
+                                        type: ActionCostType.Action,
+                                        value: 1,
+                                    },
+                                },
+                            },
+                        },
+                        { parent },
+                    ) as Promise<CosmereItem>,
+            }));
+        },
+        ancestry: (actor: CosmereActor) => {
+            // Get ancestry
+            const ancestry = actor.ancestry;
+
+            if (!ancestry) return [];
+
+            return [
+                {
+                    id: ancestry.system.id,
+                    sortOrder: 300,
+                    label: game.i18n!.format(
+                        'COSMERE.Actor.Sheet.Actions.BaseSectionName',
+                        {
+                            type: ancestry.name,
+                        },
+                    ),
+                    itemTypeLabel: `${ancestry.name} ${game.i18n?.localize('COSMERE.Item.Type.Action.label')}`,
+                    default: false,
+                    filter: (item: CosmereItem) =>
+                        (item.isTalent() || item.isAction()) &&
+                        (item.system.ancestry === ancestry.system.id ||
+                            (item.source?.type === Talent.SourceType.Ancestry &&
+                                item.source?.id === ancestry.system.id)),
+                    new: (parent: CosmereActor) =>
+                        CosmereItem.create(
+                            {
+                                type: ItemType.Action,
+                                name: game.i18n!.localize(
+                                    'COSMERE.Item.Type.Action.New',
+                                ),
+                                system: {
+                                    ancestry: ancestry.system.id,
+                                    activation: {
+                                        type: ActivationType.Utility,
+                                        cost: {
+                                            type: ActionCostType.Action,
+                                            value: 1,
+                                        },
+                                    },
+                                },
+                            },
+                            { parent },
+                        ) as Promise<CosmereItem>,
+                },
+            ];
+        },
+    };
+
+const MISC_SECTION: ItemListSection = {
+    id: 'misc-actions',
+    label: 'COSMERE.Actor.Sheet.Actions.MiscSectionName',
+    default: false,
+    filter: () => false, // Filter function is not used for this section
 };
 
 export class ActorActionsListComponent extends HandlebarsApplicationComponent<
@@ -201,7 +328,7 @@ export class ActorActionsListComponent extends HandlebarsApplicationComponent<
     };
     /* eslint-enable @typescript-eslint/unbound-method */
 
-    protected sections: ListSection[] = [];
+    protected sections: ItemListSection[] = [];
 
     /**
      * Map of id to state
@@ -319,152 +446,27 @@ export class ActorActionsListComponent extends HandlebarsApplicationComponent<
     }
 
     protected prepareSections() {
-        // Get paths
-        const paths = this.application.actor.paths;
-
-        // Get ancestry
-        const ancestry = this.application.actor.ancestry;
-
         return [
-            STATIC_SECTIONS.Weapons,
-
-            ...this.preparePowersSections(),
-
-            ...paths.map((path) => ({
-                id: path.system.id,
-                label: game.i18n!.format(
-                    'COSMERE.Actor.Sheet.Actions.BaseSectionName',
-                    {
-                        type: path.name,
-                    },
-                ),
-                name: `${path.name} ${game.i18n?.localize('COSMERE.Item.Type.Action.label')}`,
-                default: true,
-                filter: (item: CosmereItem) =>
-                    item.isTalent() && item.system.path === path.system.id,
-                new: (parent: CosmereActor) =>
-                    CosmereItem.create(
-                        {
-                            type: ItemType.Talent,
-                            name: game.i18n!.localize(
-                                'COSMERE.Item.Type.Talent.New',
-                            ),
-                            system: {
-                                path: path.system.id,
-                                activation: {
-                                    type: ActivationType.Utility,
-                                    cost: {
-                                        type: ActionCostType.Action,
-                                        value: 1,
-                                    },
-                                },
-                            },
-                        },
-                        { parent },
-                    ) as Promise<CosmereItem>,
-            })),
-
-            ...(ancestry
-                ? [
-                      {
-                          id: ancestry.system.id,
-                          label: game.i18n!.format(
-                              'COSMERE.Actor.Sheet.Actions.BaseSectionName',
-                              {
-                                  type: ancestry.name,
-                              },
-                          ),
-                          name: `${ancestry.name} ${game.i18n?.localize('COSMERE.Item.Type.Action.label')}`,
-                          default: false,
-                          filter: (item: CosmereItem) =>
-                              (item.isTalent() || item.isAction()) &&
-                              item.system.ancestry === ancestry.system.id,
-                          new: (parent: CosmereActor) =>
-                              CosmereItem.create(
-                                  {
-                                      type: ItemType.Action,
-                                      name: game.i18n!.localize(
-                                          'COSMERE.Item.Type.Action.New',
-                                      ),
-                                      system: {
-                                          ancestry: ancestry.system.id,
-                                          activation: {
-                                              type: ActivationType.Utility,
-                                              cost: {
-                                                  type: ActionCostType.Action,
-                                                  value: 1,
-                                              },
-                                          },
-                                      },
-                                  },
-                                  { parent },
-                              ) as Promise<CosmereItem>,
-                      },
-                  ]
-                : []),
-            STATIC_SECTIONS.Armor,
-            STATIC_SECTIONS.Equipment,
-            STATIC_SECTIONS.BasicActions,
-            STATIC_SECTIONS.MiscActions,
-        ];
-    }
-
-    protected preparePowersSections() {
-        // Get powers
-        const powers = this.application.actor.powers;
-
-        // Get list of unique power types
-        const powerTypes = [...new Set(powers.map((p) => p.system.type))];
-
-        return powerTypes.map((type) => {
-            // Get config
-            const config = CONFIG.COSMERE.power.types[type];
-
-            return {
-                id: type,
-                label: game.i18n!.localize(config.plural),
-                name: `${config.label} ${game.i18n?.localize('COSMERE.Item.Type.Action.label')}`,
-                default: false,
-                filter: (item: CosmereItem) =>
-                    item.isPower() && item.system.type === type,
-                new: (parent: CosmereActor) =>
-                    CosmereItem.create(
-                        {
-                            type: ItemType.Power,
-                            name: game.i18n!.format(
-                                'COSMERE.Item.Type.Power.New',
-                                {
-                                    type: game.i18n!.localize(config.label),
-                                },
-                            ),
-                            system: {
-                                type,
-                                activation: {
-                                    type: ActivationType.Utility,
-                                    cost: {
-                                        type: ActionCostType.Action,
-                                        value: 1,
-                                    },
-                                    consume: {
-                                        type: ItemConsumeType.Resource,
-                                        resource: Resource.Investiture,
-                                        value: 1,
-                                    },
-                                },
-                            },
-                        },
-                        { parent },
-                    ) as Promise<CosmereItem>,
-            };
-        });
+            ...Object.values(
+                CONFIG.COSMERE.sheet.actor.components.actions.sections.static,
+            ),
+            ...Object.values(
+                CONFIG.COSMERE.sheet.actor.components.actions.sections.dynamic,
+            ).flatMap((gen) => gen(this.application.actor)),
+            MISC_SECTION,
+        ].sort(
+            (a, b) =>
+                (a.sortOrder ?? Number.MAX_VALUE) -
+                (b.sortOrder ?? Number.MAX_VALUE),
+        );
     }
 
     protected async prepareSectionsData(
-        sections: ListSection[],
+        sections: ItemListSection[],
         items: CosmereItem[],
         searchText: string,
         sort: SortMode,
-    ): Promise<ListSectionData[]> {
+    ): Promise<ItemListSectionData[]> {
         // Filter items into sections, putting all items that don't fit into a section into a "Misc" section
         const itemsBySectionId = items.reduce(
             (result, item) => {
@@ -499,6 +501,19 @@ export class ActorActionsListComponent extends HandlebarsApplicationComponent<
                 return {
                     ...section,
                     canAddNewItems: !!section.new,
+                    createItemTooltip: section.createItemTooltip
+                        ? typeof section.createItemTooltip === 'function'
+                            ? section.createItemTooltip()
+                            : section.createItemTooltip
+                        : game.i18n!.format(
+                              'COSMERE.Actor.Sheet.Actions.NewItem',
+                              {
+                                  type: game.i18n!.localize(
+                                      section.itemTypeLabel ??
+                                          'COSMERE.Item.Type.Action.label',
+                                  ),
+                              },
+                          ),
                     items: sectionItems,
                     itemData: await this.prepareItemData(sectionItems),
                 };
@@ -612,5 +627,20 @@ export class ActorActionsListComponent extends HandlebarsApplicationComponent<
     }
 }
 
-// Register
+// Register component
 ActorActionsListComponent.register('app-actor-actions-list');
+
+export function configure() {
+    // Register static sections
+    Object.values(STATIC_SECTIONS).forEach((section) => {
+        cosmereRPG.api.registerActionListSection(section);
+    });
+
+    // Register dynamic sections
+    Object.values(DYNAMIC_SECTIONS).forEach((gen) => {
+        cosmereRPG.api.registerActionListDynamicSectionGenerator({
+            id: gen.name,
+            generator: gen,
+        });
+    });
+}
