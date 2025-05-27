@@ -23,7 +23,7 @@ export default {
          * Embedded Items
          */
         const actors = await getRawDocumentSources('Actor');
-        await migrateEmbeddedItems(actors);
+        await migrateEmbeddedItems(actors as RawActorData[]);
     },
 };
 
