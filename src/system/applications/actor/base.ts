@@ -376,15 +376,15 @@ export class BaseActorSheet<
         }
 
         $(this.element)
-            .find('.html-field.collapsible > h2')
-            .on('click', (event) => this.onClickCollapsibleHtmlField(event));
+            .find('.collapsible .header')
+            .on('click', (event) => this.onClickCollapsible(event));
     }
 
     /* --- Event handlers --- */
 
-    protected onClickCollapsibleHtmlField(event: JQuery.ClickEvent) {
-        const target = (event.currentTarget as HTMLElement).parentElement;
-        target?.classList.toggle('expanded');
+    protected onClickCollapsible(event: JQuery.ClickEvent) {
+        const target = event.currentTarget as HTMLElement;
+        target?.parentElement?.classList.toggle('expanded');
     }
 
     protected onActionsSearchChange(event: SearchBarInputEvent) {

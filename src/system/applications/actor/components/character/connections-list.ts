@@ -1,7 +1,7 @@
 import { ItemType } from '@system/types/cosmere';
 import { CosmereItem } from '@system/documents';
 import { ConnectionItemDataModel } from '@system/data/item';
-import { ConstructorOf } from '@system/types/utils';
+import { AnyObject, ConstructorOf } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
@@ -144,17 +144,29 @@ export class CharacterConnectionsListComponent extends HandlebarsApplicationComp
         this: CharacterConnectionsListComponent,
         event: Event,
     ) {
+        // Get connection element
+        const connectionElement = $(event.target!).closest('.item[data-id]');
+
         // Get connection id
-        const connectionId = $(event.currentTarget!)
-            .closest('[data-id]')
-            .data('id') as string;
+        const connectionId = connectionElement.data('id') as string;
 
         // Toggle expanded state
         this.connectionItemStates[connectionId].expanded =
             !this.connectionItemStates[connectionId].expanded;
 
-        // Render
-        void this.render();
+        connectionElement.toggleClass(
+            'expanded',
+            this.connectionItemStates[connectionId].expanded,
+        );
+
+        connectionElement
+            .find('a[data-action="toggle-expand-connection"')
+            .empty()
+            .append(
+                this.connectionItemStates[connectionId].expanded
+                    ? '<i class="fa-solid fa-compress"></i>'
+                    : '<i class="fa-solid fa-expand"></i>',
+            );
     }
 
     /* --- Context --- */
