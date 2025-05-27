@@ -75,24 +75,34 @@ class TreeHeader extends Drawable {
         }
     }
 
+    public get size() {
+        return {
+            width: this.node.size.width,
+            height: SUB_GRID_SIZE * 4,
+        };
+    }
+
     protected override _draw() {
         this.clear();
 
         if (this.node.isRoot) return;
 
+        // Get size
+        const size = this.size;
+
         // Draw drag handle
         this.beginFill('#010e2d');
         this.drawRect(
-            this.node.contentBounds!.x - SUB_GRID_SIZE,
-            this.node.contentBounds!.y - SUB_GRID_SIZE * 5,
-            this.node.contentBounds!.width + SUB_GRID_SIZE * 2,
-            SUB_GRID_SIZE * 4,
+            this.node.contentBounds!.x - this.node.padding.x,
+            this.node.contentBounds!.y - this.node.padding.y - size.height,
+            size.width,
+            size.height,
         );
 
         // Update text position
         this.text.position.set(
             this.node.contentBounds!.x + this.node.contentBounds!.width / 2,
-            this.node.contentBounds!.y - SUB_GRID_SIZE * 3,
+            this.node.contentBounds!.y - this.node.padding.y - size.height / 2,
         );
     }
 }
@@ -116,10 +126,10 @@ class TreeBackground extends Drawable {
         // Draw background
         this.beginFill('#111', 0.7);
         this.drawRect(
-            this.node.contentBounds!.x - SUB_GRID_SIZE,
-            this.node.contentBounds!.y - SUB_GRID_SIZE * 5,
-            this.node.contentBounds!.width + SUB_GRID_SIZE * 2,
-            this.node.contentBounds!.height + SUB_GRID_SIZE * 6,
+            this.node.contentBounds!.x - this.node.padding.x,
+            this.node.contentBounds!.y - this.node.padding.y,
+            this.node.size.width,
+            this.node.size.height,
         );
         this.endFill();
     }
@@ -132,11 +142,17 @@ export class TalentTreeNode extends BaseNode {
         typeof TalentTreeWorld
     >;
 
+    public readonly header?: TreeHeader;
+
     private nodesLayer;
     private connectionsLayer;
-    private header?: TreeHeader;
 
     private _contentBounds?: PIXI.Rectangle;
+    private _contentOffset?: PIXI.Point;
+    private _padding: PIXI.IPointData = {
+        x: SUB_GRID_SIZE,
+        y: SUB_GRID_SIZE,
+    };
 
     public constructor(
         canvas: PIXICanvasApplication<typeof TalentTreeWorld>,
@@ -171,6 +187,33 @@ export class TalentTreeNode extends BaseNode {
 
     /* --- Accessors --- */
 
+    public override get size() {
+        return {
+            width: (this._contentBounds?.width ?? 0) + this._padding.x * 2,
+            height: (this._contentBounds?.height ?? 0) + this._padding.y * 2,
+        };
+    }
+
+    public override get origin() {
+        // Get the content origin
+        const contentOrigin = this.contentOrigin;
+
+        return {
+            x: contentOrigin.x - this._padding.x,
+            y:
+                contentOrigin.y -
+                this._padding.y -
+                (this.header?.size.height ?? 0),
+        };
+    }
+
+    public get contentOrigin() {
+        return {
+            x: this.position.x - (this._contentOffset?.x ?? 0),
+            y: this.position.y - (this._contentOffset?.y ?? 0),
+        };
+    }
+
     public get nodes() {
         return this.nodesLayer?.children as BaseNode[] | undefined;
     }
@@ -193,6 +236,14 @@ export class TalentTreeNode extends BaseNode {
 
     public get contentBounds() {
         return this._contentBounds;
+    }
+
+    public get contentOffset() {
+        return this._contentOffset;
+    }
+
+    public get padding() {
+        return this._padding;
     }
 
     public get rootTalents() {
@@ -251,6 +302,16 @@ export class TalentTreeNode extends BaseNode {
     public async refresh() {
         await super.refresh();
         await this.refreshContents();
+
+        if (this.canvas.world.editable && !this.isRoot) {
+            this.nodesLayer.colorMatrixFilter.saturate(-0.5, false);
+            this.connectionsLayer.colorMatrixFilter.saturate(-0.5, false);
+            this.nodesLayer.colorMatrixFilter.brightness(0.75, true);
+            this.connectionsLayer.colorMatrixFilter.brightness(0.75, true);
+        } else {
+            this.nodesLayer.colorMatrixFilter.reset();
+            this.connectionsLayer.colorMatrixFilter.reset();
+        }
     }
 
     /* --- Helpers --- */
@@ -524,6 +585,13 @@ export class TalentTreeNode extends BaseNode {
         const width = rightMostPosition - leftMostPosition;
         const height = bottomMostPosition - topMostPosition;
 
+        // Set content offset
+        this._contentOffset = new PIXI.Point(
+            -leftMostPosition,
+            -topMostPosition,
+        );
+
+        // Set content bounds
         this._contentBounds = new PIXI.Rectangle(
             leftMostPosition,
             topMostPosition,

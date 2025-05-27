@@ -106,7 +106,7 @@ export namespace Node {
         | LevelPrerequisite;
 }
 
-interface BaseNode<Type extends Node.Type = Node.Type> {
+export interface BaseNode<Type extends Node.Type = Node.Type> {
     /**
      * Unique identifier for the node
      */
