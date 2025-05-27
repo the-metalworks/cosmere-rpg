@@ -1,8 +1,4 @@
-import {
-    AnyObject,
-    RawActorData,
-    RawDocumentData,
-} from '@src/system/types/utils';
+import { RawActorData, RawDocumentData } from '@src/system/types/utils';
 import {
     fixInvalidDocument as fixDocumentIfInvalid,
     getPossiblyInvalidDocument,
