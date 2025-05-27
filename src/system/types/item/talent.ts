@@ -4,6 +4,19 @@ export const enum Type {
     Power = 'power',
 }
 
+export const enum SourceType {
+    Ancestry = 'ancestry',
+    Path = 'path',
+    Power = 'power',
+    Tree = 'tree',
+}
+
+export interface Source {
+    type: SourceType;
+    id: string;
+    uuid: string;
+}
+
 export namespace GrantRule {
     export const enum Type {
         Items = 'items',

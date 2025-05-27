@@ -1,5 +1,6 @@
 import { TalentTreeItem } from '@system/documents/item';
 import { ConstructorOf, DeepPartial } from '@system/types/utils';
+import { Talent } from '@system/types/item';
 
 // Components
 import { TalentTreeViewComponent } from '../components/talent-tree/talent-tree-view';
@@ -14,7 +15,7 @@ export function TalentsTabMixin<
     T extends ConstructorOf<BaseItemSheet> & {
         TABS: Record<string, ApplicationTab>;
     },
->(base: T) {
+>(talentSourceType: Talent.SourceType, base: T) {
     return class mixin extends base {
         static TABS = foundry.utils.mergeObject(
             foundry.utils.deepClone(super.TABS),
@@ -100,6 +101,11 @@ export function TalentsTabMixin<
 
                 talentTree,
                 contextActor,
+                talentSource: {
+                    type: talentSourceType,
+                    id: this.item.hasId() ? this.item.system.id : this.item.id,
+                    uuid: this.item.uuid,
+                },
             };
         }
     };

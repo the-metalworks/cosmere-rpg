@@ -383,6 +383,7 @@ export class D20Roll extends foundry.dice.Roll<D20RollData> {
                 modifiers,
             });
             const baseRoll = D20Roll.fromTerms([baseTerm]);
+            baseRoll.options = this.options;
 
             const total = (baseRoll?.total ?? 0) + (bonusRoll?.total ?? 0);
 
