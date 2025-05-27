@@ -28,6 +28,12 @@ interface DeflectData extends Derived<number> {
     natural?: number;
 
     /**
+     * A map of which damage types are deflected or
+     * not deflected by the actor.
+     */
+    types?: Record<DamageType, boolean>;
+
+    /**
      * The source of the deflect value
      */
     source?: DeflectSource;
@@ -208,6 +214,7 @@ export class CommonActorDataModel<
                                 CONFIG.COSMERE.deflect.sources,
                             ),
                         }),
+                        types: this.getDamageDeflectTypesSchema(),
                     },
                 },
             ),
@@ -504,6 +511,30 @@ export class CommonActorDataModel<
         });
     }
 
+    private static getDamageDeflectTypesSchema() {
+        const damageTypes = Object.keys(
+            CONFIG.COSMERE.damageTypes,
+        ) as DamageType[];
+
+        return new foundry.data.fields.SchemaField(
+            damageTypes.reduce(
+                (schema, type) => ({
+                    ...schema,
+                    [type]: new foundry.data.fields.BooleanField({
+                        required: true,
+                        nullable: false,
+                        initial:
+                            !CONFIG.COSMERE.damageTypes[type].ignoreDeflect,
+                    }),
+                }),
+                {} as Record<string, foundry.data.fields.BooleanField>,
+            ),
+            {
+                required: true,
+            },
+        );
+    }
+
     private static getImmunitiesSchema() {
         return new foundry.data.fields.SchemaField(
             {
@@ -604,27 +635,6 @@ export class CommonActorDataModel<
             this.defenses[group].derived = 10 + attrsSum;
         });
 
-        // Derive skill modifiers
-        (Object.keys(this.skills) as Skill[]).forEach((skill) => {
-            // Get the skill config
-            const skillConfig = CONFIG.COSMERE.skills[skill];
-
-            // Get the attribute associated with this skill
-            const attributeId = skillConfig.attribute;
-
-            // Get attribute
-            const attribute = this.attributes[attributeId];
-
-            // Get skill rank
-            const rank = this.skills[skill].rank;
-
-            // Get attribute value
-            const attrValue = attribute.value + attribute.bonus;
-
-            // Calculate mod
-            this.skills[skill].mod.derived = attrValue + rank;
-        });
-
         // Derive non-core skill unlocks
         (Object.keys(this.skills) as Skill[]).forEach((skill) => {
             if (CONFIG.COSMERE.skills[skill].core) return;
@@ -646,20 +656,38 @@ export class CommonActorDataModel<
             // Get natural deflect value
             const natural = this.deflect.natural ?? 0;
 
+            this.deflect.types = Object.keys(CONFIG.COSMERE.damageTypes).reduce(
+                (obj, type) => {
+                    obj[type as DamageType] = false;
+                    return obj;
+                },
+                {} as Record<DamageType, boolean>,
+            );
+
             // Find equipped armor with the highest deflect value
             const armor = this.parent.items
                 .filter((item) => item.isArmor())
                 .filter((item) => item.system.equipped)
                 .reduce(
-                    (highest, item) =>
-                        !highest || item.system.deflect > highest.system.deflect
+                    (highest, item) => {
+                        return !highest ||
+                            item.system.deflect > highest.system.deflect
                             ? item
-                            : highest,
+                            : highest;
+                    },
                     null as ArmorItem | null,
                 );
 
-            // Get armor deflect value
+            // Get armor deflect value and types
             const armorDeflect = armor?.system.deflect ?? 0;
+
+            if (armor) {
+                Object.keys(armor.system.deflects).forEach(
+                    (type) =>
+                        (this.deflect.types![type as DamageType] =
+                            armor.system.deflects[type as DamageType].active),
+                );
+            }
 
             // Derive deflect
             this.deflect.derived = Math.max(natural, armorDeflect);
@@ -716,7 +744,28 @@ export class CommonActorDataModel<
      * Apply secondary data derivations to this Data Model.
      * This is called after Active Effects are applied.
      */
-    public prepareSecondaryDerivedData(): void {}
+    public prepareSecondaryDerivedData(): void {
+        // Derive skill modifiers
+        (Object.keys(this.skills) as Skill[]).forEach((skill) => {
+            // Get the skill config
+            const skillConfig = CONFIG.COSMERE.skills[skill];
+
+            // Get the attribute associated with this skill
+            const attributeId = skillConfig.attribute;
+
+            // Get attribute
+            const attribute = this.attributes[attributeId];
+
+            // Get skill rank
+            const rank = this.skills[skill].rank;
+
+            // Get attribute value
+            const attrValue = attribute.value + attribute.bonus;
+
+            // Calculate mod
+            this.skills[skill].mod.derived = attrValue + rank;
+        });
+    }
 }
 
 const SENSES_RANGES = [5, 10, 20, 50, 100, Number.MAX_VALUE];
