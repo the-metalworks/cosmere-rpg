@@ -12,6 +12,7 @@ import { NodeConnection } from './types';
 import * as TalentTreeUtils from '@system/utils/talent-tree';
 import { AppContextMenu } from '@system/applications/utils/context-menu';
 import { renderSystemTemplate, TEMPLATES } from '@system/utils/templates';
+import { htmlStringHasContent } from '@system/utils/generic';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
@@ -509,9 +510,11 @@ export class TalentTreeViewComponent<
                     };
                 }),
                 description: await TextEditor.enrichHTML(
-                    item.system.description?.short ??
-                        item.system.description?.value ??
-                        '',
+                    htmlStringHasContent(item.system.description?.short)
+                        ? item.system.description!.short!
+                        : htmlStringHasContent(item.system.description?.value)
+                          ? item.system.description!.value!
+                          : '',
                 ),
                 hasContextActor: !!this.contextActor,
             },
