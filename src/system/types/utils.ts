@@ -88,6 +88,12 @@ export interface RawDocumentData<T = AnyObject> {
     system: T;
 }
 
+// NOTE: Use any here as we're dealing with raw actor data
+/* eslint-disable @typescript-eslint/no-explicit-any */
+export interface RawActorData extends RawDocumentData<any> {
+    items: RawDocumentData<any>[];
+}
+
 export interface NumberRange {
     min: number;
     max: number;
