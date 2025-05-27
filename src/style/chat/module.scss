@@ -717,15 +717,14 @@
     .enricher-link {
         a {
             border-radius: 4px;
-            background: var(--cosmere-color-base-1);
-            margin: .1rem;
-            padding: .13rem;
+            background: var(--cosmere-color-light-6);
+            margin: 0.125rem;
+            padding: 0.125rem;
             font-weight: bold;
 
             &:hover {
-                border-color: var(--cosmere-color-accent);
-                background: var(--cosmere-color-base-5);
-                box-shadow: 0 0 5px var(--cosmere-color-faded);
+                background: var(--cosmere-color-light-3);
+                box-shadow: 0 0 5px var(--cosmere-color-light-1);
             }
         }
     }
