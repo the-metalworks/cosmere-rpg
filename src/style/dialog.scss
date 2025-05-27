@@ -110,14 +110,18 @@
         .add-custom {
             min-height: 30px;
             background-color: color(from var(--cosmere-color-base-3) srgb r g b / 0.7);
-            border-radius: 0 0 6px 6px;
             font-family: var(--cosmere-font-normal);
             font-size: var(--font-size-12);
             font-weight: 600;
             text-align: center;
             color: var(--cosmere-color-faded);
         }
+        
+        li:last-child {
+            border-radius: 0 0 6px 6px;
+        }
     }
+
 
     &.edit-expertises, &.edit-immunities {
         form {
