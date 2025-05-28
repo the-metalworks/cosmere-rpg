@@ -789,7 +789,7 @@
                     "Handler": {
                         "Types": {
                             "grant-expertises": {
-                                "Title": "Grand Expertises"
+                                "Title": "Grant Expertises"
                             },
                             "grant-items": {
                                 "Title": "Grant Items",
@@ -838,18 +838,16 @@
                             },
                             "remove-items": {
                                 "Title": "Remove Items",
+                                "ReduceQuantity": {
+                                    "Label": "Reduce Quantity",
+                                    "Hint": "Whether to reduce the quantity of physical items instead of removing them outright.\nItems reduced to 0 quantity will be removed."
+                                },
+                                "Amount": {
+                                    "Label": "Amount",
+                                    "Hint": "The amount of quantity to remove. Only used if \"Reduce Quantity\" is enabled and the item is physical."
+                                },
                                 "Items": {
-                                    "ReduceQuantity": {
-                                        "Label": "Reduce Quantity",
-                                        "Hint": "Whether to reduce the quantity of physical items instead of removing them outright.\nItems reduced to 0 quantity will be removed."
-                                    },
-                                    "Amount": {
-                                        "Label": "Amount",
-                                        "Hint": "The amount of quantity to remove. Only used if \"Reduce Quantity\" is enabled and the item is physical."
-                                    },
-                                    "Items": {
-                                        "Label": "Items"
-                                    }
+                                    "Label": "Items"
                                 }
                             },
                             "set-attribute": {
