@@ -717,15 +717,15 @@
                 "Event": {
                     "Types": {
                         "create": {
-                            "Label": "Create Item",
+                            "Label": "Created",
                             "Description": "Triggered when the item is created."
                         },
                         "update": {
-                            "Label": "Update Item",
+                            "Label": "Updated",
                             "Description": "Triggered when the item is updated."
                         },
                         "delete": {
-                            "Label": "Delete Item",
+                            "Label": "Deleted",
                             "Description": "Triggered when the item is deleted."
                         },
                         "add-to-actor": {
