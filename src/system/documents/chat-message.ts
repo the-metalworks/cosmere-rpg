@@ -286,7 +286,7 @@ export class CosmereChatMessage extends ChatMessage {
 
         const partsNormal = [];
         const partsGraze = [];
-        const types = new Set<string>();
+        const types = new Set<[label: string, icon: string]>();
 
         for (const rollNormal of damageRolls) {
             const type = rollNormal.damageType
@@ -294,13 +294,22 @@ export class CosmereChatMessage extends ChatMessage {
                       CONFIG.COSMERE.damageTypes[rollNormal.damageType].label,
                   )
                 : '';
+            const typeIcon = rollNormal.damageType
+                ? `<i class="fas ${
+                      CONFIG.COSMERE.damageTypes[rollNormal.damageType].icon
+                  }"></i>`
+                : '';
 
-            types.add(type);
+            types.add([type, typeIcon]);
 
             this.totalDamageNormal += rollNormal.total ?? 0;
             partsNormal.push(rollNormal.formula);
             const tooltipNormal = $(await rollNormal.getTooltip());
-            this.enrichDamageTooltip(rollNormal, type, tooltipNormal);
+            this.enrichDamageTooltip(
+                rollNormal,
+                [type, typeIcon],
+                tooltipNormal,
+            );
             tooltipNormalHTML +=
                 tooltipNormal.find('.tooltip-part')[0]?.outerHTML || ``;
             if (rollNormal.options.graze) {
@@ -312,7 +321,11 @@ export class CosmereChatMessage extends ChatMessage {
                 this.totalDamageGraze += rollGraze.total ?? 0;
                 partsGraze.push(rollGraze.formula);
                 const tooltipGraze = $(await rollGraze.getTooltip());
-                this.enrichDamageTooltip(rollGraze, type, tooltipGraze);
+                this.enrichDamageTooltip(
+                    rollGraze,
+                    [type, typeIcon],
+                    tooltipGraze,
+                );
                 tooltipGrazeHTML +=
                     tooltipGraze.find('.tooltip-part')[0]?.outerHTML || '';
             }
@@ -343,21 +356,15 @@ export class CosmereChatMessage extends ChatMessage {
         const isHealing = !types.some(
             (type) =>
                 !CONFIG.COSMERE.damageTypes[DamageType.Healing].label.includes(
-                    type,
+                    type[0],
                 ),
         );
         const sectionHTML = await renderSystemTemplate(
             TEMPLATES.CHAT_CARD_SECTION,
             {
                 type: 'damage',
-                icon: `fas ${
-                    // This will need to be handled better when we do proper multi damage support
-                    isHealing
-                        ? 'fa-heart'
-                        : (CONFIG.COSMERE.damageTypes[
-                              types.first()?.toLowerCase() as DamageType
-                          ].icon ?? 'fa-heart-crack')
-                }`,
+                // This will need to be handled better when we do proper multi damage support
+                icon: `fas ${isHealing ? 'fa-heart' : 'fa-heart-crack'}`,
                 title: game.i18n!.localize(
                     isHealing ? 'GENERIC.Healing' : 'GENERIC.Damage',
                 ),
@@ -365,8 +372,9 @@ export class CosmereChatMessage extends ChatMessage {
                 footer,
                 critical,
                 damageTypes: Array.from(types)
+                    .map((type) => `${type[0]} ${type[1]}`)
                     .sort()
-                    .join(' <i class="cosmere-icon opportunity"></i> '),
+                    .join(' | '),
             },
         );
 
@@ -544,27 +552,7 @@ export class CosmereChatMessage extends ChatMessage {
         immunityList = immunityList.sort(
             ([, amountA], [, amountB]) => amountB - amountA,
         );
-        const immunitiesBreakdown =
-            immunityList.length > 3
-                ? `${damageImmune} <i class="fas fa-shield" data-tooltip="${immunityList
-                      .map(
-                          ([damageType, amount]) => `
-                    <div>
-                        <span>${game.i18n!.localize(
-                            CONFIG.COSMERE.damageTypes[damageType].label,
-                        )}</span>
-                        <span>${amount}</span>
-                    </div>
-                `,
-                      )
-                      .join('')}"</i>`
-                : immunityList.map(
-                      ([damageType, amount]) => `
-                    ${amount} <span class="fa-stack small" data-tooltip="${game.i18n?.localize('GENERIC.Immune')}: ${damageType}">
-                        <i class="fas fa-shield fa-stack-2x"></i>
-                        <i class="fas ${CONFIG.COSMERE.damageTypes[damageType].icon} fa-stack-1x fa-inverse"></i>
-                    </span>`,
-                  );
+        const immunitiesBreakdown = `<span class="immunity-total">${damageImmune} <i class="fas fa-shield"></i></span>`;
         const calculationDeflect =
             damageDeflect > 0
                 ? `${actor.deflect} <i data-tooltip="COSMERE.Actor.Statistics.Deflect" class='fas fa-shield-halved'></i>`
@@ -642,6 +630,32 @@ export class CosmereChatMessage extends ChatMessage {
             section.find('.icon.clickable').remove();
         }
 
+        const immunitiesTooltip = document.createElement('div');
+        immunitiesTooltip.classList.add('immunity-tooltip');
+        immunitiesTooltip.innerHTML = `
+            <h4>${game.i18n?.localize('COSMERE.Actor.Statistics.Immunities')}</h4>
+            ${immunityList
+                .map(
+                    ([damageType, amount]) => `
+                <div>
+                    <span class="fa-stack small">
+                        <i class="fas fa-shield fa-stack-2x"></i>
+                        <i class="fas ${CONFIG.COSMERE.damageTypes[damageType].icon} fa-inverse fa-stack-1x"></i>
+                    </span>
+                    <span>${game.i18n!.localize(
+                        CONFIG.COSMERE.damageTypes[damageType].label,
+                    )}</span>
+                    <span>${amount}</span>
+                </div>
+                `,
+                )
+                .join('')}`;
+        section.find('.immunity-total').on('mouseover', (event) => {
+            game.tooltip?.activate(event.target, {
+                content: immunitiesTooltip,
+            });
+        });
+
         html.find('.chat-card').append(section);
     }
 
@@ -654,10 +668,10 @@ export class CosmereChatMessage extends ChatMessage {
      */
     protected enrichDamageTooltip(
         roll: DamageRoll,
-        type: string,
+        type: [label: string, icon: string],
         html: JQuery,
     ) {
-        html.find('.label').text(type);
+        html.find('.label').text(`${type[0]} `).append(type[1]);
 
         const constant = getConstantFromRoll(roll);
         if (constant === 0) return;
