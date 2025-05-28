@@ -722,59 +722,59 @@
                         },
                         "update": {
                             "Label": "Updated",
-                            "Description": "Triggered when the item is updated."
+                            "Description": "Triggered when this item is updated."
                         },
                         "delete": {
                             "Label": "Deleted",
-                            "Description": "Triggered when the item is deleted."
+                            "Description": "Triggered when this item is deleted."
                         },
                         "add-to-actor": {
                             "Label": "Added to Actor",
-                            "Description": "Triggered when the item is added to an actor."
+                            "Description": "Triggered when this item is added to an actor."
                         },
                         "remove-from-actor": {
                             "Label": "Removed from Actor",
-                            "Description": "Triggered when the item is removed from an actor."
+                            "Description": "Triggered when this item is removed from an actor."
                         },
                         "equip": {
-                            "Label": "Equip Item",
-                            "Description": "Triggered when the item is equipped."
+                            "Label": "Equipped",
+                            "Description": "Triggered when this item is equipped."
                         },
                         "unequip": {
-                            "Label": "Unequip Item",
-                            "Description": "Triggered when the item is unequipped."
+                            "Label": "Unequipped",
+                            "Description": "Triggered when this item is unequipped."
                         },
                         "use": {
-                            "Label": "Use Item",
-                            "Description": "Triggered when the item is used."
+                            "Label": "Used",
+                            "Description": "Triggered when this item is used."
                         },
                         "mode-activate": {
-                            "Label": "Activate Modality",
-                            "Description": "Triggered when the item's mode becomes active for its modality."
+                            "Label": "Activated Modality",
+                            "Description": "Triggered when this item's mode becomes active for its modality."
                         },
                         "mode-deactivate": {
-                            "Label": "Deactivate Modality",
-                            "Description": "Triggered when the item's mode becomes inactive for its modality."
+                            "Label": "Deactivated Modality",
+                            "Description": "Triggered when this item's mode becomes inactive for its modality."
                         },
                         "update-actor": {
-                            "Label": "Update Actor",
-                            "Description": "Triggered when item's parent actor is updated."
+                            "Label": "Actor Updated",
+                            "Description": "Triggered when this item's parent actor is updated."
                         },
                         "apply-damage-actor": {
                             "Label": "Actor Damaged",
-                            "Description": "Triggered when damage is applied to the item's parent actor."
+                            "Description": "Triggered when damage is applied to this item's parent actor."
                         },
                         "apply-injury-actor": {
-                            "Label": "Actor Gain Injury",
-                            "Description": "Triggered when an injury is applied to the item's parent actor."
+                            "Label": "Actor Gained Injury",
+                            "Description": "Triggered when an injury is applied to this item's parent actor."
                         },
                         "short-rest-actor": {
-                            "Label": "Actor Short Rest",
-                            "Description": "Triggered when the item's parent actor takes a short rest."
+                            "Label": "Actor Short Rested",
+                            "Description": "Triggered when this item's parent actor takes a short rest."
                         },
                         "long-rest-actor": {
-                            "Label": "Actor Long Rest",
-                            "Description": "Triggered when the item's parent actor takes a long rest."
+                            "Label": "Actor Long Rested",
+                            "Description": "Triggered when this item's parent actor takes a long rest."
                         }
                     },
                     "Rule": {
