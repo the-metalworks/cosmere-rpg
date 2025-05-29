@@ -372,10 +372,10 @@
                     "New": "New Action"
                 },
                 "Trait": {
-                    "label": "Trait",
-                    "label_plural": "Traits",
-                    "desc_placeholder": "Edit this to describe this trait.",
-                    "New": "New Trait"
+                    "label": "Feature",
+                    "label_plural": "Features",
+                    "desc_placeholder": "Edit this to describe this feature.",
+                    "New": "New Feature"
                 },
                 "Injury": {
                     "label": "Injury",
@@ -1272,7 +1272,7 @@
             "specialty": "Specialty",
             "loot": "Loot",
             "armor": "Armor",
-            "trait": "Trait",
+            "trait": "Adversary Feature",
             "action": "Action",
             "talent": "Talent",
             "equipment": "Equipment",
