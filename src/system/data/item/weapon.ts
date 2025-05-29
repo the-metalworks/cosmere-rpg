@@ -51,7 +51,7 @@ export class WeaponItemDataModel extends DataModelMixin<
     TypedItemMixin({
         initial: WeaponType.Light,
         choices: () =>
-            Object.entries(CONFIG.COSMERE.weaponTypes).reduce(
+            Object.entries(CONFIG.COSMERE.items.weapon.types).reduce(
                 (acc, [key, config]) => ({
                     ...acc,
                     [key]: config.label,

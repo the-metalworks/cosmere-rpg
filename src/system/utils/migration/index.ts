@@ -6,10 +6,11 @@ import { GlobalUI } from '@system/types/utils';
 
 // Migrations
 import MIGRATE_0_2__0_3 from './migrations/0.2-0.3';
+import MIGRATE_0_3__1_0 from './migrations/0.3-1.0';
 
 // Constants
 import { HOOKS } from '@system/constants/hooks';
-const MIGRATIONS: Migration[] = [MIGRATE_0_2__0_3];
+const MIGRATIONS: Migration[] = [MIGRATE_0_2__0_3, MIGRATE_0_3__1_0];
 
 /**
  * Check if the world requires migration between the two version

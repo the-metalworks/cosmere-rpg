@@ -2,6 +2,7 @@ import { CosmereItem } from '@system/documents/item';
 import { CosmereActor } from '@system/documents/actor';
 import { ItemEventTypeConfig } from '@system/types/config';
 import { RestType } from '@system/types/cosmere';
+import { Event } from '@system/types/item/event-system';
 
 import { DeepPartial } from '@system/types/utils';
 
@@ -87,7 +88,7 @@ export function registerEventTypes() {
         cosmereRPG.api.registerItemEventType({
             type,
             hook,
-            host,
+            host: host,
             condition,
             transform,
             label: `COSMERE.Item.EventSystem.Event.Types.${type}.Label`,

@@ -42,6 +42,11 @@ import {
     EventSystem as ItemEventSystem,
 } from './item';
 
+import {
+    ItemListSection,
+    DynamicItemListSectionGenerator,
+} from './application/actor/components/item-list';
+
 export interface SizeConfig {
     label: string;
     size?: number;
@@ -240,7 +245,7 @@ export interface CultureConfig {
     reference?: string;
 }
 
-export interface AncestriesConfig {
+export interface AncestryConfig {
     label: string;
     reference?: string;
 }
@@ -396,6 +401,10 @@ export interface CosmereRPGConfig {
             hand: Record<EquipHand, EquipHandConfig>;
         };
 
+        weapon: {
+            types: Record<WeaponType, WeaponTypeConfig>;
+        };
+
         equipment: {
             types: Record<EquipmentType, EquipmentTypeConfig>;
         };
@@ -427,7 +436,6 @@ export interface CosmereRPGConfig {
         };
     };
 
-    weaponTypes: Record<WeaponType, WeaponTypeConfig>;
     weapons: Record<WeaponId, WeaponConfig>;
     armors: Record<ArmorId, ArmorConfig>;
     expertiseTypes: Record<ExpertiseType, ExpertiseTypeConfig>;
@@ -461,7 +469,7 @@ export interface CosmereRPGConfig {
     damageTypes: Record<DamageType, DamageTypeConfig>;
 
     cultures: Record<string, CultureConfig>;
-    ancestries: Record<string, AncestriesConfig>;
+    ancestries: Record<string, AncestryConfig>;
 
     units: {
         weight: string[];
@@ -484,6 +492,22 @@ export interface CosmereRPGConfig {
             };
             effectSize: {
                 ranks: AttributeScale<Size>[];
+            };
+        };
+    };
+
+    sheet: {
+        actor: {
+            components: {
+                actions: {
+                    sections: {
+                        static: Record<string, ItemListSection>;
+                        dynamic: Record<
+                            string,
+                            DynamicItemListSectionGenerator
+                        >;
+                    };
+                };
             };
         };
     };
