@@ -13,6 +13,13 @@
         localize=true
     }}
 
+    <div class="form-group">
+        <p class="hint">
+            {{localize rule.eventTypeDescription}}
+        </p>
+    </div>
+    <br>
+
     <fieldset>
         <legend>Handler</legend>
 
@@ -22,6 +29,13 @@
             name="handler.type"
             localize=true
         }}
+
+        <div class="form-group">
+            <p class="hint">
+                {{localize rule.handler.typeDescription}}
+            </p>
+        </div>
+        <br>
 
         {{!-- Handler config fields --}}
         {{#if shouldAutoPopulateConfigFields}}

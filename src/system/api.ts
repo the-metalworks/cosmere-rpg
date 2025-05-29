@@ -337,6 +337,7 @@ export function registerItemEventType(
     // Add to item event types
     CONFIG.COSMERE.items.events.types[data.type] = {
         label: data.label,
+        description: data.description,
         hook: data.hook,
         host: data.host ?? ItemEventSystem.Event.ExecutionHost.Owner,
         condition: data.condition,
@@ -347,6 +348,7 @@ export function registerItemEventType(
 interface ItemEventHandlerConfigData {
     type: string;
     label: string;
+    description?: string | (() => string);
     executor: ItemEventSystem.HandlerExecutor;
     config: {
         schema: foundry.data.fields.DataSchema;
@@ -376,6 +378,7 @@ export function registerItemEventHandlerType(
     // Add to event handlers config
     CONFIG.COSMERE.items.events.handlers[data.type] = {
         label: data.label,
+        description: data.description,
         documentClass: EventSystemUtils.constructHandlerClass(
             data.type,
             data.executor,

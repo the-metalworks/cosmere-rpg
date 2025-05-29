@@ -77,4 +77,10 @@ export class Rule extends foundry.abstract.DataModel<RuleData> {
             ? CONFIG.COSMERE.items.events.types[this.event].label
             : 'None';
     }
+
+    public get eventTypeDescription(): string {
+        return this.event !== 'none'
+            ? (CONFIG.COSMERE.items.events.types[this.event].description ?? '')
+            : '';
+    }
 }

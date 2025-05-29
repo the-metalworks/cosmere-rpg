@@ -91,6 +91,7 @@ export function registerEventTypes() {
             condition,
             transform,
             label: `COSMERE.Item.EventSystem.Event.Types.${type}.Label`,
+            description: `COSMERE.Item.EventSystem.Event.Types.${type}.Description`,
         });
     });
 }

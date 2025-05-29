@@ -30,6 +30,7 @@ export function register() {
     cosmereRPG.api.registerItemEventHandlerType({
         type: HandlerType.RemoveItems,
         label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.RemoveItems}.Title`,
+        description: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.RemoveItems}.Description`,
         config: {
             schema: {
                 reduceQuantity: new foundry.data.fields.BooleanField({

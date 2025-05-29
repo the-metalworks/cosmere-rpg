@@ -718,7 +718,7 @@
                     "Types": {
                         "create": {
                             "Label": "Created",
-                            "Description": "Triggered when the item is created."
+                            "Description": "Triggered when this item is created, duplicated, added to an actor, or imported."
                         },
                         "update": {
                             "Label": "Updated",
@@ -746,7 +746,7 @@
                         },
                         "use": {
                             "Label": "Used",
-                            "Description": "Triggered when this item is used."
+                            "Description": "Triggered when this item is used/rolled."
                         },
                         "mode-activate": {
                             "Label": "Activated Modality",
@@ -789,10 +789,12 @@
                     "Handler": {
                         "Types": {
                             "grant-expertises": {
-                                "Title": "Grant Expertises"
+                                "Title": "Grant Expertises",
+                                "Description": "Grants expertises to an actor."
                             },
                             "grant-items": {
                                 "Title": "Grant Items",
+                                "Description": "Grants items to an actor.",
                                 "AllowDuplicates": {
                                     "Label": "Allow Duplicates",
                                     "Hint": "Whether to grant items to the actor even if they already have them"
@@ -811,6 +813,7 @@
                             },
                             "modify-attribute": {
                                 "Title": "Modify Attribute",
+                                "Description": "Modifies an attribute of an actor.",
                                 "Attribute": {
                                     "Label": "Attribute"
                                 },
@@ -825,6 +828,7 @@
                             },
                             "modify-skill-rank": {
                                 "Title": "Modify Skill Rank",
+                                "Description": "Modifies the rank of a skill of an actor.",
                                 "Skill": {
                                     "Label": "Skill"
                                 },
@@ -834,10 +838,12 @@
                                 }
                             },
                             "remove-expertises": {
-                                "Title": "Remove Expertises"
+                                "Title": "Remove Expertises",
+                                "Description": "Removes expertises from an actor."
                             },
                             "remove-items": {
                                 "Title": "Remove Items",
+                                "Description": "Removes items from an actor.",
                                 "ReduceQuantity": {
                                     "Label": "Reduce Quantity",
                                     "Hint": "Whether to reduce the quantity of physical items instead of removing them outright.\nItems reduced to 0 quantity will be removed."
@@ -852,6 +858,7 @@
                             },
                             "set-attribute": {
                                 "Title": "Set Attribute",
+                                "Description": "Sets the value of an attribute of an actor.",
                                 "Attribute": {
                                     "Label": "Attribute"
                                 },
@@ -866,6 +873,7 @@
                             },
                             "set-skill-rank": {
                                 "Title": "Set Skill Rank",
+                                "Description": "Sets the rank of a skill of an actor.",
                                 "Skill": {
                                     "Label": "Skill"
                                 },
@@ -876,6 +884,7 @@
                             },
                             "update-actor": {
                                 "Title": "Update Actor",
+                                "Description": "Updates an actor by applying a set of changes.",
                                 "Target": {
                                     "Label": "Target",
                                     "Hint": "The target actor to update. If not set, the item's parent actor will be used.",
@@ -893,6 +902,7 @@
                             },
                             "update-item": {
                                 "Title": "Update Item",
+                                "Description": "Updates an item by applying a set of changes.",
                                 "Target": {
                                     "Label": "Target",
                                     "Choices": {
@@ -923,6 +933,7 @@
                             },
                             "execute-macro": {
                                 "Title": "Execute Macro",
+                                "Description": "Executes a macro.",
                                 "MacroType": {
                                     "Label": "Macro Type"
                                 },

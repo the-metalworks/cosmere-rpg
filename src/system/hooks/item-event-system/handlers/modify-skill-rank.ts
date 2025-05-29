@@ -21,6 +21,7 @@ export function register() {
     cosmereRPG.api.registerItemEventHandlerType({
         type: HandlerType.ModifySkillRank,
         label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.ModifySkillRank}.Title`,
+        description: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.ModifySkillRank}.Description`,
         config: {
             schema: {
                 skill: new foundry.data.fields.StringField({

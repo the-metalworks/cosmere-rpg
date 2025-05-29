@@ -19,6 +19,7 @@ export function register() {
     cosmereRPG.api.registerItemEventHandlerType({
         type: HandlerType.GrantExpertises,
         label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.GrantExpertises}.Title`,
+        description: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.GrantExpertises}.Description`,
         config: {
             schema: {
                 expertises: new ExpertisesField({

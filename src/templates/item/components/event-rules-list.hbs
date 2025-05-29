@@ -25,10 +25,14 @@
                     <span>{{rule.description}}</span>
                 </div>
                 <div class="detail wide">
-                    <span>{{localize rule.eventTypeLabel}}</span>
+                    <span data-tooltip="{{localize rule.eventTypeDescription}}">
+                        {{localize rule.eventTypeLabel}}
+                    </span>
                 </div>
                 <div class="detail wide">
-                    <span>{{localize rule.handler.typeLabel}}</span>
+                    <span data-tooltip="{{localize rule.handler.typeDescription}}">
+                        {{localize rule.handler.typeLabel}}
+                    </span>
                 </div>
                 <div class="controls icon faded">
                     {{#if @root.editable}}

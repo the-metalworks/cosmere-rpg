@@ -27,6 +27,7 @@ export function register() {
     cosmereRPG.api.registerItemEventHandlerType({
         type: HandlerType.SetAttribute,
         label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.SetAttribute}.Title`,
+        description: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.SetAttribute}.Description`,
         config: {
             schema: {
                 attribute: new foundry.data.fields.StringField({

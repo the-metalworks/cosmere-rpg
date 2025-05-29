@@ -30,6 +30,7 @@ export function register() {
     cosmereRPG.api.registerItemEventHandlerType({
         type: HandlerType.ExecuteMacro,
         label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.ExecuteMacro}.Title`,
+        description: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.ExecuteMacro}.Description`,
         config: {
             schema: {
                 inline: new foundry.data.fields.BooleanField({

@@ -33,6 +33,19 @@ export function constructHandlerClass(
                 : 'GENERIC.None';
         }
 
+        public get typeDescription() {
+            if (this.type === 'none') return null;
+
+            const descriptor =
+                CONFIG.COSMERE.items.events.handlers[this.type].description;
+
+            if (typeof descriptor === 'function') {
+                return descriptor.call(this);
+            } else {
+                return descriptor ?? null;
+            }
+        }
+
         public get configSchema() {
             return {
                 fields: config.schema,

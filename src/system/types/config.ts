@@ -327,6 +327,7 @@ export interface MovementTypeConfig {
 
 export interface ItemEventTypeConfig {
     label: string;
+    description?: string;
     hook: string;
     host: ItemEventSystem.Event.ExecutionHost;
     // NOTE: Allow any type as conditions should be able to freely match hook signatures
@@ -348,6 +349,7 @@ export interface ItemEventTypeConfig {
 
 export interface ItemEventHandlerTypeConfig {
     label: string;
+    description?: string | (() => string);
     documentClass: ItemEventSystem.HandlerCls;
 }
 
