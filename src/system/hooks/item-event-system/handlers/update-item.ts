@@ -4,7 +4,7 @@ import { HandlerType, Event } from '@system/types/item/event-system';
 import { ChangeData, ChangeDataModel } from '@system/data/item/misc/change';
 
 // Utils
-import { getChangeValue } from '@system/utils/changes';
+import { getChangeValue, tryApplyRollData } from '@system/utils/changes';
 
 // Constants
 import { SYSTEM_ID } from '@system/constants';
@@ -109,7 +109,22 @@ export function register() {
                     const changes = this.changes.reduce(
                         (acc, change) => ({
                             ...acc,
-                            [change.key]: getChangeValue(change, item),
+                            [change.key]: getChangeValue(
+                                tryApplyRollData(
+                                    foundry.utils.mergeObject(
+                                        item.getRollData(),
+                                        {
+                                            event: {
+                                                source: {
+                                                    item: event.item.getRollData(),
+                                                },
+                                            },
+                                        },
+                                    ),
+                                    change,
+                                ),
+                                item,
+                            ),
                         }),
                         {},
                     );

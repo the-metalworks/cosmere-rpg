@@ -1,4 +1,4 @@
-import { CosmereActor } from './actor';
+import { CosmereActor, CosmereActorRollData } from './actor';
 import { MESSAGE_TYPES } from './chat-message';
 import {
     ItemType,
@@ -1331,6 +1331,12 @@ export class CosmereItem<
         };
     }
 
+    public getRollData(): CosmereItem.RollData<T> {
+        return foundry.utils.mergeObject(super.getRollData(), {
+            actor: this.actor?.getRollData(),
+        });
+    }
+
     public getEnricherData() {
         let actor = undefined;
         if (this.actor) {
@@ -1499,6 +1505,10 @@ export namespace CosmereItem {
          */
         advantageModeDamage?: AdvantageMode;
     }
+
+    export type RollData<T extends DataSchema = DataSchema> = T & {
+        actor?: CosmereActorRollData;
+    };
 }
 
 export type CultureItem = CosmereItem<CultureItemDataModel>;

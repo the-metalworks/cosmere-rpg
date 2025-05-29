@@ -1,7 +1,7 @@
 export interface ChangeData {
     key: string;
     value: string;
-    mode: (typeof CONST.ACTIVE_EFFECT_MODES)[keyof typeof CONST.ACTIVE_EFFECT_MODES];
+    mode: number;
 }
 
 export class ChangeDataModel extends foundry.abstract.DataModel {
