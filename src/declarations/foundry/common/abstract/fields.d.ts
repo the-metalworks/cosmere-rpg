@@ -96,6 +96,8 @@ declare namespace foundry {
                  */
                 options: Options;
 
+                initial: Options['initial'];
+
                 /**
                  * Whether this field defines part of a Document/Embedded Document hierarchy.
                  * @default false

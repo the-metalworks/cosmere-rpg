@@ -59,6 +59,10 @@ interface ActivationData {
 }
 
 interface ActivatableItemMixinOptions {
+    type?: {
+        initial?: ActivationType;
+    };
+
     skill?: {
         /**
          * Whether a the skill can be set to default or not.
@@ -434,8 +438,14 @@ function getActivationDataModelCls(options?: ActivatableItemMixinOptions) {
         static defineSchema() {
             const schema = super.defineSchema();
 
+            if (options?.type?.initial) {
+                schema.type.options.initial = options.type.initial;
+                schema.type.initial = options.type.initial;
+            }
+
             if (options?.skill?.initial) {
                 schema.skill.options.initial = options.skill.initial;
+                schema.skill.initial = options.skill.initial;
             }
 
             if (options?.skill?.allowDefault) {
