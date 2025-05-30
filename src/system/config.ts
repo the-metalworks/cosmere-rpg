@@ -773,9 +773,11 @@ const COSMERE: CosmereRPGConfig = {
             types: {
                 [WeaponType.Light]: {
                     label: 'COSMERE.Item.Weapon.Type.Light',
+                    skill: Skill.LightWeapons,
                 },
                 [WeaponType.Heavy]: {
                     label: 'COSMERE.Item.Weapon.Type.Heavy',
+                    skill: Skill.HeavyWeapons,
                 },
                 [WeaponType.Special]: {
                     label: 'COSMERE.Item.Weapon.Type.Special',

@@ -66,7 +66,17 @@ export class WeaponItemDataModel extends DataModelMixin<
             choices: [EquipType.Hold],
         },
     }),
-    ActivatableItemMixin(),
+    ActivatableItemMixin({
+        skill: {
+            allowDefault: true,
+            defaultResolver: function (this: WeaponItemData) {
+                return (
+                    CONFIG.COSMERE.items.weapon.types[this.type].skill ?? null
+                );
+            },
+            initial: 'default',
+        },
+    }),
     AttackingItemMixin(),
     DamagingItemMixin(),
     ExpertiseItemMixin(),

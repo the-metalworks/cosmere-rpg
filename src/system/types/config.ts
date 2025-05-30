@@ -137,6 +137,11 @@ export interface CurrencyDenominationConfig {
 
 export interface WeaponTypeConfig {
     label: string;
+
+    /**
+     * The skill associated with this weapon type.
+     */
+    skill?: Skill;
 }
 
 export interface WeaponConfig {
