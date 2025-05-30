@@ -3,7 +3,10 @@
         {{#each categories as |category|}}
         <ul class="expertise-list">
             <li class="form-group header">
-                <span class="title">{{localize category.label}}</span>
+                <span class="title">
+                    {{#if category.icon}}<i class="{{category.icon}}"></i>{{/if}}
+                    {{localize category.label}}
+                </span>
             </li>
 
             {{#each category.configuredExpertises as |expertise|}}

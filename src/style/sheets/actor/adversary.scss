@@ -43,11 +43,15 @@
         }
     }
 
-    .adversary-expertises {
-        margin-top: 0.675rem;
-        
-        .icon-header {
-            color: var(--cosmere-color-faded);
+    /* --- Components --- */
+
+    app-adversary-skills {
+        .pill[data-action="roll-skill"] {
+            cursor: pointer;
+
+            &:hover {
+                text-shadow: 0 0 8px var(--color-shadow-primary);
+            }
         }
     }
 }
