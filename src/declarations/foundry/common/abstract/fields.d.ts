@@ -316,6 +316,8 @@ declare namespace foundry {
             }
 
             class StringField extends DataField {
+                declare options: StringFieldOptions;
+
                 constructor(
                     options?: StringFieldOptions,
                     context?: DataFieldContext,
