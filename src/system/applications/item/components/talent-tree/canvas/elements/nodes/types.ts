@@ -15,7 +15,7 @@ export abstract class BaseNode extends Drawable {
 
     public constructor(
         canvas: PIXICanvasApplication,
-        public readonly data: NodeData,
+        public readonly data: TalentTree.Node,
     ) {
         super(canvas);
 
@@ -34,6 +34,10 @@ export abstract class BaseNode extends Drawable {
             width: GRID_SIZE,
             height: GRID_SIZE,
         };
+    }
+
+    public get origin(): PIXI.IPointData {
+        return this.position;
     }
 
     /* --- Public functions --- */

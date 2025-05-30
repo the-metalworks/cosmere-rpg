@@ -162,16 +162,16 @@ export abstract class BaseConnection extends Drawable {
 
         if (!this.path || this.path.length === 0) {
             this.moveTo(
-                this.from.position.x +
+                this.from.origin.x +
                     this.from.size.width / 2 +
                     this.fromOffset.x,
-                this.from.position.y +
+                this.from.origin.y +
                     this.from.size.height / 2 +
                     this.fromOffset.y,
             );
             this.lineTo(
-                this.to.position.x + this.to.size.width / 2 + this.toOffset.x,
-                this.to.position.y + this.to.size.height / 2 + this.toOffset.y,
+                this.to.origin.x + this.to.size.width / 2 + this.toOffset.x,
+                this.to.origin.y + this.to.size.height / 2 + this.toOffset.y,
             );
         } else {
             for (let i = 0; i < this.path.length; i++) {
@@ -435,11 +435,11 @@ export class NestedTreeConnection extends BaseConnection {
 
     protected get fromOffset() {
         return {
-            x:
-                (this.from.contentBounds?.x ?? 0) -
-                GRID_SIZE / 2 +
-                (this.from.contentBounds?.width ?? 0) / 2,
-            y: (this.from.contentBounds?.y ?? 0) - GRID_SIZE,
+            x: 0,
+            y: -(
+                this.from.size.height / 2 -
+                (this.from.header?.size.height ?? 0) / 2
+            ),
         };
     }
 }
