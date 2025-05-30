@@ -703,8 +703,8 @@ export class CosmereChatMessage extends ChatMessage {
         const overlayD20 = await renderSystemTemplate(
             TEMPLATES.CHAT_OVERLAY_D20,
             {
-                imgAdvantage: `systems/${SYSTEM_ID}/assets/icons/svg/dice/retro-adv.svg`,
-                imgDisadvantage: `systems/${SYSTEM_ID}/assets/icons/svg/dice/retro-dis.svg`,
+                imgAdvantage: `systems/${SYSTEM_ID}/assets/icons/svg/dice/retro_adv.svg`,
+                imgDisadvantage: `systems/${SYSTEM_ID}/assets/icons/svg/dice/retro_dis.svg`,
             },
         );
 
@@ -716,7 +716,7 @@ export class CosmereChatMessage extends ChatMessage {
         const overlayCrit = await renderSystemTemplate(
             TEMPLATES.CHAT_OVERLAY_CRIT,
             {
-                imgCrit: `systems/${SYSTEM_ID}/assets/icons/svg/dice/retro-crit.svg`,
+                imgCrit: `systems/${SYSTEM_ID}/assets/icons/svg/dice/retro_crit.svg`,
             },
         );
 
