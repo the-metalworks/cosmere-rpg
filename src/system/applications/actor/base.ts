@@ -1,4 +1,4 @@
-import { Resource } from '@src/system/types/cosmere';
+import { DamageType, Resource, Status } from '@src/system/types/cosmere';
 import { CosmereActor } from '@system/documents/actor';
 import { DeepPartial, AnyObject } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
@@ -120,6 +120,18 @@ export class BaseActorSheet<
 
     public get mode(): ActorSheetMode {
         return this.actor.getFlag(SYSTEM_ID, 'sheet.mode') ?? 'edit';
+    }
+
+    get areExpertisesCollapsed() {
+        return (
+            this.actor.getFlag(SYSTEM_ID, 'sheet.expertisesCollapsed') ?? false
+        );
+    }
+
+    get areImmunitiesCollapsed() {
+        return (
+            this.actor.getFlag(SYSTEM_ID, 'sheet.immunitiesCollapsed') ?? false
+        );
     }
 
     /* --- Drag drop --- */
@@ -244,7 +256,6 @@ export class BaseActorSheet<
      * Provide a static callback for the prose mirror save button
      */
     private static async onSave(this: BaseActorSheet) {
-        console.log('onSave called');
         await this.saveHtmlField();
     }
 
@@ -452,12 +463,27 @@ export class BaseActorSheet<
             );
         }
 
+        // separating this as most times one or both can be shortcutted
+        const hasDamageImmunities = (
+            Object.keys(this.actor.system.immunities.damage) as DamageType[]
+        ).some((type) => this.actor.system.immunities.damage[type]);
+        const hasConditionImmunities = (
+            Object.keys(this.actor.system.immunities.condition) as Status[]
+        ).some((cond) => this.actor.system.immunities.condition[cond]);
+        const hasImmunities = hasDamageImmunities || hasConditionImmunities;
+
         return {
             ...(await super._prepareContext(options)),
             actor: this.actor,
 
             editable: this.isEditable,
             mode: this.mode,
+            expertisesCollapsed: this.areExpertisesCollapsed,
+            hasExpertises:
+                this.actor.system.expertises &&
+                this.actor.system.expertises.length > 0,
+            immunitiesCollapsed: this.areImmunitiesCollapsed,
+            hasImmunities,
             isEditMode: this.mode === 'edit' && this.isEditable,
 
             // Prose mirror state

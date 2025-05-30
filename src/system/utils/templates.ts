@@ -27,6 +27,8 @@ export const TEMPLATES = {
     ACTOR_BASE_INJURIES_LIST: 'actors/components/injuries-list.hbs',
     ACTOR_BASE_CURRENCY_LIST: 'actors/components/currency-list.hbs',
     ACTOR_BASE_ATTRIBUTES: 'actors/components/attributes.hbs',
+    ACTOR_BASE_IMMUNITIES: 'actors/components/immunities.hbs',
+    ACTOR_BASE_EXPERTISES: 'actors/components/expertises.hbs',
     ACTOR_BASE_CONDITIONS: 'actors/components/conditions.hbs',
     ACTOR_BASE_DETAILS: 'actors/components/details.hbs',
     ACTOR_BASE_RESOURCE: 'actors/components/resource.hbs',
@@ -49,7 +51,6 @@ export const TEMPLATES = {
         'actors/character/partials/char-effects-tab.hbs',
     ACTOR_CHARACTER_ANCESTRY: 'actors/character/components/ancestry.hbs',
     ACTOR_CHARACTER_CULTURE: 'actors/character/components/culture.hbs',
-    ACTOR_CHARACTER_EXPERTISES: 'actors/character/components/expertises.hbs',
     ACTOR_CHARACTER_FAVORITES: 'actors/character/components/favorites.hbs',
     ACTOR_CHARACTER_PATHS: 'actors/character/components/paths.hbs',
     ACTOR_CHARACTER_CONNECTIONS_LIST:
@@ -66,8 +67,7 @@ export const TEMPLATES = {
     ACTOR_ADVERSARY_NOTES_TAB: 'actors/adversary/partials/adv-notes-tab.hbs',
     ACTOR_ADVERSARY_EFFECTS_TAB:
         'actors/adversary/partials/adv-effects-tab.hbs',
-    ACTOR_ADVERSARY_SKILLS_GROUP:
-        'actors/adversary/components/skills-group.hbs',
+    ACTOR_ADVERSARY_SKILLS: 'actors/adversary/components/skills.hbs',
 
     //ITEM
     ITEM_BASE_HEADER: 'item/parts/header.hbs',
@@ -143,6 +143,7 @@ export const TEMPLATES = {
 
     //DIALOGS
     DIALOG_ACTOR_EDIT_EXPERTISES: 'actors/dialogs/edit-expertises.hbs',
+    DIALOG_ACTOR_EDIT_IMMUNITIES: 'actors/dialogs/edit-immunities.hbs',
     DIALOG_ACTOR_CONFIGURE_RESOURCE: 'actors/dialogs/configure-resource.hbs',
     DIALOG_ACTOR_CONFIGURE_DEFLECT: 'actors/dialogs/configure-deflect.hbs',
     DIALOG_ACTOR_CONFIGURE_DEFENSE: 'actors/dialogs/configure-defense.hbs',
