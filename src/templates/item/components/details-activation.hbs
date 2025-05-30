@@ -1,4 +1,5 @@
 {{#if hasActivation}}
+{{log this}}
     <fieldset>
         <legend>{{localize "COSMERE.Item.Sheet.Activation.Title"}}</legend>
 
@@ -7,7 +8,7 @@
             name="system.activation.type"
             value=item.system.activation.type 
             localize=true
-            editable=editable
+            disabled=(not editable)
         }}
 
         {{#if hasActivationType}}
@@ -22,7 +23,7 @@
                             value=item.system.activation.cost.value
                             type="number"
                             localize=true
-                            editable=editable
+                            readonly=(not editable)
                         }}
                     {{/if}}
 
@@ -31,7 +32,7 @@
                         name="system.activation.cost.type"
                         value=item.system.activation.cost.type
                         localize=true
-                        editable=editable
+                        disabled=(not editable)
                     }}
                 </div>
             </div>
@@ -48,7 +49,7 @@
                             name=(concat "system.activation.consume[" @index "].value")
                             value=this.value
                             type="number"
-                            editable=@root.editable
+                            editable=(not @root.editable)
                         }}
 
                         {{#if (eq this.type "resource")}}
@@ -56,7 +57,7 @@
                                 name=(concat "system.activation.consume[" @index "].resource")
                                 value=this.resource
                                 localize=true
-                                editable=@root.editable
+                                disabled=(not @root.editable)
                             }}
                         {{/if}}
 
@@ -66,7 +67,7 @@
                             name=(concat "system.activation.consume[" @index "].type")
                             value=this.type
                             localize=true
-                            editable=@root.editable
+                            disabled=(not @root.editable)
                         }}
                         
                         <div class="extra">
@@ -83,7 +84,7 @@
                             name="system.activation.consume[].type"
                             value="none"
                             localize=true
-                            editable=editable
+                            disabled=(not editable)
                         }}
                     </div>
                     {{/each}}
@@ -101,7 +102,7 @@
                             value=item.system.activation.uses.value
                             type="number"
                             localize=true
-                            editable=editable
+                            readonly=(not editable)
                         }}
 
                         <span class="delim">/</span>
@@ -112,7 +113,7 @@
                             value=item.system.activation.uses.max
                             type="number"
                             localize=true
-                            editable=editable
+                            readonly=(not editable)
                         }}
                     {{/if}}
 
@@ -121,7 +122,7 @@
                         name="system.activation.uses.type"
                         value=item.system.activation.uses.type
                         localize=true
-                        editable=editable
+                        disabled=(not editable)
                         choices=usesTypeSelectOptions
                     }}
                 </div>        
@@ -133,7 +134,7 @@
                     name="system.activation.uses.recharge"
                     value=item.system.activation.uses.recharge 
                     localize=true
-                    editable=editable
+                    disabled=(not editable)
                 }}
             {{/if}}
 
@@ -144,7 +145,7 @@
                     name="system.activation.skill"
                     value=item.system.activation.skill 
                     localize=true
-                    editable=editable
+                    disabled=(not editable)
                 }}
 
                 {{!-- Attribute select --}}
@@ -153,7 +154,7 @@
                         name="system.activation.attribute"
                         value=item.system.activation.attribute 
                         localize=true
-                        editable=editable
+                        disabled=(not editable)
                     }}
                 {{else}}
                     <div class="form-group">
@@ -173,7 +174,7 @@
                     name="system.activation.modifierFormula"
                     value=item.system.activation.modifierFormula 
                     localize=true
-                    editable=editable
+                    readonly=(not editable)
                 }}
 
                 {{!-- Raise the stakes --}}
@@ -181,7 +182,7 @@
                     name="system.activation.plotDie"
                     value=item.system.activation.plotDie 
                     localize=true
-                    editable=editable
+                    readonly=(not editable)
                 }}
 
                 {{!-- Opportunity and Complication --}}
@@ -191,12 +192,14 @@
                     placeholder="20"
                     localize=true
                     class="field"
+                    readonly=(not editable)
                 }}
                 {{formGroup systemFields.activation.fields.complication 
                     value=item.system.activation.complication 
                     type="number"
                     placeholder="1"
                     localize=true
+                    readonly=(not editable)
                 }}
             {{/if}}
         {{/if}}
