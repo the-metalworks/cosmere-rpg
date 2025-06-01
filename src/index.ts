@@ -55,8 +55,9 @@ Hooks.once('init', async () => {
     CONFIG.Combat.documentClass = documents.CosmereCombat as typeof Combat;
     CONFIG.ui.combat = applications.combat.CosmereCombatTracker;
 
-    (CONFIG.Combatant as AnyMutableObject).dataModels =
-        dataModels.combatant.config;
+    // NOTE: Disabled for now as v12 doesn't permit users to update the system of combatants they own
+    // (CONFIG.Combatant as AnyMutableObject).dataModels =
+    //     dataModels.combatant.config;
     CONFIG.Combatant.documentClass =
         documents.CosmereCombatant as typeof Combatant;
 

@@ -2,6 +2,9 @@ import { TurnSpeed } from '@system/types/cosmere';
 
 import { CosmereCombatant } from './combatant';
 
+// Constants
+import { SYSTEM_ID } from '@system/constants';
+
 export class CosmereCombat extends Combat<CosmereCombatant> {
     /**
      * Sets all defeated combatants activation status to true (already activated),
@@ -34,7 +37,7 @@ export class CosmereCombat extends Combat<CosmereCombatant> {
                         options: unknown,
                     ) => CosmereCombatant)(
                         foundry.utils.mergeObject(c.toObject(), {
-                            'system.turnSpeed': TurnSpeed.Fast,
+                            [`flags.${SYSTEM_ID}.turnSpeed`]: TurnSpeed.Fast,
                         }),
                         { parent: c.parent },
                     );

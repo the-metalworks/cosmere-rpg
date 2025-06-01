@@ -36,11 +36,11 @@ export class CosmereCombatTracker extends CombatTracker {
             // Prepare turn data
             const newTurn: CosmereTurn = {
                 ...turn,
-                turnSpeed: combatant.system.turnSpeed,
+                turnSpeed: combatant.turnSpeed,
                 type: combatant.actor.type,
-                activated: combatant.system.activated,
+                activated: combatant.activated,
                 isBoss: combatant.isBoss,
-                bossFastActivated: combatant.system.bossFastActivated,
+                bossFastActivated: combatant.bossFastActivated,
             };
 
             // Strip active player formatting
