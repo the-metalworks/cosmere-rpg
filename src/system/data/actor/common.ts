@@ -779,7 +779,7 @@ export class CommonActorDataModel<
 
 const SENSES_RANGES = [5, 10, 20, 50, 100, Number.MAX_VALUE];
 function awarenessToSensesRange(attr: AttributeData) {
-    const awareness = attr.value;
+    const awareness = attr.value + attr.bonus;
     return SENSES_RANGES[
         Math.min(Math.ceil(awareness / 2), SENSES_RANGES.length)
     ];
@@ -787,7 +787,7 @@ function awarenessToSensesRange(attr: AttributeData) {
 
 const MOVEMENT_RATES = [20, 25, 30, 40, 60, 80];
 function speedToMovementRate(attr: AttributeData) {
-    const speed = attr.value;
+    const speed = attr.value + attr.bonus;
     return MOVEMENT_RATES[
         Math.min(Math.ceil(speed / 2), MOVEMENT_RATES.length)
     ];
@@ -795,7 +795,7 @@ function speedToMovementRate(attr: AttributeData) {
 
 const LIFTING_CAPACITIES = [100, 200, 500, 1000, 5000, 10000];
 function strengthToLiftingCapacity(attr: AttributeData) {
-    const strength = attr.value;
+    const strength = attr.value + attr.bonus;
     return LIFTING_CAPACITIES[
         Math.min(Math.ceil(strength / 2), LIFTING_CAPACITIES.length)
     ];
@@ -803,7 +803,7 @@ function strengthToLiftingCapacity(attr: AttributeData) {
 
 const CARRYING_CAPACITIES = [50, 100, 250, 500, 2500, 5000];
 function strengthToCarryingCapacity(attr: AttributeData) {
-    const strength = attr.value;
+    const strength = attr.value + attr.bonus;
     return CARRYING_CAPACITIES[
         Math.min(Math.ceil(strength / 2), CARRYING_CAPACITIES.length)
     ];

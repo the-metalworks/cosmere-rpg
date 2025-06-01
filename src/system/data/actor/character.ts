@@ -2,7 +2,7 @@
 import { Resource } from '@system/types/cosmere';
 import { DeepPartial, AnyObject } from '@system/types/utils';
 
-import { CommonActorDataModel, CommonActorData } from './common';
+import { CommonActorDataModel, CommonActorData, AttributeData } from './common';
 
 // Utils
 import * as Advancement from '@system/utils/advancement';
@@ -145,9 +145,7 @@ export class CharacterActorDataModel extends CommonActorDataModel<CharacterActor
         );
 
         // Derive the recovery die based on the character's willpower
-        this.recovery.die.derived = willpowerToRecoveryDie(
-            this.attributes.wil.value,
-        );
+        this.recovery.die.derived = willpowerToRecoveryDie(this.attributes.wil);
 
         // Derive resource max
         (Object.keys(this.resources) as Resource[]).forEach((key) => {
@@ -181,7 +179,8 @@ export class CharacterActorDataModel extends CommonActorDataModel<CharacterActor
 }
 
 export const RECOVERY_DICE = ['d4', 'd6', 'd8', 'd10', 'd12', 'd20'];
-function willpowerToRecoveryDie(willpower: number) {
+function willpowerToRecoveryDie(attr: AttributeData) {
+    const willpower = attr.value + attr.bonus;
     return RECOVERY_DICE[
         Math.min(Math.ceil(willpower / 2), RECOVERY_DICE.length)
     ];
