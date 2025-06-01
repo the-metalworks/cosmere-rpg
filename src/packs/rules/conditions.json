@@ -1,0 +1,39 @@
+{
+    "name": "Conditions",
+    "_id": "A3Ac4yL1J0tdYcjP",
+    "pages": [
+        {
+            "sort": 700000,
+            "name": "Conditions",
+            "type": "text",
+            "_id": "OMT0NRT0IcBuHczN",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<div class=\"sl-journal\"><p>Many effects can apply a temporary condition to you (for example, “you become @UUID[.OMT0NRT0IcBuHczN#slowed]{Slowed}”). These alter your abilities for the duration of that effect.</p><p>If an effect doesn’t state its duration (or how you can remove the condition early), all the rules you need for determining that are in the condition itself.</p><p>Conditions generally only apply to characters, not objects. For example, if a rule tells you to apply a condition to targets in a certain area, objects in that area ignore that condition. However, when it fits the story, the GM might decide that objects are affected by a condition (or by a similar narrative effect).</p><p>This game includes the following conditions, listed in alphabetical order.</p><p></p><h2>Afflicted</h2><p>While Afflicted, you slowly take damage over time. In combat, at the end of each of your turns, you take the amount and type of damage specified by the effect that gave you the condition; this information is typically stated in brackets. For example, if you’re Afflicted [[/r 1d4]] Vital, you take 1d4 damage at the end of each of your turns.</p><p>Out of combat, you instead take that damage every 10 seconds and after each time someone attempts to remove the condition.</p><p>Unlike most conditions, you can be Afflicted by multiple effects simultaneously. When this happens, resolve each effect separately.</p><p></p><h2>Determined</h2><p>While Determined, when you fail a test, you can add an Opportunity to the result. After you choose to do so, remove the Determined condition.</p><p></p><h2>Disoriented</h2><p>While Disoriented, your senses are disrupted, making most tasks difficult. You can’t use reactions, your senses always count as obscured, and Perception tests (and similar tests to use your senses) gain a disadvantage.</p><p></p><h2>Empowered</h2><p>When a Knight Radiant swears an Ideal, they become Empowered, granting a burst of unrestrained power. While Empowered, you gain an advantage on all tests and your Investiture refills to your maximum at the start of each of your turns. Remove this condition at the end of the current scene.</p><p></p><h2>Enhanced</h2><p>While Enhanced, one of your attributes temporarily increases, as specified in brackets when you gain that condition. The specified attribute gains a bonus equal to the specified number; however, this bonus doesn’t change your defenses, maximum health, maximum focus, or maximum Investiture.</p><p>For example, if you have a Speed of 3 and become Enhanced [+2 Speed], you temporarily gain the following benefits:</p><ul><li><p>Gain a +2 bonus to Agility, Light Weaponry, Stealth, and Thievery tests.</p></li><li><p>Gain a +2 bonus to any talents that directly use your Speed.</p></li><li><p>Increase your movement rate from 30 feet to 40 feet.</p></li></ul><p>Unlike most conditions, Enhanced has a cumulative effect, and more than one of your attributes can be Enhanced at a time.</p><p></p><h2>Exhausted</h2><p>While Exhausted, you feel fatigued and your skill tests become more difficult.</p><p>When you gain this condition, it states a negative number in brackets. After you calculate a test result but before you resolve its effects, apply a penalty equal to this number.</p><p>After each long rest, reduce your Exhausted penalty by 1. The condition is removed when your penalty equals 0.</p><p>Unlike most conditions, Exhausted has a cumulative effect. When you gain a second instance of this condition, add its listed penalty to your current Exhausted penalty. For example, if an effect makes you Exhausted [-2], you subtract 2 from the result of all tests; if a different effect then makes you Exhausted [-1], that increases your Exhausted penalty, so you now subtract 3 from the result of all tests. As usual, your final test result can’t be less than 0, regardless of your penalty.</p><p></p><h2>Focused</h2><p>While Focused, you are engaged and intent on your task. When you use an ability that costs focus, its cost is reduced by 1.</p><p></p><h2>Immobilized</h2><p>While Immobilized, your movement rate becomes 0, and you can’t move or be moved by other effects.</p><p></p><h2>Prone</h2><p>While Prone, you are lying flat on the ground. While Prone, you are Slowed and melee attacks against you gain an advantage. You can use the Brace action without cover.</p><p>You can stand up and end this condition as 0. After you do, your movement rate is reduced by 5 until the start of your next turn.</p><p>If you become Prone while climbing or flying, you fall and take damage as usual.</p><p></p><h2>Restrained</h2><p>While Restrained, your movement rate becomes 0. You gain a disadvantage on all tests other than those to escape your bonds. If the effect that applies this condition doesn’t state an escape DC, it’s up to the GM whether and how the condition can be removed early.</p><p></p></p><p></p><h2>Slowed</h2><p>While Slowed, your movement rate is halved. If you become Slowed in the middle of movement, halve your remaining movement (rounded up).</p><p></p><h2>Stunned</h2><p>While Stunned in combat, you lose any reactions, and on your turn, you gain two fewer<span class=\"fontstyle0\" style=\"color:rgb(36,32,33);font-size:10pt\"> </span><span class=\"cosmere-icon\">1</span><span class=\"fontstyle0\" style=\"color:rgb(36,32,33);font-size:10pt\"> </span>and don’t gain a reaction. While Stunned out of combat, you are overwhelmed, making you move and react slower to your situation at the GM’s discretion.</p><p></p><h2>Surprised</h2><p>While Surprised, you lose any reactions, you don’t gain a reaction at the start of combat or on your turn, you can’t take a fast turn, and you gain one fewer <span class=\"cosmere-icon\">1</span>. Remove this condition after your next turn.</p><p></p><h2>Unconscious</h2><p>While Unconscious, your movement rate becomes 0, you can’t move or communicate, and you’re unaware of your surroundings. When you gain this condition, you fall @UUID[.OMT0NRT0IcBuHczN#prone]{Prone} and drop anything you’re carrying. You can’t interact with your surroundings or use any actions or reactions other than the Breathe Stormlight action and Regenerate free action (if you’re Radiant). In combat, you always go slow, but you can’t do anything on your turn (other than the above Radiant actions).</p><p>Enemies typically ignore Unconscious characters unless they have a strong reason to do otherwise.</p><p>If you are a PC, you can choose to regain consciousness at the end of any of your turns (no action required) or when an effect heals you to at least 1 health. When you do so, other characters can sense you’re conscious, you remove the Unconscious condition, and if you’re at 0 health, you recover 1 health. But be careful: with such low health, you could easily suffer another injury, this one potentially more dangerous or deadly.</p><p>If you are an NPC, you automatically regain consciousness when you recover 1 health.</p></div>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "ownership": {
+                "default": 2
+            },
+            "flags": {},
+            "_key": "!journal.pages!A3Ac4yL1J0tdYcjP.OMT0NRT0IcBuHczN"
+        }
+    ],
+    "folder": null,
+    "flags": {},
+    "sort": 99659,
+    "ownership": {
+        "default": 2
+    },
+    "_key": "!journal!A3Ac4yL1J0tdYcjP"
+}
