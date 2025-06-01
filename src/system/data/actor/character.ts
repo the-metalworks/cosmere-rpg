@@ -134,6 +134,15 @@ export class CharacterActorDataModel extends CommonActorDataModel<CharacterActor
 
         // Derive the maximum skill rank
         this.maxSkillRank = currentAdvancementRule.maxSkillRanks;
+    }
+
+    public override prepareSecondaryDerivedData(): void {
+        super.prepareSecondaryDerivedData();
+
+        // Get advancement rules relevant to the character
+        const advancementRules = Advancement.getAdvancementRulesUpToLevel(
+            this.level,
+        );
 
         // Derive the recovery die based on the character's willpower
         this.recovery.die.derived = willpowerToRecoveryDie(
@@ -146,28 +155,16 @@ export class CharacterActorDataModel extends CommonActorDataModel<CharacterActor
             const resource = this.resources[key];
 
             if (key === Resource.Health) {
-                // Get strength mod
-                const strength =
-                    this.attributes.str.value + this.attributes.str.bonus;
-
                 // Assign max
                 resource.max.derived = Advancement.deriveMaxHealth(
                     advancementRules,
-                    strength,
+                    this.attributes.str.value, // Should only be the value, not include the bonus
                 );
             } else if (key === Resource.Focus) {
-                // Get willpower mod
-                const willpower =
-                    this.attributes.wil.value + this.attributes.wil.bonus;
-
                 // Assign max
-                resource.max.derived = 2 + willpower;
+                resource.max.derived = 2 + this.attributes.wil.value; // Should only be the value, not include the bonus
             }
         });
-    }
-
-    public override prepareSecondaryDerivedData(): void {
-        super.prepareSecondaryDerivedData();
 
         // Clamp resource values to their max values
         (Object.keys(this.resources) as Resource[]).forEach((key) => {

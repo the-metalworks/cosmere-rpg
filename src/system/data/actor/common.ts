@@ -618,7 +618,73 @@ export class CommonActorDataModel<
     public prepareDerivedData(): void {
         super.prepareDerivedData();
 
+        // Derive non-core skill unlocks
+        (Object.keys(this.skills) as Skill[]).forEach((skill) => {
+            if (CONFIG.COSMERE.skills[skill].core) return;
+
+            // Check if the actor has a power that unlocks this skill
+            const unlocked = this.parent.powers.some(
+                (power) => power.system.skill === skill,
+            );
+
+            // Set unlocked status
+            this.skills[skill].unlocked = unlocked;
+        });
+
+        // Lock other movement types to always use override
+        (Object.keys(CONFIG.COSMERE.movement.types) as MovementType[])
+            .filter((type) => type !== MovementType.Walk)
+            .forEach((type) => (this.movement[type].rate.useOverride = true));
+
+        // Injury count
+        this.injuries.derived = this.parent.items.filter(
+            (item) => item.type === ItemType.Injury,
+        ).length;
+
+        const money = this.parent.items.filter(
+            (item) =>
+                item.type === ItemType.Loot &&
+                (item as LootItem).system.isMoney,
+        ) as LootItem[];
+
+        // Derive currency conversion values
+        Object.keys(this.currency).forEach((currency) => {
+            // Get currency data
+            const currencyData = this.currency[currency];
+
+            let total = 0;
+
+            money.forEach((item) => {
+                if (item.system.price.currency !== currency) return;
+
+                total += item.system.price.baseValue * item.system.quantity;
+            });
+
+            // Update derived total
+            currencyData.total.derived = total;
+        });
+    }
+
+    /**
+     * Apply secondary data derivations to this Data Model.
+     * This is called after Active Effects are applied.
+     */
+    public prepareSecondaryDerivedData(): void {
+        // Senses range
         this.senses.range.derived = awarenessToSensesRange(this.attributes.awa);
+
+        // Lifting & Carrying
+        this.encumbrance.lift.derived = strengthToLiftingCapacity(
+            this.attributes.str,
+        );
+        this.encumbrance.carry.derived = strengthToCarryingCapacity(
+            this.attributes.str,
+        );
+
+        // Movement
+        this.movement[MovementType.Walk].rate.derived = speedToMovementRate(
+            this.attributes.spd,
+        );
 
         // Derive defenses
         (Object.keys(this.defenses) as AttributeGroup[]).forEach((group) => {
@@ -635,17 +701,25 @@ export class CommonActorDataModel<
             this.defenses[group].derived = 10 + attrsSum;
         });
 
-        // Derive non-core skill unlocks
+        // Derive skill modifiers
         (Object.keys(this.skills) as Skill[]).forEach((skill) => {
-            if (CONFIG.COSMERE.skills[skill].core) return;
+            // Get the skill config
+            const skillConfig = CONFIG.COSMERE.skills[skill];
 
-            // Check if the actor has a power that unlocks this skill
-            const unlocked = this.parent.powers.some(
-                (power) => power.system.skill === skill,
-            );
+            // Get the attribute associated with this skill
+            const attributeId = skillConfig.attribute;
 
-            // Set unlocked status
-            this.skills[skill].unlocked = unlocked;
+            // Get attribute
+            const attribute = this.attributes[attributeId];
+
+            // Get skill rank
+            const rank = this.skills[skill].rank;
+
+            // Get attribute value
+            const attrValue = attribute.value + attribute.bonus;
+
+            // Calculate mod
+            this.skills[skill].mod.derived = attrValue + rank;
         });
 
         // Get deflect source, defaulting to armor
@@ -700,85 +774,12 @@ export class CommonActorDataModel<
             // Derive deflect
             this.deflect.derived = Math.max(natural, armorDeflect);
         }
-
-        // Movement
-        this.movement[MovementType.Walk].rate.derived = speedToMovementRate(
-            this.attributes.spd,
-        );
-
-        // Lock other movement types to always use override
-        (Object.keys(CONFIG.COSMERE.movement.types) as MovementType[])
-            .filter((type) => type !== MovementType.Walk)
-            .forEach((type) => (this.movement[type].rate.useOverride = true));
-
-        // Injury count
-        this.injuries.derived = this.parent.items.filter(
-            (item) => item.type === ItemType.Injury,
-        ).length;
-
-        const money = this.parent.items.filter(
-            (item) =>
-                item.type === ItemType.Loot &&
-                (item as LootItem).system.isMoney,
-        ) as LootItem[];
-
-        // Derive currency conversion values
-        Object.keys(this.currency).forEach((currency) => {
-            // Get currency data
-            const currencyData = this.currency[currency];
-
-            let total = 0;
-
-            money.forEach((item) => {
-                if (item.system.price.currency !== currency) return;
-
-                total += item.system.price.baseValue * item.system.quantity;
-            });
-
-            // Update derived total
-            currencyData.total.derived = total;
-        });
-
-        // Lifting & Carrying
-        this.encumbrance.lift.derived = strengthToLiftingCapacity(
-            this.attributes.str,
-        );
-        this.encumbrance.carry.derived = strengthToCarryingCapacity(
-            this.attributes.str,
-        );
-    }
-
-    /**
-     * Apply secondary data derivations to this Data Model.
-     * This is called after Active Effects are applied.
-     */
-    public prepareSecondaryDerivedData(): void {
-        // Derive skill modifiers
-        (Object.keys(this.skills) as Skill[]).forEach((skill) => {
-            // Get the skill config
-            const skillConfig = CONFIG.COSMERE.skills[skill];
-
-            // Get the attribute associated with this skill
-            const attributeId = skillConfig.attribute;
-
-            // Get attribute
-            const attribute = this.attributes[attributeId];
-
-            // Get skill rank
-            const rank = this.skills[skill].rank;
-
-            // Get attribute value
-            const attrValue = attribute.value + attribute.bonus;
-
-            // Calculate mod
-            this.skills[skill].mod.derived = attrValue + rank;
-        });
     }
 }
 
 const SENSES_RANGES = [5, 10, 20, 50, 100, Number.MAX_VALUE];
 function awarenessToSensesRange(attr: AttributeData) {
-    const awareness = attr.value + attr.bonus;
+    const awareness = attr.value;
     return SENSES_RANGES[
         Math.min(Math.ceil(awareness / 2), SENSES_RANGES.length)
     ];
@@ -786,7 +787,7 @@ function awarenessToSensesRange(attr: AttributeData) {
 
 const MOVEMENT_RATES = [20, 25, 30, 40, 60, 80];
 function speedToMovementRate(attr: AttributeData) {
-    const speed = attr.value + attr.bonus;
+    const speed = attr.value;
     return MOVEMENT_RATES[
         Math.min(Math.ceil(speed / 2), MOVEMENT_RATES.length)
     ];
@@ -794,7 +795,7 @@ function speedToMovementRate(attr: AttributeData) {
 
 const LIFTING_CAPACITIES = [100, 200, 500, 1000, 5000, 10000];
 function strengthToLiftingCapacity(attr: AttributeData) {
-    const strength = attr.value + attr.bonus;
+    const strength = attr.value;
     return LIFTING_CAPACITIES[
         Math.min(Math.ceil(strength / 2), LIFTING_CAPACITIES.length)
     ];
@@ -802,7 +803,7 @@ function strengthToLiftingCapacity(attr: AttributeData) {
 
 const CARRYING_CAPACITIES = [50, 100, 250, 500, 2500, 5000];
 function strengthToCarryingCapacity(attr: AttributeData) {
-    const strength = attr.value + attr.bonus;
+    const strength = attr.value;
     return CARRYING_CAPACITIES[
         Math.min(Math.ceil(strength / 2), CARRYING_CAPACITIES.length)
     ];
