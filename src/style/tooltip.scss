@@ -22,8 +22,11 @@
             height: 3rem;
     
             h4 {
-                font-size: 2rem;
-                font-weight: bold;
+                font-family: var(--cosmere-font-header-sc);
+                font-size: var(--font-size-24);
+                font-variant: lining-nums;
+                font-weight: 600;
+                color: var(--cosmere-color-text-main);
                 margin: 0;
                 text-shadow: 0 0 0.5rem black;
             }
@@ -76,6 +79,15 @@
 
     .conditiontip {
         text-align: left;
+
+        > h2 {
+            font-family: var(--cosmere-font-header-sc);
+            font-size: var(--font-size-16);
+            font-variant: lining-nums;
+            font-weight: 600;
+            color: var(--cosmere-color-text-main);
+            border: none;
+        }
     }
 
     a {
