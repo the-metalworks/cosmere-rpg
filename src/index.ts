@@ -52,9 +52,13 @@ Hooks.once('init', async () => {
     CONFIG.Item.dataModels = dataModels.item.config;
     CONFIG.Item.documentClass = documents.CosmereItem;
 
-    CONFIG.Combat.documentClass = documents.CosmereCombat;
-    CONFIG.Combatant.documentClass = documents.CosmereCombatant;
+    CONFIG.Combat.documentClass = documents.CosmereCombat as typeof Combat;
     CONFIG.ui.combat = applications.combat.CosmereCombatTracker;
+
+    (CONFIG.Combatant as AnyMutableObject).dataModels =
+        dataModels.combatant.config;
+    CONFIG.Combatant.documentClass =
+        documents.CosmereCombatant as typeof Combatant;
 
     CONFIG.Token.documentClass = documents.CosmereTokenDocument;
 
