@@ -302,6 +302,12 @@
                         color: var(--cosmere-color-dark-6) !important;
                         font-weight: 600;
                         text-transform: uppercase;
+
+                        > img {
+                            border: none;
+                            width: 12px;
+                            opacity: 0.6;
+                        }
                     }
                 }                
 
@@ -401,6 +407,14 @@
                                     align-items: center;
                                     position: relative;
 
+                                    > img {
+                                        top: 6px;
+                                        position: absolute;
+                                        width: 30px;
+                                        border: none;
+                                        opacity: 0.1;
+                                    }
+
                                     .label {
                                         font-family: var(--cosmere-font-condensed);
                                         font-size: var(--font-size-10);
@@ -414,6 +428,8 @@
                                         color: var(--cosmere-color-dark-1);
                                         font-weight: bold;
                                         font-size: var(--font-size-20);
+                                        margin-top: -0.125rem;
+                                        margin-bottom: 0.125rem;
                                     }
 
                                     .sign {

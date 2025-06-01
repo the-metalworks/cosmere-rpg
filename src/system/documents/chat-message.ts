@@ -297,9 +297,7 @@ export class CosmereChatMessage extends ChatMessage {
                   )
                 : '';
             const typeIcon = rollNormal.damageType
-                ? `<i class="fas ${
-                      CONFIG.COSMERE.damageTypes[rollNormal.damageType].icon
-                  }"></i>`
+                ? `<img src="${CONFIG.COSMERE.damageTypes[rollNormal.damageType].icon}">`
                 : '';
 
             types.add([type, typeIcon]);
@@ -307,11 +305,7 @@ export class CosmereChatMessage extends ChatMessage {
             this.totalDamageNormal += rollNormal.total ?? 0;
             partsNormal.push(rollNormal.formula);
             const tooltipNormal = $(await rollNormal.getTooltip());
-            this.enrichDamageTooltip(
-                rollNormal,
-                [type, typeIcon],
-                tooltipNormal,
-            );
+            this.enrichDamageTooltip(rollNormal, type, typeIcon, tooltipNormal);
             tooltipNormalHTML +=
                 tooltipNormal.find('.tooltip-part')[0]?.outerHTML || ``;
             if (rollNormal.options.graze) {
@@ -325,7 +319,8 @@ export class CosmereChatMessage extends ChatMessage {
                 const tooltipGraze = $(await rollGraze.getTooltip());
                 this.enrichDamageTooltip(
                     rollGraze,
-                    [type, typeIcon],
+                    type,
+                    typeIcon,
                     tooltipGraze,
                 );
                 tooltipGrazeHTML +=
@@ -665,15 +660,18 @@ export class CosmereChatMessage extends ChatMessage {
      * Augment damage roll tooltips with some additional information and styling.
      * @param {DamageRoll} roll The roll instance.
      * @param {string} type The type of the damage as a string.
+     * @param {string} icon The icon of the damage type as a path string.
      * @param {JQuery} html The roll tooltip markup.
      * @returns
      */
     protected enrichDamageTooltip(
         roll: DamageRoll,
-        type: [label: string, icon: string],
+        type: string,
+        icon: string,
         html: JQuery,
     ) {
-        html.find('.label').text(`${type[0]} `).append(type[1]);
+        html.find('.label').text(type);
+        html.find('.label').parent().prepend(icon);
 
         const constant = getConstantFromRoll(roll);
         if (constant === 0) return;
