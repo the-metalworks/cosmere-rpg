@@ -49,14 +49,12 @@
 {{/if}}
 
 {{!-- Items --}}
-<div class="form-group stacked">
-    <label>
-        {{localize handler.schema.fields.items.label}}
-    </label>
+<fieldset>
+    <legend>{{localize handler.schema.fields.items.label}}</legend>
     {{app-document-drop-list
         name="handler.items"
         value=handler.items
         type="Item"
         placeholder="Drag and drop items here"
     }}
-</div>
+</fieldset>
