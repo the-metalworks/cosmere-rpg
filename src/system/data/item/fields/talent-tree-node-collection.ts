@@ -67,10 +67,12 @@ class TalentTreeNodeField extends foundry.data.fields.SchemaField {
                         x: new foundry.data.fields.NumberField({
                             required: true,
                             nullable: false,
+                            label: 'COSMERE.Item.TalentTree.Node.Position.X.Label',
                         }),
                         y: new foundry.data.fields.NumberField({
                             required: true,
                             nullable: false,
+                            label: 'COSMERE.Item.TalentTree.Node.Position.Y.Label',
                         }),
                     },
                     {
