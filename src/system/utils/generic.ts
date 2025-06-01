@@ -9,6 +9,23 @@ import {
 import { AdvantageMode } from '../types/roll';
 import { NONE } from '../types/utils';
 
+const HTML_TAG_REGEX = /<[^>]+>/g;
+
+/**
+ * Checks if a given HTML string has any content or is just whitespace.
+ * @param htmlString The HTML string to check.
+ * @returns True if the HTML string has content, false otherwise.
+ */
+export function htmlStringHasContent(htmlString: string | undefined): boolean {
+    // If the string is undefined or null, return false
+    if (!htmlString) return false;
+
+    // Remove HTML tags and trim whitespace
+    const content = htmlString.replace(HTML_TAG_REGEX, '').trim();
+    // Check if the content is not empty
+    return content.length > 0;
+}
+
 /**
  * Determine if the keys of a requested keybinding are pressed.
  * @param {string} action Keybinding action within the system namespace. Can have multiple keybindings associated.

@@ -687,6 +687,14 @@ export class CommonActorDataModel<
                         (this.deflect.types![type as DamageType] =
                             armor.system.deflects[type as DamageType].active),
                 );
+            } else {
+                Object.keys(CONFIG.COSMERE.damageTypes).forEach(
+                    (type) =>
+                        (this.deflect.types![type as DamageType] = !(
+                            CONFIG.COSMERE.damageTypes[type as DamageType]
+                                .ignoreDeflect ?? false
+                        )),
+                );
             }
 
             // Derive deflect

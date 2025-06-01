@@ -12,6 +12,7 @@ import { NodeConnection } from './types';
 import * as TalentTreeUtils from '@system/utils/talent-tree';
 import { AppContextMenu } from '@system/applications/utils/context-menu';
 import { renderSystemTemplate, TEMPLATES } from '@system/utils/templates';
+import { htmlStringHasContent } from '@system/utils/generic';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
@@ -199,22 +200,28 @@ export class TalentTreeViewComponent<
 
         this.app.world.on(
             'rightclick-node',
-            (event: RightClickNodeEvent<CanvasElements.Nodes.TalentNode>) => {
+            (event: RightClickNodeEvent<CanvasElements.Nodes.BaseNode>) => {
                 // Convert node position to view space
-                const viewPos = this.viewport!.worldToView(event.node.position);
+                const viewPos = this.viewport!.worldToView(event.node.origin);
 
                 // Get options
                 const options = [
-                    ...this.getTalentContextMenuOptions(event.node.data),
+                    ...(event.node.data.type === TalentTree.Node.Type.Talent
+                        ? this.getTalentContextMenuOptions(event.node.data)
+                        : []),
                     ...this.getNodeContextMenuOptions(event.node.data),
                 ];
                 if (options.length === 0) return;
 
+                // Adjust size for zoom
+                const size = {
+                    width: event.node.size.width * this.viewport!.view.zoom,
+                    height: event.node.size.height * this.viewport!.view.zoom,
+                };
+
                 // Show context menu
                 void this.contextMenu!.show(options, {
-                    left:
-                        viewPos.x +
-                        event.node.data.size.width / this.viewport!.view.zoom,
+                    left: viewPos.x + size.width,
                     top: viewPos.y,
                 });
             },
@@ -509,9 +516,11 @@ export class TalentTreeViewComponent<
                     };
                 }),
                 description: await TextEditor.enrichHTML(
-                    item.system.description?.short ??
-                        item.system.description?.value ??
-                        '',
+                    htmlStringHasContent(item.system.description?.short)
+                        ? item.system.description!.short!
+                        : htmlStringHasContent(item.system.description?.value)
+                          ? item.system.description!.value!
+                          : '',
                 ),
                 hasContextActor: !!this.contextActor,
             },

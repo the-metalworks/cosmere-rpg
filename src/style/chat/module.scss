@@ -729,12 +729,25 @@
             }
         }
     }
-    
 }
 
 /* Modifier Keys */
 :is(.chat-popout, #chat-log, .chat-log)[data-modifier-shift] {
     .chat-message .message-header .message-delete {
         display: unset;
+    }
+}
+
+.immunity-tooltip {
+    display: flex;
+    flex-direction: column;
+    font-size: var(--font-size-12);
+
+    .fa-stack.small {
+        font-size: var(--font-size-8);
+    }
+    
+    .fa-inverse {
+        color: var(--cosmere-color-dark-1);
     }
 }

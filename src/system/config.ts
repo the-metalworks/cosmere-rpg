@@ -33,6 +33,7 @@ import {
     PowerType,
     Theme,
     MovementType,
+    ImmunityType,
 } from './types/cosmere';
 import { AdvantageMode } from './types/roll';
 
@@ -859,18 +860,34 @@ const COSMERE: CosmereRPGConfig = {
     expertiseTypes: {
         [ExpertiseType.Armor]: {
             label: 'COSMERE.Actor.Character.Expertise.Armor',
+            icon: 'fas fa-helmet-battle',
         },
         [ExpertiseType.Cultural]: {
             label: 'COSMERE.Actor.Character.Expertise.Cultural',
+            icon: 'far fa-earth-asia',
         },
         [ExpertiseType.Specialist]: {
             label: 'COSMERE.Actor.Character.Expertise.Specialist',
+            icon: 'fas fa-award',
         },
         [ExpertiseType.Utility]: {
             label: 'COSMERE.Actor.Character.Expertise.Utility',
+            icon: 'fas fa-wrench',
         },
         [ExpertiseType.Weapon]: {
             label: 'COSMERE.Actor.Character.Expertise.Weapon',
+            icon: 'fas fa-sword',
+        },
+    },
+
+    immunityTypes: {
+        [ImmunityType.Damage]: {
+            label: 'GENERIC.Damage',
+            icon: 'fas fa-heart-crack',
+        },
+        [ImmunityType.Condition]: {
+            label: 'GENERIC.Condition',
+            icon: 'fas fa-bolt',
         },
     },
 
@@ -1020,23 +1037,29 @@ const COSMERE: CosmereRPGConfig = {
     damageTypes: {
         [DamageType.Energy]: {
             label: 'COSMERE.DamageTypes.Energy',
+            icon: 'fa-bolt',
         },
         [DamageType.Impact]: {
             label: 'COSMERE.DamageTypes.Impact',
+            icon: 'fa-burst',
         },
         [DamageType.Keen]: {
             label: 'COSMERE.DamageTypes.Keen',
+            icon: 'fa-droplet',
         },
         [DamageType.Spirit]: {
             label: 'COSMERE.DamageTypes.Spirit',
+            icon: 'fa-hand-sparkles',
             ignoreDeflect: true,
         },
         [DamageType.Vital]: {
             label: 'COSMERE.DamageTypes.Vital',
+            icon: 'fa-skull-crossbones',
             ignoreDeflect: true,
         },
         [DamageType.Healing]: {
             label: 'COSMERE.DamageTypes.Healing',
+            icon: 'fa-heart',
             ignoreDeflect: true,
         },
     },
