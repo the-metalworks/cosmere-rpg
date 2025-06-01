@@ -47,7 +47,7 @@ export class ItemEventRulesListComponent extends HandlebarsApplicationComponent<
             [`system.events.${id}`]: {
                 id,
                 description: game.i18n!.localize(
-                    'COSMERE.Item.Event.Rule.NewRuleDescription',
+                    'COSMERE.Item.EventSystem.Event.Rule.NewRuleDescription',
                 ),
                 event: 'none',
                 handler: {
