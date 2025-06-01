@@ -563,13 +563,14 @@ export class TalentTreeViewComponent<
 
     public async _prepareContext(params: P, context: never) {
         const item =
-            !!this.selected &&
-            this.selectedType === 'node' &&
-            (this.selected as TalentTree.Node).type ===
-                TalentTree.Node.Type.Talent
+            !!this.selected && this.selectedType === 'node'
                 ? ((await fromUuid(
-                      (this.selected as TalentTree.TalentNode).uuid,
-                  )) as TalentItem | null)
+                      (
+                          this.selected as
+                              | TalentTree.TalentNode
+                              | TalentTree.TreeNode
+                      ).uuid,
+                  )) as TalentItem | TalentTreeItem | null)
                 : null;
 
         const itemLink = item ? item.toAnchor().outerHTML : null;

@@ -8,6 +8,9 @@ import { HandlebarsApplicationComponent } from '@system/applications/component-s
 import { BaseActorSheetRenderContext } from '../base';
 import { BaseActorSheet } from '../base';
 
+// Utils
+import { journalEntryPageTextFromUuid } from '@system/utils/uuid';
+
 export class ActorConditionsComponent extends HandlebarsApplicationComponent<
     ConstructorOf<BaseActorSheet>
 > {
@@ -71,54 +74,67 @@ export class ActorConditionsComponent extends HandlebarsApplicationComponent<
 
     /* --- Context --- */
 
-    public _prepareContext(
+    public async _prepareContext(
         params: object,
         context: BaseActorSheetRenderContext,
     ) {
-        return Promise.resolve({
+        return {
             ...context,
 
-            conditions: (Object.keys(CONFIG.COSMERE.statuses) as Status[])
-                .filter((id) => CONFIG.COSMERE.statuses[id].condition)
-                .map((id) => {
-                    // Get the config
-                    const config = CONFIG.COSMERE.statuses[id];
+            conditions: await Promise.all(
+                (Object.keys(CONFIG.COSMERE.statuses) as Status[])
+                    .filter((id) => CONFIG.COSMERE.statuses[id].condition)
+                    .map(async (id) => {
+                        // Get the config
+                        const config = CONFIG.COSMERE.statuses[id];
 
-                    const active = this.application.actor.conditions.has(id);
+                        const active =
+                            this.application.actor.conditions.has(id);
 
-                    const baseContext = {
-                        id,
-                        name: config.label,
-                        icon: config.icon,
-                        active,
-                        stackable: config.stackable,
-                        immune: this.application.actor.system.immunities
-                            .condition[id],
-                    };
+                        const description = config.reference
+                            ? `<div class="conditiontip">${await journalEntryPageTextFromUuid(
+                                  config.reference,
+                                  {
+                                      enrich: true,
+                                  },
+                              )}</div>`
+                            : null;
 
-                    if (!active || !config.stackable) return baseContext;
-                    else {
-                        // Get all effects that apply the condition
-                        const effects =
-                            this.application.actor.appliedEffects.filter(
-                                (effect) => effect.statuses.has(id),
+                        const baseContext = {
+                            id,
+                            name: config.label,
+                            description,
+                            icon: config.icon,
+                            active,
+                            stackable: config.stackable,
+                            immune: this.application.actor.system.immunities
+                                .condition[id],
+                        };
+
+                        if (!active || !config.stackable) return baseContext;
+                        else {
+                            // Get all effects that apply the condition
+                            const effects =
+                                this.application.actor.appliedEffects.filter(
+                                    (effect) => effect.statuses.has(id),
+                                );
+
+                            // Calculate the total count
+                            const count = effects.reduce(
+                                (total, effect) => total + effect.stacks,
+                                0,
                             );
 
-                        // Calculate the total count
-                        const count = effects.reduce(
-                            (total, effect) => total + effect.stacks,
-                            0,
-                        );
-
-                        return {
-                            ...baseContext,
-                            stacks: config.stacksDisplayTransform
-                                ? config.stacksDisplayTransform(count)
-                                : count,
-                        };
-                    }
-                }),
-        });
+                            return {
+                                ...baseContext,
+                                stacks: config.stacksDisplayTransform
+                                    ? config.stacksDisplayTransform(count)
+                                    : count,
+                            };
+                        }
+                    }),
+            ),
+        };
     }
 }
 
