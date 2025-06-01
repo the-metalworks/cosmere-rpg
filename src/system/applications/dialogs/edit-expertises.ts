@@ -481,6 +481,7 @@ export class EditExpertisesDialog extends HandlebarsApplicationMixin(
                 return {
                     type,
                     label: config.label,
+                    icon: config.icon,
                     configuredExpertises:
                         this.getConfiguredExpertisesForType(type),
                     customExpertises: this.getCustomExpertisesForType(type),

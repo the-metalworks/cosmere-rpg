@@ -16,6 +16,7 @@ import { TalentTreeViewComponent } from './components/talent-tree/talent-tree-vi
 const { ItemSheetV2 } = foundry.applications.sheets;
 
 // Constants
+import { EDIT_MENU_WIDTH } from './components/talent-tree/constants';
 const DEFAULT_WIDTH = 800;
 const DEFAULT_HEIGHT = 650;
 
@@ -74,7 +75,7 @@ export class TalentTreeItemSheet extends EditModeApplicationMixin(
             position: {
                 width:
                     (tree.system.display.width ?? DEFAULT_WIDTH) +
-                    (mode === 'edit' ? 400 : 0),
+                    (mode === 'edit' ? EDIT_MENU_WIDTH : 0),
                 height: tree.system.display.height ?? DEFAULT_HEIGHT,
             },
         });
@@ -171,6 +172,13 @@ export class TalentTreeItemSheet extends EditModeApplicationMixin(
 
     /* --- Lifecycle --- */
 
+    protected _onRender(context: AnyObject, options: AnyObject) {
+        super._onRender(context, options);
+        $(this.element)
+            .find('.collapsible .header')
+            .on('click', (event) => this.onClickCollapsible(event));
+    }
+
     protected override async _renderFrame(
         options: AnyObject,
     ): Promise<HTMLElement> {
@@ -260,8 +268,15 @@ export class TalentTreeItemSheet extends EditModeApplicationMixin(
         this.setPosition({
             width:
                 (this.position.width as number) +
-                (this.isEditMode ? 400 : -400),
+                (this.isEditMode ? EDIT_MENU_WIDTH : -EDIT_MENU_WIDTH),
         });
+    }
+
+    /* --- Event handlers --- */
+
+    private onClickCollapsible(event: JQuery.ClickEvent) {
+        const target = event.currentTarget as HTMLElement;
+        target?.parentElement?.classList.toggle('expanded');
     }
 
     /* --- Context --- */

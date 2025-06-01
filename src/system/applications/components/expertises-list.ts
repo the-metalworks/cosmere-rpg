@@ -19,6 +19,7 @@ type Params = {
     name?: string;
     value?: Collection<Expertise>;
     readonly?: boolean;
+    collapsable?: boolean;
 };
 
 export class ExpertisesListComponent extends HandlebarsApplicationComponent<
@@ -41,6 +42,7 @@ export class ExpertisesListComponent extends HandlebarsApplicationComponent<
 
     private _value = new Collection<Expertise>();
     private _name?: string;
+    private _collapsed = false;
 
     /* --- Accessors --- */
 
@@ -54,6 +56,10 @@ export class ExpertisesListComponent extends HandlebarsApplicationComponent<
 
     public get readonly() {
         return this.params?.readonly === true;
+    }
+
+    public get collapsable() {
+        return this.params?.collapsable ?? true;
     }
 
     public get value() {
@@ -88,9 +94,36 @@ export class ExpertisesListComponent extends HandlebarsApplicationComponent<
             : this._value;
     }
 
+    public get collapsed() {
+        return this.application instanceof BaseActorSheet
+            ? (this.application.actor.getFlag(
+                  SYSTEM_ID,
+                  'sheet.expertisesCollapsed',
+              ) ?? false)
+            : this._collapsed;
+    }
+
+    private set collapsed(value: boolean) {
+        if (this.application instanceof BaseActorSheet) {
+            void this.application.actor.setFlag(
+                SYSTEM_ID,
+                'sheet.expertisesCollapsed',
+                value,
+            );
+        } else {
+            this._collapsed = value;
+        }
+    }
+
     /* --- Actions --- */
 
-    private static onEditExpertises(this: ExpertisesListComponent) {
+    private static onEditExpertises(
+        this: ExpertisesListComponent,
+        event: Event,
+    ) {
+        event.preventDefault();
+        event.stopPropagation();
+
         if (this.application instanceof BaseActorSheet) {
             void EditExpertisesDialog.show(this.application.actor);
         } else {
@@ -131,6 +164,22 @@ export class ExpertisesListComponent extends HandlebarsApplicationComponent<
         if (this.params!.readonly) {
             $(this.element!).attr('readonly', 'readonly');
         }
+
+        if (this.collapsable) {
+            $(this.element!)
+                .find('.collapsible .icon-header')
+                .on('click', (event) => this.onClickCollapsible(event));
+        }
+    }
+
+    /* --- Event handlers --- */
+
+    private onClickCollapsible(event: JQuery.ClickEvent) {
+        const target = event.currentTarget as HTMLElement;
+        target?.parentElement?.classList.toggle('expanded');
+
+        // Set the collapsed state
+        this.collapsed = !this.collapsed;
     }
 
     /* --- Context --- */
@@ -143,13 +192,20 @@ export class ExpertisesListComponent extends HandlebarsApplicationComponent<
                 this.application instanceof BaseActorSheet
                     ? (context as BaseActorSheetRenderContext).isEditMode
                     : !this.readonly,
+            collapsable: this.collapsable,
+            sectionCollapsed: this.collapsed,
 
             expertises:
-                this.expertises.map((expertise) => ({
-                    ...expertise,
-                    typeLabel:
-                        CONFIG.COSMERE.expertiseTypes[expertise.type].label,
-                })) ?? [],
+                this.expertises.map((expertise) => {
+                    const config =
+                        CONFIG.COSMERE.expertiseTypes[expertise.type];
+
+                    return {
+                        ...expertise,
+                        typeLabel: config.label,
+                        typeIcon: config.icon,
+                    };
+                }) ?? [],
         });
     }
 }

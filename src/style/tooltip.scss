@@ -61,7 +61,13 @@
         }
     }
 
-    a.content-link {
-        background: #dddddd15;
+    .conditiontip {
+        text-align: left;
+    }
+
+    a {
+        &.content-link, &.roll {
+            background: #dddddd15;
+        }
     }
 }

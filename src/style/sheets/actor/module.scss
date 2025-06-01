@@ -742,7 +742,20 @@
                 }
             }
         }
-    }    
+    }
+
+    app-expertises-list,
+    app-actor-immunities,
+    app-adversary-skills {
+        .collapsible {
+            margin-top: .2rem;
+        }
+
+        .icon-header {
+            color: var(--cosmere-color-faded);
+            cursor: pointer;
+        }
+    }
 
     app-actor-search-bar {
         .search-bar {

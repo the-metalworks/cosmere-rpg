@@ -1,4 +1,5 @@
-<div {{#if collapsable}}class="collapsible {{#unless sectionCollapsed}}expanded{{/unless}}{{/if}}">
+{{#if (or isEditMode hasExpertises)}}
+<div class="collapsible {{#unless sectionCollapsed}}expanded{{/unless}}">
     <div class="icon-header">
         <div class="title">
             <i class="fas fa-book"></i>
@@ -28,3 +29,4 @@
         </div>        
     </div>
 </div>
+{{/if}}

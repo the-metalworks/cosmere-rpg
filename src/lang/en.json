@@ -205,6 +205,7 @@
                 "Tier": "Tier",
                 "Expertises": "Expertises",
                 "EditExpertises": "Edit Expertises",
+                "EditImmunities": "Edit Immunities",
                 "ConfigureSkills": "Configure Skills",
                 "EditRole": "Edit Role",
                 "EditSize": "Edit Size",
@@ -371,10 +372,10 @@
                     "New": "New Action"
                 },
                 "Trait": {
-                    "label": "Trait",
-                    "label_plural": "Traits",
-                    "desc_placeholder": "Edit this to describe this trait.",
-                    "New": "New Trait"
+                    "label": "Feature",
+                    "label_plural": "Features",
+                    "desc_placeholder": "Edit this to describe this feature.",
+                    "New": "New Feature"
                 },
                 "Injury": {
                     "label": "Injury",
@@ -562,8 +563,15 @@
                     "CreateConnection": "Select a talent to connect to."
                 },
                 "ViewBounds": {
-                    "Label": "View Bounds",
+                    "Label": "Bounds",
                     "CaptureTooltip": "Capture current view bounds",
+                    "ExpandTooltip": "View view bound details",
+                    "Origin": {
+                        "Label": "Origin"
+                    },
+                    "Size": {
+                        "Label": "Size"
+                    },
                     "X": {
                         "Label": "X"
                     },
@@ -1084,6 +1092,9 @@
                         "Delete": "Remove rule"
                     }
                 },
+                "TalentTree": {
+                    "View": "View"
+                },
                 "Goal": {
                     "Reward": {
                         "Title": "Rewards",
@@ -1430,6 +1441,8 @@
         "Plot": "Plot",
         "Damage": "Damage",
         "Healing": "Healing",
+        "Immune": "Immune",
+        "Condition": "Condition",
         "Cost": "Cost",
         "Configure": "Configure",
         "DistanceUnit": "ft.",
@@ -1520,7 +1533,7 @@
             "specialty": "Specialty",
             "loot": "Loot",
             "armor": "Armor",
-            "trait": "Trait",
+            "trait": "Adversary Feature",
             "action": "Action",
             "talent": "Talent",
             "equipment": "Equipment",
