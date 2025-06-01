@@ -391,5 +391,11 @@
         .window-content {
             overflow: auto;
         }
-    }    
+    }  
+    
+    &.edit-event-rule {
+        .trigger-hint, .handler-hint {
+            margin-bottom: 1rem;
+        }
+    }
 }
