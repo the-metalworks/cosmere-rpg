@@ -25,6 +25,7 @@ interface UseItemHandlerConfigData {
     matchAll?: boolean | null;
     fastForward: boolean;
     advantageMode: AdvantageMode;
+    plotDie: boolean;
     temporaryModifiers?: string;
     temporaryDamageModifiers?: string;
 }
@@ -84,6 +85,10 @@ export function register() {
                     },
                     label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UseItem}.AdvantageMode.Label`,
                 }),
+                plotDie: new foundry.data.fields.BooleanField({
+                    initial: false,
+                    label: 'DICE.Plot.RaiseTheStakes',
+                }),
                 temporaryModifiers: new foundry.data.fields.StringField({
                     initial: '',
                     label: `DICE.TemporaryBonus.Label`,
@@ -125,11 +130,14 @@ export function register() {
                     ? this.advantageMode
                     : (event.options?.advantageMode ?? AdvantageMode.None);
 
+            const plotDie = this.plotDie || !!event.options?.plotDie;
+
             await Promise.all(
                 itemsToUse.map((item) =>
                     item.use({
                         configurable,
                         advantageMode,
+                        plotDie,
                         temporaryModifiers: this.temporaryModifiers,
 
                         ...(item.hasDamage()
