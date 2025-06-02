@@ -499,6 +499,10 @@ Handlebars.registerHelper('getCombatActedState', (turn: CosmereTurn) => {
     return turn.bossFastActivated;
 });
 
+Handlebars.registerHelper('entries', (obj: AnyObject) => {
+    return Object.entries(obj).map(([key, value]) => ({ key, value }));
+});
+
 export async function preloadHandlebarsTemplates() {
     const templates = Object.values(TEMPLATES).reduce(
         (partials, path) => {

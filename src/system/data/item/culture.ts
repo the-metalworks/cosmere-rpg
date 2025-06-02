@@ -7,8 +7,12 @@ import {
     DescriptionItemMixin,
     DescriptionItemData,
 } from './mixins/description';
+import { EventsItemMixin, EventsItemData } from './mixins/events';
 
-export interface CultureItemData extends IdItemData, DescriptionItemData {}
+export interface CultureItemData
+    extends IdItemData,
+        DescriptionItemData,
+        EventsItemData {}
 
 export class CultureItemDataModel extends DataModelMixin<
     CultureItemData,
@@ -21,6 +25,7 @@ export class CultureItemDataModel extends DataModelMixin<
     DescriptionItemMixin({
         value: 'COSMERE.Item.Type.Culture.desc_placeholder',
     }),
+    EventsItemMixin(),
 ) {
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), {});

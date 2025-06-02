@@ -1,0 +1,38 @@
+{{!-- Target --}}
+<div class="form-group">
+    <label>
+        {{localize handler.schema.fields.target.label}}
+    </label>
+    <div class="form-fields">
+        {{formInput handler.schema.fields.target
+            name="handler.target"
+            value=handler.target
+            localize=true
+        }}
+    </div>
+</div>
+
+{{!-- UUID --}}
+{{#if (not (eq handler.target "parent"))}}
+    <div class="form-group">
+        <label>
+            {{localize handler.schema.fields.uuid.label}}
+        </label>
+        <div class="form-fields">
+            {{app-document-reference-input 
+                name="handler.uuid"
+                value=handler.uuid
+                type="Item"
+                placeholder="Drag and drop item here"
+            }}
+        </div>
+    </div>
+{{/if}}
+
+<br>
+
+{{!-- Changes --}}
+{{app-document-changes-list 
+    name="handler.changes"
+    value=handler.changes
+}}

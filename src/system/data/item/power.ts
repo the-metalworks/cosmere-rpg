@@ -14,12 +14,14 @@ import {
     DescriptionItemData,
 } from './mixins/description';
 import { DamagingItemData, DamagingItemMixin } from './mixins/damaging';
+import { EventsItemMixin, EventsItemData } from './mixins/events';
 
 export interface PowerItemData
     extends IdItemData,
         TypedItemData<PowerType>,
         DamagingItemData,
-        DescriptionItemData {
+        DescriptionItemData,
+        EventsItemData {
     /**
      * Wether to a custom skill is used, or
      * the skill is derived from the power's id.
@@ -58,6 +60,7 @@ export class PowerItemDataModel extends DataModelMixin<
     DescriptionItemMixin({
         value: 'COSMERE.Item.Type.Power.desc_placeholder',
     }),
+    EventsItemMixin(),
 ) {
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), {

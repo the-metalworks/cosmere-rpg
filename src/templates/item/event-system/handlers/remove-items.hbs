@@ -1,0 +1,45 @@
+{{!-- Reduce Quantity --}}
+<div class="form-group">
+    <label>
+        {{localize handler.schema.fields.reduceQuantity.label}}
+        <i class="info fa-regular fa-circle-question" 
+            data-tooltip="{{localize handler.schema.fields.reduceQuantity.hint}}"
+        ></i>
+    </label>
+    <div class="form-fields">
+        {{formInput handler.schema.fields.reduceQuantity
+            name="handler.reduceQuantity"
+            value=handler.reduceQuantity
+        }}
+    </div>
+</div>
+
+{{#if handler.reduceQuantity}}
+    <div class="form-group">
+        <label>
+            {{localize handler.schema.fields.amount.label}}
+            <i class="info fa-regular fa-circle-question" 
+                data-tooltip="{{localize handler.schema.fields.amount.hint}}"
+            ></i>
+        </label>
+        <div class="form-fields">
+            {{formInput handler.schema.fields.amount
+                name="handler.amount"
+                value=handler.amount
+            }}
+        </div>
+    </div>
+{{/if}}
+
+{{!-- Items --}}
+<div class="form-group stacked">
+    <label>
+        {{localize handler.schema.fields.items.label}}
+    </label>
+    {{app-document-drop-list
+        name="handler.items"
+        value=handler.items
+        type="Item"
+        placeholder="Drag and drop items here"
+    }}
+</div>

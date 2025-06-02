@@ -1,7 +1,10 @@
 import { Status } from '@system/types/cosmere';
 import { ActiveEffectDataModel } from '@system/data/active-effect/active-effect';
 
-import { AnyMutableObject, AnyObject } from '@system/types/utils';
+import { AnyMutableObject } from '@system/types/utils';
+
+// Utils
+import { tryApplyRollData } from '@system/utils/changes';
 
 export class CosmereActiveEffect extends ActiveEffect<ActiveEffectDataModel> {
     /* --- Accessors --- */
@@ -109,10 +112,7 @@ export class CosmereActiveEffect extends ActiveEffect<ActiveEffectDataModel> {
 
     public override apply(actor: Actor, change: ActiveEffect.EffectChangeData) {
         // Update the change
-        const newChange = {
-            ...change,
-            value: tryApplyRollData(actor, change.value),
-        };
+        const newChange = tryApplyRollData(actor, change);
 
         if (this.isStackable) {
             newChange.value = `( ${newChange.value} ) * ${this.stacks}`;
@@ -120,18 +120,5 @@ export class CosmereActiveEffect extends ActiveEffect<ActiveEffectDataModel> {
 
         // Execute the standard ActiveEffect application logic
         return super.apply(actor, newChange);
-    }
-}
-
-function tryApplyRollData(actor: Actor, value: string): string {
-    try {
-        // Grab the roll data from the actor
-        const data = actor.getRollData() as AnyObject;
-
-        // Treat the change value as a formula and evaluate it
-        value = new Roll(value, data).evaluateSync().total.toString();
-        return value;
-    } catch {
-        return value;
     }
 }

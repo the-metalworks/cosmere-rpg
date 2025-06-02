@@ -1,3 +1,5 @@
+import { CosmereActor, CosmereActorRollData } from './actor';
+import { MESSAGE_TYPES } from './chat-message';
 import {
     ItemType,
     Skill,
@@ -9,13 +11,8 @@ import {
     ActionCostType,
 } from '@system/types/cosmere';
 import { Goal, Talent } from '@system/types/item';
-import { GoalItemData } from '@system/data/item/goal';
+import { CosmereHooks } from '@system/types/hooks';
 import { DeepPartial, Nullable } from '@system/types/utils';
-import { CosmereActor } from './actor';
-import { SYSTEM_ID } from '../constants';
-
-// Dialogs
-import { AttackConfigurationDialog } from '@system/applications/dialogs/attack-configuration';
 
 // Data model
 import {
@@ -33,6 +30,7 @@ import {
     LootItemDataModel,
     EquipmentItemDataModel,
     GoalItemDataModel,
+    GoalItemData,
     PowerItemDataModel,
     TalentTreeItemDataModel,
 } from '@system/data/item';
@@ -51,6 +49,8 @@ import { DescriptionItemData } from '@system/data/item/mixins/description';
 import { IdItemData } from '@system/data/item/mixins/id';
 import { ModalityItemData } from '@system/data/item/mixins/modality';
 import { TalentsProviderData } from '@system/data/item/mixins/talents-provider';
+import { EventsItemData } from '@system/data/item/mixins/events';
+import { DeflectItemData } from '@system/data/item/mixins/deflect';
 
 // Rolls
 import {
@@ -63,17 +63,23 @@ import {
 } from '@system/dice';
 import { AdvantageMode } from '@system/types/roll';
 import { RollMode } from '@system/dice/types';
+
+// Utils
 import {
     determineConfigurationMode,
     getApplyTargets,
     getTargetDescriptors,
-} from '../utils/generic';
-import { MESSAGE_TYPES } from './chat-message';
-import { renderSystemTemplate, TEMPLATES } from '../utils/templates';
-import { ItemConsumeDialog } from '../applications/item/dialogs/item-consume';
-import { CosmereHooks } from '../types/hooks';
+} from '@system/utils/generic';
 import { EnricherData } from '../utils/enrichers';
-import { DeflectItemData } from '../data/item/mixins/deflect';
+import { renderSystemTemplate, TEMPLATES } from '@system/utils/templates';
+
+// Dialogs
+import { AttackConfigurationDialog } from '@system/applications/dialogs/attack-configuration';
+import { ItemConsumeDialog } from '@system/applications/item/dialogs/item-consume';
+
+// Constants
+import { SYSTEM_ID } from '@system/constants';
+import { HOOKS } from '@system/constants/hooks';
 
 // Constants
 const CONSUME_CONFIGURATION_DIALOG_TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ITEM_CONSUME}`;
@@ -257,6 +263,13 @@ export class CosmereItem<
      */
     public isTalentsProvider(): this is CosmereItem<TalentsProviderData> {
         return 'talentTree' in this.system;
+    }
+
+    /**
+     * Does this item have events?
+     */
+    public hasEvents(): this is CosmereItem<EventsItemData> {
+        return 'events' in this.system;
     }
 
     /* --- Accessors --- */
@@ -700,8 +713,8 @@ export class CosmereItem<
              * Hook: preAttackRollConfiguration
              */
             if (
-                Hooks.call<CosmereHooks.RollConfig>(
-                    'cosmere.preAttackRollConfiguration',
+                Hooks.call<CosmereHooks.PreAttackRollConfiguration>(
+                    HOOKS.PRE_ATTACK_ROLL_CONFIGURATION,
                     options, // Config
                     this, // Source
                 ) === false
@@ -784,10 +797,10 @@ export class CosmereItem<
             }
 
             /**
-             * Hook: postAttackRollConfiguration
+             * Hook: attackRollConfiguration
              */
-            Hooks.callAll<CosmereHooks.RollConfig>(
-                'cosmere.postAttackRollConfiguration',
+            Hooks.callAll<CosmereHooks.AttackRollConfiguration>(
+                HOOKS.ATTACK_ROLL_CONFIGURATION,
                 options, // Config
                 this, // Source
             );
@@ -868,6 +881,15 @@ export class CosmereItem<
             );
             return null;
         }
+
+        // Hook: preItemUse
+        if (
+            Hooks.call<CosmereHooks.PreUseItem>(
+                HOOKS.PRE_USE_ITEM,
+                this, // Source
+            ) === false
+        )
+            return null;
 
         // Determine whether or not resource consumption is available
         const consumptionAvailable =
@@ -964,7 +986,12 @@ export class CosmereItem<
         }
 
         // Handle talent mode activation
-        if (this.hasModality() && this.system.modality) {
+        if (
+            this.hasId() &&
+            this.hasModality() &&
+            this.system.modality &&
+            !!this.actor
+        ) {
             // Add post roll action to activate the mode
             postRoll.push(() => {
                 // Handle mode activation
@@ -1000,6 +1027,17 @@ export class CosmereItem<
                 item: this.id,
             },
         };
+
+        // Add hook call to post roll actions
+        postRoll.push(() => {
+            /**
+             * Hook: useItem
+             */
+            Hooks.callAll<CosmereHooks.UseItem>(
+                HOOKS.USE_ITEM,
+                this, // Source
+            );
+        });
 
         if (rollRequired) {
             const rolls: foundry.dice.Roll[] = [];
@@ -1333,6 +1371,12 @@ export class CosmereItem<
         };
     }
 
+    public getRollData(): CosmereItem.RollData<T> {
+        return foundry.utils.mergeObject(super.getRollData(), {
+            actor: this.actor?.getRollData(),
+        });
+    }
+
     public getEnricherData() {
         let actor = undefined;
         if (this.actor) {
@@ -1501,6 +1545,10 @@ export namespace CosmereItem {
          */
         advantageModeDamage?: AdvantageMode;
     }
+
+    export type RollData<T extends DataSchema = DataSchema> = T & {
+        actor?: CosmereActorRollData;
+    };
 }
 
 export type CultureItem = CosmereItem<CultureItemDataModel>;
