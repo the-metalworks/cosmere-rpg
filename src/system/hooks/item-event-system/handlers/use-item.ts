@@ -106,7 +106,12 @@ export function register() {
                     this.target === ItemTarget.EquippedArmor)
             )
                 return;
-            if (this.target !== ItemTarget.Self && !this.uuid) return;
+            if (
+                !this.uuid &&
+                (this.target === ItemTarget.Sibling ||
+                    this.target === ItemTarget.Global)
+            )
+                return;
             if (this.target === ItemTarget.Self && event.type === 'use') return;
 
             // Get the item(s) to use
