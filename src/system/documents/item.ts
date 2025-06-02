@@ -900,7 +900,7 @@ export class CosmereItem<
                 this, // Source
                 {
                     ...options,
-                    configurable: fastForward,
+                    configurable: !fastForward,
                     advantageMode,
                     plotDie,
                 },
@@ -1055,7 +1055,7 @@ export class CosmereItem<
                 this, // Source
                 {
                     ...options,
-                    configurable: fastForward,
+                    configurable: !fastForward,
                     advantageMode,
                     plotDie,
                 },

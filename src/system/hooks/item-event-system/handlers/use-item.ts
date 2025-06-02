@@ -118,9 +118,8 @@ export function register() {
                 this.matchAll ?? false,
             );
 
-            const configurable = !(
-                this.fastForward || event.options?.configurable
-            );
+            const configurable =
+                !this.fastForward || (event.options?.configurable ?? true);
 
             const advantageMode =
                 this.advantageMode && this.advantageMode !== AdvantageMode.None
