@@ -1,5 +1,5 @@
-import { ActorType, Status, DamageType, ItemType } from '@system/types/cosmere';
-import { CosmereItem, TalentTreeItem } from '@system/documents/item';
+import { ActorType, ItemType } from '@system/types/cosmere';
+import { CosmereItem } from '@system/documents/item';
 import { TalentTree } from '@system/types/item';
 
 // Utils
@@ -16,7 +16,6 @@ import { CosmereActor } from '@src/system/documents';
 import { CharacterActorDataModel } from '@src/system/data/actor/character';
 
 // Constants
-import { SYSTEM_ID } from '@system/constants';
 import COSMERE from '@src/system/config';
 import {
     AnyMutableObject,
@@ -41,20 +40,32 @@ interface LegacyNode {
 export default {
     from: '0.2',
     to: '0.3',
-    execute: async () => {
+    execute: async (packID?: string) => {
+        // Get relevant compendium, if any
+        let compendium:
+            | CompendiumCollection<CompendiumCollection.Metadata>
+            | undefined;
+        if (packID) {
+            compendium = game.packs?.get(packID);
+        }
+
         /**
          * Items
          */
-        const items = await getRawDocumentSources('Item');
+        if (!compendium || compendium.documentName === 'Item') {
+            const items = await getRawDocumentSources('Item', packID);
 
-        /* --- Talent Trees --- */
-        await migrateTalentTrees(items);
+            /* --- Talent Trees --- */
+            await migrateTalentTrees(items, compendium);
+        }
 
         /**
          * Actors
          */
-        const actors = await getRawDocumentSources('Actor');
-        await migrateActors(actors);
+        if (!compendium || compendium.documentName === 'Actor') {
+            const actors = await getRawDocumentSources('Actor', packID);
+            await migrateActors(actors, compendium);
+        }
     },
 } as Migration;
 
@@ -65,7 +76,10 @@ export default {
 /**
  * Helper function to process talent trees
  */
-async function migrateTalentTrees(items: RawDocumentData[]) {
+async function migrateTalentTrees(
+    items: RawDocumentData[],
+    compendium?: CompendiumCollection<CompendiumCollection.Metadata>,
+) {
     // Get all talent tree items
     const talentTreeItems = items.filter(
         (i) => i.type === (ItemType.TalentTree as string),
@@ -148,9 +162,10 @@ async function migrateTalentTrees(items: RawDocumentData[]) {
                 };
 
                 // Retrieve document
-                const document = getPossiblyInvalidDocument<CosmereItem>(
+                const document = await getPossiblyInvalidDocument<CosmereItem>(
                     'Item',
                     treeItem._id,
+                    compendium,
                 );
 
                 // Apply changes
@@ -158,7 +173,7 @@ async function migrateTalentTrees(items: RawDocumentData[]) {
                 await document.update(changes, { diff: false });
 
                 // Ensure invalid documents are properly instantiated
-                fixDocumentIfInvalid('Item', document);
+                fixDocumentIfInvalid('Item', document, compendium);
             } catch (err: unknown) {
                 handleDocumentMigrationError(err, 'Item', treeItem);
             }
@@ -168,7 +183,10 @@ async function migrateTalentTrees(items: RawDocumentData[]) {
 
 // NOTE: Use any here as we're dealing with raw actor data
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment */
-async function migrateActors(actors: RawDocumentData<any>[]) {
+async function migrateActors(
+    actors: RawDocumentData<any>[],
+    compendium?: CompendiumCollection<CompendiumCollection.Metadata>,
+) {
     await Promise.all(
         actors.map(async (actor) => {
             try {
@@ -212,9 +230,10 @@ async function migrateActors(actors: RawDocumentData<any>[]) {
                 }
 
                 // Retrieve document
-                const document = getPossiblyInvalidDocument<CosmereActor>(
+                const document = await getPossiblyInvalidDocument<CosmereActor>(
                     'Actor',
                     actor._id,
+                    compendium,
                 );
 
                 // Apply changes
@@ -222,7 +241,7 @@ async function migrateActors(actors: RawDocumentData<any>[]) {
                 await document.update(changes, { diff: false });
 
                 // Ensure invalid documents are properly instantiated
-                fixDocumentIfInvalid('Actor', document);
+                fixDocumentIfInvalid('Actor', document, compendium);
             } catch (err: unknown) {
                 handleDocumentMigrationError(err, 'Actor', actor);
             }

@@ -12,5 +12,5 @@ export interface Migration {
     /**
      * The function to execute the migration
      */
-    execute: () => Promise<void>;
+    execute: (packID?: string) => Promise<void>;
 }

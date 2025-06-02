@@ -31,7 +31,7 @@ export function requiresMigration(from: string, to: string) {
 /**
  * Execute any relevant migrations between the two versions
  */
-export async function migrate(from: string, to: string) {
+export async function migrate(from: string, to: string, packID?: string) {
     // Reduce versions to format 'major.minor'
     from = simplifyVersion(from);
     to = simplifyVersion(to);
@@ -71,7 +71,13 @@ export async function migrate(from: string, to: string) {
             console.log(
                 `[${SYSTEM_ID}] Migration ${migration.from} -> ${migration.to}: Running`,
             );
-            await migration.execute();
+
+            if (packID) {
+                await migration.execute(packID);
+            } else {
+                await migration.execute();
+            }
+
             console.log(
                 `[${SYSTEM_ID}] Migration ${migration.from} -> ${migration.to}: Succeeded`,
             );
@@ -103,6 +109,30 @@ export async function migrate(from: string, to: string) {
      * Hook: postMigration
      */
     Hooks.callAll<CosmereHooks.Migration>('cosmere.postMigration', from, to);
+}
+
+/* --- Manual Invocation --- */
+export async function invokeMigration(
+    from: string,
+    to: string,
+    compendiumIDs: string[] = [],
+) {
+    if (!requiresMigration(from, to)) return;
+
+    // Migrate world data
+    if (compendiumIDs.length === 0) {
+        await migrate(from, to);
+        return;
+    }
+
+    // Migrate compendiums synchronously
+    for (const id of compendiumIDs) {
+        // Ensure compendiums exist
+        const compendium = game.packs?.get(id);
+        if (!compendium) return;
+
+        await migrate(from, to, compendium.collection);
+    }
 }
 
 /* --- Helpers --- */
