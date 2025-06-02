@@ -27,7 +27,7 @@ const VALID_DOCUMENT_TYPES = [
  * This is to prevent users getting themselves
  * stuck in an infinite loop of events.
  */
-const MAX_RECENT_EVENTS = 20;
+const MAX_RECENT_EVENTS = 50;
 
 /**
  * The time in milliseconds that an event is considered

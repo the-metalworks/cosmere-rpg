@@ -16,6 +16,9 @@ export type Nullable<T> = T | null;
 
 export type SharedKeys<T, U> = keyof T & keyof U;
 
+export type Mutable<T> = { -readonly [P in keyof T]: T[P] };
+export type DeepMutable<T> = { -readonly [P in keyof T]: DeepMutable<T[P]> };
+
 // NOTE: Using `any` in the below types as the resulting types don't rely on the `any`s
 // However they cannot be replaced with other types (e.g. `unknown`) without breaking dependent typings
 

@@ -764,6 +764,14 @@
                             "Label": "Deactivated Modality",
                             "Description": "Triggered when this item's mode becomes inactive for its modality."
                         },
+                        "goal-complete": {
+                            "Label": "Goal Completed",
+                            "Description": "Triggered when this Goal item is completed."
+                        },
+                        "goal-progress": {
+                            "Label": "Goal Progressed",
+                            "Description": "Triggered when this Goal item's progress is updated towards completion."
+                        },
                         "update-actor": {
                             "Label": "Actor Updated",
                             "Description": "Triggered when this item's parent actor is updated."

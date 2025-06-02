@@ -507,7 +507,7 @@ namespace foundry {
              * @param scope The flag scope which namespaces the key
              * @param key The flag key
              */
-            getFlag<T extends any>(scope: string, key: string): T;
+            getFlag<T extends any>(scope: string, key: string): T | undefined;
 
             /**
              * Assign a "flag" to this document.

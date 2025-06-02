@@ -36,6 +36,7 @@ const EVENTS: EventDefinition[] = [
     {
         type: 'equip',
         hook: 'updateItem',
+        filter: (item: CosmereItem) => item.isEquippable(),
         condition: (_: CosmereItem, change: DeepPartial<CosmereItem>) => {
             return (
                 foundry.utils.getProperty(change, 'system.equipped') === true
@@ -45,15 +46,38 @@ const EVENTS: EventDefinition[] = [
     {
         type: 'unequip',
         hook: 'updateItem',
+        filter: (item: CosmereItem) => item.isEquippable(),
         condition: (_: CosmereItem, change: DeepPartial<CosmereItem>) => {
             return (
                 foundry.utils.getProperty(change, 'system.equipped') === false
             );
         },
     },
-    { type: 'use', hook: HOOKS.USE_ITEM },
-    { type: 'mode-activate', hook: HOOKS.MODE_ACTIVATE_ITEM },
-    { type: 'mode-deactivate', hook: HOOKS.MODE_DEACTIVATE_ITEM },
+    {
+        type: 'use',
+        hook: HOOKS.USE_ITEM,
+        filter: (item: CosmereItem) => item.hasActivation(),
+    },
+    {
+        type: 'mode-activate',
+        hook: HOOKS.MODE_ACTIVATE_ITEM,
+        filter: (item: CosmereItem) => item.hasModality(),
+    },
+    {
+        type: 'mode-deactivate',
+        hook: HOOKS.MODE_DEACTIVATE_ITEM,
+        filter: (item: CosmereItem) => item.hasModality(),
+    },
+    {
+        type: 'goal-complete',
+        hook: HOOKS.COMPLETE_GOAL,
+        filter: (item: CosmereItem) => item.isGoal(),
+    },
+    {
+        type: 'goal-progress',
+        hook: HOOKS.PROGRESS_GOAL,
+        filter: (item: CosmereItem) => item.isGoal(),
+    },
 
     // General Actor events
     { type: 'update-actor', hook: 'updateActor' },
@@ -84,11 +108,12 @@ const EVENTS: EventDefinition[] = [
 ];
 
 export function registerEventTypes() {
-    EVENTS.forEach(({ type, hook, host, condition, transform }) => {
+    EVENTS.forEach(({ type, hook, host, filter, condition, transform }) => {
         cosmereRPG.api.registerItemEventType({
             type,
             hook,
-            host: host,
+            host,
+            filter,
             condition,
             transform,
             label: `COSMERE.Item.EventSystem.Event.Types.${type}.Label`,

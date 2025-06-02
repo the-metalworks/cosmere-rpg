@@ -166,11 +166,30 @@ export class ItemEditEventRuleDialog extends ComponentHandlebarsApplicationMixin
     /* --- Context --- */
 
     public _prepareContext() {
+        const allEventSelectOptions = (
+            (this.rule.schema.fields.event as foundry.data.fields.StringField)
+                .choices as () => AnyMutableObject
+        )();
+
         // Prepare the context
         return Promise.resolve({
             editable: true,
             item: this.item,
             rule: this.rule,
+            eventSelectOptions: Object.entries(allEventSelectOptions)
+                .filter(
+                    ([event]) =>
+                        CONFIG.COSMERE.items.events.types[event]?.filter?.(
+                            this.item,
+                        ) !== false,
+                )
+                .reduce(
+                    (acc, [event, label]) => ({
+                        ...acc,
+                        [event]: label,
+                    }),
+                    {},
+                ),
         });
     }
 }
