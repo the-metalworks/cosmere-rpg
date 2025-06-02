@@ -23,6 +23,34 @@ export const HOOKS = {
     MODE_DEACTIVATE_ITEM: `${SYSTEM_ID}.modeDeactivateItem`,
     PRE_MODE_DEACTIVATE_ITEM: `${SYSTEM_ID}.preModeDeactivateItem`,
 
+    /**
+     * Executed when a Goal Item's progresses gets updated towards completion.
+     * This only counts forward progress, not executed when the goal's progress is reduced.
+     */
+    PROGRESS_GOAL: `${SYSTEM_ID}.progressGoal`,
+    /**
+     * Executed before a Goal Item's progress is updated towards completion.
+     */
+    PRE_PROGRESS_GOAL: `${SYSTEM_ID}.preProgressGoal`,
+
+    /**
+     * Executed when a Goal Item's progress is updated.
+     */
+    UPDATE_PROGRESS_GOAL: `${SYSTEM_ID}.updateProgressGoal`,
+    /**
+     * Executed before a Goal Item's progress is updated.
+     */
+    PRE_UPDATE_PROGRESS_GOAL: `${SYSTEM_ID}.preUpdateProgressGoal`,
+
+    /**
+     * Executed when a Goal Item's progress gets filled and the goal is completed.
+     */
+    COMPLETE_GOAL: `${SYSTEM_ID}.completeGoal`,
+    /**
+     * Executed before a Goal Item's progress is filled and the goal is completed.
+     */
+    PRE_COMPLETE_GOAL: `${SYSTEM_ID}.preCompleteGoal`,
+
     /* ----- Chat message hooks ----- */
     /* -- Message interaction hooks -- */
     MESSAGE_INTERACTED: `${SYSTEM_ID}.chatMessageInteract`,
