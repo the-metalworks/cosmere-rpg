@@ -3,7 +3,7 @@ import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
 // Dialog
-import { EditExpertisesDialog } from '../dialogs/edit-expertises';
+import { EditExpertisesDialog } from '@system/applications/dialogs/edit-expertises';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';

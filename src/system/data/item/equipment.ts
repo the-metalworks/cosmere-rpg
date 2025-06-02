@@ -14,13 +14,15 @@ import {
     ActivatableItemData,
 } from './mixins/activatable';
 import { DamagingItemMixin, DamagingItemData } from './mixins/damaging';
+import { EventsItemMixin, EventsItemData } from './mixins/events';
 
 export interface EquipmentItemData
     extends TypedItemData<EquipmentType>,
         DescriptionItemData,
         PhysicalItemData,
         ActivatableItemData,
-        DamagingItemData {}
+        DamagingItemData,
+        EventsItemData {}
 
 export class EquipmentItemDataModel extends DataModelMixin<
     EquipmentItemData,
@@ -43,6 +45,7 @@ export class EquipmentItemDataModel extends DataModelMixin<
     PhysicalItemMixin(),
     ActivatableItemMixin(),
     DamagingItemMixin(),
+    EventsItemMixin(),
 ) {
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), {});

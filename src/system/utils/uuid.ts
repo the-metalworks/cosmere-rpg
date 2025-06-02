@@ -21,13 +21,14 @@ export async function journalEntryPageTextFromUuid(
 
     // Parse the UUID
     const { collection, documentId, id, type } = foundry.utils.parseUuid(uuid);
+    if (!collection || !documentId || !id) return null;
     if (type !== 'JournalEntryPage') return null;
 
     // Load the journal entry
     const journal =
         collection instanceof CompendiumCollection
-            ? ((await collection.getDocument(documentId!)) as JournalEntry)
-            : (collection!.get(documentId!) as JournalEntry);
+            ? ((await collection.getDocument(documentId)) as JournalEntry)
+            : (collection.get(documentId) as JournalEntry);
     if (!journal) return null;
 
     const [pageId, target] = id.split('#') as [string, string | undefined];

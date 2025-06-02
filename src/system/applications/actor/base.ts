@@ -39,6 +39,7 @@ export const enum BaseSheetTab {
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type BaseActorSheetRenderContext = {
     actor: CosmereActor;
+    isEditMode: boolean;
 };
 
 export class BaseActorSheet<
@@ -481,7 +482,7 @@ export class BaseActorSheet<
             expertisesCollapsed: this.areExpertisesCollapsed,
             hasExpertises:
                 this.actor.system.expertises &&
-                this.actor.system.expertises.length > 0,
+                this.actor.system.expertises.size > 0,
             immunitiesCollapsed: this.areImmunitiesCollapsed,
             hasImmunities,
             isEditMode: this.mode === 'edit' && this.isEditable,

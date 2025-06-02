@@ -1,0 +1,74 @@
+{{!-- Target --}}
+<div class="form-group">
+    <label>
+        {{localize handler.schema.fields.target.label}}
+    </label>
+    <div class="form-fields">
+        {{formInput handler.schema.fields.target
+            name="handler.target"
+            value=handler.target
+            localize=true
+        }}
+    </div>
+</div>
+
+{{!-- UUID --}}
+{{#if (not (eq handler.target "self"))}}
+    <div class="form-group">
+        <label>
+            {{localize handler.schema.fields.uuid.label}}
+        </label>
+        <div class="form-fields">
+            {{app-document-reference-input 
+                name="handler.uuid"
+                value=handler.uuid
+                type="Item"
+                placeholder="Drag and drop item here"
+            }}
+        </div>
+    </div>
+{{/if}}
+
+{{!-- Match Mode --}}
+{{#if (eq handler.target "sibling")}}
+    <div class="form-group">
+        <label>
+            {{localize handler.schema.fields.matchMode.label}}
+            <i class="info fa-regular fa-circle-question" 
+                data-tooltip="{{localize handler.schema.fields.matchMode.hint}}"
+            ></i>
+        </label>
+        <div class="form-fields">
+            {{formInput handler.schema.fields.matchMode
+                name="handler.matchMode"
+                value=handler.matchMode
+                localize=true
+            }}
+        </div>
+    </div>
+
+    {{!-- Match All --}}
+    {{#if (not (eq handler.matchMode "uuid"))}}
+        <div class="form-group">
+            <label>
+                {{localize handler.schema.fields.matchAll.label}}
+                <i class="info fa-regular fa-circle-question" 
+                    data-tooltip="{{localize handler.schema.fields.matchAll.hint}}"
+                ></i>
+            </label>
+            <div class="form-fields">
+                {{formInput handler.schema.fields.matchAll
+                    name="handler.matchAll"
+                    value=handler.matchAll
+                    localize=true
+                }}
+            </div>
+        </div>
+    {{/if}}
+{{/if}}
+
+{{!-- Changes --}}
+{{app-document-changes-list 
+    name="handler.changes"
+    value=handler.changes
+}}

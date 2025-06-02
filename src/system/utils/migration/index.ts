@@ -1,14 +1,15 @@
 // Types
-import { SYSTEM_ID, SYSTEM_NAME } from '@src/system/constants';
-import { Migration } from '@src/system/types/migration';
+import { SYSTEM_ID, SYSTEM_NAME } from '@system/constants';
+import { Migration } from '@system/types/migration';
+import { CosmereHooks } from '@system/types/hooks';
+import { GlobalUI } from '@system/types/utils';
 
 // Migrations
 import MIGRATE_0_2__0_3 from './migrations/0.2-0.3';
 import MIGRATE_0_3__1_0 from './migrations/0.3-1.0';
-import { GlobalUI } from '@src/system/types/utils';
-import { CosmereHooks } from '@src/system/types/hooks';
 
 // Constants
+import { HOOKS } from '@system/constants/hooks';
 const MIGRATIONS: Migration[] = [MIGRATE_0_2__0_3, MIGRATE_0_3__1_0];
 
 /**
@@ -39,7 +40,7 @@ export async function migrate(from: string, to: string, packID?: string) {
     /**
      * Hook: preMigration
      */
-    Hooks.callAll<CosmereHooks.Migration>('cosmere.preMigration', from, to);
+    Hooks.callAll<CosmereHooks.PreMigration>(HOOKS.PRE_MIGRATION, from, to);
 
     // Get all migrations between the versions
     const migrations = MIGRATIONS.filter((migration) => {
@@ -61,8 +62,8 @@ export async function migrate(from: string, to: string, packID?: string) {
         /**
          * Hook: preMigrationVersion
          */
-        Hooks.callAll<CosmereHooks.Migration>(
-            'cosmere.preMigrationVersion',
+        Hooks.callAll<CosmereHooks.PreMigrateVersion>(
+            HOOKS.PRE_MIGRATE_VERSION,
             migration.from,
             migration.to,
         );
@@ -90,10 +91,10 @@ export async function migrate(from: string, to: string, packID?: string) {
         }
 
         /**
-         * Hooks: postMigrationVersion
+         * Hooks: migrateVersion
          */
-        Hooks.callAll<CosmereHooks.Migration>(
-            'cosmere.postMigrationVersion',
+        Hooks.callAll<CosmereHooks.MigrateVersion>(
+            HOOKS.MIGRATE_VERSION,
             migration.from,
             migration.to,
         );
@@ -106,9 +107,9 @@ export async function migrate(from: string, to: string, packID?: string) {
     await (globalThis as unknown as GlobalUI).ui.sidebar.render();
 
     /**
-     * Hook: postMigration
+     * Hook: migration
      */
-    Hooks.callAll<CosmereHooks.Migration>('cosmere.postMigration', from, to);
+    Hooks.callAll<CosmereHooks.Migration>(HOOKS.MIGRATION, from, to);
 }
 
 /* --- Manual Invocation --- */

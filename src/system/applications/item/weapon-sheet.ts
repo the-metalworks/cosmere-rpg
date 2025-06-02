@@ -37,6 +37,7 @@ export class WeaponItemSheet extends BaseItemSheet {
         {
             content: {
                 template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_BASE_CONTENT}`,
+                scrollable: ['.scroll-container'],
             },
         },
     );
