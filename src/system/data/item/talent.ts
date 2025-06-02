@@ -17,6 +17,7 @@ import {
 } from './mixins/activatable';
 import { DamagingItemMixin, DamagingItemData } from './mixins/damaging';
 import { ModalityItemMixin, ModalityItemData } from './mixins/modality';
+import { EventsItemMixin, EventsItemData } from './mixins/events';
 
 export interface TalentItemData
     extends IdItemData,
@@ -24,7 +25,8 @@ export interface TalentItemData
         DescriptionItemData,
         ActivatableItemData,
         DamagingItemData,
-        ModalityItemData {
+        ModalityItemData,
+        EventsItemData {
     /**
      * The id of the Path this Talent belongs to.
      */
@@ -100,6 +102,7 @@ export class TalentItemDataModel extends DataModelMixin<
     ActivatableItemMixin(),
     DamagingItemMixin(),
     ModalityItemMixin(),
+    EventsItemMixin(),
 ) {
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), {

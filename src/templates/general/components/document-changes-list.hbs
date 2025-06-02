@@ -1,0 +1,75 @@
+<ul class="item-list {{#if (not readonly)}}editable{{/if}}">
+    <li class="item header">
+        <section class="details">
+            <span class="title">
+                {{localize "COMPONENT.DocumentChangesList.Header.Key"}}
+            </span>
+            <span class="title">
+                {{localize "COMPONENT.DocumentChangesList.Header.Mode"}}
+            </span>
+            <span class="title">
+                {{localize "COMPONENT.DocumentChangesList.Header.Value"}}
+            </span>
+            <div class="controls icon active">
+                {{#if (not readonly)}}
+                    <a data-action="add-change" 
+                        data-tooltip="COMPONENT.DocumentChangesList.Add">
+                        <i class="fa-solid fa-plus"></i>
+                    </a>
+                {{else}}
+                    <div></div>
+                {{/if}}
+            </div>
+        </section>        
+    </li>
+
+    {{#each changes as |change|}}
+        <li class="item change" data-index="{{@index}}">
+            <section class="details">
+                <div class="name form-group">
+                        <div class="form-fields">
+                            <input 
+                                name="key" 
+                                type="text"
+                                value="{{change.key}}"
+                                {{#if readonly}}readonly{{/if}}
+                            >
+                        </div>
+                    </div>
+
+                </div>
+                <div class="name form-group">
+                    <div class="form-fields">
+                        <select name="mode" 
+                            {{#if readonly}}disabled{{/if}}
+                        >
+                            {{selectOptions @root.schema.mode.choices
+                                selected=change.mode
+                                localize=true
+                            }}
+                        </select>
+                    </div>
+
+                </div>
+                <div class="name form-group">
+                    <div class="form-fields">
+                        <input 
+                            name="value" 
+                            type="text"
+                            value="{{change.value}}"
+                            {{#if readonly}}readonly{{/if}}
+                        >
+                    </div>
+                </div>
+                <div class="controls icon faded">
+                    {{#if (not readonly)}}
+                        <a data-action="remove-change" 
+                            data-tooltip="COMPONENT.DocumentChangesList.Remove">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                    {{/if}}
+                </div>
+            </section>        
+        </li>
+    {{/each}}
+</ul>

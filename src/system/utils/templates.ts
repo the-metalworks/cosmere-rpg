@@ -16,6 +16,9 @@ export const TEMPLATES = {
     COMPONENT_MULTI_VALUE_SELECT: 'general/components/multi-value-select.hbs',
     COMPONENT_ID_INPUT: 'general/components/id-input.hbs',
     COMPONENT_MULTI_STATE_TOGGLE: 'general/components/multi-state-toggle.hbs',
+    COMPONENT_EXPERTISES_LIST: 'general/components/expertises-list.hbs',
+    COMPONENT_DOCUMENT_CHANGES_LIST:
+        'general/components/document-changes-list.hbs',
 
     // ACTOR BASE
     ACTOR_BASE_NAVIGATION: 'actors/parts/navigation.hbs',
@@ -88,6 +91,8 @@ export const TEMPLATES = {
     ITEM_DESCRIPTION_TAB: 'item/partials/item-description-tab.hbs',
     ITEM_EFFECTS_TAB: 'item/partials/item-effects-tab.hbs',
     ITEM_DETAILS_TAB: 'item/partials/item-details-tab.hbs',
+    ITEM_EVENTS_TAB: 'item/partials/item-events-tab.hbs',
+
     ITEM_INJURY_DETAILS_TAB: 'item/injury/partials/injury-details-tab.hbs',
     ITEM_TALENTS_TAB: 'item/partials/item-talents-tab.hbs',
 
@@ -117,6 +122,8 @@ export const TEMPLATES = {
         'item/components/details-talents-provider.hbs',
 
     ITEM_EFFECTS_LIST: 'item/components/effects-list.hbs',
+    ITEM_EVENT_RULES_LIST: 'item/components/event-rules-list.hbs',
+
     ITEM_ANCESTRY_TALENT_LIST:
         'item/ancestry/components/advancement-talent-list.hbs',
     ITEM_ANCESTRY_BONUS_TALENTS: 'item/ancestry/components/bonus-talents.hbs',
@@ -158,6 +165,7 @@ export const TEMPLATES = {
         'actors/adversary/dialogs/configure-skills.hbs',
 
     DIALOG_ITEM_CONSUME: 'item/dialog/item-consume.hbs',
+    DIALOG_ITEM_EDIT_EVENT_RULE: 'item/dialog/edit-event-rule.hbs',
     DIALOG_ITEM_EDIT_REWARD: 'item/goal/dialogs/edit-reward.hbs',
     DIALOG_ITEM_EDIT_GRANT_RULE: 'item/talent/dialogs/edit-grant-rule.hbs',
 
@@ -165,6 +173,26 @@ export const TEMPLATES = {
 
     DIALOG_ROLL_PICK_DICE_RESULT: 'roll/dialogs/pick-dice-result.hbs',
     DIALOG_ROLL_CONFIGURATION: 'roll/dialogs/roll-configuration.hbs',
+
+    DIALOG_EDIT_EXPERTISES: 'general/dialogs/edit-expertises.hbs',
+
+    // ITEM EVENT SYSTEM HANDLERS
+    IES_HANDLER_EXECUTE_MACRO: 'item/event-system/handlers/execute-macro.hbs',
+    IES_HANDLER_GRANT_ITEMS: 'item/event-system/handlers/grant-items.hbs',
+    IES_HANDLER_REMOVE_ITEMS: 'item/event-system/handlers/remove-items.hbs',
+    IES_HANDLER_MODIFY_ATTRIBUTE:
+        'item/event-system/handlers/modify-attribute.hbs',
+    IES_HANDLER_SET_ATTRIBUTE: 'item/event-system/handlers/set-attribute.hbs',
+    IES_HANDLER_MODIFY_SKILL_RANK:
+        'item/event-system/handlers/modify-skill-rank.hbs',
+    IES_HANDLER_SET_SKILL_RANK: 'item/event-system/handlers/set-skill-rank.hbs',
+    IES_HANDLER_GRANT_EXPERTISES:
+        'item/event-system/handlers/grant-expertises.hbs',
+    IES_HANDLER_REMOVE_EXPERTISES:
+        'item/event-system/handlers/remove-expertises.hbs',
+    IES_HANDLER_USE_ITEM: 'item/event-system/handlers/use-item.hbs',
+    IES_HANDLER_UPDATE_ITEM: 'item/event-system/handlers/update-item.hbs',
+    IES_HANDLER_UPDATE_ACTOR: 'item/event-system/handlers/update-actor.hbs',
 } as const;
 
 /**

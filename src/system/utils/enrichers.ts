@@ -4,6 +4,9 @@ import { Attribute, AttributeGroup, DamageType, Skill } from '../types/cosmere';
 import { getActor } from './actor';
 import { TargetDescriptor } from './generic';
 
+// Constants
+import { SYSTEM_ID } from '@system/constants';
+
 // Full Documentation: https://github.com/the-metalworks/cosmere-rpg/wiki/Enrichers
 
 interface EnricherConfig {
@@ -163,7 +166,7 @@ function createRollLink(
     const span = document.createElement('span');
     span.classList.add('enricher-link');
     span.innerHTML = `
-        <a onclick="Hooks.call('trigger${type.titleCase()}Enricher', &quot;${options?.actorId}&quot;, &quot;${options?.source}&quot;, ${JSON.stringify(options?.data).replaceAll('"', '&quot;')})">
+        <a onclick="Hooks.call('${SYSTEM_ID}.trigger${type.titleCase()}Enricher', &quot;${options?.actorId}&quot;, &quot;${options?.source}&quot;, ${JSON.stringify(options?.data).replaceAll('"', '&quot;')})">
             <i class="fa-solid fa-dice-d20"></i> ${linkLabel}
         </a> ${postLink}
     `;
@@ -257,7 +260,7 @@ function enrichLookup(
  * becomes
  * ```html
  * <span class="enricher-link">
- *      <a onclick="Hooks.on('triggerTestEnricher', "Actor.####", "Source.uuid",{"skill":"inm", "attribute"=""})">
+ *      <a onclick="Hooks.on('cosmere-rpg.triggerTestEnricher', "Actor.####", "Source.uuid",{"skill":"inm", "attribute"=""})">
  *          <i class="fa-solid fa-dice-d20"></i> Intimidation test
  *      </a>
  * </span>
@@ -348,7 +351,7 @@ function enrichTest(
  * becomes
  * ```html
  * <span class="enricher-link">
- *      <a onclick="Hooks.on('triggerDamageEnricher', "Actor.####", "Source.uuid",{"formula":"2d8", "damageType":"vital"})">
+ *      <a onclick="Hooks.on('cosmere-rpg.triggerDamageEnricher', "Actor.####", "Source.uuid",{"formula":"2d8", "damageType":"vital"})">
  *          <i class="fa-solid fa-dice-d20"></i> 2d8 Vital
  *      </a> damage
  * </span>

@@ -1,10 +1,107 @@
 import {
     AnyObject,
+    AnyMutableObject,
     COSMERE_DOCUMENT_CLASSES,
     CosmereDocument,
     InvalidCollection,
     RawDocumentData,
 } from '../types/utils';
+
+import { RecordCollection } from '@system/data/fields/collection';
+
+export function cloneCollection<T = unknown>(source: Collection<T>) {
+    // Get the entries
+    const entries = Array.from(source.entries()).map(
+        ([key, value]) =>
+            [
+                key,
+                value instanceof foundry.abstract.DataModel
+                    ? value.clone()
+                    : foundry.utils.deepClone(value),
+            ] as [string, T],
+    );
+
+    return source instanceof RecordCollection
+        ? new RecordCollection<T>(entries)
+        : new Collection<T>(entries);
+}
+
+/**
+ * Utility function to get the changes between two objects for a Foundry update call.
+ */
+export function getObjectChanges(original: object, updated: object): AnyObject {
+    // Flatten the objects
+    const originalFlat = foundry.utils.flattenObject(original) as AnyObject;
+    const updatedFlat = foundry.utils.flattenObject(updated) as AnyObject;
+
+    const originalKeys = Object.keys(originalFlat);
+    const updatedKeys = Object.keys(updatedFlat);
+
+    // Determine all changed keys (updated or added)
+    const changedKeys = updatedKeys.filter((key) => {
+        const originalValue = originalFlat[key];
+        const updatedValue = updatedFlat[key];
+
+        // Check if the value is different
+        return updatedValue !== originalValue && updatedValue !== undefined;
+    });
+
+    // Construct all keys paths in the updated object
+    const updatedKeyPaths = updatedKeys
+        .map((key) => {
+            const keyParts = key.split('.');
+            return keyParts.map((_, index) => {
+                return keyParts.slice(0, index + 1).join('.');
+            });
+        })
+        .flat()
+        .filter((v, i, self) => self.indexOf(v) === i);
+
+    // Determine all removed keys
+    const removedKeys = originalKeys
+        .filter((key) => {
+            return !(key in updatedFlat) || updatedFlat[key] === undefined;
+        })
+        .map((key) => {
+            // Determine to which depth the key is removed
+            const keyParts = key.split('.');
+            const removalDepth = [...keyParts]
+                .reverse()
+                .findIndex((_, i, self) => {
+                    if (i === 0) return false; // Skip the last key
+
+                    // Construct the key path
+                    const path = self.slice(i).reverse().join('.');
+
+                    // Check if the path is in the updated object
+                    return updatedKeyPaths.includes(path);
+                });
+
+            return removalDepth === -1
+                ? `-=${keyParts[0]}`
+                : `${keyParts.slice(0, -removalDepth).join('.')}.-=${keyParts.at(-removalDepth)}`;
+        })
+        .filter((v, i, self) => self.indexOf(v) === i);
+
+    // Construct the changes object
+    const changes: AnyMutableObject = {};
+
+    // Add changed keys
+    changedKeys.forEach((key) => {
+        changes[key] = updatedFlat[key];
+    });
+
+    // Add removed keys
+    removedKeys.forEach((key) => {
+        let keyParts = key.split('.');
+        keyParts = [...keyParts.slice(0, -1), keyParts.at(-1)!.slice(2)];
+
+        // Add the removal operator
+        changes[key] = foundry.utils.getProperty(original, keyParts.join('.'));
+    });
+
+    return foundry.utils.expandObject(changes) as AnyObject;
+}
 
 /**
  * Helper function to get a given WorldCollection

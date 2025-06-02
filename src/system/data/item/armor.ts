@@ -17,6 +17,7 @@ import { TraitsItemMixin, TraitsItemData } from './mixins/traits';
 import { DeflectItemMixin, DeflectItemData } from './mixins/deflect';
 import { PhysicalItemMixin, PhysicalItemData } from './mixins/physical';
 import { ExpertiseItemMixin, ExpertiseItemData } from './mixins/expertise';
+import { EventsItemMixin, EventsItemData } from './mixins/events';
 
 export interface ArmorItemData
     extends IdItemData,
@@ -26,7 +27,8 @@ export interface ArmorItemData
         ExpertiseItemData,
         TraitsItemData<ArmorTraitId>,
         DeflectItemData,
-        PhysicalItemData {}
+        PhysicalItemData,
+        EventsItemData {}
 
 export class ArmorItemDataModel extends DataModelMixin<
     ArmorItemData,
@@ -49,4 +51,5 @@ export class ArmorItemDataModel extends DataModelMixin<
     TraitsItemMixin(),
     DeflectItemMixin(),
     PhysicalItemMixin(),
+    EventsItemMixin(),
 ) {}
