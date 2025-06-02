@@ -201,20 +201,14 @@ export function addDocumentToCollection(
     ) as unknown as CosmereDocument;
 
     // Manually update collection with document.
-    const collection = getCollectionForDocumentType(documentType);
-    if (compendium) {
-        // We can't just coerce the compendium to a generic collection
-        // because the database is expecting packs to have "packData"
-        compendium.set(id, documentToAdd as StoredDocument<CosmereDocument>);
-    } else {
-        (collection as Collection<CosmereDocument>).set(id, documentToAdd);
-    }
+    const collection = compendium ?? getCollectionForDocumentType(documentType);
+    (collection as Collection<CosmereDocument>).set(id, documentToAdd);
 
     // Stop tracking this id as invalid.
     // This is mostly just to clean up the warning
     // at the bottom of the sidebar.
     (
-        compendium ?? (collection as InvalidCollection<CosmereDocument>)
+        collection as InvalidCollection<CosmereDocument>
     ).invalidDocumentIds.delete(id);
 }
 
@@ -228,8 +222,13 @@ export function fixInvalidDocument(
     document: CosmereDocument,
     compendium?: CompendiumCollection<CompendiumCollection.Metadata>,
 ) {
-    if (isDocumentInvalid(documentType, document.id)) {
-        addDocumentToCollection(documentType, document.id, document);
+    if (isDocumentInvalid(documentType, document.id, compendium)) {
+        addDocumentToCollection(
+            documentType,
+            document.id,
+            document,
+            compendium,
+        );
     }
 }
 
