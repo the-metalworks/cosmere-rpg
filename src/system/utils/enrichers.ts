@@ -265,11 +265,12 @@ function enrichLookup(
  *
  * For full examples see https://github.com/the-metalworks/cosmere-rpg/wiki/Enrichers#tests
  */
-async function enrichTest(
+function enrichTest(
     config: EnricherConfig,
     label?: string,
     options?: TextEditor.EnrichmentOptions,
 ) {
+    const source = options?.relativeTo;
     let skillConfig: SkillConfig | undefined = undefined;
     let attributeConfig: AttributeConfig | undefined = undefined;
     if (config.skill && typeof config.skill === 'string') {
@@ -284,7 +285,7 @@ async function enrichTest(
     }
 
     const data = (
-        options?.relativeTo as unknown as CosmereActor | CosmereItem
+        source as unknown as CosmereActor | CosmereItem
     ).getEnricherData();
     if (config.dc && typeof config.dc === 'string') {
         try {
@@ -305,16 +306,13 @@ async function enrichTest(
             ) ??
             game.i18n?.localize('COSMERE.Actor.Statistics.Defense') ??
             'Bad Config';
-        config.dc = (await getActor(data.target?.uuid ?? ''))?.system.defenses[
-            config.defence as AttributeGroup
-        ].value;
+        config.dc =
+            data.target?.def[config.defence as 'phy' | 'spi' | 'cog'] ?? 0;
     }
 
     const labelText = label
         ? { linkLabel: label, postLink: '' }
         : buildTestLabel(config, skillConfig, attributeConfig);
-
-    const source = options?.relativeTo;
     const linkOptions = {
         actorId:
             source instanceof CosmereActor
@@ -399,18 +397,16 @@ async function enrichDamage(
 
     const source = options?.relativeTo;
     // grab the actor (we need the roll data unfortunately)
-    const actorId =
-        source instanceof CosmereActor
-            ? source.uuid
-            : (source as unknown as CosmereItem).actor?.uuid;
-    const actor = await getActor(actorId ?? '');
+    const data = (
+        source as unknown as CosmereActor | CosmereItem
+    ).getEnricherData();
 
     // convert any actor properties passed in. Note: currently it doesn't collate like terms...
     // This will need tweaking when allowing multiple damage types if we got that route
     const terms = Roll.simplifyTerms(
         Roll.defaultImplementation.parse(
             formulaParts.join(' + '),
-            actor?.getRollData() ?? {},
+            data.actor ?? {},
         ),
     );
     formula = terms.map((t) => t.formula).join(' ');
@@ -426,7 +422,10 @@ async function enrichDamage(
 
     // encode the data for the click action
     const linkOptions = {
-        actorId,
+        actorId:
+            source instanceof CosmereActor
+                ? source.uuid
+                : ((source as unknown as CosmereItem).actor?.uuid ?? ''),
         source: source?.uuid ?? '',
         data: {
             formula: setValue,
