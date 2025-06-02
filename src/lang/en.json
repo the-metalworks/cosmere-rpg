@@ -890,6 +890,45 @@
                                     "Hint": "The value to set the skill rank to."
                                 }
                             },
+                            "use-item": {
+                                "Title": "Use item",
+                                "Description": "Uses an item by rolling it.",
+                                "Target": {
+                                    "Label": "Target",
+                                    "Choices": {
+                                        "self": "Self",
+                                        "sibling": "Other on same Actor",
+                                        "global": "Global"
+                                    }
+                                },
+                                "UUID": {
+                                    "Label": "Item"
+                                },
+                                "MatchMode": {
+                                    "Label": "Match Mode",
+                                    "Hint": "How to match the item to update.\nIdentifier matches by the identifier set under Details.\nName matches by exact name, case sensitive.\nUUID matches only the exact item.",
+                                    "Choices": {
+                                        "identifier": "Identifier",
+                                        "name": "Name",
+                                        "uuid": "UUID"
+                                    }
+                                },
+                                "MatchAll": {
+                                    "Label": "Match All",
+                                    "Hint": "Whether to match all items or just the first one encountered."
+                                },
+                                "FastForward": {
+                                    "Label": "Fast Forward",
+                                    "Hint": "Whether to skip the roll dialog for the roll."
+                                },
+                                "AdvantageMode": {
+                                    "Label": "Advantage Mode"
+                                },
+                                "TemporaryDamageModifiers": {
+                                    "Label": "Damage Bonus",
+                                    "Hint": "Damage bonus formula to apply to the roll. Only items that can roll damage."
+                                }
+                            },
                             "update-actor": {
                                 "Title": "Update Actor",
                                 "Description": "Updates an actor by applying a set of changes.",

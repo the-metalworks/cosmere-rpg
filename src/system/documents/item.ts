@@ -707,6 +707,10 @@ export class CosmereItem<
         options.skillTest.advantageMode = advantageMode;
         options.skillTest.plotDie = plotDie;
 
+        // Get damage formula
+        const damageFormula =
+            options.damage?.overrideFormula ?? this.system.damage.formula;
+
         // Perform configuration
         if (!fastForward && options.configurable !== false) {
             /**
@@ -720,6 +724,10 @@ export class CosmereItem<
                 ) === false
             )
                 return null;
+
+            const parts = ['@mod'].concat(options.skillTest?.parts ?? []);
+            if (options.skillTest?.temporaryModifiers)
+                parts.push(options.skillTest.temporaryModifiers);
 
             const attackConfig = await AttackConfigurationDialog.show({
                 title: `${this.name} (${
@@ -736,7 +744,7 @@ export class CosmereItem<
                     this.system.activation.plotDie,
                 skillTest: {
                     ...options.skillTest,
-                    parts: ['@mod'].concat(options.skillTest?.parts ?? []),
+                    parts,
                     data: this.getSkillTestRollData(
                         skillTestSkillId ?? null,
                         skillTestAttributeId,
@@ -746,7 +754,7 @@ export class CosmereItem<
                 },
                 damageRoll: {
                     ...options.damage,
-                    parts: this.system.damage.formula.split(' + '),
+                    parts: damageFormula.split(' + '),
                     data: this.getDamageRollData(
                         skillTestSkillId,
                         skillTestAttributeId,
@@ -882,11 +890,20 @@ export class CosmereItem<
             return null;
         }
 
+        const { fastForward, advantageMode, plotDie } =
+            determineConfigurationMode(options);
+
         // Hook: preItemUse
         if (
             Hooks.call<CosmereHooks.PreUseItem>(
                 HOOKS.PRE_USE_ITEM,
                 this, // Source
+                {
+                    ...options,
+                    configurable: fastForward,
+                    advantageMode,
+                    plotDie,
+                },
             ) === false
         )
             return null;
@@ -1036,6 +1053,12 @@ export class CosmereItem<
             Hooks.callAll<CosmereHooks.UseItem>(
                 HOOKS.USE_ITEM,
                 this, // Source
+                {
+                    ...options,
+                    configurable: fastForward,
+                    advantageMode,
+                    plotDie,
+                },
             );
         });
 
@@ -1054,8 +1077,9 @@ export class CosmereItem<
                         advantageModePlot: options.advantageModePlot,
                         opportunity: options.opportunity,
                         complication: options.complication,
+                        temporaryModifiers: options.temporaryModifiers,
                     },
-                    damage: {},
+                    damage: options.damage ?? {},
                     chatMessage: false,
                 });
                 if (!attackResult) return null;
@@ -1075,6 +1099,7 @@ export class CosmereItem<
                 if (hasDamage) {
                     const damageRolls = await this.rollDamage({
                         ...options,
+                        ...options.damage,
                         actor,
                         chatMessage: false,
                     });
@@ -1516,6 +1541,7 @@ export namespace CosmereItem {
             | 'plotDie'
             | 'advantageMode'
             | 'advantageModePlot'
+            | 'temporaryModifiers'
         > {
         skillTest?: Pick<
             RollOptions,
@@ -1532,7 +1558,9 @@ export namespace CosmereItem {
         damage?: Pick<RollOptions, 'overrideFormula' | 'skill' | 'attribute'>;
     }
 
-    export interface UseOptions extends RollOptions {
+    export interface UseOptions
+        extends RollOptions,
+            Pick<RollAttackOptions, 'damage'> {
         /**
          * Whether or not the item usage should consume.
          * Only used if the item has consumption configured.

@@ -42,4 +42,6 @@ export namespace Event {
          */
         Source = 'source',
     }
+
+    export type UseItem = Event<unknown, 'use', CosmereItem.UseOptions>;
 }
