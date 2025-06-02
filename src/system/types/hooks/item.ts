@@ -19,8 +19,14 @@ import { CosmereItem } from '@system/documents/item';
  * - preCompleteGoal
  */
 
-export type UseItem = (item: CosmereItem) => void;
-export type PreUseItem = (item: CosmereItem) => boolean;
+export type UseItem = (
+    item: CosmereItem,
+    options: CosmereItem.UseOptions,
+) => void;
+export type PreUseItem = (
+    item: CosmereItem,
+    options: CosmereItem.UseOptions,
+) => boolean;
 
 export type ModeChangeItem = (item: CosmereItem) => void;
 export type PreModeChangeItem = (item: CosmereItem) => boolean;

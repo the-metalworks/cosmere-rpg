@@ -43,6 +43,8 @@ import {
     EventSystem as ItemEventSystem,
 } from './item';
 
+import { AnyObject } from './utils';
+
 import {
     ItemListSection,
     DynamicItemListSectionGenerator,
@@ -365,7 +367,7 @@ export interface ItemEventTypeConfig {
      */
     transform?: (...args: any[]) => {
         document: foundry.abstract.Document;
-        options?: object;
+        options?: AnyObject;
         userId?: string;
     };
     /* eslint-enable @typescript-eslint/no-explicit-any */

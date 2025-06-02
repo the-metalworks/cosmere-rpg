@@ -4,26 +4,15 @@ import { HandlerType, Event } from '@system/types/item/event-system';
 import { ChangeData, ChangeDataModel } from '@system/data/item/misc/change';
 
 // Utils
+import { ItemTarget, MatchMode, matchItems } from './utils';
 import { getChangeValue, tryApplyRollData } from '@system/utils/changes';
 
 // Constants
 import { SYSTEM_ID } from '@system/constants';
 import { TEMPLATES } from '@system/utils/templates';
 
-const enum UpdateItemTarget {
-    Self = 'self',
-    Sibling = 'sibling',
-    Global = 'global',
-}
-
-const enum MatchMode {
-    Identifier = 'identifier',
-    Name = 'name',
-    UUID = 'uuid',
-}
-
 interface UpdateItemHandlerConfigData {
-    target: UpdateItemTarget;
+    target: ItemTarget;
     uuid?: string | null;
     matchMode?: MatchMode | null;
     matchAll?: boolean | null;
@@ -39,14 +28,16 @@ export function register() {
             schema: {
                 target: new foundry.data.fields.StringField({
                     choices: {
-                        [UpdateItemTarget.Self]: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UpdateItem}.Target.Choices.${UpdateItemTarget.Self}`,
-                        [UpdateItemTarget.Sibling]: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UpdateItem}.Target.Choices.${UpdateItemTarget.Sibling}`,
-                        [UpdateItemTarget.Global]: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UpdateItem}.Target.Choices.${UpdateItemTarget.Global}`,
+                        [ItemTarget.Self]: `COSMERE.Item.EventSystem.Event.Handler.General.Target.Choices.${ItemTarget.Self}`,
+                        [ItemTarget.Sibling]: `COSMERE.Item.EventSystem.Event.Handler.General.Target.Choices.${ItemTarget.Sibling}`,
+                        [ItemTarget.EquippedWeapon]: `COSMERE.Item.EventSystem.Event.Handler.General.Target.Choices.${ItemTarget.EquippedWeapon}`,
+                        [ItemTarget.EquippedArmor]: `COSMERE.Item.EventSystem.Event.Handler.General.Target.Choices.${ItemTarget.EquippedArmor}`,
+                        [ItemTarget.Global]: `COSMERE.Item.EventSystem.Event.Handler.General.Target.Choices.${ItemTarget.Global}`,
                     },
-                    initial: UpdateItemTarget.Self,
+                    initial: ItemTarget.Self,
                     required: true,
                     blank: false,
-                    label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UpdateItem}.Target.Label`,
+                    label: `COSMERE.Item.EventSystem.Event.Handler.General.Target.Label`,
                 }),
                 uuid: new foundry.data.fields.DocumentUUIDField({
                     type: 'Item',
@@ -58,18 +49,18 @@ export function register() {
                     nullable: true,
                     initial: MatchMode.Identifier,
                     choices: {
-                        [MatchMode.Identifier]: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UpdateItem}.MatchMode.Choices.${MatchMode.Identifier}`,
-                        [MatchMode.Name]: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UpdateItem}.MatchMode.Choices.${MatchMode.Name}`,
-                        [MatchMode.UUID]: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UpdateItem}.MatchMode.Choices.${MatchMode.UUID}`,
+                        [MatchMode.Identifier]: `COSMERE.Item.EventSystem.Event.Handler.General.MatchMode.Choices.${MatchMode.Identifier}`,
+                        [MatchMode.Name]: `COSMERE.Item.EventSystem.Event.Handler.General.MatchMode.Choices.${MatchMode.Name}`,
+                        [MatchMode.UUID]: `COSMERE.Item.EventSystem.Event.Handler.General.MatchMode.Choices.${MatchMode.UUID}`,
                     },
-                    label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UpdateItem}.MatchMode.Label`,
-                    hint: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UpdateItem}.MatchMode.Hint`,
+                    label: `COSMERE.Item.EventSystem.Event.Handler.General.MatchMode.Label`,
+                    hint: `COSMERE.Item.EventSystem.Event.Handler.General.MatchMode.Hint`,
                 }),
                 matchAll: new foundry.data.fields.BooleanField({
                     initial: false,
                     nullable: true,
-                    label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UpdateItem}.MatchAll.Label`,
-                    hint: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UpdateItem}.MatchAll.Hint`,
+                    label: `COSMERE.Item.EventSystem.Event.Handler.General.MatchAll.Label`,
+                    hint: `COSMERE.Item.EventSystem.Event.Handler.General.MatchAll.Hint`,
                 }),
                 changes: new foundry.data.fields.ArrayField(
                     new foundry.data.fields.SchemaField(
@@ -89,12 +80,11 @@ export function register() {
             event: Event,
         ) {
             if (this.changes.length === 0) return;
-            if (this.target === UpdateItemTarget.Sibling && !event.item.actor)
-                return;
-            if (this.target !== UpdateItemTarget.Self && !this.uuid) return;
+            if (this.target === ItemTarget.Sibling && !event.item.actor) return;
+            if (this.target !== ItemTarget.Self && !this.uuid) return;
 
             // Get the item(s) to update
-            const itemsToUpdate = await getItemsToUpdate(
+            const itemsToUpdate = await matchItems(
                 event.item,
                 this.target,
                 this.uuid ?? null,
@@ -135,62 +125,4 @@ export function register() {
             );
         },
     });
-}
-
-/* --- Helpers --- */
-
-async function getItemsToUpdate(
-    item: CosmereItem,
-    target: UpdateItemTarget,
-    uuid: string | null,
-    matchMode: MatchMode,
-    matchAll: boolean,
-): Promise<CosmereItem[]> {
-    if (target === UpdateItemTarget.Self) return [item];
-    else if (target === UpdateItemTarget.Sibling && item.actor && uuid) {
-        // Look up the reference item from uuid
-        const referenceItem = (await fromUuid(uuid)) as CosmereItem | null;
-        if (!referenceItem) return [];
-
-        const siblings = item.actor.items;
-
-        // Determine the match mode
-        matchMode =
-            matchMode === MatchMode.Identifier && !referenceItem.hasId()
-                ? MatchMode.Name
-                : matchMode;
-
-        // Get the matcher function
-        const matcher =
-            matchMode === MatchMode.Identifier
-                ? getIdentifierMatcher(referenceItem)
-                : matchMode === MatchMode.Name
-                  ? getNameMatcher(referenceItem)
-                  : getUUIDMatcher(referenceItem);
-
-        // Get the items to update
-        return matchAll
-            ? siblings.filter(matcher)
-            : [siblings.find(matcher)].filter((item) => !!item);
-    } else if (target === UpdateItemTarget.Global && uuid) {
-        // Look up the target item from uuid
-        return [(await fromUuid(uuid)) as CosmereItem | null].filter(
-            (item) => !!item,
-        );
-    } else {
-        throw new Error('Invalid target');
-    }
-}
-
-function getIdentifierMatcher(referenceItem: CosmereItem) {
-    return (item: CosmereItem) =>
-        item.hasId() && item.system.id === referenceItem.system.id;
-}
-
-function getNameMatcher(referenceItem: CosmereItem) {
-    return (item: CosmereItem) => item.name === referenceItem.name;
-}
-
-function getUUIDMatcher(referenceItem: CosmereItem) {
-    return (item: CosmereItem) => item.uuid === referenceItem.uuid;
 }

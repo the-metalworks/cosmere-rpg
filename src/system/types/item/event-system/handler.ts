@@ -17,6 +17,8 @@ export const enum HandlerType {
     GrantExpertises = 'grant-expertises',
     RemoveExpertises = 'remove-expertises',
 
+    UseItem = 'use-item',
+
     // General purpose
     UpdateItem = 'update-item',
     UpdateActor = 'update-actor',
@@ -27,7 +29,8 @@ export type HandlerConfig<T = unknown> = {
     type: HandlerType;
 } & T;
 
-export type HandlerExecutor<E extends Event = Event> = (
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type HandlerExecutor<E extends Event = Event<any, any, any>> = (
     event: E,
 ) => void | boolean | Promise<void | boolean>;
 

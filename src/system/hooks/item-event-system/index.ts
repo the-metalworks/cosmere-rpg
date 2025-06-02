@@ -1,9 +1,9 @@
-import { CosmereDocument } from '@system/documents';
 import { CosmereItem } from '@system/documents/item';
 import { CosmereActor } from '@system/documents/actor';
 
 import { Event } from '@system/types/item/event-system';
 import { ItemEventTypeConfig } from '@system/types/config';
+import { AnyObject } from '@system/types/utils';
 
 import { registerEventTypes } from './events';
 import { registerHandlers } from './handlers';
@@ -122,7 +122,7 @@ async function handleEventHook(
     item: CosmereItem,
     eventType: string,
     config: ItemEventTypeConfig,
-    options?: object,
+    options?: AnyObject,
     sourceUserId?: string,
 ) {
     // Verify if the local user is the appropriate event execution host
@@ -142,7 +142,7 @@ async function handleEventHook(
     }
 
     // Fire the event
-    await fireEvent({ type: eventType, item });
+    await fireEvent({ type: eventType, item, options });
 
     // Update the last event time
     lastEventTime = Date.now();
@@ -287,7 +287,7 @@ function getTransform(type: string, config: ItemEventTypeConfig) {
                 userId,
             } as {
                 document: foundry.abstract.Document;
-                options?: object;
+                options?: AnyObject;
                 userId?: string;
             };
         })

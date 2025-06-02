@@ -152,6 +152,7 @@ export class ItemEditEventRuleDialog extends ComponentHandlebarsApplicationMixin
         // Handle handler config rendering
         const handlerConfigHtml = await this.rule.handler.configRenderer?.({
             ...context,
+            event: this.rule.event,
             handler: this.rule.handler,
 
             // Emulate component system
