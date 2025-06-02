@@ -68,6 +68,16 @@ const EVENTS: EventDefinition[] = [
         hook: HOOKS.MODE_DEACTIVATE_ITEM,
         filter: (item: CosmereItem) => item.hasModality(),
     },
+    {
+        type: 'goal-complete',
+        hook: HOOKS.COMPLETE_GOAL,
+        filter: (item: CosmereItem) => item.isGoal(),
+    },
+    {
+        type: 'goal-progress',
+        hook: HOOKS.PROGRESS_GOAL,
+        filter: (item: CosmereItem) => item.isGoal(),
+    },
 
     // General Actor events
     { type: 'update-actor', hook: 'updateActor' },
