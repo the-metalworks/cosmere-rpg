@@ -1,9 +1,10 @@
 import { CosmereItem } from '@system/documents/item';
-import { AnyMutableObject } from '@system/types/utils';
+import { AnyMutableObject, AnyObject } from '@system/types/utils';
 
 export type Event<
-    EventData extends AnyMutableObject = AnyMutableObject,
+    EventData = AnyMutableObject,
     T extends string = string,
+    TOptions extends object = AnyObject,
 > = {
     /**
      * The type of this event.
@@ -14,6 +15,8 @@ export type Event<
      * The item that triggered this event.
      */
     item: CosmereItem;
+
+    options?: TOptions;
 } & EventData;
 
 export namespace Event {
