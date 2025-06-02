@@ -68,9 +68,11 @@ export async function migrate(from: string, to: string, packID?: string) {
             migration.to,
         );
 
+        const packName = packID ? ` (${packID})` : '';
+
         try {
             console.log(
-                `[${SYSTEM_ID}] Migration ${migration.from} -> ${migration.to}: Running`,
+                `[${SYSTEM_ID}] Migration ${migration.from} -> ${migration.to}: Running${packName}`,
             );
 
             if (packID) {
@@ -80,12 +82,15 @@ export async function migrate(from: string, to: string, packID?: string) {
             }
 
             console.log(
-                `[${SYSTEM_ID}] Migration ${migration.from} -> ${migration.to}: Succeeded`,
+                `[${SYSTEM_ID}] Migration ${migration.from} -> ${migration.to}: Succeeded${packName}`,
             );
         } catch (err) {
-            console.error(`[${SYSTEM_ID}] Error running data migration:`, err);
+            console.error(
+                `[${SYSTEM_ID}] Error running data migration${packName}:`,
+                err,
+            );
             console.log(
-                `[${SYSTEM_ID}] Migration ${migration.from} -> ${migration.to}: Failed, exiting`,
+                `[${SYSTEM_ID}] Migration ${migration.from} -> ${migration.to}: Failed${packName}, exiting`,
             );
             return;
         }
