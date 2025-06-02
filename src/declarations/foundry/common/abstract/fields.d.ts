@@ -286,6 +286,8 @@ declare namespace foundry {
             }
 
             class NumberField extends DataField {
+                options: NumberFieldOptions;
+
                 constructor(
                     options?: NumberFieldOptions,
                     context?: DataFieldContext,

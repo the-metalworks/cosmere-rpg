@@ -48,6 +48,8 @@ import {
     DynamicItemListSectionGenerator,
 } from './application/actor/components/item-list';
 
+import { CosmereItem } from '@system/documents/item';
+
 export interface SizeConfig {
     label: string;
     size?: number;
@@ -341,6 +343,12 @@ export interface ItemEventTypeConfig {
     description?: string;
     hook: string;
     host: ItemEventSystem.Event.ExecutionHost;
+
+    /**
+     * A filter function to determine if this event should be available for a given item.
+     */
+    filter?: (item: CosmereItem) => boolean | Promise<boolean>;
+
     // NOTE: Allow any type as conditions should be able to freely match hook signatures
     /* eslint-disable @typescript-eslint/no-explicit-any */
     /**

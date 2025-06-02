@@ -289,6 +289,7 @@ export function registerItemEventType(
         description: data.description,
         hook: data.hook,
         host: data.host ?? ItemEventSystem.Event.ExecutionHost.Owner,
+        filter: data.filter,
         condition: data.condition,
         transform: data.transform,
     };
