@@ -5,6 +5,7 @@ import {
     EquipHand,
     WeaponType,
     EquipType,
+    ActivationType,
 } from '@system/types/cosmere';
 import { CosmereItem } from '@src/system/documents';
 
@@ -68,7 +69,20 @@ export class WeaponItemDataModel extends DataModelMixin<
             choices: [EquipType.Hold],
         },
     }),
-    ActivatableItemMixin(),
+    ActivatableItemMixin({
+        type: {
+            initial: ActivationType.SkillTest,
+        },
+        skill: {
+            allowDefault: true,
+            defaultResolver: function (this: WeaponItemData) {
+                return (
+                    CONFIG.COSMERE.items.weapon.types[this.type].skill ?? null
+                );
+            },
+            initial: 'default',
+        },
+    }),
     AttackingItemMixin(),
     DamagingItemMixin(),
     ExpertiseItemMixin(),

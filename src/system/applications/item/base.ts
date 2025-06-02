@@ -127,45 +127,10 @@ export class BaseItemSheet extends TabsApplicationMixin(
 
         if (this.item.hasActivation()) {
             if (
-                'system.activation.cost.type' in formData.object &&
-                formData.object['system.activation.cost.type'] === NONE
-            )
-                formData.set('system.activation.cost.type', null);
-
-            if (
-                'system.activation.skill' in formData.object &&
-                formData.object['system.activation.skill'] === NONE
-            )
-                formData.set('system.activation.skill', null);
-
-            if (
-                'system.activation.attribute' in formData.object &&
-                formData.object['system.activation.attribute'] === 'default'
-            ) {
-                formData.set(
-                    'system.activation.attribute',
-                    CONFIG.COSMERE.skills[
-                        formData.object['system.activation.skill'] as Skill
-                    ].attribute,
-                );
-            }
-            if (
-                'system.activation.attribute' in formData.object &&
-                formData.object['system.activation.attribute'] === NONE
-            )
-                formData.set('system.activation.attribute', null);
-
-            if (
                 'system.activation.uses.type' in formData.object &&
                 formData.object['system.activation.uses.type'] === NONE
             )
                 formData.set('system.activation.uses', null);
-
-            if (
-                'system.activation.uses.recharge' in formData.object &&
-                formData.object['system.activation.uses.recharge'] === NONE
-            )
-                formData.set('system.activation.uses.recharge', null);
 
             // Handle consumption
             const consumption = this.getUpdatedConsumption(formData);

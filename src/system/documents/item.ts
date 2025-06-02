@@ -438,16 +438,15 @@ export class CosmereItem<
         }
 
         // Get skill to use
-        const skillId = options.skill ?? this.system.activation.skill;
+        const skillId = options.skill ?? this.system.activation.resolvedSkill;
+
         const skill = skillId
             ? actor.system.skills[skillId]
             : { attribute: null, rank: 0 };
 
         // Get the attribute id
         const attributeId =
-            options.attribute ??
-            this.system.activation.attribute ??
-            skill.attribute;
+            options.attribute ?? this.system.activation.resolvedAttribute;
 
         // Set up actor data
         const data: D20RollData = this.getSkillTestRollData(
@@ -527,7 +526,7 @@ export class CosmereItem<
         // Get the skill id
         const skillId =
             options.skill ??
-            (activatable ? this.system.activation.skill : undefined);
+            (activatable ? this.system.activation.resolvedSkill : null);
 
         // Get the skill
         const skill = skillId ? actor.system.skills[skillId] : undefined;
@@ -535,8 +534,7 @@ export class CosmereItem<
         // Get the attribute id
         const attributeId =
             options.attribute ??
-            (activatable ? this.system.activation.attribute : undefined) ??
-            (skill ? skill.attribute : undefined);
+            (activatable ? this.system.activation.resolvedAttribute : null);
 
         // Set up data
         const rollData: DamageRollData = this.getDamageRollData(
@@ -660,7 +658,7 @@ export class CosmereItem<
 
         // Get the skill to use during the skill test
         const skillTestSkillId =
-            options.skillTest?.skill ?? this.system.activation.skill;
+            options.skillTest?.skill ?? this.system.activation.resolvedSkill;
 
         // Get the skill to use during the damage roll
         const damageSkillId =
@@ -671,8 +669,7 @@ export class CosmereItem<
         // Get the attribute to use during the skill test
         let skillTestAttributeId: Nullable<Attribute> =
             options.skillTest?.attribute ??
-            this.system.activation.attribute ??
-            null;
+            this.system.activation.resolvedAttribute;
 
         // Get the attribute to use during the damage roll
         const damageAttributeId: Nullable<Attribute> =
@@ -1284,20 +1281,11 @@ export class CosmereItem<
         let action;
         if (
             this.hasActivation() &&
-            this.system.activation?.cost?.value !== undefined
+            this.system.activation.cost.value !== undefined
         ) {
-            const activation = this.system.activation as Record<
-                string,
-                unknown
-            >;
-            const cost = activation.cost as {
-                type: ActionCostType;
-                value: number;
-            };
-
-            switch (cost.type) {
+            switch (this.system.activation.cost.type) {
                 case ActionCostType.Action:
-                    action = `action${Math.min(3, cost.value)}`;
+                    action = `action${Math.min(3, this.system.activation.cost.value)}`;
                     break;
                 case ActionCostType.Reaction:
                     action = 'reaction';
@@ -1361,7 +1349,7 @@ export class CosmereItem<
     }
 
     protected getDamageRollData(
-        skillId: Skill | undefined,
+        skillId: Nullable<Skill> | undefined,
         attributeId: Nullable<Attribute> | undefined,
         actor: CosmereActor,
     ): DamageRollData {
@@ -1437,7 +1425,7 @@ export namespace CosmereItem {
          * The skill to be used with this item roll.
          * Used to roll the item with an alternate skill.
          */
-        skill?: Skill;
+        skill?: Nullable<Skill>;
 
         /**
          * The attribute to be used with this item roll.

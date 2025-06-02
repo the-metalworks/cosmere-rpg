@@ -320,9 +320,9 @@ Handlebars.registerHelper(
                 }
 
                 // Check if a skill test is configured
-                if (item.system.activation.skill) {
-                    const skill = item.system.activation.skill;
-                    const attribute = item.system.activation.attribute;
+                if (item.system.activation.resolvedSkill) {
+                    const skill = item.system.activation.resolvedSkill;
+                    const attribute = item.system.activation.resolvedAttribute;
 
                     context.hasSkillTest = true;
                     context.skillTest = {
