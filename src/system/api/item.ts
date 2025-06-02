@@ -1,3 +1,4 @@
+// Types
 import {
     EquipmentType,
     WeaponId,
@@ -7,10 +8,10 @@ import {
     ActionType,
     WeaponType,
 } from '@system/types/cosmere';
-
 import {
     PowerTypeConfig,
     ActionTypeConfig,
+    ItemEventTypeConfig,
     PathTypeConfig,
     EquipmentTypeConfig,
     WeaponTypeConfig,
@@ -19,6 +20,11 @@ import {
     CultureConfig,
     AncestryConfig,
 } from '@system/types/config';
+import { EventSystem as ItemEventSystem } from '@system/types/item';
+import { AnyObject } from '@system/types/utils';
+
+// Utils
+import * as EventSystemUtils from '@system/utils/item/event-system';
 
 interface PowerTypeConfigData extends PowerTypeConfig {
     /**
@@ -251,5 +257,81 @@ export function registerAncestry(data: AncestryConfigData, force = false) {
     CONFIG.COSMERE.ancestries[data.id] = {
         label: data.label,
         reference: data.reference,
+    };
+}
+
+interface ItemEventTypeConfigData
+    extends Omit<ItemEventTypeConfig, 'host'>,
+        Partial<Pick<ItemEventTypeConfig, 'host'>> {
+    /**
+     * Unique id for the item event type.
+     */
+    type: string;
+}
+
+export function registerItemEventType(
+    data: ItemEventTypeConfigData,
+    force = false,
+) {
+    if (!CONFIG.COSMERE)
+        throw new Error('Cannot access api until after system is initialized.');
+
+    if (data.type in CONFIG.COSMERE.items.events.types && !force)
+        throw new Error('Cannot override existing item event type config.');
+
+    if (force) {
+        console.warn('Registering item event type with force=true.');
+    }
+
+    // Add to item event types
+    CONFIG.COSMERE.items.events.types[data.type] = {
+        label: data.label,
+        description: data.description,
+        hook: data.hook,
+        host: data.host ?? ItemEventSystem.Event.ExecutionHost.Owner,
+        condition: data.condition,
+        transform: data.transform,
+    };
+}
+
+interface ItemEventHandlerConfigData {
+    type: string;
+    label: string;
+    description?: string | (() => string);
+    executor: ItemEventSystem.HandlerExecutor;
+    config: {
+        schema: foundry.data.fields.DataSchema;
+    } & (
+        | {
+              template?: string;
+          }
+        | {
+              render?: (data: AnyObject) => Promise<string>;
+          }
+    );
+}
+
+export function registerItemEventHandlerType(
+    data: ItemEventHandlerConfigData,
+    force = false,
+) {
+    if (!CONFIG.COSMERE)
+        throw new Error('Cannot access api until after system is initialized.');
+
+    if (data.type === 'none')
+        throw new Error('Cannot register item event handler with type "none".');
+
+    if (data.type in CONFIG.COSMERE.items.events.handlers && !force)
+        throw new Error('Cannot override existing item event handler type.');
+
+    // Add to event handlers config
+    CONFIG.COSMERE.items.events.handlers[data.type] = {
+        label: data.label,
+        description: data.description,
+        documentClass: EventSystemUtils.constructHandlerClass(
+            data.type,
+            data.executor,
+            data.config,
+        ),
     };
 }

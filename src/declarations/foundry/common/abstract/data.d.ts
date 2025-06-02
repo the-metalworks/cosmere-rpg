@@ -265,6 +265,10 @@ namespace foundry {
             get flags(): Record<string, any>;
             get pack(): string | undefined;
             get compendium(): CompendiumCollection<Document> | undefined;
+            get ownership(): Record<
+                string,
+                foundry.CONST.DOCUMENT_OWNERSHIP_LEVELS
+            >;
 
             /**
              * The canonical name of this Document type, for example "Actor".
@@ -821,10 +825,7 @@ namespace foundry {
              * @param context Context options passed to the data model constructor
              * @returns The cloned Document instance
              */
-            clone(
-                data?: object,
-                context?: object,
-            ): Document | Promise<Document>;
+            clone(data?: object, context?: object): this | Promise<this>;
 
             /**
              * Validate the data contained in the document to check for type and content

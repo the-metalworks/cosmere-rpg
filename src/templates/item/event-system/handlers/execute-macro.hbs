@@ -1,0 +1,35 @@
+{{!-- Inline field --}}
+{{formGroup handler.schema.fields.inline
+    value=handler.inline
+    name="handler.inline"
+    localize=true
+}}
+
+{{#if handler.inline}}
+    {{!-- Macro type --}}
+    {{formGroup handler.schema.fields.macro.fields.type
+        value=handler.macro.type
+        name="handler.macro.type"
+        localize=true
+    }}
+
+    {{!-- Command field --}}
+    <div class="form-group stacked command">
+        <label>{{localize handler.schema.fields.macro.fields.command.label}}</label>
+        <textarea name="handler.macro.command">{{handler.macro.command}}</textarea>
+    </div>
+{{else}}
+    {{!-- UUID field --}}
+    <div class="form-group">
+        <label>{{localize handler.schema.fields.uuid.label}}</label>
+        <div class="form-fields">
+            {{app-document-reference-input
+                value=handler.uuid
+                name="handler.uuid"
+                localize=true
+                type="Macro"
+                placeholder="Drop a macro here"
+            }}
+        </div>
+    </div>
+{{/if}}

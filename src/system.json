@@ -13,8 +13,12 @@
             "url": "https://github.com/the-metalworks"
         }
     ],
-    "esmodules": ["index.js"],
-    "styles": ["output.css"],
+    "esmodules": [
+        "index.js"
+    ],
+    "styles": [
+        "output.css"
+    ],
     "documentTypes": {
         "Actor": {
             "character": {},
@@ -25,33 +29,53 @@
             "armor": {},
             "equipment": {},
             "loot": {},
-
             "ancestry": {},
             "culture": {},
             "path": {},
             "specialty": {},
             "talent": {},
             "trait": {},
-
             "action": {},
-
             "injury": {},
             "connection": {},
             "goal": {},
-
             "power": {},
-
             "talent_tree": {}
         }
     },
     "packs": [
+        {
+            "name": "rules",
+            "label": "Rules",
+            "system": "cosmere-rpg",
+            "path": "packs/rules",
+            "type": "JournalEntry",
+            "ownership": {
+                "PLAYER": "OBSERVER",
+                "ASSISTANT": "OWNER"
+            }
+        },
         {
             "name": "tables",
             "label": "Roll Tables",
             "system": "cosmere-rpg",
             "path": "packs/tables",
             "type": "RollTable",
-            "private": false
+            "ownership": {
+                "PLAYER": "OBSERVER",
+                "ASSISTANT": "OWNER"
+            }
+        }
+    ],
+    "packFolders": [
+        {
+            "name": "Cosmere RPG",
+            "sorting": "m",
+            "color": "#141f3c",
+            "packs": [
+                "rules",
+                "tables"
+            ]
         }
     ],
     "languages": [

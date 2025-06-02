@@ -32,9 +32,17 @@ import {
     PowerType,
     Theme,
     MovementType,
+    ImmunityType,
 } from './cosmere';
 import { AdvantageMode } from './roll';
-import { Talent, TalentTree, Goal } from './item';
+
+import {
+    Talent,
+    TalentTree,
+    Goal,
+    EventSystem as ItemEventSystem,
+} from './item';
+
 import {
     ItemListSection,
     DynamicItemListSectionGenerator,
@@ -159,6 +167,12 @@ export interface ArmorConfig {
 export interface ExpertiseTypeConfig {
     label: string;
     icon?: string;
+
+    /**
+     * The key of the registry in the CONFIG.COSMERE object of the
+     * default configured entries for this expertise type.
+     */
+    configRegistryKey?: keyof CosmereRPGConfig;
 }
 
 export interface TraitConfig {
@@ -212,6 +226,11 @@ export interface DamageTypeConfig {
     label: string;
     icon?: string;
     ignoreDeflect?: boolean;
+}
+
+export interface ImmunityTypeConfig {
+    label: string;
+    icon: string;
 }
 
 export interface ItemTypeConfig {
@@ -322,6 +341,34 @@ export interface MovementTypeConfig {
     label: string;
 }
 
+export interface ItemEventTypeConfig {
+    label: string;
+    description?: string;
+    hook: string;
+    host: ItemEventSystem.Event.ExecutionHost;
+    // NOTE: Allow any type as conditions should be able to freely match hook signatures
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    /**
+     * Whether or not the hook invocation should cause the event to be fired.
+     */
+    condition?: (...args: any[]) => boolean | Promise<boolean>;
+    /**
+     * Function to transform the hook arguments into a fixed set of arguments.
+     */
+    transform?: (...args: any[]) => {
+        document: foundry.abstract.Document;
+        options?: object;
+        userId?: string;
+    };
+    /* eslint-enable @typescript-eslint/no-explicit-any */
+}
+
+export interface ItemEventHandlerTypeConfig {
+    label: string;
+    description?: string | (() => string);
+    documentClass: ItemEventSystem.HandlerCls;
+}
+
 export interface CosmereRPGConfig {
     themes: Record<Theme, string>;
     sizes: Record<Size, SizeConfig>;
@@ -393,6 +440,11 @@ export interface CosmereRPGConfig {
                 };
             };
         };
+
+        events: {
+            types: Record<string, ItemEventTypeConfig>;
+            handlers: Record<string, ItemEventHandlerTypeConfig>;
+        };
     };
 
     weapons: Record<WeaponId, WeaponConfig>;
@@ -426,6 +478,7 @@ export interface CosmereRPGConfig {
     };
 
     damageTypes: Record<DamageType, DamageTypeConfig>;
+    immunityTypes: Record<ImmunityType, ImmunityTypeConfig>;
 
     cultures: Record<string, CultureConfig>;
     ancestries: Record<string, AncestryConfig>;

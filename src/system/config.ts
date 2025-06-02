@@ -33,6 +33,7 @@ import {
     PowerType,
     Theme,
     MovementType,
+    ImmunityType,
 } from './types/cosmere';
 import { AdvantageMode } from './types/roll';
 
@@ -100,6 +101,8 @@ const COSMERE: CosmereRPGConfig = {
         [Status.Afflicted]: {
             label: 'COSMERE.Status.Afflicted',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/afflicted.svg',
+            reference:
+                'Compendium.cosmere-rpg.rules.JournalEntry.A3Ac4yL1J0tdYcjP.JournalEntryPage.OMT0NRT0IcBuHczN#afflicted',
             condition: true,
         },
         [Status.Blind]: {
@@ -115,26 +118,36 @@ const COSMERE: CosmereRPGConfig = {
         [Status.Determined]: {
             label: 'COSMERE.Status.Determined',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/determined.svg',
+            reference:
+                'Compendium.cosmere-rpg.rules.JournalEntry.A3Ac4yL1J0tdYcjP.JournalEntryPage.OMT0NRT0IcBuHczN#determined',
             condition: true,
         },
         [Status.Disoriented]: {
             label: 'COSMERE.Status.Disoriented',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/disoriented.svg',
+            reference:
+                'Compendium.cosmere-rpg.rules.JournalEntry.A3Ac4yL1J0tdYcjP.JournalEntryPage.OMT0NRT0IcBuHczN#disoriented',
             condition: true,
         },
         [Status.Empowered]: {
             label: 'COSMERE.Status.Empowered',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/empowered.svg',
+            reference:
+                'Compendium.cosmere-rpg.rules.JournalEntry.A3Ac4yL1J0tdYcjP.JournalEntryPage.OMT0NRT0IcBuHczN#empowered',
             condition: true,
         },
         [Status.Enhanced]: {
             label: 'COSMERE.Status.Enhanced',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/enhanced.svg',
+            reference:
+                'Compendium.cosmere-rpg.rules.JournalEntry.A3Ac4yL1J0tdYcjP.JournalEntryPage.OMT0NRT0IcBuHczN#enhanced',
             condition: true,
         },
         [Status.Exhausted]: {
             label: 'COSMERE.Status.Exhausted',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/exhausted.svg',
+            reference:
+                'Compendium.cosmere-rpg.rules.JournalEntry.A3Ac4yL1J0tdYcjP.JournalEntryPage.OMT0NRT0IcBuHczN#exhausted',
             condition: true,
             stackable: true,
             stacksDisplayTransform: (stacks) => (-stacks).toFixed(),
@@ -147,6 +160,8 @@ const COSMERE: CosmereRPGConfig = {
         [Status.Focused]: {
             label: 'COSMERE.Status.Focused',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/focused.svg',
+            reference:
+                'Compendium.cosmere-rpg.rules.JournalEntry.A3Ac4yL1J0tdYcjP.JournalEntryPage.OMT0NRT0IcBuHczN#focused',
             condition: true,
         },
         [Status.Hidden]: {
@@ -157,6 +172,8 @@ const COSMERE: CosmereRPGConfig = {
         [Status.Immobilized]: {
             label: 'COSMERE.Status.Immobilized',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/immobilized.svg',
+            reference:
+                'Compendium.cosmere-rpg.rules.JournalEntry.A3Ac4yL1J0tdYcjP.JournalEntryPage.OMT0NRT0IcBuHczN#immobilized',
             condition: true,
         },
         [Status.Invisible]: {
@@ -167,31 +184,43 @@ const COSMERE: CosmereRPGConfig = {
         [Status.Prone]: {
             label: 'COSMERE.Status.Prone',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/prone.svg',
+            reference:
+                'Compendium.cosmere-rpg.rules.JournalEntry.A3Ac4yL1J0tdYcjP.JournalEntryPage.OMT0NRT0IcBuHczN#prone',
             condition: true,
         },
         [Status.Restrained]: {
             label: 'COSMERE.Status.Restrained',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/restrained.svg',
+            reference:
+                'Compendium.cosmere-rpg.rules.JournalEntry.A3Ac4yL1J0tdYcjP.JournalEntryPage.OMT0NRT0IcBuHczN#restrained',
             condition: true,
         },
         [Status.Slowed]: {
             label: 'COSMERE.Status.Slowed',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/slowed.svg',
+            reference:
+                'Compendium.cosmere-rpg.rules.JournalEntry.A3Ac4yL1J0tdYcjP.JournalEntryPage.OMT0NRT0IcBuHczN#slowed',
             condition: true,
         },
         [Status.Stunned]: {
             label: 'COSMERE.Status.Stunned',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/stunned.svg',
+            reference:
+                'Compendium.cosmere-rpg.rules.JournalEntry.A3Ac4yL1J0tdYcjP.JournalEntryPage.OMT0NRT0IcBuHczN#stunned',
             condition: true,
         },
         [Status.Surprised]: {
             label: 'COSMERE.Status.Surprised',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/surprised.svg',
+            reference:
+                'Compendium.cosmere-rpg.rules.JournalEntry.A3Ac4yL1J0tdYcjP.JournalEntryPage.OMT0NRT0IcBuHczN#surprised',
             condition: true,
         },
         [Status.Unconscious]: {
             label: 'COSMERE.Status.Unconscious',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/unconscious.svg',
+            reference:
+                'Compendium.cosmere-rpg.rules.JournalEntry.A3Ac4yL1J0tdYcjP.JournalEntryPage.OMT0NRT0IcBuHczN#unconscious',
             condition: true,
         },
         [Status.Dead]: {
@@ -821,7 +850,6 @@ const COSMERE: CosmereRPGConfig = {
                 },
             },
         },
-
         talentTree: {
             node: {
                 prerequisite: {
@@ -839,6 +867,11 @@ const COSMERE: CosmereRPGConfig = {
                     },
                 },
             },
+        },
+
+        events: {
+            types: {}, // Default events registered using the api
+            handlers: {}, // Default handlers registered using the api
         },
     },
 
@@ -861,18 +894,37 @@ const COSMERE: CosmereRPGConfig = {
     expertiseTypes: {
         [ExpertiseType.Armor]: {
             label: 'COSMERE.Actor.Character.Expertise.Armor',
+            configRegistryKey: 'armors',
+            icon: 'fas fa-helmet-battle',
         },
         [ExpertiseType.Cultural]: {
             label: 'COSMERE.Actor.Character.Expertise.Cultural',
+            configRegistryKey: 'cultures',
+            icon: 'far fa-earth-asia',
         },
         [ExpertiseType.Specialist]: {
             label: 'COSMERE.Actor.Character.Expertise.Specialist',
+            icon: 'fas fa-award',
         },
         [ExpertiseType.Utility]: {
             label: 'COSMERE.Actor.Character.Expertise.Utility',
+            icon: 'fas fa-wrench',
         },
         [ExpertiseType.Weapon]: {
             label: 'COSMERE.Actor.Character.Expertise.Weapon',
+            configRegistryKey: 'weapons',
+            icon: 'fas fa-sword',
+        },
+    },
+
+    immunityTypes: {
+        [ImmunityType.Damage]: {
+            label: 'GENERIC.Damage',
+            icon: 'fas fa-heart-crack',
+        },
+        [ImmunityType.Condition]: {
+            label: 'GENERIC.Condition',
+            icon: 'fas fa-bolt',
         },
     },
 
@@ -1022,23 +1074,29 @@ const COSMERE: CosmereRPGConfig = {
     damageTypes: {
         [DamageType.Energy]: {
             label: 'COSMERE.DamageTypes.Energy',
+            icon: 'fa-bolt',
         },
         [DamageType.Impact]: {
             label: 'COSMERE.DamageTypes.Impact',
+            icon: 'fa-burst',
         },
         [DamageType.Keen]: {
             label: 'COSMERE.DamageTypes.Keen',
+            icon: 'fa-droplet',
         },
         [DamageType.Spirit]: {
             label: 'COSMERE.DamageTypes.Spirit',
+            icon: 'fa-hand-sparkles',
             ignoreDeflect: true,
         },
         [DamageType.Vital]: {
             label: 'COSMERE.DamageTypes.Vital',
+            icon: 'fa-skull-crossbones',
             ignoreDeflect: true,
         },
         [DamageType.Healing]: {
             label: 'COSMERE.DamageTypes.Healing',
+            icon: 'fa-heart',
             ignoreDeflect: true,
         },
     },
