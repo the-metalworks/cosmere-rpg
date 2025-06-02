@@ -8,31 +8,33 @@
         {{#each conditions as |condition|}}
             <div class="condition {{#if condition.active}}active{{/if}} {{#if condition.stackable}}stackable{{/if}} {{#if condition.immune}}immune{{/if}}" 
                 data-id="{{condition.id}}"
-                {{#if condition.immune}}
-                    data-tooltip="{{localize "COSMERE.Actor.Sheet.ImmuneTo" condition=(localize condition.name)}}"
+                {{#if condition.description}}
+                    data-tooltip="{{condition.description}}"
                 {{/if}}
             >
-            <a data-action="cycle-condition" 
-                {{#if condition.stackable}}
-                    data-tooltip="COSMERE.Actor.Sheet.Conditions.StackableConditionTooltip"
-                {{/if}}
-            >
-                <div class="condition-icon" style="mask:url('{{condition.icon}}') no-repeat center;mask-size:contain;"></div>
+                <a data-action="cycle-condition">
+                    <div class="condition-icon" style="mask:url('{{condition.icon}}') no-repeat center;mask-size:contain;"></div>
 
-                <span class="name">
-                    {{localize condition.name}}
-                    {{#if (and condition.stackable condition.active)}}
-                        <span class="stacks">[{{condition.stacks}}]</span>
-                    {{/if}}
-                </span>
+                    <span class="name">
+                        {{localize condition.name}}
+                        {{#if (and condition.stackable condition.active)}}
+                            <span class="stacks">[{{condition.stacks}}]</span>
+                        {{/if}}
+                    </span>
 
-                {{#if condition.active}}
-                    <i class="fa-solid fa-toggle-on"></i>
-                {{else}}
-                    <i class="fa-solid fa-toggle-off"></i>
-                {{/if}}
-            </a>
-        </div>
+                    <i {{#if condition.immune}}
+                            data-tooltip="{{localize "COSMERE.Actor.Sheet.ImmuneTo" condition=(localize condition.name)}}"
+                        {{else if condition.stackable}}
+                            data-tooltip="COSMERE.Actor.Sheet.Conditions.StackableConditionTooltip"
+                        {{/if}}
+                        {{#if condition.active}}
+                            class="fa-solid fa-toggle-on"
+                        {{else}}
+                            class="fa-solid fa-toggle-off"
+                        {{/if}}
+                    ></i>
+                </a>
+            </div>
         {{/each}}
 
         {{#times (mod (sub 3 (mod conditions.length 3)) 3)}}

@@ -570,8 +570,15 @@
                     "CreateConnection": "Select a talent to connect to."
                 },
                 "ViewBounds": {
-                    "Label": "View Bounds",
+                    "Label": "Bounds",
                     "CaptureTooltip": "Capture current view bounds",
+                    "ExpandTooltip": "View view bound details",
+                    "Origin": {
+                        "Label": "Origin"
+                    },
+                    "Size": {
+                        "Label": "Size"
+                    },
                     "X": {
                         "Label": "X"
                     },
@@ -852,6 +859,9 @@
                         "Edit": "Edit rule",
                         "Delete": "Remove rule"
                     }
+                },
+                "TalentTree": {
+                    "View": "View"
                 },
                 "Goal": {
                     "Reward": {

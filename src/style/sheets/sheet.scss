@@ -172,6 +172,10 @@
                         color: var(--cosmere-color-text-accent);
                     }
                 }
+
+                &.inline {
+                    display: block;
+                }
             }
 
             .subtitle,
