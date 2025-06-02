@@ -45,15 +45,15 @@ export class CosmereCombatant extends Combatant {
     }
 
     public get turnSpeed(): TurnSpeed {
-        return this.getFlag(SYSTEM_ID, 'turnSpeed') || TurnSpeed.Slow;
+        return this.getFlag(SYSTEM_ID, 'turnSpeed') ?? TurnSpeed.Slow;
     }
 
     public get activated(): boolean {
-        return this.getFlag(SYSTEM_ID, 'activated') || false;
+        return this.getFlag(SYSTEM_ID, 'activated') ?? false;
     }
 
     public get bossFastActivated(): boolean {
-        return this.getFlag(SYSTEM_ID, 'bossFastActivated') || false;
+        return this.getFlag(SYSTEM_ID, 'bossFastActivated') ?? false;
     }
 
     /* --- Life cycle --- */

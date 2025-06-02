@@ -275,7 +275,7 @@ export class CosmereItem<
     /* --- Accessors --- */
 
     public get isFavorite(): boolean {
-        return this.getFlag(SYSTEM_ID, 'favorites.isFavorite');
+        return this.getFlag(SYSTEM_ID, 'favorites.isFavorite') ?? false;
     }
 
     /**
@@ -311,7 +311,10 @@ export class CosmereItem<
         ? Talent.Source | null
         : never {
         if (!this.isTalent()) return void 0 as never;
-        return this.getFlag(SYSTEM_ID, 'source');
+        return (this.getFlag<Talent.Source>(SYSTEM_ID, 'source') ??
+            null) as T extends TalentItemDataModel
+            ? Talent.Source | null
+            : never;
     }
 
     /**
