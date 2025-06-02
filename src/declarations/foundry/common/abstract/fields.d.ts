@@ -98,6 +98,7 @@ declare namespace foundry {
                  */
                 options: Options;
 
+                initial: Options['initial'];
                 label: string;
 
                 /**
