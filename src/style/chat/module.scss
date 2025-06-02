@@ -302,11 +302,13 @@
                         color: var(--cosmere-color-dark-6) !important;
                         font-weight: 600;
                         text-transform: uppercase;
+                        display: flex;
+                        align-items: center;
 
                         > img {
                             border: none;
                             width: 12px;
-                            opacity: 0.6;
+                            opacity: 0.4;
                         }
                     }
                 }                
