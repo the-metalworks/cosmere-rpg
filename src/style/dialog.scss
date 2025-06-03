@@ -164,7 +164,8 @@
             filter: var(--cosmere-drop-shadow);
         }
 
-        form {            
+        form,
+        #consumables {            
             display: flex;
             flex-direction: column;
             flex: 1;
@@ -203,7 +204,7 @@
                 flex: 2;
 
                 &.narrow {
-                    flex: 1;
+                    flex: 0.6;
                 }
 
                 > input[type="text"],
