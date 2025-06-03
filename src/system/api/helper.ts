@@ -1,39 +1,23 @@
 import { RegistrationConfig, RegistrationLog } from '../types/config';
 
 export class RegistrationHelper {
-    static REGISTER_DEBOUNCE_MS = 200;
+    static LOG_DEBOUNCE_MS = 200;
+    static COMPLETED: Record<string, RegistrationConfig> = {};
 
-    private static completed: Record<string, RegistrationConfig> = {};
     private static logs: RegistrationLog[] = [];
-    private static queue: ((
-        completed: Record<string, RegistrationConfig>,
-        logs: RegistrationLog[],
-    ) => boolean)[] = [];
 
-    static registerCallback(
-        callback: (
-            completed: Record<string, RegistrationConfig>,
-            logs: RegistrationLog[],
-        ) => boolean,
-    ) {
-        this.queue.push(callback);
-        this.runRegistrations();
+    static registerLog(log: RegistrationLog) {
+        this.logs.push(log);
+        this.showLogs();
     }
 
-    private static runRegistrations = foundry.utils.debounce(() => {
-        let success = true;
+    private static showLogs = foundry.utils.debounce(() => {
+        console.log(this.COMPLETED);
+        console.log(this.logs);
 
-        for (const registration of this.queue) {
-            success &&= registration(this.completed, this.logs);
-        }
+        //TODO SHOW LOG DIALOG
 
-        if (!success) {
-            //TODO DIALOG
-        }
-
-        console.log(this.completed);
-
-        // Clear this batch of queued registrations so we don't run them again.
-        this.queue = [];
-    }, this.REGISTER_DEBOUNCE_MS);
+        // Clear this batch of logs so we don't display them again.
+        this.logs = [];
+    }, this.LOG_DEBOUNCE_MS);
 }
