@@ -54,8 +54,8 @@ import { CosmereItem } from '@system/documents/item';
 
 export interface RegistrationConfig {
     source: string;
-    force?: boolean;
     priority?: number;
+    strict?: boolean;
 }
 
 export interface RegistrationLog {

@@ -1,9 +1,6 @@
 import { SYSTEM_ID } from '@system/constants';
 
 export const HOOKS = {
-    /* ----- Config API Hooks ----- */
-    REGISTER_CONFIG: `${SYSTEM_ID}.registerConfig`,
-
     /* ----- Actor Hooks ----- */
     /* -- Damage application hooks -- */
     PRE_APPLY_DAMAGE: `${SYSTEM_ID}.preApplyDamage`,
