@@ -199,7 +199,12 @@
             > .form-fields {
                 display: flex;
                 flex-direction: row;
+                gap: 0.5rem;
                 flex: 2;
+
+                &.narrow {
+                    flex: 1;
+                }
 
                 > input[type="text"],
                 > input[type="number"] {
