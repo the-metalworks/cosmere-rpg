@@ -1,21 +1,24 @@
 import { SYSTEM_ID } from '@system/constants';
 
 export const HOOKS = {
-    /* ----- Actor hooks ----- */
+    /* ----- Config API Hooks ----- */
+    REGISTER_CONFIG: `${SYSTEM_ID}.registerConfig`,
+
+    /* ----- Actor Hooks ----- */
     /* -- Damage application hooks -- */
     PRE_APPLY_DAMAGE: `${SYSTEM_ID}.preApplyDamage`,
     APPLY_DAMAGE: `${SYSTEM_ID}.applyDamage`,
 
-    /* -- Injury application hooks -- */
+    /* -- Injury Application Hooks -- */
     PRE_APPLY_INJURY: `${SYSTEM_ID}.preApplyInjury`,
     APPLY_INJURY: `${SYSTEM_ID}.applyInjury`,
 
-    /* -- Rest hooks -- */
+    /* -- Rest Hooks -- */
     PRE_REST: `${SYSTEM_ID}.preRest`,
     REST: `${SYSTEM_ID}.rest`,
 
-    /* ----- Item hooks ----- */
-    /* -- Item activation/usage hooks -- */
+    /* ----- Item Hooks ----- */
+    /* -- Item Activation/Usage Hooks -- */
     USE_ITEM: `${SYSTEM_ID}.useItem`,
     PRE_USE_ITEM: `${SYSTEM_ID}.preUseItem`,
     MODE_ACTIVATE_ITEM: `${SYSTEM_ID}.modeActivateItem`,
@@ -51,11 +54,11 @@ export const HOOKS = {
      */
     PRE_COMPLETE_GOAL: `${SYSTEM_ID}.preCompleteGoal`,
 
-    /* ----- Chat message hooks ----- */
-    /* -- Message interaction hooks -- */
+    /* ----- Chat Message Hooks ----- */
+    /* -- Message Interaction Hooks -- */
     MESSAGE_INTERACTED: `${SYSTEM_ID}.chatMessageInteract`,
 
-    /* ----- Roll hooks ----- */
+    /* ----- Roll Hooks ----- */
     PRE_ROLL: (context: string) =>
         `${SYSTEM_ID}.pre${context.toLowerCase().capitalize()}Roll`,
     ROLL: (context: string) => `${SYSTEM_ID}.${context.toLowerCase()}Roll`,
@@ -85,13 +88,13 @@ export const HOOKS = {
     PRE_ATTACK_ROLL_CONFIGURATION: `${SYSTEM_ID}.preAttackRollConfiguration`,
     ATTACK_ROLL_CONFIGURATION: `${SYSTEM_ID}.attackRollConfiguration`,
 
-    /* ---- Migration hooks ----- */
+    /* ---- Migration Hooks ----- */
     PRE_MIGRATION: `${SYSTEM_ID}.preMigration`,
     MIGRATION: `${SYSTEM_ID}.migration`,
     PRE_MIGRATE_VERSION: `${SYSTEM_ID}.preMigrateVersion`,
     MIGRATE_VERSION: `${SYSTEM_ID}.migrateVersion`,
 
-    /* ----- Enricher hooks ----- */
+    /* ----- Enricher Hooks ----- */
     TRIGGER_ENRICHER: (type: 'Test' | 'Damage') =>
         `${SYSTEM_ID}.trigger${type.toLowerCase().capitalize()}Enricher`,
     TRIGGER_TEST_ENRICHER: `${SYSTEM_ID}.triggerTestEnricher`,
