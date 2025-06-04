@@ -37,7 +37,6 @@ export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<
 
     private contextGoalId: string | null = null;
     private controlsDropdownExpanded = false;
-    private controlsDropdownPosition?: { top: number; right: number };
 
     /* --- Actions --- */
 
@@ -45,38 +44,37 @@ export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<
         this: CharacterGoalsListComponent,
         event: PointerEvent,
     ) {
-        this.controlsDropdownExpanded = !this.controlsDropdownExpanded;
+        // Get goal id
+        const goalId = $(event.currentTarget!)
+            .closest('[data-id]')
+            .data('id') as string;
 
-        if (this.controlsDropdownExpanded) {
-            // Get goal id
-            const goalId = $(event.currentTarget!)
-                .closest('[data-id]')
-                .data('id') as string;
+        const target = event.currentTarget as HTMLElement;
+        const root = $(target).closest('.tab-body');
+        const dropdown = $(target)
+            .closest('.item-list')
+            .siblings('.controls-dropdown');
+
+        const targetRect = target.getBoundingClientRect();
+        const rootRect = root[0].getBoundingClientRect();
+
+        if (this.contextGoalId !== goalId) {
+            dropdown.css({
+                top: `${Math.round(targetRect.top - rootRect.top)}px`,
+                right: `${Math.round(rootRect.right - targetRect.right + targetRect.width)}px`,
+            });
+
+            if (!this.controlsDropdownExpanded) {
+                dropdown.addClass('expanded');
+                this.controlsDropdownExpanded = true;
+            }
 
             this.contextGoalId = goalId;
-
-            const target = (event.currentTarget as HTMLElement).closest(
-                '.item',
-            )!;
-
-            const tabBody = (event.currentTarget as HTMLElement).closest(
-                '.tab-body',
-            )!;
-
-            const targetRect = target.getBoundingClientRect();
-            const tabRect = tabBody.getBoundingClientRect();
-            const rootRect = this.element!.getBoundingClientRect();
-
-            this.controlsDropdownPosition = {
-                top: targetRect.bottom - rootRect.top,
-                right: tabRect.right - targetRect.right,
-            };
-            console.log(this.controlsDropdownPosition);
-        } else {
+        } else if (this.controlsDropdownExpanded) {
+            dropdown.removeClass('expanded');
+            this.controlsDropdownExpanded = false;
             this.contextGoalId = null;
         }
-
-        void this.render();
     }
 
     public static async onAdjustGoalProgress(
@@ -156,6 +154,8 @@ export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<
 
             // Show item sheet
             void goalItem.sheet?.render(true);
+
+            this.contextGoalId = null;
         }
     }
 
@@ -172,6 +172,8 @@ export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<
 
             // Delete the goal
             await goalItem.delete();
+
+            this.contextGoalId = null;
         }
     }
 
@@ -224,11 +226,6 @@ export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<
                 .filter((goal) => !hideCompletedGoals || !goal.achieved),
 
             hideCompletedGoals,
-
-            controlsDropdown: {
-                expanded: this.controlsDropdownExpanded,
-                position: this.controlsDropdownPosition,
-            },
         });
     }
 

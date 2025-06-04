@@ -36,7 +36,6 @@ export class CharacterConnectionsListComponent extends HandlebarsApplicationComp
 
     private contextConnectionId: string | null = null;
     private controlsDropdownExpanded = false;
-    private controlsDropdownPosition?: { top: number; right: number };
 
     /* --- Connections --- */
 
@@ -44,37 +43,37 @@ export class CharacterConnectionsListComponent extends HandlebarsApplicationComp
         this: CharacterConnectionsListComponent,
         event: PointerEvent,
     ) {
-        this.controlsDropdownExpanded = !this.controlsDropdownExpanded;
+        // Get connection id
+        const connectionId = $(event.currentTarget!)
+            .closest('[data-id]')
+            .data('id') as string;
 
-        if (this.controlsDropdownExpanded) {
-            // Get connection id
-            const connectionId = $(event.currentTarget!)
-                .closest('[data-id]')
-                .data('id') as string;
+        const target = event.currentTarget as HTMLElement;
+        const root = $(target).closest('.tab-body');
+        const dropdown = $(target)
+            .closest('.item-list')
+            .siblings('.controls-dropdown');
+
+        const targetRect = target.getBoundingClientRect();
+        const rootRect = root[0].getBoundingClientRect();
+
+        if (this.contextConnectionId !== connectionId) {
+            dropdown.css({
+                top: `${Math.round(targetRect.top - rootRect.top)}px`,
+                right: `${Math.round(rootRect.right - targetRect.right + targetRect.width)}px`,
+            });
+
+            if (!this.controlsDropdownExpanded) {
+                dropdown.addClass('expanded');
+                this.controlsDropdownExpanded = true;
+            }
 
             this.contextConnectionId = connectionId;
-
-            const target = (event.currentTarget as HTMLElement).closest(
-                '.item',
-            )!;
-
-            const tabBody = (event.currentTarget as HTMLElement).closest(
-                '.tab-body',
-            )!;
-
-            const targetRect = target.getBoundingClientRect();
-            const tabRect = tabBody.getBoundingClientRect();
-            const rootRect = this.element!.getBoundingClientRect();
-
-            this.controlsDropdownPosition = {
-                top: targetRect.bottom - rootRect.top,
-                right: tabRect.right - targetRect.right,
-            };
-        } else {
+        } else if (this.controlsDropdownExpanded) {
+            dropdown.removeClass('expanded');
+            this.controlsDropdownExpanded = false;
             this.contextConnectionId = null;
         }
-
-        void this.render();
     }
 
     public static async onAddConnection(
@@ -116,6 +115,8 @@ export class CharacterConnectionsListComponent extends HandlebarsApplicationComp
                 [this.contextConnectionId],
                 { render: false },
             );
+
+            this.contextConnectionId = null;
         }
 
         // Render
@@ -134,6 +135,8 @@ export class CharacterConnectionsListComponent extends HandlebarsApplicationComp
 
             // Show connection sheet
             void connection.sheet?.render(true);
+
+            this.contextConnectionId = null;
         }
 
         // Render
@@ -206,11 +209,6 @@ export class CharacterConnectionsListComponent extends HandlebarsApplicationComp
                     ),
                 })),
             ),
-
-            controlsDropdown: {
-                expanded: this.controlsDropdownExpanded,
-                position: this.controlsDropdownPosition,
-            },
         };
     }
 
