@@ -19,6 +19,7 @@ interface ModifySkillRankHandlerConfigData {
 
 export function register() {
     cosmereRPG.api.registerItemEventHandlerType({
+        source: SYSTEM_ID,
         type: HandlerType.ModifySkillRank,
         label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.ModifySkillRank}.Title`,
         description: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.ModifySkillRank}.Description`,

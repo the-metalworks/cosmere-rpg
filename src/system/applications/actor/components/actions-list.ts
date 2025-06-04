@@ -633,12 +633,16 @@ ActorActionsListComponent.register('app-actor-actions-list');
 export function configure() {
     // Register static sections
     Object.values(STATIC_SECTIONS).forEach((section) => {
-        cosmereRPG.api.registerActionListSection(section);
+        cosmereRPG.api.registerActionListSection({
+            ...section,
+            source: SYSTEM_ID,
+        });
     });
 
     // Register dynamic sections
     Object.values(DYNAMIC_SECTIONS).forEach((gen) => {
         cosmereRPG.api.registerActionListDynamicSectionGenerator({
+            source: SYSTEM_ID,
             id: gen.name,
             generator: gen,
         });

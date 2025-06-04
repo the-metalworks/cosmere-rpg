@@ -28,6 +28,7 @@ interface RemoveItemsHandlerConfigData {
 
 export function register() {
     cosmereRPG.api.registerItemEventHandlerType({
+        source: SYSTEM_ID,
         type: HandlerType.RemoveItems,
         label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.RemoveItems}.Title`,
         description: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.RemoveItems}.Description`,

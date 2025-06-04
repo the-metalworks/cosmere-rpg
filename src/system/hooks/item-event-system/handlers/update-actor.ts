@@ -23,6 +23,7 @@ interface UpdateActorHandlerConfigData {
 
 export function register() {
     cosmereRPG.api.registerItemEventHandlerType({
+        source: SYSTEM_ID,
         type: HandlerType.UpdateActor,
         label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UpdateActor}.Title`,
         description: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UpdateActor}.Description`,

@@ -17,6 +17,7 @@ interface GrantExpertiseHandlerConfigData {
 
 export function register() {
     cosmereRPG.api.registerItemEventHandlerType({
+        source: SYSTEM_ID,
         type: HandlerType.GrantExpertises,
         label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.GrantExpertises}.Title`,
         description: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.GrantExpertises}.Description`,
