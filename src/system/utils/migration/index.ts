@@ -123,6 +123,7 @@ export async function invokeMigration(
     to: string,
     compendiumIDs: string[] = [],
 ) {
+    if (!game.user!.isGM) return;
     if (!requiresMigration(from, to)) return;
 
     // Migrate world data
