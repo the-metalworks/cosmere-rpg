@@ -159,7 +159,8 @@
     &.edit-grant-rule,
     &.edit-bonus-talents-rule,
     &.pick-dice-result,
-    &.roll-configuration {
+    &.roll-configuration,
+    &.edit-event-rule {
         > .window-content {
             filter: var(--cosmere-drop-shadow);
         }
@@ -396,5 +397,11 @@
         .window-content {
             overflow: auto;
         }
-    }    
+    }  
+    
+    &.edit-event-rule {
+        .trigger-hint, .handler-hint {
+            margin-bottom: 1rem;
+        }
+    }
 }

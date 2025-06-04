@@ -13,12 +13,14 @@ import {
     TalentsProviderMixin,
     TalentsProviderData,
 } from './mixins/talents-provider';
+import { EventsItemMixin, EventsItemData } from './mixins/events';
 
 export interface PathItemData
     extends IdItemData,
         TypedItemData<PathType>,
         DescriptionItemData,
-        TalentsProviderData {
+        TalentsProviderData,
+        EventsItemData {
     /**
      * The non-core skills linked to this path.
      * These skills are displayed with the path in the sheet.
@@ -47,6 +49,7 @@ export class PathItemDataModel extends DataModelMixin<
         value: 'COSMERE.Item.Type.Path.desc_placeholder',
     }),
     TalentsProviderMixin(),
+    EventsItemMixin(),
 ) {
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), {

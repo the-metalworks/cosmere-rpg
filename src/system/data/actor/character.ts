@@ -2,7 +2,7 @@
 import { Resource } from '@system/types/cosmere';
 import { DeepPartial, AnyObject } from '@system/types/utils';
 
-import { CommonActorDataModel, CommonActorData } from './common';
+import { CommonActorDataModel, CommonActorData, AttributeData } from './common';
 
 // Utils
 import * as Advancement from '@system/utils/advancement';
@@ -134,11 +134,18 @@ export class CharacterActorDataModel extends CommonActorDataModel<CharacterActor
 
         // Derive the maximum skill rank
         this.maxSkillRank = currentAdvancementRule.maxSkillRanks;
+    }
+
+    public override prepareSecondaryDerivedData(): void {
+        super.prepareSecondaryDerivedData();
+
+        // Get advancement rules relevant to the character
+        const advancementRules = Advancement.getAdvancementRulesUpToLevel(
+            this.level,
+        );
 
         // Derive the recovery die based on the character's willpower
-        this.recovery.die.derived = willpowerToRecoveryDie(
-            this.attributes.wil.value,
-        );
+        this.recovery.die.derived = willpowerToRecoveryDie(this.attributes.wil);
 
         // Derive resource max
         (Object.keys(this.resources) as Resource[]).forEach((key) => {
@@ -146,28 +153,16 @@ export class CharacterActorDataModel extends CommonActorDataModel<CharacterActor
             const resource = this.resources[key];
 
             if (key === Resource.Health) {
-                // Get strength mod
-                const strength =
-                    this.attributes.str.value + this.attributes.str.bonus;
-
                 // Assign max
                 resource.max.derived = Advancement.deriveMaxHealth(
                     advancementRules,
-                    strength,
+                    this.attributes.str.value, // Should only be the value, not include the bonus
                 );
             } else if (key === Resource.Focus) {
-                // Get willpower mod
-                const willpower =
-                    this.attributes.wil.value + this.attributes.wil.bonus;
-
                 // Assign max
-                resource.max.derived = 2 + willpower;
+                resource.max.derived = 2 + this.attributes.wil.value; // Should only be the value, not include the bonus
             }
         });
-    }
-
-    public override prepareSecondaryDerivedData(): void {
-        super.prepareSecondaryDerivedData();
 
         // Clamp resource values to their max values
         (Object.keys(this.resources) as Resource[]).forEach((key) => {
@@ -184,7 +179,8 @@ export class CharacterActorDataModel extends CommonActorDataModel<CharacterActor
 }
 
 export const RECOVERY_DICE = ['d4', 'd6', 'd8', 'd10', 'd12', 'd20'];
-function willpowerToRecoveryDie(willpower: number) {
+function willpowerToRecoveryDie(attr: AttributeData) {
+    const willpower = attr.value + attr.bonus;
     return RECOVERY_DICE[
         Math.min(Math.ceil(willpower / 2), RECOVERY_DICE.length)
     ];

@@ -5,8 +5,9 @@ import { TEMPLATES } from './system/utils/templates';
 import COSMERE from './system/config';
 
 import './style.scss';
-import './system/hooks';
 import './system/mixins';
+
+import { registerItemEventSystem } from './system/hooks';
 
 import { preloadHandlebarsTemplates } from './system/utils/handlebars';
 import { registerCustomEnrichers } from './system/utils/enrichers';
@@ -52,9 +53,14 @@ Hooks.once('init', async () => {
     CONFIG.Item.dataModels = dataModels.item.config;
     CONFIG.Item.documentClass = documents.CosmereItem;
 
-    CONFIG.Combat.documentClass = documents.CosmereCombat;
-    CONFIG.Combatant.documentClass = documents.CosmereCombatant;
+    CONFIG.Combat.documentClass = documents.CosmereCombat as typeof Combat;
     CONFIG.ui.combat = applications.combat.CosmereCombatTracker;
+
+    // NOTE: Disabled for now as v12 doesn't permit users to update the system of combatants they own
+    // (CONFIG.Combatant as AnyMutableObject).dataModels =
+    //     dataModels.combatant.config;
+    CONFIG.Combatant.documentClass =
+        documents.CosmereCombatant as typeof Combatant;
 
     CONFIG.Token.documentClass = documents.CosmereTokenDocument;
 
@@ -68,6 +74,9 @@ Hooks.once('init', async () => {
 
     // Add fonts
     configureFonts();
+
+    // Register item event system event types & handlers
+    registerItemEventSystem();
 
     Actors.unregisterSheet('core', ActorSheet);
     registerActorSheet(ActorType.Character, applications.actor.CharacterSheet);

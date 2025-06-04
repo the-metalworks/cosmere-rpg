@@ -321,9 +321,9 @@ Handlebars.registerHelper(
                 }
 
                 // Check if a skill test is configured
-                if (item.system.activation.skill) {
-                    const skill = item.system.activation.skill;
-                    const attribute = item.system.activation.attribute;
+                if (item.system.activation.resolvedSkill) {
+                    const skill = item.system.activation.resolvedSkill;
+                    const attribute = item.system.activation.resolvedAttribute;
 
                     context.hasSkillTest = true;
                     context.skillTest = {
@@ -573,6 +573,31 @@ Handlebars.registerHelper('resourceCostInput', (value: NumberRange) => {
         return `${value.min}-${value.max}`;
     }
 });
+
+Handlebars.registerHelper('entries', (obj: AnyObject) => {
+    return Object.entries(obj).map(([key, value]) => ({ key, value }));
+});
+
+Handlebars.registerHelper('filterSelectOptions', ((
+    selectOptions: Record<string, string> | (() => Record<string, string>),
+    ...args: [...string[], Handlebars.HelperOptions]
+) => {
+    if (typeof selectOptions === 'function') selectOptions = selectOptions();
+
+    const filters = args.slice(0, -1);
+    const options = args[args.length - 1];
+
+    const filterSet = new Set(filters as unknown as string[]);
+    return Object.entries(selectOptions)
+        .filter(([key]) => !filterSet.has(key))
+        .reduce(
+            (acc, [key, value]) => {
+                acc[key] = value;
+                return acc;
+            },
+            {} as Record<string, string>,
+        );
+}) as unknown as Handlebars.HelperDelegate);
 
 export async function preloadHandlebarsTemplates() {
     const templates = Object.values(TEMPLATES).reduce(

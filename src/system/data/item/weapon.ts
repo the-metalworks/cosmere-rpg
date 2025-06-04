@@ -5,6 +5,7 @@ import {
     EquipHand,
     WeaponType,
     EquipType,
+    ActivationType,
 } from '@system/types/cosmere';
 import { CosmereItem } from '@src/system/documents';
 
@@ -26,6 +27,7 @@ import { DamagingItemMixin, DamagingItemData } from './mixins/damaging';
 import { TraitsItemMixin, TraitsItemData } from './mixins/traits';
 import { PhysicalItemMixin, PhysicalItemData } from './mixins/physical';
 import { ExpertiseItemMixin, ExpertiseItemData } from './mixins/expertise';
+import { EventsItemMixin, EventsItemData } from './mixins/events';
 
 export interface WeaponItemData
     extends IdItemData<WeaponId>,
@@ -37,7 +39,8 @@ export interface WeaponItemData
         DamagingItemData,
         ExpertiseItemData,
         TraitsItemData<WeaponTraitId>,
-        Partial<PhysicalItemData> {}
+        Partial<PhysicalItemData>,
+        EventsItemData {}
 
 export class WeaponItemDataModel extends DataModelMixin<
     WeaponItemData,
@@ -66,12 +69,26 @@ export class WeaponItemDataModel extends DataModelMixin<
             choices: [EquipType.Hold],
         },
     }),
-    ActivatableItemMixin(),
+    ActivatableItemMixin({
+        type: {
+            initial: ActivationType.SkillTest,
+        },
+        skill: {
+            allowDefault: true,
+            defaultResolver: function (this: WeaponItemData) {
+                return (
+                    CONFIG.COSMERE.items.weapon.types[this.type].skill ?? null
+                );
+            },
+            initial: 'default',
+        },
+    }),
     AttackingItemMixin(),
     DamagingItemMixin(),
     ExpertiseItemMixin(),
     TraitsItemMixin(),
     PhysicalItemMixin(),
+    EventsItemMixin(),
 ) {
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), {});

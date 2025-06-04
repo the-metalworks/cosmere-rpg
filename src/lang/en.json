@@ -728,13 +728,311 @@
                 "Hint": "Identifier of the modality this talent belongs to. (e.g. \"stance\")"
             },
             "AttackFlavor": "[actor] attacks with their [item].",
+            "EventSystem": {
+                "Event": {
+                    "Types": {
+                        "create": {
+                            "Label": "Created",
+                            "Description": "Triggered when this item is created, duplicated, added to an actor, or imported."
+                        },
+                        "update": {
+                            "Label": "Updated",
+                            "Description": "Triggered when this item is updated."
+                        },
+                        "delete": {
+                            "Label": "Deleted",
+                            "Description": "Triggered when this item is deleted."
+                        },
+                        "add-to-actor": {
+                            "Label": "Added to Actor",
+                            "Description": "Triggered when this item is added to an actor."
+                        },
+                        "remove-from-actor": {
+                            "Label": "Removed from Actor",
+                            "Description": "Triggered when this item is removed from an actor."
+                        },
+                        "equip": {
+                            "Label": "Equipped",
+                            "Description": "Triggered when this item is equipped."
+                        },
+                        "unequip": {
+                            "Label": "Unequipped",
+                            "Description": "Triggered when this item is unequipped."
+                        },
+                        "use": {
+                            "Label": "Used",
+                            "Description": "Triggered when this item is used/rolled."
+                        },
+                        "mode-activate": {
+                            "Label": "Activated Modality",
+                            "Description": "Triggered when this item's mode becomes active for its modality."
+                        },
+                        "mode-deactivate": {
+                            "Label": "Deactivated Modality",
+                            "Description": "Triggered when this item's mode becomes inactive for its modality."
+                        },
+                        "goal-complete": {
+                            "Label": "Goal Completed",
+                            "Description": "Triggered when this Goal item is completed."
+                        },
+                        "goal-progress": {
+                            "Label": "Goal Progressed",
+                            "Description": "Triggered when this Goal item's progress is updated towards completion."
+                        },
+                        "update-actor": {
+                            "Label": "Actor Updated",
+                            "Description": "Triggered when this item's parent actor is updated."
+                        },
+                        "apply-damage-actor": {
+                            "Label": "Actor Damaged",
+                            "Description": "Triggered when damage is applied to this item's parent actor."
+                        },
+                        "apply-injury-actor": {
+                            "Label": "Actor Gained Injury",
+                            "Description": "Triggered when an injury is applied to this item's parent actor."
+                        },
+                        "short-rest-actor": {
+                            "Label": "Actor Short Rested",
+                            "Description": "Triggered when this item's parent actor takes a short rest."
+                        },
+                        "long-rest-actor": {
+                            "Label": "Actor Long Rested",
+                            "Description": "Triggered when this item's parent actor takes a long rest."
+                        }
+                    },
+                    "Rule": {
+                        "Description": {
+                            "Label": "Description"
+                        },
+                        "Event": {
+                            "Label": "Trigger"
+                        },
+                        "NewRuleDescription": "New Rule"
+                    },
+                    "Handler": {
+                        "Types": {
+                            "grant-expertises": {
+                                "Title": "Grant Expertises",
+                                "Description": "Grants expertises to an actor."
+                            },
+                            "grant-items": {
+                                "Title": "Grant Items",
+                                "Description": "Grants items to an actor.",
+                                "AllowDuplicates": {
+                                    "Label": "Allow Duplicates",
+                                    "Hint": "Whether to grant items to the actor even if they already have them"
+                                },
+                                "IncreaseQuantity": {
+                                    "Label": "Increase Quantity",
+                                    "Hint": "Whether to increase the quantity of physical items if the actor already has them"
+                                },
+                                "Amount": {
+                                    "Label": "Amount",
+                                    "Hint": "The quantity to grant. Only used if \"Increase Quantity\" is enabled and the item is physical"
+                                },
+                                "Items": {
+                                    "Label": "Items"
+                                }
+                            },
+                            "modify-attribute": {
+                                "Title": "Modify Attribute",
+                                "Description": "Modifies an attribute of an actor.",
+                                "Attribute": {
+                                    "Label": "Attribute"
+                                },
+                                "Amount": {
+                                    "Label": "Amount",
+                                    "Hint": "The amount to modify the attribute by. Can be positive or negative."
+                                },
+                                "Bonus": {
+                                    "Label": "Modify Bonus",
+                                    "Hint": "Whether to modify the attribute bonus instead of the attribute itself."
+                                }
+                            },
+                            "modify-skill-rank": {
+                                "Title": "Modify Skill Rank",
+                                "Description": "Modifies the rank of a skill of an actor.",
+                                "Skill": {
+                                    "Label": "Skill"
+                                },
+                                "Amount": {
+                                    "Label": "Amount",
+                                    "Hint": "The amount to modify the skill rank by. Can be positive or negative."
+                                }
+                            },
+                            "remove-expertises": {
+                                "Title": "Remove Expertises",
+                                "Description": "Removes expertises from an actor."
+                            },
+                            "remove-items": {
+                                "Title": "Remove Items",
+                                "Description": "Removes items from an actor.",
+                                "ReduceQuantity": {
+                                    "Label": "Reduce Quantity",
+                                    "Hint": "Whether to reduce the quantity of physical items instead of removing them outright.\nItems reduced to 0 quantity will be removed."
+                                },
+                                "Amount": {
+                                    "Label": "Amount",
+                                    "Hint": "The amount of quantity to remove. Only used if \"Reduce Quantity\" is enabled and the item is physical."
+                                },
+                                "Items": {
+                                    "Label": "Items"
+                                }
+                            },
+                            "set-attribute": {
+                                "Title": "Set Attribute",
+                                "Description": "Sets the value of an attribute of an actor.",
+                                "Attribute": {
+                                    "Label": "Attribute"
+                                },
+                                "Value": {
+                                    "Label": "Value",
+                                    "Hint": "The value to set the attribute to."
+                                },
+                                "Bonus": {
+                                    "Label": "Set Bonus",
+                                    "Hint": "Whether to set the attribute bonus instead of the attribute itself."
+                                }
+                            },
+                            "set-skill-rank": {
+                                "Title": "Set Skill Rank",
+                                "Description": "Sets the rank of a skill of an actor.",
+                                "Skill": {
+                                    "Label": "Skill"
+                                },
+                                "Value": {
+                                    "Label": "Value",
+                                    "Hint": "The value to set the skill rank to."
+                                }
+                            },
+                            "use-item": {
+                                "Title": "Use item",
+                                "Description": "Uses an item by rolling it.",
+                                "Target": {
+                                    "Label": "Target",
+                                    "Choices": {
+                                        "self": "Self",
+                                        "sibling": "Other on same Actor",
+                                        "global": "Global"
+                                    }
+                                },
+                                "UUID": {
+                                    "Label": "Item"
+                                },
+                                "FastForward": {
+                                    "Label": "Fast Forward",
+                                    "Hint": "Whether to skip the roll dialog for the roll."
+                                },
+                                "AdvantageMode": {
+                                    "Label": "Advantage Mode"
+                                },
+                                "TemporaryDamageModifiers": {
+                                    "Label": "Damage Bonus",
+                                    "Hint": "Damage bonus formula to apply to the roll. Only items that can roll damage."
+                                }
+                            },
+                            "update-actor": {
+                                "Title": "Update Actor",
+                                "Description": "Updates an actor by applying a set of changes.",
+                                "Target": {
+                                    "Label": "Target",
+                                    "Hint": "The target actor to update. If not set, the item's parent actor will be used.",
+                                    "Choices": {
+                                        "parent": "Parent Actor",
+                                        "global": "Global"
+                                    }
+                                },
+                                "UUID": {
+                                    "Label": "Actor"
+                                },
+                                "Changes": {
+                                    "Label": "Changes"
+                                }
+                            },
+                            "update-item": {
+                                "Title": "Update Item",
+                                "Description": "Updates an item by applying a set of changes.",
+                                "Target": {
+                                    "Label": "Target",
+                                    "Choices": {
+                                        "self": "Self",
+                                        "sibling": "Other on same Actor",
+                                        "global": "Global"
+                                    }
+                                },
+                                "UUID": {
+                                    "Label": "Item"
+                                },
+                                "MatchMode": {
+                                    "Label": "Match Mode",
+                                    "Hint": "How to match the item to update.\nIdentifier matches by the identifier set under Details.\nName matches by exact name, case sensitive.\nUUID matches only the exact item.",
+                                    "Choices": {
+                                        "identifier": "Identifier",
+                                        "name": "Name",
+                                        "uuid": "UUID"
+                                    }
+                                },
+                                "MatchAll": {
+                                    "Label": "Match All",
+                                    "Hint": "Whether to match all items or just the first one encountered."
+                                },
+                                "Changes": {
+                                    "Label": "Changes"
+                                }
+                            },
+                            "execute-macro": {
+                                "Title": "Execute Macro",
+                                "Description": "Executes a macro.",
+                                "MacroType": {
+                                    "Label": "Macro Type"
+                                },
+                                "Inline": {
+                                    "Label": "Inline"
+                                },
+                                "UUID": {
+                                    "Label": "Macro"
+                                }
+                            }
+                        },
+                        "General": {
+                            "Target": {
+                                "Label": "Target",
+                                "Choices": {
+                                    "self": "Self",
+                                    "sibling": "Other on same Actor",
+                                    "equipped-weapon": "Equipped Weapon",
+                                    "equipped-armor": "Equipped Armor",
+                                    "global": "Global"
+                                }
+                            },
+                            "MatchMode": {
+                                "Label": "Match Mode",
+                                "Hint": "How to match the item.\nIdentifier matches by the identifier set under Details.\nName matches by exact name, case sensitive.\nUUID matches only the exact item.",
+                                "Choices": {
+                                    "identifier": "Identifier",
+                                    "name": "Name",
+                                    "uuid": "UUID"
+                                }
+                            },
+                            "MatchAll": {
+                                "Label": "Match All",
+                                "Hint": "Whether to match all items or just the first one encountered."
+                            }
+                        }
+                    }
+                },
+                "Notifications": {
+                    "LoopError": "Too many events fired in a short time. Aborting execution to prevent infinite loop."
+                }
+            },
             "Sheet": {
                 "Basics": "Basics",
                 "Tabs": {
                     "Description": "Description",
                     "Effects": "Effects",
                     "Details": "Details",
-                    "Talents": "Talents"
+                    "Talents": "Talents",
+                    "Events": "Events"
                 },
                 "Identifier": {
                     "Label": "Identifier",
@@ -790,7 +1088,7 @@
                     "ModifyTraitValueFull": "[trait] [[value]] > [[newValue]]",
                     "ViewTraits": "View Traits"
                 },
-                "Armor": {                    
+                "Armor": {
                     "DeflectedTypes": "Deflected Damage Types",
                     "ViewDeflected": "View Deflected Types"
                 },
@@ -816,7 +1114,7 @@
                     "Formula": "Damage Formula",
                     "GrazeOverride": "Override Graze Damage Calculation",
                     "GrazeFormula": "New Formula",
-                    "GrazeHint": "Formula entered here will be the entirety of the calculation for graze damage. Any die rolls will be rolled separately from the main damage roll. You can pull in all or part of the main roll using @damage.total/@damage.unmodded/@damage.dice (the latter being the system default) or the selected attribute mod with @mod",                    
+                    "GrazeHint": "Formula entered here will be the entirety of the calculation for graze damage. Any die rolls will be rolled separately from the main damage roll. You can pull in all or part of the main roll using @damage.total/@damage.unmodded/@damage.dice (the latter being the system default) or the selected attribute mod with @mod",
                     "ViewGraze": "View Graze Override"
                 },
                 "Modality": {
@@ -938,11 +1236,11 @@
         },
         "Sheet": {
             "Descriptions": {
-              "DescriptionHeader": "Description",
-              "ShortHeader": "Short Description",
-              "ChatHeader": "Chat Description",
-              "Collapsible": "Toggle Collapsible",
-              "Edit": "Edit Description"
+                "DescriptionHeader": "Description",
+                "ShortHeader": "Short Description",
+                "ChatHeader": "Chat Description",
+                "Collapsible": "Toggle Collapsible",
+                "Edit": "Edit Description"
             },
             "Effects": {
                 "Label": "Effects",
@@ -1152,9 +1450,7 @@
             "Warning": {
                 "OutOfBounds": "The selected bounds would place at least one talent outside the tree."
             },
-            "Notification": {
-
-            }
+            "Notification": {}
         },
         "PickDiceResult": {
             "Title": "Pick Result",
@@ -1163,6 +1459,9 @@
             "Error": {
                 "TooManyPicked": "Cannot pick more than {max} roll(s)!"
             }
+        },
+        "EditEventRule": {
+            "Title": "Edit Event Rule"
         }
     },
     "COMPONENT": {
@@ -1183,6 +1482,15 @@
         },
         "MultiValueSelect": {
             "DefaultPlaceholder": "Select Option"
+        },
+        "DocumentChangesList": {
+            "Header": {
+                "Key": "Attribute Key",
+                "Mode": "Change Mode",
+                "Value": "Value"
+            },
+            "Add": "Add Change",
+            "Remove": "Remove Change"
         }
     },
     "GENERIC": {
@@ -1230,7 +1538,7 @@
             "Cancel": "Cancel",
             "Update": "Update",
             "RemoveFavorite": "Remove Favorite",
-            "Favorite":  "Favorite",
+            "Favorite": "Favorite",
             "Confirm": "Confirm"
         },
         "Notification": {
@@ -1340,14 +1648,14 @@
                 "PrioritiseTargeted": "Prioritise Targeted Tokens"
             }
         },
-		"expandDescriptionByDefault": {
-			"name": "Expand Item Description By Default",
-			"hint": "Determines whether the description section of an item should be expanded by default when opening the item sheet."
-		},
-		"skillIncrementDecrementToggle": {
-			"name": "Enable Skill Pip Increment Behavior",
-			"hint": "Determines whether the skill pips increment/decrement on left click or right click, rather than setting to the clicked rank."
-		},
+        "expandDescriptionByDefault": {
+            "name": "Expand Item Description By Default",
+            "hint": "Determines whether the description section of an item should be expanded by default when opening the item sheet."
+        },
+        "skillIncrementDecrementToggle": {
+            "name": "Enable Skill Pip Increment Behavior",
+            "hint": "Determines whether the skill pips increment/decrement on left click or right click, rather than setting to the clicked rank."
+        },
         "systemTheme": {
             "name": "Preferred System Theme",
             "hint": "Specify the themed set of colours to use for system documents and interface elements. The selected theme will respect the preferred Dark/Light mode selected in the core settings."

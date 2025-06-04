@@ -106,7 +106,9 @@ export function ComponentHandlebarsApplicationMixin<
                             ([partId, partHTML]) =>
                                 ref.split(':')[1] === partId &&
                                 $(partHTML)
-                                    .find(instance.selector)
+                                    .find(
+                                        `${instance.selector}[data-component-id="${instance.id}"]`,
+                                    )
                                     .addBack(instance.selector).length > 0,
                         ),
                     )

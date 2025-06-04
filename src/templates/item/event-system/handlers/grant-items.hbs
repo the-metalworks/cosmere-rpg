@@ -1,0 +1,60 @@
+{{!-- Allow duplicates --}}
+<div class="form-group">
+    <label>
+        {{localize handler.schema.fields.allowDuplicates.label}}
+        <i class="info fa-regular fa-circle-question" 
+            data-tooltip="{{localize handler.schema.fields.allowDuplicates.hint}}"
+        ></i>
+    </label>
+    <div class="form-fields">
+        {{formInput handler.schema.fields.allowDuplicates
+            name="handler.allowDuplicates"
+            value=handler.allowDuplicates
+        }}
+    </div>
+</div>
+
+{{!-- Increase Quantity --}}
+<div class="form-group">
+    <label>
+        {{localize handler.schema.fields.increaseQuantity.label}}
+        <i class="info fa-regular fa-circle-question" 
+            data-tooltip="{{localize handler.schema.fields.increaseQuantity.hint}}"
+        ></i>
+    </label>
+    <div class="form-fields">
+        {{formInput handler.schema.fields.increaseQuantity
+            name="handler.increaseQuantity"
+            value=handler.increaseQuantity
+        }}
+    </div>
+</div>
+
+{{!-- Amount (Quantity increase) --}}
+{{#if handler.increaseQuantity}}
+    <div class="form-group">
+        <label>
+            {{localize handler.schema.fields.amount.label}}
+            <i class="info fa-regular fa-circle-question" 
+                data-tooltip="{{localize handler.schema.fields.amount.hint}}"
+            ></i>
+        </label>
+        <div class="form-fields">
+            {{formInput handler.schema.fields.amount
+                name="handler.amount"
+                value=handler.amount
+            }}
+        </div>
+    </div>
+{{/if}}
+
+{{!-- Items --}}
+<fieldset>
+    <legend>{{localize handler.schema.fields.items.label}}</legend>
+    {{app-document-drop-list
+        name="handler.items"
+        value=handler.items
+        type="Item"
+        placeholder="Drag and drop items here"
+    }}
+</fieldset>

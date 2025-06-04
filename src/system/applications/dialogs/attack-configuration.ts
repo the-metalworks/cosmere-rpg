@@ -295,7 +295,7 @@ export class AttackConfigurationDialog extends ComponentHandlebarsApplicationMix
             attribute: getNullableFromFormInput<Attribute>(
                 form.attribute.value,
             ),
-            rollMode: form.rollMode.value as RollMode,
+            rollMode: (form.rollMode?.value as RollMode) ?? 'roll',
             temporaryModifiers: form.temporaryMod.value,
             plotDie: form.raiseStakes.checked,
             advantageMode:

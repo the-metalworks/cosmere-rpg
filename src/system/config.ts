@@ -802,9 +802,11 @@ const COSMERE: CosmereRPGConfig = {
             types: {
                 [WeaponType.Light]: {
                     label: 'COSMERE.Item.Weapon.Type.Light',
+                    skill: Skill.LightWeapons,
                 },
                 [WeaponType.Heavy]: {
                     label: 'COSMERE.Item.Weapon.Type.Heavy',
+                    skill: Skill.HeavyWeapons,
                 },
                 [WeaponType.Special]: {
                     label: 'COSMERE.Item.Weapon.Type.Special',
@@ -848,7 +850,6 @@ const COSMERE: CosmereRPGConfig = {
                 },
             },
         },
-
         talentTree: {
             node: {
                 prerequisite: {
@@ -866,6 +867,11 @@ const COSMERE: CosmereRPGConfig = {
                     },
                 },
             },
+        },
+
+        events: {
+            types: {}, // Default events registered using the api
+            handlers: {}, // Default handlers registered using the api
         },
     },
 
@@ -888,10 +894,12 @@ const COSMERE: CosmereRPGConfig = {
     expertiseTypes: {
         [ExpertiseType.Armor]: {
             label: 'COSMERE.Actor.Character.Expertise.Armor',
+            configRegistryKey: 'armors',
             icon: 'fas fa-helmet-battle',
         },
         [ExpertiseType.Cultural]: {
             label: 'COSMERE.Actor.Character.Expertise.Cultural',
+            configRegistryKey: 'cultures',
             icon: 'far fa-earth-asia',
         },
         [ExpertiseType.Specialist]: {
@@ -904,6 +912,7 @@ const COSMERE: CosmereRPGConfig = {
         },
         [ExpertiseType.Weapon]: {
             label: 'COSMERE.Actor.Character.Expertise.Weapon',
+            configRegistryKey: 'weapons',
             icon: 'fas fa-sword',
         },
     },
