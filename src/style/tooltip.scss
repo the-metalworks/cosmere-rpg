@@ -26,9 +26,12 @@
                 font-size: var(--font-size-24);
                 font-variant: lining-nums;
                 font-weight: 600;
+                line-height: var(--font-size-24);
                 color: var(--cosmere-color-text-main);
                 margin: 0;
                 text-shadow: 0 0 0.5rem black;
+                text-wrap: balance;
+                text-align: center;
             }
     
             .bg-image {
