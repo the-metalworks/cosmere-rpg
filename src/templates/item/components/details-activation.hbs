@@ -39,28 +39,19 @@
             </div>
 
             {{!-- Resources --}}
-<div class="form-group consume">
-        <label>{{localize "COSMERE.Item.Sheet.Activation.Consume"}}</label>
-        <div class="form-fields-list">
-            {{#each consume}}
-            <div class="form-fields">
-                <input name="system.activation.consume[{{@index}}].value"
-                    type="text"
-                    value="{{resourceCostInput this.value}}"
-                    {{#if (not ../editable)}}
-                    readonly
-                    {{/if}}
-                >
+
             {{!-- Consume --}}
             <div class="form-group consume">
                 <label>{{localize systemFields.activation.fields.consume.label}}</label>
                 <div class="form-fields-list">
                     {{#each consume}}
                     <div class="form-fields">
-                        <input name=(concat "system.activation.consume[" @index "].value")
+                        <input name="system.activation.consume[{{@index}}].value"
                             type="text"
-                            value=({{resourceCostInput this.value}})
-                            disabled=(not @root.editable)
+                            value={{resourceCostInput this.value}}
+                            {{#if (not ../editable)}}
+                            readonly
+                            {{/if}}
                         >
 
                         {{#if (eq this.type "resource")}}
