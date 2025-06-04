@@ -1,10 +1,5 @@
 import { Skill } from '@system/types/cosmere';
-import {
-    RegistrationConfig,
-    RegistrationLog,
-    RegistrationLogType,
-    SkillConfig,
-} from '@system/types/config';
+import { RegistrationConfig, SkillConfig } from '@system/types/config';
 import { RegistrationHelper } from './helper';
 
 interface SkillConfigData extends Omit<SkillConfig, 'key'>, RegistrationConfig {

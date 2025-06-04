@@ -1,13 +1,14 @@
 import {
     CurrencyConfig,
-    SkillConfig,
-    PowerTypeConfig,
-    ActionTypeConfig,
     RegistrationConfig,
     RegistrationLogType,
     RegistrationLog,
 } from '@system/types/config';
 import { RegistrationHelper } from './helper';
+
+export function getCurrentRegistrations() {
+    return RegistrationHelper.COMPLETED;
+}
 
 interface CurrencyConfigData extends CurrencyConfig, RegistrationConfig {
     /**
