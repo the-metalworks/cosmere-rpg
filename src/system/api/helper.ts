@@ -56,7 +56,6 @@ export class RegistrationHelper {
     }
 
     private static showLogs = foundry.utils.debounce(() => {
-        console.log(this.COMPLETED);
         console.log(this.logs);
 
         //TODO SHOW LOG DIALOG
