@@ -25,11 +25,7 @@ export class ActorImmunitiesComponent extends HandlebarsApplicationComponent<
     };
     /* eslint-enable @typescript-eslint/unbound-method */
 
-    private sectionCollapsed =
-        this.application.actor.getFlag(
-            SYSTEM_ID,
-            'sheet.immunitiesCollapsed',
-        ) || false;
+    private sectionCollapsed = false;
 
     /* --- Actions --- */
 
@@ -49,6 +45,8 @@ export class ActorImmunitiesComponent extends HandlebarsApplicationComponent<
         params: object,
         context: BaseActorSheetRenderContext,
     ) {
+        this.sectionCollapsed = this.application.areImmunitiesCollapsed;
+
         const immunities = [
             ...Object.entries(
                 this.application.actor.system.immunities?.damage,
@@ -96,18 +94,25 @@ export class ActorImmunitiesComponent extends HandlebarsApplicationComponent<
             .on('click', (event) => this.onClickCollapsible(event));
     }
 
+    protected _onDestroy(): void {
+        // Setting a flag causes a document update and therefore a re-render.
+        // We don't want to re-render every time we collapse a section because it breaks transitions.
+        // This flag is therefore only stored once at the end when closing the document so that
+        // it is available in the correct state when we next open the document and get the flag in prepareContext.
+        void this.application.actor.setFlag(
+            SYSTEM_ID,
+            'sheet.immunitiesCollapsed',
+            this.sectionCollapsed,
+        );
+
+        super._onDestroy();
+    }
+
     /* --- Event handlers --- */
 
     private onClickCollapsible(event: JQuery.ClickEvent) {
         const target = event.currentTarget as HTMLElement;
         target?.parentElement?.classList.toggle('expanded');
-
-        // Update the flag for next render
-        void this.application.actor.setFlag(
-            SYSTEM_ID,
-            'sheet.immunitiesCollapsed',
-            !this.application.areImmunitiesCollapsed,
-        );
         this.sectionCollapsed = !this.sectionCollapsed;
     }
 }

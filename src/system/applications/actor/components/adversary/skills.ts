@@ -28,9 +28,7 @@ export class AdversarySkillsComponent extends HandlebarsApplicationComponent<
     };
     /* eslint-enable @typescript-eslint/unbound-method */
 
-    private sectionCollapsed =
-        this.application.actor.getFlag(SYSTEM_ID, 'sheet.skillsCollapsed') ||
-        false;
+    private sectionCollapsed = false;
 
     /* --- Actions --- */
 
@@ -75,6 +73,8 @@ export class AdversarySkillsComponent extends HandlebarsApplicationComponent<
         params: never,
         context: AdversarySheetRenderContext,
     ) {
+        this.sectionCollapsed = this.application.areSkillsCollapsed;
+
         // Get the skill ids
         const skillIds = Object.keys(CONFIG.COSMERE.skills).sort((a, b) =>
             a.localeCompare(b),
@@ -123,18 +123,24 @@ export class AdversarySkillsComponent extends HandlebarsApplicationComponent<
             .on('click', (event) => this.onClickCollapsible(event));
     }
 
-    /* --- Event handlers --- */
-
-    private onClickCollapsible(event: JQuery.ClickEvent) {
-        const target = event.currentTarget as HTMLElement;
-        target?.parentElement?.classList.toggle('expanded');
-
-        // Update the flag for next render
+    protected _onDestroy(): void {
+        // Setting a flag causes a document update and therefore a re-render.
+        // We don't want to re-render every time we collapse a section because it breaks transitions.
+        // This flag is therefore only stored once at the end when closing the document so that
+        // it is available in the correct state when we next open the document and get the flag in prepareContext.
         void this.application.actor.setFlag(
             SYSTEM_ID,
             'sheet.skillsCollapsed',
-            !this.application.areSkillsCollapsed,
+            this.sectionCollapsed,
         );
+
+        super._onDestroy();
+    }
+
+    /* --- Event handlers --- */
+    private onClickCollapsible(event: JQuery.ClickEvent) {
+        const target = event.currentTarget as HTMLElement;
+        target?.parentElement?.classList.toggle('expanded');
         this.sectionCollapsed = !this.sectionCollapsed;
     }
 }

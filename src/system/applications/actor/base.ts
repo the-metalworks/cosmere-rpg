@@ -122,13 +122,13 @@ export class BaseActorSheet<
         return this.actor.getFlag(SYSTEM_ID, 'sheet.mode') ?? 'edit';
     }
 
-    get areExpertisesCollapsed() {
+    get areExpertisesCollapsed(): boolean {
         return (
             this.actor.getFlag(SYSTEM_ID, 'sheet.expertisesCollapsed') ?? false
         );
     }
 
-    get areImmunitiesCollapsed() {
+    get areImmunitiesCollapsed(): boolean {
         return (
             this.actor.getFlag(SYSTEM_ID, 'sheet.immunitiesCollapsed') ?? false
         );
