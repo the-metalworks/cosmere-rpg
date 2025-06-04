@@ -10,6 +10,7 @@ import MIGRATE_0_3__1_0 from './migrations/0.3-1.0';
 
 // Constants
 import { HOOKS } from '@system/constants/hooks';
+import { EventSystem } from '@src/system/hooks/item-event-system';
 const MIGRATIONS: Migration[] = [MIGRATE_0_2__0_3, MIGRATE_0_3__1_0];
 
 /**
@@ -33,6 +34,10 @@ export function requiresMigration(from: string, to: string) {
  * Execute any relevant migrations between the two versions
  */
 export async function migrate(from: string, to: string, packID?: string) {
+    // Disable event system to prevent infinite loop errors when performing
+    // substantial migrations
+    EventSystem.disable();
+
     // Reduce versions to format 'major.minor'
     from = simplifyVersion(from);
     to = simplifyVersion(to);
@@ -115,6 +120,9 @@ export async function migrate(from: string, to: string, packID?: string) {
      * Hook: migration
      */
     Hooks.callAll<CosmereHooks.Migration>(HOOKS.MIGRATION, from, to);
+
+    // Re-enable event system
+    EventSystem.enable();
 }
 
 /* --- Manual Invocation --- */
@@ -142,6 +150,7 @@ export async function invokeMigration(
         const wasLocked = compendium.locked;
         await compendium.configure({ locked: false });
 
+        // Migrate data across full range
         await migrate(from, to, compendium.collection);
 
         // Restore compendium to original locked/unlocked state
