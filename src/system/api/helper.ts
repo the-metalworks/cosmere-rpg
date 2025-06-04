@@ -57,6 +57,9 @@ export class RegistrationHelper {
 
     private static showLogs = foundry.utils.debounce(() => {
         console.log(this.logs);
+        ui.notifications.error(
+            'Error while registering configs. Check console for details.',
+        );
 
         //TODO SHOW LOG DIALOG
 
