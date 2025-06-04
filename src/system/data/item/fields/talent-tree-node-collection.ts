@@ -46,12 +46,12 @@ class TalentTreeNodeField extends foundry.data.fields.SchemaField {
         super(
             {
                 // General node fields
-                // TODO: Id disabled because of collection field bug
-                // id: new foundry.data.fields.DocumentIdField({
-                //     required: true,
-                //     nullable: false,
-                //     blank: false,
-                // }),
+                id: new foundry.data.fields.DocumentIdField({
+                    required: true,
+                    nullable: false,
+                    blank: false,
+                    readonly: false,
+                }),
                 type: new foundry.data.fields.StringField({
                     required: false,
                     nullable: true,
@@ -115,11 +115,11 @@ class TalentTreeNodeField extends foundry.data.fields.SchemaField {
                 // Talent node fields
                 prerequisites: new CollectionField(
                     new foundry.data.fields.SchemaField({
-                        // id: new foundry.data.fields.StringField({
-                        //     required: true,
-                        //     nullable: false,
-                        //     blank: false,
-                        // }),
+                        id: new foundry.data.fields.StringField({
+                            required: true,
+                            nullable: false,
+                            blank: false,
+                        }),
                         type: new foundry.data.fields.StringField({
                             required: true,
                             nullable: false,
@@ -181,11 +181,11 @@ class TalentTreeNodeField extends foundry.data.fields.SchemaField {
                                     nullable: false,
                                     blank: false,
                                 }),
-                                // id: new foundry.data.fields.StringField({
-                                //     required: true,
-                                //     nullable: false,
-                                //     blank: false,
-                                // }),
+                                id: new foundry.data.fields.StringField({
+                                    required: true,
+                                    nullable: false,
+                                    blank: false,
+                                }),
                                 label: new foundry.data.fields.StringField({
                                     required: true,
                                     nullable: false,
@@ -211,10 +211,12 @@ class TalentTreeNodeField extends foundry.data.fields.SchemaField {
                 prerequisitesMet: new foundry.data.fields.BooleanField(),
                 connections: new CollectionField(
                     new foundry.data.fields.SchemaField({
-                        // id: new foundry.data.fields.DocumentIdField({
-                        //     required: true,
-                        //     nullable: false,
-                        // }),
+                        id: new foundry.data.fields.DocumentIdField({
+                            required: true,
+                            nullable: false,
+                            blank: false,
+                            readonly: false,
+                        }),
                         prerequisiteId: new foundry.data.fields.DocumentIdField(
                             {
                                 required: true,
