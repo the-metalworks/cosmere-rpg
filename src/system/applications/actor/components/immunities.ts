@@ -45,8 +45,6 @@ export class ActorImmunitiesComponent extends HandlebarsApplicationComponent<
         params: object,
         context: BaseActorSheetRenderContext,
     ) {
-        this.sectionCollapsed = this.application.areImmunitiesCollapsed;
-
         const immunities = [
             ...Object.entries(
                 this.application.actor.system.immunities?.damage,
@@ -85,6 +83,11 @@ export class ActorImmunitiesComponent extends HandlebarsApplicationComponent<
     }
 
     /* --- Lifecycle --- */
+
+    protected _onInitialize(params: AnyObject): void {
+        super._onInitialize(params);
+        this.sectionCollapsed = this.application.areImmunitiesCollapsed;
+    }
 
     protected _onRender(params: AnyObject): void {
         super._onRender(params);

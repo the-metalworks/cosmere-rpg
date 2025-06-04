@@ -44,8 +44,6 @@ export class ActorExpertisesComponent extends HandlebarsApplicationComponent<
         params: object,
         context: BaseActorSheetRenderContext,
     ) {
-        this.sectionCollapsed = this.application.areExpertisesCollapsed;
-
         return Promise.resolve({
             ...context,
 
@@ -65,6 +63,11 @@ export class ActorExpertisesComponent extends HandlebarsApplicationComponent<
     }
 
     /* --- Lifecycle --- */
+
+    protected _onInitialize(params: AnyObject): void {
+        super._onInitialize(params);
+        this.sectionCollapsed = this.application.areExpertisesCollapsed;
+    }
 
     protected _onRender(params: AnyObject): void {
         super._onRender(params);

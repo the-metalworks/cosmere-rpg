@@ -73,8 +73,6 @@ export class AdversarySkillsComponent extends HandlebarsApplicationComponent<
         params: never,
         context: AdversarySheetRenderContext,
     ) {
-        this.sectionCollapsed = this.application.areSkillsCollapsed;
-
         // Get the skill ids
         const skillIds = Object.keys(CONFIG.COSMERE.skills).sort((a, b) =>
             a.localeCompare(b),
@@ -115,6 +113,11 @@ export class AdversarySkillsComponent extends HandlebarsApplicationComponent<
 
     /* --- Lifecycle --- */
 
+    protected _onInitialize(params: AnyObject): void {
+        super._onInitialize(params);
+        this.sectionCollapsed = this.application.areSkillsCollapsed;
+    }
+
     protected _onRender(params: AnyObject): void {
         super._onRender(params);
 
@@ -127,7 +130,7 @@ export class AdversarySkillsComponent extends HandlebarsApplicationComponent<
         // Setting a flag causes a document update and therefore a re-render.
         // We don't want to re-render every time we collapse a section because it breaks transitions.
         // This flag is therefore only stored once at the end when closing the document so that
-        // it is available in the correct state when we next open the document and get the flag in prepareContext.
+        // it is available in the correct state when we next open the document and reinitialize this component.
         void this.application.actor.setFlag(
             SYSTEM_ID,
             'sheet.skillsCollapsed',
