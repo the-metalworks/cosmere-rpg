@@ -33,6 +33,7 @@ interface GrantItemsHandlerConfigData {
 
 export function register() {
     cosmereRPG.api.registerItemEventHandlerType({
+        source: SYSTEM_ID,
         type: HandlerType.GrantItems,
         label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.GrantItems}.Title`,
         description: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.GrantItems}.Description`,

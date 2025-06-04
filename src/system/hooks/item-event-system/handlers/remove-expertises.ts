@@ -17,6 +17,7 @@ interface RemoveExpertiseHandlerConfigData {
 
 export function register() {
     cosmereRPG.api.registerItemEventHandlerType({
+        source: SYSTEM_ID,
         type: HandlerType.RemoveExpertises,
         label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.RemoveExpertises}.Title`,
         description: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.RemoveExpertises}.Description`,

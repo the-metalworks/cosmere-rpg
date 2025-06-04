@@ -23,6 +23,7 @@ interface UseItemHandlerConfigData {
 
 export function register() {
     cosmereRPG.api.registerItemEventHandlerType({
+        source: SYSTEM_ID,
         type: HandlerType.UseItem,
         label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UseItem}.Title`,
         description: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UseItem}.Description`,

@@ -1560,6 +1560,9 @@
             "ItemAlreadyInTree": "An item with id \"{itemId}\" already exists in the {name} talent tree",
             "ActorConditionImmune": "{actor} is immune to {condition}"
         },
+        "Error": {
+            "RegisteringConfigs": "Error while registering configs. Check console for details."
+        },
         "Enrichers": {
             "Test": {
                 "Against": "against",

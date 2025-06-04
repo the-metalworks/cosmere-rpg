@@ -8,6 +8,7 @@ import { DeepPartial } from '@system/types/utils';
 
 // Constants
 import { HOOKS } from '@system/constants/hooks';
+import { SYSTEM_ID } from '@src/system/constants';
 
 type EventDefinition = Omit<ItemEventTypeConfig, 'label' | 'host'> &
     Partial<Pick<ItemEventTypeConfig, 'host'>> & {
@@ -110,6 +111,7 @@ const EVENTS: EventDefinition[] = [
 export function registerEventTypes() {
     EVENTS.forEach(({ type, hook, host, filter, condition, transform }) => {
         cosmereRPG.api.registerItemEventType({
+            source: SYSTEM_ID,
             type,
             hook,
             host,
