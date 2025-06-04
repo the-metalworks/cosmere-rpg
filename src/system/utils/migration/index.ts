@@ -138,7 +138,14 @@ export async function invokeMigration(
         const compendium = game.packs?.get(id);
         if (!compendium) return;
 
+        // Ensure compendiums are unlocked
+        const wasLocked = compendium.locked;
+        await compendium.configure({ locked: false });
+
         await migrate(from, to, compendium.collection);
+
+        // Restore compendium to original locked/unlocked state
+        await compendium.configure({ locked: wasLocked });
     }
 }
 
