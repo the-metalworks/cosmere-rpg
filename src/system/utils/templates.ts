@@ -59,6 +59,8 @@ export const TEMPLATES = {
     ACTOR_CHARACTER_CONNECTIONS_LIST:
         'actors/character/components/connections-list.hbs',
     ACTOR_CHARACTER_GOALS_LIST: 'actors/character/components/goals-list.hbs',
+    ACTOR_CHARACTER_SKILL_LINKED_ITEM:
+        'actors/character/components/skill-linked-item.hbs',
 
     // ACTOR ADVERSARY
     ACTOR_ADVERSARY_HEADER: 'actors/adversary/parts/header.hbs',
@@ -120,6 +122,7 @@ export const TEMPLATES = {
     ITEM_DETAILS_TYPE: 'item/components/details-type.hbs',
     ITEM_DETAILS_TALENTS_PROVIDER:
         'item/components/details-talents-provider.hbs',
+    ITEM_DETAILS_LINKED_SKILLS: 'item/components/details-linked-skills.hbs',
 
     ITEM_EFFECTS_LIST: 'item/components/effects-list.hbs',
     ITEM_EVENT_RULES_LIST: 'item/components/event-rules-list.hbs',

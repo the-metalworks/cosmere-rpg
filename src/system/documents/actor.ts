@@ -217,6 +217,44 @@ export class CosmereActor<
         return this.items.filter((i) => i.isTalent());
     }
 
+    public get skillLinkedItems(): CosmereItem[] {
+        return this.items
+            .filter(
+                (item) =>
+                    !item.isPath() && !item.isAncestry() && !item.isCulture(),
+            )
+            .filter(
+                (item) =>
+                    item.hasLinkedSkills() &&
+                    item.system.linkedSkills.length > 0 &&
+                    item.system.linkedSkills.some((skill) =>
+                        this.unlockedSkills.includes(skill),
+                    ),
+            );
+    }
+
+    /**
+     * List of all non-core (unlocked) skills of this actor.
+     */
+    public get unlockedSkills(): Skill[] {
+        return Object.entries(this.system.skills)
+            .filter(([, skill]) => skill.unlocked)
+            .map(([skill]) => skill as Skill);
+    }
+
+    /**
+     * A list of all non-core (unlocked) skills of this actor that
+     * do not have an associated path.
+     */
+    public get orphanedSkills(): Skill[] {
+        return this.unlockedSkills.filter(
+            (skill) =>
+                !this.items
+                    .filter((item) => item.hasLinkedSkills())
+                    .some((path) => path.system.linkedSkills.includes(skill)),
+        );
+    }
+
     /* --- Type Guards --- */
 
     public isCharacter(): this is CharacterActor {

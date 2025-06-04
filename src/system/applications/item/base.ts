@@ -323,6 +323,9 @@ export class BaseItemSheet extends TabsApplicationMixin(
             proseDescName: this.proseDescName,
             proseDescHtml: this.proseDescHtml,
             expandDefault: expandDefaultSetting,
+            typeLabel: game
+                .i18n!.localize(`TYPES.Item.${this.item.type}`)
+                .toLowerCase(),
         };
     }
 

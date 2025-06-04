@@ -508,12 +508,6 @@
                     "PowerExists": "A power with identifier \"{identifier}\" already exists on {actor}."
                 }
             },
-            "Path": {
-                "LinkedSkills": {
-                    "Label": "Linked Skills",
-                    "Hint": "These skills are displayed alongside the path in the character sheet."
-                }
-            },
             "Talent": {
                 "Type": {
                     "Ancestry": "Ancestry",
@@ -1171,6 +1165,12 @@
                         "Label": "Talent Tree",
                         "Hint": "Talent tree that contains all talents for this path. This tree is displayed on the \"talents\" tab."
                     }
+                }
+            },
+            "General": {
+                "LinkedSkills": {
+                    "Label": "Linked Skills",
+                    "Hint": "These skills are displayed alongside the {type} in the character sheet."
                 }
             }
         },

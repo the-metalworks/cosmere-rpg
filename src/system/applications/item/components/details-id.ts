@@ -17,9 +17,6 @@ export class DetailsIdComponent extends HandlebarsApplicationComponent<
         return Promise.resolve({
             ...context,
             hasId: this.application.item.hasId(),
-            type: game
-                .i18n!.localize(`TYPES.Item.${this.application.item.type}`)
-                .toLowerCase(),
         });
     }
 }
