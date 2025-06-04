@@ -28,6 +28,7 @@ export function register() {
         CONFIG.Macro.typeLabels;
 
     cosmereRPG.api.registerItemEventHandlerType({
+        source: SYSTEM_ID,
         type: HandlerType.ExecuteMacro,
         label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.ExecuteMacro}.Title`,
         description: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.ExecuteMacro}.Description`,
