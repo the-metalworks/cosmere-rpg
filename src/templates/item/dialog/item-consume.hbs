@@ -8,6 +8,7 @@
                 <input id="{{resource.id}}-amount" type="number" name="{{resource.label}}-amount"
                     min="{{resource.amount.min}}"
                     {{#if (gte max min)}}max="{{resource.amount.max}}"{{/if}}
+                    value="{{resource.amount.min}}"
                     step="1"
                 >
                 {{/if}}
