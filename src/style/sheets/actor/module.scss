@@ -78,9 +78,11 @@
                 justify-content: flex-start;
                 flex-wrap: wrap;
                 gap: 0.25rem;
+                margin-top: -0.25rem;
 
                 .delim {
                     color: var(--cosmere-color-faded);
+                    margin-top: 0.25rem;
                 }
             }
         }
