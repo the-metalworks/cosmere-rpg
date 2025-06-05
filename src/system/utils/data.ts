@@ -147,11 +147,10 @@ export async function getPossiblyInvalidDocument<T extends CosmereDocument>(
     compendium?: CompendiumCollection<CompendiumCollection.Metadata>,
 ): Promise<T> {
     if (compendium) {
-        return (
-            compendium.invalidDocumentIds.has(id)
-                ? compendium.getInvalid(id, { strict: true })
-                : await compendium.getDocument(id)
-        ) as T;
+        if (compendium.invalidDocumentIds.has(id)) {
+            return compendium.getInvalid(id, { strict: true }) as T;
+        }
+        return (await compendium.getDocument(id)) as unknown as T;
     } else {
         return (
             getCollectionForDocumentType(documentType) as InvalidCollection<T>

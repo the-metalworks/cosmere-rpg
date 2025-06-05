@@ -37,7 +37,10 @@ export default {
          * Embedded Items
          */
         if (!compendium || compendium.documentName === 'Actor') {
-            const actors: RawActorData[] = await getRawDocumentSources('Actor');
+            const actors: RawActorData[] = await getRawDocumentSources(
+                'Actor',
+                packID,
+            );
             await migrateEmbeddedItems(actors, compendium);
         }
     },
@@ -55,64 +58,61 @@ async function migrateItems(
 ) {
     console.log('Migrating items', items);
 
-    await Promise.all(
-        items.map(async (item) => {
-            try {
-                const changes = {};
+    for (const item of items) {
+        try {
+            const changes = {};
 
-                migrateItemData(item, changes);
+            migrateItemData(item, changes);
 
-                // Retrieve document
-                const document = await getPossiblyInvalidDocument<CosmereItem>(
-                    'Item',
-                    item._id,
-                    compendium,
-                );
+            // Retrieve document
+            const document = await getPossiblyInvalidDocument<CosmereItem>(
+                'Item',
+                item._id,
+                compendium,
+            );
 
-                // Apply changes
-                document.updateSource(changes, { diff: false });
-                await document.update(changes, { diff: false });
+            // Apply changes
+            document.updateSource(changes, { diff: false });
+            await document.update(changes, { diff: false });
 
-                // Ensure invalid documents are properly instantiated
-                fixDocumentIfInvalid('Item', document, compendium);
-            } catch (err: unknown) {
-                handleDocumentMigrationError(err, 'Item', item);
-            }
-        }),
-    );
+            // Ensure invalid documents are properly instantiated
+            fixDocumentIfInvalid('Item', document, compendium);
+        } catch (err: unknown) {
+            handleDocumentMigrationError(err, 'Item', item);
+        }
+    }
 }
 
 async function migrateEmbeddedItems(
     actors: RawActorData[],
     compendium?: CompendiumCollection<CompendiumCollection.Metadata>,
 ) {
-    await Promise.all(
-        actors.map(async (actor) => {
-            if (actor.items.length === 0) return;
-            console.log('Migrating embedded items', actor.items);
+    for (const actor of actors) {
+        if (actor.items.length === 0) return;
+        console.log('Migrating embedded items', actor.items);
 
-            try {
-                const changes: object[] = [];
-                for (const item of actor.items) {
-                    const itemChanges = { _id: item._id };
-                    migrateItemData(item, itemChanges);
+        try {
+            const changes: object[] = [];
+            for (const item of actor.items) {
+                const itemChanges = { _id: item._id };
+                migrateItemData(item, itemChanges);
 
-                    changes.push(itemChanges);
-                }
-
-                // Retrieve document
-                const document = await getPossiblyInvalidDocument<CosmereActor>(
-                    'Actor',
-                    actor._id,
-                );
-
-                // Apply changes
-                await document.updateEmbeddedDocuments('Item', changes);
-            } catch (err: unknown) {
-                handleDocumentMigrationError(err, 'Actor', actor);
+                changes.push(itemChanges);
             }
-        }),
-    );
+
+            // Retrieve document
+            const document = await getPossiblyInvalidDocument<CosmereActor>(
+                'Actor',
+                actor._id,
+                compendium,
+            );
+
+            // Apply changes
+            await document.updateEmbeddedDocuments('Item', changes);
+        } catch (err: unknown) {
+            handleDocumentMigrationError(err, 'Actor', actor);
+        }
+    }
 }
 
 function migrateItemData(item: RawDocumentData<any>, changes: object) {
@@ -129,21 +129,42 @@ function migrateItemData(item: RawDocumentData<any>, changes: object) {
                 item.system.activation.consume,
             )
                 ? (item.system.activation.consume as AnyObject[])
-                : [];
+                : [item.system.activation.consume as AnyObject];
 
-            const newConsumption = consumptionToMigrate.map(
-                (consume) =>
-                    ({
+            console.log('To migrate', consumptionToMigrate);
+
+            const newConsumption = consumptionToMigrate
+                .filter((consume) => !!consume)
+                .map((consume) => {
+                    const value = {
+                        min: 0,
+                        max: 0,
+                    };
+
+                    if (consume.value) {
+                        if (typeof consume.value === 'object') {
+                            if ('min' in consume.value)
+                                value.min = consume.value.min as number;
+                            if ('max' in consume.value)
+                                value.max = consume.value.max as number;
+                        } else {
+                            value.min = consume.value as number;
+                            value.max = consume.value as number;
+                        }
+                    }
+
+                    return {
                         type: consume.type as ItemConsumeType,
-                        value:
-                            'min' in (consume.value as AnyObject)
-                                ? consume.value // Ignore already migrated data
-                                : {
-                                      min: consume.value as number,
-                                      max: consume.value as number,
-                                  },
-                    }) as ItemConsumeData,
-            );
+                        value,
+                        ...(consume.resource
+                            ? {
+                                  resource: consume.resource,
+                              }
+                            : {}),
+                    } as ItemConsumeData;
+                });
+
+            console.log('New consume', newConsumption);
 
             foundry.utils.mergeObject(changes, {
                 ['system.activation.consume']: newConsumption,
