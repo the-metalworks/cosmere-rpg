@@ -201,9 +201,12 @@ export class ItemConsumeDialog extends foundry.applications.api.DialogV2 {
                             : {}),
                     };
 
+                    const min = parseInt(consumeMin);
+                    const max = parseInt(consumeMax);
+
                     const range: NumberRange = {
-                        min: parseInt(consumeMin) || 0,
-                        max: parseInt(consumeMax) || -1,
+                        min: isNaN(min) ? 0 : min,
+                        max: isNaN(max) ? -1 : max,
                         actual: 0,
                     };
 
@@ -213,8 +216,12 @@ export class ItemConsumeDialog extends foundry.applications.api.DialogV2 {
                     } else if (amountInput) {
                         range.actual = amountInput.valueAsNumber;
 
-                        // Construct useful error notification
-                        if (
+                        // Validate input with useful error notification
+                        if (isNaN(range.actual)) {
+                            throw new Error(
+                                `Invalid amount to consume: "${amountInput.value}"`,
+                            );
+                        } else if (
                             range.actual < range.min ||
                             (range.actual > range.max && range.max > -1)
                         ) {
