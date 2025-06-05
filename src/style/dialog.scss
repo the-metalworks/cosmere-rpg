@@ -159,12 +159,14 @@
     &.edit-grant-rule,
     &.edit-bonus-talents-rule,
     &.pick-dice-result,
-    &.roll-configuration {
+    &.roll-configuration,
+    &.edit-event-rule {
         > .window-content {
             filter: var(--cosmere-drop-shadow);
         }
 
-        form {            
+        form,
+        #consumables {            
             display: flex;
             flex-direction: column;
             flex: 1;
@@ -199,7 +201,12 @@
             > .form-fields {
                 display: flex;
                 flex-direction: row;
+                gap: 0.5rem;
                 flex: 2;
+
+                &.narrow {
+                    flex: 0.6;
+                }
 
                 > input[type="text"],
                 > input[type="number"] {
@@ -390,5 +397,11 @@
         .window-content {
             overflow: auto;
         }
-    }    
+    }  
+    
+    &.edit-event-rule {
+        .trigger-hint, .handler-hint {
+            margin-bottom: 1rem;
+        }
+    }
 }

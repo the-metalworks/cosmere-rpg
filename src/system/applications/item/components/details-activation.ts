@@ -3,13 +3,15 @@ import {
     ItemConsumeType,
     Resource,
 } from '@system/types/cosmere';
-import { ConstructorOf, NONE } from '@system/types/utils';
-import { SYSTEM_ID } from '@src/system/constants';
-import { TEMPLATES } from '@src/system/utils/templates';
+import { ConstructorOf, NONE, AnyObject } from '@system/types/utils';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
 import { BaseItemSheet, BaseItemSheetRenderContext } from '../base';
+
+// Constants
+import { SYSTEM_ID } from '@system/constants';
+import { TEMPLATES } from '@system/utils/templates';
 
 export class DetailsActivationComponent extends HandlebarsApplicationComponent<
     ConstructorOf<BaseItemSheet>
@@ -35,7 +37,10 @@ export class DetailsActivationComponent extends HandlebarsApplicationComponent<
 
         activation.consume?.push({
             type: ItemConsumeType.Resource,
-            value: 0,
+            value: {
+                min: 0,
+                max: 0,
+            },
             resource: Resource.Focus,
         });
 
@@ -65,93 +70,29 @@ export class DetailsActivationComponent extends HandlebarsApplicationComponent<
             hasActivationCost: !!activation.cost.type,
             consume: activation.consume,
             hasUses: !!activation.uses,
-            hasSkill: !!activation.skill,
+            hasSkill: !!activation.resolvedSkill,
 
-            typeSelectOptions: Object.entries(
-                CONFIG.COSMERE.items.activation.types,
-            ).reduce(
-                (acc, [key, config]) => ({
-                    ...acc,
-                    [key]: config.label,
-                }),
-                {},
-            ),
-            costTypeSelectOptions: {
-                [NONE]: 'GENERIC.None',
-                ...Object.entries(CONFIG.COSMERE.action.costs).reduce(
-                    (acc, [key, config]) => ({
-                        ...acc,
-                        [key]: config.label,
-                    }),
-                    {},
-                ),
-            },
-            consumeTypeSelectOptions: {
-                [NONE]: 'GENERIC.None',
-                ...Object.entries(
-                    CONFIG.COSMERE.items.activation.consumeTypes,
-                ).reduce(
-                    (acc, [key, config]) => ({
-                        ...acc,
-                        [key]: config.label,
-                    }),
-                    {},
-                ),
-            },
-            resourceSelectOptions: {
-                [NONE]: 'GENERIC.None',
-                ...Object.entries(CONFIG.COSMERE.resources).reduce(
-                    (acc, [key, config]) => ({
-                        ...acc,
-                        [key]: config.label,
-                    }),
-                    {},
-                ),
-            },
             usesTypeSelectOptions: {
                 [NONE]: 'GENERIC.None',
-                ...Object.entries(
-                    CONFIG.COSMERE.items.activation.uses.types,
-                ).reduce(
-                    (acc, [key, config]) => ({
-                        ...acc,
-                        [key]: config.labelPlural,
-                    }),
-                    {},
-                ),
+                ...((
+                    (
+                        this.application.item
+                            .system as unknown as foundry.abstract.DataModel
+                    ).schema.getField(
+                        'activation.uses.type',
+                    ) as foundry.data.fields.StringField
+                ).options.choices as AnyObject),
             },
-            rechargeSelectOptions: {
-                [NONE]: 'GENERIC.None',
-                ...Object.entries(
-                    CONFIG.COSMERE.items.activation.uses.recharge,
-                ).reduce(
-                    (acc, [key, config]) => ({
-                        ...acc,
-                        [key]: config.label,
-                    }),
-                    {},
-                ),
-            },
-            skillSelectOptions: {
-                [NONE]: 'GENERIC.None',
-                ...Object.entries(CONFIG.COSMERE.skills).reduce(
-                    (acc, [key, config]) => ({
-                        ...acc,
-                        [key]: config.label,
-                    }),
-                    {},
-                ),
-            },
-            attributeSelectOptions: {
-                [NONE]: 'GENERIC.None',
-                default: 'GENERIC.Default',
-                ...Object.entries(CONFIG.COSMERE.attributes).reduce(
-                    (acc, [key, config]) => ({
-                        ...acc,
-                        [key]: config.label,
-                    }),
-                    {},
-                ),
+            consumeTypeSelectOptions: {
+                '': 'GENERIC.None',
+                ...((
+                    (
+                        this.application.item
+                            .system as unknown as foundry.abstract.DataModel
+                    ).schema.getField(
+                        'activation.consume.element.type',
+                    ) as foundry.data.fields.StringField
+                ).options.choices as AnyObject),
             },
         };
     }

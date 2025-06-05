@@ -1,3 +1,5 @@
+import { NumberRange } from '@src/system/types/utils';
+
 export interface ItemContextOptions {
     showEquippedHand?: boolean;
 }
@@ -62,7 +64,7 @@ export interface ItemContext {
     hasConsume: boolean;
     consume: Partial<{
         type: string;
-        value: number;
+        value: NumberRange;
         consumesResource: boolean;
         consumesItem: boolean;
         resource: string;

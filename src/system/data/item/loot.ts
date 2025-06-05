@@ -7,8 +7,12 @@ import {
     DescriptionItemData,
 } from './mixins/description';
 import { PhysicalItemMixin, PhysicalItemData } from './mixins/physical';
+import { EventsItemMixin, EventsItemData } from './mixins/events';
 
-export interface LootItemData extends DescriptionItemData, PhysicalItemData {
+export interface LootItemData
+    extends DescriptionItemData,
+        PhysicalItemData,
+        EventsItemData {
     /**
      * Is this item a form of currency?
      * If so, its value will be added to the character's total.
@@ -24,6 +28,7 @@ export class LootItemDataModel extends DataModelMixin<
         value: 'COSMERE.Item.Type.Loot.desc_placeholder',
     }),
     PhysicalItemMixin(),
+    EventsItemMixin(),
 ) {
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), {

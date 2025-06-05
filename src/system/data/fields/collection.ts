@@ -1,4 +1,15 @@
-export type CollectionFieldOptions = foundry.data.fields.DataFieldOptions;
+import { AnyObject } from '@system/types/utils';
+
+export interface CollectionFieldOptions<T = AnyObject>
+    extends foundry.data.fields.DataFieldOptions {
+    /**
+     * The field to draw the item key from.
+     * Alternatively, you can use a function to generate the key.
+     *
+     * @default "id"
+     */
+    key?: keyof T | ((item: T) => string);
+}
 
 /**
  * A collection that is backed by a record object instead of a Map.
@@ -21,10 +32,9 @@ export class RecordCollection<T> implements Collection<T> {
     }
 
     get contents(): T[] {
-        return Object.entries(this).map(([key, value]) => ({
-            ...value,
-            _id: key,
-        }));
+        return Object.entries(this).map(([key, value]) =>
+            'id' in value ? value : { ...value, _id: key },
+        );
     }
 
     public find<S extends T>(
@@ -37,7 +47,11 @@ export class RecordCollection<T> implements Collection<T> {
         condition: (e: T, index: number, collection: Collection<T>) => boolean,
     ): T | undefined {
         return Object.entries(this).find(([key, value], index) =>
-            condition({ ...value, _id: key }, index, this),
+            condition(
+                'id' in value ? value : { ...value, _id: key },
+                index,
+                this,
+            ),
         )?.[1];
     }
 
@@ -52,7 +66,11 @@ export class RecordCollection<T> implements Collection<T> {
     ): T[] {
         return Object.entries(this)
             .filter(([key, value], index) =>
-                condition({ ...value, _id: key }, index, this),
+                condition(
+                    'id' in value ? value : { ...value, _id: key },
+                    index,
+                    this,
+                ),
             )
             .map(([key, value]) => value);
     }
@@ -98,7 +116,11 @@ export class RecordCollection<T> implements Collection<T> {
         transformer: (entity: T, index: number, collection: Collection<T>) => M,
     ): M[] {
         return Object.entries(this).map(([key, value], index) =>
-            transformer({ ...value, _id: key }, index, this),
+            transformer(
+                'id' in value ? value : { ...value, _id: key },
+                index,
+                this,
+            ),
         );
     }
 
@@ -113,7 +135,12 @@ export class RecordCollection<T> implements Collection<T> {
     ): A {
         return Object.entries(this).reduce(
             (accumulator, [key, value], index) =>
-                evaluator(accumulator, { ...value, _id: key }, index, this),
+                evaluator(
+                    accumulator,
+                    'id' in value ? value : { ...value, _id: key },
+                    index,
+                    this,
+                ),
             initialValue,
         );
     }
@@ -126,7 +153,11 @@ export class RecordCollection<T> implements Collection<T> {
         ) => boolean,
     ): boolean {
         return Object.entries(this).some(([key, value], index) =>
-            condition({ ...value, _id: key }, index, this),
+            condition(
+                'id' in value ? value : { ...value, _id: key },
+                index,
+                this,
+            ),
         );
     }
 
@@ -158,11 +189,10 @@ export class RecordCollection<T> implements Collection<T> {
     }
 
     public values(): IterableIterator<T> {
-        return Object.keys(this)
-            .map((key) => ({
-                ...this.get(key)!,
-                _id: key,
-            }))
+        return Object.entries(this)
+            .map(([key, value]) =>
+                'id' in value ? value : { ...value, _id: key },
+            )
             [Symbol.iterator]();
     }
 
@@ -186,11 +216,11 @@ export class RecordCollection<T> implements Collection<T> {
     }
 
     public toJSON() {
-        return this.contents.reduce((acc, value) => {
+        return Array.from(this.entries()).reduce((acc, [key, value]) => {
             if (value && typeof value === 'object' && 'toJSON' in value) {
-                value = { ...(value as any).toJSON(), _id: (value as any)._id };
+                value = (value as any).toJSON();
             }
-            return { ...acc, [(value as any)._id]: value };
+            return { ...acc, [key]: value };
         }, {} as any);
     }
     /* eslint-enable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment */
@@ -199,10 +229,13 @@ export class RecordCollection<T> implements Collection<T> {
 export class CollectionField<
     ElementField extends
         foundry.data.fields.DataField = foundry.data.fields.DataField,
+    T = AnyObject,
 > extends foundry.data.fields.ObjectField {
+    declare options: CollectionFieldOptions<T>;
+
     constructor(
         public readonly model: ElementField,
-        options: CollectionFieldOptions = {},
+        options: CollectionFieldOptions<T> = {},
         context?: foundry.data.fields.DataFieldContext,
         private CollectionClass: typeof RecordCollection = RecordCollection,
     ) {
@@ -210,11 +243,24 @@ export class CollectionField<
     }
 
     protected override _cleanType(
-        value: RecordCollection<unknown>,
+        value: Record<string, unknown>,
         options?: object,
     ) {
-        Array.from(value.entries()).forEach(([id, v]) => {
-            value.set(id, this.model.clean(v, options));
+        Array.from(Object.entries(value)).forEach(([key, v]) => {
+            const cleaned = this.model.clean(v, options) as T & {
+                id?: string;
+                _id?: string;
+            };
+
+            // Determine the key
+            const prevKey = key;
+            key = this.getItemKey(cleaned) ?? key;
+
+            // Set the value
+            if (key !== prevKey && prevKey !== `-=${key}`) {
+                delete value[prevKey];
+                value[key] = cleaned;
+            }
         });
 
         return value;
@@ -224,9 +270,13 @@ export class CollectionField<
         value: unknown,
         options?: foundry.data.fields.DataFieldValidationOptions,
     ): boolean | foundry.data.fields.DataModelValidationFailure | void {
-        if (!(value instanceof this.CollectionClass))
-            throw new Error('must be a RecordCollection');
-        const errors = this._validateValues(value, options);
+        if (foundry.utils.getType(value) !== 'Object')
+            throw new Error('must be a RecordCollection object');
+
+        const errors = this._validateValues(
+            value as Record<string, unknown>,
+            options,
+        );
         if (!foundry.utils.isEmpty(errors)) {
             // Create validatior failure
             const failure =
@@ -241,14 +291,14 @@ export class CollectionField<
     }
 
     protected _validateValues(
-        value: RecordCollection<unknown>,
+        value: Record<string, unknown>,
         options?: foundry.data.fields.DataFieldValidationOptions,
     ) {
         const errors: Record<
             string,
             foundry.data.validation.DataModelValidationFailure
         > = {};
-        Array.from(value.entries()).forEach(([id, v]) => {
+        Object.entries(value).forEach(([id, v]) => {
             const error = this.model.validate(
                 v,
                 options,
@@ -262,33 +312,52 @@ export class CollectionField<
     }
 
     protected override _cast(value: object) {
-        const result =
+        // Get entries
+        const entries =
             value instanceof this.CollectionClass
-                ? value
+                ? Array.from<[string, unknown]>(value.entries())
                 : foundry.utils.getType(value) === 'Map'
-                  ? new this.CollectionClass(
-                        Array.from((value as Map<string, unknown>).entries()),
-                    )
+                  ? Array.from((value as Map<string, unknown>).entries())
                   : foundry.utils.getType(value) === 'Object'
-                    ? new this.CollectionClass(Object.entries(value))
+                    ? (Object.entries(value) as [string, unknown][])
                     : foundry.utils.getType(value) === 'Array'
-                      ? new this.CollectionClass(
-                            (value as { _id?: string; id?: string }[]).map(
-                                (v, i) => [v._id ?? v.id ?? i.toString(), v],
-                            ),
+                      ? (value as ({ _id?: string; id?: string } & T)[]).map(
+                            (v, i) =>
+                                [this.getItemKey(v) ?? i, v] as [
+                                    string,
+                                    unknown,
+                                ],
                         )
-                      : new this.CollectionClass();
+                      : [];
 
-        return result;
+        // Reduce entries to Record<string, unknown>
+        return entries.reduce(
+            (acc, [key, value]) => ({
+                ...acc,
+                [key]: value,
+            }),
+            {} as Record<string, unknown>,
+        );
     }
 
     public override getInitialValue() {
         return new this.CollectionClass();
     }
 
-    public override initialize(value: RecordCollection<unknown>) {
+    public override initialize(
+        value: Record<string, unknown>,
+        model: object,
+        options?: object,
+    ) {
         if (!value) return new this.CollectionClass();
-        return foundry.utils.deepClone(value);
+        value = foundry.utils.deepClone(value);
+        const collection = new this.CollectionClass(Object.entries(value));
+
+        Array.from(collection.entries()).forEach(([id, v]) => {
+            collection.set(id, this.model.initialize(v, model, options));
+        });
+
+        return collection;
     }
 
     public override toObject(value: RecordCollection<unknown>) {
@@ -308,5 +377,15 @@ export class CollectionField<
 
         path.shift();
         return this.model._getField(path);
+    }
+
+    private getItemKey(
+        item: T & { id?: string; _id?: string },
+    ): string | undefined {
+        return typeof this.options.key === 'function'
+            ? this.options.key(item)
+            : ((item[this.options.key ?? 'id'] as string | undefined) ??
+                  item._id ??
+                  undefined);
     }
 }

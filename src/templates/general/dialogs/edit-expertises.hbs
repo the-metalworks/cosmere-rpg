@@ -13,7 +13,7 @@
             <li class="form-group configured">
                 <i class="bullet fade icon faded fa-solid fa-diamond"></i>
                 <label>{{localize expertise.label}}</label>
-                <input type="checkbox" name="{{category.type}}.{{expertise.id}}" 
+                <input type="checkbox" name="{{category.type}}:{{expertise.id}}" 
                     {{#if expertise.hasExpertise}}checked{{/if}}
                     {{#if expertise.locked}}readonly{{/if}}
                 >
@@ -23,8 +23,8 @@
             {{#each category.customExpertises as |expertise|}}
             <li class="form-group custom">
                 <i class="bullet fade icon faded fa-solid fa-diamond"></i>
-                <input type="text" name="{{category.type}}.{{expertise.id}}" value="{{expertise.label}}" 
-                    {{#if expertise.locked}}readonly{{/if}}
+                <input type="text" name="{{category.type}}:{{expertise.id}}" value="{{expertise.label}}" 
+                    readonly
                 >
                 {{#if (not expertise.locked)}}
                 <a data-action="remove-custom-expertise"
@@ -46,5 +46,14 @@
             </li>
         </ul>
         {{/each}}
+
+        {{!-- Submit --}}
+        {{#if showSubmitButton}}
+            <div class="form-group submit">
+                <button data-action="update-expertises" type="submit">
+                    {{localize "GENERIC.Button.Update"}}
+                </button>
+            </div>
+        {{/if}}
     </form>
 </div>

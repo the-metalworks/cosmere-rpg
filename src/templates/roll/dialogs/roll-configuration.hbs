@@ -1,12 +1,13 @@
 <form>
-    <div class="form-group">
+    {{!-- NOTE: Hiding this until roll workflow refactor since it does not work and is not an easy fix. --}}
+    {{!-- <div class="form-group">
         <label>{{ localize "DICE.RollMode" }}</label>
         <div class="form-fields">
             <select name="rollMode">
                 {{selectOptions rollModes selected=defaultRollMode localize=true}}
             </select>
         </div>        
-    </div>
+    </div> --}}
     <div class="form-group">
         <label>{{ localize 'COSMERE.Actor.Attribute.name' }}</label>
         <div class="form-fields">

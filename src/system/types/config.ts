@@ -35,11 +35,40 @@ import {
     ImmunityType,
 } from './cosmere';
 import { AdvantageMode } from './roll';
-import { Talent, TalentTree, Goal } from './item';
+
+import {
+    Talent,
+    TalentTree,
+    Goal,
+    EventSystem as ItemEventSystem,
+} from './item';
+
+import { AnyObject } from './utils';
+
 import {
     ItemListSection,
     DynamicItemListSectionGenerator,
 } from './application/actor/components/item-list';
+
+import { CosmereItem } from '@system/documents/item';
+
+export interface RegistrationConfig {
+    source: string;
+    priority?: number;
+    strict?: boolean;
+}
+
+export interface RegistrationLog {
+    source: string;
+    type: RegistrationLogType;
+    message: string;
+}
+
+export enum RegistrationLogType {
+    Warn = 'warn',
+    Error = 'error',
+    Debug = 'debug',
+}
 
 export interface SizeConfig {
     label: string;
@@ -138,6 +167,11 @@ export interface CurrencyDenominationConfig {
 
 export interface WeaponTypeConfig {
     label: string;
+
+    /**
+     * The skill associated with this weapon type.
+     */
+    skill?: Skill;
 }
 
 export interface WeaponConfig {
@@ -155,6 +189,12 @@ export interface ArmorConfig {
 export interface ExpertiseTypeConfig {
     label: string;
     icon?: string;
+
+    /**
+     * The key of the registry in the CONFIG.COSMERE object of the
+     * default configured entries for this expertise type.
+     */
+    configRegistryKey?: keyof CosmereRPGConfig;
 }
 
 export interface TraitConfig {
@@ -323,6 +363,40 @@ export interface MovementTypeConfig {
     label: string;
 }
 
+export interface ItemEventTypeConfig {
+    label: string;
+    description?: string;
+    hook: string;
+    host: ItemEventSystem.Event.ExecutionHost;
+
+    /**
+     * A filter function to determine if this event should be available for a given item.
+     */
+    filter?: (item: CosmereItem) => boolean | Promise<boolean>;
+
+    // NOTE: Allow any type as conditions should be able to freely match hook signatures
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    /**
+     * Whether or not the hook invocation should cause the event to be fired.
+     */
+    condition?: (...args: any[]) => boolean | Promise<boolean>;
+    /**
+     * Function to transform the hook arguments into a fixed set of arguments.
+     */
+    transform?: (...args: any[]) => {
+        document: foundry.abstract.Document;
+        options?: AnyObject;
+        userId?: string;
+    };
+    /* eslint-enable @typescript-eslint/no-explicit-any */
+}
+
+export interface ItemEventHandlerTypeConfig {
+    label: string;
+    description?: string | (() => string);
+    documentClass: ItemEventSystem.HandlerCls;
+}
+
 export interface CosmereRPGConfig {
     themes: Record<Theme, string>;
     sizes: Record<Size, SizeConfig>;
@@ -393,6 +467,11 @@ export interface CosmereRPGConfig {
                     types: Record<TalentTree.Node.Prerequisite.Type, string>;
                 };
             };
+        };
+
+        events: {
+            types: Record<string, ItemEventTypeConfig>;
+            handlers: Record<string, ItemEventHandlerTypeConfig>;
         };
     };
 

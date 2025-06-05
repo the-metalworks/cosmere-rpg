@@ -237,24 +237,6 @@
         }
     }   
 
-    .icon-header {
-        font-family: var(--cosmere-font-normal);
-        font-size: var(--font-size-12);
-        font-weight: bold;
-        text-transform: uppercase;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-
-        .title {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 0.25rem;
-        }
-    }
-
     nav {
         border: none;
         position: absolute;
@@ -762,7 +744,7 @@
         }
     }
 
-    app-actor-expertises,
+    app-expertises-list,
     app-actor-immunities,
     app-adversary-skills {
         .icon-header {

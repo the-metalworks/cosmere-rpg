@@ -11,6 +11,7 @@ import {
     AnyObject,
     NONE,
     AnyMutableObject,
+    NumberRange,
 } from '@system/types/utils';
 import { renderSystemTemplate, TEMPLATES } from '@src/system/utils/templates';
 
@@ -56,6 +57,10 @@ export class BaseItemSheet extends TabsApplicationMixin(
             description: {
                 label: 'COSMERE.Item.Sheet.Tabs.Description',
                 icon: '<i class="fa-solid fa-feather-pointed"></i>',
+            },
+            events: {
+                label: 'COSMERE.Item.Sheet.Tabs.Events',
+                icon: '<i class="fa-solid fa-eject"></i>',
             },
             effects: {
                 label: 'COSMERE.Item.Sheet.Tabs.Effects',
@@ -123,45 +128,10 @@ export class BaseItemSheet extends TabsApplicationMixin(
 
         if (this.item.hasActivation()) {
             if (
-                'system.activation.cost.type' in formData.object &&
-                formData.object['system.activation.cost.type'] === NONE
-            )
-                formData.set('system.activation.cost.type', null);
-
-            if (
-                'system.activation.skill' in formData.object &&
-                formData.object['system.activation.skill'] === NONE
-            )
-                formData.set('system.activation.skill', null);
-
-            if (
-                'system.activation.attribute' in formData.object &&
-                formData.object['system.activation.attribute'] === 'default'
-            ) {
-                formData.set(
-                    'system.activation.attribute',
-                    CONFIG.COSMERE.skills[
-                        formData.object['system.activation.skill'] as Skill
-                    ].attribute,
-                );
-            }
-            if (
-                'system.activation.attribute' in formData.object &&
-                formData.object['system.activation.attribute'] === NONE
-            )
-                formData.set('system.activation.attribute', null);
-
-            if (
                 'system.activation.uses.type' in formData.object &&
                 formData.object['system.activation.uses.type'] === NONE
             )
                 formData.set('system.activation.uses', null);
-
-            if (
-                'system.activation.uses.recharge' in formData.object &&
-                formData.object['system.activation.uses.recharge'] === NONE
-            )
-                formData.set('system.activation.uses.recharge', null);
 
             // Handle consumption
             const consumption = this.getUpdatedConsumption(formData);
@@ -476,7 +446,46 @@ export class BaseItemSheet extends TabsApplicationMixin(
             };
 
             const dataKey = parts[2];
-            existingConsumeData[dataKey] = formData.get(formKey);
+
+            // Parse actual value range from input text
+            if (dataKey === 'value') {
+                const newConsumeData: NumberRange = {
+                    min: 0,
+                    max: 0,
+                };
+
+                const valueInput = formData.get(formKey)?.toString() ?? '0';
+                const valueParts = valueInput.split('-');
+
+                if (valueParts.length === 1) {
+                    const value = valueParts[0];
+                    const isRange = value.endsWith('+');
+
+                    const parsed = parseInt(value);
+                    if (!isNaN(parsed)) {
+                        newConsumeData.min = parsed;
+
+                        newConsumeData.max = isRange ? -1 : parsed;
+                    }
+                } else {
+                    const base = parseInt(valueParts[0]);
+                    const cap = parseInt(valueParts[1]);
+
+                    if (!isNaN(base)) {
+                        newConsumeData.min = base;
+                    }
+
+                    if (!isNaN(cap)) {
+                        newConsumeData.max = cap;
+                    } else {
+                        newConsumeData.max = newConsumeData.min;
+                    }
+                }
+
+                existingConsumeData[dataKey] = newConsumeData;
+            } else {
+                existingConsumeData[dataKey] = formData.get(formKey);
+            }
 
             // Use "None" to remove entries,
             // otherwise we have a (theoretically) valid type, so use it.

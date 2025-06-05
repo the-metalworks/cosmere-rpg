@@ -221,7 +221,7 @@ export class RollConfigurationDialog extends ComponentHandlebarsApplicationMixin
             attribute: getNullableFromFormInput<Attribute>(
                 form.attribute.value,
             ),
-            rollMode: form.rollMode.value as RollMode,
+            rollMode: (form.rollMode?.value as RollMode) ?? 'roll',
             temporaryModifiers: form.temporaryMod.value,
             plotDie: form.raiseStakes.checked,
             advantageMode:
