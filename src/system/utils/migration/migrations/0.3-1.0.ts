@@ -12,18 +12,30 @@ import { ItemConsumeType } from '@src/system/types/cosmere';
 export default {
     from: '0.3',
     to: '1.0',
-    execute: async () => {
+    execute: async (packID?: string) => {
+        // Get relevant compendium, if any
+        let compendium:
+            | CompendiumCollection<CompendiumCollection.Metadata>
+            | undefined;
+        if (packID) {
+            compendium = game.packs?.get(packID);
+        }
+
         /**
          * Items
          */
-        const items = await getRawDocumentSources('Item');
-        await migrateItems(items);
-
+        if (!compendium || compendium.documentName === 'Item') {
+            const items = await getRawDocumentSources('Item', packID);
+            await migrateItems(items, compendium);
+        }
+      
         /**
          * Embedded Items
          */
-        const actors: RawActorData[] = await getRawDocumentSources('Actor');
-        await migrateEmbeddedItems(actors);
+        if (!compendium || compendium.documentName === 'Actor') {
+            const actors: RawActorData[] = await getRawDocumentSources('Actor');
+            await migrateEmbeddedItems(actors, compendium);
+        }
     },
 };
 
@@ -33,7 +45,10 @@ export default {
 
 // NOTE: Use any here as we're dealing with raw actor data
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access */
-async function migrateItems(items: RawDocumentData<any>[]) {
+async function migrateItems(
+    items: RawDocumentData<any>[],
+    compendium?: CompendiumCollection<CompendiumCollection.Metadata>,
+) {
     console.log('Migrating items', items);
 
     await Promise.all(
@@ -44,9 +59,10 @@ async function migrateItems(items: RawDocumentData<any>[]) {
                 migrateItemData(item, changes);
 
                 // Retrieve document
-                const document = getPossiblyInvalidDocument<CosmereItem>(
+                const document = await getPossiblyInvalidDocument<CosmereItem>(
                     'Item',
                     item._id,
+                    compendium,
                 );
 
                 // Apply changes
@@ -54,7 +70,7 @@ async function migrateItems(items: RawDocumentData<any>[]) {
                 await document.update(changes, { diff: false });
 
                 // Ensure invalid documents are properly instantiated
-                fixDocumentIfInvalid('Item', document);
+                fixDocumentIfInvalid('Item', document, compendium);
             } catch (err: unknown) {
                 handleDocumentMigrationError(err, 'Item', item);
             }
@@ -62,7 +78,10 @@ async function migrateItems(items: RawDocumentData<any>[]) {
     );
 }
 
-async function migrateEmbeddedItems(actors: RawActorData[]) {
+async function migrateEmbeddedItems(
+    actors: RawActorData[],
+    compendium?: CompendiumCollection<CompendiumCollection.Metadata>
+) {
     await Promise.all(
         actors.map(async (actor) => {
             if (actor.items.length === 0) return;
