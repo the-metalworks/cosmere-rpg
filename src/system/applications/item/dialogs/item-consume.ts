@@ -2,6 +2,7 @@ import { SYSTEM_ID } from '@src/system/constants';
 import { ItemConsumeData } from '@src/system/data/item/mixins/activatable';
 import { CosmereItem } from '@src/system/documents';
 import { ItemConsumeType, Resource } from '@src/system/types/cosmere';
+import { NumberRange } from '@src/system/types/utils';
 import { TEMPLATES } from '@src/system/utils/templates';
 
 // Constants
@@ -11,7 +12,7 @@ interface ItemConsumeDialogOptions {
     /**
      * The amount to consume
      */
-    amount?: number;
+    amount?: NumberRange;
 
     /**
      * The type of consumption
@@ -83,16 +84,62 @@ export class ItemConsumeDialog extends foundry.applications.api.DialogV2 {
     ): Promise<ItemConsumeDialogResult | null> {
         // Render dialog inner HTML
         const content = await renderTemplate(TEMPLATE, {
-            resources: options.map((option, i) => ({
-                id: `${option.type ?? 'None'}-${option.resourceId ?? 'None'}-${option.amount ?? 'None'}-${i}`,
-                label: game.i18n!.format('DIALOG.ItemConsume.ShouldConsume', {
-                    amount: option.amount ?? 0,
-                    resource:
-                        option.resource ??
-                        game.i18n!.localize('GENERIC.Unknown'),
-                }),
-                shouldConsume: option.shouldConsume ?? false,
-            })),
+            resources: options.map((option, i) => {
+                const resource =
+                    option.resource ?? game.i18n!.localize('GENERIC.Unknown');
+                let label = game.i18n!.localize(
+                    'DIALOG.ItemConsume.ShouldConsume.None',
+                );
+                let isVariable = false;
+
+                if (option.amount) {
+                    // Static or optional consumption
+                    if (option.amount.min === option.amount.max) {
+                        label = game.i18n!.format(
+                            'DIALOG.ItemConsume.ShouldConsume.Static',
+                            {
+                                amount: option.amount.min,
+                                resource,
+                            },
+                        );
+                    }
+                    // Uncapped consumption
+                    else if (option.amount.max === -1) {
+                        label = game.i18n!.format(
+                            'DIALOG.ItemConsume.ShouldConsume.RangeUncapped',
+                            {
+                                amount: option.amount.min,
+                                resource,
+                            },
+                        );
+                        isVariable = true;
+                    }
+                    // Capped consumption
+                    else {
+                        label = game.i18n!.format(
+                            'DIALOG.ItemConsume.ShouldConsume.RangeCapped',
+                            {
+                                ...option.amount,
+                                resource,
+                            },
+                        );
+                        isVariable = true;
+                    }
+                }
+
+                const resourceType = option.type ?? 'None';
+                const resourceId = option.resourceId ?? 'None';
+                const resourceAmount = option.amount
+                    ? `${option.amount.min}-${option.amount.max === -1 ? 'INF' : option.amount.max}`
+                    : '0-0';
+
+                return {
+                    id: `${resourceType}-${resourceId}-${resourceAmount}-${i}`,
+                    label,
+                    amount: isVariable ? option.amount : null,
+                    shouldConsume: option.shouldConsume ?? false,
+                };
+            }),
         });
 
         // Render dialog and wrap as promise
@@ -106,64 +153,127 @@ export class ItemConsumeDialog extends foundry.applications.api.DialogV2 {
     private onContinue() {
         const form = this.element.querySelector('form')!;
 
-        // Collate all valid consumption options, accumulating value
-        // for all options which share the exact same target for
-        // consumption.
-        const collated = [
-            ...form.querySelectorAll('#consumables .form-group input').values(),
-        ]
-            .map((elem) => {
-                // Only consume checked elements
-                if (!(elem instanceof HTMLInputElement) || !elem.checked)
-                    return null;
+        try {
+            // Collate all valid consumption options, accumulating value
+            // for all options which share the exact same target for
+            // consumption.
+            const collated = [
+                ...form.querySelectorAll('#consumables .form-group').values(),
+            ]
+                .map((elem) => {
+                    // Get inputs
+                    const amountInput = elem.querySelector(
+                        `#${elem.id}-amount`,
+                    );
+                    const shouldConsumeInput = elem.querySelector(
+                        `#${elem.id}-shouldConsume`,
+                    );
 
-                // Get any additional information from the id
-                // Only destructure the first 3; the last value is the index,
-                // which only exists to assert uniqueness.
-                const [consumeType, consumeFrom, consumeVal] = elem.id.split(
-                    '-',
-                ) as [ItemConsumeType, string, string];
-                const consumeData = {
-                    ...(consumeType === ItemConsumeType.Resource
-                        ? {
-                              resource: consumeFrom as Resource,
-                          }
-                        : {}),
-                };
+                    // Only consume checked elements
+                    if (
+                        !(shouldConsumeInput instanceof HTMLInputElement) ||
+                        !shouldConsumeInput.checked
+                    )
+                        return null;
 
-                return {
-                    type: consumeType,
-                    value: parseInt(consumeVal) || 0,
-                    ...consumeData,
-                };
-            })
-            .filter((elem) => !!elem)
-            .reduce<Record<string, ItemConsumeData>>((acc, consumable) => {
-                // Get specific key, including the consume type and the actual
-                // value that's meant to be consumed.
-                let key = consumable.type as string;
-                switch (consumable.type) {
-                    case ItemConsumeType.Resource:
-                        key += `.${consumable.resource!}`;
-                        break;
-                }
+                    // Only consume from valid amount inputs, when present
+                    if (
+                        !!amountInput &&
+                        !(amountInput instanceof HTMLInputElement)
+                    )
+                        return null;
 
-                const existing = acc[key];
-                if (!existing) {
-                    acc[key] = { ...consumable };
-                } else {
-                    acc[key].value += consumable.value;
-                }
+                    // Get any additional information from the id
+                    // Only destructure the first 4; the last value is the index,
+                    // which only exists to assert uniqueness.
+                    const [consumeType, consumeFrom, consumeMin, consumeMax] =
+                        elem.id.split('-') as [
+                            ItemConsumeType,
+                            string,
+                            string,
+                            string,
+                        ];
+                    const consumeData = {
+                        ...(consumeType === ItemConsumeType.Resource
+                            ? {
+                                  resource: consumeFrom as Resource,
+                              }
+                            : {}),
+                    };
 
-                return acc;
-            }, {});
+                    const min = parseInt(consumeMin);
+                    const max = parseInt(consumeMax);
 
-        // Reconstruct list
-        const consumption = Object.entries(collated).map(([_, v]) => v);
+                    const range: NumberRange = {
+                        min: isNaN(min) ? 0 : min,
+                        max: isNaN(max) ? -1 : max,
+                        actual: 0,
+                    };
 
-        // Resolve
-        this.resolve({
-            consumption,
-        });
+                    // Pass actual consumption back to item
+                    if (range.min === range.max) {
+                        range.actual = range.min;
+                    } else if (amountInput) {
+                        range.actual = amountInput.valueAsNumber;
+
+                        // Validate input with useful error notification
+                        if (isNaN(range.actual)) {
+                            throw new Error(
+                                `Invalid amount to consume: "${amountInput.value}"`,
+                            );
+                        } else if (
+                            range.actual < range.min ||
+                            (range.actual > range.max && range.max > -1)
+                        ) {
+                            let error = `Invalid amount "${range.actual}", must consume `;
+                            if (range.max === -1) {
+                                error += `at least ${range.min}`;
+                            } else {
+                                error += `between ${range.min} and ${range.max}`;
+                            }
+                            throw new Error(error);
+                        }
+                    }
+
+                    return {
+                        type: consumeType,
+                        value: range,
+                        ...consumeData,
+                    };
+                })
+                .filter((elem) => !!elem)
+                .reduce<Record<string, ItemConsumeData>>((acc, consumable) => {
+                    // Get specific key, including the consume type and the actual
+                    // value that's meant to be consumed.
+                    let key = consumable.type as string;
+                    switch (consumable.type) {
+                        case ItemConsumeType.Resource:
+                            key += `.${consumable.resource!}`;
+                            break;
+                    }
+
+                    const existing = acc[key];
+                    if (!existing) {
+                        acc[key] = { ...consumable };
+                    } else {
+                        acc[key].value.actual! += consumable.value.actual!;
+                    }
+
+                    return acc;
+                }, {});
+
+            // Reconstruct list
+            const consumption = Object.entries(collated).map(([_, v]) => v);
+
+            console.log(consumption);
+
+            // Resolve
+            this.resolve({
+                consumption,
+            });
+        } catch (error) {
+            // Break free upon failed validation
+            ui.notifications.warn((error as Error).message);
+        }
     }
 }

@@ -1,4 +1,5 @@
 {{#if hasActivation}}
+
 {{log this}}
     <fieldset>
         <legend>{{localize "COSMERE.Item.Sheet.Activation.Title"}}</legend>
@@ -45,12 +46,13 @@
                 <div class="form-fields-list">
                     {{#each consume}}
                     <div class="form-fields">
-                        {{formInput @root.systemFields.activation.fields.consume.element.fields.value
-                            name=(concat "system.activation.consume[" @index "].value")
-                            value=this.value
-                            type="number"
-                            editable=(not @root.editable)
-                        }}
+                        <input name="system.activation.consume[{{@index}}].value"
+                            type="text"
+                            value={{resourceCostInput this.value}}
+                            {{#if (not ../editable)}}
+                            readonly
+                            {{/if}}
+                        >
 
                         {{#if (eq this.type "resource")}}
                             {{formInput @root.systemFields.activation.fields.consume.element.fields.resource
