@@ -23,6 +23,7 @@ import * as documents from './system/documents';
 import * as dice from './system/dice';
 
 import CosmereAPI from './system/api';
+import CosmereUtils from './system/utils/global';
 
 declare global {
     interface LenientGlobalVariableTypes {
@@ -37,11 +38,15 @@ declare global {
     // eslint-disable-next-line no-var
     var cosmereRPG: {
         api: typeof CosmereAPI;
+        utils: typeof CosmereUtils;
     };
 }
 
 Hooks.once('init', async () => {
-    globalThis.cosmereRPG = Object.assign(game.system!, { api: CosmereAPI });
+    globalThis.cosmereRPG = Object.assign(game.system!, {
+        api: CosmereAPI,
+        utils: CosmereUtils,
+    });
 
     CONFIG.COSMERE = COSMERE;
 

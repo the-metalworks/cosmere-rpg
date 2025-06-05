@@ -165,7 +165,8 @@
             filter: var(--cosmere-drop-shadow);
         }
 
-        form {            
+        form,
+        #consumables {            
             display: flex;
             flex-direction: column;
             flex: 1;
@@ -200,7 +201,12 @@
             > .form-fields {
                 display: flex;
                 flex-direction: row;
+                gap: 0.5rem;
                 flex: 2;
+
+                &.narrow {
+                    flex: 0.6;
+                }
 
                 > input[type="text"],
                 > input[type="number"] {

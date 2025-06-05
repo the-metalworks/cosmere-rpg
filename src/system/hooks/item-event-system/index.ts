@@ -37,6 +37,28 @@ const MAX_RECENT_EVENTS = 50;
  */
 const RECENT_EVENT_TIMEOUT = 200; // ms
 
+/**
+ * Flag to toggle the event system.
+ *
+ * This lets systems, like migration, operate without
+ * hitting the recent events limit and unintentionally
+ * triggering the infinite loop detection.
+ */
+let PROCESS_EVENTS = true;
+
+// Expose system toggles
+export namespace EventSystem {
+    // Enable the entire event system
+    export function enable() {
+        PROCESS_EVENTS = true;
+    }
+
+    // Disable the entire event system
+    export function disable() {
+        PROCESS_EVENTS = false;
+    }
+}
+
 // Global variables
 let lastEventTime = 0;
 let recentEventCount = 0;
@@ -125,6 +147,8 @@ async function handleEventHook(
     options?: AnyObject,
     sourceUserId?: string,
 ) {
+    if (!PROCESS_EVENTS) return;
+
     // Verify if the local user is the appropriate event execution host
     if (!shouldHostEventExecution(item, sourceUserId, config.host)) return;
 

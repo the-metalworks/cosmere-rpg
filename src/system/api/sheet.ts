@@ -2,30 +2,24 @@ import {
     ItemListSection,
     DynamicItemListSectionGenerator,
 } from '@system/types/application/actor/components/item-list';
+import { RegistrationConfig } from '../types/config';
+import { RegistrationHelper } from './helper';
 
 /**
  * Registers a new static section for the actor's actions list.
  */
 export function registerActionListSection(
-    data: ItemListSection,
-    force = false,
+    data: ItemListSection & RegistrationConfig,
 ) {
-    if (!CONFIG.COSMERE)
-        throw new Error('Cannot access api until after system is initialized.');
-
-    if (
-        data.id in
-            CONFIG.COSMERE.sheet.actor.components.actions.sections.static &&
-        !force
-    )
-        throw new Error('Cannot override existing action list section.');
-
-    if (force) {
-        console.warn('Registering action list section with force=true.');
+    if (!CONFIG.COSMERE) {
+        throw new Error(
+            'Cannot access API until after the system is initialized.',
+        );
     }
 
-    // Add to action list sections
-    CONFIG.COSMERE.sheet.actor.components.actions.sections.static[data.id] = {
+    const identifier = `action.section.static.${data.id}`;
+
+    const toRegister = {
         id: data.id,
         label: data.label,
         sortOrder: data.sortOrder,
@@ -34,10 +28,37 @@ export function registerActionListSection(
         createItemTooltip: data.createItemTooltip,
         filter: data.filter,
         new: data.new,
+    } as ItemListSection;
+
+    const register = () => {
+        RegistrationHelper.COMPLETED[identifier] = data;
+        CONFIG.COSMERE.sheet.actor.components.actions.sections.static[data.id] =
+            toRegister;
+        return true;
     };
+
+    if (
+        data.id in CONFIG.COSMERE.sheet.actor.components.actions.sections.static
+    ) {
+        // If the same object is already registered, we ignore the registration and mark it succesful.
+        if (
+            foundry.utils.objectsEqual(
+                toRegister,
+                CONFIG.COSMERE.sheet.actor.components.actions.sections.static[
+                    data.id
+                ],
+            )
+        ) {
+            return true;
+        }
+
+        return RegistrationHelper.tryRegisterConfig(identifier, data, register);
+    }
+
+    return register();
 }
 
-interface ActionListDynamicSectionData {
+interface ActionListDynamicSectionData extends RegistrationConfig {
     /**
      * Unique id for the type of dynamic section.
      */
@@ -55,27 +76,43 @@ interface ActionListDynamicSectionData {
  */
 export function registerActionListDynamicSectionGenerator(
     data: ActionListDynamicSectionData,
-    force = false,
 ) {
-    if (!CONFIG.COSMERE)
-        throw new Error('Cannot access api until after system is initialized.');
-
-    if (
-        data.id in
-            CONFIG.COSMERE.sheet.actor.components.actions.sections.dynamic &&
-        !force
-    )
+    if (!CONFIG.COSMERE) {
         throw new Error(
-            'Cannot override existing dynamic action list section.',
-        );
-
-    if (force) {
-        console.warn(
-            'Registering dynamic action list section with force=true.',
+            'Cannot access API until after the system is initialized.',
         );
     }
 
-    // Add to dynamic action list sections
-    CONFIG.COSMERE.sheet.actor.components.actions.sections.dynamic[data.id] =
-        data.generator;
+    const identifier = `action.section.dynamic.${data.id}`;
+
+    const toRegister = data.generator;
+
+    const register = () => {
+        RegistrationHelper.COMPLETED[identifier] = data;
+        CONFIG.COSMERE.sheet.actor.components.actions.sections.dynamic[
+            data.id
+        ] = toRegister;
+        return true;
+    };
+
+    if (
+        data.id in
+        CONFIG.COSMERE.sheet.actor.components.actions.sections.dynamic
+    ) {
+        // If the same object is already registered, we ignore the registration and mark it succesful.
+        if (
+            foundry.utils.objectsEqual(
+                toRegister,
+                CONFIG.COSMERE.sheet.actor.components.actions.sections.dynamic[
+                    data.id
+                ],
+            )
+        ) {
+            return true;
+        }
+
+        return RegistrationHelper.tryRegisterConfig(identifier, data, register);
+    }
+
+    return register();
 }

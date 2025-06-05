@@ -1,3 +1,4 @@
+import { DatabaseGetOperation } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/_types.mjs';
 import {
     AnyObject,
     AnyMutableObject,
@@ -6,6 +7,7 @@ import {
     InvalidCollection,
     RawDocumentData,
 } from '../types/utils';
+import { StoredDocument } from '@league-of-foundry-developers/foundry-vtt-types/src/types/utils.mjs';
 
 import { RecordCollection } from '@system/data/fields/collection';
 
@@ -119,13 +121,16 @@ function getCollectionForDocumentType(
 
 export async function getRawDocumentSources<
     T extends RawDocumentData = RawDocumentData,
->(documentType: string): Promise<T[]> {
+>(documentType: string, packID?: string): Promise<T[]> {
+    const operation: DatabaseGetOperation = {
+        query: {},
+    };
+    if (packID) operation.pack = packID;
+
     // NOTE: Use any type here as it keeps resolving to ManageCompendiumRequest instead of DocumentSocketRequest
     const { result } = await SocketInterface.dispatch('modifyDocument', {
         type: documentType,
-        operation: {
-            query: {},
-        },
+        operation,
         action: 'get',
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any);
@@ -136,26 +141,39 @@ export async function getRawDocumentSources<
 /**
  * Retrieve a document, allowing invalid results.
  */
-export function getPossiblyInvalidDocument<T extends CosmereDocument>(
+export async function getPossiblyInvalidDocument<T extends CosmereDocument>(
     documentType: string,
     id: string,
-): T {
-    return (
-        getCollectionForDocumentType(documentType) as InvalidCollection<T>
-    ).get(id, {
-        strict: true,
-        invalid: true,
-    });
+    compendium?: CompendiumCollection<CompendiumCollection.Metadata>,
+): Promise<T> {
+    if (compendium) {
+        if (compendium.invalidDocumentIds.has(id)) {
+            return compendium.getInvalid(id, { strict: true }) as T;
+        }
+        return (await compendium.getDocument(id)) as unknown as T;
+    } else {
+        return (
+            getCollectionForDocumentType(documentType) as InvalidCollection<T>
+        ).get(id, {
+            strict: true,
+            invalid: true,
+        });
+    }
 }
 
 /**
  * Determine if a document is being tracked as invalid.
  */
-function isDocumentInvalid(documentType: string, id: string): boolean {
+function isDocumentInvalid(
+    documentType: string,
+    id: string,
+    compendium?: CompendiumCollection<CompendiumCollection.Metadata>,
+): boolean {
     return (
-        getCollectionForDocumentType(
+        compendium ??
+        (getCollectionForDocumentType(
             documentType,
-        ) as InvalidCollection<CosmereDocument>
+        ) as InvalidCollection<CosmereDocument>)
     ).invalidDocumentIds.has(id);
 }
 
@@ -166,6 +184,7 @@ export function addDocumentToCollection(
     documentType: string,
     id: string,
     document: CosmereDocument,
+    compendium?: CompendiumCollection<CompendiumCollection.Metadata>,
 ) {
     // Get the correct document class for the static fromSource call.
     // This is extremely important for foundry to recognize the new
@@ -181,7 +200,7 @@ export function addDocumentToCollection(
     ) as unknown as CosmereDocument;
 
     // Manually update collection with document.
-    const collection = getCollectionForDocumentType(documentType);
+    const collection = compendium ?? getCollectionForDocumentType(documentType);
     (collection as Collection<CosmereDocument>).set(id, documentToAdd);
 
     // Stop tracking this id as invalid.
@@ -200,9 +219,15 @@ export function addDocumentToCollection(
 export function fixInvalidDocument(
     documentType: string,
     document: CosmereDocument,
+    compendium?: CompendiumCollection<CompendiumCollection.Metadata>,
 ) {
-    if (isDocumentInvalid(documentType, document.id)) {
-        addDocumentToCollection(documentType, document.id, document);
+    if (isDocumentInvalid(documentType, document.id, compendium)) {
+        addDocumentToCollection(
+            documentType,
+            document.id,
+            document,
+            compendium,
+        );
     }
 }
 

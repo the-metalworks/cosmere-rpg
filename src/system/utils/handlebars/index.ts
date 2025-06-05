@@ -13,17 +13,18 @@ import {
     TurnSpeed,
 } from '@src/system/types/cosmere';
 
-import { CharacterActor, CosmereActor } from '@system/documents/actor';
+import { CosmereActor } from '@system/documents/actor';
 import { CosmereItem } from '@system/documents/item';
 import { AttributeData } from '@system/data/actor';
 import { Derived } from '@system/data/fields';
 
-import { AnyObject } from '@src/system/types/utils';
+import { AnyObject, NumberRange } from '@src/system/types/utils';
 
 import { ItemContext, ItemContextOptions } from './types';
 import { TEMPLATES } from '../templates';
 import { SYSTEM_ID } from '@src/system/constants';
 import { CosmereTurn } from '@src/system/applications/combat';
+import { ItemConsumeData } from '@src/system/data/item/mixins/activatable';
 
 Handlebars.registerHelper('add', (a: number, b: number) => a + b);
 Handlebars.registerHelper('sub', (a: number, b: number) => a - b);
@@ -497,6 +498,80 @@ Handlebars.registerHelper('getCombatActedState', (turn: CosmereTurn) => {
 
     // track a boss's additional fast turn separately
     return turn.bossFastActivated;
+});
+
+/**
+ * Get the resource cost label of an item in an actor's action list
+ */
+Handlebars.registerHelper('resourceCostLabel', (consume: ItemConsumeData) => {
+    const { value } = consume;
+    const resource = game.i18n!.localize(
+        consume.resource
+            ? CONFIG.COSMERE.resources[consume.resource].label
+            : 'GENERIC.Unknown',
+    );
+
+    let label = '';
+
+    // Get adjusted minimum value, to account for optional formatting
+    const adjustedMin = Math.max(value.min, 1);
+
+    // Static range
+    if (adjustedMin === value.max) {
+        label = game.i18n!.format(
+            'COSMERE.Actor.Sheet.Actions.Consume.Static',
+            {
+                amount: adjustedMin,
+                resource,
+            },
+        );
+    }
+    // Uncapped range
+    else if (value.max === -1) {
+        label = game.i18n!.format(
+            'COSMERE.Actor.Sheet.Actions.Consume.RangeUncapped',
+            {
+                amount: adjustedMin,
+                resource,
+            },
+        );
+    }
+    // Capped range
+    else {
+        label = game.i18n!.format(
+            'COSMERE.Actor.Sheet.Actions.Consume.RangeCapped',
+            {
+                min: adjustedMin,
+                max: value.max,
+                resource,
+            },
+        );
+    }
+
+    // Treat actual minimum value of 0 as an "optional" cost
+    if (value.min === 0) {
+        label = game.i18n!.format(
+            'COSMERE.Actor.Sheet.Actions.Consume.Optional',
+            {
+                label,
+            },
+        );
+    }
+
+    return label;
+});
+
+/**
+ * Format the resource cost input field of an item's activation config
+ */
+Handlebars.registerHelper('resourceCostInput', (value: NumberRange) => {
+    if (value.min === value.max) {
+        return value.min.toString();
+    } else if (value.max === -1) {
+        return `${value.min}+`;
+    } else {
+        return `${value.min}-${value.max}`;
+    }
 });
 
 Handlebars.registerHelper('entries', (obj: AnyObject) => {

@@ -177,11 +177,13 @@ export class CosmereActor<
 
     public get favorites(): CosmereItem[] {
         return this.items
-            .filter((i) => i.getFlag(SYSTEM_ID, 'favorites.isFavorite'))
+            .filter((i) => i.isFavorite)
             .sort(
                 (a, b) =>
-                    a.getFlag<number>(SYSTEM_ID, 'favorites.sort') -
-                    b.getFlag<number>(SYSTEM_ID, 'favorites.sort'),
+                    (a.getFlag<number>(SYSTEM_ID, 'favorites.sort') ??
+                        Number.MAX_VALUE) -
+                    (b.getFlag<number>(SYSTEM_ID, 'favorites.sort') ??
+                        Number.MAX_VALUE),
             );
     }
 
@@ -564,7 +566,7 @@ export class CosmereActor<
         }
     }
 
-    public getMode(modality: string): string | null {
+    public getMode(modality: string) {
         return this.getFlag(SYSTEM_ID, `mode.${modality}`);
     }
 
