@@ -1,4 +1,8 @@
-import { RawActorData, RawDocumentData } from '@src/system/types/utils';
+import {
+    AnyObject,
+    RawActorData,
+    RawDocumentData,
+} from '@src/system/types/utils';
 import {
     fixInvalidDocument as fixDocumentIfInvalid,
     getPossiblyInvalidDocument,
@@ -28,7 +32,7 @@ export default {
             const items = await getRawDocumentSources('Item', packID);
             await migrateItems(items, compendium);
         }
-      
+
         /**
          * Embedded Items
          */
@@ -80,7 +84,7 @@ async function migrateItems(
 
 async function migrateEmbeddedItems(
     actors: RawActorData[],
-    compendium?: CompendiumCollection<CompendiumCollection.Metadata>
+    compendium?: CompendiumCollection<CompendiumCollection.Metadata>,
 ) {
     await Promise.all(
         actors.map(async (actor) => {
@@ -97,7 +101,7 @@ async function migrateEmbeddedItems(
                 }
 
                 // Retrieve document
-                const document = getPossiblyInvalidDocument<CosmereActor>(
+                const document = await getPossiblyInvalidDocument<CosmereActor>(
                     'Actor',
                     actor._id,
                 );
@@ -117,22 +121,29 @@ function migrateItemData(item: RawDocumentData<any>, changes: object) {
      */
     if ('activation' in item.system) {
         /* --- Consumption Options --- */
-        if (
-            'consume' in item.system.activation &&
-            !Array.isArray(item.system.activation.consume)
-        ) {
-            const newConsumption: ItemConsumeData[] = [];
+        if ('consume' in item.system.activation) {
+            // Consumption options can be fully migrated, not migrated
+            // at all, or in a halfway state (array, but not a number range).
+            // Use AnyObject here to allow us to catch all three cases.
+            const consumptionToMigrate: AnyObject[] = Array.isArray(
+                item.system.activation.consume,
+            )
+                ? (item.system.activation.consume as AnyObject[])
+                : [];
 
-            if (item.system.activation.consume) {
-                newConsumption.push({
-                    type: item.system.activation.consume
-                        .type as ItemConsumeType,
-                    value: {
-                        min: item.system.activation.consume.value as number,
-                        max: item.system.activation.consume.value as number,
-                    },
-                } as ItemConsumeData);
-            }
+            const newConsumption = consumptionToMigrate.map(
+                (consume) =>
+                    ({
+                        type: consume.type as ItemConsumeType,
+                        value:
+                            'min' in (consume.value as AnyObject)
+                                ? consume.value // Ignore already migrated data
+                                : {
+                                      min: consume.value as number,
+                                      max: consume.value as number,
+                                  },
+                    }) as ItemConsumeData,
+            );
 
             foundry.utils.mergeObject(changes, {
                 ['system.activation.consume']: newConsumption,
