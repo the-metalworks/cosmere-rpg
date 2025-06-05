@@ -56,8 +56,6 @@ async function migrateItems(
     items: RawDocumentData<any>[],
     compendium?: CompendiumCollection<CompendiumCollection.Metadata>,
 ) {
-    console.log('Migrating items', items);
-
     for (const item of items) {
         try {
             const changes = {};
@@ -89,7 +87,6 @@ async function migrateEmbeddedItems(
 ) {
     for (const actor of actors) {
         if (actor.items.length === 0) return;
-        console.log('Migrating embedded items', actor.items);
 
         try {
             const changes: object[] = [];
@@ -131,8 +128,6 @@ function migrateItemData(item: RawDocumentData<any>, changes: object) {
                 ? (item.system.activation.consume as AnyObject[])
                 : [item.system.activation.consume as AnyObject];
 
-            console.log('To migrate', consumptionToMigrate);
-
             const newConsumption = consumptionToMigrate
                 .filter((consume) => !!consume)
                 .map((consume) => {
@@ -163,8 +158,6 @@ function migrateItemData(item: RawDocumentData<any>, changes: object) {
                             : {}),
                     } as ItemConsumeData;
                 });
-
-            console.log('New consume', newConsumption);
 
             foundry.utils.mergeObject(changes, {
                 ['system.activation.consume']: newConsumption,
