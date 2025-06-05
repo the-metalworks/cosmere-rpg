@@ -285,6 +285,8 @@ export function deregisterApplicationInstance(
         ComponentHandlebarsApplication<ApplicationV2Constructor<AnyObject>>
     >,
 ) {
+    console.log('Deregistering application instance:', application.id);
+
     // Destroy all components that belonged to this application
     Object.keys(componentRegistry).forEach((componentRef) => {
         if (componentRef.startsWith(application.id)) {
@@ -297,6 +299,8 @@ export function deregisterApplicationInstance(
 }
 
 export function destroyComponent(componentRef: string, recursive = true) {
+    console.log('Destroying component:', componentRef, recursive);
+
     // Get component instance
     const instance = getComponentInstance(componentRef);
     if (!instance)
@@ -625,7 +629,7 @@ export function removeOrphanedComponents(applicationId: string) {
     components.forEach(([ref, { dirty, selector, instance }]) => {
         if (dirty) {
             // Destroy component
-            destroyComponent(ref);
+            destroyComponent(ref, false);
         }
     });
 }

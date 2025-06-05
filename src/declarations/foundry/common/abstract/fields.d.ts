@@ -330,7 +330,7 @@ declare namespace foundry {
                     context?: DataFieldContext,
                 );
 
-                choices: string[] | object;
+                choices: string[] | object | (() => string[] | object);
             }
 
             class ObjectField extends DataField {}
@@ -348,6 +348,8 @@ declare namespace foundry {
             }
 
             class ArrayField extends DataField {
+                public readonly element: DataField;
+
                 constructor(
                     element: DataField,
                     options?: ArrayFieldOptions,

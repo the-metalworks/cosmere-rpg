@@ -51,6 +51,7 @@ import { ModalityItemData } from '@system/data/item/mixins/modality';
 import { TalentsProviderData } from '@system/data/item/mixins/talents-provider';
 import { EventsItemData } from '@system/data/item/mixins/events';
 import { DeflectItemData } from '@system/data/item/mixins/deflect';
+import { LinkedSkillsItemData } from '@system/data/item/mixins/linked-skills';
 
 // Rolls
 import {
@@ -270,6 +271,13 @@ export class CosmereItem<
      */
     public hasEvents(): this is CosmereItem<EventsItemData> {
         return 'events' in this.system;
+    }
+
+    /**
+     * Whether or not this item supports linked skills.
+     */
+    public hasLinkedSkills(): this is CosmereItem<LinkedSkillsItemData> {
+        return 'linkedSkills' in this.system;
     }
 
     /* --- Accessors --- */

@@ -1,24 +1,26 @@
-import { CultureItem } from '@system/documents/item';
+import { CosmereItem } from '@system/documents/item';
 import { ConstructorOf } from '@system/types/utils';
-import { SYSTEM_ID } from '@src/system/constants';
-import { TEMPLATES } from '@src/system/utils/templates';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
 import { BaseActorSheetRenderContext } from '../../base';
 import { CharacterSheet } from '../../character-sheet';
 
+// Constants
+import { SYSTEM_ID } from '@system/constants';
+import { TEMPLATES } from '@system/utils/templates';
+
 // NOTE: Must use type here instead of interface as an interface doesn't match AnyObject type
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 type Params = {
-    culture: CultureItem;
+    item: CosmereItem;
 };
 
-export class CharacterCultureComponent extends HandlebarsApplicationComponent<
+export class CharacterSkillLinkedItemComponent extends HandlebarsApplicationComponent<
     ConstructorOf<CharacterSheet>,
     Params
 > {
-    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_CULTURE}`;
+    static readonly TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_SKILL_LINKED_ITEM}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions
@@ -26,46 +28,39 @@ export class CharacterCultureComponent extends HandlebarsApplicationComponent<
      */
     /* eslint-disable @typescript-eslint/unbound-method */
     static ACTIONS = {
-        remove: this.onRemove,
         view: this.onView,
     };
     /* eslint-enable @typescript-eslint/unbound-method */
 
     /* --- Actions --- */
 
-    private static onRemove(this: CharacterCultureComponent) {
-        void this.params!.culture.delete();
-    }
-
-    private static onView(this: CharacterCultureComponent) {
-        void this.params!.culture.sheet?.render(true);
+    private static onView(
+        this: CharacterSkillLinkedItemComponent,
+        event: Event,
+    ) {
+        void this.item.sheet?.render(true);
     }
 
     /* --- Accessors --- */
 
-    public get item(): CultureItem {
-        return this.params!.culture;
-    }
-
-    public get culture(): CultureItem {
-        return this.params!.culture;
+    public get item(): CosmereItem {
+        return this.params!.item;
     }
 
     /* --- Context --- */
 
     public _prepareContext(
-        params: Params,
+        params: object,
         context: BaseActorSheetRenderContext,
     ) {
         return Promise.resolve({
             ...context,
-
-            culture: {
-                label: this.culture.name,
-                img: this.culture.img,
-            },
-            skills: this.culture.hasLinkedSkills()
-                ? this.culture.system.linkedSkills
+            item: this.item,
+            id: this.item.id,
+            img: this.item.img,
+            typeLabel: this.item.isTyped() ? this.item.system.typeLabel : null,
+            skills: this.item.hasLinkedSkills()
+                ? this.item.system.linkedSkills
                       .filter(
                           (skillId) =>
                               this.application.actor.system.skills[skillId]
@@ -90,4 +85,4 @@ export class CharacterCultureComponent extends HandlebarsApplicationComponent<
 }
 
 // Register the component
-CharacterCultureComponent.register('app-character-culture');
+CharacterSkillLinkedItemComponent.register('app-character-skill-linked-item');

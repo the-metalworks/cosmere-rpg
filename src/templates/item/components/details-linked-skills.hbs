@@ -1,0 +1,18 @@
+{{#if hasLinkedSkills}}
+    <div class="item-details-form">
+        <div class="form-group">
+            <label>
+                {{localize @root.systemFields.linkedSkills.label}}
+                <i class="info fa-regular fa-circle-question"
+                    data-tooltip="{{localize @root.systemFields.linkedSkills.hint type=typeLabel}}"></i>
+            </label>
+            <div class="form-fields">
+                {{app-multi-value-select
+                    name="system.linkedSkills"
+                    value=@root.item.system.linkedSkills
+                    options=@root.linkedSkillsOptions
+                }}
+            </div>
+        </div>
+    </div>
+{{/if}}
