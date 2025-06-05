@@ -3,6 +3,7 @@ export * from './actor';
 export * from './item';
 export * from './style';
 export * from './sheet';
+export * from './helper';
 
 import * as GeneralAPI from './general';
 import * as ActorAPI from './actor';

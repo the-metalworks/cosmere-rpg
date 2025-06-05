@@ -11,6 +11,7 @@ import {
     AnyObject,
     NONE,
     AnyMutableObject,
+    NumberRange,
 } from '@system/types/utils';
 import { renderSystemTemplate, TEMPLATES } from '@src/system/utils/templates';
 
@@ -448,7 +449,46 @@ export class BaseItemSheet extends TabsApplicationMixin(
             };
 
             const dataKey = parts[2];
-            existingConsumeData[dataKey] = formData.get(formKey);
+
+            // Parse actual value range from input text
+            if (dataKey === 'value') {
+                const newConsumeData: NumberRange = {
+                    min: 0,
+                    max: 0,
+                };
+
+                const valueInput = formData.get(formKey)?.toString() ?? '0';
+                const valueParts = valueInput.split('-');
+
+                if (valueParts.length === 1) {
+                    const value = valueParts[0];
+                    const isRange = value.endsWith('+');
+
+                    const parsed = parseInt(value);
+                    if (!isNaN(parsed)) {
+                        newConsumeData.min = parsed;
+
+                        newConsumeData.max = isRange ? -1 : parsed;
+                    }
+                } else {
+                    const base = parseInt(valueParts[0]);
+                    const cap = parseInt(valueParts[1]);
+
+                    if (!isNaN(base)) {
+                        newConsumeData.min = base;
+                    }
+
+                    if (!isNaN(cap)) {
+                        newConsumeData.max = cap;
+                    } else {
+                        newConsumeData.max = newConsumeData.min;
+                    }
+                }
+
+                existingConsumeData[dataKey] = newConsumeData;
+            } else {
+                existingConsumeData[dataKey] = formData.get(formKey);
+            }
 
             // Use "None" to remove entries,
             // otherwise we have a (theoretically) valid type, so use it.

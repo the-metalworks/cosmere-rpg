@@ -37,7 +37,10 @@ export class DetailsActivationComponent extends HandlebarsApplicationComponent<
 
         activation.consume?.push({
             type: ItemConsumeType.Resource,
-            value: 0,
+            value: {
+                min: 0,
+                max: 0,
+            },
             resource: Resource.Focus,
         });
 

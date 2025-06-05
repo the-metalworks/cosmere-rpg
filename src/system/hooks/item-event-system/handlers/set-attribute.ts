@@ -25,6 +25,7 @@ interface SetAttributeHandlerConfigData {
 
 export function register() {
     cosmereRPG.api.registerItemEventHandlerType({
+        source: SYSTEM_ID,
         type: HandlerType.SetAttribute,
         label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.SetAttribute}.Title`,
         description: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.SetAttribute}.Description`,
