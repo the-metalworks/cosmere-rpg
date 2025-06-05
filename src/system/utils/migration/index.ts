@@ -10,6 +10,7 @@ import MIGRATE_0_3__1_0 from './migrations/0.3-1.0';
 
 // Constants
 import { HOOKS } from '@system/constants/hooks';
+import { EventSystem } from '@src/system/hooks/item-event-system';
 const MIGRATIONS: Migration[] = [MIGRATE_0_2__0_3, MIGRATE_0_3__1_0];
 
 /**
@@ -32,7 +33,11 @@ export function requiresMigration(from: string, to: string) {
 /**
  * Execute any relevant migrations between the two versions
  */
-export async function migrate(from: string, to: string) {
+export async function migrate(from: string, to: string, packID?: string) {
+    // Disable event system to prevent infinite loop errors when performing
+    // substantial migrations
+    EventSystem.disable();
+
     // Reduce versions to format 'major.minor'
     from = simplifyVersion(from);
     to = simplifyVersion(to);
@@ -68,18 +73,29 @@ export async function migrate(from: string, to: string) {
             migration.to,
         );
 
+        const packName = packID ? ` (${packID})` : '';
+
         try {
             console.log(
-                `[${SYSTEM_ID}] Migration ${migration.from} -> ${migration.to}: Running`,
+                `[${SYSTEM_ID}] Migration ${migration.from} -> ${migration.to}: Running${packName}`,
             );
-            await migration.execute();
+
+            if (packID) {
+                await migration.execute(packID);
+            } else {
+                await migration.execute();
+            }
+
             console.log(
-                `[${SYSTEM_ID}] Migration ${migration.from} -> ${migration.to}: Succeeded`,
+                `[${SYSTEM_ID}] Migration ${migration.from} -> ${migration.to}: Succeeded${packName}`,
             );
         } catch (err) {
-            console.error(`[${SYSTEM_ID}] Error running data migration:`, err);
+            console.error(
+                `[${SYSTEM_ID}] Error running data migration${packName}:`,
+                err,
+            );
             console.log(
-                `[${SYSTEM_ID}] Migration ${migration.from} -> ${migration.to}: Failed, exiting`,
+                `[${SYSTEM_ID}] Migration ${migration.from} -> ${migration.to}: Failed${packName}, exiting`,
             );
             return;
         }
@@ -104,6 +120,42 @@ export async function migrate(from: string, to: string) {
      * Hook: migration
      */
     Hooks.callAll<CosmereHooks.Migration>(HOOKS.MIGRATION, from, to);
+
+    // Re-enable event system
+    EventSystem.enable();
+}
+
+/* --- Manual Invocation --- */
+export async function invokeMigration(
+    from: string,
+    to: string,
+    compendiumIDs: string[] = [],
+) {
+    if (!game.user!.isGM) return;
+    if (!requiresMigration(from, to)) return;
+
+    // Migrate world data
+    if (compendiumIDs.length === 0) {
+        await migrate(from, to);
+        return;
+    }
+
+    // Migrate compendiums synchronously
+    for (const id of compendiumIDs) {
+        // Ensure compendiums exist
+        const compendium = game.packs?.get(id);
+        if (!compendium) return;
+
+        // Ensure compendiums are unlocked
+        const wasLocked = compendium.locked;
+        await compendium.configure({ locked: false });
+
+        // Migrate data across full range
+        await migrate(from, to, compendium.collection);
+
+        // Restore compendium to original locked/unlocked state
+        await compendium.configure({ locked: wasLocked });
+    }
 }
 
 /* --- Helpers --- */

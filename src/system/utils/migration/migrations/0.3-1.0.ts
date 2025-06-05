@@ -10,12 +10,22 @@ import { handleDocumentMigrationError } from '../utils';
 export default {
     from: '0.3',
     to: '1.0',
-    execute: async () => {
+    execute: async (packID?: string) => {
+        // Get relevant compendium, if any
+        let compendium:
+            | CompendiumCollection<CompendiumCollection.Metadata>
+            | undefined;
+        if (packID) {
+            compendium = game.packs?.get(packID);
+        }
+
         /**
          * Items
          */
-        const items = await getRawDocumentSources('Item');
-        await migrateItems(items);
+        if (!compendium || compendium.documentName === 'Item') {
+            const items = await getRawDocumentSources('Item', packID);
+            await migrateItems(items, compendium);
+        }
     },
 };
 
@@ -25,7 +35,10 @@ export default {
 
 // NOTE: Use any here as we're dealing with raw actor data
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access */
-async function migrateItems(items: RawDocumentData<any>[]) {
+async function migrateItems(
+    items: RawDocumentData<any>[],
+    compendium?: CompendiumCollection<CompendiumCollection.Metadata>,
+) {
     console.log('Migrating items', items);
 
     await Promise.all(
@@ -52,9 +65,10 @@ async function migrateItems(items: RawDocumentData<any>[]) {
                 }
 
                 // Retrieve document
-                const document = getPossiblyInvalidDocument<CosmereItem>(
+                const document = await getPossiblyInvalidDocument<CosmereItem>(
                     'Item',
                     item._id,
+                    compendium,
                 );
 
                 // Apply changes
@@ -62,7 +76,7 @@ async function migrateItems(items: RawDocumentData<any>[]) {
                 await document.update(changes, { diff: false });
 
                 // Ensure invalid documents are properly instantiated
-                fixDocumentIfInvalid('Item', document);
+                fixDocumentIfInvalid('Item', document, compendium);
             } catch (err: unknown) {
                 handleDocumentMigrationError(err, 'Item', item);
             }
