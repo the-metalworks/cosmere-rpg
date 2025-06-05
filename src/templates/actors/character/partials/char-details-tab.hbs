@@ -5,6 +5,10 @@
         {{#each @root.attributeGroups as |group|}}
             {{app-actor-skills-group group-id=group}}
         {{/each}}
+
+        {{#if (gt @root.actor.orphanedSkills.length 0)}}
+            {{app-actor-skills-group skills=@root.actor.orphanedSkills}}
+        {{/if}}
     </section>
     <section>
         <div class="lineage">
@@ -27,6 +31,10 @@
             {{/if}}
             
             {{app-character-paths-list}}
+
+            {{#each @root.actor.skillLinkedItems as |item|}}
+                {{app-character-skill-linked-item item=item}}
+            {{/each}}
         </div>
     </section>
 </div>

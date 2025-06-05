@@ -10,6 +10,9 @@ interface TypedItemMixinOptions<Type extends string = string> {
 
 export interface TypedItemData<T extends string = string> {
     type: T;
+
+    readonly typeLabel: string;
+    readonly typeSelectOptions: Record<string | number, string>;
 }
 
 export function TypedItemMixin<
@@ -41,9 +44,11 @@ export function TypedItemMixin<
             }
 
             get typeSelectOptions(): Record<string | number, string> {
-                const choices = (
+                let choices = (
                     this.schema.fields.type as foundry.data.fields.StringField
                 ).choices;
+
+                if (choices instanceof Function) choices = choices();
 
                 if (Array.isArray(choices)) {
                     return (choices as string[]).reduce(
@@ -56,6 +61,11 @@ export function TypedItemMixin<
                 } else {
                     return choices as Record<string, string>;
                 }
+            }
+
+            get typeLabel(): string {
+                const options = this.typeSelectOptions;
+                return options[this.type] ?? this.type;
             }
         };
     };

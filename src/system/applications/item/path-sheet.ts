@@ -53,27 +53,4 @@ export class PathItemSheet extends TalentsTabMixin(
     get item(): PathItem {
         return super.document;
     }
-
-    /* --- Context --- */
-
-    public async _prepareContext(
-        options: DeepPartial<foundry.applications.api.ApplicationV2.RenderOptions>,
-    ) {
-        // Get non-core (locked) skills
-        const linkedSkillsOptions = Object.entries(CONFIG.COSMERE.skills)
-            .filter(([key, config]) => !config.core)
-            .reduce(
-                (acc, [key, config]) => ({
-                    ...acc,
-                    [key]: config.label,
-                }),
-                {},
-            );
-
-        return {
-            ...(await super._prepareContext(options)),
-
-            linkedSkillsOptions,
-        };
-    }
 }

@@ -28,6 +28,10 @@ import { TraitsItemMixin, TraitsItemData } from './mixins/traits';
 import { PhysicalItemMixin, PhysicalItemData } from './mixins/physical';
 import { ExpertiseItemMixin, ExpertiseItemData } from './mixins/expertise';
 import { EventsItemMixin, EventsItemData } from './mixins/events';
+import {
+    LinkedSkillsMixin,
+    LinkedSkillsItemData,
+} from './mixins/linked-skills';
 
 export interface WeaponItemData
     extends IdItemData<WeaponId>,
@@ -40,7 +44,8 @@ export interface WeaponItemData
         ExpertiseItemData,
         TraitsItemData<WeaponTraitId>,
         Partial<PhysicalItemData>,
-        EventsItemData {}
+        EventsItemData,
+        LinkedSkillsItemData {}
 
 export class WeaponItemDataModel extends DataModelMixin<
     WeaponItemData,
@@ -89,6 +94,7 @@ export class WeaponItemDataModel extends DataModelMixin<
     TraitsItemMixin(),
     PhysicalItemMixin(),
     EventsItemMixin(),
+    LinkedSkillsMixin(),
 ) {
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), {});
