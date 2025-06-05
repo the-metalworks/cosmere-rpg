@@ -252,13 +252,15 @@ export class CollectionField<
                 _id?: string;
             };
 
-            // Determine the key
-            const prevKey = key;
-            key = this.getItemKey(cleaned) ?? key;
+            if (key.startsWith('-=')) {
+                value[key] = cleaned;
+            } else {
+                // Determine the key
+                const prevKey = key;
+                key = this.getItemKey(cleaned) ?? key;
 
-            // Set the value
-            if (key !== prevKey && prevKey !== `-=${key}`) {
-                delete value[prevKey];
+                if (key !== prevKey) delete value[prevKey];
+
                 value[key] = cleaned;
             }
         });
