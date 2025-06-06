@@ -69,6 +69,8 @@ export class ActorSkillComponent extends HandlebarsApplicationComponent<
     ) {
         event.preventDefault();
 
+        if (!this.application.isEditable) return;
+
         // Check if click is left or right mouse button
         const isLeftClick: boolean = event.type === 'click' ? true : false;
         // Check if the legacy behavior is toggled on
@@ -80,6 +82,8 @@ export class ActorSkillComponent extends HandlebarsApplicationComponent<
         const skillId = $(event.currentTarget!)
             .closest('[data-id]')
             .data('id') as Skill;
+
+        if (!skillId) return;
 
         if (!shouldIncDec) {
             // Get the index of the clicked pip
