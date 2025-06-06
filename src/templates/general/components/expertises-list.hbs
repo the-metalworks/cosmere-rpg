@@ -20,13 +20,13 @@
         <div class="wrapper">
             {{#each expertises as |expertise|}}
             <div class="pill" data-id="{{expertise.id}}"
-                data-tooltip="{{expertise.label}} ({{localize expertise.typeLabel}})">
-                <span class="name">{{expertise.label}}</span>
+                data-tooltip="{{localize expertise.label}} ({{localize expertise.typeLabel}})">
+                <span class="name">{{localize expertise.label}}</span>
                 <span class="separator">|</span>
                 <span><i class="{{expertise.typeIcon}}" aria-label="{{localize expertise.typeLabel}}"></i></span>
             </div>
             {{/each}}
-        </div>        
+        </div>
     </div>
 </div>
 {{/if}}
