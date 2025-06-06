@@ -342,7 +342,7 @@ function configureFonts() {
             fonts: [
                 {
                     urls: [
-                        `systems/${SYSTEM_ID}/assets/fonts/penumbra-serif-std/CosmereDingbats-Regular.woff2`,
+                        `systems/${SYSTEM_ID}/assets/fonts/cosmere-dingbats/CosmereDingbats-Regular.woff2`,
                     ],
                 },
             ],
