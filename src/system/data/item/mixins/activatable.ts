@@ -242,33 +242,27 @@ export class Activation extends foundry.abstract.DataModel<ActivationData> {
                             initial: ItemConsumeType.Resource,
                         }),
                         value: new foundry.data.fields.SchemaField({
-                            min: new foundry.data.fields.NumberField(
-                                {
-                                    required: true,
-                                    nullable: false,
-                                    min: 0,
-                                    integer: true,
-                                    initial: 0,
-                                },
-                            ),
-                            max: new foundry.data.fields.NumberField(
-                                {
-                                    required: true,
-                                    nullable: false,
-                                    min: -1,
-                                    integer: true,
-                                    initial: 0,
-                                },
-                            ),
-                            actual: new foundry.data.fields.NumberField(
-                                {
-                                    required: false,
-                                    nullable: false,
-                                    min: 0,
-                                    integer: true,
-                                    initial: 0,
-                                },
-                            ),
+                            min: new foundry.data.fields.NumberField({
+                                required: true,
+                                nullable: false,
+                                min: 0,
+                                integer: true,
+                                initial: 0,
+                            }),
+                            max: new foundry.data.fields.NumberField({
+                                required: true,
+                                nullable: false,
+                                min: -1,
+                                integer: true,
+                                initial: 0,
+                            }),
+                            actual: new foundry.data.fields.NumberField({
+                                required: false,
+                                nullable: false,
+                                min: 0,
+                                integer: true,
+                                initial: 0,
+                            }),
                         }),
                         resource: new foundry.data.fields.StringField({
                             blank: false,

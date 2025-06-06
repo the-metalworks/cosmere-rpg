@@ -78,9 +78,11 @@
                 justify-content: flex-start;
                 flex-wrap: wrap;
                 gap: 0.25rem;
+                margin-top: -0.25rem;
 
                 .delim {
                     color: var(--cosmere-color-faded);
+                    margin-top: 0.25rem;
                 }
             }
         }
@@ -747,13 +749,23 @@
     app-expertises-list,
     app-actor-immunities,
     app-adversary-skills {
-        .collapsible {
-            margin-top: .2rem;
-        }
-
         .icon-header {
             color: var(--cosmere-color-faded);
             cursor: pointer;
+
+            .controls::after {
+                content: "\f078";
+                font-family: var(--font-awesome);
+                color: var(--cosmere-color-faded);
+            }
+        }
+
+        .collapsible {
+            margin-top: .2rem;
+
+            &.expanded .icon-header > .controls::after {
+                content: "\f077";
+            }
         }
     }
 

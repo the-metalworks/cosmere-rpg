@@ -50,7 +50,7 @@ export class AdversarySheet extends BaseActorSheet<AdversarySheetRenderContext> 
         return this.actor.getFlag(SYSTEM_ID, 'sheet.skillsCollapsed') ?? false;
     }
 
-    get hideUnrankedSkills() {
+    get hideUnrankedSkills(): boolean {
         return this.actor.getFlag(SYSTEM_ID, 'sheet.hideUnranked') ?? false;
     }
 

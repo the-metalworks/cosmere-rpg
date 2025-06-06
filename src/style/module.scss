@@ -124,6 +124,7 @@
 
         .window-title {
             font-weight: 600;
+            color: var(--cosmere-color-text-sub);
         }
 
         button.header-control {
@@ -655,8 +656,8 @@
         a {
             border-radius: 4px;
             background: var(--cosmere-color-base-1);
-            margin: .1rem;
-            padding: .13rem;
+            margin: 0.125rem;
+            padding: 0.125rem;
             font-weight: bold;
 
             &:hover {
@@ -667,7 +668,6 @@
         }
     }
 
-    app-character-expertises,
     app-expertises-list {
         .icon-header {
             color: var(--cosmere-color-faded);

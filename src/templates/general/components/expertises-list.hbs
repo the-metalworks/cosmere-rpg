@@ -1,4 +1,5 @@
-<div {{#if collapsable}}class="collapsible {{#unless sectionCollapsed}}expanded{{/unless}}{{/if}}">
+{{#if shouldDisplay}}
+<div {{#if collapsible}}class="collapsible {{#unless collapsed}}expanded{{/unless}}{{/if}}">
     <div class="icon-header">
         <div class="title">
             <i class="fas fa-book"></i>
@@ -19,12 +20,13 @@
         <div class="wrapper">
             {{#each expertises as |expertise|}}
             <div class="pill" data-id="{{expertise.id}}"
-                data-tooltip="{{expertise.label}} ({{localize expertise.typeLabel}})">
-                <span class="name">{{expertise.label}}</span>
+                data-tooltip="{{localize expertise.label}} ({{localize expertise.typeLabel}})">
+                <span class="name">{{localize expertise.label}}</span>
                 <span class="separator">|</span>
                 <span><i class="{{expertise.typeIcon}}" aria-label="{{localize expertise.typeLabel}}"></i></span>
             </div>
             {{/each}}
-        </div>        
+        </div>
     </div>
 </div>
+{{/if}}

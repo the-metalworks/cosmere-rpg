@@ -104,9 +104,11 @@ export class CosmereChatMessage extends ChatMessage {
         await this.enrichCardHeader(html);
         await this.enrichCardContent(html);
 
-        html.find('.collapsible > .summary, .dice-result').on(
-            'click',
-            (event) => this.onClickCollapsible(event),
+        html.find('.enricher-link > a').on('click', (event) =>
+            event.stopPropagation(),
+        );
+        html.find('.collapsible').on('click', (event) =>
+            this.onClickCollapsible(event),
         );
 
         return html;
@@ -305,9 +307,7 @@ export class CosmereChatMessage extends ChatMessage {
                   )
                 : '';
             const typeIcon = rollNormal.damageType
-                ? `<i class="fas ${
-                      CONFIG.COSMERE.damageTypes[rollNormal.damageType].icon
-                  }"></i>`
+                ? `<img src="${CONFIG.COSMERE.damageTypes[rollNormal.damageType].icon}">`
                 : '';
 
             types.add([type, typeIcon]);
@@ -315,11 +315,7 @@ export class CosmereChatMessage extends ChatMessage {
             this.totalDamageNormal += rollNormal.total ?? 0;
             partsNormal.push(rollNormal.formula);
             const tooltipNormal = $(await rollNormal.getTooltip());
-            this.enrichDamageTooltip(
-                rollNormal,
-                [type, typeIcon],
-                tooltipNormal,
-            );
+            this.enrichDamageTooltip(rollNormal, type, typeIcon, tooltipNormal);
             tooltipNormalHTML +=
                 tooltipNormal.find('.tooltip-part')[0]?.outerHTML || ``;
             if (rollNormal.options.graze) {
@@ -333,7 +329,8 @@ export class CosmereChatMessage extends ChatMessage {
                 const tooltipGraze = $(await rollGraze.getTooltip());
                 this.enrichDamageTooltip(
                     rollGraze,
-                    [type, typeIcon],
+                    type,
+                    typeIcon,
                     tooltipGraze,
                 );
                 tooltipGrazeHTML +=
@@ -643,19 +640,13 @@ export class CosmereChatMessage extends ChatMessage {
         const immunitiesTooltip = document.createElement('div');
         immunitiesTooltip.classList.add('immunity-tooltip');
         immunitiesTooltip.innerHTML = `
-            <h4>${game.i18n?.localize('COSMERE.Actor.Statistics.Immunities')}</h4>
+            <span>${game.i18n?.localize('COSMERE.Actor.Statistics.Immunities')}</span>
             ${immunityList
                 .map(
                     ([damageType, amount]) => `
-                <div>
-                    <span class="fa-stack small">
-                        <i class="fas fa-shield fa-stack-2x"></i>
-                        <i class="fas ${CONFIG.COSMERE.damageTypes[damageType].icon} fa-inverse fa-stack-1x"></i>
-                    </span>
-                    <span>${game.i18n!.localize(
-                        CONFIG.COSMERE.damageTypes[damageType].label,
-                    )}</span>
-                    <span>${amount}</span>
+                <div class="immunity">
+                    <i class="fas fa-shield"></i>
+                    <span>${game.i18n!.localize(CONFIG.COSMERE.damageTypes[damageType].label)} ${amount}</span>
                 </div>
                 `,
                 )
@@ -673,15 +664,18 @@ export class CosmereChatMessage extends ChatMessage {
      * Augment damage roll tooltips with some additional information and styling.
      * @param {DamageRoll} roll The roll instance.
      * @param {string} type The type of the damage as a string.
+     * @param {string} icon The icon of the damage type as a path string.
      * @param {JQuery} html The roll tooltip markup.
      * @returns
      */
     protected enrichDamageTooltip(
         roll: DamageRoll,
-        type: [label: string, icon: string],
+        type: string,
+        icon: string,
         html: JQuery,
     ) {
-        html.find('.label').text(`${type[0]} `).append(type[1]);
+        html.find('.label').text(type);
+        html.find('.label').parent().prepend(icon);
 
         const constant = getConstantFromRoll(roll);
         if (constant === 0) return;
@@ -736,8 +730,8 @@ export class CosmereChatMessage extends ChatMessage {
         const overlayD20 = await renderSystemTemplate(
             TEMPLATES.CHAT_OVERLAY_D20,
             {
-                imgAdvantage: `systems/${SYSTEM_ID}/assets/icons/svg/dice/retro-adv.svg`,
-                imgDisadvantage: `systems/${SYSTEM_ID}/assets/icons/svg/dice/retro-dis.svg`,
+                imgAdvantage: `systems/${SYSTEM_ID}/assets/icons/svg/dice/retro_adv.svg`,
+                imgDisadvantage: `systems/${SYSTEM_ID}/assets/icons/svg/dice/retro_dis.svg`,
             },
         );
 
@@ -749,7 +743,7 @@ export class CosmereChatMessage extends ChatMessage {
         const overlayCrit = await renderSystemTemplate(
             TEMPLATES.CHAT_OVERLAY_CRIT,
             {
-                imgCrit: `systems/${SYSTEM_ID}/assets/icons/svg/dice/retro-crit.svg`,
+                imgCrit: `systems/${SYSTEM_ID}/assets/icons/svg/dice/retro_crit.svg`,
             },
         );
 
@@ -1059,7 +1053,7 @@ export class CosmereChatMessage extends ChatMessage {
      */
     private onClickCollapsible(event: JQuery.ClickEvent) {
         event.stopPropagation();
-        const target = (event.currentTarget as HTMLElement).parentElement;
+        const target = event.currentTarget as HTMLElement;
         target?.classList.toggle('expanded');
     }
 

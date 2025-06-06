@@ -31,7 +31,6 @@ export const TEMPLATES = {
     ACTOR_BASE_CURRENCY_LIST: 'actors/components/currency-list.hbs',
     ACTOR_BASE_ATTRIBUTES: 'actors/components/attributes.hbs',
     ACTOR_BASE_IMMUNITIES: 'actors/components/immunities.hbs',
-    ACTOR_BASE_EXPERTISES: 'actors/components/expertises.hbs',
     ACTOR_BASE_CONDITIONS: 'actors/components/conditions.hbs',
     ACTOR_BASE_DETAILS: 'actors/components/details.hbs',
     ACTOR_BASE_RESOURCE: 'actors/components/resource.hbs',

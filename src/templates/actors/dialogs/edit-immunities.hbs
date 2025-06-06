@@ -13,7 +13,11 @@
                 {{#if (eq category.type 'damage')}}
                 <span class="bullet fade icon faded fa-stack">
                     <i class="fas fa-shield fa-stack-2x"></i>
-                    <i class="fas {{#if immunity.icon}}{{immunity.icon}}{{else}}fa-circle-exclamation{{/if}} fa-stack-1x"></i>
+                    {{#if immunity.icon}}                    
+                    <div class="condition-icon" style="mask:url('{{immunity.icon}}') no-repeat center;mask-size:contain;"></div>
+                    {{else}}
+                    <i class="fas fa-circle-exclamation fa-stack-1x"></i>
+                    {{/if}}
                 </span>
                 {{else if (eq category.type 'condition')}}
                 <span class="bullet fade icon faded fa-stack">

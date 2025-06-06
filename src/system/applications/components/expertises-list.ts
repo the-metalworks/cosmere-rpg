@@ -19,7 +19,7 @@ type Params = {
     name?: string;
     value?: Collection<Expertise>;
     readonly?: boolean;
-    collapsable?: boolean;
+    collapsible?: boolean;
 };
 
 export class ExpertisesListComponent extends HandlebarsApplicationComponent<
@@ -58,8 +58,12 @@ export class ExpertisesListComponent extends HandlebarsApplicationComponent<
         return this.params?.readonly === true;
     }
 
-    public get collapsable() {
-        return this.params?.collapsable ?? true;
+    public get collapsible() {
+        return this.params?.collapsible ?? true;
+    }
+
+    public get collapsed() {
+        return this._collapsed;
     }
 
     public get value() {
@@ -94,27 +98,6 @@ export class ExpertisesListComponent extends HandlebarsApplicationComponent<
             : this._value;
     }
 
-    public get collapsed() {
-        return this.application instanceof BaseActorSheet
-            ? (this.application.actor.getFlag(
-                  SYSTEM_ID,
-                  'sheet.expertisesCollapsed',
-              ) ?? false)
-            : this._collapsed;
-    }
-
-    private set collapsed(value: boolean) {
-        if (this.application instanceof BaseActorSheet) {
-            void this.application.actor.setFlag(
-                SYSTEM_ID,
-                'sheet.expertisesCollapsed',
-                value,
-            );
-        } else {
-            this._collapsed = value;
-        }
-    }
-
     /* --- Actions --- */
 
     private static onEditExpertises(
@@ -147,6 +130,11 @@ export class ExpertisesListComponent extends HandlebarsApplicationComponent<
                 `ExpertisesListComponent: No value provided, and the application is not a BaseActorSheet. This component will not work as expected.`,
             );
         }
+
+        this._collapsed =
+            this.application instanceof BaseActorSheet
+                ? this.application.areExpertisesCollapsed
+                : false;
     }
 
     protected override _onRender(params: Params) {
@@ -165,11 +153,27 @@ export class ExpertisesListComponent extends HandlebarsApplicationComponent<
             $(this.element!).attr('readonly', 'readonly');
         }
 
-        if (this.collapsable) {
+        if (this.collapsible) {
             $(this.element!)
                 .find('.collapsible .icon-header')
                 .on('click', (event) => this.onClickCollapsible(event));
         }
+    }
+
+    protected override _onDestroy(): void {
+        // Setting a flag causes a document update and therefore a re-render.
+        // We don't want to re-render every time we collapse a section because it breaks CSS transitions.
+        // This flag is therefore only stored once at the end when closing the document so that
+        // it is available in the correct state when we next open the document and get the flag in prepareContext.
+        if (this.application instanceof BaseActorSheet) {
+            void this.application.actor.setFlag(
+                SYSTEM_ID,
+                'sheet.expertisesCollapsed',
+                this._collapsed,
+            );
+        }
+
+        super._onDestroy();
     }
 
     /* --- Event handlers --- */
@@ -177,9 +181,7 @@ export class ExpertisesListComponent extends HandlebarsApplicationComponent<
     private onClickCollapsible(event: JQuery.ClickEvent) {
         const target = event.currentTarget as HTMLElement;
         target?.parentElement?.classList.toggle('expanded');
-
-        // Set the collapsed state
-        this.collapsed = !this.collapsed;
+        this._collapsed = !this._collapsed;
     }
 
     /* --- Context --- */
@@ -192,20 +194,26 @@ export class ExpertisesListComponent extends HandlebarsApplicationComponent<
                 this.application instanceof BaseActorSheet
                     ? (context as BaseActorSheetRenderContext).isEditMode
                     : !this.readonly,
-            collapsable: this.collapsable,
-            sectionCollapsed: this.collapsed,
-
+            shouldDisplay:
+                this.application instanceof BaseActorSheet
+                    ? (context as BaseActorSheetRenderContext).isEditMode ||
+                      this.expertises.size > 0
+                    : true,
+            collapsible: this.collapsible,
+            collapsed: this.collapsed,
             expertises:
-                this.expertises.map((expertise) => {
-                    const config =
-                        CONFIG.COSMERE.expertiseTypes[expertise.type];
+                this.expertises
+                    .map((expertise) => {
+                        const config =
+                            CONFIG.COSMERE.expertiseTypes[expertise.type];
 
-                    return {
-                        ...expertise,
-                        typeLabel: config.label,
-                        typeIcon: config.icon,
-                    };
-                }) ?? [],
+                        return {
+                            ...expertise,
+                            typeLabel: config.label,
+                            typeIcon: config.icon,
+                        };
+                    })
+                    .sort((e1, e2) => e1.type.compare(e2.type)) ?? [],
         });
     }
 }

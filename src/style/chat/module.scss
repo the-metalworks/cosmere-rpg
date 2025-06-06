@@ -302,6 +302,15 @@
                         color: var(--cosmere-color-dark-6) !important;
                         font-weight: 600;
                         text-transform: uppercase;
+                        display: flex;
+                        align-items: center;
+                        gap: 0.125rem;
+
+                        > img {
+                            border: none;
+                            width: 12px;
+                            opacity: 0.4;
+                        }
                     }
                 }                
 
@@ -401,6 +410,14 @@
                                     align-items: center;
                                     position: relative;
 
+                                    > img {
+                                        top: 6px;
+                                        position: absolute;
+                                        width: 30px;
+                                        border: none;
+                                        opacity: 0.1;
+                                    }
+
                                     .label {
                                         font-family: var(--cosmere-font-condensed);
                                         font-size: var(--font-size-10);
@@ -414,6 +431,8 @@
                                         color: var(--cosmere-color-dark-1);
                                         font-weight: bold;
                                         font-size: var(--font-size-20);
+                                        margin-top: -0.125rem;
+                                        margin-bottom: 0.125rem;
                                     }
 
                                     .sign {
@@ -717,15 +736,14 @@
     .enricher-link {
         a {
             border-radius: 4px;
-            background: var(--cosmere-color-base-1);
-            margin: .1rem;
-            padding: .13rem;
+            background: var(--cosmere-color-light-6);
+            margin: 0.125rem;
+            padding: 0.125rem;
             font-weight: bold;
 
             &:hover {
-                border-color: var(--cosmere-color-accent);
-                background: var(--cosmere-color-base-5);
-                box-shadow: 0 0 5px var(--cosmere-color-faded);
+                background: var(--cosmere-color-light-3);
+                box-shadow: 0 0 5px var(--cosmere-color-light-1);
             }
         }
     }
@@ -741,13 +759,19 @@
 .immunity-tooltip {
     display: flex;
     flex-direction: column;
-    font-size: var(--font-size-12);
+    font-family: var(--cosmere-font-normal);
+    font-size: var(--font-size-14);
+    font-variant: lining-nums;
+    font-weight: 600;
+    line-height: var(--font-size-14);
+    color: var(--cosmere-color-text-sub);
+    gap: 0.25rem;
 
-    .fa-stack.small {
-        font-size: var(--font-size-8);
-    }
-    
-    .fa-inverse {
-        color: var(--cosmere-color-dark-1);
-    }
+    .immunity {
+        display: flex;
+        gap: 0.25rem;
+        justify-content: center;
+        align-items: center;
+        font-size: var(--font-size-12);
+    }    
 }

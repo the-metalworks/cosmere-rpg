@@ -1074,29 +1074,29 @@ const COSMERE: CosmereRPGConfig = {
     damageTypes: {
         [DamageType.Energy]: {
             label: 'COSMERE.DamageTypes.Energy',
-            icon: 'fa-bolt',
+            icon: 'systems/cosmere-rpg/assets/icons/svg/damage/energy.svg',
         },
         [DamageType.Impact]: {
             label: 'COSMERE.DamageTypes.Impact',
-            icon: 'fa-burst',
+            icon: 'systems/cosmere-rpg/assets/icons/svg/damage/impact.svg',
         },
         [DamageType.Keen]: {
             label: 'COSMERE.DamageTypes.Keen',
-            icon: 'fa-droplet',
+            icon: 'systems/cosmere-rpg/assets/icons/svg/damage/keen.svg',
         },
         [DamageType.Spirit]: {
             label: 'COSMERE.DamageTypes.Spirit',
-            icon: 'fa-hand-sparkles',
+            icon: 'systems/cosmere-rpg/assets/icons/svg/damage/spirit.svg',
             ignoreDeflect: true,
         },
         [DamageType.Vital]: {
             label: 'COSMERE.DamageTypes.Vital',
-            icon: 'fa-skull-crossbones',
+            icon: 'systems/cosmere-rpg/assets/icons/svg/damage/vital.svg',
             ignoreDeflect: true,
         },
         [DamageType.Healing]: {
             label: 'COSMERE.DamageTypes.Healing',
-            icon: 'fa-heart',
+            icon: 'systems/cosmere-rpg/assets/icons/svg/damage/healing.svg',
             ignoreDeflect: true,
         },
     },

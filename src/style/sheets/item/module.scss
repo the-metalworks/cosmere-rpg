@@ -292,6 +292,10 @@
                 width: auto;
                 padding-bottom: 0.125rem;
                 margin-left: -0.375rem;
+
+                > option {
+                    background-color: var(--cosmere-color-base-4);
+                }
             }
         }
     }

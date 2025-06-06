@@ -69,14 +69,10 @@
     </a>
 </div>
 
-<menu class="controls-dropdown {{#if controlsDropdown.expanded}}expanded{{/if}}"
-    {{#if controlsDropdown.expanded}}
-    style="top:{{controlsDropdown.position.top}}px;right:{{controlsDropdown.position.right}}px"
-    {{/if}}
->
+<menu class="controls-dropdown">
     <li class="header-control">
         <button class="control"
-            data-action="edit-goal"
+            data-action="edit-connection"
         >
             <i class="fa-solid fa-pen-to-square"></i>
             <span>{{localize "GENERIC.Button.Edit"}}</span>
@@ -84,7 +80,7 @@
     </li>
     <li class="header-control">
         <button class="control"
-            data-action="remove-goal"
+            data-action="remove-connection"
         >
             <i class="fa-solid fa-trash"></i>
             <span>{{localize "GENERIC.Button.Remove"}}</span>
