@@ -759,13 +759,19 @@
 .immunity-tooltip {
     display: flex;
     flex-direction: column;
-    font-size: var(--font-size-12);
+    font-family: var(--cosmere-font-normal);
+    font-size: var(--font-size-14);
+    font-variant: lining-nums;
+    font-weight: 600;
+    line-height: var(--font-size-14);
+    color: var(--cosmere-color-text-sub);
+    gap: 0.25rem;
 
-    .fa-stack.small {
-        font-size: var(--font-size-8);
-    }
-    
-    .fa-inverse {
-        color: var(--cosmere-color-dark-1);
-    }
+    .immunity {
+        display: flex;
+        gap: 0.25rem;
+        justify-content: center;
+        align-items: center;
+        font-size: var(--font-size-12);
+    }    
 }

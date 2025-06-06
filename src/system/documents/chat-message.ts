@@ -640,19 +640,13 @@ export class CosmereChatMessage extends ChatMessage {
         const immunitiesTooltip = document.createElement('div');
         immunitiesTooltip.classList.add('immunity-tooltip');
         immunitiesTooltip.innerHTML = `
-            <h4>${game.i18n?.localize('COSMERE.Actor.Statistics.Immunities')}</h4>
+            <span>${game.i18n?.localize('COSMERE.Actor.Statistics.Immunities')}</span>
             ${immunityList
                 .map(
                     ([damageType, amount]) => `
-                <div>
-                    <span class="fa-stack small">
-                        <i class="fas fa-shield fa-stack-2x"></i>
-                        <i class="fas ${CONFIG.COSMERE.damageTypes[damageType].icon} fa-inverse fa-stack-1x"></i>
-                    </span>
-                    <span>${game.i18n!.localize(
-                        CONFIG.COSMERE.damageTypes[damageType].label,
-                    )}</span>
-                    <span>${amount}</span>
+                <div class="immunity">
+                    <i class="fas fa-shield"></i>
+                    <span>${game.i18n!.localize(CONFIG.COSMERE.damageTypes[damageType].label)} ${amount}</span>
                 </div>
                 `,
                 )
