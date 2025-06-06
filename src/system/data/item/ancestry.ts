@@ -13,6 +13,10 @@ import {
     TalentsProviderData,
 } from './mixins/talents-provider';
 import { EventsItemMixin, EventsItemData } from './mixins/events';
+import {
+    LinkedSkillsMixin,
+    LinkedSkillsItemData,
+} from './mixins/linked-skills';
 
 interface TalentGrant {
     uuid: string;
@@ -29,7 +33,8 @@ export interface AncestryItemData
     extends IdItemData,
         DescriptionItemData,
         TalentsProviderData,
-        EventsItemData {
+        EventsItemData,
+        LinkedSkillsItemData {
     size: Size;
     type: {
         id: CreatureType;
@@ -65,6 +70,7 @@ export class AncestryItemDataModel extends DataModelMixin<
     }),
     TalentsProviderMixin(),
     EventsItemMixin(),
+    LinkedSkillsMixin(),
 ) {
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), {

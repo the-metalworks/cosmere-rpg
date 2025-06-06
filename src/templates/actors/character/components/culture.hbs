@@ -1,6 +1,7 @@
 {{#if culture}}
 <div class="border-box">
     <div class="wrapper">
+        {{!-- Details --}}
         <div class="details">
             <div class="title" data-action="view">    
                 <span class="name">
@@ -18,15 +19,30 @@
                 <span class="item-type">{{localize "TYPES.Item.culture"}}</span>
             </div>
         </div>
+
+        {{!-- Skills --}}
+        {{#if (gt skills.length 0)}}
+            <ul class="skill-list">
+                {{#each skills as |skill|}}
+                    <li class="skill" data-id="{{skill.id}}">
+                        {{app-actor-skill
+                            skill=skill.id
+                            readonly=(not @root.isEditMode)
+                            pips=true
+                        }}
+                    </li>
+                {{/each}}
+            </ul>
+        {{/if}}
     </div>    
     {{!-- NOTE: Currently available culture images are too low resolution to use here.
         Uncomment the following block if higher resolution images are available
         --}}
-    {{!-- {{#if culture.img}}
-    <div class="background-img">
-        <img src="{{culture.img}}">
-    </div>
-    {{/if}} --}}
+    {{#if culture.img}}
+        <div class="background-img">
+            <img src="{{culture.img}}">
+        </div>
+    {{/if}}
 </div>    
 {{> box-corners }}   
 {{else}}
