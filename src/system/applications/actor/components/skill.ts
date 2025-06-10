@@ -69,8 +69,6 @@ export class ActorSkillComponent extends HandlebarsApplicationComponent<
     ) {
         event.preventDefault();
 
-        if (!this.application.isEditable) return;
-
         // Check if click is left or right mouse button
         const isLeftClick: boolean = event.type === 'click' ? true : false;
         // Check if the legacy behavior is toggled on
