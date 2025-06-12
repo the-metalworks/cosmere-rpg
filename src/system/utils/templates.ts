@@ -8,6 +8,7 @@ export const TEMPLATES = {
     GENERAL_TABS: 'general/tabs.hbs',
     GENERAL_SHEET_CORNERS: 'general/sheet-corners.hbs',
     GENERAL_SHEET_BACKGROUND: 'general/sheet-background.hbs',
+    GENERAL_CONTEXT_MENU: 'general/context-menu.hbs',
     COMBAT_TRACKER: 'combat/combat-tracker.hbs',
     COMBAT_COMBATANT: 'combat/combatant.hbs',
 
