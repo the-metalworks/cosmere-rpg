@@ -31,16 +31,16 @@ export const GITHUB_CONTRIBUTING_URL =
     'https://github.com/the-metalworks/cosmere-rpg/blob/main/CONTRIBUTING.md';
 
 export const IMPORTED_RESOURCES = {
-    PLOT_DICE_BLANK_BUMP: `/systems/${SYSTEM_ID}/assets/art/plot_blank_bump.png`,
-    PLOT_DICE_BLANK: `/systems/${SYSTEM_ID}/assets/art/plot_blank.png`,
-    PLOT_DICE_C2_BUMP: `/systems/${SYSTEM_ID}/assets/art/plot_c2_bump.png`,
-    PLOT_DICE_C2: `/systems/${SYSTEM_ID}/assets/art/plot_c2.png`,
-    PLOT_DICE_C4_BUMP: `/systems/${SYSTEM_ID}/assets/art/plot_c4_bump.png`,
-    PLOT_DICE_C4: `/systems/${SYSTEM_ID}/assets/art/plot_c4.png`,
-    PLOT_DICE_OP_BUMP: `/systems/${SYSTEM_ID}/assets/art/plot_op_bump.png`,
-    PLOT_DICE_OP: `/systems/${SYSTEM_ID}/assets/art/plot_op.png`,
+    PLOT_DICE_BLANK_BUMP: `systems/${SYSTEM_ID}/assets/art/plot_blank_bump.png`,
+    PLOT_DICE_BLANK: `systems/${SYSTEM_ID}/assets/art/plot_blank.png`,
+    PLOT_DICE_C2_BUMP: `systems/${SYSTEM_ID}/assets/art/plot_c2_bump.png`,
+    PLOT_DICE_C2: `systems/${SYSTEM_ID}/assets/art/plot_c2.png`,
+    PLOT_DICE_C4_BUMP: `systems/${SYSTEM_ID}/assets/art/plot_c4_bump.png`,
+    PLOT_DICE_C4: `systems/${SYSTEM_ID}/assets/art/plot_c4.png`,
+    PLOT_DICE_OP_BUMP: `systems/${SYSTEM_ID}/assets/art/plot_op_bump.png`,
+    PLOT_DICE_OP: `systems/${SYSTEM_ID}/assets/art/plot_op.png`,
 
-    PLOT_DICE_C2_IN_CHAT: `/systems/${SYSTEM_ID}/assets/icons/svg/dice/dp_c2.svg`,
-    PLOT_DICE_C4_IN_CHAT: `/systems/${SYSTEM_ID}/assets/icons/svg/dice/dp_c4.svg`,
-    PLOT_DICE_OP_IN_CHAT: `/systems/${SYSTEM_ID}/assets/icons/svg/dice/dp_op.svg`,
+    PLOT_DICE_C2_IN_CHAT: `systems/${SYSTEM_ID}/assets/icons/svg/dice/dp_c2.svg`,
+    PLOT_DICE_C4_IN_CHAT: `systems/${SYSTEM_ID}/assets/icons/svg/dice/dp_c4.svg`,
+    PLOT_DICE_OP_IN_CHAT: `systems/${SYSTEM_ID}/assets/icons/svg/dice/dp_op.svg`,
 };
