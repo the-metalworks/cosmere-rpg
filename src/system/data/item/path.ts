@@ -13,18 +13,19 @@ import {
     TalentsProviderMixin,
     TalentsProviderData,
 } from './mixins/talents-provider';
+import { EventsItemMixin, EventsItemData } from './mixins/events';
+import {
+    LinkedSkillsMixin,
+    LinkedSkillsItemData,
+} from './mixins/linked-skills';
 
 export interface PathItemData
     extends IdItemData,
         TypedItemData<PathType>,
         DescriptionItemData,
-        TalentsProviderData {
-    /**
-     * The non-core skills linked to this path.
-     * These skills are displayed with the path in the sheet.
-     */
-    linkedSkills: Skill[];
-}
+        TalentsProviderData,
+        EventsItemData,
+        LinkedSkillsItemData {}
 
 export class PathItemDataModel extends DataModelMixin<
     PathItemData,
@@ -47,34 +48,11 @@ export class PathItemDataModel extends DataModelMixin<
         value: 'COSMERE.Item.Type.Path.desc_placeholder',
     }),
     TalentsProviderMixin(),
+    EventsItemMixin(),
+    LinkedSkillsMixin(),
 ) {
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), {
-            linkedSkills: new foundry.data.fields.ArrayField(
-                new foundry.data.fields.StringField({
-                    required: true,
-                    nullable: false,
-                    blank: false,
-                    choices: () =>
-                        Object.entries(CONFIG.COSMERE.skills)
-                            .filter(([key, skill]) => !skill.core)
-                            .reduce(
-                                (acc, [key, skill]) => ({
-                                    ...acc,
-                                    [key]: skill.label,
-                                }),
-                                {},
-                            ),
-                }),
-                {
-                    required: true,
-                    nullable: false,
-                    initial: [],
-                    label: 'COSMERE.Item.Path.LinkedSkills.Label',
-                    hint: 'COSMERE.Item.Path.LinkedSkills.Hint',
-                },
-            ),
-
             // TODO: Advancements
         });
     }

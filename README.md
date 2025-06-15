@@ -14,3 +14,17 @@ For guidelines on how to create Issues, please see [CONTRIBUTING.md](./CONTRIBUT
 
 ## Contributing
 Wish to contribute? Check out [CONTRIBUTING.md](./CONTRIBUTING.md).
+
+## License
+The code and original assets in this project are licensed under the [MIT License](./LICENSE).
+
+However, some content in this repository is included with permission from Brotherwise Games and is **not** covered by the MIT License.
+
+This includes (but may not be limited to) the following directories:
+- `src/packs/rules/`
+- `src/packs/tables/`
+
+These directories contain official material from the *Cosmere Roleplaying Game* and are subject to separate terms.  
+Each includes a `LICENSE` file with the relevant details.
+
+Do not copy, redistribute, or reuse this content outside of this project.

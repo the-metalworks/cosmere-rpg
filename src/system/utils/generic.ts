@@ -1,4 +1,5 @@
-import { CosmereActor } from '../documents';
+import { CosmereActor } from '@system/documents/actor';
+import { CosmereItem } from '@system/documents/item';
 import {
     getSystemKeybinding,
     getSystemSetting,
@@ -8,6 +9,23 @@ import {
 } from '../settings';
 import { AdvantageMode } from '../types/roll';
 import { NONE } from '../types/utils';
+
+const HTML_TAG_REGEX = /<[^>]+>/g;
+
+/**
+ * Checks if a given HTML string has any content or is just whitespace.
+ * @param htmlString The HTML string to check.
+ * @returns True if the HTML string has content, false otherwise.
+ */
+export function htmlStringHasContent(htmlString: string | undefined): boolean {
+    // If the string is undefined or null, return false
+    if (!htmlString) return false;
+
+    // Remove HTML tags and trim whitespace
+    const content = htmlString.replace(HTML_TAG_REGEX, '').trim();
+    // Check if the content is not empty
+    return content.length > 0;
+}
 
 /**
  * Determine if the keys of a requested keybinding are pressed.
@@ -67,21 +85,54 @@ export function getNullableFromFormInput<T>(formField: string | null) {
     return formField && formField !== NONE ? (formField as T) : null;
 }
 
+export interface ConfigurationMode {
+    fastForward: boolean;
+    advantageMode: AdvantageMode;
+    plotDie: boolean;
+}
+
 /**
  * Processes pressed keys and provided config values to determine final values for a roll, specifically:
  * if it should skip the configuration dialog, what advantage mode it is using, and if it has raised stakes.
- * @param {boolean} [configure] Should the roll dialog be skipped?
- * @param {boolean} [advantage] Is something granting this roll advantage?
- * @param {boolean} [disadvantage] Is something granting this roll disadvantage?
- * @param {boolean} [raiseStakes] Is something granting this roll raised stakes?
- * @returns {{fastForward: boolean, advantageMode: AdvantageMode, plotDie: boolean}} Whether a roll should fast forward, have a plot die, and its advantage mode.
+ * @param configure Should the roll dialog be skipped?
+ * @param advantage Is something granting this roll advantage?
+ * @param disadvantage Is something granting this roll disadvantage?
+ * @param raiseStakes Is something granting this roll raised stakes?
+ * @returns Whether a roll should fast forward, have a plot die, and its advantage mode.
  */
+export function determineConfigurationMode(
+    useOptions?: CosmereItem.UseOptions,
+): ConfigurationMode;
 export function determineConfigurationMode(
     configure?: boolean,
     advantage?: boolean,
     disadvantage?: boolean,
     raiseStakes?: boolean,
-) {
+): ConfigurationMode;
+export function determineConfigurationMode(
+    ...args:
+        | [CosmereItem.UseOptions?]
+        | [boolean?, boolean?, boolean?, boolean?]
+): ConfigurationMode {
+    const useOptions =
+        args.length === 1
+            ? (args[0] as CosmereItem.UseOptions | undefined)
+            : undefined;
+
+    const [configure, advantage, disadvantage, raiseStakes] =
+        args.length === 1
+            ? [
+                  useOptions?.configurable,
+                  useOptions?.advantageMode !== undefined
+                      ? useOptions.advantageMode === AdvantageMode.Advantage
+                      : undefined,
+                  useOptions?.advantageMode !== undefined
+                      ? useOptions.advantageMode === AdvantageMode.Disadvantage
+                      : undefined,
+                  useOptions?.plotDie,
+              ]
+            : args;
+
     const modifiers = {
         advantage: areKeysPressed(KEYBINDINGS.SKIP_DIALOG_ADVANTAGE),
         disadvantage: areKeysPressed(KEYBINDINGS.SKIP_DIALOG_DISADVANTAGE),

@@ -2,7 +2,7 @@
     "id": "cosmere-rpg",
     "title": "Cosmere Roleplaying Game",
     "description": "A community-developed system for playing the Cosmere Roleplaying Game, by Dragonsteel Entertainment and Brotherwise Games.",
-    "version": "0.3.1",
+    "version": "1.0.0",
     "compatibility": {
         "minimum": "12",
         "verified": "12"
@@ -13,8 +13,12 @@
             "url": "https://github.com/the-metalworks"
         }
     ],
-    "esmodules": ["index.js"],
-    "styles": ["output.css"],
+    "esmodules": [
+        "index.js"
+    ],
+    "styles": [
+        "output.css"
+    ],
     "documentTypes": {
         "Actor": {
             "character": {},
@@ -25,33 +29,53 @@
             "armor": {},
             "equipment": {},
             "loot": {},
-
             "ancestry": {},
             "culture": {},
             "path": {},
             "specialty": {},
             "talent": {},
             "trait": {},
-
             "action": {},
-
             "injury": {},
             "connection": {},
             "goal": {},
-
             "power": {},
-
             "talent_tree": {}
         }
     },
     "packs": [
+        {
+            "name": "rules",
+            "label": "Rules",
+            "system": "cosmere-rpg",
+            "path": "packs/rules",
+            "type": "JournalEntry",
+            "ownership": {
+                "PLAYER": "OBSERVER",
+                "ASSISTANT": "OWNER"
+            }
+        },
         {
             "name": "tables",
             "label": "Roll Tables",
             "system": "cosmere-rpg",
             "path": "packs/tables",
             "type": "RollTable",
-            "private": false
+            "ownership": {
+                "PLAYER": "OBSERVER",
+                "ASSISTANT": "OWNER"
+            }
+        }
+    ],
+    "packFolders": [
+        {
+            "name": "Cosmere RPG",
+            "sorting": "m",
+            "color": "#141f3c",
+            "packs": [
+                "rules",
+                "tables"
+            ]
         }
     ],
     "languages": [
@@ -66,7 +90,8 @@
         "distance": 5,
         "units": "ft"
     },
+    "background": "systems/cosmere-rpg/assets/art/foundry_setup_Cosmere_RPG.webp",
     "url": "https://github.com/the-metalworks/cosmere-rpg",
     "manifest": "https://raw.githubusercontent.com/the-metalworks/cosmere-rpg/main/src/system.json",
-    "download": "https://github.com/the-metalworks/cosmere-rpg/releases/download/release-0.3.1/cosmere-rpg-release-0.3.1.zip"
+    "download": "https://github.com/the-metalworks/cosmere-rpg/releases/download/release-1.0.0/cosmere-rpg-release-1.0.0.zip"
 }

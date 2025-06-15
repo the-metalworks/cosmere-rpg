@@ -19,3 +19,14 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+---
+
+### Exceptions
+This project is primarily licensed under the MIT License. However, the following directories contain content that is **excluded from the MIT License**:
+
+- `src/packs/rules/`
+- `src/packs/tables/`
+
+Content within these directories is included with permission from Brotherwise Games, LLC and is subject to separate restrictions.  
+See the respective `LICENSE` files in each directory for specific terms.

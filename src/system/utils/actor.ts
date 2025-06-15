@@ -1,5 +1,5 @@
-import { CreatureType } from '@system/types/cosmere';
-import { CommonActorData } from '@system/data/actor/common';
+import { CreatureType, ExpertiseType } from '@system/types/cosmere';
+import { CommonActorData, Expertise } from '@system/data/actor/common';
 import { CosmereActor } from '../documents';
 
 export function getTypeLabel(type: CommonActorData['type']): string {
@@ -22,21 +22,39 @@ export function getTypeLabel(type: CommonActorData['type']): string {
     return `${primaryLabel} ${subtype ? `(${subtype})` : ''}`.trim();
 }
 
-export async function getActor(actorId: string) {
-    return actorId.startsWith('Compendium')
-        ? await getActorFromCompendium(actorId)
-        : getActorFromCollection(actorId.split('.')[1] ?? '');
+export async function getActor(uuid: string) {
+    const { collection, documentId, id, type } = foundry.utils.parseUuid(uuid);
+
+    const document =
+        collection instanceof CompendiumCollection
+            ? ((await collection.getDocument(documentId!)) as CosmereActor)
+            : (collection!.get(documentId!) as Scene | CosmereActor);
+
+    return document instanceof Scene
+        ? (document.tokens.get(uuid.split('.')[3])!.actor as CosmereActor)
+        : document;
 }
 
-const getActorFromCollection = (actorId: string) =>
-    (game.actors as Actors).get(actorId) as CosmereActor;
-
-const getActorFromCompendium = async (uuid: string) => {
-    const components = uuid.split('.');
-    const pack = `${components[1]}.${components[2]}`; // Get pack name
-    const actorId = components[4] ?? '';
-
-    return (await game.packs
-        ?.get(pack)
-        ?.getDocument(actorId)) as unknown as CosmereActor;
-};
+/**
+ * Utility function to check if a given expertise is present in a collection of expertises.
+ */
+export function containsExpertise(
+    collection: Collection<Expertise>,
+    expertise: Expertise,
+): boolean;
+export function containsExpertise(
+    collection: Collection<Expertise>,
+    type: ExpertiseType,
+    id: string,
+): boolean;
+export function containsExpertise(
+    collection: Collection<Expertise>,
+    ...rest: [Expertise] | [ExpertiseType, string]
+): boolean;
+export function containsExpertise(
+    collection: Collection<Expertise>,
+    ...rest: [Expertise] | [ExpertiseType, string]
+): boolean {
+    const [type, id] = rest.length === 1 ? [rest[0].type, rest[0].id] : rest;
+    return collection.has(Expertise.getKey({ type, id }));
+}

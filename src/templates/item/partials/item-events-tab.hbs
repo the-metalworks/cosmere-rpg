@@ -1,0 +1,7 @@
+{{#with (lookup tabsMap "events") as |tab|}}
+
+<div class="tab tab-content {{tab.cssClass}}" data-tab="events" data-group="primary">
+    {{app-item-event-rules-list}}
+</div>
+
+{{/with}}

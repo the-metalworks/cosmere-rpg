@@ -50,6 +50,7 @@ class TalentTreeNodeField extends foundry.data.fields.SchemaField {
                     required: true,
                     nullable: false,
                     blank: false,
+                    readonly: false,
                 }),
                 type: new foundry.data.fields.StringField({
                     required: false,
@@ -67,10 +68,12 @@ class TalentTreeNodeField extends foundry.data.fields.SchemaField {
                         x: new foundry.data.fields.NumberField({
                             required: true,
                             nullable: false,
+                            label: 'COSMERE.Item.TalentTree.Node.Position.X.Label',
                         }),
                         y: new foundry.data.fields.NumberField({
                             required: true,
                             nullable: false,
+                            label: 'COSMERE.Item.TalentTree.Node.Position.Y.Label',
                         }),
                     },
                     {
@@ -211,6 +214,8 @@ class TalentTreeNodeField extends foundry.data.fields.SchemaField {
                         id: new foundry.data.fields.DocumentIdField({
                             required: true,
                             nullable: false,
+                            blank: false,
+                            readonly: false,
                         }),
                         prerequisiteId: new foundry.data.fields.DocumentIdField(
                             {

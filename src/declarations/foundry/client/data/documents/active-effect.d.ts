@@ -1,8 +1,3 @@
-// declare interface ActiveEffect {
-//     get id(): string;
-//     get parent(): foundry.abstract.Document | null;
-// }
-
 declare namespace ActiveEffect {
     interface EffectChangeData {
         /**

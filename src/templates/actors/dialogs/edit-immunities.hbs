@@ -1,0 +1,39 @@
+<div class="scroll-container">    
+    <form>        
+        {{#each categories as |category|}}
+        <ul class="immunities-list">
+            <li class="form-group header">
+                <span class="title">
+                    {{#if category.label}}<i class="{{category.icon}}"></i>{{/if}}
+                    {{localize category.label}}</span>
+            </li>
+
+            {{#each category.configuredImmunities as |immunity|}}
+            <li class="form-group configured">
+                {{#if (eq category.type 'damage')}}
+                <span class="bullet fade icon faded fa-stack">
+                    <i class="fas fa-shield fa-stack-2x"></i>
+                    {{#if immunity.icon}}                    
+                    <div class="condition-icon" style="mask:url('{{immunity.icon}}') no-repeat center;mask-size:contain;"></div>
+                    {{else}}
+                    <i class="fas fa-circle-exclamation fa-stack-1x"></i>
+                    {{/if}}
+                </span>
+                {{else if (eq category.type 'condition')}}
+                <span class="bullet fade icon faded fa-stack">
+                    <i class="fas fa-shield fa-stack-2x"></i>
+                    <div class="condition-icon" style="mask:url('{{immunity.icon}}') no-repeat center;mask-size:contain;"></div>
+                </span>
+                {{else}}
+                <i class="bullet fade icon faded fas fa-shield"></i>
+                {{/if}}
+                <label>{{localize immunity.label}}</label>
+                <input type="checkbox" name="{{category.type}}.{{immunity.name}}" 
+                    {{#if immunity.isImmune}}checked{{/if}}
+                >
+            </li>
+            {{/each}}
+        </ul>
+        {{/each}}
+    </form>
+</div>

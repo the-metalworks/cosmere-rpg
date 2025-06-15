@@ -65,6 +65,8 @@ declare namespace foundry {
                  * is thrown in the validate function, the string message of that Error is used.
                  */
                 validationError?: string;
+
+                readonly?: boolean;
             }
 
             interface DataFieldContext {
@@ -95,6 +97,9 @@ declare namespace foundry {
                  * The initially provided options which configure the data field
                  */
                 options: Options;
+
+                initial: Options['initial'];
+                label: string;
 
                 /**
                  * Whether this field defines part of a Document/Embedded Document hierarchy.
@@ -282,6 +287,8 @@ declare namespace foundry {
             }
 
             class NumberField extends DataField {
+                options: NumberFieldOptions;
+
                 constructor(
                     options?: NumberFieldOptions,
                     context?: DataFieldContext,
@@ -316,12 +323,14 @@ declare namespace foundry {
             }
 
             class StringField extends DataField {
+                options: StringFieldOptions;
+
                 constructor(
                     options?: StringFieldOptions,
                     context?: DataFieldContext,
                 );
 
-                choices: string[] | object;
+                choices: string[] | object | (() => string[] | object);
             }
 
             class ObjectField extends DataField {}
@@ -339,6 +348,8 @@ declare namespace foundry {
             }
 
             class ArrayField extends DataField {
+                public readonly element: DataField;
+
                 constructor(
                     element: DataField,
                     options?: ArrayFieldOptions,
@@ -400,6 +411,8 @@ declare namespace foundry {
                  * Does this field require (or prohibit) embedded documents?
                  */
                 embedded?: boolean;
+
+                single?: boolean;
             }
 
             /**

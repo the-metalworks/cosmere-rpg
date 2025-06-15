@@ -81,6 +81,8 @@ export class ActorSkillComponent extends HandlebarsApplicationComponent<
             .closest('[data-id]')
             .data('id') as Skill;
 
+        if (!skillId) return;
+
         if (!shouldIncDec) {
             // Get the index of the clicked pip
             const rankIndex: number = $(event.currentTarget!).data(

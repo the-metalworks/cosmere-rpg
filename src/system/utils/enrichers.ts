@@ -4,6 +4,9 @@ import { Attribute, AttributeGroup, DamageType, Skill } from '../types/cosmere';
 import { getActor } from './actor';
 import { TargetDescriptor } from './generic';
 
+// Constants
+import { SYSTEM_ID } from '@system/constants';
+
 // Full Documentation: https://github.com/the-metalworks/cosmere-rpg/wiki/Enrichers
 
 interface EnricherConfig {
@@ -163,7 +166,7 @@ function createRollLink(
     const span = document.createElement('span');
     span.classList.add('enricher-link');
     span.innerHTML = `
-        <a onclick="Hooks.call('trigger${type.titleCase()}Enricher', &quot;${options?.actorId}&quot;, &quot;${options?.source}&quot;, ${JSON.stringify(options?.data).replaceAll('"', '&quot;')})">
+        <a onclick="Hooks.call('${SYSTEM_ID}.trigger${type.titleCase()}Enricher', &quot;${options?.actorId}&quot;, &quot;${options?.source}&quot;, ${JSON.stringify(options?.data).replaceAll('"', '&quot;')})">
             <i class="fa-solid fa-dice-d20"></i> ${linkLabel}
         </a> ${postLink}
     `;
@@ -257,7 +260,7 @@ function enrichLookup(
  * becomes
  * ```html
  * <span class="enricher-link">
- *      <a onclick="Hooks.on('triggerTestEnricher', "Actor.####", "Source.uuid",{"skill":"inm", "attribute"=""})">
+ *      <a onclick="Hooks.on('cosmere-rpg.triggerTestEnricher', "Actor.####", "Source.uuid",{"skill":"inm", "attribute"=""})">
  *          <i class="fa-solid fa-dice-d20"></i> Intimidation test
  *      </a>
  * </span>
@@ -265,11 +268,12 @@ function enrichLookup(
  *
  * For full examples see https://github.com/the-metalworks/cosmere-rpg/wiki/Enrichers#tests
  */
-async function enrichTest(
+function enrichTest(
     config: EnricherConfig,
     label?: string,
     options?: TextEditor.EnrichmentOptions,
 ) {
+    const source = options?.relativeTo;
     let skillConfig: SkillConfig | undefined = undefined;
     let attributeConfig: AttributeConfig | undefined = undefined;
     if (config.skill && typeof config.skill === 'string') {
@@ -284,7 +288,7 @@ async function enrichTest(
     }
 
     const data = (
-        options?.relativeTo as unknown as CosmereActor | CosmereItem
+        source as unknown as CosmereActor | CosmereItem
     ).getEnricherData();
     if (config.dc && typeof config.dc === 'string') {
         try {
@@ -305,16 +309,13 @@ async function enrichTest(
             ) ??
             game.i18n?.localize('COSMERE.Actor.Statistics.Defense') ??
             'Bad Config';
-        config.dc = (await getActor(data.target?.uuid ?? ''))?.system.defenses[
-            config.defence as AttributeGroup
-        ].value;
+        config.dc =
+            data.target?.def[config.defence as 'phy' | 'spi' | 'cog'] ?? 0;
     }
 
     const labelText = label
         ? { linkLabel: label, postLink: '' }
         : buildTestLabel(config, skillConfig, attributeConfig);
-
-    const source = options?.relativeTo;
     const linkOptions = {
         actorId:
             source instanceof CosmereActor
@@ -350,7 +351,7 @@ async function enrichTest(
  * becomes
  * ```html
  * <span class="enricher-link">
- *      <a onclick="Hooks.on('triggerDamageEnricher', "Actor.####", "Source.uuid",{"formula":"2d8", "damageType":"vital"})">
+ *      <a onclick="Hooks.on('cosmere-rpg.triggerDamageEnricher', "Actor.####", "Source.uuid",{"formula":"2d8", "damageType":"vital"})">
  *          <i class="fa-solid fa-dice-d20"></i> 2d8 Vital
  *      </a> damage
  * </span>
@@ -399,18 +400,16 @@ async function enrichDamage(
 
     const source = options?.relativeTo;
     // grab the actor (we need the roll data unfortunately)
-    const actorId =
-        source instanceof CosmereActor
-            ? source.uuid
-            : (source as unknown as CosmereItem).actor?.uuid;
-    const actor = await getActor(actorId ?? '');
+    const data = (
+        source as unknown as CosmereActor | CosmereItem
+    ).getEnricherData();
 
     // convert any actor properties passed in. Note: currently it doesn't collate like terms...
     // This will need tweaking when allowing multiple damage types if we got that route
     const terms = Roll.simplifyTerms(
         Roll.defaultImplementation.parse(
             formulaParts.join(' + '),
-            actor?.getRollData() ?? {},
+            data.actor ?? {},
         ),
     );
     formula = terms.map((t) => t.formula).join(' ');
@@ -426,7 +425,10 @@ async function enrichDamage(
 
     // encode the data for the click action
     const linkOptions = {
-        actorId,
+        actorId:
+            source instanceof CosmereActor
+                ? source.uuid
+                : ((source as unknown as CosmereItem).actor?.uuid ?? ''),
         source: source?.uuid ?? '',
         data: {
             formula: setValue,

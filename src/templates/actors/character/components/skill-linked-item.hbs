@@ -1,0 +1,34 @@
+<div class="border-box">
+    <div class="wrapper">
+        {{!-- Details --}}
+        <div class="details">        
+            <div class="title" data-action="view">
+                <span class="name">{{item.name}}</span>
+                <span class="item-type">{{localize typeLabel}} {{localize (concat "TYPES.Item." item.type)}}</span>
+            </div>
+        </div>
+
+        {{!-- Skills --}}
+        {{#if (gt skills.length 0)}}
+            <ul class="skill-list">
+                {{#each skills as |skill|}}
+                    <li class="skill" data-id="{{skill.id}}">
+                        {{app-actor-skill
+                            skill=skill.id
+                            readonly=(not @root.isEditMode)
+                            pips=true
+                        }}
+                    </li>
+                {{/each}}
+            </ul>
+        {{/if}}
+    </div>        
+
+    {{!-- Background image --}}
+    {{#if img}}
+        <div class="background-img">
+            <img src="{{img}}">
+        </div>
+    {{/if}}
+</div>
+{{> box-corners }}

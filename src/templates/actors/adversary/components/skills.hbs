@@ -1,0 +1,44 @@
+{{#if (or hasActiveSkills isEditMode)}}
+<div class="collapsible {{#unless sectionCollapsed}}expanded{{/unless}}">
+    <div class="icon-header">
+        <div class="title">
+            <i class="fas fa-briefcase"></i>
+            <span>{{localize "COSMERE.Actor.Skill.label_p"}}</span>
+        </div>
+        <div class="controls">
+            <a role="button"
+                data-action="toggle-hide-unranked"
+                data-tooltip="COSMERE.Actor.Sheet.{{#if hideUnranked}}ToggleShowSkills{{else}}ToggleCollapseSkills{{/if}}"
+            >
+                {{#if hideUnranked}}
+                <i class="fas fa-eye"></i>
+                {{else}}
+                <i class="fas fa-eye-slash"></i>
+                {{/if}}
+            </a>
+            {{#if isEditMode}}
+            <a role="button"
+                data-action="configure-skills"
+                data-tooltip="COSMERE.Actor.Sheet.ConfigureSkills"
+            >
+                <i class="fas fa-gear"></i>
+            </a>
+            {{/if}}
+        </div>
+    </div>    
+    <div class="pills-list collapsible-content">
+        <div class="wrapper">
+            {{#each skills as |skill|}}
+            {{#if skill.active}}
+            <div class="pill" data-id="{{skill.id}}" data-action="roll-skill"
+                data-tooltip="{{localize skill.config.label}} ({{localize skill.attributeLabel}})">
+                <span class="name">{{localize skill.config.label}}</span>
+                <span class="separator">|</span>
+                <span>+{{derived skill.mod}}</span>
+            </div>
+            {{/if}}
+            {{/each}}
+        </div>        
+    </div>
+</div>
+{{/if}}

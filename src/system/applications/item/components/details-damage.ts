@@ -23,7 +23,6 @@ export class DetailsDamageComponent extends HandlebarsApplicationComponent<
 
     private static onToggleGrazeCollapsed(this: DetailsDamageComponent) {
         this.grazeOverrideCollapsed = !this.grazeOverrideCollapsed;
-        void this.render();
     }
 
     /* --- Context --- */
@@ -44,7 +43,8 @@ export class DetailsDamageComponent extends HandlebarsApplicationComponent<
             this.application.item.system.activation.type ===
                 ActivationType.SkillTest;
         const hasSkill =
-            hasSkillTest && this.application.item.system.activation.skill;
+            hasSkillTest &&
+            this.application.item.system.activation.resolvedSkill;
 
         this.grazeOverrideCollapsed = this.application.item.system.damage
             .grazeOverrideFormula

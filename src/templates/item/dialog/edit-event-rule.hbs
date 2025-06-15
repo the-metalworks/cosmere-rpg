@@ -1,0 +1,62 @@
+<form>
+    {{!-- Description --}}
+    {{formGroup rule.schema.fields.description
+        value=rule.description
+        name="description"
+        localize=true
+    }}
+
+    {{!-- Trigger --}}
+    {{formGroup rule.schema.fields.event
+        value=rule.event
+        name="event"
+        localize=true
+        choices=eventSelectOptions
+    }}
+
+    <div class="form-group trigger-hint">
+        <p class="hint">
+            {{localize rule.eventTypeDescription}}
+        </p>
+    </div>
+
+    <fieldset>
+        <legend>Handler</legend>
+
+        {{!-- Handler --}}
+        {{formGroup rule.handler.schema.fields.type
+            value=rule.handler.type
+            name="handler.type"
+            localize=true
+        }}
+
+        <div class="form-group handler-hint">
+            <p class="hint">
+                {{localize rule.handler.typeDescription}}
+            </p>
+        </div>
+
+        {{!-- Handler config fields --}}
+        {{#if shouldAutoPopulateConfigFields}}
+            {{!-- Auto generate fields based on schema --}}
+            {{#each (entries rule.handler.configSchema.fields) as |entry|}}
+                {{formGroup entry.value
+                    value=(lookup @root.rule.handler entry.key)
+                    name=(concat "handler." entry.key)
+                    localize=true
+                }}
+            {{/each}}
+        {{else}}
+            {{!-- Custom rendered fields --}}
+            {{{handlerConfigHtml}}}
+        {{/if}}
+
+    </fieldset>
+
+    {{!-- Submit --}}
+    <div class="form-group submit">
+        <button data-action="update" type="submit">
+            {{localize "GENERIC.Button.Update"}}
+        </button>
+    </div>
+</form>

@@ -1,0 +1,22 @@
+{{!-- Skill --}}
+{{formGroup handler.schema.fields.skill
+    name="handler.skill"
+    value=handler.skill
+    localize=true
+}}
+
+{{!-- Amount --}}
+<div class="form-group">
+    <label>
+        {{localize handler.schema.fields.amount.label}}
+        <i class="info fa-regular fa-circle-question" 
+            data-tooltip="{{localize handler.schema.fields.amount.hint}}"
+        ></i>
+    </label>
+    <div class="form-fields">
+        {{formInput handler.schema.fields.amount
+            name="handler.amount"
+            value=handler.amount
+        }}
+    </div>
+</div>

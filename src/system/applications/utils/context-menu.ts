@@ -1,3 +1,5 @@
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 import { MouseButton } from '@system/types/utils';
 
 export namespace AppContextMenu {
@@ -60,7 +62,7 @@ type Positioning = {
 } & ({ right: number } | { left: number });
 
 // Constants
-const TEMPLATE = '/systems/cosmere-rpg/templates/general/context-menu.hbs';
+const TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.GENERAL_CONTEXT_MENU}`;
 
 export class AppContextMenu {
     /**
@@ -238,14 +240,20 @@ export class AppContextMenu {
 
             // Figure out positioning with anchor
             positioning = {
-                top: elementBounds.bottom - rootBounds.top,
+                top: elementBounds.top - rootBounds.top,
 
                 ...(this.anchor === 'right'
                     ? {
-                          right: rootBounds.right - elementBounds.right,
+                          right:
+                              rootBounds.right -
+                              elementBounds.right +
+                              elementBounds.width,
                       }
                     : {
-                          left: elementBounds.left - rootBounds.left,
+                          left:
+                              elementBounds.left -
+                              rootBounds.left -
+                              elementBounds.width,
                       }),
             };
         }

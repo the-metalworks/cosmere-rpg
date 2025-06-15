@@ -20,7 +20,7 @@ import { AppContextMenu } from '@system/applications/utils/context-menu';
 import { GridViewport, TalentTreeWorld, CanvasElements } from './canvas';
 
 // Constants
-import { GRID_SIZE } from './constants';
+import { GRID_SIZE, EDIT_MENU_WIDTH } from './constants';
 
 export class TalentTreeEditorComponent extends TalentTreeViewComponent {
     static TEMPLATE =
@@ -45,6 +45,7 @@ export class TalentTreeEditorComponent extends TalentTreeViewComponent {
         event: Event,
     ) {
         event.preventDefault();
+        event.stopPropagation();
 
         // Get the visible bounds
         const bounds = this.app!.viewport.visibleBounds;
@@ -70,7 +71,7 @@ export class TalentTreeEditorComponent extends TalentTreeViewComponent {
                 height: bounds.height,
             },
             'system.display': {
-                width: windowSize.width - 400,
+                width: windowSize.width - EDIT_MENU_WIDTH,
                 height: windowSize.height,
             },
         });
@@ -83,7 +84,10 @@ export class TalentTreeEditorComponent extends TalentTreeViewComponent {
         const bounds = this.element!.getBoundingClientRect();
 
         // Set size
-        this.app!.app.renderer.resize(bounds.width - 400, bounds.height);
+        this.app!.app.renderer.resize(
+            bounds.width - EDIT_MENU_WIDTH,
+            bounds.height,
+        );
 
         // Render canvas
         await this.canvasTree!.refresh();

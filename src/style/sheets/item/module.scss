@@ -85,6 +85,8 @@
                 flex: none;
                 height: 72px;
                 margin-top: -0.375rem;
+                display: flex;
+                justify-content: center;
     
                 &::after {
                     box-shadow: inset 0 0 12px var(--cosmere-shadow-85);
@@ -99,12 +101,13 @@
                 }
     
                 img {
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                    object-position: center;
+                    max-width: 100%;
+                    max-height: 100%;
+                    height: auto;
+                    width: auto;
                     border: none;
                     margin: unset;
+                    flex: 0;
                 }
     
                 img:hover {
@@ -181,6 +184,7 @@
             gap: 0.25rem;
             justify-content: space-between;
             align-items: center;
+            height: 32px;
 
             > label {
                 flex: none !important;
@@ -194,6 +198,37 @@
 
             .controls {
                 color: var(--cosmere-color-faded);
+            }
+        }
+
+        &.collapsible {
+            .header {
+                cursor: pointer;
+
+                > label {
+                    cursor: pointer;
+                }
+
+                .collapse-label {
+                    display: block;
+                }
+
+                .controls {
+                    transition: all 250ms ease;
+                    transform: rotate(90deg);
+                }
+            }
+        }
+
+        &.expanded {
+            .header {
+                .collapse-label {
+                    display: none;
+                }
+
+                .controls {
+                    transform: none;
+                }
             }
         }
     }
@@ -257,6 +292,10 @@
                 width: auto;
                 padding-bottom: 0.125rem;
                 margin-left: -0.375rem;
+
+                > option {
+                    background-color: var(--cosmere-color-base-4);
+                }
             }
         }
     }
@@ -271,9 +310,11 @@
     app-item-details-attack,
     app-item-details-damage,
     app-item-details-equip,
+    app-item-details-deflect,
     app-item-details-id,
     app-item-details-modality,
     app-item-details-type,
+    app-talent-tree-editor .menu,
     .item-details-form {
         display: flex;
         flex-direction: column;
@@ -302,7 +343,6 @@
             flex: 1;
             font-weight: 600;
             font-variant: lining-nums;
-            margin-top: 3px;
 
             .units {
                 color: var(--cosmere-color-faded);
@@ -314,9 +354,24 @@
             gap: 0.625rem;
             margin: 0;
             min-height: 32px;
+          
+            &.collapsible {
+                gap: 0;
+
+                &.expanded {
+                    gap: 0.5rem;
+                }
+            }
+
+            .form-fields-list {
+                display: flex;
+                flex-direction: column;
+                flex: 2;
+                gap: 0.25rem;
+            }
 
             > app-id-input,
-            > .form-fields {
+            .form-fields {
                 display: flex;
                 flex-direction: row;
                 flex: 2;
@@ -355,6 +410,10 @@
                     }
                 }
 
+                > .extra {
+                    flex: 0;
+                }
+
                 > .delim {
                     flex: none;
                 }
@@ -368,7 +427,6 @@
     }
 
     app-goal-rewards-list {
-
         .item.reward .details .name > span {
             margin-left: 0.125rem;
         }

@@ -265,7 +265,7 @@ export class D20Roll extends foundry.dice.Roll<D20RollData> {
                 ? this.data.attributes[result.attribute]
                 : { value: 0, bonus: 0 };
             this.terms[2] = new foundry.dice.terms.NumericTerm({
-                number: skill.rank + attribute.value,
+                number: skill.rank + attribute.value + attribute.bonus,
             });
         }
 
@@ -383,6 +383,7 @@ export class D20Roll extends foundry.dice.Roll<D20RollData> {
                 modifiers,
             });
             const baseRoll = D20Roll.fromTerms([baseTerm]);
+            baseRoll.options = this.options;
 
             const total = (baseRoll?.total ?? 0) + (bonusRoll?.total ?? 0);
 
