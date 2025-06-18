@@ -1034,6 +1034,10 @@ const COSMERE: CosmereRPGConfig = {
                 label: 'COSMERE.Item.Action.Type.Ancestry.label',
                 labelPlural: 'COSMERE.Item.Action.Type.Ancestry.label_plural',
             },
+            [ActionType.Adversary]: {
+                label: 'COSMERE.Item.Action.Type.Adversary.label',
+                labelPlural: 'COSMERE.Item.Action.Type.Adversary.label_plural',
+            },
         },
         costs: {
             [ActionCostType.Action]: {
