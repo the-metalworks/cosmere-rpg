@@ -467,6 +467,10 @@
                     "Ancestry": {
                         "label": "Ancestry Action",
                         "label_plural": "Ancestry Actions"
+                    },
+                    "Adversary": {
+                        "label": "Adversary Action",
+                        "label_plural": "Adversary Actions"
                     }
                 },
                 "Ancestry": {
