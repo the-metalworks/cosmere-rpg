@@ -382,17 +382,7 @@ export class TalentTreeNode extends BaseNode {
                             talentNode.prerequisites.some(
                                 (prereq) =>
                                     prereq.type ===
-                                        TalentTree.Node.Prerequisite.Type
-                                            .Talent &&
-                                    Array.from(prereq.talents).every((ref) =>
-                                        this.item.system.nodes.some(
-                                            (n) =>
-                                                n.type ===
-                                                    TalentTree.Node.Type
-                                                        .Talent &&
-                                                n.talentId === ref.id,
-                                        ),
-                                    ),
+                                    TalentTree.Node.Prerequisite.Type.Talent,
                             ),
                     )
                     .map((talentNode) =>
