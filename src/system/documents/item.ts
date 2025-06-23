@@ -73,6 +73,7 @@ import {
 } from '@system/utils/generic';
 import { EnricherData } from '../utils/enrichers';
 import { renderSystemTemplate, TEMPLATES } from '@system/utils/templates';
+import { getEmbedHelpers } from '@system/utils/embed';
 
 // Dialogs
 import { AttackConfigurationDialog } from '@system/applications/dialogs/attack-configuration';
@@ -351,6 +352,40 @@ export class CosmereItem<
                 this.handleGoalComplete();
             }
         }
+    }
+    protected override _buildEmbedHTML(
+        config: DocumentHTMLEmbedConfig,
+        options?: EnrichmentOptions,
+    ): Promise<HTMLElement | HTMLCollection | null> {
+        const embedHelpers = getEmbedHelpers(this);
+        return (
+            embedHelpers.buildEmbedHTML?.(this, config, options) ??
+            super._buildEmbedHTML(config, options)
+        );
+    }
+
+    protected override _createInlineEmbed(
+        content: HTMLElement | HTMLCollection,
+        config: DocumentHTMLEmbedConfig,
+        options?: EnrichmentOptions,
+    ): Promise<HTMLElement | null> {
+        const embedHelpers = getEmbedHelpers(this);
+        return (
+            embedHelpers.createInlineEmbed?.(this, content, config, options) ??
+            super._createInlineEmbed(content, config, options)
+        );
+    }
+
+    protected override _createFigureEmbed(
+        content: HTMLElement | HTMLCollection,
+        config: DocumentHTMLEmbedConfig,
+        options?: EnrichmentOptions,
+    ): Promise<HTMLElement | null> {
+        const embedHelpers = getEmbedHelpers(this);
+        return (
+            embedHelpers.createFigureEmbed?.(this, content, config, options) ??
+            super._createFigureEmbed(content, config, options)
+        );
     }
 
     /* --- Event handlers --- */

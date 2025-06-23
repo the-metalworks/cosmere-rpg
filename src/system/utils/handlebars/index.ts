@@ -70,6 +70,13 @@ Handlebars.registerHelper(
 Handlebars.registerHelper('lower', (str: string) => str.toLowerCase());
 Handlebars.registerHelper('upper', (str: string) => str.toUpperCase());
 
+Handlebars.registerHelper('typeof', (value: unknown) => {
+    if (value === null) return 'null';
+    if (value === undefined) return 'undefined';
+    if (Array.isArray(value)) return 'array';
+    return typeof value;
+});
+
 Handlebars.registerHelper(
     'perc',
     (value: number, max: number, floor = true) => {
