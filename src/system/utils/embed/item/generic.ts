@@ -9,7 +9,7 @@ const ITEM_EMBED_TEMPLATES: Record<string, string | undefined> = {
 export async function buildEmbedHTML(
     item: CosmereItem,
     config: DocumentHTMLEmbedConfig,
-    options?: EnrichmentOptions,
+    options?: TextEditor.EnrichmentOptions,
 ): Promise<HTMLElement | HTMLCollection | null> {
     if (!ITEM_EMBED_TEMPLATES[item.type]) return null;
 
@@ -23,6 +23,7 @@ export async function buildEmbedHTML(
             item.system.description?.value ??
                 item.system.description?.short ??
                 '',
+            options,
         );
 
     // Render template
@@ -50,7 +51,7 @@ export function createInlineEmbed(
     if (content instanceof HTMLCollection) section.append(...content);
     else section.append(content);
 
-    section.classList.add('item-embed', 'talent');
+    section.classList.add('item-embed', item.type);
 
     // Parse the uuid
     const { id, uuid, collection } = foundry.utils.parseUuid(item.uuid);

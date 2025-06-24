@@ -47,51 +47,6 @@ declare interface DocumentHTMLEmbedConfig
     label?: string;
 }
 
-/**
- * Options for enriching HTML content with various dynamic features.
- */
-declare interface EnrichmentOptions {
-    /**
-     * Include unrevealed secret tags in the final HTML? If false, unrevealed secret blocks will be removed.
-     * @default false
-     */
-    secrets?: boolean;
-
-    /**
-     * Replace dynamic document links?
-     * @default true
-     */
-    documents?: boolean;
-
-    /**
-     * Replace hyperlink content?
-     * @default true
-     */
-    links?: boolean;
-
-    /**
-     * Replace inline dice rolls?
-     * @default true
-     */
-    rolls?: boolean;
-
-    /**
-     * Replace embedded content?
-     * @default true
-     */
-    embeds?: boolean;
-
-    /**
-     * The data object providing context for inline rolls, or a function that produces it.
-     */
-    rollData?: object | Function;
-
-    /**
-     * A document to resolve relative UUIDs against.
-     */
-    relativeTo?: ClientDocument;
-}
-
 declare interface CreateDocumentLinkOptions {
     /**
      * A document to generate a link relative to.
@@ -171,7 +126,7 @@ declare class ClientDocument {
      */
     public async toEmbed(
         config: DocumentHTMLEmbedConfig,
-        options?: EnrichmentOptions,
+        options?: TextEditor.EnrichmentOption,
     ): Promise<HTMLElement | null>;
 
     /**
@@ -184,7 +139,7 @@ declare class ClientDocument {
      */
     protected async _buildEmbedHTML(
         config: DocumentHTMLEmbedConfig,
-        options?: EnrichmentOptions,
+        options?: TextEditor.EnrichmentOption,
     ): Promise<HTMLElement | HTMLCollection | null>;
 
     /**
@@ -197,7 +152,7 @@ declare class ClientDocument {
     protected async _createInlineEmbed(
         content: HTMLElement | HTMLCollection,
         config: DocumentHTMLEmbedConfig,
-        options?: EnrichmentOptions,
+        options?: TextEditor.EnrichmentOptions,
     ): Promise<HTMLElement | null>;
 
     /**
@@ -210,7 +165,7 @@ declare class ClientDocument {
     protected async _createFigureEmbed(
         content: HTMLElement | HTMLCollection,
         config: DocumentHTMLEmbedConfig,
-        options?: EnrichmentOptions,
+        options?: TextEditor.EnrichmentOption,
     ): Promise<HTMLElement | null>;
 
     /**

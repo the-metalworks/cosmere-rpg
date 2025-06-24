@@ -12,7 +12,7 @@ import { TEMPLATES, renderSystemTemplate } from '@system/utils/templates';
 export async function buildEmbedHTML(
     item: TalentItem,
     config: DocumentHTMLEmbedConfig,
-    options?: EnrichmentOptions,
+    options?: TextEditor.EnrichmentOptions,
 ): Promise<HTMLElement | HTMLCollection | null> {
     // Create the link data string
     const linkDataStr = getLinkDataStr(item);
@@ -39,6 +39,7 @@ export async function buildEmbedHTML(
     // Enrich the description
     const description = await TextEditor.enrichHTML(
         item.system.description?.value ?? item.system.description?.short ?? '',
+        options,
     );
 
     // Render template

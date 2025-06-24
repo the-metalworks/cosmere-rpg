@@ -355,7 +355,7 @@ export class CosmereItem<
     }
     protected override _buildEmbedHTML(
         config: DocumentHTMLEmbedConfig,
-        options?: EnrichmentOptions,
+        options?: TextEditor.EnrichmentOptions,
     ): Promise<HTMLElement | HTMLCollection | null> {
         const embedHelpers = getEmbedHelpers(this);
         return (
@@ -367,7 +367,7 @@ export class CosmereItem<
     protected override _createInlineEmbed(
         content: HTMLElement | HTMLCollection,
         config: DocumentHTMLEmbedConfig,
-        options?: EnrichmentOptions,
+        options?: TextEditor.EnrichmentOptions,
     ): Promise<HTMLElement | null> {
         const embedHelpers = getEmbedHelpers(this);
         return (
@@ -379,7 +379,7 @@ export class CosmereItem<
     protected override _createFigureEmbed(
         content: HTMLElement | HTMLCollection,
         config: DocumentHTMLEmbedConfig,
-        options?: EnrichmentOptions,
+        options?: TextEditor.EnrichmentOptions,
     ): Promise<HTMLElement | null> {
         const embedHelpers = getEmbedHelpers(this);
         return (
