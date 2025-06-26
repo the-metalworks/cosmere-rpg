@@ -30,7 +30,7 @@ Hooks.on('renderJournalPageSheet', (app: JournalPageSheet, html: JQuery) => {
         content.remove();
 
         // If the first element of the content is a header, add the link
-        const header = content.first().filter('h2');
+        const header = content.first().filter('h1 h2 h3 h4 h5 h6');
         if (header.length) {
             // Get all data attributes from the section
             const dataAttributes = section.data();
