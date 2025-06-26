@@ -45,7 +45,7 @@ export function createInlineEmbed(
     item: Item,
     content: HTMLElement | HTMLCollection,
     config: DocumentHTMLEmbedConfig,
-    options?: EnrichmentOptions,
+    options?: TextEditor.EnrichmentOptions,
 ): Promise<HTMLElement | null> {
     const section = document.createElement('section');
     if (content instanceof HTMLCollection) section.append(...content);
