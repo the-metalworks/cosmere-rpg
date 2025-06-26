@@ -4,6 +4,7 @@ import { CosmereItem } from '@system/documents/item';
 import { TEMPLATES, renderSystemTemplate } from '@system/utils/templates';
 const ITEM_EMBED_TEMPLATES: Record<string, string | undefined> = {
     talent: TEMPLATES.ITEM_TALENT_EMBED,
+    culture: TEMPLATES.ITEM_CULTURE_EMBED,
 };
 
 export async function buildEmbedHTML(

@@ -3,6 +3,7 @@ import { ItemType } from '@system/types/cosmere';
 import { EmbedHelpers } from '../types';
 
 // Embedders
+import cultureEmbed from './culture';
 import talentEmbed from './talent';
 
 const EMBEDDERS: Record<ItemType, EmbedHelpers> = {
@@ -12,7 +13,7 @@ const EMBEDDERS: Record<ItemType, EmbedHelpers> = {
     [ItemType.Loot]: {},
 
     [ItemType.Ancestry]: {},
-    [ItemType.Culture]: {},
+    [ItemType.Culture]: cultureEmbed,
     [ItemType.Path]: {},
     [ItemType.Specialty]: {},
     [ItemType.Talent]: talentEmbed,
