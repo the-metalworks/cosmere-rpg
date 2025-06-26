@@ -53,6 +53,9 @@ import { EventsItemData } from '@system/data/item/mixins/events';
 import { DeflectItemData } from '@system/data/item/mixins/deflect';
 import { LinkedSkillsItemData } from '@system/data/item/mixins/linked-skills';
 
+// Sheet
+import { BaseItemSheet } from '@system/applications/item/base';
+
 // Rolls
 import {
     d20Roll,
@@ -338,6 +341,10 @@ export class CosmereItem<
         void this.setFlag(SYSTEM_ID, 'source', value);
     }
 
+    public get sheet(): BaseItemSheet | null {
+        return super.sheet as BaseItemSheet | null;
+    }
+
     /* --- Lifecycle --- */
 
     override _onUpdate(_changes: object, options: object, userId: string) {
@@ -353,6 +360,12 @@ export class CosmereItem<
             }
         }
     }
+
+    protected override _onClickDocumentLink(event: MouseEvent) {
+        const target = event.currentTarget as HTMLElement;
+        return this.sheet?.render(true, { tab: target.dataset.tab });
+    }
+
     protected override _buildEmbedHTML(
         config: DocumentHTMLEmbedConfig,
         options?: TextEditor.EnrichmentOptions,
