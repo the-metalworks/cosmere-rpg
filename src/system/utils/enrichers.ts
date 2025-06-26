@@ -146,10 +146,10 @@ function buildTestLabel(
         }
         linkLabel = `${linkLabel}${game.i18n?.localize('GENERIC.Test')}`;
     }
-    if (config.dc && !config.defence)
+    if (config.dc && !config.defense)
         postLink = `${game.i18n?.localize('GENERIC.Enrichers.Test.Against')} ${game.i18n?.localize('GENERIC.DC')} ${config.dc as string | number}`;
-    if (config.defence)
-        postLink = `${game.i18n?.localize('GENERIC.Enrichers.Test.VsDefense')} ${config.defenceName as string} ${game.i18n?.localize('COSMERE.Actor.Statistics.Defense')}${config.dc ? ` (${game.i18n?.localize('GENERIC.DC')}: ${config.dc as number})` : ''}`;
+    if (config.defense)
+        postLink = `${game.i18n?.localize('GENERIC.Enrichers.Test.VsDefense')} ${config.defenseName as string} ${game.i18n?.localize('COSMERE.Actor.Statistics.Defense')}${config.dc ? ` (${game.i18n?.localize('GENERIC.DC')}: ${config.dc as number})` : ''}`;
     return { linkLabel, postLink };
 }
 
@@ -301,16 +301,22 @@ function enrichTest(
             config.dc = 0;
         }
     }
+
+    // Account for regional differences
     if (config.defence) {
-        config.defenceName =
+        config.defense = config.defence;
+        delete config.defence;
+    }
+    if (config.defense) {
+        config.defenseName =
             game.i18n?.localize(
-                CONFIG.COSMERE.attributeGroups[config.defence as AttributeGroup]
+                CONFIG.COSMERE.attributeGroups[config.defense as AttributeGroup]
                     .label,
             ) ??
             game.i18n?.localize('COSMERE.Actor.Statistics.Defense') ??
             'Bad Config';
         config.dc =
-            data.target?.def[config.defence as 'phy' | 'spi' | 'cog'] ?? 0;
+            data.target?.def[config.defense as 'phy' | 'spi' | 'cog'] ?? 0;
     }
 
     const labelText = label
