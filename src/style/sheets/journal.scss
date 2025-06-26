@@ -1,0 +1,10 @@
+.sheet.journal-sheet {
+    section[data-link] {
+        h2, h3 {
+            > a {
+                vertical-align: super;
+                font-size: 10pt;
+            }
+        }
+    }
+}

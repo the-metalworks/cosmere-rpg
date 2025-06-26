@@ -22,6 +22,8 @@ import * as dataModels from './system/data';
 import * as documents from './system/documents';
 import * as dice from './system/dice';
 
+import Editor from './system/ui/editor';
+
 import CosmereAPI from './system/api';
 import CosmereUtils from './system/utils/global';
 
@@ -160,6 +162,9 @@ Hooks.once('init', async () => {
 
     // Load templates
     await preloadHandlebarsTemplates();
+
+    // Activate the editor listeners
+    Editor.activateListeners();
 
     // Set configuration through API
     applications.actor.configure();
