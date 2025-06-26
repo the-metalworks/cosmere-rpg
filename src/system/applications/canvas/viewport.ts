@@ -12,6 +12,17 @@ export interface ViewportOptions {
      * @default true
      */
     allowZoom?: boolean;
+
+    /**
+     * Optional bounds for the viewport.
+     * If provided, the viewport will be constrained to these bounds.
+     */
+    bounds?: {
+        x: number;
+        y: number;
+        width: number;
+        height: number;
+    };
 }
 
 export class Viewport extends PIXI.Container {
@@ -19,6 +30,7 @@ export class Viewport extends PIXI.Container {
 
     public allowPan: boolean;
     public allowZoom: boolean;
+    public viewBounds?: { x: number; y: number; width: number; height: number };
 
     // Interaction
     private panning = false;
@@ -44,6 +56,9 @@ export class Viewport extends PIXI.Container {
             width: this.app.renderer.width,
             height: this.app.renderer.height,
         };
+
+        // Set view bounds if provided
+        this.viewBounds = options.bounds;
 
         // Add viewport to app
         this.app.stage.addChild(this);
@@ -74,24 +89,45 @@ export class Viewport extends PIXI.Container {
     }
 
     public set view(view: Partial<Viewport.View>) {
-        // Clamp zoom
-        if (view.zoom) {
-            view.zoom = Math.min(
-                Math.max(view.zoom, Viewport.MIN_ZOOM_DEFAULT),
-                Viewport.MAX_ZOOM_DEFAULT,
-            );
-
-            // Limit zoom to the nearest zoom step
-            view.zoom =
-                Math.round(view.zoom / Viewport.ZOOM_STEP_DEFAULT) *
-                Viewport.ZOOM_STEP_DEFAULT;
-        }
-
-        // Update view
-        this._view = {
+        view = {
             ...this._view,
             ...view,
         };
+
+        // Clamp zoom - min and max
+        view.zoom = Math.min(
+            Math.max(view.zoom ?? this._view.zoom, Viewport.MIN_ZOOM_DEFAULT),
+            Viewport.MAX_ZOOM_DEFAULT,
+        );
+
+        // Clamp zoom - if view bounds are set, ensure zoom does not exceed bounds
+        if (this.viewBounds) {
+            const zoomXLimit = this._view.width / this.viewBounds.width;
+            const zoomYLimit = this._view.height / this.viewBounds.height;
+            const zoomLimit = Math.max(zoomXLimit, zoomYLimit);
+
+            view.zoom = Math.max(view.zoom, zoomLimit);
+        }
+
+        const minX = this.viewBounds
+            ? this.viewBounds.x * view.zoom
+            : -Number.MAX_VALUE;
+        const minY = this.viewBounds
+            ? this.viewBounds.y * view.zoom
+            : -Number.MAX_VALUE;
+        const maxX = this.viewBounds
+            ? minX + this.viewBounds.width * view.zoom
+            : Number.MAX_VALUE;
+        const maxY = this.viewBounds
+            ? minY + this.viewBounds.height * view.zoom
+            : Number.MAX_VALUE;
+
+        // Clamp x and y
+        view.x = Math.max(minX, Math.min(maxX - this._view.width, view.x!));
+        view.y = Math.max(minY, Math.min(maxY - this._view.height, view.y!));
+
+        // Update view
+        this._view = view as Viewport.View;
 
         // Update world
         this.world.position.set(-this._view.x, -this._view.y);
@@ -100,8 +136,8 @@ export class Viewport extends PIXI.Container {
 
     public get visibleBounds(): PIXI.Rectangle {
         return new PIXI.Rectangle(
-            this._view.x,
-            this._view.y,
+            this._view.x / this._view.zoom,
+            this._view.y / this._view.zoom,
             this._view.width / this._view.zoom,
             this._view.height / this._view.zoom,
         );
@@ -188,14 +224,46 @@ export class Viewport extends PIXI.Container {
         const delta = event.deltaY;
 
         // Get zoom change
-        const zoom =
+        let zoom =
             delta > 0
                 ? -Viewport.ZOOM_STEP_DEFAULT
                 : Viewport.ZOOM_STEP_DEFAULT;
 
+        // Clamp zoom - min and max
+        zoom = Math.min(
+            Math.max(zoom, Viewport.MIN_ZOOM_DEFAULT - this.view.zoom),
+            Viewport.MAX_ZOOM_DEFAULT - this.view.zoom,
+        );
+
+        // Clamp zoom - if view bounds are set, ensure zoom does not exceed bounds
+        if (this.viewBounds) {
+            const zoomXLimit = this._view.width / this.viewBounds.width;
+            const zoomYLimit = this._view.height / this.viewBounds.height;
+            const zoomLimit = Math.max(zoomXLimit, zoomYLimit);
+
+            zoom = Math.max(zoom, zoomLimit - this.view.zoom);
+        }
+
+        const worldSpaceCenter = this.viewToWorld({
+            x: this._view.width / 2,
+            y: this._view.height / 2,
+        });
+
+        const newWorldSpaceCenter = {
+            x: worldSpaceCenter.x / (1 + zoom),
+            y: worldSpaceCenter.y / (1 + zoom),
+        };
+
+        const diff = {
+            x: newWorldSpaceCenter.x - worldSpaceCenter.x,
+            y: newWorldSpaceCenter.y - worldSpaceCenter.y,
+        };
+
         // Update view
         this.view = {
             zoom: this.view.zoom + zoom,
+            x: this.view.x - diff.x * (1 + zoom),
+            y: this.view.y - diff.y * (1 + zoom),
         };
     }
 }

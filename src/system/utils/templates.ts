@@ -135,6 +135,7 @@ export const TEMPLATES = {
 
     // ITEM EMBEDDINGS
     ITEM_TALENT_EMBED: 'item/talent/embed.hbs',
+    ITEM_TALENT_TREE_EMBED: 'item/talent-tree/embed.hbs',
 
     //CHAT
     CHAT_CARD_HEADER: 'chat/card-header.hbs',

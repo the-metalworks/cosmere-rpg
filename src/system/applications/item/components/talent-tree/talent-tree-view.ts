@@ -21,7 +21,7 @@ import { HandlebarsApplicationComponent } from '@system/applications/component-s
 import { DragDropComponentMixin } from '@system/applications/mixins/drag-drop';
 
 // Canvas
-import { PIXICanvasApplication } from '@system/applications/canvas';
+import { PIXICanvasApplication, Viewport } from '@system/applications/canvas';
 import {
     GridViewport,
     TalentTreeWorld,
@@ -46,6 +46,10 @@ export type TalentTreeViewComponentParams = {
     source?: Talent.Source;
     contextActor?: CharacterActor;
     allowObtainTalents?: boolean;
+    allowPan?: boolean;
+    allowZoom?: boolean;
+    view?: Omit<Partial<Viewport.View>, 'width' | 'height'>;
+    boundView?: boolean;
 };
 
 export class TalentTreeViewComponent<
@@ -82,7 +86,9 @@ export class TalentTreeViewComponent<
     protected _selected?: TalentTree.Node | NodeConnection;
     protected _selectedType: 'node' | 'connection' = 'node';
 
-    protected viewPositioned = false;
+    // protected viewPositioned = false;
+    protected shouldPositionView = true;
+    protected prevSetView?: Omit<Partial<Viewport.View>, 'width' | 'height'>;
 
     /* --- Accessors --- */
 
@@ -106,16 +112,66 @@ export class TalentTreeViewComponent<
         return this._selectedType;
     }
 
+    public get allowPan(): boolean {
+        return this.params!.allowPan ?? false;
+    }
+
+    public get allowZoom(): boolean {
+        return this.params!.allowZoom ?? false;
+    }
+
+    public get boundView(): boolean {
+        return this.params!.boundView ?? false;
+    }
+
     /* --- Public functions --- */
 
     public async resize() {
         this.app!.resize();
 
-        this.initializeCanvasView();
+        this.positionCanvasView();
 
         // Render canvas
         await this.canvasTree!.refresh();
         await this.renderCanvas(true);
+    }
+
+    public async setView(
+        view: Omit<Partial<Viewport.View>, 'width' | 'height'>,
+        bounds = this.boundView,
+        render = true,
+    ) {
+        if (!this.viewport) return;
+
+        // Clear the view bounds to allow for setting the view regardless of previous bounds
+        this.viewport.viewBounds = undefined;
+
+        // Set view
+        this.viewport.view = foundry.utils.mergeObject(
+            this.viewport.view,
+            view,
+        );
+
+        this.shouldPositionView = false;
+
+        if (bounds) {
+            // Set view bounds
+            this.viewport.viewBounds = {
+                x: this.viewport.view.x / this.viewport.view.zoom,
+                y: this.viewport.view.y / this.viewport.view.zoom,
+                width: this.viewport.view.width / this.viewport.view.zoom,
+                height: this.viewport.view.height / this.viewport.view.zoom,
+            };
+        }
+
+        // Render canvas
+        if (render) {
+            await this.canvasTree!.refresh();
+            await this.renderCanvas(true);
+        }
+
+        // Store the view
+        this.prevSetView = view;
     }
 
     public selectNode(node: TalentTree.Node) {
@@ -339,10 +395,20 @@ export class TalentTreeViewComponent<
         // Re-configure
         this.configureWorld();
 
+        this.shouldPositionView ||=
+            (this.params!.view !== undefined &&
+                Object.keys(this.params!.view).length > 0 &&
+                (!this.prevSetView ||
+                    !foundry.utils.objectsEqual(
+                        this.prevSetView,
+                        this.params!.view,
+                    ))) ||
+            (!this.params!.view && !!this.prevSetView);
+
         setTimeout(async () => {
             this.app!.resize();
 
-            if (!this.viewPositioned) this.initializeCanvasView();
+            if (this.shouldPositionView) this.positionCanvasView();
 
             // Render canvas
             await this.canvasTree!.refresh();
@@ -357,38 +423,49 @@ export class TalentTreeViewComponent<
 
     protected configureViewport() {
         this.app!.viewport.displayGrid = false;
-        this.app!.viewport.allowPan = false;
-        this.app!.viewport.allowZoom = false;
+        this.app!.viewport.allowPan = this.allowPan;
+        this.app!.viewport.allowZoom = this.allowZoom;
+
+        if (this.boundView)
+            this.app!.viewport.viewBounds = this.tree.system.viewBounds;
     }
 
-    protected initializeCanvasView() {
-        const canvasWidth = this.app!.view.width;
-        const canvasHeight = this.app!.view.height;
+    protected positionCanvasView() {
+        if (this.params!.view && Object.keys(this.params!.view).length > 0) {
+            // If a view is provided, use it
+            void this.setView(this.params!.view, this.boundView, false);
+        } else {
+            const canvasWidth = this.app!.view.width;
+            const canvasHeight = this.app!.view.height;
 
-        // Compute new zoom level to match the stored world width and height
-        const zoomX = canvasWidth / this.tree.system.viewBounds.width;
-        const zoomY = canvasHeight / this.tree.system.viewBounds.height;
+            // Compute new zoom level to match the stored world width and height
+            const zoomX = canvasWidth / this.tree.system.viewBounds.width;
+            const zoomY = canvasHeight / this.tree.system.viewBounds.height;
 
-        // Use the smaller zoom to ensure the same content is visible
-        const newZoom = Math.min(zoomX, zoomY);
+            // Use the smaller zoom to ensure the same content is visible
+            const newZoom = Math.min(zoomX, zoomY);
 
-        // Compute new world-space dimensions with the new zoom
-        const newWorldWidth = canvasWidth / newZoom;
-        const newWorldHeight = canvasHeight / newZoom;
+            // Compute new top-left position so the center remains the same
+            const centerOffsetX = this.tree.system.viewBounds.width / 2;
+            const centerOffsetY = this.tree.system.viewBounds.height / 2;
 
-        // Compute new top-left position so the center remains the same
-        const newX = this.tree.system.viewBounds.x - newWorldWidth / 2;
-        const newY = this.tree.system.viewBounds.y - newWorldHeight / 2;
+            const cornerX = this.tree.system.viewBounds.x - centerOffsetX;
+            const cornerY = this.tree.system.viewBounds.y - centerOffsetY;
 
-        // Apply the view
-        this.viewport!.view = {
-            x: newX,
-            y: newY,
-            zoom: newZoom,
-        };
+            const newX = cornerX * newZoom;
+            const newY = cornerY * newZoom;
 
-        // Set flag
-        this.viewPositioned = true;
+            // Set the view
+            void this.setView(
+                {
+                    x: newX,
+                    y: newY,
+                    zoom: newZoom,
+                },
+                this.boundView,
+                false,
+            );
+        }
     }
 
     /* --- Event handlers --- */
