@@ -5,6 +5,7 @@ import { EmbedHelpers } from '../types';
 // Embedders
 import cultureEmbed from './culture';
 import talentEmbed from './talent';
+import actionEmbed from './action';
 
 const EMBEDDERS: Record<ItemType, EmbedHelpers> = {
     [ItemType.Weapon]: {},
@@ -19,7 +20,7 @@ const EMBEDDERS: Record<ItemType, EmbedHelpers> = {
     [ItemType.Talent]: talentEmbed,
     [ItemType.Trait]: {},
 
-    [ItemType.Action]: {},
+    [ItemType.Action]: actionEmbed,
 
     [ItemType.Injury]: {},
     [ItemType.Connection]: {},

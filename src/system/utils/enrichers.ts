@@ -56,6 +56,51 @@ export function registerCustomEnrichers() {
         //   pattern: /&(?<type>Reference)\[(?<config>[^\]]+)](?:{(?<label>[^}]+)})?/gi,
         //   enricher: enrichString
         // }
+        {
+            pattern: /@Link\[(?<uuid>.+)\]/gi,
+            enricher: (
+                match: RegExpMatchArray,
+                options?: TextEditor.EnrichmentOptions,
+            ) => {
+                // Get the UUID from the match
+                const uuid = match.groups?.uuid;
+                if (!uuid) return null;
+
+                // Create section element
+                const section = document.createElement('section');
+
+                // Add classes
+                section.classList.add('content-link-anchor');
+
+                // Parse the uuid
+                const { id, collection, type } = foundry.utils.parseUuid(uuid);
+
+                // Set attributes
+                section.setAttribute('draggable', 'true');
+                section.setAttribute('data-link', '');
+                section.dataset.uuid = uuid;
+                section.dataset.id = id;
+                section.dataset.type = type;
+
+                if (collection instanceof CompendiumCollection)
+                    section.dataset.pack = collection.collection as string;
+
+                // Return the section element
+                return section;
+            },
+        },
+        {
+            pattern: /@Link/gi,
+            enricher: (
+                match: RegExpMatchArray,
+                options?: TextEditor.EnrichmentOptions,
+            ) => {
+                // Create section element
+                const section = document.createElement('section');
+                section.classList.add('content-link-anchor');
+                return section;
+            },
+        },
     );
 }
 
