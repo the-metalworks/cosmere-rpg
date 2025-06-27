@@ -3,5 +3,6 @@ import './welcome';
 import './actor';
 import './item';
 import './enrichers';
+import './journal';
 
 export { register as registerItemEventSystem } from './item-event-system';
