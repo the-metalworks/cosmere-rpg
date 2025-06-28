@@ -25,7 +25,14 @@ export async function buildEmbedHTML(
             item.system.description?.value ??
                 item.system.description?.short ??
                 '',
-            options,
+            {
+                relativeTo: options?.relativeTo,
+                documents: options?.documents,
+                links: options?.links,
+                rollData: options?.rollData,
+                rolls: options?.rolls,
+                secrets: options?.secrets,
+            },
         );
 
     const headingTag =
