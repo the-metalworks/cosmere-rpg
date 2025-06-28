@@ -3,37 +3,36 @@ import { ItemType } from '@system/types/cosmere';
 import { EmbedHelpers } from '../types';
 
 // Embedders
-import cultureEmbed from './culture';
 import talentEmbed from './talent';
 import talentTreeEmbed from './talent-tree';
-import actionEmbed from './action';
+import genericEmbed from './generic';
 
-const EMBEDDERS: Record<ItemType, EmbedHelpers> = {
-    [ItemType.Weapon]: {},
-    [ItemType.Armor]: {},
-    [ItemType.Equipment]: {},
-    [ItemType.Loot]: {},
+const EMBEDDERS: Record<ItemType, EmbedHelpers | null> = {
+    [ItemType.Weapon]: null,
+    [ItemType.Armor]: null,
+    [ItemType.Equipment]: null,
+    [ItemType.Loot]: null,
 
-    [ItemType.Ancestry]: {},
-    [ItemType.Culture]: cultureEmbed,
-    [ItemType.Path]: {},
-    [ItemType.Specialty]: {},
+    [ItemType.Ancestry]: null,
+    [ItemType.Culture]: null,
+    [ItemType.Path]: null,
+    [ItemType.Specialty]: null,
     [ItemType.Talent]: talentEmbed,
-    [ItemType.Trait]: {},
+    [ItemType.Trait]: null,
 
-    [ItemType.Action]: actionEmbed,
+    [ItemType.Action]: null,
 
-    [ItemType.Injury]: {},
-    [ItemType.Connection]: {},
-    [ItemType.Goal]: {},
+    [ItemType.Injury]: null,
+    [ItemType.Connection]: null,
+    [ItemType.Goal]: null,
 
-    [ItemType.Power]: {},
+    [ItemType.Power]: null,
 
     [ItemType.TalentTree]: talentTreeEmbed,
 };
 
-export function getEmbedHelpers(type: ItemType) {
-    return EMBEDDERS[type] ?? {};
+export function getEmbedHelpers(type: ItemType): EmbedHelpers {
+    return EMBEDDERS[type] ?? genericEmbed;
 }
 
 export default getEmbedHelpers;

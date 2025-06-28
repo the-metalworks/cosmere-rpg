@@ -4,17 +4,17 @@ import { CosmereItem } from '@system/documents/item';
 import { TEMPLATES, renderSystemTemplate } from '@system/utils/templates';
 const ITEM_EMBED_TEMPLATES: Record<string, string | undefined> = {
     talent: TEMPLATES.ITEM_TALENT_EMBED,
-    culture: TEMPLATES.ITEM_CULTURE_EMBED,
     action: TEMPLATES.ITEM_ACTION_EMBED,
 };
+
+const HEADING_TAGS: string[] = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
+const DEFAULT_HEADING_TAG = 'h3';
 
 export async function buildEmbedHTML(
     item: CosmereItem,
     config: DocumentHTMLEmbedConfig,
     options?: TextEditor.EnrichmentOptions,
 ): Promise<HTMLElement | HTMLCollection | null> {
-    if (!ITEM_EMBED_TEMPLATES[item.type]) return null;
-
     // Create the link data string
     const linkDataStr = getLinkDataStr(item);
 
@@ -28,13 +28,22 @@ export async function buildEmbedHTML(
             options,
         );
 
+    const headingTag =
+        config.values?.find((v) => HEADING_TAGS.includes(v)) ??
+        DEFAULT_HEADING_TAG;
+
+    // Get the template
+    const hbsTemplate =
+        ITEM_EMBED_TEMPLATES[item.type] ?? TEMPLATES.ITEM_GENERIC_EMBED;
+
     // Render template
-    const html = await renderSystemTemplate(ITEM_EMBED_TEMPLATES[item.type]!, {
+    const html = await renderSystemTemplate(hbsTemplate, {
         item,
         config,
         options,
         linkDataStr,
         description,
+        headingTag,
     });
 
     // Get elements
@@ -86,3 +95,9 @@ export function getLinkDataStr(
         .map(([key, value]) => `data-${key}="${value}"`)
         .join(' ');
 }
+
+export default {
+    buildEmbedHTML,
+    createInlineEmbed,
+    getLinkDataStr,
+};
