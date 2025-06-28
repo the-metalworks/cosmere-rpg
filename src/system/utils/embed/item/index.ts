@@ -7,6 +7,7 @@ import cultureEmbed from './culture';
 import talentEmbed from './talent';
 import talentTreeEmbed from './talent-tree';
 import actionEmbed from './action';
+import pathEmbed from './path';
 
 const EMBEDDERS: Record<ItemType, EmbedHelpers> = {
     [ItemType.Weapon]: {},
@@ -16,7 +17,7 @@ const EMBEDDERS: Record<ItemType, EmbedHelpers> = {
 
     [ItemType.Ancestry]: {},
     [ItemType.Culture]: cultureEmbed,
-    [ItemType.Path]: {},
+    [ItemType.Path]: pathEmbed,
     [ItemType.Specialty]: {},
     [ItemType.Talent]: talentEmbed,
     [ItemType.Trait]: {},
