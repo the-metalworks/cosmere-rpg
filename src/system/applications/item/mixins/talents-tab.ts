@@ -1,5 +1,5 @@
 import { TalentTreeItem } from '@system/documents/item';
-import { ConstructorOf, DeepPartial } from '@system/types/utils';
+import { ConstructorOf, DeepPartial, AnyObject } from '@system/types/utils';
 import { Talent } from '@system/types/item';
 
 // Components
@@ -36,7 +36,7 @@ export function TalentsTabMixin<
 
         /* --- Lifecycle --- */
 
-        protected _onFirstRender(context: unknown, options: unknown): void {
+        protected _onFirstRender(context: AnyObject, options: unknown): void {
             super._onFirstRender(context, options);
 
             // Invoke on tab change

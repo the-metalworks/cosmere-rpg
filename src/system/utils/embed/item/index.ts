@@ -4,6 +4,7 @@ import { EmbedHelpers } from '../types';
 
 // Embedders
 import talentEmbed from './talent';
+import talentTreeEmbed from './talent-tree';
 import actionEmbed from './action';
 
 const EMBEDDERS: Record<ItemType, EmbedHelpers> = {
@@ -27,7 +28,7 @@ const EMBEDDERS: Record<ItemType, EmbedHelpers> = {
 
     [ItemType.Power]: {},
 
-    [ItemType.TalentTree]: {},
+    [ItemType.TalentTree]: talentTreeEmbed,
 };
 
 export function getEmbedHelpers(type: ItemType) {
