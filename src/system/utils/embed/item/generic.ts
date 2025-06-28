@@ -6,6 +6,7 @@ const ITEM_EMBED_TEMPLATES: Record<string, string | undefined> = {
     talent: TEMPLATES.ITEM_TALENT_EMBED,
     culture: TEMPLATES.ITEM_CULTURE_EMBED,
     action: TEMPLATES.ITEM_ACTION_EMBED,
+    ancestry: TEMPLATES.ITEM_ANCESTRY_EMBED,
 };
 
 export async function buildEmbedHTML(
