@@ -251,10 +251,10 @@ export function characterMeetsPrerequisiteRule(
         case TalentTree.Node.Prerequisite.Type.Level:
             return actor.system.level >= prereq.level;
         case TalentTree.Node.Prerequisite.Type.Ancestry:
-            return actor.ancestry?.id === prereq.ancestry.id;
+            return actor.ancestry?.system.id === prereq.ancestry.id;
         case TalentTree.Node.Prerequisite.Type.Culture:
             return actor.cultures.some(
-                (culture) => culture.id === prereq.culture.id,
+                (culture) => culture.system.id === prereq.culture.id,
             );
         case TalentTree.Node.Prerequisite.Type.Connection:
             return true; // No way to check connections
