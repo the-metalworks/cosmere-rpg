@@ -17,7 +17,10 @@ import { renderSystemTemplate, TEMPLATES } from '@src/system/utils/templates';
 
 // Mixins
 import { ComponentHandlebarsApplicationMixin } from '@system/applications/component-system';
-import { TabsApplicationMixin } from '@system/applications/mixins';
+import {
+    TabsApplicationMixin,
+    TabApplicationRenderOptions,
+} from '@system/applications/mixins';
 import { DescriptionItemData } from '@src/system/data/item/mixins/description';
 import { ItemConsumeData } from '@src/system/data/item/mixins/activatable';
 import { SYSTEM_ID } from '@src/system/constants';
@@ -28,9 +31,16 @@ export interface BaseItemSheetRenderContext {
     item: CosmereItem;
 }
 
+export type BaseItemSheetConfiguration =
+    foundry.applications.api.DocumentSheetV2.Configuration;
+
+export interface BaseItemSheetRenderOptions
+    extends foundry.applications.api.DocumentSheetV2.RenderOptions,
+        TabApplicationRenderOptions {}
+
 export class BaseItemSheet extends TabsApplicationMixin(
     ComponentHandlebarsApplicationMixin(ItemSheetV2),
-)<AnyObject> {
+)<AnyObject, BaseItemSheetConfiguration, BaseItemSheetRenderOptions> {
     /**
      * NOTE: Unbound methods is the standard for defining actions and forms
      * within ApplicationV2

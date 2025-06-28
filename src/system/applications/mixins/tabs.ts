@@ -37,6 +37,14 @@ export interface ApplicationTab {
     enabled?: boolean;
 }
 
+export interface TabApplicationRenderOptions
+    extends foundry.applications.api.ApplicationV2.RenderOptions {
+    /**
+     * The initial tab to show for the primary tab group, when rendering the application.
+     */
+    tab?: string;
+}
+
 /**
  * Mixin that adds standardized tabs to an ApplicationV2
  */
@@ -85,6 +93,22 @@ export function TabsApplicationMixin<
         protected onTabChange(tab: string, group: string) {}
 
         /* --- Context --- */
+
+        protected _onFirstRender(
+            context: unknown,
+            options: TabApplicationRenderOptions,
+        ): void {
+            super._onFirstRender(context, options);
+
+            // Set the initial tab for the primary tab group
+            if (
+                options.tab &&
+                this.tabGroups[PRIMARY_TAB_GROUP] !== options.tab &&
+                this.tabs[options.tab]
+            ) {
+                this.changeTab(options.tab, PRIMARY_TAB_GROUP);
+            }
+        }
 
         public async _prepareContext(
             options: Partial<foundry.applications.api.ApplicationV2.RenderOptions>,
