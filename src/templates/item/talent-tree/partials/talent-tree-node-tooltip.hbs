@@ -32,6 +32,14 @@
                     {{else if (eq prereq.type "connection")}}
                         <i class="fa-solid fa-users"></i>
                         <span>{{prereq.description}}</span>
+                    {{else if (eq prereq.type "ancestry")}}
+                        <i class="fa-solid fa-people-arrows"></i>
+                        <span>{{prereq.ancestry.label}}</span>
+                        <span>{{localize "GENERIC.Ancestry"}}</span>
+                    {{else if (eq prereq.type "culture")}}
+                        <i class="fa-solid fa-globe"></i>
+                        <span>{{prereq.culture.label}}</span>
+                        <span>{{localize "GENERIC.Culture"}}</span>
                     {{/if}}
                 </div>
             {{/each}}

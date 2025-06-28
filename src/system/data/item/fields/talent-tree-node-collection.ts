@@ -203,6 +203,58 @@ class TalentTreeNodeField extends foundry.data.fields.SchemaField {
                             initial: 0,
                             label: 'COSMERE.Item.Talent.Prerequisite.Level.Label',
                         }),
+
+                        // Ancestry
+                        ancestry: new foundry.data.fields.SchemaField(
+                            {
+                                uuid: new foundry.data.fields.StringField({
+                                    required: true,
+                                    nullable: false,
+                                    blank: false,
+                                }),
+                                id: new foundry.data.fields.StringField({
+                                    required: true,
+                                    nullable: false,
+                                    blank: false,
+                                }),
+                                label: new foundry.data.fields.StringField({
+                                    required: true,
+                                    nullable: false,
+                                    blank: false,
+                                }),
+                            },
+                            {
+                                nullable: true,
+                                initial: null,
+                                label: 'COSMERE.Item.Talent.Prerequisite.Ancestry.Label',
+                            },
+                        ),
+
+                        // Culture
+                        culture: new foundry.data.fields.SchemaField(
+                            {
+                                uuid: new foundry.data.fields.StringField({
+                                    required: true,
+                                    nullable: false,
+                                    blank: false,
+                                }),
+                                id: new foundry.data.fields.StringField({
+                                    required: true,
+                                    nullable: false,
+                                    blank: false,
+                                }),
+                                label: new foundry.data.fields.StringField({
+                                    required: true,
+                                    nullable: false,
+                                    blank: false,
+                                }),
+                            },
+                            {
+                                nullable: true,
+                                initial: null,
+                                label: 'COSMERE.Item.Talent.Prerequisite.Culture.Label',
+                            },
+                        ),
                     }),
                     {
                         nullable: true,

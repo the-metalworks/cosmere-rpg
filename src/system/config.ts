@@ -855,15 +855,19 @@ const COSMERE: CosmereRPGConfig = {
                 prerequisite: {
                     types: {
                         [TalentTree.Node.Prerequisite.Type.Talent]:
-                            'COSMERE.Item.Talent.Prerequisite.Type.Talent',
+                            'COSMERE.Item.Talent.Prerequisite.Type.talent',
                         [TalentTree.Node.Prerequisite.Type.Attribute]:
-                            'COSMERE.Item.Talent.Prerequisite.Type.Attribute',
+                            'COSMERE.Item.Talent.Prerequisite.Type.attribute',
                         [TalentTree.Node.Prerequisite.Type.Skill]:
-                            'COSMERE.Item.Talent.Prerequisite.Type.Skill',
+                            'COSMERE.Item.Talent.Prerequisite.Type.skill',
                         [TalentTree.Node.Prerequisite.Type.Connection]:
-                            'COSMERE.Item.Talent.Prerequisite.Type.Connection',
+                            'COSMERE.Item.Talent.Prerequisite.Type.connection',
                         [TalentTree.Node.Prerequisite.Type.Level]:
-                            'COSMERE.Item.Talent.Prerequisite.Type.Level',
+                            'COSMERE.Item.Talent.Prerequisite.Type.level',
+                        [TalentTree.Node.Prerequisite.Type.Ancestry]:
+                            'COSMERE.Item.Talent.Prerequisite.Type.ancestry',
+                        [TalentTree.Node.Prerequisite.Type.Culture]:
+                            'COSMERE.Item.Talent.Prerequisite.Type.culture',
                     },
                 },
             },

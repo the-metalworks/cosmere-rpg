@@ -1,5 +1,5 @@
 import { Attribute, Skill } from '@system/types/cosmere';
-import { TalentTreeItem } from '@system/documents/item';
+import { TalentTreeItem, CosmereItem } from '@system/documents/item';
 import { TalentTree } from '@system/types/item';
 import { AnyObject } from '@system/types/utils';
 import { TalentItemData } from '@system/data/item/talent';
@@ -98,8 +98,6 @@ export class EditNodePrerequisiteDialog extends ComponentHandlebarsApplicationMi
                     ? Array.from(old.talents.keys())
                     : [];
 
-            console.log('prevTalents', prevTalents);
-
             // Figure out which talents have been removed
             const removedTalents = prevTalents.filter(
                 (id) =>
@@ -149,7 +147,7 @@ export class EditNodePrerequisiteDialog extends ComponentHandlebarsApplicationMi
 
     /* --- Form --- */
 
-    protected static onFormEvent(
+    protected static async onFormEvent(
         this: EditNodePrerequisiteDialog,
         event: Event,
         form: HTMLFormElement,
@@ -182,6 +180,38 @@ export class EditNodePrerequisiteDialog extends ComponentHandlebarsApplicationMi
             formData.has('level')
         ) {
             this.data.level = parseInt(formData.get('level') as string);
+        } else if (
+            this.data.type === TalentTree.Node.Prerequisite.Type.Ancestry &&
+            formData.has('ancestry')
+        ) {
+            const ancestryUuid = formData.get('ancestry') as string;
+            const ancestry = (await fromUuid(
+                ancestryUuid,
+            )) as unknown as CosmereItem;
+
+            if (ancestry?.isAncestry()) {
+                this.data.ancestry = {
+                    uuid: ancestry.uuid,
+                    id: ancestry.system.id,
+                    label: ancestry.name,
+                };
+            }
+        } else if (
+            this.data.type === TalentTree.Node.Prerequisite.Type.Culture &&
+            formData.has('culture')
+        ) {
+            const cultureUuid = formData.get('culture') as string;
+            const culture = (await fromUuid(
+                cultureUuid,
+            )) as unknown as CosmereItem;
+
+            if (culture?.isCulture()) {
+                this.data.culture = {
+                    uuid: culture.uuid,
+                    id: culture.system.id,
+                    label: culture.name,
+                };
+            }
         }
 
         // Render

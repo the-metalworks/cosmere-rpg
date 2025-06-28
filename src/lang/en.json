@@ -527,11 +527,13 @@
                 },
                 "Prerequisite": {
                     "Type": {
-                        "Talent": "Talent",
-                        "Attribute": "Attribute",
-                        "Skill": "Skill",
-                        "Connection": "Connection",
-                        "Level": "Level"
+                        "talent": "Talent",
+                        "attribute": "Attribute",
+                        "skill": "Skill",
+                        "connection": "Connection",
+                        "level": "Level",
+                        "ancestry": "Ancestry",
+                        "culture": "Culture"
                     },
                     "Mode": {
                         "AnyOf": "Any of",
@@ -539,6 +541,12 @@
                     },
                     "Level": {
                         "Label": "Level"
+                    },
+                    "Ancestry": {
+                        "Label": "Ancestry"
+                    },
+                    "Culture": {
+                        "Label": "Culture"
                     }
                 },
                 "GrantRule": {
