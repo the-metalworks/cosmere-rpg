@@ -5,6 +5,8 @@ import { TEMPLATES, renderSystemTemplate } from '@system/utils/templates';
 const ITEM_EMBED_TEMPLATES: Record<string, string | undefined> = {
     talent: TEMPLATES.ITEM_TALENT_EMBED,
     action: TEMPLATES.ITEM_ACTION_EMBED,
+    path: TEMPLATES.ITEM_PATH_EMBED,
+    ancestry: TEMPLATES.ITEM_ANCESTRY_EMBED,
 };
 
 const HEADING_TAGS: string[] = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];

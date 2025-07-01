@@ -5,6 +5,8 @@ import { EmbedHelpers } from '../types';
 // Embedders
 import talentEmbed from './talent';
 import talentTreeEmbed from './talent-tree';
+import pathEmbed from './path';
+import ancestryEmbed from './ancestry';
 import genericEmbed from './generic';
 
 const EMBEDDERS: Record<ItemType, EmbedHelpers | null> = {
@@ -13,9 +15,9 @@ const EMBEDDERS: Record<ItemType, EmbedHelpers | null> = {
     [ItemType.Equipment]: null,
     [ItemType.Loot]: null,
 
-    [ItemType.Ancestry]: null,
+    [ItemType.Ancestry]: ancestryEmbed,
     [ItemType.Culture]: null,
-    [ItemType.Path]: null,
+    [ItemType.Path]: pathEmbed,
     [ItemType.Specialty]: null,
     [ItemType.Talent]: talentEmbed,
     [ItemType.Trait]: null,
