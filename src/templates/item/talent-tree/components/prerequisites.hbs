@@ -46,6 +46,10 @@
                     <span>{{rule.description}}</span>
                 {{else if (eq rule.type "level")}}
                     <span>{{rule.level}}+</span>
+                {{else if (eq rule.type "ancestry")}}
+                    {{{rule.ancestry.link}}}
+                {{else if (eq rule.type "culture")}}
+                    {{{rule.culture.link}}}
                 {{/if}}
             </div>
             <div class="controls icon faded flexrow">

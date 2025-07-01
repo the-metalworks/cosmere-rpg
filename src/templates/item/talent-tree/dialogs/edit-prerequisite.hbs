@@ -93,6 +93,28 @@
     }}
     {{/if}}
 
+    {{!-- Ancestry --}}
+    {{#if (eq type "ancestry")}}
+        {{app-document-reference-input
+            name="ancestry"
+            label=(localize schema.fields.ancestry.label)
+            value=ancestry.uuid
+            type="Item"
+            subtype="ancestry"
+        }}
+    {{/if}}
+
+    {{!-- Culture --}}
+    {{#if (eq type "culture")}}
+        {{app-document-reference-input
+            name="culture"
+            label=(localize schema.fields.culture.label)
+            value=culture.uuid
+            type="Item"
+            subtype="culture"
+        }}
+    {{/if}}
+
     {{!-- Submit --}}
     <br>
     <div class="form-group">

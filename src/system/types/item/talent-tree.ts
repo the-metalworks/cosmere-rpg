@@ -35,6 +35,8 @@ export namespace Node {
             Skill = 'skill',
             Connection = 'connection',
             Level = 'level',
+            Ancestry = 'ancestry',
+            Culture = 'culture',
         }
 
         export const enum Mode {
@@ -42,22 +44,24 @@ export namespace Node {
             AllOf = 'all-of',
         }
 
-        export interface TalentRef {
+        export interface ItemRef {
             /**
-             * UUID of the Talent item this prerequisite refers to.
+             * UUID of the item this prerequisite refers to.
              */
             uuid: string;
 
             /**
-             * The id of the talent
+             * The id of the item
              */
             id: string;
 
             /**
-             * The name of the talent
+             * The name of the item
              */
             label: string;
         }
+
+        export type TalentRef = ItemRef;
     }
 
     interface BasePrerequisite<Type extends Prerequisite.Type> {
@@ -98,12 +102,24 @@ export namespace Node {
         level: number;
     }
 
+    export interface AncestryPrerequisite
+        extends BasePrerequisite<Prerequisite.Type.Ancestry> {
+        ancestry: Prerequisite.ItemRef;
+    }
+
+    export interface CulturePrerequisite
+        extends BasePrerequisite<Prerequisite.Type.Culture> {
+        culture: Prerequisite.ItemRef;
+    }
+
     export type Prerequisite =
         | ConnectionPrerequisite
         | AttributePrerequisite
         | SkillPrerequisite
         | TalentPrerequisite
-        | LevelPrerequisite;
+        | LevelPrerequisite
+        | AncestryPrerequisite
+        | CulturePrerequisite;
 }
 
 export interface BaseNode<Type extends Node.Type = Node.Type> {
