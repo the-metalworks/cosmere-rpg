@@ -138,6 +138,7 @@ export const TEMPLATES = {
     ITEM_CULTURE_EMBED: 'item/culture/embed.hbs',
     ITEM_TALENT_TREE_EMBED: 'item/talent-tree/embed.hbs',
     ITEM_ACTION_EMBED: 'item/action/embed.hbs',
+    ITEM_PATH_EMBED: 'item/path/embed.hbs',
     ITEM_ANCESTRY_EMBED: 'item/ancestry/embed.hbs',
 
     //CHAT
