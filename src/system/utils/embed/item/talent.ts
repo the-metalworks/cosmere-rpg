@@ -39,7 +39,14 @@ export async function buildEmbedHTML(
     // Enrich the description
     const description = await TextEditor.enrichHTML(
         item.system.description?.value ?? item.system.description?.short ?? '',
-        options,
+        {
+            relativeTo: options?.relativeTo,
+            documents: options?.documents,
+            links: options?.links,
+            rollData: options?.rollData,
+            rolls: options?.rolls,
+            secrets: options?.secrets,
+        },
     );
 
     // Render template
