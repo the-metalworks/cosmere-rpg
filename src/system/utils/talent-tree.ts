@@ -250,6 +250,12 @@ export function characterMeetsPrerequisiteRule(
             return actor.system.skills[prereq.skill].rank >= prereq.rank;
         case TalentTree.Node.Prerequisite.Type.Level:
             return actor.system.level >= prereq.level;
+        case TalentTree.Node.Prerequisite.Type.Ancestry:
+            return actor.ancestry?.system.id === prereq.ancestry.id;
+        case TalentTree.Node.Prerequisite.Type.Culture:
+            return actor.cultures.some(
+                (culture) => culture.system.id === prereq.culture.id,
+            );
         case TalentTree.Node.Prerequisite.Type.Connection:
             return true; // No way to check connections
         default:

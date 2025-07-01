@@ -66,6 +66,13 @@ Hooks.on(
                         return false;
                     }
                 }
+
+                // Store the current mode in flags for later use
+                foundry.utils.setProperty(
+                    update,
+                    `flags.${SYSTEM_ID}.meta.update.mode.${modality}`,
+                    currentMode,
+                );
             }
         }
     },
@@ -81,8 +88,11 @@ Hooks.on(
             ) as Record<string, string>;
 
             for (const [modality, newMode] of Object.entries(modalityChanges)) {
-                // Get current mode
-                const currentMode = actor.getMode(modality);
+                // Get previous mode
+                const prevMode = actor.getFlag(
+                    SYSTEM_ID,
+                    `meta.update.mode.${modality}`,
+                );
 
                 // Get modality item for the current mode
                 const currentModalityItem = actor.items.find(
@@ -90,7 +100,7 @@ Hooks.on(
                         item.hasId() &&
                         item.hasModality() &&
                         item.system.modality === modality &&
-                        item.system.id === currentMode,
+                        item.system.id === prevMode,
                 );
 
                 if (currentModalityItem) {

@@ -160,20 +160,34 @@ export class NodePrerequisitesComponent extends HandlebarsApplicationComponent<
             ...(rule.type === TalentTree.Node.Prerequisite.Type.Talent
                 ? {
                       talents: await Promise.all(
-                          rule.talents.map(async (ref) => {
-                              // Look up doc
-                              const doc = (await fromUuid(
-                                  ref.uuid,
-                              )) as unknown as CosmereItem;
-
-                              return {
-                                  ...ref,
-                                  link: doc.toAnchor().outerHTML,
-                              };
-                          }),
+                          rule.talents.map(this.prepareRefContext.bind(this)),
                       ),
                   }
                 : {}),
+
+            ...(rule.type === TalentTree.Node.Prerequisite.Type.Ancestry
+                ? {
+                      ancestry: await this.prepareRefContext(rule.ancestry),
+                  }
+                : {}),
+
+            ...(rule.type === TalentTree.Node.Prerequisite.Type.Culture
+                ? {
+                      culture: await this.prepareRefContext(rule.culture),
+                  }
+                : {}),
+        };
+    }
+
+    private async prepareRefContext(ref: TalentTree.Node.Prerequisite.ItemRef) {
+        if (!ref) return ref;
+
+        // Look up doc
+        const doc = (await fromUuid(ref.uuid)) as unknown as CosmereItem;
+
+        return {
+            ...ref,
+            link: doc.toAnchor().outerHTML,
         };
     }
 
