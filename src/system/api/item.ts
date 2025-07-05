@@ -465,7 +465,7 @@ export function registerItemEventType(data: ItemEventTypeConfigData) {
         label: data.label,
         description: data.description,
         hook: data.hook,
-        host: data.host ?? ItemEventSystem.Event.ExecutionHost.Owner,
+        host: data.host ?? ItemEventSystem.Event.ExecutionHost.Source,
         filter: data.filter,
         condition: data.condition,
         transform: data.transform,
