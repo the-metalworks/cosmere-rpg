@@ -13,18 +13,21 @@
                 <div class="container left">
                     <div class="background"></div>
                     <div class="border"></div>
-                    <span class="title">
+                    <span class="title" {{#if attribute.modified}}data-tooltip="COSMERE.Actor.Sheet.Attributes.IsModifiedTooltip"{{/if}}>
                         {{ localize attribute.config.labelShort }}
+                        {{#if attribute.modified}}
+                            <i class="fa-solid fa-bolt"></i>
+                        {{/if}}
                     </span>
                     {{#if (not @root.isEditMode)}}
-                    <input class="value" type="number"
-                        value="{{bonus attribute}}"
-                        readonly
-                    >
+                        <input class="value {{#if attribute.modified}}modified{{/if}}" type="number"
+                            value="{{bonus attribute}}"
+                            readonly
+                        >
                     {{else}}
-                    <input class="value" type="number" min="0" max="10" step="1"
-                        name="system.attributes.{{attribute.config.key}}.value" value="{{attribute.value}}" 
-                    />
+                        <input class="value {{#if attribute.modified}}modified{{/if}}" type="number" min="0" max="10" step="1"
+                            name="system.attributes.{{attribute.config.key}}.value" value="{{attribute.value}}" data-value="{{attribute.value}}" data-source-value="{{attribute.source}}" 
+                        />
                     {{/if}}
                 </div>
             </div>
@@ -53,17 +56,20 @@
                 <div class="container right">
                     <div class="background"></div>
                     <div class="border"></div>
-                    <span class="title">
+                    <span class="title" {{#if attribute.modified}}data-tooltip="COSMERE.Actor.Sheet.Attributes.IsModifiedTooltip"{{/if}}>
                         {{ localize attribute.config.labelShort }}
+                        {{#if attribute.modified}}
+                            <i class="fa-solid fa-bolt"></i>
+                        {{/if}}
                     </span>
                     {{#if (not @root.isEditMode)}}
-                    <input class="value" type="number"
+                    <input class="value {{#if attribute.modified}}modified{{/if}}" type="number"
                         value="{{bonus attribute}}"
                         readonly
                     >
                     {{else}}
-                    <input class="value" type="number" min="0" max="10" step="1"
-                        name="system.attributes.{{attribute.config.key}}.value" value="{{attribute.value}}" 
+                    <input class="value {{#if attribute.modified}}modified{{/if}}" type="number" min="0" max="10" step="1"
+                        name="system.attributes.{{attribute.config.key}}.value" value="{{attribute.value}}" data-value="{{attribute.value}}" data-source-value="{{attribute.source}}"
                     />
                     {{/if}}
                 </div>                    
