@@ -62,11 +62,11 @@ export class ActorAttributesComponent extends HandlebarsApplicationComponent<
                 $(event.target).trigger('select');
             })
             .on('blur', (event) => {
-                // Get the value
-                const value = $(event.target).data('value') as number;
+                // Get the total
+                const total = $(event.target).data('total') as number;
 
-                // Set the value to the input
-                $(event.target).val(value);
+                // Set the value to the total
+                $(event.target).val(total);
             });
     }
 
@@ -104,18 +104,27 @@ export class ActorAttributesComponent extends HandlebarsApplicationComponent<
         const attrConfig = CONFIG.COSMERE.attributes[attrId];
 
         const attr = this.application.actor.system.attributes[attrId];
-        const sourceValue = (
+        const source = (
             this.application.actor._source as {
-                system: { attributes: Record<Attribute, { value: number }> };
+                system: {
+                    attributes: Record<
+                        Attribute,
+                        { value: number; bonus: number }
+                    >;
+                };
             }
-        ).system.attributes[attrId].value;
+        ).system.attributes[attrId];
+
+        const total = attr.value + attr.bonus;
+        const sourceTotal = source.value + source.bonus;
 
         return {
             id: attrId,
             config: attrConfig,
             ...attr,
-            source: sourceValue,
-            modified: attr.value !== sourceValue,
+            total,
+            source: source,
+            modified: total !== sourceTotal,
         };
     }
 }

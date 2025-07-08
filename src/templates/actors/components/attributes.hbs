@@ -21,12 +21,12 @@
                     </span>
                     {{#if (not @root.isEditMode)}}
                         <input class="value {{#if attribute.modified}}modified{{/if}}" type="number"
-                            value="{{bonus attribute}}"
+                            value="{{total}}"
                             readonly
                         >
                     {{else}}
                         <input class="value {{#if attribute.modified}}modified{{/if}}" type="number" min="0" max="10" step="1"
-                            name="system.attributes.{{attribute.config.key}}.value" value="{{attribute.value}}" data-value="{{attribute.value}}" data-source-value="{{attribute.source}}" 
+                            name="system.attributes.{{attribute.config.key}}.value" value="{{total}}" data-total="{{total}}" data-source-value="{{attribute.source.value}}" 
                         />
                     {{/if}}
                 </div>
@@ -64,12 +64,12 @@
                     </span>
                     {{#if (not @root.isEditMode)}}
                     <input class="value {{#if attribute.modified}}modified{{/if}}" type="number"
-                        value="{{bonus attribute}}"
+                        value="{{total}}"
                         readonly
                     >
                     {{else}}
                     <input class="value {{#if attribute.modified}}modified{{/if}}" type="number" min="0" max="10" step="1"
-                        name="system.attributes.{{attribute.config.key}}.value" value="{{attribute.value}}" data-value="{{attribute.value}}" data-source-value="{{attribute.source}}"
+                        name="system.attributes.{{attribute.config.key}}.value" value="{{total}}" data-total="{{total}}" data-source-value="{{attribute.source.value}}"
                     />
                     {{/if}}
                 </div>                    
