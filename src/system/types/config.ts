@@ -456,9 +456,6 @@ export interface CosmereRPGConfig {
 
         talent: {
             types: Record<Talent.Type, TalentTypeConfig>;
-            grantRules: {
-                types: Record<Talent.GrantRule.Type, string>;
-            };
         };
 
         talentTree: {
