@@ -176,7 +176,6 @@ export const TEMPLATES = {
 
     DIALOG_ITEM_CONSUME: 'item/dialog/item-consume.hbs',
     DIALOG_ITEM_EDIT_EVENT_RULE: 'item/dialog/edit-event-rule.hbs',
-    DIALOG_ITEM_EDIT_REWARD: 'item/goal/dialogs/edit-reward.hbs',
     DIALOG_ITEM_EDIT_GRANT_RULE: 'item/talent/dialogs/edit-grant-rule.hbs',
 
     DIALOG_CHAT_MODIFY_DAMAGE: 'chat/dialogs/damage-modifier.hbs',

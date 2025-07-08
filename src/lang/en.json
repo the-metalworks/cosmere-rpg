@@ -481,26 +481,6 @@
             "Goal": {
                 "Level": {
                     "Label": "Progress"
-                },
-                "Reward": {
-                    "Type": {
-                        "Items": "Items",
-                        "SkillRanks": "Skill Ranks",
-                        "Label": "Type"
-                    },
-                    "Skill": {
-                        "Label": "Skill"
-                    },
-                    "Ranks": {
-                        "Label": "Ranks"
-                    },
-                    "Items": {
-                        "Label": "Items"
-                    },
-                    "Validation": {
-                        "MissingSkillOrRanks": "Must set a Skill and Ranks",
-                        "MissingItems": "Must set Items"
-                    }
                 }
             },
             "Power": {
@@ -1443,9 +1423,6 @@
         },
         "EditGrantRule": {
             "Title": "Edit Rule"
-        },
-        "EditGoalReward": {
-            "Title": "Edit Reward"
         },
         "ReleaseNotes": {
             "Title": "Cosmere Roleplaying Game - Release Notes"
