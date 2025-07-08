@@ -164,4 +164,56 @@ function migrateItemData(item: RawDocumentData<any>, changes: object) {
             });
         }
     }
+
+    if (item.type === 'goal') {
+        if ('rewards' in item.system) {
+            // Get rewards
+            const rewards = item.system.rewards as Record<string, AnyObject>;
+
+            // Set up events
+            const events: Record<string, AnyObject> = {};
+
+            // Iterate over rewards
+            Object.entries(rewards).forEach(([id, reward]) => {
+                if (reward.type === 'items') {
+                    events[id] = {
+                        id,
+                        description: game.i18n!.localize(
+                            'COSMERE.Item.EventSystem.Event.Handler.Types.grant-items.Title',
+                        ),
+                        event: 'goal-complete',
+                        handler: {
+                            type: 'grant-items',
+                            items: reward.items,
+                        },
+                    };
+                } else if (reward.type === 'skill-ranks') {
+                    events[id] = {
+                        id,
+                        description: game.i18n!.localize(
+                            'COSMERE.Item.EventSystem.Event.Handler.Types.update-actor.Title',
+                        ),
+                        event: 'goal-complete',
+                        handler: {
+                            type: 'update-actor',
+                            target: 'parent',
+                            changes: [
+                                {
+                                    key: `system.skills.${reward.skill as string}.rank`,
+                                    value: reward.ranks,
+                                    mode: CONST.ACTIVE_EFFECT_MODES.UPGRADE,
+                                },
+                            ],
+                            uuid: null,
+                        },
+                    };
+                }
+            });
+
+            // Set events
+            foundry.utils.mergeObject(changes, {
+                ['system.events']: events,
+            });
+        }
+    }
 }
