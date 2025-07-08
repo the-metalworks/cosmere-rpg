@@ -15,5 +15,4 @@ import './properties';
 
 import './talent';
 import './ancestry';
-import './goal';
 import './talent-tree';

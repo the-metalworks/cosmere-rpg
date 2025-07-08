@@ -1167,13 +1167,6 @@
                 "TalentTree": {
                     "View": "View"
                 },
-                "Goal": {
-                    "Reward": {
-                        "Title": "Rewards",
-                        "Create": "New Reward",
-                        "SkillRanksDescriptionValue": "{ranks} ranks in {skill}"
-                    }
-                },
                 "Path": {
                     "TalentTreePlaceholder": "Drop Talent Tree Here",
                     "NoTalentsConfigured": "No Talents Configured"

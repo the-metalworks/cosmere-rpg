@@ -130,7 +130,6 @@ export const TEMPLATES = {
     ITEM_ANCESTRY_TALENT_LIST:
         'item/ancestry/components/advancement-talent-list.hbs',
     ITEM_ANCESTRY_BONUS_TALENTS: 'item/ancestry/components/bonus-talents.hbs',
-    ITEM_GOAL_REWARDS_LIST: 'item/goal/components/rewards-list.hbs',
     ITEM_TALENT_GRANT_RULES_LIST: 'item/talent/components/grant-rules-list.hbs',
 
     // ITEM EMBEDDINGS
