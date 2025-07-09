@@ -266,7 +266,9 @@ export class CosmereItem<
     /**
      * Does this item provide talents?
      */
-    public isTalentsProvider(): this is CosmereItem<TalentsProviderData> {
+    public isTalentsProvider(): this is CosmereItem<
+        TalentsProviderData & IdItemData
+    > {
         return 'talentTree' in this.system;
     }
 
