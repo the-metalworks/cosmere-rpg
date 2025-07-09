@@ -1350,6 +1350,22 @@ export class CosmereActor<
         return characterMeetsTalentPrerequisites(this, prerequisites);
     }
 
+    /**
+     * Utility function to determine if an actor has a given goal
+     */
+    public hasGoal(id: string): boolean {
+        return this.goals.some((goal) => goal.system.id === id);
+    }
+
+    /**
+     * Utility function to determine if an actor has completed a given goal
+     */
+    public hasCompletedGoal(id: string): boolean {
+        return this.goals.some(
+            (goal) => goal.system.id === id && goal.system.level === 3,
+        );
+    }
+
     /* --- Helpers --- */
 
     /**
