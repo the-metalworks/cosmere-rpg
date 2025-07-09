@@ -68,6 +68,7 @@ export class CharacterPathsComponent extends HandlebarsApplicationComponent<
                 id: path.id,
                 img: path.img,
                 typeLabel: CONFIG.COSMERE.paths.types[path.system.type].label,
+                numTalents: path.system.unlockedTalents.length,
                 skills: path.system.linkedSkills
                     .filter(
                         (skillId) =>
