@@ -1,5 +1,9 @@
 import { CosmereActor } from '@system/documents/actor';
-import { CosmereItem, TalentsProviderItem } from '@system/documents/item';
+import {
+    CosmereItem,
+    TalentsProviderItem,
+    TalentItem,
+} from '@system/documents/item';
 import { ItemRelationship } from '@system/data/item/mixins/relationships';
 
 // Types
@@ -168,6 +172,29 @@ Hooks.on(
                 if (parentItem) {
                     await item.addRelationship(
                         parentItem,
+                        ItemRelationship.Type.Parent,
+                    );
+                }
+            }
+        } else if (item.isTalentsProvider()) {
+            // Get all orphaned talents on the actor that do not have their origin set
+            const orphanedTalents = item.actor.items
+                .filter(
+                    (otherItem) =>
+                        otherItem.isTalent() &&
+                        !otherItem.hasRelationshipOfType(
+                            ItemRelationship.Type.Parent,
+                        ),
+                )
+                .filter(
+                    (otherItem) => !otherItem.getFlag(SYSTEM_ID, 'meta.origin'),
+                ) as TalentItem[];
+
+            // For each orphaned talent, check if this item can provide it. If so, add a parent relationship
+            for (const talent of orphanedTalents) {
+                if (await item.system.providesTalent(talent)) {
+                    await talent.addRelationship(
+                        item,
                         ItemRelationship.Type.Parent,
                     );
                 }
