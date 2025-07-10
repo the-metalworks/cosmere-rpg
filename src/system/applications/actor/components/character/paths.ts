@@ -1,3 +1,5 @@
+import { ItemType } from '@system/types/cosmere';
+import { ItemRelationship } from '@system/data/item/mixins/relationships';
 import { ConstructorOf } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
@@ -68,7 +70,9 @@ export class CharacterPathsComponent extends HandlebarsApplicationComponent<
                 id: path.id,
                 img: path.img,
                 typeLabel: CONFIG.COSMERE.paths.types[path.system.type].label,
-                numTalents: path.system.unlockedTalents.length,
+                numTalents: path.system.relationships
+                    .filter((rel) => rel.type === ItemRelationship.Type.Child)
+                    .filter((rel) => rel.itemType === ItemType.Talent).length,
                 skills: path.system.linkedSkills
                     .filter(
                         (skillId) =>
