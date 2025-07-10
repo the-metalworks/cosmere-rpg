@@ -37,6 +37,7 @@ export namespace Node {
             Level = 'level',
             Ancestry = 'ancestry',
             Culture = 'culture',
+            Goal = 'goal',
         }
 
         export const enum Mode {
@@ -62,6 +63,8 @@ export namespace Node {
         }
 
         export type TalentRef = ItemRef;
+
+        export type GoalRef = ItemRef;
     }
 
     interface BasePrerequisite<Type extends Prerequisite.Type> {
@@ -97,6 +100,11 @@ export namespace Node {
         talents: Collection<Prerequisite.TalentRef>;
     }
 
+    export interface GoalPrerequisite
+        extends BasePrerequisite<Prerequisite.Type.Goal> {
+        goals: Collection<Prerequisite.GoalRef>;
+    }
+
     export interface LevelPrerequisite
         extends BasePrerequisite<Prerequisite.Type.Level> {
         level: number;
@@ -119,7 +127,8 @@ export namespace Node {
         | TalentPrerequisite
         | LevelPrerequisite
         | AncestryPrerequisite
-        | CulturePrerequisite;
+        | CulturePrerequisite
+        | GoalPrerequisite;
 }
 
 export interface BaseNode<Type extends Node.Type = Node.Type> {
