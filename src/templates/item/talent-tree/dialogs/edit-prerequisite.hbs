@@ -19,6 +19,16 @@
         </div>
     {{/if}}
 
+    {{!-- Goal --}}
+    {{#if (eq type "goal")}}
+        <div class="form-group">
+            {{app-node-prerequisite-goal-list
+                node=node
+                goals=goals
+            }}
+        </div>
+    {{/if}}
+
     {{!-- Attribute --}}
     {{#if (eq type "attribute")}}
     <div class="form-group">
@@ -32,9 +42,9 @@
     <div class="form-group">
         <label>{{localize "COSMERE.Item.Sheet.Talent.Prerequisites.AttributeValue"}}</label>
         <div class="form-fields">
-            <input 
-                type="number" 
-                name="value" 
+            <input
+                type="number"
+                name="value"
                 value="{{value}}"
                 min="0"
                 step="1"
@@ -57,9 +67,9 @@
     <div class="form-group">
         <label>{{localize "COSMERE.Item.Sheet.Talent.Prerequisites.SkillRank"}}</label>
         <div class="form-fields">
-            <input 
-                type="number" 
-                name="rank" 
+            <input
+                type="number"
+                name="rank"
                 value="{{rank}}"
                 min="0"
                 step="1"
@@ -74,9 +84,9 @@
     <div class="form-group">
         <label>{{localize "COSMERE.Item.Sheet.Talent.Prerequisites.ConnectionDescription"}}</label>
         <div class="form-fields">
-            <input 
-                type="text" 
-                name="description" 
+            <input
+                type="text"
+                name="description"
                 value="{{description}}"
                 placeholder="{{localize "COSMERE.Item.Sheet.Talent.Prerequisites.ConnectionDescriptionPlaceholder"}}"
             >

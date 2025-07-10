@@ -590,6 +590,25 @@ export class TalentTreeViewComponent<
                                   })),
                               }
                             : undefined),
+                        ...(prereq.type ===
+                        TalentTree.Node.Prerequisite.Type.Goal
+                            ? {
+                                  goals: prereq.goals.map((ref) => ({
+                                      id: ref.id,
+                                      label:
+                                          (
+                                              fromUuidSync(ref.uuid) as
+                                                  | Pick<CosmereItem, 'name'>
+                                                  | undefined
+                                          )?.name ?? ref.label,
+                                      uuid: ref.uuid,
+                                      completed:
+                                          this.contextActor?.hasCompletedGoal(
+                                              ref.id,
+                                          ) ?? false,
+                                  })),
+                              }
+                            : undefined),
                     };
                 }),
                 description: await TextEditor.enrichHTML(
