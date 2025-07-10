@@ -10,6 +10,7 @@ import { SYSTEM_ID } from '@system/constants';
 function createRelationshipData(
     to: RelationshipsItem,
     type: ItemRelationship.Type,
+    removalPolicy?: ItemRelationship.RemovalPolicy,
     id = foundry.utils.randomID(),
 ): ItemRelationshipData {
     return {
@@ -17,6 +18,7 @@ function createRelationshipData(
         type,
         itemType: to.type,
         uuid: to.uuid,
+        removalPolicy,
     };
 }
 
@@ -24,30 +26,41 @@ function addRelationship(
     from: RelationshipsItem,
     to: RelationshipsItem,
     type: ItemRelationship.Type,
+    removalPolicy?: ItemRelationship.RemovalPolicy,
     source?: false,
 ): Promise<void>;
 function addRelationship(
     from: RelationshipsItem,
     to: RelationshipsItem,
     type: ItemRelationship.Type,
+    removalPolicy: ItemRelationship.RemovalPolicy | undefined,
     source: true,
 ): void;
 function addRelationship(
     from: RelationshipsItem,
     to: RelationshipsItem,
     type: ItemRelationship.Type,
+    removalPolicy?: ItemRelationship.RemovalPolicy,
     source?: boolean,
 ): Promise<void> | void;
 function addRelationship(
     from: RelationshipsItem,
     to: RelationshipsItem,
     type: ItemRelationship.Type,
+    removalPolicy?: ItemRelationship.RemovalPolicy,
     source = false,
 ): Promise<void> | void {
     // Ensure the item is not already related
     if (from.isRelatedTo(to, type)) return;
 
-    return setRelationship(foundry.utils.randomID(), from, to, type, source);
+    return setRelationship(
+        foundry.utils.randomID(),
+        from,
+        to,
+        type,
+        removalPolicy,
+        source,
+    );
 }
 
 function addRelationshipData(
@@ -63,6 +76,7 @@ function setRelationship(
     from: RelationshipsItem,
     to: RelationshipsItem,
     type: ItemRelationship.Type,
+    removalPolicy?: ItemRelationship.RemovalPolicy,
     source?: false,
 ): Promise<void>;
 function setRelationship(
@@ -70,6 +84,7 @@ function setRelationship(
     from: RelationshipsItem,
     to: RelationshipsItem,
     type: ItemRelationship.Type,
+    removalPolicy: ItemRelationship.RemovalPolicy | undefined,
     source: true,
 ): void;
 function setRelationship(
@@ -77,6 +92,7 @@ function setRelationship(
     from: RelationshipsItem,
     to: RelationshipsItem,
     type: ItemRelationship.Type,
+    removalPolicy?: ItemRelationship.RemovalPolicy,
     source?: boolean,
 ): Promise<void> | void;
 function setRelationship(
@@ -84,11 +100,12 @@ function setRelationship(
     from: RelationshipsItem,
     to: RelationshipsItem,
     type: ItemRelationship.Type,
+    removalPolicy?: ItemRelationship.RemovalPolicy,
     source = false,
 ): Promise<void> | void {
     // Ensure the item is not already related
     if (from.system.relationships.some((rel) => rel.id === id)) return;
-    const changes = setRelationshipData(id, {}, to, type);
+    const changes = setRelationshipData(id, {}, to, type, removalPolicy);
 
     if (!source) {
         return from.update(changes).then(void 0);
@@ -102,8 +119,9 @@ function setRelationshipData(
     itemData: object,
     to: RelationshipsItem,
     type: ItemRelationship.Type,
+    removalPolicy?: ItemRelationship.RemovalPolicy,
 ): object {
-    const rel = createRelationshipData(to, type, id);
+    const rel = createRelationshipData(to, type, removalPolicy, id);
     return foundry.utils.mergeObject(itemData, {
         [`system.relationships.${rel.id}`]: rel,
         ...(type === ItemRelationship.Type.Parent && to.hasId()

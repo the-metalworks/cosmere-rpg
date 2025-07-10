@@ -145,7 +145,7 @@ Hooks.on('preCreateItem', (item: CosmereItem) => {
     if (!item.actor) return;
 
     // Get origin flag
-    const origin = item.getFlag(SYSTEM_ID, 'meta.origin');
+    const origin = item.getFlag<ItemOrigin>(SYSTEM_ID, 'meta.origin');
     if (!origin) return;
 
     // Attempt to find a suitable parent item on the actor
@@ -159,7 +159,12 @@ Hooks.on('preCreateItem', (item: CosmereItem) => {
     if (!parentItem) return;
 
     // Add a parent relationship to the item
-    item.addRelationship(parentItem, ItemRelationship.Type.Parent, true);
+    item.addRelationship(
+        parentItem,
+        ItemRelationship.Type.Parent,
+        ItemRelationship.RemovalPolicy.Keep,
+        true,
+    );
 });
 
 Hooks.on(
@@ -318,6 +323,7 @@ async function connectRelationship(
         relatedItem,
         item,
         contraType,
+        relationShip.removalPolicy,
     );
 }
 

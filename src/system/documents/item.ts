@@ -1285,21 +1285,30 @@ export class CosmereItem<
     public addRelationship(
         item: CosmereItem,
         type: ItemRelationship.Type,
+        removalPolicy?: ItemRelationship.RemovalPolicy,
         source?: false,
     ): Promise<void>;
     public addRelationship(
         item: CosmereItem,
         type: ItemRelationship.Type,
+        removalPolicy: ItemRelationship.RemovalPolicy | undefined,
         source: true,
     ): void;
     public addRelationship(
         item: CosmereItem,
         type: ItemRelationship.Type,
+        removalPolicy?: ItemRelationship.RemovalPolicy,
         source = false,
     ): Promise<void> | void {
         if (!this.hasRelationships() || !item.hasRelationships()) return;
 
-        return ItemRelationshipUtils.addRelationship(this, item, type, source);
+        return ItemRelationshipUtils.addRelationship(
+            this,
+            item,
+            type,
+            removalPolicy,
+            source,
+        );
     }
 
     public removeRelationship(
