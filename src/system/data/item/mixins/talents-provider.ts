@@ -4,22 +4,11 @@ import {
     TalentTreeItem,
 } from '@system/documents/item';
 
-// Mixins
-import { IdItemData } from './id';
-
-// Types
-import { Talent } from '@system/types/item';
-
-// Constants
-import { SYSTEM_ID } from '@system/constants';
-
 export interface TalentsProviderData {
     /**
      * The UUID of the talent tree that gets displayed on the talents tab.
      */
     talentTree: string | null;
-
-    readonly unlockedTalents: TalentItem[];
 
     getTalents(includeNested?: boolean): Promise<TalentItem[]>;
     providesTalent(talent: TalentItem): Promise<boolean>;
@@ -32,23 +21,11 @@ export interface TalentsProviderData {
  */
 export function TalentsProviderMixin<P extends CosmereItem>() {
     return (
-        base: typeof foundry.abstract.TypeDataModel<
-            TalentsProviderData & IdItemData,
-            P
-        >,
+        base: typeof foundry.abstract.TypeDataModel<TalentsProviderData, P>,
     ) => {
         return class extends base {
             static defineSchema() {
-                const superSchema = super.defineSchema();
-
-                // Ensure schema contains id (id mixin was used)
-                if (!('id' in superSchema)) {
-                    throw new Error(
-                        'TalentsProviderMixin must be used in combination with IdItemMixin',
-                    );
-                }
-
-                return foundry.utils.mergeObject(superSchema, {
+                return foundry.utils.mergeObject(super.defineSchema(), {
                     talentTree: new foundry.data.fields.DocumentUUIDField({
                         required: true,
                         nullable: true,
@@ -57,42 +34,6 @@ export function TalentsProviderMixin<P extends CosmereItem>() {
                         label: 'COSMERE.Item.Sheet.TalentsProvider.TalentTree.Label',
                         hint: 'COSMERE.Item.Sheet.TalentsProvider.TalentTree.Hint',
                     }),
-                });
-            }
-
-            /**
-             * The talents that the actor has unlocked from this item.
-             */
-            public get unlockedTalents(): TalentItem[] {
-                if (!this.parent.actor) return [];
-
-                // Get the actor
-                const actor = this.parent.actor;
-
-                // Get all talents whose source is this item
-                return actor.talents.filter((talent) => {
-                    // Get the source
-                    const source = talent.getFlag(
-                        SYSTEM_ID,
-                        'source',
-                    ) as Talent.Source | null;
-
-                    // Ensure the source type matches the type of this item
-                    const sourceTypeMatch =
-                        (source?.type === Talent.SourceType.Ancestry &&
-                            this.parent.isAncestry()) ||
-                        (source?.type === Talent.SourceType.Path &&
-                            this.parent.isPath()) ||
-                        (source?.type === Talent.SourceType.Power &&
-                            this.parent.isPower());
-
-                    // Ensure the source id matches the id of this item
-                    return (
-                        (sourceTypeMatch &&
-                            source.id === this.parent.system.id) ||
-                        (source?.type === Talent.SourceType.Tree &&
-                            source.uuid === this.talentTree)
-                    );
                 });
             }
 
