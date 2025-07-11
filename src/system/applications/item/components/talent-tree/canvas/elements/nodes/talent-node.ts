@@ -33,6 +33,8 @@ export class TalentNode extends BaseNode {
 
     private hoverAnimations: Animation[] = [];
 
+    private prevIsTalentObtained = false;
+
     public constructor(
         canvas: PIXICanvasApplication,
         data: TalentTree.TalentNode,
@@ -223,7 +225,8 @@ export class TalentNode extends BaseNode {
 
         // Reset connections
         connections.forEach((c) => {
-            c.colorMatrixFilter.greyscale(0.1, false);
+            if (c.isObtained) c.colorMatrixFilter.reset();
+            else c.colorMatrixFilter.greyscale(0.1, false);
         });
     }
 
@@ -339,12 +342,17 @@ export class TalentNode extends BaseNode {
             this.colorMatrixFilter.reset();
             this.cursor = this.canvas.world.editable ? 'pointer' : 'default';
         }
+
+        this.prevIsTalentObtained = this.isTalentObtained;
     }
 
     /* --- Lifecycle --- */
 
     public override async refresh() {
         await super.refresh();
+
+        if (this.prevIsTalentObtained !== this.isTalentObtained)
+            this.markDirty();
 
         if (!this.parentNode) return;
 

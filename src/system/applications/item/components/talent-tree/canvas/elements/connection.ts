@@ -29,6 +29,8 @@ export abstract class BaseConnection extends Drawable {
     protected fromPos: PIXI.IPointData;
     protected toPos: PIXI.IPointData;
 
+    private prevIsObtained = false;
+
     public constructor(
         canvas: PIXICanvasApplication,
         public readonly from: BaseNode,
@@ -94,6 +96,8 @@ export abstract class BaseConnection extends Drawable {
     }
 
     public refresh() {
+        if (this.prevIsObtained !== this.isObtained) this.markDirty();
+
         if (this.parentNode?.contentEditable) {
             this.interactive = true;
             this.cursor = 'pointer';
@@ -154,6 +158,8 @@ export abstract class BaseConnection extends Drawable {
             this.glowFilter.alpha = 0.4;
             this.alpha = 1;
         }
+
+        this.prevIsObtained = this.isObtained;
     }
 
     protected drawPath() {

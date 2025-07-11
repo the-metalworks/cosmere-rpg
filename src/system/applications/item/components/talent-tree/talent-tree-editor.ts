@@ -17,7 +17,15 @@ import * as TalentTreeUtils from '@system/utils/talent-tree';
 import { AppContextMenu } from '@system/applications/utils/context-menu';
 
 // Canvas
-import { GridViewport, TalentTreeWorld, CanvasElements } from './canvas';
+import {
+    GridViewport,
+    TalentTreeWorld,
+    CanvasElements,
+    ClickNodeEvent,
+    RightClickNodeEvent,
+    RightClickConnectionEvent,
+    ClickConnectionEvent,
+} from './canvas';
 
 // Constants
 import { GRID_SIZE, EDIT_MENU_WIDTH } from './constants';
@@ -223,6 +231,99 @@ export class TalentTreeEditorComponent extends TalentTreeViewComponent {
 
     /* --- Event handlers --- */
 
+    protected onClickNode(
+        event: ClickNodeEvent<CanvasElements.Nodes.TalentNode>,
+    ): Promise<void> {
+        this.contextMenu!.hide();
+
+        // Select
+        this.selectNode(event.node.data);
+
+        // Dispatch event
+        this.dispatchEvent(
+            new CustomEvent('click-node', {
+                detail: {
+                    node: event.node,
+                },
+            }),
+        );
+
+        return Promise.resolve();
+    }
+
+    protected async onRightClickNode(
+        event: RightClickNodeEvent<CanvasElements.Nodes.TalentNode>,
+    ) {
+        this.contextMenu!.hide();
+
+        // Dispatch event
+        this.dispatchEvent(
+            new CustomEvent('rightclick-node', {
+                detail: {
+                    node: event.node,
+                },
+            }),
+        );
+
+        // Show context menu
+        const options = [
+            ...(event.node.data.type === TalentTree.Node.Type.Talent
+                ? this.getTalentContextMenuOptions(event.node.data)
+                : []),
+            ...this.getNodeContextMenuOptions(event.node.data),
+        ];
+        if (options.length === 0) return;
+
+        // Convert node position to view space
+        const viewPos = this.viewport!.worldToView(event.node.origin);
+
+        // Adjust size for zoom
+        const size = {
+            width: event.node.size.width * this.viewport!.view.zoom,
+            height: event.node.size.height * this.viewport!.view.zoom,
+        };
+
+        // Show context menu
+        await this.contextMenu!.show(options, {
+            left: viewPos.x + size.width,
+            top: viewPos.y,
+        });
+    }
+
+    protected onClickConnection(event: ClickConnectionEvent): void {
+        super.onClickConnection(event);
+
+        // Select
+        this.selectConnection({
+            from: event.from.data.id,
+            to: event.to.data.id,
+        });
+    }
+
+    protected onRightClickConnection(event: RightClickConnectionEvent): void {
+        // Convert canvas connection to node connection
+        const connection = {
+            from: event.from.data.id,
+            to: event.to.data.id,
+        };
+
+        // Select
+        this.selectConnection(connection);
+
+        // Get options
+        const options = this.getConnectionContextMenuOptions(connection);
+        if (options.length === 0) return;
+
+        // Show context menu
+        void this.contextMenu!.show(
+            this.getConnectionContextMenuOptions(connection),
+            {
+                left: event.screen.x,
+                top: event.screen.y,
+            },
+        );
+    }
+
     protected onMouseOverNode(): Promise<void> {
         return Promise.resolve();
     }
@@ -261,7 +362,6 @@ export class TalentTreeEditorComponent extends TalentTreeViewComponent {
                     await this.canvasTree!.refresh();
                 },
             },
-            ...super.getNodeContextMenuOptions(node),
         ];
     }
 
@@ -289,7 +389,6 @@ export class TalentTreeEditorComponent extends TalentTreeViewComponent {
                     this.app!.world.beginCreateConnection(node);
                 },
             },
-            ...super.getTalentContextMenuOptions(node),
         ];
     }
 
@@ -311,7 +410,6 @@ export class TalentTreeEditorComponent extends TalentTreeViewComponent {
                     await this.canvasTree!.refresh();
                 },
             },
-            ...super.getConnectionContextMenuOptions(connection),
         ];
     }
 }
