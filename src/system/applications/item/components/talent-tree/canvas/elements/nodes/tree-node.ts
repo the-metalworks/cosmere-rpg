@@ -274,7 +274,7 @@ export class TalentTreeNode extends BaseNode {
         return this.rootTalents.some(
             (talent) =>
                 !actor.hasTalent(talent.id) &&
-                actor.hasTalentPreRequisites(talent.prerequisites),
+                actor.hasTalentPreRequisites(talent.prerequisites, this.item),
         );
     }
 

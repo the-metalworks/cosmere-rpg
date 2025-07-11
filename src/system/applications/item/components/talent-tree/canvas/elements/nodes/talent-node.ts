@@ -134,7 +134,10 @@ export class TalentNode extends BaseNode {
         if (actor.hasTalent(this.data.talentId)) return false;
 
         // Check prerequisites
-        return actor.hasTalentPreRequisites(this.data.prerequisites);
+        return actor.hasTalentPreRequisites(
+            this.data.prerequisites,
+            this.canvas.world.tree.item,
+        );
     }
 
     public get parentNode() {

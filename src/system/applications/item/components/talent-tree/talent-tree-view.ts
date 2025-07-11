@@ -427,7 +427,10 @@ export class TalentTreeViewComponent<
             this.allowObtainTalents &&
             node.type === TalentTree.Node.Type.Talent &&
             !this.contextActor.hasTalent(node.talentId) &&
-            this.contextActor.hasTalentPreRequisites(node.prerequisites)
+            this.contextActor.hasTalentPreRequisites(
+                node.prerequisites,
+                this.tree,
+            )
         ) {
             // Get the item
             const item = (await fromUuid(node.uuid)) as TalentItem | null;
@@ -490,6 +493,26 @@ export class TalentTreeViewComponent<
             const talent = this.contextActor.items.find(
                 (item) => item.isTalent() && item.system.id === node.talentId,
             )!;
+
+            // Check if the talent is removable
+            if (
+                await TalentTreeUtils.isTalentRequiredAsPrerequisite(
+                    this.contextActor,
+                    node.talentId,
+                    this.tree,
+                )
+            ) {
+                ui.notifications.warn(
+                    game.i18n!.format(
+                        'GENERIC.Notification.TalentCannotBeRemoved',
+                        {
+                            talent: talent.name,
+                            actor: this.contextActor.name,
+                        },
+                    ),
+                );
+                return;
+            }
 
             // Remove the talent
             await talent.delete();
@@ -562,6 +585,7 @@ export class TalentTreeViewComponent<
                         ? TalentTreeUtils.characterMeetsPrerequisiteRule(
                               this.contextActor,
                               prereq,
+                              this.tree,
                           )
                         : undefined;
 

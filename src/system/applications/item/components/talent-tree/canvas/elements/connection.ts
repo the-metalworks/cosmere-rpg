@@ -398,7 +398,10 @@ export class TalentsConnection extends BaseConnection {
         if (actor.hasTalent(this.from.data.talentId)) return false;
 
         // Check prerequisites
-        return actor.hasTalentPreRequisites(this.from.data.prerequisites);
+        return actor.hasTalentPreRequisites(
+            this.from.data.prerequisites,
+            this.canvas.world.tree.item,
+        );
     }
 }
 

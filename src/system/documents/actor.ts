@@ -22,6 +22,7 @@ import {
     TalentItem,
     GoalItem,
     PowerItem,
+    TalentTreeItem,
 } from '@system/documents/item';
 import { CosmereActiveEffect } from '@system/documents/active-effect';
 
@@ -1345,9 +1346,10 @@ export class CosmereActor<
      */
     public hasTalentPreRequisites(
         prerequisites: Collection<TalentTree.Node.Prerequisite>,
+        tree?: TalentTreeItem,
     ): boolean {
         if (!this.isCharacter()) return false;
-        return characterMeetsTalentPrerequisites(this, prerequisites);
+        return characterMeetsTalentPrerequisites(this, prerequisites, tree);
     }
 
     /* --- Helpers --- */

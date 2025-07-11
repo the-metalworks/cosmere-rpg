@@ -227,21 +227,42 @@ export function removePrerequisite(
 export function characterMeetsTalentPrerequisites(
     actor: CharacterActor,
     prerequisites: Collection<TalentTree.Node.Prerequisite>,
-) {
+    tree?: TalentTreeItem,
+): boolean {
     return Array.from(prerequisites).every((prereq) =>
-        characterMeetsPrerequisiteRule(actor, prereq),
+        characterMeetsPrerequisiteRule(actor, prereq, tree),
     );
 }
 
 export function characterMeetsPrerequisiteRule(
     actor: CharacterActor,
     prereq: TalentTree.Node.Prerequisite,
-) {
+    tree?: TalentTreeItem,
+): boolean {
     switch (prereq.type) {
         case TalentTree.Node.Prerequisite.Type.Talent:
-            return Array.from(prereq.talents).some((ref) =>
-                actor.hasTalent(ref.id),
-            );
+            return Array.from(prereq.talents).some((ref) => {
+                // Find talent
+                const refTalent = actor.talents.find(
+                    (t) => t.system.id === ref.id,
+                );
+                if (!refTalent) return false;
+
+                // Find the talent in the tree
+                const refTalentNode = tree?.system.nodes.find(
+                    (node) =>
+                        node.type === TalentTree.Node.Type.Talent &&
+                        node.talentId === ref.id,
+                ) as TalentTree.TalentNode | undefined;
+                if (!refTalentNode) return true; // Can't check upstream prerequisites, so assume it's met
+
+                // Check upstream prerequisites
+                return characterMeetsTalentPrerequisites(
+                    actor,
+                    refTalentNode.prerequisites,
+                    tree,
+                );
+            });
         case TalentTree.Node.Prerequisite.Type.Attribute:
             return (
                 actor.system.attributes[prereq.attribute].value >= prereq.value
@@ -261,4 +282,58 @@ export function characterMeetsPrerequisiteRule(
         default:
             return false;
     }
+}
+
+/**
+ * Is the talent with the given id currently obtained and
+ * required as a prerequisite for any other obtained talent?
+ */
+export async function isTalentRequiredAsPrerequisite(
+    actor: CharacterActor,
+    talentId: string,
+    tree: TalentTreeItem,
+): Promise<boolean> {
+    if (!actor.hasTalent(talentId)) return false;
+
+    // Find any talent nodes that have this talent as a prerequisite
+    const dependentNodes = tree.system.nodes.filter(
+        (node) =>
+            node.type === TalentTree.Node.Type.Talent &&
+            node.prerequisites.some(
+                (prereq) =>
+                    prereq.type === TalentTree.Node.Prerequisite.Type.Talent &&
+                    prereq.talents.some((t) => t.id === talentId),
+            ),
+    ) as TalentTree.TalentNode[];
+
+    // Check if any of these nodes are obtained
+    const hasDependency = dependentNodes.some((node) =>
+        actor.hasTalent(node.talentId),
+    );
+    if (hasDependency) return true;
+
+    // Get all nested talent tree nodes
+    const nestedTreeNodes = tree.system.nodes.filter(
+        (node) => node.type === TalentTree.Node.Type.Tree,
+    );
+
+    // Resolve all nested talent trees
+    const nestedTrees = (
+        await Promise.all(
+            nestedTreeNodes.map(
+                (node) => fromUuid(node.uuid) as Promise<TalentTreeItem | null>,
+            ),
+        )
+    ).filter((tree) => !!tree);
+
+    // Check if any nested trees have the talent as a prerequisite
+    for (const nestedTree of nestedTrees) {
+        if (await isTalentRequiredAsPrerequisite(actor, talentId, nestedTree)) {
+            console.log('Talent is required in nested tree:', nestedTree.id);
+            return true;
+        }
+    }
+
+    // If we reach here, the talent is not required as a prerequisite for any other obtained talent
+    return false;
 }
