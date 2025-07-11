@@ -385,7 +385,7 @@ export interface ItemEventTypeConfig {
      */
     transform?: (...args: any[]) => {
         document: foundry.abstract.Document;
-        options?: AnyObject;
+        options?: AnyObject & { _eti?: string; _d?: number };
         userId?: string;
     };
     /* eslint-enable @typescript-eslint/no-explicit-any */

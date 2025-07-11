@@ -154,6 +154,8 @@ export function register() {
                                   },
                               }
                             : {}),
+
+                        ...event.op,
                     }),
                 ),
             );
