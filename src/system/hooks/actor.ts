@@ -1,10 +1,72 @@
 import { CosmereActor } from '@system/documents/actor';
+import { Resource } from '@system/types/cosmere';
 import { CosmereHooks } from '@system/types/hooks';
-import { DeepPartial } from '@system/types/utils';
+import { DeepPartial, AnyMutableObject } from '@system/types/utils';
 
 // Constants
 import { SYSTEM_ID } from '@system/constants';
 import { HOOKS } from '@system/constants/hooks';
+
+/* --- Resource Max --- */
+
+Hooks.on(
+    'preUpdateActor',
+    (
+        actor: CosmereActor,
+        update: DeepPartial<CosmereActor>,
+        options: AnyMutableObject,
+        userId: string,
+    ) => {
+        if (game.user!.id !== userId) return;
+
+        (Object.keys(actor.system.resources) as Resource[]).forEach((key) => {
+            const resource = actor.system.resources[key];
+
+            foundry.utils.setProperty(
+                options,
+                `${SYSTEM_ID}.resource.${key}.max`,
+                resource.max.value,
+            );
+        });
+    },
+);
+
+Hooks.on(
+    'updateActor',
+    (
+        actor: CosmereActor,
+        update: DeepPartial<CosmereActor>,
+        options: AnyMutableObject,
+        userId: string,
+    ) => {
+        if (game.user!.id !== userId) return;
+
+        const changes = {} as AnyMutableObject;
+        (Object.keys(actor.system.resources) as Resource[]).forEach((key) => {
+            const resource = actor.system.resources[key];
+
+            // Get the previous max value
+            const prevMax = foundry.utils.getProperty(
+                options,
+                `${SYSTEM_ID}.resource.${key}.max`,
+            ) as number | undefined;
+            if (prevMax === undefined) return;
+
+            // If the max value has changed, update the actor
+            if (resource.max.value > prevMax) {
+                const diff = resource.max.value - prevMax;
+
+                foundry.utils.mergeObject(changes, {
+                    [`system.resources.${key}.value`]: resource.value + diff,
+                });
+            }
+        });
+
+        if (Object.keys(changes).length > 0) {
+            void actor.update(changes);
+        }
+    },
+);
 
 /* --- Modality --- */
 
