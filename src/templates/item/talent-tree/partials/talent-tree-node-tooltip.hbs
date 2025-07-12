@@ -21,7 +21,9 @@
                         <i class="fa-solid fa-list-check"></i>
                         {{#each prereq.goals as |goal|}}
                             <span>{{goal.label}}</span>
-                            <span>{{lower (localize "GENERIC.Goal")}}</span>
+                            {{#if (not @last)}}
+                                <span>or</span>
+                            {{/if}}
                         {{/each}}
                     {{else if (eq prereq.type "attribute")}}
                         <i class="fa-solid fa-chart-column"></i>
