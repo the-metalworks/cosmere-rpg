@@ -232,9 +232,11 @@ Handlebars.registerHelper(
                 context.weight = {
                     value: item.system.weight.value,
                     unit: item.system.weight.unit,
-                    total:
-                        (item.system.quantity ?? 0) *
-                        (item.system.weight.value ?? 0),
+                    total: parseFloat(
+                        (
+                            item.system.quantity * item.system.weight.value
+                        ).toFixed(2),
+                    ),
                 };
                 context.price = {
                     value: item.system.price.value,
