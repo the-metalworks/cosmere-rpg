@@ -235,12 +235,8 @@ export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<
         // Get goal element
         const element = $(this.element!).find(`.item[data-id="${id}"]`);
 
-        console.log('element', element);
-
         // Get input element
         const input = element.find('input.name');
-
-        console.log('input', input);
 
         // Set not readonly
         input.prop('readonly', false);
