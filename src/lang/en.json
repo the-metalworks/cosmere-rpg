@@ -1030,8 +1030,9 @@
                         }
                     }
                 },
-                "Notifications": {
-                    "LoopError": "Too many events fired in a short time. Aborting execution to prevent infinite loop."
+                "Notification": {
+                    "ExceededMaxDepth": "Exceeded maximum event chain depth. Aborting event execution.",
+                    "RecentEventsExceeded": "Exceeded maximum number of \"{eventType}\" events in a short period of time. Aborting event execution."
                 }
             },
             "Sheet": {
