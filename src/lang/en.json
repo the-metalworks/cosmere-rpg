@@ -300,6 +300,9 @@
                 "Skills": {
                     "AdjustTooltip": "Left Click to increase {skill}'s Rank.<br>Right Click to decrease {skill}'s Rank.",
                     "SetTooltip": "Left Click to adjust {skill}'s Rank.<br>Right Click to clear {skill}'s Rank."
+                },
+                "Attributes": {
+                    "IsModifiedTooltip": "This attribute is being modified by an effect."
                 }
             }
         },
@@ -1680,6 +1683,9 @@
         "skipDialogDefault": "Skip/Show Dialog",
         "skipDialogAdvantage": "Skip Dialog with Advantage",
         "skipDialogDisadvantage": "Skip Dialog with Disadvantage",
-        "skipDialogRaiseStakes": "Skip Dialog with Raise Stakes"
+        "skipDialogRaiseStakes": "Skip Dialog with Raise Stakes",
+        "changeQuantity5": "Increase/Decrease Quantity by 5",
+        "changeQuantity10": "Increase/Decrease Quantity by 10",
+        "changeQuantity50": "Increase/Decrease Quantity by 50"
     }
 }
