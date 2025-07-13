@@ -162,9 +162,9 @@ export function register() {
 
             if (this.pickOne) {
                 const picked = await PickDialog.show({
-                    // NOTE: Use logical OR to provide a default title if field is empty string
-                    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
                     title:
+                        // NOTE: Use logical OR to provide a default title if field is empty string
+                        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
                         this.pickPromptTitle ||
                         game.i18n!.localize(
                             `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.GrantItems}.PickPromptTitle.Default`,
