@@ -18,6 +18,8 @@ import { SortMode } from './search-bar';
 // Constants
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
+import { areKeysPressed } from '@src/system/utils/generic';
+import { KEYBINDINGS } from '@src/system/settings';
 
 interface EquipmentItemState {
     expanded?: boolean;
@@ -181,40 +183,14 @@ export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<
         this: ActorEquipmentListComponent,
         event: Event,
     ) {
-        // Get item
-        const item = AppUtils.getItemFromEvent(event, this.application.actor);
-        if (!item) return;
-        if (!item.isPhysical()) return;
-
-        await item.update(
-            {
-                'system.quantity': Math.max(0, item.system.quantity - 1),
-            },
-            { render: false },
-        );
-        await this.render();
-
-        this.triggerCurrencyChange();
+        await this.triggerQuantityChange(event, false);
     }
 
     public static async onIncreaseQuantity(
         this: ActorEquipmentListComponent,
         event: Event,
     ) {
-        // Get item
-        const item = AppUtils.getItemFromEvent(event, this.application.actor);
-        if (!item) return;
-        if (!item.isPhysical()) return;
-
-        await item.update(
-            {
-                'system.quantity': item.system.quantity + 1,
-            },
-            { render: false },
-        );
-        await this.render();
-
-        this.triggerCurrencyChange();
+        await this.triggerQuantityChange(event, true);
     }
 
     /* --- Event handlers --- */
@@ -222,6 +198,37 @@ export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<
         const event = new CustomEvent('currency', {});
 
         this.element!.dispatchEvent(event);
+    }
+
+    private async triggerQuantityChange(
+        this: ActorEquipmentListComponent,
+        event: Event,
+        increase = true,
+    ) {
+        // Get item
+        const item = AppUtils.getItemFromEvent(event, this.application.actor);
+        if (!item) return;
+        if (!item.isPhysical()) return;
+
+        let modifier = increase ? 1 : -1;
+
+        if (areKeysPressed(KEYBINDINGS.CHANGE_QUANTITY_BY_5)) {
+            modifier *= 5;
+        } else if (areKeysPressed(KEYBINDINGS.CHANGE_QUANTITY_BY_10)) {
+            modifier *= 10;
+        } else if (areKeysPressed(KEYBINDINGS.CHANGE_QUANTITY_BY_50)) {
+            modifier *= 50;
+        }
+
+        await item.update(
+            {
+                'system.quantity': item.system.quantity + modifier,
+            },
+            { render: false },
+        );
+        await this.render();
+
+        this.triggerCurrencyChange();
     }
 
     /* --- Context --- */

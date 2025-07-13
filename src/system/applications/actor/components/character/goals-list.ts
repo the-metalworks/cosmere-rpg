@@ -198,7 +198,7 @@ export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<
         setTimeout(() => {
             // Edit the goal
             this.editGoal(goal.id);
-        });
+        }, 50);
     }
 
     /* --- Context --- */
@@ -233,19 +233,17 @@ export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<
 
     private editGoal(id: string) {
         // Get goal element
-        const element = $(this.element!).find(`.goal[data-id="${id}"]`);
+        const element = $(this.element!).find(`.item[data-id="${id}"]`);
 
-        // Get span element
-        const span = element.find('span.title');
-
-        // Hide span title
-        span.addClass('inactive');
+        console.log('element', element);
 
         // Get input element
-        const input = element.find('input.title');
+        const input = element.find('input.name');
 
-        // Show
-        input.removeClass('inactive');
+        console.log('input', input);
+
+        // Set not readonly
+        input.prop('readonly', false);
 
         setTimeout(() => {
             // Focus input
