@@ -35,7 +35,7 @@ app-document-reference-input {
     flex-direction: row;
     align-items: center;
 
-    > * {
+    >* {
         flex: 1;
         min-height: 32px;
     }
@@ -44,14 +44,14 @@ app-document-reference-input {
         display: flex;
         flex-direction: row;
         align-items: center;
-        justify-content: space-between;        
+        justify-content: space-between;
         min-height: 32px;
         padding: 0 0.5rem;
         border-radius: 6px;
         background-color: var(--cosmere-color-base-3);
     }
 
-    .controls > a {
+    .controls>a {
         color: var(--cosmere-color-faded);
     }
 
@@ -89,7 +89,8 @@ app-multi-value-select {
     }
 }
 
-app-document-drop-list {
+app-document-drop-list,
+app-item-drop-list {
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
@@ -97,11 +98,25 @@ app-document-drop-list {
     .document {
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
         align-items: center;
         height: 24px;
 
-        .controls > a {
+        .link {
+            flex: 3;
+        }
+
+        .quantity {
+            flex: 1;
+            display: flex;
+            align-items: center;
+
+            >i {
+                font-size: var(--font-size-10);
+                color: var(--cosmere-color-faded);
+            }
+        }
+
+        .controls>a {
             color: var(--cosmere-color-faded);
         }
     }

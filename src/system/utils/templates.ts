@@ -13,6 +13,7 @@ export const TEMPLATES = {
     COMBAT_COMBATANT: 'combat/combatant.hbs',
 
     COMPONENT_DOCUMENT_DROP_LIST: 'general/components/document-drop-list.hbs',
+    COMPONENT_ITEM_DROP_LIST: 'general/components/item-drop-list.hbs',
     COMPONENT_DOCUMENT_REFERENCE: 'general/components/document-reference.hbs',
     COMPONENT_MULTI_VALUE_SELECT: 'general/components/multi-value-select.hbs',
     COMPONENT_ID_INPUT: 'general/components/id-input.hbs',

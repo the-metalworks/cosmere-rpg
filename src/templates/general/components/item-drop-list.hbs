@@ -1,0 +1,39 @@
+{{#each items as |item index|}}
+    <div class="document" data-id="{{item.uuid}}">
+        <div class="link">
+            {{{item.link}}}
+        </div>
+        {{#if item.isPhysical}}
+            <div class="quantity">
+                <i class="separator fa-solid fa-xmark"></i>
+                <input type="text" 
+                    name="quantity"
+                    value="{{item.quantity}}"
+                    {{#if @root.readonly}}readonly{{/if}}
+                >
+            </div>
+        {{/if}}
+        <div class="controls">
+            <a data-action="remove-item"
+                data-tooltip="GENERIC.Button.Remove"
+            >
+                <i class="fa-solid fa-trash"></i>
+            </a>
+        </div>
+    </div>
+{{/each}}
+<p class="drop-area">
+    {{localize 
+        (default 
+            placeholder 
+            (localize 
+                "COMPONENT.DocumentDropListComponent.Placeholder" 
+                type=(localize 
+                    (default type
+                        "DOCUMENT.Item"
+                    )
+                )
+            )
+        )
+    }}
+</p>

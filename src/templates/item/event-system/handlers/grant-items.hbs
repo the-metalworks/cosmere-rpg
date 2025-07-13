@@ -30,31 +30,63 @@
     </div>
 </div>
 
-{{!-- Amount (Quantity increase) --}}
-{{#if handler.increaseQuantity}}
+{{!-- Pick One --}}
+<div class="form-group">
+    <label>
+        {{localize handler.schema.fields.pickOne.label}}
+        <i class="info fa-regular fa-circle-question" 
+            data-tooltip="{{localize handler.schema.fields.pickOne.hint}}"
+        ></i>
+    </label>
+    <div class="form-fields">
+        {{formInput handler.schema.fields.pickOne
+            name="handler.pickOne"
+            value=handler.pickOne
+        }}
+    </div>
+</div>
+
+{{!-- Pick Prompt Title --}}
+{{#if handler.pickOne}}
     <div class="form-group">
         <label>
-            {{localize handler.schema.fields.amount.label}}
+            {{localize handler.schema.fields.pickPromptTitle.label}}
             <i class="info fa-regular fa-circle-question" 
-                data-tooltip="{{localize handler.schema.fields.amount.hint}}"
+                data-tooltip="{{localize handler.schema.fields.pickPromptTitle.hint}}"
             ></i>
         </label>
         <div class="form-fields">
-            {{formInput handler.schema.fields.amount
-                name="handler.amount"
-                value=handler.amount
+            {{formInput handler.schema.fields.pickPromptTitle
+                name="handler.pickPromptTitle"
+                value=handler.pickPromptTitle
+                placeholder=(localize "COSMERE.Item.EventSystem.Event.Handler.Types.grant-items.PickPromptTitle.Default")          
             }}
         </div>
     </div>
 {{/if}}
 
+{{!-- Notify --}}
+<div class="form-group">
+    <label>
+        {{localize handler.schema.fields.notify.label}}
+        <i class="info fa-regular fa-circle-question" 
+            data-tooltip="{{localize handler.schema.fields.notify.hint}}"
+        ></i>
+    </label>
+    <div class="form-fields">
+        {{formInput handler.schema.fields.notify
+            name="handler.notify"
+            value=handler.notify
+        }}
+    </div>
+</div>
+
 {{!-- Items --}}
 <fieldset>
     <legend>{{localize handler.schema.fields.items.label}}</legend>
-    {{app-document-drop-list
+    {{app-item-drop-list
         name="handler.items"
         value=handler.items
-        type="Item"
         placeholder="Drag and drop items here"
     }}
 </fieldset>

@@ -835,9 +835,18 @@
                                     "Label": "Increase Quantity",
                                     "Hint": "Whether to increase the quantity of physical items if the actor already has them"
                                 },
-                                "Amount": {
-                                    "Label": "Amount",
-                                    "Hint": "The quantity to grant. Only used if \"Increase Quantity\" is enabled and the item is physical"
+                                "PickOne": {
+                                    "Label": "Pick One",
+                                    "Hint": "Whether to prompt the user to pick one item from the list of items to grant. If not enabled, all items will be granted."
+                                },
+                                "PickPromptTitle": {
+                                    "Label": "Pick Prompt Title",
+                                    "Hint": "The title of the prompt shown when picking an item to grant.",
+                                    "Default": "Pick Item"
+                                },
+                                "Notify": {
+                                    "Label": "Notify User",
+                                    "Hint": "Whether to send a notification to the user for each item granted."
                                 },
                                 "Items": {
                                     "Label": "Items"
@@ -1558,7 +1567,7 @@
         },
         "Notification": {
             "GrazeFocusSpent": "Reduced focus by 1",
-            "AddedItem": "Added {type} \"{item}\" to {actor}",
+            "AddedItem": "Added {item}{quantity} to {actor}",
             "IncreasedSkillRank": "Increased {actor}'s {skill} rank by {amount}",
             "TalentObtained": "Added talent {talent} to {actor}"
         },
