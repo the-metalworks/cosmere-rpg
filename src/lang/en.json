@@ -822,7 +822,19 @@
                         "Types": {
                             "grant-expertises": {
                                 "Title": "Grant Expertises",
-                                "Description": "Grants expertises to an actor."
+                                "Description": "Grants expertises to an actor.",
+                                "AllowReplacement": {
+                                    "Label": "Allow Replacement",
+                                    "Hint": "Whether to allow the user to replace a granted expertise if they already have it."
+                                },
+                                "ReplacementTypes": {
+                                    "Label": "Available Categories",
+                                    "Hint": "The categories of expertises available during replacement."
+                                },
+                                "ReplaceExpertise": {
+                                    "Title": "Choose another Expertise",
+                                    "Button": "Pick"
+                                }
                             },
                             "grant-items": {
                                 "Title": "Grant Items",
@@ -1400,7 +1412,10 @@
         "EditExpertise": {
             "Remove": "Remove",
             "Add": "Add Custom Expertise",
-            "AddPlaceholder": "Custom Expertise"
+            "AddPlaceholder": "Custom Expertise",
+            "Warning": {
+                "MaxExpertises": "Can only select up to {max} expertises."
+            }
         },
         "ConfigureResource": {
             "Title": "Configure Max {resource}: {actor}"

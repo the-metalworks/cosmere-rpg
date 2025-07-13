@@ -1,8 +1,13 @@
+import { ExpertiseType } from '@system/types/cosmere';
 import { HandlerType, Event } from '@system/types/item/event-system';
 import { Expertise } from '@system/data/actor/common';
 
 // Fields
 import { ExpertisesField } from '@system/data/actor/fields/expertises-field';
+import { RecordCollection } from '@system/data/fields/collection';
+
+// Dialogs
+import { EditExpertisesDialog } from '@system/applications/dialogs/edit-expertises';
 
 // Constants
 import { SYSTEM_ID } from '@system/constants';
@@ -13,6 +18,22 @@ interface GrantExpertiseHandlerConfigData {
      * The expertises to grant
      */
     expertises: Collection<Expertise>;
+
+    /**
+     * Whether to allow the user to replace granted expertises
+     * if they already have them.
+     *
+     * @default false
+     */
+    allowReplacement?: boolean;
+
+    /**
+     * Which types of expertises to choose from when replacing
+     * granted expertises.
+     * If not provided, all expertise types will be used.
+     * Only applicable if `allowReplacement` is `true`.
+     */
+    replacementTypes?: Set<ExpertiseType>;
 }
 
 export function register() {
@@ -26,6 +47,31 @@ export function register() {
                 expertises: new ExpertisesField({
                     required: true,
                 }),
+                allowReplacement: new foundry.data.fields.BooleanField({
+                    required: false,
+                    initial: false,
+                    label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.GrantExpertises}.AllowReplacement.Label`,
+                    hint: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.GrantExpertises}.AllowReplacement.Hint`,
+                }),
+                replacementTypes: new foundry.data.fields.SetField(
+                    new foundry.data.fields.StringField({
+                        blank: false,
+                        choices: () =>
+                            Object.entries(
+                                CONFIG.COSMERE.expertiseTypes,
+                            ).reduce(
+                                (acc, [key, config]) => ({
+                                    ...acc,
+                                    [key]: config.label,
+                                }),
+                                {},
+                            ),
+                    }),
+                    {
+                        label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.GrantExpertises}.ReplacementTypes.Label`,
+                        hint: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.GrantExpertises}.ReplacementTypes.Hint`,
+                    },
+                ),
             },
             template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.IES_HANDLER_GRANT_EXPERTISES}`,
         },
@@ -39,9 +85,33 @@ export function register() {
             // Get the actor
             const actor = event.item.actor;
 
-            // Get the expertises to grant (filter out any the actor already has)
-            const expertises = this.expertises.filter(
-                (expertise) => !actor.hasExpertise(expertise),
+            // Get the expertises to grant, replacing any that the actor already has if allowed
+            const expertises = await this.expertises.reduce(
+                async (prev, expertise) => {
+                    const acc = await prev;
+
+                    const hasExpertise = actor.hasExpertise(expertise);
+                    if (hasExpertise && this.allowReplacement) {
+                        const result = await EditExpertisesDialog.show({
+                            data: new RecordCollection<Expertise>(),
+                            types: this.replacementTypes,
+                            maxExpertises: 1,
+                            title: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.GrantExpertises}.ReplaceExpertise.Title`,
+                            submitButtonLabel: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.GrantExpertises}.ReplaceExpertise.Button`,
+                        });
+                        if (!result || result.size === 0) return acc;
+
+                        // If the user chose a replacement, use that instead
+                        const replacement = Array.from(result.values())[0];
+                        acc.push(replacement);
+                    } else if (!hasExpertise) {
+                        // Add the expertise to the list
+                        acc.push(expertise);
+                    }
+
+                    return acc;
+                },
+                Promise.resolve([] as Expertise[]),
             );
 
             // Grant the expertises

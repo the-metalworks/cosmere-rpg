@@ -3,3 +3,37 @@
     name="handler.expertises"
     collapsable=false
 }}
+
+{{!-- Allow replacement --}}
+<div class="form-group">
+    <label>
+        {{localize handler.schema.fields.allowReplacement.label}}
+        <i class="info fa-regular fa-circle-question" 
+            data-tooltip="{{localize handler.schema.fields.allowReplacement.hint}}"
+        ></i>
+    </label>
+    <div class="form-fields">
+        {{formInput handler.schema.fields.allowReplacement
+            name="handler.allowReplacement"
+            value=handler.allowReplacement
+        }}
+    </div>
+</div>
+
+{{#if handler.allowReplacement}}
+    <div class="form-group">
+        <label>
+            {{localize handler.schema.fields.replacementTypes.label}}
+            <i class="info fa-regular fa-circle-question" 
+                data-tooltip="{{localize handler.schema.fields.replacementTypes.hint}}"
+            ></i>
+        </label>
+        <div class="form-fields">
+            {{app-multi-value-select
+                name="handler.replacementTypes"
+                value=handler.replacementTypes
+                options=handler.schema.fields.replacementTypes.element.choices
+            }}
+        </div>
+    </div>
+{{/if}}

@@ -26,7 +26,10 @@ type Params = {
     /**
      * The available options
      */
-    options?: string[] | Record<string, string>;
+    options?:
+        | string[]
+        | Record<string, string>
+        | (() => string[] | Record<string, string>);
 
     /**
      * Placeholder text for the input
@@ -166,13 +169,15 @@ export class MultiValueSelectComponent extends HandlebarsApplicationComponent<
         params.options ??= [];
 
         // Prepare options
-        const options =
-            foundry.utils.getType(params.options) === 'Object'
-                ? (foundry.utils.deepClone(params.options) as Record<
-                      string,
-                      string
-                  >)
-                : (params.options as string[]).reduce(
+        let options =
+            foundry.utils.getType(params.options) === 'function'
+                ? (params.options as () => string[] | Record<string, string>)()
+                : params.options;
+
+        options =
+            foundry.utils.getType(options) === 'Object'
+                ? (foundry.utils.deepClone(options) as Record<string, string>)
+                : (options as string[]).reduce(
                       (acc, key) => ({ ...acc, [key]: key }),
                       {} as Record<string, string>,
                   );
