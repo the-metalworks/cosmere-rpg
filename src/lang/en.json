@@ -823,16 +823,28 @@
                             "grant-expertises": {
                                 "Title": "Grant Expertises",
                                 "Description": "Grants expertises to an actor.",
+                                "Pick": {
+                                    "Label": "User picks",
+                                    "Hint": "Whether the user should pick a number of expertises or if a specific set of expertises should be granted."
+                                },
+                                "PickAmount": {
+                                    "Label": "Amount",
+                                    "Hint": "The maximum number of expertises the user can pick."
+                                },
                                 "AllowReplacement": {
                                     "Label": "Allow Replacement",
                                     "Hint": "Whether to allow the user to replace a granted expertise if they already have it."
                                 },
-                                "ReplacementTypes": {
+                                "AvailableTypes": {
                                     "Label": "Available Categories",
-                                    "Hint": "The categories of expertises available during replacement."
+                                    "Hint": "The categories of expertises available to pick from."
                                 },
                                 "ReplaceExpertise": {
                                     "Title": "Choose another Expertise",
+                                    "Button": "Pick"
+                                },
+                                "PickDialog": {
+                                    "Title": "Choose {amount} Expertises",
                                     "Button": "Pick"
                                 }
                             },
