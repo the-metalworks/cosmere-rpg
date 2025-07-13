@@ -187,6 +187,7 @@ export const TEMPLATES = {
     DIALOG_ROLL_CONFIGURATION: 'roll/dialogs/roll-configuration.hbs',
 
     DIALOG_EDIT_EXPERTISES: 'general/dialogs/edit-expertises.hbs',
+    DIALOG_PICK: 'general/dialogs/pick.hbs',
 
     // ITEM EVENT SYSTEM HANDLERS
     IES_HANDLER_EXECUTE_MACRO: 'item/event-system/handlers/execute-macro.hbs',
