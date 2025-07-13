@@ -1,5 +1,5 @@
 import { AttributeGroup, Attribute } from '@system/types/cosmere';
-import { ConstructorOf } from '@system/types/utils';
+import { AnyObject, ConstructorOf } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
@@ -42,6 +42,34 @@ export class ActorAttributesComponent extends HandlebarsApplicationComponent<
         void ConfigureDefenseDialog.show(this.application.actor, groupId);
     }
 
+    /* --- Lifecycle --- */
+
+    protected _onAttachListeners(params: AnyObject): void {
+        super._onAttachListeners(params);
+
+        $(this.element!)
+            .find('.attribute input:not([readonly])')
+            .on('focus', (event) => {
+                // Get the source value
+                const sourceValue = $(event.target).data(
+                    'source-value',
+                ) as number;
+
+                // Set the value to the source value
+                $(event.target).val(sourceValue);
+
+                // Select the input
+                $(event.target).trigger('select');
+            })
+            .on('blur', (event) => {
+                // Get the total
+                const total = $(event.target).data('total') as number;
+
+                // Set the value to the total
+                $(event.target).val(total);
+            });
+    }
+
     /* --- Context --- */
 
     public _prepareContext(
@@ -75,10 +103,28 @@ export class ActorAttributesComponent extends HandlebarsApplicationComponent<
         // Get the attribute config
         const attrConfig = CONFIG.COSMERE.attributes[attrId];
 
+        const attr = this.application.actor.system.attributes[attrId];
+        const source = (
+            this.application.actor._source as {
+                system: {
+                    attributes: Record<
+                        Attribute,
+                        { value: number; bonus: number }
+                    >;
+                };
+            }
+        ).system.attributes[attrId];
+
+        const total = attr.value + attr.bonus;
+        const sourceTotal = source.value + source.bonus;
+
         return {
             id: attrId,
             config: attrConfig,
-            ...this.application.actor.system.attributes[attrId],
+            ...attr,
+            total,
+            source: source,
+            modified: total !== sourceTotal,
         };
     }
 }

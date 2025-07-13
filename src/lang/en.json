@@ -300,6 +300,9 @@
                 "Skills": {
                     "AdjustTooltip": "Left Click to increase {skill}'s Rank.<br>Right Click to decrease {skill}'s Rank.",
                     "SetTooltip": "Left Click to adjust {skill}'s Rank.<br>Right Click to clear {skill}'s Rank."
+                },
+                "Attributes": {
+                    "IsModifiedTooltip": "This attribute is being modified by an effect."
                 }
             }
         },

@@ -197,19 +197,17 @@ export class BaseActorSheet<
         if (!(event.target instanceof HTMLInputElement)) return;
 
         // Stop event propagation
+        event.preventDefault();
         event.stopPropagation();
 
-        // Update the actor
+        // Update the actor and re-render
         await this.actor.update(
             {
                 'flags.cosmere-rpg.sheet.mode':
                     this.mode === 'view' ? 'edit' : 'view',
             },
-            { render: false },
+            { render: true },
         );
-
-        // Render the sheet
-        void this.render(true);
 
         // Get toggle
         const toggle = $(this.element).find('#mode-toggle');
@@ -388,6 +386,10 @@ export class BaseActorSheet<
         }
 
         $(this.element)
+            .find('#mode-toggle')
+            .on('dblclick', (event) => this.onDoubleClickModeToggle(event));
+
+        $(this.element)
             .find('.collapsible .header')
             .on('click', (event) => this.onClickCollapsible(event));
     }
@@ -397,6 +399,12 @@ export class BaseActorSheet<
     protected onClickCollapsible(event: JQuery.ClickEvent) {
         const target = event.currentTarget as HTMLElement;
         target?.parentElement?.classList.toggle('expanded');
+    }
+
+    protected onDoubleClickModeToggle(event: JQuery.DoubleClickEvent) {
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
     }
 
     protected onActionsSearchChange(event: SearchBarInputEvent) {
