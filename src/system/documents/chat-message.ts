@@ -1050,6 +1050,15 @@ export class CosmereChatMessage extends ChatMessage {
      * @param {JQuery.ClickEvent} event  The triggering event.
      */
     private onClickCollapsible(event: JQuery.ClickEvent) {
+        const directTarget = event.target as HTMLElement;
+
+        if (
+            directTarget.hasAttribute('data-link') ||
+            directTarget.classList.contains('inline-roll')
+        ) {
+            return;
+        }
+
         event.stopPropagation();
         const target = event.currentTarget as HTMLElement;
         target?.classList.toggle('expanded');
