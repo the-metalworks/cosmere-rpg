@@ -172,15 +172,18 @@ export function register() {
             if (expertises.length === 0) return;
 
             // Grant the expertises
-            await actor.update({
-                'system.expertises': expertises.reduce(
-                    (acc, expertise) => ({
-                        ...acc,
-                        [expertise.key]: expertise.toObject(),
-                    }),
-                    {},
-                ),
-            });
+            await actor.update(
+                {
+                    'system.expertises': expertises.reduce(
+                        (acc, expertise) => ({
+                            ...acc,
+                            [expertise.key]: expertise.toObject(),
+                        }),
+                        {},
+                    ),
+                },
+                event.op,
+            );
         },
     });
 }

@@ -121,7 +121,7 @@ export function register() {
                     );
 
                     // Update the item
-                    await item.update(changes);
+                    await item.update(changes, event.op);
                 }),
             );
         },
