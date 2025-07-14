@@ -750,6 +750,18 @@ export class CommonActorDataModel<
             // Derive deflect
             this.deflect.derived = Math.max(natural, armorDeflect);
         }
+
+        // Clamp resource values to their max values
+        (Object.keys(this.resources) as Resource[]).forEach((key) => {
+            // Get the resource
+            const resource = this.resources[key];
+
+            // Get max
+            const max = resource.max.value;
+
+            // Ensure resource value is between max mand min
+            resource.value = Math.max(0, Math.min(max, resource.value));
+        });
     }
 }
 
