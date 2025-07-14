@@ -483,8 +483,6 @@ export class CosmereActor<
 
                 if (item.isAncestry()) {
                     this.onAncestryAdded(item);
-                } else if (item.isTalent()) {
-                    this.onTalentAdded(item);
                 }
             }
         });
@@ -500,54 +498,6 @@ export class CosmereActor<
         otherAncestries.forEach((i) => {
             void i.delete();
         });
-    }
-
-    protected onTalentAdded(item: TalentItem) {
-        // Check if the talent has grant rules
-        if (item.system.grantRules.size > 0) {
-            // Execute grant rules
-            item.system.grantRules.forEach((rule) => {
-                if (rule.type === Talent.GrantRule.Type.Items) {
-                    rule.items.forEach(async (itemUUID) => {
-                        // Get document
-                        const doc = (await fromUuid(
-                            itemUUID,
-                        )) as unknown as CosmereItem;
-
-                        // Get id
-                        const id = doc.hasId() ? doc.system.id : null;
-
-                        // Ensure the item is not already present
-                        if (
-                            !id ||
-                            this.items.some(
-                                (i) => i.hasId() && i.system.id === id,
-                            )
-                        )
-                            return;
-
-                        // Add the item to the actor
-                        await this.createEmbeddedDocuments('Item', [
-                            doc.toObject(),
-                        ]);
-
-                        // Notification
-                        ui.notifications.info(
-                            game.i18n!.format(
-                                'GENERIC.Notification.AddedItem',
-                                {
-                                    type: game.i18n!.localize(
-                                        `TYPES.Item.${doc.type}`,
-                                    ),
-                                    item: doc.name,
-                                    actor: this.name,
-                                },
-                            ),
-                        );
-                    });
-                }
-            });
-        }
     }
 
     /* --- Functions --- */

@@ -16,6 +16,11 @@ export type Event<
      */
     item: CosmereItem;
 
+    /**
+     * The event operation. Must be passed down to document operations.
+     */
+    op: AnyObject;
+
     options?: TOptions;
 } & EventData;
 

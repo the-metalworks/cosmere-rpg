@@ -586,8 +586,13 @@
                         font-family: var(--cosmere-font-header);
                         font-weight: bold;
                         font-size: var(--font-size-14);
-                        line-height: 24px;
+                        line-height: 28px;
                         text-align: left;
+                        padding-top: 4px;
+
+                        &:focus {                            
+                            color: var(--cosmere-color-white);
+                        }
                     }
                 }
 
@@ -696,6 +701,13 @@
                             color: var(--cosmere-color-text-sub);                            
                             z-index: 1;                            
                             position: relative;
+
+                            > i {
+                                position: absolute;
+                                font-size: .75em;
+                                top: 0.1em;
+                                right: -1.05em;
+                            }
                         }
         
                         .value {                        
@@ -703,6 +715,10 @@
                             text-align: center;
                             height: 1.25rem;
                             padding-top: 0.25rem;
+
+                            &.modified:not(:focus) {
+                                color: var(--cosmere-color-highlight);
+                            }
                         }
                     }
 

@@ -300,6 +300,9 @@
                 "Skills": {
                     "AdjustTooltip": "Left Click to increase {skill}'s Rank.<br>Right Click to decrease {skill}'s Rank.",
                     "SetTooltip": "Left Click to adjust {skill}'s Rank.<br>Right Click to clear {skill}'s Rank."
+                },
+                "Attributes": {
+                    "IsModifiedTooltip": "This attribute is being modified by an effect."
                 }
             }
         },
@@ -820,7 +823,31 @@
                         "Types": {
                             "grant-expertises": {
                                 "Title": "Grant Expertises",
-                                "Description": "Grants expertises to an actor."
+                                "Description": "Grants expertises to an actor.",
+                                "Pick": {
+                                    "Label": "User picks",
+                                    "Hint": "Whether the user should pick a number of expertises or if a specific set of expertises should be granted."
+                                },
+                                "PickAmount": {
+                                    "Label": "Amount",
+                                    "Hint": "The maximum number of expertises the user can pick."
+                                },
+                                "AllowReplacement": {
+                                    "Label": "Allow Replacement",
+                                    "Hint": "Whether to allow the user to replace a granted expertise if they already have it."
+                                },
+                                "AvailableTypes": {
+                                    "Label": "Available Categories",
+                                    "Hint": "The categories of expertises available to pick from."
+                                },
+                                "ReplaceExpertise": {
+                                    "Title": "Choose another Expertise",
+                                    "Button": "Pick"
+                                },
+                                "PickDialog": {
+                                    "Title": "Choose {amount} Expertises",
+                                    "Button": "Pick"
+                                }
                             },
                             "grant-items": {
                                 "Title": "Grant Items",
@@ -1028,8 +1055,9 @@
                         }
                     }
                 },
-                "Notifications": {
-                    "LoopError": "Too many events fired in a short time. Aborting execution to prevent infinite loop."
+                "Notification": {
+                    "ExceededMaxDepth": "Exceeded maximum event chain depth. Aborting event execution.",
+                    "RecentEventsExceeded": "Exceeded maximum number of \"{eventType}\" events in a short period of time. Aborting event execution."
                 }
             },
             "Sheet": {
@@ -1399,7 +1427,10 @@
         "EditExpertise": {
             "Remove": "Remove",
             "Add": "Add Custom Expertise",
-            "AddPlaceholder": "Custom Expertise"
+            "AddPlaceholder": "Custom Expertise",
+            "Warning": {
+                "MaxExpertises": "Can only select up to {max} expertises."
+            }
         },
         "ConfigureResource": {
             "Title": "Configure Max {resource}: {actor}"
@@ -1449,9 +1480,6 @@
             "Warning": {
                 "DuplicateLevel": "A rule for level {level} already exists"
             }
-        },
-        "EditGrantRule": {
-            "Title": "Edit Rule"
         },
         "EditGoalReward": {
             "Title": "Edit Reward"
@@ -1683,6 +1711,9 @@
         "skipDialogDefault": "Skip/Show Dialog",
         "skipDialogAdvantage": "Skip Dialog with Advantage",
         "skipDialogDisadvantage": "Skip Dialog with Disadvantage",
-        "skipDialogRaiseStakes": "Skip Dialog with Raise Stakes"
+        "skipDialogRaiseStakes": "Skip Dialog with Raise Stakes",
+        "changeQuantity5": "Increase/Decrease Quantity by 5",
+        "changeQuantity10": "Increase/Decrease Quantity by 10",
+        "changeQuantity50": "Increase/Decrease Quantity by 50"
     }
 }
