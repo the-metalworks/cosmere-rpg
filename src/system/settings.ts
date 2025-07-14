@@ -164,6 +164,9 @@ export const KEYBINDINGS = {
     SKIP_DIALOG_ADVANTAGE: 'skipDialogAdvantage',
     SKIP_DIALOG_DISADVANTAGE: 'skipDialogDisadvantage',
     SKIP_DIALOG_RAISE_STAKES: 'skipDialogRaiseStakes',
+    CHANGE_QUANTITY_BY_5: 'changeQuantity5',
+    CHANGE_QUANTITY_BY_10: 'changeQuantity10',
+    CHANGE_QUANTITY_BY_50: 'changeQuantity50',
 } as const;
 
 /**
@@ -191,6 +194,23 @@ export function registerSystemKeybindings() {
         {
             name: KEYBINDINGS.SKIP_DIALOG_RAISE_STAKES,
             editable: [{ key: 'KeyQ' }],
+        },
+        {
+            name: KEYBINDINGS.CHANGE_QUANTITY_BY_5,
+            editable: [{ key: 'ShiftLeft' }, { key: 'ShiftRight' }],
+        },
+        {
+            name: KEYBINDINGS.CHANGE_QUANTITY_BY_10,
+            editable: [
+                { key: 'ControlLeft' },
+                { key: 'ControlRight' },
+                { key: 'OsLeft' },
+                { key: 'OsRight' },
+            ],
+        },
+        {
+            name: KEYBINDINGS.CHANGE_QUANTITY_BY_50,
+            editable: [{ key: 'AltLeft' }, { key: 'AltRight' }],
         },
     ];
 

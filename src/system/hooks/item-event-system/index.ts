@@ -19,15 +19,19 @@ const VALID_DOCUMENT_TYPES = [
 ];
 
 /**
+ * The maximum depth of chained events.
+ * If an event is fired that exceeds this depth,
+ * an error will be thrown and the event will not be executed.
+ */
+const MAX_EVENT_CHAIN_DEPTH = 10;
+
+/**
  * The maximum number of events that can be fired
  * in a short period of time.
  * If this limit is exceeded an error will be thrown
  * and the event will not be executed.
- *
- * This is to prevent users getting themselves
- * stuck in an infinite loop of events.
  */
-const MAX_RECENT_EVENTS = 50;
+const MAX_RECENT_EVENTS = 1000;
 
 /**
  * The time in milliseconds that an event is considered
@@ -61,7 +65,7 @@ export namespace EventSystem {
 
 // Global variables
 let lastEventTime = 0;
-let recentEventCount = 0;
+const recentEventOfTypeCounts: Record<string, number> = {};
 
 export function register() {
     // Register event types
@@ -72,70 +76,102 @@ export function register() {
 }
 
 Hooks.once('ready', () => {
-    Object.entries(CONFIG.COSMERE.items.events.types).forEach(
-        ([type, config]) => {
-            Hooks.on(
-                config.hook,
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                async (...args: any[]) => {
-                    // Check condition
-                    if (config.condition && !(await config.condition(...args)))
-                        return;
+    // Group all item event types by their hook
+    const evenTypesByHook: Record<string, string[]> = Object.entries(
+        CONFIG.COSMERE.items.events.types,
+    ).reduce(
+        (acc, [type, config]) => {
+            if (!acc[config.hook]) {
+                acc[config.hook] = [];
+            }
+            acc[config.hook].push(type);
+            return acc;
+        },
+        {} as Record<string, string[]>,
+    );
 
-                    // Transform hook arguments to useable format
-                    const {
-                        document,
-                        options,
-                        userId: sourceUserId,
-                    } = getTransform(type, config)(...args);
+    // Register hooks for each event type
+    Object.entries(evenTypesByHook).forEach(([hook, eventTypes]) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        Hooks.on(hook, async (...args: any[]) => {
+            const freshTraceId = foundry.utils.randomID();
+            const freshDepth = 0;
 
-                    if (
-                        document.documentName ===
-                        CONFIG.Actor.documentClass.metadata.name
-                    ) {
-                        // Document is an actor
-                        const actor = document as CosmereActor;
+            // Trigger the events for this hook
+            await eventTypes.reduce(async (prev, type) => {
+                await prev;
 
-                        // Handle the hook for all items
-                        await actor.items.reduce(async (prev, item) => {
-                            // Wait for the previous item to finish
-                            await prev;
+                // Get the config for the event type
+                const config = CONFIG.COSMERE.items.events.types[type];
 
-                            // Handle the hook
-                            return handleEventHook(
-                                item,
-                                type,
-                                config,
-                                options,
-                                sourceUserId,
-                            );
-                        }, Promise.resolve());
-                    } else if (
-                        document.documentName ===
-                        CONFIG.Item.documentClass.metadata.name
-                    ) {
-                        // Document is an item
-                        const item = document as CosmereItem;
+                // Check condition
+                if (config.condition && !(await config.condition(...args)))
+                    return;
+
+                // Transform hook arguments to useable format
+                const {
+                    document,
+                    options,
+                    userId: sourceUserId,
+                } = getTransform(type, config)(...args);
+
+                // Get event trace
+                const trace = {
+                    _eti: options?._eti ?? freshTraceId,
+                    _d: options?._d ?? freshDepth,
+                };
+
+                // Increase depth
+                trace._d++;
+
+                if (
+                    document.documentName ===
+                    CONFIG.Actor.documentClass.metadata.name
+                ) {
+                    // Document is an actor
+                    const actor = document as CosmereActor;
+
+                    // Handle the hook for all items
+                    await actor.items.reduce(async (prev, item) => {
+                        // Wait for the previous item to finish
+                        await prev;
 
                         // Handle the hook
-                        await handleEventHook(
+                        return handleEventHook(
                             item,
                             type,
+                            trace,
                             config,
                             options,
                             sourceUserId,
                         );
-                    } else {
-                        throw new InvalidHookError(
-                            type,
-                            config.hook,
-                            `Document type must be one of: ${VALID_DOCUMENT_TYPES.join(', ')}. Received: ${document.documentName}`,
-                        );
-                    }
-                },
-            );
-        },
-    );
+                    }, Promise.resolve());
+                } else if (
+                    document.documentName ===
+                    CONFIG.Item.documentClass.metadata.name
+                ) {
+                    // Document is an item
+                    const item = document as CosmereItem;
+
+                    // Handle the hook
+                    await handleEventHook(
+                        item,
+                        type,
+                        trace,
+                        config,
+                        options,
+                        sourceUserId,
+                    );
+                } else {
+                    throw new InvalidHookError(
+                        type,
+                        config.hook,
+                        `Document type must be one of: ${VALID_DOCUMENT_TYPES.join(', ')}. Received: ${document.documentName}`,
+                    );
+                }
+            }, Promise.resolve());
+        });
+    });
 });
 
 /* --- Helpers --- */
@@ -143,6 +179,7 @@ Hooks.once('ready', () => {
 async function handleEventHook(
     item: CosmereItem,
     eventType: string,
+    eventTrace: { _eti: string; _d: number },
     config: ItemEventTypeConfig,
     options?: AnyObject,
     sourceUserId?: string,
@@ -152,25 +189,18 @@ async function handleEventHook(
     // Verify if the local user is the appropriate event execution host
     if (!shouldHostEventExecution(item, sourceUserId, config.host)) return;
 
-    // Check for infinite loops
-    if (isLikelyInfiniteLoop()) {
-        ui.notifications.error(
-            game.i18n!.localize(
-                `COSMERE.Item.EventSystem.Notification.LoopError`,
-            ),
-        );
+    // Ensure recent event counts are initialized
+    recentEventOfTypeCounts[eventType] ??= 0;
 
-        throw new Error(
-            `[${SYSTEM_ID}] Too many events fired in a short period of time. Possible infinite loop detected.`,
-        );
-    }
+    // Check for infinite loops
+    preventInfiniteLoop(eventType, eventTrace);
 
     // Fire the event
-    await fireEvent({ type: eventType, item, options });
+    await fireEvent({ type: eventType, item, options, op: eventTrace });
 
     // Update the last event time
     lastEventTime = Date.now();
-    recentEventCount++;
+    recentEventOfTypeCounts[eventType]++;
 }
 
 function shouldHostEventExecution(
@@ -219,19 +249,45 @@ function shouldHostEventExecution(
     }
 }
 
-function isLikelyInfiniteLoop() {
+function preventInfiniteLoop(eventType: string, trace: { _d: number }) {
+    // Check if the event chain depth exceeds the maximum allowed
+    if (trace._d > MAX_EVENT_CHAIN_DEPTH) {
+        ui.notifications.error(
+            game.i18n!.localize(
+                `COSMERE.Item.EventSystem.Notification.ExceededMaxDepth`,
+            ),
+        );
+
+        throw new Error(
+            `[${SYSTEM_ID}] Event chain depth exceeded the maximum allowed of ${MAX_EVENT_CHAIN_DEPTH}. Possible infinite loop detected.`,
+        );
+    }
+
     // Get the current time
     const now = Date.now();
 
     // Check if the time since the last event is less than the timeout
     if (now - lastEventTime >= RECENT_EVENT_TIMEOUT) {
         // Reset the recent event count
-        recentEventCount = 0;
-        return false;
+        recentEventOfTypeCounts[eventType] = 0;
+        return;
     }
 
     // Check if the number of recent events is greater than the limit
-    return recentEventCount >= MAX_RECENT_EVENTS;
+    if (recentEventOfTypeCounts[eventType] >= MAX_RECENT_EVENTS) {
+        ui.notifications.error(
+            game.i18n!.format(
+                `COSMERE.Item.EventSystem.Notification.RecentEventsExceeded`,
+                {
+                    eventType,
+                },
+            ),
+        );
+
+        throw new Error(
+            `[${SYSTEM_ID}] Too many events fired in a short period of time. Possible infinite loop detected.`,
+        );
+    }
 }
 
 async function fireEvent(event: Event) {
@@ -311,7 +367,7 @@ function getTransform(type: string, config: ItemEventTypeConfig) {
                 userId,
             } as {
                 document: foundry.abstract.Document;
-                options?: AnyObject;
+                options?: AnyObject & { _eti?: string; _d?: number };
                 userId?: string;
             };
         })

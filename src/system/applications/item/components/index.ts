@@ -13,7 +13,6 @@ import './details-talents-provider';
 import './details-linked-skills';
 import './properties';
 
-import './talent';
 import './ancestry';
 import './goal';
 import './talent-tree';
