@@ -833,12 +833,6 @@ const COSMERE: CosmereRPGConfig = {
                     label: 'COSMERE.Item.Talent.Type.Power',
                 },
             },
-            grantRules: {
-                types: {
-                    [Talent.GrantRule.Type.Items]:
-                        'COSMERE.Item.Talent.GrantRule.Type.Items',
-                },
-            },
         },
         talentTree: {
             node: {
