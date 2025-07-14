@@ -1452,9 +1452,6 @@
                 "DuplicateLevel": "A rule for level {level} already exists"
             }
         },
-        "EditGrantRule": {
-            "Title": "Edit Rule"
-        },
         "EditGoalReward": {
             "Title": "Edit Reward"
         },
