@@ -70,12 +70,6 @@ export interface TalentItemData
      * Talent, this value will be undefined.
      */
     hasPower?: boolean;
-
-    /**
-     * Rules that are executed when this talent is
-     * obtained by an actor.
-     */
-    grantRules: Collection<Talent.GrantRule>;
 }
 
 export class TalentItemDataModel extends DataModelMixin<
@@ -132,55 +126,6 @@ export class TalentItemDataModel extends DataModelMixin<
                 hint: 'COSMERE.Item.Talent.Power.Hint',
             }),
             hasPower: new foundry.data.fields.BooleanField(),
-
-            grantRules: new CollectionField(
-                new foundry.data.fields.SchemaField(
-                    {
-                        type: new foundry.data.fields.StringField({
-                            required: true,
-                            nullable: false,
-                            blank: false,
-                            choices:
-                                CONFIG.COSMERE.items.talent.grantRules.types,
-                            label: 'COSMERE.Item.Talent.GrantRule.Type.Label',
-                        }),
-
-                        // Items
-                        items: new foundry.data.fields.ArrayField(
-                            new foundry.data.fields.DocumentUUIDField({
-                                blank: false,
-                                label: 'COSMERE.Item.Talent.GrantRule.Items.Label',
-                            }),
-                            {
-                                required: false,
-                                nullable: true,
-                                initial: null,
-                            },
-                        ),
-                    },
-                    {
-                        nullable: true,
-                        validate: (value: Talent.GrantRule) => {
-                            if (value.type === Talent.GrantRule.Type.Items) {
-                                if (!value.items)
-                                    throw new Error(
-                                        'Field "items" is required for grant rule of type "Items"',
-                                    );
-                            } else {
-                                throw new Error(
-                                    `Invalid grant rule type "${(value as { type: string }).type}"`,
-                                );
-                            }
-                        },
-                    },
-                ),
-                {
-                    required: true,
-                    nullable: false,
-                    label: 'COSMERE.Item.Talent.GrantRule.Label',
-                    hint: 'COSMERE.Item.Talent.GrantRule.Hint',
-                },
-            ),
         });
     }
 

@@ -9,7 +9,7 @@
     <li class="item {{#if goal.achieved}}achieved{{/if}}" data-id="{{goal.id}}">
         <section class="details">
             <i class="bullet fade icon faded fa-solid fa-diamond"></i>
-            <input class="name fade" type="text" value="{{goal.name}}" {{#unless @root.isEditMode}}readonly{{/unless}}>
+            <input class="name fade" type="text" value="{{goal.name}}" readonly>
 
             <a class="fade" data-action="adjust-goal-progress"
                 {{#if @root.editable}}

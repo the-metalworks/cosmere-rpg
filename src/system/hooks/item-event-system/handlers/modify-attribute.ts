@@ -74,14 +74,17 @@ export function register() {
             const actor = event.item.actor;
 
             // Modify the attribute
-            await actor.update({
-                [`system.attributes.${this.attribute}`]: {
-                    [this.bonus ? 'bonus' : 'value']:
-                        actor.system.attributes[this.attribute][
-                            this.bonus ? 'bonus' : 'value'
-                        ] + this.amount,
+            await actor.update(
+                {
+                    [`system.attributes.${this.attribute}`]: {
+                        [this.bonus ? 'bonus' : 'value']:
+                            actor.system.attributes[this.attribute][
+                                this.bonus ? 'bonus' : 'value'
+                            ] + this.amount,
+                    },
                 },
-            });
+                event.op,
+            );
         },
     });
 }

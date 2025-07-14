@@ -1,1 +1,0 @@
-import './grant-rules-list';
