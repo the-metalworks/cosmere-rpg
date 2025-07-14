@@ -22,6 +22,10 @@ import {
     LinkedSkillsMixin,
     LinkedSkillsItemData,
 } from './mixins/linked-skills';
+import {
+    RelationshipsMixin,
+    RelationshipsItemData,
+} from './mixins/relationships';
 
 export interface ArmorItemData
     extends IdItemData,
@@ -33,7 +37,8 @@ export interface ArmorItemData
         DeflectItemData,
         PhysicalItemData,
         EventsItemData,
-        LinkedSkillsItemData {}
+        LinkedSkillsItemData,
+        RelationshipsItemData {}
 
 export class ArmorItemDataModel extends DataModelMixin<
     ArmorItemData,
@@ -58,4 +63,5 @@ export class ArmorItemDataModel extends DataModelMixin<
     PhysicalItemMixin(),
     EventsItemMixin(),
     LinkedSkillsMixin(),
+    RelationshipsMixin(),
 ) {}

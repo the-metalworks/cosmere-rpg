@@ -10,7 +10,7 @@ import {
     ArmorTraitId,
     ActionCostType,
 } from '@system/types/cosmere';
-import { Goal, Talent } from '@system/types/item';
+import { Goal } from '@system/types/item';
 import { CosmereHooks } from '@system/types/hooks';
 import { DeepPartial, Nullable } from '@system/types/utils';
 
@@ -52,6 +52,10 @@ import { TalentsProviderData } from '@system/data/item/mixins/talents-provider';
 import { EventsItemData } from '@system/data/item/mixins/events';
 import { DeflectItemData } from '@system/data/item/mixins/deflect';
 import { LinkedSkillsItemData } from '@system/data/item/mixins/linked-skills';
+import {
+    RelationshipsItemData,
+    ItemRelationship,
+} from '@system/data/item/mixins/relationships';
 
 // Sheet
 import { BaseItemSheet } from '@system/applications/item/base';
@@ -77,6 +81,9 @@ import {
 import { EnricherData } from '../utils/enrichers';
 import { renderSystemTemplate, TEMPLATES } from '@system/utils/templates';
 import { getEmbedHelpers } from '@system/utils/embed';
+import ItemRelationshipUtils, {
+    RemoveRelationshipOptions,
+} from '@src/system/utils/item/relationship';
 
 // Dialogs
 import { AttackConfigurationDialog } from '@system/applications/dialogs/attack-configuration';
@@ -266,7 +273,7 @@ export class CosmereItem<
     /**
      * Does this item provide talents?
      */
-    public isTalentsProvider(): this is CosmereItem<TalentsProviderData> {
+    public isTalentsProvider(): this is TalentsProviderItem {
         return 'talentTree' in this.system;
     }
 
@@ -282,6 +289,13 @@ export class CosmereItem<
      */
     public hasLinkedSkills(): this is CosmereItem<LinkedSkillsItemData> {
         return 'linkedSkills' in this.system;
+    }
+
+    /**
+     * Whether or not this item can have relationships.
+     */
+    public hasRelationships(): this is CosmereItem<RelationshipsItemData> {
+        return 'relationships' in this.system;
     }
 
     /* --- Accessors --- */
@@ -312,33 +326,6 @@ export class CosmereItem<
 
         // Check if the actor has the mode active
         return activeMode === this.system.id;
-    }
-
-    /**
-     * The source of this item.
-     * Only used for:
-     * - Talents
-     */
-    public get source(): T extends TalentItemDataModel
-        ? Talent.Source | null
-        : never {
-        if (!this.isTalent()) return void 0 as never;
-        return (this.getFlag<Talent.Source>(SYSTEM_ID, 'source') ??
-            null) as T extends TalentItemDataModel
-            ? Talent.Source | null
-            : never;
-    }
-
-    /**
-     * Sets the source of this item.
-     * Only used for:
-     * - Talents
-     */
-    public set source(
-        value: T extends TalentItemDataModel ? Talent.Source | null : never,
-    ) {
-        if (!this.isTalent()) return;
-        void this.setFlag(SYSTEM_ID, 'source', value);
     }
 
     public get sheet(): BaseItemSheet | null {
@@ -1272,6 +1259,77 @@ export class CosmereItem<
         });
     }
 
+    public isRelatedTo(
+        item: CosmereItem,
+        relType?: ItemRelationship.Type,
+    ): boolean {
+        if (!this.hasRelationships() || !item.hasRelationships()) return false;
+
+        // Get the relationships of this item
+        const relationships = this.system.relationships.filter(
+            (r) => r.type === relType || !relType,
+        );
+
+        // Check if the item is related to this item
+        return relationships.some((rel) => rel.uuid === item.uuid);
+    }
+
+    public hasRelationshipOfType(type: ItemRelationship.Type): boolean {
+        if (!this.hasRelationships()) return false;
+
+        return this.system.relationships.some(
+            (relationship) => relationship.type === type,
+        );
+    }
+
+    public addRelationship(
+        item: CosmereItem,
+        type: ItemRelationship.Type,
+        removalPolicy?: ItemRelationship.RemovalPolicy,
+        source?: false,
+    ): Promise<void>;
+    public addRelationship(
+        item: CosmereItem,
+        type: ItemRelationship.Type,
+        removalPolicy: ItemRelationship.RemovalPolicy | undefined,
+        source: true,
+    ): void;
+    public addRelationship(
+        item: CosmereItem,
+        type: ItemRelationship.Type,
+        removalPolicy?: ItemRelationship.RemovalPolicy,
+        source = false,
+    ): Promise<void> | void {
+        if (!this.hasRelationships() || !item.hasRelationships()) return;
+
+        return ItemRelationshipUtils.addRelationship(
+            this,
+            item,
+            type,
+            removalPolicy,
+            source,
+        );
+    }
+
+    public removeRelationship(
+        item: CosmereItem,
+        options?: Omit<RemoveRelationshipOptions, 'source'> & {
+            source?: false;
+        },
+    ): Promise<void>;
+    public removeRelationship(
+        item: CosmereItem,
+        options: Omit<RemoveRelationshipOptions, 'source'> & { source: true },
+    ): void;
+    public removeRelationship(
+        item: CosmereItem,
+        options?: RemoveRelationshipOptions,
+    ): Promise<void> | void {
+        if (!this.hasRelationships() || !item.hasRelationships()) return;
+
+        return ItemRelationshipUtils.removeRelationship(this, item, options);
+    }
+
     public async markFavorite(index: number, render = true) {
         await this.update(
             {
@@ -1642,3 +1700,6 @@ export type WeaponItem = CosmereItem<WeaponItemDataModel>;
 export type GoalItem = CosmereItem<GoalItemDataModel>;
 export type PowerItem = CosmereItem<PowerItemDataModel>;
 export type TalentTreeItem = CosmereItem<TalentTreeItemDataModel>;
+
+export type TalentsProviderItem = CosmereItem<TalentsProviderData>;
+export type RelationshipsItem = CosmereItem<RelationshipsItemData>;

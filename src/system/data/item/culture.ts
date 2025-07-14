@@ -12,12 +12,17 @@ import {
     LinkedSkillsMixin,
     LinkedSkillsItemData,
 } from './mixins/linked-skills';
+import {
+    RelationshipsMixin,
+    RelationshipsItemData,
+} from './mixins/relationships';
 
 export interface CultureItemData
     extends IdItemData,
         DescriptionItemData,
         EventsItemData,
-        LinkedSkillsItemData {}
+        LinkedSkillsItemData,
+        RelationshipsItemData {}
 
 export class CultureItemDataModel extends DataModelMixin<
     CultureItemData,
@@ -32,6 +37,7 @@ export class CultureItemDataModel extends DataModelMixin<
     }),
     EventsItemMixin(),
     LinkedSkillsMixin(),
+    RelationshipsMixin(),
 ) {
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), {});

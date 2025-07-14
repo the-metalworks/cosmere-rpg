@@ -11,11 +11,16 @@ import {
     DescriptionItemData,
 } from './mixins/description';
 import { EventsItemMixin, EventsItemData } from './mixins/events';
+import {
+    RelationshipsMixin,
+    RelationshipsItemData,
+} from './mixins/relationships';
 
 export interface GoalItemData
     extends IdItemData,
         DescriptionItemData,
-        EventsItemData {
+        EventsItemData,
+        RelationshipsItemData {
     /**
      * The progress level of the goal
      */
@@ -38,6 +43,7 @@ export class GoalItemDataModel extends DataModelMixin<
         value: 'COSMERE.Item.Type.Goal.desc_placeholder',
     }),
     EventsItemMixin(),
+    RelationshipsMixin(),
 ) {
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), {
