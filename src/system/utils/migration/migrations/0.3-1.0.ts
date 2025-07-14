@@ -169,10 +169,15 @@ function migrateItemData(item: RawDocumentData<any>, changes: object) {
     if (item.type === 'talent') {
         if ('grantRules' in item.system) {
             // Migrate grant rules to event system
-            const grantRules = item.system.grantRules as Record<
-                string,
-                AnyObject
-            >;
+            let grantRules = item.system.grantRules as
+                | Record<string, AnyObject>
+                | AnyObject[];
+
+            if (Array.isArray(grantRules)) {
+                grantRules = Object.fromEntries(
+                    grantRules.map((rule) => [rule._id, rule]),
+                ) as Record<string, AnyObject>;
+            }
 
             // Prepare the events object
             const events: AnyMutableObject = {};
