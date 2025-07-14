@@ -223,8 +223,16 @@ export function register() {
 
             // Grant the items to the actor
             await Promise.all([
-                actor.updateEmbeddedDocuments('Item', documentUpdates),
-                actor.createEmbeddedDocuments('Item', documentsToCreate),
+                actor.updateEmbeddedDocuments(
+                    'Item',
+                    documentUpdates,
+                    event.op,
+                ),
+                actor.createEmbeddedDocuments(
+                    'Item',
+                    documentsToCreate,
+                    event.op,
+                ),
             ]);
 
             // Notify the user if enabled

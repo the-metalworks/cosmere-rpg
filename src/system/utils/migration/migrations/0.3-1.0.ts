@@ -1,5 +1,6 @@
 import {
     AnyObject,
+    AnyMutableObject,
     RawActorData,
     RawDocumentData,
 } from '@src/system/types/utils';
@@ -161,6 +162,39 @@ function migrateItemData(item: RawDocumentData<any>, changes: object) {
 
             foundry.utils.mergeObject(changes, {
                 ['system.activation.consume']: newConsumption,
+            });
+        }
+    }
+
+    if (item.type === 'talent') {
+        if ('grantRules' in item.system) {
+            // Migrate grant rules to event system
+            const grantRules = item.system.grantRules as Record<
+                string,
+                AnyObject
+            >;
+
+            // Prepare the events object
+            const events: AnyMutableObject = {};
+
+            // Iterate over grant rules and create events
+            Object.entries(grantRules).forEach(([id, rule], i) => {
+                events[id] = {
+                    id,
+                    description: game.i18n!.localize(
+                        'COSMERE.Item.EventSystem.Event.Handler.Types.grant-items.Title',
+                    ),
+                    event: 'add-to-actor',
+                    handler: {
+                        type: 'grant-items',
+                        items: rule.items || [],
+                    },
+                };
+            });
+
+            // Merge the events into the changes
+            foundry.utils.mergeObject(changes, {
+                ['system.events']: events,
             });
         }
     }

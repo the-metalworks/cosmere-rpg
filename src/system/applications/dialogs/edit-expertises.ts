@@ -17,7 +17,34 @@ import { TEMPLATES } from '@system/utils/templates';
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
-interface EditExpertisesDialogActorConfig {
+interface EditExpertisesDialogCommonConfig {
+    /**
+     * The title of the dialog.
+     * If not provided, the default title will be used.
+     */
+    title?: string;
+
+    /**
+     * The label for the submit button.
+     * If not provided, the default label will be used.
+     */
+    submitButtonLabel?: string;
+
+    /**
+     * Filter of available expertise types.
+     * If not provided, all expertise types will be used.
+     */
+    types?: Set<ExpertiseType>;
+
+    /**
+     * The maximum number of expertises that can be set.
+     * If not provided, there is no limit.
+     */
+    maxExpertises?: number;
+}
+
+interface EditExpertisesDialogActorConfig
+    extends EditExpertisesDialogCommonConfig {
     /**
      * The actor to edit the expertises for.
      */
@@ -32,7 +59,8 @@ interface EditExpertisesDialogActorConfig {
     liveUpdate?: boolean;
 }
 
-interface EditExpertisesDialogDocumentConfig {
+interface EditExpertisesDialogDocumentConfig
+    extends EditExpertisesDialogCommonConfig {
     /**
      * The document to edit the expertises for.
      */
@@ -52,7 +80,8 @@ interface EditExpertisesDialogDocumentConfig {
     liveUpdate?: boolean;
 }
 
-interface EditExpertisesDialogDataConfig {
+interface EditExpertisesDialogDataConfig
+    extends EditExpertisesDialogCommonConfig {
     /**
      * The data to edit the expertises for.
      */
@@ -101,7 +130,6 @@ export class EditExpertisesDialog extends HandlebarsApplicationMixin(
         foundry.utils.deepClone(super.DEFAULT_OPTIONS),
         {
             window: {
-                title: 'COSMERE.Actor.Sheet.EditExpertises',
                 minimizable: false,
                 positioned: true,
             },
@@ -150,6 +178,9 @@ export class EditExpertisesDialog extends HandlebarsApplicationMixin(
         expertises: Collection<Expertise>,
     ) => void | Promise<void>;
     private liveUpdate: boolean;
+    private availableTypes: Set<ExpertiseType>;
+    private submitButtonLabel: string;
+    private maxExpertises?: number;
     private resolve: (value: Collection<Expertise> | null | void) => void;
 
     private constructor(config: {
@@ -158,15 +189,30 @@ export class EditExpertisesDialog extends HandlebarsApplicationMixin(
         id?: string;
         updater?: (expertises: Collection<Expertise>) => void | Promise<void>;
         liveUpdate?: boolean;
+        title?: string;
+        submitButtonLabel?: string;
+        types?: Set<ExpertiseType>;
+        maxExpertises?: number;
     }) {
         super({
             id: config.id ?? '{id}',
+            window: {
+                title: config.title ?? 'COSMERE.Actor.Sheet.EditExpertises',
+            },
         });
 
         this.data = config.data;
         this.resolve = config.resolve;
         this.updater = config.updater;
         this.liveUpdate = config.liveUpdate ?? false;
+        this.availableTypes =
+            config.types ??
+            new Set(
+                Object.keys(CONFIG.COSMERE.expertiseTypes) as ExpertiseType[],
+            );
+        this.submitButtonLabel =
+            config.submitButtonLabel ?? 'GENERIC.Button.Update';
+        this.maxExpertises = config.maxExpertises;
     }
 
     /* --- Statics --- */
@@ -262,6 +308,10 @@ export class EditExpertisesDialog extends HandlebarsApplicationMixin(
                     config.liveUpdate ??
                     ('actor' in config || 'document' in config),
                 updater,
+                title: config.title,
+                submitButtonLabel: config.submitButtonLabel,
+                types: config.types,
+                maxExpertises: config.maxExpertises,
             });
             void dialog.render(true);
         }) as Promise<Collection<Expertise> | null> | Promise<void>;
@@ -324,6 +374,20 @@ export class EditExpertisesDialog extends HandlebarsApplicationMixin(
         this: EditExpertisesDialog,
         event: Event,
     ) {
+        if (
+            this.maxExpertises !== undefined &&
+            this.data.size >= this.maxExpertises
+        ) {
+            return void ui.notifications.warn(
+                game.i18n!.format(
+                    'DIALOG.EditExpertise.Warning.MaxExpertises',
+                    {
+                        max: this.maxExpertises,
+                    },
+                ),
+            );
+        }
+
         // Look up the category
         const category = $(event.target!)
             .closest('[data-category]')
@@ -438,6 +502,25 @@ export class EditExpertisesDialog extends HandlebarsApplicationMixin(
             (key) => !expertisesKeys.includes(key),
         );
 
+        // Ensure the maximum number of expertises is not exceeded
+        if (
+            this.maxExpertises !== undefined &&
+            this.data.size + addedExpertises.length - removedExpertises.length >
+                this.maxExpertises
+        ) {
+            ui.notifications.warn(
+                game.i18n!.format(
+                    'DIALOG.EditExpertise.Warning.MaxExpertises',
+                    {
+                        max: this.maxExpertises,
+                    },
+                ),
+            );
+
+            // Re-render
+            return void this.render();
+        }
+
         // Add new expertises
         addedExpertises.forEach((key) => {
             const [type, id] = key.split(':') as [ExpertiseType, string];
@@ -467,15 +550,11 @@ export class EditExpertisesDialog extends HandlebarsApplicationMixin(
     /* --- Context --- */
 
     protected _prepareContext() {
-        // Get all configured expertises types
-        const expertiseTypes = Object.keys(
-            CONFIG.COSMERE.expertiseTypes,
-        ) as ExpertiseType[];
-
         return Promise.resolve({
             showSubmitButton: !this.liveUpdate,
+            submitButtonLabel: this.submitButtonLabel,
 
-            categories: expertiseTypes.map((type) => {
+            categories: this.availableTypes.map((type) => {
                 const config = CONFIG.COSMERE.expertiseTypes[type];
 
                 return {

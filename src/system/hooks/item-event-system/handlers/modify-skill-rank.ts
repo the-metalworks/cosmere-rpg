@@ -62,10 +62,13 @@ export function register() {
             const actor = event.item.actor;
 
             // Modify the skill rank
-            await actor.update({
-                [`system.skills.${this.skill}.rank`]:
-                    actor.system.skills[this.skill].rank + this.amount,
-            });
+            await actor.update(
+                {
+                    [`system.skills.${this.skill}.rank`]:
+                        actor.system.skills[this.skill].rank + this.amount,
+                },
+                event.op,
+            );
         },
     });
 }
