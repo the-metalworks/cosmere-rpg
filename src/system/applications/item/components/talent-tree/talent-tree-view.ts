@@ -14,7 +14,7 @@ import { NodeConnection } from './types';
 import * as TalentTreeUtils from '@system/utils/talent-tree';
 import { AppContextMenu } from '@system/applications/utils/context-menu';
 import { renderSystemTemplate, TEMPLATES } from '@system/utils/templates';
-import { htmlStringHasContent } from '@system/utils/generic';
+import { htmlStringHasContent, debounce } from '@system/utils/generic';
 import ItemRelationshipUtils from '@system/utils/item/relationship';
 
 // Component imports
@@ -255,7 +255,10 @@ export class TalentTreeViewComponent<
         );
 
         // Add listeners
-        this.app.world.on('click-node', this.onClickNode.bind(this));
+        this.app.world.on(
+            'click-node',
+            debounce(this.onClickNode.bind(this), 300, true),
+        );
 
         this.app.world.on(
             'rightclick-node',
@@ -363,11 +366,11 @@ export class TalentTreeViewComponent<
 
         this.app.world.on(
             'mouseover-node',
-            foundry.utils.debounce(this.onMouseOverNode.bind(this), 300),
+            debounce(this.onMouseOverNode.bind(this), 300, true),
         );
         this.app.world.on(
             'mouseout-node',
-            foundry.utils.debounce(this.onMouseOutNode.bind(this), 300),
+            debounce(this.onMouseOutNode.bind(this), 300, true),
         );
 
         this.viewport.on('mousedown', () => {

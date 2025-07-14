@@ -127,8 +127,8 @@ export function register() {
 
             // Remove the items from the actor
             await Promise.all([
-                actor.deleteEmbeddedDocuments('Item', itemRemovals),
-                actor.updateEmbeddedDocuments('Item', itemUpdates),
+                actor.deleteEmbeddedDocuments('Item', itemRemovals, event.op),
+                actor.updateEmbeddedDocuments('Item', itemUpdates, event.op),
             ]);
         },
     });

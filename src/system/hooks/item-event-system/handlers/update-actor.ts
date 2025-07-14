@@ -95,7 +95,7 @@ export function register() {
             );
 
             // Update the actor
-            await actor.update(changes);
+            await actor.update(changes, event.op);
         },
     });
 }
