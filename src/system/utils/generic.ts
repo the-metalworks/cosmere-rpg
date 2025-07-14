@@ -318,3 +318,31 @@ export function getTargetDescriptors() {
 
     return Array.from(targets.values());
 }
+
+/**
+ * Wrap callbacks in debounce mechanism.
+ * Prevents multiple invocations of the same callback within a given delay.
+ * If the `immediate` flag is set, the callback will be invoked immediately on the first call and then debounced for subsequent calls.
+ * Otherwise, it will wait for the delay before invoking the callback.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function debounce<T extends (...args: any[]) => void>(
+    callback: T,
+    delay: number,
+    immediate = false,
+): T {
+    let timeoutId: ReturnType<typeof setTimeout> | null = null;
+
+    return function (this: unknown, ...args: Parameters<T>): void {
+        const later = () => {
+            timeoutId = null;
+            if (!immediate) callback.apply(this, args);
+        };
+
+        const callNow = immediate && !timeoutId;
+        clearTimeout(timeoutId!);
+        timeoutId = setTimeout(later, delay);
+
+        if (callNow) callback.apply(this, args);
+    } as T;
+}

@@ -360,12 +360,10 @@ export class CosmereChatMessage extends ChatMessage {
               })
             : undefined;
 
-        const isHealing = !types.some(
-            (type) =>
-                !CONFIG.COSMERE.damageTypes[DamageType.Healing].label.includes(
-                    type[0],
-                ),
+        const isHealing = this.damageRolls.some(
+            (r) => r.damageType === DamageType.Healing,
         );
+
         const sectionHTML = await renderSystemTemplate(
             TEMPLATES.CHAT_CARD_SECTION,
             {
@@ -1052,6 +1050,15 @@ export class CosmereChatMessage extends ChatMessage {
      * @param {JQuery.ClickEvent} event  The triggering event.
      */
     private onClickCollapsible(event: JQuery.ClickEvent) {
+        const directTarget = event.target as HTMLElement;
+
+        if (
+            directTarget.hasAttribute('data-link') ||
+            directTarget.classList.contains('inline-roll')
+        ) {
+            return;
+        }
+
         event.stopPropagation();
         const target = event.currentTarget as HTMLElement;
         target?.classList.toggle('expanded');
