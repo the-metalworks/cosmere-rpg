@@ -536,7 +536,8 @@
                         "connection": "Connection",
                         "level": "Level",
                         "ancestry": "Ancestry",
-                        "culture": "Culture"
+                        "culture": "Culture",
+                        "goal": "Goal"
                     },
                     "Mode": {
                         "AnyOf": "Any of",
@@ -1183,7 +1184,8 @@
                         "Connection": "Connection",
                         "ConnectionDescription": "Description",
                         "ConnectionDescriptionPlaceholder": "Connection Description",
-                        "DropTalents": "Drop Talents here to add them to the list."
+                        "DropTalents": "Drop Talents here to add them to the list.",
+                        "DropGoals": "Drop Goals here to add them to the list."
                     },
                     "GrantRules": {
                         "Description": "Description",
@@ -1569,6 +1571,7 @@
         "Type": "Type",
         "Description": "Description",
         "Talent": "Talent",
+        "Goal": "Goal",
         "Button": {
             "Roll": "Roll",
             "Continue": "Continue",

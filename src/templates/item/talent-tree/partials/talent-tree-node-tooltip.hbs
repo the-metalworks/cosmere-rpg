@@ -17,6 +17,14 @@
                                 <span>or</span>
                             {{/if}}
                         {{/each}}
+                    {{else if (eq prereq.type "goal")}}
+                        <i class="fa-solid fa-list-check"></i>
+                        {{#each prereq.goals as |goal|}}
+                            <span>{{goal.label}}</span>
+                            {{#if (not @last)}}
+                                <span>or</span>
+                            {{/if}}
+                        {{/each}}
                     {{else if (eq prereq.type "attribute")}}
                         <i class="fa-solid fa-chart-column"></i>
                         <span>{{localize (concat "COSMERE.Attribute." prereq.attribute)}}</span>

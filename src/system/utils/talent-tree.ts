@@ -260,6 +260,10 @@ export function characterMeetsPrerequisiteRule(
             return actor.cultures.some(
                 (culture) => culture.system.id === prereq.culture.id,
             );
+        case TalentTree.Node.Prerequisite.Type.Goal:
+            return Array.from(prereq.goals).some((ref) =>
+                actor.hasCompletedGoal(ref.id),
+            );
         case TalentTree.Node.Prerequisite.Type.Connection:
             return true; // No way to check connections
         default:
