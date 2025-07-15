@@ -9,7 +9,7 @@
     <li class="item collapsible {{#if connection.expanded}}expanded{{/if}}" data-id="{{connection.id}}">
         <section class="details">
             <i class="bullet fade icon faded fa-solid fa-diamond"></i>
-            <input class="name fade" type="text" value="{{connection.name}}" {{#unless @root.isEditMode}}readonly{{/unless}}>
+            <input class="name fade" type="text" value="{{connection.name}}" readonly>
 
             <div class="controls icon faded">
                 <a role="button"
