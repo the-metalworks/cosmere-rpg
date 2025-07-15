@@ -1,4 +1,3 @@
-import { Goal } from '@system/types/item';
 import { CosmereItem } from '@system/documents';
 
 import { CollectionField } from '@system/data/fields';

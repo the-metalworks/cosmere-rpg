@@ -10,7 +10,6 @@ import {
     ArmorTraitId,
     ActionCostType,
 } from '@system/types/cosmere';
-import { Goal } from '@system/types/item';
 import { CosmereHooks } from '@system/types/hooks';
 import { DeepPartial, Nullable } from '@system/types/utils';
 
