@@ -18,6 +18,10 @@ import {
     LinkedSkillsMixin,
     LinkedSkillsItemData,
 } from './mixins/linked-skills';
+import {
+    RelationshipsMixin,
+    RelationshipsItemData,
+} from './mixins/relationships';
 
 export interface PathItemData
     extends IdItemData,
@@ -25,7 +29,8 @@ export interface PathItemData
         DescriptionItemData,
         TalentsProviderData,
         EventsItemData,
-        LinkedSkillsItemData {}
+        LinkedSkillsItemData,
+        RelationshipsItemData {}
 
 export class PathItemDataModel extends DataModelMixin<
     PathItemData,
@@ -50,6 +55,7 @@ export class PathItemDataModel extends DataModelMixin<
     TalentsProviderMixin(),
     EventsItemMixin(),
     LinkedSkillsMixin(),
+    RelationshipsMixin(),
 ) {
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), {

@@ -1,12 +1,14 @@
 import { CosmereItem } from '@system/documents/item';
 import { HandlerType, Event } from '@system/types/item/event-system';
 import { AnyObject } from '@system/types/utils';
+import { ItemRelationship } from '@system/data/item/mixins/relationships';
 
 // Dialogs
 import { PickDialog } from '@system/applications/dialogs/pick-dialog';
 
 // Utils
 import { tryApplyRollData } from '@system/utils/changes';
+import ItemRelationshipUtils from '@system/utils/item/relationship';
 
 // Constants
 import { SYSTEM_ID } from '@system/constants';
@@ -207,18 +209,42 @@ export function register() {
                         ),
                     });
                 } else {
-                    // Create a new item
-                    documentsToCreate.push(
-                        foundry.utils.mergeObject(item.toObject(), {
+                    const itemData = foundry.utils.mergeObject(
+                        item.toObject(),
+                        {
                             'system.quantity': quantity,
-                        }),
+                        },
                     );
+
+                    if (
+                        event.item.hasRelationships() &&
+                        item.hasRelationships()
+                    ) {
+                        ItemRelationshipUtils.addRelationshipData(
+                            itemData,
+                            event.item,
+                            ItemRelationship.Type.Parent,
+                        );
+                    }
+
+                    // Create a new item
+                    documentsToCreate.push(itemData);
                 }
             });
 
             // Handle non-physical items (always create new items)
             nonPhysicalItems.forEach((item) => {
-                documentsToCreate.push(item.toObject());
+                const itemData = item.toObject();
+
+                if (event.item.hasRelationships() && item.hasRelationships()) {
+                    ItemRelationshipUtils.addRelationshipData(
+                        itemData,
+                        event.item,
+                        ItemRelationship.Type.Parent,
+                    );
+                }
+
+                documentsToCreate.push(itemData);
             });
 
             // Grant the items to the actor

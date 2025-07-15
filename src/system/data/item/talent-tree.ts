@@ -1,12 +1,19 @@
 import { ItemType } from '@system/types/cosmere';
-import { CosmereItem } from '@system/documents';
+import {
+    CosmereItem,
+    TalentItem,
+    TalentTreeItem,
+} from '@system/documents/item';
 import { TalentTree, Talent } from '@system/types/item';
 import { AnyObject } from '@system/types/utils';
 
 import { TalentTreeNodeCollectionField } from './fields/talent-tree-node-collection';
 
 // Utils
-import { characterMeetsTalentPrerequisites } from '@system/utils/talent-tree';
+import {
+    characterMeetsTalentPrerequisites,
+    getTalents,
+} from '@system/utils/talent-tree';
 
 // Mixins
 import { DataModelMixin } from '../mixins';
@@ -189,5 +196,13 @@ export class TalentTreeItemDataModel extends DataModelMixin<
                     );
                 }
             });
+    }
+
+    /**
+     * The talents referenced by the nodes of this talent tree.
+     * @param includeNested - Whether to include talents from nested trees. Defaults to `true`.
+     */
+    public getTalents(includeNested = true): Promise<TalentItem[]> {
+        return getTalents(this.parent as TalentTreeItem, includeNested);
     }
 }
