@@ -12,10 +12,7 @@ import { TalentsTabMixin } from './mixins/talents-tab';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
-export class AncestrySheet extends TalentsTabMixin(
-    Talent.SourceType.Ancestry,
-    BaseItemSheet,
-) {
+export class AncestrySheet extends TalentsTabMixin(BaseItemSheet) {
     static DEFAULT_OPTIONS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.DEFAULT_OPTIONS),
         {

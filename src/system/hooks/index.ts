@@ -1,7 +1,7 @@
 import './modules/dice-so-nice';
 import './welcome';
-import './actor';
 import './item';
+import './actor';
 import './enrichers';
 import './journal';
 import './compendium';

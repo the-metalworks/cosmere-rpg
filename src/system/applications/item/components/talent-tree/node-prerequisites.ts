@@ -165,6 +165,14 @@ export class NodePrerequisitesComponent extends HandlebarsApplicationComponent<
                   }
                 : {}),
 
+            ...(rule.type === TalentTree.Node.Prerequisite.Type.Goal
+                ? {
+                      goals: await Promise.all(
+                          rule.goals.map(this.prepareRefContext.bind(this)),
+                      ),
+                  }
+                : {}),
+
             ...(rule.type === TalentTree.Node.Prerequisite.Type.Ancestry
                 ? {
                       ancestry: await this.prepareRefContext(rule.ancestry),

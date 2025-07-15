@@ -1,0 +1,19 @@
+<ul>
+    {{#each goals as |goal|}}
+    <li class="goal" data-id="{{goal.id}}">
+        <div class="col link">
+            {{{goal.link}}}
+        </div>
+        <div class="col controls">
+            <a data-action="remove-goal"
+                data-tooltip="GENERIC.Button.Remove"
+            >
+                <i class="fa-solid fa-trash"></i>
+            </a>
+        </div>
+    </li>
+    {{/each}}
+</ul>
+<p>
+    {{localize "COSMERE.Item.Sheet.Talent.Prerequisites.DropGoals"}}
+</p>

@@ -1,5 +1,9 @@
 import { CharacterActor } from '@system/documents/actor';
-import { CosmereItem, TalentTreeItem } from '@system/documents/item';
+import {
+    CosmereItem,
+    TalentTreeItem,
+    TalentItem,
+} from '@system/documents/item';
 import { TalentTree, Talent } from '@system/types/item';
 
 /**
@@ -256,9 +260,58 @@ export function characterMeetsPrerequisiteRule(
             return actor.cultures.some(
                 (culture) => culture.system.id === prereq.culture.id,
             );
+        case TalentTree.Node.Prerequisite.Type.Goal:
+            return Array.from(prereq.goals).some((ref) =>
+                actor.hasCompletedGoal(ref.id),
+            );
         case TalentTree.Node.Prerequisite.Type.Connection:
             return true; // No way to check connections
         default:
             return false;
     }
+}
+
+/**
+ * Get all talents from a talent tree.
+ * @param tree The talent tree to get talents from.
+ * @param includeNested Whether to include talents from nested trees. Defaults to `true`.
+ */
+export async function getTalents(
+    tree: TalentTreeItem,
+    includeNested = true,
+): Promise<TalentItem[]> {
+    // Get all talents from the nodes
+    const talents = (
+        await Promise.all(
+            tree.system.nodes
+                .filter((node) => node.type === TalentTree.Node.Type.Talent)
+                .map(async (node) => {
+                    const talent = (await fromUuid(
+                        node.uuid,
+                    )) as TalentItem | null;
+                    if (!talent?.isTalent()) return null;
+
+                    return talent;
+                }),
+        )
+    ).filter((v) => !!v);
+
+    // If includeNested is true, get talents from nested trees
+    if (includeNested) {
+        const nestedTalents = await Promise.all(
+            tree.system.nodes
+                .filter((node) => node.type === TalentTree.Node.Type.Tree)
+                .map(async (node) => {
+                    const tree = (await fromUuid(
+                        node.uuid,
+                    )) as TalentTreeItem | null;
+                    if (!tree?.isTalentTree()) return [];
+
+                    return getTalents(tree, true);
+                }),
+        );
+        return talents.concat(...nestedTalents);
+    }
+
+    return talents;
 }

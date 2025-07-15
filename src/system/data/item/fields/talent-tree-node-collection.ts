@@ -255,6 +255,30 @@ class TalentTreeNodeField extends foundry.data.fields.SchemaField {
                                 label: 'COSMERE.Item.Talent.Prerequisite.Culture.Label',
                             },
                         ),
+
+                        // Goal
+                        goals: new CollectionField(
+                            new foundry.data.fields.SchemaField({
+                                uuid: new foundry.data.fields.StringField({
+                                    required: true,
+                                    nullable: false,
+                                    blank: false,
+                                }),
+                                id: new foundry.data.fields.StringField({
+                                    required: true,
+                                    nullable: false,
+                                    blank: false,
+                                }),
+                                label: new foundry.data.fields.StringField({
+                                    required: true,
+                                    nullable: false,
+                                    blank: false,
+                                }),
+                            }),
+                            {
+                                nullable: true,
+                            },
+                        ),
                     }),
                     {
                         nullable: true,

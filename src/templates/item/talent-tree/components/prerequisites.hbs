@@ -36,6 +36,13 @@
                             <span>,</span>
                         {{/if}}
                     {{/each}}
+                {{else if (eq rule.type "goal")}}
+                    {{#each rule.goals as |ref|}}
+                        {{{ref.link}}}
+                        {{#if (not @last)}}
+                            <span>,</span>
+                        {{/if}}
+                    {{/each}}
                 {{else if (eq rule.type "attribute")}}
                     <span>{{localize (concat "COSMERE.Attribute." rule.attribute)}}</span>
                     <span>{{rule.value}}+</span>

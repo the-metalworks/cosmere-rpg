@@ -1,4 +1,12 @@
 import { CosmereActor } from '@system/documents/actor';
+import {
+    CosmereItem,
+    TalentsProviderItem,
+    TalentItem,
+} from '@system/documents/item';
+import { ItemRelationship } from '@system/data/item/mixins/relationships';
+
+// Types
 import { Resource } from '@system/types/cosmere';
 import { CosmereHooks } from '@system/types/hooks';
 import { DeepPartial, AnyMutableObject } from '@system/types/utils';
@@ -191,6 +199,65 @@ Hooks.on(
                     Hooks.callAll<CosmereHooks.ModeActivateItem>(
                         HOOKS.MODE_ACTIVATE_ITEM,
                         newModalityItem,
+                    );
+                }
+            }
+        }
+    },
+);
+
+Hooks.on(
+    'createItem',
+    async (item: CosmereItem, options: unknown, userId: string) => {
+        if (game.user!.id !== userId) return;
+        if (!item.actor) return;
+
+        if (item.isTalent()) {
+            const hasParentRelationship = item.hasRelationshipOfType(
+                ItemRelationship.Type.Parent,
+            );
+
+            if (!hasParentRelationship) {
+                // If the item has no parent, find the first item in the actor that provides this talent
+                let parentItem: TalentsProviderItem | undefined;
+                for (const otherItem of item.actor.items) {
+                    if (
+                        otherItem.isTalentsProvider() &&
+                        (await otherItem.system.providesTalent(item))
+                    ) {
+                        parentItem = otherItem;
+                        break;
+                    }
+                }
+
+                // Record the relationship with the parent item
+                if (parentItem) {
+                    await item.addRelationship(
+                        parentItem,
+                        ItemRelationship.Type.Parent,
+                    );
+                }
+            }
+        } else if (item.isTalentsProvider()) {
+            // Get all orphaned talents on the actor that do not have their origin set
+            const orphanedTalents = item.actor.items
+                .filter(
+                    (otherItem) =>
+                        otherItem.isTalent() &&
+                        !otherItem.hasRelationshipOfType(
+                            ItemRelationship.Type.Parent,
+                        ),
+                )
+                .filter(
+                    (otherItem) => !otherItem.getFlag(SYSTEM_ID, 'meta.origin'),
+                ) as TalentItem[];
+
+            // For each orphaned talent, check if this item can provide it. If so, add a parent relationship
+            for (const talent of orphanedTalents) {
+                if (await item.system.providesTalent(talent)) {
+                    await talent.addRelationship(
+                        item,
+                        ItemRelationship.Type.Parent,
                     );
                 }
             }

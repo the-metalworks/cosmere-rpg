@@ -1,11 +1,13 @@
 import {
     CosmereItem,
+    RelationshipsItem,
     TalentItem,
     TalentTreeItem,
 } from '@system/documents/item';
 import { CharacterActor } from '@system/documents/actor';
+import { ItemRelationship } from '@system/data/item/mixins/relationships';
 import { ConstructorOf } from '@system/types/utils';
-import { TalentTree, Talent } from '@system/types/item';
+import { TalentTree } from '@system/types/item';
 import { NodeConnection } from './types';
 
 // Utils
@@ -13,6 +15,7 @@ import * as TalentTreeUtils from '@system/utils/talent-tree';
 import { AppContextMenu } from '@system/applications/utils/context-menu';
 import { renderSystemTemplate, TEMPLATES } from '@system/utils/templates';
 import { htmlStringHasContent, debounce } from '@system/utils/generic';
+import ItemRelationshipUtils from '@system/utils/item/relationship';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
@@ -43,7 +46,7 @@ import { SYSTEM_ID } from '@system/constants';
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type TalentTreeViewComponentParams = {
     tree: TalentTreeItem;
-    source?: Talent.Source;
+    parent?: RelationshipsItem;
     contextActor?: CharacterActor;
     allowObtainTalents?: boolean;
     allowPan?: boolean;
@@ -504,23 +507,20 @@ export class TalentTreeViewComponent<
             const item = (await fromUuid(node.uuid)) as TalentItem | null;
             if (!item) return;
 
-            // Determine the source
-            const source = this.params!.source ?? {
-                type: Talent.SourceType.Tree,
-                id: this.tree.id,
-                uuid: this.tree.uuid,
-            };
+            const itemData = item.toObject();
+
+            // Determine the parent (if any)
+            const relParent = this.params!.parent;
+            if (relParent) {
+                ItemRelationshipUtils.addRelationshipData(
+                    itemData,
+                    relParent,
+                    ItemRelationship.Type.Parent,
+                );
+            }
 
             // Obtain talent
-            await this.contextActor.createEmbeddedDocuments('Item', [
-                foundry.utils.mergeObject(item.toObject(), {
-                    flags: {
-                        [SYSTEM_ID]: {
-                            source: source,
-                        },
-                    },
-                }),
-            ]);
+            await this.contextActor.createEmbeddedDocuments('Item', [itemData]);
 
             // Notification
             ui.notifications.info(
@@ -588,6 +588,25 @@ export class TalentTreeViewComponent<
                                       uuid: ref.uuid,
                                       obtained:
                                           this.contextActor?.hasTalent(
+                                              ref.id,
+                                          ) ?? false,
+                                  })),
+                              }
+                            : undefined),
+                        ...(prereq.type ===
+                        TalentTree.Node.Prerequisite.Type.Goal
+                            ? {
+                                  goals: prereq.goals.map((ref) => ({
+                                      id: ref.id,
+                                      label:
+                                          (
+                                              fromUuidSync(ref.uuid) as
+                                                  | Pick<CosmereItem, 'name'>
+                                                  | undefined
+                                          )?.name ?? ref.label,
+                                      uuid: ref.uuid,
+                                      completed:
+                                          this.contextActor?.hasCompletedGoal(
                                               ref.id,
                                           ) ?? false,
                                   })),

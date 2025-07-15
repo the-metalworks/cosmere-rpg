@@ -16,6 +16,7 @@ import {
 // Documents
 import { CosmereItem } from '@system/documents/item';
 import { CosmereActor } from '@system/documents/actor';
+import { ItemRelationship } from '@system/data/item/mixins/relationships';
 
 // Utils
 import AppUtils from '@system/applications/utils';
@@ -180,9 +181,7 @@ export const DYNAMIC_SECTIONS: Record<string, DynamicItemListSectionGenerator> =
                     itemTypeLabel: game.i18n!.localize(config.label),
                     default: false,
                     filter: (item: CosmereItem) =>
-                        (item.isPower() && item.system.type === type) ||
-                        (item.isTalent() &&
-                            item.source?.type === Talent.SourceType.Power),
+                        item.isPower() && item.system.type === type,
                     new: (parent: CosmereActor) =>
                         CosmereItem.create(
                             {
@@ -230,10 +229,8 @@ export const DYNAMIC_SECTIONS: Record<string, DynamicItemListSectionGenerator> =
                 itemTypeLabel: `${path.name} ${game.i18n?.localize('COSMERE.Item.Type.Action.label')}`,
                 default: true,
                 filter: (item: CosmereItem) =>
-                    item.isTalent() &&
-                    (item.system.path === path.system.id ||
-                        (item.source?.type === Talent.SourceType.Path &&
-                            item.source?.id === path.system.id)),
+                    item.hasRelationships() &&
+                    item.isRelatedTo(path, ItemRelationship.Type.Parent),
                 new: (parent: CosmereActor) =>
                     CosmereItem.create(
                         {
@@ -275,10 +272,14 @@ export const DYNAMIC_SECTIONS: Record<string, DynamicItemListSectionGenerator> =
                     itemTypeLabel: `${ancestry.name} ${game.i18n?.localize('COSMERE.Item.Type.Action.label')}`,
                     default: false,
                     filter: (item: CosmereItem) =>
-                        (item.isTalent() || item.isAction()) &&
-                        (item.system.ancestry === ancestry.system.id ||
-                            (item.source?.type === Talent.SourceType.Ancestry &&
-                                item.source?.id === ancestry.system.id)),
+                        (item.hasRelationships() &&
+                            item.isRelatedTo(
+                                ancestry,
+                                ItemRelationship.Type.Parent,
+                            )) ||
+                        (item.isAction() &&
+                            item.system.type === ActionType.Ancestry &&
+                            item.system.ancestry === ancestry.system.id),
                     new: (parent: CosmereActor) =>
                         CosmereItem.create(
                             {
