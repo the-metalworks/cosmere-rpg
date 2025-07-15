@@ -1588,7 +1588,9 @@
             "GrazeFocusSpent": "Reduced focus by 1",
             "AddedItem": "Added {type} \"{item}\" to {actor}",
             "IncreasedSkillRank": "Increased {actor}'s {skill} rank by {amount}",
-            "TalentObtained": "Added talent {talent} to {actor}"
+            "TalentObtained": "Added talent {talent} to {actor}",
+            "TalentRemoved": "Removed talent {talent} from {actor}",
+            "TalentCannotBeRemoved": "Cannot remove talent {talent} from {actor} as it is a prerequisite for another talent"
         },
         "Warning": {
             "NotImplemented": "Sorry! [action] is not implemented yet",
