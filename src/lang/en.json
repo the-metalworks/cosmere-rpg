@@ -484,26 +484,6 @@
             "Goal": {
                 "Level": {
                     "Label": "Progress"
-                },
-                "Reward": {
-                    "Type": {
-                        "Items": "Items",
-                        "SkillRanks": "Skill Ranks",
-                        "Label": "Type"
-                    },
-                    "Skill": {
-                        "Label": "Skill"
-                    },
-                    "Ranks": {
-                        "Label": "Ranks"
-                    },
-                    "Items": {
-                        "Label": "Items"
-                    },
-                    "Validation": {
-                        "MissingSkillOrRanks": "Must set a Skill and Ranks",
-                        "MissingItems": "Must set Items"
-                    }
                 }
             },
             "Power": {
@@ -1197,13 +1177,6 @@
                 "TalentTree": {
                     "View": "View"
                 },
-                "Goal": {
-                    "Reward": {
-                        "Title": "Rewards",
-                        "Create": "New Reward",
-                        "SkillRanksDescriptionValue": "{ranks} ranks in {skill}"
-                    }
-                },
                 "Path": {
                     "TalentTreePlaceholder": "Drop Talent Tree Here",
                     "NoTalentsConfigured": "No Talents Configured"
@@ -1480,9 +1453,6 @@
             "Warning": {
                 "DuplicateLevel": "A rule for level {level} already exists"
             }
-        },
-        "EditGoalReward": {
-            "Title": "Edit Reward"
         },
         "ReleaseNotes": {
             "Title": "Cosmere Roleplaying Game - Release Notes"

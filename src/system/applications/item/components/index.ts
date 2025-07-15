@@ -14,5 +14,4 @@ import './details-linked-skills';
 import './properties';
 
 import './ancestry';
-import './goal';
 import './talent-tree';

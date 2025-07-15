@@ -36,12 +36,7 @@ import {
 } from './cosmere';
 import { AdvantageMode } from './roll';
 
-import {
-    Talent,
-    TalentTree,
-    Goal,
-    EventSystem as ItemEventSystem,
-} from './item';
+import { Talent, TalentTree, EventSystem as ItemEventSystem } from './item';
 
 import { AnyObject } from './utils';
 
@@ -446,12 +441,6 @@ export interface CosmereRPGConfig {
 
         equipment: {
             types: Record<EquipmentType, EquipmentTypeConfig>;
-        };
-
-        goal: {
-            rewards: {
-                types: Record<Goal.Reward.Type, string>;
-            };
         };
 
         talent: {
