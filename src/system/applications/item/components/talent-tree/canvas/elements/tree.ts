@@ -23,7 +23,7 @@ export class TalentTreeCanvasElement extends Drawable {
 
     public constructor(
         canvas: PIXICanvasApplication,
-        private readonly item: TalentTreeItem,
+        public readonly item: TalentTreeItem,
     ) {
         super(canvas);
 

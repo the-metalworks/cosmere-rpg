@@ -484,26 +484,6 @@
             "Goal": {
                 "Level": {
                     "Label": "Progress"
-                },
-                "Reward": {
-                    "Type": {
-                        "Items": "Items",
-                        "SkillRanks": "Skill Ranks",
-                        "Label": "Type"
-                    },
-                    "Skill": {
-                        "Label": "Skill"
-                    },
-                    "Ranks": {
-                        "Label": "Ranks"
-                    },
-                    "Items": {
-                        "Label": "Items"
-                    },
-                    "Validation": {
-                        "MissingSkillOrRanks": "Must set a Skill and Ranks",
-                        "MissingItems": "Must set Items"
-                    }
                 }
             },
             "Power": {
@@ -536,7 +516,8 @@
                         "connection": "Connection",
                         "level": "Level",
                         "ancestry": "Ancestry",
-                        "culture": "Culture"
+                        "culture": "Culture",
+                        "goal": "Goal"
                     },
                     "Mode": {
                         "AnyOf": "Any of",
@@ -1192,7 +1173,8 @@
                         "Connection": "Connection",
                         "ConnectionDescription": "Description",
                         "ConnectionDescriptionPlaceholder": "Connection Description",
-                        "DropTalents": "Drop Talents here to add them to the list."
+                        "DropTalents": "Drop Talents here to add them to the list.",
+                        "DropGoals": "Drop Goals here to add them to the list."
                     },
                     "GrantRules": {
                         "Description": "Description",
@@ -1203,13 +1185,6 @@
                 },
                 "TalentTree": {
                     "View": "View"
-                },
-                "Goal": {
-                    "Reward": {
-                        "Title": "Rewards",
-                        "Create": "New Reward",
-                        "SkillRanksDescriptionValue": "{ranks} ranks in {skill}"
-                    }
                 },
                 "Path": {
                     "TalentTreePlaceholder": "Drop Talent Tree Here",
@@ -1488,9 +1463,6 @@
                 "DuplicateLevel": "A rule for level {level} already exists"
             }
         },
-        "EditGoalReward": {
-            "Title": "Edit Reward"
-        },
         "ReleaseNotes": {
             "Title": "Cosmere Roleplaying Game - Release Notes"
         },
@@ -1578,6 +1550,7 @@
         "Type": "Type",
         "Description": "Description",
         "Talent": "Talent",
+        "Goal": "Goal",
         "Button": {
             "Roll": "Roll",
             "Continue": "Continue",
@@ -1594,7 +1567,9 @@
             "GrazeFocusSpent": "Reduced focus by 1",
             "AddedItem": "Added {item}{quantity} to {actor}",
             "IncreasedSkillRank": "Increased {actor}'s {skill} rank by {amount}",
-            "TalentObtained": "Added talent {talent} to {actor}"
+            "TalentObtained": "Added talent {talent} to {actor}",
+            "TalentRemoved": "Removed talent {talent} from {actor}",
+            "TalentCannotBeRemoved": "Cannot remove talent {talent} from {actor} as it is a prerequisite for another talent"
         },
         "Warning": {
             "NotImplemented": "Sorry! [action] is not implemented yet",

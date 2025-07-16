@@ -98,8 +98,10 @@ export class CharacterConnectionsListComponent extends HandlebarsApplicationComp
         // Render
         await this.render();
 
-        // Edit the connection
-        this.editConnection(id);
+        setTimeout(() => {
+            // Edit the connection
+            this.editConnection(id);
+        }, 50);
     }
 
     public static async onRemoveConnection(
@@ -216,21 +218,13 @@ export class CharacterConnectionsListComponent extends HandlebarsApplicationComp
 
     private editConnection(id: string) {
         // Get goal element
-        const element = $(this.element!).find(
-            `.connection:not(.details)[data-id="${id}"]`,
-        );
-
-        // Get span element
-        const span = element.find('span.title');
-
-        // Hide span title
-        span.addClass('inactive');
+        const element = $(this.element!).find(`.item[data-id="${id}"]`);
 
         // Get input element
-        const input = element.find('input.title');
+        const input = element.find('input.name');
 
-        // Show
-        input.removeClass('inactive');
+        // Set not readonly
+        input.prop('readonly', false);
 
         setTimeout(() => {
             // Focus input

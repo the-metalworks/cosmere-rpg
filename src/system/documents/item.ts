@@ -10,7 +10,6 @@ import {
     ArmorTraitId,
     ActionCostType,
 } from '@system/types/cosmere';
-import { Goal } from '@system/types/item';
 import { CosmereHooks } from '@system/types/hooks';
 import { DeepPartial, Nullable } from '@system/types/utils';
 
@@ -334,20 +333,6 @@ export class CosmereItem<
 
     /* --- Lifecycle --- */
 
-    override _onUpdate(_changes: object, options: object, userId: string) {
-        super._onUpdate(_changes, options, userId);
-
-        if (game.user?.id !== userId) return;
-
-        if (this.isGoal()) {
-            const changes: { system?: DeepPartial<GoalItemData> } = _changes;
-
-            if (changes.system?.level === 3) {
-                this.handleGoalComplete();
-            }
-        }
-    }
-
     protected override _onClickDocumentLink(event: MouseEvent) {
         const target = event.currentTarget as HTMLElement;
         return this.sheet?.render(true, { tab: target.dataset.tab });
@@ -386,73 +371,6 @@ export class CosmereItem<
             embedHelpers.createFigureEmbed?.(this, content, config, options) ??
             super._createFigureEmbed(content, config, options)
         );
-    }
-
-    /* --- Event handlers --- */
-
-    protected handleGoalComplete() {
-        // Ensure the item is a goal
-        if (!this.isGoal()) return;
-
-        // Ensure actor is set
-        if (!this.actor) return;
-
-        // Get the rewards
-        const rewards = this.system.rewards;
-
-        // Handle rewards
-        rewards.forEach(async (reward) => {
-            if (reward.type === Goal.Reward.Type.SkillRanks) {
-                await this.actor!.modifySkillRank(reward.skill, reward.ranks);
-
-                // Notification
-                ui.notifications.info(
-                    game.i18n!.format(
-                        'GENERIC.Notification.IncreasedSkillRank',
-                        {
-                            skill: CONFIG.COSMERE.skills[reward.skill].label,
-                            amount: reward.ranks,
-                            actor: this.actor!.name,
-                        },
-                    ),
-                );
-            } else if (reward.type === Goal.Reward.Type.Items) {
-                reward.items.forEach(async (itemUUID) => {
-                    // Get the item
-                    const item = (await fromUuid(
-                        itemUUID,
-                    )) as unknown as CosmereItem;
-
-                    // Get the id
-                    const id = item.hasId() ? item.system.id : null;
-
-                    // Ensure the item is not already embedded
-                    if (
-                        id &&
-                        this.actor!.items.some(
-                            (i) => i.hasId() && i.system.id === id,
-                        )
-                    )
-                        return;
-
-                    // Add the item to the actor
-                    await this.actor!.createEmbeddedDocuments('Item', [
-                        item.toObject(),
-                    ]);
-
-                    // Notification
-                    ui.notifications.info(
-                        game.i18n!.format('GENERIC.Notification.AddedItem', {
-                            type: game.i18n!.localize(
-                                `TYPES.Item.${item.type}`,
-                            ),
-                            item: item.name,
-                            actor: this.actor!.name,
-                        }),
-                    );
-                });
-            }
-        });
     }
 
     /* --- Roll & Usage utilities --- */

@@ -79,6 +79,8 @@ export class EditNodePrerequisiteDialog extends ComponentHandlebarsApplicationMi
             data.talents = new RecordCollection(
                 Array.from(data.talents.entries()),
             );
+        } else if (data.type === TalentTree.Node.Prerequisite.Type.Goal) {
+            data.goals = new RecordCollection(Array.from(data.goals.entries()));
         }
 
         const dialog = new this(tree, node, data);
@@ -117,6 +119,40 @@ export class EditNodePrerequisiteDialog extends ComponentHandlebarsApplicationMi
                     (acc, id) => ({
                         ...acc,
                         [`system.nodes.${this.node.id}.prerequisites.${this.data.id}.talents.-=${id}`]:
+                            {},
+                    }),
+                    {},
+                ),
+            });
+        } else if (this.data.type === TalentTree.Node.Prerequisite.Type.Goal) {
+            // Get the old prerequisite state
+            const old = this.node.prerequisites.get(this.data.id);
+
+            // Get previous goals
+            const prevGoals =
+                old?.type === TalentTree.Node.Prerequisite.Type.Goal
+                    ? Array.from(old.goals.keys())
+                    : [];
+
+            // Figure out which goals have been removed
+            const removedGoals = prevGoals.filter(
+                (id) =>
+                    !(this.data as TalentTree.Node.GoalPrerequisite).goals.has(
+                        id,
+                    ),
+            );
+
+            void this.tree.update({
+                [`system.nodes.${this.node.id}.prerequisites.${this.data.id}`]:
+                    this.data,
+                [`system.nodes.${this.node.id}.prerequisites.${this.data.id}.goals`]:
+                    this.data.goals.toJSON(),
+
+                // Add removals
+                ...removedGoals.reduce(
+                    (acc, id) => ({
+                        ...acc,
+                        [`system.nodes.${this.node.id}.prerequisites.${this.data.id}.goals.-=${id}`]:
                             {},
                     }),
                     {},
@@ -171,6 +207,8 @@ export class EditNodePrerequisiteDialog extends ComponentHandlebarsApplicationMi
             this.data.type === TalentTree.Node.Prerequisite.Type.Talent
         ) {
             this.data.talents ??= new RecordCollection();
+        } else if (this.data.type === TalentTree.Node.Prerequisite.Type.Goal) {
+            this.data.goals ??= new RecordCollection();
         } else if (
             this.data.type === TalentTree.Node.Prerequisite.Type.Connection
         ) {

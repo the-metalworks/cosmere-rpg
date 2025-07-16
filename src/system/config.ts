@@ -37,7 +37,7 @@ import {
 } from './types/cosmere';
 import { AdvantageMode } from './types/roll';
 
-import { Talent, TalentTree, Goal } from './types/item';
+import { Talent, TalentTree } from './types/item';
 
 const COSMERE: CosmereRPGConfig = {
     sizes: {
@@ -821,16 +821,6 @@ const COSMERE: CosmereRPGConfig = {
                 },
             },
         },
-        goal: {
-            rewards: {
-                types: {
-                    [Goal.Reward.Type.Items]:
-                        'COSMERE.Item.Goal.Reward.Type.Items',
-                    [Goal.Reward.Type.SkillRanks]:
-                        'COSMERE.Item.Goal.Reward.Type.SkillRanks',
-                },
-            },
-        },
         talent: {
             types: {
                 [Talent.Type.Ancestry]: {
@@ -862,6 +852,8 @@ const COSMERE: CosmereRPGConfig = {
                             'COSMERE.Item.Talent.Prerequisite.Type.ancestry',
                         [TalentTree.Node.Prerequisite.Type.Culture]:
                             'COSMERE.Item.Talent.Prerequisite.Type.culture',
+                        [TalentTree.Node.Prerequisite.Type.Goal]:
+                            'COSMERE.Item.Talent.Prerequisite.Type.goal',
                     },
                 },
             },

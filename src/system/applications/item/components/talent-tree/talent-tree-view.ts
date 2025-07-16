@@ -63,7 +63,9 @@ export class TalentTreeViewComponent<
 > {
     static emittedEvents = super.emittedEvents.concat([
         'click-node',
+        'rightclick-node',
         'click-connection',
+        'rightclick-connection',
     ]);
 
     static TEMPLATE =
@@ -255,83 +257,16 @@ export class TalentTreeViewComponent<
         );
 
         // Add listeners
-        this.app.world.on(
-            'click-node',
-            debounce(this.onClickNode.bind(this), 300, true),
-        );
+        this.app.world.on('click-node', debounce(this.onClickNode.bind(this), 300, true));
+        this.app.world.on('rightclick-node', debounce(this.onRightClickNode.bind(this), 300, true));
 
         this.app.world.on(
-            'rightclick-node',
-            (event: RightClickNodeEvent<CanvasElements.Nodes.BaseNode>) => {
-                // Convert node position to view space
-                const viewPos = this.viewport!.worldToView(event.node.origin);
-
-                // Get options
-                const options = [
-                    ...(event.node.data.type === TalentTree.Node.Type.Talent
-                        ? this.getTalentContextMenuOptions(event.node.data)
-                        : []),
-                    ...this.getNodeContextMenuOptions(event.node.data),
-                ];
-                if (options.length === 0) return;
-
-                // Adjust size for zoom
-                const size = {
-                    width: event.node.size.width * this.viewport!.view.zoom,
-                    height: event.node.size.height * this.viewport!.view.zoom,
-                };
-
-                // Show context menu
-                void this.contextMenu!.show(options, {
-                    left: viewPos.x + size.width,
-                    top: viewPos.y,
-                });
-            },
+            'click-connection',
+            this.onClickConnection.bind(this),
         );
-
-        this.app.world.on('click-connection', (event: ClickConnectionEvent) => {
-            // Select
-            this.selectConnection({
-                from: event.from.data.id,
-                to: event.to.data.id,
-            });
-
-            // Dispatch event
-            this.dispatchEvent(
-                new CustomEvent('click-connection', {
-                    detail: {
-                        connection: event.connection,
-                    },
-                }),
-            );
-        });
-
         this.app.world.on(
             'rightclick-connection',
-            (event: RightClickConnectionEvent) => {
-                // Convert canvas connection to node connection
-                const connection = {
-                    from: event.from.data.id,
-                    to: event.to.data.id,
-                };
-
-                // Select
-                this.selectConnection(connection);
-
-                // Get options
-                const options =
-                    this.getConnectionContextMenuOptions(connection);
-                if (options.length === 0) return;
-
-                // Show context menu
-                void this.contextMenu!.show(
-                    this.getConnectionContextMenuOptions(connection),
-                    {
-                        left: event.screen.x,
-                        top: event.screen.y,
-                    },
-                );
-            },
+            this.onRightClickConnection.bind(this),
         );
 
         this.app.world.on('node-move', (event: MoveNodeEvent) => {
@@ -479,11 +414,6 @@ export class TalentTreeViewComponent<
     protected async onClickNode(
         event: ClickNodeEvent<CanvasElements.Nodes.TalentNode>,
     ) {
-        this.contextMenu!.hide();
-
-        // Select
-        this.selectNode(event.node.data);
-
         // Dispatch event
         this.dispatchEvent(
             new CustomEvent('click-node', {
@@ -501,7 +431,10 @@ export class TalentTreeViewComponent<
             this.allowObtainTalents &&
             node.type === TalentTree.Node.Type.Talent &&
             !this.contextActor.hasTalent(node.talentId) &&
-            this.contextActor.hasTalentPreRequisites(node.prerequisites)
+            this.contextActor.hasTalentPreRequisites(
+                node.prerequisites,
+                this.tree,
+            )
         ) {
             // Get the item
             const item = (await fromUuid(node.uuid)) as TalentItem | null;
@@ -536,6 +469,91 @@ export class TalentTreeViewComponent<
         }
     }
 
+    protected async onRightClickNode(
+        event: RightClickNodeEvent<CanvasElements.Nodes.TalentNode>,
+    ) {
+        // Dispatch event
+        this.dispatchEvent(
+            new CustomEvent('rightclick-node', {
+                detail: {
+                    node: event.node,
+                },
+            }),
+        );
+
+        // Get the node
+        const node = event.node.data as TalentTree.Node;
+
+        if (
+            !!this.contextActor &&
+            this.allowObtainTalents &&
+            node.type === TalentTree.Node.Type.Talent &&
+            this.contextActor.hasTalent(node.talentId)
+        ) {
+            // Find the talent on the actor
+            const talent = this.contextActor.items.find(
+                (item) => item.isTalent() && item.system.id === node.talentId,
+            )!;
+
+            // Check if the talent is removable
+            if (
+                await TalentTreeUtils.isTalentRequiredAsPrerequisite(
+                    this.contextActor,
+                    node.talentId,
+                    this.tree,
+                )
+            ) {
+                ui.notifications.warn(
+                    game.i18n!.format(
+                        'GENERIC.Notification.TalentCannotBeRemoved',
+                        {
+                            talent: talent.name,
+                            actor: this.contextActor.name,
+                        },
+                    ),
+                );
+                return;
+            }
+
+            // Remove the talent
+            await talent.delete();
+
+            // Notification
+            ui.notifications.info(
+                game.i18n!.format('GENERIC.Notification.TalentRemoved', {
+                    talent: talent.name,
+                    actor: this.contextActor.name,
+                }),
+            );
+
+            // Refresh tree
+            await this.canvasTree!.refresh();
+            await this.renderCanvas(true);
+        }
+    }
+
+    protected onClickConnection(event: ClickConnectionEvent) {
+        // Dispatch event
+        this.dispatchEvent(
+            new CustomEvent('click-connection', {
+                detail: {
+                    connection: event.connection,
+                },
+            }),
+        );
+    }
+
+    protected onRightClickConnection(event: RightClickConnectionEvent) {
+        // Dispatch event
+        this.dispatchEvent(
+            new CustomEvent('rightclick-connection', {
+                detail: {
+                    connection: event.connection,
+                },
+            }),
+        );
+    }
+
     protected async onMouseOverNode(
         event: MouseOverNodeEvent<CanvasElements.Nodes.TalentNode>,
     ) {
@@ -568,6 +586,7 @@ export class TalentTreeViewComponent<
                         ? TalentTreeUtils.characterMeetsPrerequisiteRule(
                               this.contextActor,
                               prereq,
+                              this.tree,
                           )
                         : undefined;
 
@@ -588,6 +607,25 @@ export class TalentTreeViewComponent<
                                       uuid: ref.uuid,
                                       obtained:
                                           this.contextActor?.hasTalent(
+                                              ref.id,
+                                          ) ?? false,
+                                  })),
+                              }
+                            : undefined),
+                        ...(prereq.type ===
+                        TalentTree.Node.Prerequisite.Type.Goal
+                            ? {
+                                  goals: prereq.goals.map((ref) => ({
+                                      id: ref.id,
+                                      label:
+                                          (
+                                              fromUuidSync(ref.uuid) as
+                                                  | Pick<CosmereItem, 'name'>
+                                                  | undefined
+                                          )?.name ?? ref.label,
+                                      uuid: ref.uuid,
+                                      completed:
+                                          this.contextActor?.hasCompletedGoal(
                                               ref.id,
                                           ) ?? false,
                                   })),
@@ -670,26 +708,6 @@ export class TalentTreeViewComponent<
 
     protected async renderCanvas(force?: boolean) {
         await this.app!.draw(force);
-    }
-
-    /* --- Context menu options --- */
-
-    protected getNodeContextMenuOptions(
-        node: TalentTree.Node,
-    ): AppContextMenu.Item[] {
-        return [];
-    }
-
-    protected getTalentContextMenuOptions(
-        node: TalentTree.TalentNode,
-    ): AppContextMenu.Item[] {
-        return [];
-    }
-
-    protected getConnectionContextMenuOptions(
-        connection: NodeConnection,
-    ): AppContextMenu.Item[] {
-        return [];
     }
 }
 
