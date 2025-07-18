@@ -305,7 +305,9 @@ async function fireEvent(event: Event) {
 
             try {
                 // Execute the rule
-                return await rule.handler.execute(event);
+                return await rule.handler.execute(
+                    foundry.utils.deepClone(event),
+                );
             } catch (e) {
                 console.error(
                     `[${SYSTEM_ID}] Error executing event rule ${rule.id} for item ${item.name} ${item.uuid}`,
