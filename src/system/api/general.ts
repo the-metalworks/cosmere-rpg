@@ -6,6 +6,9 @@ import {
 } from '@system/types/config';
 import { RegistrationHelper } from './helper';
 
+// Utils
+import { objectsEqual } from './utils';
+
 export function getCurrentRegistrations() {
     return RegistrationHelper.COMPLETED;
 }
@@ -79,10 +82,9 @@ export function registerCurrency(data: CurrencyConfigData) {
     if (data.id in CONFIG.COSMERE.currencies) {
         // If the same object is already registered, we ignore the registration and mark it succesful.
         if (
-            foundry.utils.objectsEqual(
-                toRegister,
-                CONFIG.COSMERE.currencies[data.id],
-            )
+            objectsEqual(toRegister, CONFIG.COSMERE.currencies[data.id], [
+                'icon',
+            ])
         ) {
             return true;
         }

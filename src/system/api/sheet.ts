@@ -5,6 +5,9 @@ import {
 import { RegistrationConfig } from '../types/config';
 import { RegistrationHelper } from './helper';
 
+// Utils
+import { objectsEqual } from './utils';
+
 /**
  * Registers a new static section for the actor's actions list.
  */
@@ -42,11 +45,12 @@ export function registerActionListSection(
     ) {
         // If the same object is already registered, we ignore the registration and mark it succesful.
         if (
-            foundry.utils.objectsEqual(
+            objectsEqual(
                 toRegister,
                 CONFIG.COSMERE.sheet.actor.components.actions.sections.static[
                     data.id
                 ],
+                ['filter', 'new'],
             )
         ) {
             return true;
