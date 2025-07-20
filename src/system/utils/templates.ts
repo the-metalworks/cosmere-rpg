@@ -13,6 +13,7 @@ export const TEMPLATES = {
     COMBAT_COMBATANT: 'combat/combatant.hbs',
 
     COMPONENT_DOCUMENT_DROP_LIST: 'general/components/document-drop-list.hbs',
+    COMPONENT_ITEM_DROP_LIST: 'general/components/item-drop-list.hbs',
     COMPONENT_DOCUMENT_REFERENCE: 'general/components/document-reference.hbs',
     COMPONENT_MULTI_VALUE_SELECT: 'general/components/multi-value-select.hbs',
     COMPONENT_ID_INPUT: 'general/components/id-input.hbs',
@@ -182,6 +183,7 @@ export const TEMPLATES = {
     DIALOG_ROLL_CONFIGURATION: 'roll/dialogs/roll-configuration.hbs',
 
     DIALOG_EDIT_EXPERTISES: 'general/dialogs/edit-expertises.hbs',
+    DIALOG_PICK: 'general/dialogs/pick.hbs',
 
     // ITEM EVENT SYSTEM HANDLERS
     IES_HANDLER_EXECUTE_MACRO: 'item/event-system/handlers/execute-macro.hbs',

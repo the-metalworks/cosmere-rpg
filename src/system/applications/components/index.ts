@@ -5,3 +5,4 @@ import './multi-value-select';
 import './document-drop-list';
 import './expertises-list';
 import './document-changes-list';
+import './item-drop-list';

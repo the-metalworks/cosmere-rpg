@@ -1,8 +1,13 @@
 import { CosmereItem } from '@system/documents/item';
 import { HandlerType, Event } from '@system/types/item/event-system';
+import { AnyObject } from '@system/types/utils';
 import { ItemRelationship } from '@system/data/item/mixins/relationships';
 
+// Dialogs
+import { PickDialog } from '@system/applications/dialogs/pick-dialog';
+
 // Utils
+import { tryApplyRollData } from '@system/utils/changes';
 import ItemRelationshipUtils from '@system/utils/item/relationship';
 
 // Constants
@@ -23,16 +28,31 @@ interface GrantItemsHandlerConfigData {
     increaseQuantity: boolean;
 
     /**
-     * The amount of quantity to grant.
-     * Only used if `increaseQuantity` is true and the item is physical.
-     * @default 1
+     * Whether to pick one item from the list of items to grant.
+     * If `true`, the user will be prompted to pick one item from the list, only that item will be granted.
+     * If `false`, all items will be granted.
+     * @default false
      */
-    amount: number;
+    pickOne?: boolean;
 
     /**
-     * The UUIDs of the items to grant
+     * The title of the prompt shown when picking an item to grant.
+     * If not provided, a default title will be used.
+     * Only used if `pickOne` is `true`.
      */
-    items: string[];
+    pickPromptTitle?: string;
+
+    /**
+     * Whether to send a notification to the user when items are granted.
+     *
+     * @default true
+     */
+    notify?: boolean;
+
+    /**
+     * The UUIDs of the items to grant and optional quantity formulas.
+     */
+    items: { uuid: string; quantity?: string }[];
 }
 
 export function register() {
@@ -55,17 +75,31 @@ export function register() {
                     label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.GrantItems}.IncreaseQuantity.Label`,
                     hint: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.GrantItems}.IncreaseQuantity.Hint`,
                 }),
-                amount: new foundry.data.fields.NumberField({
-                    required: true,
-                    initial: 1,
-                    min: 1,
-                    integer: true,
-                    label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.GrantItems}.Amount.Label`,
-                    hint: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.GrantItems}.Amount.Hint`,
+                pickOne: new foundry.data.fields.BooleanField({
+                    required: false,
+                    initial: false,
+                    label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.GrantItems}.PickOne.Label`,
+                    hint: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.GrantItems}.PickOne.Hint`,
+                }),
+                pickPromptTitle: new foundry.data.fields.StringField({
+                    required: false,
+                    label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.GrantItems}.PickPromptTitle.Label`,
+                    hint: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.GrantItems}.PickPromptTitle.Hint`,
+                }),
+                notify: new foundry.data.fields.BooleanField({
+                    required: false,
+                    initial: true,
+                    label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.GrantItems}.Notify.Label`,
+                    hint: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.GrantItems}.Notify.Hint`,
                 }),
                 items: new foundry.data.fields.ArrayField(
-                    new foundry.data.fields.DocumentUUIDField({
-                        type: 'Item',
+                    new foundry.data.fields.SchemaField({
+                        uuid: new foundry.data.fields.DocumentUUIDField({
+                            type: 'Item',
+                        }),
+                        quantity: new foundry.data.fields.StringField({
+                            required: false,
+                        }),
                     }),
                     {
                         required: true,
@@ -86,9 +120,9 @@ export function register() {
             const actor = event.item.actor;
 
             // Get the items to grant
-            const items = (
+            let items = (
                 (await Promise.all(
-                    this.items.map((uuid) => fromUuid(uuid)),
+                    this.items.map(({ uuid }) => fromUuid(uuid)),
                 )) as (CosmereItem | null)[]
             )
                 .filter((v) => !!v)
@@ -106,6 +140,49 @@ export function register() {
                     );
                 });
 
+            // Construct map of quantities by UUID
+            const quantities = await this.items.reduce(
+                async (prev, ref) => {
+                    const acc = await prev;
+
+                    // Get the quantity to grant
+                    const quantityFormula = ref.quantity ?? '1';
+
+                    // Resolve quantity
+                    let quantity = parseInt(
+                        await tryApplyRollData(actor, quantityFormula, true),
+                    );
+                    if (isNaN(quantity) || quantity < 1) quantity = 1;
+
+                    return {
+                        ...acc,
+                        [ref.uuid]: quantity,
+                    };
+                },
+                Promise.resolve({} as Record<string, number>),
+            );
+
+            if (this.pickOne) {
+                const picked = await PickDialog.show({
+                    title:
+                        // NOTE: Use logical OR to provide a default title if field is empty string
+                        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+                        this.pickPromptTitle ||
+                        game.i18n!.localize(
+                            `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.GrantItems}.PickPromptTitle.Default`,
+                        ),
+                    options: items.map((item) => ({
+                        id: item.uuid,
+                        label: `<span>${item.name}${item.isPhysical() ? ` <span style="font-size:.65em;opacity:.65;">x${quantities[item.uuid]}</span>` : ''}</span>`,
+                    })),
+                });
+
+                if (!picked) return;
+
+                // Filter items to only the picked item
+                items = items.filter((item) => item.uuid === picked);
+            }
+
             // Split out the physical items
             const physicalItems = items.filter((item) => item.isPhysical());
             const nonPhysicalItems = items.filter((item) => !item.isPhysical());
@@ -115,6 +192,8 @@ export function register() {
 
             // Handle physical items
             physicalItems.forEach((item) => {
+                const quantity = quantities[item.uuid];
+
                 // Find the existing item in the actor
                 const existingItem = actor.items.find((other) =>
                     areSameItems(item, other, true),
@@ -125,7 +204,7 @@ export function register() {
                     documentUpdates.push({
                         _id: existingItem.id,
                         'system.quantity': Math.max(
-                            existingItem.system.quantity + this.amount,
+                            existingItem.system.quantity + quantity,
                             1,
                         ),
                     });
@@ -133,7 +212,7 @@ export function register() {
                     const itemData = foundry.utils.mergeObject(
                         item.toObject(),
                         {
-                            'system.quantity': this.amount,
+                            'system.quantity': quantity,
                         },
                     );
 
@@ -181,6 +260,22 @@ export function register() {
                     event.op,
                 ),
             ]);
+
+            // Notify the user if enabled
+            if (this.notify !== false) {
+                items.forEach((item) => {
+                    ui.notifications.info(
+                        game.i18n!.format('GENERIC.Notification.AddedItem', {
+                            item: item.name,
+                            quantity:
+                                item.isPhysical() && quantities[item.uuid] > 1
+                                    ? ` (x${quantities[item.uuid]})`
+                                    : '',
+                            actor: actor.name,
+                        }),
+                    );
+                });
+            }
         },
     });
 }
