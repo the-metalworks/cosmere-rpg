@@ -160,28 +160,24 @@ export class ExpertisesListComponent extends HandlebarsApplicationComponent<
         }
     }
 
-    protected override _onDestroy(): void {
-        // Setting a flag causes a document update and therefore a re-render.
-        // We don't want to re-render every time we collapse a section because it breaks CSS transitions.
-        // This flag is therefore only stored once at the end when closing the document so that
-        // it is available in the correct state when we next open the document and get the flag in prepareContext.
-        if (this.application instanceof BaseActorSheet) {
-            void this.application.actor.setFlag(
-                SYSTEM_ID,
-                'sheet.expertisesCollapsed',
-                this._collapsed,
-            );
-        }
-
-        super._onDestroy();
-    }
-
     /* --- Event handlers --- */
 
     private onClickCollapsible(event: JQuery.ClickEvent) {
         const target = event.currentTarget as HTMLElement;
         target?.parentElement?.classList.toggle('expanded');
         this._collapsed = !this._collapsed;
+
+        if (this.application instanceof BaseActorSheet) {
+            if (!this.application.isEditable) return;
+
+            void this.application.actor.update(
+                {
+                    'flags.cosmere-rpg.sheet.expertisesCollapsed':
+                        this._collapsed,
+                },
+                { render: false },
+            );
+        }
     }
 
     /* --- Context --- */

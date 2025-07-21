@@ -97,26 +97,22 @@ export class ActorImmunitiesComponent extends HandlebarsApplicationComponent<
             .on('click', (event) => this.onClickCollapsible(event));
     }
 
-    protected _onDestroy(): void {
-        // Setting a flag causes a document update and therefore a re-render.
-        // We don't want to re-render every time we collapse a section because it breaks transitions.
-        // This flag is therefore only stored once at the end when closing the document so that
-        // it is available in the correct state when we next open the document and get the flag in prepareContext.
-        void this.application.actor.setFlag(
-            SYSTEM_ID,
-            'sheet.immunitiesCollapsed',
-            this.sectionCollapsed,
-        );
-
-        super._onDestroy();
-    }
-
     /* --- Event handlers --- */
 
     private onClickCollapsible(event: JQuery.ClickEvent) {
         const target = event.currentTarget as HTMLElement;
         target?.parentElement?.classList.toggle('expanded');
         this.sectionCollapsed = !this.sectionCollapsed;
+
+        if (!this.application.isEditable) return;
+
+        void this.application.actor.update(
+            {
+                'flags.cosmere-rpg.sheet.immunitiesCollapsed':
+                    this.sectionCollapsed,
+            },
+            { render: false },
+        );
     }
 }
 
