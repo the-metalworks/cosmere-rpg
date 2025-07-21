@@ -6,6 +6,7 @@
             <span>{{localize "COSMERE.Actor.Skill.label_p"}}</span>
         </div>
         <div class="controls">
+            {{#if editable}}
             <a role="button"
                 data-action="toggle-hide-unranked"
                 data-tooltip="COSMERE.Actor.Sheet.{{#if hideUnranked}}ToggleShowSkills{{else}}ToggleCollapseSkills{{/if}}"
@@ -16,6 +17,7 @@
                 <i class="fas fa-eye-slash"></i>
                 {{/if}}
             </a>
+            {{/if}}
             {{#if isEditMode}}
             <a role="button"
                 data-action="configure-skills"
