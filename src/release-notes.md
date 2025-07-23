@@ -14,7 +14,7 @@ For those budding Worldhoppers, this release note will be a little broader than 
 
 To those of you new to Foundry, if you look up to the top-right corner of the screen you will see the side panel with a number of tabs (Chat should be open by default). It's in this sidebar that most of the system goodies can be found. In the **Actors tab (![Image of the Actors Icon](https://github.com/user-attachments/assets/7a012fee-8ae7-45a7-9412-f727b9aa93e9))** you can manage all the characters you will need for your game and we have provided unique sheets designed specifically for the Cosmere RPG.
 
-![Image of a Player Character Sheet]()
+![Image of a Player Character Sheet](https://github.com/user-attachments/assets/52588f10-4219-4a57-a86e-1858f1b04189)
 
 These sheets will help you out by:
 - Tracking all number of derived stats
@@ -32,7 +32,7 @@ And for GMs we have created a separate, slightly more slimline version for adver
 
 We include fully interactive talent trees! GMs can create their own, or insert a copy of one of the Official trees from their own physical or PDF copy of the handbook.
 
-![Image of Windrunner Talent Tree]()
+![Image of Windrunner Talent Tree](https://preview.redd.it/metalworks-foundry-vtt-content-announcement-v0-4p8mso7672df1.png?width=1645&format=png&auto=webp&s=4a6ca1c90b5599a8edb8cf1c3d9deba895765b78)
 
 As you can see, you can:
 - Nest trees within trees to build up the specialization lines for a path
@@ -49,13 +49,13 @@ One of the key benefits of any VTT is taking away the pesky math involved in rol
 
 Whenever you activate an item or click a skill from your sheet, you will be given a chance to Raise the Stakes, apply conditional bonuses and advantage/disadvantage.
 
-![Image of the Roll Configuration Dialog]()
+![Image of the Roll Configuration Dialog](https://github.com/user-attachments/assets/465d925e-9fb6-4a1c-8ea6-0c0856eab7e3)
 
 Then when submitted you'll see the dice results pop-up in the chat window (see in the example how the weapon rolls the damage die at the same time for you)! Including full support for Opportunity and Complication calculations 😀
 
 If you use Foundry's targeting feature to select a token at roll time, you will see that the target's defenses are shown in the card too for quick hit/miss recognition.
 
-![Image of a weapon's attack roll Chat Message]()
+![Image of a weapon's attack roll Chat Message](https://github.com/user-attachments/assets/09860317-6985-4ac3-b215-7ba8cf84b784)
 
 You will also get the chance to pick your plot die result when rolling it with advantage/disadvantage!
 
@@ -63,7 +63,7 @@ You will also get the chance to pick your plot die result when rolling it with a
 
 When a roll has damage dice involved you will see there are a set of buttons beneath that will apply the rolled amount to any selected or targeted tokens (and the blue eye will deduct a Focus for those going for a Graze), these will also take into account any relevant Deflect or Immunities the victim might have.
 
-![Image of a Damage application Chat Message]()
+![Image of a Damage application Chat Message](https://github.com/user-attachments/assets/8fd0766c-b764-4518-8496-e22a4482af77)
 
 Be sure to hover your mouse over the chart cards and try click on various sections to see what they do! On top of standard interactions to show the roll breakdowns we have controls for applying advantage/disadvantage to existing d20s and to convert a damage roll to a crit 💥
 
@@ -79,15 +79,16 @@ When you open the **Combat tab (![Image of the Combat Icon](https://github.com/u
 
 And I'd say we do so with *style*, Goncho!
 
-![Image of the Encounter Tracker]()
+![Image of the Encounter Tracker](https://github.com/user-attachments/assets/50c01a8f-bb58-4bde-a72b-355fba203f56)
 
 #### 📦 Items Of All Sorts!
 
-The next tab that's going to be a favourite for all you GMs: **Items (![Image of the Items tab Icon](https://github.com/user-attachments/assets/5589bc26-2b78-4f2d-b09f-c7ffcf1f857))**.
+The next tab that's going to be a favourite for all you GMs: **Items (![Image of the Items tab Icon](https://github.com/user-attachments/assets/5589bc26-2b78-4f2d-b09f-c7ffcf1f8571))**.
 
 Here you will create any non-living objects you might want your Characters to interact with. But that's not to say these are all physical items! We have provided specific item types for all the key mechanics in the game (Talents, Paths, Ancestries, Cultures, etc.), so if you want to make your own *Anything* then this is the place to do it!
 
-![Image of an Item Details tab]()
+![Image of an Item Details tab](https://github.com/user-attachments/assets/4066bfc9-7923-4367-aed7-87882790b91d) ![Another Image of an Item Details tab](https://github.com/user-attachments/assets/99197586-6ae8-4c5f-89f3-21f3438a2e13)
+
 
 These can be drag-and-dropped from the sidebar onto any sheet and a completely separate copy will be added to the relevant list on the sheet. GMs can either use the Compendium from the premium modules to provide a pre-made list of options for their games, or import them into their Items tab to allow for editing or restricting access.
 
