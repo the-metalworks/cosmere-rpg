@@ -77,7 +77,7 @@ When you open the **Combat tab (![Image of the Combat Icon](https://github.com/u
 - Have Boss-type Adversaries automatically have each of their slots
 - Switch any Actor between their respective Fast and Slow groups
 
-And I'd say we do so with *style*, Goncho!
+And I'd say we do so with *style*, Gancho!
 
 ![Image of the Encounter Tracker](https://github.com/user-attachments/assets/50c01a8f-bb58-4bde-a72b-355fba203f56)
 
