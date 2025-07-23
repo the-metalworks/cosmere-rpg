@@ -12,7 +12,7 @@ For those budding Worldhoppers, this release note will be a little broader than 
 
 #### 👥 Character & Adversary Sheets
 
-To those of you new to Foundry, if you look up to the top-right corner of the screen you will see the side panel with a number of tabs (Chat should be open by default). It's in this sidebar that most of the system goodies can be found. In the **Actors tab (![Image of the Actors Icon]())** you can manage all the characters you wil need for your game and we have provided unique sheets designed specifically for the Cosmere RPG.
+To those of you new to Foundry, if you look up to the top-right corner of the screen you will see the side panel with a number of tabs (Chat should be open by default). It's in this sidebar that most of the system goodies can be found. In the **Actors tab (![Image of the Actors Icon]())** you can manage all the characters you will need for your game and we have provided unique sheets designed specifically for the Cosmere RPG.
 
 ![Image of a Player Character Sheet]()
 
@@ -137,7 +137,7 @@ Right, this is getting quite long, so lets get through the rest in Rapid Fire!
 
 #### 🎊 And More to Come!
 
-This has hopefully highlighted key parts of the foundry interface and our system within that, but we know we can do better. In the future we will have more thorough User Guides available on our [GitHub Wiki]() and using the in-built foundry Tours tool.
+This has hopefully highlighted key parts of the foundry interface and our system within that, but we know we can do better. In the future we will have more thorough User Guides available on our [GitHub Wiki](https://github.com/the-metalworks/cosmere-rpg/wiki) and using the in-built Foundry Tours tool.
 And here's a glimpse at something more...
 - Character Builder
 - More retroactive roll controls
@@ -174,7 +174,7 @@ Here are the changes between this version and the previous public release (0.3.1
 
 <br>
 
-Whew! That was a bit of a whistle-stop tour of what we've got in here, but even that was scratching the surface and we probably missed something! So please come visit us on [Discord]() and get to know us, or look out for our supporting documentation to help you get to grips with the finer points of how to use the system. You can also find this whole message on our [Github Release Page]().
+Whew! That was a bit of a whistle-stop tour of what we've got in here, but even that was scratching the surface and we probably missed something! So please come visit us on [Discord](https://discord.gg/GwGTMknXhp) and get to know us, or look out for our supporting documentation to help you get to grips with the finer points of how to use the system. You can also find this whole message on our [Github Release Page](https://github.com/the-metalworks/cosmere-rpg/releases).
 
 As always, but especially with today's release, the biggest of thanks to everyone who's been testing, building, or just playing and enjoying the system. And please look at the acknowledgements page of the Starter Rules for those exceedingly brave ~~Skaa~~ Bridge Crews who have helped us in our own closed playtesting.
 
