@@ -1,0 +1,83 @@
+{
+    "folder": "kVZlDrFKUyg2QyHL",
+    "name": "Feinting Strike",
+    "type": "talent",
+    "_id": "MK52rooQSyK0eqvi",
+    "img": "icons/skills/melee/sword-twirl-orange.webp",
+    "system": {
+        "id": "feinting-strike",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span></p><p><em>You intimidatingly press your opponent’s defenses— and their nerves—hoping to expose a fatal gap.</em></p><p>Spend 2 focus to make a melee weapon attack against a target’s Cognitive defense. On a hit, your target also loses one <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">r</span> and loses focus equal to your ranks in <strong>Intimidation</strong>. On a graze, they lose half as much focus (rounded up) and don’t lose <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">r</span>.</p><p>You can spend <span class=\"cosmere-icon\" style=\"color:#98a4f5\" data-tooltip=\"Opportunity\" aria-label=\"Opportunity\">O</span> from this test to gain <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">2</span>, which you can use only to @UUID[Compendium.cosmere-rpg.actions.Item.Da4Xj4WnVbtHMH7k]{Strike} or activate a stance.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span></p><p>Spend 2 focus to make a melee weapon attack vs. Cognitive. On a hit, your target loses <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">r</span> and loses focus equal to your ranks in <strong>Intimidation</strong>. On a graze, they lose half as much focus.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span></p><p>Spend 2 focus to make a melee weapon attack against a target’s Cognitive defense. On a hit, your target also loses one <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">r</span> and loses focus equal to your ranks in <strong>Intimidation</strong>. On a graze, they lose half as much focus (rounded up) and don’t lose <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">r</span>.</p><p>You can spend <span class=\"cosmere-icon\" style=\"color:#98a4f5\" data-tooltip=\"Opportunity\" aria-label=\"Opportunity\">O</span> from this test to gain <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">2</span>, which you can use only to @UUID[Compendium.cosmere-rpg.actions.Item.Da4Xj4WnVbtHMH7k]{Strike} or activate a stance.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": 1,
+                "type": "act"
+            },
+            "consume": [
+                {
+                    "type": "resource",
+                    "value": {
+                        "min": 2,
+                        "max": 2,
+                        "actual": 0
+                    },
+                    "resource": "foc"
+                }
+            ],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "path": "warrior",
+        "hasPath": false,
+        "specialty": "duelist",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "modality": null,
+        "prerequisites": {
+            "FoRtcHuCeY53DWw5": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "skill": "inm",
+                "rank": 2,
+                "talents": []
+            },
+            "E98KA40y3VR4Rpet": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "flamestance",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.9iwqXlfJWsySFuax",
+                        "label": "Flamestance"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!MK52rooQSyK0eqvi"
+}

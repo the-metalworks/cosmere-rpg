@@ -1,0 +1,38 @@
+{
+    "folder": "xeAxqcLYdFWSwUur",
+    "name": "Move",
+    "type": "action",
+    "_id": "UEGVL0QnZ6UelxxZ",
+    "img": "icons/skills/movement/feet-winged-sandals-tan.webp",
+    "system": {
+        "id": "move",
+        "type": "basic",
+        "description": {
+            "value": "<p>You move a distance up to your movement rate. If you’re crawling, climbing, swimming, or being stealthy, you become @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#slowed]{Slowed} for this movement, reducing how far you can move. Leaping or climbing as part of your movement might require an Agility or Athletics test.</p><p>You can use the <strong>Move</strong> action more than once per turn.</p>",
+            "chat": "<p>You move a distance up to your movement rate. If you’re crawling, climbing, swimming, or being stealthy, you become @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.MfPDUyrCWc3mXm5N.JournalEntryPage.jQvh7ULoKmh49sYA#slowed]{Slowed} for this movement, reducing how far you can move.</p><p>You can use the <strong>Move</strong> action more than once per turn.</p>",
+            "short": "<p>You move a distance up to your movement rate. If you’re crawling, climbing, swimming, or being stealthy, you become @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.MfPDUyrCWc3mXm5N.JournalEntryPage.jQvh7ULoKmh49sYA#slowed]{Slowed} for this movement, reducing how far you can move. Leaping or climbing as part of your movement might require an Agility or Athletics test.</p><p>You can use the <strong>Move</strong> action more than once per turn.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": 1,
+                "type": "act"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        }
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!UEGVL0QnZ6UelxxZ"
+}

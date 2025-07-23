@@ -1,0 +1,72 @@
+{
+    "folder": "kVZlDrFKUyg2QyHL",
+    "name": "Flamestance",
+    "type": "talent",
+    "_id": "9iwqXlfJWsySFuax",
+    "img": "icons/magic/fire/flame-burning-earth-orange.webp",
+    "system": {
+        "id": "flamestance",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">1</span></p><p><em>You enter an aggressive, squared stance that favors swift flurries of decisive blows.</em></p><p>While in this stance, you gain an advantage on <strong>Intimidation</strong> tests. Additionally, while there is exactly one enemy within your reach and none of your allies are within the reach of that enemy or you, you can use <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">0</span> to gain <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">1</span>, which you can spend only to @UUID[Compendium.cosmere-rpg.actions.Item.8yQ5MMIrywehKyTS]{Gain Advantage} or use an action that includes an attack test targeting that enemy.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">1</span></p><p>Enter Flamestance: You gain an advantage on <strong>Intimidation</strong>, and when only one enemy is in reach and no allies are, gain <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">1</span> to attack or @UUID[Compendium.cosmere-rpg.actions.Item.8yQ5MMIrywehKyTS]{Gain Advantage}.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">1</span></p><p>While in this stance, you gain an advantage on <strong>Intimidation</strong> tests. Additionally, while there is exactly one enemy within your reach and none of your allies are within the reach of that enemy or you, you can use <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">0</span> to gain <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">1</span>, which you can spend only to @UUID[Compendium.cosmere-rpg.actions.Item.8yQ5MMIrywehKyTS]{Gain Advantage} or use an action that includes an attack test targeting that enemy.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": 1,
+                "type": "act"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "path": "warrior",
+        "hasPath": false,
+        "specialty": "duelist",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "modality": "stance",
+        "prerequisites": {
+            "HoaA2VISIYAqUS8Q": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "skill": "inm",
+                "rank": 1,
+                "talents": []
+            },
+            "EiWpUgZU2XpkJiF5": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "vigilant-stance",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.8mJC2HnsN3OQ2J20",
+                        "label": "Vigilant Stance"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!9iwqXlfJWsySFuax"
+}

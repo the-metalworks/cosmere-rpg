@@ -1,0 +1,48 @@
+{
+    "folder": "qTYLKqLK29e5CTQp",
+    "name": "Case (leather)",
+    "type": "equipment",
+    "_id": "UQVUFD1E6xHxMXTL",
+    "img": "icons/containers/bags/case-scroll-leather-tan.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 4 mk; <strong>Weight</strong> 1 lb.;</p><p>A sealable, cylindrical case that can store up to ten pages of paper or parchment and protect them from the weather.</p>",
+            "chat": ""
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 1,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 4,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            },
+            "unit": "spheres.mark"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        }
+    },
+    "effects": [],
+    "sort": 1500000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!UQVUFD1E6xHxMXTL"
+}

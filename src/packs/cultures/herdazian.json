@@ -1,0 +1,55 @@
+{
+    "_id": "nIOHtV8KoTdKH4FQ",
+    "name": "Herdazian",
+    "type": "culture",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/cultures/herdazian-t.webp",
+    "system": {
+        "id": "herdazian",
+        "description": {
+            "value": "<p>Herdaz is a verdant nation ruled by a monarch. Most of its territory is taken up by its two hundred and three hog ranches, for which Herdaz is famous. There are also large diasporas of Herdazians in neighboring nations, as nearly half of their population has left their ancestral land seeking opportunities or refuge from a long history of foreign occupation. It’s common for fellow Herdazians in foreign lands to warmly greet each other as cousins.</p><p>Vorinism is popular in Herdaz, but the nation has fewer ardents, and people of any status and occupation can practice it personally. Most Herdazian Vorins care deeply about their individual connections to the Almighty and the Heralds, and they place little importance on what they consider outward posturing.</p><p>Singer ancestry in their ancient history has bestowed nearly all Herdazians with crystalline fingernails that can function like flint when struck with a steel tool called a sparkflicker. They are also more resistant to poisons native to Roshar. Most Herdazians have medium brown skin tones and brown hair.</p><p></p><div class=\"sl-journal\"><p><span class=\"fontstyle2\"><strong>Herdazian Names</strong></span></p><p>Aloro, Dunal, Duro, Erona, Hanol, Jonio, Kunor, Lurio, Luron, Palor, Pinola, Polino, Relio, Sulio, Torona, Yorino.</p><p></p><p><span class=\"fontstyle2\"><strong>Herdazian Expertise</strong></span></p><p>As a character with the Herdazian expertise, you know of the king and prominent ranching families. You know how to navigate between expansive ranches, including how to avoid the coastal areas inhabited by vicious greatshells. Choose how proficient you are in spoken and written Herdazian, along with reading and writing glyphs. You know about basic tools for ranching, including sparkflickers. Regardless of your religious beliefs, you’re familiar with the basic tenets of Herdazian Vorinism.</p></div>",
+            "short": "<p>Herdaz is a verdant nation ruled by a monarch. Most of its territory is taken up by its two hundred and three hog ranches, for which Herdaz is famous. There are also large diasporas of Herdazians in neighboring nations, as nearly half of their population has left their ancestral land seeking opportunities or refuge from a long history of foreign occupation. It’s common for fellow Herdazians in foreign lands to warmly greet each other as cousins.</p><p>Vorinism is popular in Herdaz, but the nation has fewer ardents, and people of any status and occupation can practice it personally. Most Herdazian Vorins care deeply about their individual connections to the Almighty and the Heralds, and they place little importance on what they consider outward posturing.</p><p>Singer ancestry in their ancient history has bestowed nearly all Herdazians with crystalline fingernails that can function like flint when struck with a steel tool called a sparkflicker. They are also more resistant to poisons native to Roshar. Most Herdazians have medium brown skin tones and brown hair.</p>"
+        },
+        "events": {
+            "a3xadCYOROdAVHS5": {
+                "id": "a3xadCYOROdAVHS5",
+                "description": "Grant Expertises",
+                "event": "add-to-actor",
+                "handler": {
+                    "type": "grant-expertises",
+                    "expertises": {
+                        "cultural:herdazian": {
+                            "id": "herdazian",
+                            "type": "cultural",
+                            "label": "Herdazian",
+                            "locked": false
+                        }
+                    }
+                }
+            },
+            "bKxXJjDPBuJnyKVf": {
+                "id": "bKxXJjDPBuJnyKVf",
+                "description": "Remove Expertises",
+                "event": "remove-from-actor",
+                "handler": {
+                    "type": "remove-expertises",
+                    "expertises": {
+                        "cultural:herdazian": {
+                            "id": "herdazian",
+                            "type": "cultural",
+                            "label": "Herdazian",
+                            "locked": false
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "folder": null,
+    "_key": "!items!nIOHtV8KoTdKH4FQ"
+}

@@ -44,3 +44,12 @@ export const IMPORTED_RESOURCES = {
     PLOT_DICE_C4_IN_CHAT: `systems/${SYSTEM_ID}/assets/icons/svg/dice/dp_c4.svg`,
     PLOT_DICE_OP_IN_CHAT: `systems/${SYSTEM_ID}/assets/icons/svg/dice/dp_op.svg`,
 };
+
+export const COMPENDIUMS = {
+    ACTIONS: `${SYSTEM_ID}.actions`,
+    COMPANIONS_AND_ADVERSARIES: `${SYSTEM_ID}.companions-and-adversaries`,
+    HEROIC_PATHS: `${SYSTEM_ID}.heroic-paths`,
+    ITEMS: `${SYSTEM_ID}.items`,
+    STARTER_RULES: `${SYSTEM_ID}.starter-rules`,
+    ROLL_TABLES: `${SYSTEM_ID}.tables`,
+};

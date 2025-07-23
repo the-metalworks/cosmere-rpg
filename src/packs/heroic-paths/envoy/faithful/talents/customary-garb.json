@@ -1,0 +1,112 @@
+{
+    "folder": "3BLDPpsyg58Y3JrZ",
+    "name": "Customary Garb",
+    "type": "talent",
+    "_id": "DcbAqyCzZGSmG8CG",
+    "img": "icons/equipment/chest/robe-layered-white.webp",
+    "system": {
+        "id": "customary-garb",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p><em>You’ve worn your uniform or traditional clothing for so long that it feels like a second skin, freeing your movements and granting you a deep well of confidence.</em></p><p>While you’re visibly wearing <strong>Presentable</strong> armor or clothing appropriate for your station, your Physical and Spiritual defenses increase by 2.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>While wearing <strong>Presentable</strong> armor or appropriate clothing, increase your Physical and Spiritual defenses by 2.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>While you’re visibly wearing <strong>Presentable</strong> armor or clothing appropriate for your station, your Physical and Spiritual defenses increase by 2.</p>"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "path": "envoy",
+        "hasPath": false,
+        "specialty": "faithful",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "k5wLSQWUT7kaaVom": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "talents": [
+                    {
+                        "id": "rousing-presence",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.l4wRQT2MH0SsxmRQ",
+                        "label": "Rousing Presence"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "modality": null
+    },
+    "effects": [
+        {
+            "name": "Customary Garb",
+            "img": "icons/equipment/chest/robe-layered-white.webp",
+            "disabled": false,
+            "duration": {
+                "startTime": null,
+                "seconds": null,
+                "combat": null,
+                "rounds": null,
+                "turns": null,
+                "startRound": null,
+                "startTurn": null
+            },
+            "_id": "W4ESq7dvIaY55X82",
+            "type": "base",
+            "system": {},
+            "changes": [
+                {
+                    "key": "system.defenses.phy.bonus",
+                    "mode": 2,
+                    "value": "2",
+                    "priority": null
+                },
+                {
+                    "key": "system.defenses.spi.bonus",
+                    "mode": 2,
+                    "value": "2",
+                    "priority": null
+                }
+            ],
+            "description": "",
+            "origin": null,
+            "tint": "#ffffff",
+            "transfer": true,
+            "statuses": [],
+            "sort": 0,
+            "flags": {},
+            "_stats": {
+                "coreVersion": "12.343",
+                "systemId": null,
+                "systemVersion": null,
+                "createdTime": null,
+                "modifiedTime": null,
+                "lastModifiedBy": null,
+                "compendiumSource": null,
+                "duplicateSource": null
+            },
+            "_key": "!items.effects!DcbAqyCzZGSmG8CG.W4ESq7dvIaY55X82"
+        }
+    ],
+    "sort": 300000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!DcbAqyCzZGSmG8CG"
+}

@@ -1,0 +1,71 @@
+{
+    "folder": "PwJradVoGGhlXeOA",
+    "name": "Peaceful Solution",
+    "type": "talent",
+    "_id": "IVzW4LwsIDeHQoyz",
+    "img": "icons/skills/social/diplomacy-peace-alliance.webp",
+    "system": {
+        "id": "peaceful-solution",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">0</span></p><p><em>The best battle is one you don’t have to fight. If your calm appeals meet willing hearts, you’d rather end the conflict peacefully.</em></p><p>In combat, if all non-minion enemies are currently pacified (such as by @UUID[Compendium.cosmere-rpg.heroic-paths.Item.ObDHVO8mAqRCbvya]{Calm Appeal}) and all other non-minion characters agree to cease hostilities, you can ease tensions. The combat immediately ends and becomes a conversation.</p><p>At the GM’s discretion, you can use this talent in non-combat scenes.</p>",
+            "chat": "<p><strong>Activation:</strong> <span style=\"font-family: 'Cosmere Dingbats'\">0</span></p><p>If all non-minion enemies are pacified, you ease tensions and end combat.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">0</span></p><p>In combat, if all non-minion enemies are currently pacified (such as by Calm Appeal) and all other non-minion characters agree to cease hostilities, you can ease tensions. The combat immediately ends and becomes a conversation.</p><p>At the GM’s discretion, you can use this talent in non-combat scenes.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": null,
+                "type": "fre"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "path": "envoy",
+        "hasPath": false,
+        "specialty": "diplomat",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "KwZ9vc9YOgsiwmi8": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "skill": "dis",
+                "rank": 3,
+                "talents": []
+            },
+            "ig7Iu1MsxSTyJFnH": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "talents": [
+                    {
+                        "id": "calm-appeal",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.ObDHVO8mAqRCbvya",
+                        "label": "Calm Appeal"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "modality": null
+    },
+    "effects": [],
+    "sort": -200000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!IVzW4LwsIDeHQoyz"
+}

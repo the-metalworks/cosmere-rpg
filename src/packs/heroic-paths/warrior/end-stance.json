@@ -1,0 +1,45 @@
+{
+    "folder": "qfl2vAmZh3gsOpwf",
+    "name": "End Stance",
+    "type": "action",
+    "img": "icons/magic/control/silhouette-grow-shrink-tan.webp",
+    "system": {
+        "id": "end-stance",
+        "type": "basic",
+        "description": {
+            "value": "<p>Ends the current stance.</p>",
+            "chat": "",
+            "short": ""
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": null,
+                "type": "fre"
+            },
+            "consume": [],
+            "flavor": "",
+            "attribute": "default",
+            "plotDie": false,
+            "opportunity": null,
+            "complication": null,
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "modality": "stance",
+        "events": {},
+        "relationships": {},
+        "ancestry": null
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "5YECyD1AQaasZijK",
+    "sort": 200000,
+    "_key": "!items!5YECyD1AQaasZijK"
+}

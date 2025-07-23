@@ -1,0 +1,77 @@
+{
+    "folder": "WkpS6Qx3glJoqZa0",
+    "name": "Resilient Hero",
+    "type": "talent",
+    "_id": "2KdDpZvqSlabwO8i",
+    "img": "icons/magic/defensive/shield-barrier-glowing-blue.webp",
+    "system": {
+        "id": "resilient-hero",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Reaction\" aria-label=\"Reaction\">r</span></p><p><em>You summon your last reserves and press forward despite grievous wounds.</em></p><p>Once per scene, before you are reduced to 0 health, you can use this reaction to instead change your health to equal your <strong>Athletics</strong> modifier.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Reaction\" aria-label=\"Reaction\">r</span></p><p>Before your health drops to 0, it instead becomes equal to your <strong>Athletics</strong> modifier.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Reaction\" aria-label=\"Reaction\">r</span></p><p>Once per scene, before you are reduced to 0 health, you can use this reaction to instead change your health to equal your <strong>Athletics</strong> modifier.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": null,
+                "type": "rea"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": {
+                "type": "use",
+                "recharge": "per_scene",
+                "value": 1,
+                "max": 1
+            },
+            "opportunity": null,
+            "complication": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "path": "leader",
+        "hasPath": false,
+        "specialty": "champion",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "HK4dNabcZdD3BToH": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "skill": "ath",
+                "rank": 3,
+                "talents": []
+            },
+            "PPk666x9PabqTDeY": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "valiant-stand",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.PWyeAbWBKCg17CsO",
+                        "label": "Valiant Stand"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "modality": null
+    },
+    "effects": [],
+    "sort": 450000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!2KdDpZvqSlabwO8i"
+}

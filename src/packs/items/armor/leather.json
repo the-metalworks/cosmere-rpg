@@ -1,0 +1,48 @@
+{
+    "_id": "dxty96So3kGZVhv5",
+    "folder": "TIgbgwcilBiHWeD3",
+    "name": "Leather",
+    "type": "armor",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/items/foundry_items/ICON_leather.webp",
+    "system": {
+        "id": "leather",
+        "deflect": 1,
+        "description": {
+            "value": "<p><strong>Deflect Value</strong> 1; <strong>Traits</strong> —; <strong>Expert Traits</strong> Presentable;</p><p><strong>Price</strong> 60 mk; <strong>Weight</strong> 10 lb.;</p>",
+            "chat": ""
+        },
+        "traits": {
+            "presentable": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": true
+                }
+            }
+        },
+        "equipped": false,
+        "alwaysEquipped": false,
+        "expertise": false,
+        "weight": {
+            "value": 10,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 60,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark"
+            }
+        },
+        "equip": {
+            "type": "wear"
+        },
+        "quantity": 1
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!dxty96So3kGZVhv5"
+}

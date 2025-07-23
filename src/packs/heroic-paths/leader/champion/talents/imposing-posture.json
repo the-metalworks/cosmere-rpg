@@ -1,0 +1,71 @@
+{
+    "folder": "WkpS6Qx3glJoqZa0",
+    "name": "Imposing Posture",
+    "type": "talent",
+    "_id": "C9QFP1zlQ8T243jk",
+    "img": "icons/skills/social/intimidation-impressing.webp",
+    "system": {
+        "id": "imposing-posture",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p><em>On and off the battlefield, your powerful physique sends a clear message to your foes.</em></p><p>After an enemy resists your influence while within your weapon’s reach, they become <strong>Disoriented</strong> until the end of their next turn.</p>",
+            "chat": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>After an enemy resists your influence while in your weapon’s reach, they are <strong>Disoriented</strong>.</p>",
+            "short": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>After an enemy resists your influence while within your weapon’s reach, they become <strong>Disoriented</strong> until the end of their next turn.</p>"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "path": "leader",
+        "hasPath": false,
+        "specialty": "champion",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "0TfF0o9sz4SIQEwM": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "skill": "ath",
+                "rank": 2,
+                "talents": []
+            },
+            "GBZI5YE5gv1n7bwK": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "combat-coordination",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.7kWqpGcFPLVeR1JT",
+                        "label": "Combat Coordination"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "modality": null
+    },
+    "effects": [],
+    "sort": 400000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!C9QFP1zlQ8T243jk"
+}

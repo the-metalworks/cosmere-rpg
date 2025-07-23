@@ -1,0 +1,49 @@
+{
+    "_id": "6y5hONLMQa4O2wnU",
+    "folder": "TIgbgwcilBiHWeD3",
+    "name": "Chain",
+    "type": "armor",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/items/foundry_items/ICON_chainmail.webp",
+    "system": {
+        "id": "chain",
+        "deflect": 2,
+        "description": {
+            "value": "<p><strong>Deflect Value</strong> 2; <strong>Traits</strong> Cumbersome [3]; <strong>Expert Traits</strong> Loses Cumbersome;</p><p><strong>Price</strong> 80 mk; <strong>Weight</strong> 25 lb.;</p>",
+            "chat": ""
+        },
+        "traits": {
+            "cumbersome": {
+                "defaultActive": true,
+                "defaultValue": 3,
+                "expertise": {
+                    "toggleActive": true
+                }
+            }
+        },
+        "equipped": false,
+        "alwaysEquipped": false,
+        "expertise": false,
+        "weight": {
+            "value": 25,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 80,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark"
+            }
+        },
+        "equip": {
+            "type": "wear"
+        },
+        "quantity": 1
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!6y5hONLMQa4O2wnU"
+}

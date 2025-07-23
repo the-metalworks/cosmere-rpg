@@ -1,0 +1,38 @@
+{
+    "folder": "xeAxqcLYdFWSwUur",
+    "name": "Ready",
+    "type": "action",
+    "_id": "Gona1nDaqRcioeim",
+    "img": "icons/skills/melee/hand-grip-staff-yellow-brown.webp",
+    "system": {
+        "id": "ready",
+        "type": "basic",
+        "description": {
+            "value": "<p>You prepare to respond to something happening on the battlefield. Choose the trigger you’re waiting for (such as a character using a certain action or gaining a certain condition) and choose the action (or free action) you want to use in response. If that trigger occurs before the start of your next turn, you can use the chosen action in response to the trigger, even if it’s not your turn. If you choose not to respond to the trigger, you don’t regain your spent actions.</p><p>Your readied action must follow all other rules as if you were using it on your turn. For example, if you already used a @UUID[Compendium.cosmere-rpg.actions.Item.wC4Z0mdGwRxLDpMC]{Disengage} action, you can't ready a second <strong>Disengage</strong> action.</p><p><em>To use this action, you must use </em><span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span><em> for the <strong>Ready</strong> action itself, plus the number of </em><span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span><em> required for the action you chose to prepare.</em></p>",
+            "chat": "<p>Choose the trigger you’re waiting for and choose the action you want to use in response. If that trigger occurs before the start of your next turn, you can use the chosen action in response to the trigger, even if it’s not your turn. If you choose not to respond to the trigger, you don’t regain your spent actions.</p><p>Your readied action must follow all other rules as if you were using it on your turn.</p><p><em>To use this action, you must use </em><span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span><em> for the <strong>Ready</strong> action itself, plus the number of </em><span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span><em> required for the action you chose to prepare.</em></p>",
+            "short": "<p>Choose the trigger you’re waiting for and choose the action you want to use in response. If that trigger occurs before the start of your next turn, you can use the chosen action in response to the trigger, even if it’s not your turn. If you choose not to respond to the trigger, you don’t regain your spent actions.</p><p>Your readied action must follow all other rules as if you were using it on your turn. For example, if you already used a @UUID[Compendium.cosmere-rpg.actions.Item.wC4Z0mdGwRxLDpMC]{Disengage} action, you can't ready a second <strong>Disengage</strong> action.</p><p><em>To use this action, you must use </em><span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span><em> for the <strong>Ready</strong> action itself, plus the number of </em><span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span><em> required for the action you chose to prepare.</em></p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": 1,
+                "type": "act"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        }
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!Gona1nDaqRcioeim"
+}

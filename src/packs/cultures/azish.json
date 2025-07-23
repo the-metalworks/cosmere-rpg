@@ -1,0 +1,55 @@
+{
+    "_id": "PbkgODW2av4tBPdW",
+    "name": "Azish",
+    "type": "culture",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/cultures/azish-t.webp",
+    "system": {
+        "id": "azish",
+        "description": {
+            "value": "<p>The Prime Aqasix and a class of elite government scribes called viziers lead the bureaucratic nation of Azir and influence the Azish Empire’s member states. While independent thought is encouraged in friendly and official debates, most Azish look down on those who fail to uphold procedure. Following said procedure is made difficult by Azish legislature’s expansiveness.</p><p>Most Azish people have very dark brown skin and black hair. They tend to be slightly shorter than people in Eastern Roshar. Large hats are a fixture of Azish uniforms and civilian fashion. Wraps and robes are worn by all genders, with vibrant colors and symbolic patterns indicating a person’s status. Azish is the official language and is spoken, signed, and written by most citizens. It is typically spoken in pleasant, agreeable tones.</p><p></p><div class=\"sl-journal\"><p><span class=\"fontstyle2\"><strong>Azish Names</strong></span></p><p>Adebazik, Arnok, Baxtol, Chivik, Dalwa, Etosha, Falkir, Ganxir, Hauzir, Jirana, Koxi, Kunde, Maliq, Nineka, Raukir, Sigwir, Tama, Tigzir, Uju, Wolu, Yemzil.</p><p></p><p><span class=\"fontstyle0\"><strong>Azish Expertise</strong></span></p><p><span class=\"fontstyle2\">As a character with the Azish expertise, you know about the bureaucracy, Bronze Palace, Prime Aqasix, and the viziers. You can recall basic facts about each member state in the Azish Empire. Choose how proficient you are in Azish sign language, as well as in spoken and written Azish. You can easily navigate civic buildings to review current laws, request the help of a constable for law enforcement, file a complaint, or take the vizier exam. Regardless of your religious beliefs, you’re familiar with the Kadasixes and scions.</span></p></div>",
+            "short": "<p>The Prime Aqasix and a class of elite government scribes called viziers lead the bureaucratic nation of Azir and influence the Azish Empire’s member states. While independent thought is encouraged in friendly and official debates, most Azish look down on those who fail to uphold procedure. Following said procedure is made difficult by Azish legislature’s expansiveness.</p><p>Most Azish people have very dark brown skin and black hair. They tend to be slightly shorter than people in Eastern Roshar. Large hats are a fixture of Azish uniforms and civilian fashion. Wraps and robes are worn by all genders, with vibrant colors and symbolic patterns indicating a person’s status. Azish is the official language and is spoken, signed, and written by most citizens. It is typically spoken in pleasant, agreeable tones.</p>"
+        },
+        "events": {
+            "OXsgoXPlMv5eZYDL": {
+                "id": "OXsgoXPlMv5eZYDL",
+                "description": "Grant Expertises",
+                "event": "add-to-actor",
+                "handler": {
+                    "type": "grant-expertises",
+                    "expertises": {
+                        "cultural:azish": {
+                            "id": "azish",
+                            "type": "cultural",
+                            "label": "Azish",
+                            "locked": false
+                        }
+                    }
+                }
+            },
+            "jS9KmzZc29rM9fhK": {
+                "id": "jS9KmzZc29rM9fhK",
+                "description": "Remove Expertises",
+                "event": "remove-from-actor",
+                "handler": {
+                    "type": "remove-expertises",
+                    "expertises": {
+                        "cultural:azish": {
+                            "id": "azish",
+                            "type": "cultural",
+                            "label": "Azish",
+                            "locked": false
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "folder": null,
+    "_key": "!items!PbkgODW2av4tBPdW"
+}

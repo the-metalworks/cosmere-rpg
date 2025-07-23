@@ -1,0 +1,22 @@
+{
+    "_id": "q7t6vnxXBXDvsfhc",
+    "name": "Human",
+    "type": "ancestry",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/ancestries/human-ancestry-card.webp",
+    "system": {
+        "id": "human",
+        "description": {
+            "value": "<p>Most of Roshar is divided into human-ruled nations with majority-human populations.</p><p>Many ethnic groups are represented within the human species, some of which include distant singer ancestry. Although each ethnic group shares common physical characteristics among many of its people, these characteristics can express themselves very differently across individuals. Due to the Vorin “right of travel,” international relations, and diasporas born of conflict, most nations have some degree of ethnic diversity among citizens.</p><p>The “Culture” section in chapter 2 of the <em>Stormlight Handbook</em> discusses the nations of Roshar and the most common ethnicities of the people who live there.</p><h4>Choosing Human Ancestry</h4><p>If you choose the <strong>human ancestry</strong>, your size is Medium, and you gain the following benefits at the specified levels:</p><p><strong>Ancestry Bonus Talents (Level 1, 6, 11, 16, and 21)</strong>. During step 5 of character creation, you gain one bonus talent. As a human, you must choose this talent from a heroic path. Whenever you reach a new tier, you again gain a bonus talent from a heroic path.</p><p>As usual, you must meet the prerequisites for these talents (see the “Advancing Through a Path” section in chapter 4 of the <em>Stormlight Handbook</em>).</p>",
+            "short": "<p>Most of Roshar is divided into human-ruled nations with majority-human populations.</p><p>Many ethnic groups are represented within the human species, some of which include distant singer ancestry. Although each ethnic group shares common physical characteristics among many of its people, these characteristics can express themselves very differently across individuals. Due to the Vorin “right of travel,” international relations, and diasporas born of conflict, most nations have some degree of ethnic diversity among citizens.</p>",
+            "chat": "<p>Most of Roshar is divided into human-ruled nations with majority-human populations.</p><p>Many ethnic groups are represented within the human species, some of which include distant singer ancestry. Although each ethnic group shares common physical characteristics among many of its people, these characteristics can express themselves very differently across individuals. Due to the Vorin “right of travel,” international relations, and diasporas born of conflict, most nations have some degree of ethnic diversity among citizens.</p>"
+        }
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "folder": null,
+    "_key": "!items!q7t6vnxXBXDvsfhc"
+}

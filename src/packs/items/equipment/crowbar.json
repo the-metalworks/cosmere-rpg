@@ -1,0 +1,48 @@
+{
+    "folder": "qTYLKqLK29e5CTQp",
+    "name": "Crowbar",
+    "type": "equipment",
+    "_id": "TtqfZFRd4bAEfEuU",
+    "img": "icons/tools/hand/pickaxe-steel-grey.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 10 mk; <strong>Weight</strong> 3 lb.;</p><p>You can use a crowbar to gain an advantage on <strong>Athletics</strong> tests where the crowbar’s leverage can be applied.</p><p></p>",
+            "chat": ""
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 3,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 10,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            },
+            "unit": "spheres.mark"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        }
+    },
+    "effects": [],
+    "sort": 1400000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!TtqfZFRd4bAEfEuU"
+}

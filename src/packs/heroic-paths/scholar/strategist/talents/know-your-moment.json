@@ -1,0 +1,127 @@
+{
+    "folder": "wi17Vt4KdRKtCdX7",
+    "name": "Know Your Moment",
+    "type": "talent",
+    "_id": "QvmcoCUVXOU9m1Yy",
+    "img": "icons/magic/time/hourglass-tilted-glowing-gold.webp",
+    "system": {
+        "id": "know-your-moment",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p><em>Conflict follows its own beat, rising and falling as powers struggle for dominance. Your knowledge of strategy, rhetoric, and history guides you on when to act for greatest effect.</em></p><p>After the beginning of each round, each of your defenses increases by 2 until the start of your turn.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>Your defenses increase by 2 from the start of each round until you take your turn</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>After the beginning of each round, each of your defenses increases by 2 until the start of your turn.</p>"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "path": "scholar",
+        "hasPath": false,
+        "specialty": "strategist",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "XpKU3es6MXsVN3oX": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "skill": "ded",
+                "rank": 2,
+                "talents": []
+            },
+            "OpJRbIdUC06TGsaJ": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "mind-and-body",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.I49r5IYexPEKA1eH",
+                        "label": "Mind and Body"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "modality": null
+    },
+    "effects": [
+        {
+            "name": "Know Your Moment",
+            "img": "icons/magic/time/hourglass-tilted-glowing-gold.webp",
+            "disabled": true,
+            "duration": {
+                "startTime": null,
+                "seconds": null,
+                "combat": null,
+                "rounds": null,
+                "turns": null,
+                "startRound": null,
+                "startTurn": null
+            },
+            "_id": "qLb0gjoyY7nnvGFm",
+            "type": "base",
+            "system": {},
+            "changes": [
+                {
+                    "key": "system.defenses.phy.bonus",
+                    "mode": 2,
+                    "value": "2",
+                    "priority": null
+                },
+                {
+                    "key": "system.defenses.cog.bonus",
+                    "mode": 2,
+                    "value": "2",
+                    "priority": null
+                },
+                {
+                    "key": "system.defenses.spi.bonus",
+                    "mode": 2,
+                    "value": "2",
+                    "priority": null
+                }
+            ],
+            "description": "",
+            "origin": null,
+            "tint": "#ffffff",
+            "transfer": true,
+            "statuses": [],
+            "sort": 0,
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "0.3.0",
+                "createdTime": 1740248484299,
+                "modifiedTime": 1740248570059,
+                "lastModifiedBy": "7Oytl88JDvVeIDlD"
+            },
+            "_key": "!items.effects!QvmcoCUVXOU9m1Yy.qLb0gjoyY7nnvGFm"
+        }
+    ],
+    "sort": 500000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!QvmcoCUVXOU9m1Yy"
+}

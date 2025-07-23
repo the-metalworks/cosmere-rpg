@@ -1,0 +1,48 @@
+{
+    "folder": "qTYLKqLK29e5CTQp",
+    "name": "Chain (thin, 1 foot)",
+    "type": "equipment",
+    "_id": "9LsAo2FryXTcHnnZ",
+    "img": "icons/tools/fasteners/chain-brass-yellow.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 20 mk; <strong>Weight</strong> 0.5 lb.;</p><p>This thin chain is often used in jewelry and Soulcasters, usually made of precious metals in fine links. This chain can be broken by succeeding on a DC 20 <strong>Athletics</strong> test or by dealing 5 damage to it.</p>",
+            "chat": ""
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 0.5,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 20,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            },
+            "unit": "spheres.mark"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        }
+    },
+    "effects": [],
+    "sort": 400000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!9LsAo2FryXTcHnnZ"
+}

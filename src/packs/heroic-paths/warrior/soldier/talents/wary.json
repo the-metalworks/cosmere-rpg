@@ -1,0 +1,71 @@
+{
+    "folder": "yDWfqqpDSuIVDTSg",
+    "name": "Wary",
+    "type": "talent",
+    "_id": "ItdnGHVaBlvIiGUo",
+    "img": "icons/magic/perception/eye-ringed-glow-angry-small-teal.webp",
+    "system": {
+        "id": "wary",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p><em>Through your experience living in dangerous locations, you’ve learned to stay focused and respond quickly to unexpected hazards.</em></p><p>While you have 1 or more focus, you can’t be <strong>Surprised</strong>.</p><p>Additionally, when you resist influence or lose focus involuntarily, reduce the amount of focus lost by your ranks in <strong>Discipline</strong> (to a minimum of 1 focus lost).</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>You can’t be <strong>Surprised</strong> while you have focus. When you lose focus involuntarily, reduce the amount lost by your ranks in <strong>Discipline</strong>.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>While you have 1 or more focus, you can’t be <strong>Surprised</strong>.</p><p>Additionally, when you resist influence or lose focus involuntarily, reduce the amount of focus lost by your ranks in <strong>Discipline</strong> (to a minimum of 1 focus lost).</p>"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "opportunity": null,
+            "complication": null,
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "path": "warrior",
+        "hasPath": false,
+        "specialty": "soldier",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "modality": null,
+        "prerequisites": {
+            "GNrYyndy1comn0Dp": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "skill": "dis",
+                "rank": 3,
+                "talents": []
+            },
+            "QRyiUbAa6a0mdX2w": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "defensive-position",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.Frzf667tMXppwTV5",
+                        "label": "Defensive Position"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!ItdnGHVaBlvIiGUo"
+}

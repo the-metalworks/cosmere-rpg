@@ -1,0 +1,71 @@
+{
+    "folder": "wTsGOInIGEUZQvz8",
+    "name": "Mercurial Facade",
+    "type": "talent",
+    "system": {
+        "id": "mercurial-facade",
+        "type": "path",
+        "path": "agent",
+        "specialty": "spy",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Special Action\" aria-label=\"Special Action\">*</span></p><p><em>You know poise is essential to any disguise, and you can change your perceived persona simply by altering your gait and presence.</em></p><p>When you attempt to disguise yourself, you can use <strong>Deception</strong> instead of <strong>Thievery</strong>. You can do this even if you don’t have supplies for a physical disguise.</p><p>The first character who sees through your disguise, or who you choose to surprise by revealing your identity, becomes <strong>Surprised</strong> until the end of your next turn.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Special Action\" aria-label=\"Special Action\">*</span></p><p>Disguise yourself using <strong>Deception</strong> without needing physical supplies. The first character to see through your disguise is <strong>Surprised</strong>.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Special Action\" aria-label=\"Special Action\">*</span></p><p>When you attempt to disguise yourself, you can use <strong>Deception</strong> instead of <strong>Thievery</strong>. You can do this even if you don’t have supplies for a physical disguise.</p><p>The first character who sees through your disguise, or who you choose to surprise by revealing your identity, becomes <strong>Surprised</strong> until the end of your next turn.</p>"
+        },
+        "prerequisites": {
+            "0RRzgeem6L5gnzFq": {
+                "type": "skill",
+                "skill": "dec",
+                "rank": 3,
+                "value": 0,
+                "talents": []
+            },
+            "QcZZwnUKlUXwPeJh": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "subtle-takedown",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.K7xoqesNtEPWEUKk",
+                        "label": "Subtle Takedown"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "type": "spe",
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "uses": null,
+            "plotDie": false,
+            "opportunity": null,
+            "complication": null
+        },
+        "hasPath": false,
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisitesMet": false,
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "modality": null
+    },
+    "effects": [],
+    "flags": {},
+    "img": "icons/environment/people/commoner.webp",
+    "_id": "yrQy7QrWN4C0Qp2p",
+    "sort": 400000,
+    "ownership": {
+        "default": 0
+    },
+    "_key": "!items!yrQy7QrWN4C0Qp2p"
+}

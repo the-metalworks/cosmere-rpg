@@ -1,0 +1,63 @@
+{
+    "folder": "PwJradVoGGhlXeOA",
+    "name": "Well Dressed",
+    "type": "talent",
+    "_id": "p6M9mnkmuY6mjnui",
+    "img": "icons/equipment/chest/robe-layered-purple.webp",
+    "system": {
+        "id": "well-dressed",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p><em>You cleverly match your outfits to the occasion, always making the perfect statement.</em></p><p>While visibly wearing <strong>Presentable</strong> armor or fashionable clothing, you gain an advantage on the first <strong>Deception</strong>, <strong>Leadership</strong>, or <strong>Persuasion</strong> test you make during each scene. Additionally, when you acquire this talent, gain a cultural expertise in Fashion.</p>",
+            "chat": "<p><strong>Activation:</strong> <span style=\"font-family: 'Cosmere Dingbats'\">*</span></p><p>Gain Fashion expertise. While wearing Presentable armor or fashionable clothing, gain an advantage on your first <strong>Deception</strong>, <strong>Leadership</strong>, or <strong>Persuasion</strong> test.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p>While visibly wearing <strong>Presentable</strong> armor or fashionable clothing, you gain an advantage on the first <strong>Deception</strong>, <strong>Leadership</strong>, or <strong>Persuasion</strong> test you make during each scene. Additionally, when you acquire this talent, gain a cultural expertise in Fashion.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": null,
+                "type": "spe"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "path": "envoy",
+        "hasPath": false,
+        "specialty": "diplomat",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "IE6apbiT5EnVw48z": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "talents": [
+                    {
+                        "id": "steadfast-challenge",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.4DGwBZ4uDLTaKql2",
+                        "label": "Steadfast Challenge"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "modality": null
+    },
+    "effects": [],
+    "sort": -500000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!p6M9mnkmuY6mjnui"
+}

@@ -1,0 +1,81 @@
+{
+    "folder": "IqFt10TYMzgp9rqM",
+    "name": "Trickster’s Hand",
+    "type": "talent",
+    "_id": "EtZN2Xcu8sfRI00R",
+    "img": "icons/magic/unholy/hand-marked-pink.webp",
+    "system": {
+        "id": "tricksters-hand",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">0</span></p><p><em>You execute your acts of skulduggery with such subtlety and dexterity that your marks struggle to follow.</em></p><p>Spend 2 focus to gain <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">2</span>, which you can only use to make physical skill tests via the following actions: @UUID[Compendium.cosmere-rpg.actions.Item.A4fgvQ6HoxCIpxFS]{Use a Skill}, @UUID[Compendium.cosmere-rpg.actions.Item.8yQ5MMIrywehKyTS]{Gain Advantage}, or an action from any @UUID[Compendium.cosmere-rpg.heroic-paths.Item.qqa1ZgA957Cae6ex]{Agent} talent.</p><p>During a conversation or endeavor, at the GM’s discretion, you can instead use both <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">2</span> to make an additional contribution for the round.</p>",
+            "chat": "<p><strong>Activation:</strong> <span style=\"font-family: 'Cosmere Dingbats'\">0</span></p><p>Spend 2 focus to gain <span style=\"font-family: 'Cosmere Dingbats'\">2</span> for physical tests with @UUID[Compendium.cosmere-rpg.actions.Item.A4fgvQ6HoxCIpxFS]{Use a Skill}, @UUID[Compendium.cosmere-rpg.actions.Item.8yQ5MMIrywehKyTS]{Gain Advantage}, or an @UUID[Compendium.cosmere-rpg.heroic-paths.Item.qqa1ZgA957Cae6ex]{Agent} talent.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">0</span></p><p>Spend 2 focus to gain <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">2</span>, which you can only use to make physical skill tests via the following actions: @UUID[Compendium.cosmere-rpg.actions.Item.A4fgvQ6HoxCIpxFS]{Use a Skill}, @UUID[Compendium.cosmere-rpg.actions.Item.8yQ5MMIrywehKyTS]{Gain Advantage}, or an action from any @UUID[Compendium.cosmere-rpg.heroic-paths.Item.qqa1ZgA957Cae6ex]{Agent} talent.</p><p>During a conversation or endeavor, at the GM’s discretion, you can instead use both <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">2</span> to make an additional contribution for the round.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": null,
+                "type": "fre"
+            },
+            "consume": [
+                {
+                    "type": "resource",
+                    "value": {
+                        "min": 2,
+                        "max": 2,
+                        "actual": 0
+                    },
+                    "resource": "foc"
+                }
+            ],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "path": "agent",
+        "hasPath": false,
+        "specialty": "thief",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "fRMhzS1NKaYRopyy": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "skill": "thv",
+                "rank": 3,
+                "talents": []
+            },
+            "5sMbUlxRWZlzVaFz": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "talents": [
+                    {
+                        "id": "surefooted",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.bnWM9Vptporkm6Av",
+                        "label": "Surefooted"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "modality": null
+    },
+    "effects": [],
+    "sort": -500000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!EtZN2Xcu8sfRI00R"
+}

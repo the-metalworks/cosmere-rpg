@@ -1,0 +1,62 @@
+@import './journal-common.scss';
+
+.sheet.journal-entry.sljsr {
+    @include sl-journal-common;
+    
+    .journal-entry-page {
+        .sl-blue {
+            tbody tr:first-child td {
+                background-color: var(--cosmere-color-opportunity);
+            }
+
+            tbody tr:last-child {
+                td {
+                    background-color: var(--stormlight-journal-translucent-1);
+                }
+
+                &::after {
+                    background: var(--cosmere-color-opportunity);
+                }
+            }
+        }
+
+        .sl-foundry {
+            tbody tr:first-child td {
+                background-color: var(--stormlight-journal-foundry-orange);
+
+                >p {
+                    padding-left: 2.5ch;
+                }
+
+                &::before {
+                    content: "";
+                    position: absolute;
+                    display: inline-block;
+                    background-image: url(../../icons/vtt-512.png);
+                    background-size: 30px 30px;
+                    width: 30px;
+                    height: 30px;
+                    z-index: 100;
+                    top: calc(100% - 37.5px);
+                    left: 3px;
+                }
+            }
+
+            tbody tr:last-child {
+                td {
+                    background-color: var(--stormlight-journal-me-background);
+                }
+
+                &::after {
+                    background: var(--stormlight-journal-foundry-orange);
+                }
+            }
+
+            ::marker {
+                font-variant-numeric: lining-nums;
+                font-weight: bold;
+                color: var(--stormlight-journal-foundry-orange);
+            }
+        }
+    }
+}

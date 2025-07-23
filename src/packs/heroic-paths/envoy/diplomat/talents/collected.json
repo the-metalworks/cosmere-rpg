@@ -1,0 +1,112 @@
+{
+    "folder": "PwJradVoGGhlXeOA",
+    "name": "Collected",
+    "type": "talent",
+    "_id": "lpv2iV9hjCCe4AOo",
+    "img": "icons/magic/defensive/illusion-evasion-echo-purple.webp",
+    "system": {
+        "id": "collected",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p><em>You remain mindful of your immediate goals without losing sight of your deeper value, keeping you even-keeled amid chaos.</em></p><p>When you acquire this talent, increase your Cognitive and Spiritual defenses by 2.</p>",
+            "chat": "<p><strong>Activation:</strong> <span style=\"font-family: 'Cosmere Dingbats'\">8</span></p><p>Increase your Cognitive and Spiritual defenses by 2.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>When you acquire this talent, increase your Cognitive and Spiritual defenses by 2.</p>"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "path": "envoy",
+        "hasPath": false,
+        "specialty": "diplomat",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "dBNs1iB4lW652ZtG": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "talents": [
+                    {
+                        "id": "rousing-presence",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.l4wRQT2MH0SsxmRQ",
+                        "label": "Rousing Presence"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "modality": null
+    },
+    "effects": [
+        {
+            "name": "Collected",
+            "img": "icons/magic/defensive/illusion-evasion-echo-purple.webp",
+            "disabled": false,
+            "duration": {
+                "startTime": null,
+                "seconds": null,
+                "combat": null,
+                "rounds": null,
+                "turns": null,
+                "startRound": null,
+                "startTurn": null
+            },
+            "_id": "WjYsZ1pLIPAcW3VA",
+            "type": "base",
+            "system": {},
+            "changes": [
+                {
+                    "key": "system.defenses.cog.bonus",
+                    "mode": 2,
+                    "value": "2",
+                    "priority": null
+                },
+                {
+                    "key": "system.defenses.spi.bonus",
+                    "mode": 2,
+                    "value": "2",
+                    "priority": null
+                }
+            ],
+            "description": "",
+            "origin": null,
+            "tint": "#ffffff",
+            "transfer": true,
+            "statuses": [],
+            "sort": 0,
+            "flags": {},
+            "_stats": {
+                "coreVersion": "12.343",
+                "systemId": null,
+                "systemVersion": null,
+                "createdTime": null,
+                "modifiedTime": null,
+                "lastModifiedBy": null,
+                "compendiumSource": null,
+                "duplicateSource": null
+            },
+            "_key": "!items.effects!lpv2iV9hjCCe4AOo.WjYsZ1pLIPAcW3VA"
+        }
+    ],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!lpv2iV9hjCCe4AOo"
+}

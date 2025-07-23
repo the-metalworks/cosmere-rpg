@@ -1,0 +1,71 @@
+{
+    "folder": "yDWfqqpDSuIVDTSg",
+    "name": "Formation Drills",
+    "type": "talent",
+    "_id": "LaMCzULljr9vXDqx",
+    "img": "icons/environment/people/infantry-army.webp",
+    "system": {
+        "id": "formation-drills",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p><em>You coordinate your allies to march in a defensive formation with you.</em></p><p>While an ally within 10 feet of you benefits from the @UUID[Compendium.cosmere-rpg.actions.Item.I1CQjZicYdeG9NCN]{Brace} action, they also benefit from your Defensive Position as if they had that talent themself.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>Allies within 10 feet who @UUID[Compendium.cosmere-rpg.actions.Item.I1CQjZicYdeG9NCN]{Brace} gain the benefits of your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.Frzf667tMXppwTV5]{Defensive Position}.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>While an ally within 10 feet of you benefits from the @UUID[Compendium.cosmere-rpg.actions.Item.I1CQjZicYdeG9NCN]{Brace} action, they also benefit from your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.Frzf667tMXppwTV5]{Defensive Position} as if they had that talent themself.</p>"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "opportunity": null,
+            "complication": null,
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "path": "warrior",
+        "hasPath": false,
+        "specialty": "soldier",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "modality": null,
+        "prerequisites": {
+            "ou3tocvKYcX9Tjb2": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "skill": "dis",
+                "rank": 2,
+                "talents": []
+            },
+            "DJUnlXAIl6jLcN4N": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "defensive-position",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.Frzf667tMXppwTV5",
+                        "label": "Defensive Position"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!LaMCzULljr9vXDqx"
+}

@@ -1,0 +1,37 @@
+{
+    "folder": "RBFoWUCw2wosgSJA",
+    "name": "Amethyst Broam",
+    "type": "loot",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/items/spheres/sphere_amethyst_broam.webp",
+    "system": {
+        "isMoney": true,
+        "description": {
+            "value": "",
+            "chat": "",
+            "short": ""
+        },
+        "weight": {
+            "value": 0,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 100,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            },
+            "unit": "spheres.mark"
+        },
+        "quantity": 1,
+        "events": {}
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "ShN69NVA44VZlj7I",
+    "sort": 2400000,
+    "_key": "!items!ShN69NVA44VZlj7I"
+}

@@ -1,0 +1,382 @@
+{
+    "folder": "Tn91SsOEN0KXfC8J",
+    "name": "Surgeon",
+    "type": "talent_tree",
+    "_id": "C0Av55nTBVk1JvvS",
+    "img": "icons/tools/laboratory/bowl-herbs-green.webp",
+    "system": {
+        "nodes": {
+            "7Fk7eo7AUMmAqGVo": {
+                "id": "7Fk7eo7AUMmAqGVo",
+                "type": "talent",
+                "position": {
+                    "x": -350,
+                    "y": -300
+                },
+                "talentId": "field-medicine",
+                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.Aanofomkj7Z5WO9E",
+                "size": {
+                    "width": 50,
+                    "height": 50
+                },
+                "showName": false,
+                "prerequisites": {
+                    "hRNkEK58t8EfXhJF": {
+                        "id": "hRNkEK58t8EfXhJF",
+                        "type": "skill",
+                        "attribute": "str",
+                        "value": 1,
+                        "managed": false,
+                        "skill": "med",
+                        "rank": 1,
+                        "_id": "hRNkEK58t8EfXhJF"
+                    },
+                    "qUa3zOPUWyrzMPit": {
+                        "id": "qUa3zOPUWyrzMPit",
+                        "type": "talent",
+                        "attribute": "str",
+                        "value": 1,
+                        "managed": false,
+                        "talents": {
+                            "erudition": {
+                                "id": "erudition",
+                                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.8FYBJZC8PBjneOim",
+                                "label": "Erudition",
+                                "_id": "erudition"
+                            }
+                        }
+                    }
+                }
+            },
+            "SJLnN2dcAwIH2YU8": {
+                "id": "SJLnN2dcAwIH2YU8",
+                "type": "talent",
+                "position": {
+                    "x": -200,
+                    "y": -300
+                },
+                "talentId": "emotional-intelligence",
+                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.Ys13BfBwLnpy4dMl",
+                "size": {
+                    "width": 50,
+                    "height": 50
+                },
+                "showName": false,
+                "prerequisites": {
+                    "Z5vSPolYy71RHgRk": {
+                        "id": "Z5vSPolYy71RHgRk",
+                        "type": "talent",
+                        "attribute": "str",
+                        "value": 1,
+                        "managed": false,
+                        "talents": {
+                            "erudition": {
+                                "id": "erudition",
+                                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.8FYBJZC8PBjneOim",
+                                "label": "Erudition",
+                                "_id": "erudition"
+                            }
+                        },
+                        "_id": "Z5vSPolYy71RHgRk"
+                    }
+                }
+            },
+            "AxDW9XVvkk0N99dC": {
+                "id": "AxDW9XVvkk0N99dC",
+                "type": "talent",
+                "position": {
+                    "x": -200,
+                    "y": -200
+                },
+                "talentId": "collected",
+                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.MvCedFE0oNnT0exg",
+                "size": {
+                    "width": 50,
+                    "height": 50
+                },
+                "showName": false,
+                "prerequisites": {
+                    "AUQZ9sW4t4V5CZmL": {
+                        "id": "AUQZ9sW4t4V5CZmL",
+                        "type": "talent",
+                        "managed": true,
+                        "talents": {
+                            "emotional-intelligence": {
+                                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.Ys13BfBwLnpy4dMl",
+                                "id": "emotional-intelligence",
+                                "label": "Emotional Intelligence",
+                                "_id": "emotional-intelligence"
+                            }
+                        },
+                        "_id": "AUQZ9sW4t4V5CZmL"
+                    }
+                },
+                "connections": {
+                    "SJLnN2dcAwIH2YU8": {
+                        "id": "SJLnN2dcAwIH2YU8",
+                        "prerequisiteId": "AUQZ9sW4t4V5CZmL",
+                        "_id": "SJLnN2dcAwIH2YU8"
+                    }
+                }
+            },
+            "x6XkMskLHmvPR88q": {
+                "id": "x6XkMskLHmvPR88q",
+                "type": "talent",
+                "position": {
+                    "x": -200,
+                    "y": -100
+                },
+                "talentId": "applied-medicine",
+                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.r57yb0CceeB36Luq",
+                "size": {
+                    "width": 50,
+                    "height": 50
+                },
+                "showName": false,
+                "prerequisites": {
+                    "unLOxlppfSDiMcA0": {
+                        "id": "unLOxlppfSDiMcA0",
+                        "type": "talent",
+                        "managed": true,
+                        "talents": {
+                            "collected": {
+                                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.MvCedFE0oNnT0exg",
+                                "id": "collected",
+                                "label": "Collected",
+                                "_id": "collected"
+                            }
+                        },
+                        "_id": "unLOxlppfSDiMcA0"
+                    },
+                    "ABOC4utwLMKpG69W": {
+                        "id": "ABOC4utwLMKpG69W",
+                        "type": "skill",
+                        "attribute": "str",
+                        "value": 1,
+                        "managed": false,
+                        "skill": "lor",
+                        "rank": 2
+                    }
+                },
+                "connections": {
+                    "AxDW9XVvkk0N99dC": {
+                        "id": "AxDW9XVvkk0N99dC",
+                        "prerequisiteId": "unLOxlppfSDiMcA0",
+                        "_id": "AxDW9XVvkk0N99dC"
+                    }
+                }
+            },
+            "5Q98Pl6KIDX3gQJU": {
+                "id": "5Q98Pl6KIDX3gQJU",
+                "type": "talent",
+                "position": {
+                    "x": -450,
+                    "y": -200
+                },
+                "talentId": "anatomical-insight",
+                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.QK47QQJLUvv3dSOL",
+                "size": {
+                    "width": 50,
+                    "height": 50
+                },
+                "showName": false,
+                "prerequisites": {
+                    "xUnSB9qG5rFd2utw": {
+                        "id": "xUnSB9qG5rFd2utw",
+                        "type": "talent",
+                        "managed": true,
+                        "talents": {
+                            "field-medicine": {
+                                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.Aanofomkj7Z5WO9E",
+                                "id": "field-medicine",
+                                "label": "Field Medicine",
+                                "_id": "field-medicine"
+                            }
+                        },
+                        "_id": "xUnSB9qG5rFd2utw"
+                    }
+                },
+                "connections": {
+                    "7Fk7eo7AUMmAqGVo": {
+                        "id": "7Fk7eo7AUMmAqGVo",
+                        "prerequisiteId": "xUnSB9qG5rFd2utw",
+                        "_id": "7Fk7eo7AUMmAqGVo"
+                    }
+                }
+            },
+            "GH3BsV3o3YQVQEuv": {
+                "id": "GH3BsV3o3YQVQEuv",
+                "type": "talent",
+                "position": {
+                    "x": -350,
+                    "y": -150
+                },
+                "talentId": "swift-healer",
+                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.qyc7DlzuPBh5lsWz",
+                "size": {
+                    "width": 50,
+                    "height": 50
+                },
+                "showName": false,
+                "prerequisites": {
+                    "0vCLVPkDjvfOCDid": {
+                        "id": "0vCLVPkDjvfOCDid",
+                        "type": "talent",
+                        "managed": true,
+                        "talents": {
+                            "field-medicine": {
+                                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.Aanofomkj7Z5WO9E",
+                                "id": "field-medicine",
+                                "label": "Field Medicine",
+                                "_id": "field-medicine"
+                            }
+                        },
+                        "_id": "0vCLVPkDjvfOCDid"
+                    },
+                    "wYAZwuKNUi6ZegHO": {
+                        "id": "wYAZwuKNUi6ZegHO",
+                        "type": "skill",
+                        "attribute": "str",
+                        "value": 1,
+                        "managed": false,
+                        "skill": "med",
+                        "rank": 2
+                    }
+                },
+                "connections": {
+                    "7Fk7eo7AUMmAqGVo": {
+                        "id": "7Fk7eo7AUMmAqGVo",
+                        "prerequisiteId": "0vCLVPkDjvfOCDid",
+                        "_id": "7Fk7eo7AUMmAqGVo"
+                    }
+                }
+            },
+            "Eb95yyzkjRK8E57D": {
+                "id": "Eb95yyzkjRK8E57D",
+                "type": "talent",
+                "position": {
+                    "x": -350,
+                    "y": 0
+                },
+                "talentId": "ongoing-care",
+                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.FvcU7gMrJcsGhm5d",
+                "size": {
+                    "width": 50,
+                    "height": 50
+                },
+                "showName": false,
+                "prerequisites": {
+                    "wQpxTD0znOzEN9Ug": {
+                        "id": "wQpxTD0znOzEN9Ug",
+                        "type": "talent",
+                        "managed": true,
+                        "talents": {
+                            "swift-healer": {
+                                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.qyc7DlzuPBh5lsWz",
+                                "id": "swift-healer",
+                                "label": "Swift Healer",
+                                "_id": "swift-healer"
+                            }
+                        },
+                        "_id": "wQpxTD0znOzEN9Ug"
+                    },
+                    "axH0UAmV3UAjpKyB": {
+                        "id": "axH0UAmV3UAjpKyB",
+                        "type": "skill",
+                        "attribute": "str",
+                        "value": 1,
+                        "managed": false,
+                        "skill": "lor",
+                        "rank": 3
+                    }
+                },
+                "connections": {
+                    "GH3BsV3o3YQVQEuv": {
+                        "id": "GH3BsV3o3YQVQEuv",
+                        "prerequisiteId": "wQpxTD0znOzEN9Ug",
+                        "_id": "GH3BsV3o3YQVQEuv"
+                    }
+                }
+            },
+            "XVcayzddA0m6iCXq": {
+                "id": "XVcayzddA0m6iCXq",
+                "type": "talent",
+                "position": {
+                    "x": -200,
+                    "y": 0
+                },
+                "talentId": "resuscitation",
+                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.6SEpc8Q7UTNQvthy",
+                "size": {
+                    "width": 50,
+                    "height": 50
+                },
+                "showName": false,
+                "prerequisites": {
+                    "ipZU7PuTydBOlIqj": {
+                        "id": "ipZU7PuTydBOlIqj",
+                        "type": "talent",
+                        "managed": true,
+                        "talents": {
+                            "swift-healer": {
+                                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.qyc7DlzuPBh5lsWz",
+                                "id": "swift-healer",
+                                "label": "Swift Healer",
+                                "_id": "swift-healer"
+                            }
+                        },
+                        "_id": "ipZU7PuTydBOlIqj"
+                    },
+                    "frkuuc5pOnGigyTU": {
+                        "id": "frkuuc5pOnGigyTU",
+                        "type": "skill",
+                        "attribute": "str",
+                        "value": 1,
+                        "managed": false,
+                        "skill": "med",
+                        "rank": 3
+                    }
+                },
+                "connections": {
+                    "GH3BsV3o3YQVQEuv": {
+                        "id": "GH3BsV3o3YQVQEuv",
+                        "prerequisiteId": "ipZU7PuTydBOlIqj",
+                        "_id": "GH3BsV3o3YQVQEuv"
+                    }
+                }
+            }
+        },
+        "viewBounds": {
+            "x": -481,
+            "y": -258,
+            "width": 365,
+            "height": 413
+        },
+        "display": {
+            "width": 515,
+            "height": 612
+        },
+        "background": {
+            "img": null,
+            "width": 0,
+            "height": 0,
+            "position": {
+                "x": 0,
+                "y": 0
+            }
+        }
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {
+        "cosmere-rpg": {
+            "sheet": {
+                "mode": "view"
+            }
+        }
+    },
+    "_key": "!items!C0Av55nTBVk1JvvS"
+}

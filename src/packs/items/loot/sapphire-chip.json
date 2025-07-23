@@ -1,0 +1,37 @@
+{
+    "name": "Sapphire Chip",
+    "type": "loot",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/items/spheres/sphere_sapphire_chip.webp",
+    "system": {
+        "description": {
+            "value": "",
+            "chat": "",
+            "short": ""
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 0,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 5,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            },
+            "unit": "spheres.mark"
+        },
+        "events": {},
+        "isMoney": true
+    },
+    "effects": [],
+    "folder": "RBFoWUCw2wosgSJA",
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "mqTmN6iY6peGIC8f",
+    "sort": 900000,
+    "_key": "!items!mqTmN6iY6peGIC8f"
+}

@@ -1,0 +1,48 @@
+{
+    "folder": "qTYLKqLK29e5CTQp",
+    "name": "Food (fine, 1 day)",
+    "type": "equipment",
+    "_id": "wxqRzS3bkSu9P6Us",
+    "img": "icons/consumables/food/plate-fish-grilled-brown.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 25 mk; <strong>Weight</strong> 0.5 lb.;</p><p>Fine food can be found in high-class restaurants and on the tables of nobles’ feasts.</p>",
+            "chat": ""
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 0.5,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 25,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            },
+            "unit": "spheres.mark"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        }
+    },
+    "effects": [],
+    "sort": 3000000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!wxqRzS3bkSu9P6Us"
+}

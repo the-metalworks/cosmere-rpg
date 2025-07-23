@@ -1,0 +1,48 @@
+{
+    "folder": "qTYLKqLK29e5CTQp",
+    "name": "Clothing (ragged)",
+    "type": "equipment",
+    "_id": "moMefd103M5JGLNx",
+    "img": "icons/equipment/chest/shirt-simple-grey.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 0.5 mk; <strong>Weight</strong> 1.5 lb.;</p><p>This clothing may have once been of fine or common make, but it’s now barely holding together. While wearing these clothes, you gain an advantage on <strong>spiritual</strong> tests made to convince others you’re destitute</p>",
+            "chat": ""
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 1.5,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 0.5,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            },
+            "unit": "spheres.mark"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        }
+    },
+    "effects": [],
+    "sort": 2600000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!moMefd103M5JGLNx"
+}

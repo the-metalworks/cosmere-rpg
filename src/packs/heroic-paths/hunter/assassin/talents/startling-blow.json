@@ -1,0 +1,72 @@
+{
+    "folder": "btpKhtBwuaK6NeFy",
+    "name": "Startling Blow",
+    "type": "talent",
+    "_id": "orjdjBzRBbUUc7rQ",
+    "img": "icons/skills/wounds/injury-face-impact-orange.webp",
+    "system": {
+        "id": "startling-blow",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Prerequisite</strong>: Stealth 1+; @UUID[Compendium.cosmere-rpg.heroic-paths.Item.3nfGn0BOeLq5qgEr]{Seek Quarry} key talent</p><p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span></p><p><em>You unexpectedly strike at your target’s weak point, dizzying your target and creating an opening for your next attack.</em></p><p>Make an unarmed or improvised weapon attack against the Cognitive defense of a target of your size or smaller. On a hit or graze, the target also becomes <strong>Surprised</strong> until the end of your next turn.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span></p><p>Make an unarmed or improvised weapon attack vs. Cognitive. On a hit or graze, the target is <strong>Surprised</strong>.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span></p><p>Make an unarmed or improvised weapon attack against the Cognitive defense of a target of your size or smaller. On a hit or graze, the target also becomes <strong>Surprised</strong> until the end of your next turn.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": 1,
+                "type": "act"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "path": "hunter",
+        "hasPath": false,
+        "specialty": "assassin",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "rJHLAAykvcwaq4sJ": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "skill": "stl",
+                "rank": 1,
+                "talents": []
+            },
+            "DtZkfZxCLJDZawpb": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "seek-quarry",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.3nfGn0BOeLq5qgEr",
+                        "label": "Seek Quarry"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "modality": null
+    },
+    "effects": [],
+    "sort": 362500,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!orjdjBzRBbUUc7rQ"
+}

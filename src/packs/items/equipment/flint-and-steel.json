@@ -1,0 +1,49 @@
+{
+    "folder": "qTYLKqLK29e5CTQp",
+    "name": "Flint and Steel",
+    "type": "equipment",
+    "_id": "nqOz2mX8i5WVjuaa",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/items/foundry_items/ICON_Sparkflicker.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 4 mk; <strong>Weight</strong> 1.5 lb.;</p><p>A flint and steel can be used as <em class=\"cosmere-icon\" data-tooltip=\"1 Action\">1</em> to light abundant fuel within reach. Starting a fire under more challenging circumstances can take 1 minute or more. Herdazians often wear a tool called a sparkflicker as jewelry or other ornamentation; they can use this like flint and steel by quickly running their crystalline fingernails along it.</p>",
+            "chat": ""
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 1.5,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 4,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            },
+            "unit": "spheres.mark"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": 1,
+                "type": "act"
+            },
+            "consume": [],
+            "flavor": "",
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        }
+    },
+    "effects": [],
+    "sort": 2700000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!nqOz2mX8i5WVjuaa"
+}

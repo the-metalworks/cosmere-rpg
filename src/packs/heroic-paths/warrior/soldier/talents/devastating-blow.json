@@ -1,0 +1,72 @@
+{
+    "folder": "yDWfqqpDSuIVDTSg",
+    "name": "Devastating Blow",
+    "type": "talent",
+    "_id": "JTqjP2r1NvYzqHfq",
+    "img": "icons/skills/melee/strike-axe-red.webp",
+    "system": {
+        "id": "devastating-blow",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">2</span></p><p><em>Delivering a fatal strike requires not only skill, but resolve. You’ve learned to set aside any natural aversion to harming others, and when you strike to kill, you do so without mercy or hesitation.</em></p><p>Make a melee weapon attack against the Physical defense of a target. When you roll damage for this attack, add an extra [[/r 2d8]] damage.</p><p>This talent becomes more powerful as your tier increases: at tier 3, you roll an extra [[/r 3d8]] damage (instead of 2d8); at tier 4, you instead roll an extra [[/r 4d8]] damage; and at tier 5, you instead roll an extra [[/r 5d8]] damage.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">2</span></p><p>Make a melee weapon attack vs. Physical, rolling an extra [[/r 2d8]] damage.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">2</span></p><p>Make a melee weapon attack against the Physical defense of a target. When you roll damage for this attack, add an extra [[/r 2d8]] damage.</p><p>This talent becomes more powerful as your tier increases: at tier 3, you roll an extra [[/r 3d8]] damage (instead of 2d8); at tier 4, you instead roll an extra [[/r 4d8]] damage; and at tier 5, you instead roll an extra [[/r 5d8]] damage.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": 2,
+                "type": "act"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "opportunity": null,
+            "complication": null,
+            "uses": null
+        },
+        "damage": {
+            "formula": "(2 + max(@tier - 2, 0))d8",
+            "type": null
+        },
+        "path": "warrior",
+        "hasPath": false,
+        "specialty": "soldier",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "modality": null,
+        "prerequisites": {
+            "0XDCiclzytIAnsEU": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "skill": "ath",
+                "rank": 3,
+                "talents": []
+            },
+            "D6HJidULFJZWa1FG": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "combat-training",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.OYcg51vkNrDceKR1",
+                        "label": "Combat Training"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!JTqjP2r1NvYzqHfq"
+}

@@ -1,0 +1,107 @@
+{
+    "folder": "yDWfqqpDSuIVDTSg",
+    "name": "Hardy",
+    "type": "talent",
+    "img": "icons/magic/life/heart-glowing-red.webp",
+    "system": {
+        "id": "hardy",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p><em>You’ve trained your body to endure pain and fatigue, keeping you in the fight until the bitter end.</em></p><p>When you acquire this talent, your maximum and current health increase by 1 per level. This applies to all previous and future levels; for example, if you choose this talent at level 6, retroactively increase your health by 6.</p>",
+            "chat": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>Gain +1 max health per level (including previous levels).</p>",
+            "short": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>When you acquire this talent, your maximum and current health increase by 1 per level. This applies to all previous and future levels; for example, if you choose this talent at level 6, retroactively increase your health by 6.</p>"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "path": "warrior",
+        "hasPath": false,
+        "specialty": "soldier",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "6aZ0nbVrq8RNOhrr": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "combat-training",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.OYcg51vkNrDceKR1",
+                        "label": "Combat Training"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "modality": null
+    },
+    "effects": [
+        {
+            "name": "Hardy",
+            "img": "icons/magic/life/heart-glowing-red.webp",
+            "disabled": false,
+            "duration": {
+                "startTime": null,
+                "seconds": null,
+                "combat": null,
+                "rounds": null,
+                "turns": null,
+                "startRound": null,
+                "startTurn": null
+            },
+            "_id": "1XnIXJME3cAY37xO",
+            "type": "base",
+            "system": {},
+            "changes": [
+                {
+                    "key": "system.resources.hea.max.bonus",
+                    "mode": 2,
+                    "value": "@level",
+                    "priority": null
+                }
+            ],
+            "description": "",
+            "origin": null,
+            "tint": "#ffffff",
+            "transfer": true,
+            "statuses": [],
+            "sort": 0,
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "0.3.0",
+                "createdTime": 1740259033171,
+                "modifiedTime": 1740259045822,
+                "lastModifiedBy": "7Oytl88JDvVeIDlD"
+            },
+            "_key": "!items.effects!xgdoLALQyzbxs0Yu.1XnIXJME3cAY37xO"
+        }
+    ],
+    "flags": {},
+    "_id": "xgdoLALQyzbxs0Yu",
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "_key": "!items!xgdoLALQyzbxs0Yu"
+}

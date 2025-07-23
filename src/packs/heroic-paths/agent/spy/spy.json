@@ -1,0 +1,381 @@
+{
+    "folder": "XHw5gmaWzWrdh26w",
+    "name": "Spy",
+    "type": "talent_tree",
+    "_id": "260mG3wyqpQDQAVs",
+    "img": "icons/skills/targeting/crosshair-scope-sniper-green.webp",
+    "system": {
+        "nodes": {
+            "jLEigkNOMCuqIkOX": {
+                "id": "jLEigkNOMCuqIkOX",
+                "type": "talent",
+                "position": {
+                    "x": -350,
+                    "y": -300
+                },
+                "talentId": "sure-outcome",
+                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.Vv9KSpLqxaUd8u6K",
+                "size": {
+                    "width": 50,
+                    "height": 50
+                },
+                "showName": false,
+                "prerequisites": {
+                    "W4Fzw20rF5pdHVCM": {
+                        "id": "W4Fzw20rF5pdHVCM",
+                        "type": "skill",
+                        "attribute": "str",
+                        "value": 1,
+                        "managed": false,
+                        "skill": "ins",
+                        "rank": 2,
+                        "_id": "W4Fzw20rF5pdHVCM"
+                    },
+                    "miFW4O59XFQKqdid": {
+                        "id": "miFW4O59XFQKqdid",
+                        "type": "talent",
+                        "attribute": "str",
+                        "value": 1,
+                        "managed": false,
+                        "talents": {
+                            "opportunist": {
+                                "id": "opportunist",
+                                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.ScqSKbkewDAfSizP",
+                                "label": "Opportunist",
+                                "_id": "opportunist"
+                            }
+                        }
+                    }
+                }
+            },
+            "K2GOgEk6ls5rsEzc": {
+                "id": "K2GOgEk6ls5rsEzc",
+                "type": "talent",
+                "position": {
+                    "x": -350,
+                    "y": -200
+                },
+                "talentId": "collected",
+                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.sKa7wQESNjSzlr7D",
+                "size": {
+                    "width": 50,
+                    "height": 50
+                },
+                "showName": false,
+                "prerequisites": {
+                    "koLUMH3WLxZo00dw": {
+                        "id": "koLUMH3WLxZo00dw",
+                        "type": "talent",
+                        "managed": true,
+                        "talents": {
+                            "sure-outcome": {
+                                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.Vv9KSpLqxaUd8u6K",
+                                "id": "sure-outcome",
+                                "label": "Sure Outcome",
+                                "_id": "sure-outcome"
+                            }
+                        },
+                        "_id": "koLUMH3WLxZo00dw"
+                    }
+                },
+                "connections": {
+                    "jLEigkNOMCuqIkOX": {
+                        "id": "jLEigkNOMCuqIkOX",
+                        "prerequisiteId": "koLUMH3WLxZo00dw",
+                        "_id": "jLEigkNOMCuqIkOX"
+                    }
+                }
+            },
+            "Q5jHGYvoMNFx6b07": {
+                "id": "Q5jHGYvoMNFx6b07",
+                "type": "talent",
+                "position": {
+                    "x": -350,
+                    "y": -100
+                },
+                "talentId": "subtle-takedown",
+                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.K7xoqesNtEPWEUKk",
+                "size": {
+                    "width": 50,
+                    "height": 50
+                },
+                "showName": false,
+                "prerequisites": {
+                    "QQKDTvS9mltapRtD": {
+                        "id": "QQKDTvS9mltapRtD",
+                        "type": "skill",
+                        "attribute": "str",
+                        "value": 1,
+                        "managed": false,
+                        "skill": "ins",
+                        "rank": 3,
+                        "_id": "QQKDTvS9mltapRtD"
+                    },
+                    "e4nBuMghLbjHfoWB": {
+                        "id": "e4nBuMghLbjHfoWB",
+                        "type": "talent",
+                        "managed": true,
+                        "talents": {
+                            "cover-story": {
+                                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.1sD2LdFfgODs6jz6",
+                                "id": "cover-story",
+                                "label": "Cover Story",
+                                "_id": "cover-story"
+                            }
+                        }
+                    }
+                },
+                "connections": {
+                    "zDEe0ak43nOlFOS2": {
+                        "id": "zDEe0ak43nOlFOS2",
+                        "prerequisiteId": "e4nBuMghLbjHfoWB",
+                        "_id": "zDEe0ak43nOlFOS2"
+                    }
+                }
+            },
+            "GjzPBBhAvtL9ymTI": {
+                "id": "GjzPBBhAvtL9ymTI",
+                "type": "talent",
+                "position": {
+                    "x": -350,
+                    "y": 0
+                },
+                "talentId": "mercurial-facade",
+                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.yrQy7QrWN4C0Qp2p",
+                "size": {
+                    "width": 50,
+                    "height": 50
+                },
+                "showName": false,
+                "prerequisites": {
+                    "8kMzg8V1ujnqj9sX": {
+                        "id": "8kMzg8V1ujnqj9sX",
+                        "type": "skill",
+                        "attribute": "str",
+                        "value": 1,
+                        "managed": false,
+                        "skill": "dec",
+                        "rank": 3,
+                        "_id": "8kMzg8V1ujnqj9sX"
+                    },
+                    "GB3RQMYaEnYiSh9B": {
+                        "id": "GB3RQMYaEnYiSh9B",
+                        "type": "talent",
+                        "managed": true,
+                        "talents": {
+                            "subtle-takedown": {
+                                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.K7xoqesNtEPWEUKk",
+                                "id": "subtle-takedown",
+                                "label": "Subtle Takedown",
+                                "_id": "subtle-takedown"
+                            }
+                        }
+                    }
+                },
+                "connections": {
+                    "Q5jHGYvoMNFx6b07": {
+                        "id": "Q5jHGYvoMNFx6b07",
+                        "prerequisiteId": "GB3RQMYaEnYiSh9B",
+                        "_id": "Q5jHGYvoMNFx6b07"
+                    }
+                }
+            },
+            "B7kB7fMZw93GlJLI": {
+                "id": "B7kB7fMZw93GlJLI",
+                "type": "talent",
+                "position": {
+                    "x": -250,
+                    "y": -300
+                },
+                "talentId": "plausible-excuse",
+                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.lAEMdGt3SQlaGVC2",
+                "size": {
+                    "width": 50,
+                    "height": 50
+                },
+                "showName": false,
+                "prerequisites": {
+                    "hh7nATu18mXpLPF6": {
+                        "id": "hh7nATu18mXpLPF6",
+                        "type": "skill",
+                        "attribute": "str",
+                        "value": 1,
+                        "managed": false,
+                        "skill": "dec",
+                        "rank": 1,
+                        "_id": "hh7nATu18mXpLPF6"
+                    },
+                    "s4uwmCMYq72BAHNi": {
+                        "id": "s4uwmCMYq72BAHNi",
+                        "type": "talent",
+                        "attribute": "str",
+                        "value": 1,
+                        "managed": false,
+                        "talents": {
+                            "opportunist": {
+                                "id": "opportunist",
+                                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.ScqSKbkewDAfSizP",
+                                "label": "Opportunist",
+                                "_id": "opportunist"
+                            }
+                        }
+                    }
+                }
+            },
+            "zDEe0ak43nOlFOS2": {
+                "id": "zDEe0ak43nOlFOS2",
+                "type": "talent",
+                "position": {
+                    "x": -250,
+                    "y": -200
+                },
+                "talentId": "cover-story",
+                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.1sD2LdFfgODs6jz6",
+                "size": {
+                    "width": 50,
+                    "height": 50
+                },
+                "showName": false,
+                "prerequisites": {
+                    "LMEyzybMZdoS827S": {
+                        "id": "LMEyzybMZdoS827S",
+                        "type": "talent",
+                        "managed": true,
+                        "talents": {
+                            "plausible-excuse": {
+                                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.lAEMdGt3SQlaGVC2",
+                                "id": "plausible-excuse",
+                                "label": "Plausible Excuse",
+                                "_id": "plausible-excuse"
+                            }
+                        },
+                        "_id": "LMEyzybMZdoS827S"
+                    }
+                },
+                "connections": {
+                    "B7kB7fMZw93GlJLI": {
+                        "id": "B7kB7fMZw93GlJLI",
+                        "prerequisiteId": "LMEyzybMZdoS827S",
+                        "_id": "B7kB7fMZw93GlJLI"
+                    }
+                }
+            },
+            "wcnHo4W1w0H21hIj": {
+                "id": "wcnHo4W1w0H21hIj",
+                "type": "talent",
+                "position": {
+                    "x": -250,
+                    "y": 0
+                },
+                "talentId": "mighty",
+                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.slH7UTWd3cQ0o3IN",
+                "size": {
+                    "width": 50,
+                    "height": 50
+                },
+                "showName": false,
+                "prerequisites": {
+                    "KmloFL7QT1oUOpTA": {
+                        "id": "KmloFL7QT1oUOpTA",
+                        "type": "talent",
+                        "managed": true,
+                        "talents": {
+                            "cover-story": {
+                                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.1sD2LdFfgODs6jz6",
+                                "id": "cover-story",
+                                "label": "Cover Story",
+                                "_id": "cover-story"
+                            }
+                        },
+                        "_id": "KmloFL7QT1oUOpTA"
+                    }
+                },
+                "connections": {
+                    "zDEe0ak43nOlFOS2": {
+                        "id": "zDEe0ak43nOlFOS2",
+                        "prerequisiteId": "KmloFL7QT1oUOpTA",
+                        "_id": "zDEe0ak43nOlFOS2"
+                    }
+                }
+            },
+            "YncJWzujDMA2DkRS": {
+                "id": "YncJWzujDMA2DkRS",
+                "type": "talent",
+                "position": {
+                    "x": -150,
+                    "y": 0
+                },
+                "talentId": "high-society-contacts",
+                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.Lcj7gXMiuMl4zV94",
+                "size": {
+                    "width": 50,
+                    "height": 50
+                },
+                "showName": false,
+                "prerequisites": {
+                    "rd1QbI9z50vsntJp": {
+                        "id": "rd1QbI9z50vsntJp",
+                        "type": "connection",
+                        "attribute": "str",
+                        "value": 1,
+                        "managed": false,
+                        "description": "Patron in high society",
+                        "_id": "rd1QbI9z50vsntJp"
+                    },
+                    "YgpsLYs3F9j5H8nV": {
+                        "id": "YgpsLYs3F9j5H8nV",
+                        "type": "talent",
+                        "managed": true,
+                        "talents": {
+                            "cover-story": {
+                                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.1sD2LdFfgODs6jz6",
+                                "id": "cover-story",
+                                "label": "Cover Story",
+                                "_id": "cover-story"
+                            }
+                        }
+                    }
+                },
+                "connections": {
+                    "zDEe0ak43nOlFOS2": {
+                        "id": "zDEe0ak43nOlFOS2",
+                        "prerequisiteId": "YgpsLYs3F9j5H8nV",
+                        "_id": "zDEe0ak43nOlFOS2"
+                    }
+                }
+            }
+        },
+        "viewBounds": {
+            "x": -348,
+            "y": -225,
+            "width": 313,
+            "height": 407
+        },
+        "display": {
+            "width": 412,
+            "height": 563
+        },
+        "background": {
+            "img": null,
+            "width": 0,
+            "height": 0,
+            "position": {
+                "x": 0,
+                "y": 0
+            }
+        }
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {
+        "cosmere-rpg": {
+            "sheet": {
+                "mode": "view"
+            }
+        }
+    },
+    "_key": "!items!260mG3wyqpQDQAVs"
+}

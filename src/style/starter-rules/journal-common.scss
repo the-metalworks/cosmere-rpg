@@ -1,0 +1,379 @@
+:root {
+    --stormlight-journal-translucent-1: rgba(215, 215, 215, 0.4);
+    --stormlight-journal-yellow-1: #dcbc88;
+    --stormlight-journal-yellow-2: #f8f0e2;
+    --stormlight-journal-table-background-1: rgba(228, 232, 236, 0.75);
+    --stormlight-journal-table-background-2: rgba(248, 249, 250, 0.75);
+    --stormlight-journal-ra-background: rgba(239, 237, 230, 0.75);
+    --stormlight-journal-ra-header: #cea453;
+    --stormlight-journal-me-header: #802728;
+    --stormlight-journal-me-background: rgba(245, 227, 228, 0.75);
+    --stormlight-journal-pr-blue: #135baa;
+    --stormlight-journal-pr-yellow: #a5752b;
+    --stormlight-journal-foundry-orange: #bc2e0a;
+
+    --stormlight-journal-sl-sidebar-corner-size: 20px;
+    --stormlight-journal-sl-sidebar-border-width: 2px;
+}
+
+@mixin sl-journal-common {
+    //Overall Journal Styling
+    border: 3px solid var(--stormlight-journal-yellow-1);
+    padding: 0px 5px 5px 5px;
+    border-image-outset: 5px;
+
+    background: url("assets/journal/window-background.webp") repeat;
+    background-size: 1000px auto, auto auto;
+
+    //White with hills page background
+    .journal-entry-content {
+        background: url("assets/journal/page-background.webp");
+        background-size: 100% 100%;
+    }
+
+    //Because of the modified header attribute, we can incidently scale the sidebar to 0px.
+    // This enforces a min-width to keep it readable.
+    @keyframes scaleMin {
+        from {
+            min-width: inherit;
+        }
+
+        to {
+            min-width: 15em;
+        }
+    }
+    .journal-sidebar:not(.collapsed) {
+        min-width: 15em;
+        animation-name: scaleMin;
+        animation-duration: 1s;
+    }
+
+    //Update the scrollbar to match the journal colouring
+    .scrollable {
+        scrollbar-color: var(--stormlight-journal-yellow-1) var(--color-scrollbar-track);
+    }
+
+    // Header for chapters
+    /* Utilization:
+            <div class="sl-chapter-header">
+                <div>
+                    <p></p>
+                    <p>introduction</p>
+                    <p></p>
+                </div>
+                <div>
+                    <p></p>
+                </div>
+            </div> 
+        */
+    .sl-chapter-header {
+        div:nth-child(1) {
+            //First div is the two Squiggles + main title text
+            display: flex;
+            height: 3rem;
+            padding-left: 0;
+            padding-right: 0;
+
+            p:nth-child(2) {
+                //Chapter name text
+                text-wrap: nowrap;
+                //vertical-align: middle;
+                color: var(--cosmere-color-opportunity);
+                border-bottom-color: var(--stormlight-journal-yellow-1);
+                border-bottom-width: 3px;
+                margin-bottom: 12px;
+                margin-top: 0px;
+                padding: 0.5rem 0.5rem 0 0.5rem;
+                font-size: 2rem;
+                font-weight: normal;
+                font-family: var(--cosmere-font-header-sc);
+            }
+
+            p:first-child {
+                //Left side squiggle
+                flex: 1;
+                content: "";
+                background-image: url("assets/journal/header-left.webp");
+                background-size: auto 2rem;
+                background-repeat: no-repeat;
+                background-position: right;
+                margin: 0;
+            }
+
+            p:last-child {
+                //Right side squiggle
+                flex: 1;
+                content: "";
+                background-image: url("assets/journal/header-right.webp");
+                background-size: auto 2rem;
+                background-repeat: no-repeat;
+                background-position: left;
+                margin: 0;
+            }
+        }
+
+        div:nth-child(2) {
+            //This is the underline beneath the text
+            width: 100%;
+            background-image: url("assets/journal/header-line.webp");
+            background-size: 90% auto;
+            background-repeat: no-repeat;
+            background-position: top;
+            margin: 0px;
+
+            p {
+                margin: 0px;
+            }
+        }
+    }
+
+    //Rest of the code should only work on the page
+    .journal-entry-page {
+        
+        //This replaces the default page title formatting
+        .journal-page-header {
+            h1 {
+                // All-caps text with yellow underline border
+                color: var(--cosmere-color-opportunity);
+                border-bottom-color: var(--stormlight-journal-yellow-1);
+                border-bottom-width: 3px;
+                padding-bottom: 3px;
+                font-weight: bold;
+                font-family: var(--cosmere-font-header-sc);
+            }
+        }
+
+        font-family: var(--cosmere-font-normal);
+        font-weight: 600;
+        font-variant-numeric: lining-nums;
+
+        // Used to make the bolded sections of text blue, as they are in the handbook  
+        strong {
+            color: var(--cosmere-color-opportunity)
+        }
+
+        // All-caps text with yellow underline border
+        h2 {
+            font-family: var(--cosmere-font-header-sc);
+            font-size: 18pt;
+            color: var(--cosmere-color-opportunity);
+            border-bottom-color: var(--stormlight-journal-yellow-1);
+            border-bottom-width: 3px;
+            padding-bottom: 1px;
+            font-variant-numeric: lining-nums;
+        }
+
+        // In the book this is just a blue slightly larger text. Im including an underline as it works clearer with the design of foundry
+        h3 {
+            color: var(--cosmere-color-opportunity);
+            font-family: var(--cosmere-font-header-sc);
+            font-weight: bold;
+            font-size: 14pt;
+            border-bottom-width: 1px;
+            border-bottom-color: var(--cosmere-color-opportunity);
+            font-variant-numeric: lining-nums;
+        }
+
+        //H4 for tables
+        h4 {
+            color: black;
+            font-family: var(--cosmere-font-normal);
+            font-weight: bold;
+            font-variant: small-caps;
+            font-size: 14pt;
+        }
+
+        // Formatting for all links
+        a.content-link {
+            position: relative;
+            padding: 0;
+            padding-right: 1.5ch;
+            background: none;
+            border: none;
+            text-decoration: underline;
+
+            >i {
+                position: absolute;
+                font-size: .5em;
+                top: 2px;
+                right: 0;
+
+                &::before {
+                    content: "\f0c1";
+                }
+            }
+        }
+
+        h1, h2, h3, h4, h5, h6, .sl-table {
+            a.content-link {
+                text-decoration: none;;
+            }
+        }
+
+        // Formatting for all tables
+        .sl-table {
+            border-top: 0;
+            border-bottom: 0;
+            table-layout: auto;
+            border-right: 1px solid;
+            border-left: 1px solid;
+            border-bottom: 1px solid;
+            border-color: var(--cosmere-color-opportunity);
+
+            tbody tr:first-child {
+                td:first-child {
+                    padding-left: 0.5rem;
+                }
+
+                td {
+                    // Table main header
+                    color: var(--cosmere-color-white);
+                    font-family: var(--cosmere-font-normal);
+                    font-weight: bold;
+                    font-size: 14px;
+                    background-color: var(--cosmere-color-opportunity);
+                    font-variant-caps: small-caps;
+                    font-variant-numeric: lining-nums;
+                    padding-top: 0;
+                    padding-bottom: 0;
+
+                    strong {
+                        // Bypass the strong color above for the header
+                        color: inherit;
+                        font-variant-numeric: lining-nums;
+                    }
+
+                    p {
+                        // This may need to be changed, for now this makes the text in the headers not wrap, but some headers do wrap. Likely will make two table variations?
+                        white-space: nowrap;
+                        padding-right: 0.75rem;
+                        font-variant-numeric: lining-nums;
+                    }
+                }
+            }
+
+            tbody tr {
+                // Make text at top of columns
+                vertical-align: text-top;
+
+                // Specialty padding (will make this one line later if not needed, was a remnant from experimnentation)
+                td:first-child {
+                    padding-left: 0.5rem;
+                }
+
+                td:last-child {
+                    padding-right: 0.5rem;
+                }
+
+                p {
+                    padding-right: 0.5rem;
+                }
+            }
+
+            // Table background colors
+            tbody tr:nth-child(even) {
+                background-color: var(--stormlight-journal-table-background-1);
+            }
+
+            tbody tr:nth-child(odd) {
+                background-color: var(--stormlight-journal-table-background-2);
+            }
+        }
+
+        .sl-blue,
+        .sl-red,
+        .sl-foundry,
+        .sl-sidebar {
+            //Remove the default table borders
+            border-top: 0;
+            border-bottom: 0;
+            background: transparent;
+
+            tbody {
+                position: relative;
+            }
+
+            tbody tr:first-child {
+                background-color: transparent;
+
+                td {
+                    // Header section for the standardized blue 'tip' section
+                    color: var(--cosmere-color-white);
+                    font-family: var(--cosmere-font-normal);
+                    font-weight: bold;
+                    font-size: 20px;
+                    font-variant-caps: small-caps;
+                    padding-left: 1rem !important;
+                    padding-top: 0;
+                    padding-bottom: 0;
+                    transform: scaleX(.998);
+
+                    strong {
+                        //Bypass the strong color above for the header
+                        color: inherit;
+                    }
+                }
+            }
+
+            tbody tr:last-child {
+                background-color: transparent;
+
+                td {
+                    //Introduce padding on the text, as the default table padding isn't enough with the custom border
+                    padding-left: 1rem !important;
+                    padding-right: 1rem !important;
+                    position: relative;
+                    backdrop-filter: blur(5px);
+                    -webkit-backdrop-filter: blur(5px);
+                    clip-path: polygon(-2px -2px, calc(100% + .5px) -2px, calc(100% + .5px) calc(100% - var(--stormlight-journal-sl-sidebar-corner-size)), calc(100% - var(--stormlight-journal-sl-sidebar-corner-size)) 100%, 0 100%);
+
+                    p {
+                        min-height: 1.2rem;
+                    }
+                }
+
+                &::after {
+                    content: "";
+                    position: absolute;
+                    inset: 0;
+                    clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--stormlight-journal-sl-sidebar-corner-size)), calc(100% - var(--stormlight-journal-sl-sidebar-corner-size)) 100%, 0 100%, 0 0, var(--stormlight-journal-sl-sidebar-border-width) 1px, var(--stormlight-journal-sl-sidebar-border-width) calc(100% - var(--stormlight-journal-sl-sidebar-border-width)), calc(100% - var(--stormlight-journal-sl-sidebar-corner-size) - (var(--stormlight-journal-sl-sidebar-border-width) / 2) - .25px) calc(100% - var(--stormlight-journal-sl-sidebar-border-width)), calc(100% - var(--stormlight-journal-sl-sidebar-border-width)) calc(100% - var(--stormlight-journal-sl-sidebar-corner-size) - (var(--stormlight-journal-sl-sidebar-border-width) / 2) + .25px), calc(100% - var(--stormlight-journal-sl-sidebar-border-width)) var(--stormlight-journal-sl-sidebar-border-width), 3px var(--stormlight-journal-sl-sidebar-border-width));
+                }
+            }
+        }
+
+        ::marker {
+            font-variant-numeric: lining-nums;
+            font-weight: bold;
+            color: var(--cosmere-color-opportunity);
+        }
+
+        //Reduced version included here. Modifies the ul element to use diamonds like the book.
+        ul, .sl-ul{  
+                list-style: none;
+                padding-left: 0;
+                margin-left: 0;
+            
+                li {
+                    position: relative;
+                    padding-left: 2px;
+                    margin-bottom: 1px;
+                    /*color: var(--cosmere-color-opportunity)*/
+                }
+
+                li:not(.stormlight-success,.stormlight-failure)::before{
+                    content: "";
+                    position: absolute;
+                    left: 4px;
+                    top: 8px;
+                    width: 5px;
+                    height: 5px;
+                    background-color: var(--cosmere-color-opportunity);
+                    transform: rotate(45deg);
+                }
+
+                p{
+                    margin-left:16px;
+                }
+            }
+    }
+}

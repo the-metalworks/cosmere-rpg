@@ -1,0 +1,37 @@
+{
+    "folder": "RBFoWUCw2wosgSJA",
+    "name": "Garnet Broam",
+    "type": "loot",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/items/spheres/sphere_garnet_broam.webp",
+    "system": {
+        "isMoney": true,
+        "description": {
+            "value": "",
+            "chat": "",
+            "short": ""
+        },
+        "weight": {
+            "value": 0,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 20,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            },
+            "unit": "spheres.mark"
+        },
+        "quantity": 1,
+        "events": {}
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "QJcCYknHDiN6Bb63",
+    "sort": 2200000,
+    "_key": "!items!QJcCYknHDiN6Bb63"
+}

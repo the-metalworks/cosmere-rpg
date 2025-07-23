@@ -1,0 +1,82 @@
+{
+    "folder": "07WIbGwLoTODw9pL",
+    "name": "Resuscitation",
+    "type": "talent",
+    "_id": "6SEpc8Q7UTNQvthy",
+    "img": "icons/magic/life/heart-area-circle-red-green.webp",
+    "system": {
+        "id": "resuscitation",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p><em>You quickly and efficiently treat a mortally wounded creature, seeking to pull them back from the brink by applying a tourniquet, administering an antidote, or even restarting failed organs.</em></p><p>You can use your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.Aanofomkj7Z5WO9E]{Field Medicine} talent to attempt to resuscitate a fallen character. When you do, spend 3 focus (instead of 1) to target a character within your reach who is <strong>Unconscious</strong> or who died within a number of rounds equal to your ranks in <strong>Medicine</strong>.</p><p>That talent’s test DC increases by 5 for each injury the target has beyond the first. On a failure, the target doesn’t regain health. On a success, the target recovers health as usual for that talent, and if they were dead, they return to life. If they were <strong>Unconscious</strong>, they can choose to remove that condition if they wish.</p>",
+            "chat": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p>Spend 3 focus when using @UUID[Compendium.cosmere-rpg.heroic-paths.Item.Aanofomkj7Z5WO9E]{Field Medicine} to revive an <strong>Unconscious</strong> character or one who died recently.</p>",
+            "short": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p>You can use your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.Aanofomkj7Z5WO9E]{Field Medicine} talent to attempt to resuscitate a fallen character. When you do, spend 3 focus (instead of 1) to target a character within your reach who is <strong>Unconscious</strong> or who died within a number of rounds equal to your ranks in <strong>Medicine</strong>.</p><p>That talent’s test DC increases by 5 for each injury the target has beyond the first. On a failure, the target doesn’t regain health. On a success, the target recovers health as usual for that talent, and if they were dead, they return to life. If they were <strong>Unconscious</strong>, they can choose to remove that condition if they wish.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": null,
+                "type": "spe"
+            },
+            "consume": [
+                {
+                    "type": "resource",
+                    "value": {
+                        "min": 3,
+                        "max": 3,
+                        "actual": 0
+                    },
+                    "resource": "foc"
+                }
+            ],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "path": "scholar",
+        "hasPath": false,
+        "specialty": "surgeon",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "ybgFvrEnlAFxO5l7": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "skill": "med",
+                "rank": 3,
+                "talents": []
+            },
+            "sZYZmY2Q6il4JMVK": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "swift-healer",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.qyc7DlzuPBh5lsWz",
+                        "label": "Swift Healer"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "modality": null
+    },
+    "effects": [],
+    "sort": 700000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!6SEpc8Q7UTNQvthy"
+}

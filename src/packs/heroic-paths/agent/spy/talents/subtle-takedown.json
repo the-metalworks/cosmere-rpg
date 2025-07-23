@@ -1,0 +1,71 @@
+{
+    "folder": "wTsGOInIGEUZQvz8",
+    "name": "Subtle Takedown",
+    "type": "talent",
+    "system": {
+        "id": "subtle-takedown",
+        "type": "path",
+        "path": "agent",
+        "specialty": "spy",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">2</span></p><p><em>You swiftly strike at your target’s throat, knees, or another vulnerable area. Before the target can cry out, they are silenced.</em></p><p>Make an unarmed attack using Insight against the Cognitive defense of a character who is <strong>Surprised</strong>, does not sense you, or doesn't view you as a threat (such as if you are disguised). The target must be your size or smaller. <span>Raise the stakes</span> on this attack test. On a hit, the target also can’t communicate until the end of their next turn. Also on a hit, you can spend an Opportunity to @UUID[Compendium.cosmere-rpg.actions.Item.EVPgpHL6Y4jrumwI]{Grapple} them as <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">0,</span> automatically succeeding on your test; while <strong>Restrained</strong> by this grapple, they are also <strong>Prone</strong>.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">2</span></p><p>Make an unarmed attack with Insight vs. an unsuspecting target’s Cognitive, raising the stakes. On a hit, they can’t communicate.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">2</span></p><p>Make an unarmed attack using Insight against the Cognitive defense of a character who is <strong>Surprised</strong>, does not sense you, or doesn't view you as a threat (such as if you are disguised). The target must be your size or smaller. <span>Raise the stakes</span> on this attack test. On a hit, the target also can’t communicate until the end of their next turn. Also on a hit, you can spend an Opportunity to @UUID[Compendium.cosmere-rpg.actions.Item.EVPgpHL6Y4jrumwI]{Grapple} them as <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">0,</span> automatically succeeding on your test; while <strong>Restrained</strong> by this grapple, they are also <strong>Prone</strong>.</p>"
+        },
+        "prerequisites": {
+            "ASJAjUpLcWEatpY4": {
+                "type": "skill",
+                "skill": "ins",
+                "rank": 3,
+                "value": 0,
+                "talents": []
+            },
+            "CMKLXK7PKS9u4FKB": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "cover-story",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.1sD2LdFfgODs6jz6",
+                        "label": "Cover Story"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "type": "act",
+                "value": 2
+            },
+            "consume": [],
+            "flavor": "",
+            "uses": null,
+            "plotDie": false,
+            "opportunity": null,
+            "complication": null
+        },
+        "hasPath": false,
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisitesMet": false,
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "modality": null
+    },
+    "effects": [],
+    "flags": {},
+    "img": "icons/magic/unholy/strike-hand-glow-pink.webp",
+    "_id": "K7xoqesNtEPWEUKk",
+    "sort": 700000,
+    "ownership": {
+        "default": 0
+    },
+    "_key": "!items!K7xoqesNtEPWEUKk"
+}

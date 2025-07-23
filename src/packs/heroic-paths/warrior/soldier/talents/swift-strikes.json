@@ -1,0 +1,74 @@
+{
+    "folder": "yDWfqqpDSuIVDTSg",
+    "name": "Swift Strikes",
+    "type": "talent",
+    "_id": "R5SfwYaQDcuakxtK",
+    "img": "icons/skills/melee/strikes-sword-scimitar.webp",
+    "system": {
+        "id": "swift-strikes",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span></p><p>You instinctively follow the tempo of battle, keeping the pressure on your foes at critical moments.</p><p>Spend 1 focus to make a second @UUID[Compendium.cosmere-rpg.actions.Item.Da4Xj4WnVbtHMH7k]{Strike} action with a hand you already used for a Strike this turn.</p>",
+            "chat": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span></p><p>Spend 1 focus to make a second @UUID[Compendium.cosmere-rpg.actions.Item.Da4Xj4WnVbtHMH7k]{Strike} with the same weapon.</p>",
+            "short": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span></p><p>Spend 1 focus to make a second @UUID[Compendium.cosmere-rpg.actions.Item.Da4Xj4WnVbtHMH7k]{Strike} action with a hand you already used for a Strike this turn.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": 1,
+                "type": "act"
+            },
+            "consume": [
+                {
+                    "type": "resource",
+                    "value": {
+                        "min": 1,
+                        "max": 1,
+                        "actual": 0
+                    },
+                    "resource": "foc"
+                }
+            ],
+            "flavor": "",
+            "plotDie": false,
+            "opportunity": null,
+            "complication": null,
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "path": "warrior",
+        "hasPath": false,
+        "specialty": "soldier",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "modality": null,
+        "prerequisites": {
+            "4XIHR8YofNtMizeC": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "hardy",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.xgdoLALQyzbxs0Yu",
+                        "label": "Hardy"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!R5SfwYaQDcuakxtK"
+}

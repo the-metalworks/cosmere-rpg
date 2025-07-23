@@ -1,0 +1,48 @@
+{
+    "folder": "qTYLKqLK29e5CTQp",
+    "name": "Clothing (common)",
+    "type": "equipment",
+    "_id": "SZLmzHRi3n9zqpO8",
+    "img": "icons/equipment/chest/shirt-collared-brown.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 2 mk; <strong>Weight</strong> 3 lb.;</p><p>Plain clothes are made of affordable materials and are generally undyed, helping you fit in among the commonfolk. While wearing these clothes, you gain an advantage on <strong>spiritual</strong> tests made to convince others you’re from the lower class.</p>",
+            "chat": ""
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 3,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 2,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            },
+            "unit": "spheres.mark"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        }
+    },
+    "effects": [],
+    "sort": 1300000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!SZLmzHRi3n9zqpO8"
+}

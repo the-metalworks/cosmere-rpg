@@ -1,0 +1,48 @@
+{
+    "folder": "qTYLKqLK29e5CTQp",
+    "name": "Candle",
+    "type": "equipment",
+    "_id": "XWnG7IsaVfRIULF2",
+    "img": "icons/sundries/lights/candle-unlit-tan.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 0.2 mk; <strong>Weight</strong> 0.2 lb.;</p><p> While lit, the candle sheds light in a 15-foot radius. It burns for up to 6 hours before becoming unusable.</p>",
+            "chat": ""
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 0.2,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 0.2,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            },
+            "unit": "spheres.mark"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        }
+    },
+    "effects": [],
+    "sort": 1700000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!XWnG7IsaVfRIULF2"
+}

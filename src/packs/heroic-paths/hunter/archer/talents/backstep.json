@@ -1,0 +1,82 @@
+{
+    "folder": "2rzL155jdAkXbqS9",
+    "name": "Backstep",
+    "type": "talent",
+    "_id": "eM6FDADNFM0qbrfY",
+    "img": "icons/skills/movement/feet-winged-boots-blue.webp",
+    "system": {
+        "id": "backstep",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">0</span></p><p><em>You’ve learned to fire then fade into Roshar’s harsh battlefields, keeping a safe distance from heavily armed enemies who might force hand-to-hand combat.</em></p><p>After you make a ranged attack, spend 2 focus to @UUID[Compendium.cosmere-rpg.actions.Item.wC4Z0mdGwRxLDpMC]{Disengage} as <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">0</span>. If you then end your turn in cover or an area where your enemy’s senses are obscured, you gain the benefit of the @UUID[Compendium.cosmere-rpg.actions.Item.I1CQjZicYdeG9NCN]{Brace} action.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">0</span></p><p>After making a ranged attack, spend 2 focus to @UUID[Compendium.cosmere-rpg.actions.Item.wC4Z0mdGwRxLDpMC]{Disengage} without spending <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">1</span>, and @UUID[Compendium.cosmere-rpg.actions.Item.I1CQjZicYdeG9NCN]{Brace} if you enter cover or obscured area.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">0</span></p><p>After you make a ranged attack, spend 2 focus to @UUID[Compendium.cosmere-rpg.actions.Item.wC4Z0mdGwRxLDpMC]{Disengage} as <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">0</span>. If you then end your turn in cover or an area where your enemy’s senses are obscured, you gain the benefit of the @UUID[Compendium.cosmere-rpg.actions.Item.I1CQjZicYdeG9NCN]{Brace} action.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": null,
+                "type": "fre"
+            },
+            "consume": [
+                {
+                    "type": "resource",
+                    "value": {
+                        "min": 2,
+                        "max": 2,
+                        "actual": 0
+                    },
+                    "resource": "foc"
+                }
+            ],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "path": "hunter",
+        "hasPath": false,
+        "specialty": "archer",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "3FydF7fF3UaRFbru": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "skill": "agi",
+                "rank": 2,
+                "talents": []
+            },
+            "2yFcpAISuBxuxMxD": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "steady-aim",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.x81dx7J7uDEnrj5K",
+                        "label": "Steady Aim"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "modality": null
+    },
+    "effects": [],
+    "sort": 100000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!eM6FDADNFM0qbrfY"
+}

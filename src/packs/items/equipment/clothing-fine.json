@@ -1,0 +1,48 @@
+{
+    "folder": "qTYLKqLK29e5CTQp",
+    "name": "Clothing (fine)",
+    "type": "equipment",
+    "_id": "9Z2IGrA7MAorXfB1",
+    "img": "icons/equipment/chest/robe-collared-blue.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 50–200 mk; <strong>Weight</strong> 6 lb.;</p><p>Fine clothes are made of silks or other high-quality materials, colored using expensive dyes, and often stitched with fine embroidery. Wearing fine clothes helps you to blend into high society, such as noble banquets, without arousing suspicion. While wearing these clothes, you gain an advantage on <strong>spiritual</strong> tests made to convince others you’re from the upper class.</p>",
+            "chat": ""
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 6,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 50,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            },
+            "unit": "spheres.mark"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        }
+    },
+    "effects": [],
+    "sort": 500000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!9Z2IGrA7MAorXfB1"
+}

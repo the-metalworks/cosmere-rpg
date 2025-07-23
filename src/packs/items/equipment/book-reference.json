@@ -1,0 +1,50 @@
+{
+    "folder": "qTYLKqLK29e5CTQp",
+    "name": "Book (reference)",
+    "type": "equipment",
+    "_id": "aEWkmpwm8ADHz2Q1",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/items/foundry_items/ICON_Book.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 10–500 mk; <strong>Weight</strong> 1–5 lb.;</p><p>Each reference book contains information on a particular topic, such as a historical era, engineering, biology, architecture, or crafting a particular type of fabrial. When you have time to reference a book while making a related test using your <strong>Intellect</strong> attribute, you’re considered to have an expertise in the topic (see “Expertise Benefits” in chapter 3).</p>",
+            "chat": ""
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 1,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 10,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            },
+            "unit": "spheres.mark"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null,
+                "type": null
+            },
+            "consume": [],
+            "flavor": "",
+            "uses": null,
+            "skill": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        }
+    },
+    "effects": [],
+    "sort": 2000000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!aEWkmpwm8ADHz2Q1"
+}

@@ -1,0 +1,43 @@
+{
+    "folder": "xeAxqcLYdFWSwUur",
+    "name": "Shove",
+    "type": "action",
+    "_id": "ttTSR1u5C8D6vbGf",
+    "img": "icons/skills/melee/unarmed-punch-fist-blue.webp",
+    "system": {
+        "id": "shove",
+        "type": "basic",
+        "description": {
+            "value": "<p>Through strength and skill, you forcibly maneuver your opponent. Make an Athletics test against the Physical defense of a character within your reach. On a success, you push or pull the target 5 feet horizontally. If you successfully <strong>Shove</strong> a character who has grappled you, it ends the@UUID[Compendium.cosmere-rpg.actions.Item.EVPgpHL6Y4jrumwI]{ Grapple }effect.</p>",
+            "chat": "<p>Make an Athletics test against the Physical defense of a character within your reach. On a success, you push or pull the target 5 feet horizontally. If you successfully Shove a character who has grappled you, it ends the @UUID[Compendium.cosmere-rpg.actions.Item.EVPgpHL6Y4jrumwI]{Grapple} effect.</p>",
+            "short": "<p>Make an Athletics test against the Physical defense of a character within your reach. On a success, you push or pull the target 5 feet horizontally. If you successfully Shove a character who has grappled you, it ends the @UUID[Compendium.cosmere-rpg.actions.Item.EVPgpHL6Y4jrumwI]{Grapple} effect.</p>"
+        },
+        "activation": {
+            "type": "skill_test",
+            "cost": {
+                "value": 2,
+                "type": "act"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "skill": "ath",
+            "modifierFormula": ""
+        },
+        "damage": {
+            "formula": null,
+            "type": null,
+            "skill": null,
+            "attribute": null,
+            "grazeOverrideFormula": ""
+        }
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!ttTSR1u5C8D6vbGf"
+}

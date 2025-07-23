@@ -1,0 +1,72 @@
+{
+    "folder": "btpKhtBwuaK6NeFy",
+    "name": "Fatal Thrust",
+    "type": "talent",
+    "_id": "4JLLsyYfrUi57vDb",
+    "img": "icons/skills/melee/strike-dagger-white-orange.webp",
+    "system": {
+        "id": "fatal-thrust",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">2</span></p><p><em>You aim for your foe’s vitals with callous finesse, hoping to bring the fight to an end before it begins.</em></p><p>Using a light weapon, make a melee attack against the Cognitive defense of a target who is <strong>Surprised</strong>, doesn’t sense you, or doesn’t view you as a threat (such as if you’re disguised). If this weapon has the <strong>Discreet</strong> trait, you gain two advantages on the test.</p><p>When you roll damage for this attack, add an extra [[/r 4d4]] damage, then count the number of your damage dice that rolled their maximum value (including your weapon’s usual damage plus the extra damage). For each die that rolled its maximum, your target must subtract 2 from any injury roll they make for that attack. For example, if you roll 1d6 plus 4d4, and two dice roll their maximum value—a 6 on your weapon’s d6 and a 4 on an extra d4—your target subtracts 4 from their injury roll.</p><hr><p>This talent becomes more powerful as your tier increases: at tier 3, you roll an extra [[/r 6d4]] damage (instead of 4d4); at tier 4, you instead roll an extra [[/r 8d4]] damage; and at tier 5, you instead roll an extra [[/r 10d4]] damage.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">2</span></p><p>Attack an unsuspecting target with a light melee weapon vs. Cognitive. Add [[/r 4d4]] damage, and gain two advantages if the weapon is <strong>Discreet</strong>. Max damage rolls add a penalty to the injury roll.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">2</span></p><p>Using a light weapon, make a melee attack against the Cognitive defense of a target who is <strong>Surprised</strong>, doesn’t sense you, or doesn’t view you as a threat (such as if you’re disguised). If this weapon has the <strong>Discreet</strong> trait, you gain two advantages on the test.</p><p>When you roll damage for this attack, add an extra [[/r 4d4]] damage, then count the number of your damage dice that rolled their maximum value (including your weapon’s usual damage plus the extra damage). For each die that rolled its maximum, your target must subtract 2 from any injury roll they make for that attack. For example, if you roll 1d6 plus 4d4, and two dice roll their maximum value—a 6 on your weapon’s d6 and a 4 on an extra d4—your target subtracts 4 from their injury roll.</p><hr><p>This talent becomes more powerful as your tier increases: at tier 3, you roll an extra [[/r 6d4]] damage (instead of 4d4); at tier 4, you instead roll an extra [[/r 8d4]] damage; and at tier 5, you instead roll an extra [[/r 10d4]] damage.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": 2,
+                "type": "act"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "path": "hunter",
+        "hasPath": false,
+        "specialty": "assassin",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "GAWVArdQFMQ5xgux": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "skill": "prc",
+                "rank": 3,
+                "talents": []
+            },
+            "HToScRwZ278DsrND": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "startling-blow",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.orjdjBzRBbUUc7rQ",
+                        "label": "Startling Blow"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "damage": {
+            "formula": "4d4",
+            "type": null
+        },
+        "modality": null
+    },
+    "effects": [],
+    "sort": 200000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!4JLLsyYfrUi57vDb"
+}

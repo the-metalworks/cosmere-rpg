@@ -1,0 +1,63 @@
+{
+    "folder": "wi17Vt4KdRKtCdX7",
+    "name": "Keen Insight",
+    "type": "talent",
+    "_id": "HRDu7Jf6fKkXLw2Z",
+    "img": "icons/magic/perception/eye-ringed-glow-angry-teal.webp",
+    "system": {
+        "id": "keen-insight",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p><em>Everyone has weaknesses—and you have a knack for uncovering and exploiting them.</em></p><p>After you succeed on a test to @UUID[Compendium.cosmere-rpg.actions.Item.8yQ5MMIrywehKyTS]{Gain Advantage}, you exploit one of your target’s crucial traits, strengths, or flaws. Unless the target resists your influence, they gain a disadvantage on their next test during this encounter.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>After you @UUID[Compendium.cosmere-rpg.actions.Item.8yQ5MMIrywehKyTS]{Gain Advantage}, the target must resist your influence or gain a disadvantage on their next test.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>After you succeed on a test to @UUID[Compendium.cosmere-rpg.actions.Item.8yQ5MMIrywehKyTS]{Gain Advantage}, you exploit one of your target’s crucial traits, strengths, or flaws. Unless the target resists your influence, they gain a disadvantage on their next test during this encounter.</p>"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "path": "scholar",
+        "hasPath": false,
+        "specialty": "strategist",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "01bkzbdfAW9rCFaQ": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "deep-contemplation",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.XLXWGfcXAnhtH4xP",
+                        "label": "Deep Contemplation"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "modality": null
+    },
+    "effects": [],
+    "sort": 400000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!HRDu7Jf6fKkXLw2Z"
+}

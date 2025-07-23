@@ -1,0 +1,107 @@
+{
+    "folder": "wi17Vt4KdRKtCdX7",
+    "name": "Composed",
+    "type": "talent",
+    "_id": "50IB7jGFSfDCUvtL",
+    "img": "icons/magic/control/silhouette-aura-energy.webp",
+    "system": {
+        "id": "composed",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p><em>Through practiced composure, you push your limits without becoming distracted or losing track of threats.</em></p><p>When you acquire this talent, your maximum and current focus increase by a number equal to your tier. When your tier increases by 1, your maximum and current focus do as well.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>Increase your max and current focus by your tier.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>When you acquire this talent, your maximum and current focus increase by a number equal to your tier. When your tier increases by 1, your maximum and current focus do as well.</p>"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "path": "scholar",
+        "hasPath": false,
+        "specialty": "strategist",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "J4TFHrkJ5kWi4L73": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "predict",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.dRY889BGydkl0TcT",
+                        "label": "Predict"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "modality": null
+    },
+    "effects": [
+        {
+            "name": "Composed",
+            "img": "icons/magic/control/silhouette-aura-energy.webp",
+            "disabled": false,
+            "duration": {
+                "startTime": null,
+                "seconds": null,
+                "combat": null,
+                "rounds": null,
+                "turns": null,
+                "startRound": null,
+                "startTurn": null
+            },
+            "_id": "6la4jsX0WtODGLPK",
+            "type": "base",
+            "system": {},
+            "changes": [
+                {
+                    "key": "system.resources.foc.max.bonus",
+                    "mode": 2,
+                    "value": "@tier",
+                    "priority": null
+                }
+            ],
+            "description": "",
+            "origin": null,
+            "tint": "#ffffff",
+            "transfer": true,
+            "statuses": [],
+            "sort": 0,
+            "flags": {},
+            "_stats": {
+                "coreVersion": "12.343",
+                "systemId": null,
+                "systemVersion": null,
+                "createdTime": null,
+                "modifiedTime": 1740248137061,
+                "lastModifiedBy": "7Oytl88JDvVeIDlD",
+                "compendiumSource": null,
+                "duplicateSource": null
+            },
+            "_key": "!items.effects!50IB7jGFSfDCUvtL.6la4jsX0WtODGLPK"
+        }
+    ],
+    "sort": 100000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!50IB7jGFSfDCUvtL"
+}

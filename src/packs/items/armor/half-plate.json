@@ -1,0 +1,49 @@
+{
+    "_id": "GlrRu1goky9ifKCl",
+    "folder": "TIgbgwcilBiHWeD3",
+    "name": "Half Plate",
+    "type": "armor",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/items/foundry_items/ICON_half_plate.webp",
+    "system": {
+        "id": "half-plate",
+        "deflect": 3,
+        "description": {
+            "value": "<p><strong>Deflect Value</strong> 3; <strong>Traits</strong> Cumbersome [4]; <strong>Expert Traits</strong> Cumbersome [3] instead of [4];</p><p><strong>Price</strong> 400 mk; <strong>Weight</strong> 40 lb.;</p>",
+            "chat": ""
+        },
+        "traits": {
+            "cumbersome": {
+                "defaultActive": true,
+                "defaultValue": 4,
+                "expertise": {
+                    "value": 3
+                }
+            }
+        },
+        "equipped": false,
+        "alwaysEquipped": false,
+        "expertise": false,
+        "weight": {
+            "value": 40,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 400,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark"
+            }
+        },
+        "equip": {
+            "type": "wear"
+        },
+        "quantity": 1
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!GlrRu1goky9ifKCl"
+}

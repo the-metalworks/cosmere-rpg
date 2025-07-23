@@ -1,0 +1,940 @@
+{
+    "folder": "eBt3zrdpmUQLnbOw",
+    "name": "Spear Infantry",
+    "type": "adversary",
+    "img": "systems/cosmere-rpg/assets/tokens/Soldier/alt_tokens_no_ring/spear%20infantry.webp",
+    "system": {
+        "size": "medium",
+        "type": {
+            "id": "humanoid"
+        },
+        "tier": 1,
+        "senses": {
+            "range": {
+                "derived": 5,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            },
+            "obscuredAffected": true
+        },
+        "immunities": {
+            "damage": {
+                "energy": false,
+                "impact": false,
+                "keen": false,
+                "spirit": false,
+                "vital": false,
+                "heal": false
+            },
+            "condition": {
+                "determined": false,
+                "disoriented": false,
+                "empowered": false,
+                "exhausted": false,
+                "focused": false,
+                "immobilized": false,
+                "prone": false,
+                "restrained": false,
+                "slowed": false,
+                "stunned": false,
+                "surprised": false,
+                "afflicted": false,
+                "blind": false,
+                "burrowing": false,
+                "enhanced": false,
+                "flying": false,
+                "hidden": false,
+                "invisible": false,
+                "unconscious": false,
+                "dead": false
+            }
+        },
+        "attributes": {
+            "str": {
+                "value": 2,
+                "bonus": 0
+            },
+            "spd": {
+                "value": 2,
+                "bonus": 0
+            },
+            "int": {
+                "value": 1,
+                "bonus": 0
+            },
+            "wil": {
+                "value": 1,
+                "bonus": 0
+            },
+            "awa": {
+                "value": 2,
+                "bonus": 0
+            },
+            "pre": {
+                "value": 1,
+                "bonus": 0
+            }
+        },
+        "defenses": {
+            "phy": {
+                "derived": 0,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            },
+            "cog": {
+                "derived": 0,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            },
+            "spi": {
+                "derived": 0,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            }
+        },
+        "resources": {
+            "hea": {
+                "value": 14,
+                "max": {
+                    "derived": 0,
+                    "override": 14,
+                    "useOverride": true,
+                    "bonus": 0
+                },
+                "bonus": 0
+            },
+            "foc": {
+                "value": 3,
+                "max": {
+                    "derived": 0,
+                    "override": 3,
+                    "useOverride": true,
+                    "bonus": 0
+                },
+                "bonus": 0
+            },
+            "inv": {
+                "value": 0,
+                "max": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "bonus": 0
+            }
+        },
+        "skills": {
+            "agi": {
+                "attribute": "spd",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "ath": {
+                "attribute": "str",
+                "rank": 2,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "hwp": {
+                "attribute": "str",
+                "rank": 2,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "lwp": {
+                "attribute": "spd",
+                "rank": 1,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "stl": {
+                "attribute": "spd",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "thv": {
+                "attribute": "spd",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "cra": {
+                "attribute": "int",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "ded": {
+                "attribute": "int",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "dis": {
+                "attribute": "wil",
+                "rank": 1,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "inm": {
+                "attribute": "wil",
+                "rank": 2,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "lor": {
+                "attribute": "int",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "med": {
+                "attribute": "int",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "dec": {
+                "attribute": "pre",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "ins": {
+                "attribute": "awa",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "lea": {
+                "attribute": "pre",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "prc": {
+                "attribute": "awa",
+                "rank": 2,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "prs": {
+                "attribute": "pre",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "sur": {
+                "attribute": "awa",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "adh": {
+                "attribute": "pre",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            },
+            "grv": {
+                "attribute": "awa",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            },
+            "ill": {
+                "attribute": "pre",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            },
+            "trs": {
+                "attribute": "wil",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            },
+            "trp": {
+                "attribute": "int",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            },
+            "chs": {
+                "attribute": "wil",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            },
+            "dvs": {
+                "attribute": "int",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            },
+            "abr": {
+                "attribute": "spd",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            },
+            "tsn": {
+                "attribute": "str",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            },
+            "prg": {
+                "attribute": "awa",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            }
+        },
+        "currency": {
+            "spheres": {
+                "denominations": [],
+                "total": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "dun": {
+                "denominations": [],
+                "total": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            }
+        },
+        "deflect": {
+            "natural": 0,
+            "source": "armor",
+            "derived": 0,
+            "override": 2,
+            "useOverride": true,
+            "bonus": 0,
+            "types": {
+                "energy": true,
+                "impact": true,
+                "keen": true,
+                "spirit": false,
+                "vital": false,
+                "heal": false
+            }
+        },
+        "movement": {
+            "walk": {
+                "rate": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "swim": {
+                "rate": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "fly": {
+                "rate": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            }
+        },
+        "injuries": {
+            "derived": 0,
+            "override": null,
+            "useOverride": false,
+            "bonus": 0
+        },
+        "injuryRollBonus": 0,
+        "encumbrance": {
+            "lift": {
+                "derived": 0,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            },
+            "carry": {
+                "derived": 0,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            }
+        },
+        "expertises": {},
+        "languages": [],
+        "biography": "",
+        "appearance": "",
+        "notes": "",
+        "role": "minion"
+    },
+    "prototypeToken": {
+        "name": "Spear Infantry",
+        "displayName": 20,
+        "actorLink": false,
+        "appendNumber": true,
+        "prependAdjective": false,
+        "width": 1,
+        "height": 1,
+        "texture": {
+            "src": "systems/cosmere-rpg/assets/tokens/Soldier/spear%20infantry.webp",
+            "anchorX": 0.5,
+            "anchorY": 0.5,
+            "offsetX": 0,
+            "offsetY": 0,
+            "fit": "contain",
+            "scaleX": 1,
+            "scaleY": 1,
+            "rotation": 0,
+            "tint": "#ffffff",
+            "alphaThreshold": 0.75
+        },
+        "hexagonalShape": 0,
+        "lockRotation": false,
+        "rotation": 0,
+        "alpha": 1,
+        "disposition": -1,
+        "displayBars": 20,
+        "bar1": {
+            "attribute": "resources.hea"
+        },
+        "bar2": {
+            "attribute": null
+        },
+        "light": {
+            "negative": false,
+            "priority": 0,
+            "alpha": 0.5,
+            "angle": 360,
+            "bright": 0,
+            "color": null,
+            "coloration": 1,
+            "dim": 0,
+            "attenuation": 0.5,
+            "luminosity": 0.5,
+            "saturation": 0,
+            "contrast": 0,
+            "shadows": 0,
+            "animation": {
+                "type": null,
+                "speed": 5,
+                "intensity": 5,
+                "reverse": false
+            },
+            "darkness": {
+                "min": 0,
+                "max": 1
+            }
+        },
+        "sight": {
+            "enabled": false,
+            "range": 0,
+            "angle": 360,
+            "visionMode": "basic",
+            "color": null,
+            "attenuation": 0.1,
+            "brightness": 0,
+            "saturation": 0,
+            "contrast": 0
+        },
+        "detectionModes": [],
+        "occludable": {
+            "radius": 0
+        },
+        "ring": {
+            "enabled": false,
+            "colors": {
+                "ring": null,
+                "background": null
+            },
+            "effects": 0,
+            "subject": {
+                "scale": 0.8,
+                "texture": "systems/cosmere-rpg/assets/tokens/Soldier/alt_tokens_no_ring/spear%20infantry.webp"
+            }
+        },
+        "flags": {},
+        "randomImg": false
+    },
+    "items": [
+        {
+            "folder": "ArWzMhylKyn906Wu",
+            "name": "Minion",
+            "type": "trait",
+            "_id": "S15eIuJIzZMXe4Nc",
+            "img": "icons/magic/control/silhouette-hold-change-blue.webp",
+            "system": {
+                "description": {
+                    "value": "<p>The [[lookup @actor.name]]{Actor Name}'s attacks can't critically hit, and they're immediately defeated when they suffer an injury.</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "activation": {
+                    "type": "none",
+                    "cost": {
+                        "value": null
+                    },
+                    "consume": [],
+                    "flavor": "",
+                    "plotDie": false,
+                    "opportunity": null,
+                    "complication": null,
+                    "uses": null,
+                    "attribute": "default"
+                },
+                "events": {}
+            },
+            "effects": [],
+            "sort": 1600000,
+            "ownership": {
+                "default": 0,
+                "lAOZjapMYLNoIcY8": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": null,
+                "lastModifiedBy": null
+            },
+            "_key": "!actors.items!DRgwSM7BHFi9ajHu.S15eIuJIzZMXe4Nc"
+        },
+        {
+            "type": "trait",
+            "name": "Martial Drill",
+            "system": {
+                "activation": {
+                    "type": "none",
+                    "cost": {
+                        "type": null,
+                        "value": 1
+                    },
+                    "consume": [],
+                    "flavor": "",
+                    "plotDie": false,
+                    "opportunity": null,
+                    "complication": null,
+                    "uses": null,
+                    "attribute": "default"
+                },
+                "description": {
+                    "value": "<p>At the start of each scene, if the [[lookup @actor.name]]{Actor Name} has their shield and isn't Surprised, they gain the benefits of the Brace action until the start of their first turn.</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "events": {}
+            },
+            "_id": "ONINfVPmX5XFH5bg",
+            "img": "icons/skills/melee/shield-block-gray-orange.webp",
+            "effects": [],
+            "folder": null,
+            "sort": 0,
+            "ownership": {
+                "default": 0,
+                "lAOZjapMYLNoIcY8": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": null,
+                "lastModifiedBy": null
+            },
+            "_key": "!actors.items!DRgwSM7BHFi9ajHu.ONINfVPmX5XFH5bg"
+        },
+        {
+            "type": "trait",
+            "name": "Military Tactics",
+            "system": {
+                "activation": {
+                    "type": "utility",
+                    "cost": {
+                        "type": "spe",
+                        "value": 1
+                    },
+                    "consume": [
+                        {
+                            "type": "resource",
+                            "value": {
+                                "min": 1,
+                                "max": 1,
+                                "actual": 0
+                            },
+                            "resource": "foc"
+                        }
+                    ],
+                    "flavor": "",
+                    "plotDie": false,
+                    "opportunity": null,
+                    "complication": null,
+                    "uses": null,
+                    "attribute": "default"
+                },
+                "description": {
+                    "value": "<p>Once per round, the [[lookup @actor.name]]{Actor Name} can spend 1 additional focus to use the Aid or Reactive Strike reaction without using their <span class=\"cosmere-icon\" data-tooltip=\"Reaction\" aria-label=\"Reaction\">r</span>.</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "events": {}
+            },
+            "_id": "pSvXFDtx0UPhCg8h",
+            "img": "icons/environment/people/infantry.webp",
+            "effects": [],
+            "folder": null,
+            "sort": 0,
+            "ownership": {
+                "default": 0,
+                "lAOZjapMYLNoIcY8": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": null,
+                "lastModifiedBy": null
+            },
+            "_key": "!actors.items!DRgwSM7BHFi9ajHu.pSvXFDtx0UPhCg8h"
+        },
+        {
+            "folder": "oXRYPHbHWYh4ndRB",
+            "name": "Strike: Shortspear",
+            "type": "action",
+            "_id": "IDp3fJwrCWvmkSxf",
+            "img": "icons/weapons/polearms/spear-flared-gray.webp",
+            "system": {
+                "id": "strike-shortspear",
+                "type": "basic",
+                "description": {
+                    "value": "<p><strong>Attack</strong> +3; <strong>Reach</strong> 5 ft.; <strong>Targets</strong> one;</p><p><strong>Graze</strong> [[damage 1d8 Keen average]];</p><p><strong>Hit</strong> [[damage 1d8 + 3 Keen average]], and if the target is Prone, they take an extra [[damage 1d8 Keen average]].</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "activation": {
+                    "type": "skill_test",
+                    "cost": {
+                        "value": 1,
+                        "type": "act"
+                    },
+                    "consume": [],
+                    "flavor": "",
+                    "plotDie": false,
+                    "opportunity": null,
+                    "complication": null,
+                    "uses": null,
+                    "skill": "lwp",
+                    "modifierFormula": "",
+                    "attribute": "spd"
+                },
+                "damage": {
+                    "formula": "1d8",
+                    "type": "keen"
+                },
+                "modality": null,
+                "ancestry": null,
+                "events": {}
+            },
+            "effects": [],
+            "sort": 600000,
+            "ownership": {
+                "default": 0,
+                "lAOZjapMYLNoIcY8": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": null,
+                "lastModifiedBy": null
+            },
+            "_key": "!actors.items!DRgwSM7BHFi9ajHu.IDp3fJwrCWvmkSxf"
+        },
+        {
+            "folder": "oXRYPHbHWYh4ndRB",
+            "name": "Strike: Shortbow",
+            "type": "action",
+            "_id": "clBpPLReTpONnlQL",
+            "img": "icons/weapons/bows/shortbow-recurve-red.webp",
+            "system": {
+                "id": "strike-shortbow",
+                "type": "basic",
+                "description": {
+                    "value": "<p><strong>Attack</strong> +3; <strong>Range</strong> 80/320 ft; <strong>Targets</strong> one;</p><p><strong>Graze</strong> [[damage 1d6 Keen average]];</p><p><strong>Hit</strong> [[damage 1d6 + 3 Keen average]]</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "activation": {
+                    "type": "skill_test",
+                    "cost": {
+                        "value": 1,
+                        "type": "act"
+                    },
+                    "consume": [],
+                    "flavor": "",
+                    "plotDie": false,
+                    "opportunity": null,
+                    "complication": null,
+                    "uses": null,
+                    "skill": "lwp",
+                    "modifierFormula": "",
+                    "attribute": "spd"
+                },
+                "damage": {
+                    "formula": "1d6",
+                    "type": "keen"
+                },
+                "modality": null,
+                "ancestry": null,
+                "events": {}
+            },
+            "effects": [],
+            "sort": 900000,
+            "ownership": {
+                "default": 0,
+                "lAOZjapMYLNoIcY8": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": null,
+                "lastModifiedBy": null
+            },
+            "_key": "!actors.items!DRgwSM7BHFi9ajHu.clBpPLReTpONnlQL"
+        },
+        {
+            "type": "action",
+            "name": "Shield Bash",
+            "system": {
+                "activation": {
+                    "type": "skill_test",
+                    "cost": {
+                        "type": "act",
+                        "value": 1
+                    },
+                    "consume": [],
+                    "flavor": "",
+                    "plotDie": false,
+                    "opportunity": null,
+                    "complication": null,
+                    "uses": null,
+                    "skill": "ath",
+                    "modifierFormula": "",
+                    "attribute": "str"
+                },
+                "id": "shield-bash",
+                "type": "basic",
+                "description": {
+                    "value": "<p>The [[lookup @actor.name]]{Actor Name} makes an Athletics test against the target's Physical defense, knocking them Prone on a success.</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "damage": {
+                    "formula": null,
+                    "type": null
+                },
+                "modality": null,
+                "ancestry": null,
+                "events": {}
+            },
+            "_id": "692gCQY6IGK6g8OI",
+            "img": "icons/skills/melee/shield-block-bash-blue.webp",
+            "effects": [],
+            "folder": null,
+            "sort": 0,
+            "ownership": {
+                "default": 0,
+                "lAOZjapMYLNoIcY8": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": null,
+                "lastModifiedBy": null
+            },
+            "_key": "!actors.items!DRgwSM7BHFi9ajHu.692gCQY6IGK6g8OI"
+        }
+    ],
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {
+        "cosmere-rpg": {
+            "sheet": {
+                "skillsCollapsed": false,
+                "mode": "view",
+                "hideUnranked": true
+            }
+        }
+    },
+    "_id": "DRgwSM7BHFi9ajHu",
+    "sort": 100000,
+    "_key": "!actors!DRgwSM7BHFi9ajHu"
+}

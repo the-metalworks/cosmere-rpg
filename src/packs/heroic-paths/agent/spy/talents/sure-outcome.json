@@ -1,0 +1,82 @@
+{
+    "folder": "wTsGOInIGEUZQvz8",
+    "name": "Sure Outcome",
+    "type": "talent",
+    "system": {
+        "id": "sure-outcome",
+        "type": "path",
+        "path": "agent",
+        "specialty": "spy",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p><em>The best gamble is one that secretly isn’t a gamble at all. Your insight sometimes reveals that seemingly random events are actually part of someone’s plan.</em></p><p>When you use your Opportunist, instead of rerolling the plot die, you can spend 2 focus to flip it to a specific result. If the die was showing <span class=\"cosmere-icon\" style=\"color: #98a4f5;\" data-tooltip=\"Opportunity\" aria-label=\"Opportunity\">O</span>, flip it to <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\" style=\"color:rgb(173,19,19)\">c</span><span style=\"color:rgb(173,19,19)\">4</span>. If it was showing any <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\" style=\"color:rgb(173,19,19)\">c</span>, flip it to <span class=\"cosmere-icon\" style=\"color: #98a4f5;\" data-tooltip=\"Opportunity\" aria-label=\"Opportunity\">O</span>.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p>When you use Opportunist, spend 2 focus to change <span class=\"cosmere-icon\" style=\"color: #98a4f5;\" data-tooltip=\"Opportunity\" aria-label=\"Opportunity\">O</span> to <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\" style=\"color:rgb(173,19,19)\">c</span><span style=\"color:rgb(173,19,19)\">4</span>, or change any <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\" style=\"color:rgb(173,19,19)\">c</span> to <span class=\"cosmere-icon\" style=\"color: #98a4f5;\" data-tooltip=\"Opportunity\" aria-label=\"Opportunity\">O</span>.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p>When you use your Opportunist, instead of rerolling the plot die, you can spend 2 focus to flip it to a specific result. If the die was showing <span class=\"cosmere-icon\" style=\"color: #98a4f5;\" data-tooltip=\"Opportunity\" aria-label=\"Opportunity\">O</span>, flip it to <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\" style=\"color:rgb(173,19,19)\">c</span><span style=\"color:rgb(173,19,19)\">4</span>. If it was showing any <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\" style=\"color:rgb(173,19,19)\">c</span>, flip it to <span class=\"cosmere-icon\" style=\"color: #98a4f5;\" data-tooltip=\"Opportunity\" aria-label=\"Opportunity\">O</span>.</p>"
+        },
+        "prerequisites": {
+            "TWfzUoXg0dVGgkLK": {
+                "type": "skill",
+                "skill": "ins",
+                "rank": 2,
+                "value": 0,
+                "talents": [],
+                "mode": "any-of"
+            },
+            "ugm7mBMWgqe0QMsV": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "opportunist",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.ScqSKbkewDAfSizP",
+                        "label": "Opportunist"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "type": "spe",
+                "value": null
+            },
+            "consume": [
+                {
+                    "type": "resource",
+                    "value": {
+                        "min": 2,
+                        "max": 2,
+                        "actual": 0
+                    },
+                    "resource": "foc"
+                }
+            ],
+            "flavor": "",
+            "uses": null,
+            "plotDie": false,
+            "opportunity": null,
+            "complication": null
+        },
+        "hasPath": false,
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisitesMet": false,
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "modality": null
+    },
+    "effects": [],
+    "flags": {},
+    "img": "icons/magic/control/mouth-smile-deception-purple.webp",
+    "_id": "Vv9KSpLqxaUd8u6K",
+    "sort": 800000,
+    "ownership": {
+        "default": 0
+    },
+    "_key": "!items!Vv9KSpLqxaUd8u6K"
+}

@@ -1,0 +1,36 @@
+{
+    "folder": "RBFoWUCw2wosgSJA",
+    "name": "Sapphire Mark",
+    "type": "loot",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/items/spheres/sphere_sapphire_mark.webp",
+    "system": {
+        "isMoney": true,
+        "description": {
+            "value": "",
+            "chat": "",
+            "short": ""
+        },
+        "weight": {
+            "value": 0,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 25,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            }
+        },
+        "quantity": 1,
+        "events": {}
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "NRMcotMZIeIvsh4o",
+    "sort": 1000000,
+    "_key": "!items!NRMcotMZIeIvsh4o"
+}
