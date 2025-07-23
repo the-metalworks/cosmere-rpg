@@ -2,17 +2,17 @@
 
 ⛈️ **Strap into your stormshelters folks, release day is finally here!** ⛈️
 
-Allow me to welcome you to the first major release version of the Cosmere RPG System - Official FoundryVTT implementation. We here at the Metalworks have been working so hard to make this available to all and to do so at a standard suited to telling stories in the marvelous Cosmere!
-We also wish to take a brief moment to thank the staff at Brotherwise for giving us this opportunity and their enthusiastic support throughout.
+Welcome to the first major release version of the Official Cosmere Roleplaying Game System for Foundry Virtual Tabletop! We here at the Metalworks have been working so hard to make this available to all and to do so at a standard suited to telling stories in the marvelous Cosmere!
+We also wish to take a brief moment to thank the awesome staff at Brotherwise Games for giving us this opportunity and their enthusiastic support throughout.
 
 #### 👋🏻 An Introduction
 
-While we have been generously permitted to share this system publicly during its early development (and it will continue to be Open Source!), this release marks the point at which we believe it now provides the quality of experience that the work of Brandon, Dragonsteel and Brotherwise deserves at the table. We have laboured to make sure we aligned this with the wider Digital Release for the Kickstarter materials and the opening of general sales, so we expect a number of fresh faces will be reading this!
-For those budding Worldhoppers, this release note will be a little broader than usual and our usual highlights will cover a broad base of what the system offers. For those veterans who've been installing the system manually and are leveling up to higher Ideals, I hope you find something new in here, but there is also the full **changelog** below too!
+While we have been generously permitted to share this system publicly during its early development (and it will continue to be Open Source!), this release marks the point at which we believe it now provides the quality of experience that the work of Brandon, Dragonsteel and Brotherwise deserves at the table. We have worked hard to make sure we aligned this release with the Digital Pre-Launch and the opening of general sales, so we expect a number of fresh faces will be reading this!
+For those budding Worldhoppers: These release note will be a little longer than our usual highlights and will cover a broad base of what the system offers. For those veterans who've been installing the system manually and are leveling up to higher Ideals: I hope you find something new in here, but there is also the full **changelog** below too!
 
 #### 👥 Character & Adversary Sheets
 
-To those of you new to Foundry, if you look up to the top-right corner of the screen you will see the side panel with a number of tabs (Chat should be open by default). It's in this sidebar that most of the system goodies can be found. In the **Actors tab (![Image of the Actors Icon](https://github.com/user-attachments/assets/7a012fee-8ae7-45a7-9412-f727b9aa93e9))** you can manage all the characters you will need for your game and we have provided unique sheets designed specifically for the Cosmere RPG.
+To those of you new to Foundry, if you look up to the top-right corner of the screen you will see the side panel with a number of tabs (Chat should be open by default). It's in this sidebar that most of the system goodies can be found. In the **Actors tab (![Image of the Actors Icon](https://github.com/user-attachments/assets/7a012fee-8ae7-45a7-9412-f727b9aa93e9))** you can manage all the characters and adversaries you will need for your game and we have provided unique sheets designed specifically for the Cosmere RPG.
 
 ![Image of a Player Character Sheet](https://github.com/user-attachments/assets/52588f10-4219-4a57-a86e-1858f1b04189)
 
@@ -47,7 +47,7 @@ As you can see, you can:
 (Sorry for the terrible pun!)
 One of the key benefits of any VTT is taking away the pesky math involved in rolling your dice, and we have put lots of effort into making sure that rolling a Test in the Cosmere System is as smooth as we can make it.
 
-Whenever you activate an item or click a skill from your sheet, you will be given a chance to Raise the Stakes, apply conditional bonuses and advantage/disadvantage.
+Whenever you activate an item or click a skill from your sheet, you will be given a chance to Raise the Stakes, apply conditional bonuses and add advantage/disadvantage to the dice.
 
 ![Image of the Roll Configuration Dialog](https://github.com/user-attachments/assets/465d925e-9fb6-4a1c-8ea6-0c0856eab7e3)
 
@@ -61,7 +61,7 @@ You will also get the chance to pick your plot die result when rolling it with a
 
 ![Image of the pick dialog](https://github.com/user-attachments/assets/69491f23-4e14-42d6-a703-c9c1e83743ef)
 
-When a roll has damage dice involved you will see there are a set of buttons beneath that will apply the rolled amount to any selected or targeted tokens (and the blue eye will deduct a Focus for those going for a Graze), these will also take into account any relevant Deflect or Immunities the victim might have. You can toggle between full and graze damage by clicking its section of the damage roll.
+When a roll has damage dice involved you will see there are a set of buttons beneath that will apply the rolled amount to any selected or targeted tokens (and the blue eye will deduct a Focus for those going for a Graze), these will also take into account any relevant Deflect or Immunities the victim might have. You can toggle between Full and Graze damage by clicking its section of the damage roll.
 
 <img src="https://github.com/user-attachments/assets/3533a935-416c-4871-9c30-fc3094c5785a" alt="Image of a Damage application Chat Message" width="300px" />
 
@@ -83,7 +83,7 @@ And I'd say we do so with *style*, Gancho!
 
 #### 📦 Items Of All Sorts!
 
-The next tab that's going to be a favourite for all you GMs: **Items (![Image of the Items tab Icon](https://github.com/user-attachments/assets/5589bc26-2b78-4f2d-b09f-c7ffcf1f8571))**. 
+The tab is going to be a favourite for all you GMs: **Items (![Image of the Items tab Icon](https://github.com/user-attachments/assets/5589bc26-2b78-4f2d-b09f-c7ffcf1f8571))**. 
 
 In Foundry, Items are anything that you add to your character sheet, be that physical items like weapons, armor, and equipment, or rules entries like ancestries, cultures, paths, and so on.  
 We have provided item types for all the key mechanics in the game (Talents, Paths, Ancestries, Cultures, etc.), so if you want to make your own *Anything* then this is the place to do it!
@@ -107,19 +107,19 @@ Editing and Building items is some of the most involved features of the system, 
 - Define the types of damage that armor can deflect
 - Create re-usable Features for Adversaries that you can drag onto NPCs whenever you need
 
-#### 🏃🏻‍➡️ Starter Kit Included
+#### 🏃🏻‍➡️ Starter Rules Included
 
 Along with the base system functionality, we are delighted to be including the contents of Brotherwise's free Starter Rules!
 
-This means that you have access to a small number of Journals, Items and NPC Actors that can help both to provide a basis for a short adventure within common Stormlight scenarios and as blueprints for the way *we* build out the game content and use the system. Definitely open them up and learn what can be done!
+This means that you have access to a small number of Journals, Items and Adversaries that allow you to build simple characters, provide a basis for a short adventure within common Stormlight scenarios, and serve as blueprints for the way *we* build out the game content and use the system. Definitely open them up and learn what can be done!
 
-The Starter Content can be found in the **Compendiums tab (![Image of the Compendium Icon](https://github.com/user-attachments/assets/2d4c2b71-66cc-451a-aa18-e2635ab50d7e))**, where you can open up the journals to find the Rules or import the various Character Features, Gear and Adversaries to use in your campaigns! This tab is where you will find uneditable copies of any external module content you enable in your server - including the Official Premium Modules, so check here first. These are intended for reference and taking verbatim copies, if you need to edit anything you see here, you'll need to import a copy into your world.
+The Starter Rules can be found in the **Compendiums tab (![Image of the Compendium Icon](https://github.com/user-attachments/assets/2d4c2b71-66cc-451a-aa18-e2635ab50d7e))**, where you can open up the journals to find the Rules or import the various Character Features, Gear and Adversaries to use in your campaigns! This tab is where you will find uneditable copies of any external module content you enable in your server - including the Official Premium Modules, so check here first. These are intended for reference and taking verbatim copies, if you need to edit anything you see here, simply drag it into your world!
 
 #### 💲 Premium Modules Available
 
-Today's release also means that all the Premium Modules we have made to lovingly convert each of the published books to the FoundryVTT ecosystem are now available on the Foundry store! For a better idea of whats on offer for each one, check out their Store pages, or look at some of our earlier teaser posts in the Reddit!
+Today's release also means that all the Premium Modules we have made to lovingly convert each of the published books to the Foundry VTT ecosystem are now available on the Foundry store! For a better idea of whats on offer for each one, check out their Store pages, or look at some of our earlier teaser posts in the Reddit!
 
-Once purchased, a license for the content will be applied to your Foundry account and associated with any licenses for the base platform you own so that from then on whenever you use your FoundryVTT license code to unlock a Foundry server, the content will be available to download from the Add-On Modules browser in the set-up screen.
+Once purchased, a license for the content will be applied to your Foundry account and associated with any licenses for the base platform you own so that from then on whenever you use your Foundry VTT license code to unlock a Foundry server, the content will be available to download from the Add-On Modules browser in the set-up screen.
 
 As with the Starter Rules, when these modules are enabled on a world you will find them in the Compendiums tab. We've put the books themselves at the top level. These serve as your starting point and all their content can be dragged right off their pages and into your world. No need to go hunting through folders, if you see it in the book, you can use it in your game!
 
