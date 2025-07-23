@@ -12,7 +12,7 @@ For those budding Worldhoppers, this release note will be a little broader than 
 
 #### 👥 Character & Adversary Sheets
 
-To those of you new to Foundry, if you look up to the top-right corner of the screen you will see the side panel with a number of tabs (Chat should be open by default). It's in this sidebar that most of the system goodies can be found. In the **Actors tab (![Image of the Actors Icon]())** you can manage all the characters you will need for your game and we have provided unique sheets designed specifically for the Cosmere RPG.
+To those of you new to Foundry, if you look up to the top-right corner of the screen you will see the side panel with a number of tabs (Chat should be open by default). It's in this sidebar that most of the system goodies can be found. In the **Actors tab (![Image of the Actors Icon](https://github.com/user-attachments/assets/7a012fee-8ae7-45a7-9412-f727b9aa93e9))** you can manage all the characters you will need for your game and we have provided unique sheets designed specifically for the Cosmere RPG.
 
 ![Image of a Player Character Sheet]()
 
@@ -71,7 +71,7 @@ Be sure to hover your mouse over the chart cards and try click on various sectio
 
 #### ⏳ Initiative Tracking
 
-When you open the **Combat tab (![Image of the Combat Icon]())** you can not only create encounters, but:
+When you open the **Combat tab (![Image of the Combat Icon](https://github.com/user-attachments/assets/e79b54ce-ed50-4ab3-a10c-5abd10d0d3cd))** you can not only create encounters, but:
 - Track Fast and Slow Actors
 - Track who has activated
 - Have Boss-type Adversaries automatically have each of their slots
@@ -83,7 +83,7 @@ And I'd say we do so with *style*, Goncho!
 
 #### 📦 Items Of All Sorts!
 
-The next tab that's going to be a favourite for all you GMs: **Items (![Image of the Items tab Icon]())**.
+The next tab that's going to be a favourite for all you GMs: **Items (![Image of the Items tab Icon](https://github.com/user-attachments/assets/5589bc26-2b78-4f2d-b09f-c7ffcf1f857))**.
 
 Here you will create any non-living objects you might want your Characters to interact with. But that's not to say these are all physical items! We have provided specific item types for all the key mechanics in the game (Talents, Paths, Ancestries, Cultures, etc.), so if you want to make your own *Anything* then this is the place to do it!
 
@@ -111,7 +111,7 @@ Along with the base system functionality, we are delighted to be including the c
 
 This means that you have access to a small number of Journals, Items and NPC Actors that can help both to provide a basis for a short adventure within common Stormlight scenarios and as blueprints for the way *we* build out the game content and use the system. Definitely open them up and learn what can be done!
 
-The Starter Content can be found in the **Compendiums tab (![Image of the Compendium Icon]())**, where you can open up the journals to find the Rules or import the various Character Features, Gear and Adversaries to use in your campaigns! This tab is where you will find uneditable copies of any external module content you enable in your server - including the Official Premium Modules, so check here first. These are intended for reference and taking verbatim copies, if you need to edit anything you see here, you'll need to import a copy into your world.
+The Starter Content can be found in the **Compendiums tab (![Image of the Compendium Icon](https://github.com/user-attachments/assets/2d4c2b71-66cc-451a-aa18-e2635ab50d7e))**, where you can open up the journals to find the Rules or import the various Character Features, Gear and Adversaries to use in your campaigns! This tab is where you will find uneditable copies of any external module content you enable in your server - including the Official Premium Modules, so check here first. These are intended for reference and taking verbatim copies, if you need to edit anything you see here, you'll need to import a copy into your world.
 
 #### 💲 Premium Modules Available
 
@@ -129,7 +129,7 @@ Right, this is getting quite long, so lets get through the rest in Rapid Fire!
 
 - **UI Themes:** We have a free base theme with both Dark and Light variants, but if that doesn't scratch your itch and you have the know-how to make your own, we allow 3rd party modules to register their own custom themes!
 - **Settings:** Do check out the settings menu for the world, we have tried not to overwhelm you with options, but from there you can define default behaviour for things like which keys act as your click modifiers, how setting skills ranks should be and more.
-- **Roll Tables:** Look into the **Roll Tables tab (![Image of the Rolltable Icon]())** to find a tool that lets you create random generator tables and roll on them; Here we provide one for applying an injury to a character.
+- **Roll Tables:** Look into the **Roll Tables tab (![Image of the Rolltable Icon](https://github.com/user-attachments/assets/0e3fb743-2e89-4e6e-8f19-63a69674597a))** to find a tool that lets you create random generator tables and roll on them; Here we provide one for applying an injury to a character.
 - **Enrichers:** Create rich, interactive elements right inline with your text boxes! We have added special tags that can be applied to any large text fields (excepting Journals currently) that can replace themselves with:
   - Values pulled from the Item in question or it's owning Actor
   - A button that triggers a skill roll for the owning Actor
