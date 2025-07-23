@@ -61,9 +61,9 @@ You will also get the chance to pick your plot die result when rolling it with a
 
 ![Image of the pick dialog](https://github.com/user-attachments/assets/69491f23-4e14-42d6-a703-c9c1e83743ef)
 
-When a roll has damage dice involved you will see there are a set of buttons beneath that will apply the rolled amount to any selected or targeted tokens (and the blue eye will deduct a Focus for those going for a Graze), these will also take into account any relevant Deflect or Immunities the victim might have.
+When a roll has damage dice involved you will see there are a set of buttons beneath that will apply the rolled amount to any selected or targeted tokens (and the blue eye will deduct a Focus for those going for a Graze), these will also take into account any relevant Deflect or Immunities the victim might have. You can toggle between full and graze damage by clicking its section of the damage roll.
 
-![Image of a Damage application Chat Message](https://github.com/user-attachments/assets/8fd0766c-b764-4518-8496-e22a4482af77)
+<img src="https://github.com/user-attachments/assets/3533a935-416c-4871-9c30-fc3094c5785a" alt="Image of a Damage application Chat Message" width="300px" />
 
 Be sure to hover your mouse over the chart cards and try click on various sections to see what they do! On top of standard interactions to show the roll breakdowns we have controls for applying advantage/disadvantage to existing d20s and to convert a damage roll to a crit 💥
 
@@ -73,7 +73,7 @@ Be sure to hover your mouse over the chart cards and try click on various sectio
 
 When you open the **Combat tab (![Image of the Combat Icon](https://github.com/user-attachments/assets/e79b54ce-ed50-4ab3-a10c-5abd10d0d3cd))** you can not only create encounters, but:
 - Track Fast and Slow Actors
-- Track who has activated
+- Track who has acted in a round
 - Have Boss-type Adversaries automatically have each of their slots
 - Switch any Actor between their respective Fast and Slow groups
 
@@ -83,9 +83,10 @@ And I'd say we do so with *style*, Gancho!
 
 #### 📦 Items Of All Sorts!
 
-The next tab that's going to be a favourite for all you GMs: **Items (![Image of the Items tab Icon](https://github.com/user-attachments/assets/5589bc26-2b78-4f2d-b09f-c7ffcf1f8571))**.
+The next tab that's going to be a favourite for all you GMs: **Items (![Image of the Items tab Icon](https://github.com/user-attachments/assets/5589bc26-2b78-4f2d-b09f-c7ffcf1f8571))**. 
 
-Here you will create any non-living objects you might want your Characters to interact with. But that's not to say these are all physical items! We have provided specific item types for all the key mechanics in the game (Talents, Paths, Ancestries, Cultures, etc.), so if you want to make your own *Anything* then this is the place to do it!
+In Foundry, Items are anything that you add to your character sheet, be that physical items like weapons, armor, and equipment, or rules entries like ancestries, cultures, paths, and so on.  
+We have provided item types for all the key mechanics in the game (Talents, Paths, Ancestries, Cultures, etc.), so if you want to make your own *Anything* then this is the place to do it!
 
 ![Image of an Item Details tab](https://github.com/user-attachments/assets/4066bfc9-7923-4367-aed7-87882790b91d) ![Another Image of an Item Details tab](https://github.com/user-attachments/assets/99197586-6ae8-4c5f-89f3-21f3438a2e13)
 
@@ -120,9 +121,11 @@ Today's release also means that all the Premium Modules we have made to lovingly
 
 Once purchased, a license for the content will be applied to your Foundry account and associated with any licenses for the base platform you own so that from then on whenever you use your FoundryVTT license code to unlock a Foundry server, the content will be available to download from the Add-On Modules browser in the set-up screen.
 
-As with the Starter Rules, when these modules are enabled on a world you will find them in the Compendiums tab. We place a single compendium for each module at the top level which holds all the Journals representing the digital equivalent of the printed book, then provide a separate folder with the Compendiums that contain any Items or Actors that we are providing for that module.
+As with the Starter Rules, when these modules are enabled on a world you will find them in the Compendiums tab. We've put the books themselves at the top level. These serve as your starting point and all their content can be dragged right off their pages and into your world. No need to go hunting through folders, if you see it in the book, you can use it in your game!
 
 These also include extra little sections specific to Foundry to help you use the content in the slickest way possible, so be sure to look out for them to see just how far we've gone 😉
+
+<img width="457" height="757" alt="Image of the Compendium Tab with the books" src="https://github.com/user-attachments/assets/bbc82847-2b79-4894-9664-a64da0367bb7" />
 
 #### 🎂 Everything Else
 
@@ -152,9 +155,25 @@ And here's a glimpse at something more...
 Here are the changes between this version and the previous public release (0.3.1). Note that we have done our best to ensure wherever any data model or other breaking changes have occurred that we have provided automatic data migrations to keep your worlds compatible. However, as is always the advice before opening a world from an older version of the system, take a backup and be aware some manual data work might be necessary. If you have an issue please reach out to us in the tech-support channel of our Discord.
 
 ##### Starter Rules
-- The CosmereRPG system is now bundled with a set of Starter Rules!
-- Added a Rules compendium with a Conditions journal ([#384](https://github.com/the-metalworks/cosmere-rpg/pull/384))
-- **TODO:** Expand on this
+The CosmereRPG system is now bundled with a set of Starter Rules! Which includes:
+- The Stormlight Starter Rules Journal, providing the basic rules you need to get started playing the Cosmere RPG in the world of Roshar
+- The six Heroic Paths with two specialties each
+    - Agent: Spy, Thief
+    - Envoy: Diplomat, Faithful
+    - Hunter: Archer, Assassin
+    - Leader: Champion, Officer
+    - Scholar: Strategist, Surgeon
+    - Warrior: Duelist, Soldier
+- The Human Ancestry
+- A selection of Rosharan Cultures
+    - Alethi
+    - Azish
+    - Herdazian
+    - Thaylen
+    - Veden
+    - Unkalaki
+- Animal Companions (who doesn't want a pet Skyeel?)
+- A number of Adversaries to challenge your players
  
 ##### 💄 Styling & UI
 - Added UI for Immunities on character and adversary sheets ([#316](https://github.com/the-metalworks/cosmere-rpg/pull/316))
