@@ -151,23 +151,96 @@ And here's a glimpse at something more...
 
 Here are the changes between this version and the previous public release (0.3.1). Note that we have done our best to ensure wherever any data model or other breaking changes have occurred that we have provided automatic data migrations to keep your worlds compatible. However, as is always the advice before opening a world from an older version of the system, take a backup and be aware some manual data work might be necessary. If you have an issue please reach out to us in the tech-support channel of our Discord.
 
+##### Starter Rules
+- The CosmereRPG system is now bundled with a set of Starter Rules!
+- Added a Rules compendium with a Conditions journal ([#384](https://github.com/the-metalworks/cosmere-rpg/pull/384))
+- **TODO:** Expand on this
+ 
 ##### 💄 Styling & UI
-- 
-
-##### 🧬 Character System & Advancement
-- 
-
-##### 🌳 Talent Trees
--   
-
-##### 🎲 Dice & Rolls
-- 
+- Added UI for Immunities on character and adversary sheets ([#316](https://github.com/the-metalworks/cosmere-rpg/pull/316))
+- Skill rank setting now uses the clicked pip, rather than increment/decrement on click ([#326](https://github.com/the-metalworks/cosmere-rpg/pull/326))
+  - Legacy behavior can be re-enabled in settings
+- Combat tracker icons are now ✨ special and new ✨ ([#329](https://github.com/the-metalworks/cosmere-rpg/pull/329))
+- The adversary skill config now shows the total mod for a skill, not just the ranks ([#406](https://github.com/the-metalworks/cosmere-rpg/pull/406))
+- **Y**et **A**nother **S**tyling **P**ass ([#407](https://github.com/the-metalworks/cosmere-rpg/pull/407))
+  - Added a select menu for currency on item sheets
+  - Collapsible behavior has been consolidated across the codebase
+  - Tooltips have now been properly styled
+  - Updated sheet title text color for better contrast in light mode
+  - Added talent tooltips within talent trees
+  - Moved important SVG and font files to local repo to fix loading issues
+  - Added chevron indicators for collapsible skills, immunities, and expertises sections
+  - Fixed early cut-off on the actions tab
+  - Fixed context menu layering
+  - Fixed a text size issue causing prose mirror code editor mode to shrink item sheets ([#324](https://github.com/the-metalworks/cosmere-rpg/pull/324))
+  - Made the \[+\] icon tooltip context dependent on Actor sheets ([#327](https://github.com/the-metalworks/cosmere-rpg/pull/327))
+  - Fixed the handling of non-square ratio images ([#353](https://github.com/the-metalworks/cosmere-rpg/pull/353))
+  - Updated resource bar input color for better contrast in light mode ([#450](https://github.com/the-metalworks/cosmere-rpg/pull/450))
+  - Goal title in-line editing now functions as expected ([#471](https://github.com/the-metalworks/cosmere-rpg/pull/471))
+  - Connection title in-line editing now functions as expected ([#474](https://github.com/the-metalworks/cosmere-rpg/pull/474))
+  - Chat cards now support embedded text and enriched links ([#475](https://github.com/the-metalworks/cosmere-rpg/pull/475))
+- Added a content link enricher ([#427](https://github.com/the-metalworks/cosmere-rpg/pull/427)), and embedding support for...
+  - Talents ([#423](https://github.com/the-metalworks/cosmere-rpg/pull/423))
+  - Cultures ([#425](https://github.com/the-metalworks/cosmere-rpg/pull/425))
+  - Talent Trees ([#426](https://github.com/the-metalworks/cosmere-rpg/pull/426))
+  - Actions ([#428](https://github.com/the-metalworks/cosmere-rpg/pull/428))
+  - Ancestries ([#430](https://github.com/the-metalworks/cosmere-rpg/pull/430))
+  - Paths ([#431](https://github.com/the-metalworks/cosmere-rpg/pull/431))
+  - And a generic default ([#432](https://github.com/the-metalworks/cosmere-rpg/pull/432))
+- The talent count tracker on paths is now functional! ([#455](https://github.com/the-metalworks/cosmere-rpg/pull/455))
+- Shift, ctrl, and alt can now be used to adjust item quantities by 5, 10, or 50 at a time, respectively ([#464](https://github.com/the-metalworks/cosmere-rpg/pull/464))
+- Rapidly toggling edit mode no longer completely breaks the sheet ([#465](https://github.com/the-metalworks/cosmere-rpg/pull/465))
+- Unspecified damage types now correctly show as damage, rather than healing, in chat cards ([#472](https://github.com/the-metalworks/cosmere-rpg/pull/472))
 
 ##### 📊 System Mechanics & Data
-- 
+- Added a new event system to replace the old grant rules ([#342](https://github.com/the-metalworks/cosmere-rpg/pull/342)), ([#394](https://github.com/the-metalworks/cosmere-rpg/pull/394)), ([#396](https://github.com/the-metalworks/cosmere-rpg/pull/396)), ([#447](https://github.com/the-metalworks/cosmere-rpg/pull/447))
+- Updated item activation to support...
+  - multiple resource consumption options ([#344](https://github.com/the-metalworks/cosmere-rpg/pull/344))
+  - variable resource consumption ([#371](https://github.com/the-metalworks/cosmere-rpg/pull/371))
+- Expanded deflect functionality to support damage type granularity ([#345](https://github.com/the-metalworks/cosmere-rpg/pull/345))
+- Armor items now support charges ([#351](https://github.com/the-metalworks/cosmere-rpg/pull/351))
+- Actions list sections have been refactored to use a global config, exposed via the internal API ([#367](https://github.com/the-metalworks/cosmere-rpg/pull/367))
+- Cleaned up activatable item data model ([#387](https://github.com/the-metalworks/cosmere-rpg/pull/387))
+  - Added explicit `default` attribute option
+  - Added support for skill defaulting
+  - Simplified skill/attribute resolution
+- Data migrations can now be performed manually and can target user-specified compendiums ([#398](https://github.com/the-metalworks/cosmere-rpg/pull/398))
 
+##### 🌳 Talent Trees
+- Talent trees now properly render when opening directly to talents tab ([#311](https://github.com/the-metalworks/cosmere-rpg/pull/311))
+- Added ability to assign talent trees to other items, i.e. ancestries ([#332](https://github.com/the-metalworks/cosmere-rpg/pull/332))
+- Fixed an issue where connections were not constructed if some talents were missing ([#420](https://github.com/the-metalworks/cosmere-rpg/pull/420))
+- Added ancestry and culture prerequisite options ([#434](https://github.com/the-metalworks/cosmere-rpg/pull/434))
+- Fixed an issue where talents with no short description would have blank tooltips ([#375](https://github.com/the-metalworks/cosmere-rpg/pull/375))
+- Repositioned talent tree context menu ([#374](https://github.com/the-metalworks/cosmere-rpg/pull/374))
+- Updated styling of the talent tree editor side menu ([#385](https://github.com/the-metalworks/cosmere-rpg/pull/385))
+- Right clicking talents now removes them from the character, if possible ([#468](https://github.com/the-metalworks/cosmere-rpg/pull/468))
+- Resolved a race condition where, in rare cases, double-clicking talents could result in duplicate granted items ([#470](https://github.com/the-metalworks/cosmere-rpg/pull/470))
+- Goals can now be set as prerequisites for talents ([#478](https://github.com/the-metalworks/cosmere-rpg/pull/478))
+ 
 ##### 🐛 Fixes & Polish
-- 
+- Ancestry actions should now be properly listed in the ancestry actions section ([#312](https://github.com/the-metalworks/cosmere-rpg/pull/312))
+- The Foundry default term "Darkvision" has been renamed to "Sense" to better align with the rules ([#352](https://github.com/the-metalworks/cosmere-rpg/pull/352))
+- Ensured Attribute modifications made with Active Effects are properly accounted for ([#363](https://github.com/the-metalworks/cosmere-rpg/pull/363))
+- Fixed an issue where chat messages wouldn't show opportunities or complications resulting from custom thresholds ([#376](https://github.com/the-metalworks/cosmere-rpg/pull/376))
+- Fixed an issue where natural deflect did not apply correctly ([#378](https://github.com/the-metalworks/cosmere-rpg/pull/378))
+- Actor "traits" have been re-localized to "features" following rules updates ([#383](https://github.com/the-metalworks/cosmere-rpg/pull/383))
+- Fixed derivation issues with Active Effect shenaniganery on additional fields ([#389](https://github.com/the-metalworks/cosmere-rpg/pull/389))
+- Fixed a permissions issue on combat causing errors to crop up on non-GM users ([#391](https://github.com/the-metalworks/cosmere-rpg/pull/391))
+- Removed "Roll Mode" from the roll configuration dialog ([#393](https://github.com/the-metalworks/cosmere-rpg/pull/393))
+  - A fix to its broken behavior is upcoming, pending the upcoming roll refactor
+- Enrichers now work for unlinked tokens ([#397](https://github.com/the-metalworks/cosmere-rpg/pull/397))
+- Improved the config registration API to fail more gracefully ([#399](https://github.com/the-metalworks/cosmere-rpg/pull/399))
+- Fixed an issue where implicit width and height on conditions would prevent Firefox users from loading in completely ([#416](https://github.com/the-metalworks/cosmere-rpg/pull/416))
+- Fixed an issue causing the `cosmere-rpg.modeDeactivateItem` hook to not fire ([#436](https://github.com/the-metalworks/cosmere-rpg/pull/436))
+- Fixed some floating-point precision errors on currency and weight ([#449](https://github.com/the-metalworks/cosmere-rpg/pull/449))
+- Fixed a bug where modifying an Attribute's `value` in ActiveEffects would continuously increase the bonus ([#454](https://github.com/the-metalworks/cosmere-rpg/pull/454))
+- Fixed an issue with the default sort mode not being set correctly on compendiums ([#463](https://github.com/the-metalworks/cosmere-rpg/pull/463))
+- Improved event loop detection to prevent errors from piling up on the screen when importing adventures ([#466](https://github.com/the-metalworks/cosmere-rpg/pull/466))
+- Adversary resources now properly enforce clamping when edited ([#467](https://github.com/the-metalworks/cosmere-rpg/pull/467))
+- Resource values are now increased along with changes to resource maximums ([#469](https://github.com/the-metalworks/cosmere-rpg/pull/469))
+- Locked actors no longer throw errors when collapsing/expanding the skills, expertises, or immunities sections ([#493](https://github.com/the-metalworks/cosmere-rpg/pull/493))
+ 
 
 <br>
 
