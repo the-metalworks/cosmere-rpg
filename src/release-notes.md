@@ -116,7 +116,7 @@ The Starter Content can be found in the **Compendiums tab (![Image of the Compen
 
 #### 💲 Premium Modules Available
 
-Today's release also means that all the Premium Modules we have made to lovingly convert each of the published books to the Foundry VTT ecosystem are now available on the foundry store! For a better idea of whats on offer for each one, check out their Store pages, or look at some of our earlier teaser posts in the Reddit!
+Today's release also means that all the Premium Modules we have made to lovingly convert each of the published books to the FoundryVTT ecosystem are now available on the Foundry store! For a better idea of whats on offer for each one, check out their Store pages, or look at some of our earlier teaser posts in the Reddit!
 
 Once purchased, a license for the content will be applied to your Foundry account and associated with any licenses for the base platform you own so that from then on whenever you use your FoundryVTT license code to unlock a Foundry server, the content will be available to download from the Add-On Modules browser in the set-up screen.
 
@@ -138,7 +138,7 @@ Right, this is getting quite long, so lets get through the rest in Rapid Fire!
 
 #### 🎊 And More to Come!
 
-This has hopefully highlighted key parts of the foundry interface and our system within that, but we know we can do better. In the future we will have more thorough User Guides available on our [GitHub Wiki](https://github.com/the-metalworks/cosmere-rpg/wiki) and using the in-built Foundry Tours tool.
+This has hopefully highlighted key parts of the Foundry interface and our system within that, but we know we can do better. In the future we will have more thorough User Guides available on our [GitHub Wiki](https://github.com/the-metalworks/cosmere-rpg/wiki) and using the in-built Foundry Tours tool.
 And here's a glimpse at something more...
 - Character Builder
 - More retroactive roll controls
