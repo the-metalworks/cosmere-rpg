@@ -1,0 +1,85 @@
+{
+    "folder": "qfl2vAmZh3gsOpwf",
+    "name": "Warrior",
+    "type": "path",
+    "_id": "kWWyJQRYlIMoQCe9",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/paths/warrior.webp",
+    "system": {
+        "id": "warrior",
+        "type": "heroic",
+        "description": {
+            "value": "<p>Roshar is a world riven by conflict, and many of its people follow the path of the Warrior, whether for good or ill. A Warrior might view fighting as a calling, an ethos, a profession, or simply an unpleasant necessity for survival—but in all cases, battle follows the Warrior like a shadow.</p><p>Those who survive long enough to become seasoned fighters tend to be tough, resilient, and skilled at inflicting harm. An experienced Warrior can handle themself in any dangerous martial situation, whether a formal duel, an alleyway scuffle, or a terrifying clash of armies.</p><h3>Warrior Specialties</h3><p>The Warrior path presents talents in three specialties:</p><p><strong>Duelist.</strong> In the inner circles of the elite, skilled Duelists contend for glory and political sway, wielding their weapons with brutal grace.</p><p><strong>Shardbearer.</strong> Warriors fortunate enough to own (or borrow) Shardblades and Shardplate serve as Shardbearers. They wield these arms and armor of ancient provenance to dominate the battlefield with mythic might. Available in the <em>Stormlight Handbook</em>.</p><p><strong>Soldier.</strong> The most common of fighting forces, Soldiers form the bulk of Roshar’s massive armies. They master the tactics needed to fight effectively in units and stay alive in a deadly world.</p><h3>Building a Warrior</h3><p>Consider these general tips for building an effective Warrior:</p><p><strong>Attributes.</strong> It’s usually a good idea to prioritize <strong>Speed</strong> and <strong>Strength</strong>, then consider <strong>Awareness</strong> and <strong>Willpower</strong>.</p><p><strong>Skills.</strong> Useful skills include <strong>Athletics</strong>, <strong>Light Weaponry</strong>, <strong>Heavy Weaponry</strong>, <strong>Intimidation</strong>, <strong>Leadership</strong>, and <strong>Persuasion</strong>.</p><p><strong>Other Heroic Paths.</strong> The @UUID[Compendium.cosmere-rpg.heroic-paths.Item.spF8y5TmLUxxMfxm]{Leader} and @UUID[Compendium.cosmere-rpg.heroic-paths.Item.E6O5QgdG1JxA7tnf]{Hunter} paths make excellent multi-path choices.</p><p><strong>Rewards.</strong> When choosing rewards, you can’t go wrong with a Shardblade, Shardplate, and a fancy military title.</p><h3>Warrior Key Talent</h3><p>The Warrior key talent, @UUID[Compendium.cosmere-rpg.heroic-paths.Item.8mJC2HnsN3OQ2J20]{Vigilant Stance}, unlocks access to the Warrior specialties.</p><p><strong>Starting Skill: Athletics.</strong> If you choose Warrior as your starting path, gain a free skill rank in <strong>Athletics</strong>.</p>",
+            "chat": "<p>A fighter who relies on their skill, brute strength, or indominable will. Warrior specialties include the @UUID[Compendium.cosmere-rpg.heroic-paths.Item.77C0LhqqDezKBQFv]{Duelist}, @UUID[Compendium.cosmere-rpg.heroic-paths.Item.h4NZk36RkF53CJ5y]{Shardbearer}, and @UUID[Compendium.cosmere-rpg.heroic-paths.Item.kLaoL6V2D28fTe1Z]{Soldier}.</p>",
+            "short": "<p>Roshar is a world riven by conflict, and many of its people follow the path of the Warrior, whether for good or ill. A Warrior might view fighting as a calling, an ethos, a profession, or simply an unpleasant necessity for survival—but in all cases, battle follows the Warrior like a shadow.</p><p>Those who survive long enough to become seasoned fighters tend to be tough, resilient, and skilled at inflicting harm. An experienced Warrior can handle themself in any dangerous martial situation, whether a formal duel, an alleyway scuffle, or a terrifying clash of armies.</p>"
+        },
+        "talentTree": "Compendium.cosmere-rpg.heroic-paths.Item.Y40CrAh649NWLsh9",
+        "events": {
+            "q8RUGHkxsQ0cOIN9": {
+                "id": "q8RUGHkxsQ0cOIN9",
+                "description": "Try Set Starting Path",
+                "event": "add-to-actor",
+                "handler": {
+                    "type": "execute-macro",
+                    "inline": true,
+                    "uuid": null,
+                    "macro": {
+                        "type": "script",
+                        "command": "cosmereRPG.utils.macros.startingPath.set(event.item);"
+                    }
+                }
+            },
+            "KsfbDdWfSAixdclP": {
+                "id": "KsfbDdWfSAixdclP",
+                "description": "Try Unset Starting  Path",
+                "event": "remove-from-actor",
+                "handler": {
+                    "type": "execute-macro",
+                    "inline": true,
+                    "uuid": null,
+                    "macro": {
+                        "type": "script",
+                        "command": "cosmereRPG.utils.macros.startingPath.unset(event.item);"
+                    }
+                }
+            },
+            "G156ICsPF1VTs9Hg": {
+                "id": "G156ICsPF1VTs9Hg",
+                "description": "Grant Key Talent",
+                "event": "add-to-actor",
+                "handler": {
+                    "type": "grant-items",
+                    "allowDuplicates": false,
+                    "increaseQuantity": false,
+                    "items": [
+                        {
+                            "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.8mJC2HnsN3OQ2J20"
+                        },
+                        {
+                            "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.5YECyD1AQaasZijK"
+                        }
+                    ]
+                }
+            },
+            "MIN2ZBRkc2LcsyBf": {
+                "id": "MIN2ZBRkc2LcsyBf",
+                "description": "Remove Key Talent",
+                "event": "remove-from-actor",
+                "handler": {
+                    "type": "remove-items",
+                    "reduceQuantity": false,
+                    "items": [
+                        "Compendium.cosmere-rpg.heroic-paths.Item.8mJC2HnsN3OQ2J20",
+                        "Compendium.cosmere-rpg.heroic-paths.Item.ZlExHec5xoiO0ITb"
+                    ]
+                }
+            }
+        }
+    },
+    "effects": [],
+    "sort": 400000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!kWWyJQRYlIMoQCe9"
+}

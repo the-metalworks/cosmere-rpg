@@ -1,0 +1,72 @@
+{
+    "folder": "DlelekpNKd8H2xae",
+    "name": "Through the Fray",
+    "type": "talent",
+    "_id": "kgdZIGU9Zs9spuu2",
+    "img": "icons/magic/movement/abstract-ribbons-red-orange.webp",
+    "system": {
+        "id": "through-the-fray",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span></p><p><em>You skillfully spot opportunities to gain the upper hand, coordinating with your allies as they spring into action.</em></p><p>Choose an ally you can influence within 20 feet of you. Before the end of your turn, they can use the @UUID[Compendium.cosmere-rpg.actions.Item.wC4Z0mdGwRxLDpMC]{Disengage} or @UUID[Compendium.cosmere-rpg.actions.Item.8yQ5MMIrywehKyTS]{Gain Advantage} action as <span class=\"cosmere-icon\" data-tooltip=\"Reaction\" aria-label=\"Reaction\">r</span> .</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span></p><p>An ally within 20 feet can @UUID[Compendium.cosmere-rpg.actions.Item.wC4Z0mdGwRxLDpMC]{Disengage} or @UUID[Compendium.cosmere-rpg.actions.Item.8yQ5MMIrywehKyTS]{Gain Advantage} as <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">r</span>.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span></p><p>Choose an ally you can influence within 20 feet of you. Before the end of your turn, they can use the @UUID[Compendium.cosmere-rpg.actions.Item.wC4Z0mdGwRxLDpMC]{Disengage} or @UUID[Compendium.cosmere-rpg.actions.Item.8yQ5MMIrywehKyTS]{Gain Advantage} action as <span class=\"cosmere-icon\" data-tooltip=\"Reaction\" aria-label=\"Reaction\">r</span> .</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": 1,
+                "type": "act"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "path": "leader",
+        "hasPath": false,
+        "specialty": "officer",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "MHGHfyBXRxdvV8QG": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "skill": "prs",
+                "rank": 1,
+                "talents": []
+            },
+            "M5uashtYqmvAYl3l": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "decisive-command",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.UEaOm4P2UFcrP1Z8",
+                        "label": "Decisive Command"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "modality": null
+    },
+    "effects": [],
+    "sort": 700000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!kgdZIGU9Zs9spuu2"
+}

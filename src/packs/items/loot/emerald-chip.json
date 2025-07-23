@@ -1,0 +1,37 @@
+{
+    "name": "Emerald Chip",
+    "type": "loot",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/items/spheres/sphere_emerald_chip.webp",
+    "system": {
+        "description": {
+            "value": "",
+            "chat": "",
+            "short": ""
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 0,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 10,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            },
+            "unit": "spheres.mark"
+        },
+        "events": {},
+        "isMoney": true
+    },
+    "effects": [],
+    "folder": "RBFoWUCw2wosgSJA",
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "WJqFwNJKos3OssaP",
+    "sort": 2000000,
+    "_key": "!items!WJqFwNJKos3OssaP"
+}

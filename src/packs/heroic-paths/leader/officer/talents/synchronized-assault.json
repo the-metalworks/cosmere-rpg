@@ -1,0 +1,87 @@
+{
+    "folder": "DlelekpNKd8H2xae",
+    "name": "Synchronized Assault",
+    "type": "talent",
+    "_id": "FXooyuXWUSexTu4R",
+    "img": "icons/skills/melee/spear-tips-three-purple.webp",
+    "system": {
+        "id": "synchronized-assault",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Three Actions\" aria-label=\"Three Actions\">3</span></p><p><em>You observe a weakness in your enemy’s position, then direct your squad to focus their full power on a single crucial foe.</em></p><p>Spend 2 focus to make a <strong>Leadership</strong> test against the Cognitive defense of an enemy you can sense. On a success, choose a number of allies up to your ranks in <strong>Leadership</strong>. On a failure, choose one ally you can influence. On the next turn of each of your chosen allies, they gain <span class=\"cosmere-icon\" data-tooltip=\"Three Actions\" aria-label=\"Three Actions\">1</span> that can be spent only to @UUID[Compendium.cosmere-rpg.actions.Item.Da4Xj4WnVbtHMH7k]{Strike} against that enemy. This Strike doesn’t count against their allowed number of Strike actions for the hands holding that weapon.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Three Actions\" aria-label=\"Three Actions\">3</span></p><p>Spend 2 focus to test <strong>Leadership</strong> vs. enemy’s Cognitive. On success, allies up to your ranks in <strong>Leadership</strong> gain <span class=\"cosmere-icon\" data-tooltip=\"Three Actions\" aria-label=\"Three Actions\">1</span> for an additional @UUID[Compendium.cosmere-rpg.actions.Item.Da4Xj4WnVbtHMH7k]{Strike} against the target. On failure, only one ally gains <span class=\"cosmere-icon\" data-tooltip=\"Three Actions\" aria-label=\"Three Actions\">1</span>.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Three Actions\" aria-label=\"Three Actions\">3</span></p><p>Spend 2 focus to make a <strong>Leadership</strong> test against the Cognitive defense of an enemy you can sense. On a success, choose a number of allies up to your ranks in <strong>Leadership</strong>. On a failure, choose one ally you can influence. On the next turn of each of your chosen allies, they gain <span class=\"cosmere-icon\" data-tooltip=\"Three Actions\" aria-label=\"Three Actions\">1</span> that can be spent only to @UUID[Compendium.cosmere-rpg.actions.Item.Da4Xj4WnVbtHMH7k]{Strike} against that enemy. This Strike doesn’t count against their allowed number of Strike actions for the hands holding that weapon.</p>"
+        },
+        "activation": {
+            "type": "skill_test",
+            "cost": {
+                "value": 3,
+                "type": "act"
+            },
+            "consume": [
+                {
+                    "type": "resource",
+                    "value": {
+                        "min": 2,
+                        "max": 2,
+                        "actual": 0
+                    },
+                    "resource": "foc"
+                }
+            ],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "skill": "lea",
+            "attribute": null,
+            "opportunity": null,
+            "complication": null,
+            "modifierFormula": ""
+        },
+        "damage": {
+            "formula": null,
+            "type": null,
+            "skill": null,
+            "attribute": null
+        },
+        "path": "leader",
+        "hasPath": false,
+        "specialty": "officer",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "RMa5Jv9ZD2aAUzMJ": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "skill": "lea",
+                "rank": 3,
+                "talents": []
+            },
+            "mWTercZaEPK3qNgt": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "authority",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.0kqPFGu6w2JFIEdR",
+                        "label": "Authority"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "modality": null
+    },
+    "effects": [],
+    "sort": 600000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!FXooyuXWUSexTu4R"
+}

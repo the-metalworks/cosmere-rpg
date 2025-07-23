@@ -1,0 +1,81 @@
+{
+    "name": "Hunter",
+    "type": "path",
+    "_id": "E6O5QgdG1JxA7tnf",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/paths/hunter.webp",
+    "system": {
+        "id": "hunter",
+        "type": "heroic",
+        "description": {
+            "value": "<p>The thrill of the chase thrums in a Hunter’s mind as they patiently surveil. No detail is too small or insignificant to ignore. Experience teaches the most important lesson: you don’t have to be more powerful than your quarry, so long as you’re better prepared.</p><p>Through careful planning, Hunters choose when and where to strike, securing an upper hand through clever use of traps, high ground, and the element of surprise. If all goes well, the quarry won’t perceive their assailant until it’s too late. Some Hunters prefer a clean kill from afar. Others make their work personal, striking in close quarters and taking pleasure in their prey’s visceral panic; nothing feels sweeter than methodical preparation culminating in an exhilarating onslaught.</p><h3>Hunter Specialties</h3><p>The Hunter path presents talents in three specialties:</p><p><strong>Archer.</strong> Targeting weak points in an enemy army’s assault, Archers shape the battlefield before the frontline confrontation. They steadily unleash a torrent of arrows to scatter and terrorize foes.</p><p><strong>Assassin.</strong> Whether commissioned to kill or driven by their own interests, Assassins exploit weaknesses to quickly incapacitate their quarry.</p><p><strong>Tracker.</strong> In untamed wilds, none are more capable than Trackers. With trusty animal companions at their sides, they scrounge provisions, deftly cross unfriendly terrain, and set perilous traps. Available in the <em>Stormlight Handbook</em>.</p><h3>Building a Hunter</h3><p>Consider these general tips for building an effective Hunter:</p><p><strong>Attributes.</strong> It’s usually a good idea to prioritize <strong>Awareness</strong>, <strong>Strength</strong>, and <strong>Speed</strong>.</p><p><strong>Skills.</strong> Useful skills include <strong>Agility</strong>, <strong>Perception</strong>, <strong>Stealth</strong>, <strong>Survival</strong>, and either <strong>Light Weaponry</strong> or <strong>Heavy Weaponry</strong>.</p><p><strong>Other Heroic Paths.</strong> The @UUID[Compendium.cosmere-rpg.heroic-paths.Item.kWWyJQRYlIMoQCe9]{Warrior} and @UUID[Compendium.cosmere-rpg.heroic-paths.Item.qqa1ZgA957Cae6ex]{Agent} paths make excellent multi-path choices.</p><p><strong>Rewards.</strong> When choosing rewards, you can’t go wrong with an animal companion, a grandbow, or a Shardblade.</p><h3>Hunter Key Talent</h3><p>The Hunter key talent, @UUID[Compendium.cosmere-rpg.heroic-paths.Item.3nfGn0BOeLq5qgEr]{Seek Quarry}, unlocks access to the Hunter specialties.</p><p><strong>Starting Skill: Perception.</strong> If you choose Hunter as your starting path, gain a free skill rank in <strong>Perception</strong>.</p>",
+            "chat": "<p>A skilled sharpshooter and outdoorsperson who seeks and eliminates problems. Hunter specialties include the @UUID[Compendium.cosmere-rpg.heroic-paths.Item.Ob0oXGsIkGXmud0T]{Archer}, @UUID[Compendium.cosmere-rpg.heroic-paths.Item.PkaSN1A8eCjuBvUK]{Assassin}, and @UUID[Compendium.cosmere-rpg.heroic-paths.Item.2pVWJ8Zg2wpPFvt6]{Tracker}.</p>",
+            "short": "<p>The thrill of the chase thrums in a Hunter’s mind as they patiently surveil. No detail is too small or insignificant to ignore. Experience teaches the most important lesson: you don’t have to be more powerful than your quarry, so long as you’re better prepared.</p><p>Through careful planning, Hunters choose when and where to strike, securing an upper hand through clever use of traps, high ground, and the element of surprise. If all goes well, the quarry won’t perceive their assailant until it’s too late. Some Hunters prefer a clean kill from afar. Others make their work personal, striking in close quarters and taking pleasure in their prey’s visceral panic; nothing feels sweeter than methodical preparation culminating in an exhilarating onslaught.</p>"
+        },
+        "talentTree": "Compendium.cosmere-rpg.heroic-paths.Item.B6w9xos8VWdy2XCW",
+        "events": {
+            "lzLrTRf0S1BZMP6h": {
+                "id": "lzLrTRf0S1BZMP6h",
+                "description": "Try Set Starting Path",
+                "event": "add-to-actor",
+                "handler": {
+                    "type": "execute-macro",
+                    "inline": true,
+                    "uuid": null,
+                    "macro": {
+                        "type": "script",
+                        "command": "cosmereRPG.utils.macros.startingPath.set(event.item);"
+                    }
+                }
+            },
+            "thE6JDvr5lNS8H2D": {
+                "id": "thE6JDvr5lNS8H2D",
+                "description": "Try Unset Starting Path",
+                "event": "remove-from-actor",
+                "handler": {
+                    "type": "execute-macro",
+                    "inline": true,
+                    "uuid": null,
+                    "macro": {
+                        "type": "script",
+                        "command": "cosmereRPG.utils.macros.startingPath.unset(event.item);"
+                    }
+                }
+            },
+            "LRw4XnZF5TlA9UlP": {
+                "id": "LRw4XnZF5TlA9UlP",
+                "description": "Grant Key Talent",
+                "event": "add-to-actor",
+                "handler": {
+                    "type": "grant-items",
+                    "allowDuplicates": false,
+                    "increaseQuantity": false,
+                    "items": [
+                        {
+                            "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.3nfGn0BOeLq5qgEr"
+                        }
+                    ]
+                }
+            },
+            "hXQwS4BmzSMSseTS": {
+                "id": "hXQwS4BmzSMSseTS",
+                "description": "Remove Key Talent",
+                "event": "remove-from-actor",
+                "handler": {
+                    "type": "remove-items",
+                    "reduceQuantity": false,
+                    "items": [
+                        "Compendium.cosmere-rpg.heroic-paths.Item.3nfGn0BOeLq5qgEr"
+                    ]
+                }
+            }
+        }
+    },
+    "effects": [],
+    "folder": "IDA7IzauvbtPbDkw",
+    "sort": 100000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!E6O5QgdG1JxA7tnf"
+}

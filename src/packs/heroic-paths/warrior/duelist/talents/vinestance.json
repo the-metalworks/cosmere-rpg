@@ -1,0 +1,123 @@
+{
+    "folder": "kVZlDrFKUyg2QyHL",
+    "name": "Vinestance",
+    "type": "talent",
+    "_id": "PuV9TAGsWqSdmf9y",
+    "img": "icons/magic/nature/plant-undersea-glow-green.webp",
+    "system": {
+        "id": "vinestance",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">1</span></p><p><em>You assume a flexible stance, allowing you to quickly switch between inexorable advances and rapid reactions to wear down your foe.</em></p><p>Your Physical and Cognitive defenses increase by 1. Additionally, after you’re hit or grazed by a melee attack, you can use <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">r</span> to make an <strong>Athletics</strong> test against your attacker’s Cognitive defense. On a success, your target loses [[/r 1d4]] focus, and you can push them horizontally up to 5 feet × your ranks in <strong>Athletics</strong>.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">1</span></p><p>Enter Vinestance: Your Physical and Cognitive defenses increase by 1. After you’re hit or grazed in melee, spend <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">r</span> to test <strong>Athletics</strong> vs. Cognitive to make attacker lose [[/r 1d4]] focus and be pushed.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">1</span></p><p>Your Physical and Cognitive defenses increase by 1. Additionally, after you’re hit or grazed by a melee attack, you can use <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">r</span> to make an <strong>Athletics</strong> test against your attacker’s Cognitive defense. On a success, your target loses [[/r 1d4]] focus, and you can push them horizontally up to 5 feet × your ranks in <strong>Athletics</strong>.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": 1,
+                "type": "act"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "path": "warrior",
+        "hasPath": false,
+        "specialty": "duelist",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "modality": null,
+        "prerequisites": {
+            "xI3O3Q0Kgr5kk2EH": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "skill": "ath",
+                "rank": 3,
+                "talents": []
+            },
+            "9fKZE5lk0lJQI4ll": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "feinting-strike",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.MK52rooQSyK0eqvi",
+                        "label": "Feinting Strike"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false
+    },
+    "effects": [
+        {
+            "name": "Vinestance",
+            "img": "icons/magic/nature/plant-undersea-glow-green.webp",
+            "disabled": true,
+            "duration": {
+                "startTime": null,
+                "seconds": null,
+                "combat": null,
+                "rounds": null,
+                "turns": null,
+                "startRound": null,
+                "startTurn": null
+            },
+            "_id": "m5k0JuU1iq69P7CJ",
+            "type": "base",
+            "system": {},
+            "changes": [
+                {
+                    "key": "system.defenses.phy.bonus",
+                    "mode": 2,
+                    "value": "1",
+                    "priority": null
+                },
+                {
+                    "key": "system.defenses.cog.bonus",
+                    "mode": 2,
+                    "value": "1",
+                    "priority": null
+                }
+            ],
+            "description": "",
+            "origin": null,
+            "tint": "#ffffff",
+            "transfer": true,
+            "statuses": [],
+            "sort": 0,
+            "flags": {},
+            "_stats": {
+                "coreVersion": "12.343",
+                "systemId": null,
+                "systemVersion": null,
+                "createdTime": null,
+                "modifiedTime": null,
+                "lastModifiedBy": null,
+                "compendiumSource": null,
+                "duplicateSource": null
+            },
+            "_key": "!items.effects!PuV9TAGsWqSdmf9y.m5k0JuU1iq69P7CJ"
+        }
+    ],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!PuV9TAGsWqSdmf9y"
+}

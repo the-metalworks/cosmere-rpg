@@ -1,0 +1,71 @@
+{
+    "folder": "07WIbGwLoTODw9pL",
+    "name": "Applied Medicine",
+    "type": "talent",
+    "_id": "r57yb0CceeB36Luq",
+    "img": "icons/tools/laboratory/bowl-liquid-pink-yellow-green.webp",
+    "system": {
+        "id": "applied-medicine",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p><em>You’ve studied chemistry, anatomy, social behavior, and much more. Thanks to this broad foundation, you practice the complex art of healing with flexibility and confidence.</em></p><p>When you cause a character to recover health, they recover additional health equal to your ranks in <strong>Lore</strong>.</p>",
+            "chat": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>Your healing abilities restore additional health equal to your ranks in <strong>Lore</strong>.</p>",
+            "short": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>When you cause a character to recover health, they recover additional health equal to your ranks in <strong>Lore</strong>.</p>"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "damage": {
+            "formula": "@skills.lor.rank",
+            "type": "heal"
+        },
+        "path": "scholar",
+        "hasPath": false,
+        "specialty": "surgeon",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "GkJD82PJTgasYKMS": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "skill": "lor",
+                "rank": 2,
+                "talents": []
+            },
+            "nJrtCLcs6MnZYf9o": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "collected",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.MvCedFE0oNnT0exg",
+                        "label": "Collected"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "modality": null
+    },
+    "effects": [],
+    "sort": 200000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!r57yb0CceeB36Luq"
+}

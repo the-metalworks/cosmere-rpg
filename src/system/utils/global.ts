@@ -1,4 +1,5 @@
 import { invokeMigration } from './migration';
+import * as macros from './macros';
 
 /**
  * Global utility functions, exposed to users via
@@ -7,4 +8,5 @@ import { invokeMigration } from './migration';
 
 export default {
     invokeMigration,
+    macros,
 };

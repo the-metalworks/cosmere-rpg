@@ -1,0 +1,391 @@
+{
+    "folder": "x6blViy3lsxiDEiw",
+    "name": "Faithful",
+    "type": "talent_tree",
+    "_id": "3jKPoEZ13xUWUXTC",
+    "img": "icons/environment/people/cleric-grey.webp",
+    "system": {
+        "nodes": {
+            "adEpbs3dLCofv3Qd": {
+                "id": "adEpbs3dLCofv3Qd",
+                "type": "talent",
+                "position": {
+                    "x": -300,
+                    "y": -250
+                },
+                "talentId": "customary-garb",
+                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.DcbAqyCzZGSmG8CG",
+                "size": {
+                    "width": 50,
+                    "height": 50
+                },
+                "showName": false,
+                "prerequisites": {
+                    "jOCF3dP16YOtZLgt": {
+                        "id": "jOCF3dP16YOtZLgt",
+                        "type": "talent",
+                        "attribute": "str",
+                        "value": 1,
+                        "managed": false,
+                        "talents": {
+                            "rousing-presence": {
+                                "id": "rousing-presence",
+                                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.l4wRQT2MH0SsxmRQ",
+                                "label": "Rousing Presence",
+                                "_id": "rousing-presence"
+                            }
+                        },
+                        "_id": "jOCF3dP16YOtZLgt"
+                    }
+                }
+            },
+            "woz19OBMJTN3Mk68": {
+                "id": "woz19OBMJTN3Mk68",
+                "type": "talent",
+                "position": {
+                    "x": -300,
+                    "y": -150
+                },
+                "talentId": "devoted-presence",
+                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.ESKKSdPMUOEQnIaZ",
+                "size": {
+                    "width": 50,
+                    "height": 50
+                },
+                "showName": false,
+                "prerequisites": {
+                    "s7f6VzrnWzIee32d": {
+                        "id": "s7f6VzrnWzIee32d",
+                        "type": "talent",
+                        "managed": true,
+                        "talents": {
+                            "customary-garb": {
+                                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.DcbAqyCzZGSmG8CG",
+                                "id": "customary-garb",
+                                "label": "Customary Garb",
+                                "_id": "customary-garb"
+                            }
+                        },
+                        "_id": "s7f6VzrnWzIee32d"
+                    },
+                    "MSrXapy6RwjTNtxd": {
+                        "id": "MSrXapy6RwjTNtxd",
+                        "type": "skill",
+                        "attribute": "str",
+                        "value": 1,
+                        "managed": false,
+                        "skill": "lor",
+                        "rank": 1
+                    }
+                },
+                "connections": {
+                    "adEpbs3dLCofv3Qd": {
+                        "id": "adEpbs3dLCofv3Qd",
+                        "prerequisiteId": "s7f6VzrnWzIee32d",
+                        "_id": "adEpbs3dLCofv3Qd"
+                    }
+                }
+            },
+            "EygjZhSTxuvrFFgj": {
+                "id": "EygjZhSTxuvrFFgj",
+                "type": "talent",
+                "position": {
+                    "x": -300,
+                    "y": -50
+                },
+                "talentId": "stalwart-presence",
+                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.dMYQ161k4zraNd1x",
+                "size": {
+                    "width": 50,
+                    "height": 50
+                },
+                "showName": false,
+                "prerequisites": {
+                    "FQsgYpchMbWdTMQk": {
+                        "id": "FQsgYpchMbWdTMQk",
+                        "type": "talent",
+                        "managed": true,
+                        "talents": {
+                            "devoted-presence": {
+                                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.ESKKSdPMUOEQnIaZ",
+                                "id": "devoted-presence",
+                                "label": "Devoted Presence",
+                                "_id": "devoted-presence"
+                            }
+                        },
+                        "_id": "FQsgYpchMbWdTMQk"
+                    },
+                    "719xf32eDlOjaqAP": {
+                        "id": "719xf32eDlOjaqAP",
+                        "type": "skill",
+                        "attribute": "str",
+                        "value": 1,
+                        "managed": false,
+                        "skill": "dis",
+                        "rank": 2
+                    }
+                },
+                "connections": {
+                    "woz19OBMJTN3Mk68": {
+                        "id": "woz19OBMJTN3Mk68",
+                        "prerequisiteId": "FQsgYpchMbWdTMQk",
+                        "_id": "woz19OBMJTN3Mk68"
+                    }
+                }
+            },
+            "UnlukLNcTwx8bJ2L": {
+                "id": "UnlukLNcTwx8bJ2L",
+                "type": "talent",
+                "position": {
+                    "x": -300,
+                    "y": 50
+                },
+                "talentId": "sage-counsel",
+                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.6x9Sl6OUTqqbZ0wR",
+                "size": {
+                    "width": 50,
+                    "height": 50
+                },
+                "showName": false,
+                "prerequisites": {
+                    "DAs28kpYtEWZA04D": {
+                        "id": "DAs28kpYtEWZA04D",
+                        "type": "talent",
+                        "managed": true,
+                        "talents": {
+                            "stalwart-presence": {
+                                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.dMYQ161k4zraNd1x",
+                                "id": "stalwart-presence",
+                                "label": "Stalwart Presence",
+                                "_id": "stalwart-presence"
+                            }
+                        },
+                        "_id": "DAs28kpYtEWZA04D"
+                    },
+                    "kMWYMTafEWzQfDWx": {
+                        "id": "kMWYMTafEWzQfDWx",
+                        "type": "skill",
+                        "attribute": "str",
+                        "value": 1,
+                        "managed": false,
+                        "skill": "lor",
+                        "rank": 3
+                    }
+                },
+                "connections": {
+                    "EygjZhSTxuvrFFgj": {
+                        "id": "EygjZhSTxuvrFFgj",
+                        "prerequisiteId": "DAs28kpYtEWZA04D",
+                        "_id": "EygjZhSTxuvrFFgj"
+                    }
+                }
+            },
+            "ox088B6gAjOIpL6O": {
+                "id": "ox088B6gAjOIpL6O",
+                "type": "talent",
+                "position": {
+                    "x": -200,
+                    "y": 50
+                },
+                "talentId": "inspired-zeal",
+                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.xCI4k8HNGxdInzes",
+                "size": {
+                    "width": 50,
+                    "height": 50
+                },
+                "showName": false,
+                "prerequisites": {
+                    "RCr0W2Dkiabd3r1W": {
+                        "id": "RCr0W2Dkiabd3r1W",
+                        "type": "talent",
+                        "managed": true,
+                        "talents": {
+                            "stalwart-presence": {
+                                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.dMYQ161k4zraNd1x",
+                                "id": "stalwart-presence",
+                                "label": "Stalwart Presence",
+                                "_id": "stalwart-presence"
+                            },
+                            "applied-motivation": {
+                                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.hmmT2sqwX4k2w325",
+                                "id": "applied-motivation",
+                                "label": "Applied Motivation"
+                            }
+                        },
+                        "_id": "RCr0W2Dkiabd3r1W"
+                    },
+                    "rDF3vJXgq485oljX": {
+                        "id": "rDF3vJXgq485oljX",
+                        "type": "skill",
+                        "attribute": "str",
+                        "value": 1,
+                        "managed": false,
+                        "skill": "dis",
+                        "rank": 3
+                    }
+                },
+                "connections": {
+                    "EygjZhSTxuvrFFgj": {
+                        "id": "EygjZhSTxuvrFFgj",
+                        "prerequisiteId": "RCr0W2Dkiabd3r1W",
+                        "_id": "EygjZhSTxuvrFFgj"
+                    },
+                    "OAcKpY594CtiTLrZ": {
+                        "id": "OAcKpY594CtiTLrZ",
+                        "prerequisiteId": "RCr0W2Dkiabd3r1W"
+                    }
+                }
+            },
+            "OAcKpY594CtiTLrZ": {
+                "id": "OAcKpY594CtiTLrZ",
+                "type": "talent",
+                "position": {
+                    "x": -200,
+                    "y": -100
+                },
+                "talentId": "applied-motivation",
+                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.hmmT2sqwX4k2w325",
+                "size": {
+                    "width": 50,
+                    "height": 50
+                },
+                "showName": false,
+                "prerequisites": {
+                    "hm8zgpotrqmlhsRq": {
+                        "id": "hm8zgpotrqmlhsRq",
+                        "type": "talent",
+                        "managed": true,
+                        "talents": {
+                            "galvanize": {
+                                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.a7JxaGktFBomRJdd",
+                                "id": "galvanize",
+                                "label": "Galvanize",
+                                "_id": "galvanize"
+                            }
+                        },
+                        "_id": "hm8zgpotrqmlhsRq"
+                    },
+                    "mydBRQYWIdHweSy4": {
+                        "id": "mydBRQYWIdHweSy4",
+                        "type": "skill",
+                        "attribute": "str",
+                        "value": 1,
+                        "managed": false,
+                        "skill": "dis",
+                        "rank": 2
+                    }
+                },
+                "connections": {
+                    "AiGOPprq9Wm8KE6W": {
+                        "id": "AiGOPprq9Wm8KE6W",
+                        "prerequisiteId": "hm8zgpotrqmlhsRq",
+                        "_id": "AiGOPprq9Wm8KE6W"
+                    }
+                }
+            },
+            "AiGOPprq9Wm8KE6W": {
+                "id": "AiGOPprq9Wm8KE6W",
+                "type": "talent",
+                "position": {
+                    "x": -200,
+                    "y": -250
+                },
+                "talentId": "galvanize",
+                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.a7JxaGktFBomRJdd",
+                "size": {
+                    "width": 50,
+                    "height": 50
+                },
+                "showName": false,
+                "prerequisites": {
+                    "JH28Mdm2kkVncbKo": {
+                        "id": "JH28Mdm2kkVncbKo",
+                        "type": "talent",
+                        "attribute": "str",
+                        "value": 1,
+                        "managed": false,
+                        "talents": {
+                            "rousing-presence": {
+                                "id": "rousing-presence",
+                                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.l4wRQT2MH0SsxmRQ",
+                                "label": "Rousing Presence",
+                                "_id": "rousing-presence"
+                            }
+                        },
+                        "_id": "JH28Mdm2kkVncbKo"
+                    }
+                }
+            },
+            "yvY2zQYKWq1yJ6Gs": {
+                "id": "yvY2zQYKWq1yJ6Gs",
+                "type": "talent",
+                "position": {
+                    "x": -100,
+                    "y": -150
+                },
+                "talentId": "composed",
+                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.3k8dacQz08IUfI4D",
+                "size": {
+                    "width": 50,
+                    "height": 50
+                },
+                "showName": false,
+                "prerequisites": {
+                    "eH8MrcEhb6VokxEm": {
+                        "id": "eH8MrcEhb6VokxEm",
+                        "type": "talent",
+                        "managed": true,
+                        "talents": {
+                            "galvanize": {
+                                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.a7JxaGktFBomRJdd",
+                                "id": "galvanize",
+                                "label": "Galvanize",
+                                "_id": "galvanize"
+                            }
+                        },
+                        "_id": "eH8MrcEhb6VokxEm"
+                    }
+                },
+                "connections": {
+                    "AiGOPprq9Wm8KE6W": {
+                        "id": "AiGOPprq9Wm8KE6W",
+                        "prerequisiteId": "eH8MrcEhb6VokxEm",
+                        "_id": "AiGOPprq9Wm8KE6W"
+                    }
+                }
+            }
+        },
+        "viewBounds": {
+            "x": -336,
+            "y": -193,
+            "width": 327,
+            "height": 414
+        },
+        "display": {
+            "width": 463,
+            "height": 614
+        },
+        "background": {
+            "img": null,
+            "width": 0,
+            "height": 0,
+            "position": {
+                "x": 0,
+                "y": 0
+            }
+        }
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {
+        "cosmere-rpg": {
+            "sheet": {
+                "mode": "view"
+            }
+        }
+    },
+    "_key": "!items!3jKPoEZ13xUWUXTC"
+}

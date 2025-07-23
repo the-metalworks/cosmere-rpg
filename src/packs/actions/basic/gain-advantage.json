@@ -1,0 +1,38 @@
+{
+    "folder": "xeAxqcLYdFWSwUur",
+    "name": "Gain Advantage",
+    "type": "action",
+    "_id": "8yQ5MMIrywehKyTS",
+    "img": "icons/skills/social/trading-injustice-scale-gray.webp",
+    "system": {
+        "id": "gain_advantage",
+        "type": "basic",
+        "description": {
+            "value": "<p>You use one of your skills to seek the upper hand over your opponent, such as through clever tactics, unexpected feints, or superior strength. Explain how you are doing so, then make a test using a relevant skill against the enemy’s corresponding defense. On a success, you gain an advantage on your next test against that enemy that uses a different skill. For example, you can test Deduction test to guess at your foe’s next move, then use that advantage on your next Light Weaponry test; however, you can’t test Light Weaponry then use that advantage on another Light Weaponry test.</p>",
+            "chat": "<p>You use one of your skills to seek the upper hand over your opponent. Explain how you are doing so, then make a test using a relevant skill against the enemy’s corresponding defense. On a success, you gain an advantage on your next test against that enemy that uses a different skill.</p>",
+            "short": "<p>You use one of your skills to seek the upper hand over your opponent, such as through clever tactics, unexpected feints, or superior strength. Explain how you are doing so, then make a test using a relevant skill against the enemy’s corresponding defense. On a success, you gain an advantage on your next test against that enemy that uses a different skill.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": 1,
+                "type": "act"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        }
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!8yQ5MMIrywehKyTS"
+}

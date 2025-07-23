@@ -1,0 +1,54 @@
+{
+    "folder": "qTYLKqLK29e5CTQp",
+    "name": "Anesthetic (5 doses)",
+    "type": "equipment",
+    "_id": "Wl0TlHmr1byqb9Ls",
+    "img": "icons/consumables/drinks/tea-jug-glowing-brown-pink.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 75 mk; <strong>Weight</strong> 1.5 lb.;</p><p>Usually made from fathom bark or winterwort, you can apply a dose of anesthetic ointment to an injury after a short or long rest to reduce its recovery time by <span style=\"font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji'\">[[/r 1d4]]</span> days. Each injury can be treated with anesthetic only once per day.</p>",
+            "chat": ""
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 1.5,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 75,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            },
+            "unit": "spheres.mark"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": null,
+                "type": "spe"
+            },
+            "consume": [],
+            "flavor": "",
+            "uses": {
+                "type": "use",
+                "value": 5,
+                "max": 5,
+                "recharge": null
+            }
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        }
+    },
+    "effects": [],
+    "sort": 1600000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!Wl0TlHmr1byqb9Ls"
+}

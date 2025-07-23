@@ -1,0 +1,38 @@
+{
+    "folder": "xeAxqcLYdFWSwUur",
+    "name": "Banter",
+    "type": "action",
+    "_id": "YLN9KgaotlN8ZcQK",
+    "img": "icons/magic/sonic/scream-wail-shout-teal.webp",
+    "system": {
+        "id": "banter",
+        "type": "basic",
+        "description": {
+            "value": "<p>You can freely speak at any point during your turn, and other characters can briefly respond. However, because each round is only about 10 seconds of time, the GM might limit you to only a couple sentences per turn.</p><p>If you wish to use speech in a more nuanced way (such as to persuade someone or do something else that would require a skill test), this demands enough of your attention that you must instead @UUID[Compendium.cosmere-rpg.actions.Item.A4fgvQ6HoxCIpxFS]{Use a Skill} to do so.</p>",
+            "chat": "<p>You can freely speak at any point during your turn, and other characters can briefly respond.</p><p>If you wish to use speech in a more nuanced way (such as to persuade someone or do something else that would require a skill test), this demands enough of your attention that you must instead @UUID[Compendium.cosmere-rpg.actions.Item.A4fgvQ6HoxCIpxFS]{Use a Skill}.</p>",
+            "short": "<p>You can freely speak at any point during your turn, and other characters can briefly respond.</p><p>If you wish to use speech in a more nuanced way (such as to persuade someone or do something else that would require a skill test), this demands enough of your attention that you must instead @UUID[Compendium.cosmere-rpg.actions.Item.A4fgvQ6HoxCIpxFS]{Use a Skill} to do so.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": null,
+                "type": "fre"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        }
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!YLN9KgaotlN8ZcQK"
+}

@@ -1,0 +1,125 @@
+{
+    "name": "Part 4: Conversations",
+    "pages": [
+        {
+            "sort": 100000,
+            "name": "Conversations",
+            "type": "text",
+            "_id": "OkLOdy7iUs4q7UhD",
+            "system": {},
+            "title": {
+                "show": false,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<div class=\"sl-journal\"><p><span class=\"fontstyle0\">Though Roshar is a world defined by war, politics and intrigue have played an equally important role in shaping its history. The pursuit of your goals will require not only the clashing of swords, but the exchanging of words.</span></p><p><span class=\"fontstyle2\"><strong>Conversations</strong> </span><span class=\"fontstyle0\">encapsulate social scenes where at least two characters are talking and attempting to achieve their goals through dialogue, such as by negotiating, deceiving, interrogating, or establishing personal connections. From interrogations and intrigue to conjobs and carousing, many exciting scenes can take the form of conversations. Sometimes you might persuade someone with a single test, in which case a conversation isn’t needed—but conversations are especially helpful in any situation where a complex agreement must be made, a detailed deception is played out, or one or more characters need convincing.</span></p></div>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "ownership": {
+                "default": -1,
+                "Ii3daJCA5JnDRGMI": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": 1749222805310,
+                "lastModifiedBy": "5iBgVcJlVEu3AHTG"
+            },
+            "_key": "!journal.pages!LIl38TXSOlUmIZsA.OkLOdy7iUs4q7UhD"
+        },
+        {
+            "sort": 300000,
+            "name": "Order of Conversations",
+            "type": "text",
+            "_id": "IVH84Ox4RlXPSDYs",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<div class=\"sl-journal\"><p>Conversations in the game unfold much like those in real life, as characters pontificate, interject, argue, and talk over each other. To reflect this free-form interaction, conversations have significantly less structure than combat, and time isn’t tracked as concretely.</p><p></p><img src=\"systems/cosmere-rpg/assets/art/p4-conversations/pg316_Kholinar%20Palace%20Ballroom_ROMAIN%20KURDI.webp\" alt=\"Palace%20Ballroom_ROMAIN%20KURDI\" style=\"border:0px\" class=\" centered\" width=\"600\" /><p style=\"text-align:center\"><strong>Romain Kurdi</strong></p><p></p><h2><span class=\"fontstyle0\" style=\"font-size:16pt\">Flexible Rounds</span></h2><p>While you’ll find yourself in many conversations that are less than polite, it’s important that out of character, everyone still has fun and feels involved. Characters generally contribute one at a time (see @UUID[.IVH84Ox4RlXPSDYs#contributions]{Contributions}), and everyone in the scene should have a chance to participate. When everyone has had a chance to contribute (if they want to), this counts as one “round” of the conversation.</p><p><span class=\"fontstyle0\">It’s a good idea for the GM to check back in with each player if their character hasn’t weighed in recently. If a character’s last contribution was to lean stoically against the back wall while others do the talking, the group should check if that’s what the player wants to continue doing.</span></p><p></p><h2><span class=\"fontstyle0\" style=\"color:rgb(30,60,96);font-size:16pt\">Contributions</span></h2><p><span class=\"fontstyle0\">As you, your fellow players, and the GM play out your interactions, you can communicate either using your character’s voice or describing your actions in the third person. Either way, each time you meaningfully influence the conversation, you’re making a </span><span class=\"fontstyle2\"><strong>contribution</strong></span><span class=\"fontstyle0\">. For example, you might shift the conversation’s focus, sway participants one way or another, support an ally, or gain more insight into the situation. These contributions aren’t intended as rules to limit the scene, but to provide as much support for roleplay as your group finds helpful.</span></p><p></p><h3><span class=\"fontstyle0\" style=\"color:rgb(30,60,96);font-size:14pt\">Contribution Outcomes</span></h3><p><span class=\"fontstyle0\">How a given contribution is resolved depends on what you’re attempting to accomplish. Some contributions just include a wry quip or flavorful interjection, while others have a significant impact on the conversation (and might require a skill test to resolve)</span>.</p><p><span class=\"fontstyle0\">Most contributions work toward one of these five outcomes:</span></p><p><span class=\"fontstyle2\"><strong>Influence a Person.</strong> </span><span class=\"fontstyle0\">Many contributions attempt to influence another person through lies, logic, intimidation, or other means; after all, exerting influence is the goal of most conversations. To change a character’s opinion or behavior, you’ll generally make a skill test with a DC equal to their Spiritual or Cognitive defense (depending on the skill used). Depending on the circumstances, the GM might increase or decrease that DC, and you might gain an advantage or disadvantage based on your approach. Even on a successful test, the other person might temporarily resist your influence by spending focus (see </span>@UUID[.XkVcuqegUYwaVnbb]{Focus in Conversations}<span class=\"fontstyle0\">).</span></p><p><span class=\"fontstyle2\"><strong>Help or Hinder Efforts.</strong> </span><span class=\"fontstyle0\">Conversation can be a group effort, so you might help by augmenting an ally’s arguments or undercutting an opponent’s position. This contribution usually grants your ally an advantage—or your opponent a disadvantage— on their next test in the conversation.</span></p><p><span class=\"fontstyle2\"><strong>Bolster an Ally. </strong></span><span class=\"fontstyle0\">You can encourage, reassure, or otherwise bolster another person in the conversation. This usually results in your target recovering a bit of</span> <span class=\"fontstyle0\">focus (as determined by the GM). This is a valuable boon, as focus represents each person’s resolve and patience for the conversation (see </span>@UUID[.XkVcuqegUYwaVnbb]{Focus in Conversations}<span class=\"fontstyle0\">).</span></p><p><span class=\"fontstyle2\"><strong>Gather Information. </strong></span><span class=\"fontstyle0\">You can scrutinize another person or the environment. Depending on difficulty, the GM might ask you to make a skill test against your target’s Spiritual or Cognitive defense (depending on the skill used).</span></p><p><span class=\"fontstyle2\"><strong>Interject Flavor. </strong></span><span class=\"fontstyle0\">You can always interject to add flavor or context to a conversation. These contributions have no rules—they’re just part of the fun of roleplaying.</span></p></div>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "ownership": {
+                "default": -1,
+                "Ii3daJCA5JnDRGMI": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": 1752453976478,
+                "lastModifiedBy": "zUkYx8Dgv6g35j5m"
+            },
+            "_key": "!journal.pages!LIl38TXSOlUmIZsA.IVH84Ox4RlXPSDYs"
+        },
+        {
+            "sort": 400000,
+            "name": "Focus in Conversations",
+            "type": "text",
+            "_id": "XkVcuqegUYwaVnbb",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<div class=\"sl-journal\"><p>Your focus represents your mental wherewithal, concentration, and patience, making it very important during conversations. Until you run out of focus, you can use it to avoid being influenced by other characters and to fuel special abilities granted to you by talents.</p><p></p><h2>Who Can You Influence?</h2><p>To influence someone, you must be able to communicate with them, which generally requires them to sense you or otherwise receive information from you. Sometimes, influencing someone requires complex arguments, while other times, a look or gesture is enough to get the point across.</p><p>If an ability affects a character you “can influence,” it refers to any character who you can communicate with in an appropriately effective manner.</p><p></p><h2>Resisting Influence</h2><p>Both NPCs and PCs tend to have a strong idea of who they are, and of what they will or won’t do. So when you attempt to influence someone in a conversation, it’s unlikely you can change their mind with a single skill test.</p><p>When a character succeeds on a socially oriented skill test against an opponent (or otherwise does something very persuasive), their opponent can choose to spend focus to <span class=\"fontstyle2\"><strong>resist influence</strong></span>. The amount of focus spent depends on how persuasive the GM decides the contribution is. If reasonably persuasive, an opponent must spend 2 focus to remain resolute. If an argument is extremely strong, the opponent must spend 4 focus instead.</p><p>If the GM decides that a particular argument is incredibly persuasive or hits on a topic an NPC is unlikely to resist, the NPC might choose to not resist at all. Otherwise, once the NPC runs out of focus, they generally concede the point or become open to a compromise (see @UUID[.XkVcuqegUYwaVnbb#running-out-of-focus]{Running Out of Focus}).</p><p></p><h3>Resisting Mechanical Effects</h3><p>Any effect targeting a “character you can influence” can be resisted by that character (unless otherwise stated). If an effect doesn’t require the target to be influenceable, they generally can’t resist it; however, some effects (like the Scholar’s Keen Insight talent) state that a target can resist the influence of that effect, even it isn’t an attempt to persuade the target. These effects can also be resisted by spending 2 focus, as if the effect were a socially oriented skill test.</p><p></p><h3>Player Characters and Influence</h3><p>In conversations, your opponents are usually the ones resisting influence, not you. Depending on how the conversation goes, the GM might ask you to resist influence at some point—but the way you roleplay these situations is up to you, and you’re never forced to choose between spending focus and making your character believe or do something that doesn’t fit their story.</p><img src=\"systems/cosmere-rpg/assets/art/p4-conversations/pg319_Oathgate Negotiation_Artem Demura.webp\" style=\"border:0px\" class=\" centered\" width=\"400\" /><p style=\"text-align:center\"><strong>ARTEM DEMURA</strong></p><p></p><h2>Running Out of Focus</h2><p>An NPC’s focus can be an effective timer or gauge for your progress in a conversation. While a pliable target like a town guard might give into your party’s persuasion quickly, a strong-willed NPC requires more convincing. For these characters, the GM can have them spend focus to resist the PCs’ influence, requiring the group to wear down the NPC with a few successful attempts.</p><p>When an NPC is reduced to 0 focus (often because of resisting influence), they become too frustrated, scattered, or distracted to effectively contribute to a conversation. They can no longer resist being influenced and might check out of the conversation entirely.</p><p>Some resistant characters might need to be worn down before they can be convinced. However, failures, Complications, misspoken words, or the pressure of time could result in the conversation ending before you can get your way. Sometimes it’s better to take a different approach.</p><p></p><h3>Player Characters With No Focus</h3><p>If you start running low on focus (and thus narratively become more vulnerable to outside influence), you might decide you want to step away from the conversation— or you might consider a cue to roleplay a different tactic, based on how you think your character would react. A hothead might decide to start a fight, while a more reserved character might decide to give up on conversation and find more accommodating characters to talk to or seek other ways to pursue their goal.</p><p>Even when you’re completely out of focus, this never forces your character to do or believe something you disagree with. You can have your character change their mind if you wish, but it’s up to you to decide what the effects are and how this impacts the story.</p></div>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "ownership": {
+                "default": -1,
+                "Ii3daJCA5JnDRGMI": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": 1752454050724,
+                "lastModifiedBy": "zUkYx8Dgv6g35j5m"
+            },
+            "_key": "!journal.pages!LIl38TXSOlUmIZsA.XkVcuqegUYwaVnbb"
+        }
+    ],
+    "folder": null,
+    "flags": {},
+    "ownership": {
+        "default": 0
+    },
+    "_id": "LIl38TXSOlUmIZsA",
+    "sort": 287500,
+    "_key": "!journal!LIl38TXSOlUmIZsA",
+    "categories": []
+}

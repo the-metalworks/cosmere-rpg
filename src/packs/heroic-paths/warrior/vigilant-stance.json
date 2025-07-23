@@ -1,0 +1,57 @@
+{
+    "folder": "qfl2vAmZh3gsOpwf",
+    "name": "Vigilant Stance",
+    "type": "talent",
+    "_id": "8mJC2HnsN3OQ2J20",
+    "img": "icons/skills/melee/strike-weapon-polearm-ice-blue.webp",
+    "system": {
+        "id": "vigilant-stance",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span></p><p><em>You study special fighting styles to face various foes and strategies. The most basic of these postures emphasizes alertness and quick responses to oncoming threats.</em></p><p>When you acquire this talent, you learn to use stances. You begin with Vigilant Stance, which you can enter as <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span>:</p><p><strong>Vigilant Stance.</strong> While in this stance, reduce the focus cost of your @UUID[Compendium.cosmere-rpg.actions.Item.6Vm9QIbIjDOeSCwq]{Dodge} and @UUID[Compendium.cosmere-rpg.actions.Item.QpFIxaoCBezzt6yw]{Reactive Strike} reactions by 1. Additionally, you can enter another stance you know as <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">0</span>.</p><hr><p>You can enter a stance you know by using that talent’s stated number of actions. Your stance ends if you either end it as <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">0</span>, enter another stance, or end the scene. While in a stance, you temporarily gain any actions, bonuses, and other effects it grants; these effects end when the stance does.</p><p>By default, you can only use stances during combat, not during other scenes.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span></p><p>Enter Vigilant Stance: Reduce the focus cost of @UUID[Compendium.cosmere-rpg.actions.Item.6Vm9QIbIjDOeSCwq]{Dodge} and @UUID[Compendium.cosmere-rpg.actions.Item.QpFIxaoCBezzt6yw]{Reactive Strike} by 1, and you can enter other stances as <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">0</span>.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span></p><p>When you acquire this talent, you learn to use stances. You begin with Vigilant Stance, which you can enter as <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span>:</p><p><strong>Vigilant Stance.</strong> While in this stance, reduce the focus cost of your @UUID[Compendium.cosmere-rpg.actions.Item.6Vm9QIbIjDOeSCwq]{Dodge} and @UUID[Compendium.cosmere-rpg.actions.Item.QpFIxaoCBezzt6yw]{Reactive Strike} reactions by 1. Additionally, you can enter another stance you know as <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">0</span>.</p><hr><p>You can enter a stance you know by using that talent’s stated number of actions. Your stance ends if you either end it as <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">0</span>, enter another stance, or end the scene. While in a stance, you temporarily gain any actions, bonuses, and other effects it grants; these effects end when the stance does.</p><p>By default, you can only use stances during combat, not during other scenes.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": 1,
+                "type": "act"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "path": "warrior",
+        "hasPath": false,
+        "specialty": "",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {},
+        "prerequisitesMet": false,
+        "modality": "stance",
+        "grantRules": {
+            "h3JzCP1KD4mAunZC": {
+                "type": "items",
+                "items": [
+                    "Compendium.cosmere-rpg.heroic-paths.Item.ZlExHec5xoiO0ITb"
+                ]
+            }
+        }
+    },
+    "effects": [],
+    "sort": 100000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!8mJC2HnsN3OQ2J20"
+}

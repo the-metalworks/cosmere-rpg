@@ -1,0 +1,78 @@
+{
+    "folder": "07WIbGwLoTODw9pL",
+    "name": "Ongoing Care",
+    "type": "talent",
+    "_id": "FvcU7gMrJcsGhm5d",
+    "img": "icons/magic/life/heart-hand-gold-green.webp",
+    "system": {
+        "id": "ongoing-care",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p><em>Medical care can be an arduous process that requires patience and periodic reassessment. You’ve studied the connection between physical and mental health, learning to support both on the long road to recovery.</em></p><p>You can forgo the usual benefits of a short or long rest to instead spend that time treating an ally within your reach. After that rest, make a DC 10 <strong>Medicine</strong> test, increasing the difficulty by 5 for each injury the target has beyond the first. On a success, you remove a single condition or similar effect caused by one of the target’s injuries (but the injury itself remains until healed). A target can’t benefit from this talent more than once every 24 hours.</p><p>Additionally, when you acquire this talent, gain a utility expertise in Mental Health Care.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p>Gain Mental Health Care expertise. During a rest, test <strong>Medicine</strong> (DC 10) to treat an ally, removing one condition caused by their injury.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p>You can forgo the usual benefits of a short or long rest to instead spend that time treating an ally within your reach. After that rest, make a DC 10 <strong>Medicine</strong> test, increasing the difficulty by 5 for each injury the target has beyond the first. On a success, you remove a single condition or similar effect caused by one of the target’s injuries (but the injury itself remains until healed). A target can’t benefit from this talent more than once every 24 hours.</p><p>Additionally, when you acquire this talent, gain a utility expertise in Mental Health Care.</p>"
+        },
+        "activation": {
+            "type": "skill_test",
+            "cost": {
+                "value": null,
+                "type": "spe"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "skill": "med",
+            "attribute": null,
+            "opportunity": null,
+            "complication": null,
+            "modifierFormula": ""
+        },
+        "damage": {
+            "formula": null,
+            "type": null,
+            "skill": null,
+            "attribute": null
+        },
+        "path": "scholar",
+        "hasPath": false,
+        "specialty": "surgeon",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "d8xRD4QPvKpxWTzO": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "skill": "lor",
+                "rank": 3,
+                "talents": []
+            },
+            "1XP32S6uL6uqQkgZ": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "swift-healer",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.qyc7DlzuPBh5lsWz",
+                        "label": "Swift Healer"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "modality": null
+    },
+    "effects": [],
+    "sort": 600000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!FvcU7gMrJcsGhm5d"
+}

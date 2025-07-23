@@ -1,0 +1,63 @@
+{
+    "folder": "kVZlDrFKUyg2QyHL",
+    "name": "Signature Weapon",
+    "type": "talent",
+    "_id": "VALC0o87S2DMxeME",
+    "img": "icons/skills/melee/strike-sword-slashing-red.webp",
+    "system": {
+        "id": "signature-weapon",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p><em>You have trained extensively with a particular weapon and can exploit all the advantages it offers.</em></p><p>When you acquire this talent, gain one weapon expertise. Then choose one weapon type in which you have an expertise and denote it in parentheses after this talent’s name on your character sheet; for example, “Signature Weapon (Longspear).”</p><p>Your Opportunity range for tests using this weapon type expands by 1. When you reach tier 3, this Opportunity range instead expands by 2.</p>",
+            "chat": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>Gain a weapon expertise. Choose one of your weapon expertises, expanding its Opportunity range by 1.</p>",
+            "short": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>When you acquire this talent, gain one weapon expertise. Then choose one weapon type in which you have an expertise and denote it in parentheses after this talent’s name on your character sheet; for example, “Signature Weapon (Longspear).”</p><p>Your Opportunity range for tests using this weapon type expands by 1. When you reach tier 3, this Opportunity range instead expands by 2.</p>"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "path": "warrior",
+        "hasPath": false,
+        "specialty": "duelist",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "modality": null,
+        "prerequisites": {
+            "wqX9AlREVRUM11yD": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "flamestance",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.9iwqXlfJWsySFuax",
+                        "label": "Flamestance"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!VALC0o87S2DMxeME"
+}

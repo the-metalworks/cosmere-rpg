@@ -1,0 +1,48 @@
+{
+    "folder": "qTYLKqLK29e5CTQp",
+    "name": "Pulley system",
+    "type": "equipment",
+    "_id": "srbUHbEivIaTpdDR",
+    "img": "icons/commodities/tech/wheel-wooden.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 100 mk; <strong>Weight</strong> 12 lb.;</p><p>Most commonly used by engineers and artifabrians, this system includes four pulley wheels, 30 feet of rope, and a hook. When you have time to set up a pulley apparatus before lifting an object, you treat the object as being a quarter of its normal weight.</p>",
+            "chat": ""
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 12,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 100,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            },
+            "unit": "spheres.mark"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        }
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!srbUHbEivIaTpdDR"
+}

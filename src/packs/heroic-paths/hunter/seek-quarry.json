@@ -1,0 +1,49 @@
+{
+    "folder": "IDA7IzauvbtPbDkw",
+    "name": "Seek Quarry",
+    "type": "talent",
+    "_id": "3nfGn0BOeLq5qgEr",
+    "img": "icons/tools/navigation/map-marked-red.webp",
+    "system": {
+        "id": "seek-quarry",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p><em>Once you’ve found your prey’s trail, you unrelentingly pursue them and study their movements across the harshest of terrain.</em></p><p>After spending 1 minute mentally preparing, you choose a character who you can sense or who you’ve previously encountered. That character becomes your quarry until you choose to end this effect (<span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">0</span>) or select a new quarry.</p><p>Additionally, you gain an advantage on tests made to find, attack, or study your quarry (such as the @UUID[Compendium.cosmere-rpg.actions.Item.8yQ5MMIrywehKyTS]{Gain Advantage} action).</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p>Choose a character to be your quarry, gaining an advantage on tests to find, attack, and study them.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p>After spending 1 minute mentally preparing, you choose a character who you can sense or who you’ve previously encountered. That character becomes your quarry until you choose to end this effect (<span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">0</span>) or select a new quarry.</p><p>Additionally, you gain an advantage on tests made to find, attack, or study your quarry (such as the @UUID[Compendium.cosmere-rpg.actions.Item.8yQ5MMIrywehKyTS]{Gain Advantage} action).</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": null,
+                "type": "spe"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "path": "hunter",
+        "hasPath": false,
+        "specialty": "",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {},
+        "prerequisitesMet": false,
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "modality": null
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!3nfGn0BOeLq5qgEr"
+}

@@ -1,0 +1,90 @@
+{
+    "folder": "wi17Vt4KdRKtCdX7",
+    "name": "Turning Point",
+    "type": "talent",
+    "_id": "dRY889BGydkl0TcT",
+    "img": "icons/magic/movement/pinwheel-turning-blue.webp",
+    "system": {
+        "id": "turning-point",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">2</span></p><p><em>Battles often pivot on a single crucial moment. Through studying the history of warfare, you learn to identify such opportunities and gain the upper hand.</em></p><p>Once per scene, you can spend 2 focus to find a weakness in an opposing group’s strategy. Make a <strong>Deduction</strong> test against the Cognitive defense of the top-ranking enemy leader in this scene; to target this leader, you must be able to sense them. If you took a slow turn, you gain an advantage on this test. On a success, you and your allies you can influence gain an additional <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span> on your next turns.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">2</span></p><p>Spend 2 focus to test <strong>Deduction</strong> vs. Cognitive of the enemy leader, gaining an advantage if you took a slow turn. On success, you and your allies gain <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span> on your next turns.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">2</span></p><p>Once per scene, you can spend 2 focus to find a weakness in an opposing group’s strategy. Make a <strong>Deduction</strong> test against the Cognitive defense of the top-ranking enemy leader in this scene; to target this leader, you must be able to sense them. If you took a slow turn, you gain an advantage on this test. On a success, you and your allies you can influence gain an additional <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span> on your next turns.</p>"
+        },
+        "activation": {
+            "type": "skill_test",
+            "cost": {
+                "value": 2,
+                "type": "act"
+            },
+            "consume": [
+                {
+                    "type": "resource",
+                    "value": {
+                        "min": 2,
+                        "max": 2,
+                        "actual": 0
+                    },
+                    "resource": "foc"
+                }
+            ],
+            "flavor": "",
+            "plotDie": false,
+            "uses": {
+                "type": "use",
+                "recharge": "per_scene"
+            },
+            "skill": "ded",
+            "attribute": null,
+            "opportunity": null,
+            "complication": null,
+            "modifierFormula": ""
+        },
+        "damage": {
+            "formula": null,
+            "type": null,
+            "skill": null,
+            "attribute": null
+        },
+        "path": "scholar",
+        "hasPath": false,
+        "specialty": "strategist",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "y8i5Zb4XAklxar4D": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "skill": "ded",
+                "rank": 1,
+                "talents": []
+            },
+            "Rb2gIoy5ZzY9U7cu": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "erudition",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.8FYBJZC8PBjneOim",
+                        "label": "Erudition"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "modality": null
+    },
+    "effects": [],
+    "sort": 550000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!dRY889BGydkl0TcT"
+}

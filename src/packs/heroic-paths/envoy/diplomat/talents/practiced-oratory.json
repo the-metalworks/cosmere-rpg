@@ -1,0 +1,71 @@
+{
+    "folder": "PwJradVoGGhlXeOA",
+    "name": "Practiced Oratory",
+    "type": "talent",
+    "_id": "FVoAVaOh6sqFjkPz",
+    "img": "icons/skills/trades/academics-book-study-runes.webp",
+    "system": {
+        "id": "practiced-oratory",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p><em>Thanks to your study of the history of rhetoric, you confidently craft your speeches for widespread appeal.</em></p><p>When you use your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.l4wRQT2MH0SsxmRQ]{Rousing Presence} or @UUID[Compendium.cosmere-rpg.heroic-paths.Item.4DGwBZ4uDLTaKql2]{Steadfast Challenge}, you can spend focus up to your ranks in <strong>Persuasion</strong> to affect that many additional targets.</p>",
+            "chat": "<p><strong>Activation:</strong> <span style=\"font-family: 'Cosmere Dingbats'\">*</span></p><p>When you use @UUID[Compendium.cosmere-rpg.heroic-paths.Item.l4wRQT2MH0SsxmRQ]{Rousing Presence} or @UUID[Compendium.cosmere-rpg.heroic-paths.Item.4DGwBZ4uDLTaKql2]{Steadfast Challenge}, spend focus up to your ranks in <strong>Persuasion</strong> to add that many targets.</p>",
+            "short": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p>When you use your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.l4wRQT2MH0SsxmRQ]{Rousing Presence} or @UUID[Compendium.cosmere-rpg.heroic-paths.Item.4DGwBZ4uDLTaKql2]{Steadfast Challenge}, you can spend focus up to your ranks in <strong>Persuasion</strong> to affect that many additional targets.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": null,
+                "type": "spe"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "path": "envoy",
+        "hasPath": false,
+        "specialty": "diplomat",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "1RmAQVgm25puPLQC": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "skill": "prs",
+                "rank": 3,
+                "talents": []
+            },
+            "jtTOdQngl7aOsXoT": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "talents": [
+                    {
+                        "id": "high-society-contacts",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.HcYB0IRxKJWjNOa7",
+                        "label": "High Society Contacts"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "modality": null
+    },
+    "effects": [],
+    "sort": -300000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!FVoAVaOh6sqFjkPz"
+}

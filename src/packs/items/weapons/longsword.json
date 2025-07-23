@@ -1,0 +1,118 @@
+{
+    "_id": "yzR4gLjOV6njxdde",
+    "folder": "4H9VQhin9BB78Fw4",
+    "name": "Longsword",
+    "type": "weapon",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/items/foundry_items/ICON_Longsword.webp",
+    "system": {
+        "id": "longsword",
+        "type": "heavy_wpn",
+        "description": {
+            "value": "<p><strong>Damage</strong> 1d8 keen; <strong>Range</strong> Melee; <strong>Traits</strong> Quickdraw, Two-Handed; <strong>Expert Traits</strong> Unique: loses Two-Handed trait;</p><p><strong>Type</strong> Heavy Weapon; <strong>Weapons Skill</strong> Heavy; <strong>Price</strong> 60 mk; <strong>Weight</strong> 3 lb.;</p>",
+            "chat": ""
+        },
+        "equipped": false,
+        "activation": {
+            "cost": {
+                "value": 1,
+                "type": "act"
+            },
+            "type": "skill_test",
+            "skill": "hwp",
+            "attribute": "str",
+            "modifierFormula": ""
+        },
+        "damage": {
+            "skill": "hwp",
+            "formula": "1d8",
+            "type": "keen",
+            "attribute": null
+        },
+        "traits": {
+            "two_handed": {
+                "defaultActive": true,
+                "expertise": {
+                    "toggleActive": true
+                }
+            },
+            "cumbersome": {
+                "defaultActive": false,
+                "defaultValue": 0
+            },
+            "dangerous": {
+                "defaultActive": false
+            },
+            "deadly": {
+                "defaultActive": false
+            },
+            "defensive": {
+                "defaultActive": false
+            },
+            "discreet": {
+                "defaultActive": false
+            },
+            "indirect": {
+                "defaultActive": false
+            },
+            "loaded": {
+                "defaultActive": false,
+                "defaultValue": 0
+            },
+            "momentum": {
+                "defaultActive": false
+            },
+            "offhand": {
+                "defaultActive": false
+            },
+            "pierce": {
+                "defaultActive": false
+            },
+            "quickdraw": {
+                "defaultActive": true
+            },
+            "thrown": {
+                "defaultActive": false
+            },
+            "unique": {
+                "defaultActive": false
+            },
+            "fragile": {
+                "defaultActive": false
+            },
+            "reach": {
+                "defaultActive": false
+            }
+        },
+        "weight": {
+            "value": 3,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 60,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark"
+            },
+            "unit": "spheres.mark"
+        },
+        "expertise": false,
+        "resources": null,
+        "attack": {
+            "type": "melee",
+            "range": null
+        },
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "hold",
+            "hold": "two_handed"
+        },
+        "quantity": 1
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!yzR4gLjOV6njxdde"
+}

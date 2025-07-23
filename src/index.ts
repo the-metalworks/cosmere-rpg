@@ -7,7 +7,10 @@ import COSMERE from './system/config';
 import './style.scss';
 import './system/mixins';
 
-import { registerItemEventSystem } from './system/hooks';
+import {
+    registerItemEventSystem,
+    registerStarterRulesConfig,
+} from './system/hooks';
 
 import { preloadHandlebarsTemplates } from './system/utils/handlebars';
 import { registerCustomEnrichers } from './system/utils/enrichers';
@@ -84,6 +87,9 @@ Hooks.once('init', async () => {
 
     // Register item event system event types & handlers
     registerItemEventSystem();
+
+    // Configure the starter rules
+    registerStarterRulesConfig();
 
     Actors.unregisterSheet('core', ActorSheet);
     registerActorSheet(ActorType.Character, applications.actor.CharacterSheet);

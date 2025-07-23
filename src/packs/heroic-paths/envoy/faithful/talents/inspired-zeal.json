@@ -1,0 +1,74 @@
+{
+    "folder": "3BLDPpsyg58Y3JrZ",
+    "name": "Inspired Zeal",
+    "type": "talent",
+    "_id": "xCI4k8HNGxdInzes",
+    "img": "icons/magic/fire/flame-burning-fist-strike.webp",
+    "system": {
+        "id": "inspired-zeal",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"undefined\" aria-label=\"undefined\">*</span></p><p><em>When an ally achieves new heights, your proclamations of their success inspire those around you.</em></p><p>After an ally you can sense uses their <strong>Determined</strong> condition to add an Opportunity to a test, you can choose a number of other allies you can influence up to your ranks in <strong>Discipline</strong>. Each target recovers 1 focus (no action required).</p>",
+            "chat": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"undefined\" aria-label=\"undefined\">*</span></p><p>When an ally uses Determined, choose other allies to recover 1 focus, up to your ranks in <strong>Discipline</strong>.</p>",
+            "short": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"undefined\" aria-label=\"undefined\">*</span></p><p>After an ally you can sense uses their <strong>Determined</strong> condition to add an Opportunity to a test, you can choose a number of other allies you can influence up to your ranks in <strong>Discipline</strong>. Each target recovers 1 focus (no action required).</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": null,
+                "type": "spe"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "path": "envoy",
+        "hasPath": false,
+        "specialty": "faithful",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "68H4tBV0cLMeynxp": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "skill": "dis",
+                "rank": 3,
+                "talents": []
+            },
+            "jsBv33LtfmkKGsI4": {
+                "type": "talent",
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "applied-motivation",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.hmmT2sqwX4k2w325",
+                        "label": "Applied Motivation"
+                    },
+                    {
+                        "id": "stalwart-presence",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.dMYQ161k4zraNd1x",
+                        "label": "Stalwart Presence"
+                    }
+                ]
+            }
+        },
+        "prerequisitesMet": false,
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "modality": null
+    },
+    "effects": [],
+    "sort": 600000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!xCI4k8HNGxdInzes"
+}

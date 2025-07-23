@@ -1,0 +1,82 @@
+{
+    "folder": "btpKhtBwuaK6NeFy",
+    "name": "Shadowing",
+    "type": "talent",
+    "_id": "pyzg1mMZKWhEnaDX",
+    "img": "icons/magic/unholy/silhouette-robe-evil-glow.webp",
+    "system": {
+        "id": "shadowing",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p><em>You silently skulk toward your target, using cover, crowds, or other camouflage to remain unseen until it’s too late.</em></p><p>You gain an advantage on tests to avoid being sensed by your quarry, and your quarry gains a disadvantage on tests to sense you.</p><p>Additionally, when you succeed on a test against an enemy’s Spiritual defense while you’re in cover or an area where your target’s senses are obscured, you can spend 3 focus to designate that target as your quarry for your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.3nfGn0BOeLq5qgEr]{Seek Quarry} talent.</p>",
+            "chat": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p>Your quarry gains a disadvantage to sense you, and you gain an advantage to avoid their notice. When you succeed vs. Spiritual while in cover or obscured, spend 3 focus to designate that target as your quarry.</p>",
+            "short": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p>You gain an advantage on tests to avoid being sensed by your quarry, and your quarry gains a disadvantage on tests to sense you.</p><p>Additionally, when you succeed on a test against an enemy’s Spiritual defense while you’re in cover or an area where your target’s senses are obscured, you can spend 3 focus to designate that target as your quarry for your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.3nfGn0BOeLq5qgEr]{Seek Quarry} talent.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": null,
+                "type": "spe"
+            },
+            "consume": [
+                {
+                    "type": "resource",
+                    "value": {
+                        "min": 3,
+                        "max": 3,
+                        "actual": 0
+                    },
+                    "resource": "foc"
+                }
+            ],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "path": "hunter",
+        "hasPath": false,
+        "specialty": "assassin",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "OXu4GepBAcKsIMin": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "skill": "stl",
+                "rank": 2,
+                "talents": []
+            },
+            "HzFLBsk0yLB7h5oa": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "killing-edge",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.tSarBUrmcyd0Xu29",
+                        "label": "Killing Edge"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "modality": null
+    },
+    "effects": [],
+    "sort": 350000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!pyzg1mMZKWhEnaDX"
+}

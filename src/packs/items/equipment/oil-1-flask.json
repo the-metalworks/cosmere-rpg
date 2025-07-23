@@ -1,0 +1,48 @@
+{
+    "folder": "qTYLKqLK29e5CTQp",
+    "name": "Oil (1 flask)",
+    "type": "equipment",
+    "_id": "bi2zCzju2StdcD8W",
+    "img": "icons/consumables/potions/potion-flask-corked-yellow.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 1 mk; <strong>Weight</strong> 1 lb.;</p><p> Oil generally comes in a 1-pint flask made of dried crem. Oil is flammable and can be used to fuel oil lanterns, to create dangerous terrain in a space, or as an improvised weapon (sling). When you hit or graze a target with this improvised weapon, you coat the target in oil in addition to the normal damage. Following the attack, regardless of the result, the crem flask breaks and  any unused oil is lost.</p>",
+            "chat": ""
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 1,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 1,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            },
+            "unit": "spheres.mark"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        }
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!bi2zCzju2StdcD8W"
+}

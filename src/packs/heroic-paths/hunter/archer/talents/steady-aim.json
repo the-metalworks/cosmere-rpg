@@ -1,0 +1,72 @@
+{
+    "folder": "2rzL155jdAkXbqS9",
+    "name": "Steady Aim",
+    "type": "talent",
+    "_id": "x81dx7J7uDEnrj5K",
+    "img": "icons/skills/ranged/person-archery-bow-attack-orange.webp",
+    "system": {
+        "id": "steady-aim",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span></p><p><em>Your shot finds its mark even across dizzying distances.</em></p><p>Until the end of your turn, both the short and long ranges of your ranged weapons increase by half, and when you hit with a ranged weapon attack, you deal extra damage equal to your ranks in <strong>Perception</strong>.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span></p><p>Increase your weapon range by half and deal extra damage equal to your ranks in <strong>Perception</strong>.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span></p><p>Until the end of your turn, both the short and long ranges of your ranged weapons increase by half, and when you hit with a ranged weapon attack, you deal extra damage equal to your ranks in <strong>Perception</strong>.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": 1,
+                "type": "act"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "path": "hunter",
+        "hasPath": false,
+        "specialty": "archer",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "RgUPDgTH1JEZhqoq": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "skill": "agi",
+                "rank": 1,
+                "talents": []
+            },
+            "wRsUVXPZ7wK8h3ph": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "combat-training",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.Sl4bFpOhQ3NQWELp",
+                        "label": "Combat Training"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "modality": null
+    },
+    "effects": [],
+    "sort": 600000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!x81dx7J7uDEnrj5K"
+}

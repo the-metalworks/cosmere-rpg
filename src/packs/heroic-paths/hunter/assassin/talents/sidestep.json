@@ -1,0 +1,72 @@
+{
+    "folder": "btpKhtBwuaK6NeFy",
+    "name": "Sidestep",
+    "type": "talent",
+    "_id": "BDvznUmzKXAll0rm",
+    "img": "icons/skills/movement/feet-winged-boots-brown.webp",
+    "system": {
+        "id": "sidestep",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p><em>Sliding like a shadow, you flit past your foes’ strikes and evade blows that seem certain to connect.</em></p><p>Gain an additional <span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">r</span> at the start of combat and at the start of each of your turns, which you can use only to @UUID[Compendium.cosmere-rpg.actions.Item.6Vm9QIbIjDOeSCwq]{Dodge}. You can’t benefit from this talent while wearing armor with a deflect value of 2 or higher.</p>",
+            "chat": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p>Gain an additional <span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">r</span> to @UUID[Compendium.cosmere-rpg.actions.Item.6Vm9QIbIjDOeSCwq]{Dodge} when you’re not wearing armor with deflect of 2 or higher.</p>",
+            "short": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p>Gain an additional <span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">r</span> at the start of combat and at the start of each of your turns, which you can use only to @UUID[Compendium.cosmere-rpg.actions.Item.6Vm9QIbIjDOeSCwq]{Dodge}. You can’t benefit from this talent while wearing armor with a deflect value of 2 or higher.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": null,
+                "type": "spe"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "path": "hunter",
+        "hasPath": false,
+        "specialty": "assassin",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "JrctZzdGeXEfUs8X": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "skill": "stl",
+                "rank": 3,
+                "talents": []
+            },
+            "IjvOYRXxKwpOmYAX": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "shadowing",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.pyzg1mMZKWhEnaDX",
+                        "label": "Shadowing"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "modality": null
+    },
+    "effects": [],
+    "sort": 375000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!BDvznUmzKXAll0rm"
+}

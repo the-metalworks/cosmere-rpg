@@ -1,0 +1,48 @@
+{
+    "folder": "qTYLKqLK29e5CTQp",
+    "name": "Barrel",
+    "type": "equipment",
+    "_id": "5cvMonV3oiBFhuJd",
+    "img": "icons/containers/barrels/barrel-oak-banded-tan.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 15 mk; <strong>Weight</strong> 70 lb.;</p><p><em>This item is included for narrative purposes and does not have any specific statistics or rules.</em></p>",
+            "chat": ""
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 70,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 15,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            },
+            "unit": "spheres.mark"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        }
+    },
+    "effects": [],
+    "sort": 300000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!5cvMonV3oiBFhuJd"
+}

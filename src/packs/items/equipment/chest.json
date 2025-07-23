@@ -1,0 +1,48 @@
+{
+    "folder": "qTYLKqLK29e5CTQp",
+    "name": "Chest",
+    "type": "equipment",
+    "_id": "cYClVA9bvZYDUw1K",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/items/foundry_items/ICON_Chest.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 30 mk; <strong>Weight</strong> 25 lb.;</p><p><em>This item is included for narrative purposes and does not have any specific statistics or rules.</em></p>",
+            "chat": ""
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 25,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 30,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            },
+            "unit": "spheres.mark"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        }
+    },
+    "effects": [],
+    "sort": 2100000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!cYClVA9bvZYDUw1K"
+}

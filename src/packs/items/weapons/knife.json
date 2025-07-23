@@ -1,0 +1,84 @@
+{
+    "_id": "k0aKCdFJU0m2lZbv",
+    "folder": "4H9VQhin9BB78Fw4",
+    "name": "Knife",
+    "type": "weapon",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/items/foundry_items/ICON_Knife.webp",
+    "system": {
+        "id": "knife",
+        "type": "light_wpn",
+        "description": {
+            "value": "<p><strong>Damage</strong> 1d4 keen; <strong>Range</strong> Melee; <strong>Traits</strong> Discreet; <strong>Expert Traits</strong> Offhand, Thrown [20/60];</p>",
+            "chat": ""
+        },
+        "equipped": false,
+        "activation": {
+            "cost": {
+                "value": 1,
+                "type": "act"
+            },
+            "type": "skill_test",
+            "skill": "lwp",
+            "attribute": "spd",
+            "modifierFormula": ""
+        },
+        "damage": {
+            "skill": "lwp",
+            "formula": "1d4",
+            "type": "keen",
+            "attribute": null
+        },
+        "traits": {
+            "discreet": {
+                "defaultActive": true
+            },
+            "offhand": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": true
+                }
+            },
+            "thrown": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": true
+                }
+            }
+        },
+        "weight": {
+            "value": 1,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 8,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark"
+            },
+            "unit": "spheres.mark"
+        },
+        "expertise": false,
+        "resources": null,
+        "attack": {
+            "type": "melee",
+            "range": {
+                "value": 20,
+                "long": 60,
+                "unit": "ft"
+            }
+        },
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "hold",
+            "hold": "one_handed"
+        },
+        "quantity": 1
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!k0aKCdFJU0m2lZbv"
+}

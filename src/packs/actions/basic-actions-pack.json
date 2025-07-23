@@ -1,0 +1,127 @@
+{
+    "folder": null,
+    "name": "Basic Actions Pack",
+    "type": "action",
+    "img": "icons/skills/social/thumbsup-approval-like.webp",
+    "system": {
+        "id": "basic-actions-pack",
+        "type": "basic",
+        "description": {
+            "value": "<p>Drag this pack onto a character sheet to quickly add <strong>ALL</strong> the basic actions.</p>",
+            "chat": "",
+            "short": ""
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "attribute": "default",
+            "plotDie": false,
+            "opportunity": null,
+            "complication": null,
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "events": {
+            "m49yKwgGgczAO9Ww": {
+                "id": "m49yKwgGgczAO9Ww",
+                "description": "Add Basic Actions",
+                "event": "add-to-actor",
+                "handler": {
+                    "type": "grant-items",
+                    "allowDuplicates": false,
+                    "increaseQuantity": false,
+                    "pickOne": false,
+                    "notify": true,
+                    "items": [
+                        {
+                            "uuid": "Compendium.cosmere-rpg.actions.Item.K2QgKOSezyeYnnxl"
+                        },
+                        {
+                            "uuid": "Compendium.cosmere-rpg.actions.Item.9cVxEnB5ayw52fTA"
+                        },
+                        {
+                            "uuid": "Compendium.cosmere-rpg.actions.Item.YLN9KgaotlN8ZcQK"
+                        },
+                        {
+                            "uuid": "Compendium.cosmere-rpg.actions.Item.I1CQjZicYdeG9NCN"
+                        },
+                        {
+                            "uuid": "Compendium.cosmere-rpg.actions.Item.wC4Z0mdGwRxLDpMC"
+                        },
+                        {
+                            "uuid": "Compendium.cosmere-rpg.actions.Item.6Vm9QIbIjDOeSCwq"
+                        },
+                        {
+                            "uuid": "Compendium.cosmere-rpg.actions.Item.DOeZCEIwrwFuYQEd"
+                        },
+                        {
+                            "uuid": "Compendium.cosmere-rpg.actions.Item.8yQ5MMIrywehKyTS"
+                        },
+                        {
+                            "uuid": "Compendium.cosmere-rpg.actions.Item.EVPgpHL6Y4jrumwI"
+                        },
+                        {
+                            "uuid": "Compendium.cosmere-rpg.actions.Item.iqjFbO4BLuTSt4cQ"
+                        },
+                        {
+                            "uuid": "Compendium.cosmere-rpg.actions.Item.UEGVL0QnZ6UelxxZ"
+                        },
+                        {
+                            "uuid": "Compendium.cosmere-rpg.actions.Item.QpFIxaoCBezzt6yw"
+                        },
+                        {
+                            "uuid": "Compendium.cosmere-rpg.actions.Item.Gona1nDaqRcioeim"
+                        },
+                        {
+                            "uuid": "Compendium.cosmere-rpg.actions.Item.Y9lzSbkmwGg7mN61"
+                        },
+                        {
+                            "uuid": "Compendium.cosmere-rpg.actions.Item.ttTSR1u5C8D6vbGf"
+                        },
+                        {
+                            "uuid": "Compendium.cosmere-rpg.actions.Item.Da4Xj4WnVbtHMH7k"
+                        },
+                        {
+                            "uuid": "Compendium.cosmere-rpg.actions.Item.DqVTxZTw827gfNJz",
+                            "quantity": "1"
+                        },
+                        {
+                            "uuid": "Compendium.cosmere-rpg.actions.Item.A4fgvQ6HoxCIpxFS"
+                        }
+                    ]
+                },
+                "order": 0
+            },
+            "Yw7zcWVMGqdvjzn6": {
+                "id": "Yw7zcWVMGqdvjzn6",
+                "description": "Remove Kit",
+                "event": "add-to-actor",
+                "handler": {
+                    "type": "remove-items",
+                    "reduceQuantity": false,
+                    "items": [
+                        "Compendium.cosmere-rpg.actions.Item.9jWJDfNy3looIZYQ"
+                    ],
+                    "amount": 1
+                },
+                "order": 0
+            }
+        },
+        "relationships": {}
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "9jWJDfNy3looIZYQ",
+    "sort": 0,
+    "_key": "!items!9jWJDfNy3looIZYQ"
+}

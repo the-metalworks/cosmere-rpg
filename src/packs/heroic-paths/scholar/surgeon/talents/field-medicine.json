@@ -1,0 +1,87 @@
+{
+    "folder": "07WIbGwLoTODw9pL",
+    "name": "Field Medicine",
+    "type": "talent",
+    "_id": "Aanofomkj7Z5WO9E",
+    "img": "icons/skills/trades/textiles-stitching-leather-brown.webp",
+    "system": {
+        "id": "field-medicine",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span></p><p><em>You treat a minor wound by bandaging a gash, applying salves, or resetting a dislocated joint.</em></p><p>Spend 1 focus to make a DC 15 <strong>Medicine</strong> test to treat a conscious willing character within your reach, and roll the target’s recovery die as part of this test. You gain a disadvantage if you’re treating yourself. On a success, your target recovers health equal to the result of their recovery die + your ranks in <strong>Medicine</strong>. On a failure, your target only recovers health equal to the result of their recovery die.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span></p><p>Spend 1 focus and test <strong>Medicine</strong> (DC 15) to heal a conscious character. On success, add your ranks in <strong>Medicine</strong> to their recovery die.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span></p><p>Spend 1 focus to make a DC 15 <strong>Medicine</strong> test to treat a conscious willing character within your reach, and roll the target’s recovery die as part of this test. You gain a disadvantage if you’re treating yourself. On a success, your target recovers health equal to the result of their recovery die + your ranks in <strong>Medicine</strong>. On a failure, your target only recovers health equal to the result of their recovery die.</p>"
+        },
+        "activation": {
+            "type": "skill_test",
+            "cost": {
+                "value": 1,
+                "type": "act"
+            },
+            "consume": [
+                {
+                    "type": "resource",
+                    "value": {
+                        "min": 1,
+                        "max": 1,
+                        "actual": 0
+                    },
+                    "resource": "foc"
+                }
+            ],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "skill": "med",
+            "attribute": null,
+            "opportunity": null,
+            "complication": null,
+            "modifierFormula": ""
+        },
+        "damage": {
+            "formula": "@skills.med.rank",
+            "type": "heal",
+            "skill": null,
+            "attribute": null
+        },
+        "path": "scholar",
+        "hasPath": false,
+        "specialty": "surgeon",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "8K4QwlBNR4NGonLB": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "skill": "med",
+                "rank": 1,
+                "talents": []
+            },
+            "uwG9KOITsGo2Xh3a": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "erudition",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.8FYBJZC8PBjneOim",
+                        "label": "Erudition"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "modality": null
+    },
+    "effects": [],
+    "sort": 500000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!Aanofomkj7Z5WO9E"
+}

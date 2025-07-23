@@ -1,0 +1,81 @@
+{
+    "name": "Leader",
+    "type": "path",
+    "_id": "spF8y5TmLUxxMfxm",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/paths/leader.webp",
+    "system": {
+        "id": "leader",
+        "type": "heroic",
+        "description": {
+            "value": "<p>Beacons of encouragement and direction, leaders oversee the efforts of others. Some are born with an unquenchable thirst for power and influence. Others solemnly accept their calling out of a sense of duty. Either way, skilled leadership requires both natural aptitude and dedicated learning. Mistakes are unavoidable, and indecision is a costly pitfall.</p><p>When worsening conditions cause followers to doubt, Leaders rise to the occasion, bolstering fellowship and resolve to carry on. Though filling this role often proves lonely and burdensome, Leaders can gloriously turn the tides of fate and prevail against superior forces.</p><h3>Leader Specialties</h3><p>The Leader path presents talents in three specialties:</p><p><strong>Champion.</strong> Inspiring others through unfaltering grit, Champions ferociously charge their foes. Their momentum is magnetic, rallying nearby allies to press on.</p><p><strong>Officer.</strong> Officers coolly maintain order in utter chaos. They allocate resources and issue commands, orchestrating the march to victory.</p><p><strong>Politico.</strong> With a penchant for theatrics, Politicos chase favor and prestige while subtly undermining their enemies. Available in the <em>Stormlight Handbook</em>.</p><h3>Building a Leader</h3><p>Consider these general tips for building an effective Leader:</p><p><strong>Attributes.</strong> It’s usually a good idea to prioritize <strong>Presence</strong>, <strong>Strength</strong>, and <strong>Willpower</strong>.</p><p><strong>Skills.</strong> Useful skills include <strong>Athletics</strong>, <strong>Deception</strong>, <strong>Heavy Weaponry</strong>, <strong>Intimidation</strong>, <strong>Leadership</strong>, and <strong>Persuasion</strong>.</p><p><strong>Other Heroic Paths.</strong> The @UUID[Compendium.cosmere-rpg.heroic-paths.Item.kWWyJQRYlIMoQCe9]{Warrior} and @UUID[Compendium.cosmere-rpg.heroic-paths.Item.axOgzq972lY7la00]{Envoy} paths make excellent multi-path choices.</p><p><strong>Rewards.</strong> When choosing rewards, you can’t go wrong with a mount companion, high-ranking military title, and possibly even Shardplate.</p><h3>Leader Key Talent</h3><p>The Leader key talent, @UUID[Compendium.cosmere-rpg.heroic-paths.Item.UEaOm4P2UFcrP1Z8]{Decisive Command}, unlocks access to the Leader specialties.</p><p><strong>Starting Skill:</strong> <strong>Leadership.</strong> If you choose Leader as your starting path, gain a free skill rank in <strong>Leadership</strong>.</p>",
+            "chat": "<p>A poised commander who directs and guides others to be their best. Leader specialties include the @UUID[Compendium.cosmere-rpg.heroic-paths.Item.RYUiIkHoTlfzQuM7]{Champion}, @UUID[Compendium.cosmere-rpg.heroic-paths.Item.VRgMOGgUGumVrd2b]{Officer}, and @UUID[Compendium.cosmere-rpg.heroic-paths.Item.wF3OoXAwy3JJJFcR]{Politico}.</p>",
+            "short": "<p>Beacons of encouragement and direction, leaders oversee the efforts of others. Some are born with an unquenchable thirst for power and influence. Others solemnly accept their calling out of a sense of duty. Either way, skilled leadership requires both natural aptitude and dedicated learning. Mistakes are unavoidable, and indecision is a costly pitfall.</p><p>When worsening conditions cause followers to doubt, Leaders rise to the occasion, bolstering fellowship and resolve to carry on. Though filling this role often proves lonely and burdensome, Leaders can gloriously turn the tides of fate and prevail against superior forces.</p>"
+        },
+        "talentTree": "Compendium.cosmere-rpg.heroic-paths.Item.cmhHluNPv4E2Wwyq",
+        "events": {
+            "cW3uSGFjg0178tUE": {
+                "id": "cW3uSGFjg0178tUE",
+                "description": "Try Set Starting Path",
+                "event": "add-to-actor",
+                "handler": {
+                    "type": "execute-macro",
+                    "inline": true,
+                    "uuid": null,
+                    "macro": {
+                        "type": "script",
+                        "command": "cosmereRPG.utils.macros.startingPath.set(event.item);"
+                    }
+                }
+            },
+            "D5n7EXEujydkBQpI": {
+                "id": "D5n7EXEujydkBQpI",
+                "description": "Try Unset Starting Path",
+                "event": "remove-from-actor",
+                "handler": {
+                    "type": "execute-macro",
+                    "inline": true,
+                    "uuid": null,
+                    "macro": {
+                        "type": "script",
+                        "command": "cosmereRPG.utils.macros.startingPath.unset(event.item);"
+                    }
+                }
+            },
+            "9ld1xEkzBHsO0fEa": {
+                "id": "9ld1xEkzBHsO0fEa",
+                "description": "Grant Key Talent",
+                "event": "add-to-actor",
+                "handler": {
+                    "type": "grant-items",
+                    "allowDuplicates": false,
+                    "increaseQuantity": false,
+                    "items": [
+                        {
+                            "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.UEaOm4P2UFcrP1Z8"
+                        }
+                    ]
+                }
+            },
+            "5b0omTkU5lfCVvP8": {
+                "id": "5b0omTkU5lfCVvP8",
+                "description": "Remove Key Talent",
+                "event": "remove-from-actor",
+                "handler": {
+                    "type": "remove-items",
+                    "reduceQuantity": false,
+                    "items": [
+                        "Compendium.cosmere-rpg.heroic-paths.Item.UEaOm4P2UFcrP1Z8"
+                    ]
+                }
+            }
+        }
+    },
+    "effects": [],
+    "folder": "H1scLvZp68Q8Pckf",
+    "sort": 100000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!spF8y5TmLUxxMfxm"
+}

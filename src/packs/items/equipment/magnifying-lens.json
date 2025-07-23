@@ -1,0 +1,48 @@
+{
+    "folder": "qTYLKqLK29e5CTQp",
+    "name": "Magnifying Lens",
+    "type": "equipment",
+    "_id": "sfOmwcZkWFsAH3vj",
+    "img": "icons/tools/scribal/magnifying-glass.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 400 mk; <strong>Weight</strong> 0.2 lb.;</p><p>You can use a magnifying lens to gain an advantage on skill tests made to appraise or inspect a small or highly detailed item.</p>",
+            "chat": ""
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 0.2,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 400,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            },
+            "unit": "spheres.mark"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        }
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!sfOmwcZkWFsAH3vj"
+}

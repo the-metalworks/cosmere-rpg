@@ -1,0 +1,85 @@
+{
+    "name": "Agent",
+    "type": "path",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/paths/agent.webp",
+    "system": {
+        "id": "agent",
+        "type": "heroic",
+        "description": {
+            "value": "<p>Artists of duplicity and sabotage, Agents grasp the threads of fate in the palms of their hands, waiting for the perfect moment to pull and unravel the carefully laid plans of others. Agents can fool even the most prudent with their clever ruses, swift movements, and calculated strikes.</p><p>Formal education matters little to Agents. Most are fiercely observant and either self-taught or trained in action by their crew. Rules and regulations from outside entities are but playthings to work around or disregard altogether, and Agents answer only to their own code. They meet impossible tasks with a sly smile and razor-sharp wit, living for the thrill of cheating death yet again.</p><h3>Agent Specialties</h3><p>The Agent path presents talents in three specialties:</p><p><strong>Investigator.</strong> Hunches tend to be unreliable—but Investigators cultivate trustworthy instincts, learning to listen, collaborate, and pursue answers to questions others don’t think to ask. Available in the <em>Stormlight Handbook</em>.</p><p><strong>Spy.</strong> To get what they need, Spies plant themselves in sticky situations, ready to deflect or ease suspicion when it inevitably sweeps their way.</p><p><strong>Thief. </strong>Although a quick mind is an invaluable asset, Thieves train their bodies to keep pace. Whether out of necessity or ambition, they risk it all to swindle the insurmountable odds standing between them and their prize.</p><h3>Building an Agent</h3><p>Consider these general tips for building an effective Agent:</p><p><strong>Attributes.</strong> It’s usually a good idea to prioritize <strong>Awareness</strong>, <strong>Intellect</strong>, and <strong>Speed</strong>.</p><p><strong>Skills.</strong> Useful skills include <strong>Agility</strong>, <strong>Deception</strong>, <strong>Deduction</strong>, <strong>Insight</strong>, <strong>Light Weaponry</strong>, and <strong>Thievery</strong>.</p><p><strong>Other Heroic Paths.</strong> The @UUID[Compendium.cosmere-rpg.heroic-paths.Item.E6O5QgdG1JxA7tnf]{Hunter} and @UUID[Compendium.cosmere-rpg.heroic-paths.Item.oFA1jJZQMhTUjyem]{Scholar} paths make excellent multi-path choices.</p><p><strong>Rewards.</strong> When choosing rewards, you can’t go wrong with a bodyguard companion and patrons from the criminal world or high society.</p><h3>Agent Key Talent</h3><p>The Agent key talent, @UUID[Compendium.cosmere-rpg.heroic-paths.Item.ScqSKbkewDAfSizP]{Opportunist}, unlocks access to the Agent specialties.</p><p><strong>Starting Skill: Insight.</strong> If you choose Agent as your starting path, gain a free skill rank in <strong>Insight</strong>.</p>",
+            "short": "<p>Artists of duplicity and sabotage, Agents grasp the threads of fate in the palms of their hands, waiting for the perfect moment to pull and unravel the carefully laid plans of others. Agents can fool even the most prudent with their clever ruses, swift movements, and calculated strikes.</p><p>Formal education matters little to Agents. Most are fiercely observant and either self-taught or trained in action by their crew. Rules and regulations from outside entities are but playthings to work around or disregard altogether, and Agents answer only to their own code. They meet impossible tasks with a sly smile and razor-sharp wit, living for the thrill of cheating death yet again.</p>",
+            "chat": "<p>A talented operative who solves problems with a keen mind or a deft hand. Agent specialties include the @UUID[Compendium.cosmere-rpg.heroic-paths.Item.pXGt1zjQLKd2kG8n]{Investigator}, @UUID[Compendium.cosmere-rpg.heroic-paths.Item.LyOI5JrI1qgsgMSw]{Spy}, and @UUID[Compendium.cosmere-rpg.heroic-paths.Item.voL9lhpd80Nv8jys]{Thief}.</p>"
+        },
+        "talentTrees": [
+            "Compendium.cosmere-rpg.heroic-paths.Item.LyOI5JrI1qgsgMSw",
+            "Compendium.cosmere-rpg.heroic-paths.Item.voL9lhpd80Nv8jys"
+        ],
+        "talentTree": "Compendium.cosmere-rpg.heroic-paths.Item.74hiE11i7gwNG2oy",
+        "events": {
+            "R5fGJo5iyglXb9GL": {
+                "id": "R5fGJo5iyglXb9GL",
+                "description": "Grant Key Talent",
+                "event": "add-to-actor",
+                "handler": {
+                    "type": "grant-items",
+                    "allowDuplicates": false,
+                    "increaseQuantity": false,
+                    "items": [
+                        {
+                            "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.ScqSKbkewDAfSizP"
+                        }
+                    ]
+                }
+            },
+            "i93kmIBRR4A1inuP": {
+                "id": "i93kmIBRR4A1inuP",
+                "description": "Remove Key Talent",
+                "event": "remove-from-actor",
+                "handler": {
+                    "type": "remove-items",
+                    "reduceQuantity": false,
+                    "items": [
+                        "Compendium.cosmere-rpg.heroic-paths.Item.ScqSKbkewDAfSizP"
+                    ]
+                }
+            },
+            "X8xtYdgRuzlQu2gI": {
+                "id": "X8xtYdgRuzlQu2gI",
+                "description": "Try Set Starting Path",
+                "event": "add-to-actor",
+                "handler": {
+                    "type": "execute-macro",
+                    "inline": true,
+                    "uuid": null,
+                    "macro": {
+                        "type": "script",
+                        "command": "cosmereRPG.utils.macros.startingPath.set(event.item);"
+                    }
+                }
+            },
+            "toIha1QKJ4plplmk": {
+                "id": "toIha1QKJ4plplmk",
+                "description": "Try Unset Starting Path",
+                "event": "remove-from-actor",
+                "handler": {
+                    "type": "execute-macro",
+                    "inline": true,
+                    "uuid": null,
+                    "macro": {
+                        "type": "script",
+                        "command": "cosmereRPG.utils.macros.startingPath.unset(event.item);"
+                    }
+                }
+            }
+        }
+    },
+    "effects": [],
+    "flags": {},
+    "folder": "4FciDQnKCAqqh63x",
+    "_id": "qqa1ZgA957Cae6ex",
+    "sort": 100000,
+    "ownership": {
+        "default": 0
+    },
+    "_key": "!items!qqa1ZgA957Cae6ex"
+}

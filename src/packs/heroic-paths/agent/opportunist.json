@@ -1,0 +1,49 @@
+{
+    "folder": "4FciDQnKCAqqh63x",
+    "name": "Opportunist",
+    "type": "talent",
+    "system": {
+        "id": "opportunist",
+        "path": "agent",
+        "description": {
+            "value": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p><em>You instinctively sense moments of consequence. In these moments where the scale teeters between disaster and glory, you can push yourself—and your luck—to tip the outcome in your favor.</em></p><p>Once per round, when you roll a plot die, you can reroll that result. The original roll has no effect and you must use the new result.</p>",
+            "chat": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p>Once per round, you can reroll your plot die.</p>",
+            "short": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p>Once per round, when you roll a plot die, you can reroll that result. The original roll has no effect and you must use the new result.</p>"
+        },
+        "activation": {
+            "cost": {
+                "type": "spe",
+                "value": null
+            },
+            "type": "utility",
+            "consume": [],
+            "flavor": "",
+            "uses": null,
+            "plotDie": false,
+            "opportunity": null,
+            "complication": null
+        },
+        "type": "path",
+        "hasPath": false,
+        "specialty": "",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {},
+        "prerequisitesMet": false,
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "modality": null
+    },
+    "effects": [],
+    "flags": {},
+    "img": "icons/magic/unholy/silhouette-robe-evil-power.webp",
+    "_id": "ScqSKbkewDAfSizP",
+    "sort": 200000,
+    "ownership": {
+        "default": 0
+    },
+    "_key": "!items!ScqSKbkewDAfSizP"
+}

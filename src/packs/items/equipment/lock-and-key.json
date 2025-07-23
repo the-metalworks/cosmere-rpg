@@ -1,0 +1,48 @@
+{
+    "folder": "qTYLKqLK29e5CTQp",
+    "name": "Lock and Key",
+    "type": "equipment",
+    "_id": "fcLjn9zc7Q0N1LK1",
+    "img": "icons/sundries/misc/lock-steel-blue.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 50 mk; <strong>Weight</strong> 1 lb.;</p><p>This sturdy lock can be opened with its included key or a successful DC 20 <strong>Thievery</strong> test. At the GM’s discretion, locks that require higher DCs may be available at higher prices.</p>",
+            "chat": ""
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 1,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 50,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            },
+            "unit": "spheres.mark"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        }
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!fcLjn9zc7Q0N1LK1"
+}

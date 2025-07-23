@@ -1,0 +1,64 @@
+{
+    "folder": "yDWfqqpDSuIVDTSg",
+    "name": "Combat Training",
+    "type": "talent",
+    "_id": "OYcg51vkNrDceKR1",
+    "img": "icons/skills/melee/swords-parry-block-blue.webp",
+    "system": {
+        "id": "combat-training",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p><em>You’ve been trained in the basics of weaponry and elementary battle tactics.</em></p><p>Once per round, when you miss on a weapon attack, you can graze one target without spending focus.</p><p>Additionally, when you acquire this talent, gain a weapon expertise and an armor expertise of your choice, and gain a cultural expertise in Military Life.</p>",
+            "chat": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p>Gain expertise in a weapon, armor, and Military Life. Once per round, graze without spending focus.</p>",
+            "short": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p>Once per round, when you miss on a weapon attack, you can graze one target without spending focus.</p><p>Additionally, when you acquire this talent, gain a weapon expertise and an armor expertise of your choice, and gain a cultural expertise in Military Life.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": null,
+                "type": "spe"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "opportunity": null,
+            "complication": null,
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "path": "warrior",
+        "hasPath": false,
+        "specialty": "duelist",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "modality": null,
+        "prerequisites": {
+            "dXs6xeoWJQlox6Ke": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "vigilant-stance",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.8mJC2HnsN3OQ2J20",
+                        "label": "Vigilant Stance"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!OYcg51vkNrDceKR1"
+}

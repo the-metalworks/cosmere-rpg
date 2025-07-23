@@ -1,0 +1,48 @@
+{
+    "folder": "qTYLKqLK29e5CTQp",
+    "name": "Pot (iron)",
+    "type": "equipment",
+    "_id": "t2JCxvssYjeBRKKt",
+    "img": "icons/tools/cooking/cauldron-empty.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 8 mk; <strong>Weight</strong> 10 lb.;</p><p><em>This item is included for narrative purposes and does not have any specific statistics or rules.</em></p>",
+            "chat": ""
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 10,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 8,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            },
+            "unit": "spheres.mark"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        }
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!t2JCxvssYjeBRKKt"
+}

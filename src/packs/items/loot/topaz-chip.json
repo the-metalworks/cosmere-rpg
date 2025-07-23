@@ -1,0 +1,37 @@
+{
+    "name": "Topaz Chip",
+    "type": "loot",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/items/spheres/sphere_topaz_chip.webp",
+    "system": {
+        "description": {
+            "value": "",
+            "chat": "",
+            "short": ""
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 0,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 1,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            },
+            "unit": "spheres.mark"
+        },
+        "events": {},
+        "isMoney": true
+    },
+    "effects": [],
+    "folder": "RBFoWUCw2wosgSJA",
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "Ms8oOPpjnqMykYiC",
+    "sort": 1500000,
+    "_key": "!items!Ms8oOPpjnqMykYiC"
+}

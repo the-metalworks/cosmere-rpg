@@ -1,0 +1,125 @@
+{
+    "name": "Part 7: Gamemastering",
+    "pages": [
+        {
+            "sort": 100000,
+            "name": "Gamemastering",
+            "type": "text",
+            "_id": "TMMmhva1dREQhF7r",
+            "system": {},
+            "title": {
+                "show": false,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<div class=\"sl-journal\"><p><span class=\"fontstyle0\">While the rest of this rulebook primarily targets the players and their experiences in the game, the remainder of these pages are speaking directly to you, the Game Master. Taking on the role of GM can be a daunting task. After all, your other players just have to worry about their one character; meanwhile, you have to juggle them plus a whole cast of NPCs and how they fit in the story of a grand adventure!</span></p><p><span class=\"fontstyle0\">Luckily, the rules of the game have been designed to help make your job easy. The plot die, Opportunities, and Complications empower the players to help you tell the story, and the different scene types offer support for adjudicating tricky situations. The flexible rules of the Cosmere RPG already provide most of the guidance you’ll need to make running an adventure a fun and rewarding experience for every player at the table—including you, the GM.</span></p><p>Consult chapter 13 of the <em>Stormlight Handbook</em> for a wealth of more advanced GMing techniques.</p></div>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "ownership": {
+                "default": -1,
+                "Ii3daJCA5JnDRGMI": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": 1749229333173,
+                "lastModifiedBy": "5iBgVcJlVEu3AHTG"
+            },
+            "_key": "!journal.pages!CU5abC3bDy6iSlfp.TMMmhva1dREQhF7r"
+        },
+        {
+            "sort": 150000,
+            "name": "Using Adversaries",
+            "type": "text",
+            "_id": "zvewNxXxtDoCLCmK",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<div class=\"sl-journal\"><p>Published adventures come with stat blocks for every featured adversary. This section presents a sample stat block and explains how to read and use the information you’ll find in each stat block.</p><p></p><h2>Stat Blocks</h2><p>Each adversary’s unique rules and statistics are detailed in a special section called a <span class=\"fontstyle3\"><strong>stat block</strong></span>. Adversary stat blocks offer a simplified version of the abilities and statistics of player characters, making them easier to run in combat.</p><p>Adventures usually tell you which adversaries to use, and their names appear in bold to indicate there’s a stat block available. For example, if an adventure says “two <span class=\"fontstyle3\" style=\"color:rgb(36,32,33)\"><strong>axehounds</strong> </span>approach,” use the axehound stat block twice.</p><p>Each stat block includes several components, detailed in the following sections. Unless otherwise specified, these follow the same rules as PCs.</p><p></p><h3><span class=\"fontstyle0\" style=\"color:rgb(30,60,96);font-size:14pt\">Title</span></h3><p><span class=\"fontstyle0\">Depending on the adversary, their title might include their species, function, or other descriptors. In adventures, some major NPCs use a unique stat block with their given name, while the adversaries in the </span><span class=\"fontstyle2\"><em>Stormlight World Guide</em> </span><span class=\"fontstyle0\">have more general titles.</span></p><p></p><h3><span class=\"fontstyle0\" style=\"color:rgb(30,60,96);font-size:14pt\">Details</span></h3><p><span class=\"fontstyle0\">Beneath the adversary’s title, you’ll find details such as “Tier 2 Boss – Medium Humanoid.” This line provides the following information:</span></p><p><span class=\"fontstyle3\"><strong>Tier.</strong> </span><span class=\"fontstyle0\">The adversary’s tier helps you choose appropriately challenging adversaries for each scene.</span></p><p><span class=\"fontstyle3\"><strong>Role.</strong> </span><span class=\"fontstyle0\">Adversaries are divided into three roles: Minion, Rival, and Boss. This represents their relative importance within that tier and their complexity in combat. See the following “Role” section for details on each role.</span></p><p><strong>S</strong><span class=\"fontstyle0\"><strong>ize.</strong> </span><span class=\"fontstyle2\">As with PCs, an adversary’s size reflects the space they control in combat: Small (2.5 feet), Medium (5 feet), Large (10 feet), Huge (15 feet), and Gargantuan (20 feet or more, at GM discretion).</span></p><p><span class=\"fontstyle0\"><strong>Type.</strong> </span><span class=\"fontstyle2\">An adversary’s type summarizes their fundamental nature (such as humanoid or animal). There’s no finite list of types and this doesn’t affect how their stat block functions—type is merely a descriptive term. However, when it fits the story, some effects might affect certain adversary types (especially humanoids) in special ways.</span></p><p></p><h4><span class=\"fontstyle3\"><strong>Role</strong></span></h4><p><span class=\"fontstyle2\">The second line of a stat block lists the adversary’s role along with the other details. Each role follows different rules:</span></p><p><span class=\"fontstyle0\"><strong>Minion</strong> </span><span class=\"fontstyle2\">adversaries are weaker than other adversaries. Each has the Minion feature: “The minion’s attacks can’t critically hit, and they’re immediately defeated when they suffer an injury.”</span></p><p><span class=\"fontstyle0\"><strong>Rival</strong> </span><span class=\"fontstyle2\">adversaries have no additional rules and present a standard challenge to adventurers.</span></p><p><span class=\"fontstyle0\"><strong>Boss</strong> </span><span class=\"fontstyle2\">adversaries can challenge an entire party. They’re more threatening—and more complex to run—than</span> <span class=\"fontstyle0\">other adversaries. Each has the Boss feature: “The boss can take both a fast turn and a slow turn each round. After an enemy finishes a turn, the boss can spend 1 focus to immediately use an extra </span><span class=\"cosmere-icon\">1</span><span class=\"fontstyle0\"> or </span><span class=\"cosmere-icon\">0</span><span class=\"fontstyle0\">. Additionally, they can spend 1 focus on their turn to remove a condition from themself.”</span></p><p><span class=\"fontstyle0\">If you’re planning combat encounters of your own making, each role presents a different level of threat.</span></p></div><p></p><img src=\"systems/cosmere-rpg/assets/art/p7-gamemastering/pg355_Dustbringer Final_KEVIN SIDHARTA.webp\" style=\"border:0px\" class=\" centered\" width=\"600\" /><p style=\"text-align:center\"><strong>KEVIN SIDHARTA</strong></p><img src=\"systems/cosmere-rpg/assets/art/p7-gamemastering/sample_stat_block.webp\" style=\"border:0px\" class=\" centered\" width=\"400\" /><p></p><div class=\"sl-journal\"><h3><span class=\"fontstyle0\" style=\"color:rgb(30,60,96);font-size:14pt\">Attributes and Defenses</span></h3><p><span class=\"fontstyle0\">Adversaries use the same basic statistics as PCs, including the six attributes (Strength, Speed, Intellect, Willpower, Awareness, and Presence) and three defenses (Physical, Cognitive, and Spiritual).</span></p><p><span class=\"fontstyle0\">If these seem like they don’t match up with other numbers in the stat block, never fear; many stat blocks invisibly apply bonuses or penalties (much like a PC talent might), so sometimes a modifier or other statistic may be different than you’d expect.</span></p><p></p><h3><span class=\"fontstyle0\" style=\"color:rgb(30,60,96);font-size:14pt\">Health, Focus, and Investiture</span></h3><p><span class=\"fontstyle0\">As with PCs, adversaries have health, focus, and (in some cases) Investiture.</span></p><h4><span class=\"fontstyle3\"><strong>Current and Maximum</strong></span></h4><p><span class=\"fontstyle0\">The listed value for each of these resources represents both their maximum and current value. If the PCs encounter the same NPC across multiple scenes, consider whether the NPC had a chance to restore some or all of these resources, or whether they’re starting the next scene with less than their maximum.</span></p><h4><span class=\"fontstyle3\"><strong>Customizing Health</strong></span></h4><p><span class=\"fontstyle0\">If you want to make an adversary a little easier or harder to defeat, you can adjust their health using the range provided in parentheses. For example, if an adversary’s health is “60 (48–72),” you can use the default value of 60, decrease it to 48, increase it to 72, or anything in between.</span></p><h4><span class=\"fontstyle3\"><strong>Defeated Adversaries</strong></span></h4><p><span class=\"fontstyle0\">When an adversary is reduced to 0 health, they are defeated. This can play out in different ways depending on the PC’s intent when attacking the adversary, the GM’s desire for the story, and similar factors.</span></p><p><span class=\"fontstyle0\">In battle, most adversaries are assumed dead after being reduced to 0 health, as described in </span>@UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.g3I4elHd7V9Zc9g0]{Damage, Injury, and Death}<span class=\"fontstyle0\"> in part 2. However, at the GM’s discretion, NPCs with a significant narrative role can instead fall Unconscious and make injury rolls like PCs do. Additionally, if the PCs are trying to defeat any adversary with non-lethal means, the PC who deals</span> <span class=\"fontstyle0\">the final blow can choose for the NPC to fall Unconscious with an injury.</span></p><p><span class=\"fontstyle0\">Defeated NPCs remain Unconscious until they recover at least 1 health from another source; they can’t voluntarily regain consciousness like a PC.</span></p><p></p><h3><span class=\"fontstyle0\" style=\"color:rgb(30,60,96);font-size:14pt\">Deflect Value</span></h3><p><span class=\"fontstyle0\">An adversary’s deflect value represents their armor, natural defenses, and special abilities. As with PCs, reduce all incoming impact, keen, and energy damage by the listed deflect value. If an adversary has no deflect value listed, their value is 0.</span></p><p><span class=\"fontstyle0\">Immediately following this value, parentheses name the primary source of this protection (such as “leather”). In some cases, this name is merely for flavor—but if the name of the source matches with a piece of armor from part6, the PCs may be able to acquire it after the enemy is defeated.</span></p><p></p><h3><span class=\"fontstyle0\" style=\"color:rgb(30,60,96);font-size:14pt\">Movement</span></h3><p><span class=\"fontstyle0\">As with PCs, an adversary’s movement rate determines how far they can travel during the Move action.</span></p><p><span class=\"fontstyle0\">A few stat blocks include special movement capabilities, such as swimming or flying. Unlike PCs, adversaries don’t gain the Slowed condition from any movement types listed in their stat block.</span></p><p></p><h3><span class=\"fontstyle0\" style=\"color:rgb(30,60,96);font-size:14pt\">Senses</span></h3><p><span class=\"fontstyle0\">As with PCs, an adversary’s senses range determines the limit of their senses when their primary sense is obscured. Each stat block indicates which primary sense is common for that adversary, but you can change it to whichever sense fits an individual NPC’s story.</span></p><p><span class=\"fontstyle0\">A few adversaries have special capabilities or limitations to their senses, as noted in parentheses after their sense range.</span></p><p></p><h3><span class=\"fontstyle0\" style=\"color:rgb(30,60,96);font-size:14pt\">Immunities</span></h3><p><span class=\"fontstyle0\">Some adversaries are immune to certain effects (usually conditions). For example, if a stat block is immune to Immobilized, they can move freely despite being targeted with abilities that inflict the Immobilized condition.</span></p><p><span class=\"fontstyle0\">As with all rules in this game, these immunities are up to GM discretion, and your players might find a creative way to bypass an adversary’s immunities.</span></p><p></p><h3><span class=\"fontstyle0\" style=\"color:rgb(30,60,96);font-size:14pt\">Skills</span></h3><p><span class=\"fontstyle0\">Adversaries can use any skill from chapter 3, but for simplicity, stat blocks only lists the skills they have ranks in. These are divided into Physical, Cognitive, and Spiritual, though not every adversary has ranks in each category.</span></p><p><span class=\"fontstyle0\">If you want to use a skill whose modifier isn’t listed, just use the adversary’s associated attribute for that modifier (for example, adding their Strength attribute to an Athletics test).</span></p><h4><span class=\"fontstyle0\"><strong>Surge Skills</strong></span></h4><p><span class=\"fontstyle2\">If an adversary can wield Investiture, their stat block also lists their surge skills, along with the number of ranks they have in that skill. For ease of use, stat blocks offer simplified versions of the surges from chapter 6 of the <em>Stormlight Handbook</em>. The Investiture cost appears</span></p><p><span class=\"fontstyle2\">in parentheses after that feature or action’s name. (However, if you want the flexibility of the full surge rules from the <em>Stormlight Handbook</em>, feel free to use them!).</span></p><p></p><h3><span class=\"fontstyle2\" style=\"color:rgb(30,60,96);font-size:14pt\">Languages</span></h3><p><span class=\"fontstyle2\">For adversaries who can speak or understand languages, their stat block suggests what languages to use. However, feel free to adjust these to match each individual NPC.</span></p><p></p><h3><span class=\"fontstyle0\">Features</span></h3><p>Adversary <strong>features</strong> provide special rules that affect the adversary but don’t directly require an action, free action, or reaction to use. For example, a feature might allow an adversary to deal extra damage. See “Actions” below for details on how to calculate statistics and spend resources for these features.</p><p></p><h3><span class=\"fontstyle0\">Actions</span></h3><p>Each stat block provides unique actions, free actions, and/or reactions for that adversary. These follow the same rules as PC actions do, so you can’t use the same action more than once on a turn.</p><p>Adversaries can also use the actions, free actions, and reactions listed in part 3; for example, any adversary can (and often should) use the @UUID[Compendium.cosmere-rpg.actions.Item.UEGVL0QnZ6UelxxZ]{Move} action, the @UUID[Compendium.cosmere-rpg.actions.Item.8yQ5MMIrywehKyTS]{Gain Advantage} action, and the @UUID[Compendium.cosmere-rpg.actions.Item.QpFIxaoCBezzt6yw]{Reactive Strike} reaction.</p><h4><span class=\"fontstyle2\"><strong>Attacks</strong></span></h4><p>Most adversaries have at least one attack, which lists the outcome of a graze (if that attack can graze) and a hit. Some of these serve as the adversary’s basic Strike action, while others include more powerful effects. Unless otherwise specified, all adversary attacks are made against the target’s Physical defense.</p><p>Unlike PC weapons—which have specific tags like Two-Handed—an adversary’s weapon name is merely descriptive and doesn’t invoke any special rules. It’s up to you to decide how an adversary’s attacks work within the story; for example, attacks that list a reach are generally melee attacks, while attacks that list a range are ranged. You can limit these attacks when it makes sense to do so; in general, err on the side of creating dynamic scenes that challenge the PCs.</p><h4><span class=\"fontstyle2\"><strong>Damage</strong></span></h4><p>Actions that deal damage include two options for determining damage: a single number, followed by parentheses with a formula for rolling dice. For example, if an attack deals “8 (1d4 + 6) keen damage,” you can deal 8 damage, or you can roll a d4 then add 6 to the result.</p><p>Use the first number if you want to quickly deal damage without calculating the roll result; this number provides the average damage dealt by that die roll. Use the formula if you prefer the drama or unpredictability of rolling dice for damage.</p><h4><span class=\"fontstyle2\"><strong>Reactive Strikes</strong></span></h4><p>Adversaries can use the Reactive Strike reaction like PCs, spending 1 focus to attack when an enemy voluntarily leaves their reach. The adversary can make this attack using any attack action that costs <span class=\"cosmere-icon\">1</span> and that lists a reach, but not one with only a range listed.</p><h4><span class=\"fontstyle2\"><strong>Duplicate Names</strong></span></h4><p>If an adversary’s stat block action matches the name of an action from this handbook, these are considered duplicate actions (even though the adversary version may have some special features), so you can’t use both on the same turn.</p><h4><span class=\"fontstyle0\"><strong>Calculations Included</strong></span></h4><p><span class=\"fontstyle2\">If an action (or feature) requires a test or otherwise uses the adversary’s statistics, the calculations are already done for you. For example, each attack lists the modifier for that test (“Attack +11”), so you don’t have to reference their skills to figure out what modifier to add.</span></p><h4><span class=\"fontstyle0\"><strong>Spending Resources</strong></span></h4><p><span class=\"fontstyle2\">If an action (or other feature) requires spending the adversary’s focus or Investiture, this cost is noted either in parentheses after the action name (if you always spend it to use that action), or in the text of the action (if other considerations affect when you spend that resource).</span></p></div>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "ownership": {
+                "default": -1,
+                "Ii3daJCA5JnDRGMI": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": 1752455142218,
+                "lastModifiedBy": "zUkYx8Dgv6g35j5m"
+            },
+            "_key": "!journal.pages!CU5abC3bDy6iSlfp.zvewNxXxtDoCLCmK"
+        },
+        {
+            "sort": 175000,
+            "name": "Adventuring and Advancement",
+            "type": "text",
+            "_id": "lgGu39LzhAOZwGhh",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<div class=\"sl-journal\"><p>The stories you tell with the Cosmere RPG can vary in length and complexity. One group’s adventure might play out in a single session; these games are often called <strong>one-shots</strong>. Another group’s adventure could span many sessions, forming a lengthy <strong>campaign</strong> where the characters grow and advance over time. Some campaigns might string together many smaller, loosely connected adventures. Other campaigns could play a long and elaborate adventure that spans characters’ whole careers.</p><p></p><h2>Levels and Goals</h2><p>For groups that play longer adventures, each player character grows in two ways: through gaining levels and achieving goals. Gaining levels represents your growth as you practice over time; each level allows you to improve your innate skills and unlock new abilities.</p><p>Meanwhile, as you pursue and achieve goals unique to your personal narrative, you gain access to powerful rewards (such as earning legendary Shardblades or bonding with magical spren).</p><p>When you’re ready to advance your character, see the <em>Stormlight Handbook</em> for guidance on taking your character on to new adventures.</p><h4>@UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.iEuKRpB4mYLQKfb9.JournalEntryPage.0ZgCT4EHOK2s1chB]</h4><p>@Embed[Compendium.cosmere-rpg.starter-rules.JournalEntry.iEuKRpB4mYLQKfb9.JournalEntryPage.0ZgCT4EHOK2s1chB inline]</p><img src=\"systems/cosmere-rpg/assets/art/p7-gamemastering/pg025_Secret Training_ADAM J. MARIN.webp\" style=\"border:0px\" class=\" centered\" width=\"400\" /><p style=\"text-align:center\"><strong>ADAM J. MARIN</strong></p></div>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "ownership": {
+                "default": -1,
+                "Ii3daJCA5JnDRGMI": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": 1752454799776,
+                "lastModifiedBy": "zUkYx8Dgv6g35j5m"
+            },
+            "_key": "!journal.pages!CU5abC3bDy6iSlfp.lgGu39LzhAOZwGhh"
+        }
+    ],
+    "folder": null,
+    "flags": {},
+    "ownership": {
+        "default": 0
+    },
+    "_id": "CU5abC3bDy6iSlfp",
+    "sort": 298438,
+    "_key": "!journal!CU5abC3bDy6iSlfp",
+    "categories": []
+}

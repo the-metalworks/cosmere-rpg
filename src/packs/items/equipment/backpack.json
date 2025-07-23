@@ -1,0 +1,48 @@
+{
+    "folder": "qTYLKqLK29e5CTQp",
+    "name": "Backpack",
+    "type": "equipment",
+    "_id": "g7wp6B76l6FPLCpj",
+    "img": "icons/containers/bags/pack-leather-white-tan.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 8 mk; <strong>Weight</strong> 5 lb.;</p><p><em>This item is included for narrative purposes and does not have any specific statistics or rules.</em></p>",
+            "chat": ""
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 5,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 8,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            },
+            "unit": "spheres.mark"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        }
+    },
+    "effects": [],
+    "sort": 2300000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!g7wp6B76l6FPLCpj"
+}

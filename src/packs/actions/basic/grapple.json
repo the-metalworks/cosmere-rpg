@@ -1,0 +1,44 @@
+{
+    "folder": "xeAxqcLYdFWSwUur",
+    "name": "Grapple",
+    "type": "action",
+    "_id": "EVPgpHL6Y4jrumwI",
+    "img": "icons/skills/melee/unarmed-punch-fist.webp",
+    "system": {
+        "id": "grapple",
+        "type": "basic",
+        "description": {
+            "value": "<p>Through strength and skill, you grab your opponent or control their movements to keep them restrained and focused on you.</p><p>Make an Athletics test against the Physical defense of a character within your reach. On a success, they become @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#restrained]{Restrained} until either you become @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#unconscious]{Unconscious}, you choose to end the effect (<span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">0</span>), or they are no longer within your reach.</p>",
+            "chat": "<p>Make an Athletics test against the Physical defense of a character within your reach. On a success, they become @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.MfPDUyrCWc3mXm5N.JournalEntryPage.jQvh7ULoKmh49sYA#restrained]{Restrained} until either you become @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.MfPDUyrCWc3mXm5N.JournalEntryPage.jQvh7ULoKmh49sYA#unconscious]{Unconscious}, you choose to end the effect ( <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">0</span>), or they are no longer within your reach.</p>",
+            "short": "<p>Make an Athletics test against the Physical defense of a character within your reach. On a success, they become @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.MfPDUyrCWc3mXm5N.JournalEntryPage.jQvh7ULoKmh49sYA#restrained]{Restrained} until either you become @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.MfPDUyrCWc3mXm5N.JournalEntryPage.jQvh7ULoKmh49sYA#unconscious]{Unconscious}, you choose to end the effect ( <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">0</span>), or they are no longer within your reach.</p>"
+        },
+        "activation": {
+            "type": "skill_test",
+            "cost": {
+                "value": 2,
+                "type": "act"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "skill": "ath",
+            "attribute": null,
+            "modifierFormula": ""
+        },
+        "damage": {
+            "formula": null,
+            "type": null,
+            "skill": null,
+            "attribute": null,
+            "grazeOverrideFormula": ""
+        }
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!EVPgpHL6Y4jrumwI"
+}

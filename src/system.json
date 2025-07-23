@@ -45,15 +45,86 @@
     },
     "packs": [
         {
-            "name": "rules",
-            "label": "Rules",
-            "system": "cosmere-rpg",
-            "path": "packs/rules",
+            "name": "starter-rules",
+            "label": "Stormlight Starter Rules",
+            "path": "packs/starter-rules",
             "type": "JournalEntry",
+            "system": "cosmere-rpg",
+            "ownership": {
+                "PLAYER": "OBSERVER",
+                "ASSISTANT": "OWNER"
+            },
+            "flags": {
+                "cosmere-rpg": {
+                    "defaultSortingMode": "m"
+                }
+            }
+        },
+        {
+            "name": "items",
+            "label": "Items",
+            "path": "packs/items",
+            "type": "Item",
+            "system": "cosmere-rpg",
             "ownership": {
                 "PLAYER": "OBSERVER",
                 "ASSISTANT": "OWNER"
             }
+        },
+        {
+            "name": "ancestries",
+            "label": "Ancestries",
+            "path": "packs/ancestries",
+            "type": "Item",
+            "system": "cosmere-rpg",
+            "ownership": {
+                "PLAYER": "OBSERVER",
+                "ASSISTANT": "OWNER"
+            }
+        },
+                {
+            "name": "cultures",
+            "label": "Cultures",
+            "path": "packs/cultures",
+            "type": "Item",
+            "system": "cosmere-rpg",
+            "ownership": {
+                "PLAYER": "OBSERVER",
+                "ASSISTANT": "OWNER"
+            }
+        },
+        {
+            "name": "heroic-paths",
+            "label": "Heroic Paths",
+            "path": "packs/heroic-paths",
+            "type": "Item",
+            "system": "cosmere-rpg",
+            "ownership": {
+                "PLAYER": "OBSERVER",
+                "ASSISTANT": "OWNER"
+            }
+        },
+        {
+            "name": "actions",
+            "label": "Actions",
+            "path": "packs/actions",
+            "type": "Item",
+            "system": "cosmere-rpg",
+            "ownership": {
+                "PLAYER": "OBSERVER",
+                "ASSISTANT": "OWNER"
+            }
+        },
+        {
+            "name": "companions-and-adversaries",
+            "label": "Companions and Adversaries",
+            "path": "packs/companions-and-adversaries",
+            "type": "Actor",
+            "ownership": {
+                "PLAYER": "OBSERVER",
+                "ASSISTANT": "OWNER"
+            },
+            "system": "cosmere-rpg"
         },
         {
             "name": "tables",
@@ -69,12 +140,17 @@
     ],
     "packFolders": [
         {
-            "name": "Cosmere RPG",
+            "name": "Stormlight Starter Rules",
             "sorting": "m",
             "color": "#141f3c",
             "packs": [
-                "rules",
-                "tables"
+                "heroic-paths",
+                "actions",
+                "items",
+                "companions-and-adversaries",
+                "tables",
+                "ancestries",
+                "cultures"
             ]
         }
     ],

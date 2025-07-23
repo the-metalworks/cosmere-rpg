@@ -1,0 +1,36 @@
+{
+    "folder": "RBFoWUCw2wosgSJA",
+    "name": "Ruby Mark",
+    "type": "loot",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/items/spheres/sphere_ruby_mark.webp",
+    "system": {
+        "isMoney": true,
+        "description": {
+            "value": "",
+            "chat": "",
+            "short": ""
+        },
+        "weight": {
+            "value": 0,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 10,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            }
+        },
+        "quantity": 1,
+        "events": {}
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "pvV7IxISGvYB7A5n",
+    "sort": 700000,
+    "_key": "!items!pvV7IxISGvYB7A5n"
+}

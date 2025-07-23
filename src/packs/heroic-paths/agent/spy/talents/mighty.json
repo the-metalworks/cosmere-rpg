@@ -1,0 +1,62 @@
+{
+    "folder": "wTsGOInIGEUZQvz8",
+    "name": "Mighty",
+    "type": "talent",
+    "system": {
+        "id": "mighty",
+        "type": "path",
+        "path": "agent",
+        "specialty": "spy",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p><em>You deliver your swings, punches, and kicks with practiced efficiency.</em></p><p>When you hit with a weapon or unarmed attack, for each <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">1</span> you used on that attack’s action, increase the damage you deal by 1 + your tier. For example, if you’re level 6 and you make an attack that costs <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">2</span> , each <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">1</span> deals an extra 1 + 2 damage, for a total of an extra 6 damage.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>When you hit with a weapon or unarmed attack, for each <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">1</span> spent, deal extra damage equal to 1 + your tier.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>When you hit with a weapon or unarmed attack, for each <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">1</span> you used on that attack’s action, increase the damage you deal by 1 + your tier. For example, if you’re level 6 and you make an attack that costs <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">2</span> , each <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">1</span> deals an extra 1 + 2 damage, for a total of an extra 6 damage.</p>"
+        },
+        "prerequisites": {
+            "cybGIrMGnYQuJKMD": {
+                "type": "talent",
+                "label": "Cover Story",
+                "value": 0,
+                "rank": 1,
+                "talents": [
+                    {
+                        "id": "cover-story",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.1sD2LdFfgODs6jz6",
+                        "label": "Cover Story"
+                    }
+                ]
+            }
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "uses": null,
+            "plotDie": false,
+            "opportunity": null,
+            "complication": null
+        },
+        "hasPath": false,
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisitesMet": false,
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "modality": null
+    },
+    "effects": [],
+    "flags": {},
+    "img": "icons/skills/melee/maneuver-sword-katana-yellow.webp",
+    "_id": "slH7UTWd3cQ0o3IN",
+    "sort": 500000,
+    "ownership": {
+        "default": 0
+    },
+    "_key": "!items!slH7UTWd3cQ0o3IN"
+}

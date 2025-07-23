@@ -1,0 +1,49 @@
+{
+    "folder": "r4Hes6L3MsNihbOx",
+    "name": "Rousing Presence",
+    "type": "talent",
+    "_id": "l4wRQT2MH0SsxmRQ",
+    "img": "icons/skills/social/intimidation-impressing.webp",
+    "system": {
+        "id": "rousing-presence",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span></p><p><em>With a gesture, a facial expression, or a few scant words, you inspire others to excel.</em></p><p>Choose an ally you can influence. They become <strong>Determined</strong> until they benefit from that condition or until the scene ends.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span></p><p>An ally becomes <strong>Determined</strong> until end of scene.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span></p><p>Choose an ally you can influence. They become <strong>Determined</strong> until they benefit from that condition or until the scene ends.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": 1,
+                "type": "act"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "path": "envoy",
+        "hasPath": false,
+        "specialty": "",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {},
+        "prerequisitesMet": false,
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "modality": null
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!l4wRQT2MH0SsxmRQ"
+}

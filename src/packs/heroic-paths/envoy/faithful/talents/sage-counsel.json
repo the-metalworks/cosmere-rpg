@@ -1,0 +1,79 @@
+{
+    "folder": "3BLDPpsyg58Y3JrZ",
+    "name": "Sage Counsel",
+    "type": "talent",
+    "_id": "6x9Sl6OUTqqbZ0wR",
+    "img": "icons/skills/trades/academics-study-reading-book.webp",
+    "system": {
+        "id": "sage-counsel",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p><em>You offer reassuring guidance alongside physical assistance, making your allies confident of your approval.</em></p><p>After you use the @UUID[Compendium.cosmere-rpg.actions.Item.K2QgKOSezyeYnnxl]{Aid} reaction on an ally, spend 1 focus to grant that ally the benefits of your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.l4wRQT2MH0SsxmRQ]{Rousing Presence} (no action required).</p>",
+            "chat": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p>When you @UUID[Compendium.cosmere-rpg.actions.Item.K2QgKOSezyeYnnxl]{Aid} a character, spend 1 focus to grant them @UUID[Compendium.cosmere-rpg.heroic-paths.Item.l4wRQT2MH0SsxmRQ]{Rousing Presence}.</p>",
+            "short": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p>After you use the @UUID[Compendium.cosmere-rpg.actions.Item.K2QgKOSezyeYnnxl]{Aid} reaction on an ally, spend 1 focus to grant that ally the benefits of your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.l4wRQT2MH0SsxmRQ]{Rousing Presence} (no action required).</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": null,
+                "type": "spe"
+            },
+            "consume": [
+                {
+                    "type": "resource",
+                    "value": {
+                        "min": 1,
+                        "max": 1,
+                        "actual": 0
+                    },
+                    "resource": "foc"
+                }
+            ],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "path": "envoy",
+        "hasPath": false,
+        "specialty": "faithful",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "BulG71IjSfZ3HT0b": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "skill": "lor",
+                "rank": 3,
+                "talents": []
+            },
+            "OShzVVZ5nkWX5bPU": {
+                "type": "talent",
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "stalwart-presence",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.dMYQ161k4zraNd1x",
+                        "label": "Stalwart Presence"
+                    }
+                ]
+            }
+        },
+        "prerequisitesMet": false,
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "modality": null
+    },
+    "effects": [],
+    "sort": 700000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!6x9Sl6OUTqqbZ0wR"
+}

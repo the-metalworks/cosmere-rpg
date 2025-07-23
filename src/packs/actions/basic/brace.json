@@ -1,0 +1,38 @@
+{
+    "folder": "xeAxqcLYdFWSwUur",
+    "name": "Brace",
+    "type": "action",
+    "_id": "I1CQjZicYdeG9NCN",
+    "img": "icons/skills/melee/shield-block-bash-blue.webp",
+    "system": {
+        "id": "brace",
+        "type": "basic",
+        "description": {
+            "value": "<p>You hide behind cover within 5 feet of you (see @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.GgQySBa2DAqiGFNq.JournalEntryPage.rMs5NOkzGPLSbj9y#terrain]{Terrain}) to defend yourself against incoming attacks. All attacks against you gain a disadvantage for as long as you stay behind cover. If you attack or move, the benefits of this action end.</p><p>You’re only protected against attacks from the other side of your cover, and it must be substantial enough to realistically defend you against the attack. For example, you could press yourself against a wall or duck behind an obstacle, but if an enemy rounds the corner toward you, they can attack you without disadvantage.</p><p>If you have a weapon with the <strong>Defensive</strong> trait (such as a shield), you can wield it to create mobile cover for yourself. When you do, you must keep that weapon raised and between yourself and any potential attackers.</p>",
+            "chat": "<p>You hide behind cover within 5 feet of you (see @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.GgQySBa2DAqiGFNq.JournalEntryPage.rMs5NOkzGPLSbj9y#terrain]{Terrain}). All attacks against you gain a disadvantage for as long as you stay behind cover. If you attack or move, the benefits of this action end.</p><p>If you have a weapon with the <strong>Defensive</strong> trait, you can wield it to create mobile cover for yourself. When you do, you must keep that weapon raised and between yourself and any potential attackers.</p>",
+            "short": "<p>You hide behind cover within 5 feet of you (see @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.GgQySBa2DAqiGFNq.JournalEntryPage.rMs5NOkzGPLSbj9y#terrain]{Terrain}) to defend yourself against incoming attacks. All attacks against you gain a disadvantage for as long as you stay behind cover. If you attack or move, the benefits of this action end.</p><p>If you have a weapon with the <strong>Defensive</strong> trait (such as a shield), you can wield it to create mobile cover for yourself. When you do, you must keep that weapon raised and between yourself and any potential attackers.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": 1,
+                "type": "act"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        }
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!I1CQjZicYdeG9NCN"
+}

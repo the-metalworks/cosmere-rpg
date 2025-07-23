@@ -1,0 +1,74 @@
+{
+    "_id": "0mE1SpjOuNtgR0eq",
+    "folder": "4H9VQhin9BB78Fw4",
+    "name": "Sidesword",
+    "type": "weapon",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/items/foundry_items/ICON_Shortsword.webp",
+    "system": {
+        "id": "sidesword",
+        "type": "light_wpn",
+        "description": {
+            "value": "<p><strong>Damage</strong> 1d6 keen; <strong>Range</strong> Melee; <strong>Traits</strong> Quickdraw; <strong>Expert Traits</strong> Offhand;</p><p><strong>Type</strong> Light Weapon; <strong>Weapons Skill</strong> Light; <strong>Price</strong> 40 mk; <strong>Weight</strong> 2 lb.;</p>",
+            "chat": ""
+        },
+        "equipped": false,
+        "activation": {
+            "cost": {
+                "value": 1,
+                "type": "act"
+            },
+            "type": "skill_test",
+            "skill": "lwp",
+            "attribute": "spd",
+            "modifierFormula": ""
+        },
+        "damage": {
+            "skill": "lwp",
+            "formula": "1d6",
+            "type": "keen",
+            "attribute": null
+        },
+        "traits": {
+            "quickdraw": {
+                "defaultActive": true
+            },
+            "offhand": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": true
+                }
+            }
+        },
+        "weight": {
+            "value": 2,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 40,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark"
+            },
+            "unit": "spheres.mark"
+        },
+        "expertise": false,
+        "resources": null,
+        "attack": {
+            "type": "melee",
+            "range": null
+        },
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "hold",
+            "hold": "one_handed"
+        },
+        "quantity": 1
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!0mE1SpjOuNtgR0eq"
+}

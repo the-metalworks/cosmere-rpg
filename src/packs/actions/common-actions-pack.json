@@ -1,0 +1,100 @@
+{
+    "folder": null,
+    "name": "Common Actions Pack",
+    "type": "action",
+    "img": "icons/skills/melee/unarmed-punch-fist-yellow-red.webp",
+    "system": {
+        "id": "common-actions-pack",
+        "type": "basic",
+        "description": {
+            "value": "<p>Drag this pack onto a character sheet to quickly add commonly used basic actions. These include:</p><ul><li><p>@UUID[Compendium.cosmere-rpg.actions.Item.K2QgKOSezyeYnnxl]{Aid}</p></li><li><p>@UUID[Compendium.cosmere-rpg.actions.Item.9cVxEnB5ayw52fTA]{Avoid Danger}</p></li><li><p>@UUID[Compendium.cosmere-rpg.actions.Item.I1CQjZicYdeG9NCN]{Brace}</p></li><li><p>@UUID[Compendium.cosmere-rpg.actions.Item.wC4Z0mdGwRxLDpMC]{Disengage}</p></li><li><p>@UUID[Compendium.cosmere-rpg.actions.Item.6Vm9QIbIjDOeSCwq]{Dodge}</p></li><li><p>@UUID[Compendium.cosmere-rpg.actions.Item.EVPgpHL6Y4jrumwI]{Grapple}</p></li><li><p>@UUID[Compendium.cosmere-rpg.actions.Item.ttTSR1u5C8D6vbGf]{Shove}</p></li><li><p>@UUID[Compendium.cosmere-rpg.actions.Item.DqVTxZTw827gfNJz]{Unarmed Strike}</p></li><li><p>@UUID[Compendium.cosmere-rpg.actions.Item.Y9lzSbkmwGg7mN61]{Recover}</p></li></ul>",
+            "chat": "",
+            "short": ""
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "attribute": "default",
+            "plotDie": false,
+            "opportunity": null,
+            "complication": null,
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "events": {
+            "bRk5XtP52xifZBoi": {
+                "id": "bRk5XtP52xifZBoi",
+                "description": "Add Common Actions",
+                "event": "add-to-actor",
+                "handler": {
+                    "type": "grant-items",
+                    "allowDuplicates": false,
+                    "increaseQuantity": false,
+                    "pickOne": false,
+                    "notify": true,
+                    "items": [
+                        {
+                            "uuid": "Compendium.cosmere-rpg.actions.Item.K2QgKOSezyeYnnxl"
+                        },
+                        {
+                            "uuid": "Compendium.cosmere-rpg.actions.Item.9cVxEnB5ayw52fTA"
+                        },
+                        {
+                            "uuid": "Compendium.cosmere-rpg.actions.Item.I1CQjZicYdeG9NCN"
+                        },
+                        {
+                            "uuid": "Compendium.cosmere-rpg.actions.Item.wC4Z0mdGwRxLDpMC"
+                        },
+                        {
+                            "uuid": "Compendium.cosmere-rpg.actions.Item.6Vm9QIbIjDOeSCwq"
+                        },
+                        {
+                            "uuid": "Compendium.cosmere-rpg.actions.Item.EVPgpHL6Y4jrumwI"
+                        },
+                        {
+                            "uuid": "Compendium.cosmere-rpg.actions.Item.ttTSR1u5C8D6vbGf"
+                        },
+                        {
+                            "uuid": "Compendium.cosmere-rpg.actions.Item.DqVTxZTw827gfNJz",
+                            "quantity": "1"
+                        },
+                        {
+                            "uuid": "Compendium.cosmere-rpg.actions.Item.Y9lzSbkmwGg7mN61"
+                        }
+                    ]
+                },
+                "order": 0
+            },
+            "7yHw9QmIH5AzBaq4": {
+                "id": "7yHw9QmIH5AzBaq4",
+                "description": "Remove Kit",
+                "event": "add-to-actor",
+                "handler": {
+                    "type": "remove-items",
+                    "reduceQuantity": false,
+                    "items": [
+                        "Compendium.cosmere-rpg.actions.Item.8Bjd9CCgjCq33wre"
+                    ],
+                    "amount": 1
+                },
+                "order": 0
+            }
+        },
+        "relationships": {}
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "8Bjd9CCgjCq33wre",
+    "sort": 0,
+    "_key": "!items!8Bjd9CCgjCq33wre"
+}
