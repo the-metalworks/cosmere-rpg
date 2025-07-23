@@ -7,7 +7,7 @@ We also wish to take a brief moment to thank the staff at Brotherwise for giving
 
 #### 👋🏻 An Introduction
 
-While we have been generously permitted to share this system publicly during it's early development (and it will continue to be Open Source!), this release marks the point at which we believe it now provides the quality of experience that the work Brandon, Dragonsteel and Brotherwise deserves at the table. We have laboured to make sure we aligned this with the wider Digital Release for the Kickstarter materials and the opening of general sales, so we expect a number of fresh faces will be reading this!
+While we have been generously permitted to share this system publicly during its early development (and it will continue to be Open Source!), this release marks the point at which we believe it now provides the quality of experience that the work of Brandon, Dragonsteel and Brotherwise deserves at the table. We have laboured to make sure we aligned this with the wider Digital Release for the Kickstarter materials and the opening of general sales, so we expect a number of fresh faces will be reading this!
 For those budding Worldhoppers, this release note will be a little broader than usual and our usual highlights will cover a broad base of what the system offers. For those veterans who've been installing the system manually and are leveling up to higher Ideals, I hope you find something new in here, but there is also the full **changelog** below too!
 
 #### 👥 Character & Adversary Sheets
@@ -132,7 +132,7 @@ Right, this is getting quite long, so lets get through the rest in Rapid Fire!
 - **Settings:** Do check out the settings menu for the world, we have tried not to overwhelm you with options, but from there you can define default behaviour for things like which keys act as your click modifiers, how setting skills ranks should be and more.
 - **Roll Tables:** Look into the **Roll Tables tab (![Image of the Rolltable Icon](https://github.com/user-attachments/assets/0e3fb743-2e89-4e6e-8f19-63a69674597a))** to find a tool that lets you create random generator tables and roll on them; Here we provide one for applying an injury to a character.
 - **Enrichers:** Create rich, interactive elements right inline with your text boxes! We have added special tags that can be applied to any large text fields (excepting Journals currently) that can replace themselves with:
-  - Values pulled from the Item in question or it's owning Actor
+  - Values pulled from the Item in question or its owning Actor
   - A button that triggers a skill roll for the owning Actor
   - A button that can make a standalone damage roll
 
