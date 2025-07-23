@@ -1,0 +1,81 @@
+{
+    "name": "Scholar",
+    "type": "path",
+    "_id": "oFA1jJZQMhTUjyem",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/paths/scholar.webp",
+    "system": {
+        "id": "scholar",
+        "type": "heroic",
+        "description": {
+            "value": "<p>Creativity, acumen, and patience are hallmarks of legendary Scholars. Each time a Desolation sweeps away centuries of progress and scientific advancement, Scholars rise to build Roshar anew.</p><p>To a Scholar, every mystery is a challenge with a befitting prize. Some Scholars devote their research to famines, barren lands, and related food crises. Others study the body, how it functions, and how to restore it after injury and illness. But not all Scholars occupy themselves with bettering society—some instead pursue tools of destruction. Military Scholars often devise new instruments of war and calculate how to best pressure enemy forces.</p><p>No matter their field of study, Scholars use their insatiable hunger for knowledge to change the world for better or worse, one brilliant discovery at a time.</p><h3>Scholar Specialties</h3><p>The Scholar path presents talents in three specialties:</p><p><strong>Artifabrian.</strong> Combining science, engineering, and artistry, Artifabrians use polestones and metal casings to construct fabrials that perform precise functions. Available in the <em>Stormlight Handbook</em>.</p><p><strong>Strategist.</strong> Always three steps ahead, Strategists know timing is everything and make it work to their benefit.</p><p><strong>Surgeon.</strong> Qualified Surgeons apply their knowledge and empathy to heal the unwell and save lives.</p><h3>Building a Scholar</h3><p>Consider these general tips for building an effective Scholar:</p><p><strong>Attributes.</strong> It’s usually a good idea to prioritize Intellect above all else, then Presence plus either Speed or Strength (depending on your desired combat functionality).</p><p><strong>Skills.</strong> Useful skills include Crafting, Deduction, Lore, and Medicine.</p><p><strong>Other Heroic Paths.</strong> The @UUID[Compendium.cosmere-rpg.heroic-paths.Item.qqa1ZgA957Cae6ex]{Agent} and @UUID[Compendium.cosmere-rpg.heroic-paths.Item.axOgzq972lY7la00]{Envoy} paths make excellent multi-path choices.</p><p><strong>Rewards.</strong> When choosing rewards, you can’t go wrong with fabrials, a companion to mentor, and a Soulcaster.</p><h3>Scholar Key Talent</h3><p>The Scholar key talent, @UUID[Compendium.cosmere-rpg.heroic-paths.Item.8FYBJZC8PBjneOim]{Erudition}, unlocks access to the Scholar specialties.</p><p><strong>Starting Skill:</strong> <strong>Lore.</strong> If you choose Scholar as your starting path, gain a free skill rank in <strong>Lore</strong>.</p>",
+            "chat": "<p>An adroit thinker who excels at planning and building. Scholar specialties include the @UUID[Compendium.cosmere-rpg.heroic-paths.Item.QsU0L95W21hkPDyb]{Artifabrian}, @UUID[Compendium.cosmere-rpg.heroic-paths.Item.DAdshduD9CbjJVpt]{Strategist}, and @UUID[Compendium.cosmere-rpg.heroic-paths.Item.XnMLFt97gj7tbRlo]{Surgeon}.</p>",
+            "short": "<p>Creativity, acumen, and patience are hallmarks of legendary Scholars. Each time a Desolation sweeps away centuries of progress and scientific advancement, Scholars rise to build Roshar anew.</p><p>To a Scholar, every mystery is a challenge with a befitting prize. Some Scholars devote their research to famines, barren lands, and related food crises. Others study the body, how it functions, and how to restore it after injury and illness. But not all Scholars occupy themselves with bettering society—some instead pursue tools of destruction. Military Scholars often devise new instruments of war and calculate how to best pressure enemy forces.</p><p>No matter their field of study, Scholars use their insatiable hunger for knowledge to change the world for better or worse, one brilliant discovery at a time.</p>"
+        },
+        "talentTree": "Compendium.cosmere-rpg.heroic-paths.Item.E32S03teEeNEKFyI",
+        "events": {
+            "nzJyU84yi3FvbEaM": {
+                "id": "nzJyU84yi3FvbEaM",
+                "description": "Try Set Starting Path",
+                "event": "add-to-actor",
+                "handler": {
+                    "type": "execute-macro",
+                    "inline": true,
+                    "uuid": null,
+                    "macro": {
+                        "type": "script",
+                        "command": "cosmereRPG.utils.macros.startingPath.set(event.item);"
+                    }
+                }
+            },
+            "oGKzZ70IrpjLPg4o": {
+                "id": "oGKzZ70IrpjLPg4o",
+                "description": "Try Unset Starting Path",
+                "event": "remove-from-actor",
+                "handler": {
+                    "type": "execute-macro",
+                    "inline": true,
+                    "uuid": null,
+                    "macro": {
+                        "type": "script",
+                        "command": "cosmereRPG.utils.macros.startingPath.unset(event.item);"
+                    }
+                }
+            },
+            "aTfjpaUpaWurstoM": {
+                "id": "aTfjpaUpaWurstoM",
+                "description": "Grant Key Talent",
+                "event": "add-to-actor",
+                "handler": {
+                    "type": "grant-items",
+                    "allowDuplicates": false,
+                    "increaseQuantity": false,
+                    "items": [
+                        {
+                            "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.8FYBJZC8PBjneOim"
+                        }
+                    ]
+                }
+            },
+            "4Gz7YMMkZ4lHOkYr": {
+                "id": "4Gz7YMMkZ4lHOkYr",
+                "description": "Remove Key Talent",
+                "event": "remove-from-actor",
+                "handler": {
+                    "type": "remove-items",
+                    "reduceQuantity": false,
+                    "items": [
+                        "Compendium.cosmere-rpg.heroic-paths.Item.8FYBJZC8PBjneOim"
+                    ]
+                }
+            }
+        }
+    },
+    "effects": [],
+    "folder": "pwWHkALsVebbEfk3",
+    "sort": 100000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!oFA1jJZQMhTUjyem"
+}

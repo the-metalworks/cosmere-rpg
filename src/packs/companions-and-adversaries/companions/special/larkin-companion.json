@@ -1,0 +1,863 @@
+{
+    "name": "Larkin (Companion)",
+    "type": "adversary",
+    "_id": "ZmbrvJKEB9Ic4hAO",
+    "img": "systems/cosmere-rpg/assets/tokens/alt_tokens_no_ring/larkin.webp",
+    "system": {
+        "size": "small",
+        "type": {
+            "id": "animal",
+            "custom": null,
+            "subtype": ""
+        },
+        "tier": 1,
+        "senses": {
+            "range": {
+                "override": 20,
+                "useOverride": true,
+                "bonus": 0,
+                "derived": 20
+            },
+            "obscuredAffected": true
+        },
+        "immunities": {
+            "damage": [],
+            "condition": {
+                "afflicted": false,
+                "blind": false,
+                "burrowing": false,
+                "determined": false,
+                "disoriented": false,
+                "empowered": false,
+                "enhanced": false,
+                "exhausted": false,
+                "flying": false,
+                "focused": false,
+                "hidden": false,
+                "immobilized": false,
+                "invisible": false,
+                "prone": false,
+                "restrained": false,
+                "slowed": false,
+                "stunned": false,
+                "surprised": false,
+                "unconscious": false,
+                "dead": false
+            }
+        },
+        "attributes": {
+            "str": {
+                "value": 1,
+                "bonus": 0
+            },
+            "spd": {
+                "value": 3,
+                "bonus": 0
+            },
+            "int": {
+                "value": 1,
+                "bonus": 0
+            },
+            "wil": {
+                "value": 2,
+                "bonus": 0
+            },
+            "awa": {
+                "value": 3,
+                "bonus": 0
+            },
+            "pre": {
+                "value": 1,
+                "bonus": 0
+            }
+        },
+        "defenses": {
+            "phy": {
+                "bonus": 0,
+                "derived": 0,
+                "override": null,
+                "useOverride": false
+            },
+            "cog": {
+                "bonus": 0,
+                "derived": 0,
+                "override": null,
+                "useOverride": false
+            },
+            "spi": {
+                "bonus": 0,
+                "derived": 0,
+                "override": null,
+                "useOverride": false
+            }
+        },
+        "resources": {
+            "hea": {
+                "value": 14,
+                "max": {
+                    "override": 14,
+                    "useOverride": true,
+                    "bonus": 0,
+                    "derived": 0
+                },
+                "bonus": 0
+            },
+            "foc": {
+                "value": 4,
+                "max": {
+                    "override": 4,
+                    "useOverride": true,
+                    "bonus": 0,
+                    "derived": 0
+                },
+                "bonus": 0
+            },
+            "inv": {
+                "value": 5,
+                "max": {
+                    "override": 5,
+                    "useOverride": true,
+                    "bonus": 0,
+                    "derived": 0
+                },
+                "bonus": 0
+            }
+        },
+        "skills": {
+            "agi": {
+                "attribute": "spd",
+                "rank": 2,
+                "mod": {
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0,
+                    "derived": 0
+                }
+            },
+            "ath": {
+                "attribute": "str",
+                "rank": 0,
+                "mod": {
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0,
+                    "derived": 0
+                }
+            },
+            "hwp": {
+                "attribute": "str",
+                "rank": 0,
+                "mod": {
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0,
+                    "derived": 0
+                }
+            },
+            "lwp": {
+                "attribute": "spd",
+                "rank": 0,
+                "mod": {
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0,
+                    "derived": 0
+                }
+            },
+            "stl": {
+                "attribute": "spd",
+                "rank": 0,
+                "mod": {
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0,
+                    "derived": 0
+                }
+            },
+            "thv": {
+                "attribute": "spd",
+                "rank": 0,
+                "mod": {
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0,
+                    "derived": 0
+                }
+            },
+            "cra": {
+                "attribute": "int",
+                "rank": 0,
+                "mod": {
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0,
+                    "derived": 0
+                }
+            },
+            "ded": {
+                "attribute": "int",
+                "rank": 0,
+                "mod": {
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0,
+                    "derived": 0
+                }
+            },
+            "dis": {
+                "attribute": "wil",
+                "rank": 0,
+                "mod": {
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0,
+                    "derived": 0
+                }
+            },
+            "inm": {
+                "attribute": "wil",
+                "rank": 0,
+                "mod": {
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0,
+                    "derived": 0
+                }
+            },
+            "lor": {
+                "attribute": "int",
+                "rank": 0,
+                "mod": {
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0,
+                    "derived": 0
+                }
+            },
+            "med": {
+                "attribute": "int",
+                "rank": 0,
+                "mod": {
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0,
+                    "derived": 0
+                }
+            },
+            "dec": {
+                "attribute": "pre",
+                "rank": 0,
+                "mod": {
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0,
+                    "derived": 0
+                }
+            },
+            "ins": {
+                "attribute": "awa",
+                "rank": 1,
+                "mod": {
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0,
+                    "derived": 0
+                }
+            },
+            "lea": {
+                "attribute": "pre",
+                "rank": 0,
+                "mod": {
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0,
+                    "derived": 0
+                }
+            },
+            "prc": {
+                "attribute": "awa",
+                "rank": 2,
+                "mod": {
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0,
+                    "derived": 0
+                }
+            },
+            "prs": {
+                "attribute": "pre",
+                "rank": 0,
+                "mod": {
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0,
+                    "derived": 0
+                }
+            },
+            "sur": {
+                "attribute": "awa",
+                "rank": 1,
+                "mod": {
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0,
+                    "derived": 0
+                }
+            },
+            "adh": {
+                "attribute": "pre",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            },
+            "grv": {
+                "attribute": "awa",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            },
+            "ill": {
+                "attribute": "pre",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            },
+            "trs": {
+                "attribute": "wil",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            },
+            "trp": {
+                "attribute": "int",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            },
+            "chs": {
+                "attribute": "wil",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            },
+            "dvs": {
+                "attribute": "int",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            },
+            "abr": {
+                "attribute": "spd",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            },
+            "tsn": {
+                "attribute": "str",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            },
+            "prg": {
+                "attribute": "awa",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            }
+        },
+        "currency": {
+            "spheres": {
+                "denominations": [],
+                "total": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "dun": {
+                "denominations": [],
+                "total": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            }
+        },
+        "deflect": {
+            "natural": 2,
+            "source": "armor",
+            "override": 0,
+            "useOverride": false,
+            "bonus": 0,
+            "types": {
+                "energy": true,
+                "impact": true,
+                "keen": true,
+                "spirit": false,
+                "vital": false,
+                "heal": false
+            },
+            "derived": 0
+        },
+        "movement": {
+            "walk": {
+                "rate": {
+                    "derived": 30,
+                    "override": 30,
+                    "useOverride": true,
+                    "bonus": 0
+                }
+            },
+            "swim": {
+                "rate": {
+                    "override": 0,
+                    "useOverride": true,
+                    "derived": 0,
+                    "bonus": 0
+                }
+            },
+            "fly": {
+                "rate": {
+                    "override": 20,
+                    "useOverride": true,
+                    "derived": 0,
+                    "bonus": 0
+                }
+            }
+        },
+        "injuries": {
+            "override": null,
+            "useOverride": false,
+            "bonus": 0,
+            "derived": 0
+        },
+        "injuryRollBonus": 0,
+        "encumbrance": {
+            "lift": {
+                "override": null,
+                "useOverride": false,
+                "bonus": 0,
+                "derived": 0
+            },
+            "carry": {
+                "override": null,
+                "useOverride": false,
+                "bonus": 0,
+                "derived": 0
+            }
+        },
+        "expertises": {
+            "cultural:languages": {
+                "id": "languages",
+                "type": "cultural",
+                "label": "Languages: understands every Rosharan language, but can’t speak",
+                "locked": false
+            }
+        },
+        "languages": [],
+        "role": "rival",
+        "notes": "<h3>Special Companion: Larkin</h3><p>Larkin are critically endangered creatures who were associated with the Knights Radiant before the Era of Solitude. These lithe crustaceans have narrow faces, eyes of pure silver, and wings that fold from their backs. Their most defining characteristic, though, is their ability to feed on Investiture: a larkin can drain Light from gems, fabrials, and even living beings (like Radiants and Fused). It is speculated that they may be able to consume other forms of Investiture as well. </p><p>Though larkin are able to subsist for a short time on more standard foodstuffs, they become weak and sickly if they don’t consume Light for an extended period. </p><p>Modern larkin are diminutive, generally between the length of an adult hand and forearm. However, once a larkin consumes enough Investiture in their lifetime, they can be returned to their ancestral homeland to attain the next stage of growth. This allows them to grow larger and stronger, and scholars believe that a larkin may be able to do this several times, though this hasn’t been proven.</p><h4>Gaining a Larkin</h4><p>A larkin can be given as a reward for a character of any tier. However, due to their extreme rarity, it’s highly unlikely that more than one character in a campaign could obtain a larkin companion.</p><h4>Growing Your Larkin</h4><p>If you are tier 3 or higher and you have a larkin companion, the GM can offer you the goal “Grow Your Larkin.” To complete this goal, you must brave the dangerous journey to the ruins of Aimia with your larkin, allow them to bond with a special type of luckspren, and return alive. The tier 3 reward for this is your larkin molting into a greater larkin.</p>",
+        "biography": "",
+        "appearance": ""
+    },
+    "prototypeToken": {
+        "name": "Larkin",
+        "displayName": 20,
+        "actorLink": true,
+        "appendNumber": false,
+        "prependAdjective": false,
+        "width": 0.5,
+        "height": 0.5,
+        "texture": {
+            "src": "systems/cosmere-rpg/assets/tokens/larkin.webp",
+            "anchorX": 0.5,
+            "anchorY": 0.5,
+            "offsetX": 0,
+            "offsetY": 0,
+            "fit": "contain",
+            "scaleX": 1,
+            "scaleY": 1,
+            "rotation": 0,
+            "tint": "#ffffff",
+            "alphaThreshold": 0.75
+        },
+        "hexagonalShape": 0,
+        "lockRotation": false,
+        "rotation": 0,
+        "alpha": 1,
+        "disposition": 1,
+        "displayBars": 20,
+        "bar1": {
+            "attribute": "resources.hea"
+        },
+        "bar2": {
+            "attribute": null
+        },
+        "light": {
+            "negative": false,
+            "priority": 0,
+            "alpha": 0.5,
+            "angle": 360,
+            "bright": 0,
+            "color": null,
+            "coloration": 1,
+            "dim": 0,
+            "attenuation": 0.5,
+            "luminosity": 0.5,
+            "saturation": 0,
+            "contrast": 0,
+            "shadows": 0,
+            "animation": {
+                "type": null,
+                "speed": 5,
+                "intensity": 5,
+                "reverse": false
+            },
+            "darkness": {
+                "min": 0,
+                "max": 1
+            }
+        },
+        "sight": {
+            "enabled": false,
+            "range": 0,
+            "angle": 360,
+            "visionMode": "basic",
+            "color": null,
+            "attenuation": 0.1,
+            "brightness": 0,
+            "saturation": 0,
+            "contrast": 0
+        },
+        "detectionModes": [],
+        "occludable": {
+            "radius": 0
+        },
+        "ring": {
+            "enabled": false,
+            "colors": {
+                "ring": null,
+                "background": null
+            },
+            "effects": 0,
+            "subject": {
+                "scale": 0.8,
+                "texture": "systems/cosmere-rpg/assets/tokens/alt_tokens_no_ring/larkin.webp"
+            }
+        },
+        "flags": {},
+        "randomImg": false
+    },
+    "items": [
+        {
+            "type": "action",
+            "name": "Drain Light",
+            "system": {
+                "activation": {
+                    "type": "utility",
+                    "cost": {
+                        "type": "act",
+                        "value": 2
+                    },
+                    "consume": [],
+                    "flavor": "",
+                    "plotDie": false,
+                    "opportunity": null,
+                    "complication": null,
+                    "uses": null,
+                    "attribute": "default"
+                },
+                "id": "drain-light",
+                "type": "stormlight",
+                "description": {
+                    "value": "<p>If the [[lookup @actor.name]]{Actor Name} isn't at full Investiture, they choose one of the following targets within 5 feet of them, draining the chosen target of power:</p><ul><li><p><strong>Object with Charges.</strong> A fabrial or other object with charges loses [[/r 1d4]] charges.</p></li><li><p><strong>Group of Spheres.</strong> Up to [[/r 1d4]] infused marks or broams within range lose the Stormlight or other Light infused in them.</p></li><li><p><strong>Infused Object or Character.</strong> The target (or effect infused in the target) loses [[/r 1d4]] Investiture.</p></li></ul><p>If the target is a character, or if it is an object worn or held by a character, the [[lookup @actor.name]]{Actor Name} must succeed on an Agility test against the character's Spiritual defense or the target isn't drained.</p><p>The [[lookup @actor.name]]{Actor Name} regains the same amount of Investiture as they drained from the target. A character wearing Invested Shardplate can't have their Investiture drained in this way, but the Shardplate itself can be drained of charges.</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "damage": {
+                    "formula": null,
+                    "type": null
+                },
+                "modality": null,
+                "ancestry": null,
+                "events": {}
+            },
+            "_id": "Mt2QMmSsLQwqPC3w",
+            "img": "icons/magic/unholy/energy-smoke-pink.webp",
+            "effects": [],
+            "folder": null,
+            "sort": 150000,
+            "ownership": {
+                "default": 0,
+                "lAOZjapMYLNoIcY8": 3,
+                "wNhTlSZR3xSGJr84": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": "Compendium.cosmere-rpg-stormlight-worldguide.stormlight-world-guide-adversaries-and-bestiary.Actor.wFx8VTjvt75zADsO.Item.4NmWvEKUU79F7Jgt",
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": null,
+                "lastModifiedBy": null
+            },
+            "_key": "!actors.items!ZmbrvJKEB9Ic4hAO.Mt2QMmSsLQwqPC3w"
+        },
+        {
+            "type": "action",
+            "name": "Invested Healing",
+            "system": {
+                "activation": {
+                    "type": "utility",
+                    "cost": {
+                        "type": "fre",
+                        "value": 1
+                    },
+                    "consume": [
+                        {
+                            "type": "resource",
+                            "value": {
+                                "min": 1,
+                                "max": 1,
+                                "actual": 0
+                            },
+                            "resource": "inv"
+                        }
+                    ],
+                    "flavor": "",
+                    "plotDie": false,
+                    "opportunity": null,
+                    "complication": null,
+                    "uses": null,
+                    "attribute": "default"
+                },
+                "id": "invested-healing",
+                "type": "stormlight",
+                "description": {
+                    "value": "<p>The [[lookup @actor.name]]{Actor Name} can spend 1 Investiture to recover [[damage 1d6 + 2 Healing average]].</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "damage": {
+                    "formula": "1d6 + 2",
+                    "type": "heal"
+                },
+                "modality": null,
+                "ancestry": null,
+                "events": {}
+            },
+            "img": "icons/magic/life/cross-worn-green.webp",
+            "effects": [],
+            "folder": null,
+            "ownership": {
+                "default": 0,
+                "lAOZjapMYLNoIcY8": 3,
+                "wNhTlSZR3xSGJr84": 3
+            },
+            "flags": {},
+            "_id": "Kcm44I4EgVUQ8p0l",
+            "sort": 300000,
+            "_stats": {
+                "compendiumSource": "Compendium.cosmere-rpg-stormlight-worldguide.stormlight-world-guide-adversaries-and-bestiary.Actor.wFx8VTjvt75zADsO.Item.L2eqWkolI0rMWSdJ",
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": null,
+                "lastModifiedBy": null
+            },
+            "_key": "!actors.items!ZmbrvJKEB9Ic4hAO.Kcm44I4EgVUQ8p0l"
+        },
+        {
+            "folder": null,
+            "name": "Strike: Bite",
+            "type": "action",
+            "_id": "T5bYrzCK7cLuN82g",
+            "img": "icons/creatures/abilities/mouth-teeth-long-red.webp",
+            "system": {
+                "id": "strike-bite",
+                "type": "basic",
+                "description": {
+                    "value": "<p><strong>Attack </strong>+5; <strong>Reach</strong> 5 ft.; <strong>Targets </strong>one;</p><p><strong>Graze</strong> [[damage 1d4 Keen average]];</p><p><strong>Hit</strong> [[damage 1d4 + 5 Keen average]], and the [[lookup @actor.name]]{Actor Name} can spend 2 focus to use their Drain Light (no action required) on that target or an effect infusing them. The [[lookup @actor.name]]{Actor Name} automatically succeeds on their Agility test to do so.</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "activation": {
+                    "type": "skill_test",
+                    "cost": {
+                        "value": 1,
+                        "type": "act"
+                    },
+                    "consume": [
+                        {
+                            "type": "resource",
+                            "value": {
+                                "min": 2,
+                                "max": 2,
+                                "actual": 0
+                            },
+                            "resource": "foc"
+                        }
+                    ],
+                    "flavor": "",
+                    "plotDie": false,
+                    "opportunity": null,
+                    "complication": null,
+                    "uses": null,
+                    "skill": "agi",
+                    "modifierFormula": "",
+                    "attribute": "spd"
+                },
+                "damage": {
+                    "formula": "1d4",
+                    "type": "keen",
+                    "grazeOverrideFormula": "",
+                    "skill": null,
+                    "attribute": null
+                },
+                "modality": null,
+                "ancestry": null,
+                "events": {}
+            },
+            "effects": [],
+            "sort": 200000,
+            "ownership": {
+                "default": 0,
+                "lAOZjapMYLNoIcY8": 3,
+                "wNhTlSZR3xSGJr84": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": "Compendium.cosmere-rpg-stormlight-worldguide.stormlight-world-guide-adversaries-and-bestiary.Actor.wFx8VTjvt75zADsO.Item.9NsbNq0g4Linsqig",
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": null,
+                "lastModifiedBy": null
+            },
+            "_key": "!actors.items!ZmbrvJKEB9Ic4hAO.T5bYrzCK7cLuN82g"
+        },
+        {
+            "type": "trait",
+            "name": "Weak Wings",
+            "system": {
+                "activation": {
+                    "type": "none",
+                    "cost": {
+                        "type": null,
+                        "value": 1
+                    },
+                    "consume": [],
+                    "flavor": "",
+                    "plotDie": false,
+                    "opportunity": null,
+                    "complication": null,
+                    "uses": null,
+                    "attribute": "default"
+                },
+                "description": {
+                    "value": "<p>The [[lookup @actor.name]]{Actor Name} can't fly further than their flying rate on a turn, even if they use the Move action again.</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "events": {}
+            },
+            "_id": "z77qIoPdQuMKwHiB",
+            "img": "icons/creatures/abilities/wing-batlike-purple-blue.webp",
+            "effects": [],
+            "folder": null,
+            "sort": 100000,
+            "ownership": {
+                "default": 0,
+                "lAOZjapMYLNoIcY8": 3,
+                "wNhTlSZR3xSGJr84": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": "Compendium.cosmere-rpg-stormlight-worldguide.stormlight-world-guide-adversaries-and-bestiary.Actor.wFx8VTjvt75zADsO.Item.kx1Sr9lp7iLNv9Nr",
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": null,
+                "lastModifiedBy": null
+            },
+            "_key": "!actors.items!ZmbrvJKEB9Ic4hAO.z77qIoPdQuMKwHiB"
+        }
+    ],
+    "effects": [],
+    "folder": "yWY28MprYfj0pBpM",
+    "sort": 100000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {
+        "cosmere-rpg": {
+            "sheet": {
+                "skillsCollapsed": false,
+                "hideUnranked": true,
+                "expertisesCollapsed": false,
+                "mode": "view"
+            }
+        }
+    },
+    "_key": "!actors!ZmbrvJKEB9Ic4hAO"
+}

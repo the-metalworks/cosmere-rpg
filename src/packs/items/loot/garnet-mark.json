@@ -1,0 +1,37 @@
+{
+    "folder": "RBFoWUCw2wosgSJA",
+    "name": "Garnet Mark",
+    "type": "loot",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/items/spheres/sphere_garnet_mark.webp",
+    "system": {
+        "isMoney": true,
+        "description": {
+            "value": "",
+            "chat": "",
+            "short": ""
+        },
+        "weight": {
+            "value": 0,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 5,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            },
+            "unit": "spheres.mark"
+        },
+        "quantity": 1,
+        "events": {}
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "eQFNhBiUkAhR3y7p",
+    "sort": 1800000,
+    "_key": "!items!eQFNhBiUkAhR3y7p"
+}

@@ -1,0 +1,347 @@
+{
+    "name": "Part 1: Character Statistics",
+    "pages": [
+        {
+            "sort": 100000,
+            "name": "Character Statistics",
+            "type": "text",
+            "_id": "BlmHmxyaMbDx1gDU",
+            "system": {},
+            "title": {
+                "show": false,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<div class=\"sl-journal\"><p>As a player stepping into the world of Roshar, you start by choosing the character you’ll embody in the game. From one perspective, your character is merely a collection of statistics and abilities that outline what you can do in the rules of this game. But more importantly, your character is a concept, a story waiting to be told—and your decisions will define their place on Roshar.</p><p></p><h3>Pregenerated Characters</h3></div><div class=\"sl-journal\"><p>This condensed rulebook does not contain rules for creating or advancing characters. It assumes that you’re playing with pregenerated characters or with characters created using online tools. (Visit <a href=\"https://www.cosmererpg.com/\">CosmereRPG.com</a> for more information on character creation tools.)</p><p>For the full character creation experience, pick up the <em>Stormlight Handbook</em>. It contains everything you need to create a custom character and advance them as you gain levels over the course of a campaign.</p><p></p><h3>Your Statistics</h3><p>Part 1 details the <strong>statistics</strong> you’ll find on your character sheet and how they affect various aspects of the game. Your statistics include the following:</p><p><span class=\"fontstyle2\"><strong>Attributes. </strong></span><span class=\"fontstyle0\">Your six attributes determine your innate characteristics, and they influence many elements of your other statistics; for example, your Speed affects your movement rate.</span></p><p><span class=\"fontstyle2\"><strong>Defenses.</strong> </span><span class=\"fontstyle0\">When another character makes a test against you, your defenses determine whether their test succeeds. Likewise, your abilities target your foe’s defenses—the higher their defense, the harder the test.</span></p><p><span class=\"fontstyle2\"><strong>Deflect. </strong></span><span class=\"fontstyle0\">Your deflect value represents your resilience to damage. It allows you to reduce energy, impact, and keen damage.</span></p><p><span class=\"fontstyle2\"><strong>Expertises. </strong></span><span class=\"fontstyle0\">Your skills reflect things you </span><span class=\"fontstyle3\">do</span><span class=\"fontstyle0\">, but your expertises reflect things you </span><span class=\"fontstyle3\"><em>know</em></span><span class=\"fontstyle0\">. This specialized knowledge can benefit you in navigating cultures, recalling information, crafting fabrials, and much more.</span></p><p><span class=\"fontstyle2\"><strong>Health, Focus, and Investiture. </strong></span><span class=\"fontstyle0\">Your health protects you from injury or death, while your focus and Investiture power your talents and other abilities.</span></p><p><span class=\"fontstyle2\"><strong>Skills. </strong></span><span class=\"fontstyle0\">Your skills represent your learned and practiced abilities, and they determine how likely your tests are to succeed.</span></p></div>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "ownership": {
+                "default": -1,
+                "YTccnKYTqbC83Km5": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": 1749205136016,
+                "lastModifiedBy": "5iBgVcJlVEu3AHTG"
+            },
+            "_key": "!journal.pages!dCOrLZj5O9Va7cd3.BlmHmxyaMbDx1gDU"
+        },
+        {
+            "sort": 200000,
+            "name": "Physical, Cognitive, and Spiritual",
+            "type": "text",
+            "_id": "DXE5BZS8r3sEPnnF",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<div class=\"sl-journal\"><p>Throughout the cosmere, reality is composed of three facets: the Physical Realm, the Cognitive Realm, and the Spiritual Realm. Many of your statistics are categorized into one of these facets, as seen in the three columns of your character sheet.</p><p>The skills affected by Strength or Speed are <strong>physical skills</strong>, the skills affected by Intellect or Willpower are <strong>cognitive skills</strong>, and the skills affected by Awareness or Presence are <strong>spiritual skills</strong>.</p><p></p><img src=\"systems/cosmere-rpg/assets/art/p1-character-statistics/pg11_Elsecaller Intro-STEVE PRESCOTT.webp\" style=\"border:0px\" class=\" centered\" width=\"400\" /><p style=\"text-align:center\"><strong>STEVE PRESCOTT</strong></p><img src=\"systems/cosmere-rpg/assets/art/p1-character-statistics/pg12_Character%20Sheet.webp\" style=\"border:0px\" class=\" centered\" width=\"800\" /><p style=\"text-align:center\"><strong>The front of your completed character sheet shows your att ributes, skills, and talents.</strong></p></div>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "ownership": {
+                "default": -1,
+                "YTccnKYTqbC83Km5": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": 1752387934145,
+                "lastModifiedBy": "zUkYx8Dgv6g35j5m"
+            },
+            "_key": "!journal.pages!dCOrLZj5O9Va7cd3.DXE5BZS8r3sEPnnF"
+        },
+        {
+            "sort": 300000,
+            "name": "Attributes",
+            "type": "text",
+            "_id": "9FjY39Lm7hpaVITB",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<div class=\"sl-journal\"><p>Every character has six<span class=\"fontstyle0\" style=\"color:rgb(36,32,33);font-size:10pt\"> </span><span class=\"fontstyle2\"><strong>attributes</strong></span> that determine their innate characteristics: Strength, Speed, Intellect, Willpower, Awareness, and Presence.</p><p>Each attribute is a number, the higher the better. These determine the physical, mental, and spiritual limits of your character. On Roshar, most humans and singers don’t have attributes above 2. However, player characters are extraordinary (even at 1st level), and as you gain levels, you can increase your attribute scores as high as 5. This range can increase even further for some singer forms, Invested characters, massive beasts, and other powerful creatures.</p><p>Each skill is associated with an attribute (listed in parentheses on your character sheet). As described in the later @UUID[.f4WUJcFOPWHd0u62]{Skills} section, that attribute score influences your skill modifier, and thus how likely you are to succeed with that skill.</p><p>Attributes also determine other elements of your character, from how much you can carry to how many expertises you have. The following sections detail the attributes and how they affect the game.</p><p></p><img src=\"systems/cosmere-rpg/assets/art/p1-character-statistics/pg13_Abena_KATIE PAYNE.webp\" style=\"border:0px\" class=\" centered\" width=\"400\" /><p style=\"text-align:center\"><strong>KATIE PAYNE</strong></p><p></p><h2><span class=\"fontstyle0\">Strength</span></h2><p><span class=\"fontstyle1\"><strong>Strength</strong> </span>is your physical power, toughness, and athleticism. It represents the raw strength and force you can exert, along with your constitution and physical resilience. Your Strength also determines how much weight you can lift and carry.</p><p></p><h3><span class=\"fontstyle0\" style=\"font-size:14pt\">Lifting Capacity</span></h3><p><strong>Lifting capacity</strong> represents the maximum weight you can lift by yourself in one attempt. You can’t sustain this much weight for long, but if needed, you can safely lift it over your head.</p><p></p><h3>Carrying Capacity</h3><p>You aren’t expected to track exactly how much you’re carrying at all times. Just be reasonable—if you want to bring an entire library of books on your adventures, your GM will likely ask how you’re transporting that wealth of knowledge! When it becomes important to track how much you’re carrying, use the following guidelines.</p><p>Your <strong>carrying capacity</strong> represents how much weight you can comfortably carry while walking. While you can temporarily exceed this weight (to a maximum of your lifting capacity), it’ll slow you down and eventually exhaust you.</p><p>If you move while exceeding your carrying capacity (including everything you’re wearing and carrying), you become Slowed.</p><p>Additionally, each time you exceed your carrying capacity for a cumulative period of 60 minutes, you become Exhausted [−1]. This cumulative time resets to zero after a long rest.</p><p>See @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA]{Conditions} in part 2 for details on the Slowed and Exhausted conditions.</p><p></p><h2><span class=\"fontstyle0\">Speed</span></h2><p>Speed is your quickness and dexterity. It represents your finesse and overall alacrity.</p><p></p><h3>Movement Rate</h3><p>Your Speed determines how quickly you can move in combat and other tense situations, as follows:</p><p><strong>Moving Inside Combat. </strong>When you use the Move action (described in @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.GgQySBa2DAqiGFNq.JournalEntryPage.lws4hcoJ4uAqLqxU#move-(1)]{Move} part 3), you can move up to your <strong>movement rate</strong>. When other abilities allow you to move, they specify what rate you can use to move.</p><p><span class=\"fontstyle0\"><strong>Moving Outside Combat</strong>.<strong> </strong></span><span class=\"fontstyle2\">If you need to determine your movement rate when you’re not in combat, you can complete around three actions every 10 seconds. Similarly, to determine how far you can run in 10 seconds, multiply your movement rate by 3.</span></p><p>By default, you move by walking or similarly propelling across the surface of the ground (see @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.GgQySBa2DAqiGFNq.JournalEntryPage.rMs5NOkzGPLSbj9y]{Movement and Positioning} in part 3).</p><p></p><h2><span class=\"fontstyle0\">Intellect</span></h2><p><span class=\"fontstyle1\">Intel</span>lect is your applied intelligence and wit. It represents your ability to store and recall knowledge and to deduce facts.</p><p></p><h2>Willpower</h2><p><strong>Willpower</strong> is your determination and mental fortitude. It represents your cognitive resilience, ability to enact your will on others, and resistance to outside influences.</p><p></p><h3><span class=\"fontstyle0\" style=\"font-size:14pt\">Recovery Die</span></h3><p>Your Willpower determines your <strong>recovery die</strong>, which determines how efficiently you recover health and focus when you take a break (see the @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.qiRsziLdMcwaWQdT]{Resting} section of part 2).</p><p></p><h2>Awareness</h2><p><strong>Awareness</strong> is your wisdom and connection to the world around you. It represents your ability to sense your surroundings and relate to others around you.</p><p></p><h3>Senses Range</h3><p>Your Awareness determines your <strong>senses range</strong> (see the upcoming @UUID[.GEf37WmnGrQ55fDk]{Senses} section).</p><p></p><h2><span class=\"fontstyle0\">Presence</span></h2><p><span class=\"fontstyle1\">Pre</span>sence is your charisma and bearing. It represents your ability to influence others, build rapport, and reach the masses.</p></div>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "ownership": {
+                "default": -1,
+                "YTccnKYTqbC83Km5": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": 1752388085467,
+                "lastModifiedBy": "zUkYx8Dgv6g35j5m"
+            },
+            "_key": "!journal.pages!dCOrLZj5O9Va7cd3.9FjY39Lm7hpaVITB"
+        },
+        {
+            "sort": 400000,
+            "name": "Defenses",
+            "type": "text",
+            "_id": "wfEPGMy9ApSx8Uhu",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<div class=\"sl-journal\"><p>Your attributes combine to form your<span class=\"fontstyle0\" style=\"color:rgb(36,32,33);font-size:10pt\"> </span><span class=\"fontstyle2\"><strong>defenses</strong></span><span class=\"fontstyle0\" style=\"color:rgb(36,32,33);font-size:10pt\">,</span> which protect you from unwanted effects. You have three defense values: <span class=\"fontstyle2\"><strong>Physical defense</strong> </span>(affected by Strength and Speed), <span class=\"fontstyle2\"><strong>Cognitive defense</strong> </span>(affected by Intellect and Willpower), and <span class=\"fontstyle2\"><strong>Spiritual defense</strong> </span>(affected by Awareness and Presence).</p><p></p><h2><span class=\"fontstyle0\">Defenses and Difficulty Class</span></h2><p>Your Physical, Cognitive, and Spiritual defense values equal:</p><p></p><p style=\"text-align:center\"><span class=\"fontstyle2\"><strong style=\"color:black\">10 + both attributes in that category + any bonuses or penalties</strong></span></p><p></p><p><span class=\"fontstyle0\">When a character makes a test against you, they’re usually testing against your defense from the same category as their skill. Your corresponding defense sets that test's DC.</span></p><p><span class=\"fontstyle0\">In general, your Physical defense protects you against physical tests, your Cognitive defense protects you against cognitive tests, and your Spiritual defense protects you against spiritual tests. (See @UUID[.DXE5BZS8r3sEPnnF]{Physical, Cognitive, and Spiritual} at the beginning of part 1.)</span></p><p></p><img src=\"systems/cosmere-rpg/assets/art/p1-character-statistics/pg14_Scholar_STEVE PRESCOTT.webp\" style=\"border:0px\" class=\" centered\" width=\"400\" /><p style=\"text-align:center\"><strong>STEVE PRESCOTT</strong></p></div>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "ownership": {
+                "default": -1,
+                "YTccnKYTqbC83Km5": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": 1752435441294,
+                "lastModifiedBy": "zUkYx8Dgv6g35j5m"
+            },
+            "_key": "!journal.pages!dCOrLZj5O9Va7cd3.wfEPGMy9ApSx8Uhu"
+        },
+        {
+            "sort": 500000,
+            "name": "Deflect",
+            "type": "text",
+            "_id": "IWb3UPOvrajROXf9",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<div class=\"sl-journal\"><p>When an enemy succeeds on an attack test against you or when you take damage from another source, this generally reduces your health, as described later in part 1. However, armor (or other effects) can grant you a <span class=\"fontstyle2\"><strong>deflect value</strong></span> that reduces impact, keen, and energy damage by that amount. For example, if your deflect value is 2 and you take 5 energy damage, you deflect 2 damage, then reduce your health by 3.</p><p>Your deflect value also offers some protection from serious injuries, as described in @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.g3I4elHd7V9Zc9g0#injuries]{Injuries} in part 2.</p></div>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "ownership": {
+                "default": -1,
+                "YTccnKYTqbC83Km5": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": 1749242981085,
+                "lastModifiedBy": "NOgb233HlKsdBJiu"
+            },
+            "_key": "!journal.pages!dCOrLZj5O9Va7cd3.IWb3UPOvrajROXf9"
+        },
+        {
+            "sort": 600000,
+            "name": "Expertises",
+            "type": "text",
+            "_id": "FL2CI9SgUjr5oHGM",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<div class=\"sl-journal\"><p>Each character has unique areas of knowledge acquired through their upbringing, training, interests, and other life experience. When your character specializes in a particular area, you gain an<span class=\"fontstyle0\" style=\"color:rgb(36,32,33);font-size:10pt\"> </span><span class=\"fontstyle2\"><strong>expertise</strong> </span>on that topic. This represents your unique knowledge and ability in a particular niche, which can’t be matched by characters who don’t have that expertise.</p></div><img src=\"systems/cosmere-rpg/assets/art/p1-character-statistics/pg15_Scholar_ANTTI HAKOSAARI.webp\" style=\"border:0px\" class=\" centered\" width=\"400\" /><p style=\"text-align:center\"><strong>ANTTI HAKOSAARI</strong></p><p></p><div class=\"sl-journal\"><h2><span class=\"fontstyle0\">Expertise Benefits</span></h2><p>An expertise doesn’t directly add any abilities to your character sheet, but it can assist you during the game in several ways.</p><p></p><h3><span class=\"fontstyle2\">Assumed Knowledge</span></h3><p>It’s assumed you automatically know all basic facts about your area of expertise. You don’t need a test to recall basic information about that topic.</p><p></p><h3><span class=\"fontstyle2\">Advanced Thinking</span></h3><p>Your depth in a particular subject allows you to make tests that would be impossible for other characters. For example, if your party wants to figure out how the enemy’s intricate new fabrial works, only characters with the Fabrial Crafting expertise can make a Deduction test to learn that information.</p><p>When you make other tests related to your expertise, a success might grant you more information than an inexperienced character would learn with the same result.</p></div><p></p><div class=\"sl-journal\"><h3><span class=\"fontstyle0\">Item Expert Traits</span></h3><p><span class=\"fontstyle2\">Most weapons and armor, along with a few other items, have </span>@UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.kVZcYd3em6DmovVh.JournalEntryPage.941rkPjiqmoP8bFB#expert-traits]{Expert Traits} (see part 6)<span class=\"fontstyle2\">. These traits grant additional benefits to characters with the specified expertise.</span></p></div><p></p><div class=\"sl-journal\"><h3><span class=\"fontstyle0\">Known Languages</span></h3><p><span class=\"fontstyle2\">If you have a cultural expertise for a specific nation or culture, you can communicate with those who share its language or languages. It’s up to you how well you know those languages—you might be fluent with no discernible accent, or you might only know enough words to conduct basic trade.</span></p><p><span class=\"fontstyle2\">For other expertises, you might know special jargon or codewords connected with that subject. For example, the Underworld expertise could allow you to communicate covertly with local thieves’ guilds.</span></p><p><span class=\"fontstyle2\">Regardless of what languages you know, it’s assumed that all PCs can communicate well enough with each other to easily share information and create plans together.</span></p></div><p></p><div class=\"sl-journal\"><table class=\"sl-blue\"><tbody><tr><td class=\"sl-blue-header\" data-colwidth=\"525\"><p><strong>Creative Uses of Expertises</strong></p></td></tr><tr><td class=\"sl-blue-text\" data-colwidth=\"525\"><p>It’s impossible to define all the knowledge and capabilities that an expertise grants. Instead, your expertises are merely a guide. It’s up to you and your GM to decide what you know based on where and when in the cosmere you find yourself.</p><p>If you believe one of your expertises should allow you to make a test, to automatically know something, or to gain a situational benefit, ask your GM! Expertises are tools to help creatively tell your story—it’s okay to stretch and come up with cool new uses for them.</p></td></tr></tbody></table></div>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "ownership": {
+                "default": -1,
+                "YTccnKYTqbC83Km5": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": 1752436032703,
+                "lastModifiedBy": "zUkYx8Dgv6g35j5m"
+            },
+            "_key": "!journal.pages!dCOrLZj5O9Va7cd3.FL2CI9SgUjr5oHGM"
+        },
+        {
+            "sort": 700000,
+            "name": "Health, Focus, and Investiture",
+            "type": "text",
+            "_id": "MLvlWSu2CNrjGlZe",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<div class=\"sl-journal\"><p>Many of your abilities are powered or affected by three expendable pools of resources: health, focus, and Investiture. These are primarily calculated using your attributes, but they can also be affected by bonuses or penalties from talents and other effects.</p><p></p><h2>Health</h2><p>Your <strong>health</strong> is a physical resource representing your stamina and resistance to minor wounds. When you create your character, your <strong>maximum health</strong> equals:</p><p></p><p style=\"text-align:center\"><span class=\"fontstyle3\"><strong style=\"color:black\">10 + Strength + any bonuses or penalties</strong></span></p><p></p><p><span class=\"fontstyle0\">When you lose health, you might breathe heavily, stagger under the weight of a blow, notice blood on your clothes from a minor wound, or cry out from exertion. See @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.g3I4elHd7V9Zc9g0]{Damage, Injury, and Death} in part 2 for more details.</span></p><p><span class=\"fontstyle0\">If your health is reduced to 0, that represents suffering a severe blow that knocks you out of the fight. When reduced to 0 health, you suffer an injury and become Unconscious (see @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.g3I4elHd7V9Zc9g0#injuries]{Injuries}</span> and <span class=\"fontstyle0\">@UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA]{Conditions} in part 2).</span></p><p><span class=\"fontstyle0\">You can recover health by resting (see </span>@UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.qiRsziLdMcwaWQdT]{Resting}<span class=\"fontstyle0\"> in part 2). Some talents and other effects provide other ways to recover your health; for example, a character with a rank in Medicine can tend to your wounds in combat (see </span>@UUID[.f4WUJcFOPWHd0u62#medicine-(intellect)]{Medicine (Intellect)}<span class=\"fontstyle0\"> later in part 1).</span></p><p></p><h2><span class=\"fontstyle0\">Focus</span></h2><p>Your<span class=\"fontstyle0\" style=\"color:rgb(36,32,33);font-size:10pt\"> </span><span class=\"fontstyle2\"><strong>focus</strong> </span>is a cognitive resource representing your mental resolve and ability to resist influence and distraction, as well as to execute complex or precise maneuvers. Your <strong>maximum focus</strong> equals:</p><p></p><p style=\"text-align:center\"><span class=\"fontstyle3\"><strong style=\"color:black\">2 + Willpower + any bonuses or penalties</strong></span></p><p></p><p>Focus can be spent to fuel talents and other abilities, or to withstand manipulation (see @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.LIl38TXSOlUmIZsA.JournalEntryPage.XkVcuqegUYwaVnbb]{Focus in Conversations} in part 4).</p><p>When you have no focus left, your attention might waver, you might stare intently while working through a problem, or you might be overcome with frustration.</p><p>You can recover focus by resting (see @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.qiRsziLdMcwaWQdT]{Resting} in part 2).</p><p></p><h2><span class=\"fontstyle0\">Investiture</span></h2><p><span class=\"fontstyle2\"><strong>Investiture</strong></span> is a spiritual resource representing your ability to hold and channel Investiture—an energy that suffuses the cosmere. On Roshar, this represents your ability to breathe in and hold Stormlight.</p><p>To harness the power of Stormlight, your character will need to choose a Radiant path and bond a spren. When you do, you’ll gain an Investiture pool that works much like your focus does.</p><p>See “Investiture and Stormlight” in chapter 5 of the <em>Stormlight Handbook</em> for more information on Investiture.</p></div>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "ownership": {
+                "default": -1,
+                "YTccnKYTqbC83Km5": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": 1749243214938,
+                "lastModifiedBy": "NOgb233HlKsdBJiu"
+            },
+            "_key": "!journal.pages!dCOrLZj5O9Va7cd3.MLvlWSu2CNrjGlZe"
+        },
+        {
+            "sort": 800000,
+            "name": "Senses",
+            "type": "text",
+            "_id": "GEf37WmnGrQ55fDk",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<div class=\"sl-journal\"><p>In any scene, your<span class=\"fontstyle0\" style=\"color:rgb(36,32,33);font-size:10pt\"> </span><span class=\"fontstyle2\"><strong>senses</strong></span> and what you’re aware of are key. This can be straightforward in an open field on a sunny day, but senses are more complicated when darkness and fog get involved—or when Lightwoven illusions obscure the truth of the world.</p><p>Your senses encapsulate not just your vision, but your hearing, smell, touch, and even your intuition. Someone with excellent hearing might navigate pitch darkness by their practiced ear. This game doesn’t have separate rules for sight versus other senses; instead, it’s up to you and the GM to decide what <span class=\"fontstyle2\"><strong>primary sense</strong></span> you most heavily rely on to navigate the world.</p><p></p><h2><span class=\"fontstyle0\" style=\"font-size:16pt\">Senses Range</span></h2><p>Under most conditions, it’s assumed all characters can sense things from a reasonable distance, at the GM’s discretion. However, when your primary sense is entirely obscured, this limits how far away you can detect things<span class=\"fontstyle0\">. Depending on your primary sense, it could be <strong>obscured</strong> by the roaring cacophony of a highstorm, by the pitch black during the “hateful hour” of night when no moons are visible, and so on.</span></p><p><span class=\"fontstyle0\">Your </span><span class=\"fontstyle2\"><strong>senses range</strong> </span><span class=\"fontstyle0\">determines how far away you can easily sense when your primary sense is obscured. Your Awareness score determines this range.</span></p><p><span class=\"fontstyle0\">Within this range, you don’t have any trouble detecting things with the help of your other senses. But outside of this range, you can’t detect objects and characters, and must move closer or try to target them without senses (if you’re aware of them).</span></p><p></p><img src=\"systems/cosmere-rpg/assets/art/p1-character-statistics/pg17_Vyre_disoriented_ANTTI HAKOSAARI.webp\" style=\"border:0px\" class=\" centered\" width=\"400\" /><p style=\"text-align:center\"><strong>ANTTI HAKOSAARI</strong></p><p></p><h3>Targeting Without Senses</h3><p>If you can’t sense something, it’s hard to affect it with many abilities. For example, to target “a character you can sense” while your senses are obscured, the character must be within your senses range.</p><p>If an ability doesn’t require senses, you’ll still gain a disadvantage on many tests against a target you can’t sense (see @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.GgQySBa2DAqiGFNq.JournalEntryPage.notytnLjsp80olVs]{Targeting and Range} in part 3).</p><p></p><h3>Sensing Hidden Characters and Objects</h3><p>No matter how good your senses are, you can’t automatically see through any kind of deception, nor can you spot hidden characters or objects. If an illusion designed to trick you is obscuring an object, or if an object is purposefully hidden from your ability to sense it (such as with the Stealth skill), you must succeed on a skill test to spot it.</p></div>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "ownership": {
+                "default": -1,
+                "YTccnKYTqbC83Km5": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": 1752438162081,
+                "lastModifiedBy": "zUkYx8Dgv6g35j5m"
+            },
+            "_key": "!journal.pages!dCOrLZj5O9Va7cd3.GEf37WmnGrQ55fDk"
+        },
+        {
+            "sort": 900000,
+            "name": "Skills",
+            "type": "text",
+            "_id": "f4WUJcFOPWHd0u62",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<div class=\"sl-journal\"><p>Your character starts the game with eighteen <span class=\"fontstyle2\"><strong>skills</strong></span><span class=\"fontstyle0\" style=\"color:rgb(36,32,33);font-size:10pt\">, </span>each representing your general competency in various pursuits. This section presents general rules for skills and tests, followed by descriptions of each individual skill.</p><p></p><h2><span class=\"fontstyle0\" style=\"font-size:16pt\">Using Skills</span></h2><p>When your character attempts a task that has a chance of failure—a daring attack, a rousing speech, a subtle theft—the GM will probably ask you to make a <span class=\"fontstyle2\"><strong>skill test</strong></span>. The same also applies to NPCs and the GM; whether an NPC is attempting to attack you or scale an imposing cliff, the GM will make a test to determine that attempt’s outcome.</p><p><span class=\"fontstyle0\">You usually don’t need any ranks in a skill to test it, but your chance of success increases with your inherent aptitude (represented by that skill’s corresponding attribute) and your relevant training (represented by your rank in that skill).</span></p><p><span class=\"fontstyle0\">Your character’s approach to a task may reflect their personality, experiences, and goals. Don’t just pick a test and roll it; you’re telling a collaborative story, so describe how you go about your attempt! Depending on your approach, the environment, and other circumstances, the GM will let you know which skill test you should roll.</span></p><p></p><h3>Skill Ranks and Modifiers</h3><p><span class=\"fontstyle0\">Each skill is associated with one of your attributes, as stated in parentheses in that skill’s title. Additionally, you have anywhere from 0 to 5 </span><span class=\"fontstyle2\"><strong>ranks</strong> </span><span class=\"fontstyle0\">in each skill. Narratively, ranks indicate your education and lived experience.</span></p><p><span class=\"fontstyle0\">Your </span><span class=\"fontstyle2\"><strong>skill modifier</strong> </span><span class=\"fontstyle0\">equals your score in that skill’s associated attribute + your number of ranks in that skill. You’ll add this modifier to each test you make with that skill, and you’ll also use it for a few other calculations; for example, when you hit with an attack, you add your skill modifier to the damage dealt (see </span>@UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.GgQySBa2DAqiGFNq.JournalEntryPage.iQUOQW4Mxgj7HSQ6]{Attacking} in part 3<span class=\"fontstyle0\">).</span></p><p></p><h2><span class=\"fontstyle0\">Difficulty Class</span></h2><p>When you make a test, you roll a d20, add the modifier for the chosen skill, and apply any bonuses or penalties. Then compare that result to the test’s <span class=\"fontstyle2\"><strong>difficulty class</strong> </span>(or DC)—this is the target number you’re trying to reach. If the total equals or exceeds the DC, you<span class=\"fontstyle0\" style=\"color:rgb(36,32,33);font-size:10pt\"> </span><span class=\"fontstyle2\"><strong>succeed</strong></span><span class=\"fontstyle0\" style=\"color:rgb(36,32,33);font-size:10pt\">;</span> this means you accomplish your task and the GM narrates the results. If the total is less than the DC, you <span class=\"fontstyle2\"><strong>fail</strong></span><span class=\"fontstyle0\" style=\"color:rgb(36,32,33);font-size:10pt\">;</span> this means you make little to no progress on what you were attempting.</p><p>Sometimes, a DC is specified in an ability itself, but more often, DCs are determined by the target’s defenses, by the GM, or by both characters making an opposed test against each other.</p><p></p><h3><span class=\"fontstyle2\"><strong>Defenses</strong></span></h3><p><span class=\"fontstyle0\">When you make a skill test targeting another character, the DC of that test is usually determined by one of that character’s defenses. This is typically the defense in the same category as the skill being used; for example, if you’re threatening someone, you’ll usually test Intimidation against their Cognitive defense. However, the GM or certain rules may occasionally have you use different defenses; for example, the Feinting Strike talent lets you make an attack against a target’s Cognitive defense instead of their Physical defense.</span></p><p><span class=\"fontstyle3\"><strong>Adjusting DCs.</strong> </span><span class=\"fontstyle0\">The relevant defense’s value sets the base DC for that skill test, but the GM might further modify the DC based on other circumstances, using the upcoming Difficulty Class Examples table as guidance. For example, if a character is particularly friendly to you, the GM might lower the DC for persuading them; perhaps they have a Spiritual defense of 14, but the GM lowers that DC to 11 for you. Unlike granting you advantages and disadvantages, the GM doesn’t necessarily have to tell you when something is modifying a character’s defense, so use caution!</span></p><p></p><h3><span class=\"fontstyle2\">GM Discretion</span></h3><p><span class=\"fontstyle0\">In many cases, the GM sets the DC based on their judgment of the difficulty of the task and the normal range of DCs. The Difficulty Class Examples table provides some guidance, but the GM can choose any number that feels like a good fit.</span></p><p><span class=\"fontstyle0\">The task’s difficulty should be gauged by the abilities of an average humanoid, not a player character. For example, if leaping a particular chasm would be nearly impossible for a random citizen of Urithiru, the Athletics test to do so would be DC 30.</span></p><p></p></div><div class=\"sl-journal\"><h4>@UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.iEuKRpB4mYLQKfb9.JournalEntryPage.FsoJiZ9gUiGqdJqY]</h4><p>@Embed[Compendium.cosmere-rpg.starter-rules.JournalEntry.iEuKRpB4mYLQKfb9.JournalEntryPage.FsoJiZ9gUiGqdJqY inline]</p><p></p><h3><span class=\"fontstyle0\">Opposed Tests</span></h3><p><span class=\"fontstyle2\">Occasionally, two characters actively want to make tests against each other (such as when wrestling), or similarly, one character’s actions would reasonably set the DC for a later attempt to subvert that action. Opposed tests can also resolve conflicts there aren’t specific rules for.</span></p><p><span class=\"fontstyle2\">When such a conflict happens, the GM might have both characters make an </span><span class=\"fontstyle3\"><strong>opposed test</strong> </span><span class=\"fontstyle2\">using relevant skills. The DC is determined not by a set number or by GM discretion, but by the result of your opponent’s test. To meet the DC and succeed (or to prevent the other person from succeeding), your test result must exceed your opponent’s. Determine the outcome as follows:</span></p><p><span class=\"fontstyle3\"><strong>If you roll higher</strong> </span><span class=\"fontstyle2\">than your opponent, you meet the DC and accomplish your goal (even if that goal was simply to resist your opponent).</span></p><p><span class=\"fontstyle0\"><strong>If you roll lower</strong> </span><span class=\"fontstyle2\">than your opponent, this means they rolled higher than you, thereby meeting their DC.</span></p><p><span class=\"fontstyle0\"><strong>If you tie</strong> </span><span class=\"fontstyle2\">with your opponent, nobody meets their DC! In this case, both of you might fail to achieve your contested objective—or, in the case of an aggressive contest, the result favors the defender who’s trying to keep things the same.</span></p><p></p><h3><span class=\"fontstyle0\">Automatic Successes</span></h3><p><span class=\"fontstyle2\">Some effects grant you an automatic success on a test. When you automatically succeed, you don’t roll, and you gain the benefits of a success with no Opportunities or Complications. (Rarely, you might automatically fail a test; handle this the same way, without rolling.)</span></p><p></p><h3><span class=\"fontstyle0\">Advantages and Disadvantages</span></h3><p>Sometimes, tests are modified by positive or negative circumstances. In these cases, you’ll be instructed to test with one or more<span class=\"fontstyle0\" style=\"color:rgb(36,32,33);font-size:10pt\"> </span><span class=\"fontstyle2\"><strong>advantages</strong></span> or <span class=\"fontstyle2\"><strong>disadvantages</strong></span><span class=\"fontstyle0\" style=\"color:rgb(36,32,33);font-size:10pt\">.</span> These could be from a rule of the game, or from the GM granting it to you based on circumstances in the narrative.</p><p></p><h4><span class=\"fontstyle3\"><strong>Testing With Advantages</strong></span></h4><p>For each advantage affecting the test, choose one die you’re about to roll for your test; you can pick the d20, the plot die, or any other die (like one of the damage dice from an attack). Roll two of each chosen die, then choose one of the two results to keep, discarding the other with no effect.</p><p>You can choose each die only once during a test. If you have two advantages, you’ll have to roll copies of two different dice, instead of rolling three of the same die.</p><p></p><h4><span class=\"fontstyle3\"><strong>Testing With Disadvantages</strong></span></h4><p>Conversely, for each disadvantage affecting the test, the GM chooses one die you’re about to roll for your test. Roll two of the GM’s chosen die, then allow the GM to choose one of the two results you keep, discarding the other with no effect. As with advantages, the same die can’t be chosen twice.</p><p></p><h4><span class=\"fontstyle3\"><strong>Testing With Both</strong></span></h4><p>If a test is affected by both advantages and disadvantages, they cancel each other out; each disadvantage cancels one advantage and vice versa.</p><p></p><h4><span class=\"fontstyle3\"><strong>Affecting Multiple Targets</strong></span></h4><p>Some abilities instruct you to make a single test against multiple targets. However, you might have advantages or disadvantages against only some of those targets. In that case, first roll the test without those extra dice, then roll the dice for your advantages or disadvantages separately, applying them only to the results for the affected targets and ignoring them for the other targets. (For more information, see @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.GgQySBa2DAqiGFNq.JournalEntryPage.iQUOQW4Mxgj7HSQ6#attacks-with-multiple-targets]{Attacks With Multiple Targets} in part 3.)</p><p></p><h4><span class=\"fontstyle0\"><strong>Enemy NPC Tests</strong></span></h4><p><span class=\"fontstyle2\">If an enemy NPC is making a test with advantages or disadvantages, the roles of the GM and players are reversed. For advantages, the GM gets to pick which die to keep, and for disadvantages, a player gets to pick (typically the player whose character is most affected by the roll).</span></p><p></p><h3><span class=\"fontstyle0\">Working Together</span></h3><p>When you attempt a task with the help of others, you typically don’t all make separate tests. Instead, use the following rules to work together on a test.</p><p><span class=\"fontstyle2\"><strong>Helping in Combat. </strong>If you want to help in combat, you must use the Aid reaction (see @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.GgQySBa2DAqiGFNq.JournalEntryPage.lws4hcoJ4uAqLqxU]{Actions and Reactions} in part 3).</span></p><p><span class=\"fontstyle2\"><strong>Helping Outside Combat. </strong></span>Outside of combat, whoever is leading the group effort makes one test, and they gain an advantage for each character helping them.</p><p></p><h2><span class=\"fontstyle0\">Anatomy of a Skill</span></h2><p>The upcoming sections describe the eighteen basic skills available to all characters in this game. Each section includes the following details:</p><p><span class=\"fontstyle2\"><strong>Title and Attribute.</strong></span> Each entry’s title states the name of that skill, followed by the associated attribute. You’ll use this attribute to calculate your skill modifier, as described earlier in @UUID[.f4WUJcFOPWHd0u62#skill-ranks-and-modifiers]{Skill Ranks and Modifiers.}</p><p><span class=\"fontstyle2\"><strong>Relevant Tasks.</strong></span> Each entry lists some tasks that use that skill. This isn’t a comprehensive list—it’s up to you and your GM to decide what skill best applies for anything you might attempt.</p><p><span class=\"fontstyle2\"><strong>Special Situations.</strong> </span>Some entries provide guidance for using that skill in special ways.</p><p></p><h2><span class=\"fontstyle0\">Agility (Speed)</span></h2><p>Agility reflects your capacity to maneuver within your environment, steer a mount, execute acrobatic feats, and pilot vehicles with precision. When your reflexes, mobility, or maneuverability are challenged by a task, you test Agility.</p><p></p><h2><span class=\"fontstyle0\">Athletics (Strength)</span></h2><p>Athletics reflects your physical prowess, brawn, endurance, and resistance to harm and physical adversity. Athletics can allow you to overcome an obstacle with feats of strength such as lifting, pushing, climbing, jumping horizontally and vertically, and pulling. Athletics is also used to make unarmed attacks, as described in the @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.kVZcYd3em6DmovVh.JournalEntryPage.kBp1nrHVj2z8kMkE]{Weapons} section of part 6.</p><p><span class=\"fontstyle2\"><strong>Jumping.</strong> </span>While moving, a character can generally jump a horizontal distance equal to their own size without making a test, and a vertical distance equal to half their size (see @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.GgQySBa2DAqiGFNq.JournalEntryPage.rMs5NOkzGPLSbj9y]{Movement and Positioning} in part 3). For longer jumps, they must make an Athletics test. This test’s DC is determined by the GM, but as a general guideline, a 40-foot jump on Roshar would be nearly impossible (DC 30) for a Medium character.</p><p></p><img src=\"systems/cosmere-rpg/assets/art/p1-character-statistics/pg19_Athlete_ANTTI%20HAKOSAARI.webp\" style=\"border:0px\" class=\" centered\" width=\"400\" /><p style=\"text-align:center\"><strong>Antti Hakosaari</strong></p><p></p><h2><span class=\"fontstyle0\">Crafting (Intellect)</span></h2><p>Crafting uses your ingenuity and knowledge to design and build physical objects with what you have on hand. When you’re crafting commonplace items like simple machines, traps, pottery, woodworking, sketches, sewing, or impromptu tools, you test Crafting to determine your success.</p><p><span class=\"fontstyle2\"><strong>Crafting Complex Items.</strong></span> If you want to create more complex items like weapons, armor, equipment, buildings, grand works of art, and fabrials, you need to have a corresponding expertise to make a Crafting test. The<span class=\"fontstyle0\" style=\"color:rgb(36,32,33);font-size:10pt\"> </span>\"Crafting\" section in chapter 7 of the <em>Stormlight Handbook</em> presents the full rules of crafting.</p><p></p><h2><span class=\"fontstyle0\">Deception (Presence)</span></h2><p>Deception measures how well you can mislead others with blatant dishonesty, clever insinuations, exaggerations, and strategic omissions. Using this skill can include carefully chosen words, but also emotional manipulation, deflection, falsified evidence, and misleading body language.</p><p></p><h2><span class=\"fontstyle0\">Deduction (Intellect)</span></h2><p>To understand the world, one must observe, question, and test. Through logic, reason, accruing evidence, and interpreting it, you can test Deduction to more confidently navigate the many uncertainties that surround you.</p><p></p><h2><span class=\"fontstyle0\">Discipline (Willpower)</span></h2><p>Discipline determines your ability to control your outward reactions and responses to unsettling circumstances. Discipline can help you maintain composure in the face of fear, anger, pain, or sorrow. This doesn’t mean you don’t feel these emotions, but you can think and act with exceptional clarity and poise even under great duress.</p><p><span class=\"fontstyle2\"><strong>Overcoming the Odds</strong></span>. Discipline can be used actively, such as when putting on a brave face while approaching a formidable foe. However, it can also be used reactively to shake off fear, doubt, distraction, and similar challenges. The GM might sometimes have you test Discipline to avoid an unwanted effect or to later overcome it.</p><p></p><h2><span class=\"fontstyle0\">Heavy Weaponry (Strength)</span></h2><p>Heavy Weaponry represents your experience wielding the most devastating weapons of warfare. You test Heavy Weaponry when you attack with or otherwise use weapons that are literally heavy, such as axes and hammers, along with most Shardblades.</p><p><span class=\"fontstyle2\"><strong>Heavy vs. Light Weaponry.</strong> </span>Weapons that use the Heavy Weaponry skill tend to have greater reach and heft than light weapons, increasing their lethality but reducing their maneuverability and precision.</p><p></p><h2><span class=\"fontstyle0\">Insight (Awareness)</span></h2><p>Insight measures your ability to discern the true feelings of others, see through deceptions, and use your intuition to determine whether a situation is off. When your social instincts, emotional intelligence, and gut reactions are challenged by a task, you test Insight.</p><p></p><h2><span class=\"fontstyle0\">Intimidation (Willpower)</span></h2><p>Intimidation reflects your ability to induce fear in another character and thereby ensure their compliance. When you project physical dominance, issue a threat (whether explicit or implied), or intentionally catastrophize a situation, you test Intimidation.</p><p><span class=\"fontstyle2\"><strong>Insincere Threats.</strong> </span>Most threats include some degree of exaggeration, such as overstating your willingness or ability to make good on the threat. If a threat is plausible to the receiving party, bluffing doesn’t affect how the test is made. However, if you’re feigning something preposterous, such as claiming to be a fearsome warrior while you’re visibly ill and can’t stand up, you gain a disadvantage <span class=\"fontstyle0\">on your Intimidation test.</span></p><p></p><h2><span class=\"fontstyle0\" style=\"color:rgb(30,60,96);font-size:16pt\">Leadership (Presence)</span></h2><p><span class=\"fontstyle0\">Leadership represents your ability to inspire people, draw attention, and command allies. When you appeal to someone’s better nature or sense of right and wrong,</span> <span class=\"fontstyle0\">you test Leadership. You can also use this skill to delegate tasks, manage a crowd, bait an enemy, or direct allies who aren’t strictly under your command.</span></p><p></p><table class=\"sl-blue\"><tbody><tr><td class=\"sl-blue-header\" data-colwidth=\"519\"><p><strong>Leadership or Persuasion?</strong></p></td></tr><tr><td class=\"sl-blue-text\" data-colwidth=\"519\"><p>When you test Persuasion, you’re typically convincing someone to help you by negotiating, appealing to logic or self-interest, and pointing out the practical implications of a decision. When you test Leadership, you’re usually seeking to inspire, appealing to higher ideals, and charismatically taking control of a situation. Some problems can be solved with either skill, though the DC for each test may vary significantly depending on your target and your own intentions.</p></td></tr></tbody></table><p></p><h2><span class=\"fontstyle0\" style=\"color:rgb(30,60,96);font-size:16pt\">Light Weaponry (Speed)</span></h2><p><span class=\"fontstyle0\">Light Weaponry represents your facility with smaller armaments that are wielded with finesse rather than raw strength. When you attack with or otherwise use knives, short swords, bows, slings, and similar weapons, you test Light Weaponry.</span></p><p><span class=\"fontstyle2\"><strong>Light vs. Heavy Weaponry.</strong> </span><span class=\"fontstyle0\">Though light weapons don’t have the same range and damage as heavy weapons, they’re more quick, subtle, and precise.</span></p><p></p><h2><span class=\"fontstyle0\" style=\"color:rgb(30,60,96);font-size:16pt\">Lore (Intellect)</span></h2><p><span class=\"fontstyle0\">Lore establishes your familiarity with history, current events, folklore, religions, places, and science.</span></p><p><span class=\"fontstyle0\">When you attempt to recall information that you could reasonably know from your background, you test Lore.</span></p><p><span class=\"fontstyle2\"><strong>Lore and Expertise.</strong> In addition to the general Lore skill, your expertises represent areas of specific knowledge. Expertises can allow you to recall basic information without a test, or to unlock obscure, secret, or forbidden knowledge </span><span class=\"fontstyle0\">(see the earlier </span>@UUID[.FL2CI9SgUjr5oHGM]{Expertises}<span class=\"fontstyle0\"> section)</span></p><p></p><h2><span class=\"fontstyle0\" style=\"color:rgb(30,60,96);font-size:16pt\">Medicine (Intellect)</span></h2><p><span class=\"fontstyle0\">Medicine measures your ability to heal yourself and others through your knowledge of anatomy, psychology, and surgery. When you attempt to diagnose physical maladies, support those with mental or physical illnesses, or determine a corpse’s time and cause of death, you test Medicine. You might even carry surgical supplies (see @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.kVZcYd3em6DmovVh.JournalEntryPage.eu0A5xmJwGfv9mmp]{Equipment}</span> in part 6<span class=\"fontstyle0\">) to make your ministrations more effective.</span></p><p><span class=\"fontstyle2\"><strong>Using Medicine in Combat.</strong> </span><span class=\"fontstyle0\">If you have at least one rank in Medicine, you can spend 2 focus and Use a Skill (see @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.GgQySBa2DAqiGFNq.JournalEntryPage.lws4hcoJ4uAqLqxU]{Actions and Reactions} in part 3) to make a DC 15 Medicine test to treat a conscious ally within your reach, or you can make the same test with a disadvantage to treat yourself. On a success, your target recovers health equal to your ranks in Medicine.</span></p><p><span class=\"fontstyle2\"><strong>Using Medicine While Resting.</strong> </span><span class=\"fontstyle0\">During a long rest, you can make a DC 20 Medicine test to treat an ally’s injury (see @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.g3I4elHd7V9Zc9g0#injuries]{Injuries}</span> in part 2<span class=\"fontstyle0\">), or you can make the same test with a disadvantage to treat yourself. On a success, the duration of a shallow or vicious injury is reduced by 1d4 days. Once a character has been treated in this way (whether successfully or unsuccessfully), they can’t be treated in this way again during that long rest.</span></p><p></p><h2>Perception (Awareness)</h2><p>Perception signifies your ability to notice details about your surroundings. When you inspect the area around you, search for a hidden character or item, or try to recognize something from your memory or a description, you test Perception. (The upcoming @UUID[.f4WUJcFOPWHd0u62#stealth-(speed)]{Stealth} section contains rules for detecting hidden characters.)</p><p><span class=\"fontstyle2\"><strong>Senses and Perception.</strong> </span>You don’t need access to all senses to test Perception. In general, each character tests Perception in the same way regardless of which senses they can access. (see the earlier @UUID[.GEf37WmnGrQ55fDk]{Senses} section for more guidance).</p></div><p></p><div class=\"sl-journal\"><h2><span class=\"fontstyle0\">Persuasion (Presence)</span></h2><p>Persuasion reflects your charisma, social fluency, and assumed trustworthiness. When you barter, debate, reason, or appeal to self-interest, you test Persuasion. While Deception and Intimidation tests might allow you to pressure an unwilling target into compliance, you’ll usually test Persuasion if you’re seeking agreement and a reasonably amicable outcome.</p><p><span class=\"fontstyle0\"><strong>Attitudes.</strong> </span><span class=\"fontstyle2\">If you have a good rapport with someone (or a particularly strained relationship), the GM may choose to decrease (or increase) the DC to reflect the target’s attitude toward you.</span></p><p></p><h2><span class=\"fontstyle2\" style=\"color:rgb(30,60,96);font-size:16pt\">Stealth (Speed)</span></h2><p><span class=\"fontstyle2\">Stealth represents your ability to avoid or escape attention. When you attempt to sneak, hide, blend into a crowd, or similarly avoid notice or lose pursuers, you test Stealth.</span></p><p><span class=\"fontstyle0\"><strong>Hiding in Combat.</strong> </span><span class=\"fontstyle2\">In combat, you can Use a Skill(see @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.GgQySBa2DAqiGFNq.JournalEntryPage.lws4hcoJ4uAqLqxU]{Actions and Reactions} in part 3) to attempt to hide from a character, making a Stealth test against their Spiritual defense. You can hide only if you’re in cover, if you’re in an area where your target’s primary sense is obscured (such as darkness), or if your target has no line of effect to you (see @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.GgQySBa2DAqiGFNq.JournalEntryPage.notytnLjsp80olVs]{Targeting and Range}</span> in part 3<span class=\"fontstyle2\">). If you’re attempting to hide from more than one character, compare your test result to each character’s Spiritual defense.</span></p><p><span class=\"fontstyle2\">Each character who you succeed against loses track of you and can no longer sense you, and they remain unaware of your exact location until you attack or take another action that would logically expose your position. As </span><span class=\"cosmere-icon\">0</span><span class=\"fontstyle2\">, you can covertly signal one or more allies you can sense, revealing your position to them.</span></p><p><span class=\"fontstyle2\">A character searching for you can Use a Skill to make a Perception test to search for you; the DC for this test equals the result of your original Stealth test, and it gains a disadvantage if you’re in cover or an area where the character’s primary sense is obscured. On a success, that character senses you.</span></p><p></p><h2><span class=\"fontstyle0\">Survival (Awareness)</span></h2><p>Survival indicates your competence in obtaining vital resources and shelter, avoiding environmental threats, and understanding animal behavior. When you track someone or something, interact with wildlife, or navigate unfamiliar territory, you test Survival.</p><p><span class=\"fontstyle2\"><strong>Foraging in Nature.</strong></span> During a short rest, you can try to collect resources like food, water, or medicinal plants. When you do, you forgo the other benefits of resting and instead test Survival. On a success, you identify useful natural resources and safely collect some. The DC for foraging depends on where you’re foraging and what (if anything) you’re specifically looking for. The GM might deny this option if an area has nothing noteworthy to hunt or gather, or if foraging would be too risky.</p><p></p><h2><span class=\"fontstyle0\">Thievery (Speed)</span></h2><p>Thievery covers all manner of tasks that require precise manual dexterity or are useful in skulduggery. When you pickpocket, lockpick, perform sleight of hand, escape from bonds, tie knots, or create disguises, you test Thievery.</p><p><span class=\"fontstyle2\"><strong>Pickpocketing in Combat.</strong> </span>You can Use a Skill (see @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.GgQySBa2DAqiGFNq.JournalEntryPage.lws4hcoJ4uAqLqxU]{Actions and Reactions} in part 3) to make a Thievery test to pick the pocket of a character within your reach. When you make this test, raise the stakes. The DC of this test equals the target’s Spiritual defense, and you gain a disadvantage if the target is aware of your presence.</p></div><img src=\"systems/cosmere-rpg/assets/art/p1-character-statistics/pg22_Lightweaver_Intro copy_STEVE PRESCOTT.webp\" style=\"border:0px\" class=\" centered\" width=\"400\" /><p style=\"text-align:center\"><strong>STEVE PRESCOTT</strong></p>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "ownership": {
+                "default": -1,
+                "YTccnKYTqbC83Km5": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": 1752438141390,
+                "lastModifiedBy": "zUkYx8Dgv6g35j5m"
+            },
+            "_key": "!journal.pages!dCOrLZj5O9Va7cd3.f4WUJcFOPWHd0u62"
+        }
+    ],
+    "folder": null,
+    "flags": {},
+    "ownership": {
+        "default": 0
+    },
+    "_id": "dCOrLZj5O9Va7cd3",
+    "sort": 200000,
+    "_key": "!journal!dCOrLZj5O9Va7cd3",
+    "categories": []
+}

@@ -1,0 +1,48 @@
+{
+    "folder": "qTYLKqLK29e5CTQp",
+    "name": "Tuning Fork",
+    "type": "equipment",
+    "_id": "8vqNzFDXNaJ0N9He",
+    "img": "icons/tools/hand/wrench-iron-grey.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 50 mk; <strong>Weight</strong> 0.5 lb;</p><p>A tuning fork can transfer Stormlight from one sphere or gemstone to another. While using a tuning fork, you can use spheres to recharge fabrials, @UUID[Compendium.cosmere-rpg.items.Item.NDRl7pSNVLR2mqYj]{Shardplate}, and @UUID[Compendium.cosmere-rpg.items.Item.72GKzVSmaHCrqymp]{half-shards} as if the spheres were unencased gemstones.</p>",
+            "chat": ""
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 0.5,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 50,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            },
+            "unit": "spheres.mark"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        }
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!8vqNzFDXNaJ0N9He"
+}

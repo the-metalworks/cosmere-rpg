@@ -1,0 +1,38 @@
+{
+    "folder": "xeAxqcLYdFWSwUur",
+    "name": "Use A Skill",
+    "type": "action",
+    "_id": "A4fgvQ6HoxCIpxFS",
+    "img": "icons/skills/trades/academics-investigation-study-blue.webp",
+    "system": {
+        "id": "use_a_skill",
+        "type": "basic",
+        "description": {
+            "value": "<p>You use one of your skills to perform challenging tasks around the battlefield—for example, you could make a Perception test to search the environment, make a Stealth test to hide, or make a Medicine test to treat an ally. This action covers many creative tasks you might attempt.</p>",
+            "chat": "<p>You use one of your skills to perform challenging tasks around the battlefield.</p>",
+            "short": "<p>You use one of your skills to perform challenging tasks around the battlefield. This action covers many creative tasks you might attempt.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": 1,
+                "type": "act"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        }
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!A4fgvQ6HoxCIpxFS"
+}

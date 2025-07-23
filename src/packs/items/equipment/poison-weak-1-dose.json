@@ -1,0 +1,54 @@
+{
+    "folder": "qTYLKqLK29e5CTQp",
+    "name": "Poison (weak, 1 dose)",
+    "type": "equipment",
+    "_id": "jlZoxCcsuNTxwJUo",
+    "img": "icons/consumables/potions/potion-tube-corked-green.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 20 mk; <strong>Weight</strong> 0.2 lb.;</p><p>Often manufactured using Roshar’s deadly blackbane plant, poison comes in single-dose glass vials. As <em class=\"cosmere-icon\" data-tooltip=\"1 Action\">1</em> , you can pour it into food, liquid, or a container, or you can apply the poison to a melee weapon or a piece of ammunition you’re holding. When you do, the GM may require you to make a <strong>Stealth</strong> test to avoid discovery. When a character ingests the poison or is hit by an attack using the poisoned weapon or ammunition, the poison is expended, and the character suffers the following effects:</p><p><strong>Weak Poison.</strong> The target must succeed on a DC 12 <strong>Athletics</strong> test or take 1d6 vital damage.</p>",
+            "chat": ""
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 0.2,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 20,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            },
+            "unit": "spheres.mark"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": 1,
+                "type": "act"
+            },
+            "consume": [],
+            "flavor": "",
+            "uses": {
+                "type": "use",
+                "value": 1,
+                "max": 1,
+                "recharge": null
+            }
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        }
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!jlZoxCcsuNTxwJUo"
+}

@@ -1,0 +1,74 @@
+{
+    "_id": "OBPoBfwLrZg0Unz6",
+    "folder": "4H9VQhin9BB78Fw4",
+    "name": "Hammer",
+    "type": "weapon",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/items/foundry_items/ICON_Hammer.webp",
+    "system": {
+        "id": "hammer",
+        "type": "heavy_wpn",
+        "description": {
+            "value": "<p><strong>Damage</strong> 1d10 impact; <strong>Range</strong> Melee; <strong>Traits</strong> Two-Handed; <strong>Expert Traits</strong> Momentum;</p><p><strong>Type</strong> Heavy Weapon; <strong>Weapons Skill</strong> Heavy; <strong>Price</strong> 40 mk; <strong>Weight</strong> 8 lb.;</p>",
+            "chat": ""
+        },
+        "activation": {
+            "type": "skill_test",
+            "skill": "hwp",
+            "cost": {
+                "value": 1,
+                "type": "act"
+            },
+            "attribute": "str",
+            "modifierFormula": ""
+        },
+        "damage": {
+            "formula": "1d10",
+            "type": "impact",
+            "skill": "hwp",
+            "attribute": null
+        },
+        "attack": {
+            "type": "melee",
+            "range": null
+        },
+        "traits": {
+            "two_handed": {
+                "defaultActive": true
+            },
+            "momentum": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": true
+                }
+            }
+        },
+        "equipped": false,
+        "alwaysEquipped": false,
+        "resources": null,
+        "expertise": false,
+        "weight": {
+            "value": 8,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 40,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark"
+            },
+            "unit": "spheres.mark"
+        },
+        "equip": {
+            "type": "hold",
+            "hold": "two_handed"
+        },
+        "quantity": 1
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!OBPoBfwLrZg0Unz6"
+}

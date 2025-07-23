@@ -1,0 +1,72 @@
+{
+    "folder": "WkpS6Qx3glJoqZa0",
+    "name": "Resolute Stand",
+    "type": "talent",
+    "_id": "PWyeAbWBKCg17CsO",
+    "img": "icons/magic/control/silhouette-hold-beam-blue.webp",
+    "system": {
+        "id": "resolute-stand",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p><em>You project resolve, and even powerful groups of opponents find it hard to focus their attention elsewhere.</em></p><p>When you use your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.yFWkmaGMs359A7DB]{Valiant Intervention}, you can spend focus up to your ranks in <strong>Leadership</strong> to target that many additional characters.</p><p>Additionally, after you affect a target with Valiant Intervention, they can’t make @UUID[Compendium.cosmere-rpg.actions.Item.QpFIxaoCBezzt6yw]{Reactive Strikes} against your allies until the end of that target’s next turn.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p>@UUID[Compendium.cosmere-rpg.heroic-paths.Item.yFWkmaGMs359A7DB]{Valiant Intervention} prevents @UUID[Compendium.cosmere-rpg.actions.Item.QpFIxaoCBezzt6yw]{Reactive Strikes}. Spend focus up to your ranks in <strong>Leadership</strong> to add that many targets for Valiant Intervention.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p>When you use your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.yFWkmaGMs359A7DB]{Valiant Intervention}, you can spend focus up to your ranks in <strong>Leadership</strong> to target that many additional characters.</p><p>Additionally, after you affect a target with Valiant Intervention, they can’t make @UUID[Compendium.cosmere-rpg.actions.Item.QpFIxaoCBezzt6yw]{Reactive Strikes} against your allies until the end of that target’s next turn.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": null,
+                "type": "spe"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "path": "leader",
+        "hasPath": false,
+        "specialty": "champion",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "NU9masU5LCSnZgpa": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "skill": "ath",
+                "rank": 1,
+                "talents": []
+            },
+            "CWNDEDevyuZNqdXU": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "hardy",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.BYKSGAwJmVbvnUnX",
+                        "label": "Hardy"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "modality": null
+    },
+    "effects": [],
+    "sort": 475000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!PWyeAbWBKCg17CsO"
+}

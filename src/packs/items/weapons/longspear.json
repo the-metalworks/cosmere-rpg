@@ -1,0 +1,80 @@
+{
+    "_id": "ex4dg2bXFpC5HTv6",
+    "folder": "4H9VQhin9BB78Fw4",
+    "name": "Longspear",
+    "type": "weapon",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/items/foundry_items/ICON_longspear.webp",
+    "system": {
+        "id": "longspear",
+        "type": "heavy_wpn",
+        "description": {
+            "value": "<p><strong>Damage</strong> 1d8 keen; <strong>Range</strong> Melee [+5]; <strong>Traits</strong> Two-Handed; <strong>Expert Traits</strong> Defensive;</p><p><strong>Type</strong> Heavy Weapon; <strong>Weapons Skill</strong> Heavy; <strong>Price</strong> 15 mk; <strong>Weight</strong> 9 lb.;</p>",
+            "chat": ""
+        },
+        "activation": {
+            "type": "skill_test",
+            "skill": "hwp",
+            "cost": {
+                "value": 1,
+                "type": "act"
+            },
+            "attribute": "str",
+            "modifierFormula": ""
+        },
+        "damage": {
+            "formula": "1d8",
+            "type": "keen",
+            "skill": "hwp",
+            "attribute": null
+        },
+        "attack": {
+            "type": "melee",
+            "range": {
+                "value": 5,
+                "unit": "ft"
+            }
+        },
+        "traits": {
+            "two_handed": {
+                "defaultActive": true
+            },
+            "reach": {
+                "defaultActive": true
+            },
+            "defensive": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": true
+                }
+            }
+        },
+        "equipped": false,
+        "alwaysEquipped": false,
+        "resources": null,
+        "expertise": false,
+        "weight": {
+            "value": 9,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 15,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark"
+            },
+            "unit": "spheres.mark"
+        },
+        "equip": {
+            "type": "hold",
+            "hold": "two_handed"
+        },
+        "quantity": 1
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!ex4dg2bXFpC5HTv6"
+}

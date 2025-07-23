@@ -7,3 +7,4 @@ import './journal';
 import './compendium';
 
 export { register as registerItemEventSystem } from './item-event-system';
+export { register as registerStarterRulesConfig } from './starter-rules';

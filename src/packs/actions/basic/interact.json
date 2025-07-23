@@ -1,0 +1,38 @@
+{
+    "folder": "xeAxqcLYdFWSwUur",
+    "name": "Interact",
+    "type": "action",
+    "_id": "iqjFbO4BLuTSt4cQ",
+    "img": "icons/magic/air/air-smoke-casting.webp",
+    "system": {
+        "id": "interact",
+        "type": "basic",
+        "description": {
+            "value": "<p>You quickly interact with an object you can reach. Unlike the @UUID[Compendium.cosmere-rpg.actions.Item.A4fgvQ6HoxCIpxFS]{Use a Skill} action, this action usually doesn’t require a skill test. For example, you might Interact to:</p><ul><li><p>Open or close a door.</p></li><li><p>Pick up an item.</p></li><li><p>Draw or sheathe your weapon.</p></li><li><p>Retrieve something from your pack.</p></li><li><p>Pass something to an ally.</p></li><li><p>Quickly scarf down pancakes.</p></li><li><p>Put on or take off a simple piece of clothing.</p></li></ul><p>You can use the <strong>Interact</strong> action more than once per turn.</p>",
+            "chat": "<p>You quickly interact with an object you can reach. This action usually doesn’t require a skill test.</p><p>You can use the <strong>Interact</strong> action more than once per turn.</p>",
+            "short": "<p>You quickly interact with an object you can reach. Unlike the @UUID[Compendium.cosmere-rpg.actions.Item.A4fgvQ6HoxCIpxFS]{Use a Skill} action, this action usually doesn’t require a skill test.</p><p>You can use the <strong>Interact</strong> action more than once per turn.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": 1,
+                "type": "act"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        }
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!iqjFbO4BLuTSt4cQ"
+}

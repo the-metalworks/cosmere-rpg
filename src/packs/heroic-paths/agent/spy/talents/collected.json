@@ -1,0 +1,112 @@
+{
+    "folder": "wTsGOInIGEUZQvz8",
+    "name": "Collected",
+    "type": "talent",
+    "system": {
+        "id": "collected",
+        "type": "path",
+        "path": "agent",
+        "specialty": "spy",
+        "description": {
+            "value": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p><em>You remain mindful of your immediate goals without losing sight of your deeper value, keeping you even-keeled amid chaos.</em></p><p>When you choose this talent, increase your Cognitive and Spiritual defenses by 2.</p>",
+            "chat": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>Increase your Cognitive and Spiritual defenses by 2.</p>",
+            "short": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>When you choose this talent, increase your Cognitive and Spiritual defenses by 2.</p>"
+        },
+        "prerequisites": {
+            "HIWHiIdQKwzhUM9H": {
+                "type": "talent",
+                "label": "Sure Outcome",
+                "value": 0,
+                "rank": 1,
+                "talents": [
+                    {
+                        "id": "sure-outcome",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.Vv9KSpLqxaUd8u6K",
+                        "label": "Sure Outcome"
+                    }
+                ]
+            }
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "uses": null,
+            "plotDie": false,
+            "opportunity": null,
+            "complication": null
+        },
+        "hasPath": false,
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisitesMet": false,
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "modality": null
+    },
+    "effects": [
+        {
+            "_id": "wb2bN2uCKipzTPhM",
+            "name": "Collected",
+            "description": "",
+            "tint": "#ffffff",
+            "type": "base",
+            "transfer": true,
+            "disabled": false,
+            "changes": [
+                {
+                    "key": "system.defenses.cog.bonus",
+                    "mode": 2,
+                    "value": "2",
+                    "priority": null
+                },
+                {
+                    "key": "system.defenses.spi.bonus",
+                    "mode": 2,
+                    "value": "2",
+                    "priority": null
+                }
+            ],
+            "img": "icons/magic/defensive/illusion-evasion-echo-purple.webp",
+            "system": {},
+            "duration": {
+                "startTime": null,
+                "seconds": null,
+                "combat": null,
+                "rounds": null,
+                "turns": null,
+                "startRound": null,
+                "startTurn": null
+            },
+            "origin": null,
+            "statuses": [],
+            "sort": 0,
+            "flags": {},
+            "_stats": {
+                "coreVersion": "12.343",
+                "systemId": null,
+                "systemVersion": null,
+                "createdTime": null,
+                "modifiedTime": null,
+                "lastModifiedBy": null,
+                "compendiumSource": null,
+                "duplicateSource": null
+            },
+            "_key": "!items.effects!sKa7wQESNjSzlr7D.wb2bN2uCKipzTPhM"
+        }
+    ],
+    "flags": {},
+    "img": "icons/magic/defensive/illusion-evasion-echo-purple.webp",
+    "_id": "sKa7wQESNjSzlr7D",
+    "sort": 100000,
+    "ownership": {
+        "default": 0
+    },
+    "_key": "!items!sKa7wQESNjSzlr7D"
+}

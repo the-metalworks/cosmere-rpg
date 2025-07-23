@@ -1,0 +1,55 @@
+{
+    "_id": "oWJSlmauhHG57LrO",
+    "name": "Alethi",
+    "type": "culture",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/cultures/alethi-t.webp",
+    "system": {
+        "id": "alethi",
+        "description": {
+            "value": "<p>Alethkar is ruled by a monarch and ten highprinces, and the nation is driven by war and conquest. The Vorin religion is practiced by proxy, with ardents acting as religious servants of the noble class. Gender roles are strictly enforced in Alethi society: women are expected to engage in scholarly and domestic pursuits, and men in warfare and physical labor. However, ardents have more flexibility to exist outside of the harsh gender binary imposed by Vorinism. The lightness of one’s eyes determines their social caste, with the privileged dahn system designated for lighteyes and persecuted nahn for darkeyes. Singers and some darkeyed humans suffer enslavement at the hands of the upper class.</p><p>Most Alethi people are tall and have tan skin and dark hair. Men typically wear uniforms or work clothes. Women either wear silk dresses called havahs that cover their left hands for propriety, or less ornate work clothes with gloves to conceal their left hands. Due to Vorin custom, few men are literate, though most have a rudimentary understanding of glyphs.</p><p></p><p><span class=\"fontstyle3\"><strong>Alethi Names</strong></span></p><p>Adelar, Arin, Dannic, Elhamir, Ersha, Hilar, Janar, Kalith, Lanerin, Marith, Nar, Ravir, Rilin, Selith, Taren, Tel, Valerin, Varda, Yaladir, Zalith.</p><p></p><p><span class=\"fontstyle3\"><strong>Alethi Expertise</strong></span></p><p>As a character with the Alethi expertise, you know the names, locations, and highprinces of each princedom. Choose a princedom your character has lived in. You can replicate its regional dialect, and you know how to find vendors, public organizations, and noteworthy landmarks there. Choose how proficient you are in spoken Alethi, and reading and writing glyphs, as well as your literacy in women’s script (depending on your gender and regard for gender norms). Regardless of your religious beliefs, you’re familiar with the basic tenets of Vorinism, the Almighty, and the Heralds.</p>",
+            "short": "<p>Alethkar is ruled by a monarch and ten highprinces, and the nation is driven by war and conquest. The Vorin religion is practiced by proxy, with ardents acting as religious servants of the noble class. Gender roles are strictly enforced in Alethi society: women are expected to engage in scholarly and domestic pursuits, and men in warfare and physical labor. However, ardents have more flexibility to exist outside of the harsh gender binary imposed by Vorinism. The lightness of one’s eyes determines their social caste, with the privileged dahn system designated for lighteyes and persecuted nahn for darkeyes. Singers and some darkeyed humans suffer enslavement at the hands of the upper class.</p><p>Most Alethi people are tall and have tan skin and dark hair. Men typically wear uniforms or work clothes. Women either wear silk dresses called havahs that cover their left hands for propriety, or less ornate work clothes with gloves to conceal their left hands. Due to Vorin custom, few men are literate, though most have a rudimentary understanding of glyphs.</p>"
+        },
+        "events": {
+            "2gUJP0BttoZ3YOqC": {
+                "id": "2gUJP0BttoZ3YOqC",
+                "description": "Grant Expertise",
+                "event": "add-to-actor",
+                "handler": {
+                    "type": "grant-expertises",
+                    "expertises": {
+                        "cultural:alethi": {
+                            "id": "alethi",
+                            "type": "cultural",
+                            "label": "Alethi",
+                            "locked": false
+                        }
+                    }
+                }
+            },
+            "uH0klBWGxmHQ4cR5": {
+                "id": "uH0klBWGxmHQ4cR5",
+                "description": "Remove Expertises",
+                "event": "remove-from-actor",
+                "handler": {
+                    "type": "remove-expertises",
+                    "expertises": {
+                        "cultural:alethi": {
+                            "id": "alethi",
+                            "type": "cultural",
+                            "label": "Alethi",
+                            "locked": false
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "folder": null,
+    "_key": "!items!oWJSlmauhHG57LrO"
+}

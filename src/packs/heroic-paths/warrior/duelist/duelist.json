@@ -1,0 +1,382 @@
+{
+    "folder": "VrtJFl4NyereNj1U",
+    "name": "Duelist",
+    "type": "talent_tree",
+    "_id": "f1qH09iEdfR0m6tP",
+    "img": "icons/skills/melee/maneuver-sword-katana-yellow.webp",
+    "system": {
+        "nodes": {
+            "7lNoSYBLMM6ww2dv": {
+                "id": "7lNoSYBLMM6ww2dv",
+                "type": "talent",
+                "position": {
+                    "x": -350,
+                    "y": -300
+                },
+                "talentId": "practiced-kata",
+                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.8fBzOnrcWhqUUqnj",
+                "size": {
+                    "width": 50,
+                    "height": 50
+                },
+                "showName": false,
+                "prerequisites": {
+                    "x3Ao6upjmoyBoMS7": {
+                        "id": "x3Ao6upjmoyBoMS7",
+                        "type": "talent",
+                        "attribute": "str",
+                        "value": 1,
+                        "managed": false,
+                        "talents": {
+                            "vigilant-stance": {
+                                "id": "vigilant-stance",
+                                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.8mJC2HnsN3OQ2J20",
+                                "label": "Vigilant Stance",
+                                "_id": "vigilant-stance"
+                            }
+                        },
+                        "_id": "x3Ao6upjmoyBoMS7"
+                    }
+                }
+            },
+            "c6uVudrUXB1Tisvn": {
+                "id": "c6uVudrUXB1Tisvn",
+                "type": "talent",
+                "position": {
+                    "x": -350,
+                    "y": -200
+                },
+                "talentId": "ironstance",
+                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.rVjTILXp0zNpR4zF",
+                "size": {
+                    "width": 50,
+                    "height": 50
+                },
+                "showName": false,
+                "prerequisites": {
+                    "yzYsLq9md776xIfg": {
+                        "id": "yzYsLq9md776xIfg",
+                        "type": "skill",
+                        "attribute": "str",
+                        "value": 1,
+                        "managed": false,
+                        "skill": "ath",
+                        "rank": 2,
+                        "_id": "yzYsLq9md776xIfg"
+                    },
+                    "4DudLxjqazXBJX67": {
+                        "id": "4DudLxjqazXBJX67",
+                        "type": "talent",
+                        "managed": true,
+                        "talents": {
+                            "practiced-kata": {
+                                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.8fBzOnrcWhqUUqnj",
+                                "id": "practiced-kata",
+                                "label": "Practiced Kata",
+                                "_id": "practiced-kata"
+                            }
+                        }
+                    }
+                },
+                "connections": {
+                    "7lNoSYBLMM6ww2dv": {
+                        "id": "7lNoSYBLMM6ww2dv",
+                        "prerequisiteId": "4DudLxjqazXBJX67",
+                        "_id": "7lNoSYBLMM6ww2dv"
+                    }
+                }
+            },
+            "kDnQ8Pz7SqVxiWZP": {
+                "id": "kDnQ8Pz7SqVxiWZP",
+                "type": "talent",
+                "position": {
+                    "x": -350,
+                    "y": -100
+                },
+                "talentId": "surefooted",
+                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.aYtUaW8wgz579wtS",
+                "size": {
+                    "width": 50,
+                    "height": 50
+                },
+                "showName": false,
+                "prerequisites": {
+                    "89hV9XI5fyk3qeqg": {
+                        "id": "89hV9XI5fyk3qeqg",
+                        "type": "talent",
+                        "managed": true,
+                        "talents": {
+                            "ironstance": {
+                                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.rVjTILXp0zNpR4zF",
+                                "id": "ironstance",
+                                "label": "Ironstance",
+                                "_id": "ironstance"
+                            }
+                        },
+                        "_id": "89hV9XI5fyk3qeqg"
+                    }
+                },
+                "connections": {
+                    "c6uVudrUXB1Tisvn": {
+                        "id": "c6uVudrUXB1Tisvn",
+                        "prerequisiteId": "89hV9XI5fyk3qeqg",
+                        "_id": "c6uVudrUXB1Tisvn"
+                    }
+                }
+            },
+            "BqMGofewnoJn0qo8": {
+                "id": "BqMGofewnoJn0qo8",
+                "type": "talent",
+                "position": {
+                    "x": -200,
+                    "y": -300
+                },
+                "talentId": "flamestance",
+                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.9iwqXlfJWsySFuax",
+                "size": {
+                    "width": 50,
+                    "height": 50
+                },
+                "showName": false,
+                "prerequisites": {
+                    "7ZmJVSVDPzpiVOmv": {
+                        "id": "7ZmJVSVDPzpiVOmv",
+                        "type": "skill",
+                        "attribute": "str",
+                        "value": 1,
+                        "managed": false,
+                        "skill": "inm",
+                        "rank": 1,
+                        "_id": "7ZmJVSVDPzpiVOmv"
+                    },
+                    "deKLSmf8qB6VaH1K": {
+                        "id": "deKLSmf8qB6VaH1K",
+                        "type": "talent",
+                        "attribute": "str",
+                        "value": 1,
+                        "managed": false,
+                        "talents": {
+                            "vigilant-stance": {
+                                "id": "vigilant-stance",
+                                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.8mJC2HnsN3OQ2J20",
+                                "label": "Vigilant Stance",
+                                "_id": "vigilant-stance"
+                            }
+                        }
+                    }
+                }
+            },
+            "LZrexKYksPdZ0ORk": {
+                "id": "LZrexKYksPdZ0ORk",
+                "type": "talent",
+                "position": {
+                    "x": -100,
+                    "y": -200
+                },
+                "talentId": "signature-weapon",
+                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.VALC0o87S2DMxeME",
+                "size": {
+                    "width": 50,
+                    "height": 50
+                },
+                "showName": false,
+                "prerequisites": {
+                    "3t293knEijuFbJve": {
+                        "id": "3t293knEijuFbJve",
+                        "type": "talent",
+                        "managed": true,
+                        "talents": {
+                            "flamestance": {
+                                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.9iwqXlfJWsySFuax",
+                                "id": "flamestance",
+                                "label": "Flamestance",
+                                "_id": "flamestance"
+                            }
+                        },
+                        "_id": "3t293knEijuFbJve"
+                    }
+                },
+                "connections": {
+                    "BqMGofewnoJn0qo8": {
+                        "id": "BqMGofewnoJn0qo8",
+                        "prerequisiteId": "3t293knEijuFbJve",
+                        "_id": "BqMGofewnoJn0qo8"
+                    }
+                }
+            },
+            "gKUs5KSTOOMaxOMq": {
+                "id": "gKUs5KSTOOMaxOMq",
+                "type": "talent",
+                "position": {
+                    "x": -200,
+                    "y": -150
+                },
+                "talentId": "feinting-strike",
+                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.MK52rooQSyK0eqvi",
+                "size": {
+                    "width": 50,
+                    "height": 50
+                },
+                "showName": false,
+                "prerequisites": {
+                    "uLIPoS1HTxlzAAaH": {
+                        "id": "uLIPoS1HTxlzAAaH",
+                        "type": "skill",
+                        "attribute": "str",
+                        "value": 1,
+                        "managed": false,
+                        "skill": "inm",
+                        "rank": 2,
+                        "_id": "uLIPoS1HTxlzAAaH"
+                    },
+                    "Xm7H42JBbUkIKRx7": {
+                        "id": "Xm7H42JBbUkIKRx7",
+                        "type": "talent",
+                        "managed": true,
+                        "talents": {
+                            "flamestance": {
+                                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.9iwqXlfJWsySFuax",
+                                "id": "flamestance",
+                                "label": "Flamestance",
+                                "_id": "flamestance"
+                            }
+                        }
+                    }
+                },
+                "connections": {
+                    "BqMGofewnoJn0qo8": {
+                        "id": "BqMGofewnoJn0qo8",
+                        "prerequisiteId": "Xm7H42JBbUkIKRx7",
+                        "_id": "BqMGofewnoJn0qo8"
+                    }
+                }
+            },
+            "NLhDvTq7ff7DqGDl": {
+                "id": "NLhDvTq7ff7DqGDl",
+                "type": "talent",
+                "position": {
+                    "x": -350,
+                    "y": 0
+                },
+                "talentId": "vinestance",
+                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.PuV9TAGsWqSdmf9y",
+                "size": {
+                    "width": 50,
+                    "height": 50
+                },
+                "showName": false,
+                "prerequisites": {
+                    "mbdn2NaFSXr1lVOq": {
+                        "id": "mbdn2NaFSXr1lVOq",
+                        "type": "skill",
+                        "attribute": "str",
+                        "value": 1,
+                        "managed": false,
+                        "skill": "ath",
+                        "rank": 3,
+                        "_id": "mbdn2NaFSXr1lVOq"
+                    },
+                    "AHAeIbJmXdwnp6Kr": {
+                        "id": "AHAeIbJmXdwnp6Kr",
+                        "type": "talent",
+                        "managed": true,
+                        "talents": {
+                            "feinting-strike": {
+                                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.MK52rooQSyK0eqvi",
+                                "id": "feinting-strike",
+                                "label": "Feinting Strike",
+                                "_id": "feinting-strike"
+                            }
+                        }
+                    }
+                },
+                "connections": {
+                    "gKUs5KSTOOMaxOMq": {
+                        "id": "gKUs5KSTOOMaxOMq",
+                        "prerequisiteId": "AHAeIbJmXdwnp6Kr",
+                        "_id": "gKUs5KSTOOMaxOMq"
+                    }
+                }
+            },
+            "d0688jj684zfv4Qb": {
+                "id": "d0688jj684zfv4Qb",
+                "type": "talent",
+                "position": {
+                    "x": -200,
+                    "y": 0
+                },
+                "talentId": "wits-end",
+                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.YcFyiFWAXwRwZR3o",
+                "size": {
+                    "width": 50,
+                    "height": 50
+                },
+                "showName": false,
+                "prerequisites": {
+                    "tHEOAgXCrLACPF2v": {
+                        "id": "tHEOAgXCrLACPF2v",
+                        "type": "skill",
+                        "attribute": "str",
+                        "value": 1,
+                        "managed": false,
+                        "skill": "inm",
+                        "rank": 3,
+                        "_id": "tHEOAgXCrLACPF2v"
+                    },
+                    "swy7HGkehcVBxxv1": {
+                        "id": "swy7HGkehcVBxxv1",
+                        "type": "talent",
+                        "managed": true,
+                        "talents": {
+                            "feinting-strike": {
+                                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.MK52rooQSyK0eqvi",
+                                "id": "feinting-strike",
+                                "label": "Feinting Strike",
+                                "_id": "feinting-strike"
+                            }
+                        }
+                    }
+                },
+                "connections": {
+                    "gKUs5KSTOOMaxOMq": {
+                        "id": "gKUs5KSTOOMaxOMq",
+                        "prerequisiteId": "swy7HGkehcVBxxv1",
+                        "_id": "gKUs5KSTOOMaxOMq"
+                    }
+                }
+            }
+        },
+        "viewBounds": {
+            "x": -396,
+            "y": -275,
+            "width": 344,
+            "height": 395
+        },
+        "display": {
+            "width": 521,
+            "height": 626
+        },
+        "background": {
+            "img": null,
+            "width": 0,
+            "height": 0,
+            "position": {
+                "x": 0,
+                "y": 0
+            }
+        }
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {
+        "cosmere-rpg": {
+            "sheet": {
+                "mode": "view"
+            }
+        }
+    },
+    "_key": "!items!f1qH09iEdfR0m6tP"
+}

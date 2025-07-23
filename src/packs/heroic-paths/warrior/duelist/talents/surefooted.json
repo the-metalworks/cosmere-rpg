@@ -1,0 +1,106 @@
+{
+    "folder": "kVZlDrFKUyg2QyHL",
+    "name": "Surefooted",
+    "type": "talent",
+    "img": "icons/skills/movement/feet-winged-boots-brown.webp",
+    "system": {
+        "id": "surefooted",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p><em>You move through treacherous terrain with confidence and speed.</em></p><p>When you acquire this talent, increase your movement rate by 10.</p><p>Additionally, before you take damage from dangerous terrain or falling, reduce that damage by 2 × your tier.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>Your movement increases by 10. Reduce damage from falling and dangerous terrain by twice your tier.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>When you acquire this talent, increase your movement rate by 10.</p><p>Additionally, before you take damage from dangerous terrain or falling, reduce that damage by 2 × your tier.</p>"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "path": "warrior",
+        "hasPath": false,
+        "specialty": "duelist",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "J7NiLkF9qUUCjWIA": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "talents": [
+                    {
+                        "id": "ironstance",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.rVjTILXp0zNpR4zF",
+                        "label": "Ironstance"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "modality": null
+    },
+    "effects": [
+        {
+            "name": "Surefooted",
+            "img": "icons/skills/movement/feet-winged-boots-brown.webp",
+            "disabled": false,
+            "duration": {
+                "startTime": null,
+                "seconds": null,
+                "combat": null,
+                "rounds": null,
+                "turns": null,
+                "startRound": null,
+                "startTurn": null
+            },
+            "_id": "VQt9VM0kSYB0ygGd",
+            "type": "base",
+            "system": {},
+            "changes": [
+                {
+                    "key": "system.movement.walk.rate.bonus",
+                    "mode": 2,
+                    "value": "10",
+                    "priority": null
+                }
+            ],
+            "description": "",
+            "origin": null,
+            "tint": "#ffffff",
+            "transfer": true,
+            "statuses": [],
+            "sort": 0,
+            "flags": {},
+            "_stats": {
+                "coreVersion": "12.343",
+                "systemId": null,
+                "systemVersion": null,
+                "createdTime": null,
+                "modifiedTime": 1740255689885,
+                "lastModifiedBy": "7Oytl88JDvVeIDlD",
+                "compendiumSource": null,
+                "duplicateSource": null
+            },
+            "_key": "!items.effects!aYtUaW8wgz579wtS.VQt9VM0kSYB0ygGd"
+        }
+    ],
+    "flags": {},
+    "_id": "aYtUaW8wgz579wtS",
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "_key": "!items!aYtUaW8wgz579wtS"
+}

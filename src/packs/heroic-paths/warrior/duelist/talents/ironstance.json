@@ -1,0 +1,72 @@
+{
+    "folder": "kVZlDrFKUyg2QyHL",
+    "name": "Ironstance",
+    "type": "talent",
+    "_id": "rVjTILXp0zNpR4zF",
+    "img": "icons/skills/melee/strike-axe-energy-pink.webp",
+    "system": {
+        "id": "ironstance",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">1</span></p><p><em>You hold your weapon high, prepared to deliver a crushing blow downward when your opponent shows weakness.</em></p><p>While in this stance, you gain an advantage on <strong>Insight</strong> tests. Additionally, when a character within your reach misses you or grazes you with an attack, you can use @UUID[Compendium.cosmere-rpg.actions.Item.QpFIxaoCBezzt6yw]{Reactive Strike} against them as if they had voluntarily left your reach.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">1</span></p><p>Enter Ironstance: You gain an advantage on <strong>Insight</strong>, and when you’re grazed or missed, you can make a @UUID[Compendium.cosmere-rpg.actions.Item.QpFIxaoCBezzt6yw]{Reactive Strike} against your attacker.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">1</span></p><p>While in this stance, you gain an advantage on <strong>Insight</strong> tests. Additionally, when a character within your reach misses you or grazes you with an attack, you can use @UUID[Compendium.cosmere-rpg.actions.Item.QpFIxaoCBezzt6yw]{Reactive Strike} against them as if they had voluntarily left your reach.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": 1,
+                "type": "act"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "path": "warrior",
+        "hasPath": false,
+        "specialty": "duelist",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "modality": "stance",
+        "prerequisites": {
+            "SlUKGeDoiMlexdBK": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "skill": "ath",
+                "rank": 2,
+                "talents": []
+            },
+            "UNjJ2uEOcPDRHm0I": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "practiced-kata",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.8fBzOnrcWhqUUqnj",
+                        "label": "Practiced Kata"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!rVjTILXp0zNpR4zF"
+}

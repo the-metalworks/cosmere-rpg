@@ -1,0 +1,236 @@
+{
+    "folder": null,
+    "name": "Introduction",
+    "_id": "o3Wi9jmwIVtpjcBs",
+    "pages": [
+        {
+            "sort": 100000,
+            "name": "Introduction",
+            "type": "text",
+            "_id": "Ic2AfYUDYXT7IhGV",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<div class=\"sl-journal\"><p><span class=\"fontstyle0\">The Cosmere Roleplaying Game is a tabletop roleplaying game (RPG) in which you and a group of friends collaboratively tell a story of heroes in a universe of adventure and powerful Investiture. This rulebook provides the basic rules you need to get started playing in the world of Roshar—the setting for the Stormlight Archive novels. In this game, you and your fellow players take on the roles of characters from around the world, working together to determine how your stories unfold as you face a cataclysmic era of global conflict.</span></p><img src=\"systems/cosmere-rpg/assets/art/p0-introduction/pg000_Kaladin_Micah%20Epstein.webp\" alt=\"Kaladin Stormblessed strikes a heroic pose, spear at his side, while soaring through the clouds surrounded by blue windspren. His blue coat ripples behind him as he leans into his path.\" style=\"border:0px\" class=\" centered\" width=\"600\" /><p style=\"text-align:center\"><strong>MICAH EPSTEIN</strong></p><p></p><p style=\"text-align:center\"><span class=\"fontstyle0\"><strong>The Knights Radiant must stand again.</strong></span></p><p style=\"text-align:center\"><span class=\"fontstyle2\"><em>The ancient oaths have at last been spoken; the spren return.</em></span></p><p style=\"text-align:center\"><span class=\"fontstyle2\"><em>Men seek what was lost; I fear the quest will destroy them.</em></span></p><p style=\"text-align:center\"><span class=\"fontstyle2\"><em>It is the nature of magic. A broken soul has cracks into which something else can be fit.</em></span></p><p style=\"text-align:center\"><span class=\"fontstyle2\"><em>Surgebindings, the powers of creation themselves;</em></span></p><p style=\"text-align:center\"><span class=\"fontstyle2\"><em>they can brace a broken soul, but they can also widen its fissures.</em></span></p></div>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "ownership": {
+                "default": -1,
+                "YTccnKYTqbC83Km5": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "0.2.1",
+                "createdTime": null,
+                "modifiedTime": 1752453758675,
+                "lastModifiedBy": "zUkYx8Dgv6g35j5m"
+            },
+            "_key": "!journal.pages!o3Wi9jmwIVtpjcBs.Ic2AfYUDYXT7IhGV"
+        },
+        {
+            "sort": 300000,
+            "name": "Using This Book",
+            "type": "text",
+            "_id": "oPT6jWFwftcQsH6k",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<div class=\"sl-journal\"><p><span class=\"fontstyle0\">This book is broken into several parts:</span></p><p></p><p><span class=\"fontstyle2\"><strong>Introduction.</strong> </span><span class=\"fontstyle0\">This describes roleplaying games, presents the Cosmere RPG’s dice and core mechanics.</span></p><p><span class=\"fontstyle2\"><strong>Part 1: Character Statistics </strong></span><span class=\"fontstyle0\">provides everything you need to know about your character’s attributes, defenses, resources, skills, senses, and expertises.</span></p><p><span class=\"fontstyle2\"><strong>Part 2: Adventuring</strong> contains rules for the trials and tribulations you’ll experience during your adventures, including the conditions, damage, and injuries you’ll face, plus rules for rest, recovery, roleplay, and extended downtime.</span></p><p><span class=\"fontstyle0\"><strong>Part 3: Combat</strong> describes how to engage in a combat scene, including the general actions every character can use and the rules for targeting, making attacks, and moving around the battlefield.</span></p><p><span class=\"fontstyle0\"><strong>Part 4: Conversations</strong> </span><span class=\"fontstyle2\">provides the rules for tense conversation scenes in which characters attempt to influence each other’s opinions or behavior.</span></p><p><span class=\"fontstyle0\"><strong>Part 5: Endeavors</strong> </span><span class=\"fontstyle2\">presents rules for highstakes endeavor scenes such as solving mysteries and conspiracies, exploring dangerous environments, and pursuing (or fleeing) adversaries in adrenalinepumping chases.</span></p><p><strong>Part 6: Items </strong>provides information on weapons, armor, and equipment found in Roshar.</p><p><span class=\"fontstyle0\"><strong>Part 7: Gamemastering</strong> provides additional guidance on using adversary profiles and running the game.</span></p></div>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "ownership": {
+                "default": -1,
+                "YTccnKYTqbC83Km5": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "0.2.1",
+                "createdTime": null,
+                "modifiedTime": 1749196373843,
+                "lastModifiedBy": "5iBgVcJlVEu3AHTG"
+            },
+            "_key": "!journal.pages!o3Wi9jmwIVtpjcBs.oPT6jWFwftcQsH6k"
+        },
+        {
+            "sort": 500000,
+            "name": "What Is a Roleplaying Game?",
+            "type": "text",
+            "_id": "LMEiRli5m7eCqPWD",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<div class=\"sl-journal\"><p><span class=\"fontstyle0\">A </span><span class=\"fontstyle2\"><strong>roleplaying game</strong> </span><span class=\"fontstyle0\">is a collaborative experience of storytelling and imagination. You and your friends work together to tell the story of a group of characters, describing their environment, playing out their conversations, and narrating their actions. You roll dice to determine whether those actions succeed or fail, so nobody knows the outcome ahead of time. Each character in the game has unique attributes and rules that affect these die rolls in different ways. A character can attempt anything in the game, but the rules mean some things are more likely to succeed than others</span>.</p><h2><span class=\"fontstyle0\">Players</span></h2><p><span class=\"fontstyle0\">Each player—other than the game master—creates a character to play throughout the group’s adventure. Your character is known as a </span><span class=\"fontstyle2\"><strong>player character</strong> </span><span class=\"fontstyle0\">(or PC). They’re unique to you, and it’s up to you to decide what you want their origins, ambitions, and decisions to be. Alongside the other player characters, you form a group—sometimes called an adventuring </span><span class=\"fontstyle2\"><strong>party</strong></span><span class=\"fontstyle0\">—who’ll (hopefully) stick together throughout your adventures exploring Roshar.</span></p><p><span class=\"fontstyle0\">During the game, you describe the actions your character takes, roll the dice for their actions when prompted by the game master, and decide how and when to use your character’s abilities. How you describe your character’s actions is up to you. Some players act out each word and action of their character, while others prefer to narrate their character’s actions as if they were telling a story. Do whichever feels best to you.</span></p><h2><span class=\"fontstyle0\">Game Master</span></h2><p><span class=\"fontstyle0\">One player takes on the role of the </span><span class=\"fontstyle2\"><strong>game master</strong> </span><span class=\"fontstyle0\">(or GM). They don’t play a single character, but instead act as the guiding storyteller for your game experience.</span></p><p><span class=\"fontstyle0\">As detailed in </span>@UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.CU5abC3bDy6iSlfp]{Part 7: Gamemastering}<span class=\"fontstyle0\">, the GM is the lead storyeller and referee of the game. They prepare an adventure for your group to experience, narrate the action, and play the roles of each </span><span class=\"fontstyle2\"><strong>non-player character</strong> </span><span class=\"fontstyle0\">(NPC) that PCs encounter, whether friend or foe. The GM is also responsible for adjudicating the game’s rules as the story unfolds; as such, it’s important for the GM to be familiar with all rules of the game.</span></p><p><span class=\"fontstyle0\">After a player decides what their character attempts to do, the GM decides how those actions resolve. Players are free to make suggestions, but the GM has the final say on what ultimately happens in the story. The role of GM is infinitely flexible as they improvise in response to unexpected player choices and dice rolls.</span></p><p><span class=\"fontstyle0\">In this game, the GM isn’t an adversary to the other players; instead, the GM serves as guide and collaborator in creating a story together. It’s true the GM is responsible for determining which dangers and enemies PCs face, but the GM’s ultimate goal is to facilitate a story the whole group finds compelling and satisfying.</span></p><p></p><table class=\"sl-blue\"><tbody><tr><td><p><strong>GMs, Players, and You</strong></p></td></tr><tr><td><p><span class=\"fontstyle0\">While the GM is certainly a player—after all, you’re playing a game together—this game’s rules use the word “player” to specifically refer to participants other than the GM. Rules for players only apply to anyone who has an individual player character.</span></p><p><span class=\"fontstyle0\">Similarly, when this game refers to “you,” it’s usually talking specifically to the players. However, some sections (including the entirety of </span>@UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.CU5abC3bDy6iSlfp]{Part 7: Gamemastering}<span class=\"fontstyle0\">) address the GM directly</span>.</p></td></tr></tbody></table><h2><span class=\"fontstyle0\">Flow of Play</span></h2><p><span class=\"fontstyle0\">The game itself is played out in a series of </span><span class=\"fontstyle2\"><strong>sessions</strong> </span><span class=\"fontstyle0\">where your group gathers to play (either in person or online). Many groups prefer sessions of two to four hours, but they can be any length you wish. During a session, gameplay follows this general pattern:</span></p><p><span class=\"fontstyle2\"><strong>The GM sets the scene.</strong> </span><span class=\"fontstyle0\">The GM tells you about your character’s surroundings. They describe the environment and anything going on that’s easily noticeable. Depending on the context, they may outline the stakes of the current scene or describe some options you may want to pursue.</span></p><p><span class=\"fontstyle2\"><strong>The players decide what they do. </strong></span><span class=\"fontstyle0\">You and the other players decide what actions your characters take based on the information. You might investigate the environment or quickly enact a plan of action. Sometimes the entire group acts together (such as “we all head into the stormshelter”). However, your characters can also act individually, or even split up between different locations to tackle each aspect of the situation.</span></p><p><span class=\"fontstyle2\"><strong>The GM narrates the results.</strong> </span><span class=\"fontstyle0\">The GM describes the results of the actions you decided to take. Sometimes this is as simple as describing a new scene, but when your attempted actions carry some risk or chance of failure, the GM might have you roll dice to decide the outcome. Then, based on those results, the GM narrates the outcomes, repeating the loop all over again.</span></p><p><span class=\"fontstyle0\">As this cycle continues, the game feels like a casual conversation; you and the GM go back and forth, occasionally interjecting a dice roll to see how things resolve. These steps play out whether you’re negotiating with a Thaylen merchant, exploring the eerie bottom of a chasm, or fighting a pitched battle against a greatshell. To help each situation feel unique, the game presents special rules for three scene types: combat, conversations, and endeavors (see </span>@UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa]{Part 2: Adventuring}<span class=\"fontstyle0\">)</span>.</p><p></p><h2><span class=\"fontstyle0\">What You Need to Play</span></h2><p><span class=\"fontstyle0\">Besides this rulebook, the players need just a few things to play this game:</span></p><p><span class=\"fontstyle2\"><strong>Character Sheet.</strong> Each player needs a character sheet to track their unique rules and record what happens to their character during play. Some published adventures, such as <em>Bridge Nine</em>, come with pre-made characters. If you have the full <em>Stormlight Handbook</em>, you can create your own original characters.</span></p><p><span class=\"fontstyle2\"><strong>Dice.</strong> </span><span class=\"fontstyle0\">The group needs at least one set of polyhedral dice (described in the next section). These dice can be found at hobby stores or online. Additionally, this game uses a unique plot die with special symbols to trigger effects during gameplay. You can buy plot dice online at </span><span class=\"fontstyle3\"><a href=\"https://www.cosmererpg.com/shop\">CosmereRPG.com/shop</a></span><span class=\"fontstyle0\">, or you can designate an ordinary six-sided die to use in its place (as described in the upcoming @UUID[.AbqmPDJVAADpWbI1#plot-die]{Plot Die} section).</span></p><p><span class=\"fontstyle2\"><strong>Pencils and Paper.</strong> </span><span class=\"fontstyle0\">In addition to pencils for writing on your character sheet, scratch paper can be helpful for taking notes or drawing quick sketches to visualize areas during play.</span></p><p><span class=\"fontstyle2\"><strong>Safety Tools.</strong> Tabletop RPGs can include sensitive material, and safety tools help players steer the narrative away from topics that make them feel uncomfortable or unwelcome. The <em>Stormlight Handbook</em> presents a brief safety guide to help your group navigate these areas.</span></p><p><span class=\"fontstyle2\"><strong>Maps and Miniatures.</strong> The Cosmere RPG rules support “theater of the mind” play, but many players enjoy visual aids. Miniatures and grid maps can help track character placement during combat.</span><br style=\"font-style:normal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-height:normal;orphans:2;text-align:-webkit-auto;text-indent:0px;text-transform:none;white-space:normal;widows:2;word-spacing:0px;-webkit-text-size-adjust:auto;-webkit-text-stroke-width:0px\" /></p></div>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "ownership": {
+                "default": -1,
+                "YTccnKYTqbC83Km5": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "0.2.1",
+                "createdTime": null,
+                "modifiedTime": 1749248785291,
+                "lastModifiedBy": "NOgb233HlKsdBJiu"
+            },
+            "_key": "!journal.pages!o3Wi9jmwIVtpjcBs.LMEiRli5m7eCqPWD"
+        },
+        {
+            "sort": 600000,
+            "name": "Using Cosmere RPG Dice",
+            "type": "text",
+            "_id": "AbqmPDJVAADpWbI1",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<div class=\"sl-journal\"><p><span class=\"fontstyle0\">This RPG uses a set of </span><span class=\"fontstyle2\"><strong>polyhedral dice</strong></span><span class=\"fontstyle0\">. In these sets, each die has a different number of sides: four, six, eight, ten, twelve, and twenty. This RPG also uses one additional six-sided die known as the plot die. Your group needs at least one of each of these dice to play the game, but most players prefer to have their own set.</span></p><p><span class=\"fontstyle0\">Throughout the rules text, these dice are referred to by the letter “d” followed by the number of sides of the die: d4, d6, d8, d10, d12, and d20. So when you’re told to roll a d20, find and roll the twenty-sided die.</span></p><h2><span class=\"fontstyle0\">Rolling a Skill Test</span></h2><p><span class=\"fontstyle0\">Whenever the outcomes of your character’s actions are uncertain, you make a </span><span class=\"fontstyle2\"><strong>skill test</strong> </span><span class=\"fontstyle0\">using a d20 to determine whether you succeed or fail. Tests are the core mechanic of this game, so you’ll roll them frequently! The @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.dCOrLZj5O9Va7cd3.JournalEntryPage.f4WUJcFOPWHd0u62]{Skills} section of part 1 further details how skill tests work, but at their most basic, tests follow these steps:</span></p><ol><li><p><span class=\"fontstyle0\"><strong>Pick a skill and roll the dice.</strong> </span><span class=\"fontstyle2\">Determine which skill on your character sheet best applies to the situation, then roll one d20. (You might also need to roll other dice at the same time as the d20, as described below in @UUID[.AbqmPDJVAADpWbI1#adding-additional-dice]{Adding Additional Dice}.)</span></p></li><li><p><span class=\"fontstyle0\"><strong>Add your skill modifier.</strong> </span><span class=\"fontstyle2\">The number next to each skill on your character sheet is your skill modifier, reflecting how good you are at that skill. Add it to your d20 roll.</span></p></li><li><p><span class=\"fontstyle0\"><strong>Add any bonuses or penalties.</strong> </span><span class=\"fontstyle2\">Some tests gain bonuses or penalties in certain circumstances. Add any of these to your d20 roll.</span></p></li><li><p><span class=\"fontstyle0\"><strong>Compare your total to the test’s difficulty.</strong> </span><span class=\"fontstyle2\">You’re trying to reach a target number known as a difficulty class (or DC). Add up your d20 roll plus skill modifiers, bonuses, and penalties; if that result equals or exceeds the DC, you succeed at your task.</span></p></li><li><p><span class=\"fontstyle0\"><strong>Resolve the results.</strong> </span><span class=\"fontstyle2\">Resolve the results of the success or failure, as well as any side effects triggered by your abilities or the plot die.</span></p></li></ol><p></p><img src=\"systems/cosmere-rpg/assets/art/ch0-introduction/pg007_d20%20%2B%20Plot%20Die_Gordon%20McAlpin.webp\" alt=\"A twenty-sided dice with the Opportunity glyph on its upright face plus a six-sided die with the Opportunity glyph on its upright face.\" style=\"border:0px\" class=\" centered\" width=\"400\" /><p style=\"text-align:center\"><strong>GORDON McALPIN</strong></p><p></p><h3><span class=\"fontstyle0\">Adding Additional Dice</span></h3><p><span class=\"fontstyle0\">Some skill tests require adding additional dice to your d20 roll, such as the following:</span></p><p><span class=\"fontstyle2\"><strong>Plot Die.</strong> </span><span class=\"fontstyle0\">On especially important rolls, the GM might have you add the plot die to introduce Opportunities or Complications to the story. See the next section.</span></p><p><span class=\"fontstyle2\"><strong>Advantage or Disadvantage Die.</strong> </span><span class=\"fontstyle0\">When circumstances make your test easier (or harder) than usual, you might roll an extra copy of one or more dice, then pick the most (or least) beneficial result. See @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.dCOrLZj5O9Va7cd3.JournalEntryPage.f4WUJcFOPWHd0u62#advantages-and-disadvantages]{Advantages and Disadvantages} in part 1.</span></p><p><span class=\"fontstyle2\"><strong>Damage Die.</strong> </span><span class=\"fontstyle0\">When you attack an adversary, you add one or more damage dice to your test, which determines how powerful your attack is. See @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.GgQySBa2DAqiGFNq.JournalEntryPage.iQUOQW4Mxgj7HSQ6]{Attacking} in part 3.</span></p><p><span class=\"fontstyle0\">Unless otherwise instructed, roll any additional dice at the same time as your d20.</span></p><p><span class=\"fontstyle0\">When an ability requires you to roll multiple dice of the same kind, this is indicated by a number before the “d” (such as “3d6”). Roll that number of dice and add together their results—or if you don’t have that many dice, you can roll the same die that many times in a row. For example, if an ability tells you to “roll 3d6,” you roll three six-sided dice (or roll the same six-sided die three times) and add their results together</span>.</p><p></p><img src=\"systems/cosmere-rpg/assets/art/ch0-introduction/pg008_Warcamp_Encounter_Linda Lithen.webp\" style=\"border:0px\" class=\" centered\" width=\"600\" /><p style=\"text-align:center\"><strong>Linda Lithen</strong></p><p></p><h2><span class=\"fontstyle0\">Plot Die</span></h2><p><span class=\"fontstyle0\">In addition to normal polyhedral dice, this game uses a custom die called the </span><span class=\"fontstyle2\"><strong>plot die</strong></span><span class=\"fontstyle0\">. You don’t automatically roll the plot die with every skill test—it’s only used to “raise the stakes” during tense moments and tests critical to the plot. NPC tests don’t generally use the plot die.</span></p><p><span class=\"fontstyle0\">When you roll the plot die, the result might add a bonus to your test—but it can also result in unforeseen Opportunities or Complications arising from your actions, as described in the upcoming sections.</span></p><p><span class=\"fontstyle0\">The plot die has six sides, two of which are blank. Another two sides have an Opportunity symbol (</span><span class=\"cosmere-icon opportunity-color\">O</span><span class=\"fontstyle0\">), and the final two sides have a Complication symbol (</span><span class=\"cosmere-icon complication-color\">C</span><span class=\"fontstyle0\">). If you don’t own this game’s custom plot die, you can instead use a normal d6 and convert the results using the Plot Die diagram. Note that 1 and 2 are the “worst” results, though they offset the Complication by granting a bonus to that test @UUID[.AbqmPDJVAADpWbI1#complication-bonus]{Complication Bonus}).</span></p><p></p><img src=\"systems/cosmere-rpg/assets/art/ch0-introduction/pg008_Plot%20Die-agram.svg\" alt=\"Diagram of a six-sided die which shows the number 1 corresponding to a Complication that grants +2 to the test, the number 2 corresponding to a Complication that grants +4 to a test, the numbers 3 and 4 blank, and the numbers 5 and 6 each corresponding to an Opportunity.\" style=\"border:0px\" class=\" centered\" width=\"400\" /><p></p><h3>Raising the Stakes</h3><p>When your character is about to make an important skill test, the GM can emphasize this by <strong>raising the stakes</strong>. When the stakes are raised, roll the plot die at the same time as you roll your d20 for the test.</p><p>The GM might raise the stakes to emphasize tests like the following:</p><ul><li><p>Tests that directly contribute to the current mission.</p></li><li><p>Tests that play directly to your character’s purpose, obstacle, or goals.</p></li><li><p>Other tests with high tension or dramatic importance, as determined by the GM.</p></li></ul><p>The stakes can only be raised once per test, and they can’t be raised after the d20 has already been rolled.</p><p></p><h3><span class=\"fontstyle0\">Resolving a Plot Die Roll</span></h3><p><span class=\"fontstyle0\">When you roll the plot die with your test, the effect depends on whether you roll an Opportunity (</span><span class=\"cosmere-icon\" style=\"color:blue\">O</span><span class=\"fontstyle0\">), a Complication (</span><span class=\"cosmere-icon\" style=\"color:red\">C</span><span class=\"fontstyle0\">), or a blank.</span></p><p><span class=\"fontstyle0\">If you roll a blank on the plot die, no positive or negative side effects apply to your test, and you resolve the remainder of the test as normal. If you roll an </span><span class=\"cosmere-icon\" style=\"color:blue\">O</span><span class=\"fontstyle2\"> </span><span class=\"fontstyle0\">or </span><span class=\"cosmere-icon\" style=\"color:red\">C</span><span class=\"fontstyle2\" style=\"color:rgb(173,19,19)\"> </span><span class=\"fontstyle0\">symbol, see @UUID[.AbqmPDJVAADpWbI1#opportunities-and-complications]{Opportunities and Complications}.</span></p><p></p><h3><span class=\"fontstyle0\">Raising the Stakes Yourself</span></h3><p><span class=\"fontstyle0\">Some abilities give your character the ability to raise the stakes yourself, though you can only do so if the GM hasn’t already raised the stakes.</span></p><p><span class=\"fontstyle0\">Even if you don’t have one of those abilities, you might think a test is worthy of raising the stakes. You can always ask the GM to raise the stakes and advocate for why you think the test warrants it, but ultimately it’s the GM’s call.</span></p><p></p><h2><span class=\"fontstyle0\">Opportunities and Complications</span></h2><p><span class=\"fontstyle0\">When you make a test, Opportunities and Complications represent beneficial or detrimental side effects related to what happens during the test. These narrative tools add interesting wrinkles to the story as it unfolds.</span></p><p><span class=\"fontstyle0\">Your test can gain an Opportunity or Complication when you roll the plot die, when an ability grants it, or when you roll a 20 or 1 on your d20 (see the upcoming @UUID[.AbqmPDJVAADpWbI1#opportunity-and-complication-ranges]{Opportunity and Complication Ranges} section).</span></p><p></p><h3><span class=\"fontstyle0\" style=\"color:rgb(30,60,96);font-size:14pt\">Spending an Opportunity</span></h3><img src=\"systems/cosmere-rpg/assets/art/Cosmere%20Opportunity%20dingbat.svg\" style=\"border:0px;margin-right:5px;float:left\" width=\"50\" height=\"50\" /><p><span class=\"fontstyle0\">When you gain an </span><span class=\"fontstyle2\"><strong>Opportunity</strong></span><span class=\"fontstyle0\">, this applies a beneficial effect to the outcome of your current test (regardless of whether the test succeeds or fails). You can “spend” this Opportunity to choose one of the following effects:</span></p><p><span class=\"fontstyle2\"><strong>Aid an Ally.</strong> </span><span class=\"fontstyle0\">Thanks to your actions, the next test made by an ally of your choice gains an advantage (see @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.dCOrLZj5O9Va7cd3.JournalEntryPage.f4WUJcFOPWHd0u62#using-skills]{Using Skills} in part 1).</span></p><p><span class=\"fontstyle2\"><strong>Collect Yourself.</strong> </span><span class=\"fontstyle0\">You recover 1 focus (see @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.dCOrLZj5O9Va7cd3.JournalEntryPage.MLvlWSu2CNrjGlZe#focus]{Focus} in part 1).</span></p><p><span class=\"fontstyle2\"><strong>Critically Hit. </strong></span><span class=\"fontstyle0\">You change a hit into a critical hit (see @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.GgQySBa2DAqiGFNq.JournalEntryPage.iQUOQW4Mxgj7HSQ6]{Attacking} in part 3). You can only use this effect on attack tests.</span></p><p><span class=\"fontstyle0\"><strong>Influence the Narrative.</strong> </span><span class=\"fontstyle2\">Your actions result in a positive narrative effect of your choice, which the GM must approve. For example, you might be trying to rough up a Ghostblood agent; if you fail on your ultimate goal but roll an Opportunity on that test, you and your GM might decide you managed to pick the agent’s pocket while you had your hands on them.</span></p><p><span class=\"fontstyle0\">Some abilities provide additional ways you can spend an Opportunity. If an ability says you can spend an Opportunity to trigger a special effect, but you don’t roll an Opportunity on that ability’s test, you can’t use that special effect.</span></p><p></p><h3>Facing a Complication</h3><img src=\"systems/cosmere-rpg/assets/art/Cosmere%20Complication%20dingbat.svg\" style=\"border:0px;margin-right:5px;float:left\" width=\"50\" height=\"50\" /><p>When you gain a <strong>Complication</strong>, this applies a negative side effect to the outcome of your current test (regardless of whether the test succeeds or fails). The GM should “spend” this Complication to choose one of the following effects:</p><p><span class=\"fontstyle2\"><strong>Hinder an Ally. </strong></span>Your actions have unforeseen repercussions. The next test taken by a PC gains a disadvantage (see <span class=\"fontstyle0\">@UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.dCOrLZj5O9Va7cd3.JournalEntryPage.f4WUJcFOPWHd0u62#using-skills]{Using Skills}</span> in part 1).</p><p><span class=\"fontstyle2\"><strong>Become Distracted.</strong> </span>You lose 1 focus (see <span class=\"fontstyle0\">@UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.dCOrLZj5O9Va7cd3.JournalEntryPage.MLvlWSu2CNrjGlZe#focus]{Focus}</span> in part 1).</p><p><span class=\"fontstyle2\"><strong>Influence the Narrative.</strong> </span>Your actions result in a narrative drawback of the GM’s choice. For example, you might be trying to deceive a guard into thinking you’re an important foreign emissary; if you succeed on your ultimate goal but roll a Complication on that test, your GM might decide your deception worked so well that the guard insists on escorting you to their commander.</p><p>Some rules provide additional ways the GM can spend a Complication.</p><p></p><table class=\"sl-blue\"><tbody><tr><td><p><strong>Action Symbols</strong></p></td></tr><tr><td><p><span class=\"fontstyle0\">In addition to the special Opportunity (</span><span class=\"cosmere-icon\" style=\"color:blue\">O</span><span class=\"fontstyle0\">) and Complication (</span><span class=\"cosmere-icon\" style=\"color:red\">C</span><span class=\"fontstyle0\">) symbols, this game uses symbols (such as </span><span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span>, <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">0</span>, and <span class=\"cosmere-icon\" data-tooltip=\"Reaction\" aria-label=\"Reaction\">r</span>) to quickly signify various types of actions and reactions. You’ll learn more about these time-limited tasks your character undertakes—usually during combat—in @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.GgQySBa2DAqiGFNq]{Part 3: Combat}.</p></td></tr></tbody></table><h3>Complication Bonus</h3><p>True to its name, a Complication can complicate a situation—but it can also help your test result! When you gain a Complication from rolling the plot die, it also grants you a bonus to your current d20 roll. This bonus equals the number displayed inside the Complication symbol you rolled (either +2 or +4). If you gain a Complication from another source, it tells you what bonus to add, if any.</p><p></p><h3>Opportunity and Complication Ranges</h3><p>In addition to the plot die, you can also gain Opportunities and Complications from a very high or low d20 roll. When you make a test, you gain an Opportunity if your d20 rolls a number that falls within your <span class=\"fontstyle2\"><strong>Opportunity range</strong></span><span class=\"fontstyle0\" style=\"color:rgb(36,32,33);font-size:10pt\">.</span> By default, this range begins and ends at 20, so you gain an Opportunity when you roll a <span class=\"fontstyle2\"><strong>natural 20</strong></span>—a roll where the die itself shows the number 20.</p><p>Similarly, you gain a Complication if your d20 rolls a number that falls within your <span class=\"fontstyle2\"><strong>Complication range</strong></span>. By default, this range begins and ends at 1, so you gain a Complication when you roll a <span class=\"fontstyle2\"><strong>natural 1</strong></span>—a roll where the die itself shows the number 1. However, unlike plot die Complications, this Complication doesn’t grant you a bonus to your test.</p><p>You can gain an Opportunity (or Complication) from a natural 20 (or natural 1) even when you also rolled the plot die—so sometimes you might face multiple Opportunities or Complications on the same test.</p><p></p><table class=\"sl-blue\"><tbody><tr><td><p><strong>Choosing Opportunities and Complications</strong></p></td></tr><tr><td><p>When someone adds an Opportunity or a Complication to their test, everyone else at the table can suggest fun ways to spend it (such as dramatic narrative outcomes in your current scene). However, the final choice is up to the player or GM who is spending it. If you spend an Opportunity and choose to influence the narrative, the GM has the final say on if your proposed narrative effect is possible. If the GM doesn’t approve, you can work together to pick a new narrative effect, or you can choose a different effect.</p></td></tr></tbody></table></div>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "ownership": {
+                "default": -1,
+                "YTccnKYTqbC83Km5": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "0.2.1",
+                "createdTime": null,
+                "modifiedTime": 1752453857667,
+                "lastModifiedBy": "zUkYx8Dgv6g35j5m"
+            },
+            "_key": "!journal.pages!o3Wi9jmwIVtpjcBs.AbqmPDJVAADpWbI1"
+        },
+        {
+            "sort": 650000,
+            "name": "Game Conventions",
+            "type": "text",
+            "_id": "LzpHBGLBAhcJ3LSM",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<div class=\"sl-journal\"><p><span class=\"fontstyle0\">These general guidelines apply to all rules of the game.</span></p><p><strong>GM Has the Final Say. </strong><span class=\"fontstyle0\">If there’s ever uncertainty or disagreement about how to apply the rules of the game, the GM decides.</span></p><p><strong>Specific Beats General. </strong>If a more specific rule contradicts a general rule, the specific rule wins.</p><p><strong>Stacking Similar Effects. </strong>In general, similar effects can stack on a target unless the effects share the same name. See “Stacking Talents and Effects” in chapter 4 of the <em>Stormlight Handbook</em> for the full rules on which effects stack in this game.</p><p><strong>Round Down. </strong>Whenever you need to divide a value, round down unless otherwise specified. For example, if your movement rate is 25 feet and an ability allows you to “move up to half your movement rate,” you can move up to 12 feet.</p><p></p><img src=\"systems/cosmere-rpg/assets/art/p0-introduction/pg010_Chasmfiend%20Hunt_Randy%20Vargas.webp\" alt=\"Elhokar Kholin, clad in golden Shardplate, raises his sword in the air to challenge an attacking chasmfiend.\" style=\"border:0px\" class=\" centered\" width=\"400\" /><p style=\"text-align:center\"><strong>RANDY VARGAS</strong></p></div>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "ownership": {
+                "default": -1,
+                "YTccnKYTqbC83Km5": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "0.2.1",
+                "createdTime": null,
+                "modifiedTime": 1752453875683,
+                "lastModifiedBy": "zUkYx8Dgv6g35j5m"
+            },
+            "_key": "!journal.pages!o3Wi9jmwIVtpjcBs.LzpHBGLBAhcJ3LSM"
+        },
+        {
+            "sort": 150000,
+            "name": "Your Introduction to Roshar",
+            "type": "text",
+            "_id": "r7YZyYxLfJRNXr6I",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<div class=\"sl-journal\"><p>This rulebook introduces the core rules for playing the Cosmere RPG using a pregenerated character, like those found in the <em>Bridge Nine</em> adventure. To create your own characters and adventures, you can seek out the other Stormlight books in the Cosmere RPG.<br />These include the following:</p><p><strong>Stormlight Handbook.</strong> This book contains the full rules for playing the game, such as how to create characters, roll dice, and play out scenes. You’ll use this handbook alongside either a published adventure or the <em>Stormlight World Guide</em>.</p></div><div class=\"sl-journal\"><p><strong>Stormlight World Guide.</strong> This guide to the history and cultures of Roshar provides lore, adversary profiles, and non-player characters (NPCs) you can use to create your own adventures. This book contains new canonical lore in the form of character biographies, timelines, and travelogues.</p></div><div class=\"sl-journal\"><p><strong>Stonewalkers.</strong> The first official Stormlight adventure, written in close partnership with Brandon Sanderson and Dan Wells, takes players from 1st through 8th level on an adventure across the continent of Roshar.</p></div>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "ownership": {
+                "default": -1,
+                "5iBgVcJlVEu3AHTG": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": 1749195708023,
+                "modifiedTime": 1749196074933,
+                "lastModifiedBy": "5iBgVcJlVEu3AHTG"
+            },
+            "_key": "!journal.pages!o3Wi9jmwIVtpjcBs.r7YZyYxLfJRNXr6I"
+        }
+    ],
+    "flags": {},
+    "sort": 100000,
+    "ownership": {
+        "default": 0
+    },
+    "_key": "!journal!o3Wi9jmwIVtpjcBs",
+    "categories": []
+}

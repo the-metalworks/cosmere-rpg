@@ -1,0 +1,76 @@
+{
+    "folder": "r4Hes6L3MsNihbOx",
+    "name": "Envoy Talents",
+    "type": "talent_tree",
+    "_id": "NpPeWbwRaRDOfQ17",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/paths/envoy.webp",
+    "system": {
+        "nodes": {
+            "CHVa9z4YqfoZEIEs": {
+                "id": "CHVa9z4YqfoZEIEs",
+                "type": "talent",
+                "position": {
+                    "x": 800,
+                    "y": 250
+                },
+                "talentId": "rousing-presence",
+                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.l4wRQT2MH0SsxmRQ",
+                "size": {
+                    "width": 50,
+                    "height": 50
+                },
+                "showName": false
+            },
+            "8YM6bqpOlkSze3R9": {
+                "id": "8YM6bqpOlkSze3R9",
+                "type": "tree",
+                "position": {
+                    "x": 890,
+                    "y": 750
+                },
+                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.MPOEUr4Aa6iVMoSP"
+            },
+            "8MnLjxQqYEEaiEnj": {
+                "id": "8MnLjxQqYEEaiEnj",
+                "type": "tree",
+                "position": {
+                    "x": 1210,
+                    "y": 700
+                },
+                "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.3jKPoEZ13xUWUXTC"
+            }
+        },
+        "viewBounds": {
+            "x": 619,
+            "y": 547,
+            "width": 1236,
+            "height": 912
+        },
+        "display": {
+            "width": 746,
+            "height": 582
+        },
+        "background": {
+            "img": "systems/cosmere-rpg/assets/art/misc/heroic-paths/pg084_path_Envoy_STEVE%20PRESCOTT.webp",
+            "width": 1575,
+            "height": 1125,
+            "position": {
+                "x": 0,
+                "y": 0
+            }
+        }
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {
+        "cosmere-rpg": {
+            "sheet": {
+                "mode": "view"
+            }
+        }
+    },
+    "_key": "!items!NpPeWbwRaRDOfQ17"
+}

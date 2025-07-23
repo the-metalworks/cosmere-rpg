@@ -1,0 +1,48 @@
+{
+    "folder": "qTYLKqLK29e5CTQp",
+    "name": "Bottle (glass)",
+    "type": "equipment",
+    "_id": "eag6Tzp50qP6ZSbR",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/items/foundry_items/ICON_Bottle_Glass.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 1 mk; <strong>Weight</strong> 2 lb.;</p><p><em>This item is included for narrative purposes and does not have any specific statistics or rules.</em></p>",
+            "chat": ""
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 2,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 1,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            },
+            "unit": "spheres.mark"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        }
+    },
+    "effects": [],
+    "sort": 2200000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!eag6Tzp50qP6ZSbR"
+}

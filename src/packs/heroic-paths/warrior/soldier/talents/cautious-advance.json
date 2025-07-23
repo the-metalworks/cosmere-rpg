@@ -1,0 +1,72 @@
+{
+    "folder": "yDWfqqpDSuIVDTSg",
+    "name": "Cautious Advance",
+    "type": "talent",
+    "_id": "Cqx0B3rp0Difwr3n",
+    "img": "icons/skills/movement/feet-winged-sandals-tan.webp",
+    "system": {
+        "id": "cautious-advance",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">2</span></p><p><em>You understand the hazards in your environment and the flow of battle, helping you find the safest path across the battlefield.</em></p><p>Move up to half your movement rate, ignoring difficult terrain, then gain <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">2</span> that can be spent only on the @UUID[Compendium.cosmere-rpg.actions.Item.I1CQjZicYdeG9NCN]{Brace} or @UUID[Compendium.cosmere-rpg.actions.Item.8yQ5MMIrywehKyTS]{Gain Advantage} actions.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">2</span></p><p>Move up to half your movement, ignoring difficult terrain, then gain <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">2</span> to @UUID[Compendium.cosmere-rpg.actions.Item.I1CQjZicYdeG9NCN]{Brace} or @UUID[Compendium.cosmere-rpg.actions.Item.8yQ5MMIrywehKyTS]{Gain Advantage}.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">2</span></p><p>Move up to half your movement rate, ignoring difficult terrain, then gain <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">2</span> that can be spent only on the @UUID[Compendium.cosmere-rpg.actions.Item.I1CQjZicYdeG9NCN]{Brace} or @UUID[Compendium.cosmere-rpg.actions.Item.8yQ5MMIrywehKyTS]{Gain Advantage} actions.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": 2,
+                "type": "act"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "opportunity": null,
+            "complication": null,
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "path": "warrior",
+        "hasPath": false,
+        "specialty": "soldier",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "modality": null,
+        "prerequisites": {
+            "sNdfJwAOm76KkCLb": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "skill": "dis",
+                "rank": 1,
+                "talents": []
+            },
+            "WX3UkvCB9TNihgC7": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "vigilant-stance",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.8mJC2HnsN3OQ2J20",
+                        "label": "Vigilant Stance"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!Cqx0B3rp0Difwr3n"
+}

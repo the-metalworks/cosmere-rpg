@@ -1,0 +1,74 @@
+{
+    "folder": "07WIbGwLoTODw9pL",
+    "name": "Anatomical Insight",
+    "type": "talent",
+    "_id": "QK47QQJLUvv3dSOL",
+    "img": "icons/skills/wounds/anatomy-organ-heart-red.webp",
+    "system": {
+        "id": "anatomical-insight",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p><em>Your knowledge of anatomy aids you in striking vital points to incapacitate your enemies while minimizing permanent harm.</em></p><p>When you hit a target of your size or smaller with an unarmed attack, you can spend 1 focus or <span class=\"cosmere-icon\" style=\"color:#98a4f5\" data-tooltip=\"Opportunity\" aria-label=\"Opportunity\">O</span> to apply the <strong>Exhausted</strong> condition to your target. The penalty applied by this condition equals half your ranks in <strong>Medicine</strong>, rounded up.</p>",
+            "chat": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p>When you hit with an unarmed attack, spend 1 focus or <span class=\"cosmere-icon\" style=\"color:#98a4f5\" data-tooltip=\"Opportunity\" aria-label=\"Opportunity\">O</span> to make the target <strong>Exhausted</strong> [− half your ranks in <strong>Medicine</strong>]</p>",
+            "short": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p>When you hit a target of your size or smaller with an unarmed attack, you can spend 1 focus or <span class=\"cosmere-icon\" style=\"color:#98a4f5\" data-tooltip=\"Opportunity\" aria-label=\"Opportunity\">O</span> to apply the <strong>Exhausted</strong> condition to your target. The penalty applied by this condition equals half your ranks in <strong>Medicine</strong>, rounded up.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": null,
+                "type": "spe"
+            },
+            "consume": [
+                {
+                    "type": "resource",
+                    "value": {
+                        "min": 1,
+                        "max": 1,
+                        "actual": 0
+                    },
+                    "resource": "foc"
+                }
+            ],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "path": "scholar",
+        "hasPath": false,
+        "specialty": "surgeon",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "DndKd9wjNJNWcs1i": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "field-medicine",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.Aanofomkj7Z5WO9E",
+                        "label": "Field Medicine"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "modality": null
+    },
+    "effects": [],
+    "sort": 100000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!QK47QQJLUvv3dSOL"
+}

@@ -1,0 +1,65 @@
+{
+    "folder": "3BLDPpsyg58Y3JrZ",
+    "name": "Applied Motivation",
+    "type": "talent",
+    "_id": "hmmT2sqwX4k2w325",
+    "img": "icons/magic/control/silhouette-aura-energy.webp",
+    "system": {
+        "id": "applied-motivation",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"undefined\" aria-label=\"undefined\">8</span></p><p><em>You skillfully motivate others with your words to keep them focused on the goal.</em></p><p>When you cause a character to recover focus, they recover additional focus equal to half your ranks in <strong>Lore</strong> (rounded up).</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"undefined\" aria-label=\"undefined\">8</span></p><p>When you cause a character to recover focus, they recover additional focus equal to half your ranks in <strong>Lore</strong>.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"undefined\" aria-label=\"undefined\">8</span></p><p>When you cause a character to recover focus, they recover additional focus equal to half your ranks in <strong>Lore</strong> (rounded up).</p>"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "path": "envoy",
+        "hasPath": false,
+        "specialty": "faithful",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "TnV98bCqEB355Adi": {
+                "type": "skill",
+                "skill": "dis",
+                "rank": 2
+            },
+            "sWJ81DAS4a3nXEfW": {
+                "type": "talent",
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "galvanize",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.a7JxaGktFBomRJdd",
+                        "label": "Galvanize"
+                    }
+                ]
+            }
+        },
+        "prerequisitesMet": false,
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "modality": null
+    },
+    "effects": [],
+    "sort": 100000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!hmmT2sqwX4k2w325"
+}

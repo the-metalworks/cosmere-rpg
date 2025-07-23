@@ -1,0 +1,72 @@
+{
+    "folder": "07WIbGwLoTODw9pL",
+    "name": "Swift Healer",
+    "type": "talent",
+    "_id": "qyc7DlzuPBh5lsWz",
+    "img": "icons/magic/life/cross-beam-green.webp",
+    "system": {
+        "id": "swift-healer",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">0</span></p><p><em>Your practiced hands quickly dress wounds, even as the tides of battle ebb and flow around you.</em></p><p>You can use your Field Medicine as <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">0</span>.</p><p>Additionally, when you acquire this talent, you become more skilled in healing. When you use an ability that restores health to another character, they recover additional health equal to your ranks in <strong>Medicine</strong>.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">0</span></p><p>Use @UUID[Compendium.cosmere-rpg.heroic-paths.Item.Aanofomkj7Z5WO9E]{Field Medicine} as <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">0</span>. Your healing abilities restore additional health equal to your ranks in <strong>Medicine</strong>.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">0</span></p><p>You can use your Field Medicine as <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">0</span>.</p><p>Additionally, when you acquire this talent, you become more skilled in healing. When you use an ability that restores health to another character, they recover additional health equal to your ranks in <strong>Medicine</strong>.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": null,
+                "type": "fre"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "damage": {
+            "formula": "@skills.med.rank",
+            "type": "heal"
+        },
+        "path": "scholar",
+        "hasPath": false,
+        "specialty": "surgeon",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "H8pToj7jITBw9esX": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "skill": "med",
+                "rank": 2,
+                "talents": []
+            },
+            "C3pjclZe5VinzZqL": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "field-medicine",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.Aanofomkj7Z5WO9E",
+                        "label": "Field Medicine"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "modality": null
+    },
+    "effects": [],
+    "sort": 800000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!qyc7DlzuPBh5lsWz"
+}

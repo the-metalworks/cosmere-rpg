@@ -1,0 +1,72 @@
+{
+    "folder": "2rzL155jdAkXbqS9",
+    "name": "Tagging Shot",
+    "type": "talent",
+    "_id": "A0zpyAQP3R7rxECp",
+    "img": "icons/skills/ranged/target-bullseye-archer-orange.webp",
+    "system": {
+        "id": "tagging-shot",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Three Actions\" aria-label=\"Three Actions\">3</span></p><p><em>Your careful shot wounds your target, causing them to leave behind a trail of blood, staggering footprints, or other marks of passage.</em></p><p>Move up to 5 feet and make a ranged weapon attack against the Physical defense of a target. On a hit or a graze, you also make the target your quarry for your Seek Quarry talent.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Three Actions\" aria-label=\"Three Actions\">3</span></p><p>Move 5 feet and make a ranged attack. On a hit or a graze, the target becomes your quarry.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Three Actions\" aria-label=\"Three Actions\">3</span></p><p>Move up to 5 feet and make a ranged weapon attack against the Physical defense of a target. On a hit or a graze, you also make the target your quarry for your Seek Quarry talent.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": 3,
+                "type": "act"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "path": "hunter",
+        "hasPath": false,
+        "specialty": "archer",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "xWJDXV45byppdyZQ": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "skill": "prc",
+                "rank": 2,
+                "talents": []
+            },
+            "LhDg1D1AFBEjHWbH": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "seek-quarry",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.3nfGn0BOeLq5qgEr",
+                        "label": "Seek Quarry"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "modality": null
+    },
+    "effects": [],
+    "sort": 700000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!A0zpyAQP3R7rxECp"
+}

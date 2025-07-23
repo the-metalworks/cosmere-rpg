@@ -1,0 +1,80 @@
+{
+    "_id": "C4o8jIXuVulD9qS9",
+    "folder": "4H9VQhin9BB78Fw4",
+    "name": "Axe",
+    "type": "weapon",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/items/foundry_items/ICON_Axe.webp",
+    "system": {
+        "id": "axe",
+        "type": "heavy_wpn",
+        "description": {
+            "value": "<p><strong>Damage</strong> 1d6 keen; <strong>Range</strong> Melee; <strong>Traits</strong> Thrown [20/60]; <strong>Expert Traits</strong> Offhand;</p><p><strong>Type</strong> Heavy Weapon; <strong>Weapons Skill</strong> Heavy; <strong>Price</strong> 20 mk; <strong>Weight</strong> 2 lb.;</p>",
+            "chat": ""
+        },
+        "equipped": false,
+        "activation": {
+            "cost": {
+                "value": 1,
+                "type": "act"
+            },
+            "consume": [],
+            "flavor": "",
+            "type": "skill_test",
+            "skill": "hwp",
+            "attribute": "str",
+            "modifierFormula": ""
+        },
+        "damage": {
+            "skill": "hwp",
+            "attribute": "str",
+            "formula": "1d6",
+            "type": "keen"
+        },
+        "traits": {
+            "thrown": {
+                "defaultActive": true
+            },
+            "offhand": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": true
+                }
+            }
+        },
+        "weight": {
+            "value": 2,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 20,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark"
+            },
+            "unit": "spheres.mark"
+        },
+        "expertise": false,
+        "resources": null,
+        "attack": {
+            "type": "melee",
+            "range": {
+                "value": 20,
+                "long": 60,
+                "unit": "ft"
+            }
+        },
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "hold",
+            "hold": "one_handed"
+        },
+        "quantity": 1
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!C4o8jIXuVulD9qS9"
+}

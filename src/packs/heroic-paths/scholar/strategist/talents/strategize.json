@@ -1,0 +1,87 @@
+{
+    "folder": "wi17Vt4KdRKtCdX7",
+    "name": "Strategize",
+    "type": "talent",
+    "_id": "WblebxdyBUoN2SUj",
+    "img": "icons/skills/trades/academics-investigation-study-blue.webp",
+    "system": {
+        "id": "strategize",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">*</span></p><p><em>You carefully observe and assess your problem from novel angles, creating a cunning plan to remove an obstacle, gain the edge, or counter a foe’s next move.</em></p><p>After you succeed on a test to @UUID[Compendium.cosmere-rpg.actions.Item.8yQ5MMIrywehKyTS]{Gain Advantage} using a skill gained from your Erudition, you can choose an ally you can influence. That ally gains the benefits of your Gain Advantage action instead of you. When you use this talent, you can also spend 2 focus to prevent the target of your Gain Advantage from using reactions against the ally you chose until the end of your next turn.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">*</span></p><p>After you @UUID[Compendium.cosmere-rpg.actions.Item.8yQ5MMIrywehKyTS]{Gain Advantage} using an @UUID[Compendium.cosmere-rpg.heroic-paths.Item.8FYBJZC8PBjneOim]{Erudition} skill, grant that advantage to an ally instead. You can spend 2 focus to also prevent the target from using reactions against that ally.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">*</span></p><p>After you succeed on a test to @UUID[Compendium.cosmere-rpg.actions.Item.8yQ5MMIrywehKyTS]{Gain Advantage} using a skill gained from your Erudition, you can choose an ally you can influence. That ally gains the benefits of your Gain Advantage action instead of you. When you use this talent, you can also spend 2 focus to prevent the target of your Gain Advantage from using reactions against the ally you chose until the end of your next turn.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": 2,
+                "type": "spe"
+            },
+            "consume": [
+                {
+                    "type": "resource",
+                    "value": {
+                        "min": 2,
+                        "max": 2,
+                        "actual": 0
+                    },
+                    "resource": "foc"
+                }
+            ],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "skill": "ded",
+            "attribute": null,
+            "opportunity": null,
+            "complication": null,
+            "modifierFormula": ""
+        },
+        "damage": {
+            "formula": null,
+            "type": null,
+            "skill": null,
+            "attribute": null
+        },
+        "path": "scholar",
+        "hasPath": false,
+        "specialty": "strategist",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "ueA8saV3M7AFgDTr": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "skill": "ded",
+                "rank": 3,
+                "talents": []
+            },
+            "tKy1Jg9zZ32bLbxO": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "contingency",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.0RIJC5Hby3WSQeZG",
+                        "label": "Contingency"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "modality": null
+    },
+    "effects": [],
+    "sort": 700000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!WblebxdyBUoN2SUj"
+}

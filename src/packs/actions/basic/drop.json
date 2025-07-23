@@ -1,0 +1,38 @@
+{
+    "folder": "xeAxqcLYdFWSwUur",
+    "name": "Drop",
+    "type": "action",
+    "_id": "DOeZCEIwrwFuYQEd",
+    "img": "icons/skills/social/wave-halt-stop.webp",
+    "system": {
+        "id": "drop",
+        "type": "basic",
+        "description": {
+            "value": "<p>You can drop any number of objects you are holding in your hands or another appendage. (If you want to do so on someone else’s turn, you must use the @UUID[Compendium.cosmere-rpg.actions.Item.Gona1nDaqRcioeim]{Ready} action.)</p>",
+            "chat": "<p>You can drop any number of objects you are holding in your hands or another appendage. (If you want to do so on someone else’s turn, you must use the @UUID[Compendium.cosmere-rpg.actions.Item.Gona1nDaqRcioeim]{Ready} action.)</p>",
+            "short": "<p>You can drop any number of objects you are holding in your hands or another appendage. (If you want to do so on someone else’s turn, you must use the @UUID[Compendium.cosmere-rpg.actions.Item.Gona1nDaqRcioeim]{Ready} action.)</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": null,
+                "type": "fre"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        }
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!DOeZCEIwrwFuYQEd"
+}

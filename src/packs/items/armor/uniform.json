@@ -1,0 +1,45 @@
+{
+    "_id": "SRLLAWCE7rwS40Pv",
+    "folder": "TIgbgwcilBiHWeD3",
+    "name": "Uniform",
+    "type": "armor",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/items/foundry_items/ICON_Uniform.webp",
+    "system": {
+        "id": "uniform",
+        "deflect": 0,
+        "description": {
+            "value": "<p><strong>Deflect Value</strong> 0; <strong>Traits</strong> Presentable; <strong>Expert Traits</strong> —;</p><p><strong>Price</strong> 40 mk; <strong>Weight</strong> 5 lb.;</p>",
+            "chat": ""
+        },
+        "traits": {
+            "presentable": {
+                "defaultActive": true
+            }
+        },
+        "equipped": false,
+        "alwaysEquipped": false,
+        "expertise": false,
+        "weight": {
+            "value": 5,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 40,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark"
+            }
+        },
+        "equip": {
+            "type": "wear"
+        },
+        "quantity": 1
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!SRLLAWCE7rwS40Pv"
+}

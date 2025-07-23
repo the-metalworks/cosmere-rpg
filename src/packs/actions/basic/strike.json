@@ -1,0 +1,38 @@
+{
+    "folder": "xeAxqcLYdFWSwUur",
+    "name": "Strike",
+    "type": "action",
+    "_id": "Da4Xj4WnVbtHMH7k",
+    "img": "icons/skills/melee/hand-grip-sword-strike-orange.webp",
+    "system": {
+        "id": "strike",
+        "type": "basic",
+        "description": {
+            "value": "<p>You attack using an unarmed attack or a weapon you’re wielding against the Physical defense of a target.<br>You can use the <strong>Strike</strong> action more than once per turn, but each attack must use a different hand.</p><p>If you attack using your offhand, you must spend 2 focus.</p>",
+            "chat": "<p>You attack using an unarmed attack or a weapon you’re wielding against the Physical defense of a target.<br>You can use the <strong>Strike</strong> action more than once per turn, but each attack must use a different hand.</p><p>If you attack using your offhand, you must spend 2 focus.</p>",
+            "short": "<p>You attack using an unarmed attack or a weapon you’re wielding against the Physical defense of a target.<br>You can use the <strong>Strike</strong> action more than once per turn, but each attack must use a different hand.</p><p>If you attack using your offhand, you must spend 2 focus.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": 1,
+                "type": "act"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        }
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!Da4Xj4WnVbtHMH7k"
+}

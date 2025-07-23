@@ -1,0 +1,72 @@
+{
+    "folder": "WkpS6Qx3glJoqZa0",
+    "name": "Combat Coordination",
+    "type": "talent",
+    "_id": "7kWqpGcFPLVeR1JT",
+    "img": "icons/skills/targeting/target-glowing-yellow.webp",
+    "system": {
+        "id": "combat-coordination",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">0</span></p><p><em>You lead through action, bolstering your allies with the momentum of your blows.</em></p><p>After you use the @UUID[Compendium.cosmere-rpg.actions.Item.Da4Xj4WnVbtHMH7k]{Strike} action, use @UUID[Compendium.cosmere-rpg.heroic-paths.Item.UEaOm4P2UFcrP1Z8]{Decisive Command} as <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">0</span>. If your Strike didn’t hit, you also don’t have to spend the usual focus for Decisive Command.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">0</span></p><p>After you @UUID[Compendium.cosmere-rpg.actions.Item.Da4Xj4WnVbtHMH7k]{Strike}, use @UUID[Compendium.cosmere-rpg.heroic-paths.Item.UEaOm4P2UFcrP1Z8]{Decisive Command} without spending <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">1</span>. If your Strike didn’t hit, you also don’t spend focus.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">0</span></p><p>After you use the @UUID[Compendium.cosmere-rpg.actions.Item.Da4Xj4WnVbtHMH7k]{Strike} action, use Decisive Command as <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">0</span>. If your Strike didn’t hit, you also don’t have to spend the usual focus for Decisive Command.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": null,
+                "type": "fre"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "path": "leader",
+        "hasPath": false,
+        "specialty": "champion",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "h0RdTPNh63mz5bs4": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "skill": "lea",
+                "rank": 2,
+                "talents": []
+            },
+            "Edz1w2CxXX61ajIK": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "decisive-command",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.UEaOm4P2UFcrP1Z8",
+                        "label": "Decisive Command"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "modality": null
+    },
+    "effects": [],
+    "sort": 100000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!7kWqpGcFPLVeR1JT"
+}

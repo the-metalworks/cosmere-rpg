@@ -1,0 +1,71 @@
+{
+    "folder": "2rzL155jdAkXbqS9",
+    "name": "Unrelenting Salvo",
+    "type": "talent",
+    "_id": "GQDcsoFQx761PeAO",
+    "img": "icons/skills/ranged/arrows-flying-salvo-blue.webp",
+    "system": {
+        "id": "unrelenting-salvo",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p><em>Drawing the bowstring with impressive speed, you fire again, using your first arrow’s path as your guide.</em></p><p>You can use the same ranged weapon to @UUID[Compendium.cosmere-rpg.actions.Item.Da4Xj4WnVbtHMH7k]{Strike} against your quarry more than once a turn, instead of being limited to one Strike per hand.</p>",
+            "chat": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>You can @UUID[Compendium.cosmere-rpg.actions.Item.Da4Xj4WnVbtHMH7k]{Strike} your quarry more than once per turn with the same ranged weapon.</p>",
+            "short": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>You can use the same ranged weapon to @UUID[Compendium.cosmere-rpg.actions.Item.Da4Xj4WnVbtHMH7k]{Strike} against your quarry more than once a turn, instead of being limited to one Strike per hand.</p>"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "path": "hunter",
+        "hasPath": false,
+        "specialty": "archer",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "i4nHh7uCgqcqTZ2g": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "skill": "agi",
+                "rank": 3,
+                "talents": []
+            },
+            "I2Tit6dX2WA9B6FN": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "hardy",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.htPwaDZ3hJj5aYk3",
+                        "label": "Hardy"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "modality": null
+    },
+    "effects": [],
+    "sort": 800000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!GQDcsoFQx761PeAO"
+}

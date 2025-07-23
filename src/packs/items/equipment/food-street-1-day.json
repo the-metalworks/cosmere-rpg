@@ -1,0 +1,48 @@
+{
+    "folder": "qTYLKqLK29e5CTQp",
+    "name": "Food (street, 1 day)",
+    "type": "equipment",
+    "_id": "36QMlnmzORM20vyU",
+    "img": "icons/consumables/food/cooked-kebab-meat-skewer-orange.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 3 mk; <strong>Weight</strong> 1.5 lb.;</p><p>Every culture of Roshar has its own street confections, ranging from loaves of bread to more specific cultural foods like Herdazian chouta.</p>",
+            "chat": ""
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 1.5,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 3,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            },
+            "unit": "spheres.mark"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        }
+    },
+    "effects": [],
+    "sort": 200000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!36QMlnmzORM20vyU"
+}

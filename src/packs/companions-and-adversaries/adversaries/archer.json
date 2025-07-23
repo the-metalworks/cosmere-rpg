@@ -1,0 +1,899 @@
+{
+    "folder": "eBt3zrdpmUQLnbOw",
+    "name": "Archer",
+    "type": "adversary",
+    "img": "systems/cosmere-rpg/assets/tokens/Soldier/alt_tokens_no_ring/soldier_archer.webp",
+    "system": {
+        "size": "medium",
+        "type": {
+            "id": "humanoid"
+        },
+        "tier": 1,
+        "senses": {
+            "range": {
+                "derived": 5,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            },
+            "obscuredAffected": true
+        },
+        "immunities": {
+            "damage": {
+                "energy": false,
+                "impact": false,
+                "keen": false,
+                "spirit": false,
+                "vital": false,
+                "heal": false
+            },
+            "condition": {
+                "determined": false,
+                "disoriented": false,
+                "empowered": false,
+                "exhausted": false,
+                "focused": false,
+                "immobilized": false,
+                "prone": false,
+                "restrained": false,
+                "slowed": false,
+                "stunned": false,
+                "surprised": false,
+                "afflicted": false,
+                "blind": false,
+                "burrowing": false,
+                "enhanced": false,
+                "flying": false,
+                "hidden": false,
+                "invisible": false,
+                "unconscious": false,
+                "dead": false
+            }
+        },
+        "attributes": {
+            "str": {
+                "value": 2,
+                "bonus": 0
+            },
+            "spd": {
+                "value": 1,
+                "bonus": 0
+            },
+            "int": {
+                "value": 2,
+                "bonus": 0
+            },
+            "wil": {
+                "value": 1,
+                "bonus": 0
+            },
+            "awa": {
+                "value": 2,
+                "bonus": 0
+            },
+            "pre": {
+                "value": 1,
+                "bonus": 0
+            }
+        },
+        "defenses": {
+            "phy": {
+                "derived": 0,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            },
+            "cog": {
+                "derived": 0,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            },
+            "spi": {
+                "derived": 0,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            }
+        },
+        "resources": {
+            "hea": {
+                "value": 12,
+                "max": {
+                    "derived": 0,
+                    "override": 12,
+                    "useOverride": true,
+                    "bonus": 0
+                },
+                "bonus": 0
+            },
+            "foc": {
+                "value": 3,
+                "max": {
+                    "derived": 0,
+                    "override": 3,
+                    "useOverride": true,
+                    "bonus": 0
+                },
+                "bonus": 0
+            },
+            "inv": {
+                "value": 0,
+                "max": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "bonus": 0
+            }
+        },
+        "skills": {
+            "agi": {
+                "attribute": "spd",
+                "rank": 2,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "ath": {
+                "attribute": "str",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "hwp": {
+                "attribute": "str",
+                "rank": 2,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "lwp": {
+                "attribute": "spd",
+                "rank": 2,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "stl": {
+                "attribute": "spd",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "thv": {
+                "attribute": "spd",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "cra": {
+                "attribute": "int",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "ded": {
+                "attribute": "int",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "dis": {
+                "attribute": "wil",
+                "rank": 2,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "inm": {
+                "attribute": "wil",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "lor": {
+                "attribute": "int",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "med": {
+                "attribute": "int",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "dec": {
+                "attribute": "pre",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "ins": {
+                "attribute": "awa",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "lea": {
+                "attribute": "pre",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "prc": {
+                "attribute": "awa",
+                "rank": 2,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "prs": {
+                "attribute": "pre",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "sur": {
+                "attribute": "awa",
+                "rank": 1,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "adh": {
+                "attribute": "pre",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            },
+            "grv": {
+                "attribute": "awa",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            },
+            "ill": {
+                "attribute": "pre",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            },
+            "trs": {
+                "attribute": "wil",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            },
+            "trp": {
+                "attribute": "int",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            },
+            "chs": {
+                "attribute": "wil",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            },
+            "dvs": {
+                "attribute": "int",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            },
+            "abr": {
+                "attribute": "spd",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            },
+            "tsn": {
+                "attribute": "str",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            },
+            "prg": {
+                "attribute": "awa",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            }
+        },
+        "currency": {
+            "spheres": {
+                "denominations": [],
+                "total": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "dun": {
+                "denominations": [],
+                "total": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            }
+        },
+        "deflect": {
+            "natural": 0,
+            "source": "armor",
+            "derived": 0,
+            "override": 1,
+            "useOverride": true,
+            "bonus": 0,
+            "types": {
+                "energy": true,
+                "impact": true,
+                "keen": true,
+                "spirit": false,
+                "vital": false,
+                "heal": false
+            }
+        },
+        "movement": {
+            "walk": {
+                "rate": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "swim": {
+                "rate": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "fly": {
+                "rate": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            }
+        },
+        "injuries": {
+            "derived": 0,
+            "override": null,
+            "useOverride": false,
+            "bonus": 0
+        },
+        "injuryRollBonus": 0,
+        "encumbrance": {
+            "lift": {
+                "derived": 0,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            },
+            "carry": {
+                "derived": 0,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            }
+        },
+        "expertises": {},
+        "languages": [],
+        "biography": "",
+        "appearance": "",
+        "notes": "<h5></h5>",
+        "role": "minion"
+    },
+    "prototypeToken": {
+        "name": "Archer",
+        "displayName": 20,
+        "actorLink": false,
+        "appendNumber": true,
+        "prependAdjective": false,
+        "width": 1,
+        "height": 1,
+        "texture": {
+            "src": "systems/cosmere-rpg/assets/tokens/Soldier/soldier_archer.webp",
+            "anchorX": 0.5,
+            "anchorY": 0.5,
+            "offsetX": 0,
+            "offsetY": 0,
+            "fit": "contain",
+            "scaleX": 1,
+            "scaleY": 1,
+            "rotation": 0,
+            "tint": "#ffffff",
+            "alphaThreshold": 0.75
+        },
+        "hexagonalShape": 0,
+        "lockRotation": false,
+        "rotation": 0,
+        "alpha": 1,
+        "disposition": -1,
+        "displayBars": 20,
+        "bar1": {
+            "attribute": "resources.hea"
+        },
+        "bar2": {
+            "attribute": null
+        },
+        "light": {
+            "negative": false,
+            "priority": 0,
+            "alpha": 0.5,
+            "angle": 360,
+            "bright": 0,
+            "color": null,
+            "coloration": 1,
+            "dim": 0,
+            "attenuation": 0.5,
+            "luminosity": 0.5,
+            "saturation": 0,
+            "contrast": 0,
+            "shadows": 0,
+            "animation": {
+                "type": null,
+                "speed": 5,
+                "intensity": 5,
+                "reverse": false
+            },
+            "darkness": {
+                "min": 0,
+                "max": 1
+            }
+        },
+        "sight": {
+            "enabled": false,
+            "range": 0,
+            "angle": 360,
+            "visionMode": "basic",
+            "color": null,
+            "attenuation": 0.1,
+            "brightness": 0,
+            "saturation": 0,
+            "contrast": 0
+        },
+        "detectionModes": [],
+        "occludable": {
+            "radius": 0
+        },
+        "ring": {
+            "enabled": false,
+            "colors": {
+                "ring": null,
+                "background": null
+            },
+            "effects": 0,
+            "subject": {
+                "scale": 0.8,
+                "texture": "systems/cosmere-rpg/assets/tokens/Soldier/alt_tokens_no_ring/soldier_archer.webp"
+            }
+        },
+        "flags": {},
+        "randomImg": false
+    },
+    "items": [
+        {
+            "folder": "ArWzMhylKyn906Wu",
+            "name": "Minion",
+            "type": "trait",
+            "_id": "CzVAkxVNc90QEWbc",
+            "img": "icons/magic/control/silhouette-hold-change-blue.webp",
+            "system": {
+                "description": {
+                    "value": "<p>The [[lookup @actor.name]]{Actor Name}'s attacks can't critically hit, and they're immediately defeated when they suffer an injury.</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "activation": {
+                    "type": "none",
+                    "cost": {
+                        "value": null
+                    },
+                    "consume": [],
+                    "flavor": "",
+                    "plotDie": false,
+                    "opportunity": null,
+                    "complication": null,
+                    "uses": null,
+                    "attribute": "default"
+                },
+                "events": {}
+            },
+            "effects": [],
+            "sort": 1600000,
+            "ownership": {
+                "default": 0,
+                "lAOZjapMYLNoIcY8": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": null,
+                "lastModifiedBy": null
+            },
+            "_key": "!actors.items!7MAnyS6Y3ePqRQuJ.CzVAkxVNc90QEWbc"
+        },
+        {
+            "folder": "oXRYPHbHWYh4ndRB",
+            "name": "Strike: Knife",
+            "type": "action",
+            "_id": "OMgofytuTvWVzHew",
+            "img": "icons/weapons/daggers/knife-green.webp",
+            "system": {
+                "id": "strike-knife",
+                "type": "basic",
+                "description": {
+                    "value": "<p><strong>Attack</strong> +3; <strong>Reach</strong> 5 ft.; <strong>Targets</strong> one;</p><p><strong>Graze</strong> [[damage 1d4 Keen average]];</p><p><strong>Hit</strong> [[damage 1d4 +3 Keen]]</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "activation": {
+                    "type": "skill_test",
+                    "cost": {
+                        "value": 1,
+                        "type": "act"
+                    },
+                    "consume": [],
+                    "flavor": "",
+                    "plotDie": false,
+                    "opportunity": null,
+                    "complication": null,
+                    "uses": null,
+                    "skill": "lwp",
+                    "modifierFormula": "",
+                    "attribute": "spd"
+                },
+                "damage": {
+                    "formula": "1d4",
+                    "type": "keen"
+                },
+                "modality": null,
+                "ancestry": null,
+                "events": {}
+            },
+            "effects": [],
+            "sort": 600000,
+            "ownership": {
+                "default": 0,
+                "lAOZjapMYLNoIcY8": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": null,
+                "lastModifiedBy": null
+            },
+            "_key": "!actors.items!7MAnyS6Y3ePqRQuJ.OMgofytuTvWVzHew"
+        },
+        {
+            "folder": "oXRYPHbHWYh4ndRB",
+            "name": "Strike: Longbow",
+            "type": "action",
+            "_id": "1Ilx1azuMQczSYtZ",
+            "img": "icons/weapons/bows/longbow-recurve-leather-brown.webp",
+            "system": {
+                "id": "strike-longbow",
+                "type": "basic",
+                "description": {
+                    "value": "<p><strong>Attack</strong> +4; <strong>Range</strong> 150/600 ft; <strong>Targets</strong> one;</p><p><strong>Graze</strong> [[damage 1d6 Keen average]];</p><p><strong>Hit</strong> [[damage 1d6 + 4 Keen average]]</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "activation": {
+                    "type": "skill_test",
+                    "cost": {
+                        "value": 1,
+                        "type": "act"
+                    },
+                    "consume": [],
+                    "flavor": "",
+                    "plotDie": false,
+                    "opportunity": null,
+                    "complication": null,
+                    "uses": null,
+                    "skill": "hwp",
+                    "modifierFormula": "",
+                    "attribute": "str"
+                },
+                "damage": {
+                    "formula": "1d6",
+                    "type": "keen"
+                },
+                "modality": null,
+                "ancestry": null,
+                "events": {}
+            },
+            "effects": [],
+            "sort": 900000,
+            "ownership": {
+                "default": 0,
+                "lAOZjapMYLNoIcY8": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": null,
+                "lastModifiedBy": null
+            },
+            "_key": "!actors.items!7MAnyS6Y3ePqRQuJ.1Ilx1azuMQczSYtZ"
+        },
+        {
+            "type": "action",
+            "name": "Take Aim",
+            "system": {
+                "activation": {
+                    "type": "utility",
+                    "cost": {
+                        "type": "fre",
+                        "value": 1
+                    },
+                    "consume": [],
+                    "flavor": "",
+                    "plotDie": false,
+                    "opportunity": null,
+                    "complication": null,
+                    "uses": null,
+                    "attribute": "default"
+                },
+                "id": "take-aim",
+                "type": "basic",
+                "description": {
+                    "value": "<p>On the [[lookup @actor.name]]{Actor Name}'s first turn of each scene, if they aren't Surprised, they can use the Gain Advantage action as <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">0</span>.</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "damage": {
+                    "formula": null,
+                    "type": null
+                },
+                "modality": null,
+                "ancestry": null,
+                "events": {}
+            },
+            "_id": "uIpmSOkk7wDCfK9A",
+            "img": "icons/skills/targeting/crosshair-arrowhead-blue.webp",
+            "effects": [],
+            "folder": null,
+            "sort": 0,
+            "ownership": {
+                "default": 0,
+                "lAOZjapMYLNoIcY8": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": null,
+                "lastModifiedBy": null
+            },
+            "_key": "!actors.items!7MAnyS6Y3ePqRQuJ.uIpmSOkk7wDCfK9A"
+        },
+        {
+            "type": "action",
+            "name": "Immobilizing Shot",
+            "system": {
+                "activation": {
+                    "type": "utility",
+                    "cost": {
+                        "type": "rea",
+                        "value": 1
+                    },
+                    "consume": [
+                        {
+                            "type": "resource",
+                            "value": {
+                                "min": 1,
+                                "max": 1,
+                                "actual": 0
+                            },
+                            "resource": "foc"
+                        }
+                    ],
+                    "flavor": "",
+                    "plotDie": false,
+                    "opportunity": null,
+                    "complication": null,
+                    "uses": null,
+                    "attribute": "default"
+                },
+                "id": "immobilizing-shot",
+                "type": "basic",
+                "description": {
+                    "value": "<p>When an enemy the [[lookup @actor.name]]{Actor Name} can sense moves while the [[lookup @actor.name]]{Actor Name} is within 150 feet of them, the [[lookup @actor.name]]{Actor Name} makes a Longbow attack against them. On a hit, the target is also Immobilized until the end of the [[lookup @actor.name]]{Actor Name}'s next turn.</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "damage": {
+                    "formula": null,
+                    "type": null
+                },
+                "modality": null,
+                "ancestry": null,
+                "events": {}
+            },
+            "_id": "7CbNHeD82U7nJ9eH",
+            "img": "icons/skills/ranged/arrow-flying-gray-brown.webp",
+            "effects": [],
+            "folder": null,
+            "sort": 0,
+            "ownership": {
+                "default": 0,
+                "lAOZjapMYLNoIcY8": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": null,
+                "lastModifiedBy": null
+            },
+            "_key": "!actors.items!7MAnyS6Y3ePqRQuJ.7CbNHeD82U7nJ9eH"
+        }
+    ],
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {
+        "cosmere-rpg": {
+            "sheet": {
+                "skillsCollapsed": false,
+                "mode": "view",
+                "hideUnranked": true
+            }
+        }
+    },
+    "_id": "7MAnyS6Y3ePqRQuJ",
+    "sort": 1100000,
+    "_key": "!actors!7MAnyS6Y3ePqRQuJ"
+}

@@ -1,0 +1,164 @@
+{
+    "_id": "VuNjyCtkobEQKdOx",
+    "folder": "4H9VQhin9BB78Fw4",
+    "name": "Shortbow",
+    "type": "weapon",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/items/foundry_items/ICON_Shortbow.webp",
+    "system": {
+        "id": "shortbow",
+        "type": "light_wpn",
+        "description": {
+            "value": "<p><strong>Damage</strong> 1d6 keen; <strong>Range</strong> Ranged [80/320]; <strong>Traits</strong> Two-Handed; <strong>Expert Traits</strong> Quickdraw;</p><p><strong>Type</strong> Light Weapon; <strong>Weapons Skill</strong> Light; <strong>Price</strong> 80 mk; <strong>Weight</strong> 2 lb.;</p>",
+            "chat": ""
+        },
+        "equipped": false,
+        "activation": {
+            "cost": {
+                "value": 1,
+                "type": "act"
+            },
+            "type": "skill_test",
+            "skill": "lwp",
+            "attribute": "spd",
+            "modifierFormula": ""
+        },
+        "damage": {
+            "skill": "lwp",
+            "formula": "1d6",
+            "type": "keen",
+            "attribute": null
+        },
+        "traits": {
+            "two_handed": {
+                "defaultActive": true
+            },
+            "quickdraw": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": true
+                }
+            },
+            "cumbersome": {
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": 0,
+                "defaultActive": false
+            },
+            "dangerous": {
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultActive": false
+            },
+            "deadly": {
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultActive": false
+            },
+            "defensive": {
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultActive": false
+            },
+            "discreet": {
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultActive": false
+            },
+            "indirect": {
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultActive": false
+            },
+            "loaded": {
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": 0,
+                "defaultActive": false
+            },
+            "momentum": {
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultActive": false
+            },
+            "offhand": {
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultActive": false
+            },
+            "pierce": {
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultActive": false
+            },
+            "thrown": {
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultActive": false
+            },
+            "unique": {
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultActive": false
+            },
+            "fragile": {
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultActive": false
+            },
+            "reach": {
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultActive": false
+            }
+        },
+        "weight": {
+            "value": 2,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 80,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark"
+            },
+            "unit": "spheres.mark"
+        },
+        "expertise": false,
+        "resources": null,
+        "attack": {
+            "type": "ranged",
+            "range": {
+                "value": 80,
+                "long": 320,
+                "unit": "ft"
+            }
+        },
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "hold",
+            "hold": "two_handed"
+        },
+        "quantity": 1
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!VuNjyCtkobEQKdOx"
+}

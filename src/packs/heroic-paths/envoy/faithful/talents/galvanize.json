@@ -1,0 +1,67 @@
+{
+    "folder": "3BLDPpsyg58Y3JrZ",
+    "name": "Galvanize",
+    "type": "talent",
+    "_id": "a7JxaGktFBomRJdd",
+    "img": "icons/magic/fire/orb-fireball-puzzle.webp",
+    "system": {
+        "id": "galvanize",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">2</span></p><p><em>You speak to an ally with infectious fervor, renewing their focus on your shared goals.</em></p><p>Once per scene, choose an ally you can influence. They can roll their recovery die (no action required) and recover focus equal to the result.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">2</span></p><p>An ally rolls their recovery die and recovers that much focus.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">2</span></p><p>Once per scene, choose an ally you can influence. They can roll their recovery die (no action required) and recover focus equal to the result.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": 2,
+                "type": "act"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": {
+                "type": "use",
+                "recharge": "per_scene"
+            },
+            "opportunity": null,
+            "complication": null
+        },
+        "path": "envoy",
+        "hasPath": false,
+        "specialty": "faithful",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "G9sj8fdzcfvwNHes": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "rousing-presence",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.l4wRQT2MH0SsxmRQ",
+                        "label": "Rousing Presence"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "modality": null
+    },
+    "effects": [],
+    "sort": 500000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!a7JxaGktFBomRJdd"
+}

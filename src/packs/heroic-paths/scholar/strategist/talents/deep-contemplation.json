@@ -1,0 +1,72 @@
+{
+    "folder": "wi17Vt4KdRKtCdX7",
+    "name": "Deep Contemplation",
+    "type": "talent",
+    "_id": "XLXWGfcXAnhtH4xP",
+    "img": "icons/magic/holy/meditation-chi-focus-blue.webp",
+    "system": {
+        "id": "deep-contemplation",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">2</span></p><p><em>You methodically search your mental archives for facts and information to help resolve your current situation.</em></p><p>Reassign up to 2 of the skills and expertises gained from your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.8FYBJZC8PBjneOim]{Erudition}.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">2</span></p><p>Reassign up to 2 skills and expertises from @UUID[Compendium.cosmere-rpg.heroic-paths.Item.8FYBJZC8PBjneOim]{Erudition}.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">2</span></p><p>Reassign up to 2 of the skills and expertises gained from your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.8FYBJZC8PBjneOim]{Erudition}.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": 2,
+                "type": "act"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "path": "scholar",
+        "hasPath": false,
+        "specialty": "strategist",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "6MdujxMMUSC4EsMF": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "skill": "lor",
+                "rank": 2,
+                "talents": []
+            },
+            "WymU4Lt2quKtwPif": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "composed",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.50IB7jGFSfDCUvtL",
+                        "label": "Composed"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "modality": null
+    },
+    "effects": [],
+    "sort": 300000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!XLXWGfcXAnhtH4xP"
+}

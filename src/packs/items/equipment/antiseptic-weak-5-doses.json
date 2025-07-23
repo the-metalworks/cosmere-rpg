@@ -1,0 +1,54 @@
+{
+    "folder": "qTYLKqLK29e5CTQp",
+    "name": "Antiseptic (weak, 5 doses)",
+    "type": "equipment",
+    "img": "icons/consumables/potions/potion-bottle-labeled-medicine-capped-red-black.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 25 mk; <strong>Weight</strong> 1 lb.;</p><p> A dose of weak antiseptic, such as that made from larmic mucus, can be applied to a character after a short rest to restore  [[/r 1d6]] health.</p>",
+            "chat": ""
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 1,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 25,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            },
+            "unit": "spheres.mark"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": null,
+                "type": "spe"
+            },
+            "consume": [],
+            "flavor": "",
+            "uses": {
+                "type": "use",
+                "value": 5,
+                "max": 5,
+                "recharge": null
+            }
+        },
+        "damage": {
+            "formula": "1d6",
+            "type": "heal"
+        }
+    },
+    "effects": [],
+    "flags": {},
+    "_id": "hWD3H4XLoyjwkwnd",
+    "sort": 3200000,
+    "ownership": {
+        "default": 0
+    },
+    "_key": "!items!hWD3H4XLoyjwkwnd"
+}

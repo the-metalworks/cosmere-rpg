@@ -1,0 +1,63 @@
+{
+    "folder": "btpKhtBwuaK6NeFy",
+    "name": "Mighty",
+    "type": "talent",
+    "system": {
+        "id": "mighty",
+        "type": "path",
+        "path": "hunter",
+        "specialty": "assassin",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p><em>You deliver your swings, punches, and kicks with practiced efficiency.</em></p><p>When you hit with a weapon or unarmed attack, for each <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">1</span> you used on that attack’s action, increase the damage you deal by 1 + your tier. For example, if you’re level 6 and you make an attack that costs <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">2</span>, each <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">1</span> deals an extra 1 + 2 damage, for a total of 6 damage.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>When you hit with a weapon or unarmed attack, for each <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">1</span> spent, deal extra damage equal to 1 + your tier.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>When you hit with a weapon or unarmed attack, for each <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">1</span> you used on that attack’s action, increase the damage you deal by 1 + your tier. For example, if you’re level 6 and you make an attack that costs <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">2</span>, each <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">1</span> deals an extra 1 + 2 damage, for a total of 6 damage.</p>"
+        },
+        "prerequisites": {
+            "2gAFQpWy2Wg75gHm": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "cold-eyes",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.JmIEtx2VKgUtOdHJ",
+                        "label": "Cold Eyes"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "uses": null,
+            "plotDie": false,
+            "opportunity": null,
+            "complication": null
+        },
+        "hasPath": false,
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisitesMet": false,
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "modality": null
+    },
+    "effects": [],
+    "flags": {},
+    "img": "icons/skills/melee/maneuver-sword-katana-yellow.webp",
+    "_id": "I1q7LHINifjiVqRg",
+    "sort": 400000,
+    "ownership": {
+        "default": 0
+    },
+    "_key": "!items!I1q7LHINifjiVqRg"
+}

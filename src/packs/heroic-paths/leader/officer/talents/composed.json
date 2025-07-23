@@ -1,0 +1,107 @@
+{
+    "folder": "DlelekpNKd8H2xae",
+    "name": "Composed",
+    "type": "talent",
+    "img": "icons/magic/holy/meditation-chi-focus-blue.webp",
+    "system": {
+        "id": "composed",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p><em>Your practiced composure enables you to push yourself to impressive limits without becoming distracted or losing track of threats in your environment.</em></p><p>When you acquire this talent, your maximum and current focus increase by a number equal to your tier. When your tier increases by 1, your maximum and current focus do as well.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>Increase your max and current focus by your tier.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>When you acquire this talent, your maximum and current focus increase by a number equal to your tier. When your tier increases by 1, your maximum and current focus do as well.</p>"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "path": "leader",
+        "hasPath": false,
+        "specialty": "officer",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "0bhaowStIfZORMgW": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "decisive-command",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.UEaOm4P2UFcrP1Z8",
+                        "label": "Decisive Command"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "modality": null
+    },
+    "effects": [
+        {
+            "name": "Composed",
+            "img": "icons/magic/holy/meditation-chi-focus-blue.webp",
+            "disabled": false,
+            "duration": {
+                "startTime": null,
+                "seconds": null,
+                "combat": null,
+                "rounds": null,
+                "turns": null,
+                "startRound": null,
+                "startTurn": null
+            },
+            "_id": "lqEVqrC6MGOfSnOh",
+            "type": "base",
+            "system": {},
+            "changes": [
+                {
+                    "key": "system.resources.foc.max.bonus",
+                    "mode": 2,
+                    "value": "@tier",
+                    "priority": null
+                }
+            ],
+            "description": "",
+            "origin": null,
+            "tint": "#ffffff",
+            "transfer": true,
+            "statuses": [],
+            "sort": 0,
+            "flags": {},
+            "_stats": {
+                "coreVersion": "12.343",
+                "systemId": null,
+                "systemVersion": null,
+                "createdTime": null,
+                "modifiedTime": 1739878589405,
+                "lastModifiedBy": "7Oytl88JDvVeIDlD",
+                "compendiumSource": null,
+                "duplicateSource": null
+            },
+            "_key": "!items.effects!j8zXDojhoUhZOAlw.lqEVqrC6MGOfSnOh"
+        }
+    ],
+    "flags": {},
+    "_id": "j8zXDojhoUhZOAlw",
+    "sort": 200000,
+    "ownership": {
+        "default": 0
+    },
+    "_key": "!items!j8zXDojhoUhZOAlw"
+}

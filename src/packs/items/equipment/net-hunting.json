@@ -1,0 +1,54 @@
+{
+    "folder": "qTYLKqLK29e5CTQp",
+    "name": "Net (hunting)",
+    "type": "equipment",
+    "_id": "OqScvHsaAx9OQC70",
+    "img": "icons/tools/fishing/net-simple-brown.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 4 mk; <strong>Weight</strong> 5 lb.;</p><p>This net of thick rope can ensnare animals or enemies. While holding this net, you can use <em class=\"cosmere-icon\" data-tooltip=\"1 Action\">1</em> to make an <strong>Athletics</strong> test against the Physical defense of a Large or smaller character within 15 feet of you. On a hit, the character is <strong>Restrained</strong> and knocked <strong>Prone</strong>. That character or another within reach can use the @UUID[Compendium.cosmere-rpg.actions.Item.iqjFbO4BLuTSt4cQ]{Interact} action to make a DC 15 <strong>Athletics</strong> test, freeing the trapped character on a success. If a character is <strong>Restrained</strong> by multiple nets, they must be freed from each separately.</p>",
+            "chat": ""
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 5,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 4,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            },
+            "unit": "spheres.mark"
+        },
+        "activation": {
+            "type": "skill_test",
+            "cost": {
+                "value": 1,
+                "type": "act"
+            },
+            "consume": [],
+            "flavor": "",
+            "uses": null,
+            "skill": "ath",
+            "modifierFormula": "",
+            "attribute": "str"
+        },
+        "damage": {
+            "formula": null,
+            "type": null,
+            "skill": null,
+            "attribute": null
+        }
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!OqScvHsaAx9OQC70"
+}

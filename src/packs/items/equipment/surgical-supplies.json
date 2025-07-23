@@ -1,0 +1,54 @@
+{
+    "folder": "qTYLKqLK29e5CTQp",
+    "name": "Surgical Supplies",
+    "type": "equipment",
+    "_id": "iTRQRGVW3ikGLsZa",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/items/foundry_items/ICON_Surgery_Kit.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 20 mk; <strong>Weight</strong> 3 lb.;</p><p>This satchel contains enough bandages, salves, splints, and other medical supplies to be used 10 times. When you make a <strong>Medicine</strong> test to treat a wounded character (or to similarly use these medical supplies), you can expend one of these uses to gain an advantage on the test.</p>",
+            "chat": ""
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 3,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 20,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            },
+            "unit": "spheres.mark"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": null,
+                "type": null
+            },
+            "consume": [],
+            "flavor": "",
+            "uses": {
+                "type": "use",
+                "max": 10,
+                "value": 10,
+                "recharge": null
+            }
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        }
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!iTRQRGVW3ikGLsZa"
+}

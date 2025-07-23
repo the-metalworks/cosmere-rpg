@@ -1,0 +1,62 @@
+{
+    "folder": "wTsGOInIGEUZQvz8",
+    "name": "Cover Story",
+    "type": "talent",
+    "system": {
+        "id": "cover-story",
+        "type": "path",
+        "path": "agent",
+        "specialty": "spy",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p><em>By spinning vague rumors into popular gossip, you’ve created a false identity to inhabit.</em></p><p>When you choose this talent you put the finishing touches on a false identity for yourself. Discuss the details of this identity with your GM, including which communities you use this identity to move through and what its reputation is within those communities.</p><p>Additionally, when you choose this talent, gain a cultural expertise relevant to your false identity’s culture.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>Gain a false identity and a relevant cultural expertise.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>When you choose this talent you put the finishing touches on a false identity for yourself. Discuss the details of this identity with your GM, including which communities you use this identity to move through and what its reputation is within those communities.</p><p>Additionally, when you choose this talent, gain a cultural expertise relevant to your false identity’s culture.</p>"
+        },
+        "prerequisites": {
+            "7BezxzK0392ChbNw": {
+                "type": "talent",
+                "label": "Plausible Excuse",
+                "value": 0,
+                "rank": 1,
+                "talents": [
+                    {
+                        "id": "plausible-excuse",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.lAEMdGt3SQlaGVC2",
+                        "label": "Plausible Excuse"
+                    }
+                ]
+            }
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "uses": null,
+            "plotDie": false,
+            "opportunity": null,
+            "complication": null
+        },
+        "hasPath": false,
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisitesMet": false,
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "modality": null
+    },
+    "effects": [],
+    "flags": {},
+    "img": "icons/skills/trades/academics-merchant-scribe.webp",
+    "_id": "1sD2LdFfgODs6jz6",
+    "sort": 200000,
+    "ownership": {
+        "default": 0
+    },
+    "_key": "!items!1sD2LdFfgODs6jz6"
+}

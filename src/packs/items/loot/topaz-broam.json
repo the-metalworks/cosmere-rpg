@@ -1,0 +1,36 @@
+{
+    "folder": "RBFoWUCw2wosgSJA",
+    "name": "Topaz Broam",
+    "type": "loot",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/items/spheres/sphere_topaz_broam.webp",
+    "system": {
+        "isMoney": true,
+        "description": {
+            "value": "",
+            "chat": "",
+            "short": ""
+        },
+        "weight": {
+            "value": 0,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 20,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            }
+        },
+        "quantity": 1,
+        "events": {}
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "bx1K6SuXn5Haxayx",
+    "sort": 1400000,
+    "_key": "!items!bx1K6SuXn5Haxayx"
+}
