@@ -8,13 +8,13 @@
           "placeholder": "[Culture]"
         },
         "Ancestry": {
-          "placeholder": "[Ancestry]"
+          "placeholder": "[Ascendance]"
         },
         "Path": {
-          "placeholder": "[Path]"
+          "placeholder": "[Voie]"
         },
         "Specialties": {
-          "placeholder": "[Specialty]"
+          "placeholder": "[Spécialité]"
         },
         "Expertise": {
           "name": "Expertise",
@@ -68,11 +68,11 @@
         "name_plural": "Caractéristiques",
         "Strength": {
           "long": "Force",
-          "short": "STR"
+          "short": "FOR"
         },
         "Speed": {
           "long": "Vitesse",
-          "short": "SPD"
+          "short": "VIT"
         },
         "Intellect": {
           "long": "Intelligence",
@@ -80,11 +80,11 @@
         },
         "Willpower": {
           "long": "Volonté",
-          "short": "WIL"
+          "short": "VOL"
         },
         "Awareness": {
           "long": "Perception",
-          "short": "AWA"
+          "short": "PER"
         },
         "Presence": {
           "long": "Présence",
