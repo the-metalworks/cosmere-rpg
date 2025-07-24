@@ -1,0 +1,81 @@
+{
+    "folder": "IqFt10TYMzgp9rqM",
+    "name": "Risky Behavior",
+    "type": "talent",
+    "_id": "3hzeCVVMksTAE5X0",
+    "img": "icons/magic/control/silhouette-aura-energy.webp",
+    "system": {
+        "id": "risky-behavior",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Special Action\" aria-label=\"Special Action\">*</span></p><p><em>You know that risk and reward are inseparable traveling companions, and you love seeing where this pair takes you.</em></p><p>Before you make a test, you can spend 1 focus to raise the stakes.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Special Action\" aria-label=\"Special Action\">*</span></p><p>Spend 1 focus to raise the stakes on your test.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Special Action\" aria-label=\"Special Action\">*</span></p><p>Before you make a test, you can spend 1 focus to raise the stakes.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": null,
+                "type": "spe"
+            },
+            "consume": [
+                {
+                    "type": "resource",
+                    "value": {
+                        "min": 1,
+                        "max": 1,
+                        "actual": 0
+                    },
+                    "resource": "foc"
+                }
+            ],
+            "flavor": "",
+            "uses": null,
+            "plotDie": false,
+            "opportunity": null,
+            "complication": null
+        },
+        "path": "agent",
+        "hasPath": false,
+        "specialty": "thief",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "dkeA234b6EkdJAdk": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "skill": "ins",
+                "rank": 2,
+                "talents": []
+            },
+            "sez0OcxeBy4xCSX2": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "talents": [
+                    {
+                        "id": "opportunist",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.ScqSKbkewDAfSizP",
+                        "label": "Opportunist"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "modality": null
+    },
+    "effects": [],
+    "sort": -200000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!3hzeCVVMksTAE5X0"
+}

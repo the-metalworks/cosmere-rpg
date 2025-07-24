@@ -1,0 +1,116 @@
+{
+    "folder": "PwJradVoGGhlXeOA",
+    "name": "Withering Retort",
+    "type": "talent",
+    "_id": "bbHjsLZOmr22Gyc4",
+    "img": "icons/magic/control/silhouette-hold-beam-blue.webp",
+    "system": {
+        "id": "withering-retort",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Reaction\" aria-label=\"Reaction\">r</span></p><p><em>You unflinchingly face even the most violent of attacks.</em></p><p>Before a character you can sense targets you with an attack test, you can use your Steadfast Challenge as <span class=\"cosmere-icon\" data-tooltip=\"Reaction\" aria-label=\"Reaction\">r</span>. When you do, also increase your deflect value against this attack by your ranks in <strong>Discipline</strong>.</p>",
+            "chat": "<p><strong>Activation:</strong> <span style=\"font-family: 'Cosmere Dingbats'\">r</span></p><p>Use your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.4DGwBZ4uDLTaKql2]{Steadfast Challenge} before an attack and increase your deflect against the attack by your ranks in <strong>Discipline</strong>.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Reaction\" aria-label=\"Reaction\">r</span></p><p>Before a character you can sense targets you with an attack test, you can use your Steadfast Challenge as <span class=\"cosmere-icon\" data-tooltip=\"Reaction\" aria-label=\"Reaction\">r</span>. When you do, also increase your deflect value against this attack by your ranks in <strong>Discipline</strong>.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": null,
+                "type": "rea"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "path": "envoy",
+        "hasPath": false,
+        "specialty": "diplomat",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "tA9wPFkYnBzjtsyZ": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "skill": "dis",
+                "rank": 2,
+                "talents": []
+            },
+            "LvO4TyMXsUsUr4WG": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "talents": [
+                    {
+                        "id": "steadfast-challenge",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.4DGwBZ4uDLTaKql2",
+                        "label": "Steadfast Challenge"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "modality": null,
+        "grantRules": {}
+    },
+    "effects": [
+        {
+            "name": "Withering Retort",
+            "img": "icons/magic/control/silhouette-hold-beam-blue.webp",
+            "disabled": true,
+            "duration": {
+                "startTime": null,
+                "seconds": null,
+                "combat": null,
+                "rounds": null,
+                "turns": null,
+                "startRound": null,
+                "startTurn": null
+            },
+            "_id": "hn7RI79gVSkRQFtd",
+            "type": "base",
+            "system": {},
+            "changes": [
+                {
+                    "key": "system.deflect.bonus",
+                    "mode": 2,
+                    "value": "@skills.dis.rank",
+                    "priority": null
+                }
+            ],
+            "description": "<p>Increase your deflect against an incoming attack by your ranks in <strong>Discipline</strong>.</p>",
+            "origin": null,
+            "tint": "#ffffff",
+            "transfer": true,
+            "statuses": [],
+            "sort": 0,
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "0.3.0",
+                "createdTime": 1740054918012,
+                "modifiedTime": 1740447817915,
+                "lastModifiedBy": "7Oytl88JDvVeIDlD"
+            },
+            "_key": "!items.effects!bbHjsLZOmr22Gyc4.hn7RI79gVSkRQFtd"
+        }
+    ],
+    "sort": -450000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!bbHjsLZOmr22Gyc4"
+}

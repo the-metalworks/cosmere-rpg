@@ -1,0 +1,27 @@
+<section class="chat-card-section description collapsible">
+    <header class="summary">
+        <img src="{{img}}">
+        <div class="name-stacked">
+            {{#if title}}
+            <span class="title">{{{title}}}</span>
+            {{/if}}
+            {{#if subtitle}}
+            <span class="subtitle">{{{subtitle}}}</span>
+            {{else}}
+                {{#if traits}}
+                    <span class="traits">{{{traits}}}</span>
+                {{/if}}
+            {{/if}}
+        </div>
+        {{#if action}}
+            <span class="icon cosmere-icon {{action}}"></span>
+        {{/if}}
+    </header>
+    {{#if description}}
+    <section class="details collapsible-content">
+        <div class="wrapper">
+            {{{description}}}
+        </div>
+    </section>
+    {{/if}}
+</section>

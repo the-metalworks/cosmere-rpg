@@ -4,4 +4,5 @@ declare interface ChatMessage {
     timestamp: number;
     whisper: string[];
     rolls: Roll[];
+    flags: Record<string, any>;
 }

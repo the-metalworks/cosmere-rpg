@@ -1,7 +1,7 @@
 import {
     Size,
     CreatureType,
-    Condition,
+    Status,
     InjuryType,
     AttributeGroup,
     Attribute,
@@ -29,10 +29,41 @@ import {
     EquipHand,
     PathType,
     EquipmentType,
+    PowerType,
+    Theme,
+    MovementType,
+    ImmunityType,
 } from './cosmere';
 import { AdvantageMode } from './roll';
 
-import { Talent } from './item';
+import { Talent, TalentTree, EventSystem as ItemEventSystem } from './item';
+
+import { AnyObject } from './utils';
+
+import {
+    ItemListSection,
+    DynamicItemListSectionGenerator,
+} from './application/actor/components/item-list';
+
+import { CosmereItem } from '@system/documents/item';
+
+export interface RegistrationConfig {
+    source: string;
+    priority?: number;
+    strict?: boolean;
+}
+
+export interface RegistrationLog {
+    source: string;
+    type: RegistrationLogType;
+    message: string;
+}
+
+export enum RegistrationLogType {
+    Warn = 'warn',
+    Error = 'error',
+    Debug = 'debug',
+}
 
 export interface SizeConfig {
     label: string;
@@ -44,10 +75,23 @@ export interface CreatureTypeConfig {
     label: string;
 }
 
-export interface ConditionConfig {
+export interface StatusConfig {
     label: string;
     icon: string;
     reference?: string;
+    condition: boolean;
+
+    /**
+     * Whether the condition is stackable.
+     */
+    stackable?: boolean;
+
+    /**
+     * Transform the `stacks` value for display.
+     *
+     * @example Used for exhaustion to display "Exhaustion [-1]" instead of "Exhaution [1]".
+     */
+    stacksDisplayTransform?: (count: number) => string;
 }
 
 export interface InjuryConfig {
@@ -73,7 +117,14 @@ export interface SkillConfig {
     key: string;
     label: string;
     attribute: Attribute;
-    attrLabel: string;
+
+    /**
+     * Whether the skill is a core skill.
+     * Core skills are visible in the skill list on the character sheet.
+     */
+    core?: boolean;
+
+    // TODO: Replace
     hiddenUntilAcquired?: boolean;
 }
 
@@ -94,6 +145,7 @@ export interface PathTypeConfig {
 
 export interface CurrencyConfig {
     label: string;
+    icon: string | undefined;
     denominations: {
         primary: CurrencyDenominationConfig[];
         secondary?: CurrencyDenominationConfig[];
@@ -110,6 +162,11 @@ export interface CurrencyDenominationConfig {
 
 export interface WeaponTypeConfig {
     label: string;
+
+    /**
+     * The skill associated with this weapon type.
+     */
+    skill?: Skill;
 }
 
 export interface WeaponConfig {
@@ -127,6 +184,12 @@ export interface ArmorConfig {
 export interface ExpertiseTypeConfig {
     label: string;
     icon?: string;
+
+    /**
+     * The key of the registry in the CONFIG.COSMERE object of the
+     * default configured entries for this expertise type.
+     */
+    configRegistryKey?: keyof CosmereRPGConfig;
 }
 
 export interface TraitConfig {
@@ -182,6 +245,11 @@ export interface DamageTypeConfig {
     ignoreDeflect?: boolean;
 }
 
+export interface ImmunityTypeConfig {
+    label: string;
+    icon: string;
+}
+
 export interface ItemTypeConfig {
     label: string;
     labelPlural: string;
@@ -205,7 +273,7 @@ export interface CultureConfig {
     reference?: string;
 }
 
-export interface AncestriesConfig {
+export interface AncestryConfig {
     label: string;
     reference?: string;
 }
@@ -218,10 +286,120 @@ export interface TalentTypeConfig {
     label: string;
 }
 
+export interface PowerTypeConfig {
+    label: string;
+    plural: string;
+}
+
+export interface AdvancementRuleConfig {
+    /**
+     * The level at which this rule applies.
+     */
+    level: number;
+
+    /**
+     * The tier the level falls into.
+     */
+    tier: number;
+
+    /**
+     * The maximum number of skill ranks that can be acquired for any
+     * given skill at this level.
+     */
+    maxSkillRanks: number;
+
+    /**
+     * The amount of attribute points granted at this level.
+     */
+    attributePoints?: number;
+
+    /**
+     * The amount of health granted at this level.
+     */
+    health?: number;
+
+    /**
+     * Whether to include the strength attribute in the health granted.
+     *
+     * @default false
+     */
+    healthIncludeStrength?: boolean;
+
+    /**
+     * The amount of skill ranks granted at this level.
+     */
+    skillRanks?: number;
+
+    /**
+     * The amount of talents granted at this level.
+     */
+    talents?: number;
+
+    /**
+     * The amount of skill ranks OR talents granted at this level.
+     * This is used when the character must choose between skill ranks and talents.
+     */
+    skillRanksOrTalents?: number;
+}
+
+export type AttributeScale<T extends string = string> = {
+    formula: T;
+} & (
+    | {
+          min: number;
+          max: number;
+      }
+    | {
+          value: number;
+      }
+);
+
+export interface MovementTypeConfig {
+    label: string;
+}
+
+export interface ItemEventTypeConfig {
+    label: string;
+    description?: string;
+    hook: string;
+    host: ItemEventSystem.Event.ExecutionHost;
+
+    /**
+     * A filter function to determine if this event should be available for a given item.
+     */
+    filter?: (item: CosmereItem) => boolean | Promise<boolean>;
+
+    // NOTE: Allow any type as conditions should be able to freely match hook signatures
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    /**
+     * Whether or not the hook invocation should cause the event to be fired.
+     */
+    condition?: (...args: any[]) => boolean | Promise<boolean>;
+    /**
+     * Function to transform the hook arguments into a fixed set of arguments.
+     */
+    transform?: (...args: any[]) => {
+        document: foundry.abstract.Document;
+        options?: AnyObject & { _eti?: string; _d?: number };
+        userId?: string;
+    };
+    /* eslint-enable @typescript-eslint/no-explicit-any */
+}
+
+export interface ItemEventHandlerTypeConfig {
+    label: string;
+    description?: string | (() => string);
+    documentClass: ItemEventSystem.HandlerCls;
+}
+
 export interface CosmereRPGConfig {
+    themes: Record<Theme, string>;
     sizes: Record<Size, SizeConfig>;
     creatureTypes: Record<CreatureType, CreatureTypeConfig>;
-    conditions: Record<Condition, ConditionConfig>;
+    movement: {
+        types: Record<MovementType, MovementTypeConfig>;
+    };
+    statuses: Record<Status, StatusConfig>;
     injury: {
         types: Record<InjuryType, InjuryConfig>;
         durationTable: string;
@@ -231,6 +409,10 @@ export interface CosmereRPGConfig {
     attributes: Record<Attribute, AttributeConfig>;
     resources: Record<Resource, ResourceConfig>;
     skills: Record<Skill, SkillConfig>;
+    advancement: {
+        rules: AdvancementRuleConfig[];
+    };
+
     currencies: Record<string, CurrencyConfig>;
 
     paths: {
@@ -253,20 +435,32 @@ export interface CosmereRPGConfig {
             hand: Record<EquipHand, EquipHandConfig>;
         };
 
+        weapon: {
+            types: Record<WeaponType, WeaponTypeConfig>;
+        };
+
         equipment: {
             types: Record<EquipmentType, EquipmentTypeConfig>;
         };
 
         talent: {
             types: Record<Talent.Type, TalentTypeConfig>;
-            prerequisite: {
-                types: Record<Talent.Prerequisite.Type, string>;
-                modes: Record<Talent.Prerequisite.Mode, string>;
+        };
+
+        talentTree: {
+            node: {
+                prerequisite: {
+                    types: Record<TalentTree.Node.Prerequisite.Type, string>;
+                };
             };
+        };
+
+        events: {
+            types: Record<string, ItemEventTypeConfig>;
+            handlers: Record<string, ItemEventHandlerTypeConfig>;
         };
     };
 
-    weaponTypes: Record<WeaponType, WeaponTypeConfig>;
     weapons: Record<WeaponId, WeaponConfig>;
     armors: Record<ArmorId, ArmorConfig>;
     expertiseTypes: Record<ExpertiseType, ExpertiseTypeConfig>;
@@ -293,10 +487,15 @@ export interface CosmereRPGConfig {
         types: Record<AttackType, AttackTypeConfig>;
     };
 
+    power: {
+        types: Record<PowerType, PowerTypeConfig>;
+    };
+
     damageTypes: Record<DamageType, DamageTypeConfig>;
+    immunityTypes: Record<ImmunityType, ImmunityTypeConfig>;
 
     cultures: Record<string, CultureConfig>;
-    ancestries: Record<string, AncestriesConfig>;
+    ancestries: Record<string, AncestryConfig>;
 
     units: {
         weight: string[];
@@ -305,5 +504,37 @@ export interface CosmereRPGConfig {
 
     dice: {
         advantageModes: Record<AdvantageMode, string>;
+    };
+
+    scaling: {
+        damage: {
+            unarmed: {
+                strength: AttributeScale[];
+            };
+        };
+        power: {
+            die: {
+                ranks: AttributeScale[];
+            };
+            effectSize: {
+                ranks: AttributeScale<Size>[];
+            };
+        };
+    };
+
+    sheet: {
+        actor: {
+            components: {
+                actions: {
+                    sections: {
+                        static: Record<string, ItemListSection>;
+                        dynamic: Record<
+                            string,
+                            DynamicItemListSectionGenerator
+                        >;
+                    };
+                };
+            };
+        };
     };
 }

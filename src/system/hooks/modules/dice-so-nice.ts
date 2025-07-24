@@ -1,7 +1,7 @@
-import { IMPORTED_RESOURCES } from '@system/constants';
+import { IMPORTED_RESOURCES, SYSTEM_ID } from '@system/constants';
 
 Hooks.once('diceSoNiceReady', (dice3d: Dice3D) => {
-    dice3d.addSystem({ id: 'cosmere-rpg', name: 'Cosmere RPG' }, true);
+    dice3d.addSystem({ id: SYSTEM_ID, name: 'Cosmere RPG' }, true);
     dice3d.addDicePreset({
         type: 'dp',
         labels: [
@@ -20,6 +20,6 @@ Hooks.once('diceSoNiceReady', (dice3d: Dice3D) => {
             IMPORTED_RESOURCES.PLOT_DICE_OP_BUMP,
             IMPORTED_RESOURCES.PLOT_DICE_OP_BUMP,
         ],
-        system: 'cosmere-rpg',
+        system: SYSTEM_ID,
     });
 });

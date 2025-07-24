@@ -1,0 +1,64 @@
+{
+    "folder": "2rzL155jdAkXbqS9",
+    "name": "Combat Training",
+    "type": "talent",
+    "_id": "Sl4bFpOhQ3NQWELp",
+    "img": "icons/skills/melee/maneuver-sword-katana-yellow.webp",
+    "system": {
+        "id": "combat-training",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p><em>You’ve been trained in the basics of weaponry and elementary battle tactics.</em></p><p>Once per round, when you miss on a weapon attack, you can graze one target without spending focus.</p><p>Additionally, when you acquire this talent, gain a weapon expertise and an armor expertise of your choice, and gain a cultural expertise in Military Life.</p>",
+            "chat": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p>Gain expertise in a weapon, an armor, and Military Life. Once per round, graze without spending focus.</p>",
+            "short": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p>Once per round, when you miss on a weapon attack, you can graze one target without spending focus.</p><p>Additionally, when you acquire this talent, gain a weapon expertise and an armor expertise of your choice, and gain a cultural expertise in Military Life.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": null,
+                "type": "spe"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "path": "hunter",
+        "hasPath": false,
+        "specialty": "archer",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "9NkOwvmcI7aZLrkQ": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "seek-quarry",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.3nfGn0BOeLq5qgEr",
+                        "label": "Seek Quarry"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "modality": null
+    },
+    "effects": [],
+    "sort": 200000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!Sl4bFpOhQ3NQWELp"
+}

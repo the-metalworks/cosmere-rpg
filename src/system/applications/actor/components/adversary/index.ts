@@ -1,4 +1,4 @@
 export * from './actions-list';
 
 import './header';
-import './skills-group';
+import './skills';

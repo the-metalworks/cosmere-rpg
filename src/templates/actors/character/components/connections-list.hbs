@@ -1,58 +1,51 @@
-<ul class="connections-list">
-    <li class="connection header">
-        <span class="title">{{localize "COSMERE.Actor.Sheet.Details.Connections.Label"}}</span>
+<ul class="item-list bullet-list">
+    <li class="item header">
+        <section class="details">            
+            <span class="title">{{localize "COSMERE.Actor.Sheet.Details.Connections.Label"}}</span>
+        </section>
     </li>
 
     {{#each connections as |connection|}}
-    {{#if connection.expanded}}
-        <li hidden></li>
-    {{/if}}
+    <li class="item collapsible {{#if connection.expanded}}expanded{{/if}}" data-id="{{connection.id}}">
+        <section class="details">
+            <i class="bullet fade icon faded fa-solid fa-diamond"></i>
+            <input class="name fade" type="text" value="{{connection.name}}" readonly>
 
-    <li class="connection" data-id="{{connection.id}}">
-        <i class="fa-solid fa-diamond"></i>
-
-        <span class="title toggle-details" data-action="toggle-expand-connection">{{connection.name}}</span>
-        <input type="text" class="title inactive" value="{{connection.name}}">
-
-        <div class="controls">
-            <a
-                data-action="toggle-expand-connection"
-                {{#if connection.expanded}}
-                data-tooltip="GENERIC.HideDetails"
-                {{else}}
-                data-tooltip="GENERIC.ViewDetails"
+            <div class="controls icon faded">
+                <a role="button"
+                    data-action="toggle-expand-connection"
+                    {{#if connection.expanded}}
+                    data-tooltip="GENERIC.HideDetails"
+                    {{else}}
+                    data-tooltip="GENERIC.ViewDetails"
+                    {{/if}}
+                >
+                    {{#if connection.expanded}}
+                        <i class="fa-solid fa-compress"></i>
+                    {{else}}
+                        <i class="fa-solid fa-expand"></i>
+                    {{/if}}
+                </a>
+                {{#if @root.editable}}
+                <a
+                    data-action="toggle-connection-controls"
+                    data-tooltip="APPLICATION.TOOLS.ToggleControls"
+                >
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                </a>
                 {{/if}}
-            >
-                {{#if connection.expanded}}
-                <i class="fa-solid fa-chevron-down"></i>
-                {{else}}
-                <i class="fa-solid fa-chevron-left"></i>
-                {{/if}}
-            </a>
-
-            {{#if @root.editable}}
-            <a
-                data-action="toggle-connection-controls"
-                data-tooltip="APPLICATION.TOOLS.ToggleControls"
-            >
-                <i class="fa-solid fa-ellipsis-vertical"></i>
-            </a>
-            {{/if}}
-        </div>
-    </li>
-
-    <li class="connection details {{#if connection.expanded}}expanded{{else}}collapsed{{/if}}" data-id="{{connection.id}}">
-        {{{connection.descriptionHTML}}}
-    </li>
-
-    {{#if connection.expanded}}
-        <li hidden></li>
-    {{/if}}
-    
+            </div>
+        </section>
+        <section class="description collapsible-content">
+            <div class="wrapper">
+                {{{connection.descriptionHTML}}}
+            </div>
+        </section>     
+    </li>  
     {{/each}}
 
     {{#if editable}}
-    <li class="connection new">
+    <li class="item new">
         <a data-action="add-connection">
             <i class="fa-solid fa-plus"></i>
             <span>
@@ -64,11 +57,7 @@
 </ul>
 
 {{#if editable}}
-<menu class="controls-dropdown {{#if controlsDropdown.expanded}}expanded{{/if}}"
-    {{#if controlsDropdown.expanded}}
-    style="top:{{controlsDropdown.position.top}}px;right:{{controlsDropdown.position.right}}px"
-    {{/if}}
->
+<menu class="controls-dropdown">
     <li class="header-control">
         <button class="control"
             data-action="edit-connection"

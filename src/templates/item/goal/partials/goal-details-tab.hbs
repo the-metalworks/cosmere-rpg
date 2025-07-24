@@ -1,0 +1,16 @@
+{{#with (lookup tabsMap "details") as |tab|}}
+
+<div class="tab tab-content {{tab.cssClass}}" data-tab="details" data-group="primary">
+    <fieldset>
+        <legend>{{localize "COSMERE.Item.Sheet.Basics"}}</legend> 
+        {{app-item-details-id}}
+        <div class="item-details-form">
+            {{formGroup @root.systemFields.level 
+                value=@root.item.system.level 
+                localize=true
+            }}
+        </div>        
+    </fieldset>
+</div>
+
+{{/with}}

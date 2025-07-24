@@ -1,0 +1,43 @@
+{
+    "folder": "xeAxqcLYdFWSwUur",
+    "name": "Recover",
+    "type": "action",
+    "_id": "Y9lzSbkmwGg7mN61",
+    "img": "icons/magic/life/cross-explosion-burst-green.webp",
+    "system": {
+        "id": "recover",
+        "type": "basic",
+        "description": {
+            "value": "<p>You take a deep breath and steel yourself. Roll your recovery die to recover health and/or focus, as if you just finished a short rest.</p><p>You can only use the <strong>Recover</strong> action once per scene.</p>",
+            "chat": "<p>Roll your recovery die to recover health and/or focus, as if you just finished a short rest.</p><p>You can only use the <strong>Recover</strong> action once per scene.</p>",
+            "short": "<p>Roll your recovery die to recover health and/or focus, as if you just finished a short rest.</p><p>You can only use the <strong>Recover</strong> action once per scene.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": 2,
+                "type": "act"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": {
+                "type": "use",
+                "recharge": "per_scene",
+                "value": 1,
+                "max": 1
+            }
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        }
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!Y9lzSbkmwGg7mN61"
+}

@@ -1,0 +1,86 @@
+{
+    "folder": "IqFt10TYMzgp9rqM",
+    "name": "Shadow Step",
+    "type": "talent",
+    "_id": "nQ5kkW2WCXohy6Pb",
+    "img": "icons/magic/unholy/silhouette-robe-evil-glow.webp",
+    "system": {
+        "id": "shadow-step",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">0</span></p><p><em>You know every con artist’s trick for avoiding comeuppance, and you can slip from sight with ease.</em></p><p>After you Disengage, you can spend 2 focus to make a <strong>Thievery</strong> test and compare the result against the Cognitive defense of each enemy who can sense you. You gain an advantage on this test if you’re in cover or an area where your target’s primary sense is obscured (such as darkness).</p><p>If you succeed against an enemy, you’re hidden as if you’d succeeded on a <strong>Stealth</strong> test to hide from them.</p>",
+            "chat": "<p><strong>Activation:</strong> <span style=\"font-family: 'Cosmere Dingbats'\">0</span></p><p>After you @UUID[Compendium.cosmere-rpg.actions.Item.wC4Z0mdGwRxLDpMC]{Disengage}, spend 2 focus to test <strong>Thievery</strong> vs. each enemy’s Cognitive to hide from them. You gain an advantage if in cover or obscured.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">0</span></p><p>After you Disengage, you can spend 2 focus to make a <strong>Thievery</strong> test and compare the result against the Cognitive defense of each enemy who can sense you. You gain an advantage on this test if you’re in cover or an area where your target’s primary sense is obscured (such as darkness).</p><p>If you succeed against an enemy, you’re hidden as if you’d succeeded on a <strong>Stealth</strong> test to hide from them.</p>"
+        },
+        "activation": {
+            "type": "skill_test",
+            "cost": {
+                "value": null,
+                "type": "fre"
+            },
+            "consume": [
+                {
+                    "type": "resource",
+                    "value": {
+                        "min": 2,
+                        "max": 2,
+                        "actual": 0
+                    },
+                    "resource": "foc"
+                }
+            ],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "skill": "thv",
+            "attribute": null,
+            "opportunity": null,
+            "complication": null,
+            "modifierFormula": ""
+        },
+        "path": "agent",
+        "hasPath": false,
+        "specialty": "thief",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "rSKZSd7b8YSTylgf": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "skill": "thv",
+                "rank": 3,
+                "talents": []
+            },
+            "7UMeuyecgU5iyfLO": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "talents": [
+                    {
+                        "id": "surefooted",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.bnWM9Vptporkm6Av",
+                        "label": "Surefooted"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "damage": {
+            "formula": null,
+            "type": null,
+            "skill": null,
+            "attribute": null
+        },
+        "modality": null
+    },
+    "effects": [],
+    "sort": -300000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!nQ5kkW2WCXohy6Pb"
+}

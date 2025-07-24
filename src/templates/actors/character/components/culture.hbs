@@ -1,30 +1,52 @@
 {{#if culture}}
-<div class="culture"
-    data-action="view"
->
-    <span class="name">{{culture.label}}</span>
-    <span class="item-type">{{localize "TYPES.Item.culture"}}</span>
-</div>
-{{#if isEditMode}}
-<div class="controls">
-    <a data-action="remove"
-        data-tooltip="GENERIC.Button.Remove"
-    >
-        <i class="fa-solid fa-xmark"></i>
-    </a>
-</div>
-{{/if}}
+<div class="border-box">
+    <div class="wrapper">
+        {{!-- Details --}}
+        <div class="details">
+            <div class="title" data-action="view">    
+                <span class="name">
+                    {{culture.label}}            
+                    {{#if isEditMode}}
+                    <div class="controls">
+                        <a data-action="remove"
+                            data-tooltip="GENERIC.Button.Remove"
+                        >
+                            <i class="fa-solid fa-xmark"></i>
+                        </a>
+                    </div>
+                    {{/if}}
+                </span>
+                <span class="item-type">{{localize "TYPES.Item.culture"}}</span>
+            </div>
+        </div>
 
-{{!-- NOTE: Currently available culture images are too low resolution to use here.
-    Uncomment the following block if higher resolution images are available
-    --}}
-{{!-- {{#if culture.img}}
-<div class="background-img">
-    <img src="{{culture.img}}">
-</div>
-{{/if}} --}}
+        {{!-- Skills --}}
+        {{#if (gt skills.length 0)}}
+            <ul class="skill-list">
+                {{#each skills as |skill|}}
+                    <li class="skill" data-id="{{skill.id}}">
+                        {{app-actor-skill
+                            skill=skill.id
+                            readonly=(not @root.isEditMode)
+                            pips=true
+                        }}
+                    </li>
+                {{/each}}
+            </ul>
+        {{/if}}
+    </div>    
+    {{!-- NOTE: Currently available culture images are too low resolution to use here.
+        Uncomment the following block if higher resolution images are available
+        --}}
+    {{#if culture.img}}
+        <div class="background-img">
+            <img src="{{culture.img}}">
+        </div>
+    {{/if}}
+</div>    
+{{> box-corners }}   
 {{else}}
-<div class="culture placeholder">
-    <span>{{localize "COSMERE.Actor.Sheet.CulturePlaceholder"}}</span>
-</div>
+    <div class="culture drop-area">
+        <span>{{localize "COSMERE.Actor.Sheet.CulturePlaceholder"}}</span>
+    </div>
 {{/if}}

@@ -4,6 +4,8 @@ import { AnyObject } from '@system/types/utils';
 
 import { CommonActorData } from '@system/data/actor/common';
 import { Derived } from '@system/data/fields';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
@@ -25,7 +27,7 @@ export class ConfigureDefenseDialog extends HandlebarsApplicationMixin(
             classes: ['dialog', 'configure-defense'],
             tag: 'dialog',
             position: {
-                width: 300,
+                width: 350,
             },
             actions: {
                 'update-defense': this.onUpdateDefense,
@@ -37,8 +39,7 @@ export class ConfigureDefenseDialog extends HandlebarsApplicationMixin(
         foundry.utils.deepClone(super.PARTS),
         {
             form: {
-                template:
-                    'systems/cosmere-rpg/templates/actors/dialogs/configure-defense.hbs',
+                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ACTOR_CONFIGURE_DEFENSE}`,
                 forms: {
                     form: {
                         handler: this.onFormEvent,
@@ -73,11 +74,9 @@ export class ConfigureDefenseDialog extends HandlebarsApplicationMixin(
         });
 
         this.defenseData = this.actor.system.defenses[group];
-        this.defenseData.value.override =
-            this.defenseData.value.override ??
-            this.defenseData.value.value ??
-            10;
-        this.mode = Derived.getMode(this.defenseData.value);
+        this.defenseData.override =
+            this.defenseData.override ?? this.defenseData.value ?? 10;
+        this.mode = this.defenseData.mode;
     }
 
     /* --- Statics --- */
@@ -110,13 +109,13 @@ export class ConfigureDefenseDialog extends HandlebarsApplicationMixin(
         this.mode = formData.object.mode as Derived.Mode;
 
         if (this.mode === Derived.Mode.Override && target.name === 'formula')
-            this.defenseData.value.override = formData.object.formula as number;
+            this.defenseData.override = formData.object.formula as number;
 
         if (target.name === 'bonus')
             this.defenseData.bonus = formData.object.bonus as number;
 
         // Assign mode
-        Derived.setMode(this.defenseData.value, this.mode);
+        this.defenseData.mode = this.mode;
 
         // Render
         void this.render(true);
@@ -146,7 +145,7 @@ export class ConfigureDefenseDialog extends HandlebarsApplicationMixin(
             formula,
             mode: this.mode,
             modes: Derived.Modes,
-            override: this.defenseData.value.override!,
+            override: this.defenseData.override!,
             bonus: this.defenseData.bonus,
         });
     }

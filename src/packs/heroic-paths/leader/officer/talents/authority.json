@@ -1,0 +1,71 @@
+{
+    "folder": "DlelekpNKd8H2xae",
+    "name": "Authority",
+    "type": "talent",
+    "_id": "0kqPFGu6w2JFIEdR",
+    "img": "icons/magic/control/silhouette-hold-change-blue.webp",
+    "system": {
+        "id": "authority",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p><em>Your command experience helps you coordinate larger groups across greater distances.</em></p><p>Your Leader talents that affect allies now have double the range (if they had one) and can affect up to twice as many allies as usual.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>Double the range of Leader talents that affect allies, and double the number of allies affected.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>Your Leader talents that affect allies now have double the range (if they had one) and can affect up to twice as many allies as usual.</p>"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "path": "leader",
+        "hasPath": false,
+        "specialty": "officer",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "kpEMQq4mfZAU9jZl": {
+                "type": "connection",
+                "attribute": "str",
+                "value": 1,
+                "description": "Have a title granting you command over at least 5 people",
+                "rank": 1,
+                "talents": []
+            },
+            "07Np54qHMGrOTrVg": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "confident-command",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.fArcKPczWhA0Bq3a",
+                        "label": "Confident Command"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "modality": null
+    },
+    "effects": [],
+    "sort": 100000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!0kqPFGu6w2JFIEdR"
+}

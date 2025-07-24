@@ -1,200 +1,209 @@
 {{#if hasActivation}}
-{{!-- Type --}}
-<h5>{{localize "COSMERE.Item.Sheet.Activation.Title"}}</h5>
-<div class="form-group">
-    <label>{{localize "COSMERE.Item.Sheet.Activation.Type"}}</label>
-    <div class="input-group">
-        <select name="system.activation.type"
-            {{#if (not editable)}}
-            disabled
-            {{/if}}
-        >
-            {{selectOptions typeSelectOptions selected=item.system.activation.type localize=true}}
-        </select>
-    </div>
-</div>
 
-{{#if hasActivationType}}
+{{log this}}
+    <fieldset>
+        <legend>{{localize "COSMERE.Item.Sheet.Activation.Title"}}</legend>
 
-{{!-- Cost --}}
-<div class="form-group">
-    <label>{{localize "COSMERE.Item.Sheet.Activation.Cost"}}</label>
-    <div class="input-group">
-        {{#if (eq item.system.activation.cost.type "act")}}
-        <input name="system.activation.cost.value"
-            type="number"
-            min="0"
-            max="3"
-            step="1"
-            value="{{item.system.activation.cost.value}}"
-            {{#if (not editable)}}
-            readonly
+        {{!-- Activation Type --}}
+        {{formGroup systemFields.activation.fields.type 
+            name="system.activation.type"
+            value=item.system.activation.type 
+            localize=true
+            disabled=(not editable)
+        }}
+
+        {{#if hasActivationType}}
+            {{!-- Cost --}}
+            <div class="form-group">
+                <label>{{localize systemFields.activation.fields.cost.label}}</label>
+                <div class="form-fields">
+                    {{!-- Cost value --}}
+                    {{#if (eq item.system.activation.cost.type "act")}}
+                        {{formInput systemFields.activation.fields.cost.fields.value
+                            name="system.activation.cost.value"
+                            value=item.system.activation.cost.value
+                            type="number"
+                            localize=true
+                            readonly=(not editable)
+                        }}
+                    {{/if}}
+
+                    {{!-- Cost type --}}
+                    {{formInput systemFields.activation.fields.cost.fields.type
+                        name="system.activation.cost.type"
+                        value=item.system.activation.cost.type
+                        localize=true
+                        disabled=(not editable)
+                    }}
+                </div>
+            </div>
+
+            {{!-- Resources --}}
+
+            {{!-- Consume --}}
+            <div class="form-group consume">
+                <label>{{localize systemFields.activation.fields.consume.label}}</label>
+                <div class="form-fields-list">
+                    {{#each consume}}
+                    <div class="form-fields">
+                        <input name="system.activation.consume[{{@index}}].value"
+                            type="text"
+                            value={{resourceCostInput this.value}}
+                            {{#if (not ../editable)}}
+                            readonly
+                            {{/if}}
+                        >
+
+                        {{#if (eq this.type "resource")}}
+                            {{formInput @root.systemFields.activation.fields.consume.element.fields.resource
+                                name=(concat "system.activation.consume[" @index "].resource")
+                                value=this.resource
+                                localize=true
+                                disabled=(not @root.editable)
+                            }}
+                        {{/if}}
+
+                        {{!-- TODO: Consume type = item --}}
+
+                        {{formInput @root.systemFields.activation.fields.consume.element.fields.type
+                            name=(concat "system.activation.consume[" @index "].type")
+                            value=this.type
+                            localize=true
+                            disabled=(not @root.editable)
+                        }}
+                        
+                        <div class="extra">
+                            {{#unless @last}}
+                            <span class="icon faded"><i class="fa-solid fa-bars"></i></span>
+                            {{else}}
+                            <a class="icon active" data-action="add-consumption-option"><i class="fa-solid fa-plus"></i></a>
+                            {{/unless}}
+                        </div>
+                    </div>
+                    {{else}}            
+                    <div class="form-fields">
+                       {{formInput systemFields.activation.fields.consume.element.fields.type
+                            name="system.activation.consume[].type"
+                            value="none"
+                            localize=true
+                            disabled=(not editable)
+                        }}
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+
+            {{!-- Uses --}}
+            <div class="form-group uses">
+                <label>{{localize systemFields.activation.fields.uses.label}}</label>
+                <div class="form-fields">
+                    {{#if hasUses}}
+                        {{!-- Uses value --}}
+                        {{formInput systemFields.activation.fields.uses.fields.value
+                            name="system.activation.uses.value"
+                            value=item.system.activation.uses.value
+                            type="number"
+                            localize=true
+                            readonly=(not editable)
+                        }}
+
+                        <span class="delim">/</span>
+
+                        {{!-- Uses max --}}
+                        {{formInput systemFields.activation.fields.uses.fields.max
+                            name="system.activation.uses.max"
+                            value=item.system.activation.uses.max
+                            type="number"
+                            localize=true
+                            readonly=(not editable)
+                        }}
+                    {{/if}}
+
+                    {{!-- Uses type select options --}}
+                    {{formInput systemFields.activation.fields.uses.fields.type
+                        name="system.activation.uses.type"
+                        value=item.system.activation.uses.type
+                        localize=true
+                        disabled=(not editable)
+                        choices=usesTypeSelectOptions
+                    }}
+                </div>        
+            </div>
+
+            {{!-- Uses recharge --}}
+            {{#if hasUses}}
+                {{formGroup systemFields.activation.fields.uses.fields.recharge 
+                    name="system.activation.uses.recharge"
+                    value=item.system.activation.uses.recharge 
+                    localize=true
+                    disabled=(not editable)
+                }}
             {{/if}}
-        >
+
+            {{!-- Skill test --}}
+            {{#if (eq item.system.activation.type "skill_test")}}
+                {{!-- Skill select --}}
+                {{formGroup systemFields.activation.fields.skill 
+                    name="system.activation.skill"
+                    value=item.system.activation.skill 
+                    localize=true
+                    disabled=(not editable)
+                }}
+
+                {{!-- Attribute select --}}
+                {{#if hasSkill}}
+                    {{formGroup systemFields.activation.fields.attribute 
+                        name="system.activation.attribute"
+                        value=item.system.activation.attribute 
+                        localize=true
+                        disabled=(not editable)
+                    }}
+                {{else}}
+                    <div class="form-group">
+                        <label>{{localize systemFields.activation.fields.attribute.label}}</label>
+                        <div class="form-fields">
+                            <input
+                                type="text"
+                                value="—"
+                                readonly
+                            >
+                        </div>
+                    </div>
+                {{/if}}
+
+                {{!-- Additional Formula --}}
+                {{formGroup systemFields.activation.fields.modifierFormula 
+                    name="system.activation.modifierFormula"
+                    value=item.system.activation.modifierFormula 
+                    localize=true
+                    readonly=(not editable)
+                }}
+
+                {{!-- Raise the stakes --}}
+                {{formGroup systemFields.activation.fields.plotDie 
+                    name="system.activation.plotDie"
+                    value=item.system.activation.plotDie 
+                    localize=true
+                    readonly=(not editable)
+                }}
+
+                {{!-- Opportunity and Complication --}}
+                {{formGroup systemFields.activation.fields.opportunity 
+                    value=item.system.activation.opportunity 
+                    type="number"
+                    placeholder="20"
+                    localize=true
+                    class="field"
+                    readonly=(not editable)
+                }}
+                {{formGroup systemFields.activation.fields.complication 
+                    value=item.system.activation.complication 
+                    type="number"
+                    placeholder="1"
+                    localize=true
+                    readonly=(not editable)
+                }}
+            {{/if}}
         {{/if}}
-        <select name="system.activation.cost.type"
-            {{#if (not editable)}}
-            disabled
-            {{/if}}
-        >
-            {{selectOptions costTypeSelectOptions selected=item.system.activation.cost.type localize=true}}
-        </select>
-    </div>
-</div>
-
-{{!-- Resources --}}
-
-{{!-- Consume --}}
-<div class="form-group consume">
-    <label>{{localize "COSMERE.Item.Sheet.Activation.Consume"}}</label>
-    <div class="input-group">
-        {{#if hasConsume}}
-        <input name="system.activation.consume.value"
-            type="number"
-            min="0"
-            step="1"
-            value="{{item.system.activation.consume.value}}"
-            {{#if (not editable)}}
-            readonly
-            {{/if}}
-        >
-        {{/if}}
-
-        {{#if (eq item.system.activation.consume.type "resource")}}
-        <select name="system.activation.consume.resource"
-            {{#if (not editable)}}
-            disabled
-            {{/if}}
-        >
-            {{selectOptions resourceSelectOptions selected=item.system.activation.consume.resource localize=true}}
-        </select>
-        {{/if}}
-
-        {{!-- TODO: Consume type = item --}}
-
-        <select name="system.activation.consume.type"
-            {{#if (not editable)}}
-            disabled
-            {{/if}}
-        >
-            {{selectOptions consumeTypeSelectOptions selected=item.system.activation.consume.type localize=true}}
-        </select>
-    </div>
-</div>
-
-{{!-- Uses --}}
-<div class="form-group uses">
-    <label>{{localize "COSMERE.Item.Sheet.Activation.Uses"}}</label>
-    <div class="input-group">
-        {{#if hasUses}}
-        <input name="system.activation.uses.value"
-            type="number"
-            min="0"
-            step="1"
-            value="{{item.system.activation.uses.value}}"
-            {{#if (not editable)}}
-            readonly
-            {{/if}}
-        >
-        <span class="delim">/</span>
-        <input name="system.activation.uses.max"
-            type="number"
-            min="1"
-            step="1"
-            value="{{item.system.activation.uses.max}}"
-            {{#if (not editable)}}
-            readonly
-            {{/if}}
-        >
-        {{/if}}
-
-        <select name="system.activation.uses.type"
-            {{#if (not editable)}}
-            disabled
-            {{/if}}
-        >
-            {{selectOptions usesTypeSelectOptions selected=item.system.activation.uses.type localize=true}}
-        </select>
-    </div>
-</div>
-
-{{!-- Uses recharge --}}
-{{#if hasUses}}
-<div class="form-group">
-    <label>{{localize "COSMERE.Item.Sheet.Activation.Recharge"}}</label>
-    <div class="input-group">
-        <select name="system.activation.uses.recharge"
-            {{#if (not editable)}}
-            disabled
-            {{/if}}
-        >
-            {{selectOptions rechargeSelectOptions selected=item.system.activation.uses.recharge localize=true}}
-        </select>
-    </div>
-</div>
-{{/if}}
-
-{{!-- Skill test --}}
-{{#if (eq item.system.activation.type "skill_test")}}
-<div class="form-group">
-    <label>{{localize "GENERIC.Skill"}}</label>
-    <div class="input-group">
-        <select name="system.activation.skill"
-            {{#if (not editable)}}
-            disabled
-            {{/if}}
-        >
-            {{selectOptions skillSelectOptions selected=item.system.activation.skill localize=true}}
-        </select>
-    </div>
-
-</div>
-<div class="form-group">
-    <label>{{localize "GENERIC.Attribute"}}</label>
-    <div class="input-group">
-        {{#if hasSkill}}
-        <select name="system.activation.attribute"
-            {{#if (not editable)}}
-            disabled
-            {{/if}}
-        >
-            {{selectOptions attributeSelectOptions selected=item.system.activation.attribute localize=true}}
-        </select>
-        {{else}}
-        <input
-            type="text"
-            value="—"
-            readonly
-        >
-        {{/if}}
-    </div>
-</div>
-<div class="form-group">
-    <label>{{localize "DICE.Plot.RaiseTheStakes"}}</label>
-    <div class="input-group">
-        <input type="checkbox" 
-            name="system.activation.plotDie"
-            {{#if item.system.activation.plotDie}}
-            checked
-            {{/if}}
-            {{#if (not editable)}}
-            disabled
-            {{/if}}
-        >
-    </div>
-</div>
-{{formGroup systemFields.activation.fields.opportunity 
-    value=item.system.activation.opportunity 
-    type="number"
-    placeholder="20"
-    localize=true
-}}
-{{formGroup systemFields.activation.fields.complication 
-    value=item.system.activation.complication 
-    type="number"
-    placeholder="1"
-    localize=true
-}}
-{{/if}}
-{{/if}}
+    </fieldset>
 {{/if}}

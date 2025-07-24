@@ -1,0 +1,13 @@
+<{{{headingTag}}}>
+    <span>{{default config.label item.name}}</span>
+    {{#if item.system.activation.cost.type}}
+        <span>
+            (<em class="cosmere-icon">{{#if (eq item.system.activation.cost.type "act")}}{{item.system.activation.cost.value}}{{else}}{{cosmereDingbat item.system.activation.cost.type}}{{/if}}</em>)
+        </span>
+    {{/if}}
+    <a {{{linkDataStr}}}>
+        <i class="fa-solid fa-up-right-from-square"></i>
+    </a>
+</{{{headingTag}}}>
+
+{{{description}}}

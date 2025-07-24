@@ -1,44 +1,48 @@
 <form>
-    <div class="form-group">
-        <input 
-            name="formula" 
-            {{#if (eq mode 'derived')}}
-            type="text" 
-            value="{{formula}}" 
-            readonly
-            {{else}}
-            style="text-align: center; font-size: 15pt"
-            type="number"
-            value="{{override}}"
-            min="0"
-            step="1"
-            {{/if}}
-        >
+    <div class="form-group max">
+        <div class="form-fields">
+            <input 
+                name="formula" 
+                {{#if (eq mode 'derived')}}
+                type="text" 
+                value="{{formula}}" 
+                readonly
+                {{else}}
+                type="number"
+                value="{{override}}"
+                min="0"
+                step="1"
+                {{/if}}
+            >
+        </div>        
     </div>
     <div class="form-group">
         <label>{{localize "GENERIC.Mode"}}</label>
-        <select name="mode">
-            {{selectOptions modes selected=mode localize=true}}
-        </select>
+        <div class="form-fields">
+            <select name="mode">
+                {{selectOptions modes selected=mode localize=true}}
+            </select>
+        </div>        
     </div>
     <div class="form-group">
-        <labe>{{localize "GENERIC.Bonus"}}</labe>
-        <input 
-            name="bonus" 
-            {{#if (eq mode 'derived')}}
-            type="number" 
-            value="{{bonus}}" 
-            min="0" 
-            step="1" 
-            {{else}}
-            type="text"
-            value="—"
-            readonly
-            {{/if}}
-        >
+        <label>{{localize "GENERIC.Bonus"}}</label>
+        <div class="form-fields">
+            <input 
+                name="bonus" 
+                {{#if (eq mode 'derived')}}
+                type="number" 
+                value="{{this.bonus}}" 
+                min="0" 
+                step="1" 
+                {{else}}
+                type="text"
+                value="—"
+                readonly
+                {{/if}}
+            >
+        </div>        
     </div>
-    <br>
-    <div class="form-group">
+    <div class="form-group submit">
         <button data-action="update-defense" type="submit">
             {{localize "GENERIC.Button.Update"}}
         </button>

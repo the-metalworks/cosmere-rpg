@@ -1,0 +1,71 @@
+{
+    "folder": "btpKhtBwuaK6NeFy",
+    "name": "Killing Edge",
+    "type": "talent",
+    "_id": "tSarBUrmcyd0Xu29",
+    "img": "icons/weapons/daggers/dagger-jeweled-purple.webp",
+    "system": {
+        "id": "killing-edge",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p><em>Your simple weapons seem humble beside ancient relics or weapons of war, but in your hands, even a rusty knife or pitted sling is as deadly as the finest steel.</em></p><p>When you acquire this talent, gain weapon expertises in Knives and Slings.</p><p>Additionally, while you wield a @UUID[Compendium.cosmere-rpg.items.Item.k0aKCdFJU0m2lZbv]{knife} or @UUID[Compendium.cosmere-rpg.items.Item.nmGWzegmwKBTuugc]{sling}, it also has the <strong>Deadly</strong> and <strong>Quickdraw</strong> expert traits for you.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>Gain Knives and Slings expertises. These weapons gain the <strong>Deadly</strong> and <strong>Quickdraw</strong> expert traits.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>When you acquire this talent, gain weapon expertises in Knives and Slings.</p><p>Additionally, while you wield a @UUID[Compendium.cosmere-rpg.items.Item.k0aKCdFJU0m2lZbv]{knife} or @UUID[Compendium.cosmere-rpg.items.Item.nmGWzegmwKBTuugc]{sling}, it also has the <strong>Deadly</strong> and <strong>Quickdraw</strong> expert traits for you.</p>"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "path": "hunter",
+        "hasPath": false,
+        "specialty": "assassin",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "Yb60vPwE1R7gkllQ": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "skill": "prc",
+                "rank": 2,
+                "talents": []
+            },
+            "dBU4V11cA1TjrThU": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "seek-quarry",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.3nfGn0BOeLq5qgEr",
+                        "label": "Seek Quarry"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "modality": null
+    },
+    "effects": [],
+    "sort": 300000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!tSarBUrmcyd0Xu29"
+}

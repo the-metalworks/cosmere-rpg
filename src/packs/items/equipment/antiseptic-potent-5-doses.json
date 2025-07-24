@@ -1,0 +1,54 @@
+{
+    "folder": "qTYLKqLK29e5CTQp",
+    "name": "Antiseptic (potent, 5 doses)",
+    "type": "equipment",
+    "_id": "t0oc6ADwgqQMHI8A",
+    "img": "icons/consumables/potions/potion-bottle-labeled-medicine-capped-red-black.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 50 mk; <strong>Weight</strong> 1 lb.;</p><p>Knobweed milk, fourleaf sap, and lister’s oil can all be used to make a strong antiseptic. A dose can be applied to a character after a short rest to restore [[/r 2d6]] health.</p>",
+            "chat": ""
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 1,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 50,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            },
+            "unit": "spheres.mark"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": null,
+                "type": "spe"
+            },
+            "consume": [],
+            "flavor": "",
+            "uses": {
+                "type": "use",
+                "max": 5,
+                "value": 5,
+                "recharge": null
+            }
+        },
+        "damage": {
+            "formula": "2d6",
+            "type": "heal"
+        }
+    },
+    "effects": [],
+    "sort": 2900000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!t0oc6ADwgqQMHI8A"
+}

@@ -1,0 +1,71 @@
+{
+    "folder": "yDWfqqpDSuIVDTSg",
+    "name": "Defensive Position",
+    "type": "talent",
+    "_id": "Frzf667tMXppwTV5",
+    "img": "icons/skills/melee/shield-block-gray-yellow.webp",
+    "system": {
+        "id": "defensive-position",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p><em>You’ve learned when to withdraw and when to commit to a position, holding it unflinchingly.</em></p><p>The @UUID[Compendium.cosmere-rpg.actions.Item.I1CQjZicYdeG9NCN]{Brace} action adds two disadvantages to attacks against you, instead of one.</p><p>Additionally, while you’re using a shield to Brace, allies within 5 feet of you can Brace as if they had cover or a shield.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>The @UUID[Compendium.cosmere-rpg.actions.Item.I1CQjZicYdeG9NCN]{Brace} action adds two disadvantages to attacks against you, instead of one, and allies can Brace behind your shield.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>The @UUID[Compendium.cosmere-rpg.actions.Item.I1CQjZicYdeG9NCN]{Brace} action adds two disadvantages to attacks against you, instead of one.</p><p>Additionally, while you’re using a shield to Brace, allies within 5 feet of you can Brace as if they had cover or a shield.</p>"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "opportunity": null,
+            "complication": null,
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "path": "warrior",
+        "hasPath": false,
+        "specialty": "soldier",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "modality": null,
+        "prerequisites": {
+            "YR7E15ffnSxtC5MB": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "skill": "ath",
+                "rank": 2,
+                "talents": []
+            },
+            "wBBXpjJcDGRPqyuu": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "cautious-advance",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.Cqx0B3rp0Difwr3n",
+                        "label": "Cautious Advance"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!Frzf667tMXppwTV5"
+}

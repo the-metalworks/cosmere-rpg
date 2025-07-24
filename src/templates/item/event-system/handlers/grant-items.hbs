@@ -1,0 +1,92 @@
+{{!-- Allow duplicates --}}
+<div class="form-group">
+    <label>
+        {{localize handler.schema.fields.allowDuplicates.label}}
+        <i class="info fa-regular fa-circle-question" 
+            data-tooltip="{{localize handler.schema.fields.allowDuplicates.hint}}"
+        ></i>
+    </label>
+    <div class="form-fields">
+        {{formInput handler.schema.fields.allowDuplicates
+            name="handler.allowDuplicates"
+            value=handler.allowDuplicates
+        }}
+    </div>
+</div>
+
+{{!-- Increase Quantity --}}
+<div class="form-group">
+    <label>
+        {{localize handler.schema.fields.increaseQuantity.label}}
+        <i class="info fa-regular fa-circle-question" 
+            data-tooltip="{{localize handler.schema.fields.increaseQuantity.hint}}"
+        ></i>
+    </label>
+    <div class="form-fields">
+        {{formInput handler.schema.fields.increaseQuantity
+            name="handler.increaseQuantity"
+            value=handler.increaseQuantity
+        }}
+    </div>
+</div>
+
+{{!-- Pick One --}}
+<div class="form-group">
+    <label>
+        {{localize handler.schema.fields.pickOne.label}}
+        <i class="info fa-regular fa-circle-question" 
+            data-tooltip="{{localize handler.schema.fields.pickOne.hint}}"
+        ></i>
+    </label>
+    <div class="form-fields">
+        {{formInput handler.schema.fields.pickOne
+            name="handler.pickOne"
+            value=handler.pickOne
+        }}
+    </div>
+</div>
+
+{{!-- Pick Prompt Title --}}
+{{#if handler.pickOne}}
+    <div class="form-group">
+        <label>
+            {{localize handler.schema.fields.pickPromptTitle.label}}
+            <i class="info fa-regular fa-circle-question" 
+                data-tooltip="{{localize handler.schema.fields.pickPromptTitle.hint}}"
+            ></i>
+        </label>
+        <div class="form-fields">
+            {{formInput handler.schema.fields.pickPromptTitle
+                name="handler.pickPromptTitle"
+                value=handler.pickPromptTitle
+                placeholder=(localize "COSMERE.Item.EventSystem.Event.Handler.Types.grant-items.PickPromptTitle.Default")          
+            }}
+        </div>
+    </div>
+{{/if}}
+
+{{!-- Notify --}}
+<div class="form-group">
+    <label>
+        {{localize handler.schema.fields.notify.label}}
+        <i class="info fa-regular fa-circle-question" 
+            data-tooltip="{{localize handler.schema.fields.notify.hint}}"
+        ></i>
+    </label>
+    <div class="form-fields">
+        {{formInput handler.schema.fields.notify
+            name="handler.notify"
+            value=handler.notify
+        }}
+    </div>
+</div>
+
+{{!-- Items --}}
+<fieldset>
+    <legend>{{localize handler.schema.fields.items.label}}</legend>
+    {{app-item-drop-list
+        name="handler.items"
+        value=handler.items
+        placeholder="Drag and drop items here"
+    }}
+</fieldset>

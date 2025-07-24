@@ -131,8 +131,6 @@ export function registerComponent(
                     detail: { params: getComponentParams(componentRef) },
                 }),
             );
-        } else {
-            componentRegistry[componentRef].dirty = false;
         }
 
         // Return result
@@ -152,8 +150,26 @@ export function registerComponent(
             class extends HTMLElement {
                 static formAssociated = true;
 
-                public value: unknown;
                 public name: string | undefined;
+                private _value: unknown;
+                private internals: ElementInternals;
+
+                constructor() {
+                    super();
+
+                    this.internals = this.attachInternals();
+                }
+
+                public set value(value: unknown) {
+                    this._value = value;
+                    this.internals.setFormValue(
+                        value as string | File | FormData | null,
+                    );
+                }
+
+                public get value() {
+                    return this._value;
+                }
             },
         );
     }
@@ -167,8 +183,13 @@ function getFullIndexRecursive(
     data?: Handlebars.HelperOptions['data'],
 ): string | undefined {
     if (!data) return;
-    return [data.index ?? '0', getFullIndexRecursive(data._parent)]
-        .filter((v) => !!v)
+    return [
+        data.index ?? '0',
+        '_parent' in data && 'index' in data._parent
+            ? getFullIndexRecursive(data._parent)
+            : null,
+    ]
+        .filter((v) => v !== null)
         .join('.');
 }
 /* eslint-enable @typescript-eslint/no-unsafe-member-access */
@@ -264,14 +285,48 @@ export function deregisterApplicationInstance(
         ComponentHandlebarsApplication<ApplicationV2Constructor<AnyObject>>
     >,
 ) {
-    delete applicationInstances[application.id];
+    console.log('Deregistering application instance:', application.id);
 
-    // Remove all components that belonged to this application
+    // Destroy all components that belonged to this application
     Object.keys(componentRegistry).forEach((componentRef) => {
         if (componentRef.startsWith(application.id)) {
-            delete componentRegistry[componentRef];
+            destroyComponent(componentRef);
         }
     });
+
+    // Remove application instance
+    delete applicationInstances[application.id];
+}
+
+export function destroyComponent(componentRef: string, recursive = true) {
+    console.log('Destroying component:', componentRef, recursive);
+
+    // Get component instance
+    const instance = getComponentInstance(componentRef);
+    if (!instance)
+        throw new Error(
+            `Failed to destroy component. Invalid component ref "${componentRef}"`,
+        );
+
+    // Get all child components
+    const childRefs = Object.entries(componentRegistry)
+        .filter(([_, { parentRef }]) => parentRef === componentRef)
+        .map(([ref]) => ref);
+
+    // Destroy children
+    if (recursive) {
+        childRefs.forEach((childRef) => destroyComponent(childRef, true));
+    }
+
+    // Invoke lifecycle event
+    instance.dispatchEvent(
+        new CustomEvent('destroy', {
+            detail: { params: getComponentParams(componentRef) },
+        }),
+    );
+
+    // Remove from registry
+    delete componentRegistry[componentRef];
 }
 
 export function getComponentInstance(componentRef: string) {
@@ -310,8 +365,8 @@ export async function renderComponent(
 
     // Render
     const content = await renderTemplate(ComponentClass.TEMPLATE, {
-        ...context,
         ...instance,
+        ...context,
         __application: instance.application,
         __componentRef: componentRef,
         partId: instance.partId,
@@ -325,6 +380,11 @@ export async function renderComponent(
     // Get all child components
     const childRefs = Object.entries(componentRegistry)
         .filter(([_, { parentRef }]) => parentRef === componentRef)
+        .filter(
+            ([_, { selector, instance }]) =>
+                $(html).find(`${selector}[data-component-id="${instance.id}"]`)
+                    .length > 0,
+        )
         .map(([ref]) => ref);
 
     // Render children
@@ -336,6 +396,9 @@ export async function renderComponent(
         );
         replaceComponent(childRef, childHtml, $(html) as JQuery);
     }
+
+    // Mark as clean
+    componentRegistry[componentRef].dirty = false;
 
     // Return result
     return html;
@@ -427,6 +490,20 @@ export function replaceComponent(
         `${instance.selector}[data-component-id="${instance.id}"]`,
     );
 
+    // Retain value if the element is form associated
+    if (
+        !!componentRegistry[componentRef].element &&
+        element.get(0) !== componentRegistry[componentRef].element &&
+        componentClsRegistry[instance.selector].FORM_ASSOCIATED
+    ) {
+        // Assign value to the new element
+        (element.get(0) as unknown as { value: unknown }).value = (
+            componentRegistry[componentRef].element as unknown as {
+                value: unknown;
+            }
+        ).value;
+    }
+
     // Assign element
     componentRegistry[componentRef].element = element.get(0);
 
@@ -476,7 +553,7 @@ export function attachComponentListeners(componentRef: string) {
     const htmlElement = getComponentElement(componentRef);
     if (!htmlElement)
         throw new Error(
-            `Failed to attach component listeners. Component element not set`,
+            `Failed to attach component listeners. Component element not set. Selector: "${instance.selector}" Ref: "${componentRef}"`,
         );
 
     // Get the component actions
@@ -523,11 +600,21 @@ export function attachComponentListeners(componentRef: string) {
     childRefs.forEach((childRef) => attachComponentListeners(childRef));
 }
 
-export function preRenderApplication(applicationId: string) {
+export function preRenderApplication(
+    applicationId: string,
+    parts: string[] | undefined,
+    componentRefs: string[] | undefined,
+) {
     // Mark all components as dirty
     Object.entries(componentRegistry)
         .filter(([ref]) => ref.startsWith(applicationId))
-        .forEach(([ref]) => {
+        .filter(
+            ([ref]) =>
+                (!parts && !componentRefs) ||
+                (parts?.includes(ref.split(':')[1]) ?? false) ||
+                componentRefs?.some((otherRef) => ref.startsWith(otherRef)),
+        )
+        .forEach(([ref, { selector, instance }]) => {
             componentRegistry[ref].dirty = true;
         });
 }
@@ -539,9 +626,10 @@ export function removeOrphanedComponents(applicationId: string) {
     );
 
     // Remove orphaned components
-    components.forEach(([ref, { dirty }]) => {
+    components.forEach(([ref, { dirty, selector, instance }]) => {
         if (dirty) {
-            delete componentRegistry[ref];
+            // Destroy component
+            destroyComponent(ref, false);
         }
     });
 }
@@ -620,4 +708,5 @@ export default {
     getApplicationComponents,
     registerApplicationInstance,
     deregisterApplicationInstance,
+    destroyComponent,
 };

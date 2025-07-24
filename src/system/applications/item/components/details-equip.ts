@@ -1,5 +1,7 @@
 import { ArmorTraitId, WeaponTraitId } from '@system/types/cosmere';
 import { ConstructorOf } from '@system/types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
@@ -8,8 +10,7 @@ import { BaseItemSheet, BaseItemSheetRenderContext } from '../base';
 export class DetailsEquipComponent extends HandlebarsApplicationComponent<
     ConstructorOf<BaseItemSheet>
 > {
-    static TEMPLATE =
-        'systems/cosmere-rpg/templates/item/components/details-equip.hbs';
+    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_DETAILS_EQUIP}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions and forms
@@ -19,24 +20,30 @@ export class DetailsEquipComponent extends HandlebarsApplicationComponent<
     static ACTIONS = {
         'toggle-traits-collapsed':
             DetailsEquipComponent.onToggleTraitsCollapsed,
-        'toggle-expert-traits-collapsed':
-            DetailsEquipComponent.onToggleExpertTraitsCollapsed,
     };
     /* eslint-enable @typescript-eslint/unbound-method */
 
-    private traitsCollapsed = true;
+    private normalTraitsCollapsed = true;
     private expertTraitsCollapsed = true;
 
     /* --- Actions --- */
 
-    private static onToggleTraitsCollapsed(this: DetailsEquipComponent) {
-        this.traitsCollapsed = !this.traitsCollapsed;
-        void this.render();
-    }
+    private static onToggleTraitsCollapsed(
+        this: DetailsEquipComponent,
+        event: Event,
+    ) {
+        const target = event.currentTarget as HTMLElement;
 
-    private static onToggleExpertTraitsCollapsed(this: DetailsEquipComponent) {
-        this.expertTraitsCollapsed = !this.expertTraitsCollapsed;
-        void this.render();
+        switch (target.dataset.trait) {
+            case 'normal':
+                this.normalTraitsCollapsed = !this.normalTraitsCollapsed;
+                break;
+            case 'expert':
+                this.expertTraitsCollapsed = !this.expertTraitsCollapsed;
+                break;
+            default:
+                break;
+        }
     }
 
     /* --- Context --- */
@@ -66,43 +73,16 @@ export class DetailsEquipComponent extends HandlebarsApplicationComponent<
                       this.application.item.system.equip.hold
                   ].label
                 : '—',
-            traitsCollapsed: this.traitsCollapsed,
+            normalTraitsCollapsed: this.normalTraitsCollapsed,
             expertTraitsCollapsed: this.expertTraitsCollapsed,
-            traits: this.prepareTraitsData(),
-            expertTraits: this.prepareExpertTraitsData(),
-            traitsString: this.prepareTraitsString(),
+            normalTraits: this.prepareTraitsData(false),
+            expertTraits: this.prepareTraitsData(true),
+            normalTraitsString: this.prepareNormalTraitsString(),
             expertTraitsString: this.prepareExpertTraitsString(),
         });
     }
 
-    private prepareTraitsData() {
-        const item = this.application.item;
-
-        if (!item.isArmor() && !item.isWeapon()) return null;
-
-        const isArmor = item.isArmor();
-
-        return Object.entries(
-            isArmor
-                ? CONFIG.COSMERE.traits.armorTraits
-                : CONFIG.COSMERE.traits.weaponTraits,
-        ).map(([id, config]) => {
-            // Look up trait
-            const traitData = isArmor
-                ? item.system.traits[id as ArmorTraitId]
-                : item.system.traits[id as WeaponTraitId];
-
-            return {
-                id,
-                label: config.label,
-                hasValue: config.hasValue ?? false,
-                active: traitData?.defaultActive,
-                value: traitData?.defaultValue,
-            };
-        });
-    }
-
-    private prepareExpertTraitsData() {
+    private prepareTraitsData(expert: boolean) {
         const item = this.application.item;
 
         if (!item.isArmor() && !item.isWeapon()) return null;
@@ -119,6 +99,16 @@ export class DetailsEquipComponent extends HandlebarsApplicationComponent<
                 const traitData = isArmor
                     ? item.system.traits[id as ArmorTraitId]
                     : item.system.traits[id as WeaponTraitId];
+
+                if (!expert) {
+                    return {
+                        id,
+                        label: config.label,
+                        hasValue: config.hasValue ?? false,
+                        active: traitData?.defaultActive,
+                        value: traitData?.defaultValue,
+                    };
+                }
 
                 if (traitData?.defaultActive) {
                     return [
@@ -178,7 +168,7 @@ export class DetailsEquipComponent extends HandlebarsApplicationComponent<
             .flat();
     }
 
-    private prepareTraitsString() {
+    private prepareNormalTraitsString() {
         const item = this.application.item;
         if (!item.hasTraits()) return null;
 

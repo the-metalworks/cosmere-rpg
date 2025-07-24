@@ -1,5 +1,8 @@
+import { MovementType } from '@system/types/cosmere';
 import { CosmereActor } from '@system/documents';
 import { AnyObject } from '@system/types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 import { CommonActorData } from '@system/data/actor/common';
 import { Derived } from '@system/data/fields';
@@ -24,7 +27,7 @@ export class ConfigureMovementRateDialog extends HandlebarsApplicationMixin(
             classes: ['dialog', 'configure-movement-rate'],
             tag: 'dialog',
             position: {
-                width: 300,
+                width: 350,
             },
             actions: {
                 'update-movement': this.onUpdateMovementRate,
@@ -36,8 +39,7 @@ export class ConfigureMovementRateDialog extends HandlebarsApplicationMixin(
         foundry.utils.deepClone(super.PARTS),
         {
             form: {
-                template:
-                    'systems/cosmere-rpg/templates/actors/dialogs/configure-movement-rate.hbs',
+                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ACTOR_CONFIGURE_MOVEMENT}`,
                 forms: {
                     form: {
                         handler: this.onFormEvent,
@@ -50,7 +52,6 @@ export class ConfigureMovementRateDialog extends HandlebarsApplicationMixin(
     /* eslint-enable @typescript-eslint/unbound-method */
 
     private movementData: CommonActorData['movement'];
-    private mode: Derived.Mode;
 
     private constructor(private actor: CosmereActor) {
         super({
@@ -63,8 +64,13 @@ export class ConfigureMovementRateDialog extends HandlebarsApplicationMixin(
         });
 
         this.movementData = this.actor.system.movement;
-        this.movementData.rate.override ??= this.movementData.rate.value ?? 0;
-        this.mode = Derived.getMode(this.actor.system.movement.rate);
+
+        (Object.keys(CONFIG.COSMERE.movement.types) as MovementType[]).forEach(
+            (type) => {
+                this.movementData[type].rate.override ??=
+                    this.movementData[type].rate.value ?? 0;
+            },
+        );
     }
 
     /* --- Statics --- */
@@ -95,15 +101,26 @@ export class ConfigureMovementRateDialog extends HandlebarsApplicationMixin(
         // Get event target
         const target = event.target as HTMLInputElement;
 
-        // Get mode
-        this.mode = formData.object.mode as Derived.Mode;
+        (Object.keys(CONFIG.COSMERE.movement.types) as MovementType[]).forEach(
+            (type) => {
+                // Get mode
+                const mode = (formData.get(`${type}.mode`) ??
+                    Derived.Mode.Override) as Derived.Mode;
 
-        // Assign mode
-        Derived.setMode(this.movementData.rate, this.mode);
+                // Assign mode
+                this.movementData[type].rate.mode = mode;
 
-        // Assign rate
-        if (this.mode === Derived.Mode.Override && target.name === 'rate')
-            this.movementData.rate.override = formData.object.rate as number;
+                // Assign rate
+                if (
+                    mode === Derived.Mode.Override &&
+                    target.name === `${type}.value`
+                ) {
+                    this.movementData[type].rate.override = parseInt(
+                        formData.get(`${type}.value`) as string,
+                    );
+                }
+            },
+        );
 
         // Render
         void this.render(true);
@@ -120,12 +137,19 @@ export class ConfigureMovementRateDialog extends HandlebarsApplicationMixin(
     /* --- Context --- */
 
     protected _prepareContext() {
+        const movementRates = (
+            Object.keys(CONFIG.COSMERE.movement.types) as MovementType[]
+        ).map((type) => ({
+            rate: this.movementData[type].rate,
+            mode: this.movementData[type].rate.mode,
+            type,
+            label: CONFIG.COSMERE.movement.types[type].label,
+        }));
+
         return Promise.resolve({
             actor: this.actor,
-            mode: this.mode,
             modes: Derived.Modes,
-            ...this.movementData,
-            override: this.movementData.rate.override,
+            movementRates,
         });
     }
 }

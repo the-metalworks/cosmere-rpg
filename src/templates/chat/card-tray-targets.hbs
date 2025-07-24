@@ -1,0 +1,26 @@
+<section class="chat-card-tray collapsible">
+    <label>
+          <i class="fas fa-bullseye" inert=""></i>
+          <span>{{ localize "COSMERE.ChatMessage.Trays.Targets" }}</span>
+          <i class="fas fa-caret-down" inert=""></i>
+    </label>
+    <div class="collapsible-content">
+        <div class="wrapper">            
+            <div class="target-headers">
+                <span>{{ localize "COSMERE.AttributeGroup.Physical.short" }} <i class="fa-solid fa-shield"></i></span>
+                <span>{{ localize "COSMERE.AttributeGroup.Cognitive.short" }} <i class="fa-solid fa-shield"></i></span>
+                <span>{{ localize "COSMERE.AttributeGroup.Spiritual.short" }} <i class="fa-solid fa-shield"></i></span>
+            </div>
+            <ul class="target-list">
+                {{#each targets}}
+                <li class="target" data-uuid="{{this.uuid}}">
+                    <span class="name">{{this.name}}</span>
+                    <span class="result">{{this.phyDef}} {{{this.phyIcon}}}</span>
+                    <span class="result">{{this.cogDef}} {{{this.cogIcon}}}</span>
+                    <span class="result">{{this.spiDef}} {{{this.spiIcon}}}</span>
+                </li>
+                {{/each}}
+            </ul>
+        </div>
+    </div>
+</section>

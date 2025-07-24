@@ -1,47 +1,62 @@
 <div class="portrait-info">
     <div class="portrait">
-        <img class="profile" src="{{actor.img}}" data-tooltip="{{actor.name}}" data-action="edit-img">
+        <img class="profile" src="{{actor.img}}" data-action="edit-img">
     </div>
 
-    {{#if (and editable displayRestButtons)}}
+    {{#if (and editable displayRestButtons)}}    
+    <a class="end-scene rest"
+        data-action="end-scene" 
+        data-tooltip="COSMERE.Actor.Sheet.EndScene"
+    >
+    </a>
+
     <a class="short-rest rest"
         data-action="short-rest" 
         data-tooltip="COSMERE.Actor.Sheet.ShortRest"
     >
-        <i class="fa-solid fa-utensils"></i>
     </a>
 
     <a class="long-rest rest" 
         data-action="long-rest" 
         data-tooltip="COSMERE.Actor.Sheet.LongRest"
     >
-        <i class="fa-solid fa-campground"></i>
     </a>
     {{/if}}
 
-    {{#if displayRecovery}}
-    <div class="deflect" 
-        data-tooltip="COSMERE.Actor.Statistics.Deflect"
-    >
-        {{#with actor.system.deflect as |deflect|}}
-
-        <span class="value">{{derived deflect}}</span>
-
-        {{/with}}
+    {{#if displayRecovery}}     
+    <div class="sheet-stack deflect">
+        <div class="container" data-tooltip="{{deflectTooltip}}">
+            <div class="background"></div>
+            <div class="border"></div>
+            {{#with actor.system.deflect as |deflect|}}
+            <span class="value">{{derived deflect}}</span>
+            {{/with}}
+        </div>        
+        <span class="label">
+            {{localize "COSMERE.Actor.Statistics.Deflect"}}
+            {{#if isEditMode}}
+            <a data-action="configure-deflect"
+                data-tooltip="COSMERE.Actor.Sheet.ConfigureDeflect"
+            >
+                <i class="fa-solid fa-gear"></i>
+            </a>
+            {{/if}}
+        </span>
     </div>
     {{/if}}
 </div>
 
 <div class="derived-statistics flexrow">
     {{!-- Movement --}}
-    <div class="derived-stat movement">
-        <div class="container">
-            <span class="value">{{derived actor.system.movement.rate}}</span>
+    <div class="sheet-stack derived-stat movement">
+        <div class="container" data-tooltip="{{movementTooltip}}">
+            <div class="background"></div>
+            <div class="border"></div>
+            <span class="value">{{derived (lookup (lookup actor.system.movement preferredMovementType) "rate")}}</span>
             <span class="unit">ft</span>
         </div>
         <span class="label">
             {{localize "COSMERE.Actor.Statistics.MovementRate"}}
-
             {{#if isEditMode}}
             <a data-action="configure-movement-rate"
                 data-tooltip="COSMERE.Actor.Sheet.ConfigureMovement"
@@ -54,13 +69,14 @@
 
     {{!-- Recovery --}}
     {{#if displayRecovery}}
-    <div class="derived-stat recovery">
+    <div class="sheet-stack derived-stat recovery">
         <div class="container">
+            <div class="background"></div>
+            <div class="border"></div>
             <span class="value">{{derived actor.system.recovery.die}}</span>
         </div>
         <span class="label">
             {{localize "COSMERE.Actor.Statistics.RecoveryDie"}}
-
             {{#if isEditMode}}
             <a data-action="configure-recovery"
                 data-tooltip="COSMERE.Actor.Sheet.ConfigureRecovery"
@@ -71,36 +87,44 @@
         </span>
     </div>
     {{else}}
-    <div class="derived-stat">
-        <div class="deflect">
+    <div class="sheet-stack deflect">
+        <div class="container">
+            <div class="background"></div>
+            <div class="border"></div>
             {{#with actor.system.deflect as |deflect|}}
             <span class="value">{{derived deflect}}</span>
             {{/with}}
         </div>
         <span class="label">
-            {{localize "COSMERE.Actor.Statistics.Deflect"}}
+            {{localize "COSMERE.Actor.Statistics.Deflect"}}            
+            {{#if isEditMode}}
+            <a data-action="configure-deflect"
+                data-tooltip="COSMERE.Actor.Sheet.ConfigureDeflect"
+            >
+                <i class="fa-solid fa-gear"></i>
+            </a>
+            {{/if}}
         </span>
     </div>
 
     {{/if}}
 
     {{!-- Senses --}}
-    <div class="derived-stat senses">
+    <div class="sheet-stack derived-stat senses">
         <div class="container">
+            <div class="background"></div>
+            <div class="border"></div>
             {{#with (derived actor.system.senses.range) as |range|}}
             {{#if (isNumMax range)}}
             <span class="value">—</span>
             {{else}}
-            <span class="value"></span>
-            {{range}}
-            </span>
+            <span class="value">{{range}}</span>
             <span class="unit">ft</span>
             {{/if}}
             {{/with}}
         </div>
         <span class="label">
             {{localize "COSMERE.Actor.Statistics.SensesRange"}}
-
             {{#if isEditMode}}
             <a data-action="configure-senses-range"
                 data-tooltip="COSMERE.Actor.Sheet.ConfigureSensesRange"

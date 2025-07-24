@@ -1,0 +1,30 @@
+{{#with (lookup tabsMap "details") as |tab|}}
+
+<div class="tab tab-content {{tab.cssClass}}" data-tab="details" data-group="primary">
+    <fieldset>
+        <legend>{{localize "COSMERE.Item.Sheet.Basics"}}</legend>
+        {{app-item-details-id}}
+        {{app-item-details-type}}
+
+        {{!-- Linked skills --}}
+        <div class="item-details-form">
+            <div class="form-group">
+                <label>{{localize @root.systemFields.linkedSkills.label}}</label>
+                <div class="form-fields">
+                    {{app-multi-value-select
+                        name="system.linkedSkills"
+                        value=@root.item.system.linkedSkills
+                        options=@root.linkedSkillsOptions
+                    }}
+                </div>
+            </div>
+            <p class="hint">
+                {{localize @root.systemFields.linkedSkills.hint}}
+            </p>
+        </div>
+    </fieldset>    
+
+    {{app-item-details-talents-provider}}
+</div>
+
+{{/with}}

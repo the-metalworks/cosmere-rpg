@@ -1,0 +1,32 @@
+{{#if shouldDisplay}}
+<div {{#if collapsible}}class="collapsible {{#unless collapsed}}expanded{{/unless}}{{/if}}">
+    <div class="icon-header">
+        <div class="title">
+            <i class="fas fa-book"></i>
+            <span>{{localize "COSMERE.Actor.Sheet.Expertises"}}</span>
+        </div>
+        <div class="controls">
+            {{#if isEditMode}}
+            <a role="button"
+                data-action="edit-expertises"
+                data-tooltip="COSMERE.Actor.Sheet.EditExpertises"
+            >
+                <i class="fas fa-pen-to-square"></i>
+            </a>
+            {{/if}}
+        </div>
+    </div>    
+    <div class="pills-list collapsible-content">
+        <div class="wrapper">
+            {{#each expertises as |expertise|}}
+            <div class="pill" data-id="{{expertise.id}}"
+                data-tooltip="{{localize expertise.label}} ({{localize expertise.typeLabel}})">
+                <span class="name">{{localize expertise.label}}</span>
+                <span class="separator">|</span>
+                <span><i class="{{expertise.typeIcon}}" aria-label="{{localize expertise.typeLabel}}"></i></span>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+</div>
+{{/if}}

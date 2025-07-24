@@ -1,0 +1,33 @@
+<div>    
+    <fieldset>
+        <legend>{{localize "DIALOG.PickDiceResult.Header"}} {{amountLeft}}</legend>
+        <div class="dice-tooltip">        
+            <div class="dice-rolls">
+                {{#each rolls as |roll index|}}
+                    <div class="roll die {{#if @root.isPlotDie}}plotdie{{/if}} {{@root.die}} {{#if (not roll.discarded)}}selected {{/if}}{{#if roll.success}}success {{/if}}{{#if roll.failure}}failure {{/if}}{{#if (eq result 1)}}min {{/if}}{{#if (eq result @root.faces)}}max {{/if}}{{#if roll.discarded}}discarded{{/if}}"
+                        data-index="{{index}}"
+                        data-action="select-result"
+                        data-tooltip="DIALOG.PickDiceResult.SelectRoll"
+                    >
+                        {{#if (not @root.isPlotDie)}}
+                            {{roll.result}}
+                        {{else}}
+                            {{#if (eq result 1)}}
+                                <img src="{{@root.plotDie.c2}}">
+                            {{else if (eq result 2)}}
+                                <img src="{{@root.plotDie.c4}}">
+                            {{else if (or (eq result 5) (eq result 6))}}
+                                <img src="{{@root.plotDie.op}}">
+                            {{/if}}
+                        {{/if}}
+                    </div>
+                {{/each}}
+            </div>
+        </div> 
+    </fieldset> 
+    <div class="form-group submit">
+        <button data-action="submit" type="submit" {{#unless (eq amountLeft 0)}}disabled{{/unless}}>
+            {{localize "GENERIC.Button.Confirm" }}
+        </button>
+    </div>
+</div>

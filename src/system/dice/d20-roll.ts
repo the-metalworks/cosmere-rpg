@@ -7,6 +7,9 @@ import { RollConfigurationDialog } from '@system/applications/dialogs/roll-confi
 
 import { PlotDie } from './plot-die';
 import { RollMode } from './types';
+import { hasKey } from '../utils/generic';
+import { renderSystemTemplate, TEMPLATES } from '../utils/templates';
+import { Nullable } from '../types/utils';
 
 // Constants
 const CONFIGURATION_DIALOG_TEMPLATE =
@@ -24,12 +27,15 @@ export type D20RollData<
 } & {
     mod: number;
     skill: {
-        id: Skill;
+        id: Nullable<Skill>;
         rank: number;
         mod: number;
-        attribute: Attribute;
+        attribute: Nullable<Attribute>;
     };
     attribute: number;
+
+    /* --- For hooks --- */
+    context: string; // The roll context, for naming
 };
 
 export interface D20RollOptions
@@ -73,18 +79,19 @@ export interface D20RollOptions
      * The attribute that is used for the roll by default
      */
     defaultAttribute?: Attribute;
+
+    data?: D20RollData;
 }
 
 export class D20Roll extends foundry.dice.Roll<D20RollData> {
     declare options: D20RollOptions & { configured: boolean };
 
     public constructor(
-        protected parts: string[],
+        protected parts: string,
         data: D20RollData,
         options: D20RollOptions = {},
     ) {
-        const formula = ['1d20'].concat(parts).join(' + ');
-        super(formula, data, options);
+        super(parts, data, options);
 
         if (!this.options.configured) {
             this.configureModifiers();
@@ -240,20 +247,25 @@ export class D20Roll extends foundry.dice.Roll<D20RollData> {
     /* --- Public Functions --- */
 
     public async configureDialog(
-        data: Omit<RollConfigurationDialog.Data, 'parts'>,
+        data: RollConfigurationDialog.Data,
     ): Promise<D20Roll | null> {
+        // Populate parts list
+        data.skillTest.parts = [this.parts];
+
         // Show the dialog
         const result = await RollConfigurationDialog.show({
             ...data,
-            parts: ['1d20', ...this.parts],
         });
         if (!result) return null;
 
         if (result.attribute !== this.options.defaultAttribute) {
+            this.data.skill.attribute = result.attribute;
             const skill = this.data.skill;
-            const attribute = this.data.attributes[result.attribute];
+            const attribute = result.attribute
+                ? this.data.attributes[result.attribute]
+                : { value: 0, bonus: 0 };
             this.terms[2] = new foundry.dice.terms.NumericTerm({
-                number: skill.rank + attribute.value,
+                number: skill.rank + attribute.value + attribute.bonus,
             });
         }
 
@@ -261,6 +273,12 @@ export class D20Roll extends foundry.dice.Roll<D20RollData> {
         this.options.plotDie = result.plotDie;
         this.options.advantageMode = result.advantageMode;
         this.options.advantageModePlot = result.advantageModePlot;
+        if (result.temporaryModifiers) {
+            const tempTerms = new Roll(`0 + ${result.temporaryModifiers}`)
+                .terms;
+            this.terms = this.terms.concat(tempTerms.slice(1));
+            this.resetFormula();
+        }
 
         this.configureModifiers();
         return this;
@@ -290,6 +308,121 @@ export class D20Roll extends foundry.dice.Roll<D20RollData> {
         return super.toMessage(messageData, options);
     }
 
+    public async getHTML() {
+        const OPPORTUNITY = 'opportunity';
+        const COMPLICATION = 'complication';
+
+        if (!this.validD20Roll) return;
+
+        // Process bonuses beyond the base d20s into a single roll.
+        const bonusTerms = this.terms.slice(1);
+
+        for (const term of bonusTerms) {
+            // Terms throw an error if already evaluated. We can ignore them if so.
+            try {
+                await term.evaluate();
+            } catch (err) {
+                continue;
+            }
+        }
+
+        const bonusRoll =
+            bonusTerms && bonusTerms.length > 0
+                ? Roll.fromTerms(bonusTerms)
+                : null;
+        const d20Dice = this.dice.find((d) => d.faces === 20);
+
+        if (!d20Dice) return;
+
+        const plot = [];
+
+        if (this.hasPlotDie) {
+            const plotDice = this.terms.filter((r) => r instanceof PlotDie);
+            for (const plotDie of plotDice) {
+                if (plotDie.rolledOpportunity) plot.push(OPPORTUNITY);
+                if (plotDie.rolledComplication) plot.push(COMPLICATION);
+            }
+        }
+
+        const entries = [];
+        for (let i = 0; i < d20Dice.results.length; i++) {
+            const tmpResults = [];
+            tmpResults.push(foundry.utils.duplicate(d20Dice.results[i]));
+
+            while (
+                d20Dice?.results[i]?.rerolled &&
+                !d20Dice?.results[i]?.count
+            ) {
+                if (i + 1 >= d20Dice.results.length) {
+                    break;
+                }
+
+                i++;
+                tmpResults.push(foundry.utils.duplicate(d20Dice.results[i]));
+            }
+
+            // Die terms must have active results or the base roll total of the generated roll is 0.
+            // This does not apply to dice that have been rerolled (unless they are replaced by a fixer value eg. for reliable talent).
+            tmpResults.forEach((r) => {
+                r.active = !(r.rerolled && !r.count);
+            });
+
+            const modifiers = new Array<
+                keyof (typeof foundry.dice.terms.Die)['MODIFIERS']
+            >();
+            for (const mod of d20Dice.modifiers) {
+                if (hasKey(foundry.dice.terms.Die.MODIFIERS, mod)) {
+                    modifiers.push(mod);
+                }
+            }
+
+            const baseTerm = new foundry.dice.terms.Die({
+                number: 1,
+                faces: 20,
+                results: tmpResults,
+                modifiers,
+            });
+            const baseRoll = D20Roll.fromTerms([baseTerm]);
+            baseRoll.options = this.options;
+
+            const total = (baseRoll?.total ?? 0) + (bonusRoll?.total ?? 0);
+
+            const plotD20 = [...plot];
+            for (let o = 0; o < baseRoll.opportunitiesCount; o++) {
+                plotD20.push(OPPORTUNITY);
+            }
+            for (let c = 0; c < baseRoll.complicationsCount; c++) {
+                plotD20.push(COMPLICATION);
+            }
+
+            entries.push({
+                roll: baseRoll,
+                total: total,
+                ignored: tmpResults.some((r) => r.discarded) ? true : undefined,
+                plotType: plotD20.some((p) => p === OPPORTUNITY)
+                    ? OPPORTUNITY
+                    : plotD20.some((p) => p === COMPLICATION)
+                      ? COMPLICATION
+                      : undefined,
+                plotDice: plotD20,
+            });
+        }
+
+        return renderSystemTemplate(TEMPLATES.CHAT_ROLL_D20, {
+            formula: this.formula,
+            tooltip: await this.getTooltip(),
+            entries,
+        });
+    }
+
+    /**
+     * Recalculates the roll total from the current (potentially modified) terms.
+     * @returns {number} The new total of the roll.
+     */
+    public resetTotal(): number {
+        return (this._total = this._evaluateTotal());
+    }
+
     /* --- Internal Functions --- */
 
     private configureModifiers() {
@@ -313,20 +446,19 @@ export class D20Roll extends foundry.dice.Roll<D20RollData> {
                 this.terms.push(
                     new foundry.dice.terms.OperatorTerm({
                         operator: '+',
-                    }) as foundry.dice.terms.RollTerm,
-                    new PlotDie() as foundry.dice.terms.RollTerm,
+                    }),
+                    new PlotDie(),
                 );
             }
 
-            // TODO: Figure out how to handle plot die advantage/disadvantage
-            // const plotDieTerm = this.terms.find((t) => t instanceof PlotDie)!;
-            // if (this.hasPlotAdvantage) {
-            //     plotDieTerm.number = 2;
-            //     plotDieTerm.modifiers.push('kh');
-            // } else if (this.hasPlotDisadvantage) {
-            //     plotDieTerm.number = 2;
-            //     plotDieTerm.modifiers.push('kl');
-            // }
+            const plotDieTerm = this.terms.find((t) => t instanceof PlotDie)!;
+            if (this.hasPlotAdvantage) {
+                plotDieTerm.number = 2;
+                plotDieTerm.modifiers.push('p');
+            } else if (this.hasPlotDisadvantage) {
+                plotDieTerm.number = 2;
+                plotDieTerm.modifiers.push('gmp');
+            }
         }
 
         // NOTE: Unused right now

@@ -8,6 +8,19 @@ import {
     DescriptionItemMixin,
     DescriptionItemData,
 } from './mixins/description';
+import {
+    TalentsProviderMixin,
+    TalentsProviderData,
+} from './mixins/talents-provider';
+import { EventsItemMixin, EventsItemData } from './mixins/events';
+import {
+    LinkedSkillsMixin,
+    LinkedSkillsItemData,
+} from './mixins/linked-skills';
+import {
+    RelationshipsMixin,
+    RelationshipsItemData,
+} from './mixins/relationships';
 
 interface TalentGrant {
     uuid: string;
@@ -20,7 +33,13 @@ export interface BonusTalentsRule {
     restrictions: string;
 }
 
-export interface AncestryItemData extends IdItemData, DescriptionItemData {
+export interface AncestryItemData
+    extends IdItemData,
+        DescriptionItemData,
+        TalentsProviderData,
+        EventsItemData,
+        LinkedSkillsItemData,
+        RelationshipsItemData {
     size: Size;
     type: {
         id: CreatureType;
@@ -54,6 +73,10 @@ export class AncestryItemDataModel extends DataModelMixin<
     DescriptionItemMixin({
         value: 'COSMERE.Item.Type.Ancestry.desc_placeholder',
     }),
+    TalentsProviderMixin(),
+    EventsItemMixin(),
+    LinkedSkillsMixin(),
+    RelationshipsMixin(),
 ) {
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), {

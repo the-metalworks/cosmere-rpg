@@ -1,0 +1,97 @@
+.application.sheet.item.talent-tree {
+    .window-content {
+        padding: 0;
+
+        > app-talent-tree-view, > app-talent-tree-editor {
+            width: 100%;
+            height: 100%;
+        }
+    }
+}
+
+app-talent-tree-view{
+    position: relative;
+
+    > .view {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+app-talent-tree-editor {
+    > .container {
+        position: relative;
+        display: flex;
+        width: 100%;
+        height: 100%;
+
+        .view {
+            flex: 1;
+            background-color: var(--cosmere-color-base-2);
+            border-top: 1px solid var(--cosmere-color-accent);
+            border-right: 1px solid var(--cosmere-color-accent);
+        }
+
+        .menu {         
+            width: 30rem;
+            right: -30rem;
+            transition: right 0.3s;
+            gap: 0.75rem !important;
+
+            padding: 0.2rem 0.5rem;
+
+            font-size: .7rem;
+
+            input {
+                font-size: .7rem;
+            }
+
+            &.open {
+                right: 0;
+            }
+
+            .collapsible {
+                .header .controls {
+                    flex: 0;
+                }
+
+                .collapsible-content {
+                    .form-group-stacked > .form-group > label {
+                        font-style: italic;
+                        text-indent: 2em;
+                    }
+                }
+            }
+
+            .form-group-stacked.collapsible .header > label {
+                flex: 1 !important;
+            }
+
+            fieldset > .form-group, .collapsible-content .form-group-stacked > .form-group, .form-group-stacked.collapsible > .form-group {
+                > .form-fields {
+                    flex: 4 !important;
+                }
+            }
+
+            .form-group button {
+                display: block !important;
+
+                &.capture-view {
+                    padding: 0 6px;
+
+                    > i {
+                        margin: 0;
+                    }
+                } 
+            }
+
+            .view-bounds {
+                &.expanded {
+                    .header .form-fields span {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+}

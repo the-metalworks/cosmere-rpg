@@ -1,4 +1,8 @@
+import { ItemType } from '@system/types/cosmere';
+import { GoalItem } from '@system/documents/item';
 import { ConstructorOf, MouseButton } from '@system/types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
@@ -11,8 +15,7 @@ const HIDE_COMPLETED_FLAG = 'goals.hide-completed';
 export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<
     ConstructorOf<CharacterSheet>
 > {
-    static TEMPLATE =
-        'systems/cosmere-rpg/templates/actors/character/components/goals-list.hbs';
+    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_GOALS_LIST}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions
@@ -32,9 +35,8 @@ export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<
     };
     /* eslint-enable @typescript-eslint/unbound-method */
 
-    private contextGoalId: number | null = null;
+    private contextGoalId: string | null = null;
     private controlsDropdownExpanded = false;
-    private controlsDropdownPosition?: { top: number; right: number };
 
     /* --- Actions --- */
 
@@ -42,31 +44,37 @@ export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<
         this: CharacterGoalsListComponent,
         event: PointerEvent,
     ) {
-        this.controlsDropdownExpanded = !this.controlsDropdownExpanded;
+        // Get goal id
+        const goalId = $(event.currentTarget!)
+            .closest('[data-id]')
+            .data('id') as string;
 
-        if (this.controlsDropdownExpanded) {
-            // Get goal id
-            const goalId = $(event.currentTarget!)
-                .closest('[data-id]')
-                .data('id') as number;
+        const target = event.currentTarget as HTMLElement;
+        const root = $(target).closest('.tab-body');
+        const dropdown = $(target)
+            .closest('.item-list')
+            .siblings('.controls-dropdown');
+
+        const targetRect = target.getBoundingClientRect();
+        const rootRect = root[0].getBoundingClientRect();
+
+        if (this.contextGoalId !== goalId) {
+            dropdown.css({
+                top: `${Math.round(targetRect.top - rootRect.top)}px`,
+                right: `${Math.round(rootRect.right - targetRect.right + targetRect.width)}px`,
+            });
+
+            if (!this.controlsDropdownExpanded) {
+                dropdown.addClass('expanded');
+                this.controlsDropdownExpanded = true;
+            }
 
             this.contextGoalId = goalId;
-
-            const target = (event.currentTarget as HTMLElement).closest(
-                '.goal',
-            )!;
-            const targetRect = target.getBoundingClientRect();
-            const rootRect = this.element!.getBoundingClientRect();
-
-            this.controlsDropdownPosition = {
-                top: targetRect.bottom - rootRect.top,
-                right: rootRect.right - targetRect.right,
-            };
-        } else {
+        } else if (this.controlsDropdownExpanded) {
+            dropdown.removeClass('expanded');
+            this.controlsDropdownExpanded = false;
             this.contextGoalId = null;
         }
-
-        void this.render();
     }
 
     public static async onAdjustGoalProgress(
@@ -80,22 +88,25 @@ export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<
         // Get goal id
         const goalId = $(event.currentTarget!)
             .closest('[data-id]')
-            .data('id') as number;
+            .data('id') as string | undefined;
+        if (!goalId) return;
 
-        // Get the goals
-        const goals = this.application.actor.system.goals;
+        // Get the goal
+        const goalItem = this.application.actor.items.get(goalId);
+        if (!goalItem?.isGoal()) return;
 
-        // Modify the goal
-        goals[goalId].level += incrementBool ? 1 : -1;
-        goals[goalId].level = Math.max(0, Math.min(3, goals[goalId].level));
+        // Get the goal's current level
+        const currentLevel = goalItem.system.level;
 
-        // Adjust the rank
-        await this.application.actor.update(
-            {
-                'system.goals': goals,
-            },
-            { render: false },
-        );
+        // Calculate the new level
+        const newLevel = incrementBool
+            ? Math.min(currentLevel + 1, 3)
+            : Math.max(currentLevel - 1, 0);
+
+        // Update the goal
+        await goalItem.update({
+            'system.level': newLevel,
+        });
 
         // Render
         await this.render();
@@ -107,7 +118,7 @@ export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<
         // Get current state
         const hideCompletedGoals =
             this.application.actor.getFlag<boolean>(
-                'cosmere-rpg',
+                SYSTEM_ID,
                 HIDE_COMPLETED_FLAG,
             ) ?? false;
 
@@ -135,8 +146,16 @@ export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<
 
         // Ensure context goal id is set
         if (this.contextGoalId !== null) {
-            // Edit the goal
-            this.editGoal(this.contextGoalId);
+            // Get the goal
+            const goalItem = this.application.actor.items.get(
+                this.contextGoalId,
+            );
+            if (!goalItem?.isGoal()) return;
+
+            // Show item sheet
+            void goalItem.sheet?.render(true);
+
+            this.contextGoalId = null;
         }
     }
 
@@ -145,103 +164,82 @@ export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<
 
         // Ensure context goal id is set
         if (this.contextGoalId !== null) {
-            // Get goals
-            const goals = this.application.actor.system.goals;
-
-            // Update the goals
-            goals.splice(this.contextGoalId, 1);
-
-            // Update actor
-            await this.application.actor.update(
-                {
-                    'system.goals': goals,
-                },
-                { render: false },
+            // Get the goal
+            const goalItem = this.application.actor.items.get(
+                this.contextGoalId,
             );
-        }
+            if (!goalItem?.isGoal()) return;
 
-        // Render
-        await this.render();
+            // Delete the goal
+            await goalItem.delete();
+
+            this.contextGoalId = null;
+        }
     }
 
     public static async onAddGoal(this: CharacterGoalsListComponent) {
         // Ensure controls dropdown is closed
         this.controlsDropdownExpanded = false;
 
-        // Get the goals
-        const goals = this.application.actor.system.goals;
-
-        // Add new goal
-        goals.push({
-            text: game.i18n!.localize(
-                'COSMERE.Actor.Sheet.Details.Goals.NewText',
-            ),
-            level: 0,
-        });
-
-        // Update the actor
-        await this.application.actor.update(
+        // Create goal
+        const goal = (await Item.create(
             {
-                'system.goals': goals,
+                type: ItemType.Goal,
+                name: game.i18n!.localize(
+                    'COSMERE.Actor.Sheet.Details.Goals.NewText',
+                ),
+                system: {
+                    level: 0,
+                },
             },
-            { render: false },
-        );
+            { parent: this.application.actor },
+        )) as GoalItem;
 
-        // Render
-        await this.render();
-
-        // Edit goal
-        this.editGoal(goals.length - 1);
+        setTimeout(() => {
+            // Edit the goal
+            this.editGoal(goal.id);
+        }, 50);
     }
 
     /* --- Context --- */
 
-    public _prepareContext(
+    public async _prepareContext(
         params: never,
         context: BaseActorSheetRenderContext,
     ) {
         const hideCompletedGoals =
             this.application.actor.getFlag<boolean>(
-                'cosmere-rpg',
+                SYSTEM_ID,
                 HIDE_COMPLETED_FLAG,
             ) ?? false;
 
         return Promise.resolve({
             ...context,
 
-            goals: this.application.actor.system.goals
+            goals: this.application.actor.goals
                 .map((goal) => ({
-                    ...goal,
-                    achieved: goal.level === 3,
+                    id: goal.id,
+                    name: goal.name,
+                    level: goal.system.level,
+                    achieved: goal.system.level === 3,
                 }))
                 .filter((goal) => !hideCompletedGoals || !goal.achieved),
 
             hideCompletedGoals,
-
-            controlsDropdown: {
-                expanded: this.controlsDropdownExpanded,
-                position: this.controlsDropdownPosition,
-            },
         });
     }
 
     /* --- Helpers --- */
 
-    private editGoal(index: number) {
+    private editGoal(id: string) {
         // Get goal element
-        const element = $(this.element!).find(`.goal[data-id="${index}"]`);
-
-        // Get span element
-        const span = element.find('span.title');
-
-        // Hide span title
-        span.addClass('inactive');
+        const element = $(this.element!).find(`.item[data-id="${id}"]`);
 
         // Get input element
-        const input = element.find('input.title');
+        const input = element.find('input.name');
 
-        // Show
-        input.removeClass('inactive');
+        // Set not readonly
+        input.prop('readonly', false);
 
         setTimeout(() => {
             // Focus input
@@ -252,15 +250,12 @@ export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<
                 // Remove handler
                 input.off('focusout');
 
-                // Get the goals
-                const goals = this.application.actor.system.goals;
+                // Get the goal
+                const goal = this.application.actor.items.get(id) as GoalItem;
 
-                // Modify the goal
-                goals[index].text = input.val() as string;
-
-                // Update value
-                await this.application.actor.update({
-                    'system.goals': goals,
+                // Update the connection
+                await goal.update({
+                    name: input.val(),
                 });
 
                 // Render

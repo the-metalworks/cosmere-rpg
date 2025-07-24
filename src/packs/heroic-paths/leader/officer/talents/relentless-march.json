@@ -1,0 +1,71 @@
+{
+    "folder": "DlelekpNKd8H2xae",
+    "name": "Relentless March",
+    "type": "talent",
+    "_id": "AjH4mRbyXQe7TU8A",
+    "img": "icons/skills/movement/feet-spurred-boots-brown.webp",
+    "system": {
+        "id": "relentless-march",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p><em>You invigorate your troops, helping them push through fear, pain, and exhaustion under the worst of conditions.</em></p><p>After you use your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.UEaOm4P2UFcrP1Z8]{Decisive Command} on an ally, until the end of their next turn, their movement rate increases by 10 feet and they ignore the effects of the <strong>Exhausted</strong>, <strong>Slowed</strong>, and <strong>Surprised</strong> conditions.</p>",
+            "chat": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>@UUID[Compendium.cosmere-rpg.heroic-paths.Item.UEaOm4P2UFcrP1Z8]{Decisive Command} increases your target’s movement by 10 feet, and they ignore <strong>Exhausted</strong>, <strong>Slowed</strong>, and <strong>Surprised</strong>.</p>",
+            "short": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>After you use your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.UEaOm4P2UFcrP1Z8]{Decisive Command} on an ally, until the end of their next turn, their movement rate increases by 10 feet and they ignore the effects of the <strong>Exhausted</strong>, <strong>Slowed</strong>, and <strong>Surprised</strong> conditions.</p>"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "path": "leader",
+        "hasPath": false,
+        "specialty": "officer",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "AP36khckHtoTkkcM": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "skill": "prs",
+                "rank": 3,
+                "talents": []
+            },
+            "9HfXNm5eFYhyUlht": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "confident-command",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.fArcKPczWhA0Bq3a",
+                        "label": "Confident Command"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "modality": null
+    },
+    "effects": [],
+    "sort": 500000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!AjH4mRbyXQe7TU8A"
+}

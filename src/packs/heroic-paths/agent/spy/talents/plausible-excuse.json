@@ -1,0 +1,81 @@
+{
+    "folder": "wTsGOInIGEUZQvz8",
+    "name": "Plausible Excuse",
+    "type": "talent",
+    "system": {
+        "id": "plausible-excuse",
+        "type": "path",
+        "path": "agent",
+        "specialty": "spy",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Reaction\" aria-label=\"Reaction\">r</span></p><p><em>Years of covert operations have taught you to dissemble on the spot, concocting a reasonable excuse for the most incriminating of behavior.</em></p><p>After you are discovered while hiding or otherwise skulking about, you can use this reaction and spend 2 focus to pass yourself off as doing something innocent. You influence each character who can sense you to believe your excuse.</p><p>A character can resist this influence, but after they do, they lose additional focus equal to your ranks in <strong>Deception</strong>.</p><p>Additionally, when you gain this talent, gain a utility expertise in <strong>Sleight of Hand</strong>.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Reaction\" aria-label=\"Reaction\">r</span></p><p>Gain Sleight of Hand expertise. When discovered skulking, spend 2 focus to feign innocence.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Reaction\" aria-label=\"Reaction\">r</span></p><p>After you are discovered while hiding or otherwise skulking about, you can use this reaction and spend 2 focus to pass yourself off as doing something innocent. You influence each character who can sense you to believe your excuse.</p><p>A character can resist this influence, but after they do, they lose additional focus equal to your ranks in <strong>Deception</strong>.</p><p>Additionally, when you gain this talent, gain a utility expertise in Sleight of Hand.</p>"
+        },
+        "prerequisites": {
+            "QNWbXIVsExl2Kn74": {
+                "type": "skill",
+                "skill": "dec",
+                "rank": 1,
+                "value": 0,
+                "talents": []
+            },
+            "HJdcRxJ7BXCwsuIU": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "opportunist",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.ScqSKbkewDAfSizP",
+                        "label": "Opportunist"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "type": "rea",
+                "value": null
+            },
+            "consume": [
+                {
+                    "type": "resource",
+                    "value": {
+                        "min": 2,
+                        "max": 2,
+                        "actual": 0
+                    },
+                    "resource": "foc"
+                }
+            ],
+            "flavor": "",
+            "uses": null,
+            "plotDie": false,
+            "opportunity": null,
+            "complication": null
+        },
+        "hasPath": false,
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisitesMet": false,
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "modality": null
+    },
+    "effects": [],
+    "flags": {},
+    "img": "icons/skills/social/thumbsup-approval-like.webp",
+    "_id": "lAEMdGt3SQlaGVC2",
+    "sort": 600000,
+    "ownership": {
+        "default": 0
+    },
+    "_key": "!items!lAEMdGt3SQlaGVC2"
+}

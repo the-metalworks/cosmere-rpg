@@ -1,0 +1,82 @@
+{
+    "folder": "wi17Vt4KdRKtCdX7",
+    "name": "Contingency",
+    "type": "talent",
+    "_id": "0RIJC5Hby3WSQeZG",
+    "img": "icons/skills/trades/academics-merchant-scribe.webp",
+    "system": {
+        "id": "contingency",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Reaction\" aria-label=\"Reaction\">r</span></p><p><em>History is strewn with the debris of those who failed to learn from the past. You’re determined not to join them, so you prepare for anything that might derail your plans.</em></p><p>After an ally you can influence within 20 feet of you rolls a Complication, you can use this reaction and spend 2 focus to remove a Complication from their test.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Reaction\" aria-label=\"Reaction\">r</span></p><p>Spend 2 focus to remove <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\" style=\"color:rgb(173,19,19)\">c</span> from the test of an ally within 20 feet.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Reaction\" aria-label=\"Reaction\">r</span></p><p>After an ally you can influence within 20 feet of you rolls a Complication, you can use this reaction and spend 2 focus to remove a Complication from their test.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": null,
+                "type": "rea"
+            },
+            "consume": [
+                {
+                    "type": "resource",
+                    "value": {
+                        "min": 2,
+                        "max": 2,
+                        "actual": 0
+                    },
+                    "resource": "foc"
+                }
+            ],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "path": "scholar",
+        "hasPath": false,
+        "specialty": "strategist",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "GFVQN0GevvItpnKZ": {
+                "type": "skill",
+                "attribute": "str",
+                "value": 1,
+                "skill": "lor",
+                "rank": 3,
+                "talents": []
+            },
+            "gpkCi1TgwygxUdzb": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "composed",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.50IB7jGFSfDCUvtL",
+                        "label": "Composed"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "modality": null
+    },
+    "effects": [],
+    "sort": 200000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!0RIJC5Hby3WSQeZG"
+}

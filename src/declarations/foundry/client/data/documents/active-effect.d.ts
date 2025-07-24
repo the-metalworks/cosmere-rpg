@@ -1,8 +1,3 @@
-// declare interface ActiveEffect {
-//     get id(): string;
-//     get parent(): foundry.abstract.Document | null;
-// }
-
 declare namespace ActiveEffect {
     interface EffectChangeData {
         /**
@@ -185,6 +180,7 @@ declare class ActiveEffect<
     public disabled: boolean;
     public origin: string | null;
     public duration: ActiveEffect.EffectDurationData;
+    public statuses: Set<string>;
 
     /**
      * Is there some system logic that makes this active effect ineligible for application?
@@ -217,4 +213,21 @@ declare class ActiveEffect<
      * Returns "None" (localized) if it has no origin, and "Unknown" (localized) if the origin cannot be resolved.
      */
     get sourceName(): string;
+
+    /**
+     * Apply this ActiveEffect to a provided Actor.
+     * @param actor     The Actor to whom this effect should be applied
+     * @param change    The change data being applied
+     * @returns          An object of property paths and their updated values.
+     */
+    public apply(
+        actor: Actor,
+        change: ActiveEffect.EffectChangeData,
+    ): Record<string, any>;
+
+    /**
+     * Display changes to active effects as scrolling Token status text.
+     * @param {boolean} enabled     Is the active effect currently enabled?
+     */
+    protected _displayScrollingStatus(enabled: boolean);
 }

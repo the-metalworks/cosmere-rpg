@@ -101,8 +101,8 @@
                 "label_p": "Skills",
                 "Agility": "Agility",
                 "Athletics": "Athletics",
-                "HeavyWeapons": "Heavy Weapons",
-                "LightWeapons": "Light Weapons",
+                "HeavyWeapons": "Heavy Weaponry",
+                "LightWeapons": "Light Weaponry",
                 "Stealth": "Stealth",
                 "Thievery": "Thievery",
                 "Crafting": "Crafting",
@@ -125,7 +125,14 @@
                 "LiftingCapacity": "Lifting Capacity",
                 "RecoveryDie": "Recover",
                 "Deflect": "Deflect",
-                "NoObscuredSense": "Unaffected by Obscured Senses."
+                "NoObscuredSense": "Unaffected by Obscured Senses.",
+                "Immunities": "Immunities"
+            },
+            "Deflect": {
+                "Natural": {
+                    "Label": "Natural Deflect",
+                    "Hint": "Natural deflect is used when no armor is worn, or when the natural deflect is higher than the worn armor."
+                }
             },
             "Size": {
                 "Small": "Small",
@@ -139,6 +146,13 @@
                 "Humanoid": "Humanoid",
                 "Animal": "Animal"
             },
+            "Movement": {
+                "Type": {
+                    "Walk": "Walk",
+                    "Swim": "Swim",
+                    "Fly": "Fly"
+                }
+            },
             "Sheet": {
                 "Header": {
                     "Editable": "Editable",
@@ -146,16 +160,26 @@
                 },
                 "Item": {
                     "Edit": "Edit",
-                    "Details": "View details",
+                    "Details": "View/Hide Details",
                     "Remove": "Remove"
                 },
                 "Actions": {
                     "label": "Actions",
-                    "Activation": "Use",
-                    "Consume": "Cost",
+                    "Activation": "Action",
+                    "Consume": {
+                        "label": "Cost",
+                        "Static": "{amount} {resource}",
+                        "RangeCapped": "{min} - {max} {resource}",
+                        "RangeUncapped": "{amount}+ {resource}",
+                        "Multiple": "Various",
+                        "Optional": "{label} (Optional)"
+                    },
                     "Uses": "Uses",
-                    "Use": "Use action",
-                    "Strike": "Strike"
+                    "Use": "Use Action",
+                    "Strike": "Strike",
+                    "BaseSectionName": "{type} Actions",
+                    "MiscSectionName": "Miscellaneous Actions",
+                    "NewItem": "Add {type}"
                 },
                 "Equipment": {
                     "Quantity": "Quantity",
@@ -170,7 +194,10 @@
                         "Weight": "Weight"
                     }
                 },
-                "Conditions": "Conditions",
+                "Conditions": {
+                    "Label": "Conditions",
+                    "StackableConditionTooltip": "Left click to increase the amount.<br>Right click to decrease the amount."
+                },
                 "Injuries": {
                     "Label": "Injuries",
                     "Duration": "Duration",
@@ -185,6 +212,7 @@
                 "Tier": "Tier",
                 "Expertises": "Expertises",
                 "EditExpertises": "Edit Expertises",
+                "EditImmunities": "Edit Immunities",
                 "ConfigureSkills": "Configure Skills",
                 "EditRole": "Edit Role",
                 "EditSize": "Edit Size",
@@ -199,34 +227,40 @@
                 "AncestryPlaceholder": "Add Ancestry",
                 "CulturePlaceholder": "Add Culture",
                 "PathPlaceholder": "Add Path",
-                "ShortRest": "Short rest",
-                "LongRest": "Long rest",
+                "EndScene": "End Scene",
+                "ShortRest": "Short Rest",
+                "LongRest": "Long Rest",
                 "ToggleShowSkills": "Show skills without ranks",
                 "ToggleCollapseSkills": "Hide skills without ranks",
                 "ConfigureDefense": "Configure Defense",
+                "ConfigureDeflect": "Configure Deflect",
                 "ConfigureMovement": "Configure Movement Rate",
                 "ConfigureSensesRange": "Configure Senses Range",
                 "ConfigureRecovery": "Configure Recovery Die",
                 "RollInjury": "Roll Injury",
+                "ImmuneTo": "Immune to {condition}",
                 "Tabs": {
                     "Details": "Details",
                     "Actions": "Actions",
                     "Equipment": "Equipment",
                     "Goals": "Goals",
+                    "Notes": "Notes",
                     "Effects": "Effects & Conditions"
                 },
                 "Search": {
                     "Item": {
-                        "Placeholder": "Search Actions"
+                        "Placeholder": "Search actions"
                     },
                     "Equipment": {
-                        "Placeholder": "Search Items"
+                        "Placeholder": "Search items"
                     },
                     "Effects": {
-                        "Placeholder": "Search Effects"
+                        "Placeholder": "Search effects"
                     },
-                    "Clear": "Clear search",
-                    "ChangeSortDirection": "Change sort direction"
+                    "Clear": "Clear Filters",
+                    "Filter": "Filter By",
+                    "SortManually": "Sort Manually",
+                    "SortAlphabetically": "Sort Alphabetically"
                 },
                 "Details": {
                     "Purpose": "Purpose",
@@ -243,10 +277,32 @@
                         "Label": "Connections",
                         "New": "Add New Connection",
                         "NewText": "New Connection"
+                    },
+                    "Biography": {
+                        "Label": "Biography",
+                        "Edit": "Edit Biography",
+                        "Show": "Show Biography",
+                        "Hide": "Collapse Biography"
+                    },
+                    "Appearance": {
+                        "Label": "Appearance",
+                        "Edit": "Edit Appearance",
+                        "Show": "Show Appearance",
+                        "Hide": "Collapse Appearance"
+                    },
+                    "Notes": {
+                        "Label": "Notes",
+                        "Edit": "Edit Notes",
+                        "Show": "Show Notes",
+                        "Hide": "Collapse Notes"
                     }
                 },
                 "Skills": {
-                    "AdjustTooltip": "Left Click to increase [skill]'s Rank.<br>Right Click to decrease [skill]'s Rank."
+                    "AdjustTooltip": "Left Click to increase {skill}'s Rank.<br>Right Click to decrease {skill}'s Rank.",
+                    "SetTooltip": "Left Click to adjust {skill}'s Rank.<br>Right Click to clear {skill}'s Rank."
+                },
+                "Attributes": {
+                    "IsModifiedTooltip": "This attribute is being modified by an effect."
                 }
             }
         },
@@ -269,22 +325,29 @@
                 "Weapon": {
                     "label": "Weapon",
                     "label_plural": "Weapons",
-                    "desc_placeholder": "Edit this to describe what this weapon is & how it looks."
+                    "label_action": "Weapon Action",
+                    "desc_placeholder": "Edit this to describe what this weapon is & how it looks.",
+                    "New": "New Weapon"
                 },
                 "Armor": {
                     "label": "Armor",
                     "label_plural": "Armor",
-                    "desc_placeholder": "Edit this to describe what this armor is & how it looks."
+                    "label_action": "Armor Action",
+                    "desc_placeholder": "Edit this to describe what this armor is & how it looks.",
+                    "New": "New Armor"
                 },
                 "Equipment": {
                     "label": "Equipment",
                     "label_plural": "Equipment",
-                    "desc_placeholder": "Edit this to describe what this piece of equipment is & how it looks."
+                    "label_action": "Equipment Action",
+                    "desc_placeholder": "Edit this to describe what this piece of equipment is & how it looks.",
+                    "New": "New Equipment"
                 },
                 "Loot": {
                     "label": "Loot",
                     "label_plural": "Loot",
-                    "desc_placeholder": "Edit this to describe the item."
+                    "desc_placeholder": "Edit this to describe the item.",
+                    "New": "New Loot"
                 },
                 "Ancestry": {
                     "label": "Ancestry",
@@ -309,17 +372,20 @@
                 "Talent": {
                     "label": "Talent",
                     "label_plural": "Talents",
-                    "desc_placeholder": "Edit this to describe what this Talent does."
+                    "desc_placeholder": "Edit this to describe what this Talent does.",
+                    "New": "New Talent"
                 },
                 "Action": {
                     "label": "Action",
                     "label_plural": "Actions",
-                    "desc_placeholder": "Edit this to describe what this action is and does."
+                    "desc_placeholder": "Edit this to describe what this action is and does.",
+                    "New": "New Action"
                 },
                 "Trait": {
-                    "label": "Trait",
-                    "label_plural": "Traits",
-                    "desc_placeholder": "Edit this to describe this trait."
+                    "label": "Feature",
+                    "label_plural": "Features",
+                    "desc_placeholder": "Edit this to describe this feature.",
+                    "New": "New Feature"
                 },
                 "Injury": {
                     "label": "Injury",
@@ -330,6 +396,21 @@
                     "label": "Connection",
                     "label_plural": "Connections",
                     "desc_placeholder": "Edit this to create a description of the NPC and how they are connected to the character."
+                },
+                "Goal": {
+                    "label": "Goal",
+                    "label_plural": "Goals",
+                    "desc_placeholder": "Edit this to describe the goal."
+                },
+                "Power": {
+                    "label": "Power",
+                    "label_plural": "Powers",
+                    "desc_placeholder": "Edit this to describe the power.",
+                    "New": "New {type}"
+                },
+                "TalentTree": {
+                    "label": "Talent Tree",
+                    "label_plural": "Talent Trees"
                 }
             },
             "Weapon": {
@@ -370,7 +451,8 @@
                 "Trait": {
                     "Cumbersome": "Cumbersome",
                     "Dangerous": "Dangerous",
-                    "Presentable": "Presentable"
+                    "Presentable": "Presentable",
+                    "Unique": "Unique"
                 },
                 "Deflect": "Deflect"
             },
@@ -388,11 +470,166 @@
                     "Ancestry": {
                         "label": "Ancestry Action",
                         "label_plural": "Ancestry Actions"
+                    },
+                    "Adversary": {
+                        "label": "Adversary Action",
+                        "label_plural": "Adversary Actions"
                     }
                 },
                 "Ancestry": {
                     "Label": "Ancestry Identifier",
                     "Hint": "Identifier of the Ancenstry this action belongs to. (e.g. \"human\")"
+                }
+            },
+            "Goal": {
+                "Level": {
+                    "Label": "Progress"
+                }
+            },
+            "Power": {
+                "Identifier": {
+                    "Hint": "Used to uniquely identify this power. Should be the same as the identifier of the associated skill, unless a custom skill is used."
+                },
+                "CustomSkill": {
+                    "Label": "Use Custom Skill",
+                    "Hint": "If checked, configure a custom skill instead of the skill matching this power's identifier."
+                },
+                "Skill": {
+                    "Label": "Skill",
+                    "Hint": "The skill associated with this power. Gaining this power grants the character access to this skill."
+                },
+                "Notification": {
+                    "PowerExists": "A power with identifier \"{identifier}\" already exists on {actor}."
+                }
+            },
+            "Talent": {
+                "Type": {
+                    "Ancestry": "Ancestry",
+                    "Path": "Path",
+                    "Power": "Power"
+                },
+                "Prerequisite": {
+                    "Type": {
+                        "talent": "Talent",
+                        "attribute": "Attribute",
+                        "skill": "Skill",
+                        "connection": "Connection",
+                        "level": "Level",
+                        "ancestry": "Ancestry",
+                        "culture": "Culture",
+                        "goal": "Goal"
+                    },
+                    "Mode": {
+                        "AnyOf": "Any of",
+                        "AllOf": "All of"
+                    },
+                    "Level": {
+                        "Label": "Level"
+                    },
+                    "Ancestry": {
+                        "Label": "Ancestry"
+                    },
+                    "Culture": {
+                        "Label": "Culture"
+                    }
+                },
+                "GrantRule": {
+                    "Label": "On Obtain",
+                    "Hint": "These rules are applied when the talent is obtained.",
+                    "Type": {
+                        "Items": "Grant Items",
+                        "Label": "Type"
+                    },
+                    "Items": {
+                        "Label": "Items"
+                    }
+                },
+                "Power": {
+                    "Label": "Power Identifier",
+                    "Hint": "Identifier of the power this talent belongs to."
+                }
+            },
+            "TalentTree": {
+                "Width": {
+                    "Label": "Width"
+                },
+                "Height": {
+                    "Label": "Height"
+                },
+                "Interaction": {
+                    "CreateConnection": "Select a talent to connect to."
+                },
+                "ViewBounds": {
+                    "Label": "Bounds",
+                    "CaptureTooltip": "Capture current view bounds",
+                    "ExpandTooltip": "View view bound details",
+                    "Origin": {
+                        "Label": "Origin"
+                    },
+                    "Size": {
+                        "Label": "Size"
+                    },
+                    "X": {
+                        "Label": "X"
+                    },
+                    "Y": {
+                        "Label": "Y"
+                    },
+                    "Width": {
+                        "Label": "Width"
+                    },
+                    "Height": {
+                        "Label": "Height"
+                    }
+                },
+                "Display": {
+                    "Label": "Window",
+                    "Width": {
+                        "Label": "Width"
+                    },
+                    "Height": {
+                        "Label": "Height"
+                    }
+                },
+                "Background": {
+                    "Label": "Background",
+                    "Img": {
+                        "Label": "Image"
+                    },
+                    "Size": {
+                        "Label": "Size",
+                        "Width": {
+                            "Label": "Width"
+                        },
+                        "Height": {
+                            "Label": "Height"
+                        }
+                    },
+                    "Position": {
+                        "Label": "Position",
+                        "X": {
+                            "Label": "X"
+                        },
+                        "Y": {
+                            "Label": "Y"
+                        }
+                    }
+                },
+                "Node": {
+                    "Prerequisites": {
+                        "Label": "Prerequisites",
+                        "OneOf": "One of",
+                        "CannotEditManaged": "Cannot edit system generated prerequisite"
+                    },
+                    "Position": {
+                        "Label": "Position",
+                        "X": {
+                            "Label": "X"
+                        },
+                        "Y": {
+                            "Label": "Y"
+                        }
+                    }
                 }
             },
             "Activation": {
@@ -481,16 +718,349 @@
                 "Hint": "Identifier of the modality this talent belongs to. (e.g. \"stance\")"
             },
             "AttackFlavor": "[actor] attacks with their [item].",
+            "EventSystem": {
+                "Event": {
+                    "Types": {
+                        "create": {
+                            "Label": "Created",
+                            "Description": "Triggered when this item is created, duplicated, added to an actor, or imported."
+                        },
+                        "update": {
+                            "Label": "Updated",
+                            "Description": "Triggered when this item is updated."
+                        },
+                        "delete": {
+                            "Label": "Deleted",
+                            "Description": "Triggered when this item is deleted."
+                        },
+                        "add-to-actor": {
+                            "Label": "Added to Actor",
+                            "Description": "Triggered when this item is added to an actor."
+                        },
+                        "remove-from-actor": {
+                            "Label": "Removed from Actor",
+                            "Description": "Triggered when this item is removed from an actor."
+                        },
+                        "equip": {
+                            "Label": "Equipped",
+                            "Description": "Triggered when this item is equipped."
+                        },
+                        "unequip": {
+                            "Label": "Unequipped",
+                            "Description": "Triggered when this item is unequipped."
+                        },
+                        "use": {
+                            "Label": "Used",
+                            "Description": "Triggered when this item is used/rolled."
+                        },
+                        "mode-activate": {
+                            "Label": "Activated Modality",
+                            "Description": "Triggered when this item's mode becomes active for its modality."
+                        },
+                        "mode-deactivate": {
+                            "Label": "Deactivated Modality",
+                            "Description": "Triggered when this item's mode becomes inactive for its modality."
+                        },
+                        "goal-complete": {
+                            "Label": "Goal Completed",
+                            "Description": "Triggered when this Goal item is completed."
+                        },
+                        "goal-progress": {
+                            "Label": "Goal Progressed",
+                            "Description": "Triggered when this Goal item's progress is updated towards completion."
+                        },
+                        "update-actor": {
+                            "Label": "Actor Updated",
+                            "Description": "Triggered when this item's parent actor is updated."
+                        },
+                        "apply-damage-actor": {
+                            "Label": "Actor Damaged",
+                            "Description": "Triggered when damage is applied to this item's parent actor."
+                        },
+                        "apply-injury-actor": {
+                            "Label": "Actor Gained Injury",
+                            "Description": "Triggered when an injury is applied to this item's parent actor."
+                        },
+                        "short-rest-actor": {
+                            "Label": "Actor Short Rested",
+                            "Description": "Triggered when this item's parent actor takes a short rest."
+                        },
+                        "long-rest-actor": {
+                            "Label": "Actor Long Rested",
+                            "Description": "Triggered when this item's parent actor takes a long rest."
+                        }
+                    },
+                    "Rule": {
+                        "Description": {
+                            "Label": "Description"
+                        },
+                        "Event": {
+                            "Label": "Trigger"
+                        },
+                        "NewRuleDescription": "New Rule"
+                    },
+                    "Handler": {
+                        "Types": {
+                            "grant-expertises": {
+                                "Title": "Grant Expertises",
+                                "Description": "Grants expertises to an actor.",
+                                "Pick": {
+                                    "Label": "User picks",
+                                    "Hint": "Whether the user should pick a number of expertises or if a specific set of expertises should be granted."
+                                },
+                                "PickAmount": {
+                                    "Label": "Amount",
+                                    "Hint": "The maximum number of expertises the user can pick."
+                                },
+                                "AllowReplacement": {
+                                    "Label": "Allow Replacement",
+                                    "Hint": "Whether to allow the user to replace a granted expertise if they already have it."
+                                },
+                                "AvailableTypes": {
+                                    "Label": "Available Categories",
+                                    "Hint": "The categories of expertises available to pick from."
+                                },
+                                "ReplaceExpertise": {
+                                    "Title": "Choose another Expertise",
+                                    "Button": "Pick"
+                                },
+                                "PickDialog": {
+                                    "Title": "Choose {amount} Expertises",
+                                    "Button": "Pick"
+                                }
+                            },
+                            "grant-items": {
+                                "Title": "Grant Items",
+                                "Description": "Grants items to an actor.",
+                                "AllowDuplicates": {
+                                    "Label": "Allow Duplicates",
+                                    "Hint": "Whether to grant items to the actor even if they already have them"
+                                },
+                                "IncreaseQuantity": {
+                                    "Label": "Increase Quantity",
+                                    "Hint": "Whether to increase the quantity of physical items if the actor already has them"
+                                },
+                                "PickOne": {
+                                    "Label": "Pick One",
+                                    "Hint": "Whether to prompt the user to pick one item from the list of items to grant. If not enabled, all items will be granted."
+                                },
+                                "PickPromptTitle": {
+                                    "Label": "Pick Prompt Title",
+                                    "Hint": "The title of the prompt shown when picking an item to grant.",
+                                    "Default": "Pick Item"
+                                },
+                                "Notify": {
+                                    "Label": "Notify User",
+                                    "Hint": "Whether to send a notification to the user for each item granted."
+                                },
+                                "Items": {
+                                    "Label": "Items"
+                                }
+                            },
+                            "modify-attribute": {
+                                "Title": "Modify Attribute",
+                                "Description": "Modifies an attribute of an actor.",
+                                "Attribute": {
+                                    "Label": "Attribute"
+                                },
+                                "Amount": {
+                                    "Label": "Amount",
+                                    "Hint": "The amount to modify the attribute by. Can be positive or negative."
+                                },
+                                "Bonus": {
+                                    "Label": "Modify Bonus",
+                                    "Hint": "Whether to modify the attribute bonus instead of the attribute itself."
+                                }
+                            },
+                            "modify-skill-rank": {
+                                "Title": "Modify Skill Rank",
+                                "Description": "Modifies the rank of a skill of an actor.",
+                                "Skill": {
+                                    "Label": "Skill"
+                                },
+                                "Amount": {
+                                    "Label": "Amount",
+                                    "Hint": "The amount to modify the skill rank by. Can be positive or negative."
+                                }
+                            },
+                            "remove-expertises": {
+                                "Title": "Remove Expertises",
+                                "Description": "Removes expertises from an actor."
+                            },
+                            "remove-items": {
+                                "Title": "Remove Items",
+                                "Description": "Removes items from an actor.",
+                                "ReduceQuantity": {
+                                    "Label": "Reduce Quantity",
+                                    "Hint": "Whether to reduce the quantity of physical items instead of removing them outright.\nItems reduced to 0 quantity will be removed."
+                                },
+                                "Amount": {
+                                    "Label": "Amount",
+                                    "Hint": "The amount of quantity to remove. Only used if \"Reduce Quantity\" is enabled and the item is physical."
+                                },
+                                "Items": {
+                                    "Label": "Items"
+                                }
+                            },
+                            "set-attribute": {
+                                "Title": "Set Attribute",
+                                "Description": "Sets the value of an attribute of an actor.",
+                                "Attribute": {
+                                    "Label": "Attribute"
+                                },
+                                "Value": {
+                                    "Label": "Value",
+                                    "Hint": "The value to set the attribute to."
+                                },
+                                "Bonus": {
+                                    "Label": "Set Bonus",
+                                    "Hint": "Whether to set the attribute bonus instead of the attribute itself."
+                                }
+                            },
+                            "set-skill-rank": {
+                                "Title": "Set Skill Rank",
+                                "Description": "Sets the rank of a skill of an actor.",
+                                "Skill": {
+                                    "Label": "Skill"
+                                },
+                                "Value": {
+                                    "Label": "Value",
+                                    "Hint": "The value to set the skill rank to."
+                                }
+                            },
+                            "use-item": {
+                                "Title": "Use item",
+                                "Description": "Uses an item by rolling it.",
+                                "Target": {
+                                    "Label": "Target",
+                                    "Choices": {
+                                        "self": "Self",
+                                        "sibling": "Other on same Actor",
+                                        "global": "Global"
+                                    }
+                                },
+                                "UUID": {
+                                    "Label": "Item"
+                                },
+                                "FastForward": {
+                                    "Label": "Fast Forward",
+                                    "Hint": "Whether to skip the roll dialog for the roll."
+                                },
+                                "AdvantageMode": {
+                                    "Label": "Advantage Mode"
+                                },
+                                "TemporaryDamageModifiers": {
+                                    "Label": "Damage Bonus",
+                                    "Hint": "Damage bonus formula to apply to the roll. Only items that can roll damage."
+                                }
+                            },
+                            "update-actor": {
+                                "Title": "Update Actor",
+                                "Description": "Updates an actor by applying a set of changes.",
+                                "Target": {
+                                    "Label": "Target",
+                                    "Hint": "The target actor to update. If not set, the item's parent actor will be used.",
+                                    "Choices": {
+                                        "parent": "Parent Actor",
+                                        "global": "Global"
+                                    }
+                                },
+                                "UUID": {
+                                    "Label": "Actor"
+                                },
+                                "Changes": {
+                                    "Label": "Changes"
+                                }
+                            },
+                            "update-item": {
+                                "Title": "Update Item",
+                                "Description": "Updates an item by applying a set of changes.",
+                                "Target": {
+                                    "Label": "Target",
+                                    "Choices": {
+                                        "self": "Self",
+                                        "sibling": "Other on same Actor",
+                                        "global": "Global"
+                                    }
+                                },
+                                "UUID": {
+                                    "Label": "Item"
+                                },
+                                "MatchMode": {
+                                    "Label": "Match Mode",
+                                    "Hint": "How to match the item to update.\nIdentifier matches by the identifier set under Details.\nName matches by exact name, case sensitive.\nUUID matches only the exact item.",
+                                    "Choices": {
+                                        "identifier": "Identifier",
+                                        "name": "Name",
+                                        "uuid": "UUID"
+                                    }
+                                },
+                                "MatchAll": {
+                                    "Label": "Match All",
+                                    "Hint": "Whether to match all items or just the first one encountered."
+                                },
+                                "Changes": {
+                                    "Label": "Changes"
+                                }
+                            },
+                            "execute-macro": {
+                                "Title": "Execute Macro",
+                                "Description": "Executes a macro.",
+                                "MacroType": {
+                                    "Label": "Macro Type"
+                                },
+                                "Inline": {
+                                    "Label": "Inline"
+                                },
+                                "UUID": {
+                                    "Label": "Macro"
+                                }
+                            }
+                        },
+                        "General": {
+                            "Target": {
+                                "Label": "Target",
+                                "Choices": {
+                                    "self": "Self",
+                                    "sibling": "Other on same Actor",
+                                    "equipped-weapon": "Equipped Weapon",
+                                    "equipped-armor": "Equipped Armor",
+                                    "global": "Global"
+                                }
+                            },
+                            "MatchMode": {
+                                "Label": "Match Mode",
+                                "Hint": "How to match the item.\nIdentifier matches by the identifier set under Details.\nName matches by exact name, case sensitive.\nUUID matches only the exact item.",
+                                "Choices": {
+                                    "identifier": "Identifier",
+                                    "name": "Name",
+                                    "uuid": "UUID"
+                                }
+                            },
+                            "MatchAll": {
+                                "Label": "Match All",
+                                "Hint": "Whether to match all items or just the first one encountered."
+                            }
+                        }
+                    }
+                },
+                "Notification": {
+                    "ExceededMaxDepth": "Exceeded maximum event chain depth. Aborting event execution.",
+                    "RecentEventsExceeded": "Exceeded maximum number of \"{eventType}\" events in a short period of time. Aborting event execution."
+                }
+            },
             "Sheet": {
                 "Basics": "Basics",
                 "Tabs": {
                     "Description": "Description",
                     "Effects": "Effects",
-                    "Details": "Details"
+                    "Details": "Details",
+                    "Talents": "Talents",
+                    "Events": "Events"
                 },
                 "Identifier": {
                     "Label": "Identifier",
-                    "Description": "Used to uniquely identify this [type]. Identifier can only contain letters (a-z), numbers (0-9), dashes (-), and underscores (_)."
+                    "Hint": "Used to uniquely identify this {type}. Identifier can only contain letters (a-z), numbers (0-9), dashes (-), and underscores (_)."
                 },
                 "Type": "Type",
                 "Injury": {
@@ -505,11 +1075,11 @@
                     "FreeTalents": "Free Talents",
                     "BonusTalents": "Bonus Talents",
                     "Restrictions": "Restrictions",
-                    "PathReferencePlaceholder": "Drop a Path here to set a free path",
+                    "PathReferencePlaceholder": "Drop Path Here to Set Free Path",
                     "TalentIdDescription": "The identifier column should hold the identifier of the talent item you want characters with this Ancestry to have access to. The path identifier can only contain letters (a-z), numbers (0-9), dashes (-), and underscores (_).",
                     "Component": {
                         "AdvancementTalentList": {
-                            "DropTalent": "Drop a Talent here to add it to the list",
+                            "DropTalent": "Drop Talent here to add to list",
                             "Warning": {
                                 "WrongType": "The dropped Document must be of type Talent"
                             }
@@ -534,16 +1104,17 @@
                 },
                 "Equip": {
                     "Title": "Equipment Details",
-                    "AlwaysEquipped": "Is Always Equipped?",
+                    "AlwaysEquipped": "Always Equipped",
                     "Traits": "Traits",
                     "ExpertTraits": "Expert Traits",
                     "LoseTrait": "Loses [trait]",
                     "ModifyTraitValue": "[trait] [[value]] >",
                     "ModifyTraitValueFull": "[trait] [[value]] > [[newValue]]",
-                    "TraitsShow": "Show All Traits",
-                    "TraitsHide": "Hide Traits",
-                    "ExpertTraitsShow": "Show All Expert Traits",
-                    "ExpertTraitsHide": "Hide Expert Traits"
+                    "ViewTraits": "View Traits"
+                },
+                "Armor": {
+                    "DeflectedTypes": "Deflected Damage Types",
+                    "ViewDeflected": "View Deflected Types"
                 },
                 "Activation": {
                     "Title": "Usage",
@@ -551,7 +1122,9 @@
                     "Cost": "Activation Cost",
                     "Consume": "Resource Consumption",
                     "Uses": "Limited Uses",
-                    "Recharge": "Recharge"
+                    "Recharge": "Recharge",
+                    "AdditionalFormula": "Roll Formula Extension",
+                    "AdditionalFormulaDescription": "Input any extra modifiers you wish to add to this item's d20 Skill Roll. This input will be treated as a dice formula, but any die you add won't be available for advantage/disadvantage currently. Paramters you can use: @mod, @attribute & @skill.rank refer to the values of the skills selected here, but the whole list of skills and attributes can be accessed - ask on the discord for help!"
                 },
                 "Attack": {
                     "Title": "Attack",
@@ -562,11 +1135,15 @@
                 },
                 "Damage": {
                     "Title": "Damage",
-                    "Formula": "Damage Formula"
+                    "Formula": "Damage Formula",
+                    "GrazeOverride": "Override Graze Damage Calculation",
+                    "GrazeFormula": "New Formula",
+                    "GrazeHint": "Formula entered here will be the entirety of the calculation for graze damage. Any die rolls will be rolled separately from the main damage roll. You can pull in all or part of the main roll using @damage.total/@damage.unmodded/@damage.dice (the latter being the system default) or the selected attribute mod with @mod",
+                    "ViewGraze": "View Graze Override"
                 },
                 "Modality": {
                     "Title": "Modality",
-                    "HasModality": "Has Modality?"
+                    "HasModality": "Has Modality"
                 },
                 "Talent": {
                     "PathId": "Path Identifier",
@@ -596,8 +1173,35 @@
                         "Connection": "Connection",
                         "ConnectionDescription": "Description",
                         "ConnectionDescriptionPlaceholder": "Connection Description",
-                        "DropTalents": "Drop Talents here to add them to the list."
+                        "DropTalents": "Drop Talents here to add them to the list.",
+                        "DropGoals": "Drop Goals here to add them to the list."
+                    },
+                    "GrantRules": {
+                        "Description": "Description",
+                        "Create": "New rule",
+                        "Edit": "Edit rule",
+                        "Delete": "Remove rule"
                     }
+                },
+                "TalentTree": {
+                    "View": "View"
+                },
+                "Path": {
+                    "TalentTreePlaceholder": "Drop Talent Tree Here",
+                    "NoTalentsConfigured": "No Talents Configured"
+                },
+                "TalentsProvider": {
+                    "Title": "Talents",
+                    "TalentTree": {
+                        "Label": "Talent Tree",
+                        "Hint": "Talent tree that contains all talents for this path. This tree is displayed on the \"talents\" tab."
+                    }
+                }
+            },
+            "General": {
+                "LinkedSkills": {
+                    "Label": "Linked Skills",
+                    "Hint": "These skills are displayed alongside the {type} in the character sheet."
                 }
             }
         },
@@ -622,24 +1226,6 @@
                 }
             }
         },
-        "Talent": {
-            "Type": {
-                "Ancestry": "Ancestry",
-                "Path": "Path"
-            },
-            "Prerequisite": {
-                "Type": {
-                    "Talent": "Talent",
-                    "Attribute": "Attribute",
-                    "Skill": "Skill",
-                    "Connection": "Connection"
-                },
-                "Mode": {
-                    "AnyOf": "Any of",
-                    "AllOf": "All of"
-                }
-            }
-        },
         "Currencies": {},
         "Combat": {
             "FastPlayers": "Fast Characters",
@@ -648,26 +1234,38 @@
             "SlowAdversaries": "Slow Adversaries",
             "ToggleTurn": "Toggle Turn Speed",
             "ResetActivation": "Reset Activation",
-            "Activate": "Mark as having acted"
+            "Activate": "Mark as Acted"
         },
-        "Conditions": {
+        "Status": {
             "Afflicted": "Afflicted",
+            "Blind": "Senseblind",
+            "Burrowing": "Burrowing",
             "Determined": "Determined",
             "Disoriented": "Disoriented",
             "Empowered": "Empowered",
             "Enhanced": "Enhanced",
-            "Encumbered": "Encumbered",
             "Exhausted": "Exhausted",
+            "Flying": "Flying",
             "Focused": "Focused",
+            "Hidden": "Hidden",
             "Immobilized": "Immobilized",
+            "Invisible": "Invisible",
             "Prone": "Prone",
             "Restrained": "Restrained",
             "Slowed": "Slowed",
             "Stunned": "Stunned",
             "Surprised": "Surprised",
-            "Unconscious": "Unconscious"
+            "Unconscious": "Unconscious",
+            "Dead": "Dead"
         },
         "Sheet": {
+            "Descriptions": {
+                "DescriptionHeader": "Description",
+                "ShortHeader": "Short Description",
+                "ChatHeader": "Chat Description",
+                "Collapsible": "Toggle Collapsible",
+                "Edit": "Edit Description"
+            },
             "Effects": {
                 "Label": "Effects",
                 "Inactive": "Inactive Effects",
@@ -684,7 +1282,7 @@
             },
             "Talents": {
                 "Label": "Talents",
-                "AcquiredAtLevel": "Acquired at Level",
+                "AtLevel": "At Level",
                 "Add": "New Talent",
                 "Edit": "Edit Talent",
                 "Delete": "Remove Talent",
@@ -727,19 +1325,47 @@
             "sur": "Survival"
         },
         "ChatMessage": {
-            "Action": {
-                "Graze": "Graze: Reduce Focus",
-                "ApplyDamage": "Apply Damage",
-                "ApplyGraze": "Apply Graze Damage",
-                "ApplyHealing": "Apply Healing"
+            "Buttons": {
+                "DamageFull": "Click to apply full damage to selected token(s).",
+                "DamageHalf": "Click to apply half damage to selected token(s).",
+                "DamageDouble": "Click to apply double damage to selected token(s).",
+                "Healing": "Click to apply healing to selected token(s).",
+                "ReduceFocus": "Click to reduce focus from selected token(s).",
+                "RollCrit": "Click to roll critical damage.",
+                "RollAdvantage": "Click to roll with advantage.",
+                "RollDisadvantage": "Click to roll with disadvantage.",
+                "ApplyInjury": "Click to apply injury to character.",
+                "UndoDamage": "Click to undo damage taken.",
+                "UndoHealing": "Click to undo healing."
             },
-            "ApplyDamage": "[actor] takes [amount] damage",
-            "ApplyHealing": "[actor] recovers [amount] health",
-            "UndoDamage": "Undo damage",
-            "UndoHealing": "Undo healing",
+            "Trays": {
+                "Targets": "Targets"
+            },
+            "InjuryRoll": "Injury Roll",
+            "InjuryDuration": {
+                "Dead": "{actor} has <strong>died</strong>.",
+                "Permanent": "{actor} is <strong>permanently injured</strong>.",
+                "Temporary": "{actor} is injured for <strong>{days} days</strong>."
+            },
+            "ApplyDamage": "{actor} takes <strong>{amount} damage</strong>.",
+            "ApplyHealing": "{actor} recovers <strong>{amount} health</strong>.",
+            "ModifierDialog": {
+                "DamageTitle": "Modify Damage",
+                "HealingTitle": "Modify Healing",
+                "FocusTitle": "Modify Focus Loss"
+            },
+            "DamageCalculation": "Damage Calculation: {calculation}",
             "ViewRollsDetails": "Roll Details",
-            "InjuryDuration": "Injury Duration.",
-            "Welcome": "<h2>Welcome to the Cosmere RPG System!</h2> <p>Thank you for trying out the community-developed Cosmere Roleplaying Game system! You’re currently using version <strong>[version]</strong>. As this is an early release, some bugs or missing features are to be expected, but your feedback will help us improve the system.</p> <p>If you encounter any issues or have suggestions, we’d love to hear from you! Please report them on our <a href=\"https://github.com/stanavdb/cosmere-rpg/issues\">GitHub Issues page</a>, and be sure to review the <a href=\"https://github.com/stanavdb/cosmere-rpg/blob/main/CONTRIBUTING.md\">contribution guidelines</a> if you’d like to get involved in development. </p> <p>For discussions, updates, and support, join us on the <a href=\"https://discord.gg/B9Zam3qdZt\">Official Cosmere RPG Discord</a> server. You can find us in <em>vtt-discussion > Foundry VTT System Development</em>.</p> <p>We’re excited to have you on board and hope you enjoy playing in the Cosmere!</p>"
+            "Welcome": "<h2>Welcome to the Cosmere RPG!</h2> <p>Thank you for using the community-developed <strong>Cosmere Roleplaying Game</strong> system! You're running version <strong>{version}</strong>.</p> <p>For news, support, or to connect with other players and developers, join us on the <a href=\"{discordLink}\">Metalworks Discord</a>.</p> <p>If you run into any issues or have suggestions for improvements, please let us know via our <a href=\"{issuesLink}\">GitHub Issues page</a> or by reaching out on Discord. Interested in contributing? Check out our <a href=\"{contributingLink}\">contribution guidelines</a>.</p> <p>We hope you enjoy your journey through the Cosmere!</p>"
+        },
+        "Theme": {
+            "Default": "Cosmere"
+        },
+        "Damage": {
+            "IgnoreDeflect": "Ignore Deflect"
+        },
+        "Migration": {
+            "DocumentMigrationFailed": "Failed to migrate {type} \"{name}\". {error}"
         }
     },
     "DICE": {
@@ -758,7 +1384,12 @@
         "Damage": {
             "Label": "Damage",
             "Apply": "Apply",
-            "Graze": "Graze"
+            "Graze": "Graze",
+            "Full": "Full"
+        },
+        "TemporaryBonus": {
+            "Label": "Temporary Bonus",
+            "Hint": "Enter an optional formula to apply as a temporary modifier to this skill test."
         }
     },
     "ROLLS": {
@@ -767,22 +1398,30 @@
     },
     "DIALOG": {
         "ItemConsume": {
-            "Title": "Consume resource",
-            "ShouldConsume": "Consume resource?"
+            "Title": "Consume Resource",
+            "ShouldConsume": {
+                "None": "None",
+                "Static": "Consume {amount} {resource}?",
+                "RangeCapped": "Consume {min}-{max} {resource}:",
+                "RangeUncapped": "Consume {amount} or more {resource}:"
+            }
         },
         "EditExpertise": {
             "Remove": "Remove",
             "Add": "Add Custom Expertise",
-            "AddPlaceholder": "Custom Expertise"
+            "AddPlaceholder": "Custom Expertise",
+            "Warning": {
+                "MaxExpertises": "Can only select up to {max} expertises."
+            }
         },
         "ConfigureResource": {
             "Title": "Configure Max {resource}: {actor}"
         },
         "LongRest": {
-            "ShouldPerform": "Perform long rest?"
+            "ShouldPerform": "Perform Long Rest?"
         },
         "ShortRest": {
-            "Title": "Short rest",
+            "Title": "Short Rest",
             "TendedToBy": "Tended to by"
         },
         "ConfigureDefense": {
@@ -793,13 +1432,20 @@
         },
         "ConfigureSensesRange": {
             "Title": "Configure Senses Range: {actor}",
-            "ObscuredUnaffected": "Unaffected by obscured senses"
+            "IgnoreObscure": "Ignores Obscured"
         },
         "ConfigureRecoveryDie": {
             "Title": "Configure Recovery Die: {actor}"
         },
+        "ConfigureDeflect": {
+            "Title": "Configure Deflect: {actor}"
+        },
         "EditTalentPrerequisite": {
             "Title": "Edit Prerequisite"
+        },
+        "ConfigureRoll": {
+            "Title": "Configure Rolls",
+            "Hint": "Left click or right click any individual die to apply advantage or disadvantage respectively."
         },
         "ConfigureAttack": {
             "AdvantageMode": {
@@ -816,29 +1462,77 @@
             "Warning": {
                 "DuplicateLevel": "A rule for level {level} already exists"
             }
+        },
+        "ReleaseNotes": {
+            "Title": "Cosmere Roleplaying Game - Release Notes"
+        },
+        "ConfigureTalentTree": {
+            "Title": "Configure Talent Tree: {name}",
+            "Warning": {
+                "OutOfBounds": "The selected bounds would place at least one talent outside the tree."
+            },
+            "Notification": {}
+        },
+        "PickDiceResult": {
+            "Title": "Pick Result",
+            "Header": "Left to Pick:",
+            "SelectRoll": "Select Roll",
+            "Error": {
+                "TooManyPicked": "Cannot pick more than {max} roll(s)!"
+            }
+        },
+        "EditEventRule": {
+            "Title": "Edit Event Rule"
         }
     },
     "COMPONENT": {
         "DocumentReferenceInput": {
-            "Placeholder": "Drop a {type} here to create a reference",
+            "Placeholder": "Drop {type} here to create reference",
             "Warning": {
                 "WrongType": "The dropped Document must be of type {type}",
                 "WrongSubtype": "The dropped {type} must be of type {subtype}"
             }
+        },
+        "DocumentDropListComponent": {
+            "Placeholder": "Drop {type} here to add to list",
+            "Warning": {
+                "DocumentAlreadyInList": "The dropped {type} is already in the list",
+                "WrongType": "The dropped Document must be of type {type}",
+                "WrongSubtype": "The dropped {type} must be of type {subtype}"
+            }
+        },
+        "MultiValueSelect": {
+            "DefaultPlaceholder": "Select Option"
+        },
+        "DocumentChangesList": {
+            "Header": {
+                "Key": "Attribute Key",
+                "Mode": "Change Mode",
+                "Value": "Value"
+            },
+            "Add": "Add Change",
+            "Remove": "Remove Change"
         }
     },
     "GENERIC": {
         "Unknown": "Unknown",
         "None": "None",
+        "Custom": "Custom",
         "Default": "Default",
         "Document": "Document",
         "Formula": "Formula",
         "Value": "Value",
+        "Modifier": "Modifier",
+        "DC": "DC",
         "Skill": "Skill",
         "Attribute": "Attribute",
         "SkillTest": "Skill Test",
+        "Test": "Test",
         "Plot": "Plot",
         "Damage": "Damage",
+        "Healing": "Healing",
+        "Immune": "Immune",
+        "Condition": "Condition",
         "Cost": "Cost",
         "Configure": "Configure",
         "DistanceUnit": "ft.",
@@ -850,7 +1544,13 @@
         "Rounds": "Rounds",
         "Clear": "Clear",
         "Name": "Name",
+        "Image": "Image",
         "Level": "Level",
+        "Add": "Add",
+        "Type": "Type",
+        "Description": "Description",
+        "Talent": "Talent",
+        "Goal": "Goal",
         "Button": {
             "Roll": "Roll",
             "Continue": "Continue",
@@ -858,10 +1558,18 @@
             "Edit": "Edit",
             "Save": "Save",
             "Cancel": "Cancel",
-            "Update": "Update"
+            "Update": "Update",
+            "RemoveFavorite": "Remove Favorite",
+            "Favorite": "Favorite",
+            "Confirm": "Confirm"
         },
         "Notification": {
-            "GrazeFocusSpent": "Reduced focus by 1"
+            "GrazeFocusSpent": "Reduced focus by 1",
+            "AddedItem": "Added {item}{quantity} to {actor}",
+            "IncreasedSkillRank": "Increased {actor}'s {skill} rank by {amount}",
+            "TalentObtained": "Added talent {talent} to {actor}",
+            "TalentRemoved": "Removed talent {talent} from {actor}",
+            "TalentCannotBeRemoved": "Cannot remove talent {talent} from {actor} as it is a prerequisite for another talent"
         },
         "Warning": {
             "NotImplemented": "Sorry! [action] is not implemented yet",
@@ -872,7 +1580,29 @@
             "NoDuplicateExpertises": "Cannot create duplicate expertise",
             "NoFocus": "Not enough focus to perform this action",
             "TalentCannotBePrerequisiteOfItself": "A talent cannot be a prerequisite of itself",
-            "DuplicatePrerequisiteTalentRef": "A talent with id {talentId} already exists ({talentName})"
+            "DuplicatePrerequisiteTalentRef": "A talent with id {talentId} already exists ({talentName})",
+            "ItemAlreadyInTree": "An item with id \"{itemId}\" already exists in the {name} talent tree",
+            "ActorConditionImmune": "{actor} is immune to {condition}"
+        },
+        "Error": {
+            "RegisteringConfigs": "Error while registering configs. Check console for details."
+        },
+        "Enrichers": {
+            "Test": {
+                "Against": "against",
+                "VsDefense": "against the target's",
+                "NoSkill": "No Skill Provided"
+            },
+            "Damage": {
+                "NoFormula": "No Formula or Dice Terms Provided",
+                "NoType": "No Damage Type Provided",
+                "DoubleType": "Damage Type Defined More Than Once",
+                "BadType": "Damage Type Not Supported"
+            },
+            "Lookup": {
+                "NoPath": "No Lookup Path Provided"
+            },
+            "Error": "ENRICHER ERROR"
         },
         "DerivedValue": {
             "Mode": {
@@ -894,20 +1624,89 @@
             "ancestry": "Ancestry",
             "path": "Path",
             "connection": "Connection",
+            "goal": "Goal",
             "injury": "Injury",
             "specialty": "Specialty",
             "loot": "Loot",
             "armor": "Armor",
-            "trait": "Trait",
+            "trait": "Adversary Feature",
             "action": "Action",
             "talent": "Talent",
             "equipment": "Equipment",
-            "weapon": "Weapon"
+            "weapon": "Weapon",
+            "power": "Power",
+            "talent_tree": "Talent Tree"
         }
     },
     "UNITS": {
         "Distance": {
             "Feet": "Feet"
+        }
+    },
+    "SETTINGS": {
+        "skipRollDialogByDefault": {
+            "name": "Skip Roll Dialog by Default",
+            "hint": "If enabled, rolls will skip the roll configuration dialog when clicked, using the default roll configuration. The dialog can still be accessed by holding the 'Skip/Show Dialog' key modifier from the system controls."
+        },
+        "skipDamageModDialogByDefault": {
+            "name": "Skip Damage Modifier Dialog by Default",
+            "hint": "If enabled, the damage/healing card in chat will skip the modifier dialog when clicked, using the value shown in the card directly. The dialog can still be accessed by holding the 'Skip/Show Dialog' key modifier from the system controls."
+        },
+        "enableOverlayButtons": {
+            "name": "Enable Overlay Buttons",
+            "hint": "When outputting a skill test or damage roll, enable overlay buttons on the chat message that offer additional functionality for the roll."
+        },
+        "enableApplyButtons": {
+            "name": "Enable Apply Buttons",
+            "hint": "When outputting a damage roll, enable buttons on the chat message that allow for damage or healing to be applied to tokens, or to reduce focus from those tokens."
+        },
+        "alwaysShowApplyButtons": {
+            "name": "Always Show Apply Buttons",
+            "hint": "When outputting a damage roll always show the apply buttons, instead of only on hover."
+        },
+        "applyButtonsTo": {
+            "name": "Apply Button Options",
+            "hint": "Determines which tokens damage, healing, or focus reduction is applied to when applying via the chat card buttons.",
+            "choices": {
+                "SelectedOnly": "Apply to Selected Tokens",
+                "TargetedOnly": "Apply to Targeted Tokens",
+                "SelectedAndTargeted": "Apply to Both",
+                "PrioritiseSelected": "Prioritise Selected Tokens",
+                "PrioritiseTargeted": "Prioritise Targeted Tokens"
+            }
+        },
+        "expandDescriptionByDefault": {
+            "name": "Expand Item Description By Default",
+            "hint": "Determines whether the description section of an item should be expanded by default when opening the item sheet."
+        },
+        "skillIncrementDecrementToggle": {
+            "name": "Enable Skill Pip Increment Behavior",
+            "hint": "Determines whether the skill pips increment/decrement on left click or right click, rather than setting to the clicked rank."
+        },
+        "systemTheme": {
+            "name": "Preferred System Theme",
+            "hint": "Specify the themed set of colours to use for system documents and interface elements. The selected theme will respect the preferred Dark/Light mode selected in the core settings."
+        }
+    },
+    "KEYBINDINGS": {
+        "skipDialogDefault": "Skip/Show Dialog",
+        "skipDialogAdvantage": "Skip Dialog with Advantage",
+        "skipDialogDisadvantage": "Skip Dialog with Disadvantage",
+        "skipDialogRaiseStakes": "Skip Dialog with Raise Stakes",
+        "changeQuantity5": "Increase/Decrease Quantity by 5",
+        "changeQuantity10": "Increase/Decrease Quantity by 10",
+        "changeQuantity50": "Increase/Decrease Quantity by 50"
+    },
+    "STORMLIGHT": {
+        "Currency": {
+            "Spheres": "Spheres"
+        },
+        "Macro": {
+            "StartingPath": {
+                "Set": "Set starting path {path} for {actor}. Set starting skill: {skill}.",
+                "Replaced": "Replaced starting path {oldPath} with {newPath} for {actor}. Set starting skill: {skill}.",
+                "Unset": "Cleared starting path for {actor}. Removed starting skill: {skill}."
+            }
         }
     }
 }

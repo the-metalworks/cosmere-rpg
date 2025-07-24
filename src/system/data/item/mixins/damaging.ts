@@ -5,6 +5,7 @@ export interface DamagingItemData {
     damage: {
         formula?: string;
         type?: DamageType;
+        grazeOverrideFormula?: string;
         skill?: Skill;
         attribute?: Attribute;
     };
@@ -22,6 +23,10 @@ export function DamagingItemMixin<P extends CosmereItem>() {
                             nullable: true,
                             blank: false,
                         }),
+                        grazeOverrideFormula:
+                            new foundry.data.fields.StringField({
+                                nullable: true,
+                            }),
                         type: new foundry.data.fields.StringField({
                             nullable: true,
                             choices: Object.keys(CONFIG.COSMERE.damageTypes),

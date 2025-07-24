@@ -1,33 +1,45 @@
 import {
     Size,
     CreatureType,
+    MovementType,
     Attribute,
     Resource,
     AttributeGroup,
     Skill,
-    ExpertiseType,
     DeflectSource,
     ItemType,
     DamageType,
-    Condition,
+    Status,
 } from '@system/types/cosmere';
 import { CosmereActor } from '@system/documents/actor';
-import { CosmereItem } from '@system/documents';
-import { ArmorItemDataModel } from '@system/data/item/armor';
+import { ArmorItem, LootItem } from '@system/documents';
+
+import { CosmereDocument } from '@src/system/types/utils';
 
 // Fields
 import { DerivedValueField, Derived } from '../fields/derived-value-field';
+import { ExpertisesField, Expertise } from './fields/expertises-field';
+
+export { Expertise } from './fields/expertises-field';
 
 interface DeflectData extends Derived<number> {
-    source?: DeflectSource;
-}
+    /**
+     * The natural deflect value for this actor.
+     * This value is used when deflect cannot be derived from its source, or
+     * when the natural value is higher than the derived value.
+     */
+    natural?: number;
 
-export interface ExpertiseData {
-    type: ExpertiseType;
-    id: string;
-    label: string;
-    custom?: boolean;
-    locked?: boolean;
+    /**
+     * A map of which damage types are deflected or
+     * not deflected by the actor.
+     */
+    types?: Record<DamageType, boolean>;
+
+    /**
+     * The source of the deflect value
+     */
+    source?: DeflectSource;
 }
 
 interface CurrencyDenominationData {
@@ -47,6 +59,11 @@ interface CurrencyDenominationData {
     convertedValue: Derived<number>;
 }
 
+export interface AttributeData {
+    value: number;
+    bonus: number;
+}
+
 export interface CommonActorData {
     size: Size;
     type: {
@@ -59,11 +76,11 @@ export interface CommonActorData {
         range: Derived<number>;
     };
     immunities: {
-        damage: DamageType[];
-        condition: Condition[];
+        damage: Record<DamageType, boolean>;
+        condition: Record<Status, boolean>;
     };
-    attributes: Record<Attribute, { value: number; bonus: number }>;
-    defenses: Record<AttributeGroup, { value: Derived<number>; bonus: number }>;
+    attributes: Record<Attribute, AttributeData>;
+    defenses: Record<AttributeGroup, Derived<number>>;
     deflect: DeflectData;
     resources: Record<
         Resource,
@@ -74,7 +91,18 @@ export interface CommonActorData {
     >;
     skills: Record<
         Skill,
-        { attribute: Attribute; rank: number; mod: Derived<number> }
+        {
+            attribute: Attribute;
+            rank: number;
+            mod: Derived<number>;
+
+            /**
+             * Derived field describing whether this skill is unlocked or not.
+             * This field is only present for non-core skills.
+             * Core skills are always unlocked.
+             */
+            unlocked?: boolean;
+        }
     >;
     injuries: Derived<number>;
     injuryRollBonus: number;
@@ -85,15 +113,19 @@ export interface CommonActorData {
             total: Derived<number>;
         }
     >;
-    movement: {
-        rate: Derived<number>;
-    };
+    movement: Record<MovementType, { rate: Derived<number> }>;
     encumbrance: {
         lift: Derived<number>;
         carry: Derived<number>;
     };
-    expertises?: ExpertiseData[];
+    expertises: Collection<Expertise>;
     languages?: string[];
+    biography?: string;
+    appearance?: string;
+    notes?: string;
+
+    // For Hooks
+    source: CosmereDocument;
 }
 
 export class CommonActorDataModel<
@@ -144,22 +176,7 @@ export class CommonActorDataModel<
                     initial: true,
                 }),
             }),
-            immunities: new foundry.data.fields.SchemaField({
-                damage: new foundry.data.fields.ArrayField(
-                    new foundry.data.fields.StringField({
-                        nullable: false,
-                        blank: false,
-                        choices: Object.keys(CONFIG.COSMERE.damageTypes),
-                    }),
-                ),
-                conditions: new foundry.data.fields.ArrayField(
-                    new foundry.data.fields.StringField({
-                        nullable: false,
-                        blank: false,
-                        choices: Object.keys(CONFIG.COSMERE.conditions),
-                    }),
-                ),
-            }),
+            immunities: this.getImmunitiesSchema(),
             attributes: this.getAttributesSchema(),
             defenses: this.getDefensesSchema(),
             resources: this.getResourcesSchema(),
@@ -175,26 +192,25 @@ export class CommonActorDataModel<
                 }),
                 {
                     additionalFields: {
+                        natural: new foundry.data.fields.NumberField({
+                            required: false,
+                            nullable: true,
+                            integer: true,
+                            initial: 0,
+                            label: 'COSMERE.Deflect.Natural.Label',
+                            hint: 'COSMERE.Deflect.Natural.Hint',
+                        }),
                         source: new foundry.data.fields.StringField({
                             initial: DeflectSource.Armor,
                             choices: Object.keys(
                                 CONFIG.COSMERE.deflect.sources,
                             ),
                         }),
+                        types: this.getDamageDeflectTypesSchema(),
                     },
                 },
             ),
-            movement: new foundry.data.fields.SchemaField({
-                rate: new DerivedValueField(
-                    new foundry.data.fields.NumberField({
-                        required: true,
-                        nullable: false,
-                        integer: true,
-                        min: 0,
-                        initial: 0,
-                    }),
-                ),
-            }),
+            movement: this.getMovementSchema(),
             injuries: new DerivedValueField(
                 new foundry.data.fields.NumberField({
                     required: true,
@@ -230,32 +246,28 @@ export class CommonActorDataModel<
                     }),
                 ),
             }),
-            expertises: new foundry.data.fields.ArrayField(
-                new foundry.data.fields.SchemaField({
-                    type: new foundry.data.fields.StringField({
-                        required: true,
-                        nullable: false,
-                        blank: false,
-                        initial: ExpertiseType.Cultural,
-                        choices: Object.keys(CONFIG.COSMERE.expertiseTypes),
-                    }),
-                    id: new foundry.data.fields.StringField({
-                        required: true,
-                        nullable: false,
-                        blank: false,
-                    }),
-                    label: new foundry.data.fields.StringField({
-                        required: true,
-                        nullable: false,
-                        blank: false,
-                    }),
-                    custom: new foundry.data.fields.BooleanField(),
-                    locked: new foundry.data.fields.BooleanField(),
-                }),
-            ),
+            expertises: new ExpertisesField({
+                required: true,
+            }),
             languages: new foundry.data.fields.ArrayField(
                 new foundry.data.fields.StringField(),
             ),
+
+            /**
+             * HTML Fields
+             */
+            biography: new foundry.data.fields.HTMLField({
+                label: 'COSMERE.Actor.Biography.Label',
+                initial: '',
+            }),
+            appearance: new foundry.data.fields.HTMLField({
+                label: 'COSMERE.Actor.Appearance.Label',
+                initial: '',
+            }),
+            notes: new foundry.data.fields.HTMLField({
+                label: 'COSMERE.Actor.Notes.Label',
+                initial: '',
+            }),
         };
     }
 
@@ -295,23 +307,15 @@ export class CommonActorDataModel<
         return new foundry.data.fields.SchemaField(
             Object.keys(defenses).reduce(
                 (schemas, key) => {
-                    schemas[key] = new foundry.data.fields.SchemaField({
-                        value: new DerivedValueField(
-                            new foundry.data.fields.NumberField({
-                                required: true,
-                                nullable: false,
-                                integer: true,
-                                min: 0,
-                                initial: 0,
-                            }),
-                        ),
-                        bonus: new foundry.data.fields.NumberField({
+                    schemas[key] = new DerivedValueField(
+                        new foundry.data.fields.NumberField({
                             required: true,
                             nullable: false,
                             integer: true,
+                            min: 0,
                             initial: 0,
                         }),
-                    });
+                    );
 
                     return schemas;
                 },
@@ -388,6 +392,18 @@ export class CommonActorDataModel<
                                 initial: 0,
                             }),
                         ),
+
+                        // Only present for non-core skills
+                        ...(!skills[key].core
+                            ? {
+                                  unlocked:
+                                      new foundry.data.fields.BooleanField({
+                                          required: true,
+                                          nullable: false,
+                                          initial: false,
+                                      }),
+                              }
+                            : {}),
                     });
 
                     return schemas;
@@ -467,18 +483,187 @@ export class CommonActorDataModel<
         });
     }
 
+    private static getDamageDeflectTypesSchema() {
+        const damageTypes = Object.keys(
+            CONFIG.COSMERE.damageTypes,
+        ) as DamageType[];
+
+        return new foundry.data.fields.SchemaField(
+            damageTypes.reduce(
+                (schema, type) => ({
+                    ...schema,
+                    [type]: new foundry.data.fields.BooleanField({
+                        required: true,
+                        nullable: false,
+                        initial:
+                            !CONFIG.COSMERE.damageTypes[type].ignoreDeflect,
+                    }),
+                }),
+                {} as Record<string, foundry.data.fields.BooleanField>,
+            ),
+            {
+                required: true,
+            },
+        );
+    }
+
+    private static getImmunitiesSchema() {
+        return new foundry.data.fields.SchemaField(
+            {
+                damage: this.getDamageImmunitiesSchema(),
+                condition: this.getConditionImmunitiesSchema(),
+            },
+            {
+                required: true,
+            },
+        );
+    }
+
+    private static getDamageImmunitiesSchema() {
+        const damageTypes = Object.keys(
+            CONFIG.COSMERE.damageTypes,
+        ) as DamageType[];
+
+        return new foundry.data.fields.SchemaField(
+            damageTypes.reduce(
+                (schema, type) => ({
+                    ...schema,
+                    [type]: new foundry.data.fields.BooleanField({
+                        required: true,
+                        nullable: false,
+                        initial: false,
+                    }),
+                }),
+                {} as Record<string, foundry.data.fields.BooleanField>,
+            ),
+            {
+                required: true,
+            },
+        );
+    }
+
+    private static getConditionImmunitiesSchema() {
+        const conditions = Object.keys(CONFIG.COSMERE.statuses) as Status[];
+
+        return new foundry.data.fields.SchemaField(
+            conditions.reduce(
+                (schema, condition) => ({
+                    ...schema,
+                    [condition]: new foundry.data.fields.BooleanField({
+                        required: true,
+                        nullable: false,
+                        initial: false,
+                    }),
+                }),
+                {} as Record<string, foundry.data.fields.BooleanField>,
+            ),
+            {
+                required: true,
+            },
+        );
+    }
+
+    private static getMovementSchema() {
+        const movementTypeConfigs = CONFIG.COSMERE.movement.types;
+
+        return new foundry.data.fields.SchemaField(
+            Object.entries(movementTypeConfigs).reduce(
+                (schema, [type, config]) => ({
+                    ...schema,
+                    [type]: new foundry.data.fields.SchemaField({
+                        rate: new DerivedValueField(
+                            new foundry.data.fields.NumberField({
+                                required: true,
+                                nullable: false,
+                                integer: true,
+                                min: 0,
+                                initial: 0,
+                            }),
+                        ),
+                    }),
+                }),
+                {} as Record<string, foundry.data.fields.SchemaField>,
+            ),
+        );
+    }
+
     public prepareDerivedData(): void {
         super.prepareDerivedData();
 
-        this.senses.range.value = awarenessToSensesRange(
-            this.attributes.awa.value,
+        // Derive non-core skill unlocks
+        (Object.keys(this.skills) as Skill[]).forEach((skill) => {
+            if (CONFIG.COSMERE.skills[skill].core) return;
+
+            // Check if the actor has a power that unlocks this skill
+            const unlocked = this.parent.powers.some(
+                (power) => power.system.skill === skill,
+            );
+
+            // Set unlocked status
+            this.skills[skill].unlocked = unlocked;
+        });
+
+        // Lock other movement types to always use override
+        (Object.keys(CONFIG.COSMERE.movement.types) as MovementType[])
+            .filter((type) => type !== MovementType.Walk)
+            .forEach((type) => (this.movement[type].rate.useOverride = true));
+
+        // Injury count
+        this.injuries.derived = this.parent.items.filter(
+            (item) => item.type === ItemType.Injury,
+        ).length;
+
+        const money = this.parent.items.filter(
+            (item) =>
+                item.type === ItemType.Loot &&
+                (item as LootItem).system.isMoney,
+        ) as LootItem[];
+
+        // Derive currency conversion values
+        Object.keys(this.currency).forEach((currency) => {
+            // Get currency data
+            const currencyData = this.currency[currency];
+
+            let total = 0;
+
+            money.forEach((item) => {
+                if (item.system.price.currency !== currency) return;
+
+                total += parseFloat(
+                    (
+                        item.system.price.baseValue * item.system.quantity
+                    ).toFixed(2),
+                );
+            });
+
+            // Update derived total
+            currencyData.total.derived = total;
+        });
+    }
+
+    /**
+     * Apply secondary data derivations to this Data Model.
+     * This is called after Active Effects are applied.
+     */
+    public prepareSecondaryDerivedData(): void {
+        // Senses range
+        this.senses.range.derived = awarenessToSensesRange(this.attributes.awa);
+
+        // Lifting & Carrying
+        this.encumbrance.lift.derived = strengthToLiftingCapacity(
+            this.attributes.str,
+        );
+        this.encumbrance.carry.derived = strengthToCarryingCapacity(
+            this.attributes.str,
+        );
+
+        // Movement
+        this.movement[MovementType.Walk].rate.derived = speedToMovementRate(
+            this.attributes.spd,
         );
 
         // Derive defenses
         (Object.keys(this.defenses) as AttributeGroup[]).forEach((group) => {
-            // Get bonus
-            const bonus = this.defenses[group].bonus;
-
             // Get attributes
             const attrs = CONFIG.COSMERE.attributeGroups[group].attributes;
 
@@ -489,33 +674,7 @@ export class CommonActorDataModel<
             const attrsSum = attrValues.reduce((sum, v) => sum + v, 0);
 
             // Assign defense
-            this.defenses[group].value.value = 10 + attrsSum + bonus;
-        });
-
-        // Derive resource max
-        (Object.keys(this.resources) as Resource[]).forEach((key) => {
-            // Get the resource
-            const resource = this.resources[key];
-
-            if (key === Resource.Health) {
-                // Get strength value
-                const strength = this.attributes.str.value;
-
-                // Assign max
-                resource.max.value = 10 + strength + (resource.max.bonus ?? 0);
-            } else if (key === Resource.Focus) {
-                // Get willpower value
-                const willpower = this.attributes.wil.value;
-
-                // Assign max
-                resource.max.value = 2 + willpower + (resource.max.bonus ?? 0);
-            }
-
-            // Get max
-            const max = Derived.getValue(resource.max)!;
-
-            // Ensure resource value is between max mand min
-            resource.value = Math.max(0, Math.min(max, resource.value));
+            this.defenses[group].derived = 10 + attrsSum;
         });
 
         // Derive skill modifiers
@@ -536,7 +695,7 @@ export class CommonActorDataModel<
             const attrValue = attribute.value + attribute.bonus;
 
             // Calculate mod
-            this.skills[skill].mod.value = attrValue + rank;
+            this.skills[skill].mod.derived = attrValue + rank;
         });
 
         // Get deflect source, defaulting to armor
@@ -544,105 +703,95 @@ export class CommonActorDataModel<
 
         // Derive deflect value
         if (source === DeflectSource.Armor) {
-            // Find equipped armor
+            // Get natural deflect value
+            const natural = this.deflect.natural ?? 0;
+
+            this.deflect.types = Object.keys(CONFIG.COSMERE.damageTypes).reduce(
+                (obj, type) => {
+                    obj[type as DamageType] = false;
+                    return obj;
+                },
+                {} as Record<DamageType, boolean>,
+            );
+
+            // Find equipped armor with the highest deflect value
             const armor = this.parent.items
-                .filter((item) => item.type === ItemType.Armor)
-                .map(
-                    (item) =>
-                        item as unknown as CosmereItem<ArmorItemDataModel>,
-                )
-                .find((item) => item.system.equipped);
-
-            // Derive deflect
-            this.deflect.value = armor?.system.deflect ?? 0;
-        }
-
-        // Movement
-        this.movement.rate.value = speedToMovementRate(
-            this.attributes.spd.value,
-        );
-
-        // Injury count
-        this.injuries.value = this.parent.items.filter(
-            (item) => item.type === ItemType.Injury,
-        ).length;
-
-        // Derive currency conversion values
-        Object.keys(this.currency).forEach((currency) => {
-            // Get currency config
-            const currencyConfig = CONFIG.COSMERE.currencies[currency];
-
-            // Get currency data
-            const currencyData = this.currency[currency];
-
-            let total = 0;
-
-            // Determine denomination derived values
-            currencyData.denominations.forEach((denom) => {
-                // Get denomination configs
-                const denominations = currencyConfig.denominations;
-                const primaryConfig = denominations.primary.find(
-                    (d) => d.id === denom.id,
+                .filter((item) => item.isArmor())
+                .filter((item) => item.system.equipped)
+                .reduce(
+                    (highest, item) => {
+                        return !highest ||
+                            item.system.deflect > highest.system.deflect
+                            ? item
+                            : highest;
+                    },
+                    null as ArmorItem | null,
                 );
 
-                if (!primaryConfig) return;
+            // Get armor deflect value and types
+            const armorDeflect = armor?.system.deflect ?? 0;
 
-                // Set conversion rate
-                denom.conversionRate.value = primaryConfig.conversionRate;
+            if (armor) {
+                Object.keys(armor.system.deflects).forEach(
+                    (type) =>
+                        (this.deflect.types![type as DamageType] =
+                            armor.system.deflects[type as DamageType].active),
+                );
+            } else {
+                Object.keys(CONFIG.COSMERE.damageTypes).forEach(
+                    (type) =>
+                        (this.deflect.types![type as DamageType] = !(
+                            CONFIG.COSMERE.damageTypes[type as DamageType]
+                                .ignoreDeflect ?? false
+                        )),
+                );
+            }
 
-                if (denom.secondaryId && !!denominations.secondary) {
-                    const secondaryConfig = denominations.secondary.find(
-                        (d) => d.id === denom.secondaryId,
-                    );
-                    denom.conversionRate.value *=
-                        secondaryConfig?.conversionRate ?? 1;
-                }
+            // Derive deflect
+            this.deflect.derived = Math.max(natural, armorDeflect);
+        }
 
-                // Get converted value
-                denom.convertedValue.value =
-                    denom.amount * denom.conversionRate.value;
+        // Clamp resource values to their max values
+        (Object.keys(this.resources) as Resource[]).forEach((key) => {
+            // Get the resource
+            const resource = this.resources[key];
 
-                // Adjust derived total for this currency accordingly
-                total += denom.convertedValue.value;
-            });
+            // Get max
+            const max = resource.max.value;
 
-            // Update derived total
-            currencyData.total.value = total;
+            // Ensure resource value is between max mand min
+            resource.value = Math.max(0, Math.min(max, resource.value));
         });
-
-        // Lifting & Carrying
-        this.encumbrance.lift.value = strengthToLiftingCapacity(
-            this.attributes.str.value,
-        );
-        this.encumbrance.carry.value = strengthToCarryingCapacity(
-            this.attributes.str.value,
-        );
     }
 }
 
 const SENSES_RANGES = [5, 10, 20, 50, 100, Number.MAX_VALUE];
-function awarenessToSensesRange(awareness: number) {
+function awarenessToSensesRange(attr: AttributeData) {
+    const awareness = attr.value + attr.bonus;
     return SENSES_RANGES[
         Math.min(Math.ceil(awareness / 2), SENSES_RANGES.length)
     ];
 }
 
 const MOVEMENT_RATES = [20, 25, 30, 40, 60, 80];
-function speedToMovementRate(speed: number) {
+function speedToMovementRate(attr: AttributeData) {
+    const speed = attr.value + attr.bonus;
     return MOVEMENT_RATES[
         Math.min(Math.ceil(speed / 2), MOVEMENT_RATES.length)
     ];
 }
 
 const LIFTING_CAPACITIES = [100, 200, 500, 1000, 5000, 10000];
-function strengthToLiftingCapacity(strength: number) {
+function strengthToLiftingCapacity(attr: AttributeData) {
+    const strength = attr.value + attr.bonus;
     return LIFTING_CAPACITIES[
         Math.min(Math.ceil(strength / 2), LIFTING_CAPACITIES.length)
     ];
 }
 
 const CARRYING_CAPACITIES = [50, 100, 250, 500, 2500, 5000];
-function strengthToCarryingCapacity(strength: number) {
+function strengthToCarryingCapacity(attr: AttributeData) {
+    const strength = attr.value + attr.bonus;
     return CARRYING_CAPACITIES[
         Math.min(Math.ceil(strength / 2), CARRYING_CAPACITIES.length)
     ];

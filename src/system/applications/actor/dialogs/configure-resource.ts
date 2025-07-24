@@ -1,6 +1,8 @@
 import { Resource } from '@system/types/cosmere';
 import { CosmereActor } from '@system/documents';
 import { AnyObject } from '@system/types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 import { CommonActorData } from '@system/data/actor/common';
 import { Derived } from '@system/data/fields';
@@ -25,7 +27,7 @@ export class ConfigureResourceDialog extends HandlebarsApplicationMixin(
             classes: ['dialog', 'configure-resource'],
             tag: 'dialog',
             position: {
-                width: 300,
+                width: 350,
             },
             actions: {
                 'update-resource': this.onUpdateResource,
@@ -37,8 +39,7 @@ export class ConfigureResourceDialog extends HandlebarsApplicationMixin(
         foundry.utils.deepClone(super.PARTS),
         {
             form: {
-                template:
-                    'systems/cosmere-rpg/templates/actors/dialogs/configure-resource.hbs',
+                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ACTOR_CONFIGURE_RESOURCE}`,
                 forms: {
                     form: {
                         handler: this.onFormEvent,
@@ -72,9 +73,16 @@ export class ConfigureResourceDialog extends HandlebarsApplicationMixin(
             },
         });
 
-        this.resourceData = this.actor.system.resources[resourceId];
+        this.resourceData = (
+            this.actor.system.schema.getField(
+                `resources.${resourceId}`,
+            ) as foundry.data.fields.SchemaField
+        ).initialize(
+            foundry.utils.deepClone(this.actor.system.resources[resourceId]),
+            this.actor,
+        ) as CommonActorData['resources'][keyof CommonActorData['resources']];
         this.resourceData.max.override ??= this.resourceData.max.value ?? 0;
-        this.mode = Derived.getMode(this.resourceData.max);
+        this.mode = this.resourceData.max.mode;
     }
 
     /* --- Statics --- */
@@ -87,7 +95,12 @@ export class ConfigureResourceDialog extends HandlebarsApplicationMixin(
 
     private static onUpdateResource(this: ConfigureResourceDialog) {
         void this.actor.update({
-            [`system.resources.${this.resourceId}`]: this.resourceData,
+            [`system.resources.${this.resourceId}`]: {
+                max: {
+                    useOverride: this.resourceData.max.useOverride,
+                    override: this.resourceData.max.override,
+                },
+            },
         });
         void this.close();
     }
@@ -109,7 +122,7 @@ export class ConfigureResourceDialog extends HandlebarsApplicationMixin(
         this.mode = formData.object.mode as Derived.Mode;
 
         // Assign mode
-        Derived.setMode(this.resourceData.max, this.mode);
+        this.resourceData.max.mode = this.mode;
 
         // Assign rate
         if (this.mode === Derived.Mode.Override && target.name === 'max')

@@ -1,0 +1,38 @@
+{
+    "folder": "xeAxqcLYdFWSwUur",
+    "name": "Disengage",
+    "type": "action",
+    "_id": "wC4Z0mdGwRxLDpMC",
+    "img": "icons/skills/movement/figure-running-gray.webp",
+    "system": {
+        "id": "disengage",
+        "type": "basic",
+        "description": {
+            "value": "<p>You carefully step away from an enemy, defending yourself so they can’t seize the opportunity to attack.</p><p>Move 5 feet without triggering@UUID[Compendium.cosmere-rpg.actions.Item.QpFIxaoCBezzt6yw]{Reactive Strikes}.</p>",
+            "chat": "<p>Move 5 feet without triggering@UUID[Compendium.cosmere-rpg.actions.Item.QpFIxaoCBezzt6yw]{Reactive Strikes}.</p>",
+            "short": "<p>Move 5 feet without triggering@UUID[Compendium.cosmere-rpg.actions.Item.QpFIxaoCBezzt6yw]{Reactive Strikes}.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": 1,
+                "type": "act"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        }
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!wC4Z0mdGwRxLDpMC"
+}

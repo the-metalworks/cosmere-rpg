@@ -1,4 +1,8 @@
+import { ItemType } from '@system/types/cosmere';
+import { ItemRelationship } from '@system/data/item/mixins/relationships';
 import { ConstructorOf } from '@system/types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
@@ -8,8 +12,7 @@ import { CharacterSheet } from '../../character-sheet';
 export class CharacterPathsComponent extends HandlebarsApplicationComponent<
     ConstructorOf<CharacterSheet>
 > {
-    static readonly TEMPLATE =
-        'systems/cosmere-rpg/templates/actors/character/components/paths.hbs';
+    static readonly TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_PATHS}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions
@@ -67,9 +70,30 @@ export class CharacterPathsComponent extends HandlebarsApplicationComponent<
                 id: path.id,
                 img: path.img,
                 typeLabel: CONFIG.COSMERE.paths.types[path.system.type].label,
-                level: this.application.actor.system.level.paths[
-                    path.system.id
-                ],
+                numTalents: path.system.relationships
+                    .filter((rel) => rel.type === ItemRelationship.Type.Child)
+                    .filter((rel) => rel.itemType === ItemType.Talent).length,
+                skills: path.system.linkedSkills
+                    .filter(
+                        (skillId) =>
+                            this.application.actor.system.skills[skillId]
+                                .unlocked === true,
+                    )
+                    .map((skillId) => ({
+                        id: skillId,
+                        label: CONFIG.COSMERE.skills[skillId].label,
+                        attribute: CONFIG.COSMERE.skills[skillId].attribute,
+                        attributeLabel:
+                            CONFIG.COSMERE.attributes[
+                                CONFIG.COSMERE.skills[skillId].attribute
+                            ].label,
+                        rank: this.application.actor.system.skills[skillId]
+                            .rank,
+                        mod: this.application.actor.system.skills[skillId].mod,
+                    })),
+                level: this.application.actor.talents.filter(
+                    (talent) => talent.pathId === path.id,
+                ).length,
             })),
         });
     }

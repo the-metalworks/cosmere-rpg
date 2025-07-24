@@ -3,7 +3,7 @@ import { CosmereRPGConfig } from './types/config';
 import {
     Size,
     CreatureType,
-    Condition,
+    Status,
     InjuryType,
     Attribute,
     AttributeGroup,
@@ -30,10 +30,14 @@ import {
     PathType,
     EquipHand,
     EquipmentType,
+    PowerType,
+    Theme,
+    MovementType,
+    ImmunityType,
 } from './types/cosmere';
 import { AdvantageMode } from './types/roll';
 
-import { Talent } from './types/item';
+import { Talent, TalentTree } from './types/item';
 
 const COSMERE: CosmereRPGConfig = {
     sizes: {
@@ -75,66 +79,154 @@ const COSMERE: CosmereRPGConfig = {
         },
     },
 
-    conditions: {
-        [Condition.Afflicted]: {
-            label: 'COSMERE.Conditions.Afflicted',
+    movement: {
+        types: {
+            [MovementType.Walk]: {
+                label: 'COSMERE.Actor.Movement.Type.Walk',
+            },
+            [MovementType.Swim]: {
+                label: 'COSMERE.Actor.Movement.Type.Swim',
+            },
+            [MovementType.Fly]: {
+                label: 'COSMERE.Actor.Movement.Type.Fly',
+            },
+        },
+    },
+
+    themes: {
+        [Theme.Default]: 'COSMERE.Theme.Default',
+    },
+
+    statuses: {
+        [Status.Afflicted]: {
+            label: 'COSMERE.Status.Afflicted',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/afflicted.svg',
+            reference:
+                'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#afflicted',
+            condition: true,
         },
-        [Condition.Determined]: {
-            label: 'COSMERE.Conditions.Determined',
+        [Status.Blind]: {
+            label: 'COSMERE.Status.Blind',
+            icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/blind.svg',
+            condition: false,
+        },
+        [Status.Burrowing]: {
+            label: 'COSMERE.Status.Burrowing',
+            icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/burrowing.svg',
+            condition: false,
+        },
+        [Status.Determined]: {
+            label: 'COSMERE.Status.Determined',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/determined.svg',
+            reference:
+                'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#determined',
+            condition: true,
         },
-        [Condition.Disoriented]: {
-            label: 'COSMERE.Conditions.Disoriented',
+        [Status.Disoriented]: {
+            label: 'COSMERE.Status.Disoriented',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/disoriented.svg',
+            reference:
+                'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#disoriented',
+            condition: true,
         },
-        [Condition.Empowered]: {
-            label: 'COSMERE.Conditions.Empowered',
+        [Status.Empowered]: {
+            label: 'COSMERE.Status.Empowered',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/empowered.svg',
+            reference:
+                'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#empowered',
+            condition: true,
         },
-        [Condition.Encumbered]: {
-            label: 'COSMERE.Conditions.Encumbered',
-            icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/encumbered.svg',
-        },
-        [Condition.Enhanced]: {
-            label: 'COSMERE.Conditions.Enhanced',
+        [Status.Enhanced]: {
+            label: 'COSMERE.Status.Enhanced',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/enhanced.svg',
+            reference:
+                'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#enhanced',
+            condition: true,
         },
-        [Condition.Exhausted]: {
-            label: 'COSMERE.Conditions.Exhausted',
+        [Status.Exhausted]: {
+            label: 'COSMERE.Status.Exhausted',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/exhausted.svg',
+            reference:
+                'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#exhausted',
+            condition: true,
+            stackable: true,
+            stacksDisplayTransform: (stacks) => (-stacks).toFixed(),
         },
-        [Condition.Focused]: {
-            label: 'COSMERE.Conditions.Focused',
+        [Status.Flying]: {
+            label: 'COSMERE.Status.Flying',
+            icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/flying.svg',
+            condition: false,
+        },
+        [Status.Focused]: {
+            label: 'COSMERE.Status.Focused',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/focused.svg',
+            reference:
+                'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#focused',
+            condition: true,
         },
-        [Condition.Immobilized]: {
-            label: 'COSMERE.Conditions.Immobilized',
+        [Status.Hidden]: {
+            label: 'COSMERE.Status.Hidden',
+            icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/hidden.svg',
+            condition: false,
+        },
+        [Status.Immobilized]: {
+            label: 'COSMERE.Status.Immobilized',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/immobilized.svg',
+            reference:
+                'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#immobilized',
+            condition: true,
         },
-        [Condition.Prone]: {
-            label: 'COSMERE.Conditions.Prone',
+        [Status.Invisible]: {
+            label: 'COSMERE.Status.Invisible',
+            icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/invisible.svg',
+            condition: false,
+        },
+        [Status.Prone]: {
+            label: 'COSMERE.Status.Prone',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/prone.svg',
+            reference:
+                'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#prone',
+            condition: true,
         },
-        [Condition.Restrained]: {
-            label: 'COSMERE.Conditions.Restrained',
+        [Status.Restrained]: {
+            label: 'COSMERE.Status.Restrained',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/restrained.svg',
+            reference:
+                'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#restrained',
+            condition: true,
         },
-        [Condition.Slowed]: {
-            label: 'COSMERE.Conditions.Slowed',
+        [Status.Slowed]: {
+            label: 'COSMERE.Status.Slowed',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/slowed.svg',
+            reference:
+                'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#slowed',
+            condition: true,
         },
-        [Condition.Stunned]: {
-            label: 'COSMERE.Conditions.Stunned',
+        [Status.Stunned]: {
+            label: 'COSMERE.Status.Stunned',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/stunned.svg',
+            reference:
+                'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#stunned',
+            condition: true,
         },
-        [Condition.Surprised]: {
-            label: 'COSMERE.Conditions.Surprised',
+        [Status.Surprised]: {
+            label: 'COSMERE.Status.Surprised',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/surprised.svg',
+            reference:
+                'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#surprised',
+            condition: true,
         },
-        [Condition.Unconcious]: {
-            label: 'COSMERE.Conditions.Unconscious',
+        [Status.Unconscious]: {
+            label: 'COSMERE.Status.Unconscious',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/unconscious.svg',
+            reference:
+                'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#unconscious',
+            condition: true,
+        },
+        [Status.Dead]: {
+            label: 'COSMERE.Status.Dead',
+            icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/dead.svg',
+            condition: true,
         },
     },
 
@@ -256,112 +348,295 @@ const COSMERE: CosmereRPGConfig = {
             key: Skill.Agility,
             label: 'COSMERE.Actor.Skill.Agility',
             attribute: Attribute.Speed,
-            attrLabel: 'COSMERE.Actor.Attribute.Speed.short',
+            core: true,
         },
         [Skill.Athletics]: {
             key: Skill.Athletics,
             label: 'COSMERE.Actor.Skill.Athletics',
             attribute: Attribute.Strength,
-            attrLabel: 'COSMERE.Actor.Attribute.Strength.short',
+            core: true,
         },
         [Skill.HeavyWeapons]: {
             key: Skill.HeavyWeapons,
             label: 'COSMERE.Actor.Skill.HeavyWeapons',
             attribute: Attribute.Strength,
-            attrLabel: 'COSMERE.Actor.Attribute.Strength.short',
+            core: true,
         },
         [Skill.LightWeapons]: {
             key: Skill.LightWeapons,
             label: 'COSMERE.Actor.Skill.LightWeapons',
             attribute: Attribute.Speed,
-            attrLabel: 'COSMERE.Actor.Attribute.Speed.short',
+            core: true,
         },
         [Skill.Stealth]: {
             key: Skill.Stealth,
             label: 'COSMERE.Actor.Skill.Stealth',
             attribute: Attribute.Speed,
-            attrLabel: 'COSMERE.Actor.Attribute.Speed.short',
+            core: true,
         },
         [Skill.Thievery]: {
             key: Skill.Thievery,
             label: 'COSMERE.Actor.Skill.Thievery',
             attribute: Attribute.Speed,
-            attrLabel: 'COSMERE.Actor.Attribute.Speed.short',
+            core: true,
         },
 
         [Skill.Crafting]: {
             key: Skill.Crafting,
             label: 'COSMERE.Actor.Skill.Crafting',
             attribute: Attribute.Intellect,
-            attrLabel: 'COSMERE.Actor.Attribute.Intellect.short',
+            core: true,
         },
         [Skill.Deduction]: {
             key: Skill.Deduction,
             label: 'COSMERE.Actor.Skill.Deduction',
             attribute: Attribute.Intellect,
-            attrLabel: 'COSMERE.Actor.Attribute.Intellect.short',
+            core: true,
         },
         [Skill.Discipline]: {
             key: Skill.Discipline,
             label: 'COSMERE.Actor.Skill.Discipline',
             attribute: Attribute.Willpower,
-            attrLabel: 'COSMERE.Actor.Attribute.Willpower.short',
+            core: true,
         },
         [Skill.Intimidation]: {
             key: Skill.Intimidation,
             label: 'COSMERE.Actor.Skill.Intimidation',
             attribute: Attribute.Willpower,
-            attrLabel: 'COSMERE.Actor.Attribute.Willpower.short',
+            core: true,
         },
         [Skill.Lore]: {
             key: Skill.Lore,
             label: 'COSMERE.Actor.Skill.Lore',
             attribute: Attribute.Intellect,
-            attrLabel: 'COSMERE.Actor.Attribute.Intellect.short',
+            core: true,
         },
         [Skill.Medicine]: {
             key: Skill.Medicine,
             label: 'COSMERE.Actor.Skill.Medicine',
             attribute: Attribute.Intellect,
-            attrLabel: 'COSMERE.Actor.Attribute.Intellect.short',
+            core: true,
         },
 
         [Skill.Deception]: {
             key: Skill.Deception,
             label: 'COSMERE.Actor.Skill.Deception',
             attribute: Attribute.Presence,
-            attrLabel: 'COSMERE.Actor.Attribute.Presence.short',
+            core: true,
         },
         [Skill.Insight]: {
             key: Skill.Insight,
             label: 'COSMERE.Actor.Skill.Insight',
             attribute: Attribute.Awareness,
-            attrLabel: 'COSMERE.Actor.Attribute.Awareness.short',
+            core: true,
         },
         [Skill.Leadership]: {
             key: Skill.Leadership,
             label: 'COSMERE.Actor.Skill.Leadership',
             attribute: Attribute.Presence,
-            attrLabel: 'COSMERE.Actor.Attribute.Presence.short',
+            core: true,
         },
         [Skill.Perception]: {
             key: Skill.Perception,
             label: 'COSMERE.Actor.Skill.Perception',
             attribute: Attribute.Awareness,
-            attrLabel: 'COSMERE.Actor.Attribute.Awareness.short',
+            core: true,
         },
         [Skill.Persuasion]: {
             key: Skill.Persuasion,
             label: 'COSMERE.Actor.Skill.Persuasion',
             attribute: Attribute.Presence,
-            attrLabel: 'COSMERE.Actor.Attribute.Presence.short',
+            core: true,
         },
         [Skill.Survival]: {
             key: Skill.Survival,
             label: 'COSMERE.Actor.Skill.Survival',
             attribute: Attribute.Awareness,
-            attrLabel: 'COSMERE.Actor.Attribute.Awareness.short',
+            core: true,
         },
+    },
+
+    advancement: {
+        rules: [
+            {
+                level: 1,
+                tier: 1,
+                maxSkillRanks: 2,
+                attributePoints: 12,
+                health: 10,
+                healthIncludeStrength: true,
+                skillRanks: 4,
+                talents: 1,
+            }, // Level 1
+            {
+                level: 2,
+                tier: 1,
+                maxSkillRanks: 2,
+                health: 5,
+                skillRanks: 2,
+                talents: 1,
+            }, // Level 2
+            {
+                level: 3,
+                tier: 1,
+                maxSkillRanks: 2,
+                attributePoints: 1,
+                health: 5,
+                skillRanks: 2,
+                talents: 1,
+            }, // Level 3
+            {
+                level: 4,
+                tier: 1,
+                maxSkillRanks: 2,
+                health: 5,
+                skillRanks: 2,
+                talents: 1,
+            }, // Level 4
+            {
+                level: 5,
+                tier: 1,
+                maxSkillRanks: 2,
+                health: 5,
+                skillRanks: 2,
+                talents: 1,
+            }, // Level 5
+            {
+                level: 6,
+                tier: 2,
+                maxSkillRanks: 3,
+                attributePoints: 1,
+                health: 4,
+                healthIncludeStrength: true,
+                skillRanks: 2,
+                talents: 1,
+            }, // Level 6
+            {
+                level: 7,
+                tier: 2,
+                maxSkillRanks: 3,
+                health: 4,
+                skillRanks: 2,
+                talents: 1,
+            }, // Level 7
+            {
+                level: 8,
+                tier: 2,
+                maxSkillRanks: 3,
+                health: 4,
+                skillRanks: 2,
+                talents: 1,
+            }, // Level 8
+            {
+                level: 9,
+                tier: 2,
+                maxSkillRanks: 3,
+                attributePoints: 1,
+                health: 4,
+                skillRanks: 2,
+                talents: 1,
+            }, // Level 9
+            {
+                level: 10,
+                tier: 2,
+                maxSkillRanks: 3,
+                health: 4,
+                skillRanks: 2,
+                talents: 1,
+            }, // Level 10
+            {
+                level: 11,
+                tier: 3,
+                maxSkillRanks: 4,
+                health: 3,
+                healthIncludeStrength: true,
+                skillRanks: 2,
+                talents: 1,
+            }, // Level 11
+            {
+                level: 12,
+                tier: 3,
+                maxSkillRanks: 4,
+                attributePoints: 1,
+                health: 3,
+                skillRanks: 2,
+                talents: 1,
+            }, // Level 12
+            {
+                level: 13,
+                tier: 3,
+                maxSkillRanks: 4,
+                health: 3,
+                skillRanks: 2,
+                talents: 1,
+            }, // Level 13
+            {
+                level: 14,
+                tier: 3,
+                maxSkillRanks: 4,
+                health: 3,
+                skillRanks: 2,
+                talents: 1,
+            }, // Level 14
+            {
+                level: 15,
+                tier: 3,
+                maxSkillRanks: 4,
+                attributePoints: 1,
+                health: 3,
+                skillRanks: 2,
+                talents: 1,
+            }, // Level 15
+            {
+                level: 16,
+                tier: 4,
+                maxSkillRanks: 5,
+                health: 2,
+                healthIncludeStrength: true,
+                skillRanks: 2,
+                talents: 1,
+            }, // Level 16
+            {
+                level: 17,
+                tier: 4,
+                maxSkillRanks: 5,
+                health: 2,
+                skillRanks: 2,
+                talents: 1,
+            }, // Level 17
+            {
+                level: 18,
+                tier: 4,
+                maxSkillRanks: 5,
+                attributePoints: 1,
+                health: 2,
+                skillRanks: 2,
+                talents: 1,
+            }, // Level 18
+            {
+                level: 19,
+                tier: 4,
+                maxSkillRanks: 5,
+                health: 2,
+                skillRanks: 2,
+                talents: 1,
+            }, // Level 19
+            {
+                level: 20,
+                tier: 4,
+                maxSkillRanks: 5,
+                health: 2,
+                skillRanks: 2,
+                talents: 1,
+            }, // Level 20
+            {
+                level: 21,
+                tier: 5,
+                maxSkillRanks: 5,
+                health: 1,
+                skillRanksOrTalents: 1,
+            }, // Level 21
+        ],
     },
 
     paths: {
@@ -442,6 +717,20 @@ const COSMERE: CosmereRPGConfig = {
                 desc_placeholder:
                     'COSMERE.Item.Type.Connection.desc_placeholder',
             },
+            [ItemType.Goal]: {
+                label: 'COSMERE.Item.Type.Goal.label',
+                labelPlural: 'COSMERE.Item.Type.Goal.label_plural',
+                desc_placeholder: 'COSMERE.Item.Type.Goal.desc_placeholder',
+            },
+            [ItemType.Power]: {
+                label: 'COSMERE.Item.Type.Power.label',
+                labelPlural: 'COSMERE.Item.Type.Power.label_plural',
+                desc_placeholder: 'COSMERE.Item.Type.Power.desc_placeholder',
+            },
+            [ItemType.TalentTree]: {
+                label: 'COSMERE.Item.Type.TalentTree.label',
+                labelPlural: 'COSMERE.Item.Type.TalentTree.label_plural',
+            },
         },
         activation: {
             types: {
@@ -509,6 +798,22 @@ const COSMERE: CosmereRPGConfig = {
                 },
             },
         },
+        weapon: {
+            types: {
+                [WeaponType.Light]: {
+                    label: 'COSMERE.Item.Weapon.Type.Light',
+                    skill: Skill.LightWeapons,
+                },
+                [WeaponType.Heavy]: {
+                    label: 'COSMERE.Item.Weapon.Type.Heavy',
+                    skill: Skill.HeavyWeapons,
+                },
+                [WeaponType.Special]: {
+                    label: 'COSMERE.Item.Weapon.Type.Special',
+                },
+            },
+        },
+
         equipment: {
             types: {
                 [EquipmentType.Basic]: {
@@ -519,46 +824,48 @@ const COSMERE: CosmereRPGConfig = {
         talent: {
             types: {
                 [Talent.Type.Ancestry]: {
-                    label: 'COSMERE.Talent.Type.Ancestry',
+                    label: 'COSMERE.Item.Talent.Type.Ancestry',
                 },
                 [Talent.Type.Path]: {
-                    label: 'COSMERE.Talent.Type.Path',
+                    label: 'COSMERE.Item.Talent.Type.Path',
+                },
+                [Talent.Type.Power]: {
+                    label: 'COSMERE.Item.Talent.Type.Power',
                 },
             },
-            prerequisite: {
-                types: {
-                    [Talent.Prerequisite.Type.Talent]:
-                        'COSMERE.Talent.Prerequisite.Type.Talent',
-                    [Talent.Prerequisite.Type.Attribute]:
-                        'COSMERE.Talent.Prerequisite.Type.Attribute',
-                    [Talent.Prerequisite.Type.Skill]:
-                        'COSMERE.Talent.Prerequisite.Type.Skill',
-                    [Talent.Prerequisite.Type.Connection]:
-                        'COSMERE.Talent.Prerequisite.Type.Connection',
-                },
-                modes: {
-                    [Talent.Prerequisite.Mode.AnyOf]:
-                        'COSMERE.Talent.Prerequisite.Mode.AnyOf',
-                    [Talent.Prerequisite.Mode.AllOf]:
-                        'COSMERE.Talent.Prerequisite.Mode.AllOf',
+        },
+        talentTree: {
+            node: {
+                prerequisite: {
+                    types: {
+                        [TalentTree.Node.Prerequisite.Type.Talent]:
+                            'COSMERE.Item.Talent.Prerequisite.Type.talent',
+                        [TalentTree.Node.Prerequisite.Type.Attribute]:
+                            'COSMERE.Item.Talent.Prerequisite.Type.attribute',
+                        [TalentTree.Node.Prerequisite.Type.Skill]:
+                            'COSMERE.Item.Talent.Prerequisite.Type.skill',
+                        [TalentTree.Node.Prerequisite.Type.Connection]:
+                            'COSMERE.Item.Talent.Prerequisite.Type.connection',
+                        [TalentTree.Node.Prerequisite.Type.Level]:
+                            'COSMERE.Item.Talent.Prerequisite.Type.level',
+                        [TalentTree.Node.Prerequisite.Type.Ancestry]:
+                            'COSMERE.Item.Talent.Prerequisite.Type.ancestry',
+                        [TalentTree.Node.Prerequisite.Type.Culture]:
+                            'COSMERE.Item.Talent.Prerequisite.Type.culture',
+                        [TalentTree.Node.Prerequisite.Type.Goal]:
+                            'COSMERE.Item.Talent.Prerequisite.Type.goal',
+                    },
                 },
             },
+        },
+
+        events: {
+            types: {}, // Default events registered using the api
+            handlers: {}, // Default handlers registered using the api
         },
     },
 
     currencies: {},
-
-    weaponTypes: {
-        [WeaponType.Light]: {
-            label: 'COSMERE.Item.Weapon.Type.Light',
-        },
-        [WeaponType.Heavy]: {
-            label: 'COSMERE.Item.Weapon.Type.Heavy',
-        },
-        [WeaponType.Special]: {
-            label: 'COSMERE.Item.Weapon.Type.Special',
-        },
-    },
 
     // TODO: These should reference their respective item ids in the compendium
     weapons: {
@@ -577,18 +884,37 @@ const COSMERE: CosmereRPGConfig = {
     expertiseTypes: {
         [ExpertiseType.Armor]: {
             label: 'COSMERE.Actor.Character.Expertise.Armor',
+            configRegistryKey: 'armors',
+            icon: 'fas fa-helmet-battle',
         },
         [ExpertiseType.Cultural]: {
             label: 'COSMERE.Actor.Character.Expertise.Cultural',
+            configRegistryKey: 'cultures',
+            icon: 'far fa-earth-asia',
         },
         [ExpertiseType.Specialist]: {
             label: 'COSMERE.Actor.Character.Expertise.Specialist',
+            icon: 'fas fa-award',
         },
         [ExpertiseType.Utility]: {
             label: 'COSMERE.Actor.Character.Expertise.Utility',
+            icon: 'fas fa-wrench',
         },
         [ExpertiseType.Weapon]: {
             label: 'COSMERE.Actor.Character.Expertise.Weapon',
+            configRegistryKey: 'weapons',
+            icon: 'fas fa-sword',
+        },
+    },
+
+    immunityTypes: {
+        [ImmunityType.Damage]: {
+            label: 'GENERIC.Damage',
+            icon: 'fas fa-heart-crack',
+        },
+        [ImmunityType.Condition]: {
+            label: 'GENERIC.Condition',
+            icon: 'fas fa-bolt',
         },
     },
 
@@ -657,6 +983,9 @@ const COSMERE: CosmereRPGConfig = {
             [ArmorTraitId.Presentable]: {
                 label: 'COSMERE.Item.Armor.Trait.Presentable',
             },
+            [ArmorTraitId.Unique]: {
+                label: 'COSMERE.Item.Armor.Trait.Unique',
+            },
         },
     },
 
@@ -695,6 +1024,10 @@ const COSMERE: CosmereRPGConfig = {
                 label: 'COSMERE.Item.Action.Type.Ancestry.label',
                 labelPlural: 'COSMERE.Item.Action.Type.Ancestry.label_plural',
             },
+            [ActionType.Adversary]: {
+                label: 'COSMERE.Item.Action.Type.Adversary.label',
+                labelPlural: 'COSMERE.Item.Action.Type.Adversary.label_plural',
+            },
         },
         costs: {
             [ActionCostType.Action]: {
@@ -723,26 +1056,41 @@ const COSMERE: CosmereRPGConfig = {
         },
     },
 
+    power: {
+        types: {
+            [PowerType.None]: {
+                label: 'COSMERE.Item.Type.Power.label',
+                plural: 'COSMERE.Item.Type.Power.label_plural',
+            },
+        },
+    },
+
     damageTypes: {
         [DamageType.Energy]: {
             label: 'COSMERE.DamageTypes.Energy',
+            icon: 'systems/cosmere-rpg/assets/icons/svg/damage/energy.svg',
         },
         [DamageType.Impact]: {
             label: 'COSMERE.DamageTypes.Impact',
+            icon: 'systems/cosmere-rpg/assets/icons/svg/damage/impact.svg',
         },
         [DamageType.Keen]: {
             label: 'COSMERE.DamageTypes.Keen',
+            icon: 'systems/cosmere-rpg/assets/icons/svg/damage/keen.svg',
         },
         [DamageType.Spirit]: {
             label: 'COSMERE.DamageTypes.Spirit',
+            icon: 'systems/cosmere-rpg/assets/icons/svg/damage/spirit.svg',
             ignoreDeflect: true,
         },
         [DamageType.Vital]: {
             label: 'COSMERE.DamageTypes.Vital',
+            icon: 'systems/cosmere-rpg/assets/icons/svg/damage/vital.svg',
             ignoreDeflect: true,
         },
         [DamageType.Healing]: {
             label: 'COSMERE.DamageTypes.Healing',
+            icon: 'systems/cosmere-rpg/assets/icons/svg/damage/healing.svg',
             ignoreDeflect: true,
         },
     },
@@ -757,11 +1105,58 @@ const COSMERE: CosmereRPGConfig = {
         },
     },
 
+    scaling: {
+        damage: {
+            unarmed: {
+                strength: [
+                    { min: 0, max: 2, formula: '1' },
+                    { min: 3, max: 4, formula: '1d4' },
+                    { min: 5, max: 6, formula: '1d8' },
+                    { min: 7, max: 8, formula: '2d6' },
+                    { min: 9, max: Infinity, formula: '2d10' },
+                ],
+            },
+        },
+        power: {
+            die: {
+                ranks: [
+                    { value: 1, formula: 'd4' },
+                    { value: 2, formula: 'd6' },
+                    { value: 3, formula: 'd8' },
+                    { value: 4, formula: 'd10' },
+                    { value: 5, formula: 'd12' },
+                ],
+            },
+            effectSize: {
+                ranks: [
+                    { value: 1, formula: Size.Small },
+                    { value: 2, formula: Size.Medium },
+                    { value: 3, formula: Size.Large },
+                    { value: 4, formula: Size.Huge },
+                    { value: 5, formula: Size.Garguantuan },
+                ],
+            },
+        },
+    },
+
     dice: {
         advantageModes: {
             [AdvantageMode.Disadvantage]: 'DICE.AdvantageMode.Disadvantage',
             [AdvantageMode.None]: 'DICE.AdvantageMode.None',
             [AdvantageMode.Advantage]: 'DICE.AdvantageMode.Advantage',
+        },
+    },
+
+    sheet: {
+        actor: {
+            components: {
+                actions: {
+                    sections: {
+                        static: {},
+                        dynamic: {},
+                    },
+                },
+            },
         },
     },
 };

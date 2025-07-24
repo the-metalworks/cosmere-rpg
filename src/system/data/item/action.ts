@@ -15,6 +15,11 @@ import {
 } from './mixins/activatable';
 import { DamagingItemMixin, DamagingItemData } from './mixins/damaging';
 import { ModalityItemMixin, ModalityItemData } from './mixins/modality';
+import { EventsItemMixin, EventsItemData } from './mixins/events';
+import {
+    RelationshipsMixin,
+    RelationshipsItemData,
+} from './mixins/relationships';
 
 export interface ActionItemData
     extends DescriptionItemData,
@@ -22,7 +27,9 @@ export interface ActionItemData
         IdItemData,
         TypedItemData<ActionType>,
         DamagingItemData,
-        ModalityItemData {
+        ModalityItemData,
+        EventsItemData,
+        RelationshipsItemData {
     /**
      * The id of the Ancestry this Talent belongs to.
      */
@@ -53,6 +60,8 @@ export class ActionItemDataModel extends DataModelMixin<
     ActivatableItemMixin(),
     DamagingItemMixin(),
     ModalityItemMixin(),
+    EventsItemMixin(),
+    RelationshipsMixin(),
 ) {
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), {

@@ -1,0 +1,24 @@
+<header class="message-header flexrow">
+    <h4 class="message-sender">
+        <a class="avatar" data-uuid="{{uuid}}">
+            <img src="{{img}}" alt="{{name}}">
+        </a>
+        <span class="name-stacked">
+            <span class="title">{{name}}</span>
+            {{#if subtitle}}
+            <span class="subtitle">{{subtitle}}</span>
+            {{/if}}
+        </span>
+    </h4>
+    <div class="message-metadata">
+        <time class="message-timestamp">{{timestamp}}</time>
+        {{#if canRepeat}}
+        <a aria-label="Repeat" class="message-repeat">
+            <i class="fas fa-repeat"></i>
+        </a>
+        {{/if}}
+        <a aria-label="Delete" class="message-delete">
+            <i class="fas fa-trash"></i>
+        </a>
+    </div>
+</header>

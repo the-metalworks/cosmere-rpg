@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2024 Stan van den Broek
+Copyright (c) 2025 The Metalworks 
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,3 +19,26 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+---
+
+### Exceptions
+This project is primarily licensed under the MIT License. However, a number of directories are subject to separate restrictions.
+See the respective `LICENSE` files in each directory for specific terms.
+
+The following directories, including but not limited to, contain content excluded from the MIT License and are subject to separate restrictions:
+
+- `src/assets/art` and its subdirectories
+- `src/assets/fonts` and its subdirectories
+- `src/assets/icons/cosmere` and its subdirectories
+- `src/assets/icons/stormlight` and its subdirectories
+- `src/assets/journal`
+- `src/assets/tokens` and its subdirectories
+- `src/packs/actions` and its subdirectories
+- `src/packs/ancestries`
+- `src/packs/cultures`
+- `src/packs/companions-and-adversaries` and its subdirectories
+- `src/packs/heroic-paths` and its subdirectories
+- `src/packs/items` and its subdirectories
+- `src/packs/starter-rules` 
+- `src/packs/tables`

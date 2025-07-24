@@ -1,4 +1,4 @@
-import { EquipType, ArmorTraitId } from '@system/types/cosmere';
+import { EquipType, ArmorTraitId, DamageType } from '@system/types/cosmere';
 import { CosmereItem } from '@src/system/documents';
 
 // Mixins
@@ -9,19 +9,36 @@ import {
     DescriptionItemData,
 } from './mixins/description';
 import { EquippableItemMixin, EquippableItemData } from './mixins/equippable';
+import {
+    ActivatableItemMixin,
+    ActivatableItemData,
+} from './mixins/activatable';
 import { TraitsItemMixin, TraitsItemData } from './mixins/traits';
+import { DeflectItemMixin, DeflectItemData } from './mixins/deflect';
 import { PhysicalItemMixin, PhysicalItemData } from './mixins/physical';
 import { ExpertiseItemMixin, ExpertiseItemData } from './mixins/expertise';
+import { EventsItemMixin, EventsItemData } from './mixins/events';
+import {
+    LinkedSkillsMixin,
+    LinkedSkillsItemData,
+} from './mixins/linked-skills';
+import {
+    RelationshipsMixin,
+    RelationshipsItemData,
+} from './mixins/relationships';
 
 export interface ArmorItemData
     extends IdItemData,
         DescriptionItemData,
         EquippableItemData,
+        ActivatableItemData,
         ExpertiseItemData,
         TraitsItemData<ArmorTraitId>,
-        PhysicalItemData {
-    deflect: number;
-}
+        DeflectItemData,
+        PhysicalItemData,
+        EventsItemData,
+        LinkedSkillsItemData,
+        RelationshipsItemData {}
 
 export class ArmorItemDataModel extends DataModelMixin<
     ArmorItemData,
@@ -39,18 +56,12 @@ export class ArmorItemDataModel extends DataModelMixin<
             choices: [EquipType.Wear],
         },
     }),
+    ActivatableItemMixin(),
     ExpertiseItemMixin(),
     TraitsItemMixin(),
+    DeflectItemMixin(),
     PhysicalItemMixin(),
-) {
-    static defineSchema() {
-        return foundry.utils.mergeObject(super.defineSchema(), {
-            deflect: new foundry.data.fields.NumberField({
-                required: true,
-                initial: 0,
-                min: 0,
-                integer: true,
-            }),
-        });
-    }
-}
+    EventsItemMixin(),
+    LinkedSkillsMixin(),
+    RelationshipsMixin(),
+) {}

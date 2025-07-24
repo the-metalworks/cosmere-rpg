@@ -75,9 +75,6 @@ export function ComponentHandlebarsApplicationMixin<
             let renderedParts: Record<string, HTMLElement> = {};
             const renderedComponents: Record<string, HTMLCollection> = {};
 
-            // Pre-render application
-            ComponentSystem.preRenderApplication(this.id);
-
             if (options.components) {
                 options.componentRefs.push(
                     ...Object.values(this.components)
@@ -88,6 +85,13 @@ export function ComponentHandlebarsApplicationMixin<
                 );
             }
 
+            // Pre-render application
+            ComponentSystem.preRenderApplication(
+                this.id,
+                options.parts,
+                options.componentRefs,
+            );
+
             // Part rendering
             if (options.parts?.length > 0) {
                 renderedParts = (await super._renderHTML(
@@ -95,16 +99,20 @@ export function ComponentHandlebarsApplicationMixin<
                     options,
                 )) as Record<string, HTMLElement>;
 
-                // Remove components that were deleted
-                ComponentSystem.removeOrphanedComponents(this.id);
-
-                // Get all rendered part ids
-                const renderedPartIds = Object.keys(renderedParts);
-
                 // Get all component refs that belong to the rendered parts
-                const componentRefs = Object.keys(this.components).filter(
-                    (ref) => renderedPartIds.includes(ref.split(':')[1]),
-                );
+                const componentRefs = Object.entries(this.components)
+                    .filter(([ref, instance]) =>
+                        Object.entries(renderedParts).some(
+                            ([partId, partHTML]) =>
+                                ref.split(':')[1] === partId &&
+                                $(partHTML)
+                                    .find(
+                                        `${instance.selector}[data-component-id="${instance.id}"]`,
+                                    )
+                                    .addBack(instance.selector).length > 0,
+                        ),
+                    )
+                    .map(([ref]) => ref);
 
                 // Mark components from rendered parts for rendering
                 options.componentRefs.push(...componentRefs);
@@ -142,6 +150,9 @@ export function ComponentHandlebarsApplicationMixin<
                     renderedComponents[ref] = html;
                 }
             }
+
+            // Remove components that were deleted
+            ComponentSystem.removeOrphanedComponents(this.id);
 
             /**
              * NOTE: Changing the return type of this function is actually

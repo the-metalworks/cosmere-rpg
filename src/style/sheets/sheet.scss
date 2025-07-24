@@ -1,50 +1,187 @@
-.sheet .window-content {
-    display: flex;
-    min-height: 0;
-    overflow: hidden;
+.application.sheet {    
+    --minimized-width: 250px;
+        
+    border: 3px solid var(--cosmere-color-accent);
+    border-radius: 0;
 
-    .sheet-content {
-        min-height: 0;
+    > .window-corners {
+        position: absolute;
+        top: -3px;
+        left: -3px;
+        right: -3px;
+        bottom: -3px;
+        border: none;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        filter: var(--cosmere-drop-shadow);
+
+        .corner {
+            background-color: var(--cosmere-color-accent);
+            mask: var(--border-sheet-corner-svg) no-repeat center;
+        }
+
+        .corner-pair {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .bot {
+            transform: scaleY(-1);
+        }
+
+        .right {
+            transform: scaleX(-1);
+        }
+    }
+
+    > .window-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border: none;
+
+        .banners {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 100%;
+            height: 100%;
+            position: relative;
+
+            .top, .bot {
+                height: 200px;
+            }
+        }
+    }
+
+    .html-field-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+
+        .html-field {
+            background-color: var(--cosmere-color-base-3);
+            border-radius: 6px;
+            padding: 0.5rem;
+
+            > .header {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                cursor: pointer;
+                border: none;
+                margin: 0;
+
+                font-size: var(--font-size-14);
+                font-family: var(--cosmere-font-header);
+                font-weight: 600;
+                text-shadow: none;
+
+                &::before {
+                    content: "\f078";
+                    font-family: var(--font-awesome);
+                    transition: all 250ms ease;
+                    transform: rotate(-90deg);
+                    color: var(--cosmere-color-faded);
+                }
+
+                .title {
+                    font-size: var(--font-size-12);
+                    color: var(--cosmere-color-text-sub);
+                    margin-top: 0.25rem;
+                }
+
+                > a {
+                    color: var(--cosmere-color-faded);
+                }
+            }
+
+            > .collapsible-content {
+                padding: 0 0.25rem;
+            }
+
+            &.expanded {
+                > .header::before {
+                    transform: none;
+                }
+            }
+        }
+    }    
+
+    .collapsible {
+        .collapsible-content {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 250ms ease;
+
+            & > .wrapper {
+                overflow: hidden;
+            }
+        } 
+        
+        &.expanded .collapsible-content{
+            grid-template-rows: 1fr;
+        }
+    }
+
+    prose-mirror {
         flex: 1;
-    }
-}
+        overflow: hidden;
 
-.window-content .sheet > * {
-    flex: unset;
-}
+        menu {
+            --color-hover-bg: var(--cosmere-color-base-4);
+            --color-control-bg: var(--cosmere-color-base-4);
+            --color-form-label-hover: var(--cosmere-color-text-sub);
+            background: var(--cosmere-color-base-3);
+            justify-content: space-evenly;
 
-.window-content .sheet,
-.sheet-body {
-    display: flex;
-    flex-direction: column;
-    flex: 1 !important;
-}
+            button {
+                font-family: var(--cosmere-font-normal);
+                font-variant: lining-nums;
+                font-weight: 600;
+                color: var(--cosmere-color-faded);
+                background: none;
+                padding: 0;
 
-.box-title {
-    text-align: center;
-    text-transform: uppercase;
-    font-size: 9pt;
-    font-weight: bold;
-}
+                &:hover {
+                    color: var(--cosmere-color-text-sub);
+                    box-shadow: none;
+                }
 
-.application.sheet {
-    .value {
-        text-align: center;
-        font-size: 18pt;
-        font-weight: bold;
-        margin: 0.25ch;
-    }
+                &:focus {
+                    outline: none;
+                    box-shadow: none;
+                }
+            }
 
-    .form-group input::placeholder {
-        opacity: 0.5 !important;
-    }
-}
+            .pm-dropdown i.fa-chevron-down {
+                color: var(--cosmere-color-faded);
+            }
 
-.sheet .tab-body {
-    min-height: 0;
-    overflow-y: auto;
+            .pm-dropdown:hover i {
+                color: var(--cosmere-color-text-sub);
+            }
+        }
 
-    .tab-content {
-        position: relative;
+        .editor-container {
+            overflow: hidden auto;
+            margin-right: 0;
+
+            .editor-content {
+                position: unset;
+                min-height: 300px;
+                padding: 0.25rem 0.5rem;
+            }
+        }
+
+        > textarea {
+            min-height: 300px;
+            padding: 0.25rem 0.5rem;
+            scrollbar-color: var(--cosmere-color-base-6) var(--color-scrollbar-track);
+        }
     }
 }

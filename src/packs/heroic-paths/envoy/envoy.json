@@ -1,0 +1,81 @@
+{
+    "name": "Envoy",
+    "type": "path",
+    "_id": "axOgzq972lY7la00",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/paths/envoy.webp",
+    "system": {
+        "id": "envoy",
+        "type": "heroic",
+        "description": {
+            "value": "<p>Prominent organizations throughout Roshar appoint Envoys who vie for resources, curry favor, or offer service on the organization’s behalf. These stewards dutifully further the reach of their ideologies through precise rhetoric, patient attendance, and ceaseless fervor.</p><p>Envoys typically subscribe to well-established beliefs and are careful not to disrupt the integrity of those tenets with personal desires and ambitions. Wherever they go, an Envoy stays rooted in their ethos through their strong connection to the entity they serve. Though an Envoy considers themself part of something much grander, their personality shapes the way they fulfill their duties—and thus they shape the organization they serve.</p><h3>Envoy Specialties</h3><p>The Envoy path presents talents in three specialties:</p><p><strong>Diplomat.</strong> Stationed abroad, Diplomats are adept at navigating court politics. They use what they learn about their host countries to seek more favorable treatment for their own.</p><p><strong>Faithful.</strong> For Faithful, worship of the divine permeates their entire lives. They devote themselves to the traditions of their faith, demonstrating their convictions to others through word or deed.</p><p><strong>Mentor.</strong> More interested in the individual than the whole, Mentors devote themselves to their wards. They patiently nurture others toward greatness, seeing beyond doubts and deficits to stoke each person’s potential. Available in the <em>Stormlight Handbook</em>.</p><h3>Building an Envoy</h3><p>Consider these general tips for building an effective Envoy:</p><p><strong>Attributes.</strong> It’s usually a good idea to prioritize <strong>Presence</strong> and <strong>Willpower</strong>.</p><p><strong>Skills.</strong> <strong>Discipline</strong> is an essential skill for most Envoys. Other useful skills include <strong>Deception</strong>, <strong>Leadership</strong>, <strong>Lore</strong>, and <strong>Persuasion</strong>.</p><p><strong>Other Heroic Paths.</strong> The @UUID[Compendium.cosmere-rpg.heroic-paths.Item.spF8y5TmLUxxMfxm]{Leader} and @UUID[Compendium.cosmere-rpg.heroic-paths.Item.oFA1jJZQMhTUjyem]{Scholar} paths make excellent multi-path choices.</p><p><strong>Rewards.</strong> When choosing rewards, you can’t go wrong with influential patrons.</p><h3>Envoy Key Talent</h3><p>The Envoy key talent, @UUID[Compendium.cosmere-rpg.heroic-paths.Item.l4wRQT2MH0SsxmRQ]{Rousing Presence}, unlocks access to the Envoy specialties.</p><p><strong>Starting Skill:</strong> <strong>Discipline.</strong> If you choose Envoy as your starting path, gain a free skill rank in <strong>Discipline</strong>.</p>",
+            "chat": "<p>An insightful negotiator who adeptly influences others. Envoy specialties include the @UUID[Compendium.cosmere-rpg.heroic-paths.Item.5UPsPRQlY1Z9kkMP]{Faithful}, @UUID[Compendium.cosmere-rpg.heroic-paths.Item.ZRIEutBIUNmXBPEU]{Diplomat}, and @UUID[Compendium.cosmere-rpg.heroic-paths.Item.TyWPllHI5qxI13iQ]{Mentor}.</p>",
+            "short": "<p>Prominent organizations throughout Roshar appoint Envoys who vie for resources, curry favor, or offer service on the organization’s behalf. These stewards dutifully further the reach of their ideologies through precise rhetoric, patient attendance, and ceaseless fervor.</p><p>Envoys typically subscribe to well-established beliefs and are careful not to disrupt the integrity of those tenets with personal desires and ambitions. Wherever they go, an Envoy stays rooted in their ethos through their strong connection to the entity they serve. Though an Envoy considers themself part of something much grander, their personality shapes the way they fulfill their duties—and thus they shape the organization they serve.</p>"
+        },
+        "talentTree": "Compendium.cosmere-rpg.heroic-paths.Item.NpPeWbwRaRDOfQ17",
+        "events": {
+            "iF2oxqzkyui7zPwO": {
+                "id": "iF2oxqzkyui7zPwO",
+                "description": "Try Set Starting Path",
+                "event": "add-to-actor",
+                "handler": {
+                    "type": "execute-macro",
+                    "inline": true,
+                    "uuid": null,
+                    "macro": {
+                        "type": "script",
+                        "command": "cosmereRPG.utils.macros.startingPath.set(event.item);"
+                    }
+                }
+            },
+            "Lq9mFRZ0yJ8hW6Gc": {
+                "id": "Lq9mFRZ0yJ8hW6Gc",
+                "description": "Try Unset Starting Path",
+                "event": "remove-from-actor",
+                "handler": {
+                    "type": "execute-macro",
+                    "inline": true,
+                    "uuid": null,
+                    "macro": {
+                        "type": "script",
+                        "command": "cosmereRPG.utils.macros.startingPath.unset(event.item);"
+                    }
+                }
+            },
+            "Ogjp8GeCh5JjwEK6": {
+                "id": "Ogjp8GeCh5JjwEK6",
+                "description": "Grant Key Talent",
+                "event": "add-to-actor",
+                "handler": {
+                    "type": "grant-items",
+                    "allowDuplicates": false,
+                    "increaseQuantity": false,
+                    "items": [
+                        {
+                            "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.l4wRQT2MH0SsxmRQ"
+                        }
+                    ]
+                }
+            },
+            "trsszul0Jb0fDK6g": {
+                "id": "trsszul0Jb0fDK6g",
+                "description": "Remove Key Talent",
+                "event": "remove-from-actor",
+                "handler": {
+                    "type": "remove-items",
+                    "reduceQuantity": false,
+                    "items": [
+                        "Compendium.cosmere-rpg.heroic-paths.Item.l4wRQT2MH0SsxmRQ"
+                    ]
+                }
+            }
+        }
+    },
+    "effects": [],
+    "folder": "r4Hes6L3MsNihbOx",
+    "sort": 100000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!axOgzq972lY7la00"
+}

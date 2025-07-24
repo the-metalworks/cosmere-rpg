@@ -1,0 +1,18 @@
+<div class="dice-roll collapsible">
+    <div class="dice-result">
+        <div class="dice-formula">{{formula}}</div>
+        {{{tooltip}}}
+        <div class="dice-roll-d20">
+            {{#each entries}}
+            <h4 class="dice-total {{#if this.ignored}}ignored{{/if}} {{this.plotType}}">
+                {{this.total}}
+                {{#if this.plotDice}}
+                    {{#each this.plotDice}}
+                        <span class="cosmere-icon {{this}}"></span>
+                    {{/each}}
+                {{/if}}
+            </h4>
+            {{/each}}
+        </div>
+    </div>
+</div>

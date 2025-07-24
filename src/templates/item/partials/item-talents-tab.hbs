@@ -1,0 +1,16 @@
+{{#with (lookup tabsMap "talents") as |tab|}}
+
+<div class="tab tab-content {{tab.cssClass}}" data-tab="talents" data-group="primary">
+    {{#if @root.talentTree}}
+        {{app-talent-tree-view
+            tree=@root.talentTree
+            contextActor=@root.contextActor
+            allowObtainTalents=true
+            parent=@root.item
+        }}
+    {{else}}
+        <p>{{localize "COSMERE.Item.Sheet.Path.NoTalentsConfigured"}}</p>
+    {{/if}}
+</div>
+
+{{/with}}

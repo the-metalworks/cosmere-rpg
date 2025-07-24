@@ -1,0 +1,107 @@
+{
+    "folder": "3BLDPpsyg58Y3JrZ",
+    "name": "Composed",
+    "type": "talent",
+    "_id": "3k8dacQz08IUfI4D",
+    "img": "icons/magic/holy/meditation-chi-focus-blue.webp",
+    "system": {
+        "id": "composed",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p><em>Through practiced composure, you push your limits without becoming distracted or losing track of threats.</em></p><p>When you acquire this talent, your maximum and current focus increase by a number equal to your tier. When your tier increases by 1, your maximum and current focus do as well.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>Increase your max and current focus by your tier.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>When you acquire this talent, your maximum and current focus increase by a number equal to your tier. When your tier increases by 1, your maximum and current focus do as well.</p>"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "path": "envoy",
+        "hasPath": false,
+        "specialty": "faithful",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "0bhaowStIfZORMgW": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "galvanize",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.a7JxaGktFBomRJdd",
+                        "label": "Galvanize"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "modality": null
+    },
+    "effects": [
+        {
+            "name": "Composed",
+            "img": "icons/magic/holy/meditation-chi-focus-blue.webp",
+            "disabled": false,
+            "duration": {
+                "startTime": null,
+                "seconds": null,
+                "combat": null,
+                "rounds": null,
+                "turns": null,
+                "startRound": null,
+                "startTurn": null
+            },
+            "_id": "lqEVqrC6MGOfSnOh",
+            "type": "base",
+            "system": {},
+            "changes": [
+                {
+                    "key": "system.resources.foc.max.bonus",
+                    "mode": 2,
+                    "value": "@tier",
+                    "priority": null
+                }
+            ],
+            "description": "",
+            "origin": null,
+            "tint": "#ffffff",
+            "transfer": true,
+            "statuses": [],
+            "sort": 0,
+            "flags": {},
+            "_stats": {
+                "coreVersion": "12.343",
+                "systemId": null,
+                "systemVersion": null,
+                "createdTime": null,
+                "modifiedTime": 1739710605753,
+                "lastModifiedBy": "7Oytl88JDvVeIDlD",
+                "compendiumSource": null,
+                "duplicateSource": null
+            },
+            "_key": "!items.effects!3k8dacQz08IUfI4D.lqEVqrC6MGOfSnOh"
+        }
+    ],
+    "sort": 200000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!3k8dacQz08IUfI4D"
+}

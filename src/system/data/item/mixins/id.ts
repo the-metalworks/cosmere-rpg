@@ -7,6 +7,8 @@ interface IdItemMixinOptions<Type extends string = string> {
         | Type[]
         | Record<Type, string>
         | (() => Type[] | Record<Type, string>);
+    label?: string;
+    hint?: string;
 }
 
 export interface IdItemData<Type extends string = string> {
@@ -50,6 +52,12 @@ export function IdItemMixin<
                             initial ??
                             (options.initialFromName ? '<id>' : undefined),
                         choices,
+                        label:
+                            options.label ??
+                            'COSMERE.Item.Sheet.Identifier.Label',
+                        hint:
+                            options.hint ??
+                            'COSMERE.Item.Sheet.Identifier.Hint',
                     }),
                 });
             }

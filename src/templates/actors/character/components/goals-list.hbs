@@ -1,45 +1,51 @@
-<ul class="goals-list">
-    <li class="goal header">
-        <span class="title">{{localize "COSMERE.Actor.Sheet.Details.Goals.Label"}}</span>
+<ul class="item-list bullet-list">
+    <li class="item header">
+        <section class="details">
+            <span class="title">{{localize "COSMERE.Actor.Sheet.Details.Goals.Label"}}</span>
+        </section>
     </li>
 
-    {{#each goals as |goal index|}}
-    <li class="goal {{#if goal.achieved}}achieved{{/if}}" data-id="{{index}}">
-        <i class="fa-solid fa-diamond"></i>
+    {{#each goals as |goal|}}
+    <li class="item {{#if goal.achieved}}achieved{{/if}}" data-id="{{goal.id}}">
+        <section class="details">
+            <i class="bullet fade icon faded fa-solid fa-diamond"></i>
+            <input class="name fade" type="text" value="{{goal.name}}" readonly>
 
-        <span class="title">{{goal.text}}</span>
-        <input type="text" class="title inactive" value="{{goal.text}}">
-
-        <a data-action="adjust-goal-progress"
-            {{#if @root.editable}}
-            data-tooltip="{{localize "COSMERE.Actor.Sheet.Details.Goals.AdjustProgressTooltipInc"}}<br>{{localize "COSMERE.Actor.Sheet.Details.Goals.AdjustProgressTooltipDec"}}"
-            {{/if}}
-        >
-            <ul class="progress-pips">
-                {{#times goal.level}}
-                <li class="active"></li>
-                {{/times}}
-                {{#times (sub 3 goal.level)}}
-                <li></li>
-                {{/times}}
-            </ul>
-        </a>
-
-        <div class="controls">
-            {{#if @root.editable}}
-            <a
-                data-action="toggle-goal-controls"
-                data-tooltip="APPLICATION.TOOLS.ToggleControls"
+            <a class="fade" data-action="adjust-goal-progress"
+                {{#if @root.editable}}
+                data-tooltip="{{localize "COSMERE.Actor.Sheet.Details.Goals.AdjustProgressTooltipInc"}}<br>{{localize "COSMERE.Actor.Sheet.Details.Goals.AdjustProgressTooltipDec"}}"
+                {{/if}}
             >
-                <i class="fa-solid fa-ellipsis-vertical"></i>
+                <ul class="pip-list">
+                    {{#times goal.level}}
+                        <li class="pip active">
+                            <div></div>
+                        </li>
+                    {{/times}}
+                    {{#times (sub 3 goal.level)}}
+                        <li class="pip">
+                            <div></div>
+                        </li>
+                    {{/times}}
+                </ul>
             </a>
-            {{/if}}
-        </div>
+
+            <div class="controls icon faded">
+                {{#if @root.editable}}
+                <a
+                    data-action="toggle-goal-controls"
+                    data-tooltip="APPLICATION.TOOLS.ToggleControls"
+                >
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                </a>
+                {{/if}}
+            </div>
+        </section>        
     </li>
     {{/each}}
     
     {{#if editable}}
-    <li class="goal new">
+    <li class="item new">
         <a data-action="add-goal">
             <i class="fa-solid fa-plus"></i>
             <span>
@@ -50,7 +56,7 @@
     {{/if}}
 </ul>
 {{#if editable}}
-<div class="bottom-controls">
+<div class="hide-completed">
     <a {{#if hideCompletedGoals}}class="active"{{/if}} 
         data-action="toggle-hide-completed-goals"
     >
@@ -63,11 +69,7 @@
     </a>
 </div>
 
-<menu class="controls-dropdown {{#if controlsDropdown.expanded}}expanded{{/if}}"
-    {{#if controlsDropdown.expanded}}
-    style="top:{{controlsDropdown.position.top}}px;right:{{controlsDropdown.position.right}}px"
-    {{/if}}
->
+<menu class="controls-dropdown">
     <li class="header-control">
         <button class="control"
             data-action="edit-goal"

@@ -1,0 +1,54 @@
+<ul class="item-list events-list">
+    <li class="item header">
+        <section class="details">
+            <span class="title">Description</span>
+            <span class="subtitle wide">Trigger</span>
+            <span class="subtitle wide">Handler</span>
+            <div class="controls icon active">
+                {{#if editable}}
+                <a data-action="create-rule" 
+                    data-tooltip="Add event rule"
+                >
+                    <i class="fa-solid fa-plus"></i>
+                </a>
+                {{else}}
+                <div></div>
+                {{/if}}
+            </div>
+        </section>
+    </li>
+
+    {{#each rules as |rule|}}
+        <li class="item rule" data-id="{{rule.id}}">
+            <section class="details"> 
+                <div class="name">
+                    <span>{{rule.description}}</span>
+                </div>
+                <div class="detail wide">
+                    <span data-tooltip="{{localize rule.eventTypeDescription}}">
+                        {{localize rule.eventTypeLabel}}
+                    </span>
+                </div>
+                <div class="detail wide">
+                    <span data-tooltip="{{localize rule.handler.typeDescription}}">
+                        {{localize rule.handler.typeLabel}}
+                    </span>
+                </div>
+                <div class="controls icon faded">
+                    {{#if @root.editable}}
+                    <a data-action="edit-rule" 
+                        data-tooltip="Edit"
+                    >
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
+                    <a data-action="delete-rule" 
+                        data-tooltip="Delete"
+                    >
+                        <i class="fa-solid fa-trash"></i>
+                    </a>
+                    {{/if}}
+                </div>
+            </section>
+        </li>
+    {{/each}}
+</ul>

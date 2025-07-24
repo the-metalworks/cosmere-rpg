@@ -1,0 +1,870 @@
+{
+    "name": "Skyeel",
+    "type": "adversary",
+    "img": "systems/cosmere-rpg/assets/tokens/alt_tokens_no_ring/sky%20eel_none.webp",
+    "system": {
+        "size": "medium",
+        "type": {
+            "id": "animal",
+            "custom": null,
+            "subtype": ""
+        },
+        "tier": 1,
+        "senses": {
+            "range": {
+                "override": null,
+                "useOverride": false,
+                "bonus": 0,
+                "derived": 5
+            },
+            "obscuredAffected": true
+        },
+        "immunities": {
+            "damage": [],
+            "condition": {
+                "afflicted": false,
+                "blind": false,
+                "burrowing": false,
+                "determined": false,
+                "disoriented": false,
+                "empowered": false,
+                "enhanced": false,
+                "exhausted": false,
+                "flying": false,
+                "focused": false,
+                "hidden": false,
+                "immobilized": false,
+                "invisible": false,
+                "prone": false,
+                "restrained": false,
+                "slowed": false,
+                "stunned": false,
+                "surprised": false,
+                "unconscious": false,
+                "dead": false
+            }
+        },
+        "attributes": {
+            "str": {
+                "value": 2,
+                "bonus": 0
+            },
+            "spd": {
+                "value": 3,
+                "bonus": 0
+            },
+            "int": {
+                "value": 0,
+                "bonus": 0
+            },
+            "wil": {
+                "value": 1,
+                "bonus": 0
+            },
+            "awa": {
+                "value": 3,
+                "bonus": 0
+            },
+            "pre": {
+                "value": 0,
+                "bonus": 0
+            }
+        },
+        "defenses": {
+            "phy": {
+                "bonus": 0,
+                "derived": 0,
+                "override": null,
+                "useOverride": false
+            },
+            "cog": {
+                "bonus": 0,
+                "derived": 0,
+                "override": null,
+                "useOverride": false
+            },
+            "spi": {
+                "bonus": 0,
+                "derived": 0,
+                "override": null,
+                "useOverride": false
+            }
+        },
+        "resources": {
+            "hea": {
+                "value": 12,
+                "max": {
+                    "override": 12,
+                    "useOverride": true,
+                    "bonus": 0,
+                    "derived": 0
+                },
+                "bonus": 0
+            },
+            "foc": {
+                "value": 3,
+                "max": {
+                    "override": 3,
+                    "useOverride": true,
+                    "bonus": 0,
+                    "derived": 0
+                },
+                "bonus": 0
+            },
+            "inv": {
+                "value": 0,
+                "max": {
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0,
+                    "derived": 0
+                },
+                "bonus": 0
+            }
+        },
+        "skills": {
+            "agi": {
+                "attribute": "spd",
+                "rank": 1,
+                "mod": {
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0,
+                    "derived": 0
+                }
+            },
+            "ath": {
+                "attribute": "str",
+                "rank": 0,
+                "mod": {
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0,
+                    "derived": 0
+                }
+            },
+            "hwp": {
+                "attribute": "str",
+                "rank": 0,
+                "mod": {
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0,
+                    "derived": 0
+                }
+            },
+            "lwp": {
+                "attribute": "spd",
+                "rank": 0,
+                "mod": {
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0,
+                    "derived": 0
+                }
+            },
+            "stl": {
+                "attribute": "spd",
+                "rank": 1,
+                "mod": {
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0,
+                    "derived": 0
+                }
+            },
+            "thv": {
+                "attribute": "spd",
+                "rank": 0,
+                "mod": {
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0,
+                    "derived": 0
+                }
+            },
+            "cra": {
+                "attribute": "int",
+                "rank": 0,
+                "mod": {
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0,
+                    "derived": 0
+                }
+            },
+            "ded": {
+                "attribute": "int",
+                "rank": 0,
+                "mod": {
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0,
+                    "derived": 0
+                }
+            },
+            "dis": {
+                "attribute": "wil",
+                "rank": 0,
+                "mod": {
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0,
+                    "derived": 0
+                }
+            },
+            "inm": {
+                "attribute": "wil",
+                "rank": 0,
+                "mod": {
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0,
+                    "derived": 0
+                }
+            },
+            "lor": {
+                "attribute": "int",
+                "rank": 0,
+                "mod": {
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0,
+                    "derived": 0
+                }
+            },
+            "med": {
+                "attribute": "int",
+                "rank": 0,
+                "mod": {
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0,
+                    "derived": 0
+                }
+            },
+            "dec": {
+                "attribute": "pre",
+                "rank": 0,
+                "mod": {
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0,
+                    "derived": 0
+                }
+            },
+            "ins": {
+                "attribute": "awa",
+                "rank": 0,
+                "mod": {
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0,
+                    "derived": 0
+                }
+            },
+            "lea": {
+                "attribute": "pre",
+                "rank": 0,
+                "mod": {
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0,
+                    "derived": 0
+                }
+            },
+            "prc": {
+                "attribute": "awa",
+                "rank": 2,
+                "mod": {
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0,
+                    "derived": 0
+                }
+            },
+            "prs": {
+                "attribute": "pre",
+                "rank": 0,
+                "mod": {
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0,
+                    "derived": 0
+                }
+            },
+            "sur": {
+                "attribute": "awa",
+                "rank": 1,
+                "mod": {
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0,
+                    "derived": 0
+                }
+            },
+            "adh": {
+                "attribute": "pre",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            },
+            "grv": {
+                "attribute": "awa",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            },
+            "ill": {
+                "attribute": "pre",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            },
+            "trs": {
+                "attribute": "wil",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            },
+            "trp": {
+                "attribute": "int",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            },
+            "chs": {
+                "attribute": "wil",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            },
+            "dvs": {
+                "attribute": "int",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            },
+            "abr": {
+                "attribute": "spd",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            },
+            "tsn": {
+                "attribute": "str",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            },
+            "prg": {
+                "attribute": "awa",
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            }
+        },
+        "currency": {
+            "spheres": {
+                "denominations": [],
+                "total": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "dun": {
+                "denominations": [],
+                "total": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            }
+        },
+        "deflect": {
+            "natural": 0,
+            "source": "armor",
+            "override": null,
+            "useOverride": false,
+            "bonus": 0,
+            "types": {
+                "energy": true,
+                "impact": true,
+                "keen": true,
+                "spirit": false,
+                "vital": false,
+                "heal": false
+            },
+            "derived": 0
+        },
+        "movement": {
+            "walk": {
+                "rate": {
+                    "derived": 30,
+                    "override": 10,
+                    "useOverride": true,
+                    "bonus": 0
+                }
+            },
+            "swim": {
+                "rate": {
+                    "override": 40,
+                    "useOverride": true,
+                    "derived": 0,
+                    "bonus": 0
+                }
+            },
+            "fly": {
+                "rate": {
+                    "override": 30,
+                    "useOverride": true,
+                    "derived": 0,
+                    "bonus": 0
+                }
+            }
+        },
+        "injuries": {
+            "override": null,
+            "useOverride": false,
+            "bonus": 0,
+            "derived": 0
+        },
+        "injuryRollBonus": 0,
+        "encumbrance": {
+            "lift": {
+                "override": null,
+                "useOverride": false,
+                "bonus": 0,
+                "derived": 0
+            },
+            "carry": {
+                "override": null,
+                "useOverride": false,
+                "bonus": 0,
+                "derived": 0
+            }
+        },
+        "expertises": {},
+        "languages": [],
+        "role": "minion",
+        "biography": "",
+        "appearance": "",
+        "notes": ""
+    },
+    "prototypeToken": {
+        "name": "Skyeel",
+        "displayName": 20,
+        "actorLink": false,
+        "appendNumber": false,
+        "prependAdjective": false,
+        "width": 1,
+        "height": 1,
+        "texture": {
+            "src": "systems/cosmere-rpg/assets/tokens/sky%20eel.webp",
+            "anchorX": 0.5,
+            "anchorY": 0.5,
+            "offsetX": 0,
+            "offsetY": 0,
+            "fit": "contain",
+            "scaleX": 1,
+            "scaleY": 1,
+            "rotation": 0,
+            "tint": "#ffffff",
+            "alphaThreshold": 0.75
+        },
+        "hexagonalShape": 0,
+        "lockRotation": false,
+        "rotation": 0,
+        "alpha": 1,
+        "disposition": 1,
+        "displayBars": 20,
+        "bar1": {
+            "attribute": "resources.hea"
+        },
+        "bar2": {
+            "attribute": null
+        },
+        "light": {
+            "negative": false,
+            "priority": 0,
+            "alpha": 0.5,
+            "angle": 360,
+            "bright": 0,
+            "color": null,
+            "coloration": 1,
+            "dim": 0,
+            "attenuation": 0.5,
+            "luminosity": 0.5,
+            "saturation": 0,
+            "contrast": 0,
+            "shadows": 0,
+            "animation": {
+                "type": null,
+                "speed": 5,
+                "intensity": 5,
+                "reverse": false
+            },
+            "darkness": {
+                "min": 0,
+                "max": 1
+            }
+        },
+        "sight": {
+            "enabled": false,
+            "range": 0,
+            "angle": 360,
+            "visionMode": "basic",
+            "color": null,
+            "attenuation": 0.1,
+            "brightness": 0,
+            "saturation": 0,
+            "contrast": 0
+        },
+        "detectionModes": [],
+        "occludable": {
+            "radius": 0
+        },
+        "ring": {
+            "enabled": false,
+            "colors": {
+                "ring": null,
+                "background": null
+            },
+            "effects": 0,
+            "subject": {
+                "scale": 0.8,
+                "texture": "systems/cosmere-rpg/assets/tokens/alt_tokens_no_ring/sky%20eel_none.webp"
+            }
+        },
+        "flags": {},
+        "randomImg": false
+    },
+    "items": [
+        {
+            "folder": "GPuUw8ZME85jvWVM",
+            "name": "Slippery",
+            "type": "trait",
+            "_id": "JPOPPMeKs9Tbvjaz",
+            "img": "icons/magic/water/wave-water-teal.webp",
+            "system": {
+                "description": {
+                    "value": "<p>The [[lookup @actor.name]]{Actor Name} doesn't trigger @UUID[Compendium.cosmere-rpg.handbook.JournalEntry.lJPyAzY5D5yrFF8D.JournalEntryPage.lws4hcoJ4uAqLqxU#reactive-strike-(r)]{Reactive Strikes} while @UUID[Compendium.cosmere-rpg.handbook.JournalEntry.lJPyAzY5D5yrFF8D.JournalEntryPage.rMs5NOkzGPLSbj9y#climbing,-crawling,-and-swimming]{Swimming}.</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "activation": {
+                    "type": "none",
+                    "cost": {
+                        "value": null
+                    },
+                    "consume": [],
+                    "flavor": "",
+                    "plotDie": false,
+                    "opportunity": null,
+                    "complication": null,
+                    "uses": null,
+                    "attribute": "default"
+                },
+                "events": {}
+            },
+            "effects": [],
+            "sort": 0,
+            "ownership": {
+                "default": 0,
+                "kRmzuKMLL4ZkFZ4k": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": null,
+                "lastModifiedBy": null
+            },
+            "_key": "!actors.items!Df1Wg4vZ1fHwK8ak.JPOPPMeKs9Tbvjaz"
+        },
+        {
+            "folder": "GP61N8IlWI06MkKx",
+            "name": "Dive Bomb",
+            "type": "action",
+            "_id": "uEwVstNFgAVTVUGi",
+            "img": "icons/magic/air/wind-tornado-wall-blue.webp",
+            "system": {
+                "id": "dive-bomb",
+                "type": "basic",
+                "description": {
+                    "value": "<p>The [[lookup @actor.name]]{Actor Name} flies up to 60 feet toward a target they can sense on the ground, then uses their @UUID[Compendium.cosmere-rpg.animal-companions.Actor.v2UxlvCtowkFW8oG.Item.l07ibU7efooQjWM1]{Bite} against the target. This attack gains an advantage. After the [[lookup @actor.name]]{Actor Name} uses this action, they can’t fly again until the end of the scene.</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "activation": {
+                    "type": "utility",
+                    "cost": {
+                        "value": 2,
+                        "type": "act"
+                    },
+                    "consume": [],
+                    "flavor": "",
+                    "plotDie": false,
+                    "opportunity": null,
+                    "complication": null,
+                    "uses": null,
+                    "attribute": "default"
+                },
+                "damage": {
+                    "formula": null,
+                    "type": null
+                },
+                "modality": null,
+                "ancestry": null,
+                "events": {}
+            },
+            "effects": [],
+            "sort": 0,
+            "ownership": {
+                "default": 0,
+                "kRmzuKMLL4ZkFZ4k": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": null,
+                "lastModifiedBy": null
+            },
+            "_key": "!actors.items!Df1Wg4vZ1fHwK8ak.uEwVstNFgAVTVUGi"
+        },
+        {
+            "folder": null,
+            "name": "Bite",
+            "type": "action",
+            "_id": "l07ibU7efooQjWM1",
+            "img": "icons/creatures/abilities/mouth-teeth-long-red.webp",
+            "system": {
+                "id": "strike-bite",
+                "type": "basic",
+                "description": {
+                    "value": "<p><strong>Attack </strong>+4; <strong>Reach</strong> 5 ft.; <strong>Targets </strong>one;</p><p><strong>Graze</strong> [[damage 1d4 Keen average]];</p><p><strong>Hit</strong> [[damage 1d4 + 4 Keen average]], and if the target is Medium or smaller, the [[lookup @actor.name]] can spend 1 focus to wrap their body around the target. If they do, the target becomes Restrained, the [[lookup @actor.name]]{Actor Name} attaches to the target, and the skyeel can't use their Bite against a different target until they release the current one. As <span class=\"cosmere-icon\">1</span> , the Restrained target or a character within 5 feet of them can make a DC 12 Athletics test, forcing the [[lookup @actor.name]]{Actor Name} to release the target on a success.</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "activation": {
+                    "type": "skill_test",
+                    "cost": {
+                        "value": 1,
+                        "type": "act"
+                    },
+                    "consume": [],
+                    "flavor": "",
+                    "plotDie": false,
+                    "opportunity": null,
+                    "complication": null,
+                    "uses": null,
+                    "skill": "agi",
+                    "modifierFormula": "",
+                    "attribute": "spd"
+                },
+                "damage": {
+                    "formula": "1d4",
+                    "type": "keen",
+                    "skill": null,
+                    "attribute": null,
+                    "grazeOverrideFormula": ""
+                },
+                "modality": null,
+                "ancestry": null,
+                "events": {}
+            },
+            "effects": [],
+            "sort": 100000,
+            "ownership": {
+                "default": 0,
+                "lAOZjapMYLNoIcY8": 3,
+                "wNhTlSZR3xSGJr84": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": "Compendium.cosmere-rpg-stormlight-worldguide.stormlight-world-guide-adversaries-and-bestiary.Actor.pN0OsDK7dgL7uMpj.Item.UgyO5diZmb6jgYop",
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": null,
+                "lastModifiedBy": null
+            },
+            "_key": "!actors.items!Df1Wg4vZ1fHwK8ak.l07ibU7efooQjWM1"
+        },
+        {
+            "folder": null,
+            "name": "Minion",
+            "type": "trait",
+            "_id": "Hcfssv7FHc6DI4cB",
+            "img": "icons/magic/control/silhouette-hold-change-blue.webp",
+            "system": {
+                "description": {
+                    "value": "<p>The [[lookup @actor.name]]{Actor Name}'s attacks can't critically hit, and they're immediately defeated when they suffer an injury.</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "activation": {
+                    "type": "none",
+                    "cost": {
+                        "value": null
+                    },
+                    "consume": [],
+                    "flavor": "",
+                    "plotDie": false,
+                    "opportunity": null,
+                    "complication": null,
+                    "uses": null,
+                    "attribute": "default"
+                },
+                "events": {}
+            },
+            "effects": [],
+            "sort": 200000,
+            "ownership": {
+                "default": 0,
+                "lAOZjapMYLNoIcY8": 3,
+                "wNhTlSZR3xSGJr84": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": "Compendium.cosmere-rpg-stormlight-worldguide.stormlight-world-guide-adversaries-and-bestiary.Actor.pN0OsDK7dgL7uMpj.Item.zEiVXQZrKuvDNlls",
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": null,
+                "lastModifiedBy": null
+            },
+            "_key": "!actors.items!Df1Wg4vZ1fHwK8ak.Hcfssv7FHc6DI4cB"
+        },
+        {
+            "folder": null,
+            "name": "Enhanced Senses",
+            "type": "trait",
+            "_id": "LekLUznAMxIIuiBh",
+            "img": "icons/magic/air/wind-stream-blue-gray.webp",
+            "system": {
+                "description": {
+                    "value": "<p>The [[lookup @actor.name]]{Actor Name} gains an advantage on non-attack tests that rely on sight.</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "activation": {
+                    "type": "none",
+                    "cost": {
+                        "value": null
+                    },
+                    "consume": [],
+                    "flavor": "",
+                    "plotDie": false,
+                    "opportunity": null,
+                    "complication": null,
+                    "uses": null,
+                    "attribute": "default"
+                },
+                "events": {}
+            },
+            "effects": [],
+            "sort": 300000,
+            "ownership": {
+                "default": 0,
+                "lAOZjapMYLNoIcY8": 3,
+                "wNhTlSZR3xSGJr84": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": "Compendium.cosmere-rpg-stormlight-worldguide.stormlight-world-guide-adversaries-and-bestiary.Actor.pN0OsDK7dgL7uMpj.Item.E2sidbo4WZu3Uyaq",
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": null,
+                "lastModifiedBy": null
+            },
+            "_key": "!actors.items!Df1Wg4vZ1fHwK8ak.LekLUznAMxIIuiBh"
+        }
+    ],
+    "effects": [],
+    "folder": "c4MO96siSZuaV3Gi",
+    "ownership": {
+        "default": 0
+    },
+    "flags": {
+        "cosmere-rpg": {
+            "sheet": {
+                "skillsCollapsed": false,
+                "hideUnranked": true,
+                "mode": "view"
+            }
+        }
+    },
+    "_id": "Df1Wg4vZ1fHwK8ak",
+    "sort": 0,
+    "_key": "!actors!Df1Wg4vZ1fHwK8ak"
+}

@@ -1,4 +1,6 @@
 import { ConstructorOf, AnyObject } from '@system/types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
@@ -19,8 +21,7 @@ export class IdInputComponent extends HandlebarsApplicationComponent<
     ConstructorOf<foundry.applications.api.ApplicationV2>,
     Params
 > {
-    static readonly TEMPLATE =
-        'systems/cosmere-rpg/templates/general/components/id-input.hbs';
+    static readonly TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.COMPONENT_ID_INPUT}`;
 
     /* --- Lifecyle --- */
 

@@ -1,0 +1,51 @@
+{
+    "name": "Acknowledgments",
+    "pages": [
+        {
+            "sort": 100000,
+            "name": "Acknowledgments",
+            "type": "text",
+            "_id": "40B5OKVYb3yYdmYT",
+            "system": {},
+            "title": {
+                "show": false,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<div class=\"sl-journal\"><p style=\"text-align:center\"><span class=\"fontstyle0\"><em>All of us from The Metalworks team would like to thank the playtesters who helped us test the Foundry VTT implementation of the </em>Cosmere Roleplaying Game. </span><em>Their contributions helped make the Foundry experience stronger for everyone.<br style=\"font-style:normal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-height:normal;orphans:2;text-align:-webkit-auto;text-indent:0px;text-transform:none;white-space:normal;widows:2;word-spacing:0px;-webkit-text-size-adjust:auto;-webkit-text-stroke-width:0px\" /></em></p><p><span class=\"fontstyle0\">Elayne Grimhawk, Julian Rodriguez, Thea, Slammothy, Bryan Christian (Brimstar), Daniel Zackary Salazar, Icedern, Khyzer, Jay ‘Ooh, typo!’ B, CharasmaticPanda, Matthew Gingell, Robbie Krishnan, Kayden McCutcheon, Cleaver, Mari Edler (Astrella Luna), Lazuli, Mason Davis, Michael Harris, Tom Coward, Riley (Xuln), Michael Trout, Thea Cruz (Ceoce), Max Wu, Jesse Bigger, Aleks, Brandon Handley, Kalani F, Max Wu, Nicklas Helton, B.J. Wessels, Dylan (Myukiora), Ginge907, Christopher \"HammerSenpai\" Hammar, Moggy Woggles, Fanam, AsterDisaster, Nathaniel Robinson</span></p></div>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "ownership": {
+                "default": -1,
+                "Ii3daJCA5JnDRGMI": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.331",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": null,
+                "lastModifiedBy": null
+            },
+            "_key": "!journal.pages!zwReDAj6S2JLyynF.40B5OKVYb3yYdmYT"
+        }
+    ],
+    "folder": null,
+    "flags": {},
+    "ownership": {
+        "default": 0
+    },
+    "_id": "zwReDAj6S2JLyynF",
+    "sort": 350000,
+    "_key": "!journal!zwReDAj6S2JLyynF",
+    "categories": []
+}

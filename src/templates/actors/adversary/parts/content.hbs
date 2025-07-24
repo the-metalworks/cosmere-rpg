@@ -1,0 +1,27 @@
+<section class="sheet-content flexrow">
+    <section class="col-left">
+        {{app-actor-details}}
+        {{#each resources as |resourceId|}}
+        {{app-actor-resource resource=resourceId}}
+        {{/each}}
+        <div class="scroll-container">
+            <div class="scroll-body">
+                {{app-adversary-skills}}
+                {{app-expertises-list}}
+                {{app-actor-immunities}}
+           </div>
+        </div>
+    </section>
+    <section class="col-main">
+        {{app-adversary-header}}
+        {{app-actor-attributes}}
+        <div class="scroll-container">
+            <div class="tab-body">
+                {{> adv-actions-tab}}
+                {{> adv-equipment-tab}}
+                {{> adv-notes-tab}}
+                {{> adv-effects-tab}}
+            </div>
+        </div>        
+    </section>
+</section>

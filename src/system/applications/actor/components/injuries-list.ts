@@ -2,6 +2,8 @@ import { InjuryType, ItemType } from '@system/types/cosmere';
 import { ConstructorOf } from '@system/types/utils';
 import { CosmereItem } from '@system/documents';
 import { InjuryItemDataModel } from '@system/data/item';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 import AppUtils from '@system/applications/utils';
 
@@ -12,8 +14,7 @@ import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
 export class ActorInjuriesListComponent extends HandlebarsApplicationComponent<
     ConstructorOf<BaseActorSheet>
 > {
-    static TEMPLATE =
-        'systems/cosmere-rpg/templates/actors/components/injuries-list.hbs';
+    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_INJURIES_LIST}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions
@@ -30,9 +31,8 @@ export class ActorInjuriesListComponent extends HandlebarsApplicationComponent<
     };
     /* eslint-enable @typescript-eslint/unbound-method */
 
-    private contextId: string | null = null;
+    private contextInjuryId: string | null = null;
     private controlsDropdownExpanded = false;
-    private controlsDropdownPosition?: { top: number; right: number };
 
     /* --- Actions --- */
 
@@ -40,31 +40,37 @@ export class ActorInjuriesListComponent extends HandlebarsApplicationComponent<
         this: ActorInjuriesListComponent,
         event: PointerEvent,
     ) {
-        this.controlsDropdownExpanded = !this.controlsDropdownExpanded;
+        // Get connection id
+        const injuryId = $(event.currentTarget!)
+            .closest('[data-item-id]')
+            .data('item-id') as string;
 
-        if (this.controlsDropdownExpanded) {
-            // Get connection id
-            const injuryId = $(event.currentTarget!)
-                .closest('[data-item-id]')
-                .data('item-id') as string;
+        const target = event.currentTarget as HTMLElement;
+        const root = $(target).closest('.tab-body');
+        const dropdown = $(target)
+            .closest('.item-list')
+            .siblings('.controls-dropdown');
 
-            this.contextId = injuryId;
+        const targetRect = target.getBoundingClientRect();
+        const rootRect = root[0].getBoundingClientRect();
 
-            const target = (event.currentTarget as HTMLElement).closest(
-                '.item',
-            )!;
-            const targetRect = target.getBoundingClientRect();
-            const rootRect = this.element!.getBoundingClientRect();
+        if (this.contextInjuryId !== injuryId) {
+            dropdown.css({
+                top: `${Math.round(targetRect.top - rootRect.top)}px`,
+                right: `${Math.round(rootRect.right - targetRect.right + targetRect.width)}px`,
+            });
 
-            this.controlsDropdownPosition = {
-                top: targetRect.bottom - rootRect.top,
-                right: rootRect.right - targetRect.right,
-            };
-        } else {
-            this.contextId = null;
+            if (!this.controlsDropdownExpanded) {
+                dropdown.addClass('expanded');
+                this.controlsDropdownExpanded = true;
+            }
+
+            this.contextInjuryId = injuryId;
+        } else if (this.controlsDropdownExpanded) {
+            dropdown.removeClass('expanded');
+            this.controlsDropdownExpanded = false;
+            this.contextInjuryId = null;
         }
-
-        void this.render();
     }
 
     public static onDecreaseInjuryDuration(
@@ -107,13 +113,15 @@ export class ActorInjuriesListComponent extends HandlebarsApplicationComponent<
         this.controlsDropdownExpanded = false;
 
         // Ensure context goal id is set
-        if (this.contextId !== null) {
+        if (this.contextInjuryId !== null) {
             // Remove the connection
             await this.application.actor.deleteEmbeddedDocuments(
                 'Item',
-                [this.contextId],
+                [this.contextInjuryId],
                 { render: false },
             );
+
+            this.contextInjuryId = null;
         }
 
         // Render
@@ -124,14 +132,16 @@ export class ActorInjuriesListComponent extends HandlebarsApplicationComponent<
         this.controlsDropdownExpanded = false;
 
         // Ensure context goal id is set
-        if (this.contextId !== null) {
-            // Get the connection
-            const connection = this.application.actor.items.find(
-                (i) => i.id === this.contextId,
+        if (this.contextInjuryId !== null) {
+            // Get the injur
+            const injury = this.application.actor.items.find(
+                (i) => i.id === this.contextInjuryId,
             ) as CosmereItem<InjuryItemDataModel>;
 
-            // Show connection sheet
-            void connection.sheet?.render(true);
+            // Show injury sheet
+            void injury.sheet?.render(true);
+
+            this.contextInjuryId = null;
         }
 
         // Render
@@ -198,11 +208,6 @@ export class ActorInjuriesListComponent extends HandlebarsApplicationComponent<
 
                     return remainingB - remainingA;
                 }),
-
-            controlsDropdown: {
-                expanded: this.controlsDropdownExpanded,
-                position: this.controlsDropdownPosition,
-            },
         });
     }
 }

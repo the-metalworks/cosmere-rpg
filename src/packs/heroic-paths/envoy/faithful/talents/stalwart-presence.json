@@ -1,0 +1,76 @@
+{
+    "folder": "3BLDPpsyg58Y3JrZ",
+    "name": "Stalwart Presence",
+    "type": "talent",
+    "_id": "dMYQ161k4zraNd1x",
+    "img": "icons/magic/defensive/shield-barrier-glowing-blue.webp",
+    "system": {
+        "id": "stalwart-presence",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p><em>Your words carry the certainty of your beliefs, bolstering the endurance of even those who don’t share your faith.</em></p><p>When you use your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.l4wRQT2MH0SsxmRQ]{Rousing Presence}, you can spend 1 focus to increase one of the target’s defenses (your choice) by 2 until the end of the next round.</p>",
+            "chat": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p>When you use @UUID[Compendium.cosmere-rpg.heroic-paths.Item.l4wRQT2MH0SsxmRQ]{Rousing Presence}, spend 1 focus to increase one of the target’s defenses by 2.</p>",
+            "short": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p>When you use your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.l4wRQT2MH0SsxmRQ]{Rousing Presence}, you can spend 1 focus to increase one of the target’s defenses (your choice) by 2 until the end of the next round.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": null,
+                "type": "spe"
+            },
+            "consume": [
+                {
+                    "type": "resource",
+                    "value": {
+                        "min": 1,
+                        "max": 1,
+                        "actual": 0
+                    },
+                    "resource": "foc"
+                }
+            ],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "path": "envoy",
+        "hasPath": false,
+        "specialty": "faithful",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "8SMgmxuABzkuhIL4": {
+                "type": "skill",
+                "skill": "dis",
+                "rank": 2
+            },
+            "9bHz16C4fp0HMxGD": {
+                "type": "talent",
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "devoted-presence",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.ESKKSdPMUOEQnIaZ",
+                        "label": "Devoted Presence"
+                    }
+                ]
+            }
+        },
+        "prerequisitesMet": false,
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "modality": null
+    },
+    "effects": [],
+    "sort": 650000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!dMYQ161k4zraNd1x"
+}

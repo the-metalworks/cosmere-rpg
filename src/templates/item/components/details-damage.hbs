@@ -1,64 +1,98 @@
 {{#if hasDamage}}
-<h5>{{localize "COSMERE.Item.Sheet.Damage.Title"}}</h5>
-{{!-- Formula & Type --}}
-<div class="form-group-stacked formula">
-    <label>{{localize "COSMERE.Item.Sheet.Damage.Formula"}}</label>
+<fieldset>
+    <legend>{{localize "COSMERE.Item.Sheet.Damage.Title"}}</legend>
+    {{!-- Formula & Type --}}
     <div class="form-group">
-        <input name="system.damage.formula"
-            type="text"
-            value="{{item.system.damage.formula}}"
-            {{#if (not editable)}}
-            readonly
-            {{/if}}
-        >
-        <select name="system.damage.type"
-            {{#if (not editable)}}
-            disabled
-            {{/if}}
-        >
-            {{selectOptions typeSelectOptions selected=item.system.damage.type localize=true}}
-        </select>
+        <label>{{localize "COSMERE.Item.Sheet.Damage.Formula"}}</label>
+        <div class="form-fields">
+            <input name="system.damage.formula"
+                type="text"
+                value="{{item.system.damage.formula}}"
+                {{#if (not editable)}}
+                readonly
+                {{/if}}
+            >
+            <select name="system.damage.type"
+                {{#if (not editable)}}
+                disabled
+                {{/if}}
+            >
+                {{selectOptions typeSelectOptions selected=item.system.damage.type localize=true}}
+            </select>
+        </div>
     </div>
-</div>
 
-{{#if hasSkillTest}}
-{{!-- Skill --}}
-<div class="form-group">
-    <label>{{localize "GENERIC.Skill"}}</label>
-
-    {{#if hasSkill}}
-    <select name="system.damage.skill"
-        {{#if (not editable)}}
-        disabled
-        {{/if}}
-    >
-        {{selectOptions skillSelectOptions selected=item.system.damage.skill localize=true}}
-    </select>
-    {{else}}
-    <input
-        type="text"
-        value="—"
-        readonly
-    >
+    {{#if hasSkillTest}}
+    {{!-- Skill --}}
+    <div class="form-group">
+        <label>{{localize "GENERIC.Skill"}}</label>
+        <div class="form-fields">
+            {{#if hasSkill}}
+            <select name="system.damage.skill"
+                {{#if (not editable)}}
+                disabled
+                {{/if}}
+            >
+                {{selectOptions skillSelectOptions selected=item.system.damage.skill localize=true}}
+            </select>
+            {{else}}
+            <input
+                type="text"
+                value="—"
+                readonly
+            >
+            {{/if}}
+        </div>        
+    </div>
+    <div class="form-group">
+        <label>{{localize "GENERIC.Attribute"}}</label>
+        <div class="form-fields">
+            {{#if hasSkill}}
+            <select name="system.damage.attribute"
+                {{#if (not editable)}}
+                disabled
+                {{/if}}
+            >
+                {{selectOptions attributeSelectOptions selected=item.system.damage.attribute localize=true}}
+            </select>
+            {{else}}
+            <input
+                type="text"
+                value="—"
+                readonly
+            >
+            {{/if}}
+        </div>        
+    </div>
+    <div class="form-group-stacked collapsible {{#unless grazeInputCollapsed}}expanded{{/unless}}">
+        <div class="header" data-action="toggle-graze-collapsed">
+            <label>{{localize "COSMERE.Item.Sheet.Damage.GrazeOverride"}}</label>
+            <div class="controls">
+                <a data-tooltip="COSMERE.Item.Sheet.Damage.ViewGraze">
+                    <i class="fa-solid fa-chevron-down"></i>
+                </a>
+            </div>
+        </div>
+        <div class="collapsible-content">
+            <div class="wrapper">
+                <div class="form-group">
+                    <label>{{localize "COSMERE.Item.Sheet.Damage.GrazeFormula"}}</label>
+                    <div class="form-fields">
+                        <input name="system.damage.grazeOverrideFormula"
+                            type="text"
+                            value="{{item.system.damage.grazeOverrideFormula}}"
+                            {{#if (not editable)}}
+                            readonly
+                            {{/if}}
+                        >
+                    </div>
+                </div>
+                <p class="hint">
+                    {{localize "COSMERE.Item.Sheet.Damage.GrazeHint"}}
+                </p>
+            </div>
+        </div>
+    </div>
     {{/if}}
-</div>
-<div class="form-group">
-    <label>{{localize "GENERIC.Attribute"}}</label>
-    {{#if hasSkill}}
-    <select name="system.damage.attribute"
-        {{#if (not editable)}}
-        disabled
-        {{/if}}
-    >
-        {{selectOptions attributeSelectOptions selected=item.system.damage.attribute localize=true}}
-    </select>
-    {{else}}
-    <input
-        type="text"
-        value="—"
-        readonly
-    >
-    {{/if}}
-</div>
-{{/if}}
+</fieldset>
 {{/if}}

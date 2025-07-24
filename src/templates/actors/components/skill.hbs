@@ -1,0 +1,41 @@
+<div class="mod">
+    <span class="operator">+</span>
+    <span class="val">{{derived skill.mod }}</span>
+</div>
+<a class="name" data-action="roll-skill">
+    <span>{{ localize skill.label }}</span>
+</a>
+<div class="attribute">
+    <span>{{ localize skill.attributeLabel}}</span>
+</div>
+
+{{#if pips}}
+    <div class="skill-pips ranks">
+        {{#if editable}}
+            {{#if legacyMode}}
+                <a data-tooltip="{{localize "COSMERE.Actor.Sheet.Skills.AdjustTooltip" skill=(localize skill.label)}}">
+            {{else}}
+                <a data-tooltip="{{localize "COSMERE.Actor.Sheet.Skills.SetTooltip" skill=(localize skill.label)}}">
+            {{/if}}
+        {{else}}
+            <div>
+        {{/if}}
+        <ul class="pip-list">
+            {{#each (numberRange skill.rank)}}
+                <li class="pip active">
+                    <div {{#if ../editable}}data-action="adjust-skill-rank" data-index='{{@index}}'{{/if}}></div>
+                </li>
+            {{/each}}
+            {{#each (numberRange (sub 5 skill.rank))}}
+                <li class="pip{{#if (gt (add (add @index 1) ../skill.rank) ../maxSkillRank)}} locked{{/if}}">
+                    <div {{#if ../editable}}data-action="adjust-skill-rank" data-index='{{add @index ../skill.rank}}'{{/if}}></div>
+                </li>
+            {{/each}}
+        </ul>
+        {{#if editable}}
+            </a>
+        {{else}}
+            </div>
+        {{/if}}
+    </div>
+{{/if}}

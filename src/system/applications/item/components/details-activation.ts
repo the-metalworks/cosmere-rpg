@@ -1,15 +1,53 @@
-import { ActivationType } from '@system/types/cosmere';
-import { ConstructorOf } from '@system/types/utils';
+import {
+    ActivationType,
+    ItemConsumeType,
+    Resource,
+} from '@system/types/cosmere';
+import { ConstructorOf, NONE, AnyObject } from '@system/types/utils';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
 import { BaseItemSheet, BaseItemSheetRenderContext } from '../base';
 
+// Constants
+import { SYSTEM_ID } from '@system/constants';
+import { TEMPLATES } from '@system/utils/templates';
+
 export class DetailsActivationComponent extends HandlebarsApplicationComponent<
     ConstructorOf<BaseItemSheet>
 > {
-    static TEMPLATE =
-        'systems/cosmere-rpg/templates/item/components/details-activation.hbs';
+    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_DETAILS_ACTIVATION}`;
+
+    /**
+     * NOTE: Unbound methods is the standard for defining actions
+     * within ApplicationV2
+     */
+    /* eslint-disable @typescript-eslint/unbound-method */
+    static readonly ACTIONS = {
+        'add-consumption-option': this.addConsumptionOption,
+    };
+    /* eslint-enable @typescript-eslint/unbound-method */
+
+    /* --- Actions --- */
+    protected static addConsumptionOption(this: DetailsActivationComponent) {
+        if (!this.application.item.hasActivation()) return;
+
+        // Get the activation data
+        const { activation } = this.application.item.system;
+
+        activation.consume?.push({
+            type: ItemConsumeType.Resource,
+            value: {
+                min: 0,
+                max: 0,
+            },
+            resource: Resource.Focus,
+        });
+
+        void this.application.item.update({
+            ['system.activation.consume']: activation.consume,
+        });
+    }
 
     /* --- Context --- */
 
@@ -30,94 +68,31 @@ export class DetailsActivationComponent extends HandlebarsApplicationComponent<
         return {
             hasActivationType: activation.type !== ActivationType.None,
             hasActivationCost: !!activation.cost.type,
-            hasConsume: !!activation.consume,
+            consume: activation.consume,
             hasUses: !!activation.uses,
-            hasSkill: !!activation.skill,
+            hasSkill: !!activation.resolvedSkill,
 
-            typeSelectOptions: Object.entries(
-                CONFIG.COSMERE.items.activation.types,
-            ).reduce(
-                (acc, [key, config]) => ({
-                    ...acc,
-                    [key]: config.label,
-                }),
-                {},
-            ),
-            costTypeSelectOptions: {
-                none: 'GENERIC.None',
-                ...Object.entries(CONFIG.COSMERE.action.costs).reduce(
-                    (acc, [key, config]) => ({
-                        ...acc,
-                        [key]: config.label,
-                    }),
-                    {},
-                ),
+            usesTypeSelectOptions: {
+                [NONE]: 'GENERIC.None',
+                ...((
+                    (
+                        this.application.item
+                            .system as unknown as foundry.abstract.DataModel
+                    ).schema.getField(
+                        'activation.uses.type',
+                    ) as foundry.data.fields.StringField
+                ).options.choices as AnyObject),
             },
             consumeTypeSelectOptions: {
-                none: 'GENERIC.None',
-                ...Object.entries(
-                    CONFIG.COSMERE.items.activation.consumeTypes,
-                ).reduce(
-                    (acc, [key, config]) => ({
-                        ...acc,
-                        [key]: config.label,
-                    }),
-                    {},
-                ),
-            },
-            resourceSelectOptions: {
-                none: 'GENERIC.None',
-                ...Object.entries(CONFIG.COSMERE.resources).reduce(
-                    (acc, [key, config]) => ({
-                        ...acc,
-                        [key]: config.label,
-                    }),
-                    {},
-                ),
-            },
-            usesTypeSelectOptions: {
-                none: 'GENERIC.None',
-                ...Object.entries(
-                    CONFIG.COSMERE.items.activation.uses.types,
-                ).reduce(
-                    (acc, [key, config]) => ({
-                        ...acc,
-                        [key]: config.labelPlural,
-                    }),
-                    {},
-                ),
-            },
-            rechargeSelectOptions: {
-                none: 'GENERIC.None',
-                ...Object.entries(
-                    CONFIG.COSMERE.items.activation.uses.recharge,
-                ).reduce(
-                    (acc, [key, config]) => ({
-                        ...acc,
-                        [key]: config.label,
-                    }),
-                    {},
-                ),
-            },
-            skillSelectOptions: {
-                none: 'GENERIC.None',
-                ...Object.entries(CONFIG.COSMERE.skills).reduce(
-                    (acc, [key, config]) => ({
-                        ...acc,
-                        [key]: config.label,
-                    }),
-                    {},
-                ),
-            },
-            attributeSelectOptions: {
-                none: 'GENERIC.Default',
-                ...Object.entries(CONFIG.COSMERE.attributes).reduce(
-                    (acc, [key, config]) => ({
-                        ...acc,
-                        [key]: config.label,
-                    }),
-                    {},
-                ),
+                '': 'GENERIC.None',
+                ...((
+                    (
+                        this.application.item
+                            .system as unknown as foundry.abstract.DataModel
+                    ).schema.getField(
+                        'activation.consume.element.type',
+                    ) as foundry.data.fields.StringField
+                ).options.choices as AnyObject),
             },
         };
     }

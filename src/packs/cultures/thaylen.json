@@ -1,0 +1,55 @@
+{
+    "_id": "yuZdO7YSfydUAdhu",
+    "name": "Thaylen",
+    "type": "culture",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/cultures/thaylen-t.webp",
+    "system": {
+        "id": "thaylen",
+        "description": {
+            "value": "<p>The island nation of Thaylenah is ruled by a monarch who is elected by merchant councils and naval officers. The nation thrives on international trade by land and sea, and it rewards particularly industrious merchants with increased social status. Although the nation is Vorin, Thaylens are more flexible with their faith and tend to ignore or relax customs rigidly upheld in Jah Keved and Alethkar.</p><p>Ethnic Thaylens have tan skin and long white eyebrows that can be creatively styled as dictated by fashion trends and personal preferences. Their hair is usually brown or black, but some Thaylens dye their hair in bold colors. They favor tight vests with loose pants and skirts.</p><p></p><div class=\"sl-journal\"><p><span class=\"fontstyle2\"><strong>Thaylen Names</strong></span></p><p><span class=\"fontstyle0\">Alstrym, Bnlath, Brekmynv, Bryndal, Calkl, Cazmerk, Creyn, Dvalnm, Elcryn, Klazmn, Mralt, Pradlvk, Tlkry, Uvlost, Ylbedr.</span></p><p></p><p><span class=\"fontstyle2\"><strong>Thaylen Expertise</strong></span></p><p><span class=\"fontstyle0\">As a character with the Thaylen expertise, you’re familiar with the elective monarchy and the merchant councils. You know the names and reputations of major artifabrian guilds, and you’ve likely experienced fabrials as a part of everyday life. You know tips to mitigate sea sickness and arrange travel between the three islands and outer islets. Choose how proficient you are in speaking and writing Thaylen. Regardless of your religious beliefs, you’re familiar with the basic tenets of Vorinism, as well as the Passions.</span></p></div>",
+            "short": "<p>The island nation of Thaylenah is ruled by a monarch who is elected by merchant councils and naval officers. The nation thrives on international trade by land and sea, and it rewards particularly industrious merchants with increased social status. Although the nation is Vorin, Thaylens are more flexible with their faith and tend to ignore or relax customs rigidly upheld in Jah Keved and Alethkar.</p><p>Ethnic Thaylens have tan skin and long white eyebrows that can be creatively styled as dictated by fashion trends and personal preferences. Their hair is usually brown or black, but some Thaylens dye their hair in bold colors. They favor tight vests with loose pants and skirts.</p>"
+        },
+        "events": {
+            "XlCKdrbHOQqPTWfS": {
+                "id": "XlCKdrbHOQqPTWfS",
+                "description": "Grant Expertises",
+                "event": "add-to-actor",
+                "handler": {
+                    "type": "grant-expertises",
+                    "expertises": {
+                        "cultural:thaylen": {
+                            "id": "thaylen",
+                            "type": "cultural",
+                            "label": "Thaylen",
+                            "locked": false
+                        }
+                    }
+                }
+            },
+            "DJ1l6bqEo3quVega": {
+                "id": "DJ1l6bqEo3quVega",
+                "description": "Remove Expertises",
+                "event": "remove-from-actor",
+                "handler": {
+                    "type": "remove-expertises",
+                    "expertises": {
+                        "cultural:thaylen": {
+                            "id": "thaylen",
+                            "type": "cultural",
+                            "label": "Thaylen",
+                            "locked": false
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "folder": null,
+    "_key": "!items!yuZdO7YSfydUAdhu"
+}

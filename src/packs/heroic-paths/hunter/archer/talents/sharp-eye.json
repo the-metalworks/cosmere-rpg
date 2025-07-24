@@ -1,0 +1,64 @@
+{
+    "folder": "2rzL155jdAkXbqS9",
+    "name": "Sharp Eye",
+    "type": "talent",
+    "_id": "NnQLfQgZnkm978xA",
+    "img": "icons/magic/perception/eye-ringed-glow-angry-red.webp",
+    "system": {
+        "id": "sharp-eye",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p><em>Your practiced eye discerns the strengths and vulnerabilities of your foes—especially your chosen quarry.</em></p><p>After you observe your quarry for <span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">1</span>, or after you observe another character for at least 1 minute, make a <strong>Perception</strong> test against their Cognitive defense.</p><p>On a success, you learn one of the following of your choice:</p><ul><li><p>The target’s lowest attribute score.</p></li><li><p>The target’s lowest defense.</p></li><li><p>Whether the target has lost more than half of their maximum health, focus, or Investiture (choose one).</p></li></ul>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p>Observe a target then test Perception vs. Cognitive to learn their lowest attribute, lowest defense, or if their health, focus, or Investiture are below half.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p>After you observe your quarry for <span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">1</span>, or after you observe another character for at least 1 minute, make a <strong>Perception</strong> test against their Cognitive defense.</p><p>On a success, you learn one of the following of your choice:</p><ul><li><p>The target’s lowest attribute score.</p></li><li><p>The target’s lowest defense.</p></li><li><p>Whether the target has lost more than half of their maximum health, focus, or Investiture (choose one).</p></li></ul>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": null,
+                "type": "spe"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "path": "hunter",
+        "hasPath": false,
+        "specialty": "archer",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "LQcZoSCXQVwjI4YV": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "tagging-shot",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.A0zpyAQP3R7rxECp",
+                        "label": "Tagging Shot"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "modality": null
+    },
+    "effects": [],
+    "sort": 500000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!NnQLfQgZnkm978xA"
+}

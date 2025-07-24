@@ -1,0 +1,48 @@
+{
+    "folder": "qTYLKqLK29e5CTQp",
+    "name": "Lantern (oil)",
+    "type": "equipment",
+    "_id": "8278hojFUEdJ8asc",
+    "img": "icons/sundries/lights/lantern-iron-yellow.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 20 mk; <strong>Weight</strong> 2 lb.;</p><p>While lit, this lantern sheds light in a 30-foot radius. It burns for up to 6 hours per pint of oil.</p>",
+            "chat": ""
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 2,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 20,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            },
+            "unit": "spheres.mark"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        }
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!8278hojFUEdJ8asc"
+}

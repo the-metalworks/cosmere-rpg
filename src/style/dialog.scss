@@ -1,61 +1,405 @@
-dialog.application {
-    label:has(+ input[type='checkbox'][readonly]) {
-        opacity: 0.5;
+.application.dialog {
+    border: 1px solid var(--cosmere-color-accent);
+    border-radius: 6px;
+
+    > .window-header {
+        padding: 0 0.75rem !important;
+
+        .window-title {
+            visibility: visible !important;
+            font-family: var(--cosmere-font-header);
+            font-size: var(--font-size-12);
+            color: var(--cosmere-color-text-sub);
+            text-transform: uppercase;
+            text-align: left;
+            padding-top: 0.25rem;
+        }
     }
 
-    .form-group input::placeholder {
-        opacity: 0.5 !important;
-    }
+    > .window-content {
+        padding: 0 0.75rem 0.75rem;
+    } 
 
-    form {
-        height: 100%;
+    .scroll-container {
+        width: calc(100% + 0.5rem);
+        padding-right: 0.25rem;
         overflow-y: auto;
         overflow-x: hidden;
-        padding: 0.1rem;
+        scrollbar-color: var(--cosmere-color-base-6) var(--color-scrollbar-track);
+        scrollbar-gutter: stable;
+        filter: var(--cosmere-drop-shadow);
     }
-}
 
-dialog.application ul {
-    list-style: none;
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
 
-    margin: 0.25rem 0;
-    padding: 0;
+        & > li {
+            margin: 0;
+            list-style-type: none;
+        }
+    }
 
-    li {
-        padding: 0.2rem 0;
+    .expertise-list, .immunities-list {
+        .header {
+            min-height: 30px;
+            background-color: var(--cosmere-color-base-1);
+            border-radius: 6px 6px 0 0;
+            padding: 0 0.375rem;
 
-        &.form-group {
+            .title {
+                margin-left: 0.25rem;
+                font-size: var(--font-size-15);
+                font-weight: 600;
+                color: var(--cosmere-color-text-main);
+
+                i {
+                    margin-right: .5rem;
+                }
+            }
+        }
+
+        .bullet {
+            font-size: 0.375rem;
+            flex: 0;
+
+            &.fa-stack {
+                flex: .2;
+                font-size: var(--font-size-10);
+            }
+
+            i.fa-stack-1x {
+                line-height: 1.2rem;
+                color: var(--cosmere-color-off-white-2);
+            }
+
+            .condition-icon {
+                height: 13px;
+                margin-top: .15rem;
+                background-color: var(--cosmere-color-off-white-2);
+            }
+        }
+
+        .configured, .custom {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 0.375rem;
+            background-color: var(--cosmere-color-base-3);
+            gap: 0.375rem;
+        }
+
+        .custom {
             > a {
-                flex: unset;
-                margin-left: 0.5rem;
+                flex: 0;
+                padding-right: 0.313rem;
+                color: var(--cosmere-color-faded);
+            }
+
+            > input {
+                flex: 1;
+                height: 26px;
+                font-style: italic;                
+            }
+
+            > input::placeholder {
+                color: var(--cosmere-color-faded);
+            }
+        }
+
+        .add-custom {
+            min-height: 30px;
+            background-color: color(from var(--cosmere-color-base-3) srgb r g b / 0.7);
+            font-family: var(--cosmere-font-normal);
+            font-size: var(--font-size-12);
+            font-weight: 600;
+            text-align: center;
+            color: var(--cosmere-color-faded);
+        }
+        
+        li:last-child {
+            border-radius: 0 0 6px 6px;
+        }
+    }
+
+
+    &.edit-expertises, &.edit-immunities {
+        form {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            gap: 0.625rem;
+        }
+    }
+
+    .dialog-form.standard-form,
+    .dialog-content.standard-form {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        gap: 0.25rem;
+
+        .form-footer {
+            margin-top: 0.625rem;
+
+            > button {
+                height: auto;
             }
         }
     }
-}
 
-dialog.application .edit-expertises {
-    .form-group.add-custom {
-        height: 2rem;
-    }
-}
+    .dialog-content.standard-form,
+    &.configure-resource,
+    &.configure-deflect,
+    &.configure-defense,
+    &.configure-movement-rate,
+    &.configure-recovery-die,
+    &.configure-senses-range,
+    &.edit-bonus-talents-rule,
+    &.pick-dice-result,
+    &.roll-configuration,
+    &.edit-event-rule {
+        > .window-content {
+            filter: var(--cosmere-drop-shadow);
+        }
 
-dialog.application.attack-configuration,
-dialog.application.roll-configuration {
-    .dice-config {
-        .dice {
+        form,
+        #consumables {            
             display: flex;
+            flex-direction: column;
+            flex: 1;
+            gap: 0.25rem;
+        }
 
-            .col {
-                flex: 1;
+        input {
+            color: var(--cosmere-color-text-sub);
+            font-variant: lining-nums;
+            font-weight: 600;
+            flex: 2;
+        }
+
+        input:read-only {                
+            color: var(--cosmere-color-faded);
+        }
+
+        input[type="checkbox"] {
+            flex: 0 0 20px;
+        }        
+        
+        label {
+            color: var(--cosmere-color-text-sub);
+            flex: 1;
+            font-weight: 600;
+        }        
+
+        .form-group {
+            gap: 0.625rem;
+            margin: 0;
+
+            > .form-fields {
+                display: flex;
+                flex-direction: row;
+                gap: 0.5rem;
+                flex: 2;
+
+                &.narrow {
+                    flex: 0.6;
+                }
+
+                > input[type="text"],
+                > input[type="number"] {
+                    border-radius: 6px;
+                    background-color: var(--cosmere-color-base-4);                
+                    padding: 0 0.5rem;
+                    flex: 1;
+
+                    &:read-only {
+                        background-color: var(--cosmere-color-base-3);
+                    }
+
+                    &::placeholder {
+                        color: var(--cosmere-color-faded);
+                    }
+                }
+
+                > select {
+                    background-color: var(--cosmere-color-base-4);
+                    border-radius: 6px;
+                    padding: 0 0.25rem;
+                    flex: 2;
+
+                    &:disabled {
+                        background-color: var(--cosmere-color-base-3);
+                    }
+                }
             }
 
-            .col.mode {
-                flex: 3;
+            &.max {
+                input {
+                    text-align: center;
+                }
             }
+        }
 
-            &.header {
-                font-weight: bold;
+        .hint {
+            color: var(--cosmere-color-faded);
+            margin: 0;
+        }
+
+        .submit {
+            margin-top: 0.625rem;
+        }
+    }
+
+    &.roll-configuration {
+        fieldset {
+            margin-top: 0.5rem;
+
+            .roll-config {
+                margin: 0 0.5rem;
+                display: flex;
+                flex-direction: row;
+                gap: 0.75rem;
+                align-items: center;
+
+                font-family: var(--cosmere-font-normal);
+                font-size: var(--font-size-12);
+                font-weight: 600;
+                font-variant: lining-nums;                
+
+                .title {
+                    flex: 1;
+                    color: var(--cosmere-color-text-sub);
+                    text-transform: uppercase;
+                }
+
+                .formula {
+                    flex: 2;
+                    color: var(--cosmere-color-faded);
+                    background-color: var(--cosmere-color-base-3);
+                    border-radius: 6px;
+                    text-align: center;
+                    padding: 0.5rem;
+                }
+
+                .dice-tooltip {
+                    flex: 2;
+                }
             }
+        }
+
+        .dice-rolls {
+            .roll {
+                min-width: 20px;
+                height: 20px;
+                background-size: 20px 20px;
+                line-height: 20px;
+                font-size: var(--font-size-14);  
+                cursor: pointer;              
+
+                &:hover {
+                    filter: var(--cosmere-shadow-svg);
+                }
+
+                &.advantage {
+                    color: var(--cosmere-color-opportunity);
+                    filter: sepia(1) hue-rotate(180deg);
+                    font-family: "Font Awesome 6 Pro";
+
+                    &:hover {
+                        filter: sepia(1) hue-rotate(180deg) var(--cosmere-shadow-svg);
+                    }
+
+                    &::before {
+                        content: "\f35b"
+                    }
+                }
+
+                &.disadvantage {
+                    color: var(--cosmere-color-complication);
+                    filter: sepia(0.8) hue-rotate(-50deg);
+                    font-family: "Font Awesome 6 Pro";
+
+                    &:hover {
+                        filter: sepia(0.8) hue-rotate(-50deg) var(--cosmere-shadow-svg);
+                    }
+
+                    &::before {
+                        content: "\f358"
+                    }
+                }
+            }
+        }        
+    }
+
+    &.pick-dice-result,
+    &.roll-configuration {
+        .dice-rolls {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 0.25rem;
+
+            .roll {
+                position: relative;
+                background-repeat: no-repeat;
+
+                &.success, &.max {
+                    color: var(--cosmere-color-opportunity);
+                    filter: sepia(1) hue-rotate(180deg);
+                }
+
+                &.failure, &.min {
+                    color: var(--cosmere-color-complication);
+                    filter: sepia(0.8) hue-rotate(-50deg);
+                }
+
+                &.rerolled, &.discarded {
+                    color: inherit;
+                    filter: sepia(0.5) contrast(0.75) opacity(0.4);
+                }
+
+                &.plotdie > img {
+                    border: 0;
+                    border-radius: 0;
+                }
+            }
+        }
+    }
+
+    &.pick-dice-result {
+        .dice-rolls {
+            .roll {
+                min-width: 48px;
+                height: 48px;
+                background-size: 48px 48px;
+
+                &.plotdie > img {
+                    width: 48px;
+                    height: 48px;
+                }
+            }
+        }
+    }
+
+    &.configure-skills {
+        .skills-column {            
+            filter: var(--cosmere-drop-shadow);
+        }
+    }
+
+    &.release-notes {
+        max-height: 1000px;
+    
+        .window-content {
+            overflow: auto;
+        }
+    }  
+    
+    &.edit-event-rule {
+        .trigger-hint, .handler-hint {
+            margin-bottom: 1rem;
         }
     }
 }

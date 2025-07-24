@@ -1,0 +1,71 @@
+{
+    "_id": "5sH5poLPx75U008u",
+    "folder": "4H9VQhin9BB78Fw4",
+    "name": "Mace",
+    "type": "weapon",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/items/foundry_items/ICON_Mace.webp",
+    "system": {
+        "id": "mace",
+        "type": "light_wpn",
+        "description": {
+            "value": "<p><strong>Damage</strong> 1d6 impact; <strong>Range</strong> Melee; <strong>Traits</strong> —; <strong>Expert Traits</strong> Momentum;</p><p><strong>Type</strong> Light Weapon; <strong>Weapons Skill</strong> Light; <strong>Price</strong> 20 mk; <strong>Weight</strong> 3 lb.;</p>",
+            "chat": ""
+        },
+        "equipped": false,
+        "activation": {
+            "cost": {
+                "value": 1,
+                "type": "act"
+            },
+            "type": "skill_test",
+            "skill": "lwp",
+            "attribute": "spd",
+            "modifierFormula": ""
+        },
+        "damage": {
+            "skill": "lwp",
+            "formula": "1d6",
+            "type": "impact",
+            "attribute": null
+        },
+        "traits": {
+            "momentum": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": true
+                }
+            }
+        },
+        "weight": {
+            "value": 3,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 20,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark"
+            },
+            "unit": "spheres.mark"
+        },
+        "expertise": false,
+        "resources": null,
+        "attack": {
+            "type": "melee",
+            "range": null
+        },
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "hold",
+            "hold": "one_handed"
+        },
+        "quantity": 1
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!5sH5poLPx75U008u"
+}

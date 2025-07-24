@@ -1,23 +1,16 @@
-{{#if hasActiveSkills}}
-
 <ul class="skill-list">
     {{#each skills as |skill|}}
+    
     {{#if skill.active}}
-
-    <li class="skill" data-id="{{skill.id}}">
-        <div class="mod" data-action="roll-skill">
-            <span>+{{derived skill.mod }}</span>
-        </div>
-        <div class="name" data-action="roll-skill">
-            <span>{{ localize skill.config.label }}</span>
-        </div>
-        <div class="attribute" data-action="roll-skill">
-            <span>{{ localize skill.config.attrLabel}}</span>
-        </div>
+    <li class="skill flexrow" data-id="{{skill.id}}">
+        {{app-actor-skill 
+            skill=skill.id 
+            readonly=(not @root.isEditMode)
+            pips=false
+        }}
     </li>
-
     {{/if}}
+
     {{/each}}
 </ul>
-
-{{/if}}
+{{> box-corners }}

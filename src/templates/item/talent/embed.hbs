@@ -1,0 +1,61 @@
+<h3>
+    <span>{{default config.label item.name}}</span>
+    <a {{{linkDataStr}}}>
+        <i class="fa-solid fa-up-right-from-square"></i>
+    </a>
+</h3>
+
+{{#if prerequisite}}
+    <p>
+        <span class="fontstyle2"><strong>Prerequisite:</strong></span>
+
+        {{#if (eq (typeof prerequisite) "string")}}
+            <span>{{{prerequisite}}}</span>
+        {{else}}
+            {{#if (eq prerequisite.size 0)}}
+                <span>none</span>
+            {{else}}
+                {{#each prerequisite as |prereq|}}
+                    {{#if (eq prereq.type "talent")}}
+                        {{#each prereq.talents as |talent|}}
+                            <span>{{talent.label}}</span>
+                            <span>
+                                {{lower (localize "GENERIC.Talent")}}{{#unless (or (not @last) @../last)}};{{/unless}}
+                            </span>
+                            {{#if (not @last)}}
+                                <span>or</span>  
+                            {{/if}}
+                        {{/each}}
+                    {{else if (eq prereq.type "attribute")}}
+                        <span>{{localize (concat "COSMERE.Attribute." prereq.attribute)}}</span>
+                        <span>
+                            {{prereq.value}}+{{#unless @last}};{{/unless}}
+                        </span>
+                    {{else if (eq prereq.type "skill")}}
+                        <span>{{localize (concat "COSMERE.Skill." prereq.skill)}}</span>
+                        <span>
+                            {{prereq.rank}}+{{#unless @last}};{{/unless}}
+                        </span>
+                    {{else if (eq prereq.type "level")}}
+                        <span>{{localize "GENERIC.Level"}}</span>
+                        <span>
+                            {{prereq.level}}+{{#unless @last}};{{/unless}}
+                        </span>
+                    {{else if (eq prereq.type "connection")}}
+                        <span>
+                            {{prereq.description}}{{#unless @last}};{{/unless}}
+                        </span>
+                    {{else if (eq prereq.type "ancestry")}}
+                        <span>{{prereq.ancestry.label}}</span>
+                        <span>{{lower (localize "GENERIC.Ancestry")}}{{#unless @last}};{{/unless}}</span>
+                    {{else if (eq prereq.type "culture")}}
+                        <span>{{prereq.culture.label}}</span>
+                        <span>{{lower (localize "GENERIC.Culture")}}{{#unless @last}};{{/unless}}</span>
+                    {{/if}}
+                {{/each}}
+            {{/if}}
+        {{/if}}
+    </p>
+{{/if}}
+
+{{{description}}}

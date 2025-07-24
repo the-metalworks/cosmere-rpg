@@ -1,0 +1,9 @@
+.application.dialog.release-notes {
+    ul {
+        > li {
+            font-size: var(--font-size-12);
+            list-style-type: disc;
+            margin-left: 1rem;
+        }
+    }
+}

@@ -1,136 +1,158 @@
 {{#each sections as |section|}}
-<ul class="actions-list" data-section-id="{{section.id}}">
+<ul class="item-list" data-section-id="{{section.id}}">
     <li class="item header">
-        <span class="name">{{localize section.label}}</span>
-        <span class="col activation">
-            {{localize "COSMERE.Actor.Sheet.Actions.Activation"}}
-        </span>
-        <span class="col consume">
-            {{localize "COSMERE.Actor.Sheet.Actions.Consume"}}
-        </span>
-        <span class="col uses">
-            {{localize "COSMERE.Actor.Sheet.Actions.Uses"}}
-        </span>
-        <div class="col controls flexrow">
-            <div></div>
-            {{#if @root.editable}}
-            <div></div>
-            {{/if}}
-        </div>
+        <section class="details">
+            <span class="title">{{localize section.label}}</span>
+            <span class="subtitle">
+                {{localize "COSMERE.Actor.Sheet.Actions.Activation"}}
+            </span>
+            <span class="subtitle wide">
+                {{localize "COSMERE.Actor.Sheet.Actions.Consume.label"}}
+            </span>
+            <span class="subtitle">
+                {{localize "COSMERE.Actor.Sheet.Actions.Uses"}}
+            </span>
+            <div class="controls icon active">
+                {{#if @root.editable}}
+                    {{#if section.canAddNewItems}}
+                        <a data-action="new-item"
+                            data-tooltip="{{section.createItemTooltip}}"
+                        >
+                            <i class="fa-solid fa-plus"></i>
+                        </a>
+                    {{else}}
+                        <div></div>
+                    {{/if}}
+                {{/if}}
+            </div>
+        </section>
     </li>
 
     {{#each section.items as |item|}}
     {{#with (lookup @root.itemState item.id) as |state|}}
     {{#with (itemContext item) as |ctx|}}
-
-    <li class="item {{#if state.expanded}}expanded{{/if}} usable" 
-        data-item-id="{{item.id}}" 
-        {{#if @root.editable}}data-drag="true"{{/if}}
-    >
-        {{!-- Image --}}
-        <div class="col img" 
-            data-action="use-item"
-            data-tooltip="COSMERE.Actor.Sheet.Actions.Use"
-        >
-            <img class="roll-icon" src="/systems/cosmere-rpg/assets/icons/dice/d20white.svg">
-            <img src="{{item.img}}">
-        </div>
-
-        {{!-- Name --}}
-        <div class="col name" data-action="toggle-action-details">
-            <span class="title">
-                {{#if ctx.isWeapon}}{{localize "COSMERE.Item.Weapon.Strike"}}: {{/if}}{{item.name}}
-            </span>
-        </div>
-
-        {{!-- Activation --}}
-        <div class="col activation">
-            {{#if ctx.hasActivation}}
-            {{#if ctx.activation.hasCost}}
-            <i class="cosmere-icon">
-                {{#if (eq ctx.activation.cost.type "act")}}
-                {{ ctx.activation.cost.value }}
-                {{else}}
-                {{cosmereDingbat ctx.activation.cost.type}}
-                {{/if}}
-            </i>
-            {{/if}}
-            {{/if}}
-        </div>
-
-        {{!-- Consume --}}
-        <div class="col consume">
-            {{!-- Consume --}}
-            {{#if ctx.hasConsume}}
-
-            {{#if ctx.consume.consumesResource}}
-            <span>{{ ctx.consume.value }} {{localize ctx.consume.resourceLabel }}</span>
-            {{/if}}
-
-            {{!-- TODO: Item consume --}}
-            {{#if ctx.consume.consumesItem}}
-            <span>—</span>
-            {{/if}}
-
-            {{else}}
-            <span>—</span>
-            {{/if}}
-        </div>
-
-        {{!-- Uses --}}
-        <div class="col uses">
-            {{#if ctx.hasUses}}
-
-            {{#if (or (gt ctx.uses.max 1) (not ctx.uses.hasRecharge))}}
-            <span>
-                {{ ctx.uses.value }} / {{ctx.uses.max}}
-                {{#if ctx.uses.hasRecharge}}
-                {{localize ctx.uses.rechargeLabel }}
-                {{/if}}
-            </span>
-            {{else}}
-            <span {{#if (eq ctx.uses.value 0)}}class="inactive"{{/if}}>
-                {{#if ctx.uses.hasRecharge}}
-                {{localize ctx.uses.rechargeLabel }}
-                {{/if}}
-            </span>
-            {{/if}}
-
-            {{else}}
-            <span>—</span>
-            {{/if}}
-        </div>
-
-        {{!-- Controls --}}
-        <div class="col controls flexrow">
-            <a role="button"
-                data-action="toggle-action-details"
-                data-tooltip="COSMERE.Actor.Sheet.Item.Details"
-            >
-                <i class="icon-expanded fa-solid fa-chevron-down"></i>
-                <i class="icon fa-solid fa-chevron-left"></i>
-            </a>
-            {{#if @root.editable}}
-            <a role="button"
-                data-action="toggle-actions-controls"
-                data-tooltip="APPLICATION.TOOLS.ToggleControls"
-            >
-                <i class="fa-solid fa-ellipsis-vertical"></i>
-            </a>
-            {{/if}}
-        </div>
-    </li>
-
-
     {{#with (lookup section.itemData item.id) as |data|}}
 
-    <li class="details {{#if state.expanded}}expanded{{/if}}" data-item-id="{{item.id}}">
-        <div class="col description">
-            {{{default data.descriptionHTML '<p>—</p>'}}}
-        </div>
-    </li>
-    {{/with}}
+    <li class="item usable collapsible {{#if state.expanded}}expanded{{/if}}"
+        data-item-id="{{item.id}}"
+        {{#if @root.editable}}data-drag="true"{{/if}}
+    >
+        <section class="details">
+            {{!-- Image --}}
+            <div class="img"
+                data-action="use-item"
+                data-tooltip="COSMERE.Actor.Sheet.Actions.Use"
+            >
+                <img class="roll-icon" src="systems/cosmere-rpg/assets/icons/svg/dice/d20_white.svg">
+                <img src="{{item.img}}">
+            </div>
 
+            {{!-- Name --}}
+            <span class="name" data-action="toggle-action-details">
+                {{#if ctx.isWeapon}}{{localize "COSMERE.Item.Weapon.Strike"}}: {{/if}}{{item.name}}
+            </span>
+
+            {{!-- Activation --}}
+            <div class="detail action">
+                {{#if ctx.hasActivation}}
+                    {{#if ctx.activation.hasCost}}
+                    <i class="cosmere-icon">
+                        {{#if (eq ctx.activation.cost.type "act")}}
+                        {{ ctx.activation.cost.value }}
+                        {{else}}
+                        {{cosmereDingbat ctx.activation.cost.type}}
+                        {{/if}}
+                    </i>
+                    {{else}}
+                    <i class="cosmere-icon passive"></i>
+                    {{/if}}
+                {{/if}}
+            </div>
+
+            {{!-- Consume --}}
+            <div class="detail wide">
+                {{!-- Consume --}}
+                {{#if ctx.hasConsume}}
+                    {{#if (gt ctx.consume.length 1)}}
+                        <span>{{localize "COSMERE.Actor.Sheet.Actions.Consume.Multiple"}}</span>
+                    {{else}}
+                    {{#if (eq ctx.consume.length 1)}}
+                        {{#with ctx.consume.[0] as |consume|}}
+                        {{#if consume.consumesResource}}
+                        <span>{{resourceCostLabel consume}}</span>
+                        {{/if}}
+
+                        {{!-- TODO: Item consume --}}
+                        {{#if consume.consumesItem}}
+                        <span>—</span>
+                        {{/if}}
+                        {{/with}}
+                    {{/if}}
+                    {{/if}}
+                {{else}}
+                    <span>—</span>
+                {{/if}}
+            </div>
+
+            {{!-- Uses --}}
+            <div class="detail">
+                {{#if ctx.hasUses}}
+
+                {{#if (or (gt ctx.uses.max 1) (not ctx.uses.hasRecharge))}}
+                <span>
+                    {{ ctx.uses.value }} / {{ctx.uses.max}}
+                    {{#if ctx.uses.hasRecharge}}
+                    {{localize ctx.uses.rechargeLabel }}
+                    {{/if}}
+                </span>
+                {{else}}
+                <span {{#if (eq ctx.uses.value 0)}}class="inactive"{{/if}}>
+                    {{#if ctx.uses.hasRecharge}}
+                    {{localize ctx.uses.rechargeLabel }}
+                    {{/if}}
+                </span>
+                {{/if}}
+
+                {{else}}
+                <span>—</span>
+                {{/if}}
+            </div>
+
+            {{!-- Controls --}}
+            <div class="controls icon faded">
+                <a role="button"
+                    data-action="toggle-action-details"
+                    {{#if state.expanded}}
+                    data-tooltip="GENERIC.HideDetails"
+                    {{else}}
+                    data-tooltip="GENERIC.ViewDetails"
+                    {{/if}}
+                >
+                    {{#if state.expanded}}
+                        <i class="fa-solid fa-compress"></i>
+                    {{else}}
+                        <i class="fa-solid fa-expand"></i>
+                    {{/if}}
+                </a>
+                {{#if @root.editable}}
+                <a role="button"
+                    data-action="toggle-actions-controls"
+                    data-tooltip="APPLICATION.TOOLS.ToggleControls"
+                >
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                </a>
+                {{/if}}
+            </div>
+        </section>
+
+        <section class="description collapsible-content">
+            <div class="wrapper">
+                {{{default data.descriptionHTML '<p>—</p>'}}}
+            </div>
+        </section>
+    </li>
+
+    {{/with}}
     {{/with}}
     {{/with}}
     {{/each}}

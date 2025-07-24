@@ -65,6 +65,8 @@ declare namespace foundry {
                  * is thrown in the validate function, the string message of that Error is used.
                  */
                 validationError?: string;
+
+                readonly?: boolean;
             }
 
             interface DataFieldContext {
@@ -85,9 +87,19 @@ declare namespace foundry {
                 name: string;
 
                 /**
+                 * A reference to the parent schema to which this DataField belongs.
+                 * This is assigned by SchemaField#initialize.
+                 * @internal
+                 */
+                parent: DataField | DataSchema;
+
+                /**
                  * The initially provided options which configure the data field
                  */
                 options: Options;
+
+                initial: Options['initial'];
+                label: string;
 
                 /**
                  * Whether this field defines part of a Document/Embedded Document hierarchy.
@@ -203,11 +215,27 @@ declare namespace foundry {
                 initialize(value: any, model: object, options?: object): any;
 
                 /**
+                 * Export the current value of the field into a serializable object.
+                 * @param value                   The initialized value of the field
+                 * @returns                       An exported representation of the field
+                 */
+                toObject(value: any): any;
+
+                getField(path: string | string[]): DataField;
+
+                /**
                  * Recursively traverse a schema and retrieve a field specification by a given path
                  * @param path  The field path as an array of strings
                  * @internal
                  */
                 _getField(path: string[]): DataField;
+
+                /**
+                 * Cast a non-default value to ensure it is the correct type for the field
+                 * @param value       The provided non-default value
+                 * @returns           The standardized value
+                 */
+                protected _cast(value: any): any;
             }
 
             class SchemaField extends DataField {
@@ -259,6 +287,8 @@ declare namespace foundry {
             }
 
             class NumberField extends DataField {
+                options: NumberFieldOptions;
+
                 constructor(
                     options?: NumberFieldOptions,
                     context?: DataFieldContext,
@@ -293,12 +323,14 @@ declare namespace foundry {
             }
 
             class StringField extends DataField {
+                options: StringFieldOptions;
+
                 constructor(
                     options?: StringFieldOptions,
                     context?: DataFieldContext,
                 );
 
-                choices: string[] | object;
+                choices: string[] | object | (() => string[] | object);
             }
 
             class ObjectField extends DataField {}
@@ -316,6 +348,8 @@ declare namespace foundry {
             }
 
             class ArrayField extends DataField {
+                public readonly element: DataField;
+
                 constructor(
                     element: DataField,
                     options?: ArrayFieldOptions,
@@ -377,6 +411,8 @@ declare namespace foundry {
                  * Does this field require (or prohibit) embedded documents?
                  */
                 embedded?: boolean;
+
+                single?: boolean;
             }
 
             /**
@@ -386,6 +422,37 @@ declare namespace foundry {
             class DocumentUUIDField extends StringField {
                 constructor(
                     options?: DocumentUUIDFieldOptions,
+                    context?: DataFieldContext,
+                );
+            }
+
+            interface FilePathFieldOptions extends StringFieldOptions {
+                /**
+                 * A set of categories in CONST.FILE_CATEGORIES which this field supports
+                 */
+                categories?: string[];
+
+                /**
+                 * Is embedded base64 data supported in lieu of a file path?
+                 * @default false
+                 */
+                base64?: boolean;
+
+                /**
+                 * Does this file path field allow wildcard characters?
+                 * @default false
+                 */
+                wildcard?: boolean;
+
+                /**
+                 * The initial values of the fields
+                 */
+                initial?: object;
+            }
+
+            class FilePathField extends StringField {
+                constructor(
+                    options?: FilePathFieldOptions,
                     context?: DataFieldContext,
                 );
             }

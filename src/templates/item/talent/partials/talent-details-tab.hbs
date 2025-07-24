@@ -1,54 +1,63 @@
 {{#with (lookup tabsMap "details") as |tab|}}
 
 <div class="tab tab-content {{tab.cssClass}}" data-tab="details" data-group="primary">
-    {{app-item-details-id}}
-    {{app-item-details-type}}
+    <fieldset>
+        <legend>{{localize "COSMERE.Item.Sheet.Basics"}}</legend>
+        {{app-item-details-id}}
+        {{app-item-details-type}}
+        <div class="item-details-form">
+            {{!-- Path talent fields --}}
+            {{#if @root.isPathTalent}}
+            <div class="form-group">
+                <label>{{localize "COSMERE.Item.Sheet.Talent.PathId"}}</label>
+                {{app-id-input
+                    name="system.path"
+                    value=@root.item.system.path
+                    placeholder="COSMERE.Item.Sheet.Talent.PathIdPlaceholder"
+                }}
+            </div>
+            <p class="hint">
+                {{localize "COSMERE.Item.Sheet.Talent.PathIdDescription"}}
+            </p>
+            <div class="form-group">
+                <label>{{localize "COSMERE.Item.Sheet.Talent.SpecialtyId"}}</label>
+                {{app-id-input
+                    name="system.specialty"
+                    value=@root.item.system.specialty
+                    placeholder="COSMERE.Item.Sheet.Talent.SpecialtyIdPlaceholder"
+                }}
+            </div>
+            <p class="hint">
+                {{localize "COSMERE.Item.Sheet.Talent.SpecialtyIdDescription"}}
+            </p>
+            {{/if}}
 
-    {{!-- Path talent fields --}}
-    {{#if @root.isPathTalent}}
-    <div class="form-group">
-        <label>{{localize "COSMERE.Item.Sheet.Talent.PathId"}}</label>
-        {{app-id-input
-            name="system.path"
-            value=@root.item.system.path
-            placeholder="COSMERE.Item.Sheet.Talent.PathIdPlaceholder"
-        }}
-    </div>
-    <p class="notes">
-        {{localize "COSMERE.Item.Sheet.Talent.PathIdDescription"}}
-    </p>
-    <div class="form-group">
-        <label>{{localize "COSMERE.Item.Sheet.Talent.SpecialtyId"}}</label>
-        {{app-id-input
-            name="system.specialty"
-            value=@root.item.system.specialty
-            placeholder="COSMERE.Item.Sheet.Talent.SpecialtyIdPlaceholder"
-        }}
-    </div>
-    <p class="notes">
-        {{localize "COSMERE.Item.Sheet.Talent.SpecialtyIdDescription"}}
-    </p>
-    {{/if}}
+            {{!-- Ancestry talent fields --}}
+            {{#if @root.isAncestryTalent}}
+            <div class="form-group">
+                <label>{{localize "COSMERE.Item.Sheet.Talent.AncestryId"}}</label>
+                {{app-id-input
+                    name="system.ancestry"
+                    value=@root.item.system.ancestry
+                    placeholder="COSMERE.Item.Sheet.Talent.AncestryIdPlaceholder"
+                }}
+            </div>
+            <p class="hint">
+                {{localize "COSMERE.Item.Sheet.Talent.AncestryIdDescription"}}
+            </p>
+            {{/if}}
 
-    {{!-- Ancestry talent fields --}}
-    {{#if @root.isAncestryTalent}}
-    <div class="form-group">
-        <label>{{localize "COSMERE.Item.Sheet.Talent.AncestryId"}}</label>
-        {{app-id-input
-            name="system.ancestry"
-            value=@root.item.system.ancestry
-            placeholder="COSMERE.Item.Sheet.Talent.AncestryIdPlaceholder"
-        }}
-    </div>
-    <p class="notes">
-        {{localize "COSMERE.Item.Sheet.Talent.AncestryIdDescription"}}
-    </p>
-    {{/if}}
-
-    {{!-- Prerequisites --}}
-    <h5>{{localize "COSMERE.Item.Sheet.Talent.Prerequisites.Label"}}</h5>
-    {{app-talent-prerequisites}}
-
+            {{!-- Power talent fields --}}
+            {{#if @root.isPowerTalent}}
+                {{formGroup @root.systemFields.power
+                    value=@root.item.system.power
+                    localize=true
+                    blank="GENERIC.None"
+                }}
+            {{/if}}
+        </div>
+    </fieldset>
+    
     {{app-item-details-activation}}
     {{app-item-details-damage}}
     {{app-item-details-modality}}

@@ -72,6 +72,14 @@ export function EquippableItemMixin<P extends CosmereItem>(
                     }),
                 });
             }
+
+            public prepareDerivedData() {
+                super.prepareDerivedData();
+
+                if (this.alwaysEquipped) {
+                    this.equipped = true;
+                }
+            }
         };
     };
 }

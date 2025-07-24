@@ -1,0 +1,101 @@
+#tooltip {    
+    background-color: var(--cosmere-color-sheet);
+    background-image: var(--cosmere-sheet-texture);
+    border: 1px solid var(--cosmere-color-faded);
+    border-radius: 6px;
+    padding: 0.5rem;
+
+    font-family: var(--cosmere-font-normal);
+    font-size: var(--font-size-14);
+    font-variant: lining-nums;
+    font-weight: 600;
+    line-height: var(--font-size-14);
+    color: var(--cosmere-color-text-sub);
+
+    .talenttip {
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+    
+            height: 3rem;
+    
+            h4 {
+                font-family: var(--cosmere-font-header-sc);
+                font-size: var(--font-size-24);
+                font-variant: lining-nums;
+                font-weight: 600;
+                line-height: var(--font-size-24);
+                color: var(--cosmere-color-white);
+                margin: 0;
+                text-shadow: 0 0 0.5rem black;
+                text-wrap: balance;
+                text-align: center;
+            }
+    
+            .bg-image {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                filter: blur(5px);
+                z-index: -1;
+            }
+        }
+
+        .prerequisites {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0.5em 0;
+    
+            .prerequisite {
+                border: 1px solid var(--cosmere-color-dark-5);
+                background-color: var(--cosmere-color-dark-2);
+                border-radius: .2rem;
+                padding: 0 .2rem;
+                margin: 0 .2rem;
+    
+                > i {
+                    font-size: .8rem;
+                    line-height: 1.3;
+                }
+    
+                &.unmet {
+                    color: var(--cosmere-color-complication-text);
+                    border-color: var(--cosmere-color-complication-text);
+                    background-color: var(--cosmere-color-complication-background-dark);
+                }
+    
+                &.met {
+                    color: var(--cosmere-color-opportunity-text);
+                    border-color: var(--cosmere-color-opportunity-text);
+                    background-color: var(--cosmere-color-opportunity-background-dark);
+                }
+            }
+        }
+    }
+
+    .conditiontip {
+        text-align: left;
+
+        > h2 {
+            font-family: var(--cosmere-font-header-sc);
+            font-size: var(--font-size-16);
+            font-variant: lining-nums;
+            font-weight: 600;
+            color: var(--cosmere-color-text-main);
+            border: none;
+        }
+    }
+
+    a {
+        &.content-link, &.roll {
+            background: #dddddd15;
+        }
+    }
+}

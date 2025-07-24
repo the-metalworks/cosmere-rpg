@@ -1,0 +1,63 @@
+{
+    "folder": "07WIbGwLoTODw9pL",
+    "name": "Emotional Intelligence",
+    "type": "talent",
+    "_id": "Ys13BfBwLnpy4dMl",
+    "img": "icons/skills/wounds/anatomy-organ-brain-pink-red.webp",
+    "system": {
+        "id": "emotional-intelligence",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p><em>You hone your intuition and understanding of others, enabling you to spot easy-to-miss signs of hidden symptoms and complicated feelings.</em></p><p>When you acquire this talent, your Erudition talent grants you an additional skill, and you can use Erudition to choose spiritual skills that aren’t surges.</p><p>Additionally, you gain a utility expertise in Diagnosis.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>Gain Diagnosis expertise. Gain an additional skill from @UUID[Compendium.cosmere-rpg.heroic-paths.Item.8FYBJZC8PBjneOim]{Erudition}. You can now choose spiritual skills with Erudition.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>When you acquire this talent, your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.8FYBJZC8PBjneOim]{Erudition} talent grants you an additional skill, and you can use Erudition to choose spiritual skills that aren’t surges.</p><p>Additionally, you gain a utility expertise in Diagnosis.</p>"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "path": "scholar",
+        "hasPath": false,
+        "specialty": "surgeon",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "bg5DRAWujinDnnsc": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "erudition",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.8FYBJZC8PBjneOim",
+                        "label": "Erudition"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "modality": null
+    },
+    "effects": [],
+    "sort": 400000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!Ys13BfBwLnpy4dMl"
+}

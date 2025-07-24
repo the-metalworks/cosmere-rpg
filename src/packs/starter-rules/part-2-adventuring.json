@@ -1,0 +1,386 @@
+{
+    "name": "Part 2: Adventuring",
+    "pages": [
+        {
+            "sort": 100000,
+            "name": "Adventuring",
+            "type": "text",
+            "_id": "AN6Iw6Q0fJfy33HM",
+            "system": {},
+            "title": {
+                "show": false,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<div class=\"sl-journal\"><p><span class=\"fontstyle0\">Through your highs and lows—from toiling at the bottom of chasms in the Shattered Plains to soaring free in the clouds over Emul—your adventures on Roshar tell a story of your personal struggles, tests of will, and triumphs over ancient grudges. The rules across this book can apply to countless situations; take from them whatever’s helpful, but ultimately keep only the rules that serve your story.</span></p><p><span>Part 2 covers the basics of how to go adventuring in Roshar and how you might use this book’s rules to facilitate that. Some of this guidance is roleplay focused, such as exploring how to pace your story and how to use the game’s three scene types to weave interesting adventures. Later sections focus on specific rules you’ll commonly use across all scene types, such as how to handle various conditions, resolve damage, and heal from injuries.</span></p></div>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "ownership": {
+                "default": -1,
+                "5w8rZSnTW6YaBgkB": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": 1749212904657,
+                "lastModifiedBy": "5iBgVcJlVEu3AHTG"
+            },
+            "_key": "!journal.pages!4BfYSQ4DinrH4dPa.AN6Iw6Q0fJfy33HM"
+        },
+        {
+            "sort": 487500,
+            "name": "Downtime",
+            "type": "text",
+            "_id": "d28j4oyQw2sjcfZY",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<div class=\"sl-journal\"><p>Scenes account for most of the time you’ll spend playing this game, but between them, your character’s life goes on. If you’re just taking a break for a few hours or a night, those rules are covered in the @UUID[.qiRsziLdMcwaWQdT]{Resting} section. However, longer periods between scenes offer<span class=\"fontstyle0\" style=\"color:rgb(36,32,33);font-size:10pt\"> </span><span class=\"fontstyle2\"><strong>downtime</strong></span>, in which individual characters can progress without being restrained by their party’s shared objectives.</p><p><span>During downtime, a GM presents you and your fellow players with an opportunity to explain what you do during this open time. Some activities might be done in tandem with other party members, but characters often want to go pursue their own goals for a while.</span></p><p>Chapter 9 of the <em>Stormlight Handbook</em> offers the full rules for downtime and downtime activities.</p></div>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "ownership": {
+                "default": -1,
+                "Ii3daJCA5JnDRGMI": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": 1749214788390,
+                "lastModifiedBy": "5iBgVcJlVEu3AHTG"
+            },
+            "_key": "!journal.pages!4BfYSQ4DinrH4dPa.d28j4oyQw2sjcfZY"
+        },
+        {
+            "sort": 493750,
+            "name": "Conditions",
+            "type": "text",
+            "_id": "jQvh7ULoKmh49sYA",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<div class=\"sl-journal\"><p>In your adventures, you’re likely to encounter effects that can apply a temporary condition to you. These alter your abilities for the duration of that effect (see the upcoming @UUID[.NAueOcBz1EeN7j6T]{Durations} section).</p><p>If an effect doesn’t state its duration (or how you can remove the condition early), all the rules you need for determining that are in the condition itself.</p><p>Conditions generally only apply to characters, not objects. For example, if a rule tells you to apply a condition to targets in a certain area, objects in that area ignore that condition. However, when it fits the story, the GM might decide that objects are affected by a condition (or by a similar narrative effect).</p><p>This game includes the following conditions, listed in alphabetical order.</p><p></p><h2>Afflicted</h2><p>While Afflicted, you slowly take damage over time. In combat, at the end of each of your turns, you take the amount and type of damage specified by the effect that gave you the condition; this information is typically stated in brackets. For example, if you’re Afflicted [[/r 1d4]] Vital, you take 1d4 damage at the end of each of your turns.</p><p>Out of combat, you instead take that damage every 10 seconds and after each time someone attempts to remove the condition.</p><p>Unlike most conditions, you can be Afflicted by multiple effects simultaneously. When this happens, resolve each effect separately.</p><p></p><h2>Determined</h2><p>While Determined, when you fail a test, you can add an Opportunity to the result. After you choose to do so, remove the Determined condition.</p><p></p><h2>Disoriented</h2><p>While Disoriented, your senses are disrupted, making most tasks difficult. You can’t use reactions, your senses always count as obscured, and Perception tests (and similar tests to use your senses) gain a disadvantage.</p><p></p><h2>Empowered</h2><p>When a Knight Radiant swears an Ideal, they become Empowered, granting a burst of unrestrained power. While Empowered, you gain an advantage on all tests and your Investiture refills to your maximum at the start of each of your turns. Remove this condition at the end of the current scene.</p><p></p><h2>Enhanced</h2><p>While Enhanced, one of your attributes temporarily increases, as specified in brackets when you gain that condition. The specified attribute gains a bonus equal to the specified number; however, this bonus doesn’t change your defenses, maximum health, maximum focus, or maximum Investiture.</p><p>For example, if you have a Speed of 3 and become Enhanced [+2 Speed], you temporarily gain the following benefits:</p><ul><li><p>Gain a +2 bonus to Agility, Light Weaponry, Stealth, and Thievery tests.</p></li><li><p>Gain a +2 bonus to any talents that directly use your Speed.</p></li><li><p>Increase your movement rate from 30 feet to 40 feet.</p></li></ul><p>Unlike most conditions, Enhanced has a cumulative effect, and more than one of your attributes can be Enhanced at a time.</p><p></p><h2>Exhausted</h2><p>While Exhausted, you feel fatigued and your skill tests become more difficult.</p><p>When you gain this condition, it states a negative number in brackets. After you calculate a test result but before you resolve its effects, apply a penalty equal to this number.</p><p>After each long rest, reduce your Exhausted penalty by 1. The condition is removed when your penalty equals 0.</p><p>Unlike most conditions, Exhausted has a cumulative effect. When you gain a second instance of this condition, add its listed penalty to your current Exhausted penalty. For example, if an effect makes you Exhausted [-2], you subtract 2 from the result of all tests; if a different effect then makes you Exhausted [-1], that increases your Exhausted penalty, so you now subtract 3 from the result of all tests. As usual, your final test result can’t be less than 0, regardless of your penalty.</p><p></p><h2>Focused</h2><p>While Focused, you are engaged and intent on your task. When you use an ability that costs focus, its cost is reduced by 1.</p><p></p><h2>Immobilized</h2><p>While Immobilized, your movement rate becomes 0, and you can’t move or be moved by other effects.</p><p></p><h2>Prone</h2><p>While Prone, you are lying flat on the ground. While Prone, you are Slowed and melee attacks against you gain an advantage. You can use the Brace action without cover.</p><p>You can stand up and end this condition as 0. After you do, your movement rate is reduced by 5 until the start of your next turn.</p><p>If you become Prone while climbing or flying, you fall and take damage as usual (see @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.GgQySBa2DAqiGFNq.JournalEntryPage.rMs5NOkzGPLSbj9y#falling]{Falling} in part 3).</p><p></p><h2>Restrained</h2><p>While Restrained, your movement rate becomes 0. You gain a disadvantage on all tests other than those to escape your bonds. If the effect that applies this condition doesn’t state an escape DC, it’s up to the GM whether and how the condition can be removed early.</p><p></p><img src=\"systems/cosmere-rpg/assets/art/p2-adventuring/pg26_Szeth%2C%20Trapped%20in%20Stone_AMIRUL%20HHF.webp\" alt=\"Trapped%20in%20Stone_AMIRUL%20HHF\" style=\"border:0px\" class=\" centered\" width=\"400\" /><p style=\"text-align:center\"><strong>Amirul Hhf</strong></p><p></p><h2>Slowed</h2><p>While Slowed, your movement rate is halved. If you become Slowed in the middle of movement, halve your remaining movement (rounded up).</p><p></p><h2>Stunned</h2><p>While Stunned in combat, you lose any reactions, and on your turn, you gain two fewer<span class=\"fontstyle0\" style=\"color:rgb(36,32,33);font-size:10pt\"> </span><span class=\"cosmere-icon\">1</span><span class=\"fontstyle0\" style=\"color:rgb(36,32,33);font-size:10pt\"> </span>and don’t gain a reaction. While Stunned out of combat, you are overwhelmed, making you move and react slower to your situation at the GM’s discretion.</p><p></p><h2>Surprised</h2><p>While Surprised, you lose any reactions, you don’t gain a reaction at the start of combat or on your turn, you can’t take a fast turn, and you gain one fewer <span class=\"cosmere-icon\">1</span>. Remove this condition after your next turn.</p><p></p><h2>Unconscious</h2><p>While Unconscious, your movement rate becomes 0, you can’t move or communicate, and you’re unaware of your surroundings. When you gain this condition, you fall @UUID[.jQvh7ULoKmh49sYA#prone]{Prone} and drop anything you’re carrying. You can’t interact with your surroundings or use any actions or reactions other than the Breathe Stormlight action and Regenerate free action (if you’re Radiant). In combat, you always go slow, but you can’t do anything on your turn (other than the above Radiant actions).</p><p>Enemies typically ignore Unconscious characters unless they have a strong reason to do otherwise.</p><p>If you are a PC, you can choose to regain consciousness at the end of any of your turns (no action required) or when an effect heals you to at least 1 health. When you do so, other characters can sense you’re conscious, you remove the Unconscious condition, and if you’re at 0 health, you recover 1 health. But be careful: with such low health, you could easily suffer another injury, this one potentially more dangerous or deadly.</p><p>If you are an NPC, you automatically regain consciousness when you recover 1 health.</p></div>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "ownership": {
+                "default": -1,
+                "Ii3daJCA5JnDRGMI": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": 1749244886367,
+                "lastModifiedBy": "NOgb233HlKsdBJiu"
+            },
+            "_key": "!journal.pages!4BfYSQ4DinrH4dPa.jQvh7ULoKmh49sYA"
+        },
+        {
+            "sort": 496875,
+            "name": "Durations",
+            "type": "text",
+            "_id": "NAueOcBz1EeN7j6T",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<div class=\"sl-journal\"><p>Some effects (such as conditions) last a specified number of rounds. If you’re in combat when that effect begins, note whether it begins in the fast PC phase, the fast NPC phase, the slow PC phase, or the slow NPC phase (see @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.GgQySBa2DAqiGFNq.JournalEntryPage.CVVMynOnVYXvL6Xm#turn-phases]{Turn Phases} in part 3). The effect lasts until the beginning of that phase on the next round.</p><p>Other effects state exactly when they end. For example, if an effect ends “at the end of your next turn,” it doesn’t matter if your next turn is fast or slow—the effect ends when that turn does.</p></div>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "ownership": {
+                "default": -1,
+                "Ii3daJCA5JnDRGMI": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": 1749244428002,
+                "lastModifiedBy": "NOgb233HlKsdBJiu"
+            },
+            "_key": "!journal.pages!4BfYSQ4DinrH4dPa.NAueOcBz1EeN7j6T"
+        },
+        {
+            "sort": 498438,
+            "name": "Damage, Injury, and Death",
+            "type": "text",
+            "_id": "g3I4elHd7V9Zc9g0",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<div class=\"sl-journal\"><p>The risk of injury or death is nearly constant during the True Desolation. These rules discuss how to handle damage and injuries.</p><p></p><h2>Damage</h2><p>When you’re dealt <span class=\"fontstyle2\"><strong>damage</strong></span><span class=\"fontstyle0\" style=\"color:rgb(36,32,33);font-size:10pt\">, </span>you reduce your current health by that amount. If you’re wearing armor, your deflect value might reduce the amount of damage you suffer depending on that damage’s type (see @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.dCOrLZj5O9Va7cd3.JournalEntryPage.IWb3UPOvrajROXf9]{Deflect} in part 1).</p><p>After you’re reduced to 0 health, you become Unconscious and suffer an injury (see the upcoming @UUID[.g3I4elHd7V9Zc9g0#injuries]{Injuries} section), putting you at risk of serious injury or death. Each time you take damage while at 0 health, you suffer another injury. If your injury doesn’t kill you, you remain Unconscious until you regain health or choose to regain consciousness (as described in @UUID[.jQvh7ULoKmh49sYA]{Conditions}).</p><p></p><h3>Damage Types</h3><p>Different weapons, surges, and other effects deal different <span class=\"fontstyle2\"><strong>damage types</strong></span><span class=\"fontstyle0\" style=\"color:rgb(36,32,33);font-size:10pt\">. </span>Most effects state what type of damage they deal. If an effect “deals extra damage” but doesn’t specify the type, the effect deals the same type as the underlying damage dealt.</p><p>Some rules may affect damage types. For example, if your armor gives you a deflect value, this reduces the damage you take when dealt energy, impact, or keen damage (see @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.kVZcYd3em6DmovVh.JournalEntryPage.gKdJjuTqaIl0RCC2]{Armor} in part 6). Similarly, some adversaries are less affected by certain damage types.</p><p>When determining the damage type of various effects in your story, use the following guidelines:</p><p><span class=\"fontstyle2\"><strong>Energy.</strong> </span>Effects related to heat and energy (such as fire and lightning) deal energy damage.</p><p><span class=\"fontstyle2\"><strong>Impact.</strong></span> Effects that crush or bludgeon (such as a hammer blow or a flying boulder) deal impact damage.</p><p><span class=\"fontstyle2\"><strong>Keen.</strong> </span>Effects that slice, puncture, or impale (such as a dagger or sharp wooden spikes) deal keen damage.</p><p><span class=\"fontstyle2\"><strong>Spirit.</strong> </span>Effects that damage both your physical and spiritual self deal spirit damage. This is usually dealt by Shardblades, but a few surges can also do so. This damage type is <em>not</em> reduced by your deflect value.</p><p><span class=\"fontstyle2\"><strong>Vital.</strong> </span>Effects that put your constitution to the test (such as poison, suffocation, and extreme cold) deal vital damage. This damage type is <em>not</em> reduced by your deflect value.</p><p></p><h2>Injuries</h2><p>When you suffer particularly grievous harm, you might suffer an <strong>injury</strong> that takes a while to heal—or that never heals at all.</p><p></p><h3>Suffering an Injury</h3><p>You always suffer an injury when you’re reduced to 0 health and when you take damage while at 0 health. Other effects (such as talents and weapon traits) can also cause injuries, and the GM can decide to inflict an injury when the story calls for it.</p><p></p><img src=\"systems/cosmere-rpg/assets/art/p2-adventuring/pg28_Progression_Healing_IRINA KUZMINA.webp\" style=\"border:0px\" class=\" centered\" width=\"400\" /><p style=\"text-align:center\"><strong>IRINA KUZMINA</strong></p><h3>Injury Rolls</h3><p>When you suffer an injury, you must make an <strong>injury roll</strong>. Major NPCs, such as recurring characters, make injury rolls in the same way. (For less prominent NPCs, see @UUID[.g3I4elHd7V9Zc9g0#minor-npcs-and-injuries]{Minor NPC and Injuries}.)</p><p><span class=\"fontstyle0\">An injury roll is not a skill test. Rather, when you make an injury roll, roll a d20 and apply the following modifiers:</span></p><ul><li><p><span class=\"fontstyle2\"><strong>Armor.</strong> </span><span class=\"fontstyle0\">Add the deflect value of any armor you’re wearing.</span></p></li><li><p><span class=\"fontstyle2\"><strong>Abilities.</strong> </span><span class=\"fontstyle0\">Add any relevant modifiers from talents or other abilities.</span></p></li><li><p><span class=\"fontstyle2\"><strong>Injuries.</strong> </span><span class=\"fontstyle0\">Subtract 5 from the roll for each injury you already have. (Unlike skill tests, the result of an injury roll can be a negative number!)</span></p></li></ul><p><span class=\"fontstyle0\">Compare the result to the Injury Duration table to determine the duration of your injury, then see “Injury Effects” to determine its impact</span>.</p><h4>@UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.iEuKRpB4mYLQKfb9.JournalEntryPage.0A1CVqyhVTMsSxNG]</h4><p>@Embed[Compendium.cosmere-rpg.starter-rules.JournalEntry.iEuKRpB4mYLQKfb9.JournalEntryPage.0A1CVqyhVTMsSxNG inline]</p><p></p><h3>Injury Effects</h3><p>Each injury remains until it heals (or for permanent injuries, potentially forever). When your character suffers an injury, you decide its effects. To do so, consider what caused the injury and what narrative you’re interested in for your character.</p><p>The Injury Effects table suggests some effects an injury could have and how you might describe it in the story. Feel free to choose any entry on the table, roll a d8 on the table, or work with your GM to create a custom effect.</p><h4>@UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.iEuKRpB4mYLQKfb9.JournalEntryPage.ZMe9F8E7vP7eAXZn]</h4><p>@Embed[Compendium.cosmere-rpg.starter-rules.JournalEntry.iEuKRpB4mYLQKfb9.JournalEntryPage.ZMe9F8E7vP7eAXZn inline]</p><p></p><h3><span class=\"fontstyle0\">Minor NPCs and Injuries</span></h3><p>If a minor NPC suffers an injury, they’re immediately defeated. When it fits the story, the PC inflicting the injury can choose whether the NPC dies or simply becomes Unconscious with an injury. If Unconscious, the NPC can’t regain consciousness until they recover at least 1 health from another source; unlike PCs, NPCs can’t choose to regain consciousness on their own.</p><p>At the GM’s discretion, NPCs significant to the scene or wider story might not be defeated when they suffer an injury, potentially allowing them to be revived by allies and rejoin the fight.</p><p></p><h3><span class=\"fontstyle0\">Recovering From Injuries</span></h3><p>Temporary injuries heal after the specified duration— or if you recuperate during downtime, you heal twice as fast, <span>as described in chapter 9 of the <em>Stormlight Handbook</em></span>. A few talents and other effects can also heal an injury.</p><p><span class=\"fontstyle0\">Permanent injuries won’t heal without supernatural intervention, but your character can adapt to injuries, including permanent ones—with training, practice, specialty fabrials, or the support of loved ones.</span></p><p></p><h2>Death</h2><p>Player characters in this game are hardy and can usually withstand multiple grievous injuries before succumbing to them. However, as described in “Injury Rolls,” each of your character’s injuries applies a penalty to future injury rolls, significantly increasing their chances of death.</p><p>When your character dies, they can cling to consciousness just long enough to speak their final words: imparting one last wisdom, making one last quip, or saying one last goodbye. Their Cognitive aspect then leaves their physical form, remaining in Shadesmar for a short period before their soul rejoins the Spiritual Realm from whence it came.</p><p>Once this scene ends, you might wish to describe your character’s soul passing into the Beyond. This is an opportunity for a more introspective, peaceful farewell. Whether your character expects to join the fight to reclaim the Tranquiline Halls or to slip gently into nothingness, this is the end of their journey, and their final destination remains unknown.</p><p></p><img src=\"systems/cosmere-rpg/assets/art/p2-adventuring/pg29_Death%20of%20Shallans%20Mother_Gal%20Or.webp\" style=\"border:0px\" class=\" centered\" width=\"400\" /><p style=\"text-align:center\"><strong>Gal Or</strong></p><p></p><h3><span class=\"fontstyle0\">Return</span>ing to Life</h3><p>In rare circumstances, powers such as the Old Magic can reattach a lingering soul to its body. The more Invested a person is at the time of their death, the longer their soul lingers. However, a soul must be willing to be reattached.</p><p></p><table class=\"sl-blue\"><tbody><tr><td class=\"sl-blue-header\" data-colwidth=\"543\"><p><strong>GM Tip: Placing PCs in Mortal Danger</strong></p></td></tr><tr><td class=\"sl-blue-text\" data-colwidth=\"543\"><p>In some tabletop roleplaying games, death is just an inconvenience—but in Stormlight stories, aside from a few exceptional cases, death is permanent. With that in mind, GMs should be thoughtful about when to put characters in truly mortal danger.</p><p>Out of combat, if a player makes a choice that would lead to the certain death of a PC, consider giving them an out-of-character warning. In combat, this game’s injury system offers meaningful risks and consequences other than death. However, a player may wish to tell a story of noble sacrifice, in which case their character might choose to fight through injuries and place themself in harm’s way! But that’s the result of player choice, which usually creates a far more satisfying end than does a death to random chance.</p></td></tr></tbody></table></div>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "ownership": {
+                "default": -1,
+                "Ii3daJCA5JnDRGMI": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": 1752451865748,
+                "lastModifiedBy": "zUkYx8Dgv6g35j5m"
+            },
+            "_key": "!journal.pages!4BfYSQ4DinrH4dPa.g3I4elHd7V9Zc9g0"
+        },
+        {
+            "sort": 475000,
+            "name": "Resting",
+            "type": "text",
+            "_id": "qiRsziLdMcwaWQdT",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<div class=\"sl-journal\"><p>In between scenes, you’ll (hopefully) find time to rest and recuperate. This gives you an opportunity to recover, eat, tend to your wounds, and plan for the days ahead. There are two types of rests: short rests and long rests.</p><p></p><h2>Short Rest</h2><p>A <span class=\"fontstyle2\"><strong>short rest</strong></span> is any uninterrupted period of an hour or longer in which you’re able to relax, recover, and tend to your wounds.</p><p></p><img src=\"systems/cosmere-rpg/assets/art/p2-adventuring/pg24_Take%20Shelter_ANNA%20PAZYNIUK.webp\" alt=\"Take%20Shelter_ANNA%20PAZYNIUK\" style=\"border:0px\" class=\" centered\" width=\"400\" /><p style=\"text-align:center\"><strong>Anna Pazyniuk</strong></p><p></p><h3>Recovering Health and Focus</h3><p>After a short rest, you can roll your recovery die to determine how well you recover. Add the roll result to your current health, your current focus, or a combination of the two. For example, if you roll a 5 on your recovery die, you might choose to recover 3 health and 2 focus.</p><p></p><h3><span class=\"fontstyle0\" style=\"font-size:14pt\">Alternative Benefits</span></h3><p>If you prefer, you can forgo recovery yourself, and instead spend your rest time to gain one of the following benefits:</p><p><span class=\"fontstyle2\" style=\"color:rgb(30,60,96)\"><strong>Tend to Others. </strong></span>You can provide medical assistance to one or more willing allies you’re resting with. When you do, they add your Medicine modifier to their recovery die roll.</p><p><span class=\"fontstyle2\" style=\"color:rgb(30,60,96)\"><strong>Forage.</strong> </span>You can use Survival to forage for resources (see @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.dCOrLZj5O9Va7cd3.JournalEntryPage.f4WUJcFOPWHd0u62#survival-(awareness)]{Survival} in part 1).</p><p><span class=\"fontstyle2\" style=\"color:rgb(30,60,96)\"><strong>Other.</strong></span> If you want to accomplish tasks while the rest of your party rests, you can forgo the benefits of resting to try to get things done. In general, anything that would require a skill test is too demanding to accomplish while also getting rest.</p><p></p><h3>Other Short Rest Effects</h3><p>Some talents and other effects allow you to use or activate them during or after a short rest. Unless otherwise specified, you can benefit from these even if you also recover health and focus (or engage in one of the alternative activities).</p><p></p><h2><span class=\"fontstyle0\" style=\"font-size:16pt\">Long Rest</span></h2><p>A<span class=\"fontstyle0\" style=\"color:rgb(36,32,33);font-size:10pt\"> </span><span class=\"fontstyle2\"><strong>long rest</strong> </span>is any uninterrupted period of eight hours or longer in which you experience meaningful rest. This typically involves some time for relaxation and a full night’s sleep.</p><p></p><h3>Recovering Health and Focus</h3><p>After a long rest, you recover all your lost health and focus. Additionally, your Exhausted penalty reduces by 1 (see @UUID[.jQvh7ULoKmh49sYA]{Conditions}).</p><p></p><h3>Other Long Rest Effects</h3><p>As with short rests, some talents and effects activate when you rest, and you can recover during the same rest you benefit from those.</p></div>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "ownership": {
+                "default": -1,
+                "Ii3daJCA5JnDRGMI": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": null,
+                "modifiedTime": 1749244786645,
+                "lastModifiedBy": "NOgb233HlKsdBJiu"
+            },
+            "_key": "!journal.pages!4BfYSQ4DinrH4dPa.qiRsziLdMcwaWQdT"
+        },
+        {
+            "sort": 450000,
+            "name": "Scenes",
+            "type": "text",
+            "_id": "21ZmfcqvxHExEdr8",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<div class=\"sl-journal\"><p>When the action “zooms in” and your individual actions have consequences, this is called a scene. These sequences in the game can include harrowing fights, tricky negotiations, exciting explorations, and much more.</p><p>This game’s rules focus primarily on scenes, as these typically need more guidance than fast-flowing narratives. Most scenes can be categorized as one of the following:</p><p><span class=\"fontstyle2\"><strong>Combats</strong> </span>occur when one or more characters engage in a physically hostile conflict. In fights and battles, every second matters, positioning requires precision, and lives are on the line. @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.GgQySBa2DAqiGFNq]{Part 3: Combat} presents guidelines for combats.</p><p><span class=\"fontstyle2\"><strong>Conversations</strong> </span>focus on times you’re communicating with other characters when the outcomes are uncertain and hold meaningful implications for the game’s story. These involve heated arguments, tense negotiations, intricate deceptions, and similar interactions. @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.LIl38TXSOlUmIZsA]{Part 4: Conversations} presents guidance for conversations.</p><p><span class=\"fontstyle2\"><strong>Endeavors</strong></span> highlight times you’re trying to traverse, explore, discover, pursue, or sneak. In these scenes, your main opponent isn’t usually other characters— instead, it’s the environment or situation itself. @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.9ZnUH8CoJiVjRK2h]{Part 5: Endeavors} presents guidance for endeavors.</p></div><div class=\"sl-journal\"><p>Not all sequences fit nicely into a single scene type— for example, you might begin with a conversation that quickly devolves into combat. And as with all rules of this game, the scene rules are guidelines. The GM may alter them, use only parts of a rule, or mix and match to best tell the story of your adventure.</p><p></p><h2>Statistics Across Scenes</h2><p><span class=\"fontstyle0\">When one scene rolls into the next, your character’s statistics generally remain in the same state as in the previous scene. For example, your current health, focus, and Investiture remain the same until you get a chance to recover them, whether through abilities or by spending a meaningful amount of time resting</span></p></div>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "ownership": {
+                "default": -1,
+                "Ii3daJCA5JnDRGMI": 3,
+                "5iBgVcJlVEu3AHTG": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": 1749212720371,
+                "modifiedTime": 1749244712495,
+                "lastModifiedBy": "NOgb233HlKsdBJiu"
+            },
+            "_key": "!journal.pages!4BfYSQ4DinrH4dPa.21ZmfcqvxHExEdr8"
+        },
+        {
+            "sort": 300000,
+            "name": "Roleplaying",
+            "type": "text",
+            "_id": "T2k97YrY9x8TszzJ",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<div class=\"sl-journal\"><p>Each scene follows a standard rhythm, as outlined in this book’s introduction:</p><ul><li><p>The GM sets the scene.</p></li><li><p>The players decide what they do.</p></li><li><p>The GM narrates the results.</p></li></ul><p>During this cycle, you and the other players act out the roles of your characters. It’s your job to determine how your character speaks, thinks, and acts. Those roleplaying decisions bring your character to life, shape your relationships with the rest of the party, and drive the story forward.</p></div>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "ownership": {
+                "default": -1,
+                "5iBgVcJlVEu3AHTG": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": 1749212792937,
+                "modifiedTime": 1749212822055,
+                "lastModifiedBy": "5iBgVcJlVEu3AHTG"
+            },
+            "_key": "!journal.pages!4BfYSQ4DinrH4dPa.T2k97YrY9x8TszzJ"
+        },
+        {
+            "sort": 400000,
+            "name": "Time",
+            "type": "text",
+            "_id": "H4RLHXvdmNfw7fH0",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<div class=\"sl-journal\"><p>Just like any story, the flow of time is at the heart of roleplaying. Sometimes, the story moves quickly, covering large amounts of time. Other times, every heartbeat matters and the action unfolds moment by moment, detailing every movement your character makes.</p><p>The GM informally sets the pace of time based on how each situation is unfolding. This often happens subtly as the GM shifts the timescale they’re discussing. For example, you might shift quickly between the slow-paced “you travel through the Purelake for several hours” and the fast-paced “you dive for cover when you spot the ominous shapes of Fused flying low over the water.” In this case, the GM didn’t formally proclaim time was moving differently, but the needs of the story changed it on the fly.</p><p>As you play out an adventure, the story naturally ebbs and flows in this way. Sometimes you’ll “zoom out” to allow time to pass by or events to unfold, and other times you’ll “zoom in” on events that play out in detail. Detailed moments like these—known as scenes—are explained in the next section.</p><p>Faster-flowing parts of your story are more flexible. In these scenes, long stretches of time pass, allowing you to rest between difficult days, to travel for long stretches of time, or to engage in downtime activities between the active moments of an adventure. Most of these moments can be handled like a montage in a movie, but some things (like resting and downtime activities) can have rules implications that are discussed later in part 2.</p></div>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "ownership": {
+                "default": -1,
+                "5iBgVcJlVEu3AHTG": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": 1749212833648,
+                "modifiedTime": 1749212857138,
+                "lastModifiedBy": "5iBgVcJlVEu3AHTG"
+            },
+            "_key": "!journal.pages!4BfYSQ4DinrH4dPa.H4RLHXvdmNfw7fH0"
+        },
+        {
+            "sort": 487500,
+            "name": "Goals and Rewards",
+            "type": "text",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<div class=\"sl-journal\"><p>During a full campaign, PCs mark advancement in two meaningful ways. First, at certain milestones during a campaign, you can gain a level when indicated by the GM. This represents reaching a meaningful milestone in your growing experience. Second, you can complete personal goals and earn rewards that grant you powerful items, relationships, or abilities.</p><p>While the whole party might be working toward a broader objective, each goal and its subsequent reward is personal to you and your story. One character might be working towards earning a Shardblade in a duel. Another character might be a Radiant trying to find the Words to swear the Third Ideal of their order. Yet another might be trying to earn the favor of the mysterious Sleepless.</p><p>Full rules for goals and rewards appear in chapter 8 of the <em>Stormlight Handbook</em>.</p></div>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "ownership": {
+                "default": -1,
+                "Ii3daJCA5JnDRGMI": 3,
+                "5iBgVcJlVEu3AHTG": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": "Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.d28j4oyQw2sjcfZY",
+                "duplicateSource": "Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.d28j4oyQw2sjcfZY",
+                "coreVersion": "12.343",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "1.0.0",
+                "createdTime": 1749214704211,
+                "modifiedTime": 1749214837316,
+                "lastModifiedBy": "5iBgVcJlVEu3AHTG"
+            },
+            "_id": "h8WNdjlH1g3vQuOp",
+            "_key": "!journal.pages!4BfYSQ4DinrH4dPa.h8WNdjlH1g3vQuOp"
+        }
+    ],
+    "folder": null,
+    "flags": {},
+    "ownership": {
+        "default": 0
+    },
+    "_id": "4BfYSQ4DinrH4dPa",
+    "sort": 250000,
+    "_key": "!journal!4BfYSQ4DinrH4dPa",
+    "categories": []
+}

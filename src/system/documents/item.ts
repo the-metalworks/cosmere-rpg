@@ -1,16 +1,17 @@
+import { CosmereActor, CosmereActorRollData } from './actor';
+import { MESSAGE_TYPES } from './chat-message';
 import {
     ItemType,
     Skill,
     Attribute,
     ItemConsumeType,
     ActivationType,
+    WeaponTraitId,
+    ArmorTraitId,
+    ActionCostType,
 } from '@system/types/cosmere';
-import { CosmereActor } from './actor';
-
-import { Derived } from '@system/data/fields';
-
-// Dialogs
-import { AttackConfigurationDialog } from '@system/applications/dialogs/attack-configuration';
+import { CosmereHooks } from '@system/types/hooks';
+import { DeepPartial, Nullable } from '@system/types/utils';
 
 // Data model
 import {
@@ -27,9 +28,16 @@ import {
     TraitItemDataModel,
     LootItemDataModel,
     EquipmentItemDataModel,
+    GoalItemDataModel,
+    GoalItemData,
+    PowerItemDataModel,
+    TalentTreeItemDataModel,
 } from '@system/data/item';
 
-import { ActivatableItemData } from '@system/data/item/mixins/activatable';
+import {
+    ActivatableItemData,
+    ItemConsumeData,
+} from '@system/data/item/mixins/activatable';
 import { AttackingItemData } from '@system/data/item/mixins/attacking';
 import { DamagingItemData } from '@system/data/item/mixins/damaging';
 import { PhysicalItemData } from '@system/data/item/mixins/physical';
@@ -39,6 +47,17 @@ import { EquippableItemData } from '@system/data/item/mixins/equippable';
 import { DescriptionItemData } from '@system/data/item/mixins/description';
 import { IdItemData } from '@system/data/item/mixins/id';
 import { ModalityItemData } from '@system/data/item/mixins/modality';
+import { TalentsProviderData } from '@system/data/item/mixins/talents-provider';
+import { EventsItemData } from '@system/data/item/mixins/events';
+import { DeflectItemData } from '@system/data/item/mixins/deflect';
+import { LinkedSkillsItemData } from '@system/data/item/mixins/linked-skills';
+import {
+    RelationshipsItemData,
+    ItemRelationship,
+} from '@system/data/item/mixins/relationships';
+
+// Sheet
+import { BaseItemSheet } from '@system/applications/item/base';
 
 // Rolls
 import {
@@ -52,11 +71,29 @@ import {
 import { AdvantageMode } from '@system/types/roll';
 import { RollMode } from '@system/dice/types';
 
+// Utils
+import {
+    determineConfigurationMode,
+    getApplyTargets,
+    getTargetDescriptors,
+} from '@system/utils/generic';
+import { EnricherData } from '../utils/enrichers';
+import { renderSystemTemplate, TEMPLATES } from '@system/utils/templates';
+import { getEmbedHelpers } from '@system/utils/embed';
+import ItemRelationshipUtils, {
+    RemoveRelationshipOptions,
+} from '@src/system/utils/item/relationship';
+
+// Dialogs
+import { AttackConfigurationDialog } from '@system/applications/dialogs/attack-configuration';
+import { ItemConsumeDialog } from '@system/applications/item/dialogs/item-consume';
+
 // Constants
-const CONSUME_CONFIGURATION_DIALOG_TEMPLATE =
-    'systems/cosmere-rpg/templates/item/dialog/item-consume.hbs';
-const ACTIVITY_CARD_TEMPLATE =
-    'systems/cosmere-rpg/templates/chat/activity-card.hbs';
+import { SYSTEM_ID } from '@system/constants';
+import { HOOKS } from '@system/constants/hooks';
+
+// Constants
+const CONSUME_CONFIGURATION_DIALOG_TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ITEM_CONSUME}`;
 
 interface ShowConsumeDialogOptions {
     /**
@@ -136,6 +173,22 @@ export class CosmereItem<
         return this.type === ItemType.Trait;
     }
 
+    public isEquipment(): this is CosmereItem<EquipmentItemDataModel> {
+        return this.type === ItemType.Equipment;
+    }
+
+    public isGoal(): this is GoalItem {
+        return this.type === ItemType.Goal;
+    }
+
+    public isPower(): this is PowerItem {
+        return this.type === ItemType.Power;
+    }
+
+    public isTalentTree(): this is CosmereItem<TalentTreeItemDataModel> {
+        return this.type === ItemType.TalentTree;
+    }
+
     /* --- Mixin type guards --- */
 
     /**
@@ -182,6 +235,13 @@ export class CosmereItem<
     }
 
     /**
+     * Does this item have a deflect value?
+     */
+    public hasDeflect(): this is CosmereItem<DeflectItemData> {
+        return 'deflect' in this.system;
+    }
+
+    /**
      * Can this item be equipped?
      */
     public isEquippable(): this is CosmereItem<EquippableItemData> {
@@ -209,10 +269,38 @@ export class CosmereItem<
         return 'modality' in this.system;
     }
 
+    /**
+     * Does this item provide talents?
+     */
+    public isTalentsProvider(): this is TalentsProviderItem {
+        return 'talentTree' in this.system;
+    }
+
+    /**
+     * Does this item have events?
+     */
+    public hasEvents(): this is CosmereItem<EventsItemData> {
+        return 'events' in this.system;
+    }
+
+    /**
+     * Whether or not this item supports linked skills.
+     */
+    public hasLinkedSkills(): this is CosmereItem<LinkedSkillsItemData> {
+        return 'linkedSkills' in this.system;
+    }
+
+    /**
+     * Whether or not this item can have relationships.
+     */
+    public hasRelationships(): this is CosmereItem<RelationshipsItemData> {
+        return 'relationships' in this.system;
+    }
+
     /* --- Accessors --- */
 
     public get isFavorite(): boolean {
-        return this.getFlag('cosmere-rpg', 'favorites.isFavorite');
+        return this.getFlag(SYSTEM_ID, 'favorites.isFavorite') ?? false;
     }
 
     /**
@@ -233,13 +321,56 @@ export class CosmereItem<
         const modalityId = this.system.modality;
 
         // Check actor modality flag
-        const activeMode = this.actor.getFlag(
-            'cosmere-rpg',
-            `mode.${modalityId}`,
-        );
+        const activeMode = this.actor.getFlag(SYSTEM_ID, `mode.${modalityId}`);
 
         // Check if the actor has the mode active
         return activeMode === this.system.id;
+    }
+
+    public get sheet(): BaseItemSheet | null {
+        return super.sheet as BaseItemSheet | null;
+    }
+
+    /* --- Lifecycle --- */
+
+    protected override _onClickDocumentLink(event: MouseEvent) {
+        const target = event.currentTarget as HTMLElement;
+        return this.sheet?.render(true, { tab: target.dataset.tab });
+    }
+
+    protected override _buildEmbedHTML(
+        config: DocumentHTMLEmbedConfig,
+        options?: TextEditor.EnrichmentOptions,
+    ): Promise<HTMLElement | HTMLCollection | null> {
+        const embedHelpers = getEmbedHelpers(this);
+        return (
+            embedHelpers.buildEmbedHTML?.(this, config, options) ??
+            super._buildEmbedHTML(config, options)
+        );
+    }
+
+    protected override _createInlineEmbed(
+        content: HTMLElement | HTMLCollection,
+        config: DocumentHTMLEmbedConfig,
+        options?: TextEditor.EnrichmentOptions,
+    ): Promise<HTMLElement | null> {
+        const embedHelpers = getEmbedHelpers(this);
+        return (
+            embedHelpers.createInlineEmbed?.(this, content, config, options) ??
+            super._createInlineEmbed(content, config, options)
+        );
+    }
+
+    protected override _createFigureEmbed(
+        content: HTMLElement | HTMLCollection,
+        config: DocumentHTMLEmbedConfig,
+        options?: TextEditor.EnrichmentOptions,
+    ): Promise<HTMLElement | null> {
+        const embedHelpers = getEmbedHelpers(this);
+        return (
+            embedHelpers.createFigureEmbed?.(this, content, config, options) ??
+            super._createFigureEmbed(content, config, options)
+        );
     }
 
     /* --- Roll & Usage utilities --- */
@@ -271,33 +402,41 @@ export class CosmereItem<
         }
 
         // Get skill to use
-        const skillId = options.skill ?? this.system.activation.skill;
-        if (!skillId) return null;
-        const skill = actor.system.skills[skillId];
+        const skillId = options.skill ?? this.system.activation.resolvedSkill;
+
+        const skill = skillId
+            ? actor.system.skills[skillId]
+            : { attribute: null, rank: 0 };
 
         // Get the attribute id
         const attributeId =
-            options.attribute ??
-            this.system.activation.attribute ??
-            skill.attribute;
+            options.attribute ?? this.system.activation.resolvedAttribute;
 
         // Set up actor data
         const data: D20RollData = this.getSkillTestRollData(
-            skillId,
+            skillId ? skillId : null,
             attributeId,
             actor,
+            options.isAttack,
         );
+
+        const parts = ['@mod'].concat(options.parts ?? []);
+        if (options.temporaryModifiers) parts.push(options.temporaryModifiers);
 
         // Perform the roll
         const roll = await d20Roll(
             foundry.utils.mergeObject(options, {
                 data,
                 chatMessage: false,
-                title: `${this.name} (${game.i18n!.localize(
-                    CONFIG.COSMERE.skills[skillId].label,
-                )})`,
-                defaultAttribute: skill.attribute,
-                parts: ['@mod'].concat(options.parts ?? []),
+                title: `${this.name} (${
+                    skillId
+                        ? game.i18n!.localize(
+                              CONFIG.COSMERE.skills[skillId].label,
+                          )
+                        : `${game.i18n!.localize('GENERIC.Custom')} ${game.i18n!.localize('GENERIC.Skill')}`
+                })`,
+                defaultAttribute: skill.attribute ? skill.attribute : undefined,
+                parts: parts,
                 plotDie: options.plotDie ?? this.system.activation.plotDie,
                 opportunity:
                     options.opportunity ?? this.system.activation.opportunity,
@@ -327,7 +466,7 @@ export class CosmereItem<
      */
     public async rollDamage(
         options: CosmereItem.RollDamageOptions = {},
-    ): Promise<DamageRoll | null> {
+    ): Promise<DamageRoll[] | null> {
         if (!this.hasDamage() || !this.system.damage.formula) return null;
 
         // Get the actor to roll for (either assigned through option, the parent of this item, or the first controlled actor)
@@ -351,7 +490,7 @@ export class CosmereItem<
         // Get the skill id
         const skillId =
             options.skill ??
-            (activatable ? this.system.activation.skill : undefined);
+            (activatable ? this.system.activation.resolvedSkill : null);
 
         // Get the skill
         const skill = skillId ? actor.system.skills[skillId] : undefined;
@@ -359,8 +498,7 @@ export class CosmereItem<
         // Get the attribute id
         const attributeId =
             options.attribute ??
-            (activatable ? this.system.activation.attribute : undefined) ??
-            (skill ? skill.attribute : undefined);
+            (activatable ? this.system.activation.resolvedAttribute : null);
 
         // Set up data
         const rollData: DamageRollData = this.getDamageRollData(
@@ -369,15 +507,76 @@ export class CosmereItem<
             actor,
         );
 
+        const formula = options.overrideFormula ?? this.system.damage.formula;
         // Perform the roll
         const roll = await damageRoll(
             foundry.utils.mergeObject(options, {
-                formula: this.system.damage.formula,
+                formula:
+                    rollData.mod !== undefined
+                        ? `${formula} + ${rollData.mod}`
+                        : formula,
                 damageType: this.system.damage.type,
                 mod: rollData.mod,
                 data: rollData,
+                source: this.name,
             }),
         );
+
+        // Gather the formula options for graze rolls
+        const unmoddedRoll = roll.clone();
+        const diceOnlyRoll = roll.clone();
+        rollData.damage = {
+            total: roll,
+            unmodded: unmoddedRoll,
+            dice: diceOnlyRoll,
+        };
+        unmoddedRoll.removeTermSafely(
+            (term) =>
+                term instanceof foundry.dice.terms.NumericTerm &&
+                term.total === rollData.mod,
+        );
+        diceOnlyRoll.filterTermsSafely(
+            (term) =>
+                term instanceof foundry.dice.terms.DiceTerm ||
+                term instanceof foundry.dice.terms.OperatorTerm ||
+                term instanceof foundry.dice.terms.PoolTerm,
+        );
+
+        // Ensure there is at least one term in the unmodded roll
+        if (unmoddedRoll.terms.length === 0) {
+            unmoddedRoll.terms.push(
+                new foundry.dice.terms.NumericTerm({ number: 0 }),
+            );
+            unmoddedRoll.resetFormula();
+        }
+
+        // Ensure there is at least one term in the dice only roll
+        if (diceOnlyRoll.terms.length === 0) {
+            diceOnlyRoll.terms.push(
+                new foundry.dice.terms.NumericTerm({ number: 0 }),
+            );
+            diceOnlyRoll.resetFormula();
+        }
+
+        // Get the graze formula
+        const grazeFormula =
+            // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+            this.system.damage.grazeOverrideFormula || '@damage.dice';
+
+        const usesBaseDamage = grazeFormula.includes('@damage');
+
+        const grazeRoll = await damageRoll(
+            foundry.utils.mergeObject(options, {
+                formula: grazeFormula,
+                damageType: this.system.damage.type,
+                data: rollData,
+            }),
+        );
+
+        // update with results from the basic roll if needed and store for display
+        if (usesBaseDamage) grazeRoll.replaceDieResults(roll.dice);
+
+        roll.graze = grazeRoll;
 
         if (roll && options.chatMessage !== false) {
             // Get the speaker
@@ -392,7 +591,7 @@ export class CosmereItem<
         }
 
         // Return the roll
-        return roll;
+        return [roll];
     }
 
     /**
@@ -401,7 +600,7 @@ export class CosmereItem<
      */
     public async rollAttack(
         options: CosmereItem.RollAttackOptions = {},
-    ): Promise<[D20Roll, DamageRoll] | null> {
+    ): Promise<[D20Roll, DamageRoll[]] | null> {
         if (!this.hasActivation()) return null;
         if (!this.hasDamage() || !this.system.damage.formula) return null;
 
@@ -421,80 +620,180 @@ export class CosmereItem<
             return null;
         }
 
-        // Get skill to use
-        const skillId = options.skill ?? this.system.activation.skill;
-        if (!skillId) return null;
-        const skill = actor.system.skills[skillId];
+        // Get the skill to use during the skill test
+        const skillTestSkillId =
+            options.skillTest?.skill ?? this.system.activation.resolvedSkill;
 
-        // Get the attribute
-        let attributeId =
-            options.attribute ??
-            this.system.activation.attribute ??
-            skill.attribute;
+        // Get the skill to use during the damage roll
+        const damageSkillId =
+            options.damage?.skill ??
+            this.system.damage.skill ??
+            skillTestSkillId;
+
+        // Get the attribute to use during the skill test
+        let skillTestAttributeId: Nullable<Attribute> =
+            options.skillTest?.attribute ??
+            this.system.activation.resolvedAttribute;
+
+        // Get the attribute to use during the damage roll
+        const damageAttributeId: Nullable<Attribute> =
+            options.damage?.attribute ??
+            this.system.damage.attribute ??
+            (damageSkillId
+                ? actor.system.skills[damageSkillId].attribute
+                : null);
+
+        options.skillTest ??= {};
+        options.skillTest.parts ??= this.system.activation.modifierFormula
+            ? [this.system.activation.modifierFormula]
+            : [];
+        options.damage ??= {};
+
+        // Handle key modifiers
+        const { fastForward, advantageMode, plotDie } =
+            determineConfigurationMode(
+                options.configurable,
+                options.skillTest.advantageMode
+                    ? options.skillTest.advantageMode ===
+                          AdvantageMode.Advantage
+                    : undefined,
+                options.skillTest.advantageMode
+                    ? options.skillTest.advantageMode ===
+                          AdvantageMode.Disadvantage
+                    : undefined,
+                options.skillTest.plotDie,
+            );
+
+        // Replace config values with key modified values
+        options.skillTest.advantageMode = advantageMode;
+        options.skillTest.plotDie = plotDie;
+
+        // Get damage formula
+        const damageFormula =
+            options.damage?.overrideFormula ?? this.system.damage.formula;
 
         // Perform configuration
-        if (options.configurable !== false) {
+        if (!fastForward && options.configurable !== false) {
+            /**
+             * Hook: preAttackRollConfiguration
+             */
+            if (
+                Hooks.call<CosmereHooks.PreAttackRollConfiguration>(
+                    HOOKS.PRE_ATTACK_ROLL_CONFIGURATION,
+                    options, // Config
+                    this, // Source
+                ) === false
+            )
+                return null;
+
+            const parts = ['@mod'].concat(options.skillTest?.parts ?? []);
+            if (options.skillTest?.temporaryModifiers)
+                parts.push(options.skillTest.temporaryModifiers);
+
             const attackConfig = await AttackConfigurationDialog.show({
-                title: `${this.name} (${game.i18n!.localize(
-                    CONFIG.COSMERE.skills[skillId].label,
-                )})`,
+                title: `${this.name} (${
+                    skillTestSkillId
+                        ? game.i18n!.localize(
+                              CONFIG.COSMERE.skills[skillTestSkillId].label,
+                          )
+                        : `${game.i18n!.localize('GENERIC.Custom')} ${game.i18n!.localize('GENERIC.Skill')}`
+                })`,
+                defaultAttribute: skillTestAttributeId,
+                defaultRollMode: options.rollMode,
+                raiseStakes:
+                    options.skillTest?.plotDie ??
+                    this.system.activation.plotDie,
                 skillTest: {
                     ...options.skillTest,
-                    parts: ['@mod'].concat(options.skillTest?.parts ?? []),
+                    parts,
                     data: this.getSkillTestRollData(
-                        skillId,
-                        attributeId,
+                        skillTestSkillId ?? null,
+                        skillTestAttributeId,
                         actor,
+                        true,
                     ),
-                    plotDie:
-                        options.skillTest?.plotDie ??
-                        this.system.activation.plotDie,
                 },
                 damageRoll: {
                     ...options.damage,
-                    parts: this.system.damage.formula.split(' + '),
-                    data: this.getDamageRollData(skillId, attributeId, actor),
+                    parts: damageFormula.split(' + '),
+                    data: this.getDamageRollData(
+                        skillTestSkillId,
+                        skillTestAttributeId,
+                        actor,
+                    ),
+                    dice: [],
                 },
-                defaultAttribute: attributeId,
-                defaultRollMode: options.rollMode,
+                plotDie: {},
             });
 
             // If the dialog was closed, exit out of rolls
             if (!attackConfig) return null;
 
-            attributeId = attackConfig.attribute;
+            options.skillTest.temporaryModifiers =
+                attackConfig.temporaryModifiers;
+            skillTestAttributeId = attackConfig.attribute;
             options.rollMode = attackConfig.rollMode;
-
-            options.skillTest ??= {};
-            options.skillTest.plotDie = attackConfig.skillTest.plotDie;
-            options.skillTest.advantageMode =
-                attackConfig.skillTest.advantageMode;
+            options.skillTest.plotDie = attackConfig.plotDie;
+            options.skillTest.advantageMode = attackConfig.advantageMode;
             options.skillTest.advantageModePlot =
-                attackConfig.skillTest.advantageModePlot;
+                attackConfig.advantageModePlot;
 
-            options.damage ??= {};
-            options.damage.advantageMode =
-                attackConfig.damageRoll.advantageMode;
+            if (
+                attackConfig.advantageModeDamage.some(
+                    (a) =>
+                        (a.advantageMode ?? AdvantageMode.None) !==
+                        AdvantageMode.None,
+                )
+            ) {
+                const pools: Record<number, string[]> = {};
+                for (const mode of attackConfig.advantageModeDamage) {
+                    pools[mode.poolIndex] ??= [];
+
+                    const state = mode.advantageMode ?? AdvantageMode.None;
+                    pools[mode.poolIndex].push(
+                        `${state !== AdvantageMode.None ? 2 : 1}${mode.die.denomination}${state === AdvantageMode.Advantage ? 'kh' : state === AdvantageMode.Disadvantage ? 'kl' : ''}`,
+                    );
+                }
+
+                const parts = [];
+                for (const pool of Object.values(pools)) {
+                    parts.push(
+                        pool.length > 1 ? `{${pool.join(',')}}` : pool[0],
+                    );
+                }
+
+                options.damage.overrideFormula = parts.join(' + ');
+            }
+
+            /**
+             * Hook: attackRollConfiguration
+             */
+            Hooks.callAll<CosmereHooks.AttackRollConfiguration>(
+                HOOKS.ATTACK_ROLL_CONFIGURATION,
+                options, // Config
+                this, // Source
+            );
         }
 
         // Roll the skill test
         const skillRoll = (await this.roll({
             ...options.skillTest,
             actor,
-            skill: skillId,
-            attribute: attributeId,
+            skill: skillTestSkillId,
+            attribute: skillTestAttributeId,
             rollMode: options.rollMode,
             speaker: options.speaker,
             configurable: false,
             chatMessage: false,
+            isAttack: true,
         }))!;
 
         // Roll the damage
-        const damageRoll = (await this.rollDamage({
+        const damageRolls = (await this.rollDamage({
             ...options.damage,
             actor,
-            skill: skillId,
-            attribute: attributeId,
+            skill: damageSkillId,
+            attribute: damageAttributeId,
             rollMode: options.rollMode,
             speaker: options.speaker,
             chatMessage: false,
@@ -516,12 +815,12 @@ export class CosmereItem<
                 user: game.user!.id,
                 speaker,
                 content: `<p>${flavor}</p>`,
-                rolls: [skillRoll, damageRoll],
+                rolls: [skillRoll, ...damageRolls],
             })) as ChatMessage;
         }
 
         // Return the rolls
-        return [skillRoll, damageRoll];
+        return [skillRoll, damageRolls ?? []];
     }
 
     /**
@@ -530,7 +829,7 @@ export class CosmereItem<
      */
     public async use(
         options: CosmereItem.UseOptions = {},
-    ): Promise<D20Roll | [D20Roll, DamageRoll] | null> {
+    ): Promise<D20Roll | [D20Roll, ...DamageRoll[]] | null> {
         if (!this.hasActivation()) return null;
 
         // Set up post roll actions
@@ -552,68 +851,94 @@ export class CosmereItem<
             return null;
         }
 
+        const { fastForward, advantageMode, plotDie } =
+            determineConfigurationMode(options);
+
+        // Hook: preItemUse
+        if (
+            Hooks.call<CosmereHooks.PreUseItem>(
+                HOOKS.PRE_USE_ITEM,
+                this, // Source
+                {
+                    ...options,
+                    configurable: !fastForward,
+                    advantageMode,
+                    plotDie,
+                },
+            ) === false
+        )
+            return null;
+
         // Determine whether or not resource consumption is available
         const consumptionAvailable =
-            options.shouldConsume !== false && !!this.system.activation.consume;
+            options.shouldConsume !== false &&
+            !!this.system.activation.consume &&
+            this.system.activation.consume.length > 0;
 
         // Determine if we should handle resource consumption
-        const shouldConsume =
-            consumptionAvailable &&
-            (options.shouldConsume === true ||
-                (await this.showConsumeDialog()));
+        let consumeResponse: ItemConsumeData[] | null = null;
+        if (consumptionAvailable && !options.shouldConsume) {
+            consumeResponse = await this.showConsumeDialog();
 
-        // If the dialog was closed, exit out of use action
-        if (shouldConsume === null) return null;
+            // If the dialog was closed, exit out of use action
+            if (consumeResponse === null) return null;
+        }
 
         // Handle resource consumption
-        if (shouldConsume) {
-            const consumeType = this.system.activation.consume!.type;
-            const consumeAmount = this.system.activation.consume!.value;
+        if (!!consumeResponse && consumeResponse.length > 0) {
+            // Process each included resource consumption
+            for (const consumption of consumeResponse) {
+                // Get the current amount
+                let currentAmount: number;
+                switch (consumption.type) {
+                    case ItemConsumeType.Resource:
+                        currentAmount =
+                            actor.system.resources[consumption.resource!].value;
+                        break;
+                    // case ItemConsumeType.Item:
+                    // TODO
+                    default:
+                        currentAmount = 0;
+                }
 
-            // The the current amount
-            const currentAmount =
-                consumeType === ItemConsumeType.Resource
-                    ? actor.system.resources[
-                          this.system.activation.consume!.resource!
-                      ].value
-                    : consumeType === ItemConsumeType.Item
-                      ? 0 // TODO: Figure out how to handle item consumption
-                      : 0;
+                // Validate that there's enough resource to consume
+                const newAmount = currentAmount - consumption.value.actual!;
+                if (newAmount < 0) {
+                    ui.notifications.warn(
+                        game.i18n!.localize(
+                            'GENERIC.Warning.NotEnoughResource',
+                        ),
+                    );
+                    return null;
+                }
 
-            // Validate we can consume the amount
-            const newAmount = currentAmount - consumeAmount;
-            if (newAmount < 0) {
-                ui.notifications.warn(
-                    game.i18n!.localize('GENERIC.Warning.NotEnoughResource'),
-                );
-                return null;
-            }
-
-            // Add post roll action to consume the resource
-            postRoll.push(() => {
-                if (consumeType === ItemConsumeType.Resource) {
-                    // Handle actor resource consumption
-                    void actor.update({
-                        system: {
-                            resources: {
-                                [this.system.activation.consume!
-                                    .resource as string]: {
-                                    value: newAmount,
+                // Add post roll action to consume the resource
+                postRoll.push(() => {
+                    if (consumption.type === ItemConsumeType.Resource) {
+                        // Handle actor resource consumption
+                        void actor.update({
+                            system: {
+                                resources: {
+                                    [consumption.resource!]: {
+                                        value: newAmount,
+                                    },
                                 },
                             },
-                        },
-                    });
-                } else if (consumeType === ItemConsumeType.Item) {
-                    // Handle item consumption
-                    // TODO: Figure out how to handle item consumption
+                        });
+                    } else if (consumption.type === ItemConsumeType.Item) {
+                        // Handle item consumption
+                        // TODO: Figure out how to handle item consumption
 
-                    ui.notifications.warn(
-                        game
-                            .i18n!.localize('GENERIC.Warning.NotImplemented')
-                            .replace('[action]', 'Item consumption'),
-                    );
-                }
-            });
+                        ui.notifications.warn(
+                            game
+                                .i18n!.localize(
+                                    'GENERIC.Warning.NotImplemented',
+                                )
+                                .replace('[action]', 'Item consumption'),
+                        );
+                    }
+                });
+            }
         }
 
         // Handle item uses
@@ -639,7 +964,12 @@ export class CosmereItem<
         }
 
         // Handle talent mode activation
-        if (this.hasModality() && this.system.modality) {
+        if (
+            this.hasId() &&
+            this.hasModality() &&
+            this.system.modality &&
+            !!this.actor
+        ) {
             // Add post roll action to activate the mode
             postRoll.push(() => {
                 // Handle mode activation
@@ -658,12 +988,40 @@ export class CosmereItem<
             this.system.activation.type === ActivationType.SkillTest ||
             hasDamage;
 
-        // Get the speaker
-        const speaker =
-            options.speaker ??
-            (ChatMessage.getSpeaker({ actor }) as ChatSpeakerData);
+        const messageConfig = {
+            user: game.user!.id,
+            speaker:
+                options.speaker ??
+                (ChatMessage.getSpeaker({ actor }) as ChatSpeakerData),
+            rolls: [] as foundry.dice.Roll[],
+            flags: {} as Record<string, unknown>,
+        };
 
-        const descriptionHTML = await this.getEnrichedDescription();
+        messageConfig.flags[SYSTEM_ID] = {
+            message: {
+                type: MESSAGE_TYPES.ACTION,
+                description: await this.getDescriptionHTML(),
+                targets: getTargetDescriptors(),
+                item: this.id,
+            },
+        };
+
+        // Add hook call to post roll actions
+        postRoll.push(() => {
+            /**
+             * Hook: useItem
+             */
+            Hooks.callAll<CosmereHooks.UseItem>(
+                HOOKS.USE_ITEM,
+                this, // Source
+                {
+                    ...options,
+                    configurable: !fastForward,
+                    advantageMode,
+                    plotDie,
+                },
+            );
+        });
 
         if (rollRequired) {
             const rolls: foundry.dice.Roll[] = [];
@@ -680,16 +1038,15 @@ export class CosmereItem<
                         advantageModePlot: options.advantageModePlot,
                         opportunity: options.opportunity,
                         complication: options.complication,
+                        temporaryModifiers: options.temporaryModifiers,
                     },
-                    damage: {
-                        advantageMode: options.advantageModeDamage,
-                    },
+                    damage: options.damage ?? {},
                     chatMessage: false,
                 });
                 if (!attackResult) return null;
 
                 // Add the rolls to the list
-                rolls.push(...attackResult);
+                rolls.push(attackResult[0], ...attackResult[1]);
 
                 // Set the flavor
                 flavor = flavor
@@ -701,16 +1058,20 @@ export class CosmereItem<
                       )})`;
             } else {
                 if (hasDamage) {
-                    const damageRoll = await this.rollDamage({
+                    const damageRolls = await this.rollDamage({
                         ...options,
+                        ...options.damage,
                         actor,
                         chatMessage: false,
                     });
-                    if (!damageRoll) return null;
+                    if (!damageRolls) return null;
 
-                    rolls.push(damageRoll);
+                    rolls.push(...damageRolls);
                 }
 
+                options.parts ??= this.system.activation.modifierFormula
+                    ? [this.system.activation.modifierFormula]
+                    : [];
                 if (this.system.activation.type === ActivationType.SkillTest) {
                     const roll = await this.roll({
                         ...options,
@@ -733,25 +1094,17 @@ export class CosmereItem<
                 }
             }
 
+            messageConfig.rolls = rolls;
+
             // Create chat message
-            await ChatMessage.create({
-                user: game.user!.id,
-                speaker,
-                content: await renderTemplate(ACTIVITY_CARD_TEMPLATE, {
-                    item: this,
-                    hasDescription: !!descriptionHTML,
-                    descriptionHTML,
-                    flavor,
-                }),
-                rolls: rolls,
-            });
+            await ChatMessage.create(messageConfig);
 
             // Perform post roll actions
             postRoll.forEach((action) => action());
 
             // Return the result
             return hasDamage
-                ? (rolls as [D20Roll, DamageRoll])
+                ? (rolls as [D20Roll, ...DamageRoll[]])
                 : (rolls[0] as D20Roll);
         } else {
             // NOTE: Use boolean or operator (`||`) here instead of nullish coalescing (`??`),
@@ -761,17 +1114,9 @@ export class CosmereItem<
                 this.system.activation.flavor || undefined;
 
             // Create chat message
-            const message = (await ChatMessage.create({
-                user: game.user!.id,
-                speaker,
-                content: await renderTemplate(ACTIVITY_CARD_TEMPLATE, {
-                    item: this,
-                    hasDescription: !!descriptionHTML,
-                    descriptionHTML,
-                    expanded: true,
-                    flavor,
-                }),
-            })) as ChatMessage;
+            const message = (await ChatMessage.create(
+                messageConfig,
+            )) as ChatMessage;
             message.applyRollMode('roll');
 
             // Perform post roll actions
@@ -783,62 +1128,42 @@ export class CosmereItem<
 
     protected async showConsumeDialog(
         options: ShowConsumeDialogOptions = {},
-    ): Promise<boolean | null> {
-        if (!this.hasActivation()) return false;
-        if (!this.system.activation.consume) return false;
+    ): Promise<ItemConsumeData[] | null> {
+        if (!this.hasActivation()) return null;
+        if (!this.system.activation.consume) return null;
 
-        const consumeType =
-            options.consumeType ?? this.system.activation.consume.type;
-        const shouldConsume = options.shouldConsume ?? true;
-        const amount = this.system.activation.consume.value;
-        const title =
-            options.title ?? game.i18n!.localize('DIALOG.ItemConsume.Title');
+        const consumeOptions = this.system.activation.consume.map(
+            (consumptionData, i) => {
+                const consumeType = options.consumeType ?? consumptionData.type;
+                // Only automatically check first option, or anything overridden.
+                const shouldConsume = options.shouldConsume ?? i === 0;
+                const amount = consumptionData.value;
 
-        // Determine consumed resource label
-        const consumedResourceLabel =
-            consumeType === ItemConsumeType.Resource
-                ? game.i18n!.localize(
-                      CONFIG.COSMERE.resources[
-                          this.system.activation.consume.resource!
-                      ].label,
-                  )
-                : consumeType === ItemConsumeType.Item
-                  ? '[TODO ITEM]'
-                  : game.i18n!.localize('GENERIC.Unknown');
+                const label =
+                    consumeType === ItemConsumeType.Resource
+                        ? game.i18n!.localize(
+                              CONFIG.COSMERE.resources[
+                                  consumptionData.resource!
+                              ].label,
+                          )
+                        : consumeType === ItemConsumeType.Item
+                          ? '[TODO ITEM]'
+                          : game.i18n!.localize('GENERIC.Unknown');
 
-        // Render the dialog inner HTML
-        const content = await renderTemplate(
-            CONSUME_CONFIGURATION_DIALOG_TEMPLATE,
-            {
-                consumedResourceLabel,
-                amount,
-                shouldConsume,
+                return {
+                    type: consumeType,
+                    resource: label,
+                    resourceId: consumptionData.resource ?? 'unknown',
+                    amount,
+                    shouldConsume,
+                };
             },
         );
 
-        // Return promise that resolves with the dialog result
-        return new Promise((resolve) => {
-            new Dialog({
-                title,
-                content,
-                buttons: {
-                    continue: {
-                        label: game.i18n!.localize('GENERIC.Button.Continue'),
-                        callback: (html) => {
-                            const form = $(html)[0].querySelector(
-                                'form',
-                            )! as HTMLFormElement & {
-                                shouldConsume: HTMLInputElement;
-                            };
+        // Show the dialog if required
+        const result = await ItemConsumeDialog.show(this, consumeOptions);
 
-                            resolve(form.shouldConsume.checked);
-                        },
-                    },
-                },
-                default: 'continue',
-                close: () => resolve(null),
-            }).render(true);
-        });
+        return result?.consumption ?? null;
     }
 
     /* --- Functions --- */
@@ -852,11 +1177,82 @@ export class CosmereItem<
         });
     }
 
+    public isRelatedTo(
+        item: CosmereItem,
+        relType?: ItemRelationship.Type,
+    ): boolean {
+        if (!this.hasRelationships() || !item.hasRelationships()) return false;
+
+        // Get the relationships of this item
+        const relationships = this.system.relationships.filter(
+            (r) => r.type === relType || !relType,
+        );
+
+        // Check if the item is related to this item
+        return relationships.some((rel) => rel.uuid === item.uuid);
+    }
+
+    public hasRelationshipOfType(type: ItemRelationship.Type): boolean {
+        if (!this.hasRelationships()) return false;
+
+        return this.system.relationships.some(
+            (relationship) => relationship.type === type,
+        );
+    }
+
+    public addRelationship(
+        item: CosmereItem,
+        type: ItemRelationship.Type,
+        removalPolicy?: ItemRelationship.RemovalPolicy,
+        source?: false,
+    ): Promise<void>;
+    public addRelationship(
+        item: CosmereItem,
+        type: ItemRelationship.Type,
+        removalPolicy: ItemRelationship.RemovalPolicy | undefined,
+        source: true,
+    ): void;
+    public addRelationship(
+        item: CosmereItem,
+        type: ItemRelationship.Type,
+        removalPolicy?: ItemRelationship.RemovalPolicy,
+        source = false,
+    ): Promise<void> | void {
+        if (!this.hasRelationships() || !item.hasRelationships()) return;
+
+        return ItemRelationshipUtils.addRelationship(
+            this,
+            item,
+            type,
+            removalPolicy,
+            source,
+        );
+    }
+
+    public removeRelationship(
+        item: CosmereItem,
+        options?: Omit<RemoveRelationshipOptions, 'source'> & {
+            source?: false;
+        },
+    ): Promise<void>;
+    public removeRelationship(
+        item: CosmereItem,
+        options: Omit<RemoveRelationshipOptions, 'source'> & { source: true },
+    ): void;
+    public removeRelationship(
+        item: CosmereItem,
+        options?: RemoveRelationshipOptions,
+    ): Promise<void> | void {
+        if (!this.hasRelationships() || !item.hasRelationships()) return;
+
+        return ItemRelationshipUtils.removeRelationship(this, item, options);
+    }
+
     public async markFavorite(index: number, render = true) {
         await this.update(
             {
                 flags: {
-                    'cosmere-rpg': {
+                    [SYSTEM_ID]: {
                         favorites: {
                             isFavorite: true,
                             sort: index,
@@ -870,57 +1266,133 @@ export class CosmereItem<
 
     public async clearFavorite() {
         await Promise.all([
-            this.unsetFlag('cosmere-rpg', 'favorites.isFavorite'),
-            this.unsetFlag('cosmere-rpg', 'favorites.sort'),
+            this.unsetFlag(SYSTEM_ID, 'favorites.isFavorite'),
+            this.unsetFlag(SYSTEM_ID, 'favorites.sort'),
         ]);
     }
 
     /* --- Helpers --- */
 
-    protected async getEnrichedDescription(): Promise<string | undefined> {
-        if (!this.hasDescription()) return;
-        if (
-            !(this as CosmereItem<DescriptionItemData>).system.description
-                ?.value
-        )
-            return;
+    protected async getDescriptionHTML(): Promise<string | undefined> {
+        if (!this.hasDescription()) return undefined;
+        // NOTE: We use logical OR's here to catch both nullish values and empty string
+        /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
+        const descriptionData =
+            (this as CosmereItem<DescriptionItemData>).system.description
+                ?.chat ||
+            (this as CosmereItem<DescriptionItemData>).system.description
+                ?.short ||
+            (this as CosmereItem<DescriptionItemData>).system.description
+                ?.value;
+        /* eslint-enable @typescript-eslint/prefer-nullish-coalescing */
 
-        return await TextEditor.enrichHTML(
-            (this as CosmereItem<DescriptionItemData>).system.description!
-                .value!,
+        const description = await TextEditor.enrichHTML(descriptionData ?? '', {
+            relativeTo: this.system.parent as foundry.abstract.Document.Any,
+        });
+
+        const traitsNormal = [];
+        const traitsExpert = [];
+        const traits = [];
+        if (this.hasTraits()) {
+            for (const [key, value] of Object.entries(this.system.traits)) {
+                if (!value?.active) continue;
+
+                const traitLoc =
+                    CONFIG.COSMERE.traits.weaponTraits[key as WeaponTraitId] ??
+                    CONFIG.COSMERE.traits.armorTraits[key as ArmorTraitId];
+                let label = game.i18n!.localize(traitLoc.label);
+
+                if (value.expertise?.toggleActive) {
+                    label = `<strong>${label}</strong>`;
+                    traitsExpert.push(label);
+                } else {
+                    traitsNormal.push(label);
+                }
+            }
+
+            traits.push(...traitsNormal.sort(), ...traitsExpert.sort());
+        }
+
+        let action;
+        if (
+            this.hasActivation() &&
+            this.system.activation.cost.value !== undefined
+        ) {
+            switch (this.system.activation.cost.type) {
+                case ActionCostType.Action:
+                    action = `action${Math.min(3, this.system.activation.cost.value)}`;
+                    break;
+                case ActionCostType.Reaction:
+                    action = 'reaction';
+                    break;
+                case ActionCostType.Special:
+                    action = 'special';
+                    break;
+                case ActionCostType.FreeAction:
+                    action = 'free';
+                    break;
+                default:
+                    action = 'passive';
+                    break;
+            }
+        }
+
+        const sectionHTML = await renderSystemTemplate(
+            TEMPLATES.CHAT_CARD_DESCRIPTION,
+            {
+                title: this.name,
+                img: this.img,
+                description,
+                traits: traits.join(', '),
+                action,
+            },
         );
+
+        return sectionHTML;
     }
 
     protected getSkillTestRollData(
-        skillId: Skill,
-        attributeId: Attribute,
+        skillId: Nullable<Skill>,
+        attributeId: Nullable<Attribute>,
         actor: CosmereActor,
+        isAttack?: boolean,
     ): D20RollData {
-        const skill = actor.system.skills[skillId];
-        const attribute = actor.system.attributes[attributeId];
+        const skill = skillId
+            ? actor.system.skills[skillId]
+            : { attribute: null, rank: 0, mod: 0 };
+        const attribute = attributeId
+            ? actor.system.attributes[attributeId]
+            : { value: 0, bonus: 0 };
         const mod = skill.rank + attribute.value + attribute.bonus;
 
         return {
             ...actor.getRollData(),
             mod,
             skill: {
-                id: skillId,
+                id: skillId ?? null,
                 rank: skill.rank,
-                mod: Derived.getValue(skill.mod) ?? 0,
-                attribute: attributeId,
+                mod:
+                    typeof skill.mod === 'number' ? skill.mod : skill.mod.value,
+                attribute: attributeId ? attributeId : skill.attribute,
             },
             attribute: attribute.value,
+
+            // Hook data
+            context: isAttack ? 'Attack' : 'Item',
+            source: this,
         };
     }
 
     protected getDamageRollData(
-        skillId: Skill | undefined,
-        attributeId: Attribute | undefined,
+        skillId: Nullable<Skill> | undefined,
+        attributeId: Nullable<Attribute> | undefined,
         actor: CosmereActor,
     ): DamageRollData {
         const skill = skillId ? actor.system.skills[skillId] : undefined;
         const attribute = attributeId
-            ? actor.system.attributes[attributeId]
+            ? attributeId
+                ? actor.system.attributes[attributeId]
+                : { value: 0, bonus: 0 }
             : undefined;
         const mod =
             skill !== undefined || attribute !== undefined
@@ -936,12 +1408,43 @@ export class CosmereItem<
                 ? {
                       id: skillId!,
                       rank: skill.rank,
-                      mod: Derived.getValue(skill.mod) ?? 0,
-                      attribute: attributeId!,
+                      mod: skill.mod.value,
+                      attribute: attributeId! ? attributeId : skill.attribute,
                   }
                 : undefined,
             attribute: attribute?.value,
+
+            // Hook data
+            source: this,
         };
+    }
+
+    public getRollData(): CosmereItem.RollData<T> {
+        return foundry.utils.mergeObject(super.getRollData(), {
+            actor: this.actor?.getRollData(),
+        });
+    }
+
+    public getEnricherData() {
+        let actor = undefined;
+        if (this.actor) {
+            actor = this.actor.getRollData();
+        }
+        const targets = getTargetDescriptors();
+
+        return {
+            actor,
+            item: {
+                name: this.name,
+                charges: this.hasActivation()
+                    ? {
+                          value: this.system.activation.uses?.value ?? 0,
+                          max: this.system.activation.uses?.max ?? 0,
+                      }
+                    : undefined,
+            },
+            target: targets.length > 0 ? targets[0] : undefined,
+        } as const satisfies EnricherData;
     }
 }
 
@@ -957,13 +1460,13 @@ export namespace CosmereItem {
          * The skill to be used with this item roll.
          * Used to roll the item with an alternate skill.
          */
-        skill?: Skill;
+        skill?: Nullable<Skill>;
 
         /**
          * The attribute to be used with this item roll.
          * Used to roll the item with an alternate attribute.
          */
-        attribute?: Attribute;
+        attribute?: Nullable<Attribute>;
 
         /**
          * Whether or not to generate a chat message for this roll.
@@ -1012,6 +1515,17 @@ export namespace CosmereItem {
         parts?: string[];
 
         /**
+         * A formula to override the default formula passed in for the damage roll.
+         * Used when configuring individual dice in a damage roll with advantage/disadvantage.
+         */
+        overrideFormula?: string;
+
+        /**
+         * A dice formula stating any miscellanious other bonuses or negatives to the specific roll
+         */
+        temporaryModifiers?: string;
+
+        /**
          * What advantage modifier to apply to the roll
          *
          * @default AdvantageMode.None
@@ -1022,6 +1536,11 @@ export namespace CosmereItem {
          * What advantage modifer to apply to the plot die roll
          */
         advantageModePlot?: AdvantageMode;
+
+        /**
+         * Whether the current roll is an attack, for hook context
+         */
+        isAttack?: boolean;
     }
 
     export type RollDamageOptions = Omit<
@@ -1037,26 +1556,34 @@ export namespace CosmereItem {
     export interface RollAttackOptions
         extends Omit<
             RollOptions,
+            | 'skill'
+            | 'attribute'
             | 'parts'
             | 'opportunity'
             | 'complication'
             | 'plotDie'
             | 'advantageMode'
             | 'advantageModePlot'
+            | 'temporaryModifiers'
         > {
         skillTest?: Pick<
             RollOptions,
+            | 'skill'
+            | 'attribute'
             | 'parts'
+            | 'temporaryModifiers'
             | 'opportunity'
             | 'complication'
             | 'plotDie'
             | 'advantageMode'
             | 'advantageModePlot'
         >;
-        damage?: Pick<RollOptions, 'advantageMode'>;
+        damage?: Pick<RollOptions, 'overrideFormula' | 'skill' | 'attribute'>;
     }
 
-    export interface UseOptions extends RollOptions {
+    export interface UseOptions
+        extends RollOptions,
+            Pick<RollAttackOptions, 'damage'> {
         /**
          * Whether or not the item usage should consume.
          * Only used if the item has consumption configured.
@@ -1069,6 +1596,10 @@ export namespace CosmereItem {
          */
         advantageModeDamage?: AdvantageMode;
     }
+
+    export type RollData<T extends DataSchema = DataSchema> = T & {
+        actor?: CosmereActorRollData;
+    };
 }
 
 export type CultureItem = CosmereItem<CultureItemDataModel>;
@@ -1084,3 +1615,9 @@ export type ActionItem = CosmereItem<ActionItemDataModel>;
 export type TalentItem = CosmereItem<TalentItemDataModel>;
 export type EquipmentItem = CosmereItem<EquipmentItemDataModel>;
 export type WeaponItem = CosmereItem<WeaponItemDataModel>;
+export type GoalItem = CosmereItem<GoalItemDataModel>;
+export type PowerItem = CosmereItem<PowerItemDataModel>;
+export type TalentTreeItem = CosmereItem<TalentTreeItemDataModel>;
+
+export type TalentsProviderItem = CosmereItem<TalentsProviderData>;
+export type RelationshipsItem = CosmereItem<RelationshipsItemData>;

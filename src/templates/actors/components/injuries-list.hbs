@@ -1,79 +1,74 @@
-<ul class="injuries-list">
-    <li class="injury header">
-        <div class="col name">
+<ul class="item-list injury-list">
+    <li class="item header">
+        <section class="details">
             <span class="title">{{localize "COSMERE.Actor.Sheet.Injuries.Label"}}</span>
-        </div>
-        <div class="col duration">
-            <span>{{localize "COSMERE.Actor.Sheet.Injuries.Duration"}}</span>
-        </div>
-        <div class="col action"></div>
-        <div class="col controls flexrow">
-            {{#if editable}}
-            <a data-action="create-injury"
-                data-tooltip="COSMERE.Actor.Sheet.Injuries.CreateInjury"
-            >
-                <i class="fa-solid fa-plus"></i>
-            </a>
-            {{else}}
-            <div></div>
-            {{/if}}
-        </div>
+            <span class="subtitle wide">
+                {{localize "COSMERE.Actor.Sheet.Injuries.Duration"}}
+            </span>
+            <div class="subtitle thin"></div>
+            <div class="controls icon active">
+                {{#if editable}}
+                    <a data-action="create-injury"
+                        data-tooltip="COSMERE.Actor.Sheet.Injuries.CreateInjury"
+                    >
+                        <i class="fa-solid fa-plus"></i>
+                    </a>
+                {{else}}
+                    <div></div>
+                {{/if}}
+            </div>
+        </section>        
     </li>
 
     {{#each injuries as |injury|}}
-
     <li class="item injury {{#if injury.isPermanent}}permanent{{/if}}" data-item-id="{{injury.id}}">
-        <div class="col img">
-            <img src="{{injury.img}}">
-        </div>
-        <div class="col name">
-            <span>{{injury.name}}</span>
-        </div>
-        <div class="col duration">
-            {{#if injury.isPermanent}}
-            <span>{{localize "COSMERE.Actor.Sheet.Injuries.Permanent"}}</span>
-            {{else}}
-            {{#if @root.editable}}
-            <a
-                data-action="reduce-injury-duration"
-                data-tooltip="COSMERE.Actor.Sheet.Injuries.DecreaseDuration"
-            >
-                <i class="fa-solid fa-minus"></i>
-            </a>
-            {{/if}}
-            <span>{{injury.duration.remaining}} {{localize "COSMERE.Actor.Sheet.Injuries.Days"}}</span>
-            {{#if @root.editable}}
-            <a
-                data-action="increase-injury-duration"
-                data-tooltip="COSMERE.Actor.Sheet.Injuries.IncreaseDuration"
-            >
-                <i class="fa-solid fa-plus"></i>
-            </a>
-            {{/if}}
-            {{/if}}
-        </div>
-        <div class="col action"></div>
-        <div class="col controls flexrow">
-            {{#if @root.editable}}
-            <a data-action="toggle-injury-controls" 
-                data-tooltip="APPLICATION.TOOLS.ToggleControls"
-            >
-                <i class="fa-solid fa-ellipsis-vertical"></i>
-            </a>
-            {{/if}}
-        </div>
+        <section class="details">
+            <div class="img">
+                <img src="{{injury.img}}">
+            </div>
+            <div class="name">
+                <span>{{injury.name}}</span>
+            </div>
+            <div class="detail wide duration">
+                {{#if injury.isPermanent}}
+                <span>{{localize "COSMERE.Actor.Sheet.Injuries.Permanent"}}</span>
+                {{else}}
+                {{#if @root.editable}}
+                <a
+                    data-action="reduce-injury-duration"
+                    data-tooltip="COSMERE.Actor.Sheet.Injuries.DecreaseDuration"
+                >
+                    <i class="fa-solid fa-minus"></i>
+                </a>
+                {{/if}}
+                <span>{{injury.duration.remaining}} {{localize "COSMERE.Actor.Sheet.Injuries.Days"}}</span>
+                {{#if @root.editable}}
+                <a
+                    data-action="increase-injury-duration"
+                    data-tooltip="COSMERE.Actor.Sheet.Injuries.IncreaseDuration"
+                >
+                    <i class="fa-solid fa-plus"></i>
+                </a>
+                {{/if}}
+                {{/if}}
+            </div>
+            <div class="detail thin action"></div>
+            <div class="controls icon faded">
+                {{#if @root.editable}}
+                <a data-action="toggle-injury-controls" 
+                    data-tooltip="APPLICATION.TOOLS.ToggleControls"
+                >
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                </a>
+                {{/if}}
+            </div>
+        </section>        
     </li>
-    <li hidden></li>
-
     {{/each}}
 </ul>
 
 {{#if editable}}
-<menu class="controls-dropdown {{#if controlsDropdown.expanded}}expanded{{/if}}"
-    {{#if controlsDropdown.expanded}}
-    style="top:{{controlsDropdown.position.top}}px;right:{{controlsDropdown.position.right}}px"
-    {{/if}}
->
+<menu class="controls-dropdown">
     <li class="header-control">
         <button class="control"
             data-action="edit-injury"

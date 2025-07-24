@@ -47,13 +47,13 @@
             "drawn": false,
             "_id": "abMYSaKItDQ6UCpO",
             "_key": "!tables.results!qOXZSTYaP6jhnvBV.abMYSaKItDQ6UCpO",
-            "text": "<strong>Vicious Injury.</strong> The character suffers a temporary injury with a duration of 6d6 days.",
+            "text": "<strong>Vicious Injury.</strong> The character suffers a temporary injury with a duration of [[6d6]] days.",
             "img": "icons/skills/wounds/injury-hand-blood-red.webp",
             "documentId": null,
             "flags": {
                 "cosmere-rpg": {
                     "injury-data": {
-                        "type": "ViciousInjury",
+                        "type": "vicious_injury",
                         "durationFormula": "6d6"
                     }
                 }
@@ -66,7 +66,7 @@
             "drawn": false,
             "_id": "WnBhe042FZVoih9R",
             "_key": "!tables.results!qOXZSTYaP6jhnvBV.WnBhe042FZVoih9R",
-            "text": "<strong>Shallow Injury.</strong> The character suffers a temporary injury with a duration of 1d6 days.",
+            "text": "<strong>Shallow Injury.</strong> The character suffers a temporary injury with a duration of [[1d6]] days.",
             "img": "icons/skills/wounds/blood-spurt-spray-red.webp",
             "documentId": null,
             "flags": {

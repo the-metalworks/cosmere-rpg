@@ -8,10 +8,17 @@ import {
     DescriptionItemMixin,
     DescriptionItemData,
 } from './mixins/description';
+import { EventsItemMixin, EventsItemData } from './mixins/events';
+import {
+    RelationshipsMixin,
+    RelationshipsItemData,
+} from './mixins/relationships';
 
 export interface InjuryItemData
     extends TypedItemData<InjuryType>,
-        DescriptionItemData {
+        DescriptionItemData,
+        EventsItemData,
+        RelationshipsItemData {
     duration: {
         /**
          * Rolled duration, in days.
@@ -46,6 +53,8 @@ export class InjuryItemDataModel extends DataModelMixin<
     DescriptionItemMixin({
         value: 'COSMERE.Item.Type.Injury.desc_placeholder',
     }),
+    EventsItemMixin(),
+    RelationshipsMixin(),
 ) {
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), {

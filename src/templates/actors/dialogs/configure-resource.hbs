@@ -1,27 +1,29 @@
 <form>
-    <div class="form-group">
-        <input name="max"
-            {{#if (eq mode 'derived')}}
-            type="text"
-            value="{{formula}}"
-            readonly
-            {{else}}
-            style="text-align: center; font-size: 15pt"
-            type="number"
-            min="0"
-            step="1"
-            value="{{derived max}}"
-            {{/if}}
-        >
+    <div class="form-group max">        
+        <div class="form-fields">
+            <input name="max"
+                {{#if (eq mode 'derived')}}
+                type="text"
+                value="{{formula}}"
+                readonly
+                {{else}}
+                type="number"
+                min="0"
+                step="1"
+                value="{{default max.override (derived max)}}"
+                {{/if}}
+            >
+        </div>        
     </div>
     <div class="form-group">
         <label>{{localize "GENERIC.Mode"}}</label>
-        <select name="mode">
-            {{selectOptions modes selected=mode localize=true}}
-        </select>
+        <div class="form-fields">
+            <select name="mode">
+                {{selectOptions modes selected=mode localize=true}}
+            </select>
+        </div>        
     </div>
-    <br>
-    <div class="form-group">
+    <div class="form-group submit">
         <button data-action="update-resource" type="submit">
             {{localize "GENERIC.Button.Update"}}
         </button>

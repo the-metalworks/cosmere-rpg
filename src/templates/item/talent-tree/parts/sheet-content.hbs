@@ -1,0 +1,12 @@
+{{#if isEditMode}}
+    {{app-talent-tree-editor
+        tree=item
+        contextActor=contextActor
+    }}
+{{else}}
+    {{app-talent-tree-view
+        tree=item
+        contextActor=contextActor
+        allowObtainTalents=true
+    }}
+{{/if}}

@@ -1,0 +1,59 @@
+{
+    "folder": "H1scLvZp68Q8Pckf",
+    "name": "Decisive Command",
+    "type": "talent",
+    "_id": "UEaOm4P2UFcrP1Z8",
+    "img": "icons/creatures/abilities/mouth-teeth-human.webp",
+    "system": {
+        "id": "decisive-command",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span></p><p><em>Your voice carries the certainty of steel and your tactical acumen is renowned. This battle-won wisdom benefits those who listen.</em></p><p>When you acquire this talent, gain a command die, which begins as a [[/r 1d4]].</p><p>Spend 1 focus to choose an ally you can influence within 20 feet of you. The next time they make a test before the end of their next turn, they can roll your command die along with the other dice for that test. After rolling, they can choose one die roll from that test, other than the plot die, and add the command die to that roll.</p><p>Some Leader talents allow you to use your command die in other ways; you can do so even if an ally currently has a command die from you.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span></p><p>Spend 1 focus to give an ally within 20 feet a [[/r 1d4]] command die. They can add it to one die roll on their next test.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span></p><p>When you acquire this talent, gain a command die, which begins as a [[/r 1d4]].</p><p>Spend 1 focus to choose an ally you can influence within 20 feet of you. The next time they make a test before the end of their next turn, they can roll your command die along with the other dice for that test. After rolling, they can choose one die roll from that test, other than the plot die, and add the command die to that roll.</p><p>Some Leader talents allow you to use your command die in other ways; you can do so even if an ally currently has a command die from you.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": 1,
+                "type": "act"
+            },
+            "consume": [
+                {
+                    "type": "resource",
+                    "value": {
+                        "min": 1,
+                        "max": 1,
+                        "actual": 0
+                    },
+                    "resource": "foc"
+                }
+            ],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "path": "leader",
+        "hasPath": false,
+        "specialty": "",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {},
+        "prerequisitesMet": false,
+        "modality": null
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!UEaOm4P2UFcrP1Z8"
+}

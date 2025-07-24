@@ -1,0 +1,59 @@
+<div class="scroll-container">    
+    <form>        
+        {{#each categories as |category|}}
+        <ul class="expertise-list">
+            <li class="form-group header">
+                <span class="title">
+                    {{#if category.icon}}<i class="{{category.icon}}"></i>{{/if}}
+                    {{localize category.label}}
+                </span>
+            </li>
+
+            {{#each category.configuredExpertises as |expertise|}}
+            <li class="form-group configured">
+                <i class="bullet fade icon faded fa-solid fa-diamond"></i>
+                <label>{{localize expertise.label}}</label>
+                <input type="checkbox" name="{{category.type}}:{{expertise.id}}" 
+                    {{#if expertise.hasExpertise}}checked{{/if}}
+                    {{#if expertise.locked}}readonly{{/if}}
+                >
+            </li>
+            {{/each}}
+
+            {{#each category.customExpertises as |expertise|}}
+            <li class="form-group custom">
+                <i class="bullet fade icon faded fa-solid fa-diamond"></i>
+                <input type="text" name="{{category.type}}:{{expertise.id}}" value="{{expertise.label}}" 
+                    readonly
+                >
+                {{#if (not expertise.locked)}}
+                <a data-action="remove-custom-expertise"
+                    data-category="{{category.type}}"
+                    data-id="{{expertise.id}}"
+                    data-tooltip="{{localize "DIALOG.EditExpertise.Remove"}} {{expertise.label}}"
+                >
+                    <i class="fa-solid fa-trash"></i>
+                </a>
+                {{/if}}
+            </li>
+            {{/each}}
+
+            <li class="form-group add-custom">
+                <a data-action="add-custom-expertise" data-category="{{category.type}}">
+                    <i class="fa-solid fa-plus"></i>
+                    {{localize "DIALOG.EditExpertise.Add"}}
+                </a>
+            </li>
+        </ul>
+        {{/each}}
+
+        {{!-- Submit --}}
+        {{#if showSubmitButton}}
+            <div class="form-group submit">
+                <button data-action="update-expertises" type="submit">
+                    {{localize submitButtonLabel}}
+                </button>
+            </div>
+        {{/if}}
+    </form>
+</div>

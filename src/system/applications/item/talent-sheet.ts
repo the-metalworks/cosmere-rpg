@@ -1,6 +1,8 @@
 import { Talent } from '@system/types/item';
 import { TalentItem } from '@system/documents/item';
 import { DeepPartial } from '@system/types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 // Base
 import { BaseItemSheet } from './base';
@@ -14,12 +16,12 @@ export class TalentItemSheet extends BaseItemSheet {
     static DEFAULT_OPTIONS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.DEFAULT_OPTIONS),
         {
-            classes: ['cosmere-rpg', 'sheet', 'item', 'talent'],
+            classes: [SYSTEM_ID, 'sheet', 'item', 'talent'],
             position: {
                 width: 550,
             },
             window: {
-                resizable: true,
+                resizable: false,
                 positioned: true,
             },
             form: {
@@ -43,9 +45,8 @@ export class TalentItemSheet extends BaseItemSheet {
     static PARTS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.PARTS),
         {
-            'sheet-content': {
-                template:
-                    'systems/cosmere-rpg/templates/item/talent/parts/sheet-content.hbs',
+            content: {
+                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_TALENT_CONTENT}`,
             },
         },
     );
@@ -56,7 +57,7 @@ export class TalentItemSheet extends BaseItemSheet {
 
     /* --- Form --- */
 
-    protected static onFormEvent(
+    protected static async onFormEvent(
         this: TalentItemSheet,
         event: Event,
         form: HTMLFormElement,
@@ -69,7 +70,7 @@ export class TalentItemSheet extends BaseItemSheet {
             formData.set('system.path', null);
 
         // Invoke super
-        super.onFormEvent(event, form, formData);
+        await super.onFormEvent(event, form, formData);
     }
 
     /* --- Context --- */
@@ -81,6 +82,7 @@ export class TalentItemSheet extends BaseItemSheet {
             ...(await super._prepareContext(options)),
             isPathTalent: this.item.system.type === Talent.Type.Path,
             isAncestryTalent: this.item.system.type === Talent.Type.Ancestry,
+            isPowerTalent: this.item.system.type === Talent.Type.Power,
             hasModality: this.item.system.modality !== null,
         };
     }

@@ -1,37 +1,61 @@
 {{#each paths as |path|}}
-<div class="path" 
+<div class="path"
     data-id="{{path.id}}"
 >
-    <div class="name"
-        data-action="view"
-    >
-        <span class="label">{{path.name}}</span>
-        <span class="item-type">{{localize path.typeLabel}} Path</span>
-    </div>
-    <div class="level"
-        data-action="view"
-    >
-        {{path.level}}
-    </div>
-    {{#if @root.isEditMode}}
-    <div class="controls">
-        <a data-action="remove"
-            data-tooltip="GENERIC.Button.Remove"
-        >
-            <i class="fa-solid fa-xmark"></i>
-        </a>
-    </div>
-    {{/if}}
+    <div class="border-box">
+        <div class="wrapper">
+            {{!-- Details --}}
+            <div class="details">        
+                <div class="title" data-action="view">
+                    <span class="name">{{path.name}}
+                        {{#if @root.isEditMode}}
+                            <div class="controls">
+                                <a data-action="remove"
+                                    data-tooltip="GENERIC.Button.Remove"
+                                >
+                                    <i class="fa-solid fa-xmark"></i>
+                                </a>
+                            </div>
+                        {{/if}}
+                    </span>
+                    <span class="item-type">{{localize path.typeLabel}} Path</span>
+                </div>
+                <div class="sheet-stack level" data-action="view">
+                    <div class="container">
+                        <div class="star"></div>
+                        <span class="value">{{path.numTalents}}</span>
+                    </div>                
+                </div>
+            </div>
 
-    {{#if img}}
-    <div class="background-img">
-        <img src="{{img}}">
+            {{!-- Skills --}}
+            {{#if (gt path.skills.length 0)}}
+                <ul class="skill-list">
+                    {{#each path.skills as |skill|}}
+                        <li class="skill" data-id="{{skill.id}}">
+                            {{app-actor-skill
+                                skill=skill.id
+                                readonly=(not @root.isEditMode)
+                                pips=true
+                            }}
+                        </li>
+                    {{/each}}
+                </ul>
+            {{/if}}
+        </div>        
+
+        {{!-- Background image --}}
+        {{#if img}}
+            <div class="background-img">
+                <img src="{{img}}">
+            </div>
+        {{/if}}
     </div>
-    {{/if}}
+    {{> box-corners }}
 </div>
 {{/each}}
 {{#if (eq paths.length 0)}}
-<div class="path placeholder">
+<div class="path drop-area">
     <span>{{localize "COSMERE.Actor.Sheet.PathPlaceholder"}}</span>
 </div>
 {{/if}}

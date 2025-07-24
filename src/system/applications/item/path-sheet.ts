@@ -1,20 +1,27 @@
 import { PathItem } from '@system/documents/item';
 import { DeepPartial } from '@system/types/utils';
+import { Talent } from '@system/types/item';
 
 // Base
 import { BaseItemSheet } from './base';
 
-export class PathItemSheet extends BaseItemSheet {
+// Mixins
+import { TalentsTabMixin } from './mixins/talents-tab';
+
+// Constants
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
+
+export class PathItemSheet extends TalentsTabMixin(BaseItemSheet) {
     static DEFAULT_OPTIONS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.DEFAULT_OPTIONS),
         {
-            classes: ['cosmere-rpg', 'sheet', 'item', 'path'],
+            classes: [SYSTEM_ID, 'sheet', 'item', 'path'],
             position: {
                 width: 550,
-                height: 500,
             },
             window: {
-                resizable: true,
+                resizable: false,
                 positioned: true,
             },
         },
@@ -34,24 +41,13 @@ export class PathItemSheet extends BaseItemSheet {
     static PARTS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.PARTS),
         {
-            'sheet-content': {
-                template:
-                    'systems/cosmere-rpg/templates/item/parts/sheet-content.hbs',
+            content: {
+                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_PATH_CONTENT}`,
             },
         },
     );
 
     get item(): PathItem {
         return super.document;
-    }
-
-    /* --- Context --- */
-
-    public async _prepareContext(
-        options: DeepPartial<foundry.applications.api.ApplicationV2.RenderOptions>,
-    ) {
-        return {
-            ...(await super._prepareContext(options)),
-        };
     }
 }

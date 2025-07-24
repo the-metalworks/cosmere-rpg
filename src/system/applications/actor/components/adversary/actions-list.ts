@@ -1,12 +1,23 @@
-import { ItemType } from '@system/types/cosmere';
-import { CosmereItem } from '@system/documents';
+import {
+    ItemType,
+    ActionType,
+    ActivationType,
+    ActionCostType,
+} from '@system/types/cosmere';
+import { ItemListSection } from '@system/types/application/actor/components/item-list';
+
+// Documents
+import { CosmereItem } from '@system/documents/item';
+import { CosmereActor } from '@system/documents/actor';
 
 // Components
 import {
     ActorActionsListComponent,
     ActorActionsListComponentRenderContext,
 } from '../actions-list';
-import { SortDirection } from '../search-bar';
+import { SortMode } from '../search-bar';
+
+// Constants
 
 export class AdversaryActionsListComponent extends ActorActionsListComponent {
     /* --- Context --- */
@@ -25,17 +36,6 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
                     item.system.alwaysEquipped,
             );
 
-        // Get all traits items
-        const traitItems = activatableItems.filter((item) => item.isTrait());
-
-        // Get all weapon items
-        const weaponItems = activatableItems.filter((item) => item.isWeapon());
-
-        // Get all action items (all non-trait, non-weapon items)
-        const actionItems = activatableItems.filter(
-            (item) => !item.isTrait() && !item.isWeapon(),
-        );
-
         // Ensure all items have an expand state record
         activatableItems.forEach((item) => {
             if (!(item.id in this.itemState)) {
@@ -45,32 +45,43 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
             }
         });
 
+        // Prepare sections
+        this.sections = [
+            this.prepareSection(ItemType.Trait),
+            this.prepareSection(ItemType.Weapon),
+            this.prepareSection(ItemType.Action),
+        ];
+
         const searchText = context.actionsSearch?.text ?? '';
-        const sortDir = context.actionsSearch?.sort ?? SortDirection.Descending;
+        const sortMode = context.actionsSearch?.sort ?? SortMode.Alphabetic;
 
         return {
             ...context,
 
             sections: [
-                await this.prepareSection(
-                    ItemType.Trait,
-                    traitItems,
+                await this.prepareSectionData(
+                    this.sections[0],
+                    activatableItems,
                     searchText,
-                    sortDir,
+                    sortMode,
                 ),
-                await this.prepareSection(
-                    ItemType.Weapon,
-                    weaponItems,
+                await this.prepareSectionData(
+                    this.sections[1],
+                    activatableItems,
                     searchText,
-                    sortDir,
+                    sortMode,
                 ),
-                await this.prepareSection(
-                    ItemType.Action,
-                    actionItems,
+                await this.prepareSectionData(
+                    this.sections[2],
+                    activatableItems,
                     searchText,
-                    sortDir,
+                    sortMode,
                 ),
-            ].filter((section) => section.items.length > 0),
+            ].filter(
+                (section) =>
+                    section.items.length > 0 ||
+                    (this.application.mode === 'edit' && section.default),
+            ),
 
             itemState: this.itemState,
         };
@@ -78,23 +89,62 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
 
     /* --- Helpers --- */
 
-    private async prepareSection(
-        type: ItemType,
-        items: CosmereItem[],
-        searchText: string,
-        sortDir: SortDirection,
-    ) {
+    private prepareSection(type: ItemType): ItemListSection {
         return {
             id: type,
             label: CONFIG.COSMERE.items.types[type].labelPlural,
-            items: items
-                .filter((i) => i.name.toLowerCase().includes(searchText))
-                .sort(
-                    (a, b) =>
-                        a.name.compare(b.name) *
-                        (sortDir === SortDirection.Descending ? 1 : -1),
-                ),
-            itemData: await this.prepareItemData(items),
+            default: true,
+            filter: (item: CosmereItem) => item.type === type,
+            new: (parent: CosmereActor) =>
+                CosmereItem.create(
+                    {
+                        type,
+                        name: game.i18n!.localize(
+                            `COSMERE.Item.Type.${type.capitalize()}.New`,
+                        ),
+                        system: {
+                            activation: {
+                                type: ActivationType.Utility,
+                                cost: {
+                                    type: ActionCostType.Action,
+                                    value: 1,
+                                },
+                            },
+
+                            ...(type === ItemType.Weapon
+                                ? {
+                                      equipped: true,
+                                  }
+                                : {}),
+                        },
+                    },
+                    { parent },
+                ) as Promise<CosmereItem>,
+        };
+    }
+
+    private async prepareSectionData(
+        section: ItemListSection,
+        items: CosmereItem[],
+        searchText: string,
+        sort: SortMode,
+    ) {
+        // Get items for section, filter by search text, and sort
+        let sectionItems = items
+            .filter(section.filter)
+            .filter((i) => i.name.toLowerCase().includes(searchText));
+
+        if (sort === SortMode.Alphabetic) {
+            sectionItems = sectionItems.sort(
+                (a, b) => a.name.compare(b.name) * -1,
+            );
+        }
+
+        return {
+            ...section,
+            canAddNewItems: !!section.new,
+            items: sectionItems,
+            itemData: await this.prepareItemData(sectionItems),
         };
     }
 }

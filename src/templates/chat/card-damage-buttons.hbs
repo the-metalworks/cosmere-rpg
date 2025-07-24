@@ -1,0 +1,17 @@
+<div class="apply-buttons {{#if overlay}}overlay{{/if}}">
+    <button class="damage" data-action="apply-damage" data-multiplier="1" data-tooltip="{{ localize "COSMERE.ChatMessage.Buttons.DamageFull" }}">
+        <i class="fa-solid fa-heart-crack"></i><i class="fa-solid fa-xmark"></i>1
+    </button>
+    <button class="damage" data-action="apply-damage" data-multiplier="0.5" data-tooltip="{{ localize "COSMERE.ChatMessage.Buttons.DamageHalf" }}">
+        <i class="fa-solid fa-heart-crack"></i><i class="fa-solid fa-xmark"></i>½
+    </button>
+    <button class="damage" data-action="apply-damage" data-multiplier="2" data-tooltip="{{ localize "COSMERE.ChatMessage.Buttons.DamageDouble" }}">
+        <i class="fa-solid fa-heart-crack"></i><i class="fa-solid fa-xmark"></i>2
+    </button>
+    <button class="healing" data-action="apply-damage" data-multiplier="-1" data-tooltip="{{ localize "COSMERE.ChatMessage.Buttons.Healing" }}">
+        <i class="fa-solid fa-heart"></i><i class="fa-solid fa-xmark"></i>1
+    </button>
+    <button class="focus" data-action="reduce-focus" data-tooltip="{{ localize "COSMERE.ChatMessage.Buttons.ReduceFocus" }}">
+        <i class="fa-solid fa-eye"></i><i class="fa-solid fa-minus"></i>1
+    </button>
+</div>

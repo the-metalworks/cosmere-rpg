@@ -1,0 +1,18 @@
+<div class="currency-list">
+    {{#each currencies as |currency|}}
+    <div class="currency" data-tooltip="{{currency.config.label}}">
+        {{#if currency.config.icon}}
+            <img src="{{currency.config.icon}}">
+        {{else}}
+            <div class="fallback"><i class="fa-solid fa-coins"></i></div>
+        {{/if}}
+        <input name="currency"
+            type="number"
+            min="0"
+            step="1"
+            value="{{derived currency.total}}"
+            readonly
+        >
+    </div>
+    {{/each}}
+</div>

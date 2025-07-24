@@ -1,0 +1,77 @@
+{
+    "_id": "zyDACVYDa0N9N31r",
+    "folder": "4H9VQhin9BB78Fw4",
+    "name": "Staff",
+    "type": "weapon",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/items/foundry_items/ICON_Staff.webp",
+    "system": {
+        "id": "staff",
+        "type": "light_wpn",
+        "description": {
+            "value": "<p><strong>Damage</strong> 1d6 impact; <strong>Range</strong> Melee; <strong>Traits</strong> Discreet, Two-Handed; <strong>Expert Traits</strong> Defensive;</p><p><strong>Type</strong> Light Weapon; <strong>Weapons Skill</strong> Light; <strong>Price</strong> 1 mk; <strong>Weight</strong> 4 lb.;</p>",
+            "chat": ""
+        },
+        "activation": {
+            "type": "skill_test",
+            "skill": "lwp",
+            "cost": {
+                "value": 1,
+                "type": "act"
+            },
+            "attribute": "spd",
+            "modifierFormula": ""
+        },
+        "damage": {
+            "formula": "1d6",
+            "type": "impact",
+            "skill": "lwp",
+            "attribute": null
+        },
+        "traits": {
+            "two_handed": {
+                "defaultActive": true
+            },
+            "discreet": {
+                "defaultActive": true
+            },
+            "defensive": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": true
+                }
+            }
+        },
+        "attack": {
+            "type": "melee",
+            "range": null
+        },
+        "equipped": false,
+        "alwaysEquipped": false,
+        "resources": null,
+        "expertise": false,
+        "weight": {
+            "value": 4,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 1,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark"
+            },
+            "unit": "spheres.mark"
+        },
+        "equip": {
+            "type": "hold",
+            "hold": "two_handed"
+        },
+        "quantity": 1
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!zyDACVYDa0N9N31r"
+}

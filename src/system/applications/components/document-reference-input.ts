@@ -1,4 +1,6 @@
 import { ConstructorOf, AnyObject } from '@system/types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
@@ -47,8 +49,7 @@ export class DocumentReferenceInputComponent extends DragDropComponentMixin(
 ) {
     static FORM_ASSOCIATED = true;
 
-    static readonly TEMPLATE =
-        'systems/cosmere-rpg/templates/general/components/document-reference-input.hbs';
+    static readonly TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.COMPONENT_DOCUMENT_REFERENCE}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions
@@ -80,7 +81,7 @@ export class DocumentReferenceInputComponent extends DragDropComponentMixin(
     }
 
     public get readonly() {
-        return this.params?.readonly !== false;
+        return this.params?.readonly === true;
     }
 
     public get value() {
@@ -125,14 +126,14 @@ export class DocumentReferenceInputComponent extends DragDropComponentMixin(
     protected override _onDragOver(event: DragEvent) {
         if (this.readonly) return;
 
-        $(this.element!).addClass('dragover');
+        $(this.element!).find('.drop-area').addClass('dropping');
     }
 
     protected override async _onDrop(event: DragEvent) {
         if (this.readonly) return;
 
         // Remove dragover class
-        $(this.element!).removeClass('dragover');
+        $(this.element!).find('.drop-area').removeClass('dropping');
 
         // Get data
         const data = TextEditor.getDragEventData(event) as unknown as {
@@ -198,12 +199,15 @@ export class DocumentReferenceInputComponent extends DragDropComponentMixin(
         super._onAttachListeners(params);
 
         $(this.element!).on('dragleave', () => {
-            $(this.element!).removeClass('dragover');
+            $(this.element!).find('.drop-area').removeClass('dropping');
         });
     }
 
     protected override _onRender(params: Params) {
         super._onRender(params);
+
+        // Set value
+        this.element!.value = this.value ?? '';
 
         // Set name
         if (this.params!.name) {

@@ -17,6 +17,11 @@ import { ActionItemDataModel } from './action';
 
 import { InjuryItemDataModel } from './injury';
 import { ConnectionItemDataModel } from './connection';
+import { GoalItemDataModel } from './goal';
+
+import { PowerItemDataModel } from './power';
+
+import { TalentTreeItemDataModel } from './talent-tree';
 
 export const config: Record<
     ItemType,
@@ -41,6 +46,11 @@ export const config: Record<
 
     [ItemType.Injury]: InjuryItemDataModel,
     [ItemType.Connection]: ConnectionItemDataModel,
+    [ItemType.Goal]: GoalItemDataModel,
+
+    [ItemType.Power]: PowerItemDataModel,
+
+    [ItemType.TalentTree]: TalentTreeItemDataModel,
 };
 
 export * from './weapon';
@@ -56,3 +66,6 @@ export * from './action';
 export * from './injury';
 export * from './connection';
 export * from './trait';
+export * from './goal';
+export * from './power';
+export * from './talent-tree';

@@ -1,54 +1,59 @@
-<div class="header">
-    <i class="icon fa-solid fa-star"></i>
-    <span class="title">{{localize "COSMERE.Actor.Sheet.Favorites"}}</span>
+<div class="icon-header">
+    <div class="title">
+        <i class="icon fa-solid fa-star"></i>
+        <span class="title">{{localize "COSMERE.Actor.Sheet.Favorites"}}</span>
+    </div>
 </div>
-<ul class="favorites-list">
+<ul class="item-list favorite-list">
     {{#each favorites as |item|}}
     {{#with (itemContext item) as |ctx|}}
-
-    <li class="favorite item usable" data-item-id="{{item.id}}" 
+    <li class="item favorite usable" data-item-id="{{item.id}}" 
         {{#if @root.editable}}
         data-drag="true"
         {{/if}}
     >
-        {{!-- Image --}}
-        <div class="col img" data-action="use-item">
-            <img class="roll-icon" src="/systems/cosmere-rpg/assets/icons/dice/d20white.svg">
-            <img src="{{item.img}}">
-        </div>
+        <section class="details">
+            {{!-- Image --}}
+            <div class="img" data-action="use-item">
+                <img class="roll-icon" src="systems/cosmere-rpg/assets/icons/svg/dice/d20_white.svg">
+                <img src="{{item.img}}">
+            </div>
 
-        {{!-- Name --}}
-        <div class="col name" data-action="use-item">
-            <span class="title">{{item.name}}</span>
-            <span class="subtitle">{{{ctx.subtitle}}}</span>
-        </div>
+            {{!-- Name --}}
+            <div class="name">
+                <span>{{item.name}}</span>
+                <span class="traits">{{{ctx.subtitle}}}</span>
+            </div>
 
-        {{!-- Activation --}}
-        <div class="col activation">
-            {{#if ctx.hasActivation}}
-            {{#if ctx.activation.hasCost}}
-            <i class="cosmere-icon">
-                {{#if (eq ctx.activation.cost.type "act")}}
-                {{ ctx.activation.cost.value }}
-                {{else}}
-                {{cosmereDingbat ctx.activation.cost.type}}
+            {{!-- Activation --}}
+            <div class="detail thin action">
+                {{#if ctx.hasActivation}}
+                    {{#if ctx.activation.hasCost}}
+                    <i class="cosmere-icon">
+                        {{#if (eq ctx.activation.cost.type "act")}}
+                        {{ ctx.activation.cost.value }}
+                        {{else}}
+                        {{cosmereDingbat ctx.activation.cost.type}}
+                        {{/if}}
+                    </i>
+                    {{else}}
+                    <i class="cosmere-icon passive"></i>
+                    {{/if}}                    
                 {{/if}}
-            </i>
-            {{/if}}
-            {{/if}}
-        </div>
+            </div>
 
-        {{!-- Controls --}}
-        <div class="col controls flexrow {{#if @root.isEditMode}}edit{{/if}}">
+            {{!-- Controls --}}            
             {{#if @root.isEditMode}}
-            <a role="button"
-                data-action="remove-favorite"
-                data-tooltip="COSMERE.Actor.Sheet.Item.Remove"
-            >
-                <i class="fa-solid fa-trash"></i>
-            </a>
+            <div class="controls icon faded">
+                <a role="button"
+                    data-action="remove-favorite"
+                    data-tooltip="COSMERE.Actor.Sheet.Item.Remove"
+                >
+                    <i class="fa-solid fa-xmark"></i>
+                </a>
+            </div>
             {{/if}}
-        </div>
+        </section>        
     </li>
     {{/with}}
     {{/each}}

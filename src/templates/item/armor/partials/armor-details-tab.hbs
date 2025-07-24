@@ -1,21 +1,14 @@
 {{#with (lookup tabsMap "details") as |tab|}}
 
 <div class="tab tab-content {{tab.cssClass}}" data-tab="details" data-group="primary">
-    {{app-item-details-id}}
+    <fieldset>
+        <legend>{{localize "COSMERE.Item.Sheet.Basics"}}</legend>
+        {{app-item-details-id}}
+        {{app-item-details-linked-skills}}
+    </fieldset>
     {{app-item-details-equip}}
-    <div class="form-group">
-        <label>{{localize "COSMERE.Item.Armor.Deflect"}}</label>
-        <input 
-            name="system.deflect"
-            type="number" 
-            min="0"
-            step="1"
-            value="{{@root.item.system.deflect}}"
-            {{#if (not @root.editable)}}
-            readonly
-            {{/if}}
-        >
-    </div>
+    {{app-item-details-activation}}
+    {{app-item-details-deflect}}  
 </div>
 
 {{/with}}

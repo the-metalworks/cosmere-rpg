@@ -1,0 +1,74 @@
+{
+    "folder": "kVZlDrFKUyg2QyHL",
+    "name": "Practiced Kata",
+    "type": "talent",
+    "_id": "8fBzOnrcWhqUUqnj",
+    "img": "icons/skills/melee/maneuver-daggers-paired-orange.webp",
+    "system": {
+        "id": "practiced-kata",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p><em>Your study of martial kata and other forms has taught you that your stance in conversation is as important as in battle. With practiced poise, you project the exact attitude you want through body language and positioning.</em></p><p>When you acquire this talent, you can use fighting stances in conversation and endeavor scenes, in addition to combat. Activating or changing a stance during a conversation or endeavor costs 1 focus and counts as your contribution for the round.</p><p>Additionally, if you aren’t <strong>Surprised</strong> when a combat, conversation, or endeavor scene begins, you can enter Vigilant Stance at the beginning of that scene (no action required).</p>",
+            "chat": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p>You can now use stances in conversations and endeavors, and unless <strong>Surprised</strong>, you can start each scene in @UUID[Compendium.cosmere-rpg.heroic-paths.Item.8mJC2HnsN3OQ2J20]{Vigilant Stance}. Spend 1 focus to enter a stance mid-conversation or mid-endeavor.</p>",
+            "short": "<p><strong>Activation: </strong><span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p>When you acquire this talent, you can use fighting stances in conversation and endeavor scenes, in addition to combat. Activating or changing a stance during a conversation or endeavor costs 1 focus and counts as your contribution for the round.</p><p>Additionally, if you aren’t <strong>Surprised</strong> when a combat, conversation, or endeavor scene begins, you can enter @UUID[Compendium.cosmere-rpg.heroic-paths.Item.8mJC2HnsN3OQ2J20]{Vigilant Stance} at the beginning of that scene (no action required).</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": null,
+                "type": "spe"
+            },
+            "consume": [
+                {
+                    "type": "resource",
+                    "value": {
+                        "min": 1,
+                        "max": 1,
+                        "actual": 0
+                    },
+                    "resource": "foc"
+                }
+            ],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "path": "warrior",
+        "hasPath": false,
+        "specialty": "duelist",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "modality": null,
+        "prerequisites": {
+            "g2bKbrvBct0NTPBE": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "vigilant-stance",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.8mJC2HnsN3OQ2J20",
+                        "label": "Vigilant Stance"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!8fBzOnrcWhqUUqnj"
+}

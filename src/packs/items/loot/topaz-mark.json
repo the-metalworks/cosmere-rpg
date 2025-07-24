@@ -1,0 +1,36 @@
+{
+    "folder": "RBFoWUCw2wosgSJA",
+    "name": "Topaz Mark",
+    "type": "loot",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/items/spheres/sphere_topaz_mark.webp",
+    "system": {
+        "isMoney": true,
+        "description": {
+            "value": "",
+            "chat": "",
+            "short": ""
+        },
+        "weight": {
+            "value": 0,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 5,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            }
+        },
+        "quantity": 1,
+        "events": {}
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "7bo1FpreFHrB5ev0",
+    "sort": 300000,
+    "_key": "!items!7bo1FpreFHrB5ev0"
+}

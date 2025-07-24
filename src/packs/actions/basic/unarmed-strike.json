@@ -1,0 +1,182 @@
+{
+    "name": "Unarmed Strike",
+    "type": "weapon",
+    "img": "icons/skills/melee/unarmed-punch-fist.webp",
+    "system": {
+        "id": "unarmed",
+        "type": "special_wpn",
+        "description": {
+            "value": "<p><strong>Damage</strong> Unique; <strong>Range</strong> Melee; <strong>Traits</strong> Unique; <strong>Expert Traits</strong> Momentum, Offhand;</p><p><strong>Type</strong> Special Weapons; <strong>Weapons Skill</strong> Athletics; <strong>Price</strong> —; <strong>Weight</strong> —;</p><p>Punches, kicks, thrown elbows, headbutts, and bites are examples of unarmed attacks. Any character can make an unarmed attack using <strong>Athletics</strong>.</p><p><strong>Expertise.</strong> Unlike other entries on the Special Weapons table, you can choose Unarmed Attacks as a weapon expertise.</p><p><strong>Unique Traits.</strong> Unarmed attacks add the following unique traits:</p><p><strong>Always Available.</strong> Unarmed attacks don’t count as weapon attacks, but they are melee attacks intrinsic to each character. You don’t have to be holding a weapon to make an unarmed attack, and you can’t be disarmed of your unarmed attacks. You can make an unarmed attack even if each of your hands is holding something, but if your second Strike on a turn is an unarmed attack, it follows the rules for an offhand attack.</p><p><strong>Strength Training.</strong> When you make an unarmed attack, its damage die is based on your Strength score, as shown on the Unarmed Damage table.</p><table><thead><tr><th><p>Strength</p></th><th><p>Unarmed Damage</p></th></tr></thead><tbody><tr><td><p>0–2</p></td><td><p>1 (no die roll) impact</p></td></tr><tr><td><p>3–4</p></td><td><p>1d4 impact</p></td></tr><tr><td><p>5–6</p></td><td><p>1d8 impact</p></td></tr><tr><td><p>7–8</p></td><td><p>2d6 impact</p></td></tr><tr><td><p>9+</p></td><td><p>2d10 impact</p></td></tr></tbody></table>",
+            "chat": "<p>Any character can make an unarmed attack using <strong>Athletics</strong>.</p><p><strong>Always Available.</strong> You don’t have to be holding a weapon to make an unarmed attack, and you can’t be disarmed of your unarmed attacks. You can make an unarmed attack even if each of your hands is holding something, but if your second Strike on a turn is an unarmed attack, it follows the rules for an offhand attack.</p><p><strong>Strength Training.</strong> When you make an unarmed attack, its damage die is based on your Strength score, as shown on the Unarmed Damage table.</p><table><thead><tr><th><p>Strength</p></th><th><p>Unarmed Damage</p></th></tr></thead><tbody><tr><td><p>0–2</p></td><td><p>1 (no die roll) impact</p></td></tr><tr><td><p>3–4</p></td><td><p>1d4 impact</p></td></tr><tr><td><p>5–6</p></td><td><p>1d8 impact</p></td></tr><tr><td><p>7–8</p></td><td><p>2d6 impact</p></td></tr><tr><td><p>9+</p></td><td><p>2d10 impact</p></td></tr></tbody></table>",
+            "short": "<p>Any character can make an unarmed attack using <strong>Athletics</strong>.</p><p><strong>Expertise.</strong> Unlike other entries on the Special Weapons table, you can choose Unarmed Attacks as a weapon expertise.</p><p><strong>Unique Traits.</strong> Unarmed attacks add the following unique traits:</p><p><strong>Always Available.</strong> Unarmed attacks don’t count as weapon attacks, but they are melee attacks intrinsic to each character. You don’t have to be holding a weapon to make an unarmed attack, and you can’t be disarmed of your unarmed attacks. You can make an unarmed attack even if each of your hands is holding something, but if your second Strike on a turn is an unarmed attack, it follows the rules for an offhand attack.</p><p><strong>Strength Training.</strong> When you make an unarmed attack, its damage die is based on your Strength score, as shown on the Unarmed Damage table.</p><table><thead><tr><th><p>Strength</p></th><th><p>Unarmed Damage</p></th></tr></thead><tbody><tr><td><p>0–2</p></td><td><p>1 (no die roll) impact</p></td></tr><tr><td><p>3–4</p></td><td><p>1d4 impact</p></td></tr><tr><td><p>5–6</p></td><td><p>1d8 impact</p></td></tr><tr><td><p>7–8</p></td><td><p>2d6 impact</p></td></tr><tr><td><p>9+</p></td><td><p>2d10 impact</p></td></tr></tbody></table>"
+        },
+        "equipped": false,
+        "alwaysEquipped": true,
+        "equip": {
+            "type": "hold",
+            "hold": "one_handed"
+        },
+        "activation": {
+            "type": "skill_test",
+            "cost": {
+                "value": 1,
+                "type": "act"
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "opportunity": null,
+            "complication": null,
+            "uses": null,
+            "skill": "ath",
+            "modifierFormula": ""
+        },
+        "attack": {
+            "type": "melee",
+            "range": null
+        },
+        "damage": {
+            "formula": "@scalar.damage.unarmed",
+            "type": "impact",
+            "skill": "ath",
+            "attribute": null,
+            "grazeOverrideFormula": ""
+        },
+        "expertise": false,
+        "traits": {
+            "unique": {
+                "defaultActive": true,
+                "defaultValue": null,
+                "value": null,
+                "active": true,
+                "expertise": {
+                    "toggleActive": false,
+                    "value": null
+                }
+            },
+            "momentum": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": true,
+                    "value": null
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "offhand": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": true,
+                    "value": null
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "cumbersome": {
+                "defaultActive": false,
+                "defaultValue": 0,
+                "expertise": {
+                    "toggleActive": false
+                }
+            },
+            "dangerous": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                }
+            },
+            "deadly": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                }
+            },
+            "defensive": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                }
+            },
+            "discreet": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                }
+            },
+            "indirect": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                }
+            },
+            "loaded": {
+                "defaultActive": false,
+                "defaultValue": 0,
+                "expertise": {
+                    "toggleActive": false
+                }
+            },
+            "pierce": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                }
+            },
+            "quickdraw": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                }
+            },
+            "thrown": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                }
+            },
+            "two_handed": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                }
+            },
+            "fragile": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                }
+            },
+            "reach": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                }
+            }
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 0,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 0,
+            "currency": "none",
+            "denomination": {
+                "primary": "none",
+                "secondary": "none"
+            },
+            "unit": "none"
+        }
+    },
+    "effects": [],
+    "folder": "xeAxqcLYdFWSwUur",
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "DqVTxZTw827gfNJz",
+    "sort": 800000,
+    "_key": "!items!DqVTxZTw827gfNJz"
+}

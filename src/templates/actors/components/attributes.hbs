@@ -9,51 +9,70 @@
         {{!-- Attributes and defense --}}
         <section class="attributes flexrow">
             {{#with attrGroup.attributes.[0] as |attribute|}}
-            <div class="attribute flexcol" data-id="{{attribute.id}}">
-                <span class="box-title">
-                    {{ localize attribute.config.labelShort }}
-                </span>
-                <span class="value">
+            <div class="sheet-stack attribute" data-id="{{attribute.id}}">
+                <div class="container left">
+                    <div class="background"></div>
+                    <div class="border"></div>
+                    <span class="title" {{#if attribute.modified}}data-tooltip="COSMERE.Actor.Sheet.Attributes.IsModifiedTooltip"{{/if}}>
+                        {{ localize attribute.config.labelShort }}
+                        {{#if attribute.modified}}
+                            <i class="fa-solid fa-bolt"></i>
+                        {{/if}}
+                    </span>
                     {{#if (not @root.isEditMode)}}
-                    <input type="number"
-                        value="{{bonus attribute}}"
-                        readonly
-                    >
+                        <input class="value {{#if attribute.modified}}modified{{/if}}" type="number"
+                            value="{{total}}"
+                            readonly
+                        >
                     {{else}}
-                    <input type="number" class="value" min="0" max="10" step="1"
-                        name="system.attributes.{{attribute.config.key}}.value" value="{{attribute.value}}" 
-                    />
-                    {{/if}}
-                </span>
-            </div>
-            {{/with}}
-
-            {{#with attrGroup.defense as |defense|}}
-            <div class="defense">
-                <div class="defense-box">
-                    <span class="value">{{ derived defense.value }}</span>
-                    {{#if @root.isEditMode}}
-                    <a data-action="configure-defense"
-                        data-tooltip="COSMERE.Actor.Sheet.ConfigureDefense"
-                    >
-                        <i class="fa-solid fa-gear"></i>
-                    </a>
+                        <input class="value {{#if attribute.modified}}modified{{/if}}" type="number" min="0" max="10" step="1"
+                            name="system.attributes.{{attribute.config.key}}.value" value="{{total}}" data-total="{{total}}" data-source-value="{{attribute.source.value}}" 
+                        />
                     {{/if}}
                 </div>
             </div>
             {{/with}}
 
+            {{#with attrGroup.defense as |defense|}}
+            <div class="sheet-stack defense">
+                <span class="label">DEF</span>
+                <div class="container">
+                    <div class="background"></div>
+                    <div class="border"></div>
+                    {{#if @root.isEditMode}}
+                    <a class="config-icon" data-action="configure-defense"
+                        data-tooltip="COSMERE.Actor.Sheet.ConfigureDefense"
+                    >
+                        <i class="fa-solid fa-gear"></i>
+                    </a>
+                    {{/if}}                     
+                    <span class="value">{{ defense.value }}</span>
+                </div>
+            </div>
+            {{/with}}
+
             {{#with attrGroup.attributes.[1] as |attribute|}}
-            <div class="attribute flexcol" data-id="{{attribute.id}}">
-                <span class="box-title">
-                    {{ localize attribute.config.labelShort }}
-                </span>
-                <span class="value">
-                    <input type="number" class="value" min="0" max="10" step="1"
-                        name="system.attributes.{{attribute.config.key}}.value" value="{{attribute.value}}" 
-                        {{#if (not @root.isEditMode)}}readonly{{/if}}    
+            <div class="sheet-stack attribute" data-id="{{attribute.id}}">
+                <div class="container right">
+                    <div class="background"></div>
+                    <div class="border"></div>
+                    <span class="title" {{#if attribute.modified}}data-tooltip="COSMERE.Actor.Sheet.Attributes.IsModifiedTooltip"{{/if}}>
+                        {{ localize attribute.config.labelShort }}
+                        {{#if attribute.modified}}
+                            <i class="fa-solid fa-bolt"></i>
+                        {{/if}}
+                    </span>
+                    {{#if (not @root.isEditMode)}}
+                    <input class="value {{#if attribute.modified}}modified{{/if}}" type="number"
+                        value="{{total}}"
+                        readonly
+                    >
+                    {{else}}
+                    <input class="value {{#if attribute.modified}}modified{{/if}}" type="number" min="0" max="10" step="1"
+                        name="system.attributes.{{attribute.config.key}}.value" value="{{total}}" data-total="{{total}}" data-source-value="{{attribute.source.value}}"
                     />
-                </span>
+                    {{/if}}
+                </div>                    
             </div>
             {{/with}}
         </section>

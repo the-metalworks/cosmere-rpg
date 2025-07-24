@@ -1,0 +1,22 @@
+<form>
+    <div class="form-group-stacked"></div>
+        {{#each options as |option|}}
+            <div class="form-field">
+                <input type="radio" name="choice" value="{{option.id}}" id="{{option.id}}">
+                <label for="{{option.id}}">
+                    {{#if @root.localize}}
+                        {{localize option.label}}
+                    {{else}}
+                        {{{option.label}}}
+                    {{/if}}
+                </label>
+            </div>
+        {{/each}}
+    </div>
+
+    <div class="form-group submit">
+        <button type="submit" data-action="submit">
+            {{localize "GENERIC.Button.Confirm"}}
+        </button>
+    </div>
+</form>

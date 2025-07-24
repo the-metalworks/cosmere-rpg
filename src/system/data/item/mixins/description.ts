@@ -26,14 +26,20 @@ export function DescriptionItemMixin<P extends CosmereItem>(
                     description: new foundry.data.fields.SchemaField({
                         value: new foundry.data.fields.HTMLField({
                             label: 'Description',
-                            initial: params?.value ? params.value : '',
+                            initial: params?.value
+                                ? `<p>${game.i18n!.localize(params.value)}</p>`
+                                : '',
                         }),
                         chat: new foundry.data.fields.HTMLField({
                             label: 'Chat description',
-                            initial: params?.chat ? params.chat : '',
+                            initial: params?.chat
+                                ? `<p>${game.i18n!.localize(params.chat)}</p>`
+                                : '',
                         }),
                         short: new foundry.data.fields.StringField({
-                            initial: params?.short ? params.short : '',
+                            initial: params?.short
+                                ? `<p>${game.i18n!.localize(params.short)}</p>`
+                                : '',
                         }),
                     }),
                 });

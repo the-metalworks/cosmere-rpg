@@ -1,14 +1,12 @@
 import { AdversaryActor } from '@system/documents';
+import { SYSTEM_ID } from '@src/system/constants';
 
 // Components
 import { SearchBarInputEvent } from './components';
 
-// Dialogs
-import { ConfigureSkillsDialog } from './dialogs/configure-skills';
-import { EditExpertisesDialog } from './dialogs/edit-expertises';
-
 // Base
 import { BaseActorSheet, BaseActorSheetRenderContext } from './base';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 export type AdversarySheetRenderContext = Omit<
     BaseActorSheetRenderContext,
@@ -18,15 +16,10 @@ export type AdversarySheetRenderContext = Omit<
 };
 
 export class AdversarySheet extends BaseActorSheet<AdversarySheetRenderContext> {
-    /**
-     * NOTE: Unbound methods is the standard for defining actions and forms
-     * within ApplicationV2
-     */
-    /* eslint-disable @typescript-eslint/unbound-method */
     static DEFAULT_OPTIONS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.DEFAULT_OPTIONS),
         {
-            classes: ['cosmere-rpg', 'sheet', 'actor', 'adversary'],
+            classes: [SYSTEM_ID, 'sheet', 'actor', 'adversary'],
             position: {
                 width: 850,
                 height: 850,
@@ -36,21 +29,15 @@ export class AdversarySheet extends BaseActorSheet<AdversarySheetRenderContext> 
                     dropSelector: '*',
                 },
             ],
-            actions: {
-                'toggle-skills-collapsed': this.onToggleSkillsCollapsed,
-                'configure-skills': this.onConfigureSkills,
-                'edit-expertises': this.onEditExpertises,
-            },
+            actions: {},
         },
     );
-    /* eslint-enable @typescript-eslint/unbound-method */
 
     static PARTS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.PARTS),
         {
-            'sheet-content': {
-                template:
-                    'systems/cosmere-rpg/templates/actors/adversary/parts/sheet-content.hbs',
+            content: {
+                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_ADVERSARY_CONTENT}`,
             },
         },
     );
@@ -60,28 +47,11 @@ export class AdversarySheet extends BaseActorSheet<AdversarySheetRenderContext> 
     }
 
     get areSkillsCollapsed(): boolean {
-        return (
-            this.actor.getFlag('cosmere-rpg', 'sheet.skillsCollapsed') ?? false
-        );
+        return this.actor.getFlag(SYSTEM_ID, 'sheet.skillsCollapsed') ?? false;
     }
 
-    /* --- Actions --- */
-
-    private static onToggleSkillsCollapsed(this: AdversarySheet) {
-        // Update the flag
-        void this.actor.setFlag(
-            'cosmere-rpg',
-            'sheet.skillsCollapsed',
-            !this.areSkillsCollapsed,
-        );
-    }
-
-    private static onConfigureSkills(this: AdversarySheet) {
-        void ConfigureSkillsDialog.show(this.actor);
-    }
-
-    private static onEditExpertises(this: AdversarySheet) {
-        void EditExpertisesDialog.show(this.actor);
+    get hideUnrankedSkills(): boolean {
+        return this.actor.getFlag(SYSTEM_ID, 'sheet.hideUnranked') ?? false;
     }
 
     /* --- Event handlers --- */
@@ -105,6 +75,7 @@ export class AdversarySheet extends BaseActorSheet<AdversarySheetRenderContext> 
             ...(await super._prepareContext(options)),
 
             skillsCollapsed: this.areSkillsCollapsed,
+            hideUnrankedSkills: this.hideUnrankedSkills,
         };
     }
 }

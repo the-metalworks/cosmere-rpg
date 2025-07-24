@@ -1,0 +1,49 @@
+{
+    "folder": "qTYLKqLK29e5CTQp",
+    "name": "Food (ration, 1 day)",
+    "type": "equipment",
+    "_id": "ETmexaHpuN26SKOf",
+    "img": "icons/consumables/grains/bread-loaf-boule-tan.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 0.2 mk; <strong>Weight</strong> 0.5 lb.;</p><p>Rations are foods created for extended travel, such as jerky and hard-baked lavis cakes. They generally lack flavor, but if kept dry, they remain edible indefinitely.</p>",
+            "chat": ""
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 0.5,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 0.2,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            },
+            "unit": "spheres.mark"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null,
+                "type": null
+            },
+            "consume": [],
+            "flavor": "",
+            "uses": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        }
+    },
+    "effects": [],
+    "sort": 900000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!ETmexaHpuN26SKOf"
+}

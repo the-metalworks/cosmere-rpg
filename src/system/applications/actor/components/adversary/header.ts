@@ -1,10 +1,12 @@
 import { ConstructorOf } from '@system/types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 // Dialogs
 import { EditCreatureTypeDialog } from '@system/applications/actor/dialogs/edit-creature-type';
 
 // Utils
-import ActorUtils from '@system/util/actor';
+import { getTypeLabel } from '@src/system/utils/actor';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
@@ -16,8 +18,7 @@ import {
 export class AdversaryHeaderComponent extends HandlebarsApplicationComponent<
     ConstructorOf<AdversarySheet>
 > {
-    static TEMPLATE =
-        'systems/cosmere-rpg/templates/actors/adversary/components/header.hbs';
+    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_ADVERSARY_HEADER}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions
@@ -65,7 +66,7 @@ export class AdversaryHeaderComponent extends HandlebarsApplicationComponent<
             roleLabel:
                 CONFIG.COSMERE.adversary.roles[context.actor.system.role].label,
             sizeLabel: CONFIG.COSMERE.sizes[context.actor.system.size].label,
-            typeLabel: ActorUtils.getTypeLabel(context.actor.system.type),
+            typeLabel: getTypeLabel(context.actor.system.type),
         });
     }
 }

@@ -1,0 +1,83 @@
+<ul class="item-list prerequisites-list">
+    <li class="item rule header">
+        <section class="details">
+            <span class="subtitle detail wide">{{localize "COSMERE.Item.Sheet.Talent.Prerequisites.Type"}}</span>
+            <span class="title">{{localize "COSMERE.Item.Sheet.Talent.Prerequisites.Description"}}</span>
+            <div class="controls icon flexrow active">
+                {{#if editable}}
+                <div></div>
+                <a data-action="create-prerequisite"
+                    data-tooltip="COSMERE.Item.Sheet.Talent.Prerequisites.Create"
+                >
+                    <i class="fa-solid fa-plus"></i>
+                </a>
+                {{else}}
+                <div></div>
+                <div></div>
+                {{/if}}
+            </div>
+        </section>
+    </li>
+
+    {{#each prerequisites as |rule|}}
+    <li class="item rule" data-id="{{rule.id}}">
+        <section class="details">
+            <div class="detail wide">
+                <span>{{localize rule.typeLabel}}</span>
+            </div>
+            <div class="name inline">
+                {{#if (eq rule.type "talent")}}
+                    {{#if (gt rule.talents.length 1)}}
+                        <span>{{localize "COSMERE.Item.TalentTree.Node.Prerequisites.OneOf"}}:</span>
+                    {{/if}}
+                    {{#each rule.talents as |ref|}}
+                        {{{ref.link}}}
+                        {{#if (not @last)}}
+                            <span>,</span>
+                        {{/if}}
+                    {{/each}}
+                {{else if (eq rule.type "goal")}}
+                    {{#each rule.goals as |ref|}}
+                        {{{ref.link}}}
+                        {{#if (not @last)}}
+                            <span>,</span>
+                        {{/if}}
+                    {{/each}}
+                {{else if (eq rule.type "attribute")}}
+                    <span>{{localize (concat "COSMERE.Attribute." rule.attribute)}}</span>
+                    <span>{{rule.value}}+</span>
+                {{else if (eq rule.type "skill")}}
+                    <span>{{localize (concat "COSMERE.Skill." rule.skill)}}</span>
+                    <span>{{rule.rank}}+</span>
+                {{else if (eq rule.type "connection")}}
+                    <span>{{rule.description}}</span>
+                {{else if (eq rule.type "level")}}
+                    <span>{{rule.level}}+</span>
+                {{else if (eq rule.type "ancestry")}}
+                    {{{rule.ancestry.link}}}
+                {{else if (eq rule.type "culture")}}
+                    {{{rule.culture.link}}}
+                {{/if}}
+            </div>
+            <div class="controls icon faded flexrow">
+                {{#if @root.editable}}
+                    {{#if (not rule.managed)}}
+                        <a data-action="edit-prerequisite"
+                            data-tooltip="COSMERE.Item.Sheet.Talent.Prerequisites.Edit"
+                        >
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                        <a data-action="delete-prerequisite"
+                            data-tooltip="COSMERE.Item.Sheet.Talent.Prerequisites.Delete"
+                        >
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                    {{else}}
+                        <i data-tooltip="COSMERE.Item.TalentTree.Node.Prerequisites.CannotEditManaged" class="fa-solid fa-lock"></i>
+                    {{/if}}
+                {{/if}}
+            </div>
+        </section>
+    </li>
+    {{/each}}
+</ul>

@@ -4,115 +4,172 @@
 /*  Globals                                  */
 /* ----------------------------------------- */
 :root {
-    --plotweaver-color-black: black;
-    --plotweaver-color-grey-1: #111;
-    --plotweaver-color-grey-2: #222;
-    --plotweaver-color-grey-3: #333;
-    --plotweaver-color-grey-4: #444;
-    --plotweaver-color-grey-5: #555;
-    --plotweaver-color-white: white;
-    --plotweaver-color-off-white: #f0f0e0;
+    --cosmere-color-black: #000;
+    --cosmere-color-dark-1: #111;
+    --cosmere-color-dark-2: #222;
+    --cosmere-color-dark-3: #333;
+    --cosmere-color-dark-4: #444;
+    --cosmere-color-dark-5: #555;
+    --cosmere-color-dark-6: #666;
+    --cosmere-color-dark-7: #777;
+    --cosmere-color-light-1: #888;
+    --cosmere-color-light-2: #999;
+    --cosmere-color-light-3: #aaa;
+    --cosmere-color-light-4: #bbb;
+    --cosmere-color-light-5: #ccc;
+    --cosmere-color-light-6: #ddd;
+    --cosmere-color-light-7: #eee;
+    --cosmere-color-white: #fff;
 
-    --plotweaver-color-health-front: #286f3e;
-    --plotweaver-color-health-back: #6b1b2a;
-    --plotweaver-color-focus-front: #6e45e4;
-    --plotweaver-color-focus-back: #281c4a;
-    --plotweaver-color-invest-front: #3e6abb;
-    --plotweaver-color-invest-back: #182845;
+    --cosmere-color-off-white-1: #f8f4f1;
+    --cosmere-color-off-white-2: #f0f0e0;
 
-    // --font-primary: 'Laski Sans';
-    // --font-h5: 'Laski-Sans';
+    --cosmere-color-complication: #ab3d38;
+    --cosmere-color-complication-text: #ab3d38;
+    --cosmere-color-complication-background: #ffdddd;
+    --cosmere-color-complication-background-dark: #290706;
+    --cosmere-color-opportunity: #1e3c60;
+    --cosmere-color-opportunity-text: #7fa4e9;
+    --cosmere-color-opportunity-background: #dde5ff;
+    --cosmere-color-opportunity-background-dark: #060d1e;
+    --cosmere-color-parchment: #f1ebe8;
+    --cosmere-color-turn-fast: #a77129;
+    --cosmere-color-turn-slow: #1a3c60;
+
+    --cosmere-color-health-front: #286f3e;
+    --cosmere-color-health-back: #6b1b2a;
+    --cosmere-color-focus-front: #6e45e4;
+    --cosmere-color-focus-back: #281c4a;
+    --cosmere-color-invest-front: #3e6abb;
+    --cosmere-color-invest-back: #182845;
+
+    --cosmere-background-25: rgb(0 0 0 / 25%);
+    --cosmere-background-10: rgb(0 0 0 / 10%);
+    --cosmere-background-5: rgb(0 0 0 / 5%);
+
+    --cosmere-shadow-15: rgba(0, 0, 0, 0.15);
+    --cosmere-shadow-25: rgba(0, 0, 0, 0.25);
+    --cosmere-shadow-35: rgba(0, 0, 0, 0.35);
+    --cosmere-shadow-45: rgba(0, 0, 0, 0.45);
+    --cosmere-shadow-55: rgba(0, 0, 0, 0.55);
+    --cosmere-shadow-65: rgba(0, 0, 0, 0.65);
+    --cosmere-shadow-75: rgba(0, 0, 0, 0.75);
+    --cosmere-shadow-85: rgba(0, 0, 0, 0.85);
+
+    --cosmere-shadow-svg: drop-shadow(0 0 4px rgba(255, 0, 0, 0.6));
+    --cosmere-drop-shadow: drop-shadow(0px 0px 8px var(--cosmere-shadow-25));
+    --cosmere-sheet-shadow: drop-shadow(0px 0px 10px var(--cosmere-shadow-85));
+    
+    --cosmere-font-normal: "Laski Sans", sans-serif;
+    --cosmere-font-header: "Penumbra Serif Std", serif;
+    --cosmere-font-header-sc: "Penumbra Serif Std SC", serif;
+    --cosmere-font-condensed: "Roboto Condensed", sans-serif;
+    --cosmere-font-icons: "Cosmere Dingbats";
+
+    --font-size-8: 0.5rem;
+    --font-size-9: 0.563rem;
+    --font-size-22: 1.375rem;
 
     /* ----------------------------------------- */
-    /*  Default Generic Theme                    */
+    /*  Default Cosmere Theme                    */
     /* ----------------------------------------- */
-    &.theme-plotweaver {
+    .cosmere-theme-default {
         //TO-DO: Replace with Plotweaver colours
-        --plotweaver-color-accent: #c9a760;
-        --plotweaver-color-faded: #5e6c7e;
-        --plotweaver-color-sheet: #132137;
+        &.theme-dark {
+            --cosmere-banner-actor-top: url('assets/art/banner_actor_cosmere_top_dark.webp');
+            --cosmere-banner-actor-bot: url('assets/art/banner_actor_cosmere_bot_dark.webp');
+            --cosmere-banner-item-top: url('assets/art/banner_actor_cosmere_top_dark.webp');
+            --cosmere-sheet-texture: url('assets/art/texture_sheet_cosmere_dark.webp');
 
-        --plotweaver-color-base-1: #010e2d;
-        --plotweaver-color-base-2: #10213e;
-        --plotweaver-color-base-3: #1b2d49;
-        --plotweaver-color-base-4: #263c5e;
-        --plotweaver-color-base-5: #456a95;
-        --plotweaver-color-base-6: #506684;
-    }
+            --cosmere-color-accent : #beaa8a;
+            --cosmere-color-faded: #857d6a;
+            --cosmere-color-sheet: #081127;
+            --cosmere-color-neutral: var(--cosmere-color-dark-1);
+            --cosmere-color-highlight: var(--cosmere-color-opportunity-text);
 
-    /* ----------------------------------------- */
-    /*  Stormlight Archive Theme                 */
-    /* ----------------------------------------- */
-    &.theme-stormlight {
-        //TO-DO: Move to Stormlight Archive module
-        --plotweaver-color-accent: #c9a760;
-        --plotweaver-color-faded: #5e6c7e;
-        --plotweaver-color-sheet: #132137;
+            --cosmere-color-base-1: #1d2945;
+            --cosmere-color-base-2: #0d172f;
+            --cosmere-color-base-3: #141d30;
+            --cosmere-color-base-4: #21293d;
+            --cosmere-color-base-5: #5b616e;
+            --cosmere-color-base-6: #2c3445;
 
-        --plotweaver-color-base-1: #010e2d;
-        --plotweaver-color-base-2: #10213e;
-        --plotweaver-color-base-3: #1b2d49;
-        --plotweaver-color-base-4: #263c5e;
-        --plotweaver-color-base-5: #456a95;
-        --plotweaver-color-base-6: #506684;
+            --cosmere-color-text-main: var(--cosmere-color-white);
+            --cosmere-color-text-sub: var(--cosmere-color-off-white-2);
+            --cosmere-color-text-accent: var(--cosmere-color-accent);
+        }
+
+        &.theme-light {            
+            --cosmere-banner-actor-top: url('assets/art/banner_actor_cosmere_top_light.webp');
+            --cosmere-banner-actor-bot: url('assets/art/banner_actor_cosmere_bot_light.webp');
+            --cosmere-banner-item-top: url('assets/art/banner_actor_cosmere_top_light.webp');
+            --cosmere-sheet-texture: url('assets/art/texture_sheet_cosmere_light.webp');
+
+            --cosmere-color-accent: #504538;
+            --cosmere-color-faded: #9c876e;
+            --cosmere-color-sheet: #d9cdbf;
+            --cosmere-color-neutral: var(--cosmere-color-light-2);
+            --cosmere-color-highlight: #ad6f41;
+
+            --cosmere-color-base-1: #c6b094;
+            --cosmere-color-base-2: #eadfd2;
+            --cosmere-color-base-3: #ddd2c5;
+            --cosmere-color-base-4: #aea499;
+            --cosmere-color-base-5: #7b6b57;
+            --cosmere-color-base-6: #596d79;
+
+            --cosmere-color-text-main: #2f4858;
+            --cosmere-color-text-sub: #374955;
+            --cosmere-color-text-accent: #504538;
+        }
     }
 }
 
 /* ----------------------------------------- */
 /*  Fonts                                    */
 /* ----------------------------------------- */
-@import url('https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap');
-
-@font-face {
-    font-family: 'Penumbra Web Pro';
-    font-style: normal;
-    font-weight: 400;
-    src: url('https://fonts.cdnfonts.com/css/penumbra-web-pro')
-}
-
-@font-face {
-    font-family: 'cosmere-dingbats';
-    src: url('https://dl.dropboxusercontent.com/scl/fi/9909gen4fd0oveyzfposx/CosmereDingbats-Regular.otf?rlkey=ig6odq9hxyo1st8kt3ujp1czz&st=72qrads3&raw=1');
-}
 
 .application h1,
-span.document-name {
-    font-family: 'Penumbra Web Pro';
-    font-variant: small-caps;
-
-    input {
-        font-variant: inherit;
-    }
-}
-
-.application h4 {
-    font-family: "Didact Gothic", sans-serif;
-}
-
-.application h5 {
-    font-family: "Didact Gothic", sans-serif;
+.application h4,
+.application h5,
+span.document-name {    
+    font-family: var(--cosmere-font-normal);
 }
 
 .application {
-    font-family: "Didact Gothic", sans-serif;
-    font-size: 10pt;
+    font-family: var(--cosmere-font-normal);
+    font-variant: lining-nums;
+    box-shadow: none;
+    filter: var(--cosmere-sheet-shadow);
+}
+
+.application p {
+    font-size: var(--font-size-13);
 }
 
 span.cosmere-icon,
 em.cosmere-icon,
 i.cosmere-icon {
-    font-family: 'cosmere-dingbats';
+    font-family: var(--cosmere-font-icons) !important;
+
+    &.complication-color {
+        color: var(--cosmere-color-complication-text);
+    }
 
     &.complication {
-        color: red;
+        color: var(--cosmere-color-complication);
 
         &::after {
             content: 'C';
         }
     }
 
+    &.opportunity-color {
+        color: var(--cosmere-color-opportunity-text);
+    }
+
     &.opportunity {
-        color: #98a4f5;
+        color: var(--cosmere-color-opportunity);
 
         &::after {
             content: 'O';

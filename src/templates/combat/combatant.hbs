@@ -1,7 +1,7 @@
-<li class="combatant actor directory-item flexrow {{this.css}}" data-combatant-id="{{this.id}}">
+<li class="combatant actor directory-item flexrow {{this.css}} {{this.turnSpeed}} {{#if this.defeated}}defeated{{/if}}" data-phase="{{this.turnSpeed}}" data-combatant-id="{{this.id}}">
     <img class="token-image" data-src="{{this.img}}" alt="{{this.name}}" />
     <div class="token-name flexcol">
-        <h4>{{this.name}}</h4>
+        <h4 class="combatant-name">{{this.name}}</h4>
         <div class="combatant-controls flexrow">
             {{#if @root.user.isGM}}
             <a class="combatant-control {{#if this.hidden}}active{{/if}}" aria-label="{{localize 'COMBAT.ToggleVis'}}"
@@ -39,10 +39,12 @@
         <span class="resource">{{this.resource}}</span>
     </div>
     {{/if}}
-    <div class="cosmere-combatant-buttons">
+    <div class="combatant-turn-controls">
         {{#if this.owner}}
-        <a class="cosmere-turn-speed-control" role="button" data-tooltip="COSMERE.Combat.ToggleTurn" data-control="toggleSpeed"></a>  
+        {{#unless this.isBoss}}
+        <a class="combatant-turn-speed-control {{this.turnSpeed}}" role="button" data-tooltip="COSMERE.Combat.ToggleTurn" data-control="toggleSpeed"></a>
+        {{/unless}} 
         {{/if}}
-        <a class="cosmere-activate-control {{#if this.activated}}cosmere-activate-control-activated{{/if}}" data-tooltip="COSMERE.Combat.Activate" {{#if this.owner}}data-control="activateCombatant"{{/if}}></a>    
+        <a class="combatant-turn-finish-control {{#if (getCombatActedState this)}}done{{/if}}" data-tooltip="COSMERE.Combat.Activate" {{#if this.owner}}data-control="activateCombatant"{{/if}}></a>    
     </div>
 </li>

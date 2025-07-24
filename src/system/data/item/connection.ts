@@ -6,13 +6,21 @@ import {
     DescriptionItemMixin,
     DescriptionItemData,
 } from './mixins/description';
+import { EventsItemMixin, EventsItemData } from './mixins/events';
+import {
+    RelationshipsMixin,
+    RelationshipsItemData,
+} from './mixins/relationships';
 
 /**
  * NOTE: Kept interface with no members for consistency with
  * other item data.
  */
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface ConnectionItemData extends DescriptionItemData {}
+
+export interface ConnectionItemData
+    extends DescriptionItemData,
+        EventsItemData,
+        RelationshipsItemData {}
 
 export class ConnectionItemDataModel extends DataModelMixin<
     ConnectionItemData,
@@ -21,6 +29,8 @@ export class ConnectionItemDataModel extends DataModelMixin<
     DescriptionItemMixin({
         value: 'COSMERE.Item.Type.Connection.desc_placeholder',
     }),
+    EventsItemMixin(),
+    RelationshipsMixin(),
 ) {
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), {});

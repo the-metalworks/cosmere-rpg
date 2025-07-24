@@ -1,0 +1,32 @@
+<div class="dice-roll collapsible">
+    <div class="dice-result">
+        <div class="collapsible-content">
+            <div class="dice-tooltip">
+                <div>
+                    <div class="dice-formula">{{formulaNormal}}</div>
+                    {{{tooltipNormal}}}
+                </div>
+                {{#if showGraze}}
+                <div>
+                    <div class="dice-formula graze">{{formulaGraze}}</div>
+                    {{{tooltipGraze}}}
+                </div>
+                {{/if}}
+            </div>
+        </div>
+        <div class="dice-roll-damage">
+            <h4 class="dice-total {{#if critical}}opportunity{{/if}}">
+                <div class="dice-subtotal left active">
+                    <span class="label">{{localize "DICE.Damage.Full"}}</span>
+                    <span class="value">{{totalNormal}}</span>
+                </div>
+                {{#if showGraze}}
+                <div class="dice-subtotal right ">
+                    <span class="label">{{localize "DICE.Damage.Graze"}}</span>
+                    <span class="value">{{totalGraze}}</span>
+                </div>
+                {{/if}}
+            </h4>
+        </div>
+    </div>
+</div>

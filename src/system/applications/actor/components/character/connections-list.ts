@@ -1,7 +1,9 @@
 import { ItemType } from '@system/types/cosmere';
 import { CosmereItem } from '@system/documents';
 import { ConnectionItemDataModel } from '@system/data/item';
-import { ConstructorOf } from '@system/types/utils';
+import { AnyObject, ConstructorOf } from '@system/types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
@@ -14,8 +16,7 @@ interface ConnectionItemState {
 export class CharacterConnectionsListComponent extends HandlebarsApplicationComponent<
     ConstructorOf<BaseActorSheet>
 > {
-    static TEMPLATE =
-        'systems/cosmere-rpg/templates/actors/character/components/connections-list.hbs';
+    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_CONNECTIONS_LIST}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions
@@ -35,7 +36,6 @@ export class CharacterConnectionsListComponent extends HandlebarsApplicationComp
 
     private contextConnectionId: string | null = null;
     private controlsDropdownExpanded = false;
-    private controlsDropdownPosition?: { top: number; right: number };
 
     /* --- Connections --- */
 
@@ -43,31 +43,37 @@ export class CharacterConnectionsListComponent extends HandlebarsApplicationComp
         this: CharacterConnectionsListComponent,
         event: PointerEvent,
     ) {
-        this.controlsDropdownExpanded = !this.controlsDropdownExpanded;
+        // Get connection id
+        const connectionId = $(event.currentTarget!)
+            .closest('[data-id]')
+            .data('id') as string;
 
-        if (this.controlsDropdownExpanded) {
-            // Get connection id
-            const connectionId = $(event.currentTarget!)
-                .closest('[data-id]')
-                .data('id') as string;
+        const target = event.currentTarget as HTMLElement;
+        const root = $(target).closest('.tab-body');
+        const dropdown = $(target)
+            .closest('.item-list')
+            .siblings('.controls-dropdown');
+
+        const targetRect = target.getBoundingClientRect();
+        const rootRect = root[0].getBoundingClientRect();
+
+        if (this.contextConnectionId !== connectionId) {
+            dropdown.css({
+                top: `${Math.round(targetRect.top - rootRect.top)}px`,
+                right: `${Math.round(rootRect.right - targetRect.right + targetRect.width)}px`,
+            });
+
+            if (!this.controlsDropdownExpanded) {
+                dropdown.addClass('expanded');
+                this.controlsDropdownExpanded = true;
+            }
 
             this.contextConnectionId = connectionId;
-
-            const target = (event.currentTarget as HTMLElement).closest(
-                '.connection',
-            )!;
-            const targetRect = target.getBoundingClientRect();
-            const rootRect = this.element!.getBoundingClientRect();
-
-            this.controlsDropdownPosition = {
-                top: targetRect.bottom - rootRect.top,
-                right: rootRect.right - targetRect.right,
-            };
-        } else {
+        } else if (this.controlsDropdownExpanded) {
+            dropdown.removeClass('expanded');
+            this.controlsDropdownExpanded = false;
             this.contextConnectionId = null;
         }
-
-        void this.render();
     }
 
     public static async onAddConnection(
@@ -92,8 +98,10 @@ export class CharacterConnectionsListComponent extends HandlebarsApplicationComp
         // Render
         await this.render();
 
-        // Edit the connection
-        this.editConnection(id);
+        setTimeout(() => {
+            // Edit the connection
+            this.editConnection(id);
+        }, 50);
     }
 
     public static async onRemoveConnection(
@@ -109,6 +117,8 @@ export class CharacterConnectionsListComponent extends HandlebarsApplicationComp
                 [this.contextConnectionId],
                 { render: false },
             );
+
+            this.contextConnectionId = null;
         }
 
         // Render
@@ -127,6 +137,8 @@ export class CharacterConnectionsListComponent extends HandlebarsApplicationComp
 
             // Show connection sheet
             void connection.sheet?.render(true);
+
+            this.contextConnectionId = null;
         }
 
         // Render
@@ -137,17 +149,29 @@ export class CharacterConnectionsListComponent extends HandlebarsApplicationComp
         this: CharacterConnectionsListComponent,
         event: Event,
     ) {
+        // Get connection element
+        const connectionElement = $(event.target!).closest('.item[data-id]');
+
         // Get connection id
-        const connectionId = $(event.currentTarget!)
-            .closest('[data-id]')
-            .data('id') as string;
+        const connectionId = connectionElement.data('id') as string;
 
         // Toggle expanded state
         this.connectionItemStates[connectionId].expanded =
             !this.connectionItemStates[connectionId].expanded;
 
-        // Render
-        void this.render();
+        connectionElement.toggleClass(
+            'expanded',
+            this.connectionItemStates[connectionId].expanded,
+        );
+
+        connectionElement
+            .find('a[data-action="toggle-expand-connection"')
+            .empty()
+            .append(
+                this.connectionItemStates[connectionId].expanded
+                    ? '<i class="fa-solid fa-compress"></i>'
+                    : '<i class="fa-solid fa-expand"></i>',
+            );
     }
 
     /* --- Context --- */
@@ -180,14 +204,13 @@ export class CharacterConnectionsListComponent extends HandlebarsApplicationComp
                         // NOTE: We use a logical OR here to catch both nullish values and empty string
                         // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
                         item.system.description?.value || '<p>—</p>',
+                        {
+                            relativeTo: (item as CosmereItem).system
+                                .parent as foundry.abstract.Document.Any,
+                        },
                     ),
                 })),
             ),
-
-            controlsDropdown: {
-                expanded: this.controlsDropdownExpanded,
-                position: this.controlsDropdownPosition,
-            },
         };
     }
 
@@ -195,21 +218,13 @@ export class CharacterConnectionsListComponent extends HandlebarsApplicationComp
 
     private editConnection(id: string) {
         // Get goal element
-        const element = $(this.element!).find(
-            `.connection:not(.details)[data-id="${id}"]`,
-        );
-
-        // Get span element
-        const span = element.find('span.title');
-
-        // Hide span title
-        span.addClass('inactive');
+        const element = $(this.element!).find(`.item[data-id="${id}"]`);
 
         // Get input element
-        const input = element.find('input.title');
+        const input = element.find('input.name');
 
-        // Show
-        input.removeClass('inactive');
+        // Set not readonly
+        input.prop('readonly', false);
 
         setTimeout(() => {
             // Focus input

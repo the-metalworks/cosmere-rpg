@@ -25,8 +25,17 @@ export class MappingField<
         if (foundry.utils.getType(value) !== 'Object')
             throw new Error('must be an Object');
         const errors = this._validateValues(value, options);
-        if (!foundry.utils.isEmpty(errors))
-            throw new foundry.data.validation.DataModelValidationError(errors);
+        if (!foundry.utils.isEmpty(errors)) {
+            // Create validatior failure
+            const failure =
+                new foundry.data.validation.DataModelValidationFailure();
+
+            // Set fields
+            failure.fields = errors;
+
+            // Throw error
+            throw new foundry.data.validation.DataModelValidationError(failure);
+        }
     }
 
     protected _validateValues(
@@ -35,10 +44,13 @@ export class MappingField<
     ) {
         const errors: Record<
             string,
-            foundry.data.fields.DataModelValidationFailure
+            foundry.data.validation.DataModelValidationFailure
         > = {};
         Object.entries(value).forEach(([key, v]) => {
-            const error = this.model.validate(v, options);
+            const error = this.model.validate(
+                v,
+                options,
+            ) as foundry.data.validation.DataModelValidationFailure | null;
             if (error) errors[key] = error;
         });
         return errors;

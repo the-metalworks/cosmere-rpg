@@ -1,0 +1,75 @@
+{{!-- Pick --}}
+<div class="form-group">
+    <label>
+        {{localize handler.schema.fields.pick.label}}
+        <i class="info fa-regular fa-circle-question" 
+            data-tooltip="{{localize handler.schema.fields.pick.hint}}"
+        ></i>
+    </label>
+    <div class="form-fields">
+        {{formInput handler.schema.fields.pick
+            name="handler.pick"
+            value=handler.pick
+        }}
+    </div>
+</div>
+
+{{#if handler.pick}}
+    {{!-- Pick Amount --}}
+    <div class="form-group">
+        <label>
+            {{localize handler.schema.fields.pickAmount.label}}
+            <i class="info fa-regular fa-circle-question" 
+                data-tooltip="{{localize handler.schema.fields.pickAmount.hint}}"
+            ></i>
+        </label>
+        <div class="form-fields">
+            {{formInput handler.schema.fields.pickAmount
+                name="handler.pickAmount"
+                value=handler.pickAmount
+            }}
+        </div>
+    </div>
+{{else}}
+    {{app-expertises-list 
+        value=handler.expertises
+        name="handler.expertises"
+        collapsable=false
+    }}
+
+    {{!-- Allow replacement --}}
+    <div class="form-group">
+        <label>
+            {{localize handler.schema.fields.allowReplacement.label}}
+            <i class="info fa-regular fa-circle-question" 
+                data-tooltip="{{localize handler.schema.fields.allowReplacement.hint}}"
+            ></i>
+        </label>
+        <div class="form-fields">
+            {{formInput handler.schema.fields.allowReplacement
+                name="handler.allowReplacement"
+                value=handler.allowReplacement
+            }}
+        </div>
+    </div>
+
+{{/if}}
+
+{{#if (or handler.pick handler.allowReplacement)}}
+    {{!-- Available Types --}}
+    <div class="form-group">
+        <label>
+            {{localize handler.schema.fields.availableTypes.label}}
+            <i class="info fa-regular fa-circle-question" 
+                data-tooltip="{{localize handler.schema.fields.availableTypes.hint}}"
+            ></i>
+        </label>
+        <div class="form-fields">
+            {{app-multi-value-select
+                name="handler.availableTypes"
+                value=handler.availableTypes
+                options=handler.schema.fields.availableTypes.element.choices
+            }}
+        </div>
+    </div>
+{{/if}}

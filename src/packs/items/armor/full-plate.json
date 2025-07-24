@@ -1,0 +1,46 @@
+{
+    "_id": "t97DN6FAh7BMNvcP",
+    "folder": "TIgbgwcilBiHWeD3",
+    "name": "Full Plate",
+    "type": "armor",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/items/foundry_items/ICON_Full_Plate.webp",
+    "system": {
+        "id": "full-plate",
+        "deflect": 4,
+        "description": {
+            "value": "<p><strong>Deflect Value</strong> 4; <strong>Traits</strong> Cumbersome [5]; <strong>Expert Traits</strong> —;</p><p><strong>Price</strong> 1,600 mk; <strong>Weight</strong> 55 lb.;</p>",
+            "chat": ""
+        },
+        "traits": {
+            "cumbersome": {
+                "defaultActive": true,
+                "defaultValue": 5
+            }
+        },
+        "equipped": false,
+        "alwaysEquipped": false,
+        "expertise": false,
+        "weight": {
+            "value": 55,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 1600,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark"
+            }
+        },
+        "equip": {
+            "type": "wear"
+        },
+        "quantity": 1
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!t97DN6FAh7BMNvcP"
+}

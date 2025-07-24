@@ -1,6 +1,8 @@
 import { DamageType, Skill, Attribute } from '@system/types/cosmere';
 import { CosmereActorRollData } from '@system/documents/actor';
 import { AdvantageMode } from '@system/types/roll';
+import RollTerm from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/client-esm/dice/terms/term.mjs';
+import { CosmereItem } from '../documents';
 
 export type DamageRollData<
     ActorRollData extends CosmereActorRollData = CosmereActorRollData,
@@ -15,6 +17,11 @@ export type DamageRollData<
         attribute: Attribute;
     };
     attribute?: number;
+    damage?: {
+        total: DamageRoll;
+        unmodded: DamageRoll;
+        dice: DamageRoll;
+    };
 };
 
 export interface DamageRollOptions
@@ -34,6 +41,21 @@ export interface DamageRollOptions
      * @default AdvantageMode.None
      */
     advantageMode?: AdvantageMode;
+
+    /**
+     * Where did this damage come from?
+     */
+    damageSourceName?: string;
+
+    /**
+     * Nested Roll item for graze damage
+     */
+    graze?: DamageRoll;
+
+    /**
+     * Indicates if the damage should be a critical
+     */
+    critical?: boolean;
 }
 
 export class DamageRoll extends foundry.dice.Roll<DamageRollData> {
@@ -61,6 +83,18 @@ export class DamageRoll extends foundry.dice.Roll<DamageRollData> {
         return this.options.mod;
     }
 
+    get damageSourceName(): string | undefined {
+        return this.options.damageSourceName;
+    }
+
+    get graze(): DamageRoll | undefined {
+        return this.options.graze;
+    }
+
+    set graze(roll: DamageRoll) {
+        this.options.graze = roll;
+    }
+
     public get hasMod() {
         return this.options.mod !== undefined;
     }
@@ -79,7 +113,101 @@ export class DamageRoll extends foundry.dice.Roll<DamageRollData> {
         return this.options.advantageMode === AdvantageMode.Disadvantage;
     }
 
+    /**
+     * Whether or not the damage roll is a critical hit
+     */
+    public get isCritical() {
+        return this.options.critical === true;
+    }
+
+    public get hasDice() {
+        return this.dice.length > 0;
+    }
+
+    /* --- Functions --- */
+
+    public override async getTooltip(): Promise<string> {
+        const tooltip = await super.getTooltip();
+
+        if (tooltip) {
+            const diceRolls = $(tooltip).find('.roll.die');
+            const firstPart = $(tooltip).find('.tooltip-part').first();
+
+            let total = 0;
+            $(tooltip)
+                .find('.value')
+                .each((_index, value) => {
+                    total += Number($(value).text());
+                });
+
+            firstPart.find('.dice-rolls').empty().append(diceRolls);
+            firstPart.find('.value').text(total);
+
+            const tooltipFinal = $(tooltip)
+                .find('.dice-tooltip')
+                .empty()
+                .append(firstPart);
+
+            return tooltipFinal[0].outerHTML;
+        }
+
+        // Get dice terms
+        const parts = [
+            {
+                formula: this.formula,
+                total: this.total,
+                rolls: [], // There are no dice, otherwise the default tooltip would have been returned
+            },
+        ];
+
+        // Render the template
+        const rendered = await renderTemplate(
+            foundry.dice.Roll.TOOLTIP_TEMPLATE,
+            {
+                parts,
+            },
+        );
+
+        return rendered;
+    }
+
+    /* --- Helper Functions --- */
+
+    public removeTermSafely(
+        conditional: (
+            value: RollTerm,
+            index: number,
+            obj: RollTerm[],
+        ) => boolean,
+    ) {
+        this.terms.findSplice(conditional);
+        this.cleanUpTerms();
+    }
+
+    public filterTermsSafely(
+        condition: (value: RollTerm, index: number, obj: RollTerm[]) => boolean,
+    ) {
+        this.terms = this.terms.filter(condition);
+        this.cleanUpTerms();
+    }
+
+    public replaceDieResults(sourceDicePool: foundry.dice.terms.DiceTerm[]) {
+        sourceDicePool.forEach((die, index) => {
+            this.dice[index].results = die.results;
+        });
+        this._total = this._evaluateTotal();
+    }
+
     /* --- Internal Functions --- */
+
+    private cleanUpTerms() {
+        while (
+            this.terms[this.terms.length - 1] instanceof
+            foundry.dice.terms.OperatorTerm
+        )
+            this.terms.pop();
+        this.resetFormula();
+    }
 
     private configureModifiers() {
         // Find the first die term
@@ -93,14 +221,24 @@ export class DamageRoll extends foundry.dice.Roll<DamageRollData> {
             const modifier = this.hasAdvantage ? 'kh' : 'kl';
 
             if (dieTerm.number && dieTerm.number > 1) {
+                // Remove one die from the original
+                dieTerm.number -= 1;
+
+                // Create a new term with the modifier
                 const newTerm = new foundry.dice.terms.Die({
-                    number: 1,
+                    number: 2,
                     faces: dieTerm.faces,
                     modifiers: [modifier],
                 });
 
-                this.terms.push(newTerm);
+                this.terms.push(
+                    new foundry.dice.terms.OperatorTerm({
+                        operator: '+',
+                    }),
+                    newTerm,
+                );
             } else if (dieTerm.number === 1) {
+                dieTerm.number = 2;
                 dieTerm.modifiers.push(modifier);
             }
         }

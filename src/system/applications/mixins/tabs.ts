@@ -1,4 +1,4 @@
-import { ConstructorOf } from '@system/types/utils';
+import { ConstructorOf, AnyObject } from '@system/types/utils';
 
 // Constants
 const PRIMARY_TAB_GROUP = 'primary';
@@ -27,6 +27,22 @@ export interface ApplicationTab {
      * @default 'primary'
      */
     group?: string;
+
+    /**
+     * Whether this tab is enabled or not.
+     * If this is set to false, the tab will not be shown in the UI.
+     *
+     * @default true
+     */
+    enabled?: boolean;
+}
+
+export interface TabApplicationRenderOptions
+    extends foundry.applications.api.ApplicationV2.RenderOptions {
+    /**
+     * The initial tab to show for the primary tab group, when rendering the application.
+     */
+    tab?: string;
 }
 
 /**
@@ -48,13 +64,57 @@ export function TabsApplicationMixin<
 
         public tabGroups: Record<string, string> = {};
 
+        private _tabs?: Record<string, ApplicationTab>;
+
+        public get tab(): string {
+            return this.tabGroups[PRIMARY_TAB_GROUP] ?? '';
+        }
+
+        public get tabs(): Record<string, ApplicationTab> {
+            if (!this._tabs)
+                this._tabs = (this.constructor as typeof mixin).TABS;
+
+            return this._tabs;
+        }
+
+        public override changeTab(
+            tab: string,
+            group: string,
+            options?: AnyObject,
+        ): void {
+            super.changeTab(tab, group, options);
+
+            // Invoke tab change
+            this.onTabChange(tab, group);
+        }
+
+        /* --- Lifecycle --- */
+
+        protected onTabChange(tab: string, group: string) {}
+
         /* --- Context --- */
+
+        protected _onFirstRender(
+            context: unknown,
+            options: TabApplicationRenderOptions,
+        ): void {
+            super._onFirstRender(context, options);
+
+            // Set the initial tab for the primary tab group
+            if (
+                options.tab &&
+                this.tabGroups[PRIMARY_TAB_GROUP] !== options.tab &&
+                this.tabs[options.tab]
+            ) {
+                this.changeTab(options.tab, PRIMARY_TAB_GROUP);
+            }
+        }
 
         public async _prepareContext(
             options: Partial<foundry.applications.api.ApplicationV2.RenderOptions>,
         ) {
             // Get tabs list
-            const tabsList = (this.constructor as typeof mixin).TABS;
+            const tabsList = this.tabs;
 
             // Construct tabs data
             const tabsData = Object.entries(tabsList)
@@ -81,16 +141,18 @@ export function TabsApplicationMixin<
             });
 
             // Construct tabs
-            const tabs = tabsData.map((tab) => {
-                const active = this.tabGroups[tab.group] === tab.id;
-                const cssClass = active ? 'active' : '';
+            const tabs = tabsData
+                .map((tab) => {
+                    const active = this.tabGroups[tab.group] === tab.id;
+                    const cssClass = active ? 'active' : '';
 
-                return {
-                    ...tab,
-                    active,
-                    cssClass,
-                };
-            });
+                    return {
+                        ...tab,
+                        active,
+                        cssClass,
+                    };
+                })
+                .filter((tab) => tab.enabled !== false);
 
             // Construct tabs map
             const tabsMap = tabs.reduce(

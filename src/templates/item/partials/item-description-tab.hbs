@@ -1,20 +1,64 @@
 {{#with (lookup tabsMap "description") as |tab|}}
-
 <div class="tab tab-content {{tab.cssClass}}" data-tab="description" data-group="primary">
-    {{app-item-properties}}
-    {{#if @root.editable}}
-    <prose-mirror name="system.description.value" 
-        data-document-u-u-i-d="{{@root.item.uuid}}"
-        value="{{@root.item.system.description.value}}"
-        toggled="true"
-        collaborate="true">
-        {{{@root.descHtml}}}
+    {{#if @root.isUpdatingDescription}}
+    <prose-mirror name="{{@root.proseDescName}}" data-document-u-u-i-d="{{@root.item.uuid}}"
+         value = "{{@root.proseDescHtml}}" collaborate="true">
+        {{{@root.proseDescHtml}}}
     </prose-mirror>
     {{else}}
-    <div class="description-content-flat">
-        {{{@root.descHtml}}}
+    <div class="html-field-list">
+        <div class="html-field collapsible {{#if @root.expandDefault}}expanded{{/if}}" description-type="value">
+            <h2 class="header">
+                <span class="title">{{localize "COSMERE.Sheet.Descriptions.DescriptionHeader"}}</span>
+                {{#if @root.editable}}
+                <a role="button" data-action="edit-description" data-tooltip="COSMERE.Sheet.Descriptions.Edit">
+                    <i class="edit-img fa-solid fa-feather"></i>
+                </a>
+                {{else}}
+                <a><i class="fa-solid fa-lock"></i></a>
+                {{/if}}
+            </h2>
+            <div class="collapsible-content">
+                <div class="wrapper">
+                    {{{@root.descHtml}}}
+                </div>
+            </div>
+        </div>
+        <div class="html-field collapsible" description-type="short">
+            <h2 class="header">
+                <span class="title">{{localize "COSMERE.Sheet.Descriptions.ShortHeader"}}</span>
+                {{#if @root.editable}}
+                <a role="button" data-action="edit-description" data-tooltip="COSMERE.Sheet.Descriptions.Edit">
+                    <i class="edit-img fa-solid fa-feather"></i>
+                </a>
+                {{else}}
+                <a><i class="fa-solid fa-lock"></i></a>
+                {{/if}}
+            </h2>
+            <div class="collapsible-content">
+                <div class="wrapper">
+                    {{{@root.shortDescHtml}}}
+                </div>
+            </div>
+        </div>
+        <div class="html-field collapsible" description-type="chat">
+            <h2 class="header">
+                <span class="title">{{localize "COSMERE.Sheet.Descriptions.ChatHeader"}}</span>
+                {{#if @root.editable}}
+                <a role="button" data-action="edit-description" data-tooltip="COSMERE.Sheet.Descriptions.Edit">
+                    <i class="edit-img fa-solid fa-feather"></i>
+                </a>
+                {{else}}
+                <a><i class="fa-solid fa-lock"></i></a>
+                {{/if}}
+            </h2>
+            <div class="collapsible-content">
+                <div class="wrapper">
+                    {{{@root.chatDescHtml}}}
+                </div>
+            </div>
+        </div>
     </div>
     {{/if}}
 </div>
-
 {{/with}}

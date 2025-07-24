@@ -19,22 +19,27 @@ export const enum CreatureType {
 /**
  * A non-exhaustive list of conditions
  */
-export const enum Condition {
+export const enum Status {
     Afflicted = 'afflicted',
+    Blind = 'blind',
+    Burrowing = 'burrowing',
     Determined = 'determined',
     Disoriented = 'disoriented',
     Empowered = 'empowered',
     Enhanced = 'enhanced',
     Exhausted = 'exhausted',
-    Encumbered = 'encumbered',
+    Flying = 'flying',
     Focused = 'focused',
+    Hidden = 'hidden',
     Immobilized = 'immobilized',
+    Invisible = 'invisible',
     Prone = 'prone',
     Restrained = 'restrained',
     Slowed = 'slowed',
     Stunned = 'stunned',
     Surprised = 'surprised',
-    Unconcious = 'unconcious',
+    Unconscious = 'unconscious',
+    Dead = 'dead',
 }
 
 export const enum InjuryType {
@@ -66,7 +71,7 @@ export const enum Resource {
     Investiture = 'inv',
 }
 
-export const enum Skill {
+export enum Skill {
     Agility = 'agi',
     Athletics = 'ath',
     HeavyWeapons = 'hwp',
@@ -88,6 +93,7 @@ export const enum Skill {
     Persuasion = 'prs',
     Survival = 'sur',
 }
+// export type Skill = (typeof Skills)[keyof typeof Skills];
 
 export const enum DerivedStatistic {
     MovementRate = 'mvr',
@@ -97,6 +103,10 @@ export const enum DerivedStatistic {
 
 export const enum PathType {
     Heroic = 'heroic',
+}
+
+export const enum PowerType {
+    None = 'none',
 }
 
 /**
@@ -167,6 +177,7 @@ export const enum ArmorTraitId {
     Cumbersome = 'cumbersome',
     Dangerous = 'dangerous',
     Presentable = 'presentable',
+    Unique = 'unique',
 }
 
 export const enum AdversaryRole {
@@ -222,6 +233,7 @@ export const enum EquipmentType {
 export const enum ActionType {
     Basic = 'basic',
     Ancestry = 'ancestry',
+    Adversary = 'adversary',
 }
 
 export const enum ActionCostType {
@@ -236,13 +248,29 @@ export const enum AttackType {
     Ranged = 'ranged',
 }
 
-export const enum DamageType {
+export enum DamageType {
     Energy = 'energy',
     Impact = 'impact',
     Keen = 'keen',
     Spirit = 'spirit',
     Vital = 'vital',
     Healing = 'heal',
+}
+
+export const enum MovementType {
+    Walk = 'walk',
+    Swim = 'swim',
+    Fly = 'fly',
+}
+
+export const enum RestType {
+    Short = 'short',
+    Long = 'long',
+}
+
+export const enum ImmunityType {
+    Damage = 'damage',
+    Condition = 'condition',
 }
 
 /* --- System --- */
@@ -269,9 +297,18 @@ export const enum ItemType {
 
     Injury = 'injury',
     Connection = 'connection',
+    Goal = 'goal',
+
+    Power = 'power',
+
+    TalentTree = 'talent_tree',
 }
 
 export const enum TurnSpeed {
     Fast = 'fast',
     Slow = 'slow',
+}
+
+export const enum Theme {
+    Default = 'default',
 }

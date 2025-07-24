@@ -1,4 +1,4 @@
-import { PathType } from '@system/types/cosmere';
+import { PathType, Skill } from '@system/types/cosmere';
 import { CosmereItem } from '@system/documents/item';
 
 // Mixins
@@ -9,11 +9,28 @@ import {
     DescriptionItemMixin,
     DescriptionItemData,
 } from './mixins/description';
+import {
+    TalentsProviderMixin,
+    TalentsProviderData,
+} from './mixins/talents-provider';
+import { EventsItemMixin, EventsItemData } from './mixins/events';
+import {
+    LinkedSkillsMixin,
+    LinkedSkillsItemData,
+} from './mixins/linked-skills';
+import {
+    RelationshipsMixin,
+    RelationshipsItemData,
+} from './mixins/relationships';
 
 export interface PathItemData
     extends IdItemData,
         TypedItemData<PathType>,
-        DescriptionItemData {}
+        DescriptionItemData,
+        TalentsProviderData,
+        EventsItemData,
+        LinkedSkillsItemData,
+        RelationshipsItemData {}
 
 export class PathItemDataModel extends DataModelMixin<
     PathItemData,
@@ -35,6 +52,10 @@ export class PathItemDataModel extends DataModelMixin<
     DescriptionItemMixin({
         value: 'COSMERE.Item.Type.Path.desc_placeholder',
     }),
+    TalentsProviderMixin(),
+    EventsItemMixin(),
+    LinkedSkillsMixin(),
+    RelationshipsMixin(),
 ) {
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), {

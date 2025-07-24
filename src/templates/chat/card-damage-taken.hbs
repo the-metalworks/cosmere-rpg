@@ -1,0 +1,14 @@
+<section class="chat-card-section description {{type}}">
+    <header class="summary">
+        <img src="{{img}}">
+        <div class="name-stacked">
+            <span class="title {{#unless undo}}undone{{/unless}}">{{{title}}}</span>
+            {{#if subtitle}}
+            <span class="subtitle">{{{subtitle}}}</span>
+            {{/if}}
+        </div>
+        {{#if undo}}
+        <span class="icon clickable" data-action="undo" data-tooltip="{{localize tooltip}}"><i class="fas fa-rotate-left"></i></span>
+        {{/if}}
+    </header>
+</section>

@@ -1,27 +1,48 @@
-{{#if ancestry}}
-    <div class="ancestry"
-        data-action="view"
-    >
-        <span class="name">{{ancestry.label}}</span>
-        <span class="item-type">{{localize "COSMERE.Item.Type.Ancestry.label"}}</span>
-    </div>
-    {{#if isEditMode}}
-    <div class="controls">
-        <a data-action="remove"
-            data-tooltip="GENERIC.Button.Remove"
-        >
-            <i class="fa-solid fa-xmark"></i>
-        </a>
-    </div>
-    {{/if}}
+{{#if hasAncestry}}
+    <div class="border-box">
+        <div class="wrapper">
+            <div class="details">
+                <div class="title" data-action="view">        
+                    <span class="name">
+                        {{ancestry.label}}            
+                        {{#if isEditMode}}
+                            <div class="controls">
+                                <a data-action="remove"
+                                    data-tooltip="GENERIC.Button.Remove"
+                                >
+                                    <i class="fa-solid fa-xmark"></i>
+                                </a>
+                            </div>
+                        {{/if}}
+                    </span>
+                    <span class="item-type">{{localize "COSMERE.Item.Type.Ancestry.label"}}</span>        
+                </div> 
+            </div> 
 
-    {{#if ancestry.img}}
-    <div class="background-img">
-        <img src="{{ancestry.img}}">
-    </div>
-    {{/if}}
+            {{!-- Skills --}}
+            {{#if (gt ancestry.skills.length 0)}}
+                <ul class="skill-list">
+                    {{#each ancestry.skills as |skill|}}
+                        <li class="skill" data-id="{{skill.id}}">
+                            {{app-actor-skill
+                                skill=skill.id
+                                readonly=(not @root.isEditMode)
+                                pips=true
+                            }}
+                        </li>
+                    {{/each}}
+                </ul>
+            {{/if}}
+        </div>
+        {{#if ancestry.img}}
+            <div class="background-img">
+                <img src="{{ancestry.img}}">
+            </div>
+        {{/if}}  
+    </div>    
+    {{> box-corners }}    
 {{else}}
-    <div class="ancestry placeholder">
+    <div class="ancestry drop-area">
         <span>{{localize "COSMERE.Actor.Sheet.AncestryPlaceholder"}}</span>
     </div>
 {{/if}}

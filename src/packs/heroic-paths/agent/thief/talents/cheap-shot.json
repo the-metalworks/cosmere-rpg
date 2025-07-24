@@ -1,0 +1,78 @@
+{
+    "folder": "IqFt10TYMzgp9rqM",
+    "name": "Cheap Shot",
+    "type": "talent",
+    "_id": "RJe0IHplvdkRGgM5",
+    "img": "icons/skills/melee/strike-sword-stabbed-brown.webp",
+    "system": {
+        "id": "cheap-shot",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span style=\"font-family: 'Cosmere Dingbats'\">1</span></p><p><em>You know exactly where to strike to leave your foe reeling in pain. Some might not view it as sporting, but it certainly works.</em></p><p>Spend 1 focus to make an unarmed attack using <strong>Thievery</strong> against the Cognitive defense of an enemy of your size or smaller, raising the stakes when you do. On a hit, the target also becomes <strong>Stunned</strong> until the end of their next turn. On a hit or graze, you can also spend <span class=\"cosmere-icon\" style=\"color: #98a4f5;\" data-tooltip=\"Opportunity\" aria-label=\"Opportunity\">O</span> to steal one item on the target’s person that they aren’t holding or wielding. The exact item you can steal is up to the GM’s discretion.</p>",
+            "chat": "<p><strong>Activation:</strong> <span style=\"font-family: 'Cosmere Dingbats'\">1</span></p><p>Spend 1 focus to make an unarmed attack with <strong>Thievery</strong> vs. Cognitive, raising the stakes. On a hit, the target is <strong>Stunned</strong>.</p>",
+            "short": "<p><strong>Activation:</strong> <span style=\"font-family: 'Cosmere Dingbats'\">1</span></p><p>Spend 1 focus to make an unarmed attack using <strong>Thievery</strong> against the Cognitive defense of an enemy of your size or smaller, raising the stakes when you do. On a hit, the target also becomes <strong>Stunned</strong> until the end of their next turn. On a hit or graze, you can also spend <span class=\"cosmere-icon\" style=\"color: #98a4f5;\" data-tooltip=\"Opportunity\" aria-label=\"Opportunity\">O</span> to steal one item on the target’s person that they aren’t holding or wielding. The exact item you can steal is up to the GM’s discretion.</p>"
+        },
+        "activation": {
+            "type": "skill_test",
+            "cost": {
+                "value": 1,
+                "type": "act"
+            },
+            "consume": [
+                {
+                    "type": "resource",
+                    "value": {
+                        "min": 1,
+                        "max": 1,
+                        "actual": 0
+                    },
+                    "resource": "foc"
+                }
+            ],
+            "flavor": "",
+            "uses": null,
+            "skill": "thv",
+            "attribute": null,
+            "plotDie": true,
+            "opportunity": null,
+            "complication": null,
+            "modifierFormula": ""
+        },
+        "path": "agent",
+        "hasPath": false,
+        "specialty": "thief",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "VvR6M6QDnXNHDnFC": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "talents": [
+                    {
+                        "id": "opportunist",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.ScqSKbkewDAfSizP",
+                        "label": "Opportunist"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "damage": {
+            "formula": "@scalar.damage.unarmed",
+            "type": "impact",
+            "skill": "thv",
+            "attribute": null
+        },
+        "modality": null
+    },
+    "effects": [],
+    "sort": 100000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!RJe0IHplvdkRGgM5"
+}

@@ -2,19 +2,23 @@
     "id": "cosmere-rpg",
     "title": "Cosmere Roleplaying Game",
     "description": "A community-developed system for playing the Cosmere Roleplaying Game, by Dragonsteel Entertainment and Brotherwise Games.",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "compatibility": {
         "minimum": "12",
         "verified": "12"
     },
     "authors": [
         {
-            "name": "Stan",
-            "discord": "stanvdb"
+            "name": "The Metalworks",
+            "url": "https://github.com/the-metalworks"
         }
     ],
-    "esmodules": ["index.js"],
-    "styles": ["output.css"],
+    "esmodules": [
+        "index.js"
+    ],
+    "styles": [
+        "output.css"
+    ],
     "documentTypes": {
         "Actor": {
             "character": {},
@@ -25,28 +29,129 @@
             "armor": {},
             "equipment": {},
             "loot": {},
-
             "ancestry": {},
             "culture": {},
             "path": {},
             "specialty": {},
             "talent": {},
             "trait": {},
-
             "action": {},
-
             "injury": {},
-            "connection": {}
+            "connection": {},
+            "goal": {},
+            "power": {},
+            "talent_tree": {}
         }
     },
     "packs": [
+        {
+            "name": "starter-rules",
+            "label": "Stormlight Starter Rules",
+            "path": "packs/starter-rules",
+            "type": "JournalEntry",
+            "system": "cosmere-rpg",
+            "ownership": {
+                "PLAYER": "OBSERVER",
+                "ASSISTANT": "OWNER"
+            },
+            "flags": {
+                "cosmere-rpg": {
+                    "defaultSortingMode": "m"
+                }
+            }
+        },
+        {
+            "name": "items",
+            "label": "Items",
+            "path": "packs/items",
+            "type": "Item",
+            "system": "cosmere-rpg",
+            "ownership": {
+                "PLAYER": "OBSERVER",
+                "ASSISTANT": "OWNER"
+            }
+        },
+        {
+            "name": "ancestries",
+            "label": "Ancestries",
+            "path": "packs/ancestries",
+            "type": "Item",
+            "system": "cosmere-rpg",
+            "ownership": {
+                "PLAYER": "OBSERVER",
+                "ASSISTANT": "OWNER"
+            }
+        },
+                {
+            "name": "cultures",
+            "label": "Cultures",
+            "path": "packs/cultures",
+            "type": "Item",
+            "system": "cosmere-rpg",
+            "ownership": {
+                "PLAYER": "OBSERVER",
+                "ASSISTANT": "OWNER"
+            }
+        },
+        {
+            "name": "heroic-paths",
+            "label": "Heroic Paths",
+            "path": "packs/heroic-paths",
+            "type": "Item",
+            "system": "cosmere-rpg",
+            "ownership": {
+                "PLAYER": "OBSERVER",
+                "ASSISTANT": "OWNER"
+            }
+        },
+        {
+            "name": "actions",
+            "label": "Actions",
+            "path": "packs/actions",
+            "type": "Item",
+            "system": "cosmere-rpg",
+            "ownership": {
+                "PLAYER": "OBSERVER",
+                "ASSISTANT": "OWNER"
+            }
+        },
+        {
+            "name": "companions-and-adversaries",
+            "label": "Companions and Adversaries",
+            "path": "packs/companions-and-adversaries",
+            "type": "Actor",
+            "ownership": {
+                "PLAYER": "OBSERVER",
+                "ASSISTANT": "OWNER"
+            },
+            "system": "cosmere-rpg"
+        },
         {
             "name": "tables",
             "label": "Roll Tables",
             "system": "cosmere-rpg",
             "path": "packs/tables",
             "type": "RollTable",
-            "private": false
+            "ownership": {
+                "PLAYER": "OBSERVER",
+                "ASSISTANT": "OWNER"
+            }
+        }
+    ],
+    "packFolders": [
+        {
+            "name": "Stormlight Starter Rules",
+            "sorting": "m",
+            "color": "#141f3c",
+            "packs": [
+                "heroic-paths",
+                "actions",
+                "items",
+                "companions-and-adversaries",
+                "tables",
+                "ancestries",
+                "cultures"
+            ]
         }
     ],
     "languages": [
@@ -66,5 +171,8 @@
         "distance": 5,
         "units": "ft"
     },
-    "url": "https://github.com/stanavdb/cosmere-rpg"
+    "background": "systems/cosmere-rpg/assets/art/foundry_setup_Cosmere_RPG.webp",
+    "url": "https://github.com/the-metalworks/cosmere-rpg",
+    "manifest": "https://raw.githubusercontent.com/the-metalworks/cosmere-rpg/main/src/system.json",
+    "download": "https://github.com/the-metalworks/cosmere-rpg/releases/download/release-1.0.0/cosmere-rpg-release-1.0.0.zip"
 }

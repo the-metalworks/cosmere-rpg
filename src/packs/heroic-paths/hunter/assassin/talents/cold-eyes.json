@@ -1,0 +1,63 @@
+{
+    "folder": "btpKhtBwuaK6NeFy",
+    "name": "Cold Eyes",
+    "type": "talent",
+    "_id": "JmIEtx2VKgUtOdHJ",
+    "img": "icons/magic/unholy/silhouette-robe-evil-power.webp",
+    "system": {
+        "id": "cold-eyes",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p><em>As you eliminate one target, your gaze instinctively slides to the next threat.</em></p><p>After you kill or incapacitate an enemy who is your quarry, you recover 1 focus and can designate another enemy you can sense as your quarry for your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.3nfGn0BOeLq5qgEr]{Seek Quarry} talent. At the GM’s discretion, you might not be able to use this talent on some characters, such as those who pose no threat.</p>",
+            "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>After you defeat your quarry, recover 1 focus and choose a new quarry.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\">8</span></p><p>After you kill or incapacitate an enemy who is your quarry, you recover 1 focus and can designate another enemy you can sense as your quarry for your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.3nfGn0BOeLq5qgEr]{Seek Quarry} talent. At the GM’s discretion, you might not be able to use this talent on some characters, such as those who pose no threat.</p>"
+        },
+        "activation": {
+            "type": "none",
+            "cost": {
+                "value": null
+            },
+            "consume": [],
+            "flavor": "",
+            "plotDie": false,
+            "uses": null,
+            "opportunity": null,
+            "complication": null
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "path": "hunter",
+        "hasPath": false,
+        "specialty": "assassin",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "cGBXLII1ztRaMKo3": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "mode": "any-of",
+                "talents": [
+                    {
+                        "id": "shadowing",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.pyzg1mMZKWhEnaDX",
+                        "label": "Shadowing"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "modality": null
+    },
+    "effects": [],
+    "sort": 100000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!JmIEtx2VKgUtOdHJ"
+}

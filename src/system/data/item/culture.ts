@@ -7,8 +7,22 @@ import {
     DescriptionItemMixin,
     DescriptionItemData,
 } from './mixins/description';
+import { EventsItemMixin, EventsItemData } from './mixins/events';
+import {
+    LinkedSkillsMixin,
+    LinkedSkillsItemData,
+} from './mixins/linked-skills';
+import {
+    RelationshipsMixin,
+    RelationshipsItemData,
+} from './mixins/relationships';
 
-export interface CultureItemData extends IdItemData, DescriptionItemData {}
+export interface CultureItemData
+    extends IdItemData,
+        DescriptionItemData,
+        EventsItemData,
+        LinkedSkillsItemData,
+        RelationshipsItemData {}
 
 export class CultureItemDataModel extends DataModelMixin<
     CultureItemData,
@@ -21,6 +35,9 @@ export class CultureItemDataModel extends DataModelMixin<
     DescriptionItemMixin({
         value: 'COSMERE.Item.Type.Culture.desc_placeholder',
     }),
+    EventsItemMixin(),
+    LinkedSkillsMixin(),
+    RelationshipsMixin(),
 ) {
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), {});

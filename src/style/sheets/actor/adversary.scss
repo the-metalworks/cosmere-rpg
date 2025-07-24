@@ -1,37 +1,57 @@
-.sheet.actor.adversary {
-    section.skills {
-        margin-top: 1rem;
-        min-height: 0;
-        display: flex;
-        flex-direction: column;
+.application.sheet.actor.adversary {
+    --border-tier-svg: url('assets/icons/svg/sheet/border_tier.svg');
+    --mask-tier-svg: url('assets/icons/svg/sheet/mask_tier.svg');
 
-        header {
-            display: flex;
-            margin-bottom: 0.25rem;
+    max-width: 800px;
+    max-height: 800px;
 
-            span {
-                flex: 1;
-            }
+    .sheet-header {
+        .title {
+            .details {                
+                color: var(--cosmere-color-text-sub);
+                display: flex;
+                align-items: center;
+                gap: 0.375rem;
 
-            a {
-                width: 1rem;
-                margin-left: 0.25rem;
+                select {
+                    text-transform: uppercase;
+                    width: auto;
+                    height: auto;
+                    line-height: normal;
+                }
             }
         }
 
-        section {
-            min-height: 0;
-            overflow-y: auto;
+        .level {
+            .container {
+                width: 42px;
+                height: 42px;
+
+                .background {
+                    mask: var(--mask-tier-svg) no-repeat center;
+                }
+    
+                .border {
+                    mask: var(--border-tier-svg) no-repeat center;
+                }
+
+                .value {                        
+                    font-size: var(--font-size-24);
+                    line-height: 46px;
+                }
+            }
         }
     }
 
     /* --- Components --- */
 
-    app-adversary-header {
-        margin-top: 1rem;
-    }
+    app-adversary-skills {
+        .pill[data-action="roll-skill"] {
+            cursor: pointer;
 
-    app-actor-attributes {
-        margin-top: 0.5rem;
+            &:hover {
+                text-shadow: 0 0 8px var(--color-shadow-primary);
+            }
+        }
     }
 }

@@ -1,0 +1,55 @@
+{
+    "_id": "ZVXjqw4l30mNjAdq",
+    "name": "Veden",
+    "type": "culture",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/cultures/veden-t.webp",
+    "system": {
+        "id": "veden",
+        "description": {
+            "value": "<p>Jah Keved is ruled by a king and highprinces. Social orders for lighteyes and darkeyes are maintained and endorsed by Vorinism, the primary religion of Vedens. The Holy Enclave in the city of Valath is the center of the faith. Despite border disputes with Alethkar, the two nations remain cordial. There are four major ethnic groups within the borders of Jah Keved: Bav, Siln, Veden, and Unkalaki, with Veden as the majority. Vedens comprise the majority; they share many physical traits with the Alethi, though they most commonly have black or red hair. Their language is close enough to Alethi to be mutually intelligible. Fashion trends are also closely tied between the two nations.</p><p>In Jah Keved, sons are given a first name that indicates their birth order; the first four sons are named Nan, Tet, Asha, and Van. Second names are chosen by parents. Surnames are passed down from the parent of the highest dahn or nahn social order.</p><p></p><div class=\"sl-journal\"><p><span class=\"fontstyle2\"><strong>Veden Names</strong></span></p><p><span class=\"fontstyle0\">Nan Amallan, Bervash, Asha Cemdon, Dorlivana, Van Elnaha, Lerinda, Nan Qish, Tet Ridvish, Shulla, Varli, Tet Zashu.</span></p><p></p><p><span class=\"fontstyle2\"><strong>Veden Expertise</strong></span></p><p><span class=\"fontstyle0\">As a character with the Veden expertise, you’re familiar with the king, the princedoms, and the four major ethnic groups in Jah Keved. Choose how proficient you are in speaking Veden and reading and writing glyphs, as well as your literacy in women’s script (depending on your gender and regard for gender norms). If relevant to your backstory, also choose how proficient you are in the Alethi, Bav, or Siln languages. Regardless of your religious beliefs, you’re familiar with the basic tenets of Vorinism and current events relevant to the church.</span></p></div>",
+            "short": "<p>Jah Keved is ruled by a king and highprinces. Social orders for lighteyes and darkeyes are maintained and endorsed by Vorinism, the primary religion of Vedens. The Holy Enclave in the city of Valath is the center of the faith. Despite border disputes with Alethkar, the two nations remain cordial. There are four major ethnic groups within the borders of Jah Keved: Bav, Siln, Veden, and Unkalaki, with Veden as the majority. Vedens comprise the majority; they share many physical traits with the Alethi, though they most commonly have black or red hair. Their language is close enough to Alethi to be mutually intelligible. Fashion trends are also closely tied between the two nations.</p><p>In Jah Keved, sons are given a first name that indicates their birth order; the first four sons are named Nan, Tet, Asha, and Van. Second names are chosen by parents. Surnames are passed down from the parent of the highest dahn or nahn social order.</p>"
+        },
+        "events": {
+            "TupJEvlvGwdgSnTk": {
+                "id": "TupJEvlvGwdgSnTk",
+                "description": "Grant Expertises",
+                "event": "add-to-actor",
+                "handler": {
+                    "type": "grant-expertises",
+                    "expertises": {
+                        "cultural:veden": {
+                            "id": "veden",
+                            "type": "cultural",
+                            "label": "Veden",
+                            "locked": false
+                        }
+                    }
+                }
+            },
+            "dS0fH5K47hZoWfwx": {
+                "id": "dS0fH5K47hZoWfwx",
+                "description": "Remove Expertises",
+                "event": "remove-from-actor",
+                "handler": {
+                    "type": "remove-expertises",
+                    "expertises": {
+                        "cultural:veden": {
+                            "id": "veden",
+                            "type": "cultural",
+                            "label": "Veden",
+                            "locked": false
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "folder": null,
+    "_key": "!items!ZVXjqw4l30mNjAdq"
+}

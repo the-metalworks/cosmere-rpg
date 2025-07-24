@@ -1,9 +1,20 @@
 <form>
-    <div class="form-group">
-        <label>
-            <span>{{ localize "DIALOG.ItemConsume.ShouldConsume" }}</span>
-            <span>({{amount}} {{localize consumedResourceLabel}})</span>
-        </label>
-        <input type="checkbox" name="shouldConsume" {{#if shouldConsume}}checked{{/if}}>
+    <div id="consumables">        
+        {{#each resources as |resource|}}
+        <div class="form-group" id="{{resource.id}}">
+            <label>{{resource.label}}</label>
+            <div class="form-fields narrow">                
+                {{#if resource.amount}}
+                <input id="{{resource.id}}-amount" type="number" name="{{resource.label}}-amount"
+                    min="{{resource.amount.min}}"
+                    {{#if (gte max min)}}max="{{resource.amount.max}}"{{/if}}
+                    value="{{resource.amount.min}}"
+                    step="1"
+                >
+                {{/if}}
+                <input id="{{resource.id}}-shouldConsume" type="checkbox" name="{{resource.label}}-shouldConsume" {{#if resource.shouldConsume}}checked{{/if}}>
+            </div>
+        </div>
+        {{/each}}
     </div>
 </form>

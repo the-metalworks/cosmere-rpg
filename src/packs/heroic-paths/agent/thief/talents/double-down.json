@@ -1,0 +1,63 @@
+{
+    "folder": "IqFt10TYMzgp9rqM",
+    "name": "Double Down",
+    "type": "talent",
+    "_id": "bthnNcewzi77p7Eb",
+    "img": "icons/skills/social/intimidation-impressing.webp",
+    "system": {
+        "id": "double-down",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Special Action\" aria-label=\"Special Action\">*</span></p><p><em>When you decide to take a risk, you commit fully in pursuit of the greatest reward.</em></p><p>After you use your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.ScqSKbkewDAfSizP]{Opportunist} talent, you can reroll the die one additional time. You must use this final result, and if it includes a <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\" style=\"color:rgb(173,19,19)\">c</span>, you lose 2 focus.</p>",
+            "chat": "<p><strong>Activation:</strong> <span style=\"font-family: 'Cosmere Dingbats'\">*</span></p><p>You can reroll again with Opportunist, but on <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\" style=\"color:rgb(173,19,19)\">c</span>, you lose 2 focus.</p>",
+            "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Special Action\" aria-label=\"Special Action\">*</span></p><p>After you use your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.ScqSKbkewDAfSizP]{Opportunist} talent, you can reroll the die one additional time. You must use this final result, and if it includes a <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\" style=\"color:rgb(173,19,19)\">c</span>, you lose 2 focus.</p>"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": null,
+                "type": "spe"
+            },
+            "consume": [],
+            "flavor": "",
+            "uses": null,
+            "plotDie": false,
+            "opportunity": null,
+            "complication": null
+        },
+        "path": "agent",
+        "hasPath": false,
+        "specialty": "thief",
+        "hasSpecialty": false,
+        "ancestry": null,
+        "hasAncestry": false,
+        "prerequisites": {
+            "V4NBBVvgGS9qGDBA": {
+                "type": "talent",
+                "attribute": "str",
+                "value": 1,
+                "talents": [
+                    {
+                        "id": "risky-behavior",
+                        "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.3hzeCVVMksTAE5X0",
+                        "label": "Risky Behavior"
+                    }
+                ],
+                "rank": 1
+            }
+        },
+        "prerequisitesMet": false,
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "modality": null
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!bthnNcewzi77p7Eb"
+}

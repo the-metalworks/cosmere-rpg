@@ -5,7 +5,7 @@ import { AnyObject } from '@system/types/utils';
 import { CommonActorData } from '@system/data/actor/common';
 
 // Utils
-import ActorUtils from '@system/util/actor';
+import { getTypeLabel } from '@src/system/utils/actor';
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
@@ -128,7 +128,7 @@ export class EditCreatureTypeDialog extends HandlebarsApplicationMixin(
             actor: this.actor,
             type: this.type,
 
-            typeLabel: ActorUtils.getTypeLabel(this.type),
+            typeLabel: getTypeLabel(this.type),
             configuredTypes,
         });
     }

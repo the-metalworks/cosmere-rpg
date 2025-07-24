@@ -10,10 +10,17 @@ import {
     ActivatableItemMixin,
     ActivatableItemData,
 } from './mixins/activatable';
+import { EventsItemMixin, EventsItemData } from './mixins/events';
+import {
+    RelationshipsMixin,
+    RelationshipsItemData,
+} from './mixins/relationships';
 
 export interface TraitItemData
     extends DescriptionItemData,
-        ActivatableItemData {}
+        ActivatableItemData,
+        EventsItemData,
+        RelationshipsItemData {}
 
 /**
  * Item data model that represents adversary traits.
@@ -27,6 +34,8 @@ export class TraitItemDataModel extends DataModelMixin<
         value: 'COSMERE.Item.Type.Trait.desc_placeholder',
     }),
     ActivatableItemMixin(),
+    EventsItemMixin(),
+    RelationshipsMixin(),
 ) {
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), {});
