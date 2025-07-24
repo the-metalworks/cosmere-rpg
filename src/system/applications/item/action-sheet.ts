@@ -24,6 +24,7 @@ export class ActionItemSheet extends BaseItemSheet {
         {
             details: {
                 label: 'COSMERE.Item.Sheet.Tabs.Details',
+                icon: '<i class="fa-solid fa-circle-info"></i>',
                 sortIndex: 15,
             },
         },
@@ -34,7 +35,7 @@ export class ActionItemSheet extends BaseItemSheet {
         {
             'sheet-content': {
                 template:
-                    'systems/cosmere-rpg/templates/item/parts/sheet-content.hbs',
+                    'systems/cosmere-rpg/templates/item/action/parts/sheet-content.hbs',
             },
         },
     );

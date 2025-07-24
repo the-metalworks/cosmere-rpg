@@ -2,12 +2,19 @@
 
 <div class="tab tab-content {{tab.cssClass}}" data-tab="description" data-group="primary">
     {{app-item-properties}}
-    {{app-prose-mirror-editor
-        button=true
-        document=@root.item
-        fieldName="system.description.value"
-        collaborate=true
-    }}
+    {{#if @root.editable}}
+    <prose-mirror name="system.description.value" 
+        data-document-u-u-i-d="{{@root.item.uuid}}"
+        value="{{@root.item.system.description.value}}"
+        toggled="true"
+        collaborate="true">
+        {{{@root.descHtml}}}
+    </prose-mirror>
+    {{else}}
+    <div class="description-content-flat">
+        {{{@root.descHtml}}}
+    </div>
+    {{/if}}
 </div>
 
 {{/with}}

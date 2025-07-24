@@ -40,6 +40,17 @@ export interface ActivatableItemData {
         /* -- Skill test activation -- */
         skill?: Skill;
         attribute?: Attribute;
+        plotDie?: boolean;
+
+        /**
+         * The value of d20 result which represents an opportunity
+         */
+        opportunity?: number;
+
+        /**
+         * The value of d20 result which represent an complication
+         */
+        complication?: number;
     };
 }
 
@@ -123,6 +134,24 @@ export function ActivatableItemMixin<P extends CosmereItem>() {
                             nullable: true,
                             blank: false,
                             choices: Object.keys(CONFIG.COSMERE.attributes),
+                        }),
+                        plotDie: new foundry.data.fields.BooleanField({
+                            nullable: true,
+                            initial: false,
+                        }),
+                        opportunity: new foundry.data.fields.NumberField({
+                            nullable: true,
+                            min: 1,
+                            max: 20,
+                            integer: true,
+                            label: 'COSMERE.Item.Activation.Opportunity',
+                        }),
+                        complication: new foundry.data.fields.NumberField({
+                            nullable: true,
+                            min: 1,
+                            max: 20,
+                            integer: true,
+                            label: 'COSMERE.Item.Activation.Complication',
                         }),
                         uses: new foundry.data.fields.SchemaField(
                             {

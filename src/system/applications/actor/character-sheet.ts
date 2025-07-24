@@ -85,8 +85,9 @@ export class CharacterSheet extends BaseActorSheet {
                 paths: pathItems.filter((i) => i.system.type === type),
             })),
 
-            // TODO: Default localization
-            ancestryLabel: ancestryItem?.name ?? 'DEFAULT_ANCESTRY_LABEL',
+            ancestryLabel:
+                ancestryItem?.name ??
+                game.i18n?.localize('COSMERE.Item.Type.Ancestry.label'),
         };
     }
 }

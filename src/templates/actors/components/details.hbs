@@ -23,7 +23,7 @@
     <div class="deflect" 
         data-tooltip="COSMERE.Actor.Statistics.Deflect"
     >
-        {{#with actor.system.resources.hea.deflect as |deflect|}}
+        {{#with actor.system.deflect as |deflect|}}
 
         <span class="value">{{derived deflect}}</span>
 
@@ -73,7 +73,7 @@
     {{else}}
     <div class="derived-stat">
         <div class="deflect">
-            {{#with actor.system.resources.hea.deflect as |deflect|}}
+            {{#with actor.system.deflect as |deflect|}}
             <span class="value">{{derived deflect}}</span>
             {{/with}}
         </div>

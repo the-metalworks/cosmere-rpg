@@ -30,7 +30,9 @@ export class ArmorItemDataModel extends DataModelMixin<
     IdItemMixin({
         initial: 'none',
     }),
-    DescriptionItemMixin(),
+    DescriptionItemMixin({
+        value: 'COSMERE.Item.Type.Armor.desc_placeholder',
+    }),
     EquippableItemMixin({
         equipType: {
             initial: EquipType.Wear,

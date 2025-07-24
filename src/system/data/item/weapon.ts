@@ -57,7 +57,9 @@ export class WeaponItemDataModel extends DataModelMixin<
                 {} as Record<WeaponType, string>,
             ),
     }),
-    DescriptionItemMixin(),
+    DescriptionItemMixin({
+        value: 'COSMERE.Item.Type.Weapon.desc_placeholder',
+    }),
     EquippableItemMixin({
         equipType: {
             initial: EquipType.Hold,

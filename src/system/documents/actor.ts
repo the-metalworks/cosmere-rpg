@@ -9,7 +9,11 @@ import {
     Resource,
     InjuryType,
 } from '@system/types/cosmere';
-import { CosmereItem, CosmereItemData } from '@system/documents/item';
+import {
+    CosmereItem,
+    CosmereItemData,
+    TalentItem,
+} from '@system/documents/item';
 import {
     CommonActorData,
     CommonActorDataModel,
@@ -70,6 +74,14 @@ interface DamageInstance {
     type?: DamageType;
 }
 
+interface ApplyDamageOptions {
+    /**
+     * Whether or not to display a chat message
+     * @default true
+     */
+    chatMessage?: boolean;
+}
+
 export type CosmereActorRollData<T extends CommonActorData = CommonActorData> =
     {
         [K in keyof T]: T[K];
@@ -110,6 +122,10 @@ export class CosmereActor<
                     a.getFlag<number>('cosmere-rpg', 'favorites.sort') -
                     b.getFlag<number>('cosmere-rpg', 'favorites.sort'),
             );
+    }
+
+    public get deflect(): number {
+        return Derived.getValue(this.system.deflect) ?? 0;
     }
 
     /* --- Type Guards --- */
@@ -160,6 +176,33 @@ export class CosmereActor<
                     });
                 }
             }
+
+            // Get the first culture item
+            const cultureItem = itemData.find(
+                (d) => d.type === ItemType.Culture,
+            );
+
+            // Filter out any culture items beyond the first
+            data = itemData.filter(
+                (d) => d.type !== ItemType.Culture || d === cultureItem,
+            );
+
+            // If a culture item was present, replace the current (after create)
+            if (cultureItem) {
+                // Get current culture item
+                const currentCultureItem = this.items.find(
+                    (i) => i.type === ItemType.Culture,
+                );
+
+                // Remove existing culture after create, if present
+                if (currentCultureItem) {
+                    postCreateActions.push(() => {
+                        void this.deleteEmbeddedDocuments('Item', [
+                            currentCultureItem.id,
+                        ]);
+                    });
+                }
+            }
         }
 
         // Perform create
@@ -176,17 +219,99 @@ export class CosmereActor<
         return result;
     }
 
+    public override async modifyTokenAttribute(
+        attribute: string,
+        value: number,
+        isDelta: boolean,
+        isBar: boolean,
+    ) {
+        if (isBar) {
+            // Get the attribute object
+            const attr = foundry.utils.getProperty(this.system, attribute) as {
+                value: number;
+                max: Derived<number>;
+            };
+            const current = attr.value;
+            const max = Derived.getValue(attr.max)!;
+            const update = Math.clamp(
+                isDelta ? current + value : value,
+                0,
+                max,
+            );
+            if (update === current) return this;
+
+            // Set up updates
+            const updates = {
+                [`system.${attribute}.value`]: update,
+            };
+
+            // Allow a hook to override these changes
+            const allowed = Hooks.call(
+                'modifyTokenAttribute',
+                { attribute, value, isDelta, isBar },
+                updates,
+            );
+            return allowed !== false
+                ? ((await this.update(updates)) as this)
+                : this;
+        } else {
+            await super.modifyTokenAttribute(attribute, value, isDelta, isBar);
+        }
+    }
+
     /* --- Functions --- */
+
+    public async setMode(modality: string, mode: string) {
+        await this.setFlag('cosmere-rpg', `mode.${modality}`, mode);
+
+        // Get all effects for this modality
+        const effects = this.applicableEffects.filter(
+            (effect) =>
+                effect.parent instanceof CosmereItem &&
+                effect.parent.hasModality() &&
+                effect.parent.system.modality === modality,
+        );
+
+        // Get the effect for the new mode
+        const modeEffect = effects.find(
+            (effect) => (effect.parent as TalentItem).system.id === mode,
+        );
+
+        // Deactivate all other effects
+        for (const effect of effects) {
+            if (effect !== modeEffect && !effect.disabled) {
+                void effect.update({ disabled: true });
+            }
+        }
+
+        // Activate the mode effect
+        if (modeEffect) {
+            void modeEffect.update({ disabled: false });
+        }
+    }
+
+    public async clearMode(modality: string) {
+        await this.unsetFlag('cosmere-rpg', `mode.${modality}`);
+
+        // Get all effects for this modality
+        const effects = this.effects.filter(
+            (effect) =>
+                effect.parent instanceof CosmereItem &&
+                effect.parent.isTalent() &&
+                effect.parent.system.id === modality,
+        );
+
+        // Deactivate all effects
+        for (const effect of effects) {
+            void effect.update({ disabled: true });
+        }
+    }
 
     public async rollInjuryDuration() {
         // Get roll table
         const table = (await fromUuid(
             CONFIG.COSMERE.injury.durationTable,
         )) as unknown as RollTable;
-
-        // Get armor deflect
-        const deflect =
-            this.system.resources[Resource.Health].deflect?.value ?? 0;
 
         // Get injury roll bonus
         const bonus = this.system.injuryRollBonus;
@@ -196,7 +321,9 @@ export class CosmereActor<
             (Derived.getValue(this.system.injuries) ?? 0) * -5;
 
         // Build formula
-        const formula = ['1d20', deflect, bonus, injuriesModifier].join(' + ');
+        const formula = ['1d20', this.deflect, bonus, injuriesModifier].join(
+            ' + ',
+        );
 
         // Roll
         const roll = new foundry.dice.Roll(formula);
@@ -242,7 +369,26 @@ export class CosmereActor<
         }
     }
 
-    public async applyDamage(...instances: DamageInstance[]) {
+    /**
+     * Utility function to apply damage to this actor.
+     * This function will automatically apply deflect and
+     * send a chat message.
+     */
+    public async applyDamage(
+        ...config: DamageInstance[] | [...DamageInstance[], ApplyDamageOptions]
+    ) {
+        // Check if the last argument is an options object
+        const hasOptions =
+            config.length > 0 && !('amount' in config[config.length - 1]);
+
+        // Get instances
+        const instances = (
+            hasOptions ? config.slice(0, -1) : config
+        ) as DamageInstance[];
+        const { chatMessage = true } = (
+            hasOptions ? config[config.length - 1] : {}
+        ) as ApplyDamageOptions;
+
         // Get health resource
         const health = this.system.resources[Resource.Health];
 
@@ -255,13 +401,10 @@ export class CosmereActor<
                 : { ignoreDeflect: false };
 
             let amount = instance.amount;
-            if (!damageConfig.ignoreDeflect && health.deflect?.value) {
-                // Get deflect
-                const deflect = health.deflect.value;
-
+            if (!damageConfig.ignoreDeflect) {
                 // Apply deflect
-                amount = Math.max(0, amount - deflect);
-                deflected += deflect;
+                amount = Math.max(0, amount - this.deflect);
+                deflected += this.deflect;
             }
 
             if (instance.type === DamageType.Healing) {
@@ -286,30 +429,57 @@ export class CosmereActor<
             'system.resources.hea.value': newHealth,
         });
 
-        // Chat message
-        let flavor = game
-            .i18n!.localize(
-                isHealing
-                    ? 'COSMERE.ChatMessage.ApplyHealing'
-                    : 'COSMERE.ChatMessage.ApplyDamage',
-            )
-            .replace('[actor]', this.name)
-            .replace('[amount]', Math.abs(damage).toString());
+        if (chatMessage) {
+            // Chat message
+            let flavor = game
+                .i18n!.localize(
+                    isHealing
+                        ? 'COSMERE.ChatMessage.ApplyHealing'
+                        : 'COSMERE.ChatMessage.ApplyDamage',
+                )
+                .replace('[actor]', this.name)
+                .replace('[amount]', Math.abs(damage).toString());
 
-        if (!isHealing && deflected > 0) {
-            flavor += ` (${totalDamage} - <i class="deflect fa-solid fa-shield"></i>${deflected})`;
+            if (!isHealing && deflected > 0) {
+                flavor += ` (${totalDamage} - <i class="deflect fa-solid fa-shield"></i>${deflected})`;
+            }
+
+            // Chat message
+            await ChatMessage.create({
+                user: game.user!.id,
+                speaker: ChatMessage.getSpeaker({
+                    actor: this,
+                }) as ChatSpeakerData,
+                content: `<span class="damage-notification">
+                    ${flavor}.
+                    <a class="action" 
+                        data-action="undo-damage" 
+                        data-amount="${damage}"
+                        data-tooltip="${
+                            isHealing
+                                ? 'COSMERE.ChatMessage.UndoHealing'
+                                : 'COSMERE.ChatMessage.UndoDamage'
+                        }"
+                    >
+                        <i class="fa-solid fa-rotate-left"></i>
+                    </a>
+                </span>`,
+            });
         }
-
-        // Chat message
-        await ChatMessage.create({
-            user: game.user!.id,
-            speaker: ChatMessage.getSpeaker({ actor: this }) as ChatSpeakerData,
-            content: `${flavor}.`,
-        });
     }
 
     public async applyHealing(amount: number) {
         return this.applyDamage({ amount, type: DamageType.Healing });
+    }
+
+    /**
+     * Utility function to get the modifier for a given attribute for this actor.
+     * @param attribute The attribute to get the modifier for
+     */
+    public getAttributeMod(attribute: Attribute): number {
+        // Get attribute
+        const attr = this.system.attributes[attribute];
+        return attr.value + attr.bonus;
     }
 
     /**
@@ -318,15 +488,15 @@ export class CosmereActor<
      * @param attributeOverride An optional attribute override, used instead of the default attribute
      */
     public getSkillMod(skill: Skill, attributeOverride?: Attribute): number {
-        // Get attribute
-        const attribute =
+        // Get attribute id
+        const attributeId =
             attributeOverride ?? CONFIG.COSMERE.skills[skill].attribute;
 
         // Get skill rank
         const rank = this.system.skills[skill].rank;
 
         // Get attribute value
-        const attrValue = this.system.attributes[attribute].value;
+        const attrValue = this.getAttributeMod(attributeId);
 
         return attrValue + rank;
     }
@@ -351,7 +521,7 @@ export class CosmereActor<
             mod: data.mod,
             attribute: skill.attribute,
         };
-        data.attribute = attribute.value;
+        data.attribute = attribute.value + attribute.bonus;
         data.attributes = this.system.attributes;
 
         // Prepare roll data

@@ -43,7 +43,9 @@ export class InjuryItemDataModel extends DataModelMixin<
                 {} as Record<InjuryType, string>,
             ),
     }),
-    DescriptionItemMixin(),
+    DescriptionItemMixin({
+        value: 'COSMERE.Item.Type.Injury.desc_placeholder',
+    }),
 ) {
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), {

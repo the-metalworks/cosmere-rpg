@@ -101,10 +101,21 @@ Handlebars.registerHelper('cosmereDingbat', (type: ActionCostType) => {
     }
 });
 
-Handlebars.registerHelper('derived', (derived?: Derived<string | number>) => {
-    if (!derived) return;
-    return Derived.getValue(derived);
-});
+Handlebars.registerHelper(
+    'derived',
+    (derived?: Derived<string | number>, includeBonus = true) => {
+        if (!derived) return;
+        return Derived.getValue(derived, includeBonus);
+    },
+);
+
+Handlebars.registerHelper(
+    'bonus',
+    (obj?: { value: number; bonus?: number }) => {
+        if (!obj) return;
+        return obj.value + (obj.bonus ?? 0);
+    },
+);
 
 Handlebars.registerHelper(
     'skillMod',
@@ -473,7 +484,9 @@ export async function preloadHandlebarsTemplates() {
         'systems/cosmere-rpg/templates/item/specialty/partials/specialty-details-tab.hbs',
         'systems/cosmere-rpg/templates/item/loot/partials/loot-details-tab.hbs',
         'systems/cosmere-rpg/templates/item/armor/partials/armor-details-tab.hbs',
+        'systems/cosmere-rpg/templates/item/ancestry/partials/ancestry-details-tab.hbs',
         'systems/cosmere-rpg/templates/item/talent/partials/talent-details-tab.hbs',
+        'systems/cosmere-rpg/templates/item/action/partials/action-details-tab.hbs',
         'systems/cosmere-rpg/templates/combat/combatant.hbs',
         'systems/cosmere-rpg/templates/chat/parts/roll-details.hbs',
         'systems/cosmere-rpg/templates/chat/parts/chat-card-header.hbs',

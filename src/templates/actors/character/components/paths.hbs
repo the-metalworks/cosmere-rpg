@@ -1,12 +1,33 @@
 {{#each paths as |path|}}
-<div class="path">
-    <div class="name">
+<div class="path" 
+    data-id="{{path.id}}"
+>
+    <div class="name"
+        data-action="view"
+    >
         <span class="label">{{path.name}}</span>
         <span class="item-type">{{localize path.typeLabel}} Path</span>
     </div>
-    <div class="level">
+    <div class="level"
+        data-action="view"
+    >
         {{path.level}}
     </div>
+    {{#if @root.isEditMode}}
+    <div class="controls">
+        <a data-action="remove"
+            data-tooltip="GENERIC.Button.Remove"
+        >
+            <i class="fa-solid fa-xmark"></i>
+        </a>
+    </div>
+    {{/if}}
+
+    {{#if img}}
+    <div class="background-img">
+        <img src="{{img}}">
+    </div>
+    {{/if}}
 </div>
 {{/each}}
 {{#if (eq paths.length 0)}}

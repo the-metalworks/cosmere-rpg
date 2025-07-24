@@ -58,6 +58,7 @@ Hooks.once('init', async () => {
 
     Items.unregisterSheet('core', ItemSheet);
     registerItemSheet(ItemType.Culture, applications.item.CultureItemSheet);
+    registerItemSheet(ItemType.Ancestry, applications.item.AncestrySheet);
     registerItemSheet(ItemType.Path, applications.item.PathItemSheet);
     registerItemSheet(
         ItemType.Connection,

@@ -9,7 +9,9 @@ dialog.application {
 
     form {
         height: 100%;
-        overflow: auto;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding: 0.1rem;
     }
 }
 

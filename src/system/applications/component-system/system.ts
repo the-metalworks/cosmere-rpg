@@ -145,6 +145,18 @@ export function registerComponent(
             </${selector}>
         `);
     });
+
+    if (componentCls.FORM_ASSOCIATED) {
+        customElements.define(
+            selector,
+            class extends HTMLElement {
+                static formAssociated = true;
+
+                public value: unknown;
+                public name: string | undefined;
+            },
+        );
+    }
 }
 
 /* --- Helpers --- */

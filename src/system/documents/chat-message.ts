@@ -48,6 +48,10 @@ export class CosmereChatMessage extends ChatMessage {
         return this.rolls.filter((r) => r instanceof DamageRoll);
     }
 
+    public get hasSkillTest(): boolean {
+        return this.d20Rolls.length > 0;
+    }
+
     public get hasDamage(): boolean {
         return this.damageRolls.length > 0;
     }
@@ -162,6 +166,9 @@ export class CosmereChatMessage extends ChatMessage {
             damageRolls,
         });
 
+        // Remove existing rolls
+        html.find('.message-content .dice-roll').remove();
+
         // Append rolls
         html.find('.message-content').append(rollsHtml);
 
@@ -174,6 +181,34 @@ export class CosmereChatMessage extends ChatMessage {
             if (element.hasClass('collapsed')) element.removeClass('collapsed');
             else element.addClass('collapsed');
         });
+
+        html.find('[data-action="undo-damage"]').on('click', (event) => {
+            // Get element
+            const element = $(event.target).closest(
+                '[data-action="undo-damage"]',
+            );
+
+            // Get the actor
+            const actor = this.associatedActor;
+            if (!actor) return;
+
+            // Get the amount
+            const amount = Number(element.data('amount'));
+
+            // Undo damage
+            void actor.applyDamage(
+                { amount: amount, type: DamageType.Healing },
+                { chatMessage: false },
+            );
+
+            // Strikethrough the damage
+            element
+                .closest('.damage-notification')
+                .css('text-decoration', 'line-through');
+
+            // Remove the action
+            element.remove();
+        });
     }
 
     protected async renderActions(html: JQuery) {
@@ -185,7 +220,7 @@ export class CosmereChatMessage extends ChatMessage {
         const groups = [] as ChatMessageAction[][];
 
         if (this.hasDamage) {
-            if (this.isAuthor) {
+            if (this.isAuthor && this.hasSkillTest) {
                 groups.push([
                     {
                         name: game.i18n!.localize(
@@ -205,13 +240,19 @@ export class CosmereChatMessage extends ChatMessage {
                     icon: 'fa-solid fa-heart-crack',
                     callback: this.onApplyDamage.bind(this),
                 },
-                {
-                    name: game.i18n!.localize(
-                        'COSMERE.ChatMessage.Action.ApplyGraze',
-                    ),
-                    icon: 'fa-solid fa-shield-halved',
-                    callback: this.onApplyDamage.bind(this, false),
-                },
+
+                ...(this.hasSkillTest
+                    ? [
+                          {
+                              name: game.i18n!.localize(
+                                  'COSMERE.ChatMessage.Action.ApplyGraze',
+                              ),
+                              icon: 'fa-solid fa-shield-halved',
+                              callback: this.onApplyDamage.bind(this, false),
+                          },
+                      ]
+                    : []),
+
                 {
                     name: game.i18n!.localize(
                         'COSMERE.ChatMessage.Action.ApplyHealing',
@@ -292,7 +333,7 @@ export class CosmereChatMessage extends ChatMessage {
         // Apply damage
         void actor.applyDamage(
             ...damageRolls.map((r) => ({
-                amount: (r.total ?? 0) + (includeMod ? r.mod : 0),
+                amount: (r.total ?? 0) + (includeMod ? (r.mod ?? 0) : 0),
                 type: r.damageType,
             })),
         );
@@ -314,7 +355,7 @@ export class CosmereChatMessage extends ChatMessage {
         // Apply damage
         void actor.applyDamage(
             ...damageRolls.map((r) => ({
-                amount: (r.total ?? 0) + (includeMod ? r.mod : 0),
+                amount: (r.total ?? 0) + (includeMod ? (r.mod ?? 0) : 0),
                 type: DamageType.Healing,
             })),
         );

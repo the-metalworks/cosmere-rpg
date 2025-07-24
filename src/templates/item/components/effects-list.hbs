@@ -18,6 +18,8 @@
             >
                 <i class="fa-solid fa-plus"></i>
             </a>
+            {{else}}
+            <div></div>
             {{/if}}
         </div>
     </li>
@@ -52,6 +54,12 @@
                 data-tooltip="COSMERE.Sheet.Effects.Delete"
             >
                 <i class="fa-solid fa-trash"></i>
+            </a>
+            {{else}}
+            <a data-action="edit-effect"
+                data-tooltip="GENERIC.ViewDetails"
+            >
+                <i class="fa-solid fa-eye"></i>
             </a>
             {{/if}}
         </div>

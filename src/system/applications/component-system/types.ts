@@ -23,6 +23,15 @@ export type ComponentActionHandler =
 
 export type ComponentEvent<T extends AnyObject> = CustomEvent<{ params: T }>;
 
+export interface PartState {
+    scrollPositions: [
+        element: HTMLElement,
+        scrollTop: number,
+        scrollLeft: number,
+    ][];
+    focus?: string;
+}
+
 export interface ComponentState {
     scrollPositions: [
         selector: string,

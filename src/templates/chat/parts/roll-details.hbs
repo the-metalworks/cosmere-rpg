@@ -3,7 +3,6 @@
         <div class="dice-formula">{{formula}}</div>
     </div>
     <div class="dice-total collapsed">
-        {{log this}}
         <div class="total-value {{#if rolledOpportunity}}opportunity{{/if}} {{#if rolledComplication}}complication{{/if}}">
             <span>{{total}}</span>
             {{#times opportunitiesCount}}
@@ -13,7 +12,7 @@
             <i class="cosmere-icon complication"></i>
             {{/times}}
 
-            {{#if isDamage}}
+            {{#if (and isDamage hasMod)}}
             <span class="mod">+ {{options.mod}}</span>
             {{/if}}
 
@@ -35,15 +34,16 @@
         <div class="roll-breakdown">
             <ul>
                 {{#each dice as |die|}}
+                {{#each die.results as |roll|}}
                 <li class="die roll {{die.denomination}}">
                     <span>
                     {{#if (not die.isPlotDie)}}
-                        {{die.total}}
+                        {{roll.result}}
                     {{else}}
                         {{#if die.rolledOpportunity}}
                             <i class="cosmere-icon opportunity"></i>
                         {{else if die.rolledComplication}}
-                            <span>{{die.total}}</span>
+                            <span>{{roll.count}}</span>
                             <i class="cosmere-icon complication"></i>
                         {{else}}
                             —
@@ -51,6 +51,7 @@
                     {{/if}}
                     </span>
                 </li>
+                {{/each}}
                 {{/each}}
             </ul>
         </div>

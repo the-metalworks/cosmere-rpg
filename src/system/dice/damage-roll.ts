@@ -7,7 +7,7 @@ export type DamageRollData<
 > = {
     [K in keyof ActorRollData]: ActorRollData[K];
 } & {
-    mod: number;
+    mod?: number;
     skill?: {
         id: Skill;
         rank: number;
@@ -27,7 +27,7 @@ export interface DamageRollOptions
     /**
      * The damage modifier to apply on hit
      */
-    mod: number;
+    mod?: number;
 
     /**
      * What advantage modifier to apply to the damage roll
@@ -57,8 +57,12 @@ export class DamageRoll extends foundry.dice.Roll<DamageRollData> {
         return this.options.damageType;
     }
 
-    get mod(): number {
+    get mod(): number | undefined {
         return this.options.mod;
+    }
+
+    public get hasMod() {
+        return this.options.mod !== undefined;
     }
 
     /**
@@ -83,14 +87,22 @@ export class DamageRoll extends foundry.dice.Roll<DamageRollData> {
             (term) => term instanceof foundry.dice.terms.Die,
         );
 
-        if (dieTerm && this.hasAdvantage) {
-            dieTerm.number = 2;
-            dieTerm.modifiers.push('kh');
-        } else if (dieTerm && this.hasDisadvantage) {
-            dieTerm.number = 2;
-            dieTerm.modifiers.push('kl');
-        } else if (dieTerm) {
-            dieTerm.number = 1;
+        const shouldApplyModifier = this.hasAdvantage || this.hasDisadvantage;
+
+        if (dieTerm && shouldApplyModifier) {
+            const modifier = this.hasAdvantage ? 'kh' : 'kl';
+
+            if (dieTerm.number && dieTerm.number > 1) {
+                const newTerm = new foundry.dice.terms.Die({
+                    number: 1,
+                    faces: dieTerm.faces,
+                    modifiers: [modifier],
+                });
+
+                this.terms.push(newTerm);
+            } else if (dieTerm.number === 1) {
+                dieTerm.modifiers.push(modifier);
+            }
         }
 
         // Re-compile the underlying formula

@@ -15,12 +15,16 @@ import {
     ActivatableItemMixin,
     ActivatableItemData,
 } from './mixins/activatable';
+import { DamagingItemMixin, DamagingItemData } from './mixins/damaging';
+import { ModalityItemMixin, ModalityItemData } from './mixins/modality';
 
 export interface TalentItemData
     extends IdItemData,
         TypedItemData<Talent.Type>,
         DescriptionItemData,
-        ActivatableItemData {
+        ActivatableItemData,
+        DamagingItemData,
+        ModalityItemData {
     /**
      * The id of the Path this Talent belongs to.
      */
@@ -91,8 +95,12 @@ export class TalentItemDataModel extends DataModelMixin<
                 {} as Record<Talent.Type, string>,
             ),
     }),
-    DescriptionItemMixin(),
+    DescriptionItemMixin({
+        value: 'COSMERE.Item.Type.Talent.desc_placeholder',
+    }),
     ActivatableItemMixin(),
+    DamagingItemMixin(),
+    ModalityItemMixin(),
 ) {
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), {
@@ -202,31 +210,48 @@ export class TalentItemDataModel extends DataModelMixin<
                         nullable: true,
                         validate: (value?: Partial<Talent.Prerequisite>) => {
                             if (!value) return;
-
                             switch (value.type) {
                                 case Talent.Prerequisite.Type.Talent:
-                                    return (
-                                        !!value.talents &&
-                                        value.talents.length > 0 &&
-                                        !!value.mode
-                                    );
+                                    if (!value.talents)
+                                        throw new Error(
+                                            'Field "talents" is required for prerequisite rule of type "Talent"',
+                                        );
+                                    break;
                                 case Talent.Prerequisite.Type.Attribute:
-                                    return (
-                                        !!value.attribute &&
-                                        value.attribute.length > 0 &&
-                                        !!value.value
-                                    );
+                                    if (
+                                        !value.attribute ||
+                                        value.attribute.length === 0
+                                    )
+                                        throw new Error(
+                                            'Field "attribute" is required for prerequisite rule of type "Attribute"',
+                                        );
+                                    if (!value.value)
+                                        throw new Error(
+                                            'Field "value" is required for prerequisite rule of type "Attribute"',
+                                        );
+                                    break;
                                 case Talent.Prerequisite.Type.Skill:
-                                    return (
-                                        !!value.skill &&
-                                        value.skill.length > 0 &&
-                                        !!value.rank
-                                    );
+                                    if (
+                                        !value.skill ||
+                                        value.skill.length === 0
+                                    )
+                                        throw new Error(
+                                            'Field "skill" is required for prerequisite rule of type "Skill"',
+                                        );
+                                    if (!value.rank)
+                                        throw new Error(
+                                            'Field "rank" is required for prerequisite rule of type "Skill"',
+                                        );
+                                    break;
                                 case Talent.Prerequisite.Type.Connection:
-                                    return (
-                                        !!value.description &&
-                                        value.description.length > 0
-                                    );
+                                    if (
+                                        !value.description ||
+                                        value.description.length === 0
+                                    )
+                                        throw new Error(
+                                            'Field "description" is required for prerequisite rule of type "Connection"',
+                                        );
+                                    break;
                                 default:
                                     return false;
                             }

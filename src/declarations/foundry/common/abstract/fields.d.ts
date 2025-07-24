@@ -326,6 +326,69 @@ declare namespace foundry {
             class SetField extends ArrayField {}
 
             class HTMLField extends StringField {}
+
+            /**
+             * A subclass of {@link ObjectField} which embeds some other DataModel definition as an inner object.
+             */
+            class EmbeddedDataField extends SchemaField {
+                constructor(
+                    model: typeof foundry.data.DataModel,
+                    options?: DataFieldOptions,
+                    context?: DataFieldContext,
+                );
+            }
+
+            /**
+             * A subclass of {@link ArrayField} which supports an embedded Document collection.
+             * Invalid elements will be dropped from the collection during validation rather than failing for the field entirely.
+             */
+            class EmbeddedCollectionField extends ArrayField {
+                constructor(
+                    element: typeof foundry.abstract.Document,
+                    options?: DataFieldOptions,
+                    context?: DataFieldContext,
+                );
+            }
+
+            /**
+             * A subclass of {@link EmbeddedDataField} which supports a single embedded Document.
+             */
+            class EmbeddedDocumentField extends EmbeddedDataField {
+                constructor(
+                    model: typeof foundry.abstract.Document,
+                    options?: DataFieldOptions,
+                    context?: DataFieldContext,
+                );
+            }
+
+            /**
+             * A subclass of {@link StringField} which provides the primary _id for a Document.
+             * The field may be initially null, but it must be non-null when it is saved to the database.
+             */
+            class DocumentIdField extends StringField {}
+
+            interface DocumentUUIDFieldOptions extends StringFieldOptions {
+                /**
+                 * A specific document type in CONST.ALL_DOCUMENT_TYPES required by this field
+                 */
+                type?: string;
+
+                /**
+                 * Does this field require (or prohibit) embedded documents?
+                 */
+                embedded?: boolean;
+            }
+
+            /**
+             * A subclass of {@link StringField} which supports referencing some other Document by its UUID.
+             * This field may not be blank, but may be null to indicate that no UUID is referenced.
+             */
+            class DocumentUUIDField extends StringField {
+                constructor(
+                    options?: DocumentUUIDFieldOptions,
+                    context?: DataFieldContext,
+                );
+            }
         }
     }
 }

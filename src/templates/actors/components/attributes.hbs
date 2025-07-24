@@ -14,10 +14,16 @@
                     {{ localize attribute.config.labelShort }}
                 </span>
                 <span class="value">
+                    {{#if (not @root.isEditMode)}}
+                    <input type="number"
+                        value="{{bonus attribute}}"
+                        readonly
+                    >
+                    {{else}}
                     <input type="number" class="value" min="0" max="10" step="1"
                         name="system.attributes.{{attribute.config.key}}.value" value="{{attribute.value}}" 
-                        {{#if (not @root.isEditMode)}}readonly{{/if}}
                     />
+                    {{/if}}
                 </span>
             </div>
             {{/with}}

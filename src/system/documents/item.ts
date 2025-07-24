@@ -38,6 +38,7 @@ import { TraitsItemData } from '@system/data/item/mixins/traits';
 import { EquippableItemData } from '@system/data/item/mixins/equippable';
 import { DescriptionItemData } from '@system/data/item/mixins/description';
 import { IdItemData } from '@system/data/item/mixins/id';
+import { ModalityItemData } from '@system/data/item/mixins/modality';
 
 // Rolls
 import {
@@ -201,10 +202,44 @@ export class CosmereItem<
         return 'id' in this.system;
     }
 
+    /**
+     * Does this item have modality?
+     */
+    public hasModality(): this is CosmereItem<ModalityItemData> {
+        return 'modality' in this.system;
+    }
+
     /* --- Accessors --- */
 
     public get isFavorite(): boolean {
         return this.getFlag('cosmere-rpg', 'favorites.isFavorite');
+    }
+
+    /**
+     * Checks if the talent item mode is active.
+     * Only relevant for talents that have a modality configured.
+     */
+    public get isModeActive(): boolean {
+        // Check if item is talent
+        if (!this.isTalent()) return false;
+
+        // Check if item has modality
+        if (!this.system.modality) return false;
+
+        // Check actor
+        if (!this.actor) return false;
+
+        // Get modality id
+        const modalityId = this.system.modality;
+
+        // Check actor modality flag
+        const activeMode = this.actor.getFlag(
+            'cosmere-rpg',
+            `mode.${modalityId}`,
+        );
+
+        // Check if the actor has the mode active
+        return activeMode === this.system.id;
     }
 
     /* --- Roll & Usage utilities --- */
@@ -263,6 +298,11 @@ export class CosmereItem<
                 )})`,
                 defaultAttribute: skill.attribute,
                 parts: ['@mod'].concat(options.parts ?? []),
+                plotDie: options.plotDie ?? this.system.activation.plotDie,
+                opportunity:
+                    options.opportunity ?? this.system.activation.opportunity,
+                complication:
+                    options.complication ?? this.system.activation.complication,
             }),
         );
 
@@ -406,6 +446,9 @@ export class CosmereItem<
                         attributeId,
                         actor,
                     ),
+                    plotDie:
+                        options.skillTest?.plotDie ??
+                        this.system.activation.plotDie,
                 },
                 damageRoll: {
                     ...options.damage,
@@ -595,9 +638,25 @@ export class CosmereItem<
             });
         }
 
+        // Handle talent mode activation
+        if (this.hasModality() && this.system.modality) {
+            // Add post roll action to activate the mode
+            postRoll.push(() => {
+                // Handle mode activation
+                void this.actor?.setMode(this.system.modality!, this.system.id);
+            });
+        }
+
+        // Check if the item has an attack
+        const hasAttack = this.hasAttack();
+
+        // Check if the item has damage
+        const hasDamage = this.hasDamage() && this.system.damage.formula;
+
         // Check if a roll is required
         const rollRequired =
-            this.system.activation.type === ActivationType.SkillTest;
+            this.system.activation.type === ActivationType.SkillTest ||
+            hasDamage;
 
         // Get the speaker
         const speaker =
@@ -607,11 +666,10 @@ export class CosmereItem<
         const descriptionHTML = await this.getEnrichedDescription();
 
         if (rollRequired) {
-            const hasDamage = this.hasDamage() && this.system.damage.formula;
-
             const rolls: foundry.dice.Roll[] = [];
+            let flavor = this.system.activation.flavor;
 
-            if (hasDamage) {
+            if (hasAttack && hasDamage) {
                 const attackResult = await this.rollAttack({
                     ...options,
                     actor,
@@ -620,6 +678,8 @@ export class CosmereItem<
                         plotDie: options.plotDie,
                         advantageMode: options.advantageMode,
                         advantageModePlot: options.advantageModePlot,
+                        opportunity: options.opportunity,
+                        complication: options.complication,
                     },
                     damage: {
                         advantageMode: options.advantageModeDamage,
@@ -628,16 +688,49 @@ export class CosmereItem<
                 });
                 if (!attackResult) return null;
 
+                // Add the rolls to the list
                 rolls.push(...attackResult);
-            } else {
-                const roll = await this.roll({
-                    ...options,
-                    actor,
-                    chatMessage: false,
-                });
-                if (!roll) return null;
 
-                rolls.push(roll);
+                // Set the flavor
+                flavor = flavor
+                    ? flavor
+                    : `${game.i18n!.localize(
+                          `COSMERE.Skill.${attackResult[0].data.skill.id}`,
+                      )} (${game.i18n!.localize(
+                          `COSMERE.Attribute.${attackResult[0].data.skill.attribute}`,
+                      )})`;
+            } else {
+                if (hasDamage) {
+                    const damageRoll = await this.rollDamage({
+                        ...options,
+                        actor,
+                        chatMessage: false,
+                    });
+                    if (!damageRoll) return null;
+
+                    rolls.push(damageRoll);
+                }
+
+                if (this.system.activation.type === ActivationType.SkillTest) {
+                    const roll = await this.roll({
+                        ...options,
+                        actor,
+                        chatMessage: false,
+                    });
+                    if (!roll) return null;
+
+                    // Add the roll to the list
+                    rolls.push(roll);
+
+                    // Set the flavor
+                    flavor = flavor
+                        ? flavor
+                        : `${game.i18n!.localize(
+                              `COSMERE.Skill.${roll.data.skill.id}`,
+                          )} (${game.i18n!.localize(
+                              `COSMERE.Attribute.${roll.data.skill.attribute}`,
+                          )})`;
+                }
             }
 
             // Create chat message
@@ -648,6 +741,7 @@ export class CosmereItem<
                     item: this,
                     hasDescription: !!descriptionHTML,
                     descriptionHTML,
+                    flavor,
                 }),
                 rolls: rolls,
             });
@@ -664,11 +758,7 @@ export class CosmereItem<
             // as flavor can also be an empty string, which we'd like to replace with the default flavor too
             const flavor =
                 // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-                this.system.activation.flavor ||
-                game
-                    .i18n!.localize('COSMERE.Item.DefaultFlavor')
-                    .replace('[actor]', actor.name)
-                    .replace('[item]', this.name);
+                this.system.activation.flavor || undefined;
 
             // Create chat message
             const message = (await ChatMessage.create({
@@ -808,7 +898,7 @@ export class CosmereItem<
     ): D20RollData {
         const skill = actor.system.skills[skillId];
         const attribute = actor.system.attributes[attributeId];
-        const mod = skill.rank + attribute.value;
+        const mod = skill.rank + attribute.value + attribute.bonus;
 
         return {
             ...actor.getRollData(),
@@ -832,7 +922,12 @@ export class CosmereItem<
         const attribute = attributeId
             ? actor.system.attributes[attributeId]
             : undefined;
-        const mod = (skill?.rank ?? 0) + (attribute?.value ?? 0);
+        const mod =
+            skill !== undefined || attribute !== undefined
+                ? (skill?.rank ?? 0) +
+                  (attribute?.value ?? 0) +
+                  (attribute?.bonus ?? 0)
+                : undefined;
 
         return {
             ...actor.getRollData(),
@@ -898,6 +993,18 @@ export namespace CosmereItem {
         plotDie?: boolean;
 
         /**
+         * The value of d20 result which represents an opportunity
+         * @default 20
+         */
+        opportunity?: number;
+
+        /**
+         * The value of d20 result which represent an complication
+         * @default 1
+         */
+        complication?: number;
+
+        /**
          * The dice roll component parts, excluding the initial d20
          *
          * @default []
@@ -919,17 +1026,32 @@ export namespace CosmereItem {
 
     export type RollDamageOptions = Omit<
         RollOptions,
-        'parts' | 'plotDie' | 'configurable' | 'advantageModePlot'
+        | 'parts'
+        | 'opportunity'
+        | 'complication'
+        | 'plotDie'
+        | 'configurable'
+        | 'advantageModePlot'
     >;
 
     export interface RollAttackOptions
         extends Omit<
             RollOptions,
-            'parts' | 'plotDie' | 'advantageMode' | 'advantageModePlot'
+            | 'parts'
+            | 'opportunity'
+            | 'complication'
+            | 'plotDie'
+            | 'advantageMode'
+            | 'advantageModePlot'
         > {
         skillTest?: Pick<
             RollOptions,
-            'parts' | 'plotDie' | 'advantageMode' | 'advantageModePlot'
+            | 'parts'
+            | 'opportunity'
+            | 'complication'
+            | 'plotDie'
+            | 'advantageMode'
+            | 'advantageModePlot'
         >;
         damage?: Pick<RollOptions, 'advantageMode'>;
     }
@@ -950,6 +1072,7 @@ export namespace CosmereItem {
 }
 
 export type CultureItem = CosmereItem<CultureItemDataModel>;
+export type AncestryItem = CosmereItem<AncestryItemDataModel>;
 export type PathItem = CosmereItem<PathItemDataModel>;
 export type ConnectionItem = CosmereItem<ConnectionItemDataModel>;
 export type InjuryItem = CosmereItem<InjuryItemDataModel>;

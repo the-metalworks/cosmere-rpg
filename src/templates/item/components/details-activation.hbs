@@ -169,6 +169,32 @@
         {{/if}}
     </div>
 </div>
+<div class="form-group">
+    <label>{{localize "DICE.Plot.RaiseTheStakes"}}</label>
+    <div class="input-group">
+        <input type="checkbox" 
+            name="system.activation.plotDie"
+            {{#if item.system.activation.plotDie}}
+            checked
+            {{/if}}
+            {{#if (not editable)}}
+            disabled
+            {{/if}}
+        >
+    </div>
+</div>
+{{formGroup systemFields.activation.fields.opportunity 
+    value=item.system.activation.opportunity 
+    type="number"
+    placeholder="20"
+    localize=true
+}}
+{{formGroup systemFields.activation.fields.complication 
+    value=item.system.activation.complication 
+    type="number"
+    placeholder="1"
+    localize=true
+}}
 {{/if}}
 {{/if}}
 {{/if}}

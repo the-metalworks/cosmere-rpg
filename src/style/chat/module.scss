@@ -1,411 +1,428 @@
-.chat-message .message-header {
-    margin-bottom: 0.5rem;
+.chat-message {
+    .message-header {
+        margin-bottom: 0.5rem;
 
-    .message-sender {
-        display: flex;
-        align-items: center;
-
-        img {
-            width: 2.75rem;
-            box-shadow: 0 0 0.35rem 0 black;
-            border-radius: 50%;
-            border: none;
-        }
-
-        .name {
+        .message-sender {
             display: flex;
-            flex-direction: column;
-            padding-left: 1rem;
+            align-items: center;
 
-            .title {
-                font-weight: bold;
-                font-size: 12pt;
+            img {
+                width: 2.75rem;
+                box-shadow: 0 0 0.35rem 0 black;
+                border-radius: 50%;
+                border: none;
             }
 
-            .subtitle {
-                font-size: 9pt;
-                margin-top: -0.2rem;
+            .name {
+                display: flex;
+                flex-direction: column;
+                padding-left: 1rem;
+
+                .title {
+                    font-weight: bold;
+                    font-size: 12pt;
+                }
+
+                .subtitle {
+                    font-size: 9pt;
+                    margin-top: -0.2rem;
+                }
             }
         }
     }
-}
 
-.roll {
-    .die-result.plot {
-        width: 2.5rem;
+    .roll {
+        .die-result.plot {
+            width: 2.5rem;
+        }
     }
-}
 
-.chat-card {
-    display: flex;
-    flex-direction: column;
+    .chat-card {
+        display: flex;
+        flex-direction: column;
 
-    &.activity {
-        .header {
-            cursor: pointer;
-            background: #f7efe6;
+        &.activity {
+            .header {
+                cursor: pointer;
+                background: #f7efe6;
+                padding: 0.3rem;
+                border-radius: 0.2rem;
+                border: 1px solid gray;
+
+                hr {
+                    border: none;
+                    border-bottom: 1px solid currentColor;
+                    opacity: 0.2;
+                    margin: 0.3rem 0.25rem 0 0.25rem;
+                }
+
+                .summary {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+
+                    .icon {
+                        width: 2.25rem;
+                        height: 2.25rem;
+                    }
+
+                    .name.stacked {
+                        flex: 1;
+                        display: flex;
+                        flex-direction: column;
+                        margin-left: 0.5rem;
+                        justify-content: center;
+
+                        .title {
+                            font-weight: bold;
+                            font-size: 13pt;
+
+                            .cosmere-icon {
+                                font-size: 10pt;
+                                margin-left: 0.25rem;
+                            }
+                        }
+
+                        .subtitle {
+                            font-size: 8pt;
+                            opacity: 0.75;
+                        }
+                    }
+
+                    .controls {
+                        display: flex;
+                        align-items: center;
+                        padding-right: 0.1rem;
+
+                        .delim {
+                            border-right: 1px solid currentColor;
+                            height: 1.6rem;
+                            margin: 0 0.2rem;
+                            opacity: 0.3;
+                        }
+
+                        i {
+                            width: 1rem;
+                            text-align: center;
+                            opacity: 0.5;
+                            transition: 0.3s;
+                        }
+                    }
+                }
+
+                .description {
+                    transition: 0.9s ease-in-out;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                &.collapsed {
+                    hr {
+                        display: none;
+                    }
+
+                    .description {
+                        max-height: 0;
+                    }
+                }
+
+                &:not(.collapsed) {
+                    .description {
+                        max-height: 1040px;
+                    }
+
+                    .controls i {
+                        transform: rotate(-90deg);
+                    }
+                }
+            }
+
+            .flavor {
+                margin-top: 0.5rem;
+                font-style: italic;
+                opacity: 0.9;
+            }
+        }
+
+        &.skill {
+        }
+    }
+
+    .card-rolls {
+        &.damage {
+            margin-top: 1rem;
+        }
+
+        .title {
+            font-weight: bold;
+        }
+
+        .dice-formula {
+            background: rgba(0, 0, 0, 0.1);
             padding: 0.3rem;
             border-radius: 0.2rem;
             border: 1px solid gray;
+            margin-top: 0.5rem;
+            color: #1f1f1f;
+            text-align: center;
+            font-size: 10pt;
+        }
+
+        .dice-details {
+            display: none;
+        }
+
+        .dice-total {
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 0.2rem;
+            border: 1px solid gray;
+            margin-top: 0.5rem;
 
             hr {
                 border: none;
                 border-bottom: 1px solid currentColor;
                 opacity: 0.2;
-                margin: 0.3rem 0.25rem 0 0.25rem;
+                margin: 0 0.25rem;
             }
 
-            .summary {
+            .mod {
+                opacity: 0.5;
+            }
+
+            .controls {
+                opacity: 0.5;
+                position: absolute;
+                right: 0.5rem;
+                font-size: 10pt;
+                height: 100%;
+                top: 0;
                 display: flex;
-                flex-direction: row;
                 align-items: center;
 
-                .icon {
-                    width: 2.25rem;
-                    height: 2.25rem;
+                .delim {
+                    border-right: 1px solid currentColor;
+                    height: 1rem;
+                    margin: 0 0.2rem;
                 }
 
-                .name.stacked {
-                    flex: 1;
-                    display: flex;
-                    flex-direction: column;
-                    margin-left: 0.5rem;
-                    justify-content: center;
+                i {
+                    width: 1rem;
+                    transition: 0.3s;
+                }
 
-                    .title {
-                        font-weight: bold;
-                        font-size: 13pt;
+                .damage-type {
+                    margin-right: 0.5rem;
+                }
+            }
 
-                        .cosmere-icon {
-                            font-size: 10pt;
-                            margin-left: 0.25rem;
-                        }
+            .total-value {
+                position: relative;
+                color: #1f1f1f;
+                text-align: center;
+                font-size: 15pt;
+                font-weight: bold;
+                padding: 0.3rem;
+                border-radius: 0.2rem;
+
+                .cosmere-icon {
+                    &.opportunity {
+                        color: #235bad;
                     }
 
-                    .subtitle {
-                        font-size: 8pt;
-                        opacity: 0.75;
+                    &.complication {
+                        color: #ad2323;
                     }
                 }
 
-                .controls {
-                    display: flex;
-                    align-items: center;
-                    padding-right: 0.1rem;
-
-                    .delim {
-                        border-right: 1px solid currentColor;
-                        height: 1.6rem;
-                        margin: 0 0.2rem;
-                        opacity: 0.3;
-                    }
-
-                    i {
-                        width: 1rem;
-                        text-align: center;
-                        opacity: 0.5;
-                        transition: 0.3s;
-                    }
-                }
-            }
-
-            .description {
-                transition: 0.9s ease-in-out;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-
-            &.collapsed {
-                hr {
-                    display: none;
-                }
-
-                .description {
-                    max-height: 0;
-                }
-            }
-
-            &:not(.collapsed) {
-                .description {
-                    max-height: 1040px;
-                }
-
-                .controls i {
-                    transform: rotate(-90deg);
-                }
-            }
-        }
-    }
-
-    &.skill {
-    }
-}
-
-.card-rolls {
-    &.damage {
-        margin-top: 1rem;
-    }
-
-    .title {
-        font-weight: bold;
-    }
-
-    .dice-formula {
-        background: rgba(0, 0, 0, 0.1);
-        padding: 0.3rem;
-        border-radius: 0.2rem;
-        border: 1px solid gray;
-        margin-top: 0.5rem;
-        color: #1f1f1f;
-        text-align: center;
-        font-size: 10pt;
-    }
-
-    .dice-details {
-        display: none;
-    }
-
-    .dice-total {
-        cursor: pointer;
-        background: rgba(0, 0, 0, 0.1);
-        border-radius: 0.2rem;
-        border: 1px solid gray;
-        margin-top: 0.5rem;
-
-        hr {
-            border: none;
-            border-bottom: 1px solid currentColor;
-            opacity: 0.2;
-            margin: 0 0.25rem;
-        }
-
-        .mod {
-            opacity: 0.5;
-        }
-
-        .controls {
-            opacity: 0.5;
-            position: absolute;
-            right: 0.5rem;
-            font-size: 10pt;
-            height: 100%;
-            top: 0;
-            display: flex;
-            align-items: center;
-
-            .delim {
-                border-right: 1px solid currentColor;
-                height: 1rem;
-                margin: 0 0.2rem;
-            }
-
-            i {
-                width: 1rem;
-                transition: 0.3s;
-            }
-
-            .damage-type {
-                margin-right: 0.5rem;
-            }
-        }
-
-        .total-value {
-            position: relative;
-            color: #1f1f1f;
-            text-align: center;
-            font-size: 15pt;
-            font-weight: bold;
-            padding: 0.3rem;
-            border-radius: 0.2rem;
-
-            .cosmere-icon {
                 &.opportunity {
+                    background: #c3d1e0;
+                    border-color: #686f85;
                     color: #235bad;
                 }
 
                 &.complication {
+                    background: #e0c3c3;
+                    border-color: #856868;
                     color: #ad2323;
                 }
+
+                &.opportunity.complication {
+                    background: #d6c3e0;
+                    border-color: #7f6885;
+                    color: #1f1f1f;
+                }
             }
 
-            &.opportunity {
-                background: #c3d1e0;
-                border-color: #686f85;
-                color: #235bad;
-            }
-
-            &.complication {
-                background: #e0c3c3;
-                border-color: #856868;
-                color: #ad2323;
-            }
-
-            &.opportunity.complication {
-                background: #d6c3e0;
-                border-color: #7f6885;
-                color: #1f1f1f;
-            }
-        }
-
-        .roll-breakdown {
-            transition: 0.3s;
-            overflow: hidden;
-            height: 2.3rem;
-
-            ul {
-                display: flex;
-                padding: 0.3rem 0.25rem;
-                margin: 0;
-            }
-        }
-
-        &.collapsed {
             .roll-breakdown {
-                height: 0;
+                transition: 0.3s;
+                overflow: hidden;
+                height: 2.3rem;
+
+                ul {
+                    display: flex;
+                    padding: 0.3rem 0.25rem;
+                    margin: 0;
+                }
             }
 
-            > hr {
-                display: none;
-            }
-        }
+            &.collapsed {
+                .roll-breakdown {
+                    height: 0;
+                }
 
-        &:not(.collapsed) {
-            .controls {
-                i {
-                    transform: rotate(-90deg);
+                > hr {
+                    display: none;
+                }
+            }
+
+            &:not(.collapsed) {
+                .controls {
+                    i {
+                        transform: rotate(-90deg);
+                    }
                 }
             }
         }
-    }
 
-    .buttons-container {
-        margin-top: 0.5rem;
+        .buttons-container {
+            margin-top: 0.5rem;
 
-        a[role='button'] {
+            a[role='button'] {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 0.3rem;
+                background: rgba(255, 255, 255, 0.4);
+                font-weight: bold;
+                font-size: 10pt;
+                border-radius: 0.3rem;
+                margin: 0 0.2rem;
+                border: 1px solid gray;
+            }
+        }
+
+        .die.roll {
+            position: relative;
+            width: 1.5rem;
+            height: 1.7rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 0.3rem;
-            background: rgba(255, 255, 255, 0.4);
-            font-weight: bold;
-            font-size: 10pt;
-            border-radius: 0.3rem;
-            margin: 0 0.2rem;
-            border: 1px solid gray;
-        }
-    }
 
-    .die.roll {
-        position: relative;
-        width: 1.5rem;
-        height: 1.7rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        &:not(:first-child) {
-            margin-left: 0.25rem;
-        }
-
-        > span {
-            z-index: 1;
-            color: white;
-            font-weight: bold;
-            font-size: 15pt;
-            text-shadow: 0 0 0.2rem black;
-
-            .cosmere-icon {
-                color: white;
-                display: flex;
-                margin-top: 0.2rem;
+            &:not(:first-child) {
+                margin-left: 0.25rem;
             }
-        }
 
-        &.p:has(i.complication) {
             > span {
-                display: flex;
-                font-size: 8pt;
-                align-items: center;
+                z-index: 1;
+                color: white;
+                font-weight: bold;
+                font-size: 15pt;
+                text-shadow: 0 0 0.2rem black;
 
-                > span {
-                    font-size: 10pt;
-                    margin-right: 0.1rem;
+                .cosmere-icon {
+                    color: white;
+                    display: flex;
+                    margin-top: 0.2rem;
                 }
             }
-        }
 
-        &::after {
-            content: '';
-            background-size: 1.5rem;
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            left: 0;
-            top: 0;
-            opacity: 0.6;
-            z-index: 0;
-            background-repeat: no-repeat;
-            background-position: center;
-        }
+            &.p:has(i.complication) {
+                > span {
+                    display: flex;
+                    font-size: 8pt;
+                    align-items: center;
 
-        &.d4::after {
-            background-image: url(/systems/cosmere-rpg/assets/icons/svg/dice/d4.svg);
-        }
+                    > span {
+                        font-size: 10pt;
+                        margin-right: 0.1rem;
+                    }
+                }
+            }
 
-        &.d6::after {
-            background-image: url(/systems/cosmere-rpg/assets/icons/svg/dice/d6.svg);
-        }
+            &::after {
+                content: '';
+                background-size: 1.5rem;
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                left: 0;
+                top: 0;
+                opacity: 0.6;
+                z-index: 0;
+                background-repeat: no-repeat;
+                background-position: center;
+            }
 
-        &.d8::after {
-            background-image: url(/systems/cosmere-rpg/assets/icons/svg/dice/d8.svg);
-        }
+            &.d4::after {
+                background-image: url(/systems/cosmere-rpg/assets/icons/svg/dice/d4.svg);
+            }
 
-        &.d10::after {
-            background-image: url(/systems/cosmere-rpg/assets/icons/svg/dice/d10.svg);
-        }
+            &.d6::after {
+                background-image: url(/systems/cosmere-rpg/assets/icons/svg/dice/d6.svg);
+            }
 
-        &.d12::after {
-            background-image: url(/systems/cosmere-rpg/assets/icons/svg/dice/d12.svg);
-        }
+            &.d8::after {
+                background-image: url(/systems/cosmere-rpg/assets/icons/svg/dice/d8.svg);
+            }
 
-        &.d20::after {
-            background-image: url(/systems/cosmere-rpg/assets/icons/svg/dice/d20.svg);
-        }
+            &.d10::after {
+                background-image: url(/systems/cosmere-rpg/assets/icons/svg/dice/d10.svg);
+            }
 
-        &.p::after {
-            background-image: url(/systems/cosmere-rpg/assets/icons/svg/dice/d6.svg);
+            &.d12::after {
+                background-image: url(/systems/cosmere-rpg/assets/icons/svg/dice/d12.svg);
+            }
+
+            &.d20::after {
+                background-image: url(/systems/cosmere-rpg/assets/icons/svg/dice/d20.svg);
+            }
+
+            &.p::after {
+                background-image: url(/systems/cosmere-rpg/assets/icons/svg/dice/d6.svg);
+            }
         }
     }
-}
 
-.card-actions {
-    display: flex;
-    align-items: center;
+    .damage-notification {
+        display: flex;
+        align-items: center;
+    }
 
     .action {
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 0.3rem;
+        padding: 0.2rem;
         background: rgba(255, 255, 255, 0.4);
         font-weight: bold;
-        font-size: 10pt;
         border-radius: 0.3rem;
         margin: 0 0.2rem;
         border: 1px solid gray;
-        width: 2rem;
+        font-size: 10pt;
     }
 
-    .delim {
-        height: 1.25rem;
-        margin: 0 0.2rem;
-        border-left: 1px solid var(--color-border-light-primary);
-        border-right: 1px solid var(--color-border-light-highlight);
-    }
-}
+    .card-actions {
+        display: flex;
+        align-items: center;
 
-.message-content i.deflect {
-    font-size: 9pt;
-    margin-right: 0.1rem;
-    opacity: 0.75;
+        .action {
+            padding: 0.3rem;
+            width: 2rem;
+        }
+
+        .delim {
+            height: 1.25rem;
+            margin: 0 0.2rem;
+            border-left: 1px solid var(--color-border-light-primary);
+            border-right: 1px solid var(--color-border-light-highlight);
+        }
+    }
+
+    .message-content i.deflect {
+        font-size: 9pt;
+        margin-right: 0.1rem;
+        opacity: 0.75;
+    }
 }

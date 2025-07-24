@@ -19,7 +19,12 @@ export interface LootItemData extends DescriptionItemData, PhysicalItemData {
 export class LootItemDataModel extends DataModelMixin<
     LootItemData,
     CosmereItem
->(DescriptionItemMixin(), PhysicalItemMixin()) {
+>(
+    DescriptionItemMixin({
+        value: 'COSMERE.Item.Type.Loot.desc_placeholder',
+    }),
+    PhysicalItemMixin(),
+) {
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), {
             isMoney: new foundry.data.fields.BooleanField({

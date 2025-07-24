@@ -1,0 +1,49 @@
+<ul class="list-table talent-list">
+    <li class="talent-ref header">
+        <div class="col name">
+            <span>{{localize "TYPES.Item.talent"}}</span>
+        </div>
+        <div class="col level">
+            <span>{{localize "COSMERE.Sheet.Talents.AcquiredAtLevel"}}</span>
+        </div>
+        <div class="col controls">
+            {{#if editable}}
+            <div></div>
+            <div></div>
+            {{/if}}
+        </div>
+    </li>
+
+    {{#each extraTalents as |ref index|}}
+    <li class="talent-ref" data-item="{{index}}">
+        <div class="col name">
+            {{ref.link}}
+        </div>
+        <div class="col level">
+            <span>{{ref.level}}</span>
+        </div>
+        <div class="col controls">
+            {{#if @root.editable}}
+            <a data-action="edit-talent"
+                data-tooltip="{{localize "GENERIC.Button.Edit"}}"
+            >
+                <i class="fas fa-edit"></i>
+            </a>
+            <a data-action="remove-talent" 
+                data-tooltip="{{localize "GENERIC.Button.Remove"}}"
+            >
+                <i class="fas fa-trash-alt"></i>
+            </a>
+            {{/if}}
+        </div>
+    </li>
+    {{/each}}
+
+    {{#if editable}}
+    <li class="talent-ref drop">
+        <div class="col name">
+            <span>{{localize "COSMERE.Item.Sheet.Ancestry.Component.AdvancementTalentList.DropTalent"}}</span>
+        </div>
+    </li>
+    {{/if}}
+</ul>

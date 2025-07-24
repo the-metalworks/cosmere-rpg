@@ -1,0 +1,40 @@
+{{#with (lookup tabsMap "details") as |tab|}}
+
+<div class="tab tab-content {{tab.cssClass}}" data-tab="details" data-group="primary">
+    <fieldset>
+        <legend>{{localize "COSMERE.Item.Sheet.Basics"}}</legend>
+        {{app-item-details-id}}
+        <div class="form-group">
+            <label>{{localize "COSMERE.Item.Sheet.Type"}}</label>
+            {{formInput @root.item.system.typeFieldId value=@root.item.system.type.id localize=true}}
+        </div>
+        <div class="form-group">
+            <label>{{localize "COSMERE.Item.Sheet.Ancestry.Size"}}</label>
+            {{formInput @root.item.system.sizeField value=@root.item.system.size localize=true}}
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend>
+            <i class="fa-solid fa-arrow-up"></i> 
+            {{localize "COSMERE.Item.Sheet.Ancestry.Advancement"}}
+        </legend>
+        <div class="form-group">
+            <label>{{localize "COSMERE.Item.Sheet.Ancestry.FreePath"}}</label>
+            {{app-document-reference-input
+                name="system.advancement.extraPath"
+                value=@root.item.system.advancement.extraPath
+                type="Item"
+                subtype="path"
+                placeholder="COSMERE.Item.Sheet.Ancestry.PathReferencePlaceholder"
+                readonly=(not @root.editable)
+            }}
+        </div>
+        <h5>{{localize "COSMERE.Item.Sheet.Ancestry.FreeTalents"}}</h5>
+        {{app-ancestry-advancement-talent-list}}
+
+        <h5>{{localize "COSMERE.Item.Sheet.Ancestry.BonusTalents"}}</h5>
+        {{app-ancestry-bonus-talents}}
+    </fieldset>
+</div>
+
+{{/with}}

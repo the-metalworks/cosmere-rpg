@@ -1,0 +1,20 @@
+<form>
+    <div class="form-group">
+        <label>{{localize "GENERIC.Level"}}</label>
+        <input type="number" name="level" min="1" value="{{level}}">
+    </div>
+    <div class="form-group">
+        <label>{{localize "DIALOG.EditBonusTalentsRule.Quantity"}}</label>
+        <input type="number" name="quantity" min="1" value="{{quantity}}">
+    </div>
+    <div clas="form-group-stacked">
+        <label>{{localize "COSMERE.Item.Sheet.Ancestry.Restrictions"}}</label>
+        <input type="text" name="restrictions" value="{{restrictions}}">
+    </div>
+    <br>
+    <div class="form-group">
+        <button data-action="update" type="submit">
+            {{localize "GENERIC.Button.Update"}}
+        </button>
+    </div>
+</form>

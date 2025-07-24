@@ -34,6 +34,7 @@ export class TalentItemSheet extends BaseItemSheet {
         {
             details: {
                 label: 'COSMERE.Item.Sheet.Tabs.Details',
+                icon: '<i class="fa-solid fa-circle-info"></i>',
                 sortIndex: 15,
             },
         },
@@ -80,6 +81,7 @@ export class TalentItemSheet extends BaseItemSheet {
             ...(await super._prepareContext(options)),
             isPathTalent: this.item.system.type === Talent.Type.Path,
             isAncestryTalent: this.item.system.type === Talent.Type.Ancestry,
+            hasModality: this.item.system.modality !== null,
         };
     }
 }

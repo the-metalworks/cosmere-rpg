@@ -7,9 +7,9 @@ declare function _ClientDocumentMixin<
     Schema extends foundry.abstract.DataModel = foundry.abstract.DataModel,
     Parent extends foundry.abstract.Document | null = null,
     BaseClass extends typeof foundry.abstract.Document<Schema, Parent>,
->(base: BaseClass): Mixin<BaseClass, typeof _ClientDocument>;
+>(base: BaseClass): Mixin<BaseClass, typeof ClientDocument>;
 
-declare class _ClientDocument {
+declare class ClientDocument {
     /**
      * A collection of Application instances which should be re-rendered whenever this document is updated.
      * The keys of this object are the application ids and the values are Application instances. Each
@@ -40,4 +40,12 @@ declare class _ClientDocument {
      * Called before {@link ClientDocument#prepareDerivedData} in {@link ClientDocument#prepareData}.
      */
     public prepareDerivedData();
+
+    /**
+     * Create a content link for this Document.
+     * @param options Additional options to configure how the link is constructed.
+     */
+    public toAnchor(
+        options?: Partial<TextEditor.EnrichmentAnchorOptions>,
+    ): HTMLAnchorElement;
 }

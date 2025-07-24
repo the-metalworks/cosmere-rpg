@@ -32,7 +32,9 @@ export class PathItemDataModel extends DataModelMixin<
             );
         },
     }),
-    DescriptionItemMixin(),
+    DescriptionItemMixin({
+        value: 'COSMERE.Item.Type.Path.desc_placeholder',
+    }),
 ) {
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), {

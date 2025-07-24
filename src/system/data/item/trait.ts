@@ -22,7 +22,12 @@ export interface TraitItemData
 export class TraitItemDataModel extends DataModelMixin<
     TraitItemData,
     CosmereItem
->(DescriptionItemMixin(), ActivatableItemMixin()) {
+>(
+    DescriptionItemMixin({
+        value: 'COSMERE.Item.Type.Trait.desc_placeholder',
+    }),
+    ActivatableItemMixin(),
+) {
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), {});
     }

@@ -1,0 +1,22 @@
+<div class="content">
+    {{#if value}}
+        {{contentLink}}
+    {{else}}
+        <span class="placeholder">
+            {{#if readonly}}
+                —
+            {{else}}
+                {{localize (default placeholder defaultPlaceholder)}}
+            {{/if}}
+        </span>
+    {{/if}}
+</div>
+{{#if (not readonly)}}
+<div class="controls">
+    <a data-action="clear"
+        data-tooltip="GENERIC.Clear"
+    >
+        <i class="fa-solid fa-xmark"></i>
+    </a>
+</div>
+{{/if}}

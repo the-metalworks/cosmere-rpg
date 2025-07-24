@@ -82,18 +82,26 @@
         }
     }
 
-    app-character-ancestry {
+    app-character-ancestry, app-character-culture {
+        position: relative;
         display: flex;
+        align-items: center;
         border-radius: 0.3rem;
         margin-bottom: 1rem;
+        text-shadow: 0 0 0.5rem black;
 
         border: 1px solid #463a47;
         background: #0b0a13;
+        padding: 0.2rem 1rem;
+        overflow: hidden;
+        box-shadow: 0 0 0.5rem black;
 
-        .ancestry {
+        .ancestry, .culture {
             display: flex;
             flex-direction: column;
-            padding: 0.2rem 1rem;
+            flex: 1;
+            z-index: 1;
+            cursor: pointer;
 
             .name {
                 font-size: 13pt;
@@ -104,21 +112,44 @@
                 font-size: 9pt;
                 opacity: 0.75;
             }
+
+            &:not(.placeholder):hover {
+                text-shadow: 0 0 8px var(--color-shadow-primary);
+            }
+        }
+
+        .controls {
+            margin-left: 1rem;
+            z-index: 1;
+        }
+
+        .background-img {
+            position: absolute;
+            left: 0;
+            right: 0;
+            opacity: 0.25;
+            top: -6rem;
+
+            img {
+                width: 100%;
+            }
         }
 
         &:has(> .placeholder) {
             border: 1px dashed;
             align-items: center;
             justify-content: center;
-            padding: 0.25rem 0;
+            padding: 0.5rem 1rem;
             opacity: 0.5;
             box-shadow: 0 0 1rem 0.1rem black;
             background: #00000036;
+            text-align: center;
         }
     }
 
     app-character-paths-list {
         .path {
+            position: relative;
             border-radius: 0.3rem;
             margin-bottom: 1rem;
             display: flex;
@@ -127,12 +158,18 @@
             padding: 0.2rem 1rem;
 
             border: 1px solid #463a47;
+            overflow: hidden;
             background: #0b0a13;
+            text-shadow: 0 0 0.5rem black;
+            box-shadow: 0 0 0.5rem black;
+
+            cursor: pointer;
 
             .name {
                 display: flex;
                 flex-direction: column;
                 flex: 1;
+                z-index: 1;
 
                 .label {
                     font-size: 13pt;
@@ -148,6 +185,27 @@
             .level {
                 font-size: 14pt;
                 font-weight: bold;
+                z-index: 1;
+            }
+
+            .name,
+            .level {
+                &:hover {
+                    text-shadow: 0 0 8px var(--color-shadow-primary);
+                }
+            }
+
+            .controls {
+                margin-left: 1rem;
+                z-index: 1;
+            }
+
+            .background-img {
+                position: absolute;
+                left: 0;
+                right: 0;
+                opacity: 0.25;
+                top: -6rem;
             }
 
             &.placeholder {

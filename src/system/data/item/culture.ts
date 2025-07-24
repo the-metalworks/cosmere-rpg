@@ -18,7 +18,9 @@ export class CultureItemDataModel extends DataModelMixin<
         initial: 'none',
         choices: () => ['none', ...Object.keys(CONFIG.COSMERE.cultures)],
     }),
-    DescriptionItemMixin(),
+    DescriptionItemMixin({
+        value: 'COSMERE.Item.Type.Culture.desc_placeholder',
+    }),
 ) {
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), {});

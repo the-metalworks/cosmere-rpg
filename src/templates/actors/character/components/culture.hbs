@@ -1,0 +1,30 @@
+{{#if culture}}
+<div class="culture"
+    data-action="view"
+>
+    <span class="name">{{culture.label}}</span>
+    <span class="item-type">{{localize "TYPES.Item.culture"}}</span>
+</div>
+{{#if isEditMode}}
+<div class="controls">
+    <a data-action="remove"
+        data-tooltip="GENERIC.Button.Remove"
+    >
+        <i class="fa-solid fa-xmark"></i>
+    </a>
+</div>
+{{/if}}
+
+{{!-- NOTE: Currently available culture images are too low resolution to use here.
+    Uncomment the following block if higher resolution images are available
+    --}}
+{{!-- {{#if culture.img}}
+<div class="background-img">
+    <img src="{{culture.img}}">
+</div>
+{{/if}} --}}
+{{else}}
+<div class="culture placeholder">
+    <span>{{localize "COSMERE.Actor.Sheet.CulturePlaceholder"}}</span>
+</div>
+{{/if}}

@@ -24,19 +24,27 @@ export interface SpecialtyItemData extends IdItemData, DescriptionItemData {
 export class SpecialtyItemDataModel extends DataModelMixin<
     SpecialtyItemData,
     CosmereItem
->(IdItemMixin(), DescriptionItemMixin()) {
+>(
+    IdItemMixin({ initialFromName: true }),
+    DescriptionItemMixin({
+        value: 'COSMERE.Item.Type.Specialty.desc_placeholder',
+    }),
+) {
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), {
             path: new foundry.data.fields.StringField({
                 required: true,
                 nullable: false,
                 blank: false,
+                initial: '<path>',
             }),
             hasPath: new foundry.data.fields.BooleanField(),
         });
     }
 
     public prepareDerivedData() {
+        super.prepareDerivedData();
+
         // Get item
         const item = this.parent;
 

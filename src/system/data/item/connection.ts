@@ -17,7 +17,11 @@ export interface ConnectionItemData extends DescriptionItemData {}
 export class ConnectionItemDataModel extends DataModelMixin<
     ConnectionItemData,
     CosmereItem
->(DescriptionItemMixin()) {
+>(
+    DescriptionItemMixin({
+        value: 'COSMERE.Item.Type.Connection.desc_placeholder',
+    }),
+) {
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), {});
     }

@@ -50,15 +50,21 @@ export class ConfigureSkillsDialog extends ComponentHandlebarsApplicationMixin(
 
     /* --- Lifecycle --- */
 
-    protected _onRender(): void {
+    protected _onRender(context: AnyObject, options: AnyObject): void {
+        super._onRender(context, options);
+
         $(this.element).prop('open', true);
     }
 
-    protected _onFirstRender() {
+    protected _onFirstRender(context: AnyObject, options: AnyObject) {
+        super._onFirstRender(context, options);
+
         this.actor.apps[this.id] = this;
     }
 
-    protected _onClose() {
+    protected _onClose(options: AnyObject) {
+        super._onClose(options);
+
         if (this.id in this.actor.apps) {
             delete this.actor.apps[this.id];
         }

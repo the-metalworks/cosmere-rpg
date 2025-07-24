@@ -85,17 +85,10 @@ export class TalentPrerequisitesComponent extends HandlebarsApplicationComponent
         const id = this.getRuleIdFromEvent(event);
         if (!id) return;
 
-        // Get prerequisites
-        const prerequisites = this.application.item.system.prerequisites;
-
-        // Remove the rule
-        delete prerequisites[id];
-
         // Update the item
-        void this.application.item.update(
-            { 'system.prerequisites': prerequisites },
-            { diff: false },
-        );
+        void this.application.item.update({
+            [`system.prerequisites.-=${id}`]: null,
+        });
     }
 
     /* --- Context --- */

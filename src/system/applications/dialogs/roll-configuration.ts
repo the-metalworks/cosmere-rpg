@@ -153,7 +153,7 @@ export class RollConfigurationDialog extends ComponentHandlebarsApplicationMixin
         const skill = this.data.data.skill;
         const attributeData = this.data.data.attributes[attribute];
         const rank = skill.rank;
-        const value = attributeData.value;
+        const value = attributeData.value + attributeData.bonus;
 
         this.data.data.mod = rank + value;
         this.data.defaultAttribute = attribute;

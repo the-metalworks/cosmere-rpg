@@ -117,7 +117,11 @@ export class EditTalentPrerequisiteDialog extends ComponentHandlebarsApplication
                 Object.keys(CONFIG.COSMERE.skills)[0]) as Skill;
             this.data.rank = parseInt(formData.get('rank') as string, 10);
         } else if (this.data.type === Talent.Prerequisite.Type.Talent) {
-            this.data.mode = formData.get('mode') as Talent.Prerequisite.Mode;
+            this.data.mode =
+                (formData.get('mode') as
+                    | Talent.Prerequisite.Mode
+                    | undefined) ?? Talent.Prerequisite.Mode.AnyOf;
+            this.data.talents ??= [];
         } else if (this.data.type === Talent.Prerequisite.Type.Connection) {
             this.data.description = formData.get('description') as string;
         }

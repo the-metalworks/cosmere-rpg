@@ -29,3 +29,52 @@ app-multi-state-toggle {
         z-index: 0;
     }
 }
+
+app-document-reference-input {
+    --input-background-color: var(--color-cool-4);
+    --input-border-color: transparent;
+    --input-text-color: var(--color-light-3);
+    --input-placeholder-color: var(--color-light-4);
+    --input-focus-outline-color: var(--color-cool-3);
+
+    &[readonly] {
+        --input-background-color: var(--color-cool-5);
+        --input-border-color: var(--color-cool-4);
+        --input-text-color: var(--color-light-4);
+    }
+}
+
+app-document-reference-input {
+    height: var(--input-height);
+    line-height: var(--input-height);
+    padding: 0 0.5rem;
+    background: var(--input-background-color);
+    border: 1px solid var(--input-border-color);
+    border-radius: 4px;
+    outline: 1px solid transparent;
+    color: var(--input-text-color);
+    user-select: text;
+    font-size: var(--font-size-14);
+    transition: outline-color 0.5s;
+
+    &.dragover {
+        outline: 2px solid var(--input-focus-outline-color);
+        box-shadow: 0 0 5px var(--color-shadow-primary);
+    }
+}
+
+app-document-reference-input {
+    display: flex;
+    align-items: center;
+    padding: 0 0.5rem;
+
+    .content {
+        flex: 1;
+    }
+
+    .placeholder {
+        color: var(--input-placeholder-color);
+        opacity: 0.75;
+        font-style: italic;
+    }
+}

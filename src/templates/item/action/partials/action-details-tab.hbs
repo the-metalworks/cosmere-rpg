@@ -1,0 +1,25 @@
+{{#with (lookup tabsMap "details") as |tab|}}
+
+<div class="tab tab-content {{tab.cssClass}}" data-tab="details" data-group="primary">
+    {{app-item-details-id}}
+    {{app-item-details-type}}
+
+    {{#if (eq @root.item.system.type "ancestry")}}
+        <div class="form-group">
+            <label>{{localize @root.systemFields.ancestry.label}}</label>
+            {{app-id-input
+                name="system.ancestry"
+                value=@root.item.system.ancestry
+            }}
+        </div>
+        <p class="hint">
+            {{localize @root.systemFields.ancestry.hint}}
+        </p>
+    {{/if}}
+
+    {{app-item-details-activation}}
+    {{app-item-details-damage}}
+    {{app-item-details-modality}}
+</div>
+
+{{/with}}

@@ -191,7 +191,7 @@ export class AttackConfigurationDialog extends ComponentHandlebarsApplicationMix
         const skill = this.data.skillTest.data.skill;
         const attributeData = this.data.skillTest.data.attributes[attribute];
         const rank = skill.rank;
-        const value = attributeData.value;
+        const value = attributeData.value + attributeData.bonus;
 
         this.data.skillTest.data.mod = rank + value;
         this.data.skillTest.plotDie = plotDie;

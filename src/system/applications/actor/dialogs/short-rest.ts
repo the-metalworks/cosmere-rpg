@@ -1,4 +1,6 @@
 import { CharacterActor, CosmereActor } from '@system/documents';
+import { AnyObject } from '@system/types/utils';
+
 import { Derived } from '@system/data/fields';
 
 // Constants
@@ -120,7 +122,9 @@ export class ShortRestDialog extends foundry.applications.api.DialogV2 {
 
     /* --- Lifecycle --- */
 
-    protected _onRender() {
+    protected _onRender(context: never, options: AnyObject) {
+        super._onRender(context, options);
+
         // Event handler for tended by selection
         $(this.element)
             .find('select[name="tendedBy"]')

@@ -66,6 +66,11 @@ export class HandlebarsApplicationComponent<
     public static readonly ACTIONS: foundry.applications.api.ApplicationV2.Configuration['actions'] =
         {};
 
+    /**
+     * Whether this Component is form associated.
+     */
+    public static FORM_ASSOCIATED = false;
+
     constructor(
         public readonly id: string,
         public readonly selector: string,

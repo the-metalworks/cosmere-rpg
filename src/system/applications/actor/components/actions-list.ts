@@ -1,6 +1,5 @@
 import { ActionType, ItemType } from '@system/types/cosmere';
-import { CosmereItem } from '@system/documents/item';
-import { ActionItemDataModel, ActionItemData } from '@system/data/item';
+import { CosmereItem, TalentItem } from '@system/documents/item';
 import { ConstructorOf } from '@system/types/utils';
 
 import { AppContextMenu } from '@system/applications/utils/context-menu';
@@ -103,15 +102,16 @@ export class ActorActionsListComponent extends HandlebarsApplicationComponent<
                     item.system.alwaysEquipped,
             );
 
-        // Get all items that are not actions (but are activatable, e.g. weapons)
+        // Get all items that are not actions or talents (but are activatable, e.g. weapons)
         const nonActionItems = activatableItems.filter(
-            (item) => !(item.system instanceof ActionItemDataModel),
+            (item) => !item.isAction() && !item.isTalent(),
         );
 
+        // Get talent items
+        const talentItems = activatableItems.filter((item) => item.isTalent());
+
         // Get action items
-        const actionItems = activatableItems.filter(
-            (item) => item.system instanceof ActionItemDataModel,
-        ) as CosmereItem<ActionItemData>[];
+        const actionItems = activatableItems.filter((item) => item.isAction());
 
         // Ensure all items have an expand state record
         activatableItems.forEach((item) => {
@@ -131,6 +131,11 @@ export class ActorActionsListComponent extends HandlebarsApplicationComponent<
             sections: [
                 ...(await this.categorizeItemsByType(
                     nonActionItems,
+                    searchText,
+                    sortDir,
+                )),
+                ...(await this.prepareTalentsData(
+                    talentItems,
                     searchText,
                     sortDir,
                 )),
@@ -203,6 +208,123 @@ export class ActorActionsListComponent extends HandlebarsApplicationComponent<
                     itemData: await this.prepareItemData(categories[type]),
                 })),
         );
+    }
+
+    protected async prepareTalentsData(
+        items: TalentItem[],
+        filterText: string,
+        sort: SortDirection,
+    ) {
+        // Get all path items
+        const pathItems = this.application.actor.items.filter((item) =>
+            item.isPath(),
+        );
+
+        // Get paths
+        const paths = pathItems
+            .map((item) => ({
+                label: item.name,
+                id: item.system.id,
+                modality: undefined as string | undefined,
+            }))
+            .sort((a, b) => a.label.compare(b.label));
+
+        // Get ancestry item
+        const ancestryItem = this.application.actor.items.find((item) =>
+            item.isAncestry(),
+        );
+
+        // Map talents to paths
+        const talentsByPath = items.reduce(
+            (result, talent) => {
+                if (!talent.system.path) return result;
+
+                const path = paths.find((p) => p.id === talent.system.path);
+                if (!path) return result;
+
+                if (!result[path.id]) result[path.id] = [];
+                result[path.id].push(talent);
+
+                return result;
+            },
+            {} as Record<string, TalentItem[]>,
+        );
+
+        // Get ancestry talents
+        const ancestryTalents = (
+            ancestryItem
+                ? items.filter(
+                      (item) => item.system.ancestry === ancestryItem.system.id,
+                  )
+                : []
+        )
+            .filter((item) => item.name.toLowerCase().includes(filterText))
+            .sort(
+                (a, b) =>
+                    a.name.compare(b.name) *
+                    (sort === SortDirection.Descending ? 1 : -1),
+            );
+
+        // Get remaining talents
+        const remainingTalents = items
+            .filter(
+                (item) =>
+                    (!item.system.path || !talentsByPath[item.system.path]) &&
+                    (!item.system.ancestry ||
+                        item.system.ancestry !== ancestryItem?.id),
+            )
+            .filter((item) => item.name.toLowerCase().includes(filterText))
+            .sort(
+                (a, b) =>
+                    a.name.compare(b.name) *
+                    (sort === SortDirection.Descending ? 1 : -1),
+            );
+
+        return await Promise.all([
+            ...(ancestryItem && ancestryTalents.length > 0
+                ? [
+                      {
+                          label: ancestryItem.name,
+                          id: ancestryItem.system.id,
+                          items: ancestryTalents,
+                          itemData: await this.prepareItemData(ancestryTalents),
+                      },
+                  ]
+                : []),
+
+            ...paths
+                .filter((path) => talentsByPath[path.id]?.length > 0)
+                .map(async (path) => {
+                    // Get talents
+                    const talents = talentsByPath[path.id]
+                        .filter((item) =>
+                            item.name.toLowerCase().includes(filterText),
+                        )
+                        .sort(
+                            (a, b) =>
+                                a.name.compare(b.name) *
+                                (sort === SortDirection.Descending ? 1 : -1),
+                        );
+
+                    return {
+                        ...path,
+                        items: talents,
+                        itemData: await this.prepareItemData(talents),
+                    };
+                }),
+
+            ...(remainingTalents.length > 0
+                ? [
+                      {
+                          label: 'COSMERE.Item.Type.Talent.label_plural',
+                          id: 'talents',
+                          items: remainingTalents,
+                          itemData:
+                              await this.prepareItemData(remainingTalents),
+                      },
+                  ]
+                : []),
+        ]);
     }
 
     protected async prepareItemData(items: CosmereItem[]) {

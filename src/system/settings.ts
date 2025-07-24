@@ -14,4 +14,13 @@ export function registerSettings() {
         default: '0.0.0',
         type: String,
     });
+
+    game.settings!.register('cosmere-rpg', 'itemSheetSideTabs', {
+        name: 'Vertical Side Tabs for Item Sheets',
+        hint: 'Toggle whether Item sheets should use vertical tabs down the right-hand side, similar to the character sheet, or leave the in-line horizontal ones (default).',
+        scope: 'world',
+        config: true,
+        type: Boolean,
+        default: false,
+    });
 }

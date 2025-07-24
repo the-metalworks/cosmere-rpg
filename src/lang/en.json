@@ -197,6 +197,7 @@
                 "Favorites": "Favorites",
                 "DropFavorite": "Drop Favorite",
                 "AncestryPlaceholder": "Add Ancestry",
+                "CulturePlaceholder": "Add Culture",
                 "PathPlaceholder": "Add Path",
                 "ShortRest": "Short rest",
                 "LongRest": "Long rest",
@@ -267,55 +268,68 @@
             "Type": {
                 "Weapon": {
                     "label": "Weapon",
-                    "label_plural": "Weapons"
+                    "label_plural": "Weapons",
+                    "desc_placeholder": "Edit this to describe what this weapon is & how it looks."
                 },
                 "Armor": {
                     "label": "Armor",
-                    "label_plural": "Armor"
+                    "label_plural": "Armor",
+                    "desc_placeholder": "Edit this to describe what this armor is & how it looks."
                 },
                 "Equipment": {
                     "label": "Equipment",
-                    "label_plural": "Equipment"
+                    "label_plural": "Equipment",
+                    "desc_placeholder": "Edit this to describe what this piece of equipment is & how it looks."
                 },
                 "Loot": {
                     "label": "Loot",
-                    "label_plural": "Loot"
+                    "label_plural": "Loot",
+                    "desc_placeholder": "Edit this to describe the item."
                 },
                 "Ancestry": {
                     "label": "Ancestry",
-                    "label_plural": "Ancestries"
+                    "label_plural": "Ancestries",
+                    "desc_placeholder": "Edit this to define a potential heritage for a character. Also include any special rules text for players to read."
                 },
                 "Culture": {
                     "label": "Culture",
-                    "label_plural": "Cultures"
+                    "label_plural": "Cultures",
+                    "desc_placeholder": "Edit this to define one of the many cultures in the setting. Also include any special rules text for players to read."
                 },
                 "Path": {
                     "label": "Path",
-                    "label_plural": "Paths"
+                    "label_plural": "Paths",
+                    "desc_placeholder": "Edit this to describe this the sorts of characters this progression path represents."
                 },
                 "Specialty": {
                     "label": "Specialty",
-                    "label_plural": "Specialties"
+                    "label_plural": "Specialties",
+                    "desc_placeholder": "Edit this to describe the unique subset of characters this specialty represents."
                 },
                 "Talent": {
                     "label": "Talent",
-                    "label_plural": "Talents"
+                    "label_plural": "Talents",
+                    "desc_placeholder": "Edit this to describe what this Talent does."
                 },
                 "Action": {
                     "label": "Action",
-                    "label_plural": "Actions"
+                    "label_plural": "Actions",
+                    "desc_placeholder": "Edit this to describe what this action is and does."
                 },
                 "Trait": {
                     "label": "Trait",
-                    "label_plural": "Traits"
+                    "label_plural": "Traits",
+                    "desc_placeholder": "Edit this to describe this trait."
                 },
                 "Injury": {
                     "label": "Injury",
-                    "label_plural": "Injuries"
+                    "label_plural": "Injuries",
+                    "desc_placeholder": "Edit this to describe how this injury affects a character."
                 },
                 "Connection": {
                     "label": "Connection",
-                    "label_plural": "Connections"
+                    "label_plural": "Connections",
+                    "desc_placeholder": "Edit this to create a description of the NPC and how they are connected to the character."
                 }
             },
             "Weapon": {
@@ -370,7 +384,15 @@
                     "Basic": {
                         "label": "Basic Action",
                         "label_plural": "Basic Actions"
+                    },
+                    "Ancestry": {
+                        "label": "Ancestry Action",
+                        "label_plural": "Ancestry Actions"
                     }
+                },
+                "Ancestry": {
+                    "Label": "Ancestry Identifier",
+                    "Hint": "Identifier of the Ancenstry this action belongs to. (e.g. \"human\")"
                 }
             },
             "Activation": {
@@ -403,7 +425,9 @@
                         "PerScene": "Per scene"
                     },
                     "Per": "Per"
-                }
+                },
+                "Opportunity": "Opportunity Threshold",
+                "Complication": "Complication Threshold"
             },
             "Injuries": {
                 "Name": {
@@ -452,8 +476,13 @@
                     "Label": "Unequipped"
                 }
             },
+            "Modality": {
+                "Label": "Modality Identifier",
+                "Hint": "Identifier of the modality this talent belongs to. (e.g. \"stance\")"
+            },
             "AttackFlavor": "[actor] attacks with their [item].",
             "Sheet": {
+                "Basics": "Basics",
                 "Tabs": {
                     "Description": "Description",
                     "Effects": "Effects",
@@ -468,6 +497,27 @@
                     "Duration": "Duration",
                     "InitialDuration": "Initial",
                     "RemainingDuration": "Remaining"
+                },
+                "Ancestry": {
+                    "Size": "Size",
+                    "Advancement": "Advancement",
+                    "FreePath": "Free Path",
+                    "FreeTalents": "Free Talents",
+                    "BonusTalents": "Bonus Talents",
+                    "Restrictions": "Restrictions",
+                    "PathReferencePlaceholder": "Drop a Path here to set a free path",
+                    "TalentIdDescription": "The identifier column should hold the identifier of the talent item you want characters with this Ancestry to have access to. The path identifier can only contain letters (a-z), numbers (0-9), dashes (-), and underscores (_).",
+                    "Component": {
+                        "AdvancementTalentList": {
+                            "DropTalent": "Drop a Talent here to add it to the list",
+                            "Warning": {
+                                "WrongType": "The dropped Document must be of type Talent"
+                            }
+                        },
+                        "BonusTalents": {
+                            "Add": "New Rule"
+                        }
+                    }
                 },
                 "Specialty": {
                     "PathId": "Path Identifier",
@@ -513,6 +563,10 @@
                 "Damage": {
                     "Title": "Damage",
                     "Formula": "Damage Formula"
+                },
+                "Modality": {
+                    "Title": "Modality",
+                    "HasModality": "Has Modality?"
                 },
                 "Talent": {
                     "PathId": "Path Identifier",
@@ -627,6 +681,21 @@
                 "Edit": "Edit Effect",
                 "Delete": "Remove Effect",
                 "ToggleActive": "Toggle Active"
+            },
+            "Talents": {
+                "Label": "Talents",
+                "AcquiredAtLevel": "Acquired at Level",
+                "Add": "New Talent",
+                "Edit": "Edit Talent",
+                "Delete": "Remove Talent",
+                "Cancel": "Discard Changes",
+                "Submit": "Finish Editing"
+            },
+            "TalentPicks": {
+                "Edit": "Edit",
+                "Delete": "Remove",
+                "Cancel": "Discard Changes",
+                "Submit": "Finish Editing"
             }
         },
         "Attribute": {
@@ -666,6 +735,8 @@
             },
             "ApplyDamage": "[actor] takes [amount] damage",
             "ApplyHealing": "[actor] recovers [amount] health",
+            "UndoDamage": "Undo damage",
+            "UndoHealing": "Undo healing",
             "ViewRollsDetails": "Roll Details",
             "InjuryDuration": "Injury Duration.",
             "Welcome": "<h2>Welcome to the Cosmere RPG System!</h2> <p>Thank you for trying out the community-developed Cosmere Roleplaying Game system! You’re currently using version <strong>[version]</strong>. As this is an early release, some bugs or missing features are to be expected, but your feedback will help us improve the system.</p> <p>If you encounter any issues or have suggestions, we’d love to hear from you! Please report them on our <a href=\"https://github.com/stanavdb/cosmere-rpg/issues\">GitHub Issues page</a>, and be sure to review the <a href=\"https://github.com/stanavdb/cosmere-rpg/blob/main/CONTRIBUTING.md\">contribution guidelines</a> if you’d like to get involved in development. </p> <p>For discussions, updates, and support, join us on the <a href=\"https://discord.gg/B9Zam3qdZt\">Official Cosmere RPG Discord</a> server. You can find us in <em>vtt-discussion > Foundry VTT System Development</em>.</p> <p>We’re excited to have you on board and hope you enjoy playing in the Cosmere!</p>"
@@ -738,12 +809,29 @@
                     "Dice": "Dice"
                 }
             }
+        },
+        "EditBonusTalentsRule": {
+            "Title": "Edit Bonus Talents Rule",
+            "Quantity": "Amount",
+            "Warning": {
+                "DuplicateLevel": "A rule for level {level} already exists"
+            }
+        }
+    },
+    "COMPONENT": {
+        "DocumentReferenceInput": {
+            "Placeholder": "Drop a {type} here to create a reference",
+            "Warning": {
+                "WrongType": "The dropped Document must be of type {type}",
+                "WrongSubtype": "The dropped {type} must be of type {subtype}"
+            }
         }
     },
     "GENERIC": {
         "Unknown": "Unknown",
         "None": "None",
         "Default": "Default",
+        "Document": "Document",
         "Formula": "Formula",
         "Value": "Value",
         "Skill": "Skill",
@@ -760,6 +848,9 @@
         "Mode": "Mode",
         "Turns": "Turns",
         "Rounds": "Rounds",
+        "Clear": "Clear",
+        "Name": "Name",
+        "Level": "Level",
         "Button": {
             "Roll": "Roll",
             "Continue": "Continue",
@@ -800,6 +891,7 @@
         },
         "Item": {
             "culture": "Culture",
+            "ancestry": "Ancestry",
             "path": "Path",
             "connection": "Connection",
             "injury": "Injury",

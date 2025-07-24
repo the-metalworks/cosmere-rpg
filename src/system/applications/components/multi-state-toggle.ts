@@ -66,7 +66,6 @@ export class MultiStateToggleComponent extends HandlebarsApplicationComponent<
     /* --- Lifecyle --- */
 
     protected _onRender(params: Params): void {
-        console.log('MultiStateToggleComponent._onRender', params);
         if (params.name) $(this.element!).attr('name', params.name);
     }
 

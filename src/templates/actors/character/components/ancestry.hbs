@@ -1,10 +1,27 @@
 {{#if ancestry}}
-<div class="ancestry">
-    <span class="name">{{ancestry.label}}</span>
-    <span class="item-type">{{localize "COSMERE.Item.Type.Ancestry.label"}}</span>
-</div>
+    <div class="ancestry"
+        data-action="view"
+    >
+        <span class="name">{{ancestry.label}}</span>
+        <span class="item-type">{{localize "COSMERE.Item.Type.Ancestry.label"}}</span>
+    </div>
+    {{#if isEditMode}}
+    <div class="controls">
+        <a data-action="remove"
+            data-tooltip="GENERIC.Button.Remove"
+        >
+            <i class="fa-solid fa-xmark"></i>
+        </a>
+    </div>
+    {{/if}}
+
+    {{#if ancestry.img}}
+    <div class="background-img">
+        <img src="{{ancestry.img}}">
+    </div>
+    {{/if}}
 {{else}}
-<div class="ancestry placeholder">
-    <span>{{localize "COSMERE.Actor.Sheet.AncestryPlaceholder"}}</span>
-</div>
+    <div class="ancestry placeholder">
+        <span>{{localize "COSMERE.Actor.Sheet.AncestryPlaceholder"}}</span>
+    </div>
 {{/if}}

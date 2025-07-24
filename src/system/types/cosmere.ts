@@ -221,6 +221,7 @@ export const enum EquipmentType {
 
 export const enum ActionType {
     Basic = 'basic',
+    Ancestry = 'ancestry',
 }
 
 export const enum ActionCostType {

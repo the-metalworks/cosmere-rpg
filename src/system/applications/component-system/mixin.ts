@@ -7,7 +7,7 @@ import ComponentSystem from './system';
 import { HandlebarsApplicationComponent } from './component';
 
 // Types
-import { ApplicationV2Constructor, ComponentState } from './types';
+import { ApplicationV2Constructor, ComponentState, PartState } from './types';
 
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 
@@ -167,6 +167,7 @@ export function ComponentHandlebarsApplicationMixin<
                 string,
                 HTMLCollection
             >;
+            const partStates = {} as Record<string, [HTMLElement, PartState]>;
             let states = {} as Record<string, ComponentState>;
 
             // Extract existing component states
@@ -177,14 +178,50 @@ export function ComponentHandlebarsApplicationMixin<
                 };
             });
 
-            // Replace parts (if required)
+            // Replace parts
             if (Object.keys(parts).length > 0) {
-                super._replaceHTML(parts, content, options);
+                Object.entries(parts).forEach(([partId, htmlElement]) => {
+                    // Get part element
+                    const priorElement: HTMLElement = content.querySelector(
+                        `[data-application-part="${partId}"]`,
+                    )!;
+                    const state: Partial<PartState> = {};
+
+                    if (priorElement) {
+                        super._preSyncPartState(
+                            partId,
+                            htmlElement,
+                            priorElement,
+                            state as PartState,
+                        );
+                        partStates[partId] = [priorElement, state as PartState];
+
+                        priorElement.replaceWith(htmlElement);
+                    } else {
+                        content.appendChild(htmlElement);
+                    }
+
+                    super._attachPartListeners(partId, htmlElement, options);
+                    super.parts[partId] = htmlElement;
+                });
             }
 
             // Replace components
             Object.entries(components).forEach(([ref, html]) =>
                 ComponentSystem.replaceComponent(ref, html),
+            );
+
+            // Apply part states
+            Object.entries(partStates).forEach(
+                ([partId, [priorElement, state]]) => {
+                    const htmlElement = parts[partId];
+                    this._syncPartState(
+                        partId,
+                        htmlElement,
+                        priorElement,
+                        state,
+                    );
+                },
             );
 
             // Apply states

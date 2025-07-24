@@ -1,0 +1,47 @@
+<ul class="list-table">
+    <li class="header">
+        <div class="col level">
+            <span>{{localize "GENERIC.Level"}}</span>
+        </div>
+        <div class="col quantity">
+            <span>#</span>
+        </div>
+        <div class="col restrictions">
+            <span>{{localize "COSMERE.Item.Sheet.Ancestry.Restrictions"}}</span>
+        </div>
+        <div class="col controls">
+            {{#if editable}}
+            <div></div>
+            <a data-action="add-rule"
+                data-tooltip="{{localize "COSMERE.Item.Sheet.Ancestry.Component.BonusTalents.Add"}}"
+            >
+                <i class="fas fa-plus"></i>
+            </a>
+            {{/if}}
+        </div>
+    </li>
+
+    {{#each levels as |rule index|}}
+    <li data-index="{{index}}">
+        <div class="col level">
+            <span>{{rule.level}}</span>
+        </div>
+        <div class="col quantity">
+            <span>{{rule.quantity}}</span>
+        </div>
+        <div class="col restrictions">
+            <span>{{default rule.restrictions '—'}}</span>
+        </div>
+        <div class="col controls">
+            {{#if @root.editable}}
+            <a data-action="edit-rule" data-tooltip="{{localize "GENERIC.Button.Edit"}}">
+                <i class="fas fa-edit"></i>
+            </a>
+            <a data-action="remove-rule" data-tooltip="{{localize "GENERIC.Button.Remove"}}">
+                <i class="fas fa-trash-alt"></i>
+            </a>
+            {{/if}}
+        </div>
+    </li>
+    {{/each}}
+</ul>
