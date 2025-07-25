@@ -1117,33 +1117,33 @@
                     "ViewDeflected": "Mostra el tipus desviats"
                 },
                 "Activation": {
-                    "Title": "Usage",
-                    "Type": "Activation Type",
-                    "Cost": "Activation Cost",
-                    "Consume": "Resource Consumption",
-                    "Uses": "Limited Uses",
-                    "Recharge": "Recharge",
-                    "AdditionalFormula": "Roll Formula Extension",
-                    "AdditionalFormulaDescription": "Input any extra modifiers you wish to add to this item's d20 Skill Roll. This input will be treated as a dice formula, but any die you add won't be available for advantage/disadvantage currently. Paramters you can use: @mod, @attribute & @skill.rank refer to the values of the skills selected here, but the whole list of skills and attributes can be accessed - ask on the discord for help!"
+                    "Title": "Ús",
+                    "Type": "Tipus d'activació",
+                    "Cost": "Cost d'activació",
+                    "Consume": "Consumició de recurs",
+                    "Uses": "Usos limitats",
+                    "Recharge": "Recàrrega",
+                    "AdditionalFormula": "Extensió de la fórmula dels daus",
+                    "AdditionalFormulaDescription": "Escriviu cap modificador addicional que vulgueu afegir a la tirada d'habilitat d20 d'aquest objecte. Aquest camp es tractarà com una fórmula de daus, però qualsevol dau que hi afegiu no estarà disponible per una tirada d'avantatge/desavantatge. Parametres que podeu utilitzar: @mod, @attribute i @skill.rank es refereixen als valors de les habilitats seleccionades aquí, però podeu accedir a la llista completa d'habilitats i atributs. Demaneu ajuda al servidor de Discord!"
                 },
                 "Attack": {
-                    "Title": "Attack",
-                    "Type": "Attack Type",
-                    "Range": "Range",
-                    "RangeShort": "Short",
-                    "RangeLong": "Long"
+                    "Title": "Atac",
+                    "Type": "Tipus d'atac",
+                    "Range": "Abast",
+                    "RangeShort": "Curt",
+                    "RangeLong": "Llarg"
                 },
                 "Damage": {
-                    "Title": "Damage",
-                    "Formula": "Damage Formula",
-                    "GrazeOverride": "Override Graze Damage Calculation",
-                    "GrazeFormula": "New Formula",
-                    "GrazeHint": "Formula entered here will be the entirety of the calculation for graze damage. Any die rolls will be rolled separately from the main damage roll. You can pull in all or part of the main roll using @damage.total/@damage.unmodded/@damage.dice (the latter being the system default) or the selected attribute mod with @mod",
-                    "ViewGraze": "View Graze Override"
+                    "Title": "Dany",
+                    "Formula": "Fórmula de dany",
+                    "GrazeOverride": "Anul·la el càlcul de dany per rascada",
+                    "GrazeFormula": "Nova fórmula",
+                    "GrazeHint": "La fórmula d'aquest camp serà el càlcul sencer del dany per rascada. Qualsevol tirada de daus que hi hagi estaran separades de la tirada de dany principal. Podeu utilitzar tot o part de la tirada principal amb @damage.total/@damage.unmodded/@damage.dice (l'últim és el valor per defecte del sistema) o el modificador d'atribut seleccionat amb @mod",
+                    "ViewGraze": "Mostra l'anul·lació de rascada"
                 },
                 "Modality": {
-                    "Title": "Modality",
-                    "HasModality": "Has Modality"
+                    "Title": "Modalitat",
+                    "HasModality": "Té modalitat"
                 },
                 "Talent": {
                     "PathId": "Path Identifier",
