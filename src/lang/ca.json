@@ -104,7 +104,7 @@
                 "HeavyWeapons": "Armes pesants",
                 "LightWeapons": "Armes lleugeres",
                 "Stealth": "Sigil",
-                "Thievery": "Lladregada",
+                "Thievery": "Lladronici",
                 "Crafting": "Fabricació",
                 "Deduction": "Deducció",
                 "Discipline": "Disciplina",
@@ -1146,78 +1146,78 @@
                     "HasModality": "Té modalitat"
                 },
                 "Talent": {
-                    "PathId": "Path Identifier",
-                    "PathIdPlaceholder": "Path Identifier",
-                    "PathIdDescription": "The identifier of the path this talent belongs to.",
-                    "SpecialtyId": "Specialty Identifier",
-                    "SpecialtyIdPlaceholder": "Specialty Identifier — Optional",
-                    "SpecialtyIdDescription": "The identifier of the specialty this talent belongs to.",
-                    "AncestryId": "Ancestry Identifier",
-                    "AncestryIdPlaceholder": "Ancestry Identifier",
-                    "AncestryIdDescription": "The identifier of the ancestry this talent belongs to.",
+                    "PathId": "Identificador del camí",
+                    "PathIdPlaceholder": "Identificador del camí",
+                    "PathIdDescription": "L'identificador del camí al qual pertany aquest talent.",
+                    "SpecialtyId": "Identificador d'especialitat",
+                    "SpecialtyIdPlaceholder": "Identificador d'especialitat — Opcional",
+                    "SpecialtyIdDescription": "L'identificador de l'especialitat a la qual pertany aquest talent.",
+                    "AncestryId": "Identificador d'ascendència",
+                    "AncestryIdPlaceholder": "Identificador d'escendència",
+                    "AncestryIdDescription": "L'identificador de l'ascendència al qual pertany aquest talent.",
                     "Prerequisites": {
-                        "Label": "Prerequisites",
-                        "Type": "Type",
-                        "Description": "Description",
-                        "Create": "New Prerequisite",
-                        "Edit": "Edit prerequisite",
-                        "Delete": "Remove prerequisite",
-                        "TalentId": "Talent Identifier",
-                        "TalentIdPlaceholder": "Talent Identifier",
-                        "Attribute": "Attribute",
-                        "AttributeValue": "Value",
-                        "AttributeValuePlaceholder": "Minimum Attribute Value",
-                        "Skill": "Skill",
-                        "SkillRank": "Rank",
-                        "SkillRankPlaceholder": "Minimum Skill Rank",
-                        "Connection": "Connection",
-                        "ConnectionDescription": "Description",
-                        "ConnectionDescriptionPlaceholder": "Connection Description",
-                        "DropTalents": "Drop Talents here to add them to the list.",
-                        "DropGoals": "Drop Goals here to add them to the list."
+                        "Label": "Prerequisits",
+                        "Type": "Tipus",
+                        "Description": "Descripció",
+                        "Create": "Nou prerequisit",
+                        "Edit": "Edita el prerequisit",
+                        "Delete": "Elimina el prerequisit",
+                        "TalentId": "Identificador del talent",
+                        "TalentIdPlaceholder": "Identificador del talent",
+                        "Attribute": "Atribut",
+                        "AttributeValue": "Valor",
+                        "AttributeValuePlaceholder": "Valor mínim de l'atribut",
+                        "Skill": "Habilitat",
+                        "SkillRank": "Rang",
+                        "SkillRankPlaceholder": "Rang mínim de l'habilitat",
+                        "Connection": "Connexió",
+                        "ConnectionDescription": "Descripció",
+                        "ConnectionDescriptionPlaceholder": "Descripció de la connexióC",
+                        "DropTalents": "Deixeu anar talents aquí per afegir-los a la llista.",
+                        "DropGoals": "Deixeu anar objectius aquí per afegir-los a la llista."
                     },
                     "GrantRules": {
-                        "Description": "Description",
-                        "Create": "New rule",
-                        "Edit": "Edit rule",
-                        "Delete": "Remove rule"
+                        "Description": "Descripció",
+                        "Create": "Nova regla",
+                        "Edit": "Edita la regla",
+                        "Delete": "Elimina la regla"
                     }
                 },
                 "TalentTree": {
-                    "View": "View"
+                    "View": "Mostra"
                 },
                 "Path": {
-                    "TalentTreePlaceholder": "Drop Talent Tree Here",
-                    "NoTalentsConfigured": "No Talents Configured"
+                    "TalentTreePlaceholder": "Deixeu anar un arbre de talents aquí",
+                    "NoTalentsConfigured": "No hi ha cap talent configurat"
                 },
                 "TalentsProvider": {
                     "Title": "Talents",
                     "TalentTree": {
-                        "Label": "Talent Tree",
-                        "Hint": "Talent tree that contains all talents for this path. This tree is displayed on the \"talents\" tab."
+                        "Label": "Arbre de talents",
+                        "Hint": "Un arbre de talents que conté tots els talents d'aquest camí. Aquest arbre es mostra a la pestanya \"talents\"."
                     }
                 }
             },
             "General": {
                 "LinkedSkills": {
-                    "Label": "Linked Skills",
-                    "Hint": "These skills are displayed alongside the {type} in the character sheet."
+                    "Label": "Habilitats enllaçades",
+                    "Hint": "Aquestes habilitats es mostren juntament al {type} de la fitxa de personatge."
                 }
             }
         },
         "Attack": {
             "Type": {
-                "Melee": "Melee",
-                "Ranged": "Ranged"
+                "Melee": "Cos a cos",
+                "Ranged": "A distància"
             }
         },
         "DamageTypes": {
-            "Energy": "Energy",
-            "Impact": "Impact",
-            "Keen": "Keen",
-            "Spirit": "Spirit",
+            "Energy": "Energia",
+            "Impact": "Cop",
+            "Keen": "Laceració",
+            "Spirit": "Esperit",
             "Vital": "Vital",
-            "Healing": "Healing"
+            "Healing": "Guarició"
         },
         "Paths": {
             "Types": {
@@ -1228,484 +1228,484 @@
         },
         "Currencies": {},
         "Combat": {
-            "FastPlayers": "Fast Characters",
-            "SlowPlayers": "Slow Characters",
-            "FastAdversaries": "Fast Adversaries",
-            "SlowAdversaries": "Slow Adversaries",
-            "ToggleTurn": "Toggle Turn Speed",
-            "ResetActivation": "Reset Activation",
-            "Activate": "Mark as Acted"
+            "FastPlayers": "Personatges ràpids",
+            "SlowPlayers": "Personatges lents",
+            "FastAdversaries": "Adversaris ràpids",
+            "SlowAdversaries": "Adversaris lents",
+            "ToggleTurn": "Canvia la velocitat del torn",
+            "ResetActivation": "Reestableix l'activació",
+            "Activate": "Marca com a fet"
         },
         "Status": {
-            "Afflicted": "Afflicted",
-            "Blind": "Senseblind",
-            "Burrowing": "Burrowing",
-            "Determined": "Determined",
-            "Disoriented": "Disoriented",
-            "Empowered": "Empowered",
-            "Enhanced": "Enhanced",
-            "Exhausted": "Exhausted",
-            "Flying": "Flying",
-            "Focused": "Focused",
-            "Hidden": "Hidden",
-            "Immobilized": "Immobilized",
+            "Afflicted": "Afligit",
+            "Blind": "Cec",
+            "Burrowing": "Sota terra",
+            "Determined": "Resolt",
+            "Disoriented": "Desorientat",
+            "Empowered": "Empoderat",
+            "Enhanced": "Millorat",
+            "Exhausted": "Esgotat",
+            "Flying": "Volant",
+            "Focused": "Concentrat",
+            "Hidden": "Amagat",
+            "Immobilized": "Immobilitzat",
             "Invisible": "Invisible",
-            "Prone": "Prone",
-            "Restrained": "Restrained",
-            "Slowed": "Slowed",
-            "Stunned": "Stunned",
-            "Surprised": "Surprised",
-            "Unconscious": "Unconscious",
-            "Dead": "Dead"
+            "Prone": "Tombat",
+            "Restrained": "Retingut",
+            "Slowed": "Alentit",
+            "Stunned": "Atordit",
+            "Surprised": "Sorprès",
+            "Unconscious": "Inconscient",
+            "Dead": "Mort"
         },
         "Sheet": {
             "Descriptions": {
-                "DescriptionHeader": "Description",
-                "ShortHeader": "Short Description",
-                "ChatHeader": "Chat Description",
-                "Collapsible": "Toggle Collapsible",
-                "Edit": "Edit Description"
+                "DescriptionHeader": "Descripció",
+                "ShortHeader": "Descripció breu",
+                "ChatHeader": "Descripció pel xat",
+                "Collapsible": "Amaga o mostra",
+                "Edit": "Edita la descripció"
             },
             "Effects": {
-                "Label": "Effects",
-                "Inactive": "Inactive Effects",
-                "Passive": "Passive Effects",
-                "Temporary": "Temporary Effects",
-                "Source": "Source",
-                "Enable": "Enable Effect",
-                "Disable": "Disable Effect",
-                "Duration": "Duration",
-                "Create": "New Effect",
-                "Edit": "Edit Effect",
-                "Delete": "Remove Effect",
-                "ToggleActive": "Toggle Active"
+                "Label": "Efectes",
+                "Inactive": "Efectes inactius",
+                "Passive": "Efectes passius",
+                "Temporary": "Efectes temporals",
+                "Source": "Origen",
+                "Enable": "Activa l'efecte",
+                "Disable": "Desactiva l'efecte",
+                "Duration": "Duració",
+                "Create": "Nou efecte",
+                "Edit": "Edita l'efecte",
+                "Delete": "Elimina l'efecte",
+                "ToggleActive": "Activa'l o desactiva'l"
             },
             "Talents": {
                 "Label": "Talents",
-                "AtLevel": "At Level",
-                "Add": "New Talent",
-                "Edit": "Edit Talent",
-                "Delete": "Remove Talent",
-                "Cancel": "Discard Changes",
-                "Submit": "Finish Editing"
+                "AtLevel": "A nivell",
+                "Add": "Nou talent",
+                "Edit": "Edita el talent",
+                "Delete": "Elimina el talent",
+                "Cancel": "Descarta els canvis",
+                "Submit": "Finalitza l'edició"
             },
             "TalentPicks": {
-                "Edit": "Edit",
-                "Delete": "Remove",
-                "Cancel": "Discard Changes",
-                "Submit": "Finish Editing"
+                "Edit": "Edita",
+                "Delete": "Elimina",
+                "Cancel": "Descarta els canvis",
+                "Submit": "Finalitza l'edició"
             }
         },
         "Attribute": {
-            "str": "Strength",
-            "spd": "Speed",
-            "int": "Intellect",
-            "wil": "Willpower",
-            "awa": "Awareness",
-            "pre": "Presence"
+            "str": "Força",
+            "spd": "Velocitat",
+            "int": "Intel·lecte",
+            "wil": "Voluntat",
+            "awa": "Discerniment",
+            "pre": "Presència"
         },
         "Skill": {
-            "agi": "Agility",
-            "ath": "Athletics",
-            "hwp": "Heavy Weapons",
-            "lwp": "Light Weapons",
-            "stl": "Stealth",
-            "thv": "Thievery",
-            "cra": "Crafting",
-            "ded": "Deduction",
-            "dis": "Discipline",
-            "inm": "Intimidation",
-            "lor": "Lore",
-            "med": "Medicine",
-            "dec": "Deception",
-            "ins": "Insight",
-            "lea": "Leadership",
-            "prc": "Perception",
-            "prs": "Persuasion",
-            "sur": "Survival"
+            "agi": "Agilitat",
+            "ath": "Atletisme",
+            "hwp": "Armes pesants",
+            "lwp": "Armes lleugeres",
+            "stl": "Sigil",
+            "thv": "Lladronici",
+            "cra": "Fabricació",
+            "ded": "Deducció",
+            "dis": "Disciplina",
+            "inm": "Intimidació",
+            "lor": "Coneixement",
+            "med": "Medicina",
+            "dec": "Engany",
+            "ins": "Perspicàcia",
+            "lea": "Lideratge",
+            "prc": "Percepció",
+            "prs": "Persuasió",
+            "sur": "Supervivència"
         },
         "ChatMessage": {
             "Buttons": {
-                "DamageFull": "Click to apply full damage to selected token(s).",
-                "DamageHalf": "Click to apply half damage to selected token(s).",
-                "DamageDouble": "Click to apply double damage to selected token(s).",
-                "Healing": "Click to apply healing to selected token(s).",
-                "ReduceFocus": "Click to reduce focus from selected token(s).",
-                "RollCrit": "Click to roll critical damage.",
-                "RollAdvantage": "Click to roll with advantage.",
-                "RollDisadvantage": "Click to roll with disadvantage.",
-                "ApplyInjury": "Click to apply injury to character.",
-                "UndoDamage": "Click to undo damage taken.",
-                "UndoHealing": "Click to undo healing."
+                "DamageFull": "Clic per aplicar tot el dany a les fitxes seleccionades.",
+                "DamageHalf": "Clic per aplicar la meitat del dany a les fitxes seleccionades.",
+                "DamageDouble": "Clic per aplicar el doble del dany a les fitxes seleccionades.",
+                "Healing": "Clic per aplicar guarició a les fitxes seleccionades.",
+                "ReduceFocus": "Clic per reduir la concentració de les fitxes seleccionades.",
+                "RollCrit": "Clic per tirar dany crític.",
+                "RollAdvantage": "Clic per tirar amb avantatge.",
+                "RollDisadvantage": "Clic per tirar amb desavantatge.",
+                "ApplyInjury": "Clic per aplicar una lesió al personatge.",
+                "UndoDamage": "Clic per desfer el dany rebut.",
+                "UndoHealing": "Clic per desfer la guarició."
             },
             "Trays": {
-                "Targets": "Targets"
+                "Targets": "Objectius"
             },
-            "InjuryRoll": "Injury Roll",
+            "InjuryRoll": "Tirada de lesió",
             "InjuryDuration": {
-                "Dead": "{actor} has <strong>died</strong>.",
-                "Permanent": "{actor} is <strong>permanently injured</strong>.",
-                "Temporary": "{actor} is injured for <strong>{days} days</strong>."
+                "Dead": "{actor} ha <strong>mort</strong>.",
+                "Permanent": "{actor} té una <strong>lesió permanent</strong>.",
+                "Temporary": "{actor} està lesionat durant <strong>{days} dies</strong>."
             },
-            "ApplyDamage": "{actor} takes <strong>{amount} damage</strong>.",
-            "ApplyHealing": "{actor} recovers <strong>{amount} health</strong>.",
+            "ApplyDamage": "{actor} rep <strong>{amount} de dany</strong>.",
+            "ApplyHealing": "{actor} recupera <strong>{amount} de salut</strong>.",
             "ModifierDialog": {
-                "DamageTitle": "Modify Damage",
-                "HealingTitle": "Modify Healing",
-                "FocusTitle": "Modify Focus Loss"
+                "DamageTitle": "Modifica el dany",
+                "HealingTitle": "Modifica la guarició",
+                "FocusTitle": "Modifica la pèrdua de concentració"
             },
-            "DamageCalculation": "Damage Calculation: {calculation}",
-            "ViewRollsDetails": "Roll Details",
-            "Welcome": "<h2>Welcome to the Cosmere RPG!</h2> <p>Thank you for using the community-developed <strong>Cosmere Roleplaying Game</strong> system! You're running version <strong>{version}</strong>.</p> <p>For news, support, or to connect with other players and developers, join us on the <a href=\"{discordLink}\">Metalworks Discord</a>.</p> <p>If you run into any issues or have suggestions for improvements, please let us know via our <a href=\"{issuesLink}\">GitHub Issues page</a> or by reaching out on Discord. Interested in contributing? Check out our <a href=\"{contributingLink}\">contribution guidelines</a>.</p> <p>We hope you enjoy your journey through the Cosmere!</p>"
+            "DamageCalculation": "Càlcul de dany: {calculation}",
+            "ViewRollsDetails": "Detalls de la tirada",
+            "Welcome": "<h2>Benvinguts al Cosmere RPG!</h2> <p>Gràcies per utilitzar el sistema pel <strong>Joc de Rol del Cosmere</strong> desenvolupat per la comunitat! Aquesta és la versió <strong>{version}</strong>.</p> <p>Per veure novetats, rebre ajuda o connectar amb altres jugadors i desenvolupadors, uniu-vos al <a href=\"{discordLink}\">Discord de Metalworks</a>.</p> <p>Si trobeu problemes o teniu suggeriments per millorar, feu-nos-ho saber a la nostra <a href=\"{issuesLink}\">pàgina de problemes de GitHub</a> o contactant amb nosaltres per Discord. Us interessa contribuir? Vegeu la nostra <a href=\"{contributingLink}\">guia per contribuir</a>.</p> <p>Esperem que gaudiu del vostre viatge pel Cosmere!</p>"
         },
         "Theme": {
             "Default": "Cosmere"
         },
         "Damage": {
-            "IgnoreDeflect": "Ignore Deflect"
+            "IgnoreDeflect": "Ignora el desviament"
         },
         "Migration": {
-            "DocumentMigrationFailed": "Failed to migrate {type} \"{name}\". {error}"
+            "DocumentMigrationFailed": "No s'ha pogut migrar el {type} \"{name}\". {error}"
         }
     },
     "DICE": {
-        "RollMode": "Roll Mode",
+        "RollMode": "Mode de la tirada",
         "Plot": {
-            "Die": "Plot Die",
-            "RaiseTheStakes": "Raise the Stakes",
-            "Complication": "Complication",
-            "Opportunity": "Opportunity"
+            "Die": "Dau de trama",
+            "RaiseTheStakes": "Apuja les apostes",
+            "Complication": "Complicació",
+            "Opportunity": "Oportunitat"
         },
         "AdvantageMode": {
-            "None": "None",
-            "Advantage": "Advantage",
-            "Disadvantage": "Disadvantage"
+            "None": "Cap",
+            "Advantage": "Avantatge",
+            "Disadvantage": "Desavantatge"
         },
         "Damage": {
-            "Label": "Damage",
-            "Apply": "Apply",
-            "Graze": "Graze",
-            "Full": "Full"
+            "Label": "Dany",
+            "Apply": "Aplica",
+            "Graze": "Rascada",
+            "Full": "Complet"
         },
         "TemporaryBonus": {
-            "Label": "Temporary Bonus",
-            "Hint": "Enter an optional formula to apply as a temporary modifier to this skill test."
+            "Label": "Bonificador temporal",
+            "Hint": "Escriviu una fórmula opcional per aplicar-la com un modificador temporal a aquesta prova d'habilitat."
         }
     },
     "ROLLS": {
-        "Recovery": "[character] rolls their recovery die.",
-        "RecoveryTend": "Tended to by [tender]."
+        "Recovery": "[character] tira el seu dau de recuperació.",
+        "RecoveryTend": "Atès per [tender]."
     },
     "DIALOG": {
         "ItemConsume": {
-            "Title": "Consume Resource",
+            "Title": "Consumeix el recurs",
             "ShouldConsume": {
-                "None": "None",
-                "Static": "Consume {amount} {resource}?",
-                "RangeCapped": "Consume {min}-{max} {resource}:",
-                "RangeUncapped": "Consume {amount} or more {resource}:"
+                "None": "Cap",
+                "Static": "Voleu consumir {amount} {resource}?",
+                "RangeCapped": "Consumeix {min}-{max} {resource}:",
+                "RangeUncapped": "Consumeix {amount} o més {resource}:"
             }
         },
         "EditExpertise": {
-            "Remove": "Remove",
-            "Add": "Add Custom Expertise",
-            "AddPlaceholder": "Custom Expertise",
+            "Remove": "Elimina",
+            "Add": "Afegeix una perícia personalitzada",
+            "AddPlaceholder": "Perícia personalitzada",
             "Warning": {
-                "MaxExpertises": "Can only select up to {max} expertises."
+                "MaxExpertises": "No podeu seleccionar més de {max} perícies."
             }
         },
         "ConfigureResource": {
-            "Title": "Configure Max {resource}: {actor}"
+            "Title": "Configura {resource} màxim: {actor}"
         },
         "LongRest": {
-            "ShouldPerform": "Perform Long Rest?"
+            "ShouldPerform": "Voleu fer un descans llarg?"
         },
         "ShortRest": {
-            "Title": "Short Rest",
-            "TendedToBy": "Tended to by"
+            "Title": "Descans curt",
+            "TendedToBy": "Atès per"
         },
         "ConfigureDefense": {
-            "Title": "Configure {attribute-group} Defense: {actor}"
+            "Title": "Configura la Defensa de {attribute-group}: {actor}"
         },
         "ConfigureMovementRate": {
-            "Title": "Configure Movement Rate: {actor}"
+            "Title": "Configura la distància de moviment: {actor}"
         },
         "ConfigureSensesRange": {
-            "Title": "Configure Senses Range: {actor}",
-            "IgnoreObscure": "Ignores Obscured"
+            "Title": "Configura l'abast dels sentits: {actor}",
+            "IgnoreObscure": "Ignora Enfosquits"
         },
         "ConfigureRecoveryDie": {
-            "Title": "Configure Recovery Die: {actor}"
+            "Title": "Configura el dau de recuperació: {actor}"
         },
         "ConfigureDeflect": {
-            "Title": "Configure Deflect: {actor}"
+            "Title": "Configura el desviament: {actor}"
         },
         "EditTalentPrerequisite": {
-            "Title": "Edit Prerequisite"
+            "Title": "Edita els prerequisits"
         },
         "ConfigureRoll": {
-            "Title": "Configure Rolls",
-            "Hint": "Left click or right click any individual die to apply advantage or disadvantage respectively."
+            "Title": "Configura les tirades",
+            "Hint": "Feu clic esquerre o clic dret a qualsevol dau per aplicar avantatge o desavantatge respectivament."
         },
         "ConfigureAttack": {
             "AdvantageMode": {
-                "Title": "Advantage Mode",
+                "Title": "Mode d'avantatge",
                 "Field": {
-                    "Type": "Type",
-                    "Dice": "Dice"
+                    "Type": "Tipus",
+                    "Dice": "Daus"
                 }
             }
         },
         "EditBonusTalentsRule": {
-            "Title": "Edit Bonus Talents Rule",
-            "Quantity": "Amount",
+            "Title": "Edita la regla de talents addicionals",
+            "Quantity": "Quantitat",
             "Warning": {
-                "DuplicateLevel": "A rule for level {level} already exists"
+                "DuplicateLevel": "El nivell {level} ja té una regla"
             }
         },
         "ReleaseNotes": {
-            "Title": "Cosmere Roleplaying Game - Release Notes"
+            "Title": "Joc de Rol del Cosmere - Notes de versió"
         },
         "ConfigureTalentTree": {
-            "Title": "Configure Talent Tree: {name}",
+            "Title": "Configura l'arbre de talents: {name}",
             "Warning": {
-                "OutOfBounds": "The selected bounds would place at least one talent outside the tree."
+                "OutOfBounds": "Els límits seleccionats farien que almenys un talent quedés fora de l'arbre."
             },
             "Notification": {}
         },
         "PickDiceResult": {
-            "Title": "Pick Result",
-            "Header": "Left to Pick:",
-            "SelectRoll": "Select Roll",
+            "Title": "Tria el resultat",
+            "Header": "Queda per triar:",
+            "SelectRoll": "Tria la tirada",
             "Error": {
-                "TooManyPicked": "Cannot pick more than {max} roll(s)!"
+                "TooManyPicked": "No podeu triar més de {max} tirades!"
             }
         },
         "EditEventRule": {
-            "Title": "Edit Event Rule"
+            "Title": "Edita les regles de l'esdeveniment"
         }
     },
     "COMPONENT": {
         "DocumentReferenceInput": {
-            "Placeholder": "Drop {type} here to create reference",
+            "Placeholder": "Deixeu anar un {type} aquí per crear una referència",
             "Warning": {
-                "WrongType": "The dropped Document must be of type {type}",
-                "WrongSubtype": "The dropped {type} must be of type {subtype}"
+                "WrongType": "El Document que hi deixeu ha de ser del tipus {type}",
+                "WrongSubtype": "El {type} que hi deixeu ha de ser del tipus {subtype}"
             }
         },
         "DocumentDropListComponent": {
-            "Placeholder": "Drop {type} here to add to list",
+            "Placeholder": "Deixeu anar un {type} aquí per afegir-lo a la llista",
             "Warning": {
-                "DocumentAlreadyInList": "The dropped {type} is already in the list",
-                "WrongType": "The dropped Document must be of type {type}",
-                "WrongSubtype": "The dropped {type} must be of type {subtype}"
+                "DocumentAlreadyInList": "El {type} que hi deixeu ja està a la llista",
+                "WrongType": "El document que hi heu deixat ha de ser del tipus {type}",
+                "WrongSubtype": "El {type} que hi heu deixat ha de ser del tipus {subtype}"
             }
         },
         "MultiValueSelect": {
-            "DefaultPlaceholder": "Select Option"
+            "DefaultPlaceholder": "Selecciona l'opció"
         },
         "DocumentChangesList": {
             "Header": {
-                "Key": "Attribute Key",
-                "Mode": "Change Mode",
-                "Value": "Value"
+                "Key": "Clau d'atribut",
+                "Mode": "Mode de canvi",
+                "Value": "Valor"
             },
-            "Add": "Add Change",
-            "Remove": "Remove Change"
+            "Add": "Afegeix un canvi",
+            "Remove": "Elimina un canvi"
         }
     },
     "GENERIC": {
-        "Unknown": "Unknown",
-        "None": "None",
-        "Custom": "Custom",
-        "Default": "Default",
+        "Unknown": "Desconegut",
+        "None": "Cap",
+        "Custom": "Personalitzat",
+        "Default": "Per defecte",
         "Document": "Document",
-        "Formula": "Formula",
-        "Value": "Value",
-        "Modifier": "Modifier",
-        "DC": "DC",
-        "Skill": "Skill",
-        "Attribute": "Attribute",
-        "SkillTest": "Skill Test",
-        "Test": "Test",
-        "Plot": "Plot",
-        "Damage": "Damage",
-        "Healing": "Healing",
+        "Formula": "Fórmula",
+        "Value": "Valor",
+        "Modifier": "Modificador",
+        "DC": "CD",
+        "Skill": "Habilitat",
+        "Attribute": "Atribut",
+        "SkillTest": "Prova d'habilitat",
+        "Test": "Prova",
+        "Plot": "Trama",
+        "Damage": "Dany",
+        "Healing": "Guarició",
         "Immune": "Immune",
-        "Condition": "Condition",
+        "Condition": "Condició",
         "Cost": "Cost",
-        "Configure": "Configure",
-        "DistanceUnit": "ft.",
-        "ViewDetails": "View Details",
-        "HideDetails": "Hide Details",
-        "Bonus": "Bonus",
+        "Configure": "Configura",
+        "DistanceUnit": "peus",
+        "ViewDetails": "Mostra els detalls",
+        "HideDetails": "Amaga els detalls",
+        "Bonus": "Bonificador",
         "Mode": "Mode",
-        "Turns": "Turns",
-        "Rounds": "Rounds",
-        "Clear": "Clear",
-        "Name": "Name",
-        "Image": "Image",
-        "Level": "Level",
-        "Add": "Add",
-        "Type": "Type",
-        "Description": "Description",
+        "Turns": "Torns",
+        "Rounds": "Rondes",
+        "Clear": "Neteja",
+        "Name": "Nom",
+        "Image": "Imatge",
+        "Level": "Nivell",
+        "Add": "Afegeix",
+        "Type": "Tipus",
+        "Description": "Descripció",
         "Talent": "Talent",
-        "Goal": "Goal",
+        "Goal": "Objectiu",
         "Button": {
-            "Roll": "Roll",
-            "Continue": "Continue",
-            "Remove": "Remove",
-            "Edit": "Edit",
-            "Save": "Save",
-            "Cancel": "Cancel",
-            "Update": "Update",
-            "RemoveFavorite": "Remove Favorite",
-            "Favorite": "Favorite",
-            "Confirm": "Confirm"
+            "Roll": "Tirada",
+            "Continue": "Continua",
+            "Remove": "Elimina",
+            "Edit": "Edita",
+            "Save": "Desa",
+            "Cancel": "Cancel·la",
+            "Update": "Actualitza",
+            "RemoveFavorite": "Elimina el preferit",
+            "Favorite": "Marca com a preferit",
+            "Confirm": "Confirma"
         },
         "Notification": {
-            "GrazeFocusSpent": "Reduced focus by 1",
-            "AddedItem": "Added {item}{quantity} to {actor}",
-            "IncreasedSkillRank": "Increased {actor}'s {skill} rank by {amount}",
-            "TalentObtained": "Added talent {talent} to {actor}",
-            "TalentRemoved": "Removed talent {talent} from {actor}",
-            "TalentCannotBeRemoved": "Cannot remove talent {talent} from {actor} as it is a prerequisite for another talent"
+            "GrazeFocusSpent": "Concentració reduïda en 1",
+            "AddedItem": "S'ha afegit {item}{quantity} a {actor}",
+            "IncreasedSkillRank": "S'ha augmentat en {amount} el rang de {skill} de {actor}",
+            "TalentObtained": "S'ha afegit el {talent} a {actor}",
+            "TalentRemoved": "S'ha eliminat el {talent} de {actor}",
+            "TalentCannotBeRemoved": "No es pot eliminar el talent {talent} de {actor} perquè és un prerequisit per un altre talent"
         },
         "Warning": {
-            "NotImplemented": "Sorry! [action] is not implemented yet",
-            "NoActor": "No selected or assigned actor found for this roll",
-            "NotEnoughResource": "Cannot consume, not enough of resource",
-            "NotEnoughUses": "Cannot consume, not enough uses left",
-            "ItemConsumeResourceNotConfigured": "The resource selected to be consumed is not configured on this item",
-            "NoDuplicateExpertises": "Cannot create duplicate expertise",
-            "NoFocus": "Not enough focus to perform this action",
-            "TalentCannotBePrerequisiteOfItself": "A talent cannot be a prerequisite of itself",
-            "DuplicatePrerequisiteTalentRef": "A talent with id {talentId} already exists ({talentName})",
-            "ItemAlreadyInTree": "An item with id \"{itemId}\" already exists in the {name} talent tree",
-            "ActorConditionImmune": "{actor} is immune to {condition}"
+            "NotImplemented": "L'acció [action] no està implementada encara!",
+            "NoActor": "No s'ha trobat cap actor seleccionat ni assignat per aquesta tirada",
+            "NotEnoughResource": "No es pot consumir, no teniu prou d'aquest recurs",
+            "NotEnoughUses": "No es pot consumir, no queden prou usos",
+            "ItemConsumeResourceNotConfigured": "El recurs seleccionat per ser consumit no està configurat en aquest objecte",
+            "NoDuplicateExpertises": "No es pot crear una perícia duplicada",
+            "NoFocus": "No teniu prou concentració per aquesta acció",
+            "TalentCannotBePrerequisiteOfItself": "El talent no pot ser un prerequisit de si mateix",
+            "DuplicatePrerequisiteTalentRef": "Ja hi ha un talent amb l'identificador {talentId} ({talentName})",
+            "ItemAlreadyInTree": "L'identificador \"{itemId}\" ja existeix a l'arbre de talents {name}",
+            "ActorConditionImmune": "{actor} és immune a la condició {condition}"
         },
         "Error": {
-            "RegisteringConfigs": "Error while registering configs. Check console for details."
+            "RegisteringConfigs": "Error en registrar configuracions. Consulteu la consola per detalls."
         },
         "Enrichers": {
             "Test": {
-                "Against": "against",
-                "VsDefense": "against the target's",
-                "NoSkill": "No Skill Provided"
+                "Against": "contra",
+                "VsDefense": "contra",
+                "NoSkill": "No s'ha proporcionat cap habilitat"
             },
             "Damage": {
-                "NoFormula": "No Formula or Dice Terms Provided",
-                "NoType": "No Damage Type Provided",
-                "DoubleType": "Damage Type Defined More Than Once",
-                "BadType": "Damage Type Not Supported"
+                "NoFormula": "No s'han proporcionat daus ni fórmula",
+                "NoType": "No s'ha proporcionat un tipus de dany",
+                "DoubleType": "El tipus de dany s'ha definit més d'un cop",
+                "BadType": "El tipus de dany té suport"
             },
             "Lookup": {
-                "NoPath": "No Lookup Path Provided"
+                "NoPath": "No s'ha proporcionat un camí de cerca"
             },
-            "Error": "ENRICHER ERROR"
+            "Error": "ERROR DE L'ENRIQUIDOR"
         },
         "DerivedValue": {
             "Mode": {
-                "Derived": "Derived",
-                "Override": "Custom"
+                "Derived": "Derivat",
+                "Override": "Personalitzat"
             }
         },
         "Units": {
-            "Days": "Days"
+            "Days": "Dies"
         }
     },
     "TYPES": {
         "Actor": {
-            "character": "Character",
-            "adversary": "Adversary"
+            "character": "Personatge",
+            "adversary": "Adversari"
         },
         "Item": {
-            "culture": "Culture",
-            "ancestry": "Ancestry",
-            "path": "Path",
-            "connection": "Connection",
-            "goal": "Goal",
-            "injury": "Injury",
-            "specialty": "Specialty",
-            "loot": "Loot",
-            "armor": "Armor",
-            "trait": "Adversary Feature",
-            "action": "Action",
+            "culture": "Cultura",
+            "ancestry": "Ascendència",
+            "path": "Camí",
+            "connection": "Connexió",
+            "goal": "Objectiu",
+            "injury": "Lesió",
+            "specialty": "Especialitat",
+            "loot": "Tresor",
+            "armor": "Armadura",
+            "trait": "Característica d'adversari",
+            "action": "Acció",
             "talent": "Talent",
-            "equipment": "Equipment",
-            "weapon": "Weapon",
-            "power": "Power",
-            "talent_tree": "Talent Tree"
+            "equipment": "Equipament",
+            "weapon": "Arma",
+            "power": "Poder",
+            "talent_tree": "Arbre de talents"
         }
     },
     "UNITS": {
         "Distance": {
-            "Feet": "Feet"
+            "Feet": "Peus"
         }
     },
     "SETTINGS": {
         "skipRollDialogByDefault": {
-            "name": "Skip Roll Dialog by Default",
-            "hint": "If enabled, rolls will skip the roll configuration dialog when clicked, using the default roll configuration. The dialog can still be accessed by holding the 'Skip/Show Dialog' key modifier from the system controls."
+            "name": "Salta't el diàleg dels daus per defecte",
+            "hint": "Si ho activeu, les tirades se saltaran el diàleg de configuració de la tirada en fer clic i utilitzarà la configuració de tirades per defecte. El diàleg és accessible igualment si teniu premuda la tecla 'Salta/Mostra el diàleg' a controls del sistema."
         },
         "skipDamageModDialogByDefault": {
-            "name": "Skip Damage Modifier Dialog by Default",
-            "hint": "If enabled, the damage/healing card in chat will skip the modifier dialog when clicked, using the value shown in the card directly. The dialog can still be accessed by holding the 'Skip/Show Dialog' key modifier from the system controls."
+            "name": "Salta't el diàleg de modificació del dany per defecte",
+            "hint": "Si ho activeu, el requadre de dany/guarició al xat se saltarà el diàleg de modificació en clicar-se, i utilitzarà el valor que es mostra al requadre directament. El diàleg és accessible igualment si teniu premuda la tecla 'Salta/Mostra el diàleg' a controls del sistema."
         },
         "enableOverlayButtons": {
-            "name": "Enable Overlay Buttons",
-            "hint": "When outputting a skill test or damage roll, enable overlay buttons on the chat message that offer additional functionality for the roll."
+            "name": "Activa els botons superposats",
+            "hint": "En fer una prova d'habilitat o una tirada de dany, activa el botó superposat al missatge del xat per oferir funcionalitat addicional per la tirada."
         },
         "enableApplyButtons": {
-            "name": "Enable Apply Buttons",
-            "hint": "When outputting a damage roll, enable buttons on the chat message that allow for damage or healing to be applied to tokens, or to reduce focus from those tokens."
+            "name": "Activa els botons d'aplicar",
+            "hint": "En fer una tirada de dany, activa botons al missatge del xat que premeten aplicar el dany o la guarició a les fitxes, o per reduir la concentració d'aquestes fitxes."
         },
         "alwaysShowApplyButtons": {
-            "name": "Always Show Apply Buttons",
-            "hint": "When outputting a damage roll always show the apply buttons, instead of only on hover."
+            "name": "Mostra sempre els botons d'aplicar",
+            "hint": "En fer una tirada de dany, mostra sempre els botons d'aplicar el dany en comptes de només en passar-hi el ratolí."
         },
         "applyButtonsTo": {
-            "name": "Apply Button Options",
-            "hint": "Determines which tokens damage, healing, or focus reduction is applied to when applying via the chat card buttons.",
+            "name": "Opcions de botons d'aplicar",
+            "hint": "Determina a quines fitxes s'aplica el dany, la guarició o la reducció de concentració quan s'aplica amb els botons del requadre del xat.",
             "choices": {
-                "SelectedOnly": "Apply to Selected Tokens",
-                "TargetedOnly": "Apply to Targeted Tokens",
-                "SelectedAndTargeted": "Apply to Both",
-                "PrioritiseSelected": "Prioritise Selected Tokens",
-                "PrioritiseTargeted": "Prioritise Targeted Tokens"
+                "SelectedOnly": "Aplica a les fitxes seleccionades",
+                "TargetedOnly": "Aplica a les fitxes marcades",
+                "SelectedAndTargeted": "Aplica a totes dues",
+                "PrioritiseSelected": "Priorititza les fitxes seleccionades",
+                "PrioritiseTargeted": "Priorititza les fitxes marcades"
             }
         },
         "expandDescriptionByDefault": {
-            "name": "Expand Item Description By Default",
-            "hint": "Determines whether the description section of an item should be expanded by default when opening the item sheet."
+            "name": "Amplia les descripcions per defecte",
+            "hint": "Determina si l'apartat de descripció d'un objecte hauria d'estar ampliat per defecte en obrir la fitxa de l'objecte."
         },
         "skillIncrementDecrementToggle": {
-            "name": "Enable Skill Pip Increment Behavior",
-            "hint": "Determines whether the skill pips increment/decrement on left click or right click, rather than setting to the clicked rank."
+            "name": "Activa el comportament d'increment de marca d'habilitat",
+            "hint": "Determina si les marques d'habilitat augmenten o es redueixen fent clic esquerre o dret en comptes d'establir el rang sobre el qual feu clic."
         },
         "systemTheme": {
-            "name": "Preferred System Theme",
-            "hint": "Specify the themed set of colours to use for system documents and interface elements. The selected theme will respect the preferred Dark/Light mode selected in the core settings."
+            "name": "Tema de sistema preferit",
+            "hint": "Especifica el conjunt de colors temàtics per utilitzar-se en documents del sistema i elements de la interfície. El tema seleccionat respectarà la preferència de mode fosc o clar establerta a la configuració bàsica."
         }
     },
     "KEYBINDINGS": {
-        "skipDialogDefault": "Skip/Show Dialog",
-        "skipDialogAdvantage": "Skip Dialog with Advantage",
-        "skipDialogDisadvantage": "Skip Dialog with Disadvantage",
-        "skipDialogRaiseStakes": "Skip Dialog with Raise Stakes",
-        "changeQuantity5": "Increase/Decrease Quantity by 5",
-        "changeQuantity10": "Increase/Decrease Quantity by 10",
-        "changeQuantity50": "Increase/Decrease Quantity by 50"
+        "skipDialogDefault": "Salta't/Mostra el diàleg",
+        "skipDialogAdvantage": "Salta't el diàleg amb avantatge",
+        "skipDialogDisadvantage": "Salta't el diàleg amb desavantatge",
+        "skipDialogRaiseStakes": "Salta't el diàleg en apujar les apostes",
+        "changeQuantity5": "Augmenta/Redueix la quantitat en 5",
+        "changeQuantity10": "Augmenta/Redueix la quantitat en 10",
+        "changeQuantity50": "Augmenta/Redueix la quantitat en 50"
     },
     "STORMLIGHT": {
         "Currency": {
-            "Spheres": "Spheres"
+            "Spheres": "Esferes"
         },
         "Macro": {
             "StartingPath": {
-                "Set": "Set starting path {path} for {actor}. Set starting skill: {skill}.",
-                "Replaced": "Replaced starting path {oldPath} with {newPath} for {actor}. Set starting skill: {skill}.",
-                "Unset": "Cleared starting path for {actor}. Removed starting skill: {skill}."
+                "Set": "S'ha establert el camí inicial {path} per {actor}. Habilitat inicial: {skill}.",
+                "Replaced": "S'ha substituït el camí inicial {oldPath} amb {newPath} per {actor}. Habilitat inicial: {skill}.",
+                "Unset": "S'ha netejat el camí inicial per {actor}. Habilitat inicial eliminada: {skill}."
             }
         }
     }
