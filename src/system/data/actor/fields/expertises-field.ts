@@ -42,7 +42,7 @@ export class ExpertisesField extends CollectionField<
             }),
             {
                 ...options,
-                key: (item: ExpertiseData) => Expertise.getKey(item),
+                key: (item: Partial<ExpertiseData>) => Expertise.getKey(item),
             },
         );
     }
@@ -104,7 +104,10 @@ export class Expertise extends foundry.abstract.DataModel<ExpertiseData> {
         };
     }
 
-    static getKey(expertise: ExpertiseData): string {
+    static getKey(expertise: ExpertiseData): string;
+    static getKey(expertise: Partial<ExpertiseData>): string | null;
+    static getKey(expertise: Partial<ExpertiseData>): string | null {
+        if (!expertise.id || !expertise.type) return null;
         return `${expertise.type}:${expertise.id}`;
     }
 
