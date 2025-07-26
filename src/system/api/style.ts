@@ -19,7 +19,6 @@ export function registerTheme(data: ThemeConfigData) {
     const toRegister = data.label;
 
     const register = () => {
-        RegistrationHelper.COMPLETED[identifier] = data;
         CONFIG.COSMERE.themes[data.id as Theme] = toRegister;
         return true;
     };

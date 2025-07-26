@@ -34,7 +34,6 @@ export function registerActionListSection(
     } as ItemListSection;
 
     const register = () => {
-        RegistrationHelper.COMPLETED[identifier] = data;
         CONFIG.COSMERE.sheet.actor.components.actions.sections.static[data.id] =
             toRegister;
         return true;
@@ -92,7 +91,6 @@ export function registerActionListDynamicSectionGenerator(
     const toRegister = data.generator;
 
     const register = () => {
-        RegistrationHelper.COMPLETED[identifier] = data;
         CONFIG.COSMERE.sheet.actor.components.actions.sections.dynamic[
             data.id
         ] = toRegister;

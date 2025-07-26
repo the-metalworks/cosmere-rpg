@@ -27,7 +27,6 @@ export function registerSkill(data: SkillConfigData) {
     } as SkillConfig;
 
     const register = () => {
-        RegistrationHelper.COMPLETED[identifier] = data;
         CONFIG.COSMERE.skills[data.id as Skill] = toRegister;
         CONFIG.COSMERE.attributes[data.attribute].skills.push(data.id as Skill);
         return true;

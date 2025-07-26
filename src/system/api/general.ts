@@ -74,7 +74,6 @@ export function registerCurrency(data: CurrencyConfigData) {
     } as CurrencyConfig;
 
     const register = () => {
-        RegistrationHelper.COMPLETED[identifier] = data;
         CONFIG.COSMERE.currencies[data.id] = toRegister;
         return true;
     };

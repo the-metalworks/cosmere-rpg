@@ -63,7 +63,6 @@ export function registerPowerType(data: PowerTypeConfigData) {
     } as PowerTypeConfig;
 
     const register = () => {
-        RegistrationHelper.COMPLETED[identifier] = data;
         CONFIG.COSMERE.power.types[data.id as PowerType] = toRegister;
         return true;
     };
@@ -106,7 +105,6 @@ export function registerPathType(data: PathTypeConfigData) {
     } as PathTypeConfig;
 
     const register = () => {
-        RegistrationHelper.COMPLETED[identifier] = data;
         CONFIG.COSMERE.paths.types[data.id as PathType] = toRegister;
         return true;
     };
@@ -152,7 +150,6 @@ export function registerActionType(data: ActionTypeConfigData) {
     } as ActionTypeConfig;
 
     const register = () => {
-        RegistrationHelper.COMPLETED[identifier] = data;
         CONFIG.COSMERE.action.types[data.id as ActionType] = toRegister;
         return true;
     };
@@ -197,7 +194,6 @@ export function registerEquipmentType(data: EquipmentTypeConfigData) {
     } as EquipmentTypeConfig;
 
     const register = () => {
-        RegistrationHelper.COMPLETED[identifier] = data;
         CONFIG.COSMERE.items.equipment.types[data.id as EquipmentType] =
             toRegister;
         return true;
@@ -241,7 +237,6 @@ export function registerWeaponType(data: WeaponTypeConfigData) {
     } as WeaponTypeConfigData;
 
     const register = () => {
-        RegistrationHelper.COMPLETED[identifier] = data;
         CONFIG.COSMERE.items.weapon.types[data.id as WeaponType] = toRegister;
         return true;
     };
@@ -288,7 +283,6 @@ export function registerWeapon(data: WeaponConfigData) {
     } as WeaponConfig;
 
     const register = () => {
-        RegistrationHelper.COMPLETED[identifier] = data;
         CONFIG.COSMERE.weapons[data.id as WeaponId] = toRegister;
         return true;
     };
@@ -332,7 +326,6 @@ export function registerArmor(data: ArmorConfigData) {
     } as ArmorConfig;
 
     const register = () => {
-        RegistrationHelper.COMPLETED[identifier] = data;
         CONFIG.COSMERE.armors[data.id as unknown as ArmorId] = toRegister;
         return true;
     };
@@ -376,7 +369,6 @@ export function registerCulture(data: CultureConfigData) {
     } as CultureConfig;
 
     const register = () => {
-        RegistrationHelper.COMPLETED[identifier] = data;
         CONFIG.COSMERE.cultures[data.id] = toRegister;
         return true;
     };
@@ -420,7 +412,6 @@ export function registerAncestry(data: AncestryConfigData) {
     } as CultureConfig;
 
     const register = () => {
-        RegistrationHelper.COMPLETED[identifier] = data;
         CONFIG.COSMERE.ancestries[data.id] = toRegister;
         return true;
     };
@@ -472,7 +463,6 @@ export function registerItemEventType(data: ItemEventTypeConfigData) {
     } as ItemEventTypeConfig;
 
     const register = () => {
-        RegistrationHelper.COMPLETED[identifier] = data;
         CONFIG.COSMERE.items.events.types[data.type] = toRegister;
         return true;
     };
@@ -541,7 +531,6 @@ export function registerItemEventHandlerType(data: ItemEventHandlerConfigData) {
     } as ItemEventHandlerTypeConfig;
 
     const register = () => {
-        RegistrationHelper.COMPLETED[identifier] = data;
         CONFIG.COSMERE.items.events.handlers[data.type] = toRegister;
         return true;
     };

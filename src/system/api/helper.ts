@@ -4,11 +4,19 @@ import {
     RegistrationLogType,
 } from '../types/config';
 
+import { SYSTEM_ID } from '@system/constants';
+
 export class RegistrationHelper {
     static LOG_DEBOUNCE_MS = 200;
-    static COMPLETED: Record<string, RegistrationConfig> = {};
+    private static _COMPLETED: Record<string, RegistrationConfig> = {};
 
     private static logs: RegistrationLog[] = [];
+
+    public static get COMPLETED(): Readonly<
+        Record<string, RegistrationConfig>
+    > {
+        return this._COMPLETED;
+    }
 
     static registerLog(log: RegistrationLog) {
         this.logs.push(log);
@@ -20,14 +28,15 @@ export class RegistrationHelper {
         data: RegistrationConfig,
         callback: () => boolean,
     ) {
+        data.priority ??= 0; // Default priority to 0 if not set
+
         // If the object was registered by a previous API call, compare priorities.
         // If not, but the object still already exists, check that the priority is higher than 0 (i.e. higher than the default system config).
         if (
-            (identifier in RegistrationHelper.COMPLETED &&
-                (RegistrationHelper.COMPLETED[identifier].priority ?? 0) <
-                    (data.priority ?? 0)) ||
-            (!(identifier in RegistrationHelper.COMPLETED) &&
-                (data.priority ?? 0) > 0)
+            !(identifier in RegistrationHelper._COMPLETED) ||
+            (identifier in RegistrationHelper._COMPLETED &&
+                RegistrationHelper._COMPLETED[identifier].priority! <
+                    data.priority)
         ) {
             RegistrationHelper.registerLog({
                 source: data.source,
@@ -35,7 +44,13 @@ export class RegistrationHelper {
                 message: `Overriding config: ${identifier} due to a higher priority value: ${data.priority}.`,
             } as RegistrationLog);
 
-            return callback();
+            // Perform the registration
+            const result = callback();
+
+            // Set as completed
+            if (result) RegistrationHelper._COMPLETED[identifier] = data;
+
+            return result;
             // If both conditions fail, the new registration has a lower priority than either system default or any previous registration.
             // This means we can log this new registration as a failure and not register it.
         } else {
@@ -56,10 +71,13 @@ export class RegistrationHelper {
     }
 
     private static showLogs = foundry.utils.debounce(() => {
-        console.log(this.logs);
-
         const hasErrorLogs = this.logs.some(
             (log) => log.type === RegistrationLogType.Error,
+        );
+
+        console[hasErrorLogs ? 'error' : 'warn'](
+            `${SYSTEM_ID} | API Registration Logs`,
+            this.logs,
         );
 
         // Show error notification if there are any error logs
