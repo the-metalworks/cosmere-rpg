@@ -57,11 +57,18 @@ export class RegistrationHelper {
 
     private static showLogs = foundry.utils.debounce(() => {
         console.log(this.logs);
-        ui.notifications.error(
-            game.i18n!.localize('GENERIC.Error.RegisteringConfigs'),
+
+        const hasErrorLogs = this.logs.some(
+            (log) => log.type === RegistrationLogType.Error,
         );
 
-        //TODO SHOW LOG DIALOG
+        // Show error notification if there are any error logs
+        if (hasErrorLogs) {
+            // TODO: Show log dialog instead of error notification.
+            ui.notifications.error(
+                game.i18n!.localize('GENERIC.Error.RegisteringConfigs'),
+            );
+        }
 
         // Clear this batch of logs so we don't display them again.
         this.logs = [];
