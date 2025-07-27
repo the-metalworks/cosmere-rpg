@@ -1551,6 +1551,7 @@
         "Description": "Description",
         "Talent": "Talent",
         "Goal": "Goal",
+        "Ancestry": "Ancestry",
         "Button": {
             "Roll": "Roll",
             "Continue": "Continue",
