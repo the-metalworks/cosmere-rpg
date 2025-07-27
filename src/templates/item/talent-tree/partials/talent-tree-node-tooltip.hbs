@@ -43,11 +43,11 @@
                     {{else if (eq prereq.type "ancestry")}}
                         <i class="fa-solid fa-people-arrows"></i>
                         <span>{{prereq.ancestry.label}}</span>
-                        <span>{{localize "GENERIC.Ancestry"}}</span>
+                        <span>{{localize "COSMERE.Item.Talent.Prerequisite.Type.ancestry"}}</span>
                     {{else if (eq prereq.type "culture")}}
                         <i class="fa-solid fa-globe"></i>
                         <span>{{prereq.culture.label}}</span>
-                        <span>{{localize "GENERIC.Culture"}}</span>
+                        <span>{{localize "COSMERE.Item.Talent.Prerequisite.Type.culture"}}</span>
                     {{/if}}
                 </div>
             {{/each}}

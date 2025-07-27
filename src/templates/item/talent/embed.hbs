@@ -47,10 +47,10 @@
                         </span>
                     {{else if (eq prereq.type "ancestry")}}
                         <span>{{prereq.ancestry.label}}</span>
-                        <span>{{lower (localize "GENERIC.Ancestry")}}{{#unless @last}};{{/unless}}</span>
+                        <span>{{lower (localize "COSMERE.Item.Talent.Prerequisite.Type.ancestry")}}{{#unless @last}};{{/unless}}</span>
                     {{else if (eq prereq.type "culture")}}
                         <span>{{prereq.culture.label}}</span>
-                        <span>{{lower (localize "GENERIC.Culture")}}{{#unless @last}};{{/unless}}</span>
+                        <span>{{lower (localize "COSMERE.Item.Talent.Prerequisite.Type.culture")}}{{#unless @last}};{{/unless}}</span>
                     {{/if}}
                 {{/each}}
             {{/if}}
