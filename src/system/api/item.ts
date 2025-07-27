@@ -19,19 +19,17 @@ import {
     ArmorConfig,
     CultureConfig,
     AncestryConfig,
-    RegistrationConfig,
-    RegistrationLogType,
-    RegistrationLog,
     ItemEventHandlerTypeConfig,
 } from '@system/types/config';
 import { EventSystem as ItemEventSystem } from '@system/types/item';
 import { AnyObject } from '@system/types/utils';
+import { CommonRegistrationData } from './types';
 
 // Utils
 import * as EventSystemUtils from '@system/utils/item/event-system';
 import { RegistrationHelper } from './helper';
 
-interface PowerTypeConfigData extends PowerTypeConfig, RegistrationConfig {
+interface PowerTypeConfigData extends PowerTypeConfig, CommonRegistrationData {
     /**
      * Unique id for the power type.
      */
@@ -45,46 +43,39 @@ export function registerPowerType(data: PowerTypeConfigData) {
         );
     }
 
-    const identifier = `power.type.${data.id}`;
-
-    if (data.id === 'none') {
-        RegistrationHelper.registerLog({
-            source: data.source,
-            type: RegistrationLogType.Error,
-            message: `Failed to register config: ${identifier}. Cannot register power type with id "none".`,
-        } as RegistrationLog);
-
-        return false;
-    }
-
-    const toRegister = {
+    // Clean data, remove fields that are not part of the config
+    data = {
+        id: data.id,
         label: data.label,
         plural: data.plural,
-    } as PowerTypeConfig;
+        source: data.source,
+        priority: data.priority,
+        strict: data.strict,
+    };
+
+    const identifier = `power.type.${data.id}`;
 
     const register = () => {
-        CONFIG.COSMERE.power.types[data.id as PowerType] = toRegister;
+        if (data.id === 'none') {
+            throw new Error('Cannot register power type with id "none".');
+        }
+
+        CONFIG.COSMERE.power.types[data.id as PowerType] = {
+            label: data.label,
+            plural: data.plural,
+        };
+
         return true;
     };
 
-    if (data.id in CONFIG.COSMERE.power.types) {
-        // If the same object is already registered, we ignore the registration and mark it succesful.
-        if (
-            foundry.utils.objectsEqual(
-                toRegister,
-                CONFIG.COSMERE.power.types[data.id as PowerType],
-            )
-        ) {
-            return true;
-        }
-
-        return RegistrationHelper.tryRegisterConfig(identifier, data, register);
-    }
-
-    return register();
+    return RegistrationHelper.tryRegisterConfig({
+        identifier,
+        data,
+        register,
+    });
 }
 
-interface PathTypeConfigData extends PathTypeConfig, RegistrationConfig {
+interface PathTypeConfigData extends PathTypeConfig, CommonRegistrationData {
     /**
      * Unique id for the path type.
      */
@@ -98,35 +89,35 @@ export function registerPathType(data: PathTypeConfigData) {
         );
     }
 
+    // Clean data, remove fields that are not part of the config
+    data = {
+        id: data.id,
+        label: data.label,
+        source: data.source,
+        priority: data.priority,
+        strict: data.strict,
+    };
+
     const identifier = `path.type.${data.id}`;
 
-    const toRegister = {
-        label: data.label,
-    } as PathTypeConfig;
-
     const register = () => {
-        CONFIG.COSMERE.paths.types[data.id as PathType] = toRegister;
+        CONFIG.COSMERE.paths.types[data.id as PathType] = {
+            label: data.label,
+        };
+
         return true;
     };
 
-    if (data.id in CONFIG.COSMERE.paths.types) {
-        // If the same object is already registered, we ignore the registration and mark it succesful.
-        if (
-            foundry.utils.objectsEqual(
-                toRegister,
-                CONFIG.COSMERE.paths.types[data.id as PathType],
-            )
-        ) {
-            return true;
-        }
-
-        return RegistrationHelper.tryRegisterConfig(identifier, data, register);
-    }
-
-    return register();
+    return RegistrationHelper.tryRegisterConfig({
+        identifier,
+        data,
+        register,
+    });
 }
 
-interface ActionTypeConfigData extends ActionTypeConfig, RegistrationConfig {
+interface ActionTypeConfigData
+    extends ActionTypeConfig,
+        CommonRegistrationData {
     /**
      * Unique id for the action type.
      */
@@ -140,40 +131,41 @@ export function registerActionType(data: ActionTypeConfigData) {
         );
     }
 
-    const identifier = `action.type.${data.id}`;
-
-    const toRegister = {
+    // Clean data, remove fields that are not part of the config
+    data = {
+        id: data.id,
         label: data.label,
         labelPlural: data.labelPlural,
         hasMode: data.hasMode,
         subtitle: data.subtitle,
-    } as ActionTypeConfig;
+        source: data.source,
+        priority: data.priority,
+        strict: data.strict,
+    };
+
+    const identifier = `action.type.${data.id}`;
 
     const register = () => {
-        CONFIG.COSMERE.action.types[data.id as ActionType] = toRegister;
+        CONFIG.COSMERE.action.types[data.id as ActionType] = {
+            label: data.label,
+            labelPlural: data.labelPlural,
+            hasMode: data.hasMode,
+            subtitle: data.subtitle,
+        };
+
         return true;
     };
 
-    if (data.id in CONFIG.COSMERE.action.types) {
-        // If the same object is already registered, we ignore the registration and mark it succesful.
-        if (
-            foundry.utils.objectsEqual(
-                toRegister,
-                CONFIG.COSMERE.action.types[data.id as ActionType],
-            )
-        ) {
-            return true;
-        }
-
-        return RegistrationHelper.tryRegisterConfig(identifier, data, register);
-    }
-
-    return register();
+    return RegistrationHelper.tryRegisterConfig({
+        identifier,
+        data,
+        register,
+    });
 }
 
 interface EquipmentTypeConfigData
     extends EquipmentTypeConfig,
-        RegistrationConfig {
+        CommonRegistrationData {
     /**
      * Unique id for the equipment type.
      */
@@ -187,36 +179,35 @@ export function registerEquipmentType(data: EquipmentTypeConfigData) {
         );
     }
 
+    // Clean data, remove fields that are not part of the config
+    data = {
+        id: data.id,
+        label: data.label,
+        source: data.source,
+        priority: data.priority,
+        strict: data.strict,
+    };
+
     const identifier = `equipment.type.${data.id}`;
 
-    const toRegister = {
-        label: data.label,
-    } as EquipmentTypeConfig;
-
     const register = () => {
-        CONFIG.COSMERE.items.equipment.types[data.id as EquipmentType] =
-            toRegister;
+        CONFIG.COSMERE.items.equipment.types[data.id as EquipmentType] = {
+            label: data.label,
+        };
+
         return true;
     };
 
-    if (data.id in CONFIG.COSMERE.items.equipment.types) {
-        // If the same object is already registered, we ignore the registration and mark it succesful.
-        if (
-            foundry.utils.objectsEqual(
-                toRegister,
-                CONFIG.COSMERE.items.equipment.types[data.id as EquipmentType],
-            )
-        ) {
-            return true;
-        }
-
-        return RegistrationHelper.tryRegisterConfig(identifier, data, register);
-    }
-
-    return register();
+    return RegistrationHelper.tryRegisterConfig({
+        identifier,
+        data,
+        register,
+    });
 }
 
-interface WeaponTypeConfigData extends WeaponTypeConfig, RegistrationConfig {
+interface WeaponTypeConfigData
+    extends WeaponTypeConfig,
+        CommonRegistrationData {
     /**
      * Unique id for the weapon type.
      */
@@ -230,37 +221,37 @@ export function registerWeaponType(data: WeaponTypeConfigData) {
         );
     }
 
+    // Clean data, remove fields that are not part of the config
+    data = {
+        id: data.id,
+        label: data.label,
+        skill: data.skill,
+        source: data.source,
+        priority: data.priority,
+        strict: data.strict,
+    };
+
     const identifier = `weapon.type.${data.id}`;
 
-    const toRegister = {
-        label: data.label,
-    } as WeaponTypeConfigData;
-
     const register = () => {
-        CONFIG.COSMERE.items.weapon.types[data.id as WeaponType] = toRegister;
+        CONFIG.COSMERE.items.weapon.types[data.id as WeaponType] = {
+            label: data.label,
+            skill: data.skill,
+        };
+
         return true;
     };
 
-    if (data.id in CONFIG.COSMERE.items.weapon.types) {
-        // If the same object is already registered, we ignore the registration and mark it succesful.
-        if (
-            foundry.utils.objectsEqual(
-                toRegister,
-                CONFIG.COSMERE.items.weapon.types[data.id as WeaponType],
-            )
-        ) {
-            return true;
-        }
-
-        return RegistrationHelper.tryRegisterConfig(identifier, data, register);
-    }
-
-    return register();
+    return RegistrationHelper.tryRegisterConfig({
+        identifier,
+        data,
+        register,
+    });
 }
 
 /* --- Registry --- */
 
-interface WeaponConfigData extends WeaponConfig, RegistrationConfig {
+interface WeaponConfigData extends WeaponConfig, CommonRegistrationData {
     /**
      * Unique id for the weapon.
      */
@@ -274,37 +265,37 @@ export function registerWeapon(data: WeaponConfigData) {
         );
     }
 
-    const identifier = `weapon.${data.id}`;
-
-    const toRegister = {
+    // Clean data, remove fields that are not part of the config
+    data = {
+        id: data.id,
         label: data.label,
         reference: data.reference,
         specialExpertise: data.specialExpertise,
-    } as WeaponConfig;
+        source: data.source,
+        priority: data.priority,
+        strict: data.strict,
+    };
+
+    const identifier = `weapon.${data.id}`;
 
     const register = () => {
-        CONFIG.COSMERE.weapons[data.id as WeaponId] = toRegister;
+        CONFIG.COSMERE.weapons[data.id as WeaponId] = {
+            label: data.label,
+            reference: data.reference,
+            specialExpertise: data.specialExpertise,
+        };
+
         return true;
     };
 
-    if (data.id in CONFIG.COSMERE.weapons) {
-        // If the same object is already registered, we ignore the registration and mark it succesful.
-        if (
-            foundry.utils.objectsEqual(
-                toRegister,
-                CONFIG.COSMERE.weapons[data.id as WeaponId],
-            )
-        ) {
-            return true;
-        }
-
-        return RegistrationHelper.tryRegisterConfig(identifier, data, register);
-    }
-
-    return register();
+    return RegistrationHelper.tryRegisterConfig({
+        identifier,
+        data,
+        register,
+    });
 }
 
-interface ArmorConfigData extends ArmorConfig, RegistrationConfig {
+interface ArmorConfigData extends ArmorConfig, CommonRegistrationData {
     /**
      * Unique id for the armor.
      */
@@ -318,36 +309,36 @@ export function registerArmor(data: ArmorConfigData) {
         );
     }
 
+    // Clean data, remove fields that are not part of the config
+    data = {
+        id: data.id,
+        label: data.label,
+        specialExpertise: data.specialExpertise,
+        reference: data.reference,
+        source: data.source,
+        priority: data.priority,
+        strict: data.strict,
+    };
+
     const identifier = `armor.${data.id}`;
 
-    const toRegister = {
-        label: data.label,
-        reference: data.reference,
-    } as ArmorConfig;
-
     const register = () => {
-        CONFIG.COSMERE.armors[data.id as unknown as ArmorId] = toRegister;
+        CONFIG.COSMERE.armors[data.id as unknown as ArmorId] = {
+            label: data.label,
+            reference: data.reference,
+        };
+
         return true;
     };
 
-    if (data.id in CONFIG.COSMERE.armors) {
-        // If the same object is already registered, we ignore the registration and mark it succesful.
-        if (
-            foundry.utils.objectsEqual(
-                toRegister,
-                CONFIG.COSMERE.armors[data.id as unknown as ArmorId],
-            )
-        ) {
-            return true;
-        }
-
-        return RegistrationHelper.tryRegisterConfig(identifier, data, register);
-    }
-
-    return register();
+    return RegistrationHelper.tryRegisterConfig({
+        identifier,
+        data,
+        register,
+    });
 }
 
-interface CultureConfigData extends CultureConfig, RegistrationConfig {
+interface CultureConfigData extends CultureConfig, CommonRegistrationData {
     /**
      * Unique id for the culture.
      */
@@ -361,36 +352,35 @@ export function registerCulture(data: CultureConfigData) {
         );
     }
 
-    const identifier = `culture.${data.id}`;
-
-    const toRegister = {
+    // Clean data, remove fields that are not part of the config
+    data = {
+        id: data.id,
         label: data.label,
         reference: data.reference,
-    } as CultureConfig;
+        source: data.source,
+        priority: data.priority,
+        strict: data.strict,
+    };
+
+    const identifier = `culture.${data.id}`;
 
     const register = () => {
-        CONFIG.COSMERE.cultures[data.id] = toRegister;
+        CONFIG.COSMERE.cultures[data.id] = {
+            label: data.label,
+            reference: data.reference,
+        };
+
         return true;
     };
 
-    if (data.id in CONFIG.COSMERE.cultures) {
-        // If the same object is already registered, we ignore the registration and mark it succesful.
-        if (
-            foundry.utils.objectsEqual(
-                toRegister,
-                CONFIG.COSMERE.cultures[data.id],
-            )
-        ) {
-            return true;
-        }
-
-        return RegistrationHelper.tryRegisterConfig(identifier, data, register);
-    }
-
-    return register();
+    return RegistrationHelper.tryRegisterConfig({
+        identifier,
+        data,
+        register,
+    });
 }
 
-interface AncestryConfigData extends AncestryConfig, RegistrationConfig {
+interface AncestryConfigData extends AncestryConfig, CommonRegistrationData {
     /**
      * Unique id for the ancestry.
      */
@@ -404,39 +394,38 @@ export function registerAncestry(data: AncestryConfigData) {
         );
     }
 
-    const identifier = `ancestry.${data.id}`;
-
-    const toRegister = {
+    // Clean data, remove fields that are not part of the config
+    data = {
+        id: data.id,
         label: data.label,
         reference: data.reference,
-    } as CultureConfig;
+        source: data.source,
+        priority: data.priority,
+        strict: data.strict,
+    };
+
+    const identifier = `ancestry.${data.id}`;
 
     const register = () => {
-        CONFIG.COSMERE.ancestries[data.id] = toRegister;
+        CONFIG.COSMERE.ancestries[data.id] = {
+            label: data.label,
+            reference: data.reference,
+        };
+
         return true;
     };
 
-    if (data.id in CONFIG.COSMERE.ancestries) {
-        // If the same object is already registered, we ignore the registration and mark it succesful.
-        if (
-            foundry.utils.objectsEqual(
-                toRegister,
-                CONFIG.COSMERE.ancestries[data.id],
-            )
-        ) {
-            return true;
-        }
-
-        return RegistrationHelper.tryRegisterConfig(identifier, data, register);
-    }
-
-    return register();
+    return RegistrationHelper.tryRegisterConfig({
+        identifier,
+        data,
+        register,
+    });
 }
 
 interface ItemEventTypeConfigData
     extends Omit<ItemEventTypeConfig, 'host'>,
         Partial<Pick<ItemEventTypeConfig, 'host'>>,
-        RegistrationConfig {
+        CommonRegistrationData {
     /**
      * Unique id for the item event type.
      */
@@ -450,9 +439,9 @@ export function registerItemEventType(data: ItemEventTypeConfigData) {
         );
     }
 
-    const identifier = `item.event.type.${data.type}`;
-
-    const toRegister = {
+    // Clean data, remove fields that are not part of the config
+    data = {
+        type: data.type,
         label: data.label,
         description: data.description,
         hook: data.hook,
@@ -460,31 +449,41 @@ export function registerItemEventType(data: ItemEventTypeConfigData) {
         filter: data.filter,
         condition: data.condition,
         transform: data.transform,
-    } as ItemEventTypeConfig;
+        source: data.source,
+        priority: data.priority,
+        strict: data.strict,
+    };
+
+    const identifier = `item.event.type.${data.type}`;
 
     const register = () => {
-        CONFIG.COSMERE.items.events.types[data.type] = toRegister;
+        if (data.type === 'none') {
+            throw new Error(
+                'Cannot register item event type with type "none".',
+            );
+        }
+
+        CONFIG.COSMERE.items.events.types[data.type] = {
+            label: data.label,
+            description: data.description,
+            hook: data.hook,
+            host: data.host!,
+            filter: data.filter,
+            condition: data.condition,
+            transform: data.transform,
+        };
+
         return true;
     };
 
-    if (data.type in CONFIG.COSMERE.items.events.types) {
-        // If the same object is already registered, we ignore the registration and mark it succesful.
-        if (
-            foundry.utils.objectsEqual(
-                toRegister,
-                CONFIG.COSMERE.items.events.types[data.type],
-            )
-        ) {
-            return true;
-        }
-
-        return RegistrationHelper.tryRegisterConfig(identifier, data, register);
-    }
-
-    return register();
+    return RegistrationHelper.tryRegisterConfig({
+        identifier,
+        data,
+        register,
+    });
 }
 
-interface ItemEventHandlerConfigData extends RegistrationConfig {
+interface ItemEventHandlerConfigData extends CommonRegistrationData {
     type: string;
     label: string;
     description?: string | (() => string);
@@ -508,46 +507,44 @@ export function registerItemEventHandlerType(data: ItemEventHandlerConfigData) {
         );
     }
 
-    const identifier = `item.event.handler.${data.type}`;
-
-    if (data.type === 'none') {
-        RegistrationHelper.registerLog({
-            source: data.source,
-            type: RegistrationLogType.Error,
-            message: `Failed to register config: ${identifier}. Cannot register item event handler with type "none".`,
-        } as RegistrationLog);
-
-        return false;
-    }
-
-    const toRegister = {
+    // Clean data, remove fields that are not part of the config
+    data = {
+        type: data.type,
         label: data.label,
         description: data.description,
-        documentClass: EventSystemUtils.constructHandlerClass(
-            data.type,
-            data.executor,
-            data.config,
-        ),
-    } as ItemEventHandlerTypeConfig;
+        executor: data.executor,
+        config: data.config,
+        source: data.source,
+        priority: data.priority,
+        strict: data.strict,
+    };
+
+    const identifier = `item.event.handler.${data.type}`;
 
     const register = () => {
-        CONFIG.COSMERE.items.events.handlers[data.type] = toRegister;
+        if (data.type === 'none') {
+            throw new Error(
+                'Cannot register item event handler with type "none".',
+            );
+        }
+
+        CONFIG.COSMERE.items.events.handlers[data.type] = {
+            label: data.label,
+            description: data.description,
+            documentClass: EventSystemUtils.constructHandlerClass(
+                data.type,
+                data.executor,
+                data.config,
+            ),
+        };
+
         return true;
     };
 
-    if (data.type in CONFIG.COSMERE.items.events.handlers) {
-        // If the same object is already registered, we ignore the registration and mark it succesful.
-        if (
-            foundry.utils.objectsEqual(
-                toRegister,
-                CONFIG.COSMERE.items.events.handlers[data.type],
-            )
-        ) {
-            return true;
-        }
-
-        return RegistrationHelper.tryRegisterConfig(identifier, data, register);
-    }
-
-    return register();
+    return RegistrationHelper.tryRegisterConfig({
+        identifier,
+        data,
+        register,
+        compare: false, // Handlers are not compared by hash
+    });
 }

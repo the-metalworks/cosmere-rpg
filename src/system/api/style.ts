@@ -1,8 +1,8 @@
 import { Theme } from '@system/types/cosmere';
-import { RegistrationConfig } from '../types/config';
+import { CommonRegistrationData } from './types';
 import { RegistrationHelper } from './helper';
 
-interface ThemeConfigData extends RegistrationConfig {
+interface ThemeConfigData extends CommonRegistrationData {
     id: string;
     label: string;
 }
@@ -14,23 +14,26 @@ export function registerTheme(data: ThemeConfigData) {
         );
     }
 
+    // Clean data, remove fields that are not part of the config
+    data = {
+        id: data.id,
+        label: data.label,
+        source: data.source,
+        priority: data.priority,
+        strict: data.strict,
+    };
+
     const identifier = `theme.${data.id}`;
 
-    const toRegister = data.label;
-
     const register = () => {
-        CONFIG.COSMERE.themes[data.id as Theme] = toRegister;
+        CONFIG.COSMERE.themes[data.id as Theme] = data.label;
+
         return true;
     };
 
-    if (data.id in CONFIG.COSMERE.themes) {
-        // If the same object is already registered, we ignore the registration and mark it succesful.
-        if (CONFIG.COSMERE.themes[data.id as Theme] === toRegister) {
-            return true;
-        }
-
-        return RegistrationHelper.tryRegisterConfig(identifier, data, register);
-    }
-
-    return register();
+    return RegistrationHelper.tryRegisterConfig({
+        identifier,
+        data,
+        register,
+    });
 }

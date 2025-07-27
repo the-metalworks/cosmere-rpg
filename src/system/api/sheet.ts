@@ -2,17 +2,14 @@ import {
     ItemListSection,
     DynamicItemListSectionGenerator,
 } from '@system/types/application/actor/components/item-list';
-import { RegistrationConfig } from '../types/config';
+import { CommonRegistrationData } from './types';
 import { RegistrationHelper } from './helper';
-
-// Utils
-import { objectsEqual } from './utils';
 
 /**
  * Registers a new static section for the actor's actions list.
  */
 export function registerActionListSection(
-    data: ItemListSection & RegistrationConfig,
+    data: ItemListSection & CommonRegistrationData,
 ) {
     if (!CONFIG.COSMERE) {
         throw new Error(
@@ -20,9 +17,8 @@ export function registerActionListSection(
         );
     }
 
-    const identifier = `action.section.static.${data.id}`;
-
-    const toRegister = {
+    // Clean data, remove fields that are not part of the config
+    data = {
         id: data.id,
         label: data.label,
         sortOrder: data.sortOrder,
@@ -31,37 +27,37 @@ export function registerActionListSection(
         createItemTooltip: data.createItemTooltip,
         filter: data.filter,
         new: data.new,
-    } as ItemListSection;
+        source: data.source,
+        priority: data.priority,
+        strict: data.strict,
+    };
+
+    const identifier = `action.section.static.${data.id}`;
 
     const register = () => {
         CONFIG.COSMERE.sheet.actor.components.actions.sections.static[data.id] =
-            toRegister;
+            {
+                id: data.id,
+                label: data.label,
+                sortOrder: data.sortOrder,
+                default: data.default,
+                itemTypeLabel: data.itemTypeLabel,
+                createItemTooltip: data.createItemTooltip,
+                filter: data.filter,
+                new: data.new,
+            };
+
         return true;
     };
 
-    if (
-        data.id in CONFIG.COSMERE.sheet.actor.components.actions.sections.static
-    ) {
-        // If the same object is already registered, we ignore the registration and mark it succesful.
-        if (
-            objectsEqual(
-                toRegister,
-                CONFIG.COSMERE.sheet.actor.components.actions.sections.static[
-                    data.id
-                ],
-                ['filter', 'new'],
-            )
-        ) {
-            return true;
-        }
-
-        return RegistrationHelper.tryRegisterConfig(identifier, data, register);
-    }
-
-    return register();
+    return RegistrationHelper.tryRegisterConfig({
+        identifier,
+        data,
+        register,
+    });
 }
 
-interface ActionListDynamicSectionData extends RegistrationConfig {
+interface ActionListDynamicSectionData extends CommonRegistrationData {
     /**
      * Unique id for the type of dynamic section.
      */
@@ -86,35 +82,28 @@ export function registerActionListDynamicSectionGenerator(
         );
     }
 
-    const identifier = `action.section.dynamic.${data.id}`;
+    // Clean data, remove fields that are not part of the config
+    data = {
+        id: data.id,
+        generator: data.generator,
+        source: data.source,
+        priority: data.priority,
+        strict: data.strict,
+    };
 
-    const toRegister = data.generator;
+    const identifier = `action.section.dynamic.${data.id}`;
 
     const register = () => {
         CONFIG.COSMERE.sheet.actor.components.actions.sections.dynamic[
             data.id
-        ] = toRegister;
+        ] = data.generator;
+
         return true;
     };
 
-    if (
-        data.id in
-        CONFIG.COSMERE.sheet.actor.components.actions.sections.dynamic
-    ) {
-        // If the same object is already registered, we ignore the registration and mark it succesful.
-        if (
-            foundry.utils.objectsEqual(
-                toRegister,
-                CONFIG.COSMERE.sheet.actor.components.actions.sections.dynamic[
-                    data.id
-                ],
-            )
-        ) {
-            return true;
-        }
-
-        return RegistrationHelper.tryRegisterConfig(identifier, data, register);
-    }
-
-    return register();
+    return RegistrationHelper.tryRegisterConfig({
+        identifier,
+        data,
+        register,
+    });
 }

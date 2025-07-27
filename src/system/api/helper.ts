@@ -1,19 +1,49 @@
-import {
-    RegistrationConfig,
-    RegistrationLog,
-    RegistrationLogType,
-} from '../types/config';
+import SparkMD5 from 'spark-md5';
 
+// Types
+import { AnyObject } from '@system/types/utils';
+import { CommonRegistrationData } from './types';
+
+// Constants
 import { SYSTEM_ID } from '@system/constants';
+
+interface TryRegisterConfigParams<TData extends object> {
+    identifier: string;
+    data: TData & CommonRegistrationData;
+    register(this: void): boolean;
+    hashOmitFields?: (keyof TData)[];
+    /**
+     * @default true
+     */
+    compare?: boolean;
+}
+
+interface RegistrationRecord {
+    source: string;
+    priority: number;
+    hash: string | false; // False if hash comparison is not used
+}
+
+export interface RegistrationLog {
+    source: string;
+    type: RegistrationLogType;
+    message: string;
+}
+
+export enum RegistrationLogType {
+    Warn = 'warn',
+    Error = 'error',
+    Debug = 'debug',
+}
 
 export class RegistrationHelper {
     static LOG_DEBOUNCE_MS = 200;
-    private static _COMPLETED: Record<string, RegistrationConfig> = {};
+    private static _COMPLETED: Record<string, RegistrationRecord> = {};
 
     private static logs: RegistrationLog[] = [];
 
     public static get COMPLETED(): Readonly<
-        Record<string, RegistrationConfig>
+        Record<string, RegistrationRecord>
     > {
         return this._COMPLETED;
     }
@@ -23,47 +53,80 @@ export class RegistrationHelper {
         this.showLogs();
     }
 
-    static tryRegisterConfig(
-        identifier: string,
-        data: RegistrationConfig,
-        callback: () => boolean,
-    ) {
+    static tryRegisterConfig<TData extends object>(
+        params: TryRegisterConfigParams<TData>,
+    ): boolean;
+    static tryRegisterConfig<TData extends object>({
+        identifier,
+        data,
+        register,
+        hashOmitFields,
+        compare = true,
+    }: TryRegisterConfigParams<TData>) {
         data.priority ??= 0; // Default priority to 0 if not set
 
-        // If the object was registered by a previous API call, compare priorities.
-        // If not, but the object still already exists, check that the priority is higher than 0 (i.e. higher than the default system config).
-        if (
-            !(identifier in RegistrationHelper._COMPLETED) ||
-            (identifier in RegistrationHelper._COMPLETED &&
-                RegistrationHelper._COMPLETED[identifier].priority! <
-                    data.priority)
-        ) {
-            RegistrationHelper.registerLog({
-                source: data.source,
-                type: RegistrationLogType.Warn,
-                message: `Overriding config: ${identifier} due to a higher priority value: ${data.priority}.`,
-            } as RegistrationLog);
+        try {
+            // Calculate a hash of the base data to check for equality
+            const hash = compare
+                ? RegistrationHelper.getHash(data, hashOmitFields)
+                : false;
+
+            if (identifier in RegistrationHelper._COMPLETED) {
+                // Check if same object is already registered
+                if (
+                    compare &&
+                    hash === RegistrationHelper._COMPLETED[identifier].hash
+                ) {
+                    RegistrationHelper.registerLog({
+                        source: data.source,
+                        type: RegistrationLogType.Warn,
+                        message: `Config ${identifier} already registered with the same data.`,
+                    } as RegistrationLog);
+
+                    return true; // Already registered with the same data
+                }
+
+                // If the same identifier is already registered, we check if the new registration has a higher priority.
+                if (
+                    data.priority <=
+                    RegistrationHelper._COMPLETED[identifier].priority
+                ) {
+                    throw new Error(
+                        'A higher priority registration already exists.',
+                    );
+                }
+
+                // Log warning about overriding
+                RegistrationHelper.registerLog({
+                    source: data.source,
+                    type: RegistrationLogType.Warn,
+                    message: `Overriding config: ${identifier} due to a higher priority value: ${data.priority}.`,
+                } as RegistrationLog);
+            }
 
             // Perform the registration
-            const result = callback();
+            const result = register();
 
-            // Set as completed
-            if (result) RegistrationHelper._COMPLETED[identifier] = data;
+            if (result) {
+                RegistrationHelper._COMPLETED[identifier] = {
+                    source: data.source,
+                    priority: data.priority,
+                    hash,
+                };
+            }
 
             return result;
-            // If both conditions fail, the new registration has a lower priority than either system default or any previous registration.
-            // This means we can log this new registration as a failure and not register it.
-        } else {
+        } catch (err: unknown) {
+            const message = `Failed to register config: ${identifier}. Reason: ${err instanceof Error ? err.message : 'Unknown error'}`;
+
             if (data.strict) {
-                throw new Error(
-                    `Failed to register config: ${identifier} due to conflicts.`,
-                );
+                throw new Error(message);
             }
 
             RegistrationHelper.registerLog({
                 source: data.source,
                 type: RegistrationLogType.Error,
-                message: `Failed to register config: ${identifier} because there is already a higher priority registration.`,
+                message,
             } as RegistrationLog);
 
             return false;
@@ -91,4 +154,24 @@ export class RegistrationHelper {
         // Clear this batch of logs so we don't display them again.
         this.logs = [];
     }, this.LOG_DEBOUNCE_MS);
+
+    private static getHash<TData extends object>(
+        data: TData & CommonRegistrationData,
+        omitFields: (keyof TData)[] = [],
+    ): string {
+        const removeFields: (keyof TData | keyof CommonRegistrationData)[] = [
+            ...omitFields,
+            'source',
+            'priority',
+        ];
+
+        const baseData = foundry.utils.duplicate(data) as Partial<
+            TData & CommonRegistrationData
+        >;
+        removeFields.forEach((field) => {
+            delete baseData[field];
+        });
+
+        return SparkMD5.hash(JSON.stringify(baseData));
+    }
 }
