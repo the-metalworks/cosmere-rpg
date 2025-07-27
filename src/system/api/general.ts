@@ -1,5 +1,5 @@
 import { CurrencyConfig } from '@system/types/config';
-import { CommonRegistrationData } from './types';
+import { CommonRegistrationData, RegistrationError } from './types';
 import { RegistrationHelper } from './helper';
 
 export function getCurrentRegistrations() {
@@ -36,14 +36,16 @@ export function registerCurrency(data: CurrencyConfigData) {
     const register = () => {
         // Ensure a base denomination is configured
         if (!data.denominations.primary.some((d) => d.base)) {
-            throw new Error('Currency must have a base denomination.');
+            throw new RegistrationError(
+                'Currency must have a base denomination.',
+            );
         }
 
         if (
             data.denominations.secondary &&
             !data.denominations.secondary.some((d) => d.base)
         ) {
-            throw new Error(
+            throw new RegistrationError(
                 'Secondary denominations must have a base denomination.',
             );
         }
@@ -55,7 +57,7 @@ export function registerCurrency(data: CurrencyConfigData) {
 
         // Ensure base denomination has a unit
         if (!baseDenomination.unit) {
-            throw new Error(
+            throw new RegistrationError(
                 `Base denomination ${baseDenomination.id} must have a unit.`,
             );
         }

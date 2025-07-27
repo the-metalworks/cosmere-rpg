@@ -23,7 +23,7 @@ import {
 } from '@system/types/config';
 import { EventSystem as ItemEventSystem } from '@system/types/item';
 import { AnyObject } from '@system/types/utils';
-import { CommonRegistrationData } from './types';
+import { CommonRegistrationData, RegistrationError } from './types';
 
 // Utils
 import * as EventSystemUtils from '@system/utils/item/event-system';
@@ -57,7 +57,9 @@ export function registerPowerType(data: PowerTypeConfigData) {
 
     const register = () => {
         if (data.id === 'none') {
-            throw new Error('Cannot register power type with id "none".');
+            throw new RegistrationError(
+                'Cannot register power type with id "none".',
+            );
         }
 
         CONFIG.COSMERE.power.types[data.id as PowerType] = {
@@ -458,7 +460,7 @@ export function registerItemEventType(data: ItemEventTypeConfigData) {
 
     const register = () => {
         if (data.type === 'none') {
-            throw new Error(
+            throw new RegistrationError(
                 'Cannot register item event type with type "none".',
             );
         }
@@ -523,7 +525,7 @@ export function registerItemEventHandlerType(data: ItemEventHandlerConfigData) {
 
     const register = () => {
         if (data.type === 'none') {
-            throw new Error(
+            throw new RegistrationError(
                 'Cannot register item event handler with type "none".',
             );
         }

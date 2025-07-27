@@ -2,7 +2,7 @@ import SparkMD5 from 'spark-md5';
 
 // Types
 import { AnyObject } from '@system/types/utils';
-import { CommonRegistrationData } from './types';
+import { CommonRegistrationData, RegistrationError } from './types';
 
 // Constants
 import { SYSTEM_ID } from '@system/constants';
@@ -91,7 +91,7 @@ export class RegistrationHelper {
                     data.priority <=
                     RegistrationHelper._COMPLETED[identifier].priority
                 ) {
-                    throw new Error(
+                    throw new RegistrationError(
                         'A higher priority registration already exists.',
                     );
                 }
@@ -117,6 +117,11 @@ export class RegistrationHelper {
 
             return result;
         } catch (err: unknown) {
+            // Only handle RegistrationError, rethrow any others
+            if (!(err instanceof RegistrationError)) {
+                throw err;
+            }
+
             const message = `Failed to register config: ${identifier}. Reason: ${err instanceof Error ? err.message : 'Unknown error'}`;
 
             if (data.strict) {
