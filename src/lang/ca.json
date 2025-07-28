@@ -33,7 +33,7 @@
                 "Role": {
                     "Minion": "Sequaç",
                     "Rival": "Rival",
-                    "Boss": "Amo"
+                    "Boss": "Capitost"
                 }
             },
             "Actions": {
@@ -125,7 +125,7 @@
                 "LiftingCapactiy": "Capacitat d'aixecament",
                 "RecoveryDie": "Recuperació",
                 "Deflect": "Desviament",
-                "NoObscuredSense": "No afectat per sentits enfosquits.",
+                "NoObscuredSense": "No afectat pels sentits enfosquits.",
                 "Immunities": "Immunitats"
             },
             "Deflect": {
@@ -230,8 +230,8 @@
                 "EndScene": "Acaba l'escena",
                 "ShortRest": "Descans curt",
                 "LongRest": "Descans llarg",
-                "ToggleShowSkills": "Mostra les habilitats sense rangs",
-                "ToggleCollapseSkills": "Amaga les habilitats sense rangs",
+                "ToggleShowSkills": "Mostra les habilitats sense graus",
+                "ToggleCollapseSkills": "Amaga les habilitats sense graus",
                 "ConfigureDefense": "Configura la defensa",
                 "ConfigureDeflect": "Configura el desviament",
                 "ConfigureMovement": "Configura la distància de moviment",
@@ -298,8 +298,8 @@
                     }
                 },
                 "Skills": {
-                    "AdjustTooltip": "Clic esquerre per augmentar el rang de {skill}.<br>Clic dret per reduir el rang de {skill}.",
-                    "SetTooltip": "Clic esquerre per ajusta el rang de {skill}.<br>Clic dret per buidar el rang de {skill}."
+                    "AdjustTooltip": "Clic esquerre per augmentar el grau de {skill}.<br>Clic dret per reduir el grau de {skill}.",
+                    "SetTooltip": "Clic esquerre per ajusta el grau de {skill}.<br>Clic dret per buidar el grau de {skill}."
                 },
                 "Attributes": {
                     "IsModifiedTooltip": "Aquest atribut està modificat per un efecte."
@@ -340,7 +340,7 @@
                     "label": "Equipament",
                     "label_plural": "Equipament",
                     "label_action": "Acció d'equipament",
-                    "desc_placeholder": "Editeu això per descriure què és aquest objecte de l'equipament i quin aspecte té.",
+                    "desc_placeholder": "Editeu això per descriure què és aquest objecte i quin aspecte té.",
                     "New": "Nou equipament"
                 },
                 "Loot": {
@@ -352,12 +352,12 @@
                 "Ancestry": {
                     "label": "Ascendència",
                     "label_plural": "Ascendències",
-                    "desc_placeholder": "Editeu això per definir una herència potencial per un personatge. Incloeu també cap norma especial perquè els vostres jugadors la llegeixin."
+                    "desc_placeholder": "Editeu això per definir una herència potencial per un personatge. Incloeu també cap norma especial que els jugadors hagin de llegir."
                 },
                 "Culture": {
                     "label": "Cultura",
                     "label_plural": "Cultures",
-                    "desc_placeholder": "Editeu això per definir una de les moltes cultures de l'ambientació. Incloeu també cap norma especial perquè els vostres jugadors la llegeixin."
+                    "desc_placeholder": "Editeu això per definir una de les moltes cultures de l'ambientació. Incloeu també cap norma especial que els jugadors hagin de llegir."
                 },
                 "Path": {
                     "label": "Camí",
@@ -842,7 +842,7 @@
                                 },
                                 "PickOne": {
                                     "Label": "Tria única",
-                                    "Hint": "Si s'ha de demanar a l'usuari que triï un objecte de la llista d'objecte per atorgar. Si està desactivat, s'atorgaran tots els objectes."
+                                    "Hint": "Si cal demanar a l'usuari que triï un objecte de la llista d'objecte per atorgar. Si està desactivat, s'atorgaran tots els objectes."
                                 },
                                 "PickPromptTitle": {
                                     "Label": "Títol del diàleg de tria",
@@ -873,14 +873,14 @@
                                 }
                             },
                             "modify-skill-rank": {
-                                "Title": "Modificar el rang d'habilitat",
-                                "Description": "Modifica el rang d'una habilitat o d'un actor.",
+                                "Title": "Modificar el grau d'habilitat",
+                                "Description": "Modifica el grau d'una habilitat o d'un actor.",
                                 "Skill": {
                                     "Label": "Habilitat"
                                 },
                                 "Amount": {
                                     "Label": "Diferència",
-                                    "Hint": "El número pel qual s'ha de modificar el rang de l'habilitat. Pot ser positiu o negatiu."
+                                    "Hint": "El número pel qual s'ha de modificar el grauide l'habilitat. Pot ser positiu o negatiu."
                                 }
                             },
                             "remove-expertises": {
@@ -918,8 +918,8 @@
                                 }
                             },
                             "set-skill-rank": {
-                                "Title": "Establir rang de l'habilitat",
-                                "Description": "Estableix el rang d'una habilitat d'un actor.",
+                                "Title": "Establir grau de l'habilitat",
+                                "Description": "Estableix el grau d'una habilitat d'un actor.",
                                 "Skill": {
                                     "Label": "Habilitat"
                                 },
@@ -1168,8 +1168,8 @@
                         "AttributeValue": "Valor",
                         "AttributeValuePlaceholder": "Valor mínim de l'atribut",
                         "Skill": "Habilitat",
-                        "SkillRank": "Rang",
-                        "SkillRankPlaceholder": "Rang mínim de l'habilitat",
+                        "SkillRank": "Grau",
+                        "SkillRankPlaceholder": Grau mínim de l'habilitat",
                         "Connection": "Connexió",
                         "ConnectionDescription": "Descripció",
                         "ConnectionDescriptionPlaceholder": "Descripció de la connexióC",
@@ -1566,7 +1566,7 @@
         "Notification": {
             "GrazeFocusSpent": "Concentració reduïda en 1",
             "AddedItem": "S'ha afegit {item}{quantity} a {actor}",
-            "IncreasedSkillRank": "S'ha augmentat en {amount} el rang de {skill} de {actor}",
+            "IncreasedSkillRank": "S'ha augmentat en {amount} el grau de {skill} de {actor}",
             "TalentObtained": "S'ha afegit el {talent} a {actor}",
             "TalentRemoved": "S'ha eliminat el {talent} de {actor}",
             "TalentCannotBeRemoved": "No es pot eliminar el talent {talent} de {actor} perquè és un prerequisit per un altre talent"
@@ -1681,7 +1681,7 @@
         },
         "skillIncrementDecrementToggle": {
             "name": "Activa el comportament d'increment de marca d'habilitat",
-            "hint": "Determina si les marques d'habilitat augmenten o es redueixen fent clic esquerre o dret en comptes d'establir el rang sobre el qual feu clic."
+            "hint": "Determina si les marques d'habilitat augmenten o es redueixen fent clic esquerre o dret en comptes d'establir el grau sobre el qual feu clic."
         },
         "systemTheme": {
             "name": "Tema de sistema preferit",
