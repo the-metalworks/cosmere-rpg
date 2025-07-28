@@ -32,7 +32,7 @@ export function registerActionListSection(
         strict: data.strict,
     };
 
-    const identifier = `action.section.static.${data.id}`;
+    const key = `sheet.actor.components.actions.sections.static.${data.id}`;
 
     const register = () => {
         CONFIG.COSMERE.sheet.actor.components.actions.sections.static[data.id] =
@@ -51,7 +51,7 @@ export function registerActionListSection(
     };
 
     return RegistrationHelper.tryRegisterConfig({
-        identifier,
+        key,
         data,
         register,
     });
@@ -91,7 +91,7 @@ export function registerActionListDynamicSectionGenerator(
         strict: data.strict,
     };
 
-    const identifier = `action.section.dynamic.${data.id}`;
+    const key = `sheet.actor.components.actions.sections.dynamic.${data.id}`;
 
     const register = () => {
         CONFIG.COSMERE.sheet.actor.components.actions.sections.dynamic[
@@ -102,7 +102,7 @@ export function registerActionListDynamicSectionGenerator(
     };
 
     return RegistrationHelper.tryRegisterConfig({
-        identifier,
+        key,
         data,
         register,
     });

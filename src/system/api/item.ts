@@ -23,7 +23,7 @@ import {
 } from '@system/types/config';
 import { EventSystem as ItemEventSystem } from '@system/types/item';
 import { AnyObject } from '@system/types/utils';
-import { CommonRegistrationData, RegistrationError } from './types';
+import { CommonRegistrationData } from './types';
 
 // Utils
 import * as EventSystemUtils from '@system/utils/item/event-system';
@@ -53,13 +53,15 @@ export function registerPowerType(data: PowerTypeConfigData) {
         strict: data.strict,
     };
 
-    const identifier = `power.type.${data.id}`;
+    const key = `power.types.${data.id}`;
 
     const register = () => {
         if (data.id === 'none') {
-            throw new RegistrationError(
-                'Cannot register power type with id "none".',
+            RegistrationHelper.logger.error(
+                data.source,
+                `Failed to register config: ${key}. Reason: Cannot register power type with id "none".`,
             );
+            return false;
         }
 
         CONFIG.COSMERE.power.types[data.id as PowerType] = {
@@ -71,7 +73,7 @@ export function registerPowerType(data: PowerTypeConfigData) {
     };
 
     return RegistrationHelper.tryRegisterConfig({
-        identifier,
+        key,
         data,
         register,
     });
@@ -100,7 +102,7 @@ export function registerPathType(data: PathTypeConfigData) {
         strict: data.strict,
     };
 
-    const identifier = `path.type.${data.id}`;
+    const key = `path.types.${data.id}`;
 
     const register = () => {
         CONFIG.COSMERE.paths.types[data.id as PathType] = {
@@ -111,7 +113,7 @@ export function registerPathType(data: PathTypeConfigData) {
     };
 
     return RegistrationHelper.tryRegisterConfig({
-        identifier,
+        key,
         data,
         register,
     });
@@ -145,7 +147,7 @@ export function registerActionType(data: ActionTypeConfigData) {
         strict: data.strict,
     };
 
-    const identifier = `action.type.${data.id}`;
+    const key = `action.types.${data.id}`;
 
     const register = () => {
         CONFIG.COSMERE.action.types[data.id as ActionType] = {
@@ -159,7 +161,7 @@ export function registerActionType(data: ActionTypeConfigData) {
     };
 
     return RegistrationHelper.tryRegisterConfig({
-        identifier,
+        key,
         data,
         register,
     });
@@ -190,7 +192,7 @@ export function registerEquipmentType(data: EquipmentTypeConfigData) {
         strict: data.strict,
     };
 
-    const identifier = `equipment.type.${data.id}`;
+    const key = `items.equipment.types.${data.id}`;
 
     const register = () => {
         CONFIG.COSMERE.items.equipment.types[data.id as EquipmentType] = {
@@ -201,7 +203,7 @@ export function registerEquipmentType(data: EquipmentTypeConfigData) {
     };
 
     return RegistrationHelper.tryRegisterConfig({
-        identifier,
+        key,
         data,
         register,
     });
@@ -233,7 +235,7 @@ export function registerWeaponType(data: WeaponTypeConfigData) {
         strict: data.strict,
     };
 
-    const identifier = `weapon.type.${data.id}`;
+    const key = `items.weapon.types.${data.id}`;
 
     const register = () => {
         CONFIG.COSMERE.items.weapon.types[data.id as WeaponType] = {
@@ -245,7 +247,7 @@ export function registerWeaponType(data: WeaponTypeConfigData) {
     };
 
     return RegistrationHelper.tryRegisterConfig({
-        identifier,
+        key,
         data,
         register,
     });
@@ -278,7 +280,7 @@ export function registerWeapon(data: WeaponConfigData) {
         strict: data.strict,
     };
 
-    const identifier = `weapon.${data.id}`;
+    const key = `weapons.${data.id}`;
 
     const register = () => {
         CONFIG.COSMERE.weapons[data.id as WeaponId] = {
@@ -291,7 +293,7 @@ export function registerWeapon(data: WeaponConfigData) {
     };
 
     return RegistrationHelper.tryRegisterConfig({
-        identifier,
+        key,
         data,
         register,
     });
@@ -322,7 +324,7 @@ export function registerArmor(data: ArmorConfigData) {
         strict: data.strict,
     };
 
-    const identifier = `armor.${data.id}`;
+    const key = `armors.${data.id}`;
 
     const register = () => {
         CONFIG.COSMERE.armors[data.id as unknown as ArmorId] = {
@@ -334,7 +336,7 @@ export function registerArmor(data: ArmorConfigData) {
     };
 
     return RegistrationHelper.tryRegisterConfig({
-        identifier,
+        key,
         data,
         register,
     });
@@ -364,7 +366,7 @@ export function registerCulture(data: CultureConfigData) {
         strict: data.strict,
     };
 
-    const identifier = `culture.${data.id}`;
+    const key = `cultures.${data.id}`;
 
     const register = () => {
         CONFIG.COSMERE.cultures[data.id] = {
@@ -376,7 +378,7 @@ export function registerCulture(data: CultureConfigData) {
     };
 
     return RegistrationHelper.tryRegisterConfig({
-        identifier,
+        key,
         data,
         register,
     });
@@ -406,7 +408,7 @@ export function registerAncestry(data: AncestryConfigData) {
         strict: data.strict,
     };
 
-    const identifier = `ancestry.${data.id}`;
+    const key = `ancestries.${data.id}`;
 
     const register = () => {
         CONFIG.COSMERE.ancestries[data.id] = {
@@ -418,7 +420,7 @@ export function registerAncestry(data: AncestryConfigData) {
     };
 
     return RegistrationHelper.tryRegisterConfig({
-        identifier,
+        key,
         data,
         register,
     });
@@ -456,13 +458,15 @@ export function registerItemEventType(data: ItemEventTypeConfigData) {
         strict: data.strict,
     };
 
-    const identifier = `item.event.type.${data.type}`;
+    const key = `items.events.types.${data.type}`;
 
     const register = () => {
         if (data.type === 'none') {
-            throw new RegistrationError(
-                'Cannot register item event type with type "none".',
+            RegistrationHelper.logger.error(
+                data.source,
+                `Failed to register config: ${key}. Reason: Cannot register item event type with type "none".`,
             );
+            return false;
         }
 
         CONFIG.COSMERE.items.events.types[data.type] = {
@@ -479,7 +483,7 @@ export function registerItemEventType(data: ItemEventTypeConfigData) {
     };
 
     return RegistrationHelper.tryRegisterConfig({
-        identifier,
+        key,
         data,
         register,
     });
@@ -521,13 +525,15 @@ export function registerItemEventHandlerType(data: ItemEventHandlerConfigData) {
         strict: data.strict,
     };
 
-    const identifier = `item.event.handler.${data.type}`;
+    const key = `items.events.handlers.${data.type}`;
 
     const register = () => {
         if (data.type === 'none') {
-            throw new RegistrationError(
-                'Cannot register item event handler with type "none".',
+            RegistrationHelper.logger.error(
+                data.source,
+                `Failed to register config: ${key}. Reason: Cannot register item event handler with type "none".`,
             );
+            return false;
         }
 
         CONFIG.COSMERE.items.events.handlers[data.type] = {
@@ -544,7 +550,7 @@ export function registerItemEventHandlerType(data: ItemEventHandlerConfigData) {
     };
 
     return RegistrationHelper.tryRegisterConfig({
-        identifier,
+        key,
         data,
         register,
         compare: false, // Handlers are not compared by hash

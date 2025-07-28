@@ -1,5 +1,5 @@
 import { CurrencyConfig } from '@system/types/config';
-import { CommonRegistrationData, RegistrationError } from './types';
+import { CommonRegistrationData } from './types';
 import { RegistrationHelper } from './helper';
 
 export function getCurrentRegistrations() {
@@ -31,23 +31,27 @@ export function registerCurrency(data: CurrencyConfigData) {
         strict: data.strict,
     };
 
-    const identifier = `currency.${data.id}`;
+    const key = `currencies.${data.id}`;
 
     const register = () => {
         // Ensure a base denomination is configured
         if (!data.denominations.primary.some((d) => d.base)) {
-            throw new RegistrationError(
-                'Currency must have a base denomination.',
+            RegistrationHelper.logger.error(
+                data.source,
+                `Failed to register config: ${key}. Reason: Currency must have a base denomination.`,
             );
+            return false;
         }
 
         if (
             data.denominations.secondary &&
             !data.denominations.secondary.some((d) => d.base)
         ) {
-            throw new RegistrationError(
-                'Secondary denominations must have a base denomination.',
+            RegistrationHelper.logger.error(
+                data.source,
+                `Failed to register config: ${key}. Reason: Secondary denominations must have a base denomination.`,
             );
+            return false;
         }
 
         // Get base denomination
@@ -57,9 +61,11 @@ export function registerCurrency(data: CurrencyConfigData) {
 
         // Ensure base denomination has a unit
         if (!baseDenomination.unit) {
-            throw new RegistrationError(
-                `Base denomination ${baseDenomination.id} must have a unit.`,
+            RegistrationHelper.logger.error(
+                data.source,
+                `Failed to register config: ${key}. Reason: Base denomination ${baseDenomination.id} must have a unit.`,
             );
+            return false;
         }
 
         CONFIG.COSMERE.currencies[data.id] = {
@@ -67,14 +73,13 @@ export function registerCurrency(data: CurrencyConfigData) {
             icon: data.icon,
             denominations: data.denominations,
         };
-
         return true;
     };
 
     return RegistrationHelper.tryRegisterConfig({
-        identifier,
+        key,
         data,
         register,
-        hashOmitFields: ['icon'], // Omit icon from hash comparison
+        compareOmitFields: ['icon'], // Omit icon from hash comparison
     });
 }

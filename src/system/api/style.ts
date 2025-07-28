@@ -23,7 +23,7 @@ export function registerTheme(data: ThemeConfigData) {
         strict: data.strict,
     };
 
-    const identifier = `theme.${data.id}`;
+    const key = `themes.${data.id}`;
 
     const register = () => {
         CONFIG.COSMERE.themes[data.id as Theme] = data.label;
@@ -32,7 +32,7 @@ export function registerTheme(data: ThemeConfigData) {
     };
 
     return RegistrationHelper.tryRegisterConfig({
-        identifier,
+        key,
         data,
         register,
     });

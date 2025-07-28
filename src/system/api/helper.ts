@@ -1,17 +1,21 @@
-import SparkMD5 from 'spark-md5';
+import SparkMD5, { hash } from 'spark-md5';
 
 // Types
-import { AnyObject } from '@system/types/utils';
-import { CommonRegistrationData, RegistrationError } from './types';
+import { CommonRegistrationData } from './types';
 
 // Constants
 import { SYSTEM_ID } from '@system/constants';
+const SYSTEM_REGISTRATION = {
+    source: SYSTEM_ID,
+    priority: 0,
+    hash: false,
+};
 
 interface TryRegisterConfigParams<TData extends object> {
-    identifier: string;
+    key: string;
     data: TData & CommonRegistrationData;
-    register(this: void): boolean;
-    hashOmitFields?: (keyof TData)[];
+    register(this: void): boolean | void;
+    compareOmitFields?: (keyof TData)[];
     /**
      * @default true
      */
@@ -48,6 +52,30 @@ export class RegistrationHelper {
         return this._COMPLETED;
     }
 
+    static logger = {
+        debug: (source: string, message: string) => {
+            this.registerLog({
+                source,
+                type: RegistrationLogType.Debug,
+                message,
+            });
+        },
+        warn: (source: string, message: string) => {
+            this.registerLog({
+                source,
+                type: RegistrationLogType.Warn,
+                message,
+            });
+        },
+        error: (source: string, message: string) => {
+            this.registerLog({
+                source,
+                type: RegistrationLogType.Error,
+                message,
+            });
+        },
+    };
+
     static registerLog(log: RegistrationLog) {
         this.logs.push(log);
         this.showLogs();
@@ -57,85 +85,67 @@ export class RegistrationHelper {
         params: TryRegisterConfigParams<TData>,
     ): boolean;
     static tryRegisterConfig<TData extends object>({
-        identifier,
+        key,
         data,
         register,
-        hashOmitFields,
+        compareOmitFields,
         compare = true,
     }: TryRegisterConfigParams<TData>) {
         data.priority ??= 0; // Default priority to 0 if not set
 
-        try {
-            // Calculate a hash of the base data to check for equality
-            const hash = compare
-                ? RegistrationHelper.getHash(data, hashOmitFields)
-                : false;
+        // Calculate a hash of the base data to check for equality
+        const hash = compare
+            ? RegistrationHelper.getHash(data, compareOmitFields)
+            : false;
 
-            if (identifier in RegistrationHelper._COMPLETED) {
-                // Check if same object is already registered
-                if (
-                    compare &&
-                    hash === RegistrationHelper._COMPLETED[identifier].hash
-                ) {
-                    RegistrationHelper.registerLog({
-                        source: data.source,
-                        type: RegistrationLogType.Warn,
-                        message: `Config ${identifier} already registered with the same data.`,
-                    } as RegistrationLog);
+        if (foundry.utils.hasProperty(CONFIG.COSMERE, key)) {
+            const registration =
+                RegistrationHelper._COMPLETED[key] ?? SYSTEM_REGISTRATION;
 
-                    return true; // Already registered with the same data
-                }
+            /**
+             * NOTE: Default system configurations (such as skills.ath) have
+             * Their hash set to `false`, so similarity check always fails.
+             * Modules shouldn't be using the api to set a system configuration to
+             * its default value, so this has no actual effect on registrations.
+             */
 
-                // If the same identifier is already registered, we check if the new registration has a higher priority.
-                if (
-                    data.priority <=
-                    RegistrationHelper._COMPLETED[identifier].priority
-                ) {
-                    throw new RegistrationError(
-                        'A higher priority registration already exists.',
-                    );
-                }
-
-                // Log warning about overriding
-                RegistrationHelper.registerLog({
-                    source: data.source,
-                    type: RegistrationLogType.Warn,
-                    message: `Overriding config: ${identifier} due to a higher priority value: ${data.priority}.`,
-                } as RegistrationLog);
+            // Check if same object is already registered
+            if (compare && hash === registration.hash) {
+                RegistrationHelper.logger.warn(
+                    data.source,
+                    `Config ${key} already registered with the same data.`,
+                );
+                return true; // Already registered with the same data
             }
 
-            // Perform the registration
-            const result = register();
-
-            if (result) {
-                RegistrationHelper._COMPLETED[identifier] = {
-                    source: data.source,
-                    priority: data.priority,
-                    hash,
-                };
+            // If the same key is already registered, we check if the new registration has a higher priority.
+            if (data.priority <= registration.priority) {
+                RegistrationHelper.logger.error(
+                    data.source,
+                    `Failed to register config: ${key}. Reason: A higher priority registration already exists.`,
+                );
+                return false; // Registration failed due to lower priority
             }
 
-            return result;
-        } catch (err: unknown) {
-            // Only handle RegistrationError, rethrow any others
-            if (!(err instanceof RegistrationError)) {
-                throw err;
-            }
-
-            const message = `Failed to register config: ${identifier}. Reason: ${err instanceof Error ? err.message : 'Unknown error'}`;
-
-            if (data.strict) {
-                throw new Error(message);
-            }
-
-            RegistrationHelper.registerLog({
-                source: data.source,
-                type: RegistrationLogType.Error,
-                message,
-            } as RegistrationLog);
-
-            return false;
+            // Log warning about overriding
+            RegistrationHelper.logger.warn(
+                data.source,
+                `Overriding config: ${key} due to a higher priority value: ${data.priority}.`,
+            );
         }
+
+        // Perform the registration
+        const result = register();
+
+        if (result) {
+            RegistrationHelper._COMPLETED[key] = {
+                source: data.source,
+                priority: data.priority,
+                hash,
+            };
+        }
+
+        return result;
     }
 
     private static showLogs = foundry.utils.debounce(() => {

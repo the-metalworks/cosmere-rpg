@@ -31,7 +31,7 @@ export function registerSkill(data: SkillConfigData) {
         strict: data.strict,
     };
 
-    const identifier = `skill.${data.id}`;
+    const key = `skills.${data.id}`;
 
     const register = () => {
         CONFIG.COSMERE.skills[data.id as Skill] = {
@@ -46,7 +46,7 @@ export function registerSkill(data: SkillConfigData) {
     };
 
     return RegistrationHelper.tryRegisterConfig({
-        identifier,
+        key,
         data,
         register,
     });
