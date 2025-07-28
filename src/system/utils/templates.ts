@@ -173,6 +173,8 @@ export const TEMPLATES = {
     DIALOG_CHARACTER_SHORT_REST: 'actors/character/dialogs/short-rest.hbs',
     DIALOG_ADVERSARY_CONFIGURE_SKILLS:
         'actors/adversary/dialogs/configure-skills.hbs',
+    DIALOG_ADVERSARY_EDIT_CREATURE_TYPE:
+        'actors/adversary/dialogs/edit-creature-type.hbs',
 
     DIALOG_ITEM_CONSUME: 'item/dialog/item-consume.hbs',
     DIALOG_ITEM_EDIT_EVENT_RULE: 'item/dialog/edit-event-rule.hbs',
