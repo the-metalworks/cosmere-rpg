@@ -1,8 +1,11 @@
 import { Skill } from '@system/types/cosmere';
-import { RegistrationConfig, SkillConfig } from '@system/types/config';
+import { SkillConfig } from '@system/types/config';
+import { CommonRegistrationData } from './types';
 import { RegistrationHelper } from './helper';
 
-interface SkillConfigData extends Omit<SkillConfig, 'key'>, RegistrationConfig {
+interface SkillConfigData
+    extends Omit<SkillConfig, 'key'>,
+        CommonRegistrationData {
     /**
      * Unique id for the skill.
      */
@@ -16,36 +19,35 @@ export function registerSkill(data: SkillConfigData) {
         );
     }
 
-    const identifier = `skill.${data.id}`;
-
-    const toRegister = {
-        key: data.id,
-        label: data.label,
+    // Clean data, remove fields that are not part of the config
+    data = {
+        id: data.id,
         attribute: data.attribute,
+        label: data.label,
         core: data.core,
         hiddenUntilAcquired: data.hiddenUntilAcquired,
-    } as SkillConfig;
+        source: data.source,
+        priority: data.priority,
+        strict: data.strict,
+    };
+
+    const key = `skills.${data.id}`;
 
     const register = () => {
-        RegistrationHelper.COMPLETED[identifier] = data;
-        CONFIG.COSMERE.skills[data.id as Skill] = toRegister;
+        CONFIG.COSMERE.skills[data.id as Skill] = {
+            key: data.id,
+            label: data.label,
+            attribute: data.attribute,
+            core: data.core,
+            hiddenUntilAcquired: data.hiddenUntilAcquired,
+        };
         CONFIG.COSMERE.attributes[data.attribute].skills.push(data.id as Skill);
         return true;
     };
 
-    if (data.id in CONFIG.COSMERE.skills) {
-        // If the same object is already registered, we ignore the registration and mark it succesful.
-        if (
-            foundry.utils.objectsEqual(
-                toRegister,
-                CONFIG.COSMERE.skills[data.id as Skill],
-            )
-        ) {
-            return true;
-        }
-
-        return RegistrationHelper.tryRegisterConfig(identifier, data, register);
-    }
-
-    return register();
+    return RegistrationHelper.tryRegisterConfig({
+        key,
+        data,
+        register,
+    });
 }
