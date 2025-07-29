@@ -67,4 +67,16 @@ declare class Item<
      * @returns         An instance of the new Actor. This should be recast.
      */
     public static fromSource(source: object, context: any = {}): this;
+
+    /**
+     * A helper function to handle obtaining the relevant Document from dropped data provided via a DataTransfer event.
+     * The dropped data could have:
+     * 1. A data object explicitly provided
+     * 2. A UUID
+     *
+     * @param data    - The data object extracted from a DataTransfer event
+     * @returns The resolved Document
+     * @throws If a Document could not be retrieved from the provided data.
+     */
+    public static async fromDropData(data: object): this;
 }
