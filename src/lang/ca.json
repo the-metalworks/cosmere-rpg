@@ -1169,7 +1169,7 @@
                         "AttributeValuePlaceholder": "Valor mínim de l'atribut",
                         "Skill": "Habilitat",
                         "SkillRank": "Grau",
-                        "SkillRankPlaceholder": Grau mínim de l'habilitat",
+                        "SkillRankPlaceholder": "Grau mínim de l'habilitat",
                         "Connection": "Connexió",
                         "ConnectionDescription": "Descripció",
                         "ConnectionDescriptionPlaceholder": "Descripció de la connexióC",
