@@ -34,13 +34,18 @@ async function createCosmereMacro(data: DropData, slot: number) {
             break;
         default:
             return;
-    }
+    }    
 
+    // TODO: Clean up this linter mess with v13 types.
     // Assign the macro to the hotbar
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const macro =
         (game.macros as foundry.documents.BaseMacro[]).find(
             (m) => m.name === macroData.name && m.command === macroData.command,
-        ) ?? (await foundry.documents.BaseMacro.create(macroData));
+        ) 
+        ?? 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+        (await (Macro as any).create(macroData));
 
     await game.user?.assignHotbarMacro(macro, slot);
 }
