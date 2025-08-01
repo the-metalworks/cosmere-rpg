@@ -76,6 +76,10 @@
         --checkbox-background-color: color(from var(--cosmere-color-faded) srgb r g b / 0.4);
     }
 
+    input[type="radio"] {
+        margin: 0;
+    }
+
     fieldset {
         display: flex;
         flex-direction: column;

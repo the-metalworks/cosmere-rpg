@@ -158,7 +158,8 @@
     &.edit-bonus-talents-rule,
     &.pick-dice-result,
     &.roll-configuration,
-    &.edit-event-rule {
+    &.edit-event-rule,
+    &.edit-creature-type {
         > .window-content {
             filter: var(--cosmere-drop-shadow);
         }
@@ -184,12 +185,17 @@
 
         input[type="checkbox"] {
             flex: 0 0 20px;
-        }        
+        }
+
+        input[type="radio"] {
+            flex: 0 0 12px;
+        }  
         
         label {
             color: var(--cosmere-color-text-sub);
             flex: 1;
             font-weight: 600;
+            line-height: var(--form-field-height);
         }        
 
         .form-group {
@@ -248,6 +254,25 @@
 
         .submit {
             margin-top: 0.625rem;
+        }
+    }
+
+    &.edit-creature-type {
+        fieldset {
+            margin-top: 0.5rem;
+
+            .type-list {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+
+                input[type="radio"] {
+                    margin: 4px;
+                }  
+
+                label {
+                    color: var(--cosmere-color-text-sub);
+                }
+            }
         }
     }
 
