@@ -8,7 +8,7 @@ export interface CollectionFieldOptions<T = AnyObject>
      *
      * @default "id"
      */
-    key?: keyof T | ((item: T) => string);
+    key?: keyof T | ((item: Partial<T>) => string | null);
 }
 
 /**
@@ -383,7 +383,7 @@ export class CollectionField<
 
     private getItemKey(
         item: T & { id?: string; _id?: string },
-    ): string | undefined {
+    ): string | null | undefined {
         return typeof this.options.key === 'function'
             ? this.options.key(item)
             : ((item[this.options.key ?? 'id'] as string | undefined) ??
