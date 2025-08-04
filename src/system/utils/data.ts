@@ -62,7 +62,11 @@ export function getObjectChanges(original: object, updated: object): AnyObject {
     // Determine all removed keys
     const removedKeys = originalKeys
         .filter((key) => {
-            return !(key in updatedFlat) || updatedFlat[key] === undefined;
+            return (
+                !(key in updatedFlat) ||
+                (updatedFlat[key] === undefined &&
+                    originalFlat[key] !== undefined)
+            );
         })
         .map((key) => {
             // Determine to which depth the key is removed
