@@ -297,7 +297,7 @@ Hooks.on(
     },
 );
 
-/* --- helpers --- */
+/* --- Helpers --- */
 
 async function connectRelationship(
     item: RelationshipsItem,
