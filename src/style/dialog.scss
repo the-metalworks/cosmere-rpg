@@ -442,9 +442,11 @@
     &.edit-talent-prerequisite {
         .form-group {
             > .form-fields {
+
                 > input {
                     color: var(--cosmere-color-text-sub);
                 }
+
                 > select {
                     background-color: var(--cosmere-color-base-4);
                     border-radius: 6px;
@@ -462,6 +464,7 @@
                         background-color: var(--cosmere-color-base-4);
                     }
                 }
+
                 > input,
                 > select {
                     font-family: var(--cosmere-font-normal);
