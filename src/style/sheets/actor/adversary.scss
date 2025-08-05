@@ -7,17 +7,40 @@
 
     .sheet-header {
         .title {
-            .details {                
+            .details {
                 color: var(--cosmere-color-text-sub);
                 display: flex;
                 align-items: center;
                 gap: 0.375rem;
+
+                input {
+                    color: var(--cosmere-color-text-sub);
+                }
 
                 select {
                     text-transform: uppercase;
                     width: auto;
                     height: auto;
                     line-height: normal;
+                    background-color: var(--cosmere-color-base-4);
+                    border-radius: 6px;
+                    padding: 0 0.25rem;
+                    padding-bottom: 0.125rem;
+
+                    &:disabled {
+                        background-color: var(--cosmere-color-base-3);
+                    }
+
+                    option {
+                        background-color: var(--cosmere-color-base-4);
+                    }
+                }
+
+                input,
+                select {
+                    font-family: var(--cosmere-font-normal);
+                    font-variant: lining-nums;
+                    font-weight: 600;
                 }
             }
         }
@@ -30,12 +53,12 @@
                 .background {
                     mask: var(--mask-tier-svg) no-repeat center;
                 }
-    
+
                 .border {
                     mask: var(--border-tier-svg) no-repeat center;
                 }
 
-                .value {                        
+                .value {
                     font-size: var(--font-size-24);
                     line-height: 46px;
                 }
@@ -46,7 +69,7 @@
     /* --- Components --- */
 
     app-adversary-skills {
-        .pill[data-action="roll-skill"] {
+        .pill[data-action='roll-skill'] {
             cursor: pointer;
 
             &:hover {
