@@ -4,31 +4,30 @@ import { CosmereItem } from '@system/documents/item';
 import { DataModelMixin } from '../mixins';
 import {
     DescriptionItemMixin,
-    DescriptionItemData,
+    DescriptionItemDataSchema,
 } from './mixins/description';
 import {
     ActivatableItemMixin,
-    ActivatableItemData,
+    ActivatableItemDataSchema,
 } from './mixins/activatable';
-import { EventsItemMixin, EventsItemData } from './mixins/events';
+import { EventsItemMixin, EventsItemDataSchema } from './mixins/events';
 import {
     RelationshipsMixin,
-    RelationshipsItemData,
+    RelationshipsItemDataSchema,
 } from './mixins/relationships';
 
-export interface TraitItemData
-    extends DescriptionItemData,
-        ActivatableItemData,
-        EventsItemData,
-        RelationshipsItemData {}
+export type TraitItemDataSchema =
+    & DescriptionItemDataSchema
+    & ActivatableItemDataSchema
+    & EventsItemDataSchema
+    & RelationshipsItemDataSchema;
 
 /**
  * Item data model that represents adversary traits.
  * Not to be confused with weapon & armor traits
  */
 export class TraitItemDataModel extends DataModelMixin<
-    TraitItemData,
-    CosmereItem
+    TraitItemDataSchema
 >(
     DescriptionItemMixin({
         value: 'COSMERE.Item.Type.Trait.desc_placeholder',
@@ -36,8 +35,4 @@ export class TraitItemDataModel extends DataModelMixin<
     ActivatableItemMixin(),
     EventsItemMixin(),
     RelationshipsMixin(),
-) {
-    static defineSchema() {
-        return foundry.utils.mergeObject(super.defineSchema(), {});
-    }
-}
+) {}

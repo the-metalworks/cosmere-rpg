@@ -95,7 +95,7 @@ export function getChangeValue(change: ChangeData, source: object) {
     const currentValue = foundry.utils.getProperty(
         source,
         change.key,
-    ) as unknown;
+    );
     const valueType = foundry.utils.getType(currentValue);
 
     switch (change.mode) {

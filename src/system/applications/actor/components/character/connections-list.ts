@@ -202,7 +202,7 @@ export class CharacterConnectionsListComponent extends HandlebarsApplicationComp
                     id: item.id,
                     descriptionHTML: await TextEditor.enrichHTML(
                         // NOTE: We use a logical OR here to catch both nullish values and empty string
-                        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+                         
                         item.system.description?.value || '<p>—</p>',
                         {
                             relativeTo: (item as CosmereItem).system

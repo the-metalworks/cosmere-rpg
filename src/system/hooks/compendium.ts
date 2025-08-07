@@ -25,7 +25,7 @@ Hooks.on('renderCompendium', async (compendium: Compendium<Metadata>) => {
 
     // Get the default sorting mode from the compendium metadata
     const defaultSortingMode = foundry.utils.getProperty(
-        compendium.collection.metadata.flags!,
+        compendium.collection.metadata.flags,
         `${SYSTEM_ID}.defaultSortingMode`,
     ) as string;
 

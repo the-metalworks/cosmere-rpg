@@ -330,7 +330,7 @@ export class BaseActorSheet<
 
         // Insert mode toggle
         if (this.isEditable) {
-            $(this.window.title!).before(`
+            $(this.window.title).before(`
                 <label id="mode-toggle" 
                     class="toggle-switch"
                     data-action="toggle-mode"

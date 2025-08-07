@@ -3,40 +3,43 @@ import { CosmereItem } from '@system/documents';
 
 // Mixins
 import { DataModelMixin } from '../mixins';
-import { TypedItemMixin, TypedItemData } from './mixins/typed';
+import { TypedItemMixin, TypedItemDataSchema } from './mixins/typed';
 import {
     DescriptionItemMixin,
-    DescriptionItemData,
+    DescriptionItemDataSchema,
 } from './mixins/description';
-import { EventsItemMixin, EventsItemData } from './mixins/events';
+import { EventsItemMixin, EventsItemDataSchema } from './mixins/events';
 import {
     RelationshipsMixin,
-    RelationshipsItemData,
+    RelationshipsItemDataSchema,
 } from './mixins/relationships';
 
-export interface InjuryItemData
-    extends TypedItemData<InjuryType>,
-        DescriptionItemData,
-        EventsItemData,
-        RelationshipsItemData {
-    duration: {
-        /**
-         * Rolled duration, in days.
-         * This value is not defined in the case of a permanent injury.
-         */
-        initial?: number;
+const SCHEMA = {
+    duration: new foundry.data.fields.SchemaField({
+        initial: new foundry.data.fields.NumberField({
+            nullable: true,
+            integer: true,
+            min: 0,
+            initial: 1,
+        }),
+        remaining: new foundry.data.fields.NumberField({
+            nullable: true,
+            integer: true,
+            min: 0,
+            initial: 1,
+        }),
+    }),
+};
 
-        /**
-         * Time until the injury is healed, in days.
-         * This value is not defined in the case of a permanent injury.
-         */
-        remaining?: number;
-    };
-}
+export type InjuryItemDataSchema = 
+    & typeof SCHEMA
+    & TypedItemDataSchema<InjuryType>
+    & DescriptionItemDataSchema
+    & EventsItemDataSchema
+    & RelationshipsItemDataSchema;
 
 export class InjuryItemDataModel extends DataModelMixin<
-    InjuryItemData,
-    CosmereItem
+    InjuryItemDataSchema
 >(
     TypedItemMixin({
         // Default to flesh wound data as the least impactful injury type
@@ -57,22 +60,7 @@ export class InjuryItemDataModel extends DataModelMixin<
     RelationshipsMixin(),
 ) {
     static defineSchema() {
-        return foundry.utils.mergeObject(super.defineSchema(), {
-            duration: new foundry.data.fields.SchemaField({
-                initial: new foundry.data.fields.NumberField({
-                    nullable: true,
-                    integer: true,
-                    min: 0,
-                    initial: 1,
-                }),
-                remaining: new foundry.data.fields.NumberField({
-                    nullable: true,
-                    integer: true,
-                    min: 0,
-                    initial: 1,
-                }),
-            }),
-        });
+        return foundry.utils.mergeObject(super.defineSchema(), SCHEMA);
     }
 
     get typeLabel(): string {

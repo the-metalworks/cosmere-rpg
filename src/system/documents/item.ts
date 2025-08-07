@@ -560,7 +560,7 @@ export class CosmereItem<
 
         // Get the graze formula
         const grazeFormula =
-            // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+             
             this.system.damage.grazeOverrideFormula || '@damage.dice';
 
         const usesBaseDamage = grazeFormula.includes('@damage');
@@ -973,7 +973,7 @@ export class CosmereItem<
             // Add post roll action to activate the mode
             postRoll.push(() => {
                 // Handle mode activation
-                void this.actor?.setMode(this.system.modality!, this.system.id);
+                void this.actor?.setMode(this.system.modality, this.system.id);
             });
         }
 
@@ -1110,7 +1110,7 @@ export class CosmereItem<
             // NOTE: Use boolean or operator (`||`) here instead of nullish coalescing (`??`),
             // as flavor can also be an empty string, which we'd like to replace with the default flavor too
             const flavor =
-                // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+                 
                 this.system.activation.flavor || undefined;
 
             // Create chat message
@@ -1276,7 +1276,7 @@ export class CosmereItem<
     protected async getDescriptionHTML(): Promise<string | undefined> {
         if (!this.hasDescription()) return undefined;
         // NOTE: We use logical OR's here to catch both nullish values and empty string
-        /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
+         
         const descriptionData =
             (this as CosmereItem<DescriptionItemData>).system.description
                 ?.chat ||
@@ -1284,7 +1284,7 @@ export class CosmereItem<
                 ?.short ||
             (this as CosmereItem<DescriptionItemData>).system.description
                 ?.value;
-        /* eslint-enable @typescript-eslint/prefer-nullish-coalescing */
+         
 
         const description = await TextEditor.enrichHTML(descriptionData ?? '', {
             relativeTo: this.system.parent as foundry.abstract.Document.Any,

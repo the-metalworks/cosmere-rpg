@@ -7,54 +7,62 @@ import {
     EquipType,
     ActivationType,
 } from '@system/types/cosmere';
+import { EmptyObject } from '@system/types/utils';
+
 import { CosmereItem } from '@src/system/documents';
 
 // Mixins
 import { DataModelMixin } from '../mixins';
-import { IdItemMixin, IdItemData } from './mixins/id';
-import { TypedItemMixin, TypedItemData } from './mixins/typed';
+import { IdItemMixin, IdItemDataSchema } from './mixins/id';
+import { TypedItemMixin, TypedItemDataSchema } from './mixins/typed';
 import {
     DescriptionItemMixin,
-    DescriptionItemData,
+    DescriptionItemDataSchema,
 } from './mixins/description';
-import { EquippableItemMixin, EquippableItemData } from './mixins/equippable';
+import { EquippableItemMixin, EquippableItemDataSchema } from './mixins/equippable';
 import {
     ActivatableItemMixin,
-    ActivatableItemData,
+    ActivatableItemDataSchema,
 } from './mixins/activatable';
-import { AttackingItemMixin, AttackingItemData } from './mixins/attacking';
-import { DamagingItemMixin, DamagingItemData } from './mixins/damaging';
-import { TraitsItemMixin, TraitsItemData } from './mixins/traits';
-import { PhysicalItemMixin, PhysicalItemData } from './mixins/physical';
-import { ExpertiseItemMixin, ExpertiseItemData } from './mixins/expertise';
-import { EventsItemMixin, EventsItemData } from './mixins/events';
+import { AttackingItemMixin, AttackingItemDataSchema } from './mixins/attacking';
+import { DamagingItemMixin, DamagingItemDataSchema } from './mixins/damaging';
+import { TraitsItemMixin, TraitsItemDataSchema, TraitsItemDerivedData } from './mixins/traits';
+import { PhysicalItemMixin, PhysicalItemDataSchema } from './mixins/physical';
+import { ExpertiseItemMixin, ExpertiseItemDataSchema } from './mixins/expertise';
+import { EventsItemMixin, EventsItemDataSchema } from './mixins/events';
 import {
     LinkedSkillsMixin,
-    LinkedSkillsItemData,
+    LinkedSkillsItemDataSchema,
 } from './mixins/linked-skills';
 import {
     RelationshipsMixin,
-    RelationshipsItemData,
+    RelationshipsItemDataSchema,
 } from './mixins/relationships';
 
-export interface WeaponItemData
-    extends IdItemData<WeaponId>,
-        TypedItemData<WeaponType>,
-        DescriptionItemData,
-        EquippableItemData,
-        ActivatableItemData,
-        AttackingItemData,
-        DamagingItemData,
-        ExpertiseItemData,
-        TraitsItemData<WeaponTraitId>,
-        Partial<PhysicalItemData>,
-        EventsItemData,
-        LinkedSkillsItemData,
-        RelationshipsItemData {}
+export type WeaponItemDataSchema = 
+    & IdItemDataSchema
+    & TypedItemDataSchema<WeaponType>
+    & DescriptionItemDataSchema
+    & EquippableItemDataSchema<{ equipType: { initial: EquipType.Hold, choices: [EquipType.Hold] } }>
+    & ActivatableItemDataSchema
+    & AttackingItemDataSchema
+    & DamagingItemDataSchema
+    & ExpertiseItemDataSchema
+    & TraitsItemDataSchema
+    & PhysicalItemDataSchema
+    & EventsItemDataSchema
+    & LinkedSkillsItemDataSchema
+    & RelationshipsItemDataSchema;
+
+export type WeaponItemDerivedData = TraitsItemDerivedData;
+
+type WeaponItemData = foundry.data.fields.SchemaField.InitializedData<WeaponItemDataSchema>;
 
 export class WeaponItemDataModel extends DataModelMixin<
-    WeaponItemData,
-    CosmereItem
+    WeaponItemDataSchema,
+    foundry.abstract.Document.Any,
+    EmptyObject,
+    WeaponItemDerivedData
 >(
     IdItemMixin({
         initialFromName: true,

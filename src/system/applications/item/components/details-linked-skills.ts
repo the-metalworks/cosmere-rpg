@@ -25,7 +25,7 @@ export class DetailsLinkedSkillsComponent extends HandlebarsApplicationComponent
                         .system as unknown as foundry.abstract.DataModel
                 ).schema.getField(
                     'linkedSkills',
-                ) as foundry.data.fields.ArrayField
+                )
             ).element as foundry.data.fields.StringField
         ).choices;
 

@@ -81,7 +81,7 @@ async function getEmbedApp(
 }
 
 Hooks.on('renderJournalPageSheet', (app: JournalPageSheet, html: JQuery) => {
-    const page = app.document as JournalEntryPage;
+    const page = app.document;
     const journalEntry = page.parent as unknown as JournalEntry;
 
     if (!EMBEDDED_APPS[journalEntry.uuid]?.[page.id]) return;
@@ -104,7 +104,7 @@ Hooks.on('renderJournalPageSheet', (app: JournalPageSheet, html: JQuery) => {
 });
 
 Hooks.on('closeJournalSheet', (app: JournalPageSheet) => {
-    const journalEntry = app.document as JournalEntryPage;
+    const journalEntry = app.document;
 
     if (!EMBEDDED_APPS[journalEntry.uuid]) return;
 

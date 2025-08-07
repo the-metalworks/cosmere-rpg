@@ -77,7 +77,7 @@ export class CharacterFavoritesComponent extends DragDropComponentMixin(
         } else if ($(event.target!).closest('.favorite.item').length) {
             const el = $(event.target!)
                 .closest('.favorite.item')
-                .get(0) as HTMLElement;
+                .get(0)!;
 
             // Get bounding rect
             const bounds = el.getBoundingClientRect();
@@ -120,7 +120,7 @@ export class CharacterFavoritesComponent extends DragDropComponentMixin(
             } else if ($(event.target!).closest('.favorite.item').length) {
                 const el = $(event.target!)
                     .closest('.favorite.item')
-                    .get(0) as HTMLElement;
+                    .get(0)!;
 
                 // Get the index
                 let index = $(event.target!)

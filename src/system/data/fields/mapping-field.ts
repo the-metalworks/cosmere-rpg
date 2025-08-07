@@ -1,16 +1,27 @@
-export type MappingFieldOptions = foundry.data.fields.DataFieldOptions;
+import { AnyObject } from '@system/types/utils';
+import {
+    InferAssignmentType,
+    InferInitializedType
+} from '../types';
 
 export class MappingField<
-    ElementField extends foundry.data.fields.DataField,
-> extends foundry.data.fields.ObjectField {
+    const ElementField extends foundry.data.fields.DataField.Any,
+    const TOptions extends MappingField.Options<AnyObject> = MappingField.DefaultOptions,
+> extends foundry.data.fields.ObjectField<
+    TOptions, 
+    MappingField.AssignmentType<ElementField, TOptions> | null | undefined,
+    MappingField.InitializedType<ElementField, TOptions>
+> {
     constructor(
         public readonly model: ElementField,
-        options: MappingFieldOptions = {},
+        options = {} as TOptions,
     ) {
         super(options);
     }
 
-    protected _cleanType(value: Record<string, unknown>, options?: object) {
+    protected _cleanType(value: MappingField.InitializedType<ElementField, TOptions>, options?: object) {
+        if (!value) return value;
+
         Object.entries(value).forEach(([key, v]) => {
             value[key] = this.model.clean(v, options);
         });
@@ -19,12 +30,14 @@ export class MappingField<
     }
 
     protected _validateType(
-        value: Record<string, unknown>,
-        options?: foundry.data.fields.DataFieldValidationOptions,
-    ): boolean | foundry.data.fields.DataModelValidationFailure | void {
+        value: MappingField.InitializedType<ElementField, TOptions>,
+        options?: foundry.data.fields.DataField.ValidateOptions<foundry.data.fields.DataField.Any>,
+    ): boolean | foundry.data.validation.DataModelValidationFailure | void {
         if (foundry.utils.getType(value) !== 'Object')
             throw new Error('must be an Object');
+
         const errors = this._validateValues(value, options);
+
         if (!foundry.utils.isEmpty(errors)) {
             // Create validatior failure
             const failure =
@@ -39,13 +52,16 @@ export class MappingField<
     }
 
     protected _validateValues(
-        value: Record<string, unknown>,
-        options?: foundry.data.fields.DataFieldValidationOptions,
+        value: MappingField.InitializedType<ElementField, TOptions>,
+        options?: foundry.data.fields.DataField.ValidateOptions<ElementField>,
     ) {
         const errors: Record<
             string,
             foundry.data.validation.DataModelValidationFailure
         > = {};
+
+        if (!value) return errors;
+
         Object.entries(value).forEach(([key, v]) => {
             const error = this.model.validate(
                 v,
@@ -60,16 +76,37 @@ export class MappingField<
         return {};
     }
 
-    public initialize(value: Record<string, unknown>) {
+    public initialize(value: MappingField.InitializedType<ElementField, TOptions>) {
         if (!value) return value;
         return value;
     }
 
-    _getField(path: string[]): foundry.data.fields.DataField {
+    _getField(path: string[]): foundry.data.fields.DataField.Any | undefined {
         if (path.length === 0) return this;
         else if (path.length === 1) return this.model;
 
         path.shift();
-        return this.model._getField(path);
+        return (this.model as unknown as { _getField: (path: string[]) => foundry.data.fields.DataField.Any | undefined })._getField(path);
     }
+}
+
+export namespace MappingField {
+    export type Options<AssignmentType> = foundry.data.fields.DataField.Options<AssignmentType>;
+    export type DefaultOptions = foundry.data.fields.DataField.DefaultOptions;
+
+    export type AssignmentType<
+        ElementField extends foundry.data.fields.DataField<foundry.data.fields.DataField.Any>,
+        TOptions extends MappingField.Options<AnyObject>,
+    > = foundry.data.fields.DataField.DerivedAssignmentType<
+        Record<string, InferAssignmentType<ElementField>>,
+        TOptions
+    >;
+
+    export type InitializedType<
+        ElementField extends foundry.data.fields.DataField<foundry.data.fields.DataField.Any>,
+        TOptions extends MappingField.Options<AnyObject>,
+    > = foundry.data.fields.DataField.DerivedInitializedType<
+        Record<string, InferInitializedType<ElementField>>,
+        TOptions
+    >;
 }

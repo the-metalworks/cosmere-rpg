@@ -1,5 +1,7 @@
 import { Event } from './event';
-import { ConstructorOf, AnyObject } from '@system/types/utils';
+import { ConstructorOf, AnyObject, Concrete } from '@system/types/utils';
+
+import { HandlerBaseSchema } from '@system/data/item/event-system/handler';
 
 /**
  * Enum representing the type of handler for an event.
@@ -34,13 +36,16 @@ export type HandlerExecutor<E extends Event = Event<any, any, any>> = (
     event: E,
 ) => void | boolean | Promise<void | boolean>;
 
-export interface IHandler {
-    type: HandlerType;
+export interface IHandler<
+    TSchema extends foundry.data.fields.DataSchema
+> {
     typeLabel: string;
-    configSchema: { fields: foundry.data.fields.DataSchema };
+    configSchema: { fields: TSchema };
     configRenderer: ((data: AnyObject) => Promise<string>) | null;
     execute: HandlerExecutor;
 }
 
-export type HandlerCls = ConstructorOf<IHandler> &
-    typeof foundry.abstract.DataModel;
+export type HandlerCls<
+    TSchema extends foundry.data.fields.DataSchema = {}
+> = ConstructorOf<IHandler<TSchema>> &
+    Concrete<typeof foundry.abstract.DataModel<HandlerBaseSchema & TSchema>>;

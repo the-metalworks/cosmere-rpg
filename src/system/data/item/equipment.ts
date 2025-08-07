@@ -3,35 +3,34 @@ import { CosmereItem } from '@src/system/documents';
 
 // Mixins
 import { DataModelMixin } from '../mixins';
-import { TypedItemMixin, TypedItemData } from './mixins/typed';
+import { TypedItemMixin, TypedItemDataSchema } from './mixins/typed';
 import {
     DescriptionItemMixin,
-    DescriptionItemData,
+    DescriptionItemDataSchema,
 } from './mixins/description';
-import { PhysicalItemMixin, PhysicalItemData } from './mixins/physical';
+import { PhysicalItemMixin, PhysicalItemDataSchema } from './mixins/physical';
 import {
     ActivatableItemMixin,
-    ActivatableItemData,
+    ActivatableItemDataSchema,
 } from './mixins/activatable';
-import { DamagingItemMixin, DamagingItemData } from './mixins/damaging';
-import { EventsItemMixin, EventsItemData } from './mixins/events';
+import { DamagingItemMixin, DamagingItemDataSchema } from './mixins/damaging';
+import { EventsItemMixin, EventsItemDataSchema } from './mixins/events';
 import {
     RelationshipsMixin,
-    RelationshipsItemData,
+    RelationshipsItemDataSchema,
 } from './mixins/relationships';
 
-export interface EquipmentItemData
-    extends TypedItemData<EquipmentType>,
-        DescriptionItemData,
-        PhysicalItemData,
-        ActivatableItemData,
-        DamagingItemData,
-        EventsItemData,
-        RelationshipsItemData {}
+export type EquipmentItemDataSchema = 
+    & TypedItemDataSchema<EquipmentType>
+    & DescriptionItemDataSchema
+    & PhysicalItemDataSchema
+    & ActivatableItemDataSchema
+    & DamagingItemDataSchema
+    & EventsItemDataSchema
+    & RelationshipsItemDataSchema;
 
 export class EquipmentItemDataModel extends DataModelMixin<
-    EquipmentItemData,
-    CosmereItem
+    EquipmentItemDataSchema
 >(
     TypedItemMixin({
         initial: EquipmentType.Basic,
@@ -52,8 +51,4 @@ export class EquipmentItemDataModel extends DataModelMixin<
     DamagingItemMixin(),
     EventsItemMixin(),
     RelationshipsMixin(),
-) {
-    static defineSchema() {
-        return foundry.utils.mergeObject(super.defineSchema(), {});
-    }
-}
+) {}

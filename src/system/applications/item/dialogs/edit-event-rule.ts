@@ -72,7 +72,7 @@ export class ItemEditEventRuleDialog extends ComponentHandlebarsApplicationMixin
     /* --- Statics --- */
 
     public static async show(item: CosmereItem<EventsItemData>, rule: Rule) {
-        const dialog = new this(item, rule.clone() as Rule);
+        const dialog = new this(item, rule.clone());
         await dialog.render(true);
     }
 
@@ -120,7 +120,7 @@ export class ItemEditEventRuleDialog extends ComponentHandlebarsApplicationMixin
                 if (foundry.utils.getType(value) === 'Object') {
                     changes[key] = getObjectChanges(
                         foundry.utils.getProperty(this.rule, key),
-                        value as unknown as object,
+                        value as object,
                     );
                 } else {
                     changes[key] = value;

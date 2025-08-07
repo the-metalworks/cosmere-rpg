@@ -84,7 +84,7 @@ export function createInlineEmbed(
     section.dataset.type = item.documentName;
 
     if (collection instanceof CompendiumCollection)
-        section.dataset.pack = collection.collection as string;
+        section.dataset.pack = collection.collection;
 
     return Promise.resolve(section);
 }

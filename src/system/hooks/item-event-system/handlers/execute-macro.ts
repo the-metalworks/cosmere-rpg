@@ -64,7 +64,7 @@ export function register() {
             // Get the macro to execute
             const macro = !this.inline
                 ? this.uuid // Not inline, so we need to get the macro from the UUID
-                    ? ((await fromUuid(this.uuid)) as Macro | null)
+                    ? ((await fromUuid(this.uuid)))
                     : null
                 : this.macro // Inline, so we need to create a new ephemeral macro document from the macro data
                   ? (new (CONFIG.Macro

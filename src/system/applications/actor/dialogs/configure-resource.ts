@@ -76,7 +76,7 @@ export class ConfigureResourceDialog extends HandlebarsApplicationMixin(
         this.resourceData = (
             this.actor.system.schema.getField(
                 `resources.${resourceId}`,
-            ) as foundry.data.fields.SchemaField
+            )
         ).initialize(
             foundry.utils.deepClone(this.actor.system.resources[resourceId]),
             this.actor,

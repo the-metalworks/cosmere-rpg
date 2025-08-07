@@ -600,7 +600,7 @@ export class CosmereActor<
         /* eslint-Enable @typescript-eslint/no-explicit-any */
 
         // Get result
-        const result = draw.results[0] as TableResult;
+        const result = draw.results[0];
 
         /**
          * Hook: rollInjuryType

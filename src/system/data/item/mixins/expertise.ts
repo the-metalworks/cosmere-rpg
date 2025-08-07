@@ -1,18 +1,22 @@
 import { CosmereItem } from '@system/documents/item';
-import { IdItemData } from './id';
+import { IdItemDataSchema } from './id';
 
-export interface ExpertiseItemData {
-    expertise: boolean;
+const SCHEMA = {
+    expertise: new foundry.data.fields.BooleanField({
+        required: true,
+        nullable: false,
+        initial: false,
+        label: 'Expertise',
+    }),
 }
 
-export function ExpertiseItemMixin<P extends CosmereItem>() {
+export type ExpertiseItemDataSchema = typeof SCHEMA;
+
+export function ExpertiseItemMixin<TParent extends foundry.abstract.Document.Any>() {
     return (
-        base: typeof foundry.abstract.TypeDataModel<
-            ExpertiseItemData & IdItemData,
-            P
-        >,
+        base: typeof foundry.abstract.TypeDataModel,
     ) => {
-        return class extends base {
+        return class extends base<ExpertiseItemDataSchema & IdItemDataSchema, TParent> {
             static defineSchema() {
                 const superSchema = super.defineSchema();
 
@@ -23,14 +27,7 @@ export function ExpertiseItemMixin<P extends CosmereItem>() {
                     );
                 }
 
-                return foundry.utils.mergeObject(super.defineSchema(), {
-                    expertise: new foundry.data.fields.BooleanField({
-                        required: true,
-                        nullable: false,
-                        initial: false,
-                        label: 'Expertise',
-                    }),
-                });
+                return foundry.utils.mergeObject(super.defineSchema(), SCHEMA);
             }
 
             public prepareDerivedData(): void {

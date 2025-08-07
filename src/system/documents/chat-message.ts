@@ -47,14 +47,14 @@ export class CosmereChatMessage extends ChatMessage {
     /* --- Accessors --- */
     public get actorSource(): CosmereActor | null {
         // NOTE: game.scenes resolves to any type
-        /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-member-access */
+         
         if (this.speaker.scene && this.speaker.token) {
             const scene = game.scenes.get(this.speaker.scene);
             const token = scene?.tokens?.get(this.speaker.token);
             if (token) return token.actor;
         }
         return game.actors?.get(this.speaker.actor);
-        /* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-member-access */
+         
     }
 
     public get itemSource(): CosmereItem | null {

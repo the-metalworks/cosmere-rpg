@@ -35,7 +35,7 @@ function _onDragContentLink(event: JQueryEventObject) {
 
     // Case 2 - World Document Link
     else {
-        const doc = fromUuidSync(a.dataset.uuid!) as CosmereDocument;
+        const doc = fromUuidSync(a.dataset.uuid) as CosmereDocument;
         dragData = doc.toDragData() as AnyMutableObject;
     }
 

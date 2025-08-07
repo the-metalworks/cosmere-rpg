@@ -3,38 +3,37 @@ import {
     TalentItem,
     TalentTreeItem,
 } from '@system/documents/item';
+import { MustBeValidUuid } from '@system/types/utils';
 
-export interface TalentsProviderData {
-    /**
-     * The UUID of the talent tree that gets displayed on the talents tab.
-     */
-    talentTree: string | null;
+const SCHEMA = {
+    talentTree: new foundry.data.fields.DocumentUUIDField<
+        foundry.data.fields.DocumentUUIDField.Options,
+        string | undefined | null,
+        MustBeValidUuid<string>
+    >({
+        required: true,
+        nullable: true,
+        blank: false,
+        initial: null,
+        type: 'Item',
+        label: 'COSMERE.Item.Sheet.TalentsProvider.TalentTree.Label',
+        hint: 'COSMERE.Item.Sheet.TalentsProvider.TalentTree.Hint',
+    }),
+};
 
-    getTalents(includeNested?: boolean): Promise<TalentItem[]>;
-    providesTalent(talent: TalentItem): Promise<boolean>;
-    providesTalent(id: string): Promise<boolean>;
-}
+export type TalentsProviderDataSchema = typeof SCHEMA;
 
 /**
  * Mixin for items that provide a talent tree through the "talents" tab.
  * Used for Paths & Ancestries.
  */
-export function TalentsProviderMixin<P extends CosmereItem>() {
+export function TalentsProviderMixin<TParent extends foundry.abstract.Document.Any>() {
     return (
-        base: typeof foundry.abstract.TypeDataModel<TalentsProviderData, P>,
+        base: typeof foundry.abstract.TypeDataModel<TalentsProviderDataSchema, TParent>,
     ) => {
         return class extends base {
             static defineSchema() {
-                return foundry.utils.mergeObject(super.defineSchema(), {
-                    talentTree: new foundry.data.fields.DocumentUUIDField({
-                        required: true,
-                        nullable: true,
-                        blank: false,
-                        initial: null,
-                        label: 'COSMERE.Item.Sheet.TalentsProvider.TalentTree.Label',
-                        hint: 'COSMERE.Item.Sheet.TalentsProvider.TalentTree.Hint',
-                    }),
-                });
+                return foundry.utils.mergeObject(super.defineSchema(), SCHEMA);
             }
 
             public async getTalents(
@@ -44,7 +43,7 @@ export function TalentsProviderMixin<P extends CosmereItem>() {
 
                 // Get the talent tree item
                 const talentTreeItem = (await fromUuid(
-                    this.talentTree,
+                    this.talentTree ,
                 )) as TalentTreeItem | null;
                 if (!talentTreeItem?.isTalentTree()) return [];
 

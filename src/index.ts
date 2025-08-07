@@ -31,10 +31,6 @@ import CosmereAPI from './system/api';
 import CosmereUtils from './system/utils/global';
 
 declare global {
-    interface LenientGlobalVariableTypes {
-        game: never; // the type doesn't matter
-    }
-
     interface CONFIG {
         COSMERE: typeof COSMERE;
     }
@@ -123,28 +119,23 @@ Hooks.once('init', async () => {
     CONFIG.Dice.terms.p = dice.PlotDie;
     CONFIG.Dice.termTypes[dice.PlotDie.name] = dice.PlotDie;
 
-    // NOTE: foundry-vtt-types has two version of the RollTerm class which do not match
-    // causing this to error. Bug?
-    // @league-of-foundry-developers/foundry-vtt-types/src/foundry/client/dice/term.d.mts
-    // @league-of-foundry-developers/foundry-vtt-types/src/foundry/client-esm/dice/terms/term.d.mts
-    // @ts-expect-error see note
+
     CONFIG.Dice.rolls.push(dice.D20Roll);
-    // @ts-expect-error see note
     CONFIG.Dice.rolls.push(dice.DamageRoll);
 
-    CONFIG.Canvas.visionModes.sense = new VisionMode({
+    CONFIG.Canvas.visionModes.sense = new foundry.canvas.perception.VisionMode({
         id: 'sense',
         label: 'COSMERE.Actor.Statistics.SensesRange',
         canvas: {
-            shader: ColorAdjustmentsSamplerShader,
+            shader: foundry.canvas.rendering.shaders.ColorAdjustmentsSamplerShader,
             uniforms: { contrast: 0, saturation: -1.0, brightness: 0 },
         },
         lighting: {
             levels: {
-                [VisionMode.LIGHTING_LEVELS.DIM]:
-                    VisionMode.LIGHTING_LEVELS.BRIGHT,
+                [foundry.canvas.perception.VisionMode.LIGHTING_LEVELS.DIM]:
+                    foundry.canvas.perception.VisionMode.LIGHTING_LEVELS.BRIGHT,
             },
-            background: { visibility: VisionMode.LIGHTING_VISIBILITY.REQUIRED },
+            background: { visibility: foundry.canvas.perception.VisionMode.LIGHTING_VISIBILITY.REQUIRED },
         },
         vision: {
             darkness: { adaptive: false },
@@ -219,13 +210,11 @@ function registerStatusEffects() {
     CONFIG.statusEffects = statusEffects;
 }
 
-// NOTE: Must cast to `any` as registerSheet type doesn't accept ApplicationV2 (even though it's valid to pass it)
-/* eslint-disable @typescript-eslint/no-explicit-any */
 function registerActorSheet(
     type: ActorType,
-    sheet: typeof foundry.applications.api.ApplicationV2<any, any, any>,
+    sheet: typeof foundry.applications.api.ApplicationV2,
 ) {
-    Actors.registerSheet(SYSTEM_ID, sheet as any, {
+    foundry.documents.collections.Actors.registerSheet(SYSTEM_ID, sheet as any, {
         types: [type],
         makeDefault: true,
         label: `TYPES.Actor.${type}`,
@@ -234,15 +223,14 @@ function registerActorSheet(
 
 function registerItemSheet(
     type: ItemType,
-    sheet: typeof foundry.applications.api.ApplicationV2<any, any, any>,
+    sheet: typeof foundry.applications.api.ApplicationV2,
 ) {
-    Items.registerSheet(SYSTEM_ID, sheet as any, {
+    foundry.documents.collections.Items.registerSheet(SYSTEM_ID, sheet as any, {
         types: [type],
         makeDefault: true,
         label: `TYPES.Item.${type}`,
     });
 }
-/* eslint-enable @typescript-eslint/no-explicit-any */
 
 /**
  * Configure additional system fonts.

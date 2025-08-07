@@ -308,13 +308,13 @@ export class BaseItemSheet extends TabsApplicationMixin(
         let enrichedChatDescValue = undefined;
         if (this.item.hasDescription()) {
             enrichedDescValue = await this.enrichDescription(
-                this.item.system.description!.value!,
+                this.item.system.description!.value,
             );
             enrichedShortDescValue = await this.enrichDescription(
-                this.item.system.description!.short!,
+                this.item.system.description!.short,
             );
             enrichedChatDescValue = await this.enrichDescription(
-                this.item.system.description!.chat!,
+                this.item.system.description!.chat,
             );
         }
         const expandDefaultSetting =
@@ -324,7 +324,7 @@ export class BaseItemSheet extends TabsApplicationMixin(
             ...(await super._prepareContext(options)),
             item: this.item,
             systemFields: (
-                this.item.system.schema as foundry.data.fields.SchemaField
+                this.item.system.schema
             ).fields,
             editable: this.isEditable,
             isUpdatingDescription: this.isUpdatingDescription,

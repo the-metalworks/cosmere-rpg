@@ -10,7 +10,7 @@ Hooks.on('renderJournalSheet', (app: JournalSheet, html: HTMLFormElement) => {
         entry.pack === COMPENDIUMS.STARTER_RULES ||
         ('compendiumSource' in entry._stats &&
             entry._stats.compendiumSource &&
-            (entry._stats.compendiumSource as string).startsWith(
+            (entry._stats.compendiumSource).startsWith(
                 `Compendium.${COMPENDIUMS.STARTER_RULES}`,
             ))
     ) {
@@ -31,7 +31,7 @@ Hooks.on('renderJournalSheet', (app: JournalSheet, html: HTMLFormElement) => {
 /* --- @Link blocks --- */
 
 Hooks.on('renderJournalPageSheet', (app: JournalPageSheet, html: JQuery) => {
-    const page = app.document as JournalEntryPage;
+    const page = app.document;
     const journalEntry = page.parent as unknown as JournalEntry;
 
     html.find('section[data-link].content-link-anchor').each(function (

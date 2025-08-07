@@ -9,55 +9,249 @@ import {
     ItemRechargeType,
 } from '@system/types/cosmere';
 import { CosmereItem } from '@system/documents';
-import { NumberRange } from '@src/system/types/utils';
+import { NumberRange, DeepMutable } from '@src/system/types/utils';
 
 import { NONE } from '@system/types/utils';
 
-// Fields
-import { StringField } from '@system/data/fields/string-field';
+const ACTIVATION_SCHEMA = {
+    type: new foundry.data.fields.StringField({
+        required: true,
+        blank: false,
+        initial: ActivationType.None,
+        choices: Object.entries(
+            CONFIG.COSMERE.items.activation.types,
+        ).reduce(
+            (acc, [key, config]) => ({
+                ...acc,
+                [key]: config.label,
+            }),
+            {} as Record<ActivationType, string>,
+        ),
+        label: 'COSMERE.Item.Sheet.Activation.Type',
+    }),
+    cost: new foundry.data.fields.SchemaField(
+        {
+            value: new foundry.data.fields.NumberField({
+                nullable: true,
+                min: 0,
+                max: 3,
+                step: 1,
+                integer: true,
+            }),
+            type: new foundry.data.fields.StringField({
+                nullable: true,
+                choices: {
+                    'none': 'GENERIC.None',
+                    ...Object.entries(
+                        CONFIG.COSMERE.action.costs,
+                    ).reduce(
+                        (acc, [key, config]) => ({
+                            ...acc,
+                            [key]: config.label,
+                        }),
+                        {} as Record<ActionCostType, string>,
+                    ),
+                },
+                coerce: (value: unknown) =>
+                    value === '' ? null : value,
+            }),
+        },
+        {
+            required: true,
+            label: 'COSMERE.Item.Sheet.Activation.Cost',
+        },
+    ),
+    consume: new foundry.data.fields.ArrayField(
+        new foundry.data.fields.SchemaField(
+            {
+                type: new foundry.data.fields.StringField({
+                    required: true,
+                    nullable: false,
+                    choices: {
+                        [NONE]: 'GENERIC.None',
+                        ...Object.entries(
+                            CONFIG.COSMERE.items.activation
+                                .consumeTypes,
+                        ).reduce(
+                            (acc, [key, config]) => ({
+                                ...acc,
+                                [key]: config.label,
+                            }),
+                            {} as Record<ItemConsumeType, string>,
+                        ),
+                    },
+                    initial: ItemConsumeType.Resource,
+                }),
+                value: new foundry.data.fields.SchemaField({
+                    min: new foundry.data.fields.NumberField({
+                        required: true,
+                        nullable: false,
+                        min: 0,
+                        integer: true,
+                        initial: 0,
+                    }),
+                    max: new foundry.data.fields.NumberField({
+                        required: true,
+                        nullable: false,
+                        min: -1,
+                        integer: true,
+                        initial: 0,
+                    }),
+                    actual: new foundry.data.fields.NumberField({
+                        required: false,
+                        nullable: false,
+                        min: 0,
+                        integer: true,
+                        initial: 0,
+                    }),
+                }),
+                resource: new foundry.data.fields.StringField({
+                    blank: false,
+                    choices: Object.entries(
+                        CONFIG.COSMERE.resources,
+                    ).reduce(
+                        (acc, [key, config]) => ({
+                            ...acc,
+                            [key]: config.label,
+                        }),
+                        {} as Record<Resource, string>,
+                    ),
+                    initial: Resource.Focus,
+                }),
+            },
+            {
+                required: false,
+                nullable: true,
+                initial: null,
+            },
+        ),
+        {
+            label: 'COSMERE.Item.Sheet.Activation.Consume',
+        },
+    ),
+    flavor: new foundry.data.fields.HTMLField(),
+    skill: new foundry.data.fields.StringField({
+        nullable: true,
+        choices: {
+            'none': 'GENERIC.None',
+            ...Object.entries(CONFIG.COSMERE.skills).reduce(
+                (acc, [key, config]) => ({
+                    ...acc,
+                    [key]: config.label,
+                }),
+                {} as Record<Skill, string>,
+            ),
+        },
+        coerce: (value: unknown) => (value === '' ? null : value),
+        label: 'GENERIC.Skill',
+    }),
+    attribute: new foundry.data.fields.StringField({
+        nullable: true,
+        initial: 'default',
+        choices: {
+            'none': 'GENERIC.None',
+            default: 'GENERIC.Default',
+            ...Object.entries(CONFIG.COSMERE.attributes).reduce(
+                (acc, [key, config]) => ({
+                    ...acc,
+                    [key]: config.label,
+                }),
+                {} as Record<Attribute, string>,
+            ),
+        },
+        coerce: (value: unknown) => (value === '' ? null : value),
+        label: 'GENERIC.Attribute',
+    }),
+    modifierFormula: new foundry.data.fields.StringField({
+        nullable: true,
+        blank: true,
+        label: 'COSMERE.Item.Sheet.Activation.AdditionalFormula',
+        hint: 'COSMERE.Item.Sheet.Activation.AdditionalFormulaDescription',
+    }),
+    plotDie: new foundry.data.fields.BooleanField({
+        nullable: true,
+        initial: false,
+        label: 'DICE.Plot.RaiseTheStakes',
+    }),
+    opportunity: new foundry.data.fields.NumberField({
+        nullable: true,
+        min: 1,
+        max: 20,
+        integer: true,
+        label: 'COSMERE.Item.Activation.Opportunity',
+    }),
+    complication: new foundry.data.fields.NumberField({
+        nullable: true,
+        min: 1,
+        max: 20,
+        integer: true,
+        label: 'COSMERE.Item.Activation.Complication',
+    }),
+    uses: new foundry.data.fields.SchemaField(
+        {
+            type: new foundry.data.fields.StringField({
+                required: true,
+                initial: ItemUseType.Use,
+                blank: false,
+                choices: Object.entries(
+                    CONFIG.COSMERE.items.activation.uses.types,
+                ).reduce(
+                    (acc, [key, config]) => ({
+                        ...acc,
+                        [key]: config.label,
+                    }),
+                    {} as Record<ItemUseType, string>,
+                ),
+            }),
+            value: new foundry.data.fields.NumberField({
+                required: true,
+                nullable: false,
+                min: 0,
+                initial: 1,
+                integer: true,
+            }),
+            max: new foundry.data.fields.NumberField({
+                required: true,
+                min: 1,
+                initial: 1,
+                integer: true,
+            }),
+            recharge: new foundry.data.fields.StringField({
+                nullable: true,
+                initial: null,
+                choices: {
+                    'none': 'GENERIC.None',
+                    ...Object.entries(
+                        CONFIG.COSMERE.items.activation.uses.recharge,
+                    ).reduce(
+                        (acc, [key, config]) => ({
+                            ...acc,
+                            [key]: config.label,
+                        }),
+                        {} as Record<ItemRechargeType, string>,
+                    ),
+                },
+                coerce: (value: unknown) =>
+                    value === '' ? null : value,
+                label: 'COSMERE.Item.Sheet.Activation.Recharge',
+            }),
+        },
+        {
+            required: false,
+            nullable: true,
+            initial: null,
+            label: 'COSMERE.Item.Sheet.Activation.Uses',
+        },
+    ),
+};
 
-export interface ItemConsumeData {
-    type: ItemConsumeType;
-    value: NumberRange;
-    resource?: Resource;
+type ActivationDataSchema = typeof ACTIVATION_SCHEMA;
+type DynamicActivationDataSchema = ReturnType<ReturnType<typeof getActivationDataModelCls>['defineSchema']>;
+export interface ActivatableItemDataSchema {
+    activation: foundry.data.fields.SchemaField<DynamicActivationDataSchema>
 }
-
-export interface ActivatableItemData {
-    activation: Activation;
-}
-
-interface ActivationData {
-    type: ActivationType;
-    cost: {
-        value?: number;
-        type?: ActionCostType;
-    };
-    consume?: ItemConsumeData[];
-    uses?: {
-        type: ItemUseType;
-        value: number;
-        max: number;
-        recharge?: ItemRechargeType;
-    };
-
-    flavor?: string;
-
-    /* -- Skill test activation -- */
-    skill?: Skill | 'none' | 'default';
-    attribute?: Attribute | 'none' | 'default';
-    modifierFormula?: string;
-    plotDie?: boolean;
-
-    /**
-     * The value of d20 result which represents an opportunity
-     */
-    opportunity?: number;
-
-    /**
-     * The value of d20 result which represent an complication
-     */
-    complication?: number;
-}
+export type ActivatableItemData = foundry.data.fields.SchemaField.InitializedData<ActivatableItemDataSchema>;
+export type ItemConsumeData = ActivatableItemData['activation']['consume'][number];
 
 interface ActivatableItemMixinOptions {
     type?: {
@@ -77,21 +271,21 @@ interface ActivatableItemMixinOptions {
         initial?: Skill | null | 'default';
     } & (
         | {
-              allowDefault?: false;
-              initial?: Skill | null; // If allowDefault is false, initial can only be a Skill or null
-          }
+            allowDefault?: false;
+            initial?: Skill | null; // If allowDefault is false, initial can only be a Skill or null
+        }
         | {
-              allowDefault: true;
+            allowDefault: true;
 
-              /**
-               * Resolver function to determine the skill for the activation if the skill is set to 'Default'.
-               */
-              defaultResolver: () => Skill | null;
-          }
+            /**
+             * Resolver function to determine the skill for the activation if the skill is set to 'Default'.
+             */
+            defaultResolver: () => Skill | null;
+        }
     );
 }
 
-export function ActivatableItemMixin<P extends CosmereItem>(
+export function ActivatableItemMixin<TParent extends foundry.abstract.Document.Any>(
     options?: ActivatableItemMixinOptions,
 ) {
     if (options?.skill?.allowDefault && !options.skill.defaultResolver) {
@@ -101,9 +295,9 @@ export function ActivatableItemMixin<P extends CosmereItem>(
     }
 
     return (
-        base: typeof foundry.abstract.TypeDataModel<ActivatableItemData, P>,
+        base: typeof foundry.abstract.TypeDataModel,
     ) => {
-        return class mixin extends base {
+        return class mixin extends base<ActivatableItemDataSchema, TParent> {
             static defineSchema() {
                 return foundry.utils.mergeObject(super.defineSchema(), {
                     activation: new ActivationField({
@@ -134,15 +328,15 @@ export function ActivatableItemMixin<P extends CosmereItem>(
 }
 
 interface ActivationFieldOptions
-    extends foundry.data.fields.DataFieldOptions,
-        ActivatableItemMixinOptions {}
+    extends foundry.data.fields.SchemaField.Options<DynamicActivationDataSchema>,
+    ActivatableItemMixinOptions { }
 
-class ActivationField extends foundry.data.fields.SchemaField {
-    public readonly model: typeof Activation;
+class ActivationField extends foundry.data.fields.SchemaField<DynamicActivationDataSchema, ActivationFieldOptions> {
+    public readonly model: typeof Activation<DynamicActivationDataSchema>;
 
     constructor(
         options?: ActivationFieldOptions,
-        context?: foundry.data.fields.DataFieldContext,
+        context?: foundry.data.fields.DataField.ConstructionContext,
     ) {
         // Get the activation data model class based on the options provided
         const cls = getActivationDataModelCls(options);
@@ -159,9 +353,9 @@ class ActivationField extends foundry.data.fields.SchemaField {
     }
 
     public override initialize(
-        value: unknown,
-        model: object,
-        options?: object,
+        value: foundry.data.fields.SchemaField.Internal.PersistedType<DynamicActivationDataSchema>,
+        model: foundry.abstract.DataModel.Any,
+        options?: foundry.data.fields.DataField.InitializeOptions,
     ) {
         return new this.model(foundry.utils.deepClone(value), {
             parent: model,
@@ -170,239 +364,14 @@ class ActivationField extends foundry.data.fields.SchemaField {
     }
 }
 
-export class Activation extends foundry.abstract.DataModel<ActivationData> {
+type FieldOptions<T extends foundry.data.fields.DataField<any>> = T extends foundry.data.fields.DataField<infer U> ? U : never;
+type BaseActivationDataSchema = Omit<ActivationDataSchema, 'type' | 'skill'>
+    & { type: foundry.data.fields.StringField<Omit<FieldOptions<ActivationDataSchema['type']>, 'initial'>> }
+    & { skill: foundry.data.fields.StringField<Omit<FieldOptions<ActivationDataSchema['skill']>, 'initial' | 'choices'>> };
+
+export class Activation<Schema extends BaseActivationDataSchema> extends foundry.abstract.DataModel<Schema, foundry.abstract.DataModel.Any> {
     static defineSchema(): foundry.data.fields.DataSchema {
-        return {
-            type: new foundry.data.fields.StringField({
-                required: true,
-                blank: false,
-                initial: ActivationType.None,
-                choices: Object.entries(
-                    CONFIG.COSMERE.items.activation.types,
-                ).reduce(
-                    (acc, [key, config]) => ({
-                        ...acc,
-                        [key]: config.label,
-                    }),
-                    {} as Record<ActivationType, string>,
-                ),
-                label: 'COSMERE.Item.Sheet.Activation.Type',
-            }),
-            cost: new foundry.data.fields.SchemaField(
-                {
-                    value: new foundry.data.fields.NumberField({
-                        nullable: true,
-                        min: 0,
-                        max: 3,
-                        step: 1,
-                        integer: true,
-                    }),
-                    type: new StringField({
-                        nullable: true,
-                        choices: {
-                            '': 'GENERIC.None',
-                            ...Object.entries(
-                                CONFIG.COSMERE.action.costs,
-                            ).reduce(
-                                (acc, [key, config]) => ({
-                                    ...acc,
-                                    [key]: config.label,
-                                }),
-                                {} as Record<ActionCostType, string>,
-                            ),
-                        },
-                        coerce: (value: unknown) =>
-                            value === '' ? null : value,
-                    }),
-                },
-                {
-                    required: true,
-                    label: 'COSMERE.Item.Sheet.Activation.Cost',
-                },
-            ),
-            consume: new foundry.data.fields.ArrayField(
-                new foundry.data.fields.SchemaField(
-                    {
-                        type: new StringField({
-                            required: true,
-                            nullable: false,
-                            choices: {
-                                [NONE]: 'GENERIC.None',
-                                ...Object.entries(
-                                    CONFIG.COSMERE.items.activation
-                                        .consumeTypes,
-                                ).reduce(
-                                    (acc, [key, config]) => ({
-                                        ...acc,
-                                        [key]: config.label,
-                                    }),
-                                    {} as Record<ItemConsumeType, string>,
-                                ),
-                            },
-                            initial: ItemConsumeType.Resource,
-                        }),
-                        value: new foundry.data.fields.SchemaField({
-                            min: new foundry.data.fields.NumberField({
-                                required: true,
-                                nullable: false,
-                                min: 0,
-                                integer: true,
-                                initial: 0,
-                            }),
-                            max: new foundry.data.fields.NumberField({
-                                required: true,
-                                nullable: false,
-                                min: -1,
-                                integer: true,
-                                initial: 0,
-                            }),
-                            actual: new foundry.data.fields.NumberField({
-                                required: false,
-                                nullable: false,
-                                min: 0,
-                                integer: true,
-                                initial: 0,
-                            }),
-                        }),
-                        resource: new foundry.data.fields.StringField({
-                            blank: false,
-                            choices: Object.entries(
-                                CONFIG.COSMERE.resources,
-                            ).reduce(
-                                (acc, [key, config]) => ({
-                                    ...acc,
-                                    [key]: config.label,
-                                }),
-                                {} as Record<Resource, string>,
-                            ),
-                            initial: Resource.Focus,
-                        }),
-                    },
-                    {
-                        required: false,
-                        nullable: true,
-                        initial: null,
-                    },
-                ),
-                {
-                    label: 'COSMERE.Item.Sheet.Activation.Consume',
-                },
-            ),
-            flavor: new foundry.data.fields.HTMLField(),
-            skill: new StringField({
-                nullable: true,
-                choices: {
-                    '': 'GENERIC.None',
-                    ...Object.entries(CONFIG.COSMERE.skills).reduce(
-                        (acc, [key, config]) => ({
-                            ...acc,
-                            [key]: config.label,
-                        }),
-                        {} as Record<Skill, string>,
-                    ),
-                },
-                coerce: (value: unknown) => (value === '' ? null : value),
-                label: 'GENERIC.Skill',
-            }),
-            attribute: new StringField({
-                nullable: true,
-                initial: 'default',
-                choices: {
-                    '': 'GENERIC.None',
-                    default: 'GENERIC.Default',
-                    ...Object.entries(CONFIG.COSMERE.attributes).reduce(
-                        (acc, [key, config]) => ({
-                            ...acc,
-                            [key]: config.label,
-                        }),
-                        {} as Record<Attribute, string>,
-                    ),
-                },
-                coerce: (value: unknown) => (value === '' ? null : value),
-                label: 'GENERIC.Attribute',
-            }),
-            modifierFormula: new foundry.data.fields.StringField({
-                nullable: true,
-                blank: true,
-                label: 'COSMERE.Item.Sheet.Activation.AdditionalFormula',
-                hint: 'COSMERE.Item.Sheet.Activation.AdditionalFormulaDescription',
-            }),
-            plotDie: new foundry.data.fields.BooleanField({
-                nullable: true,
-                initial: false,
-                label: 'DICE.Plot.RaiseTheStakes',
-            }),
-            opportunity: new foundry.data.fields.NumberField({
-                nullable: true,
-                min: 1,
-                max: 20,
-                integer: true,
-                label: 'COSMERE.Item.Activation.Opportunity',
-            }),
-            complication: new foundry.data.fields.NumberField({
-                nullable: true,
-                min: 1,
-                max: 20,
-                integer: true,
-                label: 'COSMERE.Item.Activation.Complication',
-            }),
-            uses: new foundry.data.fields.SchemaField(
-                {
-                    type: new StringField({
-                        required: true,
-                        initial: ItemUseType.Use,
-                        blank: false,
-                        choices: Object.entries(
-                            CONFIG.COSMERE.items.activation.uses.types,
-                        ).reduce(
-                            (acc, [key, config]) => ({
-                                ...acc,
-                                [key]: config.label,
-                            }),
-                            {} as Record<ItemUseType, string>,
-                        ),
-                    }),
-                    value: new foundry.data.fields.NumberField({
-                        required: true,
-                        nullable: false,
-                        min: 0,
-                        initial: 1,
-                        integer: true,
-                    }),
-                    max: new foundry.data.fields.NumberField({
-                        required: true,
-                        min: 1,
-                        initial: 1,
-                        integer: true,
-                    }),
-                    recharge: new StringField({
-                        nullable: true,
-                        initial: null,
-                        choices: {
-                            '': 'GENERIC.None',
-                            ...Object.entries(
-                                CONFIG.COSMERE.items.activation.uses.recharge,
-                            ).reduce(
-                                (acc, [key, config]) => ({
-                                    ...acc,
-                                    [key]: config.label,
-                                }),
-                                {} as Record<ItemRechargeType, string>,
-                            ),
-                        },
-                        coerce: (value: unknown) =>
-                            value === '' ? null : value,
-                        label: 'COSMERE.Item.Sheet.Activation.Recharge',
-                    }),
-                },
-                {
-                    required: false,
-                    nullable: true,
-                    initial: null,
-                    label: 'COSMERE.Item.Sheet.Activation.Uses',
-                },
-            ),
-        };
+        return ACTIVATION_SCHEMA;
     }
 
     /* --- Accessors --- */
@@ -451,42 +420,39 @@ export class Activation extends foundry.abstract.DataModel<ActivationData> {
 }
 
 function getActivationDataModelCls(options?: ActivatableItemMixinOptions) {
-    return class extends Activation {
-        static defineSchema() {
-            const schema = super.defineSchema();
+    const baseSchema = Activation.defineSchema() as ActivationDataSchema;
 
-            if (options?.type?.initial) {
-                schema.type.options.initial = options.type.initial;
-                schema.type.initial = options.type.initial;
-            }
+    const schema = {
+        ...baseSchema,
 
-            if (options?.skill?.initial) {
-                schema.skill.options.initial = options.skill.initial;
-                schema.skill.initial = options.skill.initial;
-            }
+        ...(options?.type?.initial ? {
+            type: new foundry.data.fields.StringField({
+                ...baseSchema.type.options,
+                initial: options.type.initial,
+            })
+        } : {}),
 
-            if (options?.skill?.allowDefault) {
-                (schema.skill as StringField).options.choices = [
-                    ['', 'GENERIC.None'],
+        ...(options?.skill?.initial ? {
+            skill: new foundry.data.fields.StringField({
+                ...baseSchema.skill.options,
+                initial: options.skill.initial,
+            })
+        } : {}),
+
+        ...(options?.skill?.allowDefault ? {
+            skill: new foundry.data.fields.StringField({
+                ...baseSchema.skill.options,
+                choices: Object.fromEntries([
+                    ['none', 'GENERIC.None'],
                     ['default', 'GENERIC.Default'],
-                    ...Object.entries(
-                        foundry.utils.getProperty(
-                            schema,
-                            'skill.options.choices',
-                        ),
-                    ).filter(([key]) => key !== ''),
-                ].reduce(
-                    (acc, [key, label]) => ({
-                        ...acc,
-                        [key]: label,
-                    }),
-                    {},
-                );
-                (schema.skill as StringField).choices = (
-                    schema.skill as StringField
-                ).options.choices as object | string[];
-            }
+                    ...Object.entries(baseSchema.skill.options.choices).slice(1),
+                ])
+            })
+        } : {}),
+    }
 
+    return class extends Activation<typeof schema> {
+        static defineSchema() {
             return schema;
         }
 

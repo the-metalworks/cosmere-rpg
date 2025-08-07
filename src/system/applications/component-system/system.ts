@@ -80,9 +80,7 @@ export function registerComponent(
         };
 
         // Get from root data
-        const application = options.data!.root.__application as InstanceType<
-            ComponentHandlebarsApplication<ApplicationV2Constructor<AnyObject>>
-        >;
+        const application = options.data!.root.__application;
         const partId = (options.data!.root.partId as string).replace(
             `${application.id}-`,
             '',

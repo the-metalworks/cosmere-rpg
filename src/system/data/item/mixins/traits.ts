@@ -1,70 +1,64 @@
 import { WeaponTraitId, ArmorTraitId } from '@system/types/cosmere';
+import { EmptyObject } from '@system/types/utils';
+
 import { CosmereItem } from '@system/documents';
-import { ExpertiseItemData } from './expertise';
+import { ExpertiseItemDataSchema } from './expertise';
 
 import { MappingField } from '@system/data/fields';
 
-interface TraitData {
-    /**
-     * The default (not expertise) value of this trait
-     */
-    defaultValue?: number;
+const SCHEMA = {
+    traits: new MappingField(
+        new foundry.data.fields.SchemaField({
+            defaultValue: new foundry.data.fields.NumberField({
+                integer: true,
+            }),
+            value: new foundry.data.fields.NumberField({
+                integer: true,
+            }),
+            defaultActive: new foundry.data.fields.BooleanField(
+                {
+                    required: true,
+                    nullable: false,
+                    initial: true,
+                },
+            ),
+            active: new foundry.data.fields.BooleanField({
+                required: true,
+                nullable: false,
+                initial: true,
+            }),
+            expertise: new foundry.data.fields.SchemaField({
+                toggleActive:
+                    new foundry.data.fields.BooleanField(),
+                value: new foundry.data.fields.NumberField({
+                    integer: true,
+                }),
+            }),
+        }),
+        {
+            required: true,
+        }
+    ),
+};
 
-    /**
-     * The current value of this trait.
-     * This is a derived value
-     */
-    value?: number;
+export type TraitsItemDataSchema = typeof SCHEMA;
 
-    /**
-     * Whether or not this trait is active by default (not expertise)
-     */
-    defaultActive: boolean;
+type TraitsItemData = foundry.data.fields.SchemaField.InitializedData<TraitsItemDataSchema>;
 
-    /**
-     * Whether or not this trait is currently active.
-     * This is a derived value
-     */
-    active: boolean;
-
-    /**
-     * How is this trait modified when the actor has expertise with the item?
-     */
-    expertise: {
-        /**
-         * Toggle whether or not the trait is active.
-         * If it is active by default, it becomes inactive and vice versa.
-         */
-        toggleActive?: boolean;
-
-        /**
-         * Change the value of this trait to this value.
-         */
-        value?: number;
-    };
-}
-
-export interface TraitsItemData<
-    TraitId extends WeaponTraitId | ArmorTraitId = WeaponTraitId | ArmorTraitId,
-> {
-    traits: Record<TraitId, TraitData>;
-    readonly traitsArray: ({ id: TraitId } & TraitData)[];
+export interface TraitsItemDerivedData {
+    readonly traitsArray: (TraitsItemData['traits'][string] & { id: string })[]
 }
 
 /**
  * Mixin for weapon & armor traits
  */
 export function TraitsItemMixin<
-    P extends CosmereItem,
-    TraitId extends WeaponTraitId | ArmorTraitId = WeaponTraitId | ArmorTraitId,
+    TParent extends foundry.abstract.Document.Any
 >() {
     return (
-        base: typeof foundry.abstract.TypeDataModel<
-            TraitsItemData<TraitId> & ExpertiseItemData,
-            P
-        >,
+        base: typeof foundry.abstract.TypeDataModel,
     ) => {
-        return class extends base {
+        return class extends base<TraitsItemDataSchema & ExpertiseItemDataSchema, TParent, EmptyObject, TraitsItemDerivedData> {
             static defineSchema() {
                 const superSchema = super.defineSchema();
 
@@ -74,41 +68,11 @@ export function TraitsItemMixin<
                     );
                 }
 
-                return foundry.utils.mergeObject(super.defineSchema(), {
-                    traits: new MappingField(
-                        new foundry.data.fields.SchemaField({
-                            defaultValue: new foundry.data.fields.NumberField({
-                                integer: true,
-                            }),
-                            value: new foundry.data.fields.NumberField({
-                                integer: true,
-                            }),
-                            defaultActive: new foundry.data.fields.BooleanField(
-                                {
-                                    required: true,
-                                    nullable: false,
-                                    initial: true,
-                                },
-                            ),
-                            active: new foundry.data.fields.BooleanField({
-                                required: true,
-                                nullable: false,
-                                initial: true,
-                            }),
-                            expertise: new foundry.data.fields.SchemaField({
-                                toggleActive:
-                                    new foundry.data.fields.BooleanField(),
-                                value: new foundry.data.fields.NumberField({
-                                    integer: true,
-                                }),
-                            }),
-                        }),
-                    ),
-                });
+                return foundry.utils.mergeObject(super.defineSchema(), SCHEMA);
             }
 
-            get traitsArray(): ({ id: TraitId } & TraitData)[] {
-                return (Object.entries(this.traits) as [TraitId, TraitData][])
+            get traitsArray() {
+                return Object.entries(this.traits)
                     .map(([id, trait]) => ({ id, ...trait }))
                     .sort((a, b) => a.id.localeCompare(b.id));
             }
@@ -119,7 +83,7 @@ export function TraitsItemMixin<
                 // Do we have expertise
                 const hasExpertise = this.expertise;
 
-                Object.values<TraitData>(this.traits).forEach((trait) => {
+                Object.values(this.traits).forEach((trait) => {
                     if (!hasExpertise) {
                         trait.active = trait.defaultActive;
                         trait.value = trait.defaultValue;

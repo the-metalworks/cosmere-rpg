@@ -5,81 +5,66 @@ import { MappingField, CollectionField } from '@system/data/fields';
 
 // Mixins
 import { DataModelMixin } from '../mixins';
-import { IdItemMixin, IdItemData } from './mixins/id';
-import { TypedItemMixin, TypedItemData } from './mixins/typed';
+import { IdItemMixin, IdItemDataSchema } from './mixins/id';
+import { TypedItemMixin, TypedItemDataSchema } from './mixins/typed';
 import {
     DescriptionItemMixin,
-    DescriptionItemData,
+    DescriptionItemDataSchema,
 } from './mixins/description';
 import {
     ActivatableItemMixin,
-    ActivatableItemData,
+    ActivatableItemDataSchema,
 } from './mixins/activatable';
-import { DamagingItemMixin, DamagingItemData } from './mixins/damaging';
-import { ModalityItemMixin, ModalityItemData } from './mixins/modality';
-import { EventsItemMixin, EventsItemData } from './mixins/events';
+import { DamagingItemMixin, DamagingItemDataSchema } from './mixins/damaging';
+import { ModalityItemMixin, ModalityItemDataSchema } from './mixins/modality';
+import { EventsItemMixin, EventsItemDataSchema } from './mixins/events';
 import {
     RelationshipsMixin,
-    RelationshipsItemData,
+    RelationshipsItemDataSchema,
 } from './mixins/relationships';
 
-export interface TalentItemData
-    extends IdItemData,
-        TypedItemData<Talent.Type>,
-        DescriptionItemData,
-        ActivatableItemData,
-        DamagingItemData,
-        ModalityItemData,
-        EventsItemData,
-        RelationshipsItemData {
-    /**
-     * The id of the Path this Talent belongs to.
-     */
-    path?: string;
-    /**
-     * Derived value that indicates whether or not the parent
-     * Actor has the required path. If no path is defined for this
-     * Talent, this value will be undefined.
-     */
-    hasPath?: boolean;
+const SCHEMA = {
+    path: new foundry.data.fields.StringField({
+        required: false,
+        nullable: true,
+        initial: null,
+    }),
+    hasPath: new foundry.data.fields.BooleanField(),
+    specialty: new foundry.data.fields.StringField({
+        required: false,
+        nullable: true,
+        initial: null,
+    }),
+    hasSpecialty: new foundry.data.fields.BooleanField(),
+    ancestry: new foundry.data.fields.StringField({
+        required: false,
+        nullable: true,
+        initial: null,
+    }),
+    hasAncestry: new foundry.data.fields.BooleanField(),
+    power: new foundry.data.fields.StringField({
+        required: false,
+        nullable: true,
+        initial: null,
+        label: 'COSMERE.Item.Talent.Power.Label',
+        hint: 'COSMERE.Item.Talent.Power.Hint',
+    }),
+    hasPower: new foundry.data.fields.BooleanField(),
+};
 
-    /**
-     * The id of the Speciality this Talent belongs to.
-     */
-    specialty?: string;
-    /**
-     * Derived value that indicates whether or not the parent
-     * Actor has the required specialty. If no specialty is defined
-     * for this Talent, this value will be undefined.
-     */
-    hasSpecialty?: boolean;
-
-    /**
-     * The id of the Ancestry this Talent belongs to.
-     */
-    ancestry?: string;
-    /**
-     * Derived value that indicates whether or not the parent
-     * Actor has the required ancestry. If no ancestry is defined
-     * for this Talent, this value will be undefined.
-     */
-    hasAncestry?: boolean;
-
-    /**
-     * The id of the Power this Talent belongs to.
-     */
-    power?: string;
-    /**
-     * Derived value that indicates whether or not the parent
-     * Actor has the required power. If no power is defined for this
-     * Talent, this value will be undefined.
-     */
-    hasPower?: boolean;
-}
+export type TalentItemDataSchema = 
+    & typeof SCHEMA
+    & IdItemDataSchema
+    & TypedItemDataSchema<Talent.Type>
+    & DescriptionItemDataSchema
+    & ActivatableItemDataSchema
+    & DamagingItemDataSchema
+    & ModalityItemDataSchema
+    & EventsItemDataSchema
+    & RelationshipsItemDataSchema;
 
 export class TalentItemDataModel extends DataModelMixin<
-    TalentItemData,
-    CosmereItem
+    TalentItemDataSchema
 >(
     IdItemMixin({
         initialFromName: true,
@@ -105,34 +90,7 @@ export class TalentItemDataModel extends DataModelMixin<
     RelationshipsMixin(),
 ) {
     static defineSchema() {
-        return foundry.utils.mergeObject(super.defineSchema(), {
-            path: new foundry.data.fields.StringField({
-                required: false,
-                nullable: true,
-                initial: null,
-            }),
-            hasPath: new foundry.data.fields.BooleanField(),
-            specialty: new foundry.data.fields.StringField({
-                required: false,
-                nullable: true,
-                initial: null,
-            }),
-            hasSpecialty: new foundry.data.fields.BooleanField(),
-            ancestry: new foundry.data.fields.StringField({
-                required: false,
-                nullable: true,
-                initial: null,
-            }),
-            hasAncestry: new foundry.data.fields.BooleanField(),
-            power: new foundry.data.fields.StringField({
-                required: false,
-                nullable: true,
-                initial: null,
-                label: 'COSMERE.Item.Talent.Power.Label',
-                hint: 'COSMERE.Item.Talent.Power.Hint',
-            }),
-            hasPower: new foundry.data.fields.BooleanField(),
-        });
+        return foundry.utils.mergeObject(super.defineSchema(), );
     }
 
     public prepareDerivedData() {
@@ -171,34 +129,5 @@ export class TalentItemDataModel extends DataModelMixin<
                     (item) => item.isPower() && item.id === this.power,
                 ) ?? false;
         }
-
-        // if (!actor) {
-        //     this.prerequisitesMet = false;
-        // } else {
-        //     this.prerequisitesMet = this.prerequisitesArray.every(
-        //         (prerequisite) => {
-        //             switch (prerequisite.type) {
-        //                 case Talent.Prerequisite.Type.Talent:
-        //                     return actor.items.some(
-        //                         (item) =>
-        //                             item.isTalent() &&
-        //                             item.id === prerequisite.id,
-        //                     );
-        //                 case Talent.Prerequisite.Type.Skill:
-        //                     return (
-        //                         actor.system.skills[prerequisite.skill].rank >=
-        //                         (prerequisite.rank ?? 1)
-        //                     );
-        //                 case Talent.Prerequisite.Type.Attribute:
-        //                     return (
-        //                         actor.system.attributes[prerequisite.attribute]
-        //                             .value >= (prerequisite.value ?? 1)
-        //                     );
-        //                 default:
-        //                     return true;
-        //             }
-        //         },
-        //     );
-        // }
     }
 }

@@ -32,7 +32,7 @@ export class CosmereCombatant extends Combatant {
     public get isBoss(): boolean {
         return (
             this.actor.isAdversary() &&
-            (this.actor as AdversaryActor).system.role === AdversaryRole.Boss
+            (this.actor).system.role === AdversaryRole.Boss
         );
     }
 

@@ -5,8 +5,16 @@ export {
     AnyObject,
     EmptyObject,
     AnyMutableObject,
-} from '@league-of-foundry-developers/foundry-vtt-types/src/types/utils.mjs';
-import { AnyObject } from '@league-of-foundry-developers/foundry-vtt-types/src/types/utils.mjs';
+    InterfaceToObject,
+    Mixin,
+    PhantomConstructor,
+    AnyConcreteConstructor,
+    AnyConstructor,
+    MustBeValidUuid,
+    Merge,
+    SimpleMerge,
+} from '@league-of-foundry-developers/foundry-vtt-types/utils';
+import { AnyObject } from '@league-of-foundry-developers/foundry-vtt-types/utils';
 
 // Constant to improve UI consistency
 export const NONE = 'none';
@@ -26,13 +34,10 @@ export type DeepMutable<T> = { -readonly [P in keyof T]: DeepMutable<T[P]> };
 export type ConstructorOf<T> = new (...args: any[]) => T;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ReturnTypeOf<T> = T extends (...args: any[]) => infer R ? R : never;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type Concrete<T> = T extends abstract new(...args: any[]) => infer R ? Omit<T, 'new'> & (new(...args: any[]) => R) : never;
 
-export type Mixin<
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    BaseClass extends abstract new (...args: any[]) => any,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    MixinClass extends new (...args: any[]) => any,
-> = BaseClass & MixinClass;
+export type ConstructorArguments<T> = T extends abstract new(...args: infer A) => any ? A : never;
 
 export enum MouseButton {
     /**

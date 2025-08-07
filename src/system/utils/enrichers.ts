@@ -83,7 +83,7 @@ export function registerCustomEnrichers() {
                 section.dataset.type = type;
 
                 if (collection instanceof CompendiumCollection)
-                    section.dataset.pack = collection.collection as string;
+                    section.dataset.pack = collection.collection;
 
                 // Return the section element
                 return section;

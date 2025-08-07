@@ -97,7 +97,7 @@ export function ComponentHandlebarsApplicationMixin<
                 renderedParts = (await super._renderHTML(
                     { ...context, __application: this },
                     options,
-                )) as Record<string, HTMLElement>;
+                ));
 
                 // Get all component refs that belong to the rendered parts
                 const componentRefs = Object.entries(this.components)
