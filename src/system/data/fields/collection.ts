@@ -9,7 +9,7 @@ export interface CollectionFieldOptions<T = AnyObject>
      * @default "id"
      */
     key?: T extends AnyObject ?
-    keyof T | ((item: T) => string)
+    keyof T | ((item: Partial<T>) => string | null)
     : never;
 }
 
@@ -393,7 +393,7 @@ export class CollectionField<
 
     private getItemKey(
         item: TElementFieldAssignment,
-    ): string | undefined {
+    ): string | null | undefined {
         if (typeof this.options.key === 'function')
             return this.options.key(item);
         if (!item || typeof item !== 'object') return undefined;

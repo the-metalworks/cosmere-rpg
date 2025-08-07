@@ -307,8 +307,13 @@ export class BaseActorSheet<
             formData.object[`system.resources.${resourceId}.value`] = numValue;
         });
 
+        // Get change
+        const change = {
+            [event.target.name]: formData.object[event.target.name],
+        };
+
         // Update document
-        void this.actor.update(formData.object, { diff: false });
+        void this.actor.update(change, { diff: false });
     }
 
     protected async _renderFrame(

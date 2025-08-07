@@ -47,24 +47,6 @@ import {
 
 import { CosmereItem } from '@system/documents/item';
 
-export interface RegistrationConfig {
-    source: string;
-    priority?: number;
-    strict?: boolean;
-}
-
-export interface RegistrationLog {
-    source: string;
-    type: RegistrationLogType;
-    message: string;
-}
-
-export enum RegistrationLogType {
-    Warn = 'warn',
-    Error = 'error',
-    Debug = 'debug',
-}
-
 export interface SizeConfig {
     label: string;
     size?: number;

@@ -3,6 +3,8 @@ import { CosmereActor } from '@system/documents';
 import { AnyObject } from '@system/types/utils';
 
 import { CommonActorData } from '@system/data/actor/common';
+import { TEMPLATES } from '@src/system/utils/templates';
+import { SYSTEM_ID } from '@src/system/constants';
 
 // Utils
 import { getTypeLabel } from '@src/system/utils/actor';
@@ -28,7 +30,7 @@ export class EditCreatureTypeDialog extends HandlebarsApplicationMixin(
             classes: ['dialog', 'edit-creature-type'],
             tag: 'dialog',
             position: {
-                width: 300,
+                width: 350,
             },
             actions: {
                 'update-type': this.onUpdateType,
@@ -40,8 +42,7 @@ export class EditCreatureTypeDialog extends HandlebarsApplicationMixin(
         foundry.utils.deepClone(super.PARTS),
         {
             form: {
-                template:
-                    'systems/cosmere-rpg/templates/actors/adversary/dialogs/edit-creature-type.hbs',
+                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ADVERSARY_EDIT_CREATURE_TYPE}`,
                 forms: {
                     form: {
                         handler: this.onFormEvent,

@@ -1,10 +1,12 @@
 <form>
-    <div class="form-group">
-        <input type="text" value="{{typeLabel}}" disabled>
+    <div class="form-group max">        
+        <div class="form-fields">
+            <input type="text" value="{{typeLabel}}" disabled>
+        </div>
     </div>
-    <div class="form-group-stacked">
-        <label>{{localize "COSMERE.Actor.Sheet.CreatureType"}}</label>
-        <ul>
+    <fieldset>
+        <legend>{{localize "COSMERE.Actor.Sheet.CreatureType"}}</legend>
+        <ul class="type-list">
             {{#each configuredTypes as |type|}}
             <li {{#if (eq type.id 'custom')}}style="display:none"{{/if}}>
                 <input type="radio" name="primaryType" value="{{type.id}}" {{#if type.selected}}checked{{/if}}>
@@ -12,16 +14,22 @@
             </li>
             {{/each}}
         </ul>
-    </div>
+    </fieldset>
     <div class="form-group">
         <label>{{localize "COSMERE.Actor.Sheet.CustomType"}}</label>
-        <input type="text" name="custom" value="{{type.custom}}">
+        <div class="form-fields">
+            <input type="text" name="custom" value="{{type.custom}}">
+        </div>        
     </div>
     <div class="form-group">
         <label>{{localize "COSMERE.Actor.Sheet.Subtype"}}</label>
-        <input type="text" name="subtype" value="{{type.subtype}}">
+        <div class="form-fields">
+            <input type="text" name="subtype" value="{{type.subtype}}">
+        </div>        
     </div>
-    <button type="submit" data-action="update-type">
-        {{localize "GENERIC.Button.Update"}}
-    </button>
+    <div class="form-group submit">
+        <button type="submit" data-action="update-type">
+            {{localize "GENERIC.Button.Update"}}
+        </button>
+    </div>    
 </form>
