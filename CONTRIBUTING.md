@@ -1,8 +1,8 @@
 # Contributing to the Foundry VTT Cosmere RPG system
 
-Thank you for your interest in contributing to the Foundry VTT Cosmere RPG system! We welcome contributions from everyone, whether you're new to open source or a seasoned contributor. We are active over on the [Cosmere RPG Discord](https://discord.gg/B9Zam3qdZt), join us in vtt-discussion > Foundry VTT System Development to connect to connect with other developers, ask questions, and stay up-to-date with the project's progress.
+Thank you for your interest in contributing to the Foundry VTT Cosmere RPG system! We welcome contributions from everyone, whether you're new to open source or a seasoned contributor. We are active on the [Metalworks Discord](https://discord.gg/bwXe6phJTp) server, a dedicated server for development of the Cosmere RPG Foundry VTT system, where you can connect with other developers, ask questions, and stay up-to-date with the project's progress.
 
-If you encounter any bugs or have ideas for new features, please create an [Issue](https://github.com/stanavdb/cosmere-rpg/issues) to let us know. We encourage you to participate in discussions and contribute your ideas.
+If you encounter any bugs or have ideas for new features, please create an [Issue](https://github.com/the-metalworks/cosmere-rpg/issues) to let us know. We encourage you to participate in discussions and contribute your ideas.
 
 ## How can I help?
 
