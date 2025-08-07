@@ -2,7 +2,7 @@
 import { Resource } from '@system/types/cosmere';
 import { DeepPartial, AnyObject } from '@system/types/utils';
 
-import { CommonActorDataModel, CommonActorData, AttributeData } from './common';
+import { CommonActorDataModel, CommonActorDataSchema, AttributeData } from './common';
 
 // Utils
 import * as Advancement from '@system/utils/advancement';
@@ -40,83 +40,76 @@ export interface CharacterActorData extends CommonActorData {
     connections: ConnectionData[];
 }
 
-export class CharacterActorDataModel extends CommonActorDataModel<CharacterActorData> {
+const SCHEMA = {
+    /* --- Advancement --- */
+    level: new foundry.data.fields.NumberField({
+        required: true,
+        nullable: false,
+        integer: true,
+        min: 1,
+        initial: 1,
+        label: 'COSMERE.Actor.Level.Label',
+    }),
+
+    recovery: new foundry.data.fields.SchemaField({
+        die: new DerivedValueField(
+            new foundry.data.fields.StringField({
+                required: true,
+                blank: false,
+                initial: 'd4',
+                choices: RECOVERY_DICE,
+            }),
+        ),
+    }),
+
+    /* --- Purpose and Obstacle --- */
+    purpose: new foundry.data.fields.HTMLField({
+        required: true,
+        initial: '',
+    }),
+    obstacle: new foundry.data.fields.HTMLField({
+        required: true,
+        initial: '',
+    }),
+}
+
+export type CharacterActorDataSchema =
+    & typeof SCHEMA
+    & CommonActorDataSchema;
+
+export interface CharacterActorDerivedData {
+    /**
+     * Derived value for the maximum rank a skill can be.
+     * Based on the configured advancement rules.
+     */
+    maxSkillRank: number;
+}
+
+export class CharacterActorDataModel extends CommonActorDataModel<CharacterActorDataSchema> {
     public static defineSchema() {
-        return foundry.utils.mergeObject(super.defineSchema(), {
-            /* --- Advancement --- */
-            level: new foundry.data.fields.NumberField({
-                required: true,
-                nullable: false,
-                integer: true,
-                min: 1,
-                initial: 1,
-                label: 'COSMERE.Actor.Level.Label',
-            }),
+        return foundry.utils.mergeObject(super.defineSchema(), SCHEMA);
 
-            maxSkillRank: new foundry.data.fields.NumberField({
-                required: true,
-                nullable: false,
-                integer: true,
-                initial: 2,
-                max: 5,
-            }),
 
-            /* --- Derived statistics --- */
-            recovery: new foundry.data.fields.SchemaField({
-                die: new DerivedValueField(
-                    new foundry.data.fields.StringField({
-                        required: true,
-                        blank: false,
-                        initial: 'd4',
-                        choices: RECOVERY_DICE,
-                    }),
-                ),
-            }),
+        //     maxSkillRank: new foundry.data.fields.NumberField({
+        //         required: true,
+        //         nullable: false,
+        //         integer: true,
+        //         initial: 2,
+        //         max: 5,
+        //     }),
 
-            /* --- Goals, Connections, Purpose, and Obstacle --- */
-            goals: new foundry.data.fields.ArrayField(
-                new foundry.data.fields.SchemaField({
-                    text: new foundry.data.fields.StringField({
-                        required: true,
-                    }),
-                    level: new foundry.data.fields.NumberField({
-                        required: true,
-                        integer: true,
-                        initial: 0,
-                        min: 0,
-                        max: 3,
-                    }),
-                }),
-                {
-                    required: true,
-                    nullable: true,
-                    initial: null,
-                },
-            ),
-            connections: new foundry.data.fields.ArrayField(
-                new foundry.data.fields.SchemaField({
-                    name: new foundry.data.fields.StringField({
-                        required: true,
-                    }),
-                    description: new foundry.data.fields.HTMLField({
-                        required: true,
-                    }),
-                }),
-                {
-                    required: true,
-                    nullable: false,
-                    initial: [],
-                },
-            ),
-            purpose: new foundry.data.fields.HTMLField({
-                required: true,
-                initial: '',
-            }),
-            obstacle: new foundry.data.fields.HTMLField({
-                required: true,
-                initial: '',
-            }),
-        });
+        //     /* --- Derived statistics --- */
+        //     recovery: new foundry.data.fields.SchemaField({
+        //         die: new DerivedValueField(
+        //             new foundry.data.fields.StringField({
+        //                 required: true,
+        //                 blank: false,
+        //                 initial: 'd4',
+        //                 choices: RECOVERY_DICE,
+        //             }),
+        //         ),
+        //     }),
+        // });
     }
 
     public prepareDerivedData() {

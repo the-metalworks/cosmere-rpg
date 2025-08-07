@@ -14,7 +14,8 @@ import {
 import { CosmereActor } from '@system/documents/actor';
 import { ArmorItem, LootItem } from '@system/documents';
 
-import { CosmereDocument } from '@src/system/types/utils';
+import { CosmereDocument, AnyObject, EmptyObject } from '@/system/types/utils';
+import { InferSchema } from '../types';
 
 // Fields
 import { DerivedValueField, Derived } from '../fields/derived-value-field';
@@ -128,463 +129,487 @@ export interface CommonActorData {
     source: CosmereDocument;
 }
 
-export class CommonActorDataModel<
-    Schema extends CommonActorData = CommonActorData,
-> extends foundry.abstract.TypeDataModel<Schema, CosmereActor> {
-    static defineSchema() {
-        return {
-            size: new foundry.data.fields.StringField({
+const SCHEMA = () => ({
+    size: new foundry.data.fields.StringField({
+        required: true,
+        nullable: false,
+        blank: false,
+        initial: Size.Medium,
+        choices: Object.keys(CONFIG.COSMERE.sizes),
+    }),
+    type: new foundry.data.fields.SchemaField({
+        id: new foundry.data.fields.StringField({
+            required: true,
+            nullable: false,
+            blank: false,
+            initial: CreatureType.Humanoid,
+            choices: Object.keys(CONFIG.COSMERE.creatureTypes),
+        }),
+        custom: new foundry.data.fields.StringField({ nullable: true }),
+        subtype: new foundry.data.fields.StringField({
+            nullable: true,
+        }),
+    }),
+    tier: new foundry.data.fields.NumberField({
+        required: true,
+        nullable: false,
+        min: 0,
+        integer: true,
+        initial: 1,
+    }),
+    senses: new foundry.data.fields.SchemaField({
+        range: new DerivedValueField(
+            new foundry.data.fields.NumberField({
                 required: true,
                 nullable: false,
-                blank: false,
-                initial: Size.Medium,
-                choices: Object.keys(CONFIG.COSMERE.sizes),
+                integer: true,
+                min: 0,
+                initial: 5,
             }),
-            type: new foundry.data.fields.SchemaField({
-                id: new foundry.data.fields.StringField({
-                    required: true,
-                    nullable: false,
-                    blank: false,
-                    initial: CreatureType.Humanoid,
-                    choices: Object.keys(CONFIG.COSMERE.creatureTypes),
-                }),
-                custom: new foundry.data.fields.StringField({ nullable: true }),
-                subtype: new foundry.data.fields.StringField({
+        ),
+        obscuredAffected: new foundry.data.fields.BooleanField({
+            required: true,
+            nullable: false,
+            initial: true,
+        }),
+    }),
+    immunities: getImmunitiesSchema(),
+    attributes: getAttributesSchema(),
+    defenses: getDefensesSchema(),
+    resources: getResourcesSchema(),
+    skills: getSkillsSchema(),
+    currency: getCurrenciesSchema(),
+    deflect: new DerivedValueField(
+        new foundry.data.fields.NumberField({
+            required: true,
+            nullable: false,
+            integer: true,
+            min: 0,
+            initial: 0,
+        }),
+        {
+            additionalFields: {
+                natural: new foundry.data.fields.NumberField({
+                    required: false,
                     nullable: true,
-                }),
-            }),
-            tier: new foundry.data.fields.NumberField({
-                required: true,
-                nullable: false,
-                min: 0,
-                integer: true,
-                initial: 1,
-            }),
-            senses: new foundry.data.fields.SchemaField({
-                range: new DerivedValueField(
-                    new foundry.data.fields.NumberField({
-                        required: true,
-                        nullable: false,
-                        integer: true,
-                        min: 0,
-                        initial: 5,
-                    }),
-                ),
-                obscuredAffected: new foundry.data.fields.BooleanField({
-                    required: true,
-                    nullable: false,
-                    initial: true,
-                }),
-            }),
-            immunities: this.getImmunitiesSchema(),
-            attributes: this.getAttributesSchema(),
-            defenses: this.getDefensesSchema(),
-            resources: this.getResourcesSchema(),
-            skills: this.getSkillsSchema(),
-            currency: this.getCurrencySchema(),
-            deflect: new DerivedValueField(
-                new foundry.data.fields.NumberField({
-                    required: true,
-                    nullable: false,
                     integer: true,
-                    min: 0,
                     initial: 0,
+                    label: 'COSMERE.Deflect.Natural.Label',
+                    hint: 'COSMERE.Deflect.Natural.Hint',
                 }),
-                {
-                    additionalFields: {
-                        natural: new foundry.data.fields.NumberField({
-                            required: false,
-                            nullable: true,
-                            integer: true,
-                            initial: 0,
-                            label: 'COSMERE.Deflect.Natural.Label',
-                            hint: 'COSMERE.Deflect.Natural.Hint',
-                        }),
-                        source: new foundry.data.fields.StringField({
-                            initial: DeflectSource.Armor,
-                            choices: Object.keys(
-                                CONFIG.COSMERE.deflect.sources,
-                            ),
-                        }),
-                        types: this.getDamageDeflectTypesSchema(),
-                    },
-                },
-            ),
-            movement: this.getMovementSchema(),
-            injuries: new DerivedValueField(
-                new foundry.data.fields.NumberField({
-                    required: true,
-                    nullable: false,
-                    integer: true,
-                    min: 0,
-                    initial: 0,
+                source: new foundry.data.fields.StringField({
+                    initial: DeflectSource.Armor,
+                    choices: Object.keys(
+                        CONFIG.COSMERE.deflect.sources,
+                    ),
                 }),
-            ),
-            injuryRollBonus: new foundry.data.fields.NumberField({
-                required: true,
-                nullable: false,
-                integer: true,
-                initial: 0,
-            }),
-            encumbrance: new foundry.data.fields.SchemaField({
-                lift: new DerivedValueField(
-                    new foundry.data.fields.NumberField({
-                        required: true,
-                        nullable: false,
-                        integer: true,
-                        min: 0,
-                        initial: 0,
-                    }),
-                ),
-                carry: new DerivedValueField(
-                    new foundry.data.fields.NumberField({
-                        required: true,
-                        nullable: false,
-                        integer: true,
-                        min: 0,
-                        initial: 0,
-                    }),
-                ),
-            }),
-            expertises: new ExpertisesField({
-                required: true,
-            }),
-            languages: new foundry.data.fields.ArrayField(
-                new foundry.data.fields.StringField(),
-            ),
-
-            /**
-             * HTML Fields
-             */
-            biography: new foundry.data.fields.HTMLField({
-                label: 'COSMERE.Actor.Biography.Label',
-                initial: '',
-            }),
-            appearance: new foundry.data.fields.HTMLField({
-                label: 'COSMERE.Actor.Appearance.Label',
-                initial: '',
-            }),
-            notes: new foundry.data.fields.HTMLField({
-                label: 'COSMERE.Actor.Notes.Label',
-                initial: '',
-            }),
-        };
-    }
-
-    private static getAttributesSchema() {
-        const attributes = CONFIG.COSMERE.attributes;
-
-        return new foundry.data.fields.SchemaField(
-            Object.keys(attributes).reduce(
-                (schemas, key) => {
-                    schemas[key] = new foundry.data.fields.SchemaField({
-                        value: new foundry.data.fields.NumberField({
-                            required: true,
-                            nullable: false,
-                            integer: true,
-                            min: 0,
-                            max: 10,
-                            initial: 0,
-                        }),
-                        bonus: new foundry.data.fields.NumberField({
-                            required: true,
-                            nullable: false,
-                            integer: true,
-                            initial: 0,
-                        }),
-                    });
-
-                    return schemas;
-                },
-                {} as Record<string, foundry.data.fields.SchemaField>,
-            ),
-        );
-    }
-
-    private static getDefensesSchema() {
-        const defenses = CONFIG.COSMERE.attributeGroups;
-
-        return new foundry.data.fields.SchemaField(
-            Object.keys(defenses).reduce(
-                (schemas, key) => {
-                    schemas[key] = new DerivedValueField(
-                        new foundry.data.fields.NumberField({
-                            required: true,
-                            nullable: false,
-                            integer: true,
-                            min: 0,
-                            initial: 0,
-                        }),
-                    );
-
-                    return schemas;
-                },
-                {} as Record<string, foundry.data.fields.SchemaField>,
-            ),
-        );
-    }
-
-    private static getResourcesSchema() {
-        const resources = CONFIG.COSMERE.resources;
-
-        return new foundry.data.fields.SchemaField(
-            Object.keys(resources).reduce(
-                (schemas, key) => {
-                    schemas[key] = new foundry.data.fields.SchemaField({
-                        value: new foundry.data.fields.NumberField({
-                            required: true,
-                            nullable: false,
-                            integer: true,
-                            min: 0,
-                            initial: 0,
-                        }),
-                        max: new DerivedValueField(
-                            new foundry.data.fields.NumberField({
-                                required: true,
-                                nullable: false,
-                                integer: true,
-                                min: 0,
-                                initial: 0,
-                            }),
-                        ),
-                        bonus: new foundry.data.fields.NumberField({
-                            required: true,
-                            nullable: false,
-                            integer: true,
-                            initial: 0,
-                        }),
-                    });
-
-                    return schemas;
-                },
-                {} as Record<string, foundry.data.fields.SchemaField>,
-            ),
-        );
-    }
-
-    private static getSkillsSchema() {
-        const skills = CONFIG.COSMERE.skills;
-
-        return new foundry.data.fields.SchemaField(
-            (Object.keys(skills) as Skill[]).reduce(
-                (schemas, key) => {
-                    schemas[key] = new foundry.data.fields.SchemaField({
-                        attribute: new foundry.data.fields.StringField({
-                            required: true,
-                            nullable: false,
-                            blank: false,
-                            initial: skills[key].attribute,
-                        }),
-                        rank: new foundry.data.fields.NumberField({
-                            required: true,
-                            nullable: false,
-                            integer: true,
-                            min: 0,
-                            max: 5,
-                            initial: 0,
-                        }),
-                        mod: new DerivedValueField(
-                            new foundry.data.fields.NumberField({
-                                required: true,
-                                nullable: false,
-                                integer: true,
-                                min: 0,
-                                initial: 0,
-                            }),
-                        ),
-
-                        // Only present for non-core skills
-                        ...(!skills[key].core
-                            ? {
-                                  unlocked:
-                                      new foundry.data.fields.BooleanField({
-                                          required: true,
-                                          nullable: false,
-                                          initial: false,
-                                      }),
-                              }
-                            : {}),
-                    });
-
-                    return schemas;
-                },
-                {} as Record<string, foundry.data.fields.SchemaField>,
-            ),
-        );
-    }
-
-    private static getCurrencySchema() {
-        const currencies = CONFIG.COSMERE.currencies;
-
-        return new foundry.data.fields.SchemaField(
-            Object.keys(currencies).reduce(
-                (schemas, key) => {
-                    schemas[key] = new foundry.data.fields.SchemaField({
-                        denominations: new foundry.data.fields.ArrayField(
-                            this.getCurrencyDenominationSchema(key),
-                        ),
-                        total: new DerivedValueField(
-                            new foundry.data.fields.NumberField({
-                                required: true,
-                                nullable: false,
-                                integer: false,
-                                min: 0,
-                                initial: 0,
-                            }),
-                        ),
-                    });
-
-                    return schemas;
-                },
-                {} as Record<string, foundry.data.fields.SchemaField>,
-            ),
-        );
-    }
-
-    private static getCurrencyDenominationSchema(currency: string) {
-        const denominations = CONFIG.COSMERE.currencies[currency].denominations;
-
-        return new foundry.data.fields.SchemaField({
-            id: new foundry.data.fields.StringField({
-                required: true,
-                nullable: false,
-                choices: denominations.primary.map((d) => d.id),
-            }),
-            secondaryId: new foundry.data.fields.StringField({
-                required: false,
-                nullable: false,
-                choices: denominations.secondary?.map((d) => d.id) ?? [],
-            }),
-            amount: new foundry.data.fields.NumberField({
+                types: getDamageDeflectTypesSchema(),
+            },
+        },
+    ),
+    movement: getMovementSchema(),
+    injuries: new DerivedValueField(
+        new foundry.data.fields.NumberField({
+            required: true,
+            nullable: false,
+            integer: true,
+            min: 0,
+            initial: 0,
+        }),
+    ),
+    injuryRollBonus: new foundry.data.fields.NumberField({
+        required: true,
+        nullable: false,
+        integer: true,
+        initial: 0,
+    }),
+    encumbrance: new foundry.data.fields.SchemaField({
+        lift: new DerivedValueField(
+            new foundry.data.fields.NumberField({
                 required: true,
                 nullable: false,
                 integer: true,
                 min: 0,
                 initial: 0,
             }),
-            conversionRate: new DerivedValueField(
-                new foundry.data.fields.NumberField({
-                    required: true,
-                    nullable: false,
-                    integer: false, // Support subdenominations of the "base", e.g. 1 chip = 0.2 marks
-                    min: 0,
-                    initial: 0,
-                }),
-            ),
-            convertedValue: new DerivedValueField(
-                new foundry.data.fields.NumberField({
-                    required: true,
-                    nullable: false,
-                    integer: false,
-                    min: 0,
-                    initial: 0,
-                }),
-            ),
-        });
-    }
-
-    private static getDamageDeflectTypesSchema() {
-        const damageTypes = Object.keys(
-            CONFIG.COSMERE.damageTypes,
-        ) as DamageType[];
-
-        return new foundry.data.fields.SchemaField(
-            damageTypes.reduce(
-                (schema, type) => ({
-                    ...schema,
-                    [type]: new foundry.data.fields.BooleanField({
-                        required: true,
-                        nullable: false,
-                        initial:
-                            !CONFIG.COSMERE.damageTypes[type].ignoreDeflect,
-                    }),
-                }),
-                {} as Record<string, foundry.data.fields.BooleanField>,
-            ),
-            {
+        ),
+        carry: new DerivedValueField(
+            new foundry.data.fields.NumberField({
                 required: true,
-            },
-        );
-    }
+                nullable: false,
+                integer: true,
+                min: 0,
+                initial: 0,
+            }),
+        ),
+    }),
+    expertises: new ExpertisesField({
+        required: true,
+    }),
+    languages: new foundry.data.fields.ArrayField(
+        new foundry.data.fields.StringField(),
+    ),
 
-    private static getImmunitiesSchema() {
-        return new foundry.data.fields.SchemaField(
-            {
-                damage: this.getDamageImmunitiesSchema(),
-                condition: this.getConditionImmunitiesSchema(),
-            },
-            {
+    /**
+     * HTML Fields
+     */
+    biography: new foundry.data.fields.HTMLField({
+        label: 'COSMERE.Actor.Biography.Label',
+        initial: '',
+    }),
+    appearance: new foundry.data.fields.HTMLField({
+        label: 'COSMERE.Actor.Appearance.Label',
+        initial: '',
+    }),
+    notes: new foundry.data.fields.HTMLField({
+        label: 'COSMERE.Actor.Notes.Label',
+        initial: '',
+    }),
+});
+
+function getAttributesSchema() {
+    const attributes = CONFIG.COSMERE.attributes;
+
+    const constructAttributeSchema = () => new foundry.data.fields.SchemaField({
+        value: new foundry.data.fields.NumberField({
+            required: true,
+            nullable: false,
+            integer: true,
+            min: 0,
+            max: 10,
+            initial: 0,
+        }),
+        bonus: new foundry.data.fields.NumberField({
+            required: true,
+            nullable: false,
+            integer: true,
+            initial: 0,
+        }),
+    });
+
+    return new foundry.data.fields.SchemaField(
+        Object.keys(attributes).reduce(
+            (schemas, key) => ({
+                ...schemas,
+                [key]: constructAttributeSchema()
+            }),
+            {} as Record<Attribute, ReturnType<typeof constructAttributeSchema>>,
+        ),
+    );
+}
+
+function getDefensesSchema() {
+    const defenses = CONFIG.COSMERE.attributeGroups;
+
+    const constructDefenseSchema = () => new DerivedValueField(
+        new foundry.data.fields.NumberField({
+            required: true,
+            nullable: false,
+            integer: true,
+            min: 0,
+            initial: 0,
+        }),
+    );
+
+    return new foundry.data.fields.SchemaField(
+        Object.keys(defenses).reduce(
+            (schemas, key) => ({
+                ...schemas,
+                [key]: constructDefenseSchema()
+            }),
+            {} as Record<AttributeGroup, ReturnType<typeof constructDefenseSchema>>,
+        ),
+    );
+}
+
+function getResourcesSchema() {
+    const resources = CONFIG.COSMERE.resources;
+
+    const constructResourceSchema = () => new foundry.data.fields.SchemaField({
+        value: new foundry.data.fields.NumberField({
+            required: true,
+            nullable: false,
+            integer: true,
+            min: 0,
+            initial: 0,
+        }),
+        max: new DerivedValueField(
+            new foundry.data.fields.NumberField({
                 required: true,
-            },
-        );
-    }
+                nullable: false,
+                integer: true,
+                min: 0,
+                initial: 0,
+            }),
+        ),
+        bonus: new foundry.data.fields.NumberField({
+            required: true,
+            nullable: false,
+            integer: true,
+            initial: 0,
+        }),
+    });
 
-    private static getDamageImmunitiesSchema() {
-        const damageTypes = Object.keys(
-            CONFIG.COSMERE.damageTypes,
-        ) as DamageType[];
+    return new foundry.data.fields.SchemaField(
+        Object.keys(resources).reduce(
+            (schemas, key) => ({
+                ...schemas,
+                [key]: constructResourceSchema()
+            }),
+            {} as Record<Resource, ReturnType<typeof constructResourceSchema>>,
+        ),
+    );
+}
 
-        return new foundry.data.fields.SchemaField(
-            damageTypes.reduce(
-                (schema, type) => ({
-                    ...schema,
-                    [type]: new foundry.data.fields.BooleanField({
+function getSkillsSchema() {
+    const skills = CONFIG.COSMERE.skills;
+
+    const constructSkillSchema = (skill: Skill) => new foundry.data.fields.SchemaField({
+        attribute: new foundry.data.fields.StringField({
+            required: true,
+            nullable: false,
+            blank: false,
+            initial: skills[skill].attribute,
+        }),
+        rank: new foundry.data.fields.NumberField({
+            required: true,
+            nullable: false,
+            integer: true,
+            min: 0,
+            max: 5,
+            initial: 0,
+        }),
+        mod: new DerivedValueField(
+            new foundry.data.fields.NumberField({
+                required: true,
+                nullable: false,
+                integer: true,
+                min: 0,
+                initial: 0,
+            }),
+        ),
+
+        // Only present for non-core skills
+        ...(!skills[skill].core
+            ? {
+                unlocked:
+                    new foundry.data.fields.BooleanField({
                         required: true,
                         nullable: false,
                         initial: false,
                     }),
-                }),
-                {} as Record<string, foundry.data.fields.BooleanField>,
-            ),
-            {
+            }
+            : {}),
+    });
+
+    return new foundry.data.fields.SchemaField(
+        (Object.keys(skills) as Skill[]).reduce(
+            (schemas, key) => ({
+                ...schemas,
+                [key]: constructSkillSchema(key)
+            }),
+            {} as Record<Skill, ReturnType<typeof constructSkillSchema>>,
+        ),
+    );
+}
+
+function getCurrenciesSchema() {
+    const currencies = CONFIG.COSMERE.currencies;
+
+    const constructCurrencySchema = (currencyId: string) => new foundry.data.fields.SchemaField({
+        denominations: new foundry.data.fields.ArrayField(
+            getCurrencyDenominationSchema(currencyId),
+        ),
+        total: new DerivedValueField(
+            new foundry.data.fields.NumberField({
                 required: true,
-            },
-        );
-    }
+                nullable: false,
+                integer: false,
+                min: 0,
+                initial: 0,
+            }),
+        ),
+    });
 
-    private static getConditionImmunitiesSchema() {
-        const conditions = Object.keys(CONFIG.COSMERE.statuses) as Status[];
+    const fields = Object.keys(currencies).reduce(
+        (schemas, key) => ({
+            ...schemas,
+            [key]: constructCurrencySchema(key)
+        }),
+        {} as Record<string, ReturnType<typeof constructCurrencySchema>>,
+    );
 
-        return new foundry.data.fields.SchemaField(
-            conditions.reduce(
-                (schema, condition) => ({
-                    ...schema,
-                    [condition]: new foundry.data.fields.BooleanField({
-                        required: true,
-                        nullable: false,
-                        initial: false,
-                    }),
-                }),
-                {} as Record<string, foundry.data.fields.BooleanField>,
-            ),
-            {
+    return new foundry.data.fields.SchemaField<
+        typeof fields,
+        foundry.data.fields.SchemaField.Options<typeof fields>,
+        Record<string, foundry.data.fields.SchemaField.InitializedData<InferSchema<(typeof fields)[string]>>> | null | undefined,
+        Record<string, foundry.data.fields.SchemaField.InitializedData<InferSchema<(typeof fields)[string]>>>
+    >(fields);
+}
+
+function getCurrencyDenominationSchema(currency: string) {
+    const denominations = CONFIG.COSMERE.currencies[currency].denominations;
+
+    return new foundry.data.fields.SchemaField({
+        id: new foundry.data.fields.StringField({
+            required: true,
+            nullable: false,
+            choices: denominations.primary.map((d) => d.id),
+        }),
+        secondaryId: new foundry.data.fields.StringField({
+            required: false,
+            nullable: false,
+            choices: denominations.secondary?.map((d) => d.id) ?? [],
+        }),
+        amount: new foundry.data.fields.NumberField({
+            required: true,
+            nullable: false,
+            integer: true,
+            min: 0,
+            initial: 0,
+        }),
+        conversionRate: new DerivedValueField(
+            new foundry.data.fields.NumberField({
                 required: true,
-            },
-        );
-    }
+                nullable: false,
+                integer: false, // Support subdenominations of the "base", e.g. 1 chip = 0.2 marks
+                min: 0,
+                initial: 0,
+            }),
+        ),
+        convertedValue: new DerivedValueField(
+            new foundry.data.fields.NumberField({
+                required: true,
+                nullable: false,
+                integer: false,
+                min: 0,
+                initial: 0,
+            }),
+        ),
+    });
+}
 
-    private static getMovementSchema() {
-        const movementTypeConfigs = CONFIG.COSMERE.movement.types;
+function getDamageDeflectTypesSchema() {
+    const damageTypes = Object.keys(
+        CONFIG.COSMERE.damageTypes,
+    ) as DamageType[];
 
-        return new foundry.data.fields.SchemaField(
-            Object.entries(movementTypeConfigs).reduce(
-                (schema, [type, config]) => ({
-                    ...schema,
-                    [type]: new foundry.data.fields.SchemaField({
-                        rate: new DerivedValueField(
-                            new foundry.data.fields.NumberField({
-                                required: true,
-                                nullable: false,
-                                integer: true,
-                                min: 0,
-                                initial: 0,
-                            }),
-                        ),
-                    }),
-                }),
-                {} as Record<string, foundry.data.fields.SchemaField>,
-            ),
-        );
+    const constructDamageTypeDeflectSchema = (type: DamageType) => new foundry.data.fields.BooleanField({
+        required: true,
+        nullable: false,
+        initial:
+            !CONFIG.COSMERE.damageTypes[type].ignoreDeflect,
+    });
+
+    return new foundry.data.fields.SchemaField(
+        damageTypes.reduce(
+            (schema, type) => ({
+                ...schema,
+                [type]: constructDamageTypeDeflectSchema
+            }),
+            {} as Record<DamageType, ReturnType<typeof constructDamageTypeDeflectSchema>>,
+        ),
+        {
+            required: true,
+        },
+    );
+}
+
+function getImmunitiesSchema() {
+    return new foundry.data.fields.SchemaField(
+        {
+            damage: getDamageImmunitiesSchema(),
+            condition: getConditionImmunitiesSchema(),
+        },
+        {
+            required: true,
+        },
+    );
+}
+
+function getDamageImmunitiesSchema() {
+    const damageTypes = Object.keys(
+        CONFIG.COSMERE.damageTypes,
+    ) as DamageType[];
+
+    const constructDamageTypeSchema = () => new foundry.data.fields.BooleanField({
+        required: true,
+        nullable: false,
+        initial: false,
+    });
+
+    return new foundry.data.fields.SchemaField(
+        damageTypes.reduce(
+            (schema, type) => ({
+                ...schema,
+                [type]: constructDamageTypeSchema(),
+            }),
+            {} as Record<DamageType, ReturnType<typeof constructDamageTypeSchema>>,
+        ),
+        {
+            required: true,
+        },
+    );
+}
+
+function getConditionImmunitiesSchema() {
+    const conditions = Object.keys(CONFIG.COSMERE.statuses) as Status[];
+
+    const constructConditionSchema = () => new foundry.data.fields.BooleanField({
+        required: true,
+        nullable: false,
+        initial: false,
+    });
+
+    return new foundry.data.fields.SchemaField(
+        conditions.reduce(
+            (schema, condition) => ({
+                ...schema,
+                [condition]: constructConditionSchema(),
+            }),
+            {} as Record<Status, ReturnType<typeof constructConditionSchema>>,
+        ),
+        {
+            required: true,
+        },
+    );
+}
+
+function getMovementSchema() {
+    const movementTypeConfigs = CONFIG.COSMERE.movement.types;
+
+    const constructMovementTypeSchema = () => new foundry.data.fields.SchemaField({
+        rate: new DerivedValueField(
+            new foundry.data.fields.NumberField({
+                required: true,
+                nullable: false,
+                integer: true,
+                min: 0,
+                initial: 0,
+            }),
+        ),
+    });
+
+    return new foundry.data.fields.SchemaField(
+        Object.entries(movementTypeConfigs).reduce(
+            (schema, [type, config]) => ({
+                ...schema,
+                [type]: constructMovementTypeSchema(),
+            }),
+            {} as Record<MovementType, ReturnType<typeof constructMovementTypeSchema>>,
+        ),
+    );
+}
+
+export type CommonActorDataSchema = ReturnType<typeof SCHEMA>;
+
+export class CommonActorDataModel<
+    TSchema extends CommonActorDataSchema,
+    TBaseData extends AnyObject = EmptyObject,
+    TDerivedData extends AnyObject = EmptyObject
+> extends foundry.abstract.TypeDataModel<TSchema, Actor<'base'>, TBaseData, TDerivedData> {
+    static defineSchema() {
+        return SCHEMA();
     }
 
     public prepareDerivedData(): void {
@@ -615,8 +640,7 @@ export class CommonActorDataModel<
 
         const money = this.parent.items.filter(
             (item) =>
-                item.type === ItemType.Loot &&
-                (item as LootItem).system.isMoney,
+                item.type === ItemType.Loot && item.system.isMoney,
         ) as LootItem[];
 
         // Derive currency conversion values
@@ -734,16 +758,16 @@ export class CommonActorDataModel<
             if (armor) {
                 Object.keys(armor.system.deflects).forEach(
                     (type) =>
-                        (this.deflect.types![type as DamageType] =
-                            armor.system.deflects[type as DamageType].active),
+                    (this.deflect.types![type as DamageType] =
+                        armor.system.deflects[type as DamageType].active),
                 );
             } else {
                 Object.keys(CONFIG.COSMERE.damageTypes).forEach(
                     (type) =>
-                        (this.deflect.types![type as DamageType] = !(
-                            CONFIG.COSMERE.damageTypes[type as DamageType]
-                                .ignoreDeflect ?? false
-                        )),
+                    (this.deflect.types![type as DamageType] = !(
+                        CONFIG.COSMERE.damageTypes[type as DamageType]
+                            .ignoreDeflect ?? false
+                    )),
                 );
             }
 

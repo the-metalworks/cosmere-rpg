@@ -1,4 +1,9 @@
-import { ConstructorOf, EmptyObject } from '@system/types/utils';
+import { ConstructorOf, EmptyObject, AnyObject, Merge } from '@system/types/utils';
+
+import {
+    InferInitializedType,
+    DataSchemaInitializedType
+} from '../types';
 
 // NOTE: Specifically use a namespace here to merge with interface declaration
 export namespace Derived {
@@ -13,17 +18,13 @@ export namespace Derived {
     };
 }
 
-export interface DerivedValueFieldOptions
-    extends foundry.data.fields.DataFieldOptions {
-    additionalFields?: foundry.data.fields.DataSchema;
-}
-
 /**
  * Type for dealing with derived values.
  * Provides standard functionality for manual overrides
  */
 export type Derived<
     T extends number | string | boolean = number | string | boolean,
+    TAdditionalFields extends AnyObject = {},
 > = {
     /**
      * The final value.
@@ -54,74 +55,105 @@ export type Derived<
     mode: Derived.Mode;
 } & (T extends number
     ? {
-          /**
-           * The final value before the bonus is added.
-           * This is either the derived value or the override value, depending on the `useOverride` flag.
-           */
-          readonly base: number;
+        /**
+         * The final value before the bonus is added.
+         * This is either the derived value or the override value, depending on the `useOverride` flag.
+         */
+        readonly base: number;
 
-          /**
-           * Additional bonus to add to the value
-           */
-          bonus: number;
-      }
-    : EmptyObject);
+        /**
+         * Additional bonus to add to the value
+         */
+        bonus: number;
+    }
+    : EmptyObject) & TAdditionalFields;
+
+type NullableElementField<
+    ElementField extends
+    | foundry.data.fields.NumberField<{ nullable: false, required: true }>
+    | foundry.data.fields.StringField<{ nullable: false, required: true }>
+> = ElementField extends foundry.data.fields.NumberField
+    ? foundry.data.fields.NumberField<{ required: false, nullable: true }>
+    : foundry.data.fields.StringField<{ required: false, nullable: true }>;
+
+function SCHEMA<
+    ElementField extends
+    | foundry.data.fields.NumberField<{ nullable: false, required: true }>
+    | foundry.data.fields.StringField<{ nullable: false, required: true }>,
+    TOptions extends DerivedValueField.Options<ElementField, foundry.data.fields.DataSchema>
+>(element: ElementField, options: TOptions) {
+    return {
+        ...options.additionalFields,
+
+        derived: element,
+        override: new (Object.getPrototypeOf(element) as { constructor: ConstructorOf<NullableElementField<ElementField>> })
+            .constructor({
+                ...element.options,
+                initial: null,
+                required: false,
+                nullable: true,
+            }),
+        useOverride: new foundry.data.fields.BooleanField({
+            required: true,
+            nullable: false,
+            initial: false,
+        }),
+
+        ...(element instanceof foundry.data.fields.NumberField
+            ? {
+                bonus: new foundry.data.fields.NumberField({
+                    required: true,
+                    nullable: false,
+                    initial: 0,
+                }),
+            }
+            : {}),
+    }
+}
+
+export type DerivedValueFieldSchema<
+    ElementField extends
+    | foundry.data.fields.NumberField<{ nullable: false, required: true }>
+    | foundry.data.fields.StringField<{ nullable: false, required: true }>,
+    TOptions extends DerivedValueField.Options<ElementField, foundry.data.fields.DataSchema>
+> = ReturnType<typeof SCHEMA<ElementField, TOptions>>;
 
 export class DerivedValueField<
     ElementField extends
-        | foundry.data.fields.NumberField
-        | foundry.data.fields.StringField,
-> extends foundry.data.fields.SchemaField {
+    | foundry.data.fields.NumberField<{ nullable: false, required: true }>
+    | foundry.data.fields.StringField<{ nullable: false, required: true }>,
+    TOptions extends DerivedValueField.Options<ElementField, foundry.data.fields.DataSchema>,
+    TAdditionalFieldsSchema extends foundry.data.fields.DataSchema = TOptions extends DerivedValueField.Options<ElementField, infer U> ? U : never
+> extends foundry.data.fields.SchemaField<
+    DerivedValueFieldSchema<ElementField, TOptions>,
+    TOptions,
+    DerivedValueField.AssignmentType<ElementField, TAdditionalFieldsSchema>,
+    DerivedValueField.InitializedType<ElementField, TAdditionalFieldsSchema>,
+    DerivedValueField.PersistedType<ElementField, TAdditionalFieldsSchema>
+> {
     constructor(
         element: ElementField,
-        options?: DerivedValueFieldOptions,
-        context?: foundry.data.fields.DataFieldContext,
+        options?: TOptions,
+        context?: foundry.data.fields.DataField.ConstructionContext,
     ) {
         // Update element options
         element.options.required = true;
 
         super(
-            {
-                ...options?.additionalFields,
-
-                derived: element,
-                override: new ((Object.getPrototypeOf(element) as object)
-                    .constructor as ConstructorOf<ElementField>)({
-                    ...element.options,
-                    initial: null,
-                    required: false,
-                    nullable: true,
-                }),
-                useOverride: new foundry.data.fields.BooleanField({
-                    required: true,
-                    nullable: false,
-                    initial: false,
-                }),
-
-                ...(element instanceof foundry.data.fields.NumberField
-                    ? {
-                          bonus: new foundry.data.fields.NumberField({
-                              required: true,
-                              nullable: false,
-                              initial: 0,
-                          }),
-                      }
-                    : {}),
-            },
+            SCHEMA(element, options ?? {}),
             options,
             context,
         );
     }
 
     public override initialize(
-        value: Omit<Derived, 'value' | 'base'>,
-        model: object,
-        options?: object,
+        value: DerivedValueField.PersistedType<ElementField, TAdditionalFieldsSchema>,
+        model: foundry.abstract.DataModel.Any,
+        options?: foundry.data.fields.DataField.InitializeOptions,
     ) {
-        value = super.initialize(value, model, options) as Omit<
-            Derived,
-            'value' | 'base'
-        >;
+        const superInitialized = super.initialize(value, model, options);
+        value = typeof superInitialized === 'function' ?
+            superInitialized() ?? value : superInitialized;
 
         if (!Object.hasOwn(value, 'value')) {
             Object.defineProperties(value, {
@@ -154,6 +186,38 @@ export class DerivedValueField<
             });
         }
 
-        return value;
+        return value as DerivedValueField.InitializedType<ElementField, TAdditionalFieldsSchema>;
+    }
+}
+
+export namespace DerivedValueField {
+    export type AssignmentType<
+        ElementField extends
+        | foundry.data.fields.NumberField<{ nullable: false, required: true }>
+        | foundry.data.fields.StringField<{ nullable: false, required: true }>,
+        TAdditionalFieldsSchema extends foundry.data.fields.DataSchema,
+    > = Derived<InferInitializedType<ElementField>, foundry.data.fields.SchemaField.InitializedData<TAdditionalFieldsSchema>> | null | undefined;
+
+    export type InitializedType<
+        ElementField extends
+        | foundry.data.fields.NumberField<{ nullable: false, required: true }>
+        | foundry.data.fields.StringField<{ nullable: false, required: true }>,
+        TAdditionalFieldsSchema extends foundry.data.fields.DataSchema,
+    > = Derived<InferInitializedType<ElementField>, foundry.data.fields.SchemaField.InitializedData<TAdditionalFieldsSchema>>;
+
+    export type PersistedType<
+        ElementField extends
+        | foundry.data.fields.NumberField<{ nullable: false, required: true }>
+        | foundry.data.fields.StringField<{ nullable: false, required: true }>,
+        TAdditionalFieldsSchema extends foundry.data.fields.DataSchema,
+    > = Omit<Derived<InferInitializedType<ElementField>, foundry.data.fields.SchemaField.InitializedData<TAdditionalFieldsSchema>>, 'value' | 'base'>;
+
+    export interface Options<
+        ElementField extends
+        | foundry.data.fields.NumberField<{ nullable: false, required: true }>
+        | foundry.data.fields.StringField<{ nullable: false, required: true }>,
+        TAdditionalFieldsSchema extends foundry.data.fields.DataSchema
+    > extends foundry.data.fields.DataField.Options<InitializedType<ElementField, TAdditionalFieldsSchema>> {
+        additionalFields?: TAdditionalFieldsSchema;
     }
 }
