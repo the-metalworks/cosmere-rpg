@@ -247,7 +247,7 @@ const ACTIVATION_SCHEMA = {
 
 type ActivationDataSchema = typeof ACTIVATION_SCHEMA;
 type DynamicActivationDataSchema = ReturnType<ReturnType<typeof getActivationDataModelCls>['defineSchema']>;
-export interface ActivatableItemDataSchema {
+export type ActivatableItemDataSchema = {
     activation: foundry.data.fields.SchemaField<DynamicActivationDataSchema>
 }
 export type ActivatableItemData = foundry.data.fields.SchemaField.InitializedData<ActivatableItemDataSchema>;

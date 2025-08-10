@@ -226,7 +226,7 @@ export class RecordCollection<T> implements Collection<T> {
     public toJSON() {
         return Array.from(this.entries()).reduce((acc, [key, value]) => {
             if (value && typeof value === 'object' && 'toJSON' in value) {
-                value = (value).toJSON();
+                value = (value as { toJSON: () => T }).toJSON();
             }
             return { ...acc, [key]: value };
         }, {} as any);

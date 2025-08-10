@@ -10,11 +10,12 @@ import {
     ItemType,
     DamageType,
     Status,
+    ActorType,
 } from '@system/types/cosmere';
 import { CosmereActor } from '@system/documents/actor';
 import { ArmorItem, LootItem } from '@system/documents';
 
-import { CosmereDocument, AnyObject, EmptyObject } from '@/system/types/utils';
+import { CosmereDocument, AnyObject, EmptyObject } from '@system/types/utils';
 import { InferSchema } from '../types';
 
 // Fields
@@ -607,13 +608,15 @@ export class CommonActorDataModel<
     TSchema extends CommonActorDataSchema,
     TBaseData extends AnyObject = EmptyObject,
     TDerivedData extends AnyObject = EmptyObject
-> extends foundry.abstract.TypeDataModel<TSchema, Actor<'base'>, TBaseData, TDerivedData> {
+> extends foundry.abstract.TypeDataModel<TSchema, Actor, TBaseData, TDerivedData> {
     static defineSchema() {
         return SCHEMA();
     }
 
     public prepareDerivedData(): void {
         super.prepareDerivedData();
+
+        const actor = this.parent as Actor;
 
         // Derive non-core skill unlocks
         (Object.keys(this.skills) as Skill[]).forEach((skill) => {
@@ -633,8 +636,10 @@ export class CommonActorDataModel<
             .filter((type) => type !== MovementType.Walk)
             .forEach((type) => (this.movement[type].rate.useOverride = true));
 
+        
+
         // Injury count
-        this.injuries.derived = this.parent.items.filter(
+        this.injuries.derived = actor.items.filter(
             (item) => item.type === ItemType.Injury,
         ).length;
 

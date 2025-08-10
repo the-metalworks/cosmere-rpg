@@ -1,6 +1,6 @@
 // Types
 import { Resource } from '@system/types/cosmere';
-import { DeepPartial, AnyObject } from '@system/types/utils';
+import { DeepPartial, AnyObject, EmptyObject } from '@system/types/utils';
 
 import { CommonActorDataModel, CommonActorDataSchema, AttributeData } from './common';
 
@@ -9,36 +9,6 @@ import * as Advancement from '@system/utils/advancement';
 
 // Fields
 import { DerivedValueField, Derived, MappingField } from '../fields';
-
-interface GoalData {
-    text: string;
-    level: number;
-}
-
-interface ConnectionData {
-    name: string;
-    description: string;
-}
-
-export interface CharacterActorData extends CommonActorData {
-    /* --- Advancement --- */
-    level: number;
-
-    /**
-     * Derived value for the maximum rank a skill can be.
-     * Based on the configured advancement rules.
-     */
-    maxSkillRank: number;
-
-    /* --- Derived statistics --- */
-    recovery: { die: Derived<string> };
-
-    /* --- Goals, Connections, Purpose, and Obstacle --- */
-    purpose: string;
-    obstacle: string;
-    goals?: GoalData[];
-    connections: ConnectionData[];
-}
 
 const SCHEMA = {
     /* --- Advancement --- */
@@ -51,13 +21,15 @@ const SCHEMA = {
         label: 'COSMERE.Actor.Level.Label',
     }),
 
+    /* --- Derived statistics --- */
     recovery: new foundry.data.fields.SchemaField({
         die: new DerivedValueField(
             new foundry.data.fields.StringField({
                 required: true,
                 blank: false,
                 initial: 'd4',
-                choices: RECOVERY_DICE,
+                choices: () => RECOVERY_DICE,
+                nullable: false,
             }),
         ),
     }),
@@ -77,39 +49,21 @@ export type CharacterActorDataSchema =
     & typeof SCHEMA
     & CommonActorDataSchema;
 
-export interface CharacterActorDerivedData {
+export type CharacterActorDerivedData = {
     /**
      * Derived value for the maximum rank a skill can be.
      * Based on the configured advancement rules.
      */
     maxSkillRank: number;
-}
+};
 
-export class CharacterActorDataModel extends CommonActorDataModel<CharacterActorDataSchema> {
+export class CharacterActorDataModel extends CommonActorDataModel<
+    CharacterActorDataSchema,
+    EmptyObject,
+    CharacterActorDerivedData
+> {
     public static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), SCHEMA);
-
-
-        //     maxSkillRank: new foundry.data.fields.NumberField({
-        //         required: true,
-        //         nullable: false,
-        //         integer: true,
-        //         initial: 2,
-        //         max: 5,
-        //     }),
-
-        //     /* --- Derived statistics --- */
-        //     recovery: new foundry.data.fields.SchemaField({
-        //         die: new DerivedValueField(
-        //             new foundry.data.fields.StringField({
-        //                 required: true,
-        //                 blank: false,
-        //                 initial: 'd4',
-        //                 choices: RECOVERY_DICE,
-        //             }),
-        //         ),
-        //     }),
-        // });
     }
 
     public prepareDerivedData() {

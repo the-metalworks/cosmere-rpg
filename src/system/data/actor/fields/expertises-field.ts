@@ -4,104 +4,41 @@ import {
     CollectionFieldOptions,
 } from '../../fields/collection';
 
-export interface ExpertiseData {
-    /**
-     * The unique identifier for the expertise
-     *
-     * @example "hammer"
-     */
-    id: string;
+const SCHEMA = {
+    id: new foundry.data.fields.StringField({
+        required: true,
+        nullable: false,
+        blank: false,
+    }),
+    type: new foundry.data.fields.StringField({
+        required: true,
+        nullable: false,
+        blank: false,
+        initial: Object.keys(CONFIG.COSMERE.expertiseTypes)[0] as ExpertiseType,
+        choices: Object.entries(CONFIG.COSMERE.expertiseTypes)
+            .map(([typeId, config]) => [typeId, config.label])
+            .reduce(
+                (acc, [key, value]) => ({
+                    ...acc,
+                    [key]: value,
+                }),
+                {} as Record<ExpertiseType, string>,
+            ),
+    }),
+    label: new foundry.data.fields.StringField({
+        required: false,
+        nullable: true,
+        blank: false,
+    }),
+    locked: new foundry.data.fields.BooleanField(),
+};
 
-    /**
-     * The type of expertise
-     *
-     * @example "weapon"
-     */
-    type: ExpertiseType;
+type ExpertiseDataSchema = typeof SCHEMA;
+type ExpertiseData = foundry.data.fields.SchemaField.InitializedData<ExpertiseDataSchema>;
 
-    /**
-     * Optional label. Used only for custom expertises.
-     * Standard expertises will use the label from the config.
-     */
-    label?: string | null;
-
-    /**
-     * Whether or not the status of this expertise can be edited.
-     */
-    locked?: boolean;
-}
-
-export class ExpertisesField extends CollectionField<
-    foundry.data.fields.SchemaField,
-    ExpertiseData
-> {
-    constructor(options: Omit<CollectionFieldOptions<ExpertiseData>, 'key'>) {
-        super(
-            new ExpertiseDataField({
-                label: 'EXPERTISE',
-            }),
-            {
-                ...options,
-                key: (item: Partial<ExpertiseData>) => Expertise.getKey(item),
-            },
-        );
-    }
-}
-
-export class ExpertiseDataField extends foundry.data.fields.SchemaField {
-    constructor(
-        options?: foundry.data.fields.DataFieldOptions,
-        context?: foundry.data.fields.DataFieldContext,
-    ) {
-        super(Expertise.defineSchema(), options, context);
-    }
-
-    protected override _cast(value: unknown) {
-        return typeof value === 'object' ? value : {};
-    }
-
-    public override initialize(
-        value: ExpertiseData,
-        model: object,
-        options?: object,
-    ) {
-        return new Expertise(foundry.utils.deepClone(value), {
-            parent: model,
-            ...options,
-        });
-    }
-}
-
-export class Expertise extends foundry.abstract.DataModel<ExpertiseData> {
+export class Expertise extends foundry.abstract.DataModel<ExpertiseDataSchema, foundry.abstract.Document.Any> {
     static defineSchema() {
-        return {
-            id: new foundry.data.fields.StringField({
-                required: true,
-                nullable: false,
-                blank: false,
-            }),
-            type: new foundry.data.fields.StringField({
-                required: true,
-                nullable: false,
-                blank: false,
-                initial: Object.keys(CONFIG.COSMERE.expertiseTypes)[0],
-                choices: Object.entries(CONFIG.COSMERE.expertiseTypes)
-                    .map(([typeId, config]) => [typeId, config.label])
-                    .reduce(
-                        (acc, [key, value]) => ({
-                            ...acc,
-                            [key]: value,
-                        }),
-                        {},
-                    ),
-            }),
-            label: new foundry.data.fields.StringField({
-                required: false,
-                nullable: true,
-                blank: false,
-            }),
-            locked: new foundry.data.fields.BooleanField(),
-        };
+        return SCHEMA;
     }
 
     static getKey(expertise: ExpertiseData): string;
@@ -165,5 +102,46 @@ export class Expertise extends foundry.abstract.DataModel<ExpertiseData> {
             },
             configurable: true,
         });
+    }
+}
+
+export class ExpertiseDataField extends foundry.data.fields.SchemaField<
+    ExpertiseDataSchema, 
+    foundry.data.fields.SchemaField.Options<ExpertiseDataSchema>
+> {
+    constructor(
+        options?: foundry.data.fields.SchemaField.Options<ExpertiseDataSchema>,
+        context?: foundry.data.fields.DataField.ConstructionContext,
+    ) {
+        super(Expertise.defineSchema(), options, context);
+    }
+
+    protected override _cast(value: unknown) {
+        return typeof value === 'object' ? value : {};
+    }
+
+    public override initialize(
+        value: ExpertiseData,
+        model: foundry.abstract.Document.Any,
+        options?: object,
+    ) {
+        return new Expertise(foundry.utils.deepClone(value), {
+            parent: model,
+            ...options,
+        });
+    }
+}
+
+export class ExpertisesField extends CollectionField<ExpertiseDataField> {
+    constructor(options: any) {
+        super(
+            new ExpertiseDataField({
+                label: 'EXPERTISE',
+            }),
+            {
+                ...options,
+                key: (item: Partial<ExpertiseData>) => Expertise.getKey(item),
+            },
+        );
     }
 }

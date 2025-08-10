@@ -45,7 +45,7 @@ export type TraitsItemDataSchema = typeof SCHEMA;
 
 type TraitsItemData = foundry.data.fields.SchemaField.InitializedData<TraitsItemDataSchema>;
 
-export interface TraitsItemDerivedData {
+export type TraitsItemDerivedData = {
     readonly traitsArray: (TraitsItemData['traits'][string] & { id: string })[]
 }
 

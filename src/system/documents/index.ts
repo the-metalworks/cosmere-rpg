@@ -22,3 +22,15 @@ export type CosmereDocument =
     | CosmereChatMessage
     | CosmereTokenDocument
     | CosmereActiveEffect;
+
+declare module "@league-of-foundry-developers/foundry-vtt-types/configuration" {
+    interface DocumentClassConfig {
+        Actor: typeof CosmereActor;
+        Item: typeof CosmereItem;
+        Combat: typeof CosmereCombat;
+        Combatant: typeof CosmereCombatant;
+        ChatMessage: typeof CosmereChatMessage;
+        Token: typeof CosmereTokenDocument;
+        ActiveEffect: typeof CosmereActiveEffect;
+    }
+}
