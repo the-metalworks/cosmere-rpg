@@ -37,7 +37,7 @@ export class CosmereCombatTracker extends CombatTracker {
             const newTurn: CosmereTurn = {
                 ...turn,
                 turnSpeed: combatant.turnSpeed,
-                type: combatant.actor.type,
+                type: combatant.actor.typeName,
                 activated: combatant.activated,
                 isBoss: combatant.isBoss,
                 bossFastActivated: combatant.bossFastActivated,

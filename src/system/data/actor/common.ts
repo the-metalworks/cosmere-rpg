@@ -608,7 +608,7 @@ export class CommonActorDataModel<
     TSchema extends CommonActorDataSchema,
     TBaseData extends AnyObject = EmptyObject,
     TDerivedData extends AnyObject = EmptyObject
-> extends foundry.abstract.TypeDataModel<TSchema, Actor, TBaseData, TDerivedData> {
+> extends foundry.abstract.TypeDataModel<TSchema, CosmereActor, TBaseData, TDerivedData> {
     static defineSchema() {
         return SCHEMA();
     }

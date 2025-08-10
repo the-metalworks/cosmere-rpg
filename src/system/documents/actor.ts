@@ -152,15 +152,10 @@ export type CosmereActorRollData<T extends CommonActorData = CommonActorData> =
  */
 const SINGLETON_ITEM_TYPES = [ItemType.Ancestry];
 
-export class CosmereActor<
-    T extends CommonActorDataModel = CommonActorDataModel,
-    SystemType extends CommonActorData = T extends CommonActorDataModel<infer S>
-        ? S
-        : never,
-> extends Actor<T, CosmereItem, CosmereActiveEffect> {
+export class CosmereActor<Sub extends Actor.SubType = Actor.SubType> extends Actor<Sub> {
     // Redeclare `actor.type` to specifically be of `ActorType`.
     // This way we avoid casting everytime we want to check/use its type
-    declare type: ActorType;
+    declare typeName: ActorType; // TODO: see if there's now an built-in field we can check (actor.subtype for example?)
 
     /* --- Accessors --- */
 
@@ -259,11 +254,11 @@ export class CosmereActor<
     /* --- Type Guards --- */
 
     public isCharacter(): this is CharacterActor {
-        return this.type === ActorType.Character;
+        return this.typeName === ActorType.Character;
     }
 
     public isAdversary(): this is AdversaryActor {
-        return this.type === ActorType.Adversary;
+        return this.typeName === ActorType.Adversary;
     }
 
     /* --- Lifecycle --- */
