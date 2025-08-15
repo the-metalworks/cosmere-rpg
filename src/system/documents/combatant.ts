@@ -39,7 +39,7 @@ export class CosmereCombatant extends Combatant {
     public get initiative(): number {
         const spd = this.actor.system.attributes.spd;
         let initiative = spd.value + spd.bonus;
-        if (this.actor.typeName === ActorType.Character) initiative += 500;
+        if (this.actor.isCharacter()) initiative += 500;
         if (this.turnSpeed === TurnSpeed.Fast) initiative += 1000;
         return initiative;
     }
