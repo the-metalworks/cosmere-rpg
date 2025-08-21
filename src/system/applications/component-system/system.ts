@@ -288,11 +288,21 @@ export function deregisterApplicationInstance(
     console.log('Deregistering application instance:', application.id);
 
     // Destroy all components that belonged to this application
-    Object.keys(componentRegistry).forEach((componentRef) => {
+    //
+    // Because we're deleting child references recursively, the remaining
+    // registry keys are NOT stable, and may have changed during the root call
+    // to destroyComponent.
+    // We need to check again whenever we've destroyed a potential parent component.
+    for (
+        let componentsToDestroy = Object.keys(componentRegistry);
+        componentsToDestroy.length > 0;
+        componentsToDestroy = Object.keys(componentRegistry)
+    ) {
+        const componentRef = componentsToDestroy[0];
         if (componentRef.startsWith(application.id)) {
             destroyComponent(componentRef);
         }
-    });
+    }
 
     // Remove application instance
     delete applicationInstances[application.id];
