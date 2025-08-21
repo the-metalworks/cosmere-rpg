@@ -288,11 +288,12 @@ export function deregisterApplicationInstance(
     console.log('Deregistering application instance:', application.id);
 
     // Destroy all components that belonged to this application
-    Object.keys(componentRegistry).forEach((componentRef) => {
-        if (componentRef.startsWith(application.id)) {
-            destroyComponent(componentRef);
-        }
-    });
+    Object.keys(componentRegistry)
+        .filter((componentRef) => 
+            componentRef.startsWith(application.id) && 
+            !componentRegistry[componentRef]?.parentRef // no parent, only top level components
+        )
+        .forEach((componentRef) => destroyComponent(componentRef));
 
     // Remove application instance
     delete applicationInstances[application.id];
