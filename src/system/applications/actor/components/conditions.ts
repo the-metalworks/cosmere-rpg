@@ -61,7 +61,9 @@ export class ActorConditionsComponent extends HandlebarsApplicationComponent<
             if (newStacks > 0) {
                 // Update the effect
                 await effect.update({
-                    'system.stacks': newStacks,
+                    system: {
+                        stacks: newStacks,
+                    }
                 });
             } else {
                 await this.application.actor.toggleStatusEffect(condition);

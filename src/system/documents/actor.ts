@@ -56,8 +56,8 @@ import { containsExpertise } from '@system/utils/actor';
 import { SYSTEM_ID } from '@system/constants';
 import { HOOKS } from '@system/constants/hooks';
 
-export type CharacterActor = CosmereActor<CharacterActorDataModel>;
-export type AdversaryActor = CosmereActor<AdversaryActorDataModel>;
+export type CharacterActor = CosmereActor<ActorType.Character>;
+export type AdversaryActor = CosmereActor<ActorType.Adversary>;
 
 interface RollSkillOptions {
     /**
@@ -152,19 +152,12 @@ export type CosmereActorRollData<T extends CommonActorData = CommonActorData> =
  */
 const SINGLETON_ITEM_TYPES = [ItemType.Ancestry];
 
-abstract class _Actor<
-    TSystem extends foundry.abstract.TypeDataModel.Any
-> extends Actor {
-    // @ts-ignore
-    declare type: ActorType;
-    declare system: TSystem;
+abstract class _Actor<out SubType extends Actor.SubType> extends Actor<SubType> {
     // @ts-ignore
     declare items: foundry.abstract.EmbeddedCollection<CosmereItem, CosmereActor>;
 }
 
-export class CosmereActor<
-    TSystem extends CommonActorDataModel = CommonActorDataModel
-> extends _Actor<TSystem> {
+export class CosmereActor<out SubType extends Actor.SubType = Actor.SubType> extends _Actor<SubType> {
     /* --- Accessors --- */
 
     public get conditions(): Set<Status> {
