@@ -1,26 +1,26 @@
-import { ActorType, AdversaryRole, TurnSpeed } from '@system/types/cosmere';
+import { AdversaryRole, TurnSpeed } from '@system/types/cosmere';
 
 // Documents
-import { AdversaryActor, CosmereActor } from './actor';
+import { CosmereActor } from './actor';
 
 // Constants
 import { SYSTEM_ID } from '@system/constants';
 
-let _schema: foundry.data.fields.SchemaField | undefined;
+let _schema: foundry.data.fields.SchemaField<CosmereCombatant.Schema> | undefined;
 
 export class CosmereCombatant extends Combatant {
     public static defineSchema() {
-        const schema = super.defineSchema();
+        const schema = super.defineSchema() as CosmereCombatant.Schema & Partial<Pick<Combatant.Schema, 'initiative'>>;
         // Remove the initiative field from the schema as we handle it using a getter
         delete schema.initiative;
-        return schema;
+        return schema as Combatant.Schema;
     }
 
     public static get schema() {
         if (!_schema) {
             _schema = new foundry.data.fields.SchemaField(this.defineSchema());
         }
-        return _schema;
+        return _schema as foundry.data.fields.SchemaField<Combatant.Schema>;
     }
 
     /* --- Accessors --- */
@@ -86,10 +86,32 @@ export class CosmereCombatant extends Combatant {
 
     public async resetActivation() {
         await this.update({
-            [`flags.${SYSTEM_ID}`]: {
-                activated: false,
-                bossFastActivated: false,
-            },
+            flags: {
+                [SYSTEM_ID]: {
+                    activated: false,
+                    bossFastActivated: false,
+                }
+            }
         });
+    }
+}
+
+export namespace CosmereCombatant {
+    export interface Schema extends Omit<Combatant.Schema, 'initiative'> {}
+}
+
+declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
+    interface ConfiguredCombatant<SubType extends Combatant.SubType> {
+        document: CosmereCombatant;
+    }
+
+    interface FlagConfig {
+        Combatant: {
+            [SYSTEM_ID]: {
+                turnSpeed: TurnSpeed;
+                bossFastActivated: boolean;
+                activated: boolean;
+            }
+        }
     }
 }

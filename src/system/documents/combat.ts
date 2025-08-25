@@ -5,7 +5,7 @@ import { CosmereCombatant } from './combatant';
 // Constants
 import { SYSTEM_ID } from '@system/constants';
 
-export class CosmereCombat extends Combat<CosmereCombatant> {
+export class CosmereCombat extends Combat {
     /**
      * Sets all defeated combatants activation status to true (already activated),
      * and all others to false (hasn't activated yet)
@@ -60,5 +60,11 @@ export class CosmereCombat extends Combat<CosmereCombatant> {
 
         // Return the array of prepared turns
         return (this.turns = turns);
+    }
+}
+
+declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
+    interface ConfiguredCombat<SubType extends Combat.SubType> {
+        document: CosmereCombat;
     }
 }
