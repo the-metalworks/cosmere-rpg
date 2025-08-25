@@ -73,7 +73,7 @@ export function IdItemMixin<
                 super.prepareDerivedData();
 
                 if (this.id === '<id>' && options.initialFromName) {
-                    this.id = this.parent.name
+                    this.id = this.parent.name!
                         .toLowerCase()
                         .replace(/[^a-z0-9-_\s]/g, '')
                         .replace(/\s+/g, ' ')

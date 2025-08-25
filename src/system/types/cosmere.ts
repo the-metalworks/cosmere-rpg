@@ -289,7 +289,6 @@ export const enum ItemType {
     Ancestry = 'ancestry',
     Culture = 'culture',
     Path = 'path',
-    Specialty = 'specialty',
     Talent = 'talent',
     Trait = 'trait',
 

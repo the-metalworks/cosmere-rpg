@@ -32,15 +32,17 @@ export interface BaseItemSheetRenderContext {
 }
 
 export type BaseItemSheetConfiguration =
-    foundry.applications.api.DocumentSheetV2.Configuration;
+    foundry.applications.api.DocumentSheetV2.Configuration<CosmereItem>
 
 export interface BaseItemSheetRenderOptions
-    extends foundry.applications.api.DocumentSheetV2.RenderOptions,
-        TabApplicationRenderOptions {}
+    extends TabApplicationRenderOptions {}
 
 export class BaseItemSheet extends TabsApplicationMixin(
     ComponentHandlebarsApplicationMixin(ItemSheetV2),
-)<AnyObject, BaseItemSheetConfiguration, BaseItemSheetRenderOptions> {
+) {
+    // @ts-ignore
+    declare item: CosmereItem;
+
     /**
      * NOTE: Unbound methods is the standard for defining actions and forms
      * within ApplicationV2
@@ -86,10 +88,6 @@ export class BaseItemSheet extends TabsApplicationMixin(
 
     get isUpdatingDescription(): boolean {
         return this.updatingDescription;
-    }
-
-    get item(): CosmereItem {
-        return super.document;
     }
 
     /* --- Form --- */
@@ -346,7 +344,7 @@ export class BaseItemSheet extends TabsApplicationMixin(
         ) {
             desc = game.i18n!.localize(desc);
         }
-        return await TextEditor.enrichHTML(desc, {
+        return await foundry.applications.ux.TextEditor.implementation.enrichHTML(desc, {
             relativeTo: this.document as foundry.abstract.Document.Any,
         });
     }
@@ -354,6 +352,7 @@ export class BaseItemSheet extends TabsApplicationMixin(
     /* --- Actions --- */
 
     private static async editDescription(this: BaseItemSheet, event: Event) {
+        if (!this.item.hasDescription()) return;
         event.stopPropagation();
 
         // Get description element
@@ -362,15 +361,13 @@ export class BaseItemSheet extends TabsApplicationMixin(
         // Get description type
         const proseDescType = descElement.attr('description-type')!;
 
-        const item = this.item as CosmereItem<DescriptionItemData>;
-
         // Gets the description to display based on the type found
         if (proseDescType === 'value') {
-            this.proseDescHtml = item.system.description!.value!;
+            this.proseDescHtml = this.item.system.description!.value!;
         } else if (proseDescType === 'short') {
-            this.proseDescHtml = item.system.description!.short!;
+            this.proseDescHtml = this.item.system.description!.short!;
         } else if (proseDescType === 'chat') {
-            this.proseDescHtml = item.system.description!.chat!;
+            this.proseDescHtml = this.item.system.description!.chat!;
         }
 
         // Gets name for use in prose mirror
@@ -396,6 +393,8 @@ export class BaseItemSheet extends TabsApplicationMixin(
         $(this.element)
             .find('.collapsible .header')
             .on('click', (event) => this.onClickCollapsible(event));
+
+        return Promise.resolve();
     }
 
     /* --- Event handlers --- */

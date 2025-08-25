@@ -11,7 +11,7 @@ import { HandlebarsApplicationComponent } from '@system/applications/component-s
 import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
 
 export class ActorAttributesComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<BaseActorSheet>
+    typeof BaseActorSheet
 > {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_ATTRIBUTES}`;
 

@@ -1,3 +1,4 @@
+import { EmptyObject } from '@system/types/utils';
 import { CosmereItem } from '@system/documents';
 
 interface TypedItemMixinOptions<Type extends string = string> {
@@ -32,15 +33,18 @@ function SCHEMA<Type extends string = string>(options = {} as TypedItemMixinOpti
     }
 }
 
-export type TypedItemDataSchema<Type extends string> = ReturnType<typeof SCHEMA<Type>>;
+export type TypedItemDataSchema<Type extends string = string> = ReturnType<typeof SCHEMA<Type>>;
 export type TypedItemData = foundry.data.fields.SchemaField.InitializedData<TypedItemDataSchema<string>>;
+export type TypedItemDerivedData = {
+    readonly typeLabel: string;
+}
 
 export function TypedItemMixin<
     TParent extends foundry.abstract.Document.Any,
     Type extends string = string
 >(options = {} as TypedItemMixinOptions<Type>) {
     return (base: typeof foundry.abstract.TypeDataModel) => {
-        return class extends base<TypedItemDataSchema<Type>, TParent> {
+        return class extends base<TypedItemDataSchema<Type>, TParent, EmptyObject, TypedItemDerivedData> {
             static defineSchema() {
                 return foundry.utils.mergeObject(super.defineSchema(), SCHEMA(options));
             }

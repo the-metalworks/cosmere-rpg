@@ -14,7 +14,7 @@ interface ConnectionItemState {
 }
 
 export class CharacterConnectionsListComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<BaseActorSheet>
+    typeof BaseActorSheet
 > {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_CONNECTIONS_LIST}`;
 
@@ -187,8 +187,8 @@ export class CharacterConnectionsListComponent extends HandlebarsApplicationComp
 
         // Ensure item state exists for each connection
         connections.forEach((item) => {
-            if (!(item.id in this.connectionItemStates)) {
-                this.connectionItemStates[item.id] = {};
+            if (!(item.id! in this.connectionItemStates)) {
+                this.connectionItemStates[item.id!] = {};
             }
         });
 
@@ -198,9 +198,9 @@ export class CharacterConnectionsListComponent extends HandlebarsApplicationComp
             connections: await Promise.all(
                 connections.map(async (item) => ({
                     ...item,
-                    ...this.connectionItemStates[item.id],
+                    ...this.connectionItemStates[item.id!],
                     id: item.id,
-                    descriptionHTML: await TextEditor.enrichHTML(
+                    descriptionHTML: await foundry.applications.ux.TextEditor.enrichHTML(
                         // NOTE: We use a logical OR here to catch both nullish values and empty string
                          
                         item.system.description?.value || '<p>—</p>',
@@ -242,7 +242,7 @@ export class CharacterConnectionsListComponent extends HandlebarsApplicationComp
 
                 // Update the connection
                 await connection.update({
-                    name: input.val(),
+                    name: input.val() as string,
                 });
 
                 // Render

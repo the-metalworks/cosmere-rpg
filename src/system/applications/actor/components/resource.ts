@@ -18,7 +18,7 @@ type Params = {
 };
 
 export class ActorResourceComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<BaseActorSheet>,
+    typeof BaseActorSheet,
     Params
 > {
     static readonly TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_RESOURCE}`;

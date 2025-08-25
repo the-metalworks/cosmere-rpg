@@ -13,7 +13,7 @@ import { CharacterSheet } from '../../character-sheet';
 const HIDE_COMPLETED_FLAG = 'goals.hide-completed';
 
 export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<CharacterSheet>
+    typeof CharacterSheet
 > {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_GOALS_LIST}`;
 
@@ -105,7 +105,9 @@ export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<
 
         // Update the goal
         await goalItem.update({
-            'system.level': newLevel,
+            system: {
+                level: newLevel,
+            }
         });
 
         // Render
@@ -117,7 +119,7 @@ export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<
     ) {
         // Get current state
         const hideCompletedGoals =
-            this.application.actor.getFlag<boolean>(
+            this.application.actor.getFlag(
                 SYSTEM_ID,
                 HIDE_COMPLETED_FLAG,
             ) ?? false;
@@ -125,8 +127,11 @@ export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<
         // Update
         await this.application.actor.update(
             {
-                [`flags.cosmere-rpg.${HIDE_COMPLETED_FLAG}`]:
-                    !hideCompletedGoals,
+                flags: {
+                    'cosmere-rpg': {
+                        [HIDE_COMPLETED_FLAG]: !hideCompletedGoals,
+                    }
+                }
             },
             { render: false },
         );
@@ -197,7 +202,7 @@ export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<
 
         setTimeout(() => {
             // Edit the goal
-            this.editGoal(goal.id);
+            this.editGoal(goal.id!);
         }, 50);
     }
 
@@ -208,7 +213,7 @@ export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<
         context: BaseActorSheetRenderContext,
     ) {
         const hideCompletedGoals =
-            this.application.actor.getFlag<boolean>(
+            this.application.actor.getFlag(
                 SYSTEM_ID,
                 HIDE_COMPLETED_FLAG,
             ) ?? false;
@@ -255,7 +260,7 @@ export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<
 
                 // Update the connection
                 await goal.update({
-                    name: input.val(),
+                    name: input.val() as string,
                 });
 
                 // Render

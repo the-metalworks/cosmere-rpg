@@ -1,5 +1,6 @@
 import { EquipType, ArmorTraitId, DamageType } from '@system/types/cosmere';
 import { CosmereItem } from '@src/system/documents';
+import { EmptyObject } from '@system/types/utils';
 
 // Mixins
 import { DataModelMixin } from '../mixins';
@@ -14,9 +15,9 @@ import {
     ActivatableItemDataSchema,
 } from './mixins/activatable';
 import { ExpertiseItemMixin, ExpertiseItemDataSchema } from './mixins/expertise';
-import { TraitsItemMixin, TraitsItemDataSchema } from './mixins/traits';
+import { TraitsItemMixin, TraitsItemDataSchema, TraitsItemDerivedData } from './mixins/traits';
 import { DeflectItemMixin, DeflectItemDataSchema } from './mixins/deflect';
-import { PhysicalItemMixin, PhysicalItemDataSchema } from './mixins/physical';
+import { PhysicalItemMixin, PhysicalItemDataSchema, PhysicalItemDerivedData } from './mixins/physical';
 import { EventsItemMixin, EventsItemDataSchema } from './mixins/events';
 import {
     LinkedSkillsMixin,
@@ -40,8 +41,13 @@ export type ArmorItemDataSchema =
     & LinkedSkillsItemDataSchema
     & RelationshipsItemDataSchema;
 
+export type ArmorItemDerivedData = PhysicalItemDerivedData & TraitsItemDerivedData;
+
 export class ArmorItemDataModel extends DataModelMixin<
-    ArmorItemDataSchema
+    ArmorItemDataSchema,
+    foundry.abstract.Document.Any,
+    EmptyObject,
+    ArmorItemDerivedData
 >(
     IdItemMixin({
         initial: 'none',

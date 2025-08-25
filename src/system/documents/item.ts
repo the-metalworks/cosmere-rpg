@@ -11,7 +11,8 @@ import {
     ActionCostType,
 } from '@system/types/cosmere';
 import { CosmereHooks } from '@system/types/hooks';
-import { DeepPartial, Nullable } from '@system/types/utils';
+import { AnyObject, EmptyObject } from '@system/types/utils';
+
 
 // Data model
 import {
@@ -20,7 +21,6 @@ import {
     AncestryItemDataModel,
     CultureItemDataModel,
     PathItemDataModel,
-    SpecialtyItemDataModel,
     TalentItemDataModel,
     ConnectionItemDataModel,
     InjuryItemDataModel,
@@ -29,30 +29,29 @@ import {
     LootItemDataModel,
     EquipmentItemDataModel,
     GoalItemDataModel,
-    GoalItemData,
     PowerItemDataModel,
     TalentTreeItemDataModel,
 } from '@system/data/item';
 
 import {
-    ActivatableItemData,
+    ActivatableItemDataSchema,
     ItemConsumeData,
 } from '@system/data/item/mixins/activatable';
-import { AttackingItemData } from '@system/data/item/mixins/attacking';
-import { DamagingItemData } from '@system/data/item/mixins/damaging';
-import { PhysicalItemData } from '@system/data/item/mixins/physical';
-import { TypedItemData } from '@system/data/item/mixins/typed';
-import { TraitsItemData } from '@system/data/item/mixins/traits';
-import { EquippableItemData } from '@system/data/item/mixins/equippable';
-import { DescriptionItemData } from '@system/data/item/mixins/description';
-import { IdItemData } from '@system/data/item/mixins/id';
-import { ModalityItemData } from '@system/data/item/mixins/modality';
-import { TalentsProviderData } from '@system/data/item/mixins/talents-provider';
-import { EventsItemData } from '@system/data/item/mixins/events';
-import { DeflectItemData } from '@system/data/item/mixins/deflect';
-import { LinkedSkillsItemData } from '@system/data/item/mixins/linked-skills';
+import { AttackingItemDataSchema } from '@system/data/item/mixins/attacking';
+import { DamagingItemDataSchema } from '@system/data/item/mixins/damaging';
+import { PhysicalItemDataSchema, PhysicalItemDerivedData } from '@system/data/item/mixins/physical';
+import { TypedItemDataSchema, TypedItemDerivedData } from '@system/data/item/mixins/typed';
+import { TraitsItemDataSchema } from '@system/data/item/mixins/traits';
+import { EquippableItemDataSchema } from '@system/data/item/mixins/equippable';
+import { DescriptionItemDataSchema } from '@system/data/item/mixins/description';
+import { IdItemDataSchema } from '@system/data/item/mixins/id';
+import { ModalityItemDataSchema } from '@system/data/item/mixins/modality';
+import { TalentsProviderDataSchema } from '@system/data/item/mixins/talents-provider';
+import { EventsItemDataSchema } from '@system/data/item/mixins/events';
+import { DeflectItemDataSchema } from '@system/data/item/mixins/deflect';
+import { LinkedSkillsItemDataSchema } from '@system/data/item/mixins/linked-skills';
 import {
-    RelationshipsItemData,
+    RelationshipsItemDataSchema,
     ItemRelationship,
 } from '@system/data/item/mixins/relationships';
 
@@ -92,9 +91,6 @@ import { ItemConsumeDialog } from '@system/applications/item/dialogs/item-consum
 import { SYSTEM_ID } from '@system/constants';
 import { HOOKS } from '@system/constants/hooks';
 
-// Constants
-const CONSUME_CONFIGURATION_DIALOG_TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ITEM_CONSUME}`;
-
 interface ShowConsumeDialogOptions {
     /**
      * The default state of the consume checkbox in the dialog
@@ -112,21 +108,28 @@ interface ShowConsumeDialogOptions {
     consumeType?: ItemConsumeType;
 }
 
-export interface CosmereItemData<
-    T extends foundry.abstract.DataSchema = foundry.abstract.DataSchema,
-> {
-    name: string;
-    type: ItemType;
-    system?: T;
+// export interface CosmereItemData<
+//     T extends foundry.abstract.DataSchema = foundry.abstract.DataSchema,
+// > {
+//     name: string;
+//     type: ItemType;
+//     system?: T;
+// }
+
+class _Item<
+    TSystem extends foundry.abstract.TypeDataModel.Any
+> extends Item {
+    // @ts-ignore
+    declare system: TSystem;
+    // @ts-ignore
+    declare actor: CosmereActor | null;
+    // @ts-ignore
+    declare sheet: BaseItemSheet | null;
 }
 
 export class CosmereItem<
-    T extends foundry.abstract.DataSchema = foundry.abstract.DataSchema,
-> extends Item<T, CosmereActor> {
-    // Redeclare `item.type` to specifically be of `ItemType`.
-    // This way we avoid casting everytime we want to check its type
-    declare type: ItemType;
-
+    T extends foundry.abstract.TypeDataModel.Any = foundry.abstract.TypeDataModel.Any
+> extends _Item<T> {
     /* --- ItemType type guards --- */
 
     public isWeapon(): this is CosmereItem<WeaponItemDataModel> {
@@ -147,10 +150,6 @@ export class CosmereItem<
 
     public isPath(): this is CosmereItem<PathItemDataModel> {
         return this.type === ItemType.Path;
-    }
-
-    public isSpecialty(): this is CosmereItem<SpecialtyItemDataModel> {
-        return this.type === ItemType.Specialty;
     }
 
     public isTalent(): this is CosmereItem<TalentItemDataModel> {
@@ -189,40 +188,44 @@ export class CosmereItem<
         return this.type === ItemType.TalentTree;
     }
 
+    public isLoot(): this is LootItem {
+        return this.type === ItemType.Loot;
+    }
+
     /* --- Mixin type guards --- */
 
     /**
      * Can this item be activated?
      */
-    public hasActivation(): this is CosmereItem<ActivatableItemData> {
+    public hasActivation(): this is ActivatableItem {
         return 'activation' in this.system;
     }
 
     /**
      * Does this item have an attack?
      */
-    public hasAttack(): this is CosmereItem<AttackingItemData> {
+    public hasAttack(): this is AttackingItem {
         return 'attack' in this.system;
     }
 
     /**
      * Does this item deal damage?
      */
-    public hasDamage(): this is CosmereItem<DamagingItemData> {
+    public hasDamage(): this is DamagingItem {
         return 'damage' in this.system;
     }
 
     /**
      * Is this item physical?
      */
-    public isPhysical(): this is CosmereItem<PhysicalItemData> {
+    public isPhysical(): this is PhysicialItem {
         return 'weight' in this.system && 'price' in this.system;
     }
 
     /**
      * Does this item have a sub-type?
      */
-    public isTyped(): this is CosmereItem<TypedItemData> {
+    public isTyped(): this is TypedItem {
         return 'type' in this.system;
     }
 
@@ -230,42 +233,42 @@ export class CosmereItem<
      * Does this item have traits?
      * Not to be confused adversary traits. (Which are their own item type.)
      */
-    public hasTraits(): this is CosmereItem<TraitsItemData> {
+    public hasTraits(): this is TraitItem {
         return 'traits' in this.system;
     }
 
     /**
      * Does this item have a deflect value?
      */
-    public hasDeflect(): this is CosmereItem<DeflectItemData> {
+    public hasDeflect(): this is DeflectItem {
         return 'deflect' in this.system;
     }
 
     /**
      * Can this item be equipped?
      */
-    public isEquippable(): this is CosmereItem<EquippableItemData> {
+    public isEquippable(): this is EquippableItem {
         return 'equipped' in this.system;
     }
 
     /**
      * Does this item have a description?
      */
-    public hasDescription(): this is CosmereItem<DescriptionItemData> {
+    public hasDescription(): this is DescriptionItem {
         return 'description' in this.system;
     }
 
     /**
      * Does this item have an id in it system?
      */
-    public hasId(): this is CosmereItem<IdItemData> {
+    public hasId(): this is IdItem {
         return 'id' in this.system;
     }
 
     /**
      * Does this item have modality?
      */
-    public hasModality(): this is CosmereItem<ModalityItemData> {
+    public hasModality(): this is ModalityItem {
         return 'modality' in this.system;
     }
 
@@ -279,29 +282,25 @@ export class CosmereItem<
     /**
      * Does this item have events?
      */
-    public hasEvents(): this is CosmereItem<EventsItemData> {
+    public hasEvents(): this is EventsItem {
         return 'events' in this.system;
     }
 
     /**
      * Whether or not this item supports linked skills.
      */
-    public hasLinkedSkills(): this is CosmereItem<LinkedSkillsItemData> {
+    public hasLinkedSkills(): this is LinkedSkillsItem {
         return 'linkedSkills' in this.system;
     }
 
     /**
      * Whether or not this item can have relationships.
      */
-    public hasRelationships(): this is CosmereItem<RelationshipsItemData> {
+    public hasRelationships(): this is RelationshipsItem {
         return 'relationships' in this.system;
     }
 
     /* --- Accessors --- */
-
-    public get isFavorite(): boolean {
-        return this.getFlag(SYSTEM_ID, 'favorites.isFavorite') ?? false;
-    }
 
     /**
      * Checks if the talent item mode is active.
@@ -327,19 +326,17 @@ export class CosmereItem<
         return activeMode === this.system.id;
     }
 
-    public get sheet(): BaseItemSheet | null {
-        return super.sheet as BaseItemSheet | null;
-    }
-
     /* --- Lifecycle --- */
 
     protected override _onClickDocumentLink(event: MouseEvent) {
+        if (!this.sheet) return super._onClickDocumentLink(event);
+
         const target = event.currentTarget as HTMLElement;
-        return this.sheet?.render(true, { tab: target.dataset.tab });
+        return this.sheet.render({ tab: target.dataset.tab });
     }
 
     protected override _buildEmbedHTML(
-        config: DocumentHTMLEmbedConfig,
+        config: TextEditor.DocumentHTMLEmbedConfig,
         options?: TextEditor.EnrichmentOptions,
     ): Promise<HTMLElement | HTMLCollection | null> {
         const embedHelpers = getEmbedHelpers(this);
@@ -351,7 +348,7 @@ export class CosmereItem<
 
     protected override _createInlineEmbed(
         content: HTMLElement | HTMLCollection,
-        config: DocumentHTMLEmbedConfig,
+        config: TextEditor.DocumentHTMLEmbedConfig,
         options?: TextEditor.EnrichmentOptions,
     ): Promise<HTMLElement | null> {
         const embedHelpers = getEmbedHelpers(this);
@@ -363,7 +360,7 @@ export class CosmereItem<
 
     protected override _createFigureEmbed(
         content: HTMLElement | HTMLCollection,
-        config: DocumentHTMLEmbedConfig,
+        config: TextEditor.DocumentHTMLEmbedConfig,
         options?: TextEditor.EnrichmentOptions,
     ): Promise<HTMLElement | null> {
         const embedHelpers = getEmbedHelpers(this);
@@ -395,7 +392,7 @@ export class CosmereItem<
 
         // Ensure an actor was found
         if (!actor) {
-            ui.notifications.warn(
+            ui.notifications!.warn(
                 game.i18n!.localize('GENERIC.Warning.NoActor'),
             );
             return null;
@@ -1460,13 +1457,13 @@ export namespace CosmereItem {
          * The skill to be used with this item roll.
          * Used to roll the item with an alternate skill.
          */
-        skill?: Nullable<Skill>;
+        skill?: Skill;
 
         /**
          * The attribute to be used with this item roll.
          * Used to roll the item with an alternate attribute.
          */
-        attribute?: Nullable<Attribute>;
+        attribute?: Attribute;
 
         /**
          * Whether or not to generate a chat message for this roll.
@@ -1607,7 +1604,6 @@ export type AncestryItem = CosmereItem<AncestryItemDataModel>;
 export type PathItem = CosmereItem<PathItemDataModel>;
 export type ConnectionItem = CosmereItem<ConnectionItemDataModel>;
 export type InjuryItem = CosmereItem<InjuryItemDataModel>;
-export type SpecialtyItem = CosmereItem<SpecialtyItemDataModel>;
 export type LootItem = CosmereItem<LootItemDataModel>;
 export type ArmorItem = CosmereItem<ArmorItemDataModel>;
 export type TraitItem = CosmereItem<TraitItemDataModel>;
@@ -1619,5 +1615,32 @@ export type GoalItem = CosmereItem<GoalItemDataModel>;
 export type PowerItem = CosmereItem<PowerItemDataModel>;
 export type TalentTreeItem = CosmereItem<TalentTreeItemDataModel>;
 
-export type TalentsProviderItem = CosmereItem<TalentsProviderData>;
-export type RelationshipsItem = CosmereItem<RelationshipsItemData>;
+export type CosmereItemFromSchema<
+    TSchema extends foundry.data.fields.DataSchema,
+    TBaseData extends AnyObject = EmptyObject,
+    TDerivedData extends AnyObject = EmptyObject
+> = CosmereItem<
+    foundry.abstract.TypeDataModel<TSchema, Item, TBaseData, TDerivedData>
+>;
+
+export type ActivatableItem = CosmereItemFromSchema<ActivatableItemDataSchema>;
+export type AttackingItem = CosmereItemFromSchema<AttackingItemDataSchema>;
+export type DamagingItem = CosmereItemFromSchema<DamagingItemDataSchema>;
+export type DescriptionItem = CosmereItemFromSchema<DescriptionItemDataSchema>;
+export type PhysicialItem = CosmereItemFromSchema<PhysicalItemDataSchema, EmptyObject, PhysicalItemDerivedData>;
+export type TypedItem = CosmereItemFromSchema<TypedItemDataSchema, EmptyObject, TypedItemDerivedData>;
+export type TraitsItem = CosmereItemFromSchema<TraitsItemDataSchema>;
+export type DeflectItem = CosmereItemFromSchema<DeflectItemDataSchema>;
+export type EquippableItem = CosmereItemFromSchema<EquippableItemDataSchema>;
+export type IdItem = CosmereItemFromSchema<IdItemDataSchema>;
+export type ModalityItem = CosmereItemFromSchema<ModalityItemDataSchema>;
+export type TalentsProviderItem = CosmereItemFromSchema<RelationshipsItemDataSchema>;
+export type EventsItem = CosmereItemFromSchema<EventsItemDataSchema>;
+export type LinkedSkillsItem = CosmereItemFromSchema<LinkedSkillsItemDataSchema>;
+export type RelationshipsItem = CosmereItemFromSchema<RelationshipsItemDataSchema>;
+
+declare module "@league-of-foundry-developers/foundry-vtt-types/configuration" {
+    interface ConfiguredItem<SubType extends Item.SubType> {
+        document: CosmereItem;
+    }
+}

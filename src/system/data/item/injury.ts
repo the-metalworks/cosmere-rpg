@@ -1,9 +1,10 @@
 import { InjuryType } from '@system/types/cosmere';
 import { CosmereItem } from '@system/documents';
+import { EmptyObject } from '@system/types/utils';
 
 // Mixins
 import { DataModelMixin } from '../mixins';
-import { TypedItemMixin, TypedItemDataSchema } from './mixins/typed';
+import { TypedItemMixin, TypedItemDataSchema, TypedItemDerivedData } from './mixins/typed';
 import {
     DescriptionItemMixin,
     DescriptionItemDataSchema,
@@ -38,8 +39,13 @@ export type InjuryItemDataSchema =
     & EventsItemDataSchema
     & RelationshipsItemDataSchema;
 
+export type InjuryItemDerivedData = TypedItemDerivedData;
+
 export class InjuryItemDataModel extends DataModelMixin<
-    InjuryItemDataSchema
+    InjuryItemDataSchema,
+    foundry.abstract.Document.Any,
+    EmptyObject,
+    InjuryItemDerivedData
 >(
     TypedItemMixin({
         // Default to flesh wound data as the least impactful injury type

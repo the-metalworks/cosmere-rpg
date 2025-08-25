@@ -1,7 +1,7 @@
 // Import spark-md5 for hashing (used for component ids)
 import md5 from 'spark-md5';
 
-import { AnyObject, DeepPartial } from '@system/types/utils';
+import { AnyObject, DeepPartial, AnyConcreteApplicationV2Constructor } from '@system/types/utils';
 
 // Component
 import { HandlebarsApplicationComponent } from './component';
@@ -16,21 +16,18 @@ import {
 import {
     ComponentActionHandler,
     ComponentState,
-    ApplicationV2Constructor,
 } from './types';
 
 const componentClsRegistry: Record<
     string,
-    typeof HandlebarsApplicationComponent<ApplicationV2Constructor<AnyObject>>
+    typeof HandlebarsApplicationComponent
 > = {};
 
 const componentRegistry: Record<
     string,
     {
         selector: string;
-        instance: HandlebarsApplicationComponent<
-            ApplicationV2Constructor<AnyObject>
-        >;
+        instance: HandlebarsApplicationComponent;
         parentRef?: string;
         params?: Record<string, unknown>;
         element?: HTMLElement;
@@ -41,15 +38,13 @@ const componentRegistry: Record<
 const applicationInstances: Record<
     string,
     InstanceType<
-        ComponentHandlebarsApplication<ApplicationV2Constructor<AnyObject>>
+        ComponentHandlebarsApplication<AnyConcreteApplicationV2Constructor>
     >
 > = {};
 
 export function registerComponent(
     selector: string,
-    componentCls: typeof HandlebarsApplicationComponent<
-        ApplicationV2Constructor<AnyObject>
-    >,
+    componentCls: typeof HandlebarsApplicationComponent,
 ) {
     if (selector in componentClsRegistry)
         throw new Error(
@@ -272,7 +267,7 @@ function onComponentAction(
 
 export function registerApplicationInstance(
     application: InstanceType<
-        ComponentHandlebarsApplication<ApplicationV2Constructor<AnyObject>>
+        ComponentHandlebarsApplication<AnyConcreteApplicationV2Constructor>
     >,
 ) {
     applicationInstances[application.id] = application;
@@ -280,7 +275,7 @@ export function registerApplicationInstance(
 
 export function deregisterApplicationInstance(
     application: InstanceType<
-        ComponentHandlebarsApplication<ApplicationV2Constructor<AnyObject>>
+        ComponentHandlebarsApplication<AnyConcreteApplicationV2Constructor>
     >,
 ) {
     console.log('Deregistering application instance:', application.id);

@@ -20,7 +20,7 @@ type Params = {
 };
 
 export class MultiStateToggleComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<foundry.applications.api.ApplicationV2>,
+    foundry.applications.api.ApplicationV2.AnyConstructor,
     Params
 > {
     static readonly TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.COMPONENT_MULTI_STATE_TOGGLE}`;

@@ -16,6 +16,9 @@ export type AdversarySheetRenderContext = Omit<
 };
 
 export class AdversarySheet extends BaseActorSheet<AdversarySheetRenderContext> {
+    // @ts-ignore
+    declare actor: AdversaryActor;
+
     static DEFAULT_OPTIONS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.DEFAULT_OPTIONS),
         {
@@ -31,7 +34,7 @@ export class AdversarySheet extends BaseActorSheet<AdversarySheetRenderContext> 
             ],
             actions: {},
         },
-    );
+    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
 
     static PARTS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.PARTS),
@@ -41,10 +44,6 @@ export class AdversarySheet extends BaseActorSheet<AdversarySheetRenderContext> 
             },
         },
     );
-
-    get actor(): AdversaryActor {
-        return super.document;
-    }
 
     get areSkillsCollapsed(): boolean {
         return this.actor.getFlag(SYSTEM_ID, 'sheet.skillsCollapsed') ?? false;

@@ -14,7 +14,7 @@ import { CosmereItem } from '@src/system/documents';
 // Mixins
 import { DataModelMixin } from '../mixins';
 import { IdItemMixin, IdItemDataSchema } from './mixins/id';
-import { TypedItemMixin, TypedItemDataSchema } from './mixins/typed';
+import { TypedItemMixin, TypedItemDataSchema, TypedItemDerivedData } from './mixins/typed';
 import {
     DescriptionItemMixin,
     DescriptionItemDataSchema,
@@ -27,7 +27,7 @@ import {
 import { AttackingItemMixin, AttackingItemDataSchema } from './mixins/attacking';
 import { DamagingItemMixin, DamagingItemDataSchema } from './mixins/damaging';
 import { TraitsItemMixin, TraitsItemDataSchema, TraitsItemDerivedData } from './mixins/traits';
-import { PhysicalItemMixin, PhysicalItemDataSchema } from './mixins/physical';
+import { PhysicalItemMixin, PhysicalItemDataSchema, PhysicalItemDerivedData } from './mixins/physical';
 import { ExpertiseItemMixin, ExpertiseItemDataSchema } from './mixins/expertise';
 import { EventsItemMixin, EventsItemDataSchema } from './mixins/events';
 import {
@@ -54,7 +54,10 @@ export type WeaponItemDataSchema =
     & LinkedSkillsItemDataSchema
     & RelationshipsItemDataSchema;
 
-export type WeaponItemDerivedData = TraitsItemDerivedData;
+export type WeaponItemDerivedData = 
+    & TypedItemDerivedData
+    & PhysicalItemDerivedData 
+    & TraitsItemDerivedData;
 
 type WeaponItemData = foundry.data.fields.SchemaField.InitializedData<WeaponItemDataSchema>;
 

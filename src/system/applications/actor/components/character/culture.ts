@@ -15,7 +15,7 @@ type Params = {
 };
 
 export class CharacterCultureComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<CharacterSheet>,
+    typeof CharacterSheet,
     Params
 > {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_CULTURE}`;

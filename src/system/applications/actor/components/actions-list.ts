@@ -78,7 +78,7 @@ export const STATIC_SECTIONS: Record<string, ItemListSection> = {
                     },
                 },
                 { parent },
-            ) as Promise<CosmereItem>,
+            ),
     },
     armor: {
         id: 'armor',
@@ -203,7 +203,9 @@ export const DYNAMIC_SECTIONS: Record<string, DynamicItemListSectionGenerator> =
                                         consume: {
                                             type: ItemConsumeType.Resource,
                                             resource: Resource.Investiture,
-                                            value: 1,
+                                            value: {
+                                                actual: 1,
+                                            }
                                         },
                                     },
                                 },
@@ -313,7 +315,7 @@ const MISC_SECTION: ItemListSection = {
 };
 
 export class ActorActionsListComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<BaseActorSheet>
+    typeof BaseActorSheet
 > {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_ACTIONS_LIST}`;
 
@@ -412,8 +414,8 @@ export class ActorActionsListComponent extends HandlebarsApplicationComponent<
 
         // Ensure all items have an expand state record
         activatableItems.forEach((item) => {
-            if (!(item.id in this.itemState)) {
-                this.itemState[item.id] = {
+            if (!(item.id! in this.itemState)) {
+                this.itemState[item.id!] = {
                     expanded: false,
                 };
             }
@@ -526,7 +528,7 @@ export class ActorActionsListComponent extends HandlebarsApplicationComponent<
         return await items.reduce(
             async (prev, item) => ({
                 ...(await prev),
-                [item.id]: {
+                [item.id!]: {
                     ...(item.hasDescription() && item.system.description?.value
                         ? {
                               descriptionHTML: await TextEditor.enrichHTML(
@@ -560,12 +562,6 @@ export class ActorActionsListComponent extends HandlebarsApplicationComponent<
                     // Get item
                     const item = this.application.actor.items.get(itemId)!;
 
-                    // Check if actor is character
-                    const isCharacter = this.application.actor.isCharacter();
-
-                    // Check if item is favorited
-                    const isFavorite = item.isFavorite;
-
                     return [
                         /**
                          * NOTE: This is a TEMPORARY context menu option
@@ -578,28 +574,6 @@ export class ActorActionsListComponent extends HandlebarsApplicationComponent<
                                 void item.recharge();
                             },
                         },
-
-                        // Favorite (only for characters)
-                        isCharacter
-                            ? isFavorite
-                                ? {
-                                      name: 'GENERIC.Button.RemoveFavorite',
-                                      icon: 'fa-solid fa-star',
-                                      callback: () => {
-                                          void item.clearFavorite();
-                                      },
-                                  }
-                                : {
-                                      name: 'GENERIC.Button.Favorite',
-                                      icon: 'fa-solid fa-star',
-                                      callback: () => {
-                                          void item.markFavorite(
-                                              this.application.actor.favorites
-                                                  .length,
-                                          );
-                                      },
-                                  }
-                            : null,
 
                         {
                             name: 'GENERIC.Button.Edit',
@@ -615,7 +589,7 @@ export class ActorActionsListComponent extends HandlebarsApplicationComponent<
                                 // Remove the item
                                 void this.application.actor.deleteEmbeddedDocuments(
                                     'Item',
-                                    [item.id],
+                                    [item.id!],
                                 );
                             },
                         },

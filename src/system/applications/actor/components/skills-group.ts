@@ -30,7 +30,7 @@ type Params = {
 };
 
 export class ActorSkillsGroupComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<BaseActorSheet>,
+    typeof BaseActorSheet,
     Params
 > {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_SKILLS_GROUP}`;

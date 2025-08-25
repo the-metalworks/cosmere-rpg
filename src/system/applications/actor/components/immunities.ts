@@ -11,7 +11,7 @@ import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
 import { DamageType, Status } from '@src/system/types/cosmere';
 
 export class ActorImmunitiesComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<BaseActorSheet>
+    typeof BaseActorSheet
 > {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_IMMUNITIES}`;
 
@@ -108,8 +108,11 @@ export class ActorImmunitiesComponent extends HandlebarsApplicationComponent<
 
         void this.application.actor.update(
             {
-                'flags.cosmere-rpg.sheet.immunitiesCollapsed':
-                    this.sectionCollapsed,
+                 flags: {
+                    'cosmere-rpg': {
+                        'sheet.immunitiesCollapsed': this.sectionCollapsed
+                    }
+                }
             },
             { render: false },
         );

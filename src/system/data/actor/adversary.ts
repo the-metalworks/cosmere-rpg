@@ -7,7 +7,7 @@ const SCHEMA = {
         nullable: false,
         blank: false,
         initial: AdversaryRole.Minion,
-        choices: Object.keys(CONFIG.COSMERE.adversary.roles),
+        choices: Object.keys(CONFIG.COSMERE.adversary.roles) as AdversaryRole[],
     }),
 };
 

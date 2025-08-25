@@ -1,10 +1,11 @@
 import { Skill, PowerType } from '@system/types/cosmere';
 import { CosmereItem } from '@system/documents';
+import { EmptyObject } from '@system/types/utils';
 
 // Mixins
 import { DataModelMixin } from '../mixins';
 import { IdItemMixin, IdItemDataSchema } from './mixins/id';
-import { TypedItemMixin, TypedItemDataSchema } from './mixins/typed';
+import { TypedItemMixin, TypedItemDataSchema, TypedItemDerivedData } from './mixins/typed';
 import {
     ActivatableItemDataSchema,
     ActivatableItemMixin,
@@ -58,8 +59,13 @@ export type PowerItemDataSchema =
     & EventsItemDataSchema
     & RelationshipsItemDataSchema;
 
+export type PowerItemDerivedData = TypedItemDerivedData;
+
 export class PowerItemDataModel extends DataModelMixin<
-    PowerItemDataSchema
+    PowerItemDataSchema,
+    foundry.abstract.Document.Any,
+    EmptyObject,
+    PowerItemDerivedData
 >(
     IdItemMixin({
         initialFromName: true,

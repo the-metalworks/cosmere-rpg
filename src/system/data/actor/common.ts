@@ -15,7 +15,7 @@ import {
 import { CosmereActor } from '@system/documents/actor';
 import { ArmorItem, LootItem } from '@system/documents';
 
-import { CosmereDocument, AnyObject, EmptyObject } from '@system/types/utils';
+import { CosmereDocument, AnyObject, EmptyObject, Merge, RemoveIndexSignatures } from '@system/types/utils';
 import { InferSchema } from '../types';
 
 // Fields
@@ -24,110 +24,9 @@ import { ExpertisesField, Expertise } from './fields/expertises-field';
 
 export { Expertise } from './fields/expertises-field';
 
-interface DeflectData extends Derived<number> {
-    /**
-     * The natural deflect value for this actor.
-     * This value is used when deflect cannot be derived from its source, or
-     * when the natural value is higher than the derived value.
-     */
-    natural?: number;
-
-    /**
-     * A map of which damage types are deflected or
-     * not deflected by the actor.
-     */
-    types?: Record<DamageType, boolean>;
-
-    /**
-     * The source of the deflect value
-     */
-    source?: DeflectSource;
-}
-
-interface CurrencyDenominationData {
-    id: string;
-    secondaryId?: string; // Optional secondary id for doubly-denominated currencies, like spheres
-    amount: number;
-
-    /*
-     * Conversion rate is a comparison to the "base" denomination of a currency.
-     * This value is derived from either the primary denomination's conversion rate,
-     * or the product of the primary and secondary denominations' rates, if the secondary is present.
-     *
-     * Converted value is simply (amount * conversionRate).
-     * We want the total value expressed in the base denomination.
-     */
-    conversionRate: Derived<number>;
-    convertedValue: Derived<number>;
-}
-
 export interface AttributeData {
     value: number;
     bonus: number;
-}
-
-export interface CommonActorData {
-    size: Size;
-    type: {
-        id: CreatureType;
-        custom?: string | null;
-        subtype?: string | null;
-    };
-    tier: number;
-    senses: {
-        range: Derived<number>;
-    };
-    immunities: {
-        damage: Record<DamageType, boolean>;
-        condition: Record<Status, boolean>;
-    };
-    attributes: Record<Attribute, AttributeData>;
-    defenses: Record<AttributeGroup, Derived<number>>;
-    deflect: DeflectData;
-    resources: Record<
-        Resource,
-        {
-            value: number;
-            max: Derived<number>;
-        }
-    >;
-    skills: Record<
-        Skill,
-        {
-            attribute: Attribute;
-            rank: number;
-            mod: Derived<number>;
-
-            /**
-             * Derived field describing whether this skill is unlocked or not.
-             * This field is only present for non-core skills.
-             * Core skills are always unlocked.
-             */
-            unlocked?: boolean;
-        }
-    >;
-    injuries: Derived<number>;
-    injuryRollBonus: number;
-    currency: Record<
-        string,
-        {
-            denominations: CurrencyDenominationData[];
-            total: Derived<number>;
-        }
-    >;
-    movement: Record<MovementType, { rate: Derived<number> }>;
-    encumbrance: {
-        lift: Derived<number>;
-        carry: Derived<number>;
-    };
-    expertises: Collection<Expertise>;
-    languages?: string[];
-    biography?: string;
-    appearance?: string;
-    notes?: string;
-
-    // For Hooks
-    source: CosmereDocument;
 }
 
 const SCHEMA = () => ({
@@ -136,7 +35,7 @@ const SCHEMA = () => ({
         nullable: false,
         blank: false,
         initial: Size.Medium,
-        choices: Object.keys(CONFIG.COSMERE.sizes),
+        choices: Object.keys(CONFIG.COSMERE.sizes) as Size[],
     }),
     type: new foundry.data.fields.SchemaField({
         id: new foundry.data.fields.StringField({
@@ -144,7 +43,7 @@ const SCHEMA = () => ({
             nullable: false,
             blank: false,
             initial: CreatureType.Humanoid,
-            choices: Object.keys(CONFIG.COSMERE.creatureTypes),
+            choices: Object.keys(CONFIG.COSMERE.creatureTypes) as CreatureType[],
         }),
         custom: new foundry.data.fields.StringField({ nullable: true }),
         subtype: new foundry.data.fields.StringField({
@@ -366,12 +265,6 @@ function getSkillsSchema() {
     const skills = CONFIG.COSMERE.skills;
 
     const constructSkillSchema = (skill: Skill) => new foundry.data.fields.SchemaField({
-        attribute: new foundry.data.fields.StringField({
-            required: true,
-            nullable: false,
-            blank: false,
-            initial: skills[skill].attribute,
-        }),
         rank: new foundry.data.fields.NumberField({
             required: true,
             nullable: false,
@@ -603,12 +496,18 @@ function getMovementSchema() {
 }
 
 export type CommonActorDataSchema = ReturnType<typeof SCHEMA>;
+export type CommonActorData = foundry.data.fields.SchemaField.InitializedData<CommonActorDataSchema>;
+
+export type CommonActorDerivedData = {
+    skills: Merge<CommonActorData['skills'], Record<Skill, {
+        attribute: Attribute;
+    }>>
+};
 
 export class CommonActorDataModel<
-    TSchema extends CommonActorDataSchema,
-    TBaseData extends AnyObject = EmptyObject,
-    TDerivedData extends AnyObject = EmptyObject
-> extends foundry.abstract.TypeDataModel<TSchema, CosmereActor, TBaseData, TDerivedData> {
+    TSchema extends CommonActorDataSchema = CommonActorDataSchema,
+    TDerivedData extends AnyObject = AnyObject,
+> extends foundry.abstract.TypeDataModel<TSchema, CosmereActor, EmptyObject, Merge<TDerivedData, CommonActorDerivedData>> {
     static defineSchema() {
         return SCHEMA();
     }
@@ -616,27 +515,29 @@ export class CommonActorDataModel<
     public prepareDerivedData(): void {
         super.prepareDerivedData();
 
-        const actor = this.parent as Actor;
+        const actor = this.parent;
 
-        // Derive non-core skill unlocks
+        // Skill derivations
         (Object.keys(this.skills) as Skill[]).forEach((skill) => {
-            if (CONFIG.COSMERE.skills[skill].core) return;
+            // Set attribute
+            this.skills[skill].attribute = CONFIG.COSMERE.skills[skill].attribute;
 
-            // Check if the actor has a power that unlocks this skill
-            const unlocked = this.parent.powers.some(
-                (power) => power.system.skill === skill,
-            );
+            // Derive unlocked status for non-core skills
+            if (!CONFIG.COSMERE.skills[skill].core) {
+                // Check if the actor has a power that unlocks this skill
+                const unlocked = this.parent.powers.some(
+                    (power) => power.system.skill === skill,
+                );
 
-            // Set unlocked status
-            this.skills[skill].unlocked = unlocked;
+                // Set unlocked status
+                this.skills[skill].unlocked = unlocked;
+            }
         });
 
         // Lock other movement types to always use override
         (Object.keys(CONFIG.COSMERE.movement.types) as MovementType[])
             .filter((type) => type !== MovementType.Walk)
             .forEach((type) => (this.movement[type].rate.useOverride = true));
-
-        
 
         // Injury count
         this.injuries.derived = actor.items.filter(
@@ -645,7 +546,7 @@ export class CommonActorDataModel<
 
         const money = this.parent.items.filter(
             (item) =>
-                item.type === ItemType.Loot && item.system.isMoney,
+                item.isLoot() && item.system.isMoney,
         ) as LootItem[];
 
         // Derive currency conversion values

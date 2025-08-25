@@ -64,26 +64,26 @@ export * from './talent-tree';
 declare module "@league-of-foundry-developers/foundry-vtt-types/configuration" {
     interface DataModelConfig {
         Item: {
-            [ItemType.Weapon]: WeaponItemDataModel,
-            [ItemType.Armor]: ArmorItemDataModel,
-            [ItemType.Equipment]: EquipmentItemDataModel,
-            [ItemType.Loot]: LootItemDataModel,
+            [ItemType.Weapon]: typeof WeaponItemDataModel,
+            [ItemType.Armor]: typeof ArmorItemDataModel
+            [ItemType.Equipment]: typeof EquipmentItemDataModel
+            [ItemType.Loot]: typeof LootItemDataModel
 
-            [ItemType.Ancestry]: AncestryItemDataModel,
-            [ItemType.Culture]: CultureItemDataModel,
-            [ItemType.Path]: PathItemDataModel,
-            [ItemType.Talent]: TalentItemDataModel,
-            [ItemType.Trait]: TraitItemDataModel,
+            [ItemType.Ancestry]: typeof AncestryItemDataModel
+            [ItemType.Culture]: typeof CultureItemDataModel
+            [ItemType.Path]: typeof PathItemDataModel
+            [ItemType.Talent]: typeof TalentItemDataModel
+            [ItemType.Trait]: typeof TraitItemDataModel
 
-            [ItemType.Action]: ActionItemDataModel,
+            [ItemType.Action]: typeof ActionItemDataModel
 
-            [ItemType.Injury]: InjuryItemDataModel,
-            [ItemType.Connection]: ConnectionItemDataModel,
-            [ItemType.Goal]: GoalItemDataModel,
+            [ItemType.Injury]: typeof InjuryItemDataModel
+            [ItemType.Connection]: typeof ConnectionItemDataModel
+            [ItemType.Goal]: typeof GoalItemDataModel
 
-            [ItemType.Power]: PowerItemDataModel,
+            [ItemType.Power]: typeof PowerItemDataModel
 
-            [ItemType.TalentTree]: TalentTreeItemDataModel,
+            [ItemType.TalentTree]: typeof TalentTreeItemDataModel
         }
     }
 }

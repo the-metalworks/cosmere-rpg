@@ -1,4 +1,6 @@
-import { CosmereItem } from '@system/documents';
+// import { CosmereItem } from '@system/documents';
+
+import { localize } from '@system/utils/i18n';
 
 export interface InitialDescriptionItemValues {
     value: string;
@@ -11,18 +13,18 @@ const SCHEMA = (params?: InitialDescriptionItemValues) => ({
         value: new foundry.data.fields.HTMLField({
             label: 'Description',
             initial: params?.value
-                ? `<p>${game.i18n!.localize(params.value)}</p>`
+                ? `<p>${localize(params.value)}</p>`
                 : '',
         }),
         chat: new foundry.data.fields.HTMLField({
             label: 'Chat description',
             initial: params?.chat
-                ? `<p>${game.i18n!.localize(params.chat)}</p>`
+                ? `<p>${localize(params.chat)}</p>`
                 : '',
         }),
         short: new foundry.data.fields.StringField({
             initial: params?.short
-                ? `<p>${game.i18n!.localize(params.short)}</p>`
+                ? `<p>${localize(params.short)}</p>`
                 : '',
         }),
     }),

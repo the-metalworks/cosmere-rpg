@@ -1,10 +1,11 @@
 import { PathType } from '@system/types/cosmere';
 import { CosmereItem } from '@system/documents/item';
+import { EmptyObject } from '@system/types/utils';
 
 // Mixins
 import { DataModelMixin } from '../mixins';
 import { IdItemMixin, IdItemDataSchema } from './mixins/id';
-import { TypedItemMixin, TypedItemDataSchema } from './mixins/typed';
+import { TypedItemMixin, TypedItemDataSchema, TypedItemDerivedData } from './mixins/typed';
 import {
     DescriptionItemMixin,
     DescriptionItemDataSchema,
@@ -32,8 +33,13 @@ export type PathItemDataSchema =
     & LinkedSkillsItemDataSchema
     & RelationshipsItemDataSchema;
 
+export type PathItemDerivedData = TypedItemDerivedData;
+
 export class PathItemDataModel extends DataModelMixin<
-    PathItemDataSchema
+    PathItemDataSchema,
+    foundry.abstract.Document.Any,
+    EmptyObject,
+    PathItemDerivedData
 >(
     IdItemMixin({ initialFromName: true }),
     TypedItemMixin({

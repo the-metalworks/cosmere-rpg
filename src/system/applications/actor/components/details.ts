@@ -19,7 +19,7 @@ import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
 import { CosmereActor } from '@src/system/documents';
 
 export class ActorDetailsComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<BaseActorSheet>
+    typeof BaseActorSheet
 > {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_DETAILS}`;
 
@@ -73,12 +73,10 @@ export class ActorDetailsComponent extends HandlebarsApplicationComponent<
             this.application.actor.toObject(),
         );
 
-        void new FilePicker({
-            current: this.application.actor.img,
+        void new foundry.applications.apps.FilePicker({
+            current: this.application.actor.img ?? undefined,
             type: 'image',
             redirectToRoot: [defaultImg],
-            top: this.application.position.top + 40,
-            left: this.application.position.left + 10,
             callback: (path) => {
                 void this.application.actor.update({
                     img: path,

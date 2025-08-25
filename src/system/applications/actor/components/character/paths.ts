@@ -10,7 +10,7 @@ import { BaseActorSheetRenderContext } from '../../base';
 import { CharacterSheet } from '../../character-sheet';
 
 export class CharacterPathsComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<CharacterSheet>
+    typeof CharacterSheet
 > {
     static readonly TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_PATHS}`;
 
@@ -91,9 +91,6 @@ export class CharacterPathsComponent extends HandlebarsApplicationComponent<
                             .rank,
                         mod: this.application.actor.system.skills[skillId].mod,
                     })),
-                level: this.application.actor.talents.filter(
-                    (talent) => talent.pathId === path.id,
-                ).length,
             })),
         });
     }

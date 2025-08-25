@@ -1,4 +1,5 @@
 import { CosmereItem } from '@system/documents';
+import { Skill } from '@system/types/cosmere';
 
 const SCHEMA = {
     linkedSkills: new foundry.data.fields.ArrayField(
@@ -14,7 +15,7 @@ const SCHEMA = {
                             ...acc,
                             [key]: skill.label,
                         }),
-                        {},
+                        {} as Record<Skill, string>,
                     ),
         }),
         {

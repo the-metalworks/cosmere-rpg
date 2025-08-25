@@ -141,7 +141,7 @@ export class TalentTreeItemDataModel extends DataModelMixin<
 
     public prepareDerivedData() {
         // Get item
-        const item = this.parent;
+        const item = this.parent as Item;
 
         // Get actor
         const actor = item.actor;
@@ -167,6 +167,6 @@ export class TalentTreeItemDataModel extends DataModelMixin<
      * @param includeNested - Whether to include talents from nested trees. Defaults to `true`.
      */
     public getTalents(includeNested = true): Promise<TalentItem[]> {
-        return getTalents(this.parent, includeNested);
+        return getTalents(this.parent as TalentTreeItem, includeNested);
     }
 }

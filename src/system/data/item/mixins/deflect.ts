@@ -16,6 +16,7 @@ const DAMAGE_TYPE_SCHEMA = (type: DamageType) => ({
 const SCHEMA = {
     deflect: new foundry.data.fields.NumberField({
         required: true,
+        nullable: false,
         initial: 0,
         min: 0,
         integer: true,

@@ -1,4 +1,4 @@
-import { DeepPartial, AnyObject } from '@system/types/utils';
+import { DeepPartial, AnyObject, AnyConcreteApplicationV2Constructor } from '@system/types/utils';
 
 // Component System
 import ComponentSystem from './system';
@@ -7,12 +7,12 @@ import ComponentSystem from './system';
 import { HandlebarsApplicationComponent } from './component';
 
 // Types
-import { ApplicationV2Constructor, ComponentState, PartState } from './types';
+import { ComponentState, PartState } from './types';
 
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 
 export type ComponentHandlebarsRenderOptions =
-    foundry.applications.api.HandlebarsApplicationMixin.HandlebarsRenderOptions & {
+    foundry.applications.api.HandlebarsApplicationMixin.RenderOptions & {
         components?: string[];
         componentRefs: string[];
     };
@@ -21,13 +21,7 @@ type RenderContext = AnyObject;
 type RenderOptions = ComponentHandlebarsRenderOptions & AnyObject;
 
 export function ComponentHandlebarsApplicationMixin<
-    /**
-     * NOTE: ApplicationV2 types appear to be wrong in places
-     * and won't play nice in this use case.
-     * Have resorted to `any` type as a way around the problems.
-     */
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    BaseClass extends ApplicationV2Constructor<AnyObject, any, any>,
+    BaseClass extends foundry.applications.api.ApplicationV2.AnyConstructor,
 >(base: BaseClass) {
     return class mixin extends HandlebarsApplicationMixin(base) {
         public get components(): Record<
@@ -97,7 +91,7 @@ export function ComponentHandlebarsApplicationMixin<
                 renderedParts = (await super._renderHTML(
                     { ...context, __application: this },
                     options,
-                ));
+                )) as Record<string, HTMLElement>;
 
                 // Get all component refs that belong to the rendered parts
                 const componentRefs = Object.entries(this.components)
@@ -255,11 +249,13 @@ export function ComponentHandlebarsApplicationMixin<
         protected override _onRender(
             context: RenderContext,
             options: RenderOptions,
-        ): void {
+        ): Promise<void> {
             // Trigger render events
             options.componentRefs.forEach((ref) =>
                 this.dispatchRenderEventRecursive(ref),
             );
+
+            return Promise.resolve();
         }
 
         private dispatchRenderEventRecursive(componentRef: string) {
@@ -285,7 +281,5 @@ export function ComponentHandlebarsApplicationMixin<
 }
 
 export type ComponentHandlebarsApplication<
-    // NOTE: See above note
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    BaseClass extends ApplicationV2Constructor<AnyObject, any, any>,
+    BaseClass extends foundry.applications.api.ApplicationV2.AnyConstructor,
 > = ReturnType<typeof ComponentHandlebarsApplicationMixin<BaseClass>>;

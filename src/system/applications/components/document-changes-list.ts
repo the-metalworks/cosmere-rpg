@@ -19,7 +19,7 @@ type Params = {
 };
 
 export class DocumentChangesListComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<foundry.applications.api.ApplicationV2>,
+    foundry.applications.api.ApplicationV2.AnyConstructor,
     Params
 > {
     static FORM_ASSOCIATED = true;

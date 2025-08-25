@@ -1,14 +1,15 @@
 import { EquipmentType } from '@system/types/cosmere';
 import { CosmereItem } from '@src/system/documents';
+import { EmptyObject } from '@system/types/utils';
 
 // Mixins
 import { DataModelMixin } from '../mixins';
-import { TypedItemMixin, TypedItemDataSchema } from './mixins/typed';
+import { TypedItemMixin, TypedItemDataSchema, TypedItemDerivedData } from './mixins/typed';
 import {
     DescriptionItemMixin,
     DescriptionItemDataSchema,
 } from './mixins/description';
-import { PhysicalItemMixin, PhysicalItemDataSchema } from './mixins/physical';
+import { PhysicalItemMixin, PhysicalItemDataSchema, PhysicalItemDerivedData } from './mixins/physical';
 import {
     ActivatableItemMixin,
     ActivatableItemDataSchema,
@@ -29,8 +30,15 @@ export type EquipmentItemDataSchema =
     & EventsItemDataSchema
     & RelationshipsItemDataSchema;
 
+export type EquipmentItemDerivedData = 
+    & TypedItemDerivedData 
+    & PhysicalItemDerivedData;
+
 export class EquipmentItemDataModel extends DataModelMixin<
-    EquipmentItemDataSchema
+    EquipmentItemDataSchema,
+    foundry.abstract.Document.Any,
+    EmptyObject,
+    EquipmentItemDerivedData
 >(
     TypedItemMixin({
         initial: EquipmentType.Basic,

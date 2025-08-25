@@ -17,7 +17,7 @@ const ACTIVATION_SCHEMA = {
     type: new foundry.data.fields.StringField({
         required: true,
         blank: false,
-        initial: ActivationType.None,
+        initial: ActivationType.None as ActivationType,
         choices: Object.entries(
             CONFIG.COSMERE.items.activation.types,
         ).reduce(
@@ -248,7 +248,7 @@ const ACTIVATION_SCHEMA = {
 type ActivationDataSchema = typeof ACTIVATION_SCHEMA;
 type DynamicActivationDataSchema = ReturnType<ReturnType<typeof getActivationDataModelCls>['defineSchema']>;
 export type ActivatableItemDataSchema = {
-    activation: foundry.data.fields.SchemaField<DynamicActivationDataSchema>
+    activation: ActivationField;
 }
 export type ActivatableItemData = foundry.data.fields.SchemaField.InitializedData<ActivatableItemDataSchema>;
 export type ItemConsumeData = ActivatableItemData['activation']['consume'][number];
@@ -331,7 +331,12 @@ interface ActivationFieldOptions
     extends foundry.data.fields.SchemaField.Options<DynamicActivationDataSchema>,
     ActivatableItemMixinOptions { }
 
-class ActivationField extends foundry.data.fields.SchemaField<DynamicActivationDataSchema, ActivationFieldOptions> {
+class ActivationField extends foundry.data.fields.SchemaField<
+    DynamicActivationDataSchema, 
+    ActivationFieldOptions,
+    foundry.data.fields.SchemaField.AssignmentData<DynamicActivationDataSchema> | null | undefined,
+    Activation<DynamicActivationDataSchema>
+> {
     public readonly model: typeof Activation<DynamicActivationDataSchema>;
 
     constructor(
@@ -349,7 +354,7 @@ class ActivationField extends foundry.data.fields.SchemaField<DynamicActivationD
     }
 
     protected override _cast(value: unknown) {
-        return typeof value === 'object' ? value : {};
+        return typeof value && value === 'object' ? value : {};
     }
 
     public override initialize(
@@ -364,9 +369,9 @@ class ActivationField extends foundry.data.fields.SchemaField<DynamicActivationD
     }
 }
 
-type FieldOptions<T extends foundry.data.fields.DataField<any>> = T extends foundry.data.fields.DataField<infer U> ? U : never;
-type BaseActivationDataSchema = Omit<ActivationDataSchema, 'type' | 'skill'>
-    & { type: foundry.data.fields.StringField<Omit<FieldOptions<ActivationDataSchema['type']>, 'initial'>> }
+type FieldOptions<T extends foundry.data.fields.DataField<foundry.data.fields.DataField.Options.Any>> = T extends foundry.data.fields.DataField<infer U> ? U : never;
+
+type BaseActivationDataSchema = Omit<ActivationDataSchema, 'skill'>
     & { skill: foundry.data.fields.StringField<Omit<FieldOptions<ActivationDataSchema['skill']>, 'initial' | 'choices'>> };
 
 export class Activation<Schema extends BaseActivationDataSchema> extends foundry.abstract.DataModel<Schema, foundry.abstract.DataModel.Any> {

@@ -1,12 +1,11 @@
 import { Talent } from '@system/types/item';
 import { CosmereItem } from '@system/documents';
-
-import { MappingField, CollectionField } from '@system/data/fields';
+import { EmptyObject } from '@system/types/utils';
 
 // Mixins
 import { DataModelMixin } from '../mixins';
 import { IdItemMixin, IdItemDataSchema } from './mixins/id';
-import { TypedItemMixin, TypedItemDataSchema } from './mixins/typed';
+import { TypedItemMixin, TypedItemDataSchema, TypedItemDerivedData } from './mixins/typed';
 import {
     DescriptionItemMixin,
     DescriptionItemDataSchema,
@@ -29,19 +28,11 @@ const SCHEMA = {
         nullable: true,
         initial: null,
     }),
-    hasPath: new foundry.data.fields.BooleanField(),
-    specialty: new foundry.data.fields.StringField({
-        required: false,
-        nullable: true,
-        initial: null,
-    }),
-    hasSpecialty: new foundry.data.fields.BooleanField(),
     ancestry: new foundry.data.fields.StringField({
         required: false,
         nullable: true,
         initial: null,
     }),
-    hasAncestry: new foundry.data.fields.BooleanField(),
     power: new foundry.data.fields.StringField({
         required: false,
         nullable: true,
@@ -49,7 +40,6 @@ const SCHEMA = {
         label: 'COSMERE.Item.Talent.Power.Label',
         hint: 'COSMERE.Item.Talent.Power.Hint',
     }),
-    hasPower: new foundry.data.fields.BooleanField(),
 };
 
 export type TalentItemDataSchema = 
@@ -63,8 +53,17 @@ export type TalentItemDataSchema =
     & EventsItemDataSchema
     & RelationshipsItemDataSchema;
 
+export type TalentItemDerivedData = TypedItemDerivedData & {
+    hasPath: boolean;
+    hasAncestry: boolean;
+    hasPower: boolean;
+}
+
 export class TalentItemDataModel extends DataModelMixin<
-    TalentItemDataSchema
+    TalentItemDataSchema,
+    foundry.abstract.Document.Any,
+    EmptyObject,
+    TalentItemDerivedData
 >(
     IdItemMixin({
         initialFromName: true,
@@ -97,7 +96,7 @@ export class TalentItemDataModel extends DataModelMixin<
         super.prepareDerivedData();
 
         // Get item
-        const item = this.parent;
+        const item = this.parent as Item;
 
         // Get actor
         const actor = item.actor;
@@ -106,13 +105,6 @@ export class TalentItemDataModel extends DataModelMixin<
             this.hasPath =
                 actor?.items.some(
                     (item) => item.isPath() && item.id === this.path,
-                ) ?? false;
-        }
-
-        if (this.specialty) {
-            this.hasSpecialty =
-                actor?.items.some(
-                    (item) => item.isSpecialty() && item.id === this.specialty,
                 ) ?? false;
         }
 

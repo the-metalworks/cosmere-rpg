@@ -1,10 +1,11 @@
 import { ActionType } from '@system/types/cosmere';
 import { CosmereItem } from '@system/documents';
+import { EmptyObject } from '@system/types/utils';
 
 // Mixins
 import { DataModelMixin } from '../mixins';
 import { IdItemMixin, IdItemDataSchema } from './mixins/id';
-import { TypedItemMixin, TypedItemDataSchema } from './mixins/typed';
+import { TypedItemMixin, TypedItemDataSchema, TypedItemDerivedData } from './mixins/typed';
 import {
     DescriptionItemMixin,
     DescriptionItemDataSchema,
@@ -21,21 +22,6 @@ import {
     RelationshipsItemDataSchema,
 } from './mixins/relationships';
 
-// export interface ActionItemData
-//     extends DescriptionItemData,
-//     ActivatableItemData,
-//     IdItemData,
-//     TypedItemData,
-//     DamagingItemData,
-//     ModalityItemData,
-//     EventsItemData,
-//     RelationshipsItemData {
-//     /**
-//      * The id of the Ancestry this Talent belongs to.
-//      */
-//     ancestry?: string;
-// }
-
 const SCHEMA = {
     ancestry: new foundry.data.fields.StringField({
         required: false,
@@ -46,7 +32,7 @@ const SCHEMA = {
     }),
 };
 
-type ActionItemDataSchema = 
+export type ActionItemDataSchema = 
     & typeof SCHEMA 
     & IdItemDataSchema
     & TypedItemDataSchema<ActionType>
@@ -57,8 +43,13 @@ type ActionItemDataSchema =
     & EventsItemDataSchema
     & RelationshipsItemDataSchema;
 
+export type ActionItemDerivedData = TypedItemDerivedData;
+
 export class ActionItemDataModel extends DataModelMixin<
-    ActionItemDataSchema
+    ActionItemDataSchema,
+    foundry.abstract.Document.Any,
+    EmptyObject,
+    ActionItemDerivedData
 >(
     IdItemMixin({
         initialFromName: true,

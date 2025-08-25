@@ -56,8 +56,8 @@ import { containsExpertise } from '@system/utils/actor';
 import { SYSTEM_ID } from '@system/constants';
 import { HOOKS } from '@system/constants/hooks';
 
-export type CharacterActor = CosmereActor<ActorType.Character>;
-export type AdversaryActor = CosmereActor<ActorType.Adversary>;
+export type CharacterActor = CosmereActor<CharacterActorDataModel>;
+export type AdversaryActor = CosmereActor<AdversaryActorDataModel>;
 
 interface RollSkillOptions {
     /**
@@ -152,11 +152,19 @@ export type CosmereActorRollData<T extends CommonActorData = CommonActorData> =
  */
 const SINGLETON_ITEM_TYPES = [ItemType.Ancestry];
 
-export class CosmereActor<T extends Actor.SubType = Actor.SubType> extends Actor<T> {
-    // Redeclare `actor.type` to specifically be of `ActorType`.
-    // This way we avoid casting every time we want to check/use its type
+abstract class _Actor<
+    TSystem extends foundry.abstract.TypeDataModel.Any
+> extends Actor {
+    // @ts-ignore
     declare type: ActorType;
+    declare system: TSystem;
+    // @ts-ignore
+    declare items: foundry.abstract.EmbeddedCollection<CosmereItem, CosmereActor>;
+}
 
+export class CosmereActor<
+    TSystem extends CommonActorDataModel = CommonActorDataModel
+> extends _Actor<TSystem> {
     /* --- Accessors --- */
 
     public get conditions(): Set<Status> {
@@ -171,20 +179,8 @@ export class CosmereActor<T extends Actor.SubType = Actor.SubType> extends Actor
         return effects;
     }
 
-    public get favorites(): CosmereItem[] {
-        return this.items
-            .filter((i) => i.isFavorite)
-            .sort(
-                (a, b) =>
-                    (a.getFlag<number>(SYSTEM_ID, 'favorites.sort') ??
-                        Number.MAX_VALUE) -
-                    (b.getFlag<number>(SYSTEM_ID, 'favorites.sort') ??
-                        Number.MAX_VALUE),
-            );
-    }
-
     public get deflect(): number {
-        return this.system.deflect.value;
+        return this.system.deflect.value as number;
     }
 
     public get ancestry(): AncestryItem | undefined {
@@ -1342,5 +1338,27 @@ export class CosmereActor<T extends Actor.SubType = Actor.SubType> extends Actor
                 { parent: this },
             );
         });
+    }
+}
+
+declare module "@league-of-foundry-developers/foundry-vtt-types/configuration" {
+    interface ConfiguredActor<SubType extends Actor.SubType> {
+        document: CosmereActor;
+    }
+
+    interface FlagConfig {
+        Actor: {
+            'cosmere-rpg': {
+                sheet: object;
+                'sheet.mode': 'edit' | 'view';
+                'sheet.expertisesCollapsed': boolean;
+                'sheet.immunitiesCollapsed': boolean;
+                'sheet.skillsCollapsed': boolean;
+                'sheet.hideUnranked': boolean;
+                'goals': object;
+                'goals.hide-completed': boolean;
+                [key: `mode.${string}`]: string
+            }
+        }
     }
 }

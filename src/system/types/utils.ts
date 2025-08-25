@@ -13,6 +13,8 @@ export {
     MustBeValidUuid,
     Merge,
     SimpleMerge,
+    Identity,
+    RemoveIndexSignatures,
 } from '@league-of-foundry-developers/foundry-vtt-types/utils';
 import { AnyObject } from '@league-of-foundry-developers/foundry-vtt-types/utils';
 
@@ -35,9 +37,19 @@ export type ConstructorOf<T> = new (...args: any[]) => T;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ReturnTypeOf<T> = T extends (...args: any[]) => infer R ? R : never;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type Concrete<T> = T extends abstract new(...args: any[]) => infer R ? Omit<T, 'new'> & (new(...args: any[]) => R) : never;
+export type Concrete<T> = T extends abstract new(...args: any) => infer R ? Omit<T, 'new'> & (new(...args: any[]) => R) : never;
 
 export type ConstructorArguments<T> = T extends abstract new(...args: infer A) => any ? A : never;
+
+export type ConcreteApplicationV2Constructor<
+    TClass extends foundry.applications.api.ApplicationV2.AnyConstructor,
+    TInstance extends foundry.applications.api.ApplicationV2.Any = foundry.applications.api.ApplicationV2.Any,
+> = Omit<TClass, 'new'> & (new(...args: any[]) => TInstance);
+export type AnyConcreteApplicationV2Constructor = 
+    ConcreteApplicationV2Constructor<
+        foundry.applications.api.ApplicationV2.AnyConstructor,
+        foundry.applications.api.ApplicationV2.Any
+    >;
 
 export enum MouseButton {
     /**

@@ -44,19 +44,19 @@ function SCHEMA<TOptions extends EquippableMixinOptions>(options: TOptions) {
                 nullable: true,
                 choices: Object.keys(
                     CONFIG.COSMERE.items.equip.hold,
-                ),
+                ) as HoldType[],
             }),
             hand: new foundry.data.fields.StringField({
                 nullable: true,
                 choices: Object.keys(
                     CONFIG.COSMERE.items.equip.hand,
-                ),
+                ) as EquipHand[],
             }),
         }),
     }
 };
 
-export type EquippableItemDataSchema<TOptions extends EquippableMixinOptions> = ReturnType<typeof SCHEMA<TOptions>>;
+export type EquippableItemDataSchema<TOptions extends EquippableMixinOptions = EquippableMixinOptions> = ReturnType<typeof SCHEMA<TOptions>>;
 
 export function EquippableItemMixin<
     TParent extends foundry.abstract.Document.Any,

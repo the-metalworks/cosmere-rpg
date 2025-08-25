@@ -43,7 +43,7 @@ type Params = {
 
 export class DocumentReferenceInputComponent extends DragDropComponentMixin(
     HandlebarsApplicationComponent<
-        ConstructorOf<foundry.applications.api.ApplicationV2>,
+        foundry.applications.api.ApplicationV2.AnyConstructor,
         Params
     >,
 ) {
@@ -143,7 +143,7 @@ export class DocumentReferenceInputComponent extends DragDropComponentMixin(
 
         // Validate type
         if (this.params!.type && data.type !== this.params!.type) {
-            return ui.notifications.warn(
+            return ui.notifications!.warn(
                 game.i18n!.format(
                     'COMPONENT.DocumentReferenceInput.Warning.WrongType',
                     {
@@ -168,7 +168,7 @@ export class DocumentReferenceInputComponent extends DragDropComponentMixin(
                     >
                 )[this.params.type].typeLabels[this.params.subtype];
 
-                return ui.notifications.warn(
+                return ui.notifications!.warn(
                     game.i18n!.format(
                         'COMPONENT.DocumentReferenceInput.Warning.WrongSubtype',
                         {

@@ -12,7 +12,7 @@ import {
 import { ConfigureSkillsDialog } from '../../dialogs/configure-skills';
 
 export class AdversarySkillsComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<AdversarySheet>
+    typeof AdversarySheet
 > {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_ADVERSARY_SKILLS}`;
 
@@ -136,8 +136,11 @@ export class AdversarySkillsComponent extends HandlebarsApplicationComponent<
 
         void this.application.actor.update(
             {
-                'flags.cosmere-rpg.sheet.skillsCollapsed':
-                    this.sectionCollapsed,
+                flags: {
+                    'cosmere-rpg': {
+                        'sheet.skillsCollapsed': this.sectionCollapsed,
+                    }
+                }
             },
             { render: false },
         );

@@ -62,7 +62,7 @@ export class Expertise extends foundry.abstract.DataModel<ExpertiseDataSchema, f
 
         // Check if the expertise is registered in the config, a custom expertise is not registered
         return !foundry.utils.hasProperty(
-            foundry.utils.getProperty(CONFIG.COSMERE, registryKey),
+            foundry.utils.getProperty(CONFIG.COSMERE, registryKey) as object,
             this.id,
         );
     }
@@ -107,13 +107,17 @@ export class Expertise extends foundry.abstract.DataModel<ExpertiseDataSchema, f
 
 export class ExpertiseDataField extends foundry.data.fields.SchemaField<
     ExpertiseDataSchema, 
-    foundry.data.fields.SchemaField.Options<ExpertiseDataSchema>
+    foundry.data.fields.SchemaField.Options<ExpertiseDataSchema> & { required: true; nullable: false; }
 > {
     constructor(
-        options?: foundry.data.fields.SchemaField.Options<ExpertiseDataSchema>,
+        options?: Omit<foundry.data.fields.SchemaField.Options<ExpertiseDataSchema>, 'required' | 'nullable'>,
         context?: foundry.data.fields.DataField.ConstructionContext,
     ) {
-        super(Expertise.defineSchema(), options, context);
+        super(Expertise.defineSchema(), {
+            ...options,
+            required: true,
+            nullable: false,
+        }, context);
     }
 
     protected override _cast(value: unknown) {

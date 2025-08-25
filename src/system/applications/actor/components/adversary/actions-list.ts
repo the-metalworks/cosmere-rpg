@@ -38,8 +38,8 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
 
         // Ensure all items have an expand state record
         activatableItems.forEach((item) => {
-            if (!(item.id in this.itemState)) {
-                this.itemState[item.id] = {
+            if (!(item.id! in this.itemState)) {
+                this.itemState[item.id!] = {
                     expanded: false,
                 };
             }

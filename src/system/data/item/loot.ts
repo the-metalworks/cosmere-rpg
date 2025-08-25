@@ -1,4 +1,5 @@
 import { CosmereItem } from '@src/system/documents';
+import { EmptyObject } from '@system/types/utils';
 
 // Mixins
 import { DataModelMixin } from '../mixins';
@@ -6,7 +7,7 @@ import {
     DescriptionItemMixin,
     DescriptionItemDataSchema,
 } from './mixins/description';
-import { PhysicalItemMixin, PhysicalItemDataSchema } from './mixins/physical';
+import { PhysicalItemMixin, PhysicalItemDataSchema, PhysicalItemDerivedData } from './mixins/physical';
 import { EventsItemMixin, EventsItemDataSchema } from './mixins/events';
 import {
     RelationshipsMixin,
@@ -29,8 +30,13 @@ export type LootItemDataSchema =
     & EventsItemDataSchema
     & RelationshipsItemDataSchema;
 
+export type LootItemDerivedData = PhysicalItemDerivedData;
+
 export class LootItemDataModel extends DataModelMixin<
-    LootItemDataSchema
+    LootItemDataSchema,
+    foundry.abstract.Document.Any,
+    EmptyObject,
+    LootItemDerivedData
 >(
     DescriptionItemMixin({
         value: 'COSMERE.Item.Type.Loot.desc_placeholder',

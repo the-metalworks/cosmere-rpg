@@ -59,7 +59,6 @@ export type CharacterActorDerivedData = {
 
 export class CharacterActorDataModel extends CommonActorDataModel<
     CharacterActorDataSchema,
-    EmptyObject,
     CharacterActorDerivedData
 > {
     public static defineSchema() {

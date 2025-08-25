@@ -12,7 +12,7 @@ import { HandlebarsApplicationComponent } from '@system/applications/component-s
 import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
 
 export class ActorInjuriesListComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<BaseActorSheet>
+    typeof BaseActorSheet
 > {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_INJURIES_LIST}`;
 
@@ -86,8 +86,11 @@ export class ActorInjuriesListComponent extends HandlebarsApplicationComponent<
 
         // Reduce duration by one
         void injuryItem.update({
-            'system.duration.remaining':
-                injuryItem.system.duration.remaining! - 1,
+            system: {
+                duration: {
+                    remaining: injuryItem.system.duration.remaining! - 1,
+                }
+            }
         });
     }
 
@@ -104,8 +107,11 @@ export class ActorInjuriesListComponent extends HandlebarsApplicationComponent<
 
         // Increase duration by one
         void injuryItem.update({
-            'system.duration.remaining':
-                injuryItem.system.duration.remaining! + 1,
+            system: {
+                duration: {
+                    remaining: injuryItem.system.duration.remaining! + 1,
+                }
+            }
         });
     }
 

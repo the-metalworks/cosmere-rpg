@@ -1,6 +1,8 @@
 import { CosmereItem } from '@system/documents';
 import { Merge } from '@system/types/utils';
 
+import { localize } from '@system/utils/i18n';
+
 // export interface PhysicalItemData {
 //     quantity: number;
 //     weight: {
@@ -21,6 +23,8 @@ import { Merge } from '@system/types/utils';
 
 const SCHEMA = {
     quantity: new foundry.data.fields.NumberField({
+        required: true,
+        nullable: false,
         min: 0,
         initial: 1,
         integer: true,
@@ -47,7 +51,7 @@ const SCHEMA = {
             required: true,
             initial: 'none',
             choices: {
-                none: game.i18n!.localize('GENERIC.None'),
+                none: localize('GENERIC.None'),
                 ...Object.entries(
                     CONFIG.COSMERE.currencies,
                 ).reduce(
@@ -64,7 +68,7 @@ const SCHEMA = {
                 required: true,
                 initial: 'none',
                 choices: {
-                    none: game.i18n!.localize('GENERIC.None'),
+                    none: localize('GENERIC.None'),
                     ...Object.entries(
                         CONFIG.COSMERE.currencies,
                     ).reduce(
@@ -87,7 +91,7 @@ const SCHEMA = {
                 required: false,
                 initial: 'none',
                 choices: {
-                    none: game.i18n!.localize('GENERIC.None'),
+                    none: localize('GENERIC.None'),
                     ...Object.entries(CONFIG.COSMERE.currencies)
                         .filter(
                             ([_, currency]) =>

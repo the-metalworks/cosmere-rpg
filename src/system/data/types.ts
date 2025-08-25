@@ -1,3 +1,6 @@
+export type InferOptions<TField extends foundry.data.fields.DataField.Any> =
+    TField extends foundry.data.fields.DataField<infer TOptions> ? TOptions : never;
+
 export type InferAssignmentType<TField extends foundry.data.fields.DataField.Any> =
     TField extends foundry.data.fields.DataField<any, infer TAssignmentType> ? TAssignmentType
     : never;

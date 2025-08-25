@@ -35,18 +35,19 @@ export const enum BaseSheetTab {
     Effects = 'effects',
 }
 
-// NOTE: Have to use type instead of interface to comply with AnyObject type
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-export type BaseActorSheetRenderContext = {
+export interface BaseActorSheetRenderContext extends foundry.applications.sheets.ActorSheetV2.RenderContext {
     actor: CosmereActor;
     isEditMode: boolean;
-};
+}
 
 export class BaseActorSheet<
     T extends BaseActorSheetRenderContext = BaseActorSheetRenderContext,
 > extends TabsApplicationMixin(
     DragDropApplicationMixin(ComponentHandlebarsApplicationMixin(ActorSheetV2)),
 )<T> {
+    // @ts-ignore
+    declare actor: CosmereActor;
+
     /* eslint-disable @typescript-eslint/unbound-method */
     static DEFAULT_OPTIONS = foundry.utils.mergeObject(
         foundry.utils.mergeObject({}, super.DEFAULT_OPTIONS),
@@ -67,7 +68,7 @@ export class BaseActorSheet<
                 },
             ],
         },
-    );
+    ) as foundry.applications.api.DocumentSheetV2.DefaultOptions;
     /* eslint-enable @typescript-eslint/unbound-method */
 
     static PARTS = foundry.utils.mergeObject(super.PARTS, {
@@ -102,10 +103,6 @@ export class BaseActorSheet<
 
     get isUpdatingHtmlField(): boolean {
         return this.updatingHtmlField;
-    }
-
-    get actor(): CosmereActor {
-        return super.document;
     }
 
     protected actionsSearchText = '';
@@ -201,13 +198,7 @@ export class BaseActorSheet<
         event.stopPropagation();
 
         // Update the actor and re-render
-        await this.actor.update(
-            {
-                'flags.cosmere-rpg.sheet.mode':
-                    this.mode === 'view' ? 'edit' : 'view',
-            },
-            { render: true },
-        );
+        await this.actor.setFlag(SYSTEM_ID, 'sheet.mode', this.mode === 'view' ? 'edit' : 'view');
 
         // Get toggle
         const toggle = $(this.element).find('#mode-toggle');
@@ -335,7 +326,7 @@ export class BaseActorSheet<
 
         // Insert mode toggle
         if (this.isEditable) {
-            $(this.window.title).before(`
+            $(this.window.title!).before(`
                 <label id="mode-toggle" 
                     class="toggle-switch"
                     data-action="toggle-mode"
@@ -354,11 +345,11 @@ export class BaseActorSheet<
 
     /* --- Lifecycle --- */
 
-    protected _onRender(
+    protected async _onRender(
         context: AnyObject,
         options: ComponentHandlebarsRenderOptions,
     ) {
-        super._onRender(context, options);
+        await super._onRender(context, options);
 
         if (options.parts.includes('content')) {
             this.element
