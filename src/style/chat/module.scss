@@ -455,11 +455,12 @@
                             width: 100%;
                         }
 
-                        .dice-formula.graze::before {
+                        .dice-formula > .label {
                             font-family: var(--cosmere-font-normal);
                             font-size: var(--font-size-10);
                             font-weight: 600;
                             color: var(--cosmere-color-light-2);
+                            text-transform: uppercase;
                             
                             text-align: left !important;
                             flex-grow: 1;
@@ -473,8 +474,6 @@
                             justify-content: flex-start;
                             align-items: center;
                             z-index: 1;
-
-                            content: 'GRAZE';
                         }
 
                         .dice-total {
