@@ -1268,6 +1268,65 @@ export class CosmereActor<
     }
 
     /**
+     * Utility Function to parse the formula of config roll data.
+     */
+
+    public parseRollData(dataList: (string | number)[]): number {
+        let value = 0;
+        let operator = '+';
+
+        dataList.forEach((data) => {
+            switch (data) {
+                case '+':
+                case '-':
+                case '*':
+                case '/':
+                case '%': {
+                    operator = data;
+                    break;
+                }
+                default: {
+                    let val = data as number;
+                    if (typeof data === 'string') {
+                        const property = foundry.utils.getProperty(
+                            this,
+                            data,
+                        ) as number;
+                        if (property && typeof property === 'number') {
+                            val = property;
+                        }
+                    }
+
+                    switch (operator) {
+                        case '+': {
+                            value += val;
+                            break;
+                        }
+                        case '-': {
+                            value -= val;
+                            break;
+                        }
+                        case '*': {
+                            value *= val;
+                            break;
+                        }
+                        case '/': {
+                            value /= val;
+                            break;
+                        }
+                        case '%': {
+                            value %= val;
+                            break;
+                        }
+                    }
+                }
+            }
+        });
+
+        return value;
+    }
+
+    /**
      * Utility Function to determine a formula value based on a scalar plot of an attribute value
      */
     public getRegisteredRollData(
@@ -1276,23 +1335,13 @@ export class CosmereActor<
         const registeredData: Record<string, any> = {};
         for (const key in CONFIG.COSMERE.rollData) {
             const rollData = CONFIG.COSMERE.rollData[key];
+
             if (!rollData.types.includes(this.type)) {
                 continue;
             }
-            let value = 0;
-            rollData.data.forEach((data) => {
-                if (typeof data === 'string') {
-                    const property = foundry.utils.getProperty(
-                        this,
-                        data,
-                    ) as number;
-                    if (property && typeof property === 'number') {
-                        value += property;
-                    }
-                } else {
-                    value += data;
-                }
-            });
+
+            const value = this.parseRollData(rollData.data);
+
             if (key.includes('.')) {
                 const splitKey = key.split('.');
                 if (
@@ -1301,10 +1350,12 @@ export class CosmereActor<
                 ) {
                     continue;
                 }
+
                 const current = registeredData;
                 splitKey.forEach((propertyKey) => {
                     current[propertyKey] = {} as Record<string, any>;
                 });
+
                 foundry.utils.setProperty(registeredData, key, value);
             } else {
                 if (
@@ -1313,9 +1364,11 @@ export class CosmereActor<
                 ) {
                     continue;
                 }
+
                 registeredData[key] = value;
             }
         }
+
         return registeredData;
     }
 
