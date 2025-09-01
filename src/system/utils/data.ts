@@ -1,4 +1,3 @@
-import { DatabaseGetOperation } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/_types.mjs';
 import {
     AnyObject,
     AnyMutableObject,
@@ -7,8 +6,6 @@ import {
     InvalidCollection,
     RawDocumentData,
 } from '../types/utils';
-import { StoredDocument } from '@league-of-foundry-developers/foundry-vtt-types/src/types/utils.mjs';
-
 import { RecordCollection } from '@system/data/fields/collection';
 
 export function cloneCollection<T = unknown>(source: Collection<T>) {

@@ -58,7 +58,8 @@ export type TalentTreeViewComponentParams = {
 export class TalentTreeViewComponent<
     P extends TalentTreeViewComponentParams = TalentTreeViewComponentParams,
 > extends DragDropComponentMixin(HandlebarsApplicationComponent)<
-    ConstructorOf<foundry.applications.api.ApplicationV2>,
+    // typeof foundry.applications.api.ApplicationV2,
+    any, // TEMP: Workaround
     P
 > {
     static emittedEvents = super.emittedEvents.concat([
@@ -663,7 +664,7 @@ export class TalentTreeViewComponent<
         // Show tooltip
         game.tooltip!.activate(toolTipRoot, {
             content: content,
-            direction: 'RIGHT',
+            direction: foundry.helpers.interaction.TooltipManager.TOOLTIP_DIRECTIONS.RIGHT
         });
     }
 

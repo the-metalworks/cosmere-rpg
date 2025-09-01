@@ -172,8 +172,8 @@ export function isFastForward() {
 
 /**
  * Computes the constant value of a roll (i.e. total of numeric terms).
- * @param {Roll} roll The roll to calculate the constant total from.
- * @returns {number} The total constant value.
+ * @param roll The roll to calculate the constant total from.
+ * @returns The total constant value.
  */
 export function getConstantFromRoll(roll: Roll) {
     let previous: unknown;
@@ -312,7 +312,7 @@ export function getTargetDescriptors() {
         const spi = system?.defenses.spi.value ?? 10;
 
         if (uuid) {
-            targets.set(uuid, { name, img, uuid, def: { phy, cog, spi } });
+            targets.set(uuid, { name, img: img!, uuid, def: { phy, cog, spi } });
         }
     }
 

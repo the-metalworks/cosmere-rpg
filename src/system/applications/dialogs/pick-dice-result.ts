@@ -112,7 +112,7 @@ export class PickDiceResultDialog extends ComponentHandlebarsApplicationMixin(
         if (this.picked.length >= this.data.amount && !!result.discarded) {
             return void ui.notifications.error(
                 game.i18n!.format('DIALOG.PickDiceResult.Error.TooManyPicked', {
-                    max: this.data.amount,
+                    max: this.data.amount.toFixed(),
                 }),
             );
         }
@@ -145,8 +145,8 @@ export class PickDiceResultDialog extends ComponentHandlebarsApplicationMixin(
 
     /* --- Lifecycle --- */
 
-    protected _onRender(context: AnyObject, options: AnyObject) {
-        super._onRender(context, options);
+    protected async _onRender(context: AnyObject, options: AnyObject) {
+        await super._onRender(context, options);
 
         $(this.element).prop('open', true);
     }
@@ -157,7 +157,7 @@ export class PickDiceResultDialog extends ComponentHandlebarsApplicationMixin(
 
     /* --- Context --- */
 
-    protected _prepareContext() {
+    public _prepareContext() {
         const isPlotDie = this.data.term instanceof PlotDie;
 
         return Promise.resolve({

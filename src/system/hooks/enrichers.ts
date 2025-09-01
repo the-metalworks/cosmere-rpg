@@ -10,7 +10,7 @@ import { getActor } from '@system/utils/actor';
 import { SYSTEM_ID } from '@system/constants';
 import { HOOKS } from '@system/constants/hooks';
 
-Hooks.on<CosmereHooks.TriggerTestEnricher>(
+Hooks.on(
     HOOKS.TRIGGER_TEST_ENRICHER,
     async (actorId: string, source: string, data: Record<string, string>) => {
         const actor = await getActor(actorId ?? '');
@@ -26,7 +26,7 @@ Hooks.on<CosmereHooks.TriggerTestEnricher>(
     },
 );
 
-Hooks.on<CosmereHooks.TriggerDamageEnricher>(
+Hooks.on(
     HOOKS.TRIGGER_DAMAGE_ENRICHER,
     async (actorId: string, source: string, data: Record<string, string>) => {
         const actor = await getActor(actorId ?? '');
@@ -39,9 +39,9 @@ Hooks.on<CosmereHooks.TriggerDamageEnricher>(
             await roll.evaluate();
 
             // Create chat message
-            const messageConfig = {
-                user: game.user!.id,
-                speaker: ChatMessage.getSpeaker({ actor }) as ChatSpeakerData,
+            await ChatMessage.create({
+                author: game.user!.id,
+                speaker: ChatMessage.getSpeaker({ actor }),
                 rolls: [roll],
                 flags: {
                     [SYSTEM_ID]: {
@@ -50,9 +50,7 @@ Hooks.on<CosmereHooks.TriggerDamageEnricher>(
                         },
                     },
                 },
-            };
-
-            await ChatMessage.create(messageConfig);
+            });
         }
     },
 );

@@ -15,7 +15,6 @@ import { TEMPLATES } from '@src/system/utils/templates';
 
 // Mixins
 import { ComponentHandlebarsApplicationMixin } from '@system/applications/component-system';
-import Die from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/client-esm/dice/terms/die.mjs';
 
 const { ApplicationV2 } = foundry.applications.api;
 
@@ -109,7 +108,7 @@ export namespace AttackConfigurationDialog {
                 /**
                  * The individual die to track advantage mode for
                  */
-                die: Die;
+                die: foundry.dice.terms.Die;
 
                 /**
                  * What advantage modifier to apply to the damage die
@@ -128,7 +127,7 @@ export namespace AttackConfigurationDialog {
         advantageModePlot: AdvantageMode;
         advantageModeDamage: {
             poolIndex: number;
-            die: Die;
+            die: foundry.dice.terms.Die;
             advantageMode?: AdvantageMode;
         }[];
     }
@@ -358,8 +357,8 @@ export class AttackConfigurationDialog extends ComponentHandlebarsApplicationMix
 
     /* --- Lifecycle --- */
 
-    protected _onRender(context: AnyObject, options: AnyObject) {
-        super._onRender(context, options);
+    protected async _onRender(context: AnyObject, options: AnyObject) {
+        await super._onRender(context, options);
 
         $(this.element).prop('open', true);
 
@@ -390,7 +389,7 @@ export class AttackConfigurationDialog extends ComponentHandlebarsApplicationMix
 
     /* --- Context --- */
 
-    protected _prepareContext() {
+    public _prepareContext() {
         return Promise.resolve({
             rollModes: CONFIG.Dice.rollModes,
             defaultRollMode: this.data.defaultRollMode,

@@ -2,7 +2,7 @@
 
 import { COMPENDIUMS } from '@system/constants';
 
-Hooks.on('renderJournalSheet', (app: JournalSheet, html: HTMLFormElement) => {
+Hooks.on('renderJournalSheet', (app: JournalSheet, html: JQuery<HTMLElement>) => {
     // Get journal entry
     const entry = app.document as unknown as JournalEntry;
 

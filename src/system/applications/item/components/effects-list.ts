@@ -22,7 +22,8 @@ const TITLE_MAP: Record<EffectListType, string> = {
 };
 
 export class ItemEffectsListComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<BaseItemSheet>,
+    // typeof BaseItemSheet,
+    any, // TEMP: Workaround
     Params
 > {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_EFFECTS_LIST}`;
@@ -99,7 +100,9 @@ export class ItemEffectsListComponent extends HandlebarsApplicationComponent<
         params: Params,
         context: BaseItemSheetRenderContext,
     ) {
-        const effects = this.application.item.effects.filter((effect) => {
+        const item = this.application.item as Item.Implementation; // TEMP: Workaround
+
+        const effects = item.effects.filter((effect) => {
             switch (params.type) {
                 case 'inactive':
                     return !effect.active;

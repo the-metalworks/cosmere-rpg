@@ -7,6 +7,8 @@ import { TEMPLATES } from '@src/system/utils/templates';
 import { BaseItemSheet } from './base';
 
 export class WeaponItemSheet extends BaseItemSheet {
+    declare item: WeaponItem;
+
     static DEFAULT_OPTIONS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.DEFAULT_OPTIONS),
         {
@@ -41,10 +43,6 @@ export class WeaponItemSheet extends BaseItemSheet {
             },
         },
     );
-
-    get item(): WeaponItem {
-        return super.document;
-    }
 
     /* --- Context --- */
 

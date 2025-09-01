@@ -2,6 +2,7 @@ import { CosmereActor, CosmereItem } from '../documents';
 
 export {
     DeepPartial,
+    DeepReadonly,
     AnyObject,
     EmptyObject,
     AnyMutableObject,

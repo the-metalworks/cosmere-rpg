@@ -7,6 +7,8 @@ import { TEMPLATES } from '@src/system/utils/templates';
 import { BaseItemSheet } from './base';
 
 export class ConnectionItemSheet extends BaseItemSheet {
+    declare item: ConnectionItem;
+
     static DEFAULT_OPTIONS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.DEFAULT_OPTIONS),
         {
@@ -29,10 +31,6 @@ export class ConnectionItemSheet extends BaseItemSheet {
             },
         },
     );
-
-    get item(): ConnectionItem {
-        return super.document;
-    }
 
     /* --- Context --- */
 

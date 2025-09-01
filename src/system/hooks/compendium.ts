@@ -4,11 +4,13 @@ import { AnyObject } from '@system/types/utils';
 // Constants
 import { SYSTEM_ID } from '@system/constants';
 
-interface Metadata extends CompendiumCollection.Metadata {
-    flags?: AnyObject;
-}
+// interface Metadata extends CompendiumCollection.Metadata {
+//     flags?: AnyObject;
+// }
 
-Hooks.on('renderCompendium', async (compendium: Compendium<Metadata>) => {
+Hooks.on('renderCompendium', async (compendium: any) => { // TEMP: Workaround
+    compendium
+
     if (
         !foundry.utils.hasProperty(
             compendium.collection.metadata.flags ?? {},

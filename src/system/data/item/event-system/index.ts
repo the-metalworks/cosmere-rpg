@@ -5,19 +5,24 @@ const SCHEMA = {
     id: new foundry.data.fields.DocumentIdField({
         initial: () => foundry.utils.randomID(),
         readonly: false,
+        nullable: false,
+        required: true,
     }),
     description: new foundry.data.fields.StringField({
         required: true,
+        nullable: false,
         initial: '',
         label: 'COSMERE.Item.EventSystem.Event.Rule.Description.Label',
     }),
     order: new foundry.data.fields.NumberField({
         initial: 0,
         integer: true,
+        nullable: false,
         min: 0,
     }),
     event: new foundry.data.fields.StringField({
         required: true,
+        nullable: false,
         blank: false,
         initial: 'none',
         choices: () => ({
@@ -34,6 +39,7 @@ const SCHEMA = {
     }),
     handler: new HandlerField({
         required: true,
+        nullable: false,
     }),
 };
 

@@ -7,7 +7,8 @@ import { HandlebarsApplicationComponent } from '@system/applications/component-s
 import { BaseItemSheet, BaseItemSheetRenderContext } from '../base';
 
 export class DetailsLinkedSkillsComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<BaseItemSheet>
+    // typeof BaseItemSheet
+    any // TEMP: Workaround
 > {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_DETAILS_LINKED_SKILLS}`;
 
@@ -19,14 +20,14 @@ export class DetailsLinkedSkillsComponent extends HandlebarsApplicationComponent
             return Promise.resolve({ ...context, hasLinkedSkills });
 
         let linkedSkillsOptions = (
-            (
+            ((
                 (
                     this.application.item
-                        .system as unknown as foundry.abstract.DataModel
+                        .system as unknown as foundry.abstract.DataModel.Any
                 ).schema.getField(
                     'linkedSkills',
                 )
-            ).element as foundry.data.fields.StringField
+            ) as unknown as { element: foundry.data.fields.StringField }).element // TEMP: Workaround
         ).choices;
 
         if (linkedSkillsOptions instanceof Function)

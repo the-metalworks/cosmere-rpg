@@ -7,7 +7,8 @@ import { HandlebarsApplicationComponent } from '@system/applications/component-s
 import { BaseItemSheet, BaseItemSheetRenderContext } from '../base';
 
 export class DetailsTalentsProviderComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<BaseItemSheet>
+    // typeof BaseItemSheet
+    any // TEMP: Workaround
 > {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_DETAILS_TALENTS_PROVIDER}`;
 

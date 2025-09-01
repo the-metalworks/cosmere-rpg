@@ -2,6 +2,8 @@ import { AnyObject, ConstructorOf } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
+import { AncestryItem } from '@system/documents/item';
+
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
 import { AncestrySheet } from '../../ancestry-sheet';
@@ -10,7 +12,8 @@ import { AncestrySheet } from '../../ancestry-sheet';
 import { DragDropComponentMixin } from '@system/applications/mixins/drag-drop';
 
 export class AdvancementTalentListComponent extends DragDropComponentMixin(
-    HandlebarsApplicationComponent<ConstructorOf<AncestrySheet>>,
+    // HandlebarsApplicationComponent<ConstructorOf<AncestrySheet>>,
+    HandlebarsApplicationComponent<any> // TEMP: Workaround
 ) {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_ANCESTRY_TALENT_LIST}`;
 
@@ -114,8 +117,10 @@ export class AdvancementTalentListComponent extends DragDropComponentMixin(
             );
         }
 
+        const item = this.application.item as AncestryItem; // TEMP: Workaround
+
         // Get the talents list
-        let talents = this.application.item.system.advancement.extraTalents;
+        let talents = item.system.advancement.extraTalents;
 
         // Append
         talents.push({
@@ -152,8 +157,10 @@ export class AdvancementTalentListComponent extends DragDropComponentMixin(
     /* --- Context --- */
 
     public async _prepareContext(params: never, context: AnyObject) {
+        const item = this.application.item as AncestryItem; // TEMP: Workaround
+
         // Get the extra talents from the item
-        let { extraTalents } = this.application.item.system.advancement;
+        let { extraTalents } = item.system.advancement;
 
         // Sort
         extraTalents = extraTalents.sort((a, b) => a.level - b.level);

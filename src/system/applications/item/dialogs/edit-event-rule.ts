@@ -1,4 +1,4 @@
-import { CosmereItem } from '@src/system/documents';
+import { CosmereItem, EventsItem } from '@src/system/documents';
 import { Rule } from '@system/data/item/event-system';
 import { EventsItemData } from '@system/data/item/mixins/events';
 
@@ -18,7 +18,7 @@ const { ApplicationV2 } = foundry.applications.api;
 
 export class ItemEditEventRuleDialog extends ComponentHandlebarsApplicationMixin(
     ApplicationV2<AnyObject>,
-) {
+)<'Item'> {
     /**
      * NOTE: Unbound methods is the standard for defining actions and forms
      * within ApplicationV2
@@ -61,7 +61,7 @@ export class ItemEditEventRuleDialog extends ComponentHandlebarsApplicationMixin
     /* eslint-enable @typescript-eslint/unbound-method */
 
     private constructor(
-        private item: CosmereItem<EventsItemData>,
+        public item: EventsItem,
         private rule: Rule,
     ) {
         super({
@@ -71,7 +71,7 @@ export class ItemEditEventRuleDialog extends ComponentHandlebarsApplicationMixin
 
     /* --- Statics --- */
 
-    public static async show(item: CosmereItem<EventsItemData>, rule: Rule) {
+    public static async show(item: EventsItem, rule: Rule) {
         const dialog = new this(item, rule.clone());
         await dialog.render(true);
     }
@@ -82,7 +82,7 @@ export class ItemEditEventRuleDialog extends ComponentHandlebarsApplicationMixin
         // Get changes
         const changes = foundry.utils.mergeObject(
             getObjectChanges(
-                this.item.system.events.get(this.rule.id)!.toObject(),
+                (this.item.system.events.get(this.rule.id)! as any).toObject(), // TEMP: Workaround
                 this.rule.toObject(),
             ),
             {
@@ -119,7 +119,7 @@ export class ItemEditEventRuleDialog extends ComponentHandlebarsApplicationMixin
             (changes, [key, value]) => {
                 if (foundry.utils.getType(value) === 'Object') {
                     changes[key] = getObjectChanges(
-                        foundry.utils.getProperty(this.rule, key),
+                        foundry.utils.getProperty(this.rule, key) as object,
                         value as object,
                     );
                 } else {
@@ -140,8 +140,8 @@ export class ItemEditEventRuleDialog extends ComponentHandlebarsApplicationMixin
 
     /* --- Lifecycle --- */
 
-    protected _onRender(context: AnyObject, options: AnyObject): void {
-        super._onRender(context, options);
+    protected async _onRender(context: AnyObject, options: AnyObject) {
+        await super._onRender(context, options);
 
         $(this.element).prop('open', true);
     }
@@ -168,7 +168,7 @@ export class ItemEditEventRuleDialog extends ComponentHandlebarsApplicationMixin
 
     public _prepareContext() {
         const allEventSelectOptions = (
-            (this.rule.schema.fields.event as foundry.data.fields.StringField)
+            this.rule.schema.fields.event
                 .choices as () => AnyMutableObject
         )();
 

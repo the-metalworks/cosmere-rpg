@@ -1,4 +1,5 @@
 import { CosmereItem } from '@system/documents';
+import { Skill, Attribute, DamageType } from '@system/types/cosmere';
 
 const SCHEMA = {
     damage: new foundry.data.fields.SchemaField({
@@ -12,15 +13,15 @@ const SCHEMA = {
             }),
         type: new foundry.data.fields.StringField({
             nullable: true,
-            choices: Object.keys(CONFIG.COSMERE.damageTypes),
+            choices: Object.keys(CONFIG.COSMERE.damageTypes) as DamageType[],
         }),
         skill: new foundry.data.fields.StringField({
             nullable: true,
-            choices: Object.keys(CONFIG.COSMERE.skills),
+            choices: Object.keys(CONFIG.COSMERE.skills) as Skill[],
         }),
         attribute: new foundry.data.fields.StringField({
             nullable: true,
-            choices: Object.keys(CONFIG.COSMERE.attributes),
+            choices: Object.keys(CONFIG.COSMERE.attributes) as Attribute[],
         }),
     }),
 };

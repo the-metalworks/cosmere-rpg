@@ -1,22 +1,22 @@
-import { AnyObject, ConstructorOf } from '@system/types/utils';
+import { AnyObject, ConstructorOf, AnyConcreteApplicationV2Constructor } from '@system/types/utils';
 
-import { HandlebarsApplicationComponent } from '@system/applications/component-system';
+import { HandlebarsApplicationComponent, ComponentHandlebarsApplication } from '@system/applications/component-system';
 
 interface DragDropApplicationConfiguration {
-    dragDrop: Omit<DragDropConfiguration, 'permissions' | 'callbacks'>[];
+    dragDrop: Omit<foundry.applications.ux.DragDrop.Configuration, 'permissions' | 'callbacks'>[];
 }
 
+// TEMP: Workaround
+// export function DragDropApplicationMixin<
+//     // Config extends foundry.applications.api.ApplicationV2.Configuration &
+//     //     DragDropApplicationConfiguration,
+//     BaseClass extends AnyConcreteApplicationV2Constructor,
+// >(base: BaseClass) {
 export function DragDropApplicationMixin<
-    Config extends foundry.applications.api.ApplicationV2.Configuration &
-        DragDropApplicationConfiguration,
-    BaseClass extends ConstructorOf<
-        // NOTE: Use of any as the mixin doesn't care about the types
-        // and we don't want to interfere with the final type
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        foundry.applications.api.ApplicationV2<any, Config, any>
-    >,
+    BaseClass extends ConstructorOf<ComponentHandlebarsApplication<null | 'Actor' | 'Item'>>,
 >(base: BaseClass) {
     return class mixin extends base {
+        declare options: DragDropApplicationConfiguration;
         private _dragDrop: DragDrop[];
 
         // NOTE: Must use any to comply with mixin constructor signature
@@ -30,7 +30,7 @@ export function DragDropApplicationMixin<
         private createDragDropHandlers(): DragDrop[] {
             return (this.options.dragDrop ?? []).map(
                 (d) =>
-                    new DragDrop({
+                    new foundry.applications.ux.DragDrop({
                         ...d,
                         permissions: {
                             dragstart: this._canDragStart.bind(this),
@@ -55,8 +55,8 @@ export function DragDropApplicationMixin<
 
         // See note above
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        protected _onRender(context: any, options: any): void {
-            super._onRender(context, options);
+        protected async _onRender(context: any, options: any) {
+            await super._onRender(context, options);
 
             // Bind handlers
             this._dragDrop.forEach((d) => d.bind(this.element));
@@ -85,7 +85,7 @@ export function DragDropComponentMixin<
 >(base: BaseClass) {
     return class mixin extends base {
         static DRAG_DROP: Omit<
-            DragDropConfiguration,
+            foundry.applications.ux.DragDrop.Configuration,
             'permissions' | 'callbacks'
         >[] = [];
 

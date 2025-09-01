@@ -7,6 +7,8 @@ import { TEMPLATES } from '@src/system/utils/templates';
 import { BaseItemSheet } from './base';
 
 export class CultureItemSheet extends BaseItemSheet {
+    declare item: CultureItem
+
     static DEFAULT_OPTIONS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.DEFAULT_OPTIONS),
         {
@@ -40,10 +42,6 @@ export class CultureItemSheet extends BaseItemSheet {
             },
         },
     );
-
-    get item(): CultureItem {
-        return super.document;
-    }
 
     /* --- Context --- */
 

@@ -1,7 +1,8 @@
-import { BonusTalentsRule } from '@system/data/item/ancestry';
 import { AnyObject, ConstructorOf } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
+
+import { AncestryItem } from '@system/documents/item';
 
 // Dialogs
 import { EditBonusTalentsRuleDialog } from '../../dialogs/talent/edit-bonus-talents-rule';
@@ -11,7 +12,8 @@ import { HandlebarsApplicationComponent } from '@system/applications/component-s
 import { AncestrySheet } from '../../ancestry-sheet';
 
 export class AncestryBonusTalentsComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<AncestrySheet>
+    // typeof AncestrySheet
+    any // TEMP: Workaround
 > {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_ANCESTRY_BONUS_TALENTS}`;
 
@@ -33,8 +35,10 @@ export class AncestryBonusTalentsComponent extends HandlebarsApplicationComponen
         this: AncestryBonusTalentsComponent,
         event: Event,
     ) {
+        const item = this.application.item as AncestryItem; // TEMP: Workaround
+
         // Get bonus talents
-        const { bonusTalents } = this.application.item.system.advancement;
+        const { bonusTalents } = item.system.advancement;
 
         // Find the highest level
         const highest = bonusTalents.reduce(
@@ -97,8 +101,10 @@ export class AncestryBonusTalentsComponent extends HandlebarsApplicationComponen
     /* --- Context --- */
 
     public _prepareContext(params: never, context: AnyObject) {
+        const item = this.application.item as AncestryItem; // TEMP: Workaround
+
         const levels =
-            this.application.item.system.advancement.bonusTalents.sort(
+            item.system.advancement.bonusTalents.sort(
                 (a, b) => a.level - b.level,
             );
 
@@ -111,8 +117,10 @@ export class AncestryBonusTalentsComponent extends HandlebarsApplicationComponen
     /* --- Helpers --- */
 
     protected async editRule(index: number) {
+        const item = this.application.item as AncestryItem; // TEMP: Workaround
+
         // Get bonus talents
-        const { bonusTalents } = this.application.item.system.advancement;
+        const { bonusTalents } = item.system.advancement;
 
         // Get the rule
         const rule = bonusTalents[index];
@@ -130,7 +138,7 @@ export class AncestryBonusTalentsComponent extends HandlebarsApplicationComponen
                         game.i18n!.format(
                             'DIALOG.EditBonusTalentsRule.Warning.DuplicateLevel',
                             {
-                                level: changes.level,
+                                level: changes.level.toFixed(),
                             },
                         ),
                     );

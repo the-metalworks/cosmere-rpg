@@ -18,7 +18,8 @@ type Params = {
 
 export class NodePrerequisiteGoalListComponent extends DragDropComponentMixin(
     HandlebarsApplicationComponent<
-        ConstructorOf<EditNodePrerequisiteDialog>,
+        // typeof EditNodePrerequisiteDialog,
+        any, // TEMP: Workaround
         Params
     >,
 ) {

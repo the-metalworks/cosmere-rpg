@@ -1,3 +1,8 @@
+import {
+    InferAssignmentType,
+    InferInitializedType,
+    InferPersistedType,
+} from '../types';
 import { AnyObject } from '@system/types/utils';
 
 export interface CollectionFieldOptions<T = AnyObject>
@@ -236,9 +241,9 @@ export class RecordCollection<T> implements Collection<T> {
 
 export class CollectionField<
     ElementField extends foundry.data.fields.DataField.Any,
-    TElementFieldAssignment = ElementField extends foundry.data.fields.DataField<any, infer T> ? T : never,
-    TElementFieldInitialized = ElementField extends foundry.data.fields.DataField<any, any, infer T> ? T : never,
-    TElementFieldPersisted = ElementField extends foundry.data.fields.DataField<any, any, any, infer T> ? T : never,
+    TElementFieldAssignment = InferAssignmentType<ElementField>,
+    TElementFieldInitialized = InferInitializedType<ElementField>,
+    TElementFieldPersisted = InferPersistedType<ElementField>,
     TAssignment = Record<string, TElementFieldAssignment> | null | undefined,
     TInitialized extends CollectionFieldInitializedType<TElementFieldInitialized> = CollectionFieldInitializedType<TElementFieldInitialized>,
     TPersisted extends AnyObject = Record<string, TElementFieldPersisted>,

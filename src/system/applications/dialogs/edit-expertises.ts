@@ -152,7 +152,7 @@ export class EditExpertisesDialog extends HandlebarsApplicationMixin(
             },
             /* eslint-enable @typescript-eslint/unbound-method */
         },
-    );
+    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
 
     static PARTS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.PARTS),
@@ -264,7 +264,7 @@ export class EditExpertisesDialog extends HandlebarsApplicationMixin(
         // Get data
         const data =
             'actor' in config
-                ? config.actor.system.expertises
+                ? config.actor.system.expertises as unknown as Collection<Expertise> // TEMP: Workaround
                 : 'document' in config
                   ? (foundry.utils.getProperty(
                         config.document,
@@ -359,7 +359,7 @@ export class EditExpertisesDialog extends HandlebarsApplicationMixin(
         const type = actionElement.data('category') as ExpertiseType;
 
         // Remove the expertise
-        this.data.delete(Expertise.getKey({ type, id }));
+        this.data.delete(Expertise.getKey({ type, id })!);
 
         // Update the source, if applicable
         if (this.liveUpdate) {
@@ -382,7 +382,7 @@ export class EditExpertisesDialog extends HandlebarsApplicationMixin(
                 game.i18n!.format(
                     'DIALOG.EditExpertise.Warning.MaxExpertises',
                     {
-                        max: this.maxExpertises,
+                        max: this.maxExpertises.toFixed(),
                     },
                 ),
             );
@@ -512,7 +512,7 @@ export class EditExpertisesDialog extends HandlebarsApplicationMixin(
                 game.i18n!.format(
                     'DIALOG.EditExpertise.Warning.MaxExpertises',
                     {
-                        max: this.maxExpertises,
+                        max: this.maxExpertises.toFixed(),
                     },
                 ),
             );
@@ -571,8 +571,8 @@ export class EditExpertisesDialog extends HandlebarsApplicationMixin(
 
     /* --- Lifecycle --- */
 
-    protected _onRender(context: AnyObject, options: AnyObject): void {
-        super._onRender(context, options);
+    protected async _onRender(context: AnyObject, options: AnyObject) {
+        await super._onRender(context, options);
 
         $(this.element).prop('open', true);
         $(this.element)

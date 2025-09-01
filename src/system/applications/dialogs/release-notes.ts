@@ -23,7 +23,7 @@ export class ReleaseNotesDialog extends HandlebarsApplicationMixin(
             },
             classes: ['cosmere', 'dialog', 'release-notes'],
         },
-    );
+    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
 
     static PARTS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.PARTS),
@@ -57,8 +57,8 @@ export class ReleaseNotesDialog extends HandlebarsApplicationMixin(
 
     /* --- Lifecycle --- */
 
-    protected _onRender(context: AnyObject, options: AnyObject) {
-        super._onRender(context, options);
+    protected async _onRender(context: AnyObject, options: AnyObject) {
+        await super._onRender(context, options);
 
         $(this.element).attr('open', 'true');
 
@@ -73,7 +73,7 @@ export class ReleaseNotesDialog extends HandlebarsApplicationMixin(
 
     /* --- Context --- */
 
-    protected _prepareContext() {
+    public _prepareContext() {
         return Promise.resolve({
             version: game.system!.version,
         });

@@ -72,16 +72,18 @@ export class TalentTreeEditorComponent extends TalentTreeViewComponent {
 
         // Store the view position
         void this.tree.update({
-            'system.viewBounds': {
-                x: center.x,
-                y: center.y,
-                width: bounds.width,
-                height: bounds.height,
-            },
-            'system.display': {
-                width: windowSize.width - EDIT_MENU_WIDTH,
-                height: windowSize.height,
-            },
+            system: {
+                viewBounds: {
+                    x: center.x,
+                    y: center.y,
+                    width: bounds.width,
+                    height: bounds.height,
+                },
+                display: {
+                    width: windowSize.width - EDIT_MENU_WIDTH,
+                    height: windowSize.height,
+                }
+            }
         });
     }
 

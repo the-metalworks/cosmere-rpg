@@ -19,6 +19,21 @@ export const SETTINGS = {
     SYSTEM_THEME: 'systemTheme',
 } as const;
 
+type SystemSettingsConfig =
+    & { [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.INTERNAL_FIRST_CREATION}`]: boolean; }
+    & { [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.INTERNAL_LATEST_VERSION}`]: string; }
+    & { [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.DIALOG_ROLL_SKIP_DEFAULT}`]: boolean; }
+    & { [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.DIALOG_DAMAGE_MODIFIER_SKIP_DEFAULT}`]: boolean; }
+    & { [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.CHAT_ENABLE_OVERLAY_BUTTONS}`]: boolean; }
+    & { [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.CHAT_ENABLE_APPLY_BUTTONS}`]: boolean; }
+    & { [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.CHAT_ALWAYS_SHOW_BUTTONS}`]: boolean; }
+    & { [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.APPLY_BUTTONS_TO}`]: string; }
+    & { [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.SHEET_EXPAND_DESCRIPTION_DEFAULT}`]: boolean; }
+    & { [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.SHEET_SKILL_INCDEC_TOGGLE}`]: boolean; }
+    & { [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.SYSTEM_THEME}`]: Theme; }
+
+type SystemSettingKey = (typeof SETTINGS)[keyof typeof SETTINGS];
+
 export const enum TargetingOptions {
     SelectedOnly = 0,
     TargetedOnly = 1,
@@ -113,8 +128,8 @@ export function registerSystemSettings() {
         hint: game.i18n!.localize(`SETTINGS.${SETTINGS.APPLY_BUTTONS_TO}.hint`),
         scope: 'client',
         config: true,
-        type: Number,
-        default: TargetingOptions.SelectedOnly as number,
+        type: Number as any, // TEMP: Workaround
+        default: TargetingOptions.SelectedOnly as number as any, // TEMP: Workaround
         requiresReload: true,
         choices: {
             [TargetingOptions.SelectedOnly]: game.i18n!.localize(
@@ -229,7 +244,7 @@ export function registerSystemKeybindings() {
  */
 export function getSystemSetting<
     T extends string | boolean | number = string | boolean | number,
->(settingKey: string) {
+>(settingKey: SystemSettingKey) {
     return game.settings!.get(SYSTEM_ID, settingKey) as T;
 }
 
@@ -238,8 +253,11 @@ export function getSystemSetting<
  * @param settingKey  The identifier of the setting to set.
  * @param value The value to set the setting to.
  */
-export function setSystemSetting<T = unknown>(settingKey: string, value: T) {
-    return game.settings!.set(SYSTEM_ID, settingKey, value);
+export function setSystemSetting<
+    TKey extends SystemSettingKey,
+    TValue extends SystemSettingsConfig[`${typeof SYSTEM_ID}.${TKey}`],
+>(settingKey: TKey, value: TValue) {
+    return game.settings!.set(SYSTEM_ID, settingKey, value as any); // TEMP: Workaround
 }
 
 /**
@@ -249,4 +267,10 @@ export function setSystemSetting<T = unknown>(settingKey: string, value: T) {
  */
 export function getSystemKeybinding(keybindingKey: string) {
     return game.keybindings!.get(SYSTEM_ID, keybindingKey);
+}
+
+declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
+    interface SettingConfig extends SystemSettingsConfig {
+        'core.collectionSortingModes': Record<string, string>;
+    }
 }

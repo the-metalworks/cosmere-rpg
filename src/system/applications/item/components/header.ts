@@ -8,7 +8,8 @@ import { HandlebarsApplicationComponent } from '@system/applications/component-s
 import { BaseItemSheet, BaseItemSheetRenderContext } from '../base';
 
 export class ItemHeaderComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<BaseItemSheet>
+    // typeof BaseItemSheet
+    any // TEMP: Workaround
 > {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_BASE_HEADER}`;
 
@@ -30,12 +31,12 @@ export class ItemHeaderComponent extends HandlebarsApplicationComponent<
             this.application.item.toObject(),
         );
 
-        void new FilePicker({
+        void new foundry.applications.apps.FilePicker({
             current: this.application.item.img,
             type: 'image',
             redirectToRoot: [defaultImg],
-            top: this.application.position.top + 40,
-            left: this.application.position.left + 10,
+            // top: this.application.position.top + 40,
+            // left: this.application.position.left + 10,
             callback: (path) => {
                 void this.application.item.update({
                     img: path,
@@ -47,11 +48,13 @@ export class ItemHeaderComponent extends HandlebarsApplicationComponent<
     /* --- Context --- */
 
     public _prepareContext(params: never, context: BaseItemSheetRenderContext) {
+        const item = this.application.item as Item.Implementation; // TEMP: Workaround
+
         return Promise.resolve({
             ...context,
 
-            typeLabel:
-                CONFIG.COSMERE.items.types[this.application.item.type].label,
+            typeLabel: 
+                CONFIG.COSMERE.items.types[item.type].label,   
         });
     }
 }

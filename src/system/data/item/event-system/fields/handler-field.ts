@@ -1,3 +1,6 @@
+import {
+    IHandler,
+} from '@system/types/item/event-system';
 import { constructHandlerClass } from '@system/utils/item/event-system';
 import { HandlerBaseSchema } from '../handler';
 import { AnyObject, AnyMutableObject } from '@system/types/utils';
@@ -7,8 +10,8 @@ const NONE_HANDLER_CLASS = constructHandlerClass('none', () => {}, {
     schema: {},
 });
 
-type HandlerBaseAssignmentType = foundry.data.fields.SchemaField.Internal.InitializedType<HandlerBaseSchema>;
-type HandlerBaseInitializedType = foundry.data.fields.SchemaField.Internal.InitializedType<HandlerBaseSchema>;
+type HandlerBaseAssignmentType = foundry.data.fields.SchemaField.Internal.AssignmentType<HandlerBaseSchema>;
+type HandlerBaseInitializedType = IHandler<{}>;
 type HandlerBasePersistedType = foundry.data.fields.SchemaField.Internal.PersistedType<HandlerBaseSchema>;
 
 export class HandlerField<
@@ -24,18 +27,15 @@ export class HandlerField<
             : NONE_HANDLER_CLASS;
     }
 
-    protected override _cleanType(value: HandlerBaseInitializedType, options?: foundry.data.fields.DataField.CleanOptions) {
-        if (!value || !(typeof value === 'object')) 
-            value = { type: 'none' };
-        
+    protected override _cleanType(value: HandlerBaseInitializedType, options?: foundry.data.fields.DataField.CleanOptions) {       
         // Get type
         const type = 'type' in value ? (value.type as string) : 'none';
 
         // Clean value
         return (
-            HandlerField.getModelForType(type)?.cleanData(value, options) ??
+            HandlerField.getModelForType(type)?.cleanData(value as unknown as AnyMutableObject, options) ??
             value
-        ) as HandlerBaseInitializedType;
+        ) as unknown as HandlerBaseInitializedType; 
     }
 
     protected override _validateType(
@@ -81,13 +81,13 @@ export class HandlerField<
         const cls = HandlerField.getModelForType(value.type);
 
         // Initialize value
-        return cls
+        return (cls
             ? value instanceof cls
                 ? value
                 : new cls(foundry.utils.deepClone(value), {
                       parent: model,
                       ...options,
                   })
-            : foundry.utils.deepClone(value);
+            : foundry.utils.deepClone(value)) as any; // TEMP: Workaround
     }
 }

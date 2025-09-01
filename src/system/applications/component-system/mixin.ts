@@ -1,4 +1,4 @@
-import { DeepPartial, AnyObject, AnyConcreteApplicationV2Constructor } from '@system/types/utils';
+import { DeepPartial, AnyObject } from '@system/types/utils';
 
 // Component System
 import ComponentSystem from './system';
@@ -277,9 +277,47 @@ export function ComponentHandlebarsApplicationMixin<
                 this.dispatchRenderEventRecursive(childRef),
             );
         }
-    };
+    } as unknown as typeof ComponentHandlebarsApplication;
 }
 
-export type ComponentHandlebarsApplication<
-    BaseClass extends foundry.applications.api.ApplicationV2.AnyConstructor,
-> = ReturnType<typeof ComponentHandlebarsApplicationMixin<BaseClass>>;
+// export type ComponentHandlebarsApplication<
+//     BaseClass extends foundry.applications.api.ApplicationV2.AnyConstructor,
+// > = ReturnType<typeof ComponentHandlebarsApplicationMixin<BaseClass>>;
+
+// TEMP: Workaround
+export declare class ComponentHandlebarsApplication<
+    T extends null | 'Actor' | 'Item' = null
+> {
+    static DEFAULT_OPTIONS: any;
+    static PARTS: any;
+    static TABS: any;
+
+    constructor(...args: any[]);
+
+    // public get actor(): T extends 'Actor' ? Actor.Implementation : never;
+    // public get item(): T extends 'Item' ? Item.Implementation : never;
+
+    public readonly components: Record<
+        string,
+        HandlebarsApplicationComponent
+    >;
+
+    public document: foundry.abstract.Document.Any;
+    public isEditable: boolean;
+    public element: HTMLElement;
+    public window: foundry.applications.api.ApplicationV2.Window;
+    public position: foundry.applications.api.ApplicationV2.Position;
+
+    public render(...args: any[]): Promise<void>;
+    public close(): Promise<void>;
+    public setPosition(position: DeepPartial<foundry.applications.api.ApplicationV2.Position>): void;
+
+    protected _renderFrame(...args: any[]): Promise<HTMLElement>;
+    protected _onRender(...args: any[]): Promise<void>;
+    public _prepareContext(...args: any[]): Promise<AnyObject>;
+    protected _onFirstRender(...args: any[]): Promise<void>;
+    protected _onPosition(...args: any[]): void;
+    protected _preRender(...args: any[]): Promise<void>;
+
+    public changeTab(tab: string, group: string, options?: AnyObject): void;
+}

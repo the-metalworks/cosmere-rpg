@@ -40,13 +40,18 @@ export interface BaseActorSheetRenderContext extends foundry.applications.sheets
     isEditMode: boolean;
 }
 
+// TEMP: Workaround
+// export class BaseActorSheet<
+//     T extends BaseActorSheetRenderContext = BaseActorSheetRenderContext,
+// > extends TabsApplicationMixin(
+//     DragDropApplicationMixin(ComponentHandlebarsApplicationMixin(ActorSheetV2)),
+// )<T> {
 export class BaseActorSheet<
     T extends BaseActorSheetRenderContext = BaseActorSheetRenderContext,
 > extends TabsApplicationMixin(
-    DragDropApplicationMixin(ComponentHandlebarsApplicationMixin(ActorSheetV2)),
-)<T> {
-    // @ts-ignore
-    declare actor: CosmereActor;
+    DragDropApplicationMixin(ComponentHandlebarsApplicationMixin(ActorSheetV2)<'Actor'>),
+) {
+    declare actor: Actor.Implementation;
 
     /* eslint-disable @typescript-eslint/unbound-method */
     static DEFAULT_OPTIONS = foundry.utils.mergeObject(
@@ -181,10 +186,10 @@ export class BaseActorSheet<
             const packDocument = (await pack.getDocument(index._id))!;
 
             // Embed document
-            void this.actor.createEmbeddedDocuments(data.type, [packDocument]);
+            void this.actor.createEmbeddedDocuments(data.type as Actor.Embedded.Name, [packDocument as any]); // TEMP: Workaround
         } else if (document.parent !== this.actor) {
             // Document not yet on this actor, create it
-            void this.actor.createEmbeddedDocuments(data.type, [document]);
+            void this.actor.createEmbeddedDocuments(data.type as Actor.Embedded.Name, [document as any]); // TEMP: Workaround
         }
     }
 

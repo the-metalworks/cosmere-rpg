@@ -8,6 +8,8 @@ import { TEMPLATES } from '@src/system/utils/templates';
 import { BaseItemSheet } from './base';
 
 export class InjuryItemSheet extends BaseItemSheet {
+    declare item: InjuryItem;
+
     static DEFAULT_OPTIONS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.DEFAULT_OPTIONS),
         {
@@ -41,10 +43,6 @@ export class InjuryItemSheet extends BaseItemSheet {
             },
         },
     );
-
-    get item(): InjuryItem {
-        return super.document;
-    }
 
     /* --- Context --- */
 

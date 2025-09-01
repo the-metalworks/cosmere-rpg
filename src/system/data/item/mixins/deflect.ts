@@ -36,6 +36,14 @@ const SCHEMA = {
 }
 
 export type DeflectItemDataSchema = typeof SCHEMA;
+export type DeflectItemData = foundry.data.fields.SchemaField.InitializedData<DeflectItemDataSchema>;
+export type DeflectItemDerivedData = {
+    deflectsArray: Array<
+        DeflectItemData['deflects'][DamageType] & {
+            id: DamageType;
+        }
+    >
+}
 
 /**
  * Mixin for deflect data

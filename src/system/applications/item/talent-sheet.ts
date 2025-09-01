@@ -8,6 +8,8 @@ import { TEMPLATES } from '@src/system/utils/templates';
 import { BaseItemSheet } from './base';
 
 export class TalentItemSheet extends BaseItemSheet {
+    declare item: TalentItem;
+
     /**
      * NOTE: Unbound methods is the standard for defining actions and forms
      * within ApplicationV2
@@ -50,10 +52,6 @@ export class TalentItemSheet extends BaseItemSheet {
             },
         },
     );
-
-    get item(): TalentItem {
-        return super.document;
-    }
 
     /* --- Form --- */
 

@@ -1,4 +1,5 @@
-import { CosmereActor, CosmereItem } from '../documents';
+import { CosmereActor, CosmereActorRollData } from '@system/documents/actor';
+import { CosmereItem } from '@system/documents/item';
 import { AttributeConfig, SkillConfig } from '../types/config';
 import { Attribute, AttributeGroup, DamageType, Skill } from '../types/cosmere';
 import { getActor } from './actor';
@@ -15,8 +16,10 @@ interface EnricherConfig {
     [key: string]: string | string[] | boolean | number;
 }
 
-export interface EnricherData {
-    actor?: ReturnType<CosmereActor['getRollData']>;
+export interface EnricherData<
+    ActorSubType extends Actor.SubType = Actor.SubType,
+> {
+    actor?: CosmereActorRollData<ActorSubType>;
     item?: {
         name: string;
         charges?: {

@@ -1,10 +1,17 @@
 import { Rule, RuleDataSchema } from '../index';
 
 type PersistedRule = foundry.data.fields.SchemaField.Internal.PersistedType<RuleDataSchema>;
+type RuleFieldOptions = foundry.data.fields.SchemaField.DefaultOptions;
 
-export class RuleField extends foundry.data.fields.SchemaField<RuleDataSchema> {
+export class RuleField extends foundry.data.fields.SchemaField<
+    RuleDataSchema,
+    RuleFieldOptions,
+    foundry.data.fields.SchemaField.InnerAssignmentType<RuleDataSchema>,
+    Rule,
+    foundry.data.fields.SchemaField.Internal.PersistedType<RuleDataSchema>
+> {
     constructor(
-        options?: foundry.data.fields.SchemaField.DefaultOptions,
+        options?: RuleFieldOptions,
         context?: foundry.data.fields.DataField.ConstructionContext,
     ) {
         super(Rule.defineSchema(), options, context);

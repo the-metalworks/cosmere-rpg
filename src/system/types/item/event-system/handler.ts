@@ -39,6 +39,7 @@ export type HandlerExecutor<E extends Event = Event<any, any, any>> = (
 export interface IHandler<
     TSchema extends foundry.data.fields.DataSchema
 > {
+    type: string;
     typeLabel: string;
     configSchema: { fields: TSchema };
     configRenderer: ((data: AnyObject) => Promise<string>) | null;

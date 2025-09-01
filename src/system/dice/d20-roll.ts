@@ -36,6 +36,8 @@ export type D20RollData<
 
     /* --- For hooks --- */
     context: string; // The roll context, for naming
+
+    source: any;
 };
 
 export interface D20RollOptions

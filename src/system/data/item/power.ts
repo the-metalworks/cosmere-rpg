@@ -49,7 +49,7 @@ const SCHEMA = {
     }),
 }
 
-export type PowerItemDataSchema = 
+export type PowerItemDataSchema =
     & typeof SCHEMA
     & IdItemDataSchema
     & TypedItemDataSchema<PowerType>
@@ -60,6 +60,12 @@ export type PowerItemDataSchema =
     & RelationshipsItemDataSchema;
 
 export type PowerItemDerivedData = TypedItemDerivedData;
+
+export type PowerItemCreateData = Item.CreateData & {
+    system: foundry.data.fields.SchemaField.CreateData<
+        PowerItemDataSchema
+    >
+};
 
 export class PowerItemDataModel extends DataModelMixin<
     PowerItemDataSchema,

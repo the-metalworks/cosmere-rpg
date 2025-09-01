@@ -16,7 +16,10 @@ import { HOOKS } from '@system/constants/hooks';
 
 Hooks.on(
     'preUpdateItem',
-    (item: CosmereItem, update: DeepMutable<DeepPartial<CosmereItem>>) => {
+    (
+        item: CosmereItem, 
+        update: Item.UpdateData
+    ) => {
         if (item.isGoal()) {
             if (foundry.utils.hasProperty(update, 'system.level')) {
                 const currentLevel = item.system.level;
@@ -30,7 +33,7 @@ Hooks.on(
                      * Hook: preUpdateProgressGoal
                      */
                     if (
-                        Hooks.call<CosmereHooks.PreUpdateProgressGoal>(
+                        Hooks.call(
                             HOOKS.PRE_UPDATE_PROGRESS_GOAL,
                             item,
                             newLevel,
@@ -44,7 +47,7 @@ Hooks.on(
                          * Hook: preProgressGoal
                          */
                         if (
-                            Hooks.call<CosmereHooks.PreProgressGoal>(
+                            Hooks.call(
                                 HOOKS.PRE_PROGRESS_GOAL,
                                 item,
                                 newLevel,
@@ -65,7 +68,7 @@ Hooks.on(
                          * Hook: preCompleteGoal
                          */
                         if (
-                            Hooks.call<CosmereHooks.PreCompleteGoal>(
+                            Hooks.call(
                                 HOOKS.PRE_COMPLETE_GOAL,
                                 item,
                             ) === false
@@ -92,17 +95,20 @@ Hooks.on(
 
 Hooks.on(
     'updateItem',
-    (item: CosmereItem, update: DeepPartial<CosmereItem>) => {
+    (
+        item: CosmereItem, 
+        update: Item.UpdateData
+    ) => {
         if (item.isGoal()) {
             const previousLevel =
-                item.getFlag<number>(SYSTEM_ID, 'previousLevel') ?? 0;
+                item.getFlag(SYSTEM_ID, 'previousLevel') ?? 0;
             const newLevel = item.system.level;
 
             if (newLevel !== previousLevel) {
                 /**
                  * Hook: updateProgressGoal
                  */
-                Hooks.callAll<CosmereHooks.UpdateProgressGoal>(
+                Hooks.callAll(
                     HOOKS.UPDATE_PROGRESS_GOAL,
                     item,
                 );
@@ -111,7 +117,7 @@ Hooks.on(
                     /**
                      * Hook: progressGoal
                      */
-                    Hooks.callAll<CosmereHooks.ProgressGoal>(
+                    Hooks.callAll(
                         HOOKS.PROGRESS_GOAL,
                         item,
                     );
@@ -127,7 +133,7 @@ Hooks.on(
                     /**
                      * Hook: completeGoal
                      */
-                    Hooks.callAll<CosmereHooks.CompleteGoal>(
+                    Hooks.callAll(
                         HOOKS.COMPLETE_GOAL,
                         item,
                     );
@@ -145,7 +151,7 @@ Hooks.on('preCreateItem', (item: CosmereItem) => {
     if (!item.actor) return;
 
     // Get origin flag
-    const origin = item.getFlag<ItemOrigin>(SYSTEM_ID, 'meta.origin');
+    const origin = item.getFlag(SYSTEM_ID, 'meta.origin');
     if (!origin) return;
 
     // Attempt to find a suitable parent item on the actor
@@ -175,7 +181,7 @@ Hooks.on(
 
         await Promise.all(
             item.system.relationships.map((relationship) =>
-                connectRelationship(item, relationship),
+                connectRelationship(item, relationship as any), // TEMP: Workaround
             ),
         );
 
@@ -217,7 +223,7 @@ Hooks.on(
             // For each orphaned item, check if it has an origin flag pointing to this item
             await Promise.all(
                 orphanedItems.map(async (orphanedItem) => {
-                    const origin = orphanedItem.getFlag<ItemOrigin>(
+                    const origin = orphanedItem.getFlag(
                         SYSTEM_ID,
                         'meta.origin',
                     );
@@ -243,7 +249,7 @@ Hooks.on(
     'updateItem',
     async (
         item: CosmereItem,
-        update: DeepPartial<CosmereItem>,
+        update: Item.UpdateData,
         _: unknown,
         userId: string,
     ) => {
@@ -286,11 +292,11 @@ Hooks.on(
                         await relatedItem.delete();
                     } else {
                         // Remove the relationship from the related item
-                        await disconnectRelationship(relatedItem, relationship);
+                        await disconnectRelationship(relatedItem, relationship as any); // TEMP: Workaround
                     }
                 } else {
                     // If the relationship is a parent, we need to disconnect it from the related item
-                    await disconnectRelationship(item, relationship);
+                    await disconnectRelationship(item, relationship as any); // TEMP: Workaround
                 }
             }),
         );

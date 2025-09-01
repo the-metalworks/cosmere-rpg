@@ -148,7 +148,7 @@ export class AppContextMenu {
             elements.push(
                 ...param1
                     .map((selector) =>
-                        $(this.parent.element).find(selector).toArray(),
+                        $(this.parent.element).find(selector as string).toArray(),
                     )
                     .flat(),
             );

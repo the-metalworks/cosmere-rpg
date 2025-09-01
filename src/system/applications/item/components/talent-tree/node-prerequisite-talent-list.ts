@@ -18,7 +18,8 @@ type Params = {
 
 export class NodePrerequisiteTalentListComponent extends DragDropComponentMixin(
     HandlebarsApplicationComponent<
-        ConstructorOf<EditNodePrerequisiteDialog>,
+        // typeof EditNodePrerequisiteDialog,
+        any, // TEMP: Workaround
         Params
     >,
 ) {

@@ -22,6 +22,8 @@ export type DamageRollData<
         unmodded: DamageRoll;
         dice: DamageRoll;
     };
+
+    source: any;
 };
 
 export interface DamageRollOptions

@@ -1,4 +1,7 @@
-import { AnyObject, AnyConcreteApplicationV2Constructor } from '@system/types/utils';
+import { AnyObject, ConstructorOf } from '@system/types/utils';
+
+// TEMP
+import { ComponentHandlebarsApplication } from '../component-system/mixin';
 
 // Constants
 const PRIMARY_TAB_GROUP = 'primary';
@@ -45,11 +48,23 @@ export interface TabApplicationRenderOptions
     tab?: string;
 }
 
-/**
- * Mixin that adds standardized tabs to an ApplicationV2
- */
+// class Temp<
+//     T extends { actor: boolean; item: boolean; } = { actor: false; item: false; }
+// > extends ComponentHandlebarsApplication<null | 'Actor' | 'Item'> {
+//     protected _canDragStart(): boolean { return false; }
+//     protected _canDragDrop(): boolean { return false; }
+//     protected _onDragStart(event: DragEvent) {};
+//     protected _onDrop(event: DragEvent) {};
+// }
+
+// /**
+//  * Mixin that adds standardized tabs to an ApplicationV2
+//  */
+// export function TabsApplicationMixin<
+//     T extends AnyConcreteApplicationV2Constructor
+// >(base: T) {
 export function TabsApplicationMixin<
-    T extends AnyConcreteApplicationV2Constructor
+    T extends ConstructorOf<ComponentHandlebarsApplication<null | 'Actor' | 'Item'>>
 >(base: T) {
     return class mixin extends base {
         /**
@@ -167,7 +182,7 @@ export function TabsApplicationMixin<
                 tabsMap,
                 tabGroups: this.tabGroups,
                 activeTab: this.tabGroups.primary,
-            };
+            } as AnyObject; // TEMP: Workaround
         }
     };
 }

@@ -22,6 +22,11 @@ const SCHEMA = {
 };
 
 export type TalentsProviderDataSchema = typeof SCHEMA;
+export type TalentsProviderData = foundry.data.fields.SchemaField.InitializedData<TalentsProviderDataSchema>;
+export type TalentsProviderDerivedData = {
+    providesTalent(talent: TalentItem): Promise<boolean>;
+    providesTalent(id: string): Promise<boolean>;
+}
 
 /**
  * Mixin for items that provide a talent tree through the "talents" tab.

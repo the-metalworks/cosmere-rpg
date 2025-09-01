@@ -64,8 +64,12 @@ const SCHEMA = {
             new foundry.data.fields.SchemaField({
                 uuid: new foundry.data.fields.DocumentUUIDField({
                     type: 'Item',
+                    nullable: false,
                 }),
-                level: new foundry.data.fields.NumberField(),
+                level: new foundry.data.fields.NumberField({
+                    required: true,
+                    nullable: false,
+                }),
             }),
         ),
 
@@ -73,11 +77,13 @@ const SCHEMA = {
             new foundry.data.fields.SchemaField({
                 level: new foundry.data.fields.NumberField({
                     required: true,
+                    nullable: false,
                     min: 0,
                     initial: 0,
                 }),
                 quantity: new foundry.data.fields.NumberField({
                     required: true,
+                    nullable: false,
                     min: 0,
                     initial: 0,
                 }),
@@ -95,6 +101,9 @@ type AncestryItemDataSchema =
     & EventsItemDataSchema
     & LinkedSkillsItemDataSchema
     & RelationshipsItemDataSchema;
+
+export type AncestryItemData = foundry.data.fields.SchemaField.InitializedData<AncestryItemDataSchema>;
+export type BonusTalentsRule = AncestryItemData['advancement']['bonusTalents'][number];
 
 export class AncestryItemDataModel extends DataModelMixin<
     AncestryItemDataSchema

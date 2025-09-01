@@ -20,9 +20,15 @@ import { EDIT_MENU_WIDTH } from './components/talent-tree/constants';
 const DEFAULT_WIDTH = 800;
 const DEFAULT_HEIGHT = 650;
 
+type TalentTreeSheetConfiguration = foundry.applications.api.DocumentSheetV2.Configuration<
+    TalentTreeItem
+>;
+
 export class TalentTreeItemSheet extends EditModeApplicationMixin(
-    ComponentHandlebarsApplicationMixin(ItemSheetV2),
+    ComponentHandlebarsApplicationMixin(ItemSheetV2)<'Item'>,
 ) {
+    declare item: TalentTreeItem;
+
     /**
      * NOTE: Unbound methods is the standard for defining actions and forms
      * within ApplicationV2
@@ -62,7 +68,7 @@ export class TalentTreeItemSheet extends EditModeApplicationMixin(
     private prevHeight = 0;
 
     constructor(
-        options: foundry.applications.api.DocumentSheetV2.Configuration,
+        options: TalentTreeSheetConfiguration,
     ) {
         const tree = options.document as unknown as TalentTreeItem;
         const mode = tree.getFlag(SYSTEM_ID, 'sheet.mode') ?? 'view';
@@ -84,11 +90,11 @@ export class TalentTreeItemSheet extends EditModeApplicationMixin(
         super(options);
 
         // Get all characters owned by the current user
-        const characters = (game.actors as CosmereActor[]).filter(
+        const characters = game.actors.filter(
             (actor) =>
                 actor.isCharacter() &&
                 actor.testUserPermission(
-                    game.user as unknown as foundry.documents.BaseUser,
+                    game.user,
                     'OWNER',
                 ),
         );
@@ -156,10 +162,6 @@ export class TalentTreeItemSheet extends EditModeApplicationMixin(
 
     /* --- Accessors --- */
 
-    get item(): TalentTreeItem {
-        return super.document;
-    }
-
     public get contextActor(): CosmereActor | undefined {
         return this._contextActor;
     }
@@ -172,8 +174,8 @@ export class TalentTreeItemSheet extends EditModeApplicationMixin(
 
     /* --- Lifecycle --- */
 
-    protected _onRender(context: AnyObject, options: AnyObject) {
-        super._onRender(context, options);
+    protected async _onRender(context: AnyObject, options: AnyObject) {
+        await super._onRender(context, options);
         $(this.element)
             .find('.collapsible .header')
             .on('click', (event) => this.onClickCollapsible(event));
@@ -185,11 +187,11 @@ export class TalentTreeItemSheet extends EditModeApplicationMixin(
         const frame = await super._renderFrame(options);
 
         // Get all characters owned by the current user
-        const characters = (game.actors as CosmereActor[]).filter(
+        const characters = game.actors.filter(
             (actor) =>
                 actor.isCharacter() &&
                 actor.testUserPermission(
-                    game.user as unknown as foundry.documents.BaseUser,
+                    game.user,
                     'OWNER',
                 ),
         );

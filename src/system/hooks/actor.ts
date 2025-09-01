@@ -21,9 +21,9 @@ Hooks.on(
     'preUpdateActor',
     (
         actor: CosmereActor,
-        update: DeepPartial<CosmereActor>,
-        options: AnyMutableObject,
-        userId: string,
+        changed: Actor.UpdateData,
+        options: Actor.Database.PreUpdateOptions,
+        userId: string
     ) => {
         if (game.user!.id !== userId) return;
 
@@ -43,8 +43,8 @@ Hooks.on(
     'updateActor',
     (
         actor: CosmereActor,
-        update: DeepPartial<CosmereActor>,
-        options: AnyMutableObject,
+        change: Actor.UpdateData,
+        options: Actor.Database.UpdateOptions,
         userId: string,
     ) => {
         if (game.user!.id !== userId) return;
@@ -80,10 +80,13 @@ Hooks.on(
 
 Hooks.on(
     'preUpdateActor',
-    (actor: CosmereActor, update: DeepPartial<CosmereActor>) => {
-        if (foundry.utils.hasProperty(update, `flags.${SYSTEM_ID}.mode`)) {
+    (
+        actor: CosmereActor, 
+        changed: Actor.UpdateData,
+    ) => {
+        if (foundry.utils.hasProperty(changed, `flags.${SYSTEM_ID}.mode`)) {
             const modalityChanges = foundry.utils.getProperty(
-                update,
+                changed,
                 `flags.${SYSTEM_ID}.mode`,
             ) as Record<string, string>;
 
@@ -105,7 +108,7 @@ Hooks.on(
                      * Hook: preDeactivateModality
                      */
                     if (
-                        Hooks.call<CosmereHooks.PreModeDeactivateItem>(
+                        Hooks.call(
                             HOOKS.PRE_MODE_DEACTIVATE_ITEM,
                             currentModalityItem,
                         ) === false
@@ -128,7 +131,7 @@ Hooks.on(
                      * Hook: preActivateModality
                      */
                     if (
-                        Hooks.call<CosmereHooks.PreModeActivateItem>(
+                        Hooks.call(
                             HOOKS.PRE_MODE_ACTIVATE_ITEM,
                             newModalityItem,
                         ) === false
@@ -139,7 +142,7 @@ Hooks.on(
 
                 // Store the current mode in flags for later use
                 foundry.utils.setProperty(
-                    update,
+                    changed,
                     `flags.${SYSTEM_ID}.meta.update.mode.${modality}`,
                     currentMode,
                 );
@@ -150,10 +153,13 @@ Hooks.on(
 
 Hooks.on(
     'updateActor',
-    (actor: CosmereActor, update: DeepPartial<CosmereActor>) => {
-        if (foundry.utils.hasProperty(update, `flags.${SYSTEM_ID}.mode`)) {
+    (
+        actor: CosmereActor, 
+        changed: Actor.UpdateData,
+    ) => {
+        if (foundry.utils.hasProperty(changed, `flags.${SYSTEM_ID}.mode`)) {
             const modalityChanges = foundry.utils.getProperty(
-                update,
+                changed,
                 `flags.${SYSTEM_ID}.mode`,
             ) as Record<string, string>;
 
@@ -177,7 +183,7 @@ Hooks.on(
                     /**
                      * Hook: modeDeactivateItem
                      */
-                    Hooks.callAll<CosmereHooks.ModeDeactivateItem>(
+                    Hooks.callAll(
                         HOOKS.MODE_DEACTIVATE_ITEM,
                         currentModalityItem,
                     );
@@ -196,7 +202,7 @@ Hooks.on(
                     /**
                      * Hook: modeActivateItem
                      */
-                    Hooks.callAll<CosmereHooks.ModeActivateItem>(
+                    Hooks.callAll(
                         HOOKS.MODE_ACTIVATE_ITEM,
                         newModalityItem,
                     );
@@ -208,7 +214,11 @@ Hooks.on(
 
 Hooks.on(
     'createItem',
-    async (item: CosmereItem, options: unknown, userId: string) => {
+    async (
+        item: CosmereItem, 
+        _: unknown, 
+        userId: string
+    ) => {
         if (game.user!.id !== userId) return;
         if (!item.actor) return;
 

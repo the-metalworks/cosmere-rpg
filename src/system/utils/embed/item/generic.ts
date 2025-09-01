@@ -90,7 +90,7 @@ export function createInlineEmbed(
 }
 
 export function getLinkDataStr(
-    item: Item,
+    item: Item.Implementation,
     dataset?: Record<string, string>,
 ): string {
     // Generate content link

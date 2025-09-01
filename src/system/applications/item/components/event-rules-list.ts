@@ -1,5 +1,4 @@
-import { CosmereItem } from '@system/documents/item';
-import { EventsItemData } from '@system/data/item/mixins/events';
+import { EventsItem } from '@system/documents/item';
 import { ConstructorOf } from '@system/types/utils';
 
 // Dialogs
@@ -14,9 +13,12 @@ import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
 export class ItemEventRulesListComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<BaseItemSheet>
+    // typeof BaseItemSheet
+    any // TEMP: Workaround
 > {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_EVENT_RULES_LIST}`;
+
+    declare item: EventsItem;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions and forms
@@ -29,12 +31,6 @@ export class ItemEventRulesListComponent extends HandlebarsApplicationComponent<
         'delete-rule': this.onDeleteRule,
     };
     /* eslint-enable @typescript-eslint/unbound-method */
-
-    /* --- Accessors --- */
-
-    public get item(): CosmereItem<EventsItemData> {
-        return this.application.item as CosmereItem<EventsItemData>;
-    }
 
     /* --- Actions --- */
 
@@ -57,7 +53,7 @@ export class ItemEventRulesListComponent extends HandlebarsApplicationComponent<
         });
 
         // Get the rule
-        const rule = this.item.system.events.get(id)!;
+        const rule = this.item.system.events.get(id) as any; // TEMP: Workaround
 
         // Show the edit dialog
         void ItemEditEventRuleDialog.show(this.item, rule);
@@ -71,7 +67,7 @@ export class ItemEventRulesListComponent extends HandlebarsApplicationComponent<
         if (!id) return;
 
         // Get the rule
-        const rule = this.item.system.events.get(id);
+        const rule = this.item.system.events.get(id) as any; // TEMP: Workaround
         if (!rule) return;
 
         // Show the edit dialog

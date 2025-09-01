@@ -8,7 +8,8 @@ import { HandlebarsApplicationComponent } from '@system/applications/component-s
 import { BaseItemSheet, BaseItemSheetRenderContext } from '../base';
 
 export class DetailsDeflectComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<BaseItemSheet>
+    // typeof BaseItemSheet
+    any // TEMP: Workaround
 > {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_DETAILS_DEFLECT}`;
 
@@ -60,7 +61,7 @@ export class DetailsDeflectComponent extends HandlebarsApplicationComponent<
     }
 
     private prepareDeflectedTypesString() {
-        const item = this.application.item;
+        const item = this.application.item as Item.Implementation; // TEMP: Workaround
         if (!item.hasDeflect()) return null;
 
         return item.system.deflectsArray

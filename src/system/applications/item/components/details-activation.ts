@@ -14,7 +14,8 @@ import { SYSTEM_ID } from '@system/constants';
 import { TEMPLATES } from '@system/utils/templates';
 
 export class DetailsActivationComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<BaseItemSheet>
+    // typeof BaseItemSheet
+    any // TEMP: Workaround
 > {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_DETAILS_ACTIVATION}`;
 
@@ -77,22 +78,22 @@ export class DetailsActivationComponent extends HandlebarsApplicationComponent<
                 ...((
                     (
                         this.application.item
-                            .system as unknown as foundry.abstract.DataModel
+                            .system as unknown as foundry.abstract.DataModel.Any
                     ).schema.getField(
                         'activation.uses.type',
                     ) as foundry.data.fields.StringField
-                ).options.choices as AnyObject),
+                ).options.choices as unknown as AnyObject), // TEMP: Workaround
             },
             consumeTypeSelectOptions: {
                 '': 'GENERIC.None',
                 ...((
                     (
                         this.application.item
-                            .system as unknown as foundry.abstract.DataModel
+                            .system as unknown as foundry.abstract.DataModel.Any
                     ).schema.getField(
                         'activation.consume.element.type',
                     ) as foundry.data.fields.StringField
-                ).options.choices as AnyObject),
+                ).options.choices as unknown as AnyObject), // TEMP: Workaround
             },
         };
     }

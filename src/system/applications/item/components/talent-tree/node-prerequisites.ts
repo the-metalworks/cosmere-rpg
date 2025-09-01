@@ -22,7 +22,8 @@ type Params = {
 };
 
 export class NodePrerequisitesComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<TalentTreeItemSheet>,
+    // typeof TalentTreeItemSheet,
+    any, // TEMP: Workaround
     Params
 > {
     static TEMPLATE =

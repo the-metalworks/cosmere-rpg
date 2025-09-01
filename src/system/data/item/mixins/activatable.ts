@@ -120,9 +120,8 @@ const ACTIVATION_SCHEMA = {
                 }),
             },
             {
-                required: false,
-                nullable: true,
-                initial: null,
+                required: true,
+                nullable: false,
             },
         ),
         {

@@ -8,7 +8,8 @@ import { HandlebarsApplicationComponent } from '@system/applications/component-s
 import { BaseItemSheet, BaseItemSheetRenderContext } from '../base';
 
 export class DetailsEquipComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<BaseItemSheet>
+    // typeof BaseItemSheet
+    any // TEMP: Workaround
 > {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_DETAILS_EQUIP}`;
 
@@ -49,7 +50,8 @@ export class DetailsEquipComponent extends HandlebarsApplicationComponent<
     /* --- Context --- */
 
     public _prepareContext(params: never, context: BaseItemSheetRenderContext) {
-        const isEquippable = this.application.item.isEquippable();
+        const item = this.application.item as Item.Implementation; // TEMP: Workaround
+        const isEquippable = item.isEquippable();
 
         if (!isEquippable) {
             return Promise.resolve({
@@ -68,9 +70,9 @@ export class DetailsEquipComponent extends HandlebarsApplicationComponent<
                 }),
                 {},
             ),
-            holdTypeLabel: this.application.item.system.equip.hold
+            holdTypeLabel: item.system.equip.hold
                 ? CONFIG.COSMERE.items.equip.hold[
-                      this.application.item.system.equip.hold
+                      item.system.equip.hold
                   ].label
                 : '—',
             normalTraitsCollapsed: this.normalTraitsCollapsed,
@@ -83,7 +85,7 @@ export class DetailsEquipComponent extends HandlebarsApplicationComponent<
     }
 
     private prepareTraitsData(expert: boolean) {
-        const item = this.application.item;
+        const item = this.application.item as Item.Implementation; // TEMP: Workaround
 
         if (!item.isArmor() && !item.isWeapon()) return null;
 
@@ -169,7 +171,7 @@ export class DetailsEquipComponent extends HandlebarsApplicationComponent<
     }
 
     private prepareNormalTraitsString() {
-        const item = this.application.item;
+        const item = this.application.item as Item.Implementation; // TEMP: Workaround
         if (!item.hasTraits()) return null;
 
         const isArmor = item.isArmor();
@@ -191,7 +193,7 @@ export class DetailsEquipComponent extends HandlebarsApplicationComponent<
     }
 
     private prepareExpertTraitsString() {
-        const item = this.application.item;
+        const item = this.application.item as Item.Implementation; // TEMP: Workaround
         if (!item.hasTraits()) return null;
 
         const isArmor = item.isArmor();

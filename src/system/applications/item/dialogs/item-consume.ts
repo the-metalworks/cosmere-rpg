@@ -98,7 +98,7 @@ export class ItemConsumeDialog extends foundry.applications.api.DialogV2 {
                         label = game.i18n!.format(
                             'DIALOG.ItemConsume.ShouldConsume.Static',
                             {
-                                amount: option.amount.min,
+                                amount: option.amount.min.toFixed(),
                                 resource,
                             },
                         );
@@ -108,7 +108,7 @@ export class ItemConsumeDialog extends foundry.applications.api.DialogV2 {
                         label = game.i18n!.format(
                             'DIALOG.ItemConsume.ShouldConsume.RangeUncapped',
                             {
-                                amount: option.amount.min,
+                                amount: option.amount.min.toFixed(),
                                 resource,
                             },
                         );
@@ -119,7 +119,9 @@ export class ItemConsumeDialog extends foundry.applications.api.DialogV2 {
                         label = game.i18n!.format(
                             'DIALOG.ItemConsume.ShouldConsume.RangeCapped',
                             {
-                                ...option.amount,
+                                min: option.amount.min.toFixed(),
+                                max: option.amount.max.toFixed(),
+                                actual: option.amount.actual?.toFixed() ?? '',
                                 resource,
                             },
                         );
@@ -252,11 +254,10 @@ export class ItemConsumeDialog extends foundry.applications.api.DialogV2 {
                             break;
                     }
 
-                    const existing = acc[key];
-                    if (!existing) {
-                        acc[key] = { ...consumable };
+                    if (!acc[key]) {
+                        acc[key] = { ...consumable } as any; // TEMP: Workaround 
                     } else {
-                        acc[key].value.actual! += consumable.value.actual!;
+                        acc[key]!.value.actual! += consumable.value.actual!;
                     }
 
                     return acc;
