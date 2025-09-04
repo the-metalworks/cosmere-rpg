@@ -33,6 +33,7 @@ import {
     Theme,
     MovementType,
     ImmunityType,
+    ActorType,
 } from './cosmere';
 import { AdvantageMode } from './roll';
 
@@ -374,6 +375,28 @@ export interface ItemEventHandlerTypeConfig {
     documentClass: ItemEventSystem.HandlerCls;
 }
 
+export interface RollDataConfig {
+    /**
+     * A label which functions as an identifier and property path for the roll data.
+     */
+    label: string;
+
+    /**
+     * Whether or not it should override existing roll data properties.
+     */
+    override?: boolean;
+
+    /**
+     * The types of document the data applies to.
+     */
+    types: ActorType[];
+
+    /**
+     * The data to provide, in the form of raw values to add or document.system variables to pull from.
+     */
+    data: (string | number)[];
+}
+
 export interface CosmereRPGConfig {
     themes: Record<Theme, string>;
     sizes: Record<Size, SizeConfig>;
@@ -503,6 +526,8 @@ export interface CosmereRPGConfig {
             };
         };
     };
+
+    rollData: Record<string, RollDataConfig>;
 
     sheet: {
         actor: {
