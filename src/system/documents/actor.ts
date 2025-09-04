@@ -1292,7 +1292,7 @@ export class CosmereActor<
                             this,
                             data,
                         ) as number;
-                        if (property && typeof property === 'number') {
+                        if (typeof property === 'number') {
                             val = property;
                         }
                     }
