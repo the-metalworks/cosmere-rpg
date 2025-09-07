@@ -126,6 +126,6 @@ export class CosmereActiveEffect<
 
 declare module "@league-of-foundry-developers/foundry-vtt-types/configuration" {
     interface ConfiguredActiveEffect<SubType extends ActiveEffect.SubType> {
-        document: typeof CosmereActiveEffect<SubType>;
+        document: CosmereActiveEffect<SubType>;
     }
 }

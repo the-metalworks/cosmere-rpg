@@ -1,16 +1,16 @@
 import { CosmereItem } from '@system/documents/item';
 import { IdItemDataSchema } from './id';
 
-const SCHEMA = {
+const SCHEMA = () => ({
     expertise: new foundry.data.fields.BooleanField({
         required: true,
         nullable: false,
         initial: false,
         label: 'Expertise',
     }),
-}
+});
 
-export type ExpertiseItemDataSchema = typeof SCHEMA;
+export type ExpertiseItemDataSchema = ReturnType<typeof SCHEMA>;
 
 export function ExpertiseItemMixin<TParent extends foundry.abstract.Document.Any>() {
     return (
@@ -27,13 +27,13 @@ export function ExpertiseItemMixin<TParent extends foundry.abstract.Document.Any
                     );
                 }
 
-                return foundry.utils.mergeObject(super.defineSchema(), SCHEMA);
+                return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());
             }
 
             public prepareDerivedData(): void {
                 super.prepareDerivedData();
 
-                const parent = this.parent;
+                const parent = this.parent as unknown as Item.Implementation;
 
                 // Check if item type can be found in expertise types
                 const isKnownExpertiseType =

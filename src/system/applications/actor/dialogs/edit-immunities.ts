@@ -23,8 +23,8 @@ export class EditImmunitiesDialog extends HandlebarsApplicationMixin(
                 width: 300,
                 height: 800,
             },
-        },
-    );
+        }
+    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
 
     static PARTS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.PARTS),
@@ -153,7 +153,9 @@ export class EditImmunitiesDialog extends HandlebarsApplicationMixin(
 
         // Update actor
         void this.actor.update({
-            'system.immunities': currentImmunities,
+            system: {
+                immunities: currentImmunities,
+            }
         });
     }
 
@@ -184,8 +186,8 @@ export class EditImmunitiesDialog extends HandlebarsApplicationMixin(
 
     /* --- Lifecycle --- */
 
-    protected _onRender(context: AnyObject, options: AnyObject): void {
-        super._onRender(context, options);
+    protected async _onRender(context: AnyObject, options: AnyObject) {
+        await super._onRender(context, options);
 
         $(this.element).prop('open', true);
         $(this.element)

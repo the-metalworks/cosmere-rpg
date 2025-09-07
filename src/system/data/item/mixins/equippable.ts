@@ -21,7 +21,7 @@ function SCHEMA<TOptions extends EquippableMixinOptions>(options: TOptions) {
         typeof options.equipType?.choices === 'function'
             ? options.equipType.choices()
             : (options.equipType?.choices ??
-                Object.keys(CONFIG.COSMERE.items.equip.types));
+                Object.keys(CONFIG.COSMERE.items.equip.types) as EquipType[]);
 
     return {
         equipped: new foundry.data.fields.BooleanField({

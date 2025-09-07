@@ -44,6 +44,7 @@ export class DetailsDamageComponent extends HandlebarsApplicationComponent<
             this.application.item.system.activation.type ===
                 ActivationType.SkillTest;
         const hasSkill =
+            this.application.item.hasActivation() &&
             hasSkillTest &&
             this.application.item.system.activation.resolvedSkill;
 

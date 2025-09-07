@@ -287,21 +287,11 @@ export class D20Roll extends foundry.dice.Roll<D20RollData> {
     }
 
     public toMessage<
-        T extends foundry.documents.BaseChatMessage.ConstructorData = Record<
-            string,
-            never
-        >,
-        Create extends boolean = true,
+        Create extends boolean | null | undefined = undefined
     >(
-        messageData?: T,
-        options?: Partial<{
-            rollMode: keyof CONFIG.Dice.RollModes | 'roll';
-            create: Create;
-        }>,
-    ): Promise<
-        | (true extends Create ? ChatMessage | undefined : never)
-        | (false extends Create ? foundry.dice.Roll.MessageData<T> : never)
-    > {
+        messageData?: Roll.MessageData | null,
+        options?: Roll.ToMessageOptions<Create>,
+    ): Promise<Roll.ToMessageReturn<Create>> {
         options ??= {};
         options.rollMode ??= this.options.rollMode;
         if (options.rollMode === 'roll') options.rollMode = undefined;
@@ -384,7 +374,7 @@ export class D20Roll extends foundry.dice.Roll<D20RollData> {
                 results: tmpResults,
                 modifiers,
             });
-            const baseRoll = D20Roll.fromTerms([baseTerm]);
+            const baseRoll = D20Roll.fromTerms([baseTerm]) as any;
             baseRoll.options = this.options;
 
             const total = (baseRoll?.total ?? 0) + (bonusRoll?.total ?? 0);

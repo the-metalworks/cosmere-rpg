@@ -17,7 +17,8 @@ type Params = {
 };
 
 export class CharacterSkillLinkedItemComponent extends HandlebarsApplicationComponent<
-    typeof CharacterSheet,
+    // typeof CharacterSheet,
+    any, // TEMP: Workaround
     Params
 > {
     static readonly TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_SKILL_LINKED_ITEM}`;

@@ -73,9 +73,7 @@ export class HandlebarsApplicationComponent<
         public readonly selector: string,
         public readonly partId: string,
         public readonly ref: string,
-        public readonly application: InstanceType<
-            ComponentHandlebarsApplication<BaseClass>
-        >,
+        public readonly application: ComponentHandlebarsApplication & { item: Item.Implementation; actor: Actor.Implementation; mode: 'edit' | 'view'; }, // TEMP: Workaround
     ) {
         super();
 

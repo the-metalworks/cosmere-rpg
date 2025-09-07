@@ -13,7 +13,7 @@ const DAMAGE_TYPE_SCHEMA = (type: DamageType) => ({
     ),
 })
 
-const SCHEMA = {
+const SCHEMA = () => ({
     deflect: new foundry.data.fields.NumberField({
         required: true,
         nullable: false,
@@ -33,9 +33,9 @@ const SCHEMA = {
             >,
         ),
     ),
-}
+});
 
-export type DeflectItemDataSchema = typeof SCHEMA;
+export type DeflectItemDataSchema = ReturnType<typeof SCHEMA>;
 export type DeflectItemData = foundry.data.fields.SchemaField.InitializedData<DeflectItemDataSchema>;
 export type DeflectItemDerivedData = {
     deflectsArray: Array<
@@ -54,7 +54,7 @@ export function DeflectItemMixin<TParent extends foundry.abstract.Document.Any>(
     ) => {
         return class extends base<DeflectItemDataSchema, TParent> {
             static defineSchema() {
-                return foundry.utils.mergeObject(super.defineSchema(), SCHEMA);
+                return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());
             }
 
             get deflectsArray() {

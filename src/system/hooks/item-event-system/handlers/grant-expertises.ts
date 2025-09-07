@@ -126,7 +126,7 @@ export function register() {
                     title: game.i18n!.format(
                         `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.GrantExpertises}.PickDialog.Title`,
                         {
-                            amount: this.pickAmount ?? 1,
+                            amount: (this.pickAmount ?? 1).toFixed(),
                         },
                     ),
                     submitButtonLabel: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.GrantExpertises}.PickDialog.Button`,
@@ -174,13 +174,15 @@ export function register() {
             // Grant the expertises
             await actor.update(
                 {
-                    'system.expertises': expertises.reduce(
-                        (acc, expertise) => ({
-                            ...acc,
-                            [expertise.key]: expertise.toObject(),
-                        }),
-                        {},
-                    ),
+                    system: {
+                        expertises: expertises.reduce(
+                            (acc, expertise) => ({
+                                ...acc,
+                                [expertise.key]: expertise.toObject(),
+                            }),
+                            {},
+                        ),
+                    }
                 },
                 event.op,
             );

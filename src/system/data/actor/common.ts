@@ -399,7 +399,7 @@ function getDamageDeflectTypesSchema() {
         damageTypes.reduce(
             (schema, type) => ({
                 ...schema,
-                [type]: constructDamageTypeDeflectSchema
+                [type]: constructDamageTypeDeflectSchema(type)
             }),
             {} as Record<DamageType, ReturnType<typeof constructDamageTypeDeflectSchema>>,
         ),

@@ -25,7 +25,7 @@ export class ConfigureSkillsDialog extends ComponentHandlebarsApplicationMixin(
                 width: 300,
             },
         },
-    );
+    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
 
     static PARTS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.PARTS),
@@ -50,16 +50,16 @@ export class ConfigureSkillsDialog extends ComponentHandlebarsApplicationMixin(
 
     /* --- Lifecycle --- */
 
-    protected _onRender(context: AnyObject, options: AnyObject): void {
-        super._onRender(context, options);
+    protected async _onRender(context: AnyObject, options: AnyObject) {
+        await super._onRender(context, options);
 
         $(this.element).prop('open', true);
     }
 
-    protected _onFirstRender(context: AnyObject, options: AnyObject) {
-        super._onFirstRender(context, options);
+    protected async _onFirstRender(context: AnyObject, options: AnyObject) {
+        await super._onFirstRender(context, options);
 
-        this.actor.apps[this.id] = this;
+        this.actor.apps[this.id] = this as any; // TEMP: Workaround
     }
 
     protected _onClose(options: AnyObject) {
@@ -72,11 +72,12 @@ export class ConfigureSkillsDialog extends ComponentHandlebarsApplicationMixin(
 
     /* --- Context --- */
 
-    protected _prepareContext() {
-        return Promise.resolve({
+    public async _prepareContext() {
+        return {
+            ...await super._prepareContext(),
             actor: this.actor,
             attributeGroups: Object.keys(CONFIG.COSMERE.attributeGroups),
             isEditMode: true,
-        });
+        }
     }
 }

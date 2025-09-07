@@ -25,7 +25,7 @@ type TalentTreeSheetConfiguration = foundry.applications.api.DocumentSheetV2.Con
 >;
 
 export class TalentTreeItemSheet extends EditModeApplicationMixin(
-    ComponentHandlebarsApplicationMixin(ItemSheetV2)<'Item'>,
+    ComponentHandlebarsApplicationMixin(ItemSheetV2),
 ) {
     declare item: TalentTreeItem;
 

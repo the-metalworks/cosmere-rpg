@@ -48,15 +48,6 @@ export interface TabApplicationRenderOptions
     tab?: string;
 }
 
-// class Temp<
-//     T extends { actor: boolean; item: boolean; } = { actor: false; item: false; }
-// > extends ComponentHandlebarsApplication<null | 'Actor' | 'Item'> {
-//     protected _canDragStart(): boolean { return false; }
-//     protected _canDragDrop(): boolean { return false; }
-//     protected _onDragStart(event: DragEvent) {};
-//     protected _onDrop(event: DragEvent) {};
-// }
-
 // /**
 //  * Mixin that adds standardized tabs to an ApplicationV2
 //  */
@@ -64,7 +55,7 @@ export interface TabApplicationRenderOptions
 //     T extends AnyConcreteApplicationV2Constructor
 // >(base: T) {
 export function TabsApplicationMixin<
-    T extends ConstructorOf<ComponentHandlebarsApplication<null | 'Actor' | 'Item'>>
+    T extends ConstructorOf<ComponentHandlebarsApplication>
 >(base: T) {
     return class mixin extends base {
         /**

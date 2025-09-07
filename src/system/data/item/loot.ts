@@ -14,17 +14,17 @@ import {
     RelationshipsItemDataSchema,
 } from './mixins/relationships';
 
-const SCHEMA = {
+const SCHEMA = () => ({
     isMoney: new foundry.data.fields.BooleanField({
         required: true,
         initial: false,
         label: 'COSMERE.Item.Loot.isMoney',
         nullable: false,
     }),
-};
+});
 
 export type LootItemDataSchema = 
-    & typeof SCHEMA
+    & ReturnType<typeof SCHEMA>
     & DescriptionItemDataSchema
     & PhysicalItemDataSchema
     & EventsItemDataSchema
@@ -46,6 +46,6 @@ export class LootItemDataModel extends DataModelMixin<
     RelationshipsMixin(),
 ) {
     static defineSchema() {
-        return foundry.utils.mergeObject(super.defineSchema(), SCHEMA);
+        return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());
     }
 }

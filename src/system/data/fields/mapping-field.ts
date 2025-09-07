@@ -76,7 +76,8 @@ export class MappingField<
         return {};
     }
 
-    public initialize(value: MappingField.InitializedType<ElementField, TOptions>) {
+    // public initialize(value: MappingField.InitializedType<ElementField, TOptions>) {
+    public initialize(value: any) { // TEMP: Workaround
         if (!value) return value;
         return value;
     }

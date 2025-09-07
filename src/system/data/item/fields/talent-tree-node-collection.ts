@@ -41,7 +41,7 @@ class NodeRecordCollection extends RecordCollection<TalentTree.Node> {
     }
 }
 
-const SCHEMA = {
+const SCHEMA = () => ({
     // General node fields
     id: new foundry.data.fields.DocumentIdField({
         required: true,
@@ -321,9 +321,9 @@ const SCHEMA = {
     text: new foundry.data.fields.StringField({
         nullable: true,
     }),
-};
+});
 
-class TalentTreeNodeField extends foundry.data.fields.SchemaField<typeof SCHEMA, foundry.data.fields.DataField.Options.Any> {
+class TalentTreeNodeField extends foundry.data.fields.SchemaField<ReturnType<typeof SCHEMA>, foundry.data.fields.DataField.Options.Any> {
     constructor(
         options?: foundry.data.fields.DataField.Options.Any,
         context?: foundry.data.fields.DataField.ConstructionContext,
@@ -332,7 +332,7 @@ class TalentTreeNodeField extends foundry.data.fields.SchemaField<typeof SCHEMA,
         options.gmOnly = true;
 
         super(
-            SCHEMA,
+            SCHEMA(),
             options,
             context,
         );

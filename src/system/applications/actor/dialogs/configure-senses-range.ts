@@ -32,7 +32,7 @@ export class ConfigureSensesRangeDialog extends HandlebarsApplicationMixin(
                 'update-sense': this.onUpdateSensesRange,
             },
         },
-    );
+    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
 
     static PARTS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.PARTS),
@@ -78,7 +78,9 @@ export class ConfigureSensesRangeDialog extends HandlebarsApplicationMixin(
 
     private static onUpdateSensesRange(this: ConfigureSensesRangeDialog) {
         void this.actor.update({
-            'system.senses': this.sensesData,
+            system: {
+                senses: this.sensesData,
+            }
         });
         void this.close();
     }
@@ -122,8 +124,8 @@ export class ConfigureSensesRangeDialog extends HandlebarsApplicationMixin(
 
     /* --- Lifecycle --- */
 
-    protected _onRender(context: AnyObject, options: AnyObject): void {
-        super._onRender(context, options);
+    protected async _onRender(context: AnyObject, options: AnyObject) {
+        await super._onRender(context, options);
 
         $(this.element).prop('open', true);
     }

@@ -45,7 +45,7 @@ export async function migrate(from: string, to: string, packID?: string) {
     /**
      * Hook: preMigration
      */
-    Hooks.callAll<CosmereHooks.PreMigration>(HOOKS.PRE_MIGRATION, from, to);
+    Hooks.callAll(HOOKS.PRE_MIGRATION, from, to);
 
     // Get all migrations between the versions
     const migrations = MIGRATIONS.filter((migration) => {
@@ -67,7 +67,7 @@ export async function migrate(from: string, to: string, packID?: string) {
         /**
          * Hook: preMigrationVersion
          */
-        Hooks.callAll<CosmereHooks.PreMigrateVersion>(
+        Hooks.callAll(
             HOOKS.PRE_MIGRATE_VERSION,
             migration.from,
             migration.to,
@@ -103,7 +103,7 @@ export async function migrate(from: string, to: string, packID?: string) {
         /**
          * Hooks: migrateVersion
          */
-        Hooks.callAll<CosmereHooks.MigrateVersion>(
+        Hooks.callAll(
             HOOKS.MIGRATE_VERSION,
             migration.from,
             migration.to,
@@ -119,7 +119,7 @@ export async function migrate(from: string, to: string, packID?: string) {
     /**
      * Hook: migration
      */
-    Hooks.callAll<CosmereHooks.Migration>(HOOKS.MIGRATION, from, to);
+    Hooks.callAll(HOOKS.MIGRATION, from, to);
 
     // Re-enable event system
     EventSystem.enable();

@@ -80,7 +80,7 @@ export async function matchItems(
 
 function getIdentifierMatcher(referenceItem: CosmereItem) {
     return (item: CosmereItem) =>
-        item.hasId() && item.system.id === referenceItem.system.id;
+        item.hasId() && referenceItem.hasId() && item.system.id === referenceItem.system.id;
 }
 
 function getNameMatcher(referenceItem: CosmereItem) {

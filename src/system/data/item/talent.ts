@@ -22,7 +22,7 @@ import {
     RelationshipsItemDataSchema,
 } from './mixins/relationships';
 
-const SCHEMA = {
+const SCHEMA = () => ({
     path: new foundry.data.fields.StringField({
         required: false,
         nullable: true,
@@ -40,10 +40,10 @@ const SCHEMA = {
         label: 'COSMERE.Item.Talent.Power.Label',
         hint: 'COSMERE.Item.Talent.Power.Hint',
     }),
-};
+});
 
-export type TalentItemDataSchema = 
-    & typeof SCHEMA
+export type TalentItemDataSchema =
+    & ReturnType<typeof SCHEMA>
     & IdItemDataSchema
     & TypedItemDataSchema<Talent.Type>
     & DescriptionItemDataSchema
@@ -89,7 +89,7 @@ export class TalentItemDataModel extends DataModelMixin<
     RelationshipsMixin(),
 ) {
     static defineSchema() {
-        return foundry.utils.mergeObject(super.defineSchema(), );
+        return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());
     }
 
     public prepareDerivedData() {

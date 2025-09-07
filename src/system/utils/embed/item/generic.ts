@@ -14,7 +14,7 @@ const DEFAULT_HEADING_TAG = 'h3';
 
 export async function buildEmbedHTML(
     item: CosmereItem,
-    config: DocumentHTMLEmbedConfig,
+    config: TextEditor.DocumentHTMLEmbedConfig,
     options?: TextEditor.EnrichmentOptions,
 ): Promise<HTMLElement | HTMLCollection | null> {
     // Create the link data string
@@ -62,9 +62,9 @@ export async function buildEmbedHTML(
 }
 
 export function createInlineEmbed(
-    item: Item,
+    item: CosmereItem,
     content: HTMLElement | HTMLCollection,
-    config: DocumentHTMLEmbedConfig,
+    config: TextEditor.DocumentHTMLEmbedConfig,
     options?: TextEditor.EnrichmentOptions,
 ): Promise<HTMLElement | null> {
     const section = document.createElement('section');

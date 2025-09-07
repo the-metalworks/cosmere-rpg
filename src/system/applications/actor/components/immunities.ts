@@ -11,7 +11,8 @@ import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
 import { DamageType, Status } from '@src/system/types/cosmere';
 
 export class ActorImmunitiesComponent extends HandlebarsApplicationComponent<
-    typeof BaseActorSheet
+    // typeof BaseActorSheet
+    any // TEMP: Workaround
 > {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_IMMUNITIES}`;
 
@@ -86,7 +87,7 @@ export class ActorImmunitiesComponent extends HandlebarsApplicationComponent<
 
     protected _onInitialize(params: AnyObject): void {
         super._onInitialize(params);
-        this.sectionCollapsed = this.application.areImmunitiesCollapsed;
+        this.sectionCollapsed = (this.application as any).areImmunitiesCollapsed as boolean; // TEMP: Workaround
     }
 
     protected _onRender(params: AnyObject): void {

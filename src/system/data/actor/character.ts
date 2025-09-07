@@ -10,7 +10,7 @@ import * as Advancement from '@system/utils/advancement';
 // Fields
 import { DerivedValueField, Derived, MappingField } from '../fields';
 
-const SCHEMA = {
+const SCHEMA = () => ({
     /* --- Advancement --- */
     level: new foundry.data.fields.NumberField({
         required: true,
@@ -43,11 +43,15 @@ const SCHEMA = {
         required: true,
         initial: '',
     }),
-}
+});
 
 export type CharacterActorDataSchema =
-    & typeof SCHEMA
+    & ReturnType<typeof SCHEMA>
     & CommonActorDataSchema;
+
+export type CharacterActorData = foundry.data.fields.SchemaField.InitializedData<
+    CharacterActorDataSchema
+>;
 
 export type CharacterActorDerivedData = {
     /**
@@ -62,7 +66,7 @@ export class CharacterActorDataModel extends CommonActorDataModel<
     CharacterActorDerivedData
 > {
     public static defineSchema() {
-        return foundry.utils.mergeObject(super.defineSchema(), SCHEMA);
+        return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());
     }
 
     public prepareDerivedData() {

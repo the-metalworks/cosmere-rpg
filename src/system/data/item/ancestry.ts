@@ -21,7 +21,7 @@ import {
     RelationshipsItemDataSchema,
 } from './mixins/relationships';
 
-const SCHEMA = {
+const SCHEMA = () => ({
     size: new foundry.data.fields.StringField({
         required: true,
         nullable: false,
@@ -91,10 +91,10 @@ const SCHEMA = {
             }),
         ),
     }),
-};
+});
 
 type AncestryItemDataSchema = 
-    & typeof SCHEMA
+    & ReturnType<typeof SCHEMA>
     & IdItemDataSchema
     & DescriptionItemDataSchema
     & TalentsProviderDataSchema
@@ -120,7 +120,7 @@ export class AncestryItemDataModel extends DataModelMixin<
     RelationshipsMixin(),
 ) {
     static defineSchema() {
-        return foundry.utils.mergeObject(super.defineSchema(), SCHEMA);
+        return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());
     }
 
     get typeFieldId() {

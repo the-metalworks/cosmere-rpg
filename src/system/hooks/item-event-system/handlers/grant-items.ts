@@ -1,4 +1,4 @@
-import { CosmereItem } from '@system/documents/item';
+import { CosmereItem, PhysicialItem } from '@system/documents/item';
 import { HandlerType, Event } from '@system/types/item/event-system';
 import { AnyObject } from '@system/types/utils';
 import { ItemRelationship } from '@system/data/item/mixins/relationships';
@@ -188,7 +188,7 @@ export function register() {
             const nonPhysicalItems = items.filter((item) => !item.isPhysical());
 
             const documentUpdates: object[] = [];
-            const documentsToCreate: object[] = [];
+            const documentsToCreate: Item.CreateData[] = [];
 
             // Handle physical items
             physicalItems.forEach((item) => {
@@ -197,7 +197,7 @@ export function register() {
                 // Find the existing item in the actor
                 const existingItem = actor.items.find((other) =>
                     areSameItems(item, other, true),
-                );
+                ) as PhysicialItem | undefined;
 
                 // If the item already exists and we're increasing the quantity, update it, otherwise create a new item
                 if (this.increaseQuantity && existingItem) {

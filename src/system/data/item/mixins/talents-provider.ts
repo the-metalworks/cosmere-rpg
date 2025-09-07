@@ -5,7 +5,7 @@ import {
 } from '@system/documents/item';
 import { MustBeValidUuid } from '@system/types/utils';
 
-const SCHEMA = {
+const SCHEMA = () => ({
     talentTree: new foundry.data.fields.DocumentUUIDField<
         foundry.data.fields.DocumentUUIDField.Options,
         string | undefined | null,
@@ -19,9 +19,9 @@ const SCHEMA = {
         label: 'COSMERE.Item.Sheet.TalentsProvider.TalentTree.Label',
         hint: 'COSMERE.Item.Sheet.TalentsProvider.TalentTree.Hint',
     }),
-};
+});
 
-export type TalentsProviderDataSchema = typeof SCHEMA;
+export type TalentsProviderDataSchema = ReturnType<typeof SCHEMA>;
 export type TalentsProviderData = foundry.data.fields.SchemaField.InitializedData<TalentsProviderDataSchema>;
 export type TalentsProviderDerivedData = {
     providesTalent(talent: TalentItem): Promise<boolean>;
@@ -38,7 +38,7 @@ export function TalentsProviderMixin<TParent extends foundry.abstract.Document.A
     ) => {
         return class extends base {
             static defineSchema() {
-                return foundry.utils.mergeObject(super.defineSchema(), SCHEMA);
+                return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());
             }
 
             public async getTalents(

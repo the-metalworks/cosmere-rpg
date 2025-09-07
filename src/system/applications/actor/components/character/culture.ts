@@ -15,7 +15,8 @@ type Params = {
 };
 
 export class CharacterCultureComponent extends HandlebarsApplicationComponent<
-    typeof CharacterSheet,
+    // typeof CharacterSheet,
+    any, // TEMP: Workaround
     Params
 > {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_CULTURE}`;

@@ -285,7 +285,9 @@ export class CollectionField<
         value: unknown,
         options?: foundry.data.fields.DataField.ValidateOptions<this>,
     ): boolean | foundry.data.validation.DataModelValidationFailure | void {
-        if (foundry.utils.getType(value) !== 'Object')
+        console.log('_validateType', value, foundry.utils.getType(value));
+
+        if (!value || typeof value !== 'object')
             throw new Error('must be a RecordCollection object');
 
         const errors = this._validateValues(

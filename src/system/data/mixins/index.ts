@@ -63,6 +63,10 @@ export function DataModelMixin<
         (base, mixin) => {
             return mixin(base);
         },
-        class extends foundry.abstract.TypeDataModel<foundry.data.fields.DataSchema, foundry.abstract.Document.Any> { }
+        class extends foundry.abstract.TypeDataModel<foundry.data.fields.DataSchema, foundry.abstract.Document.Any> {
+            static defineSchema() {
+                return {};
+            }
+        } as any // TEMP: Workaround
     ) as typeof foundry.abstract.TypeDataModel<TSchema, TParent, TBaseData, TDerivedData>;
 }

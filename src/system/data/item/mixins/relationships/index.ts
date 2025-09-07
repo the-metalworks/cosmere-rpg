@@ -4,16 +4,16 @@ import { CosmereItem } from '@system/documents/item';
 import { ItemRelationshipField } from './field';
 import { CollectionField } from '@system/data/fields/collection';
 
-const SCHEMA = {
+const SCHEMA = () => ({
     relationships: new CollectionField(
         new ItemRelationshipField(),
         {
             required: true,
         },
     ),
-};
+});
 
-export type RelationshipsItemDataSchema = typeof SCHEMA;
+export type RelationshipsItemDataSchema = ReturnType<typeof SCHEMA>;
 export type RelationshipsItemData = foundry.data.fields.SchemaField.InitializedData<RelationshipsItemDataSchema>;
 
 /**
@@ -26,10 +26,10 @@ export function RelationshipsMixin<TParent extends foundry.abstract.Document.Any
     ) => {
         return class extends base<RelationshipsItemDataSchema, TParent> {
             static defineSchema() {
-                return foundry.utils.mergeObject(super.defineSchema(), SCHEMA);
+                return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());
             }
         };
     };
 }
 
-export { ItemRelationship, ItemRelationshipData } from './data-model';
+export { ItemRelationship, ItemRelationshipData, ItemRelationshipCreateData } from './data-model';

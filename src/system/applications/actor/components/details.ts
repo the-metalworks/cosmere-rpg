@@ -19,7 +19,8 @@ import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
 import { CosmereActor } from '@src/system/documents';
 
 export class ActorDetailsComponent extends HandlebarsApplicationComponent<
-    typeof BaseActorSheet
+    // typeof BaseActorSheet
+    any // TEMP: Workaround
 > {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_DETAILS}`;
 

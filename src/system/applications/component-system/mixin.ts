@@ -44,14 +44,14 @@ export function ComponentHandlebarsApplicationMixin<
             await super._preFirstRender(context, options);
 
             // Register instance
-            ComponentSystem.registerApplicationInstance(this);
+            ComponentSystem.registerApplicationInstance(this as any); // TEMP: Workaround
         }
 
         protected override _onClose(options: RenderOptions) {
             super._onClose(options);
 
             // Deregister instance
-            ComponentSystem.deregisterApplicationInstance(this);
+            ComponentSystem.deregisterApplicationInstance(this as any); // TEMP: Workaround 
         }
 
         protected override _configureRenderOptions(
@@ -285,9 +285,7 @@ export function ComponentHandlebarsApplicationMixin<
 // > = ReturnType<typeof ComponentHandlebarsApplicationMixin<BaseClass>>;
 
 // TEMP: Workaround
-export declare class ComponentHandlebarsApplication<
-    T extends null | 'Actor' | 'Item' = null
-> {
+export declare class ComponentHandlebarsApplication {
     static DEFAULT_OPTIONS: any;
     static PARTS: any;
     static TABS: any;
@@ -302,6 +300,7 @@ export declare class ComponentHandlebarsApplication<
         HandlebarsApplicationComponent
     >;
 
+    public id: string;
     public document: foundry.abstract.Document.Any;
     public isEditable: boolean;
     public element: HTMLElement;
@@ -318,6 +317,8 @@ export declare class ComponentHandlebarsApplication<
     protected _onFirstRender(...args: any[]): Promise<void>;
     protected _onPosition(...args: any[]): void;
     protected _preRender(...args: any[]): Promise<void>;
+    protected _onClose(...args: any[]): void;
+    
 
     public changeTab(tab: string, group: string, options?: AnyObject): void;
 }

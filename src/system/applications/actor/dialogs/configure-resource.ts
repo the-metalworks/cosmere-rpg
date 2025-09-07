@@ -33,7 +33,7 @@ export class ConfigureResourceDialog extends HandlebarsApplicationMixin(
                 'update-resource': this.onUpdateResource,
             },
         },
-    );
+    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
 
     static PARTS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.PARTS),
@@ -77,7 +77,7 @@ export class ConfigureResourceDialog extends HandlebarsApplicationMixin(
             this.actor.system.schema.getField(
                 `resources.${resourceId}`,
             )
-        ).initialize(
+        )!.initialize(
             foundry.utils.deepClone(this.actor.system.resources[resourceId]),
             this.actor,
         ) as CommonActorData['resources'][keyof CommonActorData['resources']];
@@ -134,8 +134,8 @@ export class ConfigureResourceDialog extends HandlebarsApplicationMixin(
 
     /* --- Lifecycle --- */
 
-    protected _onRender(context: AnyObject, options: AnyObject): void {
-        super._onRender(context, options);
+    protected async _onRender(context: AnyObject, options: AnyObject) {
+        await super._onRender(context, options);
 
         $(this.element).prop('open', true);
     }

@@ -13,7 +13,8 @@ import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
 export class CharacterAncestryComponent extends HandlebarsApplicationComponent<
-    typeof BaseActorSheet
+    // typeof BaseActorSheet
+    any // TEMP: Workaround
 > {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_ANCESTRY}`;
 

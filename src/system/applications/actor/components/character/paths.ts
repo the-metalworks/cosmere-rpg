@@ -10,7 +10,8 @@ import { BaseActorSheetRenderContext } from '../../base';
 import { CharacterSheet } from '../../character-sheet';
 
 export class CharacterPathsComponent extends HandlebarsApplicationComponent<
-    typeof CharacterSheet
+    // typeof CharacterSheet
+    any // TEMP: Workaround
 > {
     static readonly TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_PATHS}`;
 

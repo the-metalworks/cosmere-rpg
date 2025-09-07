@@ -92,7 +92,7 @@ declare interface Dice3D {
      * @param mode "preferred", "default". "preferred" will enable this system by default until a user changes it to anything else.
      *              Default will add the system as a choice left to each user.
      */
-    addSystem(system: Dice3D.SystemData, mode: AddSystemMode);
+    addSystem(system: Dice3D.SystemData, mode: Dice3D.AddSystemMode | boolean): void;
 
     /**
      * Register a new dice preset
@@ -100,5 +100,5 @@ declare interface Dice3D {
      * @param shape should be explicit when using a custom die term.
      *              Supported shapes are d2,d4,d6,d8,d10,d12,d14,d16,d20,d24,d30
      */
-    addDicePreset(data: Dice3D.DicePresetData, shape?: Dice3D.DiceShape);
+    addDicePreset(data: Dice3D.DicePresetData, shape?: Dice3D.DiceShape): void;
 }

@@ -13,7 +13,7 @@ export function addNode(
     node: Omit<TalentTree.Node, 'connections'>,
     tree: TalentTreeItem,
     operation?: Partial<
-        Omit<foundry.abstract.DatabaseUpdateOperation, 'updates' | '_result'>
+        Omit<Item.Database.UpdateOperation, 'updates' | '_result'>
     >,
 ) {
     return tree.update(
@@ -32,7 +32,7 @@ export async function removeNode(
     node: TalentTree.Node,
     tree: TalentTreeItem,
     operation?: Partial<
-        Omit<foundry.abstract.DatabaseUpdateOperation, 'updates' | '_result'>
+        Omit<Item.Database.UpdateOperation, 'updates' | '_result'>
     >,
 ) {
     // Get all connections TO the removed node (if relevant)
@@ -59,7 +59,7 @@ export function addConnection(
     toId: string,
     tree: TalentTreeItem,
     operation?: Partial<
-        Omit<foundry.abstract.DatabaseUpdateOperation, 'updates' | '_result'>
+        Omit<Item.Database.UpdateOperation, 'updates' | '_result'>
     >,
 ) {
     // Get the nodes
@@ -140,7 +140,7 @@ export function removeConnection(
     toId: string,
     tree: TalentTreeItem,
     operation?: Partial<
-        Omit<foundry.abstract.DatabaseUpdateOperation, 'updates' | '_result'>
+        Omit<Item.Database.UpdateOperation, 'updates' | '_result'>
     >,
 ) {
     // Get the nodes
@@ -195,7 +195,7 @@ export function removePrerequisite(
     prereqId: string,
     tree: TalentTreeItem,
     operation?: Partial<
-        Omit<foundry.abstract.DatabaseUpdateOperation, 'updates' | '_result'>
+        Omit<Item.Database.UpdateOperation, 'updates' | '_result'>
     >,
 ) {
     // Get the prerequisite

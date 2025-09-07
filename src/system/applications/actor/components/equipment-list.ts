@@ -42,7 +42,8 @@ interface RenderContext extends BaseActorSheetRenderContext {
 }
 
 export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<
-    typeof BaseActorSheet
+    // typeof BaseActorSheet
+    any // TEMP: Workaround
 > {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_EQUIPMENT_LIST}`;
 

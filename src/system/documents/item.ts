@@ -1649,6 +1649,7 @@ declare module "@league-of-foundry-developers/foundry-vtt-types/configuration" {
                 };
                 'meta.origin': ItemOrigin;
                 previousLevel?: number;
+                isStartingPath?: boolean;
             }
         }
     }

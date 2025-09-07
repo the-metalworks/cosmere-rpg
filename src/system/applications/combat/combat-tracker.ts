@@ -46,6 +46,10 @@ export class CosmereCombatTracker extends foundry.applications.sidebar.tabs.Comb
     ) {
         super._prepareTrackerContext(context, options);
 
+        console.log(context);
+
+        if (!context.turns) return;
+
         // Add combatant type, speed, and activation status to existing turn data
         context.turns = context.turns.flatMap((turn, i) => {
             const combatant = this.viewed!.turns[i] as CosmereCombatant;

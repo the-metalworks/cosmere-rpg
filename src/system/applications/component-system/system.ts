@@ -37,9 +37,7 @@ const componentRegistry: Record<
 
 const applicationInstances: Record<
     string,
-    InstanceType<
-        ComponentHandlebarsApplication<AnyConcreteApplicationV2Constructor>
-    >
+    ComponentHandlebarsApplication
 > = {};
 
 export function registerComponent(
@@ -232,7 +230,7 @@ function initComponent(selector: string, componentRef: string): boolean {
         selector,
         partId,
         componentRef,
-        app,
+        app as any, // TEMP: Workaround
     );
 
     // Assign
@@ -266,17 +264,13 @@ function onComponentAction(
 }
 
 export function registerApplicationInstance(
-    application: InstanceType<
-        ComponentHandlebarsApplication<AnyConcreteApplicationV2Constructor>
-    >,
+    application: ComponentHandlebarsApplication,
 ) {
     applicationInstances[application.id] = application;
 }
 
 export function deregisterApplicationInstance(
-    application: InstanceType<
-        ComponentHandlebarsApplication<AnyConcreteApplicationV2Constructor>
-    >,
+    application: ComponentHandlebarsApplication,
 ) {
     console.log('Deregistering application instance:', application.id);
 

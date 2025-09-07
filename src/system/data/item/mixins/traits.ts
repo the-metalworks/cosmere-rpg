@@ -6,7 +6,7 @@ import { ExpertiseItemDataSchema } from './expertise';
 
 import { MappingField } from '@system/data/fields';
 
-const SCHEMA = {
+const SCHEMA = () => ({
     traits: new MappingField(
         new foundry.data.fields.SchemaField({
             defaultValue: new foundry.data.fields.NumberField({
@@ -39,9 +39,9 @@ const SCHEMA = {
             required: true,
         }
     ),
-};
+});
 
-export type TraitsItemDataSchema = typeof SCHEMA;
+export type TraitsItemDataSchema = ReturnType<typeof SCHEMA>;
 
 type TraitsItemData = foundry.data.fields.SchemaField.InitializedData<TraitsItemDataSchema>;
 
@@ -68,7 +68,7 @@ export function TraitsItemMixin<
                     );
                 }
 
-                return foundry.utils.mergeObject(super.defineSchema(), SCHEMA);
+                return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());
             }
 
             get traitsArray() {

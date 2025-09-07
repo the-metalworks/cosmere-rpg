@@ -43,7 +43,7 @@ export default {
     execute: async (packID?: string) => {
         // Get relevant compendium, if any
         let compendium:
-            | CompendiumCollection<CompendiumCollection.Metadata>
+            | CompendiumCollection<CompendiumCollection.DocumentName>
             | undefined;
         if (packID) {
             compendium = game.packs?.get(packID);
@@ -78,7 +78,7 @@ export default {
  */
 async function migrateTalentTrees(
     items: RawDocumentData[],
-    compendium?: CompendiumCollection<CompendiumCollection.Metadata>,
+    compendium?: CompendiumCollection<CompendiumCollection.DocumentName>,
 ) {
     // Get all talent tree items
     const talentTreeItems = items.filter(
@@ -169,7 +169,7 @@ async function migrateTalentTrees(
                 );
 
                 // Apply changes
-                document.updateSource(changes, { diff: false });
+                document.updateSource(changes);
                 await document.update(changes, { diff: false });
 
                 // Ensure invalid documents are properly instantiated
@@ -185,7 +185,7 @@ async function migrateTalentTrees(
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment */
 async function migrateActors(
     actors: RawDocumentData<any>[],
-    compendium?: CompendiumCollection<CompendiumCollection.Metadata>,
+    compendium?: CompendiumCollection<CompendiumCollection.DocumentName>,
 ) {
     await Promise.all(
         actors.map(async (actor) => {
@@ -237,7 +237,7 @@ async function migrateActors(
                 );
 
                 // Apply changes
-                document.updateSource(changes, { diff: false });
+                document.updateSource(changes);
                 await document.update(changes, { diff: false });
 
                 // Ensure invalid documents are properly instantiated

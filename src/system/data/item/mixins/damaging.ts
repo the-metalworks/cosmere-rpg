@@ -1,7 +1,7 @@
 import { CosmereItem } from '@system/documents';
 import { Skill, Attribute, DamageType } from '@system/types/cosmere';
 
-const SCHEMA = {
+const SCHEMA = () => ({
     damage: new foundry.data.fields.SchemaField({
         formula: new foundry.data.fields.StringField({
             nullable: true,
@@ -24,9 +24,9 @@ const SCHEMA = {
             choices: Object.keys(CONFIG.COSMERE.attributes) as Attribute[],
         }),
     }),
-};
+});
 
-export type DamagingItemDataSchema = typeof SCHEMA;
+export type DamagingItemDataSchema = ReturnType<typeof SCHEMA>;
 export type DamagingItemData = foundry.data.fields.SchemaField.InitializedData<DamagingItemDataSchema>;
 
 export function DamagingItemMixin<TParent extends foundry.abstract.Document.Any>() {
@@ -35,7 +35,7 @@ export function DamagingItemMixin<TParent extends foundry.abstract.Document.Any>
     ) => {
         return class extends base<DamagingItemDataSchema, TParent> {
             static defineSchema() {
-                return foundry.utils.mergeObject(super.defineSchema(), SCHEMA);
+                return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());
             }
         };
     };

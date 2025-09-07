@@ -20,7 +20,7 @@ export default {
     execute: async (packID?: string) => {
         // Get relevant compendium, if any
         let compendium:
-            | CompendiumCollection<CompendiumCollection.Metadata>
+            | CompendiumCollection<CompendiumCollection.DocumentName>
             | undefined;
         if (packID) {
             compendium = game.packs?.get(packID);
@@ -55,7 +55,7 @@ export default {
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access */
 async function migrateItems(
     items: RawDocumentData<any>[],
-    compendium?: CompendiumCollection<CompendiumCollection.Metadata>,
+    compendium?: CompendiumCollection<CompendiumCollection.DocumentName>,
 ) {
     for (const item of items) {
         try {
@@ -71,7 +71,7 @@ async function migrateItems(
             );
 
             // Apply changes
-            document.updateSource(changes, { diff: false });
+            document.updateSource(changes);
             await document.update(changes, { diff: false });
 
             // Ensure invalid documents are properly instantiated
@@ -84,7 +84,7 @@ async function migrateItems(
 
 async function migrateEmbeddedItems(
     actors: RawActorData[],
-    compendium?: CompendiumCollection<CompendiumCollection.Metadata>,
+    compendium?: CompendiumCollection<CompendiumCollection.DocumentName>,
 ) {
     for (const actor of actors) {
         if (actor.items.length === 0) return;

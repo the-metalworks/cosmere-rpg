@@ -25,7 +25,7 @@ const VALID_NODE_TYPES = [
     TalentTree.Node.Type.Text,
 ] as string[];
 
-const SCHEMA = {
+const SCHEMA = () => ({
     nodes: new TalentTreeNodeCollectionField({
         required: true,
         nullable: false,
@@ -128,15 +128,15 @@ const SCHEMA = {
             },
         ),
     }),
-}
+});
 
-export type TalentTreeItemDataSchema = typeof SCHEMA;
+export type TalentTreeItemDataSchema = ReturnType<typeof SCHEMA>;
 
 export class TalentTreeItemDataModel extends DataModelMixin<
     TalentTreeItemDataSchema
 >() {
     static defineSchema() {
-        return foundry.utils.mergeObject(super.defineSchema(), SCHEMA);
+        return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());
     }
 
     public prepareDerivedData() {

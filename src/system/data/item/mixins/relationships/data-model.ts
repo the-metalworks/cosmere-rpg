@@ -3,7 +3,7 @@ import {
     ItemRelationshipRemovalPolicy,
 } from './types';
 
-const SCHEMA = {
+const SCHEMA = () => ({
     id: new foundry.data.fields.StringField({
         initial: () => foundry.utils.randomID(),
         required: true,
@@ -36,14 +36,15 @@ const SCHEMA = {
             ItemRelationshipRemovalPolicy.Keep,
         ],
     }),
-};
+});
 
-export type ItemRelationshipDataSchema = typeof SCHEMA;
+export type ItemRelationshipDataSchema = ReturnType<typeof SCHEMA>;
+export type ItemRelationshipCreateData = foundry.data.fields.SchemaField.CreateData<ItemRelationshipDataSchema>;
 export type ItemRelationshipData = foundry.data.fields.SchemaField.InitializedData<ItemRelationshipDataSchema>;
 
 export class ItemRelationship extends foundry.abstract.DataModel<ItemRelationshipDataSchema, Item> {
     static defineSchema() {
-        return SCHEMA;
+        return SCHEMA();
     }
 }
 

@@ -20,7 +20,7 @@ export type SheetMode = 'view' | 'edit';
 //     >,
 // >(base: T) {
 export function EditModeApplicationMixin<
-    T extends ConstructorOf<ComponentHandlebarsApplication<null | 'Actor' | 'Item'>>,
+    T extends ConstructorOf<ComponentHandlebarsApplication>,
 >(base: T) {
     return class mixin extends base {
         /**

@@ -25,7 +25,7 @@ export function register() {
     // Re-assign type field label
     macroSchema.type.label = `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.ExecuteMacro}.MacroType.Label`;
     (macroSchema.type as foundry.data.fields.StringField).choices = () =>
-        CONFIG.Macro.typeLabels;
+        CONFIG.Macro.typeLabels!;
 
     cosmereRPG.api.registerItemEventHandlerType({
         source: SYSTEM_ID,
@@ -68,7 +68,7 @@ export function register() {
                     : null
                 : this.macro // Inline, so we need to create a new ephemeral macro document from the macro data
                   ? (new (CONFIG.Macro
-                        .documentClass as unknown as ConstructorOf<foundry.abstract.DataModel>)(
+                        .documentClass as unknown as ConstructorOf<foundry.abstract.DataModel.Any>)(
                         {
                             ...this.macro,
                             name: 'Event Inline Macro',
@@ -80,7 +80,7 @@ export function register() {
             if (!macro) return;
 
             // Execute the macro
-            await macro.execute({
+            await (macro as Macro).execute({
                 actor: event.item.actor,
                 event,
             });

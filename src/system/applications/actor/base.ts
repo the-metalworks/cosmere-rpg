@@ -49,9 +49,9 @@ export interface BaseActorSheetRenderContext extends foundry.applications.sheets
 export class BaseActorSheet<
     T extends BaseActorSheetRenderContext = BaseActorSheetRenderContext,
 > extends TabsApplicationMixin(
-    DragDropApplicationMixin(ComponentHandlebarsApplicationMixin(ActorSheetV2)<'Actor'>),
+    DragDropApplicationMixin(ComponentHandlebarsApplicationMixin(ActorSheetV2)),
 ) {
-    declare actor: Actor.Implementation;
+    declare actor: CosmereActor;
 
     /* eslint-disable @typescript-eslint/unbound-method */
     static DEFAULT_OPTIONS = foundry.utils.mergeObject(

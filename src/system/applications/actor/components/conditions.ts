@@ -12,7 +12,8 @@ import { BaseActorSheet } from '../base';
 import { journalEntryPageTextFromUuid } from '@system/utils/uuid';
 
 export class ActorConditionsComponent extends HandlebarsApplicationComponent<
-    typeof BaseActorSheet
+    // typeof BaseActorSheet
+    any // TEMP: Workaround
 > {
     static readonly TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_CONDITIONS}`;
 

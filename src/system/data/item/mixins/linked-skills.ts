@@ -1,7 +1,7 @@
 import { CosmereItem } from '@system/documents';
 import { Skill } from '@system/types/cosmere';
 
-const SCHEMA = {
+const SCHEMA = () => ({
     linkedSkills: new foundry.data.fields.ArrayField(
         new foundry.data.fields.StringField({
             required: true,
@@ -26,9 +26,9 @@ const SCHEMA = {
             hint: 'COSMERE.Item.General.LinkedSkills.Hint',
         },
     ),
-};
+});
 
-export type LinkedSkillsItemDataSchema = typeof SCHEMA;
+export type LinkedSkillsItemDataSchema = ReturnType<typeof SCHEMA>;
 
 export function LinkedSkillsMixin<TParent extends foundry.abstract.Document.Any>() {
     return (
@@ -36,7 +36,7 @@ export function LinkedSkillsMixin<TParent extends foundry.abstract.Document.Any>
     ) => {
         return class extends base {
             static defineSchema() {
-                return foundry.utils.mergeObject(super.defineSchema(), SCHEMA);
+                return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());
             }
         };
     };

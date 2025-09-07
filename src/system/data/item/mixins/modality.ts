@@ -1,7 +1,7 @@
 import { CosmereItem } from '@system/documents';
 import { IdItemData } from './id';
 
-const SCHEMA = {
+const SCHEMA = () => ({
     modality: new foundry.data.fields.StringField({
         required: true,
         nullable: true,
@@ -9,9 +9,9 @@ const SCHEMA = {
         hint: 'COSMERE.Item.Modality.Hint',
         initial: null,
     }),
-};
+});
 
-export type ModalityItemDataSchema = typeof SCHEMA;
+export type ModalityItemDataSchema = ReturnType<typeof SCHEMA>;
 export type ModalityItemData = foundry.data.fields.SchemaField.InitializedData<ModalityItemDataSchema>;
 
 export function ModalityItemMixin<TParent extends foundry.abstract.Document.Any>() {
@@ -29,7 +29,7 @@ export function ModalityItemMixin<TParent extends foundry.abstract.Document.Any>
                     );
                 }
 
-                return foundry.utils.mergeObject(super.defineSchema(), SCHEMA);
+                return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());
             }
         };
     };

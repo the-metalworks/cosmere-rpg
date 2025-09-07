@@ -55,7 +55,11 @@ export class AncestryBonusTalentsComponent extends HandlebarsApplicationComponen
 
         // Update the item
         await this.application.item.update({
-            'system.advancement.bonusTalents': bonusTalents,
+            system: {
+                advancement: {
+                    bonusTalents
+                }
+            }
         });
 
         // Edit the rule
@@ -80,6 +84,8 @@ export class AncestryBonusTalentsComponent extends HandlebarsApplicationComponen
         this: AncestryBonusTalentsComponent,
         event: Event,
     ) {
+        if (!this.application.item.isAncestry()) return; // TEMP: Workaround
+
         // Get the element
         const el = $(event.currentTarget!).closest('li');
 
@@ -94,7 +100,11 @@ export class AncestryBonusTalentsComponent extends HandlebarsApplicationComponen
 
         // Update the item
         void this.application.item.update({
-            'system.advancement.bonusTalents': bonusTalents,
+            system: {
+                advancement: {
+                    bonusTalents
+                }
+            }
         });
     }
 
@@ -147,7 +157,11 @@ export class AncestryBonusTalentsComponent extends HandlebarsApplicationComponen
 
             bonusTalents[index] = changes;
             void this.application.item.update({
-                'system.advancement.bonusTalents': bonusTalents,
+                system: {
+                    advancement: {
+                        bonusTalents
+                    }
+                }
             });
         }
     }

@@ -25,7 +25,8 @@ type Params = {
 };
 
 export class ActorSearchBarComponent extends HandlebarsApplicationComponent<
-    typeof BaseActorSheet,
+    // typeof BaseActorSheet,
+    any, // TEMP: Workaround
     Params
 > {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_SEARCH_BAR}`;

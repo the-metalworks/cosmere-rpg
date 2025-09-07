@@ -15,7 +15,7 @@ import {
 
 export async function buildEmbedHTML(
     item: PathItem,
-    config: DocumentHTMLEmbedConfig,
+    config: TextEditor.DocumentHTMLEmbedConfig,
     options?: TextEditor.EnrichmentOptions,
 ): Promise<HTMLElement | HTMLCollection | null> {
     if (!(options?.relativeTo instanceof JournalEntryPage)) return null;
@@ -42,7 +42,7 @@ export async function buildEmbedHTML(
 export async function createInlineEmbed(
     item: PathItem,
     content: HTMLElement | HTMLCollection,
-    config: DocumentHTMLEmbedConfig,
+    config: TextEditor.DocumentHTMLEmbedConfig,
     options?: TextEditor.EnrichmentOptions,
 ): Promise<HTMLElement | null> {
     if (config.values?.includes('talents') && item.system.talentTree) {

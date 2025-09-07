@@ -33,7 +33,7 @@ export class ConfigureDeflectDialog extends HandlebarsApplicationMixin(
                 'update-deflect': this.onUpdateDeflect,
             },
         },
-    );
+    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
 
     static PARTS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.PARTS),
@@ -81,7 +81,9 @@ export class ConfigureDeflectDialog extends HandlebarsApplicationMixin(
 
     private static onUpdateDeflect(this: ConfigureDeflectDialog) {
         void this.actor.update({
-            'system.deflect': this.data,
+            system: {
+                deflect: this.data,
+            }
         });
         void this.close();
     }
@@ -122,8 +124,8 @@ export class ConfigureDeflectDialog extends HandlebarsApplicationMixin(
 
     /* --- Lifecycle --- */
 
-    protected _onRender(context: AnyObject, options: AnyObject): void {
-        super._onRender(context, options);
+    protected async _onRender(context: AnyObject, options: AnyObject) {
+        await super._onRender(context, options);
 
         $(this.element).prop('open', true);
     }

@@ -32,7 +32,7 @@ export class ItemHeaderComponent extends HandlebarsApplicationComponent<
         );
 
         void new foundry.applications.apps.FilePicker({
-            current: this.application.item.img,
+            current: this.application.item.img!,
             type: 'image',
             redirectToRoot: [defaultImg],
             // top: this.application.position.top + 40,

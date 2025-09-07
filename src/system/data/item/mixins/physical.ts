@@ -21,7 +21,7 @@ import { localize } from '@system/utils/i18n';
 //     };
 // }
 
-const SCHEMA = {
+const SCHEMA = () => ({
     quantity: new foundry.data.fields.NumberField({
         required: true,
         nullable: false,
@@ -34,9 +34,11 @@ const SCHEMA = {
             min: 0,
             initial: 0,
             required: true,
+            nullable: false,
         }),
         unit: new foundry.data.fields.StringField({
             required: true,
+            nullable: false,
             initial: CONFIG.COSMERE.units.weight[0],
             choices: CONFIG.COSMERE.units.weight,
         }),
@@ -46,9 +48,11 @@ const SCHEMA = {
             min: 0,
             initial: 0,
             required: true,
+            nullable: false,
         }),
         currency: new foundry.data.fields.StringField({
             required: true,
+            nullable: false,
             initial: 'none',
             choices: {
                 none: localize('GENERIC.None'),
@@ -66,6 +70,7 @@ const SCHEMA = {
         denomination: new foundry.data.fields.SchemaField({
             primary: new foundry.data.fields.StringField({
                 required: true,
+                nullable: false,
                 initial: 'none',
                 choices: {
                     none: localize('GENERIC.None'),
@@ -117,9 +122,9 @@ const SCHEMA = {
         }),
         unit: new foundry.data.fields.StringField(),
     }),
-};
+});
 
-export type PhysicalItemDataSchema = typeof SCHEMA;
+export type PhysicalItemDataSchema = ReturnType<typeof SCHEMA>;
 export type PhysicalItemData = foundry.data.fields.SchemaField.InitializedData<PhysicalItemDataSchema>;
 export type PhysicalItemDerivedData = Merge<PhysicalItemData, {
     price: {
@@ -133,7 +138,7 @@ export function PhysicalItemMixin<TParent extends foundry.abstract.Document.Any>
     ) => {
         return class extends base<PhysicalItemDataSchema, TParent, PhysicalItemDerivedData> {
             static defineSchema() {
-                return foundry.utils.mergeObject(super.defineSchema(), SCHEMA);
+                return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());
             }
 
             public prepareDerivedData() {

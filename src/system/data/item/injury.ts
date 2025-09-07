@@ -15,7 +15,7 @@ import {
     RelationshipsItemDataSchema,
 } from './mixins/relationships';
 
-const SCHEMA = {
+const SCHEMA = () => ({
     duration: new foundry.data.fields.SchemaField({
         initial: new foundry.data.fields.NumberField({
             nullable: true,
@@ -30,10 +30,10 @@ const SCHEMA = {
             initial: 1,
         }),
     }),
-};
+});
 
 export type InjuryItemDataSchema = 
-    & typeof SCHEMA
+    & ReturnType<typeof SCHEMA>
     & TypedItemDataSchema<InjuryType>
     & DescriptionItemDataSchema
     & EventsItemDataSchema
@@ -66,7 +66,7 @@ export class InjuryItemDataModel extends DataModelMixin<
     RelationshipsMixin(),
 ) {
     static defineSchema() {
-        return foundry.utils.mergeObject(super.defineSchema(), SCHEMA);
+        return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());
     }
 
     get typeLabel(): string {

@@ -53,6 +53,8 @@ export class NodePrerequisitesComponent extends HandlebarsApplicationComponent<
         this: NodePrerequisitesComponent,
         event: Event,
     ) {
+        if (!this.application.item.isTalentTree()) return; // TEMP: Workaround
+
         // Create a new prerequisite
         const newRule: TalentTree.Node.Prerequisite = {
             id: foundry.utils.randomID(),
@@ -79,6 +81,8 @@ export class NodePrerequisitesComponent extends HandlebarsApplicationComponent<
         this: NodePrerequisitesComponent,
         event: Event,
     ) {
+        if (!this.application.item.isTalentTree()) return; // TEMP: Workaround
+
         // Get the rule ID
         const id = this.getRuleIdFromEvent(event);
         if (!id) return;
@@ -102,6 +106,8 @@ export class NodePrerequisitesComponent extends HandlebarsApplicationComponent<
         this: NodePrerequisitesComponent,
         event: Event,
     ) {
+        if (!this.application.item.isTalentTree()) return; // TEMP: Workaround
+
         // Get the rule ID
         const id = this.getRuleIdFromEvent(event);
         if (!id) return;

@@ -34,7 +34,7 @@ export class TalentTreeCanvasElement extends Drawable {
         this.rootNode = new TalentTreeNode(
             this.canvas,
             {
-                id: this.item.id,
+                id: this.item.id!,
                 position: { x: 0, y: 0 },
                 type: TalentTree.Node.Type.Tree,
                 uuid: this.item.uuid,

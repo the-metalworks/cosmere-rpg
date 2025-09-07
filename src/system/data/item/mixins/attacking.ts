@@ -1,7 +1,7 @@
 import { AttackType } from '@system/types/cosmere';
 import { CosmereItem } from '@system/documents';
 
-const SCHEMA = {
+const SCHEMA = () => ({
     attack: new foundry.data.fields.SchemaField({
         type: new foundry.data.fields.StringField({
             required: true,
@@ -30,9 +30,9 @@ const SCHEMA = {
             { required: false, nullable: true },
         ),
     }),
-};
+});
 
-export type AttackingItemDataSchema = typeof SCHEMA;
+export type AttackingItemDataSchema =  ReturnType<typeof SCHEMA>;
 
 export function AttackingItemMixin<TParent extends foundry.abstract.Document.Any>() {
     return (
@@ -40,7 +40,7 @@ export function AttackingItemMixin<TParent extends foundry.abstract.Document.Any
     ) => {
         return class extends base<AttackingItemDataSchema, TParent> {
             static defineSchema() {
-                return foundry.utils.mergeObject(super.defineSchema(), SCHEMA);
+                return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());
             }
         };
     };

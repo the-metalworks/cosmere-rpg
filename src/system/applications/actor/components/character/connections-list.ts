@@ -14,7 +14,8 @@ interface ConnectionItemState {
 }
 
 export class CharacterConnectionsListComponent extends HandlebarsApplicationComponent<
-    typeof BaseActorSheet
+    // typeof BaseActorSheet
+    any // TEMP: Workaround
 > {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_CONNECTIONS_LIST}`;
 

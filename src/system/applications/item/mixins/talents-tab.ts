@@ -36,14 +36,16 @@ export function TalentsTabMixin<
 
         /* --- Lifecycle --- */
 
-        protected _onFirstRender(context: AnyObject, options: unknown): void {
-            super._onFirstRender(context, options);
+        protected async _onFirstRender(context: AnyObject, options: unknown): Promise<void> {
+            await super._onFirstRender(context, options);
 
             // Invoke on tab change
             void this.onTabChange();
         }
 
         protected override async onTabChange() {
+            if (!this.item.isTalentsProvider()) return;
+
             if (this.tab === 'talents') {
                 // Look up talent tree
                 const talentTree = this.item.system.talentTree
@@ -83,14 +85,14 @@ export function TalentsTabMixin<
 
         public async _prepareContext(
             options: DeepPartial<foundry.applications.api.ApplicationV2.RenderOptions>,
-        ) {
+        ) {            
             // Get context actor
             const contextActor = this.item.actor?.isCharacter()
                 ? this.item.actor
                 : undefined;
 
             // Look up talent tree
-            const talentTree = this.item.system.talentTree
+            const talentTree = this.item.isTalentsProvider()
                 ? ((await fromUuid(this.item.system.talentTree)) as unknown as
                       | TalentTreeItem
                       | undefined)

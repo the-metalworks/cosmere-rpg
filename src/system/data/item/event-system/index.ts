@@ -1,7 +1,7 @@
 // Fields
 import { HandlerField } from './fields/handler-field';
 
-const SCHEMA = {
+const SCHEMA = () => ({
     id: new foundry.data.fields.DocumentIdField({
         initial: () => foundry.utils.randomID(),
         readonly: false,
@@ -41,14 +41,14 @@ const SCHEMA = {
         required: true,
         nullable: false,
     }),
-};
+});
 
-export type RuleDataSchema = typeof SCHEMA;
+export type RuleDataSchema = ReturnType<typeof SCHEMA>;
 export type RuleData = foundry.data.fields.SchemaField.InitializedData<RuleDataSchema>;
 
 export class Rule extends foundry.abstract.DataModel<RuleDataSchema, foundry.abstract.DataModel.Any> {
     static defineSchema() {
-        return SCHEMA;
+        return SCHEMA();
     }
 
     /* --- Accessors --- */

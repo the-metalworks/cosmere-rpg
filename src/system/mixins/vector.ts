@@ -3,28 +3,28 @@
 /**
  * Adds other to this point
  */
-export function add(this: PIXI.Point, b: Point): Point {
+export function add(this: PIXI.Point, b: PIXI.IPointData): PIXI.Point {
     return new PIXI.Point(this.x + b.x, this.y + b.y);
 }
 
 /**
  * Subtracts other from this point
  */
-export function subtract(this: PIXI.Point, b: Point): Point {
+export function subtract(this: PIXI.Point, b: PIXI.IPointData): PIXI.Point {
     return new PIXI.Point(this.x - b.x, this.y - b.y);
 }
 
 /**
  * Multiplies this point by another point
  */
-export function multiply(this: PIXI.Point, b: Point): Point {
+export function multiply(this: PIXI.Point, b: PIXI.IPointData): PIXI.Point {
     return new PIXI.Point(this.x * b.x, this.y * b.y);
 }
 
 /**
  * Multiplies this point by a scalar value
  */
-export function multiplyScalar(this: PIXI.Point, scalar: number): Point {
+export function multiplyScalar(this: PIXI.Point, scalar: number): PIXI.Point {
     return new PIXI.Point(this.x * scalar, this.y * scalar);
 }
 
@@ -32,7 +32,7 @@ export function multiplyScalar(this: PIXI.Point, scalar: number): Point {
  * Computes the dot product of other with this point.
  * The dot product is the sum of the products of the corresponding components of two vectors
  */
-export function dot(this: PIXI.Point, b: Point): number {
+export function dot(this: PIXI.Point, b: PIXI.IPointData): number {
     return this.x * b.x + this.y * b.y;
 }
 
@@ -45,7 +45,7 @@ export function dot(this: PIXI.Point, b: Point): number {
  *
  * This function returns the z component of the cross product of the two points.
  */
-export function cross(this: PIXI.Point, b: Point): number {
+export function cross(this: PIXI.Point, b: PIXI.IPointData): number {
     return this.x * b.y - this.y * b.x;
 }
 
@@ -71,7 +71,7 @@ export function magnitude(this: PIXI.Point): number {
  * The projection of a vector a onto a vector b is the orthogonal projection of a onto b.
  * It is the vector in the direction of b that is closest to a.
  */
-export function project(this: PIXI.Point, b: Point): PIXI.Point {
+export function project(this: PIXI.Point, b: PIXI.IPointData): PIXI.Point {
     const normalizedScalarProjection =
         (this.x * b.x + this.y * b.y) / (b.x * b.x + b.y * b.y);
     return new PIXI.Point(
@@ -83,12 +83,12 @@ export function project(this: PIXI.Point, b: Point): PIXI.Point {
 /**
  * Finds the distance between two points
  */
-export function distance(this: PIXI.Point, b: Point): number {
+export function distance(this: PIXI.Point, b: PIXI.IPointData): number {
     // Find the length
     return this.subtract(b).magnitude();
 }
 
-export function angle(this: PIXI.Point, b: Point): number {
+export function angle(this: PIXI.Point, b: PIXI.IPointData): number {
     b = new PIXI.Point(b.x, b.y);
 
     // Calculate dot product

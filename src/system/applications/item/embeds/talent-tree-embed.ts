@@ -39,7 +39,9 @@ interface TalentTreeEmbedRenderContext extends AnyObject {
 // )<TalentTreeEmbedRenderContext> {
 export class TalentTreeEmbed extends ComponentHandlebarsApplicationMixin(
     ApplicationV2,
-)<'Item'> {
+) {
+    declare readonly id: string; //TEMP: Workaround
+
     static DEFAULT_OPTIONS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.DEFAULT_OPTIONS),
         {

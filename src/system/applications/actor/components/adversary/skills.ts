@@ -12,7 +12,8 @@ import {
 import { ConfigureSkillsDialog } from '../../dialogs/configure-skills';
 
 export class AdversarySkillsComponent extends HandlebarsApplicationComponent<
-    typeof AdversarySheet
+    // typeof AdversarySheet
+    any // TEMP: Workaround
 > {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_ADVERSARY_SKILLS}`;
 
@@ -53,7 +54,7 @@ export class AdversarySkillsComponent extends HandlebarsApplicationComponent<
         void this.application.actor.setFlag(
             SYSTEM_ID,
             'sheet.hideUnranked',
-            !this.application.hideUnrankedSkills,
+            !(this.application as any).hideUnrankedSkills, // TEMP: Workaround
         );
     }
 
@@ -91,7 +92,7 @@ export class AdversarySkillsComponent extends HandlebarsApplicationComponent<
                     ...this.application.actor.system.skills[skillId],
                     active:
                         (!skillConfig.hiddenUntilAcquired &&
-                            !this.application.hideUnrankedSkills) ||
+                            !(this.application as any).hideUnrankedSkills) || 
                         this.application.actor.system.skills[skillId].rank >= 1,
                 };
             })
@@ -105,7 +106,7 @@ export class AdversarySkillsComponent extends HandlebarsApplicationComponent<
             ...context,
 
             sectionCollapsed: this.sectionCollapsed,
-            hideUnranked: this.application.hideUnrankedSkills,
+            hideUnranked: (this.application as any).hideUnrankedSkills, 
             skills,
             hasActiveSkills: skills.some((skill) => skill.active),
         });
@@ -115,7 +116,7 @@ export class AdversarySkillsComponent extends HandlebarsApplicationComponent<
 
     protected _onInitialize(params: AnyObject): void {
         super._onInitialize(params);
-        this.sectionCollapsed = this.application.areSkillsCollapsed;
+        this.sectionCollapsed = (this.application as any).areSkillsCollapsed;
     }
 
     protected _onRender(params: AnyObject): void {

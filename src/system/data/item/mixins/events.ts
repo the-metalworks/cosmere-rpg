@@ -6,13 +6,13 @@ import { RuleField } from '../event-system/fields/rule-field';
 // Fields
 import { CollectionField } from '@system/data/fields';
 
-const SCHEMA = {
+const SCHEMA = () => ({
     events: new CollectionField(new RuleField(), {
         required: true,
     }),
-};
+});
 
-export type EventsItemDataSchema = typeof SCHEMA;
+export type EventsItemDataSchema = ReturnType<typeof SCHEMA>;
 export type EventsItemData = foundry.data.fields.SchemaField.InitializedData<EventsItemDataSchema>;
 
 export function EventsItemMixin<TParent extends foundry.abstract.Document.Any>() {
@@ -20,7 +20,7 @@ export function EventsItemMixin<TParent extends foundry.abstract.Document.Any>()
         base: typeof foundry.abstract.TypeDataModel) => {
         return class extends base<EventsItemDataSchema, TParent> {
             static defineSchema() {
-                return foundry.utils.mergeObject(super.defineSchema(), SCHEMA);
+                return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());
             }
         };
     };

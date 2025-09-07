@@ -1,7 +1,7 @@
 import { RelationshipsItem } from '@system/documents/item';
 import {
     ItemRelationship,
-    ItemRelationshipData,
+    ItemRelationshipCreateData,
 } from '@system/data/item/mixins/relationships';
 
 // Constants
@@ -12,7 +12,7 @@ function createRelationshipData(
     type: ItemRelationship.Type,
     removalPolicy?: ItemRelationship.RemovalPolicy,
     id = foundry.utils.randomID(),
-): ItemRelationshipData {
+): ItemRelationshipCreateData {
     return {
         id,
         type,

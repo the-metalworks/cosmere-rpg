@@ -13,7 +13,7 @@ import {
     RelationshipsItemDataSchema,
 } from './mixins/relationships';
 
-const SCHEMA = {
+const SCHEMA = () => ({
     level: new foundry.data.fields.NumberField({
         required: true,
         nullable: false,
@@ -23,10 +23,10 @@ const SCHEMA = {
         initial: 0,
         label: 'COSMERE.Item.Goal.Level.Label',
     }),
-};
+});
 
 export type GoalItemDataSchema = 
-    & typeof SCHEMA
+    & ReturnType<typeof SCHEMA>
     & IdItemDataSchema
     & DescriptionItemDataSchema
     & EventsItemDataSchema
@@ -45,6 +45,6 @@ export class GoalItemDataModel extends DataModelMixin<
     RelationshipsMixin(),
 ) {
     static defineSchema() {
-        return foundry.utils.mergeObject(super.defineSchema(), SCHEMA);
+        return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());
     }
 }

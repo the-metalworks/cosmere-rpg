@@ -33,7 +33,7 @@ export class ConfigureMovementRateDialog extends HandlebarsApplicationMixin(
                 'update-movement': this.onUpdateMovementRate,
             },
         },
-    );
+    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
 
     static PARTS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.PARTS),
@@ -83,7 +83,9 @@ export class ConfigureMovementRateDialog extends HandlebarsApplicationMixin(
 
     private static onUpdateMovementRate(this: ConfigureMovementRateDialog) {
         void this.actor.update({
-            'system.movement': this.movementData,
+            system: {
+                movement: this.movementData,
+            },
         });
         void this.close();
     }
@@ -128,8 +130,8 @@ export class ConfigureMovementRateDialog extends HandlebarsApplicationMixin(
 
     /* --- Lifecycle --- */
 
-    protected _onRender(context: AnyObject, options: AnyObject): void {
-        super._onRender(context, options);
+    protected async _onRender(context: AnyObject, options: AnyObject) {
+        await super._onRender(context, options);
 
         $(this.element).prop('open', true);
     }

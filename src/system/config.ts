@@ -685,12 +685,6 @@ const COSMERE: CosmereRPGConfig = {
                 labelPlural: 'COSMERE.Item.Type.Path.label_plural',
                 desc_placeholder: 'COSMERE.Item.Type.Path.desc_placeholder',
             },
-            [ItemType.Specialty]: {
-                label: 'COSMERE.Item.Type.Specialty.label',
-                labelPlural: 'COSMERE.Item.Type.Specialty.label_plural',
-                desc_placeholder:
-                    'COSMERE.Item.Type.Specialty.desc_placeholder',
-            },
             [ItemType.Talent]: {
                 label: 'COSMERE.Item.Type.Talent.label',
                 labelPlural: 'COSMERE.Item.Type.Talent.label_plural',

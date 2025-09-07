@@ -1,5 +1,6 @@
 import { SYSTEM_ID } from '../constants';
 import { Theme } from '../types/cosmere';
+import { AnyObject } from '@system/types/utils';
 
 /**
  * Index of identifiers for system templates.
@@ -215,9 +216,9 @@ export const TEMPLATES = {
  */
 export function renderSystemTemplate(
     template: string,
-    data: object,
+    data: AnyObject,
 ): Promise<string> {
-    return renderTemplate(`systems/${SYSTEM_ID}/templates/${template}`, data);
+    return foundry.applications.handlebars.renderTemplate(`systems/${SYSTEM_ID}/templates/${template}`, data);
 }
 
 export const THEME_TAG = 'cosmere-theme';

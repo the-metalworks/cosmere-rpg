@@ -89,7 +89,7 @@ export class ShortRestDialog extends foundry.applications.api.DialogV2 {
                 ...playerCharacters.reduce(
                     (acc, character) => ({
                         ...acc,
-                        [character.id]: character.name,
+                        [character.id!]: character.name,
                     }),
                     {} as Record<string, string>,
                 ),
@@ -127,8 +127,8 @@ export class ShortRestDialog extends foundry.applications.api.DialogV2 {
 
     /* --- Lifecycle --- */
 
-    protected _onRender(context: never, options: AnyObject) {
-        super._onRender(context, options);
+    protected async _onRender(context: never, options: AnyObject) {
+        await super._onRender(context, options);
 
         // Event handler for tended by selection
         $(this.element)

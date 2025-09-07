@@ -36,7 +36,7 @@ export class EditCreatureTypeDialog extends HandlebarsApplicationMixin(
                 'update-type': this.onUpdateType,
             },
         },
-    );
+    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
 
     static PARTS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.PARTS),
@@ -74,7 +74,9 @@ export class EditCreatureTypeDialog extends HandlebarsApplicationMixin(
 
     private static onUpdateType(this: EditCreatureTypeDialog) {
         void this.actor.update({
-            'system.type': this.type,
+            system: {
+                type: this.type,
+            }
         });
         void this.close();
     }
@@ -107,8 +109,8 @@ export class EditCreatureTypeDialog extends HandlebarsApplicationMixin(
 
     /* --- Lifecycle --- */
 
-    protected _onRender(context: AnyObject, options: AnyObject): void {
-        super._onRender(context, options);
+    protected async _onRender(context: AnyObject, options: AnyObject) {
+        await super._onRender(context, options);
 
         $(this.element).prop('open', true);
     }

@@ -57,7 +57,7 @@ export interface ItemContext {
         cost: Partial<{
             type: string;
             typeLabel: string;
-            value: number;
+            value: number | null;
         }>;
     }>;
 
@@ -75,9 +75,9 @@ export interface ItemContext {
         type: string;
         label: string;
         value: number;
-        max: number;
+        max: number | null;
         hasRecharge: boolean;
-        recharge: string;
+        recharge: string | null;
         rechargeLabel: string;
     }>;
 

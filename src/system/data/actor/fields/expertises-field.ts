@@ -4,7 +4,7 @@ import {
     CollectionFieldOptions,
 } from '../../fields/collection';
 
-const SCHEMA = {
+const SCHEMA = () => ({
     id: new foundry.data.fields.StringField({
         required: true,
         nullable: false,
@@ -31,14 +31,14 @@ const SCHEMA = {
         blank: false,
     }),
     locked: new foundry.data.fields.BooleanField(),
-};
+});
 
-type ExpertiseDataSchema = typeof SCHEMA;
+type ExpertiseDataSchema = ReturnType<typeof SCHEMA>;
 type ExpertiseData = foundry.data.fields.SchemaField.InitializedData<ExpertiseDataSchema>;
 
 export class Expertise extends foundry.abstract.DataModel<ExpertiseDataSchema, foundry.abstract.Document.Any> {
     static defineSchema() {
-        return SCHEMA;
+        return SCHEMA();
     }
 
     static getKey(expertise: ExpertiseData): string;

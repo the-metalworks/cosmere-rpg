@@ -13,7 +13,7 @@ import { NumberRange, DeepMutable } from '@src/system/types/utils';
 
 import { NONE } from '@system/types/utils';
 
-const ACTIVATION_SCHEMA = {
+const ACTIVATION_SCHEMA = () => ({
     type: new foundry.data.fields.StringField({
         required: true,
         blank: false,
@@ -242,9 +242,9 @@ const ACTIVATION_SCHEMA = {
             label: 'COSMERE.Item.Sheet.Activation.Uses',
         },
     ),
-};
+});
 
-type ActivationDataSchema = typeof ACTIVATION_SCHEMA;
+type ActivationDataSchema = ReturnType<typeof ACTIVATION_SCHEMA>;
 type DynamicActivationDataSchema = ReturnType<ReturnType<typeof getActivationDataModelCls>['defineSchema']>;
 export type ActivatableItemDataSchema = {
     activation: ActivationField;
@@ -375,7 +375,7 @@ type BaseActivationDataSchema = Omit<ActivationDataSchema, 'skill'>
 
 export class Activation<Schema extends BaseActivationDataSchema> extends foundry.abstract.DataModel<Schema, foundry.abstract.DataModel.Any> {
     static defineSchema(): foundry.data.fields.DataSchema {
-        return ACTIVATION_SCHEMA;
+        return ACTIVATION_SCHEMA();
     }
 
     /* --- Accessors --- */

@@ -31,6 +31,14 @@ import CosmereAPI from './system/api';
 import CosmereUtils from './system/utils/global';
 
 declare global {
+    namespace CONFIG {
+        namespace Canvas {
+            interface VisionModes {
+                sense: foundry.canvas.perception.VisionMode;
+            }
+        }
+    }
+
     interface CONFIG {
         COSMERE: typeof COSMERE;
     }
@@ -51,29 +59,29 @@ Hooks.once('init', async () => {
 
     CONFIG.COSMERE = COSMERE;
 
-    CONFIG.ChatMessage.documentClass = documents.CosmereChatMessage;
+    CONFIG.ChatMessage.documentClass = documents.CosmereChatMessage as any;
 
     CONFIG.Actor.dataModels = dataModels.actor.config;
-    CONFIG.Actor.documentClass = documents.CosmereActor;
+    CONFIG.Actor.documentClass = documents.CosmereActor as any;
 
-    CONFIG.Item.dataModels = dataModels.item.config;
-    CONFIG.Item.documentClass = documents.CosmereItem;
+    CONFIG.Item.dataModels = dataModels.item.config as any;
+    CONFIG.Item.documentClass = documents.CosmereItem as any;
 
-    CONFIG.Combat.documentClass = documents.CosmereCombat as typeof Combat;
+    CONFIG.Combat.documentClass = documents.CosmereCombat as any;
     CONFIG.ui.combat = applications.combat.CosmereCombatTracker;
 
     // NOTE: Disabled for now as v12 doesn't permit users to update the system of combatants they own
     // (CONFIG.Combatant as AnyMutableObject).dataModels =
     //     dataModels.combatant.config;
     CONFIG.Combatant.documentClass =
-        documents.CosmereCombatant as typeof Combatant;
+        documents.CosmereCombatant as any;
 
-    CONFIG.Token.documentClass = documents.CosmereTokenDocument;
+    CONFIG.Token.documentClass = documents.CosmereTokenDocument as any;
 
     (CONFIG.ActiveEffect as AnyMutableObject).dataModels =
         dataModels.activeEffect.config;
     CONFIG.ActiveEffect.documentClass =
-        documents.CosmereActiveEffect as typeof ActiveEffect;
+        documents.CosmereActiveEffect as typeof ActiveEffect as any;
     CONFIG.ActiveEffect.legacyTransferral = false;
 
     Roll.TOOLTIP_TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.CHAT_ROLL_TOOLTIP}`;
@@ -88,31 +96,30 @@ Hooks.once('init', async () => {
     registerStarterRulesConfig();
 
     Actors.unregisterSheet('core', ActorSheet);
-    registerActorSheet(ActorType.Character, applications.actor.CharacterSheet);
-    registerActorSheet(ActorType.Adversary, applications.actor.AdversarySheet);
+    registerActorSheet(ActorType.Character, applications.actor.CharacterSheet as any);
+    registerActorSheet(ActorType.Adversary, applications.actor.AdversarySheet as any);
 
     Items.unregisterSheet('core', ItemSheet);
-    registerItemSheet(ItemType.Culture, applications.item.CultureItemSheet);
-    registerItemSheet(ItemType.Ancestry, applications.item.AncestrySheet);
-    registerItemSheet(ItemType.Path, applications.item.PathItemSheet);
+    registerItemSheet(ItemType.Culture, applications.item.CultureItemSheet as any);
+    registerItemSheet(ItemType.Ancestry, applications.item.AncestrySheet as any);
+    registerItemSheet(ItemType.Path, applications.item.PathItemSheet as any);
     registerItemSheet(
         ItemType.Connection,
-        applications.item.ConnectionItemSheet,
+        applications.item.ConnectionItemSheet as any,
     );
-    registerItemSheet(ItemType.Injury, applications.item.InjuryItemSheet);
-    registerItemSheet(ItemType.Specialty, applications.item.SpecialtyItemSheet);
-    registerItemSheet(ItemType.Loot, applications.item.LootItemSheet);
-    registerItemSheet(ItemType.Armor, applications.item.ArmorItemSheet);
-    registerItemSheet(ItemType.Trait, applications.item.TraitItemSheet);
-    registerItemSheet(ItemType.Action, applications.item.ActionItemSheet);
-    registerItemSheet(ItemType.Talent, applications.item.TalentItemSheet);
-    registerItemSheet(ItemType.Equipment, applications.item.EquipmentItemSheet);
-    registerItemSheet(ItemType.Weapon, applications.item.WeaponItemSheet);
-    registerItemSheet(ItemType.Goal, applications.item.GoalItemSheet);
-    registerItemSheet(ItemType.Power, applications.item.PowerItemSheet);
+    registerItemSheet(ItemType.Injury, applications.item.InjuryItemSheet as any);
+    registerItemSheet(ItemType.Loot, applications.item.LootItemSheet as any);
+    registerItemSheet(ItemType.Armor, applications.item.ArmorItemSheet as any);
+    registerItemSheet(ItemType.Trait, applications.item.TraitItemSheet as any);
+    registerItemSheet(ItemType.Action, applications.item.ActionItemSheet as any);
+    registerItemSheet(ItemType.Talent, applications.item.TalentItemSheet as any);
+    registerItemSheet(ItemType.Equipment, applications.item.EquipmentItemSheet as any);
+    registerItemSheet(ItemType.Weapon, applications.item.WeaponItemSheet as any);
+    registerItemSheet(ItemType.Goal, applications.item.GoalItemSheet as any);
+    registerItemSheet(ItemType.Power, applications.item.PowerItemSheet as any);
     registerItemSheet(
         ItemType.TalentTree,
-        applications.item.TalentTreeItemSheet,
+        applications.item.TalentTreeItemSheet as any,
     );
 
     CONFIG.Dice.types.push(dice.PlotDie);
@@ -120,7 +127,7 @@ Hooks.once('init', async () => {
     CONFIG.Dice.termTypes[dice.PlotDie.name] = dice.PlotDie;
 
 
-    CONFIG.Dice.rolls.push(dice.D20Roll);
+    CONFIG.Dice.rolls.push(dice.D20Roll as any);
     CONFIG.Dice.rolls.push(dice.DamageRoll);
 
     CONFIG.Canvas.visionModes.sense = new foundry.canvas.perception.VisionMode({

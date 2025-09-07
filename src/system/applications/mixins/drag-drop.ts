@@ -13,7 +13,7 @@ interface DragDropApplicationConfiguration {
 //     BaseClass extends AnyConcreteApplicationV2Constructor,
 // >(base: BaseClass) {
 export function DragDropApplicationMixin<
-    BaseClass extends ConstructorOf<ComponentHandlebarsApplication<null | 'Actor' | 'Item'>>,
+    BaseClass extends ConstructorOf<ComponentHandlebarsApplication>,
 >(base: BaseClass) {
     return class mixin extends base {
         declare options: DragDropApplicationConfiguration;

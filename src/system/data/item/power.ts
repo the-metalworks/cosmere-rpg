@@ -21,7 +21,7 @@ import {
     RelationshipsItemDataSchema,
 } from './mixins/relationships';
 
-const SCHEMA = {
+const SCHEMA = () => ({
     customSkill: new foundry.data.fields.BooleanField({
         required: true,
         initial: false,
@@ -47,10 +47,10 @@ const SCHEMA = {
                     {} as Record<Skill, string>,
                 ),
     }),
-}
+});
 
 export type PowerItemDataSchema =
-    & typeof SCHEMA
+    & ReturnType<typeof SCHEMA>
     & IdItemDataSchema
     & TypedItemDataSchema<PowerType>
     & DamagingItemDataSchema
@@ -97,7 +97,7 @@ export class PowerItemDataModel extends DataModelMixin<
     RelationshipsMixin(),
 ) {
     static defineSchema() {
-        return foundry.utils.mergeObject(super.defineSchema(), SCHEMA);
+        return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());
     }
 
     public prepareDerivedData() {

@@ -41,12 +41,17 @@ export class DetailsActivationComponent extends HandlebarsApplicationComponent<
             value: {
                 min: 0,
                 max: 0,
+                actual: 0,
             },
             resource: Resource.Focus,
         });
 
         void this.application.item.update({
-            ['system.activation.consume']: activation.consume,
+            system: {
+                activation: {
+                    consume: activation.consume,
+                }
+            }
         });
     }
 

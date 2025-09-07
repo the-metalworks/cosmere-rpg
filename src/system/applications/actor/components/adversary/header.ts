@@ -16,7 +16,8 @@ import {
 } from '../../adversary-sheet';
 
 export class AdversaryHeaderComponent extends HandlebarsApplicationComponent<
-    typeof AdversarySheet
+    // typeof AdversarySheet
+    any // TEMP: Workaround
 > {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_ADVERSARY_HEADER}`;
 

@@ -18,7 +18,7 @@ const { ApplicationV2 } = foundry.applications.api;
 
 export class ItemEditEventRuleDialog extends ComponentHandlebarsApplicationMixin(
     ApplicationV2<AnyObject>,
-)<'Item'> {
+) {
     /**
      * NOTE: Unbound methods is the standard for defining actions and forms
      * within ApplicationV2

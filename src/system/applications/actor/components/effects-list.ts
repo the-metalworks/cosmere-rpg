@@ -32,7 +32,8 @@ const TITLE_MAP: Record<EffectListType, string> = {
 };
 
 export class ActorEffectsListComponent extends HandlebarsApplicationComponent<
-    typeof BaseActorSheet,
+    // typeof BaseActorSheet,
+    any, // TEMP: Workaround
     Params
 > {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_EFFECTS_LIST}`;

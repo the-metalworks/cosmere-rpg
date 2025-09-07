@@ -113,10 +113,6 @@ export class WeaponItemDataModel extends DataModelMixin<
     LinkedSkillsMixin(),
     RelationshipsMixin(),
 ) {
-    static defineSchema() {
-        return foundry.utils.mergeObject(super.defineSchema(), {});
-    }
-
     public prepareDerivedData() {
         super.prepareDerivedData();
 
