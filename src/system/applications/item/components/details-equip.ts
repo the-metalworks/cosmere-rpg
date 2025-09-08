@@ -223,8 +223,8 @@ export class DetailsEquipComponent extends HandlebarsApplicationComponent<
                 ) {
                     return game.i18n!.localize(config.label);
                 } else if (
-                    trait.defaultValue !== null &&
-                    trait.expertise.value !== null
+                    trait.defaultValue != null &&
+                    trait.expertise.value != null
                 ) {
                     return game
                         .i18n!.localize(

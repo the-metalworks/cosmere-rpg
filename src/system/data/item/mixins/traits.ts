@@ -10,10 +10,16 @@ const SCHEMA = () => ({
     traits: new MappingField(
         new foundry.data.fields.SchemaField({
             defaultValue: new foundry.data.fields.NumberField({
+                required: true,
+                nullable: true,
                 integer: true,
+                initial: null,
             }),
             value: new foundry.data.fields.NumberField({
+                required: true,
+                nullable: true,
                 integer: true,
+                initial: null,
             }),
             defaultActive: new foundry.data.fields.BooleanField(
                 {

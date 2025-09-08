@@ -353,7 +353,7 @@ class ActivationField extends foundry.data.fields.SchemaField<
     }
 
     protected override _cast(value: unknown) {
-        return typeof value && value === 'object' ? value : {};
+        return value && typeof value === 'object' ? value : {};
     }
 
     public override initialize(
@@ -424,40 +424,42 @@ export class Activation<Schema extends BaseActivationDataSchema> extends foundry
 }
 
 function getActivationDataModelCls(options?: ActivatableItemMixinOptions) {
-    const baseSchema = Activation.defineSchema() as ActivationDataSchema;
+    function _defineSchema() {
+        const baseSchema = Activation.defineSchema() as ActivationDataSchema;
 
-    const schema = {
-        ...baseSchema,
+        return {
+            ...baseSchema,
 
-        ...(options?.type?.initial ? {
-            type: new foundry.data.fields.StringField({
-                ...baseSchema.type.options,
-                initial: options.type.initial,
-            })
-        } : {}),
+            ...(options?.type?.initial ? {
+                type: new foundry.data.fields.StringField({
+                    ...baseSchema.type.options,
+                    initial: options.type.initial,
+                })
+            } : {}),
 
-        ...(options?.skill?.initial ? {
-            skill: new foundry.data.fields.StringField({
-                ...baseSchema.skill.options,
-                initial: options.skill.initial,
-            })
-        } : {}),
+            ...(options?.skill?.initial ? {
+                skill: new foundry.data.fields.StringField({
+                    ...baseSchema.skill.options,
+                    initial: options.skill.initial,
+                })
+            } : {}),
 
-        ...(options?.skill?.allowDefault ? {
-            skill: new foundry.data.fields.StringField({
-                ...baseSchema.skill.options,
-                choices: Object.fromEntries([
-                    ['none', 'GENERIC.None'],
-                    ['default', 'GENERIC.Default'],
-                    ...Object.entries(baseSchema.skill.options.choices).slice(1),
-                ])
-            })
-        } : {}),
+            ...(options?.skill?.allowDefault ? {
+                skill: new foundry.data.fields.StringField({
+                    ...baseSchema.skill.options,
+                    choices: Object.fromEntries([
+                        ['none', 'GENERIC.None'],
+                        ['default', 'GENERIC.Default'],
+                        ...Object.entries(baseSchema.skill.options.choices).slice(1),
+                    ])
+                })
+            } : {}),
+        }
     }
 
-    return class extends Activation<typeof schema> {
+    return class extends Activation<ReturnType<typeof _defineSchema>> {
         static defineSchema() {
-            return schema;
+            return _defineSchema();
         }
 
         /* --- Accessors --- */
