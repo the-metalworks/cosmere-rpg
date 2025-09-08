@@ -9,8 +9,6 @@ import { SYSTEM_ID } from '@system/constants';
 import { TEMPLATES } from '@system/utils/templates';
 
 export interface CosmereTurnContext extends CombatTracker.TurnContext {
-    pending: number;
-    finished: number;
     type?: Actor.SubType;
     turnSpeed?: TurnSpeed;
     activated?: boolean;
@@ -31,6 +29,16 @@ interface CosmereTrackerContext extends CombatTracker.TrackerContext {
  * Overrides default tracker template to implement slow/fast buckets and combatant activation button.
  */
 export class CosmereCombatTracker extends foundry.applications.sidebar.tabs.CombatTracker {
+    static DEFAULT_OPTIONS = foundry.utils.mergeObject(
+        foundry.utils.deepClone(super.DEFAULT_OPTIONS),
+        {
+            actions: {
+                'toggleSpeed': this._onClickToggleTurnSpeed,
+                'activateCombatant': this._onActivateCombatant,
+            }
+        }
+    );
+
     static PARTS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.PARTS),
         {
@@ -44,34 +52,17 @@ export class CosmereCombatTracker extends foundry.applications.sidebar.tabs.Comb
         context: CombatTracker.RenderContext & CosmereTrackerContext,
         options: CombatTracker.RenderOptions,
     ) {
-        super._prepareTrackerContext(context, options);
+        const combat = this.viewed;
+        if (!combat) return;
 
-        console.log(context);
+        context.turns = await combat.turns
+            .filter((c) => c.visible)
+            .reduce(async (prev, combatant, i) => [
+                ...(await prev),
+                await this._prepareTurnContext(combat, combatant, i),
+            ], Promise.resolve([] as CosmereTurnContext[]));
 
-        if (!context.turns) return;
-
-        // Add combatant type, speed, and activation status to existing turn data
-        context.turns = context.turns.flatMap((turn, i) => {
-            const combatant = this.viewed!.turns[i] as CosmereCombatant;
-
-            // Prepare turn data
-            const newTurn: CosmereTurnContext = {
-                ...turn,
-                turnSpeed: combatant.turnSpeed,
-                type: combatant.actor.type,
-                activated: combatant.activated,
-                isBoss: combatant.isBoss,
-                bossFastActivated: combatant.bossFastActivated,
-            };
-
-            // Strip active player formatting
-            newTurn.css = '';
-
-            // provide current turn for non-boss combatants
-            return newTurn;
-        });
-
-        //split turn data into individual turn "buckets" to separate them in the combat tracker ui
+        // Split turn data into individual turn "buckets" to separate them in the combat tracker ui
         context.fastPlayers = context.turns.filter((turn) => {
             return (
                 turn.type === ActorType.Character &&
@@ -98,32 +89,27 @@ export class CosmereCombatTracker extends foundry.applications.sidebar.tabs.Comb
         });
     }
 
-    override async _onFirstRender(
-        context: DeepPartial<CombatTracker.RenderContext>,
-        options: DeepPartial<CombatTracker.RenderOptions>,
-    ) {
-        await super._onFirstRender(context, options);
-
-        const html = $(this.element);
-        html.find(`[data-control='toggleSpeed']`).on(
-            'click',
-            this._onClickToggleTurnSpeed.bind(this),
-        );
-        html.find(`[data-control='activateCombatant']`).on(
-            'click',
-            this._onActivateCombatant.bind(this),
-        );
+    protected override async _prepareTurnContext(combat: Combat.Stored, combatant: CosmereCombatant, index: number): Promise<CosmereTurnContext> {
+        return {
+            ...(await super._prepareTurnContext(combat, combatant as Combatant.Stored, index)),
+            turnSpeed: combatant.turnSpeed,
+            type: combatant.actor?.type,
+            activated: combatant.activated,
+            isBoss: combatant.isBoss,
+            bossFastActivated: combatant.bossFastActivated,
+            css: '' // Strip active player formatting
+        }
     }
 
     /**
      * toggles combatant turn speed on clicking the "fast/slow" button on the combat tracker window
      * */
-    protected _onClickToggleTurnSpeed(event: Event) {
+    protected static _onClickToggleTurnSpeed(this: CosmereCombatTracker, event: Event) {
         event.preventDefault();
         event.stopPropagation();
 
         // Get the button and the closest combatant list item
-        const btn = event.currentTarget as HTMLElement;
+        const btn = event.target as HTMLElement;
         const li = btn.closest<HTMLElement>('.combatant')!;
 
         // Get the combatant
@@ -138,12 +124,12 @@ export class CosmereCombatTracker extends foundry.applications.sidebar.tabs.Comb
     /**
      *  activates the combatant when clicking the activation button
      */
-    protected _onActivateCombatant(event: Event) {
+    protected static _onActivateCombatant(this: CosmereCombatTracker, event: Event) {
         event.preventDefault();
         event.stopPropagation();
 
         // Get the button and the closest combatant list item
-        const btn = event.currentTarget as HTMLElement;
+        const btn = event.target as HTMLElement;
         const li = btn.closest<HTMLElement>('.combatant')!;
 
         // Get the combatant
@@ -185,7 +171,7 @@ export class CosmereCombatTracker extends foundry.applications.sidebar.tabs.Comb
         void combatant.resetActivation();
     }
 
-    protected override _getCombatContextOptions(): ContextMenu.Entry<HTMLElement>[] {
+    protected override _getEntryContextOptions(): ContextMenu.Entry<HTMLElement>[] {
         const menu: ContextMenu.Entry<HTMLElement>[] = [
             {
                 name: 'COSMERE.Combat.ToggleTurn',
@@ -198,7 +184,7 @@ export class CosmereCombatTracker extends foundry.applications.sidebar.tabs.Comb
                 callback: this._onContextResetActivation.bind(this),
             },
         ];
-        
+
         // pushes existing context menu options, filtering out the initiative reroll and initiative clear options
         menu.push(
             ...super

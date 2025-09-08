@@ -43,7 +43,12 @@ Hooks.on('ready', async () => {
     });
 
     // Mark the setting so the message doesn't appear again
-    await game.settings!.set(SYSTEM_ID, 'firstTimeWorldCreation', false);
+    await setSystemSetting(SETTINGS.INTERNAL_FIRST_CREATION, false);
+
+    // Disable turn marker by default
+    const combatTrackerConfig = game.settings.get('core', 'combatTrackerConfig');
+    foundry.utils.setProperty(combatTrackerConfig, 'turnMarker.enabled', false);
+    await game.settings.set('core', 'combatTrackerConfig', combatTrackerConfig);
 });
 
 Hooks.on('ready', async () => {

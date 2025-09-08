@@ -58,8 +58,11 @@ export class CosmereCombat extends Combat {
         // One-time initialization of the previous state
         if (!this.previous) this.previous = this.current;
 
+        // Assign turns
+        this.turns = turns;
+
         // Return the array of prepared turns
-        return (this.turns = turns);
+        return this.turns;
     }
 }
 
