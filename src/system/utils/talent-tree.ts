@@ -166,7 +166,7 @@ export function removeConnection(
     // Prepare node changes
     const nodeChanges = prereq
         ? Array.from(prereq.talents).length === 1
-            ? { [`prerequisites.-=${prereq.id}`]: {} }
+            ? { [`prerequisites.-=${prereq.id}`]: null }
             : {
                   [`prerequisites.${prereq.id}.talents`]: prereq.talents.filter(
                       (talent) => talent.id !== to.talentId,
@@ -175,7 +175,7 @@ export function removeConnection(
         : {};
 
     // Remove the connection
-    nodeChanges[`connections.-=${to.id}`] = {};
+    nodeChanges[`connections.-=${to.id}`] = null;
 
     // Update the tree
     return tree.update(
@@ -214,11 +214,11 @@ export function removePrerequisite(
     return tree.update(
         {
             [`system.nodes.${node.id}`]: {
-                [`prerequisites.-=${prereqId}`]: {},
+                [`prerequisites.-=${prereqId}`]: null,
                 ...connections.reduce(
                     (acc, id) => ({
                         ...acc,
-                        [`connections.-=${id}`]: {},
+                        [`connections.-=${id}`]: null,
                     }),
                     {} as Record<string, unknown>,
                 ),

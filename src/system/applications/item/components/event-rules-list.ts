@@ -18,8 +18,6 @@ export class ItemEventRulesListComponent extends HandlebarsApplicationComponent<
 > {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_EVENT_RULES_LIST}`;
 
-    declare item: EventsItem;
-
     /**
      * NOTE: Unbound methods is the standard for defining actions and forms
      * within ApplicationV2
@@ -31,6 +29,12 @@ export class ItemEventRulesListComponent extends HandlebarsApplicationComponent<
         'delete-rule': this.onDeleteRule,
     };
     /* eslint-enable @typescript-eslint/unbound-method */
+
+    /* --- Accessors --- */
+
+    public get item(): EventsItem {
+        return this.application.item as EventsItem;
+    }
 
     /* --- Actions --- */
 
@@ -86,7 +90,7 @@ export class ItemEventRulesListComponent extends HandlebarsApplicationComponent<
 
         // Delete the rule
         void this.item.update({
-            [`system.events.-=${id}`]: {},
+            [`system.events.-=${id}`]: null,
         });
     }
 

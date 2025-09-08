@@ -152,9 +152,7 @@ function removeRelationship(
     );
     if (relationship) {
         const changes = {
-            [`system.relationships.-=${relationship.id}`]: {
-                type: relationship.type,
-            },
+            [`system.relationships.-=${relationship.id}`]: null,
         };
 
         if (!options.source) {

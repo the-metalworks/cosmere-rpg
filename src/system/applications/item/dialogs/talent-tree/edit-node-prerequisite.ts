@@ -118,7 +118,7 @@ export class EditNodePrerequisiteDialog extends ComponentHandlebarsApplicationMi
                     (acc, id) => ({
                         ...acc,
                         [`system.nodes.${this.node.id}.prerequisites.${this.data.id}.talents.-=${id}`]:
-                            {},
+                            null,
                     }),
                     {},
                 ),
@@ -152,7 +152,7 @@ export class EditNodePrerequisiteDialog extends ComponentHandlebarsApplicationMi
                     (acc, id) => ({
                         ...acc,
                         [`system.nodes.${this.node.id}.prerequisites.${this.data.id}.goals.-=${id}`]:
-                            {},
+                            null,
                     }),
                     {},
                 ),

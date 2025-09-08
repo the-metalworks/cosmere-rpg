@@ -266,7 +266,7 @@ export class CollectionField<
             const cleaned = this.model.clean(v, options) as TElementFieldAssignment;
 
             if (key.startsWith('-=')) {
-                (value as Record<string, TElementFieldAssignment>)[key] = cleaned;
+                (value as Record<string, TElementFieldAssignment | null>)[key] = null;
             } else {
                 // Determine the key
                 const prevKey = key;
@@ -285,8 +285,6 @@ export class CollectionField<
         value: unknown,
         options?: foundry.data.fields.DataField.ValidateOptions<this>,
     ): boolean | foundry.data.validation.DataModelValidationFailure | void {
-        console.log('_validateType', value, foundry.utils.getType(value));
-
         if (!value || typeof value !== 'object')
             throw new Error('must be a RecordCollection object');
 
@@ -316,6 +314,8 @@ export class CollectionField<
             foundry.data.validation.DataModelValidationFailure
         > = {};
         Object.entries(value).forEach(([id, v]) => {
+            if (id.startsWith('-=') && v === null) return; // Skip deletions
+
             const error = this.model.validate(
                 v as TElementFieldAssignment,
                 options,
@@ -347,14 +347,18 @@ export class CollectionField<
                             )
                             : [];
 
+            
+
         // Reduce entries to Record<string, unknown>
-        return entries.reduce(
+        const result = entries.reduce(
             (acc, [key, value]) => ({
                 ...acc,
                 [key]: value,
             }),
             {},
         ) as TAssignment;
+
+        return result;
     }
 
     public override getInitialValue() {

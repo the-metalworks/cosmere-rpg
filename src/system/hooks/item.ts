@@ -345,8 +345,6 @@ async function disconnectRelationship(
 
     // Remove the relationship from the related item
     await relatedItem.update({
-        [`system.relationships.-=${relationShip.id}`]: {
-            type: relationShip.type,
-        },
+        [`system.relationships.-=${relationShip.id}`]: null,
     });
 }

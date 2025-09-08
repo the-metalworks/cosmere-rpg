@@ -51,7 +51,7 @@ export function register() {
                         expertises: expertises.reduce(
                             (acc, expertise) => ({
                                 ...acc,
-                                [`-=${expertise.key}`]: expertise.toObject(),
+                                [`-=${expertise.key}`]: null,
                             }),
                             {},
                         ),

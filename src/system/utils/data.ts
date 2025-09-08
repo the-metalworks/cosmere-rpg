@@ -96,11 +96,7 @@ export function getObjectChanges(original: object, updated: object): AnyObject {
 
     // Add removed keys
     removedKeys.forEach((key) => {
-        let keyParts = key.split('.');
-        keyParts = [...keyParts.slice(0, -1), keyParts.at(-1)!.slice(2)];
-
-        // Add the removal operator
-        changes[key] = foundry.utils.getProperty(original, keyParts.join('.'));
+        changes[key] = null;
     });
 
     return foundry.utils.expandObject(changes) as AnyObject;
