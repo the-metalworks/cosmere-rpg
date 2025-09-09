@@ -42,7 +42,7 @@
         "rollup-plugin-scss": "^4.0.0",
         "sass": "^1.77.8",
         "tslib": "^2.6.3",
-        "typescript": "^5.5.4",
+        "typescript": "^5.9.2",
         "typescript-eslint": "^8.2.0"
     },
     "engines": {
