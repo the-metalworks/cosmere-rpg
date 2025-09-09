@@ -20,7 +20,7 @@
     "devDependencies": {
         "@eslint/js": "^9.9.0",
         "@foundryvtt/foundryvtt-cli": "^1.0.3",
-        "@league-of-foundry-developers/foundry-vtt-types": "^13.345.1",
+        "@league-of-foundry-developers/foundry-vtt-types": "^13.346.0-beta.20250908011144",
         "@rollup/plugin-commonjs": "^26.0.1",
         "@rollup/plugin-json": "^6.1.0",
         "@rollup/plugin-node-resolve": "^15.2.3",
