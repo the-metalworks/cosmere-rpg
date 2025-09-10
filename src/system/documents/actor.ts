@@ -1212,7 +1212,7 @@ export class CosmereActor<
             string,
             any
         >;
-        return { ...data, ...registeredData };
+        return this.deepMergeData(data, registeredData);
     }
 
     public getEnricherData() {
@@ -1265,6 +1265,36 @@ export class CosmereActor<
 
         // Default to the first (assumed lowest) formula
         return scale[0].formula;
+    }
+
+    /**
+     * Utility Function to deep merge two sets of roll data.
+     */
+
+    public deepMergeData(
+        dataA: Record<string, any>,
+        dataB: Record<string, any>,
+    ): CosmereActorRollData<SystemType> {
+        const result = { ...dataA };
+
+        for (const key in dataB) {
+            if (Object.hasOwn(dataB, key)) {
+                if (
+                    dataB[key] instanceof Object &&
+                    dataA[key] instanceof Object
+                ) {
+                    result[key] = this.deepMergeData(dataA[key], dataB[key]);
+                } else {
+                    result[key] = dataB[key] as
+                        | object
+                        | string
+                        | number
+                        | undefined;
+                }
+            }
+        }
+
+        return result as CosmereActorRollData<SystemType>;
     }
 
     /**
@@ -1340,33 +1370,17 @@ export class CosmereActor<
                 continue;
             }
 
+            const originalData = foundry.utils.getProperty(
+                initialRollData,
+                key,
+            ) as object | string | number | undefined;
+            if (!rollData.override && originalData && originalData !== 0) {
+                continue;
+            }
+
             const value = this.parseRollData(rollData.data);
 
-            if (key.includes('.')) {
-                const splitKey = key.split('.');
-                if (
-                    !rollData.override &&
-                    Object.keys(initialRollData).includes(splitKey[0])
-                ) {
-                    continue;
-                }
-
-                const current = registeredData;
-                splitKey.forEach((propertyKey) => {
-                    current[propertyKey] = {} as Record<string, any>;
-                });
-
-                foundry.utils.setProperty(registeredData, key, value);
-            } else {
-                if (
-                    !rollData.override &&
-                    Object.keys(initialRollData).includes(key)
-                ) {
-                    continue;
-                }
-
-                registeredData[key] = value;
-            }
+            foundry.utils.setProperty(registeredData, key, value);
         }
 
         return registeredData;
