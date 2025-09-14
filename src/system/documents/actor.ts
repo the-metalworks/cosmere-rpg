@@ -1212,7 +1212,12 @@ export class CosmereActor<
             string,
             any
         >;
-        return { ...data, ...registeredData };
+        return foundry.utils.mergeObject(data, registeredData, {
+            insertKeys: true,
+            insertValues: true,
+            overwrite: true,
+            recursive: true,
+        });
     }
 
     public getEnricherData() {
@@ -1340,33 +1345,17 @@ export class CosmereActor<
                 continue;
             }
 
+            const originalData = foundry.utils.getProperty(
+                initialRollData,
+                key,
+            ) as object | string | number | undefined;
+            if (!rollData.override && originalData && originalData !== 0) {
+                continue;
+            }
+
             const value = this.parseRollData(rollData.data);
 
-            if (key.includes('.')) {
-                const splitKey = key.split('.');
-                if (
-                    !rollData.override &&
-                    Object.keys(initialRollData).includes(splitKey[0])
-                ) {
-                    continue;
-                }
-
-                const current = registeredData;
-                splitKey.forEach((propertyKey) => {
-                    current[propertyKey] = {} as Record<string, any>;
-                });
-
-                foundry.utils.setProperty(registeredData, key, value);
-            } else {
-                if (
-                    !rollData.override &&
-                    Object.keys(initialRollData).includes(key)
-                ) {
-                    continue;
-                }
-
-                registeredData[key] = value;
-            }
+            foundry.utils.setProperty(registeredData, key, value);
         }
 
         return registeredData;
