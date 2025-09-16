@@ -37,6 +37,11 @@ export async function buildEmbedHTML(
             },
         );
 
+    config.heading ??= true;
+    config.prependLabel = config.heading
+        ? false
+        : (config.prependLabel ?? true);
+
     const headingTag =
         config.values?.find((v) => HEADING_TAGS.includes(v)) ??
         DEFAULT_HEADING_TAG;
