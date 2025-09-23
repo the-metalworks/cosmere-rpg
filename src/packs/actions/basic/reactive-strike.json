@@ -10,7 +10,7 @@
         "description": {
             "value": "<p>As an enemy retreats, you use the opening to attack. When an enemy voluntarily leaves your reach, you can use this reaction and spend 1 focus to make a melee weapon attack against the enemy’s Physical defense. You can’t use this reaction to attack a character who transports themself with Transportation or who otherwise moves instantaneously.</p>",
             "chat": "<p>When an enemy voluntarily leaves your reach, you can use this reaction and spend 1 focus to make a melee weapon attack against the enemy’s Physical defense. You can’t use this reaction to attack a character who transports themself with @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.UckJaV79R63u6a5y.JournalEntryPage.fuwhzsRlWwlkrRB5]{Transportation} or who otherwise moves instantaneously.</p>",
-            "short": "<p>When an enemy voluntarily leaves your reach, you can use this reaction and spend 1 focus to make a melee weapon attack against the enemy’s Physical defense. You can’t use this reaction to attack a character who transports themself with @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.UckJaV79R63u6a5y.JournalEntryPage.fuwhzsRlWwlkrRB5]{Transportation} or who otherwise moves instantaneously.</p>"
+            "short": "<p>When an enemy voluntarily leaves your reach, you can use this reaction and spend 1 focus to make a melee weapon attack or unarmed attack against the enemy’s Physical defense. You can’t use this reaction to attack a character who transports themself with @UUID[Compendium.cosmere-rpg.starter-rules.JournalEntry.UckJaV79R63u6a5y.JournalEntryPage.fuwhzsRlWwlkrRB5]{Transportation} or who otherwise moves instantaneously.</p>"
         },
         "activation": {
             "type": "utility",
