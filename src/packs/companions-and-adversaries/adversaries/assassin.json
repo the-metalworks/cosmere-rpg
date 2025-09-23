@@ -38,7 +38,7 @@
                 "restrained": false,
                 "slowed": false,
                 "stunned": false,
-                "surprised": false,
+                "surprised": true,
                 "afflicted": false,
                 "blind": false,
                 "burrowing": false,
