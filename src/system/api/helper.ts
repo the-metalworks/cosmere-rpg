@@ -162,7 +162,7 @@ export class RegistrationHelper {
         if (hasErrorLogs) {
             // TODO: Show log dialog instead of error notification.
             ui.notifications.error(
-                game.i18n!.localize('GENERIC.Error.RegisteringConfigs'),
+                game.i18n.localize('GENERIC.Error.RegisteringConfigs'),
             );
         }
 

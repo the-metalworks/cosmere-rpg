@@ -33,7 +33,10 @@ const TITLE_MAP: Record<EffectListType, string> = {
 
 export class ActorEffectsListComponent extends HandlebarsApplicationComponent<
     // typeof BaseActorSheet,
-    any, // TEMP: Workaround
+    // TODO: Resolve typing issues
+    // NOTE: Use any as workaround for foundry-vtt-types issues
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    any,
     Params
 > {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_EFFECTS_LIST}`;

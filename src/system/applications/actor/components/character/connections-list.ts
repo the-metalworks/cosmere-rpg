@@ -13,10 +13,11 @@ interface ConnectionItemState {
     expanded?: boolean;
 }
 
-export class CharacterConnectionsListComponent extends HandlebarsApplicationComponent<
-    // typeof BaseActorSheet
-    any // TEMP: Workaround
-> {
+export class CharacterConnectionsListComponent extends HandlebarsApplicationComponent<// typeof BaseActorSheet
+// TODO: Resolve typing issues
+// NOTE: Use any as workaround for foundry-vtt-types issues
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+any> {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_CONNECTIONS_LIST}`;
 
     /**
@@ -86,7 +87,7 @@ export class CharacterConnectionsListComponent extends HandlebarsApplicationComp
             [
                 {
                     type: ItemType.Connection,
-                    name: game.i18n!.localize(
+                    name: game.i18n.localize(
                         'COSMERE.Actor.Sheet.Details.Connections.NewText',
                     ),
                 },
@@ -201,15 +202,16 @@ export class CharacterConnectionsListComponent extends HandlebarsApplicationComp
                     ...item,
                     ...this.connectionItemStates[item.id!],
                     id: item.id,
-                    descriptionHTML: await foundry.applications.ux.TextEditor.enrichHTML(
-                        // NOTE: We use a logical OR here to catch both nullish values and empty string
-                         
-                        item.system.description?.value || '<p>—</p>',
-                        {
-                            relativeTo: (item as CosmereItem).system
-                                .parent as foundry.abstract.Document.Any,
-                        },
-                    ),
+                    descriptionHTML:
+                        await foundry.applications.ux.TextEditor.enrichHTML(
+                            // NOTE: We use a logical OR here to catch both nullish values and empty string
+
+                            item.system.description?.value || '<p>—</p>',
+                            {
+                                relativeTo: (item as CosmereItem).system
+                                    .parent as foundry.abstract.Document.Any,
+                            },
+                        ),
                 })),
             ),
         };

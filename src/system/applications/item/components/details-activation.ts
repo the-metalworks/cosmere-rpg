@@ -13,10 +13,11 @@ import { BaseItemSheet, BaseItemSheetRenderContext } from '../base';
 import { SYSTEM_ID } from '@system/constants';
 import { TEMPLATES } from '@system/utils/templates';
 
-export class DetailsActivationComponent extends HandlebarsApplicationComponent<
-    // typeof BaseItemSheet
-    any // TEMP: Workaround
-> {
+export class DetailsActivationComponent extends HandlebarsApplicationComponent<// typeof BaseItemSheet
+// TODO: Resolve typing issues
+// NOTE: Use any as workaround for foundry-vtt-types issues
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+any> {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_DETAILS_ACTIVATION}`;
 
     /**
@@ -50,8 +51,8 @@ export class DetailsActivationComponent extends HandlebarsApplicationComponent<
             system: {
                 activation: {
                     consume: activation.consume,
-                }
-            }
+                },
+            },
         });
     }
 

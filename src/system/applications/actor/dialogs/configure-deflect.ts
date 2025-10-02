@@ -58,7 +58,7 @@ export class ConfigureDeflectDialog extends HandlebarsApplicationMixin(
         super({
             id: `${actor.uuid}.Deflect`,
             window: {
-                title: game.i18n!.format('DIALOG.ConfigureDeflect.Title', {
+                title: game.i18n.format('DIALOG.ConfigureDeflect.Title', {
                     actor: actor.name,
                 }),
             },
@@ -83,7 +83,7 @@ export class ConfigureDeflectDialog extends HandlebarsApplicationMixin(
         void this.actor.update({
             system: {
                 deflect: this.data,
-            }
+            },
         });
         void this.close();
     }
@@ -112,7 +112,7 @@ export class ConfigureDeflectDialog extends HandlebarsApplicationMixin(
         }
 
         if (isNaN(this.data.override!)) this.data.override = 0;
-        if (isNaN(this.data.natural!)) this.data.natural = 0;
+        if (isNaN(this.data.natural)) this.data.natural = 0;
         if (isNaN(this.data.bonus)) this.data.bonus = 0;
 
         // Assign mode

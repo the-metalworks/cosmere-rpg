@@ -13,12 +13,13 @@ export interface CollectionFieldOptions<T = AnyObject>
      *
      * @default "id"
      */
-    key?: T extends AnyObject ?
-    keyof T | ((item: Partial<T>) => string | null)
-    : never;
+    key?: T extends AnyObject
+        ? keyof T | ((item: Partial<T>) => string | null)
+        : never;
 }
 
-export type CollectionFieldInitializedType<T> = RecordCollection<T> & Record<string, T>;
+export type CollectionFieldInitializedType<T> = RecordCollection<T> &
+    Record<string, T>;
 
 export type CollectionFieldSchema<
     ElementField extends foundry.data.fields.DataField.Any,
@@ -35,7 +36,7 @@ export class RecordCollection<T> implements Collection<T> {
      * to be backing record object itself. This ensures its stored
      * properly.
      */
-    /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment */
+    /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access */
     constructor(entries?: [string, T][]) {
         if (entries) {
             entries.forEach(([key, value]) => {
@@ -206,7 +207,7 @@ export class RecordCollection<T> implements Collection<T> {
             .map(([key, value]) =>
                 'id' in value ? value : { ...value, _id: key },
             )
-        [Symbol.iterator]();
+            [Symbol.iterator]();
     }
 
     public forEach(
@@ -236,7 +237,7 @@ export class RecordCollection<T> implements Collection<T> {
             return { ...acc, [key]: value };
         }, {} as any);
     }
-    /* eslint-enable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment */
+    /* eslint-enable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access */
 }
 
 export class CollectionField<
@@ -245,10 +246,17 @@ export class CollectionField<
     TElementFieldInitialized = InferInitializedType<ElementField>,
     TElementFieldPersisted = InferPersistedType<ElementField>,
     TAssignment = Record<string, TElementFieldAssignment> | null | undefined,
-    TInitialized extends CollectionFieldInitializedType<TElementFieldInitialized> = CollectionFieldInitializedType<TElementFieldInitialized>,
+    TInitialized extends
+        CollectionFieldInitializedType<TElementFieldInitialized> = CollectionFieldInitializedType<TElementFieldInitialized>,
     TPersisted extends AnyObject = Record<string, TElementFieldPersisted>,
-    TOptions extends CollectionFieldOptions<TElementFieldAssignment> = CollectionFieldOptions<TElementFieldAssignment>,
-> extends foundry.data.fields.ObjectField<TOptions, TAssignment, TInitialized, TPersisted> {
+    TOptions extends
+        CollectionFieldOptions<TElementFieldAssignment> = CollectionFieldOptions<TElementFieldAssignment>,
+> extends foundry.data.fields.ObjectField<
+    TOptions,
+    TAssignment,
+    TInitialized,
+    TPersisted
+> {
     constructor(
         public readonly model: ElementField,
         options: TOptions = {} as TOptions,
@@ -258,15 +266,16 @@ export class CollectionField<
         super(options, context);
     }
 
-    protected override _cleanType(
-        value: TInitialized,
-        options?: object,
-    ) {
+    protected override _cleanType(value: TInitialized, options?: object) {
         Array.from(Object.entries(value)).forEach(([key, v]) => {
-            const cleaned = this.model.clean(v, options) as TElementFieldAssignment;
+            const cleaned = this.model.clean(
+                v,
+                options,
+            ) as TElementFieldAssignment;
 
             if (key.startsWith('-=')) {
-                (value as Record<string, TElementFieldAssignment | null>)[key] = null;
+                (value as Record<string, TElementFieldAssignment | null>)[key] =
+                    null;
             } else {
                 // Determine the key
                 const prevKey = key;
@@ -274,7 +283,8 @@ export class CollectionField<
 
                 if (key !== prevKey) delete value[prevKey];
 
-                (value as Record<string, TElementFieldAssignment>)[key] = cleaned;
+                (value as Record<string, TElementFieldAssignment>)[key] =
+                    cleaned;
             }
         });
 
@@ -290,7 +300,9 @@ export class CollectionField<
 
         const errors = this._validateValues(
             value as Record<string, unknown>,
-            options as unknown as foundry.data.fields.DataField.ValidateOptions<typeof this.model>,
+            options as unknown as foundry.data.fields.DataField.ValidateOptions<
+                typeof this.model
+            >,
         );
         if (!foundry.utils.isEmpty(errors)) {
             // Create validatior failure
@@ -307,7 +319,9 @@ export class CollectionField<
 
     protected _validateValues(
         value: Record<string, unknown>,
-        options?: foundry.data.fields.DataField.ValidateOptions<typeof this.model>,
+        options?: foundry.data.fields.DataField.ValidateOptions<
+            typeof this.model
+        >,
     ) {
         const errors: Record<
             string,
@@ -334,20 +348,23 @@ export class CollectionField<
             value instanceof this.CollectionClass
                 ? Array.from<[string, unknown]>(value.entries())
                 : foundry.utils.getType(value) === 'Map'
-                    ? Array.from((value as Map<string, unknown>).entries())
-                    : foundry.utils.getType(value) === 'Object'
-                        ? (Object.entries(value as object) as [string, unknown][])
-                        : foundry.utils.getType(value) === 'Array'
-                            ? (value as ({ _id?: string; id?: string } & TElementFieldAssignment)[]).map(
-                                (v, i) =>
-                                    [this.getItemKey(v) ?? i, v] as [
-                                        string,
-                                        unknown,
-                                    ],
-                            )
-                            : [];
-
-            
+                  ? Array.from((value as Map<string, unknown>).entries())
+                  : foundry.utils.getType(value) === 'Object'
+                    ? (Object.entries(value as object) as [string, unknown][])
+                    : foundry.utils.getType(value) === 'Array'
+                      ? (
+                            value as ({
+                                _id?: string;
+                                id?: string;
+                            } & TElementFieldAssignment)[]
+                        ).map(
+                            (v, i) =>
+                                [this.getItemKey(v) ?? i, v] as [
+                                    string,
+                                    unknown,
+                                ],
+                        )
+                      : [];
 
         // Reduce entries to Record<string, unknown>
         const result = entries.reduce(
@@ -370,14 +387,22 @@ export class CollectionField<
         model: foundry.abstract.DataModel.Any,
         options?: foundry.data.fields.DataField.InitializeOptions,
     ) {
-        if (!value) return new this.CollectionClass() as unknown as TInitialized;
+        if (!value)
+            return new this.CollectionClass() as unknown as TInitialized;
         value = foundry.utils.deepClone(value);
-        const collection = new this.CollectionClass(Object.entries(value) as [string, TElementFieldAssignment][]);
+        const collection = new this.CollectionClass(
+            Object.entries(value) as [string, TElementFieldAssignment][],
+        );
 
         Array.from(collection.entries()).forEach(([id, v]) => {
-            const initialized = this.model.initialize(v, model, options);
-            const set = typeof initialized === 'function' ? (initialized as () => TElementFieldAssignment | null)() : initialized;
-            if (set) collection.set(id, set as TElementFieldAssignment);
+            const initialized = this.model.initialize(v, model, options) as
+                | TElementFieldAssignment
+                | (() => TElementFieldAssignment | null);
+            const set =
+                typeof initialized === 'function'
+                    ? (initialized as () => TElementFieldAssignment | null)()
+                    : initialized;
+            if (set) collection.set(id, set);
         });
 
         return collection as unknown as TInitialized;
@@ -394,12 +419,20 @@ export class CollectionField<
         return result as TPersisted;
     }
 
-    public override _getField(path: string[]): foundry.data.fields.DataField.Any | undefined {
+    public override _getField(
+        path: string[],
+    ): foundry.data.fields.DataField.Any | undefined {
         if (path.length === 0) return this;
         else if (path.length === 1) return this.model;
 
         path.shift();
-        return (this.model as unknown as { _getField: (path: string[]) => foundry.data.fields.DataField.Any | undefined })._getField(path);
+        return (
+            this.model as unknown as {
+                _getField: (
+                    path: string[],
+                ) => foundry.data.fields.DataField.Any | undefined;
+            }
+        )._getField(path);
     }
 
     private getItemKey(
@@ -409,19 +442,17 @@ export class CollectionField<
             return this.options.key(item);
         if (!item || typeof item !== 'object') return undefined;
 
-        const keyField = this.options.key as keyof TElementFieldAssignment | undefined;
-        
+        const keyField = this.options.key as
+            | keyof TElementFieldAssignment
+            | undefined;
+
         const val = keyField
             ? item[keyField]
-            : (
-                'id' in item 
-                    ? item.id
-                    : (
-                        '_id' in item
-                            ? item._id
-                            : undefined
-                    )
-            );
+            : 'id' in item
+              ? item.id
+              : '_id' in item
+                ? item._id
+                : undefined;
 
         return typeof val === 'string' ? val : undefined;
     }

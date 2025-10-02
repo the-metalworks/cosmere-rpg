@@ -23,9 +23,9 @@ Hooks.on(
         actor: CosmereActor,
         changed: Actor.UpdateData,
         options: Actor.Database.PreUpdateOptions,
-        userId: string
+        userId: string,
     ) => {
-        if (game.user!.id !== userId) return;
+        if (game.user.id !== userId) return;
 
         (Object.keys(actor.system.resources) as Resource[]).forEach((key) => {
             const resource = actor.system.resources[key];
@@ -47,7 +47,7 @@ Hooks.on(
         options: Actor.Database.UpdateOptions,
         userId: string,
     ) => {
-        if (game.user!.id !== userId) return;
+        if (game.user.id !== userId) return;
 
         const changes = {} as AnyMutableObject;
         (Object.keys(actor.system.resources) as Resource[]).forEach((key) => {
@@ -78,148 +78,126 @@ Hooks.on(
 
 /* --- Modality --- */
 
-Hooks.on(
-    'preUpdateActor',
-    (
-        actor: CosmereActor, 
-        changed: Actor.UpdateData,
-    ) => {
-        if (foundry.utils.hasProperty(changed, `flags.${SYSTEM_ID}.mode`)) {
-            const modalityChanges = foundry.utils.getProperty(
-                changed,
-                `flags.${SYSTEM_ID}.mode`,
-            ) as Record<string, string>;
+Hooks.on('preUpdateActor', (actor: CosmereActor, changed: Actor.UpdateData) => {
+    if (foundry.utils.hasProperty(changed, `flags.${SYSTEM_ID}.mode`)) {
+        const modalityChanges = foundry.utils.getProperty(
+            changed,
+            `flags.${SYSTEM_ID}.mode`,
+        ) as Record<string, string>;
 
-            for (const [modality, newMode] of Object.entries(modalityChanges)) {
-                // Get current mode
-                const currentMode = actor.getMode(modality);
+        for (const [modality, newMode] of Object.entries(modalityChanges)) {
+            // Get current mode
+            const currentMode = actor.getMode(modality);
 
-                // Get modality item for the current mode
-                const currentModalityItem = actor.items.find(
-                    (item) =>
-                        item.hasId() &&
-                        item.hasModality() &&
-                        item.system.modality === modality &&
-                        item.system.id === currentMode,
-                );
+            // Get modality item for the current mode
+            const currentModalityItem = actor.items.find(
+                (item) =>
+                    item.hasId() &&
+                    item.hasModality() &&
+                    item.system.modality === modality &&
+                    item.system.id === currentMode,
+            );
 
-                if (currentModalityItem) {
-                    /**
-                     * Hook: preDeactivateModality
-                     */
-                    if (
-                        Hooks.call(
-                            HOOKS.PRE_MODE_DEACTIVATE_ITEM,
-                            currentModalityItem,
-                        ) === false
-                    ) {
-                        return false;
-                    }
-                }
-
-                // Get modality item for the new mode
-                const newModalityItem = actor.items.find(
-                    (item) =>
-                        item.hasId() &&
-                        item.hasModality() &&
-                        item.system.modality === modality &&
-                        item.system.id === newMode,
-                );
-
-                if (newModalityItem) {
-                    /**
-                     * Hook: preActivateModality
-                     */
-                    if (
-                        Hooks.call(
-                            HOOKS.PRE_MODE_ACTIVATE_ITEM,
-                            newModalityItem,
-                        ) === false
-                    ) {
-                        return false;
-                    }
-                }
-
-                // Store the current mode in flags for later use
-                foundry.utils.setProperty(
-                    changed,
-                    `flags.${SYSTEM_ID}.meta.update.mode.${modality}`,
-                    currentMode,
-                );
-            }
-        }
-    },
-);
-
-Hooks.on(
-    'updateActor',
-    (
-        actor: CosmereActor, 
-        changed: Actor.UpdateData,
-    ) => {
-        if (foundry.utils.hasProperty(changed, `flags.${SYSTEM_ID}.mode`)) {
-            const modalityChanges = foundry.utils.getProperty(
-                changed,
-                `flags.${SYSTEM_ID}.mode`,
-            ) as Record<string, string>;
-
-            for (const [modality, newMode] of Object.entries(modalityChanges)) {
-                // Get previous mode
-                const prevMode = actor.getFlag(
-                    SYSTEM_ID,
-                    `meta.update.mode.${modality}`,
-                );
-
-                // Get modality item for the current mode
-                const currentModalityItem = actor.items.find(
-                    (item) =>
-                        item.hasId() &&
-                        item.hasModality() &&
-                        item.system.modality === modality &&
-                        item.system.id === prevMode,
-                );
-
-                if (currentModalityItem) {
-                    /**
-                     * Hook: modeDeactivateItem
-                     */
-                    Hooks.callAll(
-                        HOOKS.MODE_DEACTIVATE_ITEM,
+            if (currentModalityItem) {
+                /**
+                 * Hook: preDeactivateModality
+                 */
+                if (
+                    Hooks.call(
+                        HOOKS.PRE_MODE_DEACTIVATE_ITEM,
                         currentModalityItem,
-                    );
-                }
-
-                // Get modality item for the new mode
-                const newModalityItem = actor.items.find(
-                    (item) =>
-                        item.hasId() &&
-                        item.hasModality() &&
-                        item.system.modality === modality &&
-                        item.system.id === newMode,
-                );
-
-                if (newModalityItem) {
-                    /**
-                     * Hook: modeActivateItem
-                     */
-                    Hooks.callAll(
-                        HOOKS.MODE_ACTIVATE_ITEM,
-                        newModalityItem,
-                    );
+                    ) === false
+                ) {
+                    return false;
                 }
             }
+
+            // Get modality item for the new mode
+            const newModalityItem = actor.items.find(
+                (item) =>
+                    item.hasId() &&
+                    item.hasModality() &&
+                    item.system.modality === modality &&
+                    item.system.id === newMode,
+            );
+
+            if (newModalityItem) {
+                /**
+                 * Hook: preActivateModality
+                 */
+                if (
+                    Hooks.call(
+                        HOOKS.PRE_MODE_ACTIVATE_ITEM,
+                        newModalityItem,
+                    ) === false
+                ) {
+                    return false;
+                }
+            }
+
+            // Store the current mode in flags for later use
+            foundry.utils.setProperty(
+                changed,
+                `flags.${SYSTEM_ID}.meta.update.mode.${modality}`,
+                currentMode,
+            );
         }
-    },
-);
+    }
+});
+
+Hooks.on('updateActor', (actor: CosmereActor, changed: Actor.UpdateData) => {
+    if (foundry.utils.hasProperty(changed, `flags.${SYSTEM_ID}.mode`)) {
+        const modalityChanges = foundry.utils.getProperty(
+            changed,
+            `flags.${SYSTEM_ID}.mode`,
+        ) as Record<string, string>;
+
+        for (const [modality, newMode] of Object.entries(modalityChanges)) {
+            // Get previous mode
+            const prevMode = actor.getFlag(
+                SYSTEM_ID,
+                `meta.update.mode.${modality}`,
+            );
+
+            // Get modality item for the current mode
+            const currentModalityItem = actor.items.find(
+                (item) =>
+                    item.hasId() &&
+                    item.hasModality() &&
+                    item.system.modality === modality &&
+                    item.system.id === prevMode,
+            );
+
+            if (currentModalityItem) {
+                /**
+                 * Hook: modeDeactivateItem
+                 */
+                Hooks.callAll(HOOKS.MODE_DEACTIVATE_ITEM, currentModalityItem);
+            }
+
+            // Get modality item for the new mode
+            const newModalityItem = actor.items.find(
+                (item) =>
+                    item.hasId() &&
+                    item.hasModality() &&
+                    item.system.modality === modality &&
+                    item.system.id === newMode,
+            );
+
+            if (newModalityItem) {
+                /**
+                 * Hook: modeActivateItem
+                 */
+                Hooks.callAll(HOOKS.MODE_ACTIVATE_ITEM, newModalityItem);
+            }
+        }
+    }
+});
 
 Hooks.on(
     'createItem',
-    async (
-        item: CosmereItem, 
-        _: unknown, 
-        userId: string
-    ) => {
-        if (game.user!.id !== userId) return;
+    async (item: CosmereItem, _: unknown, userId: string) => {
+        if (game.user.id !== userId) return;
         if (!item.actor) return;
 
         if (item.isTalent()) {

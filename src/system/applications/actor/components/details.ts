@@ -18,10 +18,11 @@ import { HandlebarsApplicationComponent } from '@system/applications/component-s
 import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
 import { CosmereActor } from '@src/system/documents';
 
-export class ActorDetailsComponent extends HandlebarsApplicationComponent<
-    // typeof BaseActorSheet
-    any // TEMP: Workaround
-> {
+export class ActorDetailsComponent extends HandlebarsApplicationComponent<// typeof BaseActorSheet
+// TODO: Resolve typing issues
+// NOTE: Use any as workaround for foundry-vtt-types issues
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+any> {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_DETAILS}`;
 
     /**
@@ -126,16 +127,15 @@ export class ActorDetailsComponent extends HandlebarsApplicationComponent<
 
         const entries = Object.keys(CONFIG.COSMERE.damageTypes)
             .filter(
-                (key) =>
-                    actor.system.deflect.types![key as DamageType] ?? false,
+                (key) => actor.system.deflect.types[key as DamageType] ?? false,
             )
             .map((key) =>
-                game.i18n!.localize(
+                game.i18n.localize(
                     CONFIG.COSMERE.damageTypes[key as DamageType].label,
                 ),
             );
 
-        return `${game.i18n!.localize('COSMERE.Actor.Statistics.Deflect')}: ${entries.join(', ')}`;
+        return `${game.i18n.localize('COSMERE.Actor.Statistics.Deflect')}: ${entries.join(', ')}`;
     }
 
     private generateMovementTooltip() {
@@ -150,7 +150,7 @@ export class ActorDetailsComponent extends HandlebarsApplicationComponent<
             .map(([type, config]) => ({
                 type,
                 rate: actor.system.movement[type].rate.value ?? 0,
-                label: game.i18n!.localize(config.label),
+                label: game.i18n.localize(config.label),
             }))
             .filter(({ rate }) => rate > 0)
             .map(

@@ -2,31 +2,34 @@
 
 import { COMPENDIUMS } from '@system/constants';
 
-Hooks.on('renderJournalSheet', (app: JournalSheet, html: JQuery<HTMLElement>) => {
-    // Get journal entry
-    const entry = app.document as unknown as JournalEntry;
+Hooks.on(
+    'renderJournalSheet',
+    (app: JournalSheet, html: JQuery<HTMLElement>) => {
+        // Get journal entry
+        const entry = app.document as unknown as JournalEntry;
 
-    if (
-        entry.pack === COMPENDIUMS.STARTER_RULES ||
-        ('compendiumSource' in entry._stats &&
-            entry._stats.compendiumSource &&
-            (entry._stats.compendiumSource).startsWith(
-                `Compendium.${COMPENDIUMS.STARTER_RULES}`,
-            ))
-    ) {
-        html[0].classList.add('sljsr');
+        if (
+            entry.pack === COMPENDIUMS.STARTER_RULES ||
+            ('compendiumSource' in entry._stats &&
+                entry._stats.compendiumSource?.startsWith(
+                    `Compendium.${COMPENDIUMS.STARTER_RULES}`,
+                ))
+        ) {
+            html[0].classList.add('sljsr');
 
-        const header_node = html[0].getElementsByClassName('journal-header')[0];
+            const header_node =
+                html[0].getElementsByClassName('journal-header')[0];
 
-        header_node.removeChild(header_node.children[0]);
-        header_node.insertAdjacentHTML(
-            'beforeend',
-            '<div class="sl-chapter-header"><div><p></p><p>' +
-                entry.name.toUpperCase() +
-                '</p><p></p></div><div><p></p></div></div>',
-        );
-    }
-});
+            header_node.removeChild(header_node.children[0]);
+            header_node.insertAdjacentHTML(
+                'beforeend',
+                '<div class="sl-chapter-header"><div><p></p><p>' +
+                    entry.name.toUpperCase() +
+                    '</p><p></p></div><div><p></p></div></div>',
+            );
+        }
+    },
+);
 
 /* --- @Link blocks --- */
 

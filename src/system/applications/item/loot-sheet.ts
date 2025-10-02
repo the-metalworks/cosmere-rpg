@@ -21,7 +21,7 @@ export class LootItemSheet extends BaseItemSheet {
                 positioned: true,
             },
         },
-    );
+    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
 
     static TABS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.TABS),

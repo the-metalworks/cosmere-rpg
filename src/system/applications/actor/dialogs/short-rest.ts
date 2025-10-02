@@ -84,7 +84,7 @@ export class ShortRestDialog extends foundry.applications.api.DialogV2 {
         // Render dialog inner HTML
         const content = await renderTemplate(TEMPLATE, {
             characters: {
-                none: game.i18n!.localize('GENERIC.None'),
+                none: game.i18n.localize('GENERIC.None'),
 
                 ...playerCharacters.reduce(
                     (acc, character) => ({

@@ -328,9 +328,7 @@ export async function isTalentRequiredAsPrerequisite(
     // Resolve all nested talent trees
     const nestedTrees = (
         await Promise.all(
-            nestedTreeNodes.map(
-                (node) => fromUuid(node.uuid) as Promise<TalentTreeItem | null>,
-            ),
+            nestedTreeNodes.map((node) => fromUuid<TalentTreeItem>(node.uuid)),
         )
     ).filter((tree) => !!tree);
 
@@ -361,9 +359,7 @@ export async function getTalents(
             tree.system.nodes
                 .filter((node) => node.type === TalentTree.Node.Type.Talent)
                 .map(async (node) => {
-                    const talent = (await fromUuid(
-                        node.uuid,
-                    )) as TalentItem | null;
+                    const talent = await fromUuid<TalentItem>(node.uuid);
                     if (!talent?.isTalent()) return null;
 
                     return talent;
@@ -377,9 +373,7 @@ export async function getTalents(
             tree.system.nodes
                 .filter((node) => node.type === TalentTree.Node.Type.Tree)
                 .map(async (node) => {
-                    const tree = (await fromUuid(
-                        node.uuid,
-                    )) as TalentTreeItem | null;
+                    const tree = await fromUuid<TalentTreeItem>(node.uuid);
                     if (!tree?.isTalentTree()) return [];
 
                     return getTalents(tree, true);

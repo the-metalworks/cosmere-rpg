@@ -121,7 +121,7 @@ export class MultiStateToggleComponent extends HandlebarsApplicationComponent<
                 key,
                 label:
                     params.localize !== false
-                        ? game.i18n!.localize(config.label)
+                        ? game.i18n.localize(config.label)
                         : config.label,
                 color: config.color,
                 selected: key === this.selected,

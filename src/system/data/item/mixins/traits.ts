@@ -21,21 +21,18 @@ const SCHEMA = () => ({
                 integer: true,
                 initial: null,
             }),
-            defaultActive: new foundry.data.fields.BooleanField(
-                {
-                    required: true,
-                    nullable: false,
-                    initial: true,
-                },
-            ),
+            defaultActive: new foundry.data.fields.BooleanField({
+                required: true,
+                nullable: false,
+                initial: true,
+            }),
             active: new foundry.data.fields.BooleanField({
                 required: true,
                 nullable: false,
                 initial: true,
             }),
             expertise: new foundry.data.fields.SchemaField({
-                toggleActive:
-                    new foundry.data.fields.BooleanField(),
+                toggleActive: new foundry.data.fields.BooleanField(),
                 value: new foundry.data.fields.NumberField({
                     integer: true,
                 }),
@@ -43,28 +40,34 @@ const SCHEMA = () => ({
         }),
         {
             required: true,
-        }
+        },
     ),
 });
 
 export type TraitsItemDataSchema = ReturnType<typeof SCHEMA>;
 
-type TraitsItemData = foundry.data.fields.SchemaField.InitializedData<TraitsItemDataSchema>;
+type TraitsItemData =
+    foundry.data.fields.SchemaField.InitializedData<TraitsItemDataSchema>;
 
+// NOTE: Have to explicitly use a type here instead of an interface to comply with DataSchema type
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type TraitsItemDerivedData = {
-    readonly traitsArray: (TraitsItemData['traits'][string] & { id: string })[]
-}
+    readonly traitsArray: (TraitsItemData['traits'][string] & { id: string })[];
+};
 
 /**
  * Mixin for weapon & armor traits
  */
 export function TraitsItemMixin<
-    TParent extends foundry.abstract.Document.Any
+    TParent extends foundry.abstract.Document.Any,
 >() {
-    return (
-        base: typeof foundry.abstract.TypeDataModel,
-    ) => {
-        return class extends base<TraitsItemDataSchema & ExpertiseItemDataSchema, TParent, EmptyObject, TraitsItemDerivedData> {
+    return (base: typeof foundry.abstract.TypeDataModel) => {
+        return class extends base<
+            TraitsItemDataSchema & ExpertiseItemDataSchema,
+            TParent,
+            EmptyObject,
+            TraitsItemDerivedData
+        > {
             static defineSchema() {
                 const superSchema = super.defineSchema();
 
@@ -74,7 +77,10 @@ export function TraitsItemMixin<
                     );
                 }
 
-                return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());
+                return foundry.utils.mergeObject(
+                    super.defineSchema(),
+                    SCHEMA(),
+                );
             }
 
             get traitsArray() {

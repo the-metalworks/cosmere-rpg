@@ -156,13 +156,13 @@ export class DocumentDropListComponent extends DragDropComponentMixin(
 
         // Ensure the document is not already in the list
         if (this.value.includes(data.uuid)) {
-            return ui.notifications!.warn(
-                game.i18n!.format(
+            return ui.notifications.warn(
+                game.i18n.format(
                     'COMPONENT.DocumentDropListComponent.Warning.DocumentAlreadyInList',
                     {
                         type:
                             this.params!.type ??
-                            game.i18n!.localize('GENERIC.Document'),
+                            game.i18n.localize('GENERIC.Document'),
                     },
                 ),
             );
@@ -170,8 +170,8 @@ export class DocumentDropListComponent extends DragDropComponentMixin(
 
         // Validate type
         if (this.params!.type && data.type !== this.params!.type) {
-            return ui.notifications!.warn(
-                game.i18n!.format(
+            return ui.notifications.warn(
+                game.i18n.format(
                     'COMPONENT.DocumentDropListComponent.Warning.WrongType',
                     {
                         type: this.params!.type,
@@ -189,8 +189,8 @@ export class DocumentDropListComponent extends DragDropComponentMixin(
             };
 
             if (doc.data.type !== this.params!.subtype) {
-                return ui.notifications!.warn(
-                    game.i18n!.format(
+                return ui.notifications.warn(
+                    game.i18n.format(
                         'COMPONENT.DocumentDropListComponent.Warning.WrongSubtype',
                         {
                             subtype: this.params!.subtype,

@@ -4,13 +4,10 @@ import { AnyObject } from '@system/types/utils';
 // Constants
 import { SYSTEM_ID } from '@system/constants';
 
-// interface Metadata extends CompendiumCollection.Metadata {
-//     flags?: AnyObject;
-// }
-
-Hooks.on('renderCompendium', async (compendium: any) => { // TEMP: Workaround
-    compendium
-
+// TODO: Resolve typing issue
+// NOTE: Use any as workaround for foundry-vtt-types issues
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call */
+Hooks.on('renderCompendium', async (compendium: any) => {
     if (
         !foundry.utils.hasProperty(
             compendium.collection.metadata.flags ?? {},
@@ -19,10 +16,7 @@ Hooks.on('renderCompendium', async (compendium: any) => { // TEMP: Workaround
     )
         return;
 
-    const sortingModes = game.settings!.get(
-        'core',
-        'collectionSortingModes',
-    ) as Record<string, string>;
+    const sortingModes = game.settings.get('core', 'collectionSortingModes');
     if (sortingModes[compendium.metadata.id]) return;
 
     // Get the default sorting mode from the compendium metadata
@@ -32,7 +26,7 @@ Hooks.on('renderCompendium', async (compendium: any) => { // TEMP: Workaround
     ) as string;
 
     // Set the sorting mode for the compendium
-    await game.settings!.set('core', 'collectionSortingModes', {
+    await game.settings.set('core', 'collectionSortingModes', {
         ...sortingModes,
         [compendium.metadata.id]: defaultSortingMode,
     });
@@ -43,3 +37,4 @@ Hooks.on('renderCompendium', async (compendium: any) => { // TEMP: Workaround
     // Re-render
     compendium.render();
 });
+/* eslint-enable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call */

@@ -59,7 +59,9 @@ export class ConfigureSkillsDialog extends ComponentHandlebarsApplicationMixin(
     protected async _onFirstRender(context: AnyObject, options: AnyObject) {
         await super._onFirstRender(context, options);
 
-        this.actor.apps[this.id] = this as any; // TEMP: Workaround
+        // TODO: Resolve foundry-vtt-types typing issues
+        // @ts-expect-error Configure skills dialog is not assignable to Application.Any
+        this.actor.apps[this.id] = this;
     }
 
     protected _onClose(options: AnyObject) {
@@ -74,10 +76,10 @@ export class ConfigureSkillsDialog extends ComponentHandlebarsApplicationMixin(
 
     public async _prepareContext() {
         return {
-            ...await super._prepareContext(),
+            ...(await super._prepareContext()),
             actor: this.actor,
             attributeGroups: Object.keys(CONFIG.COSMERE.attributeGroups),
             isEditMode: true,
-        }
+        };
     }
 }

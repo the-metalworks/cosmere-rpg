@@ -12,10 +12,11 @@ import { CharacterSheet } from '../../character-sheet';
 
 const HIDE_COMPLETED_FLAG = 'goals.hide-completed';
 
-export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<
-    // typeof CharacterSheet
-    any // TEMP: Workaround
-> {
+export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<// typeof CharacterSheet
+// TODO: Resolve typing issues
+// NOTE: Use any as workaround for foundry-vtt-types issues
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+any> {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_GOALS_LIST}`;
 
     /**
@@ -108,7 +109,7 @@ export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<
         await goalItem.update({
             system: {
                 level: newLevel,
-            }
+            },
         });
 
         // Render
@@ -120,10 +121,8 @@ export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<
     ) {
         // Get current state
         const hideCompletedGoals =
-            this.application.actor.getFlag(
-                SYSTEM_ID,
-                HIDE_COMPLETED_FLAG,
-            ) ?? false;
+            this.application.actor.getFlag(SYSTEM_ID, HIDE_COMPLETED_FLAG) ??
+            false;
 
         // Update
         await this.application.actor.update(
@@ -131,8 +130,8 @@ export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<
                 flags: {
                     'cosmere-rpg': {
                         [HIDE_COMPLETED_FLAG]: !hideCompletedGoals,
-                    }
-                }
+                    },
+                },
             },
             { render: false },
         );
@@ -191,7 +190,7 @@ export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<
         const goal = (await Item.create(
             {
                 type: ItemType.Goal,
-                name: game.i18n!.localize(
+                name: game.i18n.localize(
                     'COSMERE.Actor.Sheet.Details.Goals.NewText',
                 ),
                 system: {
@@ -214,10 +213,8 @@ export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<
         context: BaseActorSheetRenderContext,
     ) {
         const hideCompletedGoals =
-            this.application.actor.getFlag(
-                SYSTEM_ID,
-                HIDE_COMPLETED_FLAG,
-            ) ?? false;
+            this.application.actor.getFlag(SYSTEM_ID, HIDE_COMPLETED_FLAG) ??
+            false;
 
         return Promise.resolve({
             ...context,

@@ -111,7 +111,7 @@ export class PickDiceResultDialog extends ComponentHandlebarsApplicationMixin(
         // Ensure the amount picked is less than the amount to pick
         if (this.picked.length >= this.data.amount && !!result.discarded) {
             return void ui.notifications.error(
-                game.i18n!.format('DIALOG.PickDiceResult.Error.TooManyPicked', {
+                game.i18n.format('DIALOG.PickDiceResult.Error.TooManyPicked', {
                     max: this.data.amount.toFixed(),
                 }),
             );

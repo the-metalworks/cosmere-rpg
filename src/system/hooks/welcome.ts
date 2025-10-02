@@ -18,15 +18,15 @@ import { migrate, requiresMigration } from '../utils/migration';
 
 Hooks.on('ready', async () => {
     // Ensure this message is only displayed when creating a new world
-    if (!game.user!.isGM || !getSystemSetting(SETTINGS.INTERNAL_FIRST_CREATION))
+    if (!game.user.isGM || !getSystemSetting(SETTINGS.INTERNAL_FIRST_CREATION))
         return;
 
     // Get system version
-    const version = game.system!.version;
+    const version = game.system.version;
 
     // Display the welcome message
     await ChatMessage.create({
-        content: game.i18n!.format('COSMERE.ChatMessage.Welcome', {
+        content: game.i18n.format('COSMERE.ChatMessage.Welcome', {
             version,
             discordLink: METALWORKS_DISCORD_INVITE,
             issuesLink: GITHUB_ISSUES_URL,
@@ -46,17 +46,20 @@ Hooks.on('ready', async () => {
     await setSystemSetting(SETTINGS.INTERNAL_FIRST_CREATION, false);
 
     // Disable turn marker by default
-    const combatTrackerConfig = game.settings.get('core', 'combatTrackerConfig');
+    const combatTrackerConfig = game.settings.get(
+        'core',
+        'combatTrackerConfig',
+    );
     foundry.utils.setProperty(combatTrackerConfig, 'turnMarker.enabled', false);
     await game.settings.set('core', 'combatTrackerConfig', combatTrackerConfig);
 });
 
 Hooks.on('ready', async () => {
     // Ensure user is a GM
-    if (!game.user!.isGM) return;
+    if (!game.user.isGM) return;
 
     // The current installed version of the system
-    const currentVersion = game.system!.version;
+    const currentVersion = game.system.version;
 
     // The last used version of the system
     const latestVersion = getSystemSetting<string>(

@@ -19,7 +19,10 @@ type Params = {
 export class NodePrerequisiteGoalListComponent extends DragDropComponentMixin(
     HandlebarsApplicationComponent<
         // typeof EditNodePrerequisiteDialog,
-        any, // TEMP: Workaround
+        // TODO: Resolve typing issues
+        // NOTE: Use any as workaround for foundry-vtt-types issues
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        any,
         Params
     >,
 ) {
@@ -105,7 +108,7 @@ export class NodePrerequisiteGoalListComponent extends DragDropComponentMixin(
 
             // Show a warning
             return ui.notifications.warn(
-                game.i18n!.format(
+                game.i18n.format(
                     'GENERIC.Warning.DuplicatePrerequisiteGoalRef',
                     {
                         goalId: duplicate.system.id,

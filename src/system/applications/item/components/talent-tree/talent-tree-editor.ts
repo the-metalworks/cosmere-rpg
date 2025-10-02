@@ -82,8 +82,8 @@ export class TalentTreeEditorComponent extends TalentTreeViewComponent {
                 display: {
                     width: windowSize.width - EDIT_MENU_WIDTH,
                     height: windowSize.height,
-                }
-            }
+                },
+            },
         });
     }
 
@@ -126,7 +126,9 @@ export class TalentTreeEditorComponent extends TalentTreeViewComponent {
     }
 
     protected async _onDrop(event: DragEvent) {
-        const data = TextEditor.getDragEventData(event) as unknown as {
+        const data = foundry.applications.ux.TextEditor.getDragEventData(
+            event,
+        ) as unknown as {
             type: string;
             uuid: string;
         };
@@ -135,7 +137,7 @@ export class TalentTreeEditorComponent extends TalentTreeViewComponent {
         if (data.type !== 'Item') return;
 
         // Get the item
-        const item = (await fromUuid(data.uuid)) as CosmereItem | null;
+        const item = await fromUuid<CosmereItem>(data.uuid);
 
         // Handle item
         if (item?.isTalent())
@@ -157,7 +159,7 @@ export class TalentTreeEditorComponent extends TalentTreeViewComponent {
         // Ensure the item isn't already present in the tree
         if (itemIds.includes(item.system.id)) {
             return ui.notifications.warn(
-                game.i18n!.format('GENERIC.Warning.ItemAlreadyInTree', {
+                game.i18n.format('GENERIC.Warning.ItemAlreadyInTree', {
                     itemId: item.system.id,
                     name: this.tree.name,
                 }),
@@ -203,7 +205,7 @@ export class TalentTreeEditorComponent extends TalentTreeViewComponent {
         // Ensure the item isn't already present in the tree
         if (treeUuids.includes(item.uuid)) {
             return ui.notifications.warn(
-                game.i18n!.format('GENERIC.Warning.ItemAlreadyInTree', {
+                game.i18n.format('GENERIC.Warning.ItemAlreadyInTree', {
                     itemId: item.uuid,
                     name: this.tree.name,
                 }),
@@ -376,9 +378,7 @@ export class TalentTreeEditorComponent extends TalentTreeViewComponent {
                 name: 'Edit',
                 callback: async () => {
                     // Get the item
-                    const item = (await fromUuid(
-                        node.uuid,
-                    )) as CosmereItem | null;
+                    const item = await fromUuid<CosmereItem>(node.uuid);
 
                     // Show item sheet
                     void item?.sheet?.render(true);

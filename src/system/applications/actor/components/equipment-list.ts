@@ -41,10 +41,11 @@ interface RenderContext extends BaseActorSheetRenderContext {
     };
 }
 
-export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<
-    // typeof BaseActorSheet
-    any // TEMP: Workaround
-> {
+export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<// typeof BaseActorSheet
+// TODO: Resolve typing issues
+// NOTE: Use any as workaround for foundry-vtt-types issues
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+any> {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_EQUIPMENT_LIST}`;
 
     /**
@@ -142,8 +143,8 @@ export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<
 
         void item.update({
             system: {
-                equipped: !item.system.equipped
-            }
+                equipped: !item.system.equipped,
+            },
         });
     }
 
@@ -181,8 +182,8 @@ export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<
                 equipped: newEquip,
                 equip: {
                     hand: handTypes[newIndex],
-                }
-            }
+                },
+            },
         });
     }
 
@@ -231,7 +232,7 @@ export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<
             {
                 system: {
                     quantity: item.system.quantity + modifier,
-                }
+                },
             },
             { render: false },
         );
@@ -293,7 +294,7 @@ export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<
                 CosmereItem.create(
                     {
                         type,
-                        name: game.i18n!.localize(
+                        name: game.i18n.localize(
                             `COSMERE.Item.Type.${type.capitalize()}.New`,
                         ),
                     },

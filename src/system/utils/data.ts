@@ -125,12 +125,15 @@ export async function getRawDocumentSources<
     if (packID) operation.pack = packID;
 
     // NOTE: Use any type here as it keeps resolving to ManageCompendiumRequest instead of DocumentSocketRequest
-    const { result } = await foundry.helpers.SocketInterface.dispatch('modifyDocument', {
-        type: documentType,
-        operation,
-        action: 'get',
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } as any);
+    const { result } = await foundry.helpers.SocketInterface.dispatch(
+        'modifyDocument',
+        {
+            type: documentType,
+            operation,
+            action: 'get',
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } as any,
+    );
 
     return (result as T[] | undefined) ?? [];
 }
@@ -150,7 +153,9 @@ export async function getPossiblyInvalidDocument<T extends CosmereDocument>(
         return (await compendium.getDocument(id)) as unknown as T;
     } else {
         return (
-            getCollectionForDocumentType(documentType) as unknown as InvalidCollection<T>
+            getCollectionForDocumentType(
+                documentType,
+            ) as unknown as InvalidCollection<T>
         ).get(id, {
             strict: true,
             invalid: true,
@@ -193,7 +198,10 @@ export function addDocumentToCollection(
     // method declarations in Actor, Item, etc. must return `this`.
     // We want an instance of the actual class we're calling from.
     const documentToAdd = documentClass.fromSource(
-        document._source as any, // TEMP: Workaround
+        // TODO: Resolve typing issues
+        // NOTE: Use any as workaround for foundry-vtt-types issues
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        document._source as any,
     ) as unknown as CosmereDocument;
 
     // Manually update collection with document.

@@ -20,9 +20,8 @@ import { EDIT_MENU_WIDTH } from './components/talent-tree/constants';
 const DEFAULT_WIDTH = 800;
 const DEFAULT_HEIGHT = 650;
 
-type TalentTreeSheetConfiguration = foundry.applications.api.DocumentSheetV2.Configuration<
-    TalentTreeItem
->;
+type TalentTreeSheetConfiguration =
+    foundry.applications.api.DocumentSheetV2.Configuration<TalentTreeItem>;
 
 export class TalentTreeItemSheet extends EditModeApplicationMixin(
     ComponentHandlebarsApplicationMixin(ItemSheetV2),
@@ -67,9 +66,7 @@ export class TalentTreeItemSheet extends EditModeApplicationMixin(
     private prevWidth = 0;
     private prevHeight = 0;
 
-    constructor(
-        options: TalentTreeSheetConfiguration,
-    ) {
+    constructor(options: TalentTreeSheetConfiguration) {
         const tree = options.document as unknown as TalentTreeItem;
         const mode = tree.getFlag(SYSTEM_ID, 'sheet.mode') ?? 'view';
 
@@ -93,14 +90,11 @@ export class TalentTreeItemSheet extends EditModeApplicationMixin(
         const characters = game.actors.filter(
             (actor) =>
                 actor.isCharacter() &&
-                actor.testUserPermission(
-                    game.user,
-                    'OWNER',
-                ),
+                actor.testUserPermission(game.user, 'OWNER'),
         );
 
         // Get user character
-        const userCharacter = game.user!.character as CosmereActor | undefined;
+        const userCharacter = game.user.character as CosmereActor | undefined;
 
         if (userCharacter || characters.length === 1)
             this._contextActor = userCharacter ?? characters[0];
@@ -190,21 +184,18 @@ export class TalentTreeItemSheet extends EditModeApplicationMixin(
         const characters = game.actors.filter(
             (actor) =>
                 actor.isCharacter() &&
-                actor.testUserPermission(
-                    game.user,
-                    'OWNER',
-                ),
+                actor.testUserPermission(game.user, 'OWNER'),
         );
 
         // Get user character
-        const userCharacter = game.user!.character as CosmereActor | undefined;
+        const userCharacter = game.user.character as CosmereActor | undefined;
 
         if (characters.length > 1) {
             $(this.window.title!).after(`
                 <div class="actor-select">
-                    <label>${game.i18n!.localize('Actor')}</label>
+                    <label>${game.i18n.localize('Actor')}</label>
                     <select>
-                        <option value="none" ${!userCharacter ? 'selected' : ''}>${game.i18n!.localize('GENERIC.None')}</option>
+                        <option value="none" ${!userCharacter ? 'selected' : ''}>${game.i18n.localize('GENERIC.None')}</option>
                         ${characters
                             .map(
                                 (actor) => `

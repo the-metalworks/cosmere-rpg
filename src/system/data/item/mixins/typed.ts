@@ -4,12 +4,14 @@ import { CosmereItem } from '@system/documents';
 interface TypedItemMixinOptions<Type extends string = string> {
     initial?: Type | (() => Type);
     choices?:
-    | Type[]
-    | Record<Type, string>
-    | (() => Type[] | Record<Type, string>);
+        | Type[]
+        | Record<Type, string>
+        | (() => Type[] | Record<Type, string>);
 }
 
-function SCHEMA<Type extends string = string>(options = {} as TypedItemMixinOptions<Type>) {
+function SCHEMA<Type extends string = string>(
+    options = {} as TypedItemMixinOptions<Type>,
+) {
     const initial =
         typeof options.initial === 'function'
             ? options.initial()
@@ -26,27 +28,46 @@ function SCHEMA<Type extends string = string>(options = {} as TypedItemMixinOpti
         initial: initial ?? 'unknown',
         label: 'Type',
         choices,
-    }
+    };
 
     return {
-        type: new foundry.data.fields.StringField<typeof typeFieldOptions, Type | null | undefined, Type>(typeFieldOptions),
-    }
+        type: new foundry.data.fields.StringField<
+            typeof typeFieldOptions,
+            Type | null | undefined,
+            Type
+        >(typeFieldOptions),
+    };
 }
 
-export type TypedItemDataSchema<Type extends string = string> = ReturnType<typeof SCHEMA<Type>>;
-export type TypedItemData = foundry.data.fields.SchemaField.InitializedData<TypedItemDataSchema<string>>;
+export type TypedItemDataSchema<Type extends string = string> = ReturnType<
+    typeof SCHEMA<Type>
+>;
+export type TypedItemData = foundry.data.fields.SchemaField.InitializedData<
+    TypedItemDataSchema<string>
+>;
+
+// NOTE: Have to explicitly use a type here instead of an interface to comply with DataSchema type
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type TypedItemDerivedData = {
     readonly typeLabel: string;
-}
+};
 
 export function TypedItemMixin<
     TParent extends foundry.abstract.Document.Any,
-    Type extends string = string
+    Type extends string = string,
 >(options = {} as TypedItemMixinOptions<Type>) {
     return (base: typeof foundry.abstract.TypeDataModel) => {
-        return class extends base<TypedItemDataSchema<Type>, TParent, EmptyObject, TypedItemDerivedData> {
+        return class extends base<
+            TypedItemDataSchema<Type>,
+            TParent,
+            EmptyObject,
+            TypedItemDerivedData
+        > {
             static defineSchema() {
-                return foundry.utils.mergeObject(super.defineSchema(), SCHEMA(options));
+                return foundry.utils.mergeObject(
+                    super.defineSchema(),
+                    SCHEMA(options),
+                );
             }
 
             get typeSelectOptions(): Record<Type, string> {

@@ -4,7 +4,6 @@ import { SYSTEM_ID } from '@system/constants';
 
 import { ComponentHandlebarsApplication } from '@system/applications/component-system';
 
-
 export type SheetMode = 'view' | 'edit';
 
 // TEMP: Workaround
@@ -43,7 +42,6 @@ export function EditModeApplicationMixin<
         /* --- Public Functions --- */
 
         public async setMode(mode: SheetMode) {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
             await this.document.setFlag(SYSTEM_ID, 'sheet.mode', mode);
 
             // Get toggle

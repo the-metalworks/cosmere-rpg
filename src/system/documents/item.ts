@@ -13,7 +13,6 @@ import {
 import { CosmereHooks } from '@system/types/hooks';
 import { AnyObject, EmptyObject, DeepPartial } from '@system/types/utils';
 
-
 // Data model
 import {
     WeaponItemDataModel,
@@ -39,16 +38,31 @@ import {
 } from '@system/data/item/mixins/activatable';
 import { AttackingItemDataSchema } from '@system/data/item/mixins/attacking';
 import { DamagingItemDataSchema } from '@system/data/item/mixins/damaging';
-import { PhysicalItemDataSchema, PhysicalItemDerivedData } from '@system/data/item/mixins/physical';
-import { TypedItemDataSchema, TypedItemDerivedData } from '@system/data/item/mixins/typed';
-import { TraitsItemDataSchema, TraitsItemDerivedData } from '@system/data/item/mixins/traits';
+import {
+    PhysicalItemDataSchema,
+    PhysicalItemDerivedData,
+} from '@system/data/item/mixins/physical';
+import {
+    TypedItemDataSchema,
+    TypedItemDerivedData,
+} from '@system/data/item/mixins/typed';
+import {
+    TraitsItemDataSchema,
+    TraitsItemDerivedData,
+} from '@system/data/item/mixins/traits';
 import { EquippableItemDataSchema } from '@system/data/item/mixins/equippable';
 import { DescriptionItemDataSchema } from '@system/data/item/mixins/description';
 import { IdItemDataSchema } from '@system/data/item/mixins/id';
 import { ModalityItemDataSchema } from '@system/data/item/mixins/modality';
-import { TalentsProviderDataSchema, TalentsProviderDerivedData } from '@system/data/item/mixins/talents-provider';
+import {
+    TalentsProviderDataSchema,
+    TalentsProviderDerivedData,
+} from '@system/data/item/mixins/talents-provider';
 import { EventsItemDataSchema } from '@system/data/item/mixins/events';
-import { DeflectItemDataSchema, DeflectItemDerivedData } from '@system/data/item/mixins/deflect';
+import {
+    DeflectItemDataSchema,
+    DeflectItemDerivedData,
+} from '@system/data/item/mixins/deflect';
 import { LinkedSkillsItemDataSchema } from '@system/data/item/mixins/linked-skills';
 import {
     RelationshipsItemDataSchema,
@@ -88,7 +102,10 @@ import ItemRelationshipUtils, {
 
 // Dialogs
 import { AttackConfigurationDialog } from '@system/applications/dialogs/attack-configuration';
-import { ItemConsumeDialog } from '@system/applications/item/dialogs/item-consume';
+import {
+    ItemConsumeDialog,
+    ItemConsumeDialogOptions,
+} from '@system/applications/item/dialogs/item-consume';
 
 // Constants
 import { SYSTEM_ID } from '@system/constants';
@@ -120,20 +137,19 @@ interface ShowConsumeDialogOptions {
 //     system?: T;
 // }
 
-class _Item<
-    TSystem extends foundry.abstract.TypeDataModel.Any
-> extends Item {
+class _Item<TSystem extends foundry.abstract.TypeDataModel.Any> extends Item {
     declare type: ItemType;
-    // @ts-ignore
+    // @ts-expect-error Explicitly declare to get proper typing
     declare system: TSystem;
-    // @ts-ignore
+    // @ts-expect-error Explicitly declare to get proper typing
     declare actor: CosmereActor | null;
-    // @ts-ignore
+    // @ts-expect-error Explicitly declare to get proper typing
     declare sheet: BaseItemSheet | null;
 }
 
 export class CosmereItem<
-    T extends foundry.abstract.TypeDataModel.Any = foundry.abstract.TypeDataModel.Any
+    T extends
+        foundry.abstract.TypeDataModel.Any = foundry.abstract.TypeDataModel.Any,
 > extends _Item<T> {
     /* --- ItemType type guards --- */
 
@@ -334,11 +350,15 @@ export class CosmereItem<
     /* --- Lifecycle --- */
 
     public override async _onClickDocumentLink(event: MouseEvent) {
-        if (!this.sheet) return super._onClickDocumentLink(event) as any; // TEMP: Workaround
+        if (!this.sheet)
+            return super._onClickDocumentLink(
+                event,
+            ) as Promise<foundry.applications.api.ApplicationV2.Any>;
 
         const target = event.currentTarget as HTMLElement;
         await this.sheet.render({ tab: target.dataset.tab });
-        return this.sheet;
+        return this
+            .sheet as unknown as foundry.applications.api.ApplicationV2.Any;
     }
 
     protected override _buildEmbedHTML(
@@ -398,8 +418,8 @@ export class CosmereItem<
 
         // Ensure an actor was found
         if (!actor) {
-            ui.notifications!.warn(
-                game.i18n!.localize('GENERIC.Warning.NoActor'),
+            ui.notifications.warn(
+                game.i18n.localize('GENERIC.Warning.NoActor'),
             );
             return null;
         }
@@ -433,10 +453,10 @@ export class CosmereItem<
                 chatMessage: false,
                 title: `${this.name} (${
                     skillId
-                        ? game.i18n!.localize(
+                        ? game.i18n.localize(
                               CONFIG.COSMERE.skills[skillId].label,
                           )
-                        : `${game.i18n!.localize('GENERIC.Custom')} ${game.i18n!.localize('GENERIC.Skill')}`
+                        : `${game.i18n.localize('GENERIC.Custom')} ${game.i18n.localize('GENERIC.Skill')}`
                 })`,
                 defaultAttribute: skill.attribute ? skill.attribute : undefined,
                 parts: parts,
@@ -451,8 +471,7 @@ export class CosmereItem<
         if (roll && options.chatMessage !== false) {
             // Get the speaker
             const speaker =
-                options.speaker ??
-                ChatMessage.getSpeaker({ actor });
+                options.speaker ?? ChatMessage.getSpeaker({ actor });
 
             // Create chat message
             await roll.toMessage({
@@ -483,7 +502,7 @@ export class CosmereItem<
         // Ensure an actor was found
         if (!actor) {
             ui.notifications.warn(
-                game.i18n!.localize('GENERIC.Warning.NoActor'),
+                game.i18n.localize('GENERIC.Warning.NoActor'),
             );
             return null;
         }
@@ -563,7 +582,8 @@ export class CosmereItem<
 
         // Get the graze formula
         const grazeFormula =
-             
+            // NOTE: Explicitly use logical OR here to also catch empty strings
+            // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
             this.system.damage.grazeOverrideFormula || '@damage.dice';
 
         const usesBaseDamage = grazeFormula.includes('@damage');
@@ -584,8 +604,7 @@ export class CosmereItem<
         if (roll && options.chatMessage !== false) {
             // Get the speaker
             const speaker =
-                options.speaker ??
-                ChatMessage.getSpeaker({ actor });
+                options.speaker ?? ChatMessage.getSpeaker({ actor });
 
             // Create chat message
             await roll.toMessage({
@@ -618,7 +637,7 @@ export class CosmereItem<
         // Ensure an actor was found
         if (!actor) {
             ui.notifications.warn(
-                game.i18n!.localize('GENERIC.Warning.NoActor'),
+                game.i18n.localize('GENERIC.Warning.NoActor'),
             );
             return null;
         }
@@ -696,10 +715,10 @@ export class CosmereItem<
             const attackConfig = await AttackConfigurationDialog.show({
                 title: `${this.name} (${
                     skillTestSkillId
-                        ? game.i18n!.localize(
+                        ? game.i18n.localize(
                               CONFIG.COSMERE.skills[skillTestSkillId].label,
                           )
-                        : `${game.i18n!.localize('GENERIC.Custom')} ${game.i18n!.localize('GENERIC.Skill')}`
+                        : `${game.i18n.localize('GENERIC.Custom')} ${game.i18n.localize('GENERIC.Skill')}`
                 })`,
                 defaultAttribute: skillTestAttributeId,
                 defaultRollMode: options.rollMode,
@@ -805,20 +824,19 @@ export class CosmereItem<
         if (options.chatMessage !== false) {
             // Get the speaker
             const speaker =
-                options.speaker ??
-                ChatMessage.getSpeaker({ actor });
+                options.speaker ?? ChatMessage.getSpeaker({ actor });
 
-            const flavor = game
-                .i18n!.localize('COSMERE.Item.AttackFlavor')
+            const flavor = game.i18n
+                .localize('COSMERE.Item.AttackFlavor')
                 .replace('[actor]', actor.name)
                 .replace('[item]', this.name);
 
             // Create chat message
             const message = (await ChatMessage.create({
-                author: game.user!.id,
+                author: game.user.id,
                 speaker,
                 content: `<p>${flavor}</p>`,
-                rolls: [skillRoll, ...damageRolls] as any, // TEMP: Workaround
+                rolls: [skillRoll, ...damageRolls],
             })) as ChatMessage;
         }
 
@@ -849,7 +867,7 @@ export class CosmereItem<
         // Ensure an actor was found
         if (!actor) {
             ui.notifications.warn(
-                game.i18n!.localize('GENERIC.Warning.NoActor'),
+                game.i18n.localize('GENERIC.Warning.NoActor'),
             );
             return null;
         }
@@ -896,7 +914,7 @@ export class CosmereItem<
                 switch (consumption.type) {
                     case ItemConsumeType.Resource:
                         currentAmount =
-                            actor.system.resources[consumption.resource!].value;
+                            actor.system.resources[consumption.resource].value;
                         break;
                     // case ItemConsumeType.Item:
                     // TODO
@@ -905,12 +923,10 @@ export class CosmereItem<
                 }
 
                 // Validate that there's enough resource to consume
-                const newAmount = currentAmount - consumption.value.actual!;
+                const newAmount = currentAmount - consumption.value.actual;
                 if (newAmount < 0) {
                     ui.notifications.warn(
-                        game.i18n!.localize(
-                            'GENERIC.Warning.NotEnoughResource',
-                        ),
+                        game.i18n.localize('GENERIC.Warning.NotEnoughResource'),
                     );
                     return null;
                 }
@@ -922,7 +938,7 @@ export class CosmereItem<
                         void actor.update({
                             system: {
                                 resources: {
-                                    [consumption.resource!]: {
+                                    [consumption.resource]: {
                                         value: newAmount,
                                     },
                                 },
@@ -933,10 +949,8 @@ export class CosmereItem<
                         // TODO: Figure out how to handle item consumption
 
                         ui.notifications.warn(
-                            game
-                                .i18n!.localize(
-                                    'GENERIC.Warning.NotImplemented',
-                                )
+                            game.i18n
+                                .localize('GENERIC.Warning.NotImplemented')
                                 .replace('[action]', 'Item consumption'),
                         );
                     }
@@ -952,7 +966,7 @@ export class CosmereItem<
             // Validate we can use the item
             if (currentUses < 1) {
                 ui.notifications.warn(
-                    game.i18n!.localize('GENERIC.Warning.NotEnoughUses'),
+                    game.i18n.localize('GENERIC.Warning.NotEnoughUses'),
                 );
                 return null;
             }
@@ -960,14 +974,14 @@ export class CosmereItem<
             // Add post roll action to consume a use
             postRoll.push(() => {
                 // Handle use consumption
-                void this.update({
+                void (this as ActivatableItem).update({
                     system: {
                         activation: {
                             uses: {
                                 value: currentUses - 1,
-                            }
-                        }
-                    }
+                            },
+                        },
+                    },
                 });
             });
         }
@@ -998,10 +1012,8 @@ export class CosmereItem<
             hasDamage;
 
         const messageConfig = {
-            user: game.user!.id,
-            speaker:
-                options.speaker ??
-                ChatMessage.getSpeaker({ actor }),
+            user: game.user.id,
+            speaker: options.speaker ?? ChatMessage.getSpeaker({ actor }),
             rolls: [] as foundry.dice.Roll[],
             flags: {} as Record<string, unknown>,
         };
@@ -1055,14 +1067,17 @@ export class CosmereItem<
                 if (!attackResult) return null;
 
                 // Add the rolls to the list
-                rolls.push(attackResult[0] as any, ...attackResult[1] as any); // TEMP: Workaround
+                rolls.push(
+                    attackResult[0] as unknown as Roll,
+                    ...(attackResult[1] as unknown as Roll[]),
+                );
 
                 // Set the flavor
                 flavor = flavor
                     ? flavor
-                    : `${game.i18n!.localize(
+                    : `${game.i18n.localize(
                           `COSMERE.Skill.${attackResult[0].data.skill.id}`,
-                      )} (${game.i18n!.localize(
+                      )} (${game.i18n.localize(
                           `COSMERE.Attribute.${attackResult[0].data.skill.attribute}`,
                       )})`;
             } else {
@@ -1075,7 +1090,7 @@ export class CosmereItem<
                     });
                     if (!damageRolls) return null;
 
-                    rolls.push(...damageRolls as any); // TEMP: Workaround
+                    rolls.push(...(damageRolls as unknown as Roll[]));
                 }
 
                 options.parts ??= this.system.activation.modifierFormula
@@ -1090,14 +1105,14 @@ export class CosmereItem<
                     if (!roll) return null;
 
                     // Add the roll to the list
-                    rolls.push(roll as any); // TEMP: Workaround
+                    rolls.push(roll as unknown as Roll);
 
                     // Set the flavor
                     flavor = flavor
                         ? flavor
-                        : `${game.i18n!.localize(
+                        : `${game.i18n.localize(
                               `COSMERE.Skill.${roll.data.skill.id}`,
-                          )} (${game.i18n!.localize(
+                          )} (${game.i18n.localize(
                               `COSMERE.Attribute.${roll.data.skill.attribute}`,
                           )})`;
                 }
@@ -1118,8 +1133,7 @@ export class CosmereItem<
         } else {
             // NOTE: Use boolean or operator (`||`) here instead of nullish coalescing (`??`),
             // as flavor can also be an empty string, which we'd like to replace with the default flavor too
-            const flavor =     
-                this.system.activation.flavor || undefined;
+            const flavor = this.system.activation.flavor || undefined;
 
             // Create chat message
             const message = (await ChatMessage.create(
@@ -1149,14 +1163,13 @@ export class CosmereItem<
 
                 const label =
                     consumeType === ItemConsumeType.Resource
-                        ? game.i18n!.localize(
-                              CONFIG.COSMERE.resources[
-                                  consumptionData.resource!
-                              ].label,
+                        ? game.i18n.localize(
+                              CONFIG.COSMERE.resources[consumptionData.resource]
+                                  .label,
                           )
                         : consumeType === ItemConsumeType.Item
                           ? '[TODO ITEM]'
-                          : game.i18n!.localize('GENERIC.Unknown');
+                          : game.i18n.localize('GENERIC.Unknown');
 
                 return {
                     type: consumeType,
@@ -1169,7 +1182,10 @@ export class CosmereItem<
         );
 
         // Show the dialog if required
-        const result = await ItemConsumeDialog.show(this, consumeOptions as any); // TEMP: Workaround
+        const result = await ItemConsumeDialog.show(
+            this,
+            consumeOptions as ItemConsumeDialogOptions[],
+        );
 
         return result?.consumption ?? null;
     }
@@ -1184,10 +1200,10 @@ export class CosmereItem<
             system: {
                 activation: {
                     uses: {
-                        value: this.system.activation.uses.max
-                    }
-                }
-            }
+                        value: this.system.activation.uses.max,
+                    },
+                },
+            },
         });
     }
 
@@ -1268,17 +1284,16 @@ export class CosmereItem<
         if (!this.hasDescription()) return undefined;
         // NOTE: We use logical OR's here to catch both nullish values and empty string
         const descriptionData =
-            this.system.description
-                ?.chat ||
-            this.system.description
-                ?.short ||
-            this.system.description
-                ?.value;
-         
+            this.system.description?.chat ||
+            this.system.description?.short ||
+            this.system.description?.value;
 
-        const description = await foundry.applications.ux.TextEditor.enrichHTML(descriptionData ?? '', {
-            relativeTo: this.system.parent as foundry.abstract.Document.Any,
-        });
+        const description = await foundry.applications.ux.TextEditor.enrichHTML(
+            descriptionData ?? '',
+            {
+                relativeTo: this.system.parent as foundry.abstract.Document.Any,
+            },
+        );
 
         const traitsNormal = [];
         const traitsExpert = [];
@@ -1290,7 +1305,7 @@ export class CosmereItem<
                 const traitLoc =
                     CONFIG.COSMERE.traits.weaponTraits[key as WeaponTraitId] ??
                     CONFIG.COSMERE.traits.armorTraits[key as ArmorTraitId];
-                let label = game.i18n!.localize(traitLoc.label);
+                let label = game.i18n.localize(traitLoc.label);
 
                 if (value.expertise?.toggleActive) {
                     label = `<strong>${label}</strong>`;
@@ -1304,10 +1319,7 @@ export class CosmereItem<
         }
 
         let action;
-        if (
-            this.hasActivation() &&
-            this.system.activation.cost.value
-        ) {
+        if (this.hasActivation() && this.system.activation.cost.value) {
             switch (this.system.activation.cost.type) {
                 case ActionCostType.Action:
                     action = `action${Math.min(3, this.system.activation.cost.value)}`;
@@ -1428,8 +1440,12 @@ export class CosmereItem<
                 name: this.name,
                 charges: this.hasActivation()
                     ? {
-                          value: (this as unknown as ActivatableItem).system.activation.uses?.value ?? 0,
-                          max: (this as unknown as ActivatableItem).system.activation.uses?.max ?? 0,
+                          value:
+                              (this as unknown as ActivatableItem).system
+                                  .activation.uses?.value ?? 0,
+                          max:
+                              (this as unknown as ActivatableItem).system
+                                  .activation.uses?.max ?? 0,
                       }
                     : undefined,
             },
@@ -1611,28 +1627,55 @@ export type TalentTreeItem = CosmereItem<TalentTreeItemDataModel>;
 export type CosmereItemFromSchema<
     TSchema extends foundry.data.fields.DataSchema,
     TBaseData extends AnyObject = EmptyObject,
-    TDerivedData extends AnyObject = EmptyObject
+    TDerivedData extends AnyObject = EmptyObject,
 > = CosmereItem<
-    foundry.abstract.TypeDataModel<TSchema, foundry.documents.BaseItem, TBaseData, TDerivedData>
+    foundry.abstract.TypeDataModel<
+        TSchema,
+        foundry.documents.BaseItem,
+        TBaseData,
+        TDerivedData
+    >
 >;
 
 export type ActivatableItem = CosmereItemFromSchema<ActivatableItemDataSchema>;
 export type AttackingItem = CosmereItemFromSchema<AttackingItemDataSchema>;
 export type DamagingItem = CosmereItemFromSchema<DamagingItemDataSchema>;
 export type DescriptionItem = CosmereItemFromSchema<DescriptionItemDataSchema>;
-export type PhysicialItem = CosmereItemFromSchema<PhysicalItemDataSchema, EmptyObject, PhysicalItemDerivedData>;
-export type TypedItem = CosmereItemFromSchema<TypedItemDataSchema, EmptyObject, TypedItemDerivedData>;
-export type TraitsItem = CosmereItemFromSchema<TraitsItemDataSchema, EmptyObject, TraitsItemDerivedData>;
-export type DeflectItem = CosmereItemFromSchema<DeflectItemDataSchema, EmptyObject, DeflectItemDerivedData>;
+export type PhysicialItem = CosmereItemFromSchema<
+    PhysicalItemDataSchema,
+    EmptyObject,
+    PhysicalItemDerivedData
+>;
+export type TypedItem = CosmereItemFromSchema<
+    TypedItemDataSchema,
+    EmptyObject,
+    TypedItemDerivedData
+>;
+export type TraitsItem = CosmereItemFromSchema<
+    TraitsItemDataSchema,
+    EmptyObject,
+    TraitsItemDerivedData
+>;
+export type DeflectItem = CosmereItemFromSchema<
+    DeflectItemDataSchema,
+    EmptyObject,
+    DeflectItemDerivedData
+>;
 export type EquippableItem = CosmereItemFromSchema<EquippableItemDataSchema>;
 export type IdItem = CosmereItemFromSchema<IdItemDataSchema>;
 export type ModalityItem = CosmereItemFromSchema<ModalityItemDataSchema>;
-export type TalentsProviderItem = CosmereItemFromSchema<TalentsProviderDataSchema, EmptyObject, TalentsProviderDerivedData>;
+export type TalentsProviderItem = CosmereItemFromSchema<
+    TalentsProviderDataSchema,
+    EmptyObject,
+    TalentsProviderDerivedData
+>;
 export type EventsItem = CosmereItemFromSchema<EventsItemDataSchema>;
-export type LinkedSkillsItem = CosmereItemFromSchema<LinkedSkillsItemDataSchema>;
-export type RelationshipsItem = CosmereItemFromSchema<RelationshipsItemDataSchema>;
+export type LinkedSkillsItem =
+    CosmereItemFromSchema<LinkedSkillsItemDataSchema>;
+export type RelationshipsItem =
+    CosmereItemFromSchema<RelationshipsItemDataSchema>;
 
-declare module "@league-of-foundry-developers/foundry-vtt-types/configuration" {
+declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
     interface ConfiguredItem<SubType extends Item.SubType> {
         document: CosmereItem;
     }
@@ -1650,7 +1693,7 @@ declare module "@league-of-foundry-developers/foundry-vtt-types/configuration" {
                 'meta.origin': ItemOrigin;
                 previousLevel?: number;
                 isStartingPath?: boolean;
-            }
-        }
+            };
+        };
     }
 }

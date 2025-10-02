@@ -6,10 +6,11 @@ import { TEMPLATES } from '@src/system/utils/templates';
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
 import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
 
-export class ActorCurrencyListComponent extends HandlebarsApplicationComponent<
-    // typeof BaseActorSheet
-    any // TEMP: Workaround
-> {
+export class ActorCurrencyListComponent extends HandlebarsApplicationComponent<// typeof BaseActorSheet
+// TODO: Resolve typing issues
+// NOTE: Use any as workaround for foundry-vtt-types issues
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+any> {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_CURRENCY_LIST}`;
 
     /**

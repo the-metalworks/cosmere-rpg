@@ -7,7 +7,7 @@ import { TEMPLATES } from '@src/system/utils/templates';
 import { BaseItemSheet } from './base';
 
 export class ArmorItemSheet extends BaseItemSheet {
-    declare item: ArmorItem
+    declare item: ArmorItem;
 
     static DEFAULT_OPTIONS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.DEFAULT_OPTIONS),
@@ -21,7 +21,7 @@ export class ArmorItemSheet extends BaseItemSheet {
                 positioned: true,
             },
         },
-    );
+    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
 
     static TABS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.TABS),

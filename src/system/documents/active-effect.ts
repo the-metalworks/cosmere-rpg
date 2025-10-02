@@ -6,7 +6,7 @@ import { Status } from '@system/types/cosmere';
 import { tryApplyRollData } from '@system/utils/changes';
 
 export class CosmereActiveEffect<
-    out SubType extends ActiveEffect.SubType = ActiveEffect.SubType
+    out SubType extends ActiveEffect.SubType = ActiveEffect.SubType,
 > extends ActiveEffect<SubType> {
     /* --- Accessors --- */
 
@@ -59,7 +59,7 @@ export class CosmereActiveEffect<
                 CONFIG.COSMERE.statuses[this.statuses.first() as Status];
 
             this.updateSource({
-                name: `${game.i18n!.localize(config.label)} [${
+                name: `${game.i18n.localize(config.label)} [${
                     config.stacksDisplayTransform
                         ? config.stacksDisplayTransform(this.stacks)
                         : this.stacks
@@ -85,7 +85,7 @@ export class CosmereActiveEffect<
             const config =
                 CONFIG.COSMERE.statuses[this.statuses.first() as Status];
 
-            data.name = `${game.i18n!.localize(config.label)} [${
+            data.name = `${game.i18n.localize(config.label)} [${
                 config.stacksDisplayTransform
                     ? config.stacksDisplayTransform(stacks)
                     : stacks
@@ -111,7 +111,10 @@ export class CosmereActiveEffect<
         }
     }
 
-    public override apply(actor: CosmereActor, change: ActiveEffect.ChangeData) {
+    public override apply(
+        actor: CosmereActor,
+        change: ActiveEffect.ChangeData,
+    ) {
         // Update the change
         const newChange = tryApplyRollData(actor, change);
 
@@ -124,7 +127,7 @@ export class CosmereActiveEffect<
     }
 }
 
-declare module "@league-of-foundry-developers/foundry-vtt-types/configuration" {
+declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
     interface ConfiguredActiveEffect<SubType extends ActiveEffect.SubType> {
         document: CosmereActiveEffect<SubType>;
     }

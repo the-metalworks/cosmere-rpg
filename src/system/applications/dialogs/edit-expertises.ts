@@ -264,7 +264,8 @@ export class EditExpertisesDialog extends HandlebarsApplicationMixin(
         // Get data
         const data =
             'actor' in config
-                ? config.actor.system.expertises as unknown as Collection<Expertise> // TEMP: Workaround
+                ? (config.actor.system
+                      .expertises as unknown as Collection<Expertise>) // TEMP: Workaround
                 : 'document' in config
                   ? (foundry.utils.getProperty(
                         config.document,
@@ -379,12 +380,9 @@ export class EditExpertisesDialog extends HandlebarsApplicationMixin(
             this.data.size >= this.maxExpertises
         ) {
             return void ui.notifications.warn(
-                game.i18n!.format(
-                    'DIALOG.EditExpertise.Warning.MaxExpertises',
-                    {
-                        max: this.maxExpertises.toFixed(),
-                    },
-                ),
+                game.i18n.format('DIALOG.EditExpertise.Warning.MaxExpertises', {
+                    max: this.maxExpertises.toFixed(),
+                }),
             );
         }
 
@@ -397,7 +395,7 @@ export class EditExpertisesDialog extends HandlebarsApplicationMixin(
         const el = $(`
             <li id="temp-custom" class="form-group custom temp">                
                 <i class="bullet fade icon faded fa-solid fa-diamond"></i>
-                <input type="text" placeholder="${game.i18n!.localize('DIALOG.EditExpertise.AddPlaceholder')}">
+                <input type="text" placeholder="${game.i18n.localize('DIALOG.EditExpertise.AddPlaceholder')}">
                 <a><i class="fa-solid fa-trash"></i></a>
             </li>
         `).get(0)!;
@@ -429,7 +427,7 @@ export class EditExpertisesDialog extends HandlebarsApplicationMixin(
                     containsExpertise(this.data, expertise)
                 ) {
                     ui.notifications.warn(
-                        game.i18n!.localize(
+                        game.i18n.localize(
                             'GENERIC.Warning.NoDuplicateExpertises',
                         ),
                     );
@@ -509,12 +507,9 @@ export class EditExpertisesDialog extends HandlebarsApplicationMixin(
                 this.maxExpertises
         ) {
             ui.notifications.warn(
-                game.i18n!.format(
-                    'DIALOG.EditExpertise.Warning.MaxExpertises',
-                    {
-                        max: this.maxExpertises.toFixed(),
-                    },
-                ),
+                game.i18n.format('DIALOG.EditExpertise.Warning.MaxExpertises', {
+                    max: this.maxExpertises.toFixed(),
+                }),
             );
 
             // Re-render

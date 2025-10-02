@@ -1,6 +1,4 @@
-import {
-    IHandler,
-} from '@system/types/item/event-system';
+import { IHandler } from '@system/types/item/event-system';
 import { constructHandlerClass } from '@system/utils/item/event-system';
 import { HandlerBaseSchema } from '../handler';
 import { AnyObject, AnyMutableObject } from '@system/types/utils';
@@ -10,13 +8,21 @@ const NONE_HANDLER_CLASS = constructHandlerClass('none', () => {}, {
     schema: {},
 });
 
-type HandlerBaseAssignmentType = foundry.data.fields.SchemaField.Internal.AssignmentType<HandlerBaseSchema>;
-type HandlerBaseInitializedType = IHandler<{}>;
-type HandlerBasePersistedType = foundry.data.fields.SchemaField.Internal.PersistedType<HandlerBaseSchema>;
+type HandlerBaseAssignmentType =
+    foundry.data.fields.SchemaField.Internal.AssignmentType<HandlerBaseSchema>;
+type HandlerBaseInitializedType = IHandler;
+type HandlerBasePersistedType =
+    foundry.data.fields.SchemaField.Internal.PersistedType<HandlerBaseSchema>;
 
 export class HandlerField<
-    TOptions extends foundry.data.fields.DataField.Options<AnyObject> = foundry.data.fields.ObjectField.DefaultOptions,
-> extends foundry.data.fields.ObjectField<TOptions, HandlerBaseAssignmentType, HandlerBaseInitializedType, HandlerBasePersistedType> {
+    TOptions extends
+        foundry.data.fields.DataField.Options<AnyObject> = foundry.data.fields.ObjectField.DefaultOptions,
+> extends foundry.data.fields.ObjectField<
+    TOptions,
+    HandlerBaseAssignmentType,
+    HandlerBaseInitializedType,
+    HandlerBasePersistedType
+> {
     /**
      * Get the model for the given handler type
      */
@@ -27,21 +33,24 @@ export class HandlerField<
             : NONE_HANDLER_CLASS;
     }
 
-    protected override _cleanType(value: HandlerBaseInitializedType, options?: foundry.data.fields.DataField.CleanOptions) {       
+    protected override _cleanType(
+        value: HandlerBaseInitializedType,
+        options?: foundry.data.fields.DataField.CleanOptions,
+    ) {
         // Get type
-        const type = 'type' in value ? (value.type as string) : 'none';
+        const type = 'type' in value ? value.type : 'none';
 
         // Clean value
-        return (
-            HandlerField.getModelForType(type)?.cleanData(value as unknown as AnyMutableObject, options) ??
-            value
-        ) as unknown as HandlerBaseInitializedType; 
+        return (HandlerField.getModelForType(type)?.cleanData(
+            value as unknown as AnyMutableObject,
+            options,
+        ) ?? value) as unknown as HandlerBaseInitializedType;
     }
 
     protected override _validateType(
         value: unknown,
         options?: object,
-    ): boolean | foundry.data.validation.DataModelValidationFailure| void {
+    ): boolean | foundry.data.validation.DataModelValidationFailure | void {
         if (!value || !(typeof value === 'object'))
             throw new Error('must be a Handler object');
 
@@ -61,7 +70,9 @@ export class HandlerField<
     }
 
     protected override _cast(value: unknown) {
-        return (typeof value === 'object' ? value as AnyObject : {}) as HandlerBaseAssignmentType;
+        return (
+            typeof value === 'object' ? (value as AnyObject) : {}
+        ) as HandlerBaseAssignmentType;
     }
 
     public override getInitialValue(data: { type: string }) {
@@ -81,13 +92,15 @@ export class HandlerField<
         const cls = HandlerField.getModelForType(value.type);
 
         // Initialize value
-        return (cls
-            ? value instanceof cls
-                ? value
-                : new cls(foundry.utils.deepClone(value), {
-                      parent: model,
-                      ...options,
-                  })
-            : foundry.utils.deepClone(value)) as any; // TEMP: Workaround
+        return (
+            cls
+                ? value instanceof cls
+                    ? value
+                    : new cls(foundry.utils.deepClone(value), {
+                          parent: model,
+                          ...options,
+                      })
+                : foundry.utils.deepClone(value)
+        ) as HandlerBaseInitializedType;
     }
 }

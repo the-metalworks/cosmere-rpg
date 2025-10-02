@@ -1,5 +1,6 @@
 import { Attribute, Skill } from '@system/types/cosmere';
-import { CosmereActorRollData } from '@system/documents/actor';
+import { CosmereItem } from '@system/documents/item';
+import { CosmereActor, CosmereActorRollData } from '@system/documents/actor';
 import { AdvantageMode } from '@system/types/roll';
 
 // Dialogs
@@ -37,7 +38,7 @@ export type D20RollData<
     /* --- For hooks --- */
     context: string; // The roll context, for naming
 
-    source: any;
+    source: CosmereItem | CosmereActor | null;
 };
 
 export interface D20RollOptions
@@ -286,16 +287,14 @@ export class D20Roll extends foundry.dice.Roll<D20RollData> {
         return this;
     }
 
-    public toMessage<
-        Create extends boolean | null | undefined = undefined
-    >(
+    public toMessage<Create extends boolean | null | undefined = undefined>(
         messageData?: Roll.MessageData | null,
         options?: Roll.ToMessageOptions<Create>,
     ): Promise<Roll.ToMessageReturn<Create>> {
         options ??= {};
         options.rollMode ??= this.options.rollMode;
         if (options.rollMode === 'roll') options.rollMode = undefined;
-        options.rollMode ??= game.settings!.get('core', 'rollMode');
+        options.rollMode ??= game.settings.get('core', 'rollMode');
 
         return super.toMessage(messageData, options);
     }
@@ -374,7 +373,7 @@ export class D20Roll extends foundry.dice.Roll<D20RollData> {
                 results: tmpResults,
                 modifiers,
             });
-            const baseRoll = D20Roll.fromTerms([baseTerm]) as any;
+            const baseRoll = D20Roll.fromTerms([baseTerm]);
             baseRoll.options = this.options;
 
             const total = (baseRoll?.total ?? 0) + (bonusRoll?.total ?? 0);

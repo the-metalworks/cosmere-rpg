@@ -9,10 +9,11 @@ import { HandlebarsApplicationComponent } from '@system/applications/component-s
 import { BaseActorSheetRenderContext } from '../../base';
 import { CharacterSheet } from '../../character-sheet';
 
-export class CharacterPathsComponent extends HandlebarsApplicationComponent<
-    // typeof CharacterSheet
-    any // TEMP: Workaround
-> {
+export class CharacterPathsComponent extends HandlebarsApplicationComponent<// typeof CharacterSheet
+// TODO: Resolve typing issues
+// NOTE: Use any as workaround for foundry-vtt-types issues
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+any> {
     static readonly TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_PATHS}`;
 
     /**

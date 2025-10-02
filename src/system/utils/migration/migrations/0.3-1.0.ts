@@ -179,7 +179,7 @@ function migrateItemData(item: RawDocumentData<any>, changes: object) {
                 if (reward.type === 'items') {
                     events[id] = {
                         id,
-                        description: game.i18n!.localize(
+                        description: game.i18n.localize(
                             'COSMERE.Item.EventSystem.Event.Handler.Types.grant-items.Title',
                         ),
                         event: 'goal-complete',
@@ -191,7 +191,7 @@ function migrateItemData(item: RawDocumentData<any>, changes: object) {
                 } else if (reward.type === 'skill-ranks') {
                     events[id] = {
                         id,
-                        description: game.i18n!.localize(
+                        description: game.i18n.localize(
                             'COSMERE.Item.EventSystem.Event.Handler.Types.update-actor.Title',
                         ),
                         event: 'goal-complete',
@@ -238,7 +238,7 @@ function migrateItemData(item: RawDocumentData<any>, changes: object) {
             Object.entries(grantRules).forEach(([id, rule], i) => {
                 events[id] = {
                     id,
-                    description: game.i18n!.localize(
+                    description: game.i18n.localize(
                         'COSMERE.Item.EventSystem.Event.Handler.Types.grant-items.Title',
                     ),
                     event: 'add-to-actor',

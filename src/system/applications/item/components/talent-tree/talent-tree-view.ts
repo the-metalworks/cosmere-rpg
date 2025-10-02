@@ -59,7 +59,10 @@ export class TalentTreeViewComponent<
     P extends TalentTreeViewComponentParams = TalentTreeViewComponentParams,
 > extends DragDropComponentMixin(HandlebarsApplicationComponent)<
     // typeof foundry.applications.api.ApplicationV2,
-    any, // TEMP: Workaround
+    // TODO: Resolve typing issues
+    // NOTE: Use any as workaround for foundry-vtt-types issues
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    any,
     P
 > {
     static emittedEvents = super.emittedEvents.concat([
@@ -258,8 +261,14 @@ export class TalentTreeViewComponent<
         );
 
         // Add listeners
-        this.app.world.on('click-node', debounce(this.onClickNode.bind(this), 300, true));
-        this.app.world.on('rightclick-node', debounce(this.onRightClickNode.bind(this), 300, true));
+        this.app.world.on(
+            'click-node',
+            debounce(this.onClickNode.bind(this), 300, true),
+        );
+        this.app.world.on(
+            'rightclick-node',
+            debounce(this.onRightClickNode.bind(this), 300, true),
+        );
 
         this.app.world.on(
             'click-connection',
@@ -438,7 +447,7 @@ export class TalentTreeViewComponent<
             )
         ) {
             // Get the item
-            const item = (await fromUuid(node.uuid)) as TalentItem | null;
+            const item = await fromUuid<CosmereItem>(node.uuid);
             if (!item) return;
 
             const itemData = item.toObject();
@@ -458,7 +467,7 @@ export class TalentTreeViewComponent<
 
             // Notification
             ui.notifications.info(
-                game.i18n!.format('GENERIC.Notification.TalentObtained', {
+                game.i18n.format('GENERIC.Notification.TalentObtained', {
                     talent: item.name,
                     actor: this.contextActor.name,
                 }),
@@ -505,7 +514,7 @@ export class TalentTreeViewComponent<
                 )
             ) {
                 ui.notifications.warn(
-                    game.i18n!.format(
+                    game.i18n.format(
                         'GENERIC.Notification.TalentCannotBeRemoved',
                         {
                             talent: talent.name,
@@ -521,7 +530,7 @@ export class TalentTreeViewComponent<
 
             // Notification
             ui.notifications.info(
-                game.i18n!.format('GENERIC.Notification.TalentRemoved', {
+                game.i18n.format('GENERIC.Notification.TalentRemoved', {
                     talent: talent.name,
                     actor: this.contextActor.name,
                 }),
@@ -559,10 +568,8 @@ export class TalentTreeViewComponent<
         event: MouseOverNodeEvent<CanvasElements.Nodes.TalentNode>,
     ) {
         // Get the item
-        const item = (await fromUuid(
-            event.node.data.uuid,
-        )) as TalentItem | null;
-        if (!item) return;
+        const item = await fromUuid<CosmereItem>(event.node.data.uuid);
+        if (!item?.hasDescription()) return;
 
         // Get the node
         const node = event.node.data;
@@ -634,13 +641,16 @@ export class TalentTreeViewComponent<
                             : undefined),
                     };
                 }),
-                description: await TextEditor.enrichHTML(
-                    htmlStringHasContent(item.system.description?.short)
-                        ? item.system.description!.short!
-                        : htmlStringHasContent(item.system.description?.value)
-                          ? item.system.description!.value!
-                          : '',
-                ),
+                description:
+                    await foundry.applications.ux.TextEditor.enrichHTML(
+                        htmlStringHasContent(item.system.description?.short)
+                            ? item.system.description.short
+                            : htmlStringHasContent(
+                                    item.system.description?.value,
+                                )
+                              ? item.system.description.value
+                              : '',
+                    ),
                 hasContextActor: !!this.contextActor,
             },
         );
@@ -662,14 +672,16 @@ export class TalentTreeViewComponent<
         this.element!.appendChild(toolTipRoot);
 
         // Show tooltip
-        game.tooltip!.activate(toolTipRoot, {
+        game.tooltip.activate(toolTipRoot, {
             content: content,
-            direction: foundry.helpers.interaction.TooltipManager.TOOLTIP_DIRECTIONS.RIGHT
+            direction:
+                foundry.helpers.interaction.TooltipManager.TOOLTIP_DIRECTIONS
+                    .RIGHT,
         });
     }
 
     protected onMouseOutNode() {
-        game.tooltip!.deactivate();
+        game.tooltip.deactivate();
 
         // Remove tooltip root
         const tooltipRoot = this.element!.querySelectorAll(
@@ -683,13 +695,13 @@ export class TalentTreeViewComponent<
     public async _prepareContext(params: P, context: never) {
         const item =
             !!this.selected && this.selectedType === 'node'
-                ? ((await fromUuid(
+                ? await fromUuid<CosmereItem>(
                       (
                           this.selected as
                               | TalentTree.TalentNode
                               | TalentTree.TreeNode
                       ).uuid,
-                  )) as TalentItem | TalentTreeItem | null)
+                  )
                 : null;
 
         const itemLink = item ? item.toAnchor().outerHTML : null;

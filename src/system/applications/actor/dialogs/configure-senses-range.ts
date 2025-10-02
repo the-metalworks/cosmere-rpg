@@ -57,8 +57,8 @@ export class ConfigureSensesRangeDialog extends HandlebarsApplicationMixin(
         super({
             id: `${actor.uuid}.SensesRange`,
             window: {
-                title: game
-                    .i18n!.localize('DIALOG.ConfigureSensesRange.Title')
+                title: game.i18n
+                    .localize('DIALOG.ConfigureSensesRange.Title')
                     .replace('{actor}', actor.name),
             },
         });
@@ -80,7 +80,7 @@ export class ConfigureSensesRangeDialog extends HandlebarsApplicationMixin(
         void this.actor.update({
             system: {
                 senses: this.sensesData,
-            }
+            },
         });
         void this.close();
     }

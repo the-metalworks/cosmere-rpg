@@ -42,7 +42,7 @@ export class ItemEditEventRuleDialog extends ComponentHandlebarsApplicationMixin
                 update: this.onUpdateRule,
             },
         },
-    );
+    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
 
     static PARTS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.PARTS),
@@ -82,7 +82,7 @@ export class ItemEditEventRuleDialog extends ComponentHandlebarsApplicationMixin
         // Get changes
         const changes = foundry.utils.mergeObject(
             getObjectChanges(
-                (this.item.system.events.get(this.rule.id)! as any).toObject(), // TEMP: Workaround
+                (this.item.system.events.get(this.rule.id) as Rule).toObject(), // TEMP: Workaround
                 this.rule.toObject(),
             ),
             {
@@ -168,8 +168,7 @@ export class ItemEditEventRuleDialog extends ComponentHandlebarsApplicationMixin
 
     public _prepareContext() {
         const allEventSelectOptions = (
-            this.rule.schema.fields.event
-                .choices as () => AnyMutableObject
+            this.rule.schema.fields.event.choices as () => AnyMutableObject
         )();
 
         // Prepare the context

@@ -60,8 +60,8 @@ export class ConfigureRecoveryDieDialog extends HandlebarsApplicationMixin(
         super({
             id: `${actor.uuid}.RecoveryDie`,
             window: {
-                title: game
-                    .i18n!.localize('DIALOG.ConfigureRecoveryDie.Title')
+                title: game.i18n
+                    .localize('DIALOG.ConfigureRecoveryDie.Title')
                     .replace('{actor}', actor.name),
             },
         });

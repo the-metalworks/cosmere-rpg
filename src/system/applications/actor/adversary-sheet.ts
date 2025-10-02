@@ -16,7 +16,6 @@ export type AdversarySheetRenderContext = Omit<
 };
 
 export class AdversarySheet extends BaseActorSheet<AdversarySheetRenderContext> {
-    // @ts-ignore
     declare actor: AdversaryActor;
 
     static DEFAULT_OPTIONS = foundry.utils.mergeObject(

@@ -32,15 +32,13 @@ export interface BaseItemSheetRenderContext {
 }
 
 export type BaseItemSheetConfiguration =
-    foundry.applications.api.DocumentSheetV2.Configuration<CosmereItem>
+    foundry.applications.api.DocumentSheetV2.Configuration<CosmereItem>;
 
-export interface BaseItemSheetRenderOptions
-    extends TabApplicationRenderOptions {}
+export type BaseItemSheetRenderOptions = TabApplicationRenderOptions;
 
 export class BaseItemSheet extends TabsApplicationMixin(
     ComponentHandlebarsApplicationMixin(ItemSheetV2),
 ) {
-    // @ts-ignore
     declare item: CosmereItem;
 
     /**
@@ -60,7 +58,7 @@ export class BaseItemSheet extends TabsApplicationMixin(
                 save: this.onSave,
             },
         },
-    );
+    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
     /* eslint-enable @typescript-eslint/unbound-method */
 
     static TABS = foundry.utils.mergeObject(
@@ -306,13 +304,13 @@ export class BaseItemSheet extends TabsApplicationMixin(
         let enrichedChatDescValue = undefined;
         if (this.item.hasDescription()) {
             enrichedDescValue = await this.enrichDescription(
-                this.item.system.description!.value,
+                this.item.system.description.value,
             );
             enrichedShortDescValue = await this.enrichDescription(
-                this.item.system.description!.short,
+                this.item.system.description.short,
             );
             enrichedChatDescValue = await this.enrichDescription(
-                this.item.system.description!.chat,
+                this.item.system.description.chat,
             );
         }
         const expandDefaultSetting =
@@ -321,9 +319,8 @@ export class BaseItemSheet extends TabsApplicationMixin(
         return {
             ...(await super._prepareContext(options)),
             item: this.item,
-            systemFields: (
-                this.item.system.schema
-            ).fields,
+            systemFields: this.item.system.schema
+                .fields as foundry.data.fields.DataSchema,
             editable: this.isEditable,
             isUpdatingDescription: this.isUpdatingDescription,
             descHtml: enrichedDescValue,
@@ -332,8 +329,8 @@ export class BaseItemSheet extends TabsApplicationMixin(
             proseDescName: this.proseDescName,
             proseDescHtml: this.proseDescHtml,
             expandDefault: expandDefaultSetting,
-            typeLabel: game
-                .i18n!.localize(`TYPES.Item.${this.item.type}`)
+            typeLabel: game.i18n
+                .localize(`TYPES.Item.${this.item.type}`)
                 .toLowerCase(),
         };
     }
@@ -342,11 +339,14 @@ export class BaseItemSheet extends TabsApplicationMixin(
         if (
             desc === CONFIG.COSMERE.items.types[this.item.type].desc_placeholder
         ) {
-            desc = game.i18n!.localize(desc);
+            desc = game.i18n.localize(desc);
         }
-        return await foundry.applications.ux.TextEditor.implementation.enrichHTML(desc, {
-            relativeTo: this.document as foundry.abstract.Document.Any,
-        });
+        return await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+            desc,
+            {
+                relativeTo: this.document,
+            },
+        );
     }
 
     /* --- Actions --- */
@@ -363,11 +363,11 @@ export class BaseItemSheet extends TabsApplicationMixin(
 
         // Gets the description to display based on the type found
         if (proseDescType === 'value') {
-            this.proseDescHtml = this.item.system.description!.value!;
+            this.proseDescHtml = this.item.system.description.value!;
         } else if (proseDescType === 'short') {
-            this.proseDescHtml = this.item.system.description!.short!;
+            this.proseDescHtml = this.item.system.description.short!;
         } else if (proseDescType === 'chat') {
-            this.proseDescHtml = this.item.system.description!.chat!;
+            this.proseDescHtml = this.item.system.description.chat!;
         }
 
         // Gets name for use in prose mirror
@@ -388,13 +388,12 @@ export class BaseItemSheet extends TabsApplicationMixin(
 
     /* --- Lifecycle --- */
 
-    protected _onRender(context: AnyObject, options: AnyObject) {
-        super._onRender(context, options);
+    protected async _onRender(context: AnyObject, options: AnyObject) {
+        await super._onRender(context, options);
+
         $(this.element)
             .find('.collapsible .header')
             .on('click', (event) => this.onClickCollapsible(event));
-
-        return Promise.resolve();
     }
 
     /* --- Event handlers --- */

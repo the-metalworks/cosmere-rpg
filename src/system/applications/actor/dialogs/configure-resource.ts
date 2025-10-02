@@ -61,11 +61,11 @@ export class ConfigureResourceDialog extends HandlebarsApplicationMixin(
         super({
             id: `${actor.uuid}.Resource.${resourceId}`,
             window: {
-                title: game
-                    .i18n!.localize('DIALOG.ConfigureResource.Title')
+                title: game.i18n
+                    .localize('DIALOG.ConfigureResource.Title')
                     .replace(
                         '{resource}',
-                        game.i18n!.localize(
+                        game.i18n.localize(
                             CONFIG.COSMERE.resources[resourceId].label,
                         ),
                     )
@@ -73,14 +73,14 @@ export class ConfigureResourceDialog extends HandlebarsApplicationMixin(
             },
         });
 
-        this.resourceData = (
-            this.actor.system.schema.getField(
-                `resources.${resourceId}`,
-            )
-        )!.initialize(
-            foundry.utils.deepClone(this.actor.system.resources[resourceId]),
-            this.actor,
-        ) as CommonActorData['resources'][keyof CommonActorData['resources']];
+        this.resourceData = this.actor.system.schema
+            .getField(`resources.${resourceId}`)!
+            .initialize(
+                foundry.utils.deepClone(
+                    this.actor.system.resources[resourceId],
+                ),
+                this.actor,
+            ) as CommonActorData['resources'][keyof CommonActorData['resources']];
         this.resourceData.max.override ??= this.resourceData.max.value ?? 0;
         this.mode = this.resourceData.max.mode;
     }

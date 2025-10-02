@@ -35,7 +35,8 @@ export const enum BaseSheetTab {
     Effects = 'effects',
 }
 
-export interface BaseActorSheetRenderContext extends foundry.applications.sheets.ActorSheetV2.RenderContext {
+export interface BaseActorSheetRenderContext
+    extends foundry.applications.sheets.ActorSheetV2.RenderContext {
     actor: CosmereActor;
     isEditMode: boolean;
 }
@@ -179,17 +180,27 @@ export class BaseActorSheet<
             const index = document as Record<string, string>;
 
             // Get the pack
-            const pack = game.packs!.get(index.pack);
+            const pack = game.packs.get(index.pack);
             if (!pack) return;
 
             // Get the document
             const packDocument = (await pack.getDocument(index._id))!;
 
             // Embed document
-            void this.actor.createEmbeddedDocuments(data.type as Actor.Embedded.Name, [packDocument as any]); // TEMP: Workaround
+            // TODO: Resolve typing issues
+            // @ts-expect-error packDocument is not typed correctly due to foundry-vtt-types issues
+            void this.actor.createEmbeddedDocuments(
+                data.type as Actor.Embedded.Name,
+                [packDocument],
+            );
         } else if (document.parent !== this.actor) {
             // Document not yet on this actor, create it
-            void this.actor.createEmbeddedDocuments(data.type as Actor.Embedded.Name, [document as any]); // TEMP: Workaround
+            // TODO: Resolve typing issues
+            // @ts-expect-error document is not typed correctly due to foundry-vtt-types issues
+            void this.actor.createEmbeddedDocuments(
+                data.type as Actor.Embedded.Name,
+                [document],
+            );
         }
     }
 
@@ -203,7 +214,11 @@ export class BaseActorSheet<
         event.stopPropagation();
 
         // Update the actor and re-render
-        await this.actor.setFlag(SYSTEM_ID, 'sheet.mode', this.mode === 'view' ? 'edit' : 'view');
+        await this.actor.setFlag(
+            SYSTEM_ID,
+            'sheet.mode',
+            this.mode === 'view' ? 'edit' : 'view',
+        );
 
         // Get toggle
         const toggle = $(this.element).find('#mode-toggle');
@@ -214,7 +229,7 @@ export class BaseActorSheet<
         // Update tooltip
         toggle.attr(
             'data-tooltip',
-            game.i18n!.localize(
+            game.i18n.localize(
                 `COSMERE.Actor.Sheet.${this.mode === 'edit' ? 'View' : 'Edit'}`,
             ),
         );
@@ -457,19 +472,19 @@ export class BaseActorSheet<
         if (this.actor.system.biography) {
             enrichedBiographyValue = await TextEditor.enrichHTML(
                 this.actor.system.biography,
-                { relativeTo: this.document as foundry.abstract.Document.Any },
+                { relativeTo: this.document },
             );
         }
         if (this.actor.system.appearance) {
             enrichedAppearanceValue = await TextEditor.enrichHTML(
                 this.actor.system.appearance,
-                { relativeTo: this.document as foundry.abstract.Document.Any },
+                { relativeTo: this.document },
             );
         }
         if (this.actor.system.notes) {
             enrichedNotesValue = await TextEditor.enrichHTML(
                 this.actor.system.notes,
-                { relativeTo: this.document as foundry.abstract.Document.Any },
+                { relativeTo: this.document },
             );
         }
 

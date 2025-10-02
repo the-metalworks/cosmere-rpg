@@ -14,7 +14,6 @@ const enum CharacterSheetTab {
 }
 
 export class CharacterSheet extends BaseActorSheet {
-    // @ts-ignore
     declare actor: CharacterActor;
 
     static DEFAULT_OPTIONS = foundry.utils.mergeObject(
@@ -63,9 +62,7 @@ export class CharacterSheet extends BaseActorSheet {
         options: Partial<foundry.applications.api.ApplicationV2.RenderOptions>,
     ) {
         // Find the ancestry
-        const ancestryItem = this.actor.items.find(
-            (item) => item.isAncestry(),
-        );
+        const ancestryItem = this.actor.items.find((item) => item.isAncestry());
 
         // Find all paths
         const pathItems = this.actor.items.filter((item) => item.isPath());

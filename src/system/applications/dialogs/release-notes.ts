@@ -42,7 +42,7 @@ export class ReleaseNotesDialog extends HandlebarsApplicationMixin(
     private constructor(options: ReleaseNotesDialogOptions = {}) {
         super({
             window: {
-                title: game.i18n!.localize('DIALOG.ReleaseNotes.Title'),
+                title: game.i18n.localize('DIALOG.ReleaseNotes.Title'),
             },
         });
 
@@ -75,7 +75,7 @@ export class ReleaseNotesDialog extends HandlebarsApplicationMixin(
 
     public _prepareContext() {
         return Promise.resolve({
-            version: game.system!.version,
+            version: game.system.version,
         });
     }
 }

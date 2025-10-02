@@ -1,7 +1,7 @@
 import { DamageType, Skill, Attribute } from '@system/types/cosmere';
-import { CosmereActorRollData } from '@system/documents/actor';
+import { CosmereItem } from '@system/documents/item';
+import { CosmereActor, CosmereActorRollData } from '@system/documents/actor';
 import { AdvantageMode } from '@system/types/roll';
-import { CosmereItem } from '../documents';
 
 export type DamageRollData<
     ActorRollData extends CosmereActorRollData = CosmereActorRollData,
@@ -22,7 +22,7 @@ export type DamageRollData<
         dice: DamageRoll;
     };
 
-    source: any;
+    source: CosmereItem | CosmereActor | null;
 };
 
 export interface DamageRollOptions
@@ -186,7 +186,11 @@ export class DamageRoll extends foundry.dice.Roll<DamageRollData> {
     }
 
     public filterTermsSafely(
-        condition: (value: foundry.dice.terms.RollTerm, index: number, obj: foundry.dice.terms.RollTerm[]) => boolean,
+        condition: (
+            value: foundry.dice.terms.RollTerm,
+            index: number,
+            obj: foundry.dice.terms.RollTerm[],
+        ) => boolean,
     ) {
         this.terms = this.terms.filter(condition);
         this.cleanUpTerms();

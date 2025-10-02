@@ -18,7 +18,10 @@ type Params = {
 
 export class CharacterSkillLinkedItemComponent extends HandlebarsApplicationComponent<
     // typeof CharacterSheet,
-    any, // TEMP: Workaround
+    // TODO: Resolve typing issues
+    // NOTE: Use any as workaround for foundry-vtt-types issues
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    any,
     Params
 > {
     static readonly TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_SKILL_LINKED_ITEM}`;

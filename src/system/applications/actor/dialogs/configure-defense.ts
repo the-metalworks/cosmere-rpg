@@ -61,11 +61,11 @@ export class ConfigureDefenseDialog extends HandlebarsApplicationMixin(
         super({
             id: `${actor.uuid}.AttributeGroup.${group}.Defense`,
             window: {
-                title: game
-                    .i18n!.localize('DIALOG.ConfigureDefense.Title')
+                title: game.i18n
+                    .localize('DIALOG.ConfigureDefense.Title')
                     .replace(
                         '{attribute-group}',
-                        game.i18n!.localize(
+                        game.i18n.localize(
                             CONFIG.COSMERE.attributeGroups[group].label,
                         ),
                     )

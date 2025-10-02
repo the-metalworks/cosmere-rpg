@@ -52,8 +52,8 @@ Handlebars.registerHelper('hasKey', (obj: AnyObject, path: string) => {
                     ? isLast
                         ? true
                         : obj[key]
-                            ? (obj[key] as AnyObject)
-                            : null
+                          ? (obj[key] as AnyObject)
+                          : null
                     : null;
             },
             obj as AnyObject | boolean | null,
@@ -160,10 +160,8 @@ Handlebars.registerHelper('effect-duration', (effect: ActiveEffect) => {
     if (seconds) return `${seconds}s`;
     else {
         return [
-            rounds
-                ? `${rounds} ${game.i18n!.localize('GENERIC.Rounds')}`
-                : null,
-            turns ? `${turns} ${game.i18n!.localize('GENERIC.Turns')}` : null,
+            rounds ? `${rounds} ${game.i18n.localize('GENERIC.Rounds')}` : null,
+            turns ? `${turns} ${game.i18n.localize('GENERIC.Turns')}` : null,
         ]
             .filter((v) => !!v)
             .join(', ');
@@ -196,7 +194,7 @@ Handlebars.registerHelper(
                 const attack = item.system.attack;
 
                 subtitle.push({
-                    text: game.i18n!.localize(
+                    text: game.i18n.localize(
                         CONFIG.COSMERE.attack.types[attack.type].label,
                     ),
                 });
@@ -208,17 +206,18 @@ Handlebars.registerHelper(
                     ) {
                         subtitle[0].text += ` + ${attack.range.value}`;
                     } else if (attack.type === AttackType.Ranged) {
-                        subtitle[0].text += ` (${attack.range.value}${attack.range.unit}${attack.range.long
-                            ? `/${attack.range.long}${attack.range.unit}`
-                            : ''
-                            })`;
+                        subtitle[0].text += ` (${attack.range.value}${attack.range.unit}${
+                            attack.range.long
+                                ? `/${attack.range.long}${attack.range.unit}`
+                                : ''
+                        })`;
                     }
                 }
             }
 
             if (item.isArmor() && item.system.deflect) {
                 subtitle.push({
-                    text: `${game.i18n!.localize(
+                    text: `${game.i18n.localize(
                         'COSMERE.Item.Armor.Deflect',
                     )} [${item.system.deflect}]`,
                 });
@@ -256,29 +255,27 @@ Handlebars.registerHelper(
                     type,
                     typeLabel: CONFIG.COSMERE.items.equip.types[type].label,
 
-
                     ...(hold
                         ? {
-                            hold,
-                            holdLabel:
-                                CONFIG.COSMERE.items.equip.hold[hold].label,
-                        }
+                              hold,
+                              holdLabel:
+                                  CONFIG.COSMERE.items.equip.hold[hold].label,
+                          }
                         : {}),
-
 
                     ...(hand
                         ? {
-                            hand,
-                            handLabel:
-                                CONFIG.COSMERE.items.equip.hand[hand].label,
-                        }
+                              hand,
+                              handLabel:
+                                  CONFIG.COSMERE.items.equip.hand[hand].label,
+                          }
                         : {}),
                 };
 
                 if (options?.hash?.showEquippedHand !== false) {
                     if (hold && hold !== HoldType.TwoHanded) {
                         subtitle.push({
-                            text: game.i18n!.localize(
+                            text: game.i18n.localize(
                                 CONFIG.COSMERE.items.equip.hold[hold].label,
                             ),
                         });
@@ -294,18 +291,18 @@ Handlebars.registerHelper(
                             // Get the config
                             const config = isWeapon
                                 ? CONFIG.COSMERE.traits.weaponTraits[
-                                trait.id as WeaponTraitId
-                                ]
+                                      trait.id as WeaponTraitId
+                                  ]
                                 : CONFIG.COSMERE.traits.armorTraits[
-                                trait.id as ArmorTraitId
-                                ];
+                                      trait.id as ArmorTraitId
+                                  ];
 
                             const modifiedByExpertise =
                                 trait.active !== trait.defaultActive ||
                                 trait.value !== trait.defaultValue;
 
                             return {
-                                text: `${game.i18n!.localize(config.label)} ${config.hasValue ? `[${trait.value}]` : ''}`.trim(),
+                                text: `${game.i18n.localize(config.label)} ${config.hasValue ? `[${trait.value}]` : ''}`.trim(),
                                 classes: modifiedByExpertise
                                     ? ['highlight']
                                     : [],
@@ -319,8 +316,10 @@ Handlebars.registerHelper(
                 context.hasActivation = true;
                 context.activation = {};
 
-                if (item.system.activation.cost?.type &&
-                    item.system.activation.cost?.type !== 'none') {
+                if (
+                    item.system.activation.cost?.type &&
+                    item.system.activation.cost?.type !== 'none'
+                ) {
                     context.activation.hasCost = true;
                     context.activation.cost = {
                         type: item.system.activation.cost.type,
@@ -344,18 +343,18 @@ Handlebars.registerHelper(
                         usesDefaultAttribute:
                             !attribute ||
                             attribute ===
-                            CONFIG.COSMERE.skills[skill].attribute,
+                                CONFIG.COSMERE.skills[skill].attribute,
 
                         ...(attribute
                             ? {
-                                attribute,
-                                attributeLabel:
-                                    CONFIG.COSMERE.attributes[attribute]
-                                        .label,
-                                attributeLabelShort:
-                                    CONFIG.COSMERE.attributes[attribute]
-                                        .labelShort,
-                            }
+                                  attribute,
+                                  attributeLabel:
+                                      CONFIG.COSMERE.attributes[attribute]
+                                          .label,
+                                  attributeLabelShort:
+                                      CONFIG.COSMERE.attributes[attribute]
+                                          .labelShort,
+                              }
                             : {}),
                     };
                 }
@@ -382,11 +381,11 @@ Handlebars.registerHelper(
 
                             ...(resource
                                 ? {
-                                    resource: consumable.resource,
-                                    resourceLabel:
-                                        CONFIG.COSMERE.resources[resource]
-                                            .label,
-                                }
+                                      resource: consumable.resource,
+                                      resourceLabel:
+                                          CONFIG.COSMERE.resources[resource]
+                                              .label,
+                                  }
                                 : {}),
                         });
                     }
@@ -417,8 +416,8 @@ Handlebars.registerHelper(
                         recharge,
                         rechargeLabel: hasRecharge
                             ? CONFIG.COSMERE.items.activation.uses.recharge[
-                                recharge as ItemRechargeType
-                            ].label
+                                  recharge as ItemRechargeType
+                              ].label
                             : '',
                     };
                 }
@@ -442,41 +441,41 @@ Handlebars.registerHelper(
 
                     ...(hasSkill
                         ? {
-                            skill,
-                            skillLabel: CONFIG.COSMERE.skills[skill].label,
-                            usesDefaultAttribute:
-                                !hasAttribute ||
-                                attribute ===
-                                CONFIG.COSMERE.skills[skill].attribute,
-                        }
+                              skill,
+                              skillLabel: CONFIG.COSMERE.skills[skill].label,
+                              usesDefaultAttribute:
+                                  !hasAttribute ||
+                                  attribute ===
+                                      CONFIG.COSMERE.skills[skill].attribute,
+                          }
                         : {}),
 
                     ...(hasAttribute
                         ? {
-                            attribute,
-                            attributeLabel:
-                                CONFIG.COSMERE.attributes[attribute].label,
-                            attributeLabelShort:
-                                CONFIG.COSMERE.attributes[attribute]
-                                    .labelShort,
-                        }
+                              attribute,
+                              attributeLabel:
+                                  CONFIG.COSMERE.attributes[attribute].label,
+                              attributeLabelShort:
+                                  CONFIG.COSMERE.attributes[attribute]
+                                      .labelShort,
+                          }
                         : {}),
 
                     ...(item.system.damage.type
                         ? {
-                            type: item.system.damage.type,
-                            typeLabel:
-                                CONFIG.COSMERE.damageTypes[
-                                    item.system.damage.type
-                                ].label,
-                        }
+                              type: item.system.damage.type,
+                              typeLabel:
+                                  CONFIG.COSMERE.damageTypes[
+                                      item.system.damage.type
+                                  ].label,
+                          }
                         : {}),
                 };
             }
 
             if (item.isAction()) {
                 subtitle.push({
-                    text: game.i18n!.localize(
+                    text: game.i18n.localize(
                         CONFIG.COSMERE.action.types[item.system.type].label,
                     ),
                 });
@@ -517,7 +516,7 @@ Handlebars.registerHelper('getCombatActedState', (turn: CosmereTurnContext) => {
  */
 Handlebars.registerHelper('resourceCostLabel', (consume: ItemConsumeData) => {
     const { value } = consume;
-    const resource = game.i18n!.localize(
+    const resource = game.i18n.localize(
         consume.resource
             ? CONFIG.COSMERE.resources[consume.resource].label
             : 'GENERIC.Unknown',
@@ -530,17 +529,14 @@ Handlebars.registerHelper('resourceCostLabel', (consume: ItemConsumeData) => {
 
     // Static range
     if (adjustedMin === value.max) {
-        label = game.i18n!.format(
-            'COSMERE.Actor.Sheet.Actions.Consume.Static',
-            {
-                amount: adjustedMin.toFixed(),
-                resource,
-            },
-        );
+        label = game.i18n.format('COSMERE.Actor.Sheet.Actions.Consume.Static', {
+            amount: adjustedMin.toFixed(),
+            resource,
+        });
     }
     // Uncapped range
     else if (value.max === -1) {
-        label = game.i18n!.format(
+        label = game.i18n.format(
             'COSMERE.Actor.Sheet.Actions.Consume.RangeUncapped',
             {
                 amount: adjustedMin.toFixed(),
@@ -550,7 +546,7 @@ Handlebars.registerHelper('resourceCostLabel', (consume: ItemConsumeData) => {
     }
     // Capped range
     else {
-        label = game.i18n!.format(
+        label = game.i18n.format(
             'COSMERE.Actor.Sheet.Actions.Consume.RangeCapped',
             {
                 min: adjustedMin.toFixed(),
@@ -562,7 +558,7 @@ Handlebars.registerHelper('resourceCostLabel', (consume: ItemConsumeData) => {
 
     // Treat actual minimum value of 0 as an "optional" cost
     if (value.min === 0) {
-        label = game.i18n!.format(
+        label = game.i18n.format(
             'COSMERE.Actor.Sheet.Actions.Consume.Optional',
             {
                 label,

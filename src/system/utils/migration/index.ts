@@ -67,11 +67,7 @@ export async function migrate(from: string, to: string, packID?: string) {
         /**
          * Hook: preMigrationVersion
          */
-        Hooks.callAll(
-            HOOKS.PRE_MIGRATE_VERSION,
-            migration.from,
-            migration.to,
-        );
+        Hooks.callAll(HOOKS.PRE_MIGRATE_VERSION, migration.from, migration.to);
 
         const packName = packID ? ` (${packID})` : '';
 
@@ -103,11 +99,7 @@ export async function migrate(from: string, to: string, packID?: string) {
         /**
          * Hooks: migrateVersion
          */
-        Hooks.callAll(
-            HOOKS.MIGRATE_VERSION,
-            migration.from,
-            migration.to,
-        );
+        Hooks.callAll(HOOKS.MIGRATE_VERSION, migration.from, migration.to);
     }
 
     // Re-render sidebar to include re-validated documents
@@ -131,7 +123,7 @@ export async function invokeMigration(
     to: string,
     compendiumIDs: string[] = [],
 ) {
-    if (!game.user!.isGM) return;
+    if (!game.user.isGM) return;
     if (!requiresMigration(from, to)) return;
 
     // Migrate world data

@@ -46,7 +46,7 @@ export class CosmereCombat extends Combat {
                     return c;
                 }
             })
-            .sort(this._sortCombatants);
+            .sort(this._sortCombatants.bind(this));
 
         if (this.turn !== null)
             this.turn = Math.clamp(this.turn, 0, turns.length - 1);

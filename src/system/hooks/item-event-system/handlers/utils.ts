@@ -27,7 +27,7 @@ export async function matchItems(
         return [item];
     } else if (target === ItemTarget.Sibling && item.actor && uuid) {
         // Look up the reference item from uuid
-        const referenceItem = (await fromUuid(uuid)) as CosmereItem | null;
+        const referenceItem = await fromUuid<CosmereItem>(uuid);
         if (!referenceItem) return [];
 
         const siblings = item.actor.items;
@@ -70,9 +70,7 @@ export async function matchItems(
             : [item.actor.items.find(condition)].filter((item) => !!item);
     } else if (target === ItemTarget.Global && uuid) {
         // Look up the target item from uuid
-        return [(await fromUuid(uuid)) as CosmereItem | null].filter(
-            (item) => !!item,
-        );
+        return [await fromUuid<CosmereItem>(uuid)].filter((item) => !!item);
     } else {
         throw new Error('Invalid target');
     }
@@ -80,7 +78,9 @@ export async function matchItems(
 
 function getIdentifierMatcher(referenceItem: CosmereItem) {
     return (item: CosmereItem) =>
-        item.hasId() && referenceItem.hasId() && item.system.id === referenceItem.system.id;
+        item.hasId() &&
+        referenceItem.hasId() &&
+        item.system.id === referenceItem.system.id;
 }
 
 function getNameMatcher(referenceItem: CosmereItem) {

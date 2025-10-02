@@ -99,7 +99,7 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
                 CosmereItem.create(
                     {
                         type,
-                        name: game.i18n!.localize(
+                        name: game.i18n.localize(
                             `COSMERE.Item.Type.${type.capitalize()}.New`,
                         ),
                         system: {

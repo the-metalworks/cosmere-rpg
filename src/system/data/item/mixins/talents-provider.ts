@@ -22,23 +22,35 @@ const SCHEMA = () => ({
 });
 
 export type TalentsProviderDataSchema = ReturnType<typeof SCHEMA>;
-export type TalentsProviderData = foundry.data.fields.SchemaField.InitializedData<TalentsProviderDataSchema>;
+export type TalentsProviderData =
+    foundry.data.fields.SchemaField.InitializedData<TalentsProviderDataSchema>;
+
+// NOTE: Have to explicitly use a type here instead of an interface to comply with DataSchema type
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type TalentsProviderDerivedData = {
     providesTalent(talent: TalentItem): Promise<boolean>;
     providesTalent(id: string): Promise<boolean>;
-}
+};
 
 /**
  * Mixin for items that provide a talent tree through the "talents" tab.
  * Used for Paths & Ancestries.
  */
-export function TalentsProviderMixin<TParent extends foundry.abstract.Document.Any>() {
+export function TalentsProviderMixin<
+    TParent extends foundry.abstract.Document.Any,
+>() {
     return (
-        base: typeof foundry.abstract.TypeDataModel<TalentsProviderDataSchema, TParent>,
+        base: typeof foundry.abstract.TypeDataModel<
+            TalentsProviderDataSchema,
+            TParent
+        >,
     ) => {
         return class extends base {
             static defineSchema() {
-                return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());
+                return foundry.utils.mergeObject(
+                    super.defineSchema(),
+                    SCHEMA(),
+                );
             }
 
             public async getTalents(
@@ -47,9 +59,9 @@ export function TalentsProviderMixin<TParent extends foundry.abstract.Document.A
                 if (!this.talentTree) return [];
 
                 // Get the talent tree item
-                const talentTreeItem = (await fromUuid(
-                    this.talentTree ,
-                )) as TalentTreeItem | null;
+                const talentTreeItem = await fromUuid<CosmereItem>(
+                    this.talentTree,
+                );
                 if (!talentTreeItem?.isTalentTree()) return [];
 
                 // Get all talents from the talent tree

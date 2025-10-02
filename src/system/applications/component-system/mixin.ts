@@ -44,14 +44,18 @@ export function ComponentHandlebarsApplicationMixin<
             await super._preFirstRender(context, options);
 
             // Register instance
-            ComponentSystem.registerApplicationInstance(this as any); // TEMP: Workaround
+            // TODO: Resolve typing issues
+            // @ts-expect-error Use any as workaround for foundry-vtt-types issues
+            ComponentSystem.registerApplicationInstance(this);
         }
 
         protected override _onClose(options: RenderOptions) {
             super._onClose(options);
 
             // Deregister instance
-            ComponentSystem.deregisterApplicationInstance(this as any); // TEMP: Workaround 
+            // TODO: Resolve typing issues
+            // @ts-expect-error Use any as workaround for foundry-vtt-types issues
+            ComponentSystem.deregisterApplicationInstance(this);
         }
 
         protected override _configureRenderOptions(
@@ -284,9 +288,11 @@ export function ComponentHandlebarsApplicationMixin<
 //     BaseClass extends foundry.applications.api.ApplicationV2.AnyConstructor,
 // > = ReturnType<typeof ComponentHandlebarsApplicationMixin<BaseClass>>;
 
-// TEMP: Workaround
+// TODO: Resolve typing issues
+// NOTE: Use any as workaround for foundry-vtt-types issues
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export declare class ComponentHandlebarsApplication {
-    static DEFAULT_OPTIONS: any;
+    static DEFAULT_OPTIONS: foundry.applications.api.ApplicationV2.DefaultOptions;
     static PARTS: any;
     static TABS: any;
 
@@ -295,10 +301,7 @@ export declare class ComponentHandlebarsApplication {
     // public get actor(): T extends 'Actor' ? Actor.Implementation : never;
     // public get item(): T extends 'Item' ? Item.Implementation : never;
 
-    public readonly components: Record<
-        string,
-        HandlebarsApplicationComponent
-    >;
+    public readonly components: Record<string, HandlebarsApplicationComponent>;
 
     public id: string;
     public document: foundry.abstract.Document.Any;
@@ -309,7 +312,9 @@ export declare class ComponentHandlebarsApplication {
 
     public render(...args: any[]): Promise<void>;
     public close(): Promise<void>;
-    public setPosition(position: DeepPartial<foundry.applications.api.ApplicationV2.Position>): void;
+    public setPosition(
+        position: DeepPartial<foundry.applications.api.ApplicationV2.Position>,
+    ): void;
 
     protected _renderFrame(...args: any[]): Promise<HTMLElement>;
     protected _onRender(...args: any[]): Promise<void>;
@@ -318,7 +323,7 @@ export declare class ComponentHandlebarsApplication {
     protected _onPosition(...args: any[]): void;
     protected _preRender(...args: any[]): Promise<void>;
     protected _onClose(...args: any[]): void;
-    
 
     public changeTab(tab: string, group: string, options?: AnyObject): void;
 }
+/* eslint-enable @typescript-eslint/no-explicit-any */

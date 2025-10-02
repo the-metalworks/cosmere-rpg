@@ -16,7 +16,6 @@ export interface CosmereTurnContext extends CombatTracker.TurnContext {
     bossFastActivated?: boolean;
 }
 
-
 interface CosmereTrackerContext extends CombatTracker.TrackerContext {
     turns: CosmereTurnContext[];
     fastPlayers: CosmereTurnContext[];
@@ -28,24 +27,31 @@ interface CosmereTrackerContext extends CombatTracker.TrackerContext {
 /**
  * Overrides default tracker template to implement slow/fast buckets and combatant activation button.
  */
-export class CosmereCombatTracker extends foundry.applications.sidebar.tabs.CombatTracker {
+export class CosmereCombatTracker extends foundry.applications.sidebar.tabs
+    .CombatTracker {
+    /**
+     * NOTE: Unbound methods is the standard for defining actions
+     * within ApplicationV2
+     */
+    /* eslint-disable @typescript-eslint/unbound-method */
     static DEFAULT_OPTIONS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.DEFAULT_OPTIONS),
         {
             actions: {
-                'toggleSpeed': this._onClickToggleTurnSpeed,
-                'activateCombatant': this._onActivateCombatant,
-            }
-        }
+                toggleSpeed: this._onClickToggleTurnSpeed,
+                activateCombatant: this._onActivateCombatant,
+            },
+        },
     );
+    /* eslint-enable @typescript-eslint/unbound-method */
 
     static PARTS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.PARTS),
         {
             tracker: {
-                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.COMBAT_TRACKER}`
-            }
-        }
+                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.COMBAT_TRACKER}`,
+            },
+        },
     );
 
     public override async _prepareTrackerContext(
@@ -57,10 +63,13 @@ export class CosmereCombatTracker extends foundry.applications.sidebar.tabs.Comb
 
         context.turns = await combat.turns
             .filter((c) => c.visible)
-            .reduce(async (prev, combatant, i) => [
-                ...(await prev),
-                await this._prepareTurnContext(combat, combatant, i),
-            ], Promise.resolve([] as CosmereTurnContext[]));
+            .reduce(
+                async (prev, combatant, i) => [
+                    ...(await prev),
+                    await this._prepareTurnContext(combat, combatant, i),
+                ],
+                Promise.resolve([] as CosmereTurnContext[]),
+            );
 
         // Split turn data into individual turn "buckets" to separate them in the combat tracker ui
         context.fastPlayers = context.turns.filter((turn) => {
@@ -89,22 +98,33 @@ export class CosmereCombatTracker extends foundry.applications.sidebar.tabs.Comb
         });
     }
 
-    protected override async _prepareTurnContext(combat: Combat.Stored, combatant: CosmereCombatant, index: number): Promise<CosmereTurnContext> {
+    protected override async _prepareTurnContext(
+        combat: Combat.Stored,
+        combatant: CosmereCombatant,
+        index: number,
+    ): Promise<CosmereTurnContext> {
         return {
-            ...(await super._prepareTurnContext(combat, combatant as Combatant.Stored, index)),
+            ...(await super._prepareTurnContext(
+                combat,
+                combatant as Combatant.Stored,
+                index,
+            )),
             turnSpeed: combatant.turnSpeed,
             type: combatant.actor?.type,
             activated: combatant.activated,
             isBoss: combatant.isBoss,
             bossFastActivated: combatant.bossFastActivated,
-            css: '' // Strip active player formatting
-        }
+            css: '', // Strip active player formatting
+        };
     }
 
     /**
      * toggles combatant turn speed on clicking the "fast/slow" button on the combat tracker window
      * */
-    protected static _onClickToggleTurnSpeed(this: CosmereCombatTracker, event: Event) {
+    protected static _onClickToggleTurnSpeed(
+        this: CosmereCombatTracker,
+        event: Event,
+    ) {
         event.preventDefault();
         event.stopPropagation();
 
@@ -113,9 +133,7 @@ export class CosmereCombatTracker extends foundry.applications.sidebar.tabs.Comb
         const li = btn.closest<HTMLElement>('.combatant')!;
 
         // Get the combatant
-        const combatant = this.viewed!.combatants.get(
-            li.dataset.combatantId!,
-        )! as CosmereCombatant;
+        const combatant = this.viewed!.combatants.get(li.dataset.combatantId!)!;
 
         // Toggle the combatant's turn speed
         void combatant.toggleTurnSpeed();
@@ -124,7 +142,10 @@ export class CosmereCombatTracker extends foundry.applications.sidebar.tabs.Comb
     /**
      *  activates the combatant when clicking the activation button
      */
-    protected static _onActivateCombatant(this: CosmereCombatTracker, event: Event) {
+    protected static _onActivateCombatant(
+        this: CosmereCombatTracker,
+        event: Event,
+    ) {
         event.preventDefault();
         event.stopPropagation();
 
@@ -133,9 +154,7 @@ export class CosmereCombatTracker extends foundry.applications.sidebar.tabs.Comb
         const li = btn.closest<HTMLElement>('.combatant')!;
 
         // Get the combatant
-        const combatant = this.viewed!.combatants.get(
-            li.dataset.combatantId!,
-        ) as CosmereCombatant;
+        const combatant = this.viewed!.combatants.get(li.dataset.combatantId!)!;
 
         // Mark the combatant as activated
         void combatant.markActivated(
@@ -151,7 +170,7 @@ export class CosmereCombatTracker extends foundry.applications.sidebar.tabs.Comb
         // Get the combatant from the list item
         const combatant = this.viewed!.combatants.get(
             li.data('combatant-id') as string,
-        ) as CosmereCombatant;
+        )!;
 
         // Toggle the combatant's turn speed
         void combatant.toggleTurnSpeed();
@@ -165,7 +184,7 @@ export class CosmereCombatTracker extends foundry.applications.sidebar.tabs.Comb
         // Get the combatant from the list item
         const combatant = this.viewed!.combatants.get(
             li.data('combatant-id') as string,
-        ) as CosmereCombatant;
+        )!;
 
         // Reset the combatant's activation status
         void combatant.resetActivation();

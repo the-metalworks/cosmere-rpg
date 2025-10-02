@@ -69,7 +69,7 @@ export function register() {
             // Get the actor
             const actor =
                 this.target === UpdateActorTarget.Global
-                    ? ((await fromUuid(this.uuid)) as CosmereActor | null)
+                    ? await fromUuid<CosmereActor>(this.uuid)
                     : event.item.actor;
             if (!actor) return;
 

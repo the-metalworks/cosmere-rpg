@@ -57,8 +57,8 @@ export class ConfigureMovementRateDialog extends HandlebarsApplicationMixin(
         super({
             id: `${actor.uuid}.MovementRate`,
             window: {
-                title: game
-                    .i18n!.localize('DIALOG.ConfigureMovementRate.Title')
+                title: game.i18n
+                    .localize('DIALOG.ConfigureMovementRate.Title')
                     .replace('{actor}', actor.name),
             },
         });

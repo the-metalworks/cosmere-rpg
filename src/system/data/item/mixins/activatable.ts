@@ -18,9 +18,7 @@ const ACTIVATION_SCHEMA = () => ({
         required: true,
         blank: false,
         initial: ActivationType.None as ActivationType,
-        choices: Object.entries(
-            CONFIG.COSMERE.items.activation.types,
-        ).reduce(
+        choices: Object.entries(CONFIG.COSMERE.items.activation.types).reduce(
             (acc, [key, config]) => ({
                 ...acc,
                 [key]: config.label,
@@ -41,10 +39,8 @@ const ACTIVATION_SCHEMA = () => ({
             type: new foundry.data.fields.StringField({
                 nullable: true,
                 choices: {
-                    'none': 'GENERIC.None',
-                    ...Object.entries(
-                        CONFIG.COSMERE.action.costs,
-                    ).reduce(
+                    none: 'GENERIC.None',
+                    ...Object.entries(CONFIG.COSMERE.action.costs).reduce(
                         (acc, [key, config]) => ({
                             ...acc,
                             [key]: config.label,
@@ -52,8 +48,7 @@ const ACTIVATION_SCHEMA = () => ({
                         {} as Record<ActionCostType, string>,
                     ),
                 },
-                coerce: (value: unknown) =>
-                    value === '' ? null : value,
+                coerce: (value: unknown) => (value === '' ? null : value),
             }),
         },
         {
@@ -70,8 +65,7 @@ const ACTIVATION_SCHEMA = () => ({
                     choices: {
                         [NONE]: 'GENERIC.None',
                         ...Object.entries(
-                            CONFIG.COSMERE.items.activation
-                                .consumeTypes,
+                            CONFIG.COSMERE.items.activation.consumeTypes,
                         ).reduce(
                             (acc, [key, config]) => ({
                                 ...acc,
@@ -107,9 +101,7 @@ const ACTIVATION_SCHEMA = () => ({
                 }),
                 resource: new foundry.data.fields.StringField({
                     blank: false,
-                    choices: Object.entries(
-                        CONFIG.COSMERE.resources,
-                    ).reduce(
+                    choices: Object.entries(CONFIG.COSMERE.resources).reduce(
                         (acc, [key, config]) => ({
                             ...acc,
                             [key]: config.label,
@@ -132,7 +124,7 @@ const ACTIVATION_SCHEMA = () => ({
     skill: new foundry.data.fields.StringField({
         nullable: true,
         choices: {
-            'none': 'GENERIC.None',
+            none: 'GENERIC.None',
             ...Object.entries(CONFIG.COSMERE.skills).reduce(
                 (acc, [key, config]) => ({
                     ...acc,
@@ -148,7 +140,7 @@ const ACTIVATION_SCHEMA = () => ({
         nullable: true,
         initial: 'default',
         choices: {
-            'none': 'GENERIC.None',
+            none: 'GENERIC.None',
             default: 'GENERIC.Default',
             ...Object.entries(CONFIG.COSMERE.attributes).reduce(
                 (acc, [key, config]) => ({
@@ -219,7 +211,7 @@ const ACTIVATION_SCHEMA = () => ({
                 nullable: true,
                 initial: null,
                 choices: {
-                    'none': 'GENERIC.None',
+                    none: 'GENERIC.None',
                     ...Object.entries(
                         CONFIG.COSMERE.items.activation.uses.recharge,
                     ).reduce(
@@ -230,8 +222,7 @@ const ACTIVATION_SCHEMA = () => ({
                         {} as Record<ItemRechargeType, string>,
                     ),
                 },
-                coerce: (value: unknown) =>
-                    value === '' ? null : value,
+                coerce: (value: unknown) => (value === '' ? null : value),
                 label: 'COSMERE.Item.Sheet.Activation.Recharge',
             }),
         },
@@ -245,12 +236,19 @@ const ACTIVATION_SCHEMA = () => ({
 });
 
 type ActivationDataSchema = ReturnType<typeof ACTIVATION_SCHEMA>;
-type DynamicActivationDataSchema = ReturnType<ReturnType<typeof getActivationDataModelCls>['defineSchema']>;
+type DynamicActivationDataSchema = ReturnType<
+    ReturnType<typeof getActivationDataModelCls>['defineSchema']
+>;
+
+// NOTE: Have to explicitly use a type here instead of an interface to comply with DataSchema type
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type ActivatableItemDataSchema = {
     activation: ActivationField;
-}
-export type ActivatableItemData = foundry.data.fields.SchemaField.InitializedData<ActivatableItemDataSchema>;
-export type ItemConsumeData = ActivatableItemData['activation']['consume'][number];
+};
+export type ActivatableItemData =
+    foundry.data.fields.SchemaField.InitializedData<ActivatableItemDataSchema>;
+export type ItemConsumeData =
+    ActivatableItemData['activation']['consume'][number];
 
 interface ActivatableItemMixinOptions {
     type?: {
@@ -270,32 +268,30 @@ interface ActivatableItemMixinOptions {
         initial?: Skill | null | 'default';
     } & (
         | {
-            allowDefault?: false;
-            initial?: Skill | null; // If allowDefault is false, initial can only be a Skill or null
-        }
+              allowDefault?: false;
+              initial?: Skill | null; // If allowDefault is false, initial can only be a Skill or null
+          }
         | {
-            allowDefault: true;
+              allowDefault: true;
 
-            /**
-             * Resolver function to determine the skill for the activation if the skill is set to 'Default'.
-             */
-            defaultResolver: () => Skill | null;
-        }
+              /**
+               * Resolver function to determine the skill for the activation if the skill is set to 'Default'.
+               */
+              defaultResolver: () => Skill | null;
+          }
     );
 }
 
-export function ActivatableItemMixin<TParent extends foundry.abstract.Document.Any>(
-    options?: ActivatableItemMixinOptions,
-) {
+export function ActivatableItemMixin<
+    TParent extends foundry.abstract.Document.Any,
+>(options?: ActivatableItemMixinOptions) {
     if (options?.skill?.allowDefault && !options.skill.defaultResolver) {
         throw new Error(
             'ActivatableItemMixin: If allowDefaultSkill is true, defaultSkillResolver must be provided.',
         );
     }
 
-    return (
-        base: typeof foundry.abstract.TypeDataModel,
-    ) => {
+    return (base: typeof foundry.abstract.TypeDataModel) => {
         return class mixin extends base<ActivatableItemDataSchema, TParent> {
             static defineSchema() {
                 return foundry.utils.mergeObject(super.defineSchema(), {
@@ -327,13 +323,16 @@ export function ActivatableItemMixin<TParent extends foundry.abstract.Document.A
 }
 
 interface ActivationFieldOptions
-    extends foundry.data.fields.SchemaField.Options<DynamicActivationDataSchema>,
-    ActivatableItemMixinOptions { }
+    extends foundry.data.fields.SchemaField
+            .Options<DynamicActivationDataSchema>,
+        ActivatableItemMixinOptions {}
 
 class ActivationField extends foundry.data.fields.SchemaField<
-    DynamicActivationDataSchema, 
+    DynamicActivationDataSchema,
     ActivationFieldOptions,
-    foundry.data.fields.SchemaField.AssignmentData<DynamicActivationDataSchema> | null | undefined,
+    | foundry.data.fields.SchemaField.AssignmentData<DynamicActivationDataSchema>
+    | null
+    | undefined,
     Activation<DynamicActivationDataSchema>
 > {
     public readonly model: typeof Activation<DynamicActivationDataSchema>;
@@ -368,12 +367,19 @@ class ActivationField extends foundry.data.fields.SchemaField<
     }
 }
 
-type FieldOptions<T extends foundry.data.fields.DataField<foundry.data.fields.DataField.Options.Any>> = T extends foundry.data.fields.DataField<infer U> ? U : never;
+type FieldOptions<
+    T extends
+        foundry.data.fields.DataField<foundry.data.fields.DataField.Options.Any>,
+> = T extends foundry.data.fields.DataField<infer U> ? U : never;
 
-type BaseActivationDataSchema = Omit<ActivationDataSchema, 'skill'>
-    & { skill: foundry.data.fields.StringField<Omit<FieldOptions<ActivationDataSchema['skill']>, 'initial' | 'choices'>> };
+type BaseActivationDataSchema = Omit<ActivationDataSchema, 'skill'> & {
+    skill: foundry.data.fields.StringField<
+        Omit<FieldOptions<ActivationDataSchema['skill']>, 'initial' | 'choices'>
+    >;
+};
 
-export class Activation<Schema extends BaseActivationDataSchema> extends foundry.abstract.DataModel<Schema, foundry.abstract.DataModel.Any> {
+export class Activation<Schema extends BaseActivationDataSchema> extends foundry
+    .abstract.DataModel<Schema, foundry.abstract.DataModel.Any> {
     static defineSchema(): foundry.data.fields.DataSchema {
         return ACTIVATION_SCHEMA();
     }
@@ -430,31 +436,39 @@ function getActivationDataModelCls(options?: ActivatableItemMixinOptions) {
         return {
             ...baseSchema,
 
-            ...(options?.type?.initial ? {
-                type: new foundry.data.fields.StringField({
-                    ...baseSchema.type.options,
-                    initial: options.type.initial,
-                })
-            } : {}),
+            ...(options?.type?.initial
+                ? {
+                      type: new foundry.data.fields.StringField({
+                          ...baseSchema.type.options,
+                          initial: options.type.initial,
+                      }),
+                  }
+                : {}),
 
-            ...(options?.skill?.initial ? {
-                skill: new foundry.data.fields.StringField({
-                    ...baseSchema.skill.options,
-                    initial: options.skill.initial,
-                })
-            } : {}),
+            ...(options?.skill?.initial
+                ? {
+                      skill: new foundry.data.fields.StringField({
+                          ...baseSchema.skill.options,
+                          initial: options.skill.initial,
+                      }),
+                  }
+                : {}),
 
-            ...(options?.skill?.allowDefault ? {
-                skill: new foundry.data.fields.StringField({
-                    ...baseSchema.skill.options,
-                    choices: Object.fromEntries([
-                        ['none', 'GENERIC.None'],
-                        ['default', 'GENERIC.Default'],
-                        ...Object.entries(baseSchema.skill.options.choices).slice(1),
-                    ])
-                })
-            } : {}),
-        }
+            ...(options?.skill?.allowDefault
+                ? {
+                      skill: new foundry.data.fields.StringField({
+                          ...baseSchema.skill.options,
+                          choices: Object.fromEntries([
+                              ['none', 'GENERIC.None'],
+                              ['default', 'GENERIC.Default'],
+                              ...Object.entries(
+                                  baseSchema.skill.options.choices,
+                              ).slice(1),
+                          ]),
+                      }),
+                  }
+                : {}),
+        };
     }
 
     return class extends Activation<ReturnType<typeof _defineSchema>> {

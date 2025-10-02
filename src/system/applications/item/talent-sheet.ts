@@ -30,7 +30,7 @@ export class TalentItemSheet extends BaseItemSheet {
                 handler: this.onFormEvent,
             } as unknown,
         },
-    );
+    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
     /* eslint-enable @typescript-eslint/unbound-method */
 
     static TABS = foundry.utils.mergeObject(

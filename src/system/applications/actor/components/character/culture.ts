@@ -16,7 +16,10 @@ type Params = {
 
 export class CharacterCultureComponent extends HandlebarsApplicationComponent<
     // typeof CharacterSheet,
-    any, // TEMP: Workaround
+    // TODO: Resolve typing issues
+    // NOTE: Use any as workaround for foundry-vtt-types issues
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    any,
     Params
 > {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_CULTURE}`;

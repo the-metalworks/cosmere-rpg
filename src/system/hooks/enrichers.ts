@@ -40,7 +40,7 @@ Hooks.on(
 
             // Create chat message
             await ChatMessage.create({
-                author: game.user!.id,
+                author: game.user.id,
                 speaker: ChatMessage.getSpeaker({ actor }),
                 rolls: [roll],
                 flags: {

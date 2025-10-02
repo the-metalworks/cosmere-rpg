@@ -17,7 +17,7 @@ function _onDragContentLink(event: JQueryEventObject) {
 
     // Case 1 - Compendium Link
     if (a.dataset.pack) {
-        const pack = game.packs!.get(a.dataset.pack)!;
+        const pack = game.packs.get(a.dataset.pack)!;
         let id = a.dataset.id;
         if (a.dataset.lookup && pack.index.size) {
             const entry = pack.index.find(

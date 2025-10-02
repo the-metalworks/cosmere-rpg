@@ -51,8 +51,12 @@ declare global {
     };
 }
 
+// TODO: Resolve typing issues
+// NOTE: Use any as workaround for foundry-vtt-types issues
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment */
+
 Hooks.once('init', async () => {
-    globalThis.cosmereRPG = Object.assign(game.system!, {
+    globalThis.cosmereRPG = Object.assign(game.system, {
         api: CosmereAPI,
         utils: CosmereUtils,
     });
@@ -73,8 +77,7 @@ Hooks.once('init', async () => {
     // NOTE: Disabled for now as v12 doesn't permit users to update the system of combatants they own
     // (CONFIG.Combatant as AnyMutableObject).dataModels =
     //     dataModels.combatant.config;
-    CONFIG.Combatant.documentClass =
-        documents.CosmereCombatant as any;
+    CONFIG.Combatant.documentClass = documents.CosmereCombatant as any;
 
     CONFIG.Token.documentClass = documents.CosmereTokenDocument as any;
 
@@ -96,25 +99,52 @@ Hooks.once('init', async () => {
     registerStarterRulesConfig();
 
     Actors.unregisterSheet('core', ActorSheet);
-    registerActorSheet(ActorType.Character, applications.actor.CharacterSheet as any);
-    registerActorSheet(ActorType.Adversary, applications.actor.AdversarySheet as any);
+    registerActorSheet(
+        ActorType.Character,
+        applications.actor.CharacterSheet as any,
+    );
+    registerActorSheet(
+        ActorType.Adversary,
+        applications.actor.AdversarySheet as any,
+    );
 
     Items.unregisterSheet('core', ItemSheet);
-    registerItemSheet(ItemType.Culture, applications.item.CultureItemSheet as any);
-    registerItemSheet(ItemType.Ancestry, applications.item.AncestrySheet as any);
+    registerItemSheet(
+        ItemType.Culture,
+        applications.item.CultureItemSheet as any,
+    );
+    registerItemSheet(
+        ItemType.Ancestry,
+        applications.item.AncestrySheet as any,
+    );
     registerItemSheet(ItemType.Path, applications.item.PathItemSheet as any);
     registerItemSheet(
         ItemType.Connection,
         applications.item.ConnectionItemSheet as any,
     );
-    registerItemSheet(ItemType.Injury, applications.item.InjuryItemSheet as any);
+    registerItemSheet(
+        ItemType.Injury,
+        applications.item.InjuryItemSheet as any,
+    );
     registerItemSheet(ItemType.Loot, applications.item.LootItemSheet as any);
     registerItemSheet(ItemType.Armor, applications.item.ArmorItemSheet as any);
     registerItemSheet(ItemType.Trait, applications.item.TraitItemSheet as any);
-    registerItemSheet(ItemType.Action, applications.item.ActionItemSheet as any);
-    registerItemSheet(ItemType.Talent, applications.item.TalentItemSheet as any);
-    registerItemSheet(ItemType.Equipment, applications.item.EquipmentItemSheet as any);
-    registerItemSheet(ItemType.Weapon, applications.item.WeaponItemSheet as any);
+    registerItemSheet(
+        ItemType.Action,
+        applications.item.ActionItemSheet as any,
+    );
+    registerItemSheet(
+        ItemType.Talent,
+        applications.item.TalentItemSheet as any,
+    );
+    registerItemSheet(
+        ItemType.Equipment,
+        applications.item.EquipmentItemSheet as any,
+    );
+    registerItemSheet(
+        ItemType.Weapon,
+        applications.item.WeaponItemSheet as any,
+    );
     registerItemSheet(ItemType.Goal, applications.item.GoalItemSheet as any);
     registerItemSheet(ItemType.Power, applications.item.PowerItemSheet as any);
     registerItemSheet(
@@ -126,7 +156,6 @@ Hooks.once('init', async () => {
     CONFIG.Dice.terms.p = dice.PlotDie;
     CONFIG.Dice.termTypes[dice.PlotDie.name] = dice.PlotDie;
 
-
     CONFIG.Dice.rolls.push(dice.D20Roll as any);
     CONFIG.Dice.rolls.push(dice.DamageRoll);
 
@@ -134,7 +163,8 @@ Hooks.once('init', async () => {
         id: 'sense',
         label: 'COSMERE.Actor.Statistics.SensesRange',
         canvas: {
-            shader: foundry.canvas.rendering.shaders.ColorAdjustmentsSamplerShader,
+            shader: foundry.canvas.rendering.shaders
+                .ColorAdjustmentsSamplerShader,
             uniforms: { contrast: 0, saturation: -1.0, brightness: 0 },
         },
         lighting: {
@@ -142,7 +172,11 @@ Hooks.once('init', async () => {
                 [foundry.canvas.perception.VisionMode.LIGHTING_LEVELS.DIM]:
                     foundry.canvas.perception.VisionMode.LIGHTING_LEVELS.BRIGHT,
             },
-            background: { visibility: foundry.canvas.perception.VisionMode.LIGHTING_VISIBILITY.REQUIRED },
+            background: {
+                visibility:
+                    foundry.canvas.perception.VisionMode.LIGHTING_VISIBILITY
+                        .REQUIRED,
+            },
         },
         vision: {
             darkness: { adaptive: false },
@@ -221,11 +255,15 @@ function registerActorSheet(
     type: ActorType,
     sheet: typeof foundry.applications.api.ApplicationV2,
 ) {
-    foundry.documents.collections.Actors.registerSheet(SYSTEM_ID, sheet as any, {
-        types: [type],
-        makeDefault: true,
-        label: `TYPES.Actor.${type}`,
-    });
+    foundry.documents.collections.Actors.registerSheet(
+        SYSTEM_ID,
+        sheet as any,
+        {
+            types: [type],
+            makeDefault: true,
+            label: `TYPES.Actor.${type}`,
+        },
+    );
 }
 
 function registerItemSheet(
@@ -365,3 +403,5 @@ function configureFonts() {
         },
     });
 }
+
+/* eslint-enable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment */

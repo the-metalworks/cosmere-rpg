@@ -2,7 +2,11 @@
 import { Resource } from '@system/types/cosmere';
 import { DeepPartial, AnyObject, EmptyObject } from '@system/types/utils';
 
-import { CommonActorDataModel, CommonActorDataSchema, AttributeData } from './common';
+import {
+    CommonActorDataModel,
+    CommonActorDataSchema,
+    AttributeData,
+} from './common';
 
 // Utils
 import * as Advancement from '@system/utils/advancement';
@@ -45,21 +49,19 @@ const SCHEMA = () => ({
     }),
 });
 
-export type CharacterActorDataSchema =
-    & ReturnType<typeof SCHEMA>
-    & CommonActorDataSchema;
+export type CharacterActorDataSchema = ReturnType<typeof SCHEMA> &
+    CommonActorDataSchema;
 
-export type CharacterActorData = foundry.data.fields.SchemaField.InitializedData<
-    CharacterActorDataSchema
->;
+export type CharacterActorData =
+    foundry.data.fields.SchemaField.InitializedData<CharacterActorDataSchema>;
 
-export type CharacterActorDerivedData = {
+export interface CharacterActorDerivedData {
     /**
      * Derived value for the maximum rank a skill can be.
      * Based on the configured advancement rules.
      */
     maxSkillRank: number;
-};
+}
 
 export class CharacterActorDataModel extends CommonActorDataModel<
     CharacterActorDataSchema,

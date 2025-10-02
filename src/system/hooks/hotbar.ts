@@ -3,7 +3,9 @@ interface DropData {
     uuid: string;
 }
 
-const VALID_DOCUMENT_TYPES = [(CONFIG.Item.documentClass as unknown as typeof Item).metadata.name] as string[];
+const VALID_DOCUMENT_TYPES = [
+    (CONFIG.Item.documentClass as unknown as typeof Item).metadata.name,
+] as string[];
 
 Hooks.on('hotbarDrop', ((_: unknown, data: DropData, slot: number) => {
     if (VALID_DOCUMENT_TYPES.includes(data.type)) {
@@ -11,7 +13,10 @@ Hooks.on('hotbarDrop', ((_: unknown, data: DropData, slot: number) => {
         // We block the default drop behaviour if the type is supported
         return false;
     }
-}) as any); // TEMP: Workaround
+    // TODO: Resolve typing issue
+    // NOTE: Use any as workaround for foundry-vtt-types issues
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+}) as any);
 
 /* --- Helpers --- */
 
@@ -21,7 +26,8 @@ async function createCosmereMacro(data: DropData, slot: number) {
     let itemData;
 
     switch (data.type) {
-        case (CONFIG.Item.documentClass as unknown as typeof Item).metadata.name:
+        case (CONFIG.Item.documentClass as unknown as typeof Item).metadata
+            .name:
             itemData = await Item.fromDropData(data);
 
             if (!itemData) return;
@@ -34,7 +40,7 @@ async function createCosmereMacro(data: DropData, slot: number) {
             break;
         default:
             return;
-    }    
+    }
 
     // Assign the macro to the hotbar
     const macro =

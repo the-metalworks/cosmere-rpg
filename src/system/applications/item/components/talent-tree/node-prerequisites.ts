@@ -23,7 +23,10 @@ type Params = {
 
 export class NodePrerequisitesComponent extends HandlebarsApplicationComponent<
     // typeof TalentTreeItemSheet,
-    any, // TEMP: Workaround
+    // TODO: Resolve typing issues
+    // NOTE: Use any as workaround for foundry-vtt-types issues
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    any,
     Params
 > {
     static TEMPLATE =

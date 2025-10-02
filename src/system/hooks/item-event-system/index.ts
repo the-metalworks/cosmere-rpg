@@ -127,7 +127,8 @@ Hooks.once('ready', () => {
 
                 if (
                     document.documentName ===
-                    (CONFIG.Actor.documentClass as unknown as typeof Actor).metadata.name
+                    (CONFIG.Actor.documentClass as unknown as typeof Actor)
+                        .metadata.name
                 ) {
                     // Document is an actor
                     const actor = document as CosmereActor;
@@ -149,7 +150,8 @@ Hooks.once('ready', () => {
                     }, Promise.resolve());
                 } else if (
                     document.documentName ===
-                    (CONFIG.Item.documentClass as unknown as typeof Item).metadata.name
+                    (CONFIG.Item.documentClass as unknown as typeof Item)
+                        .metadata.name
                 ) {
                     // Document is an item
                     const item = document as CosmereItem;
@@ -254,7 +256,7 @@ function preventInfiniteLoop(eventType: string, trace: { _d: number }) {
     // Check if the event chain depth exceeds the maximum allowed
     if (trace._d > MAX_EVENT_CHAIN_DEPTH) {
         ui.notifications.error(
-            game.i18n!.localize(
+            game.i18n.localize(
                 `COSMERE.Item.EventSystem.Notification.ExceededMaxDepth`,
             ),
         );
@@ -277,7 +279,7 @@ function preventInfiniteLoop(eventType: string, trace: { _d: number }) {
     // Check if the number of recent events is greater than the limit
     if (recentEventOfTypeCounts[eventType] >= MAX_RECENT_EVENTS) {
         ui.notifications.error(
-            game.i18n!.format(
+            game.i18n.format(
                 `COSMERE.Item.EventSystem.Notification.RecentEventsExceeded`,
                 {
                     eventType,
@@ -306,7 +308,9 @@ async function fireEvent(event: Event) {
 
             try {
                 // Execute the rule
-                return (await rule.handler as IHandler<{}>).execute(
+                // NOTE: Await is used here as the handler is potentially async
+                // eslint-disable-next-line @typescript-eslint/await-thenable
+                return ((await rule.handler) as IHandler).execute(
                     foundry.utils.deepClone(event),
                 );
             } catch (e) {

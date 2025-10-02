@@ -45,7 +45,7 @@ export function areKeysPressed(action: string): boolean {
         if (hasKey(KeyboardManager.MODIFIER_CODES, key)) {
             KeyboardManager.MODIFIER_CODES[key].forEach(
                 (n: string) =>
-                    (activeModifiers[n] = game.keyboard!.downKeys.has(n)),
+                    (activeModifiers[n] = game.keyboard.downKeys.has(n)),
             );
         }
     };
@@ -55,7 +55,7 @@ export function areKeysPressed(action: string): boolean {
 
     return getSystemKeybinding(action).some((b) => {
         if (
-            game.keyboard!.downKeys.has(b.key) &&
+            game.keyboard.downKeys.has(b.key) &&
             b.modifiers?.every((m) => activeModifiers[m])
         )
             return true;
@@ -260,7 +260,7 @@ export function getApplyTargets() {
     const selectTokens = applyToSelected
         ? canvas!.tokens!.controlled
         : ([] as Token[]);
-    const targetTokens = applyToTargeted ? game.user!.targets : new Set();
+    const targetTokens = applyToTargeted ? game.user.targets : new Set();
 
     if (prioritiseSelected && selectTokens.length > 0) {
         targetTokens.clear();
@@ -305,14 +305,19 @@ export interface TargetDescriptor {
  */
 export function getTargetDescriptors() {
     const targets = new Map<string, TargetDescriptor>();
-    for (const token of game.user!.targets) {
+    for (const token of game.user.targets) {
         const { name, img, system, uuid } = (token.actor as CosmereActor) ?? {};
         const phy = system?.defenses.phy.value ?? 10;
         const cog = system?.defenses.cog.value ?? 10;
         const spi = system?.defenses.spi.value ?? 10;
 
         if (uuid) {
-            targets.set(uuid, { name, img: img!, uuid, def: { phy, cog, spi } });
+            targets.set(uuid, {
+                name,
+                img: img!,
+                uuid,
+                def: { phy, cog, spi },
+            });
         }
     }
 

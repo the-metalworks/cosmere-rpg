@@ -168,7 +168,7 @@ export function register() {
                         // NOTE: Use logical OR to provide a default title if field is empty string
                         // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
                         this.pickPromptTitle ||
-                        game.i18n!.localize(
+                        game.i18n.localize(
                             `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.GrantItems}.PickPromptTitle.Default`,
                         ),
                     options: items.map((item) => ({
@@ -265,7 +265,7 @@ export function register() {
             if (this.notify !== false) {
                 items.forEach((item) => {
                     ui.notifications.info(
-                        game.i18n!.format('GENERIC.Notification.AddedItem', {
+                        game.i18n.format('GENERIC.Notification.AddedItem', {
                             item: item.name,
                             quantity:
                                 item.isPhysical() && quantities[item.uuid] > 1

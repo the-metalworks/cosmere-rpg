@@ -11,10 +11,11 @@ import AppUtils from '@system/applications/utils';
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
 import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
 
-export class ActorInjuriesListComponent extends HandlebarsApplicationComponent<
-    // typeof BaseActorSheet
-    any // TEMP: Workaround
-> {
+export class ActorInjuriesListComponent extends HandlebarsApplicationComponent<// typeof BaseActorSheet
+// TODO: Resolve typing issues
+// NOTE: Use any as workaround for foundry-vtt-types issues
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+any> {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_INJURIES_LIST}`;
 
     /**
@@ -90,8 +91,8 @@ export class ActorInjuriesListComponent extends HandlebarsApplicationComponent<
             system: {
                 duration: {
                     remaining: injuryItem.system.duration.remaining! - 1,
-                }
-            }
+                },
+            },
         });
     }
 
@@ -111,8 +112,8 @@ export class ActorInjuriesListComponent extends HandlebarsApplicationComponent<
             system: {
                 duration: {
                     remaining: injuryItem.system.duration.remaining! + 1,
-                }
-            }
+                },
+            },
         });
     }
 
@@ -162,7 +163,7 @@ export class ActorInjuriesListComponent extends HandlebarsApplicationComponent<
         const item = (await Item.create(
             {
                 type: ItemType.Injury,
-                name: game.i18n!.localize(
+                name: game.i18n.localize(
                     'COSMERE.Actor.Sheet.Injuries.NewInjury',
                 ),
             },

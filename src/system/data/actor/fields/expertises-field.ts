@@ -34,9 +34,13 @@ const SCHEMA = () => ({
 });
 
 type ExpertiseDataSchema = ReturnType<typeof SCHEMA>;
-type ExpertiseData = foundry.data.fields.SchemaField.InitializedData<ExpertiseDataSchema>;
+type ExpertiseData =
+    foundry.data.fields.SchemaField.InitializedData<ExpertiseDataSchema>;
 
-export class Expertise extends foundry.abstract.DataModel<ExpertiseDataSchema, foundry.abstract.Document.Any> {
+export class Expertise extends foundry.abstract.DataModel<
+    ExpertiseDataSchema,
+    foundry.abstract.Document.Any
+> {
     static defineSchema() {
         return SCHEMA();
     }
@@ -105,23 +109,43 @@ export class Expertise extends foundry.abstract.DataModel<ExpertiseDataSchema, f
     }
 }
 
+type ExpertiseDataFieldOptions =
+    foundry.data.fields.SchemaField.Options<ExpertiseDataSchema> & {
+        required: true;
+        nullable: false;
+    };
+
 export class ExpertiseDataField extends foundry.data.fields.SchemaField<
-    ExpertiseDataSchema, 
-    foundry.data.fields.SchemaField.Options<ExpertiseDataSchema> & { required: true; nullable: false; }
+    ExpertiseDataSchema,
+    ExpertiseDataFieldOptions,
+    foundry.data.fields.SchemaField.Internal.InitializedType<
+        ExpertiseDataSchema,
+        ExpertiseDataFieldOptions
+    >,
+    Expertise
 > {
     constructor(
-        options?: Omit<foundry.data.fields.SchemaField.Options<ExpertiseDataSchema>, 'required' | 'nullable'>,
+        options?: Omit<
+            foundry.data.fields.SchemaField.Options<ExpertiseDataSchema>,
+            'required' | 'nullable'
+        >,
         context?: foundry.data.fields.DataField.ConstructionContext,
     ) {
-        super(Expertise.defineSchema(), {
-            ...options,
-            required: true,
-            nullable: false,
-        }, context);
+        super(
+            Expertise.defineSchema(),
+            {
+                ...options,
+                required: true,
+                nullable: false,
+            },
+            context,
+        );
     }
 
     protected override _cast(value: unknown) {
-        return typeof value === 'object' ? value : {};
+        return (
+            value && typeof value === 'object' ? value : {}
+        ) as ExpertiseData;
     }
 
     public override initialize(
@@ -137,7 +161,7 @@ export class ExpertiseDataField extends foundry.data.fields.SchemaField<
 }
 
 export class ExpertisesField extends CollectionField<ExpertiseDataField> {
-    constructor(options: any) {
+    constructor(options: CollectionFieldOptions) {
         super(
             new ExpertiseDataField({
                 label: 'EXPERTISE',

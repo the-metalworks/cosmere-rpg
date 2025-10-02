@@ -1,7 +1,11 @@
 // Import spark-md5 for hashing (used for component ids)
 import md5 from 'spark-md5';
 
-import { AnyObject, DeepPartial, AnyConcreteApplicationV2Constructor } from '@system/types/utils';
+import {
+    AnyObject,
+    DeepPartial,
+    AnyConcreteApplicationV2Constructor,
+} from '@system/types/utils';
 
 // Component
 import { HandlebarsApplicationComponent } from './component';
@@ -13,10 +17,7 @@ import {
 } from './mixin';
 
 // Types
-import {
-    ComponentActionHandler,
-    ComponentState,
-} from './types';
+import { ComponentActionHandler, ComponentState } from './types';
 
 const componentClsRegistry: Record<
     string,
@@ -35,10 +36,7 @@ const componentRegistry: Record<
     }
 > = {};
 
-const applicationInstances: Record<
-    string,
-    ComponentHandlebarsApplication
-> = {};
+const applicationInstances: Record<string, ComponentHandlebarsApplication> = {};
 
 export function registerComponent(
     selector: string,
@@ -73,7 +71,8 @@ export function registerComponent(
         };
 
         // Get from root data
-        const application = options.data!.root.__application;
+        const application = options.data!.root
+            .__application as ComponentHandlebarsApplication;
         const partId = (options.data!.root.partId as string).replace(
             `${application.id}-`,
             '',
@@ -230,7 +229,8 @@ function initComponent(selector: string, componentRef: string): boolean {
         selector,
         partId,
         componentRef,
-        app as any, // TEMP: Workaround
+        //@ts-expect-error App type is incorrect due to foundry-vtt-types issues
+        app,
     );
 
     // Assign

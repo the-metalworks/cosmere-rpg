@@ -6,11 +6,14 @@ import { CosmereActor } from './actor';
 // Constants
 import { SYSTEM_ID } from '@system/constants';
 
-let _schema: foundry.data.fields.SchemaField<CosmereCombatant.Schema> | undefined;
+let _schema:
+    | foundry.data.fields.SchemaField<CosmereCombatant.Schema>
+    | undefined;
 
 export class CosmereCombatant extends Combatant {
     public static defineSchema() {
-        const schema = super.defineSchema() as CosmereCombatant.Schema & Partial<Pick<Combatant.Schema, 'initiative'>>;
+        const schema = super.defineSchema() as CosmereCombatant.Schema &
+            Partial<Pick<Combatant.Schema, 'initiative'>>;
         // Remove the initiative field from the schema as we handle it using a getter
         delete schema.initiative;
         return schema as Combatant.Schema;
@@ -26,13 +29,13 @@ export class CosmereCombatant extends Combatant {
     /* --- Accessors --- */
 
     override get actor(): CosmereActor {
-        return super.actor as CosmereActor;
+        return super.actor!;
     }
 
     public get isBoss(): boolean {
         return (
             this.actor.isAdversary() &&
-            (this.actor).system.role === AdversaryRole.Boss
+            this.actor.system.role === AdversaryRole.Boss
         );
     }
 
@@ -90,14 +93,14 @@ export class CosmereCombatant extends Combatant {
                 [SYSTEM_ID]: {
                     activated: false,
                     bossFastActivated: false,
-                }
-            }
+                },
+            },
         });
     }
 }
 
 export namespace CosmereCombatant {
-    export interface Schema extends Omit<Combatant.Schema, 'initiative'> {}
+    export type Schema = Omit<Combatant.Schema, 'initiative'>;
 }
 
 declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
@@ -111,7 +114,7 @@ declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
                 turnSpeed: TurnSpeed;
                 bossFastActivated: boolean;
                 activated: boolean;
-            }
-        }
+            };
+        };
     }
 }

@@ -7,10 +7,11 @@ import { TEMPLATES } from '@src/system/utils/templates';
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
 import { BaseItemSheet, BaseItemSheetRenderContext } from '../base';
 
-export class DetailsDeflectComponent extends HandlebarsApplicationComponent<
-    // typeof BaseItemSheet
-    any // TEMP: Workaround
-> {
+export class DetailsDeflectComponent extends HandlebarsApplicationComponent<// typeof BaseItemSheet
+// TODO: Resolve typing issues
+// NOTE: Use any as workaround for foundry-vtt-types issues
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+any> {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_DETAILS_DEFLECT}`;
 
     /**
@@ -61,7 +62,7 @@ export class DetailsDeflectComponent extends HandlebarsApplicationComponent<
     }
 
     private prepareDeflectedTypesString() {
-        const item = this.application.item as Item.Implementation; // TEMP: Workaround
+        const item = this.application.item; // TEMP: Workaround
         if (!item.hasDeflect()) return null;
 
         return item.system.deflectsArray
@@ -69,7 +70,7 @@ export class DetailsDeflectComponent extends HandlebarsApplicationComponent<
             .map((deflect) => {
                 const config = CONFIG.COSMERE.damageTypes[deflect.id];
 
-                return game.i18n!.localize(config.label);
+                return game.i18n.localize(config.label);
             })
             .join(', ');
     }

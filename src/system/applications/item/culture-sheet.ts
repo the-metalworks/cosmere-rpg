@@ -7,7 +7,7 @@ import { TEMPLATES } from '@src/system/utils/templates';
 import { BaseItemSheet } from './base';
 
 export class CultureItemSheet extends BaseItemSheet {
-    declare item: CultureItem
+    declare item: CultureItem;
 
     static DEFAULT_OPTIONS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.DEFAULT_OPTIONS),
@@ -21,7 +21,7 @@ export class CultureItemSheet extends BaseItemSheet {
                 positioned: true,
             },
         },
-    );
+    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
 
     static PARTS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.PARTS),

@@ -8,7 +8,7 @@ import { TEMPLATES } from '@src/system/utils/templates';
 // Constants
 const TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ITEM_CONSUME}`;
 
-interface ItemConsumeDialogOptions {
+export interface ItemConsumeDialogOptions {
     /**
      * The amount to consume
      */
@@ -86,8 +86,8 @@ export class ItemConsumeDialog extends foundry.applications.api.DialogV2 {
         const content = await renderTemplate(TEMPLATE, {
             resources: options.map((option, i) => {
                 const resource =
-                    option.resource ?? game.i18n!.localize('GENERIC.Unknown');
-                let label = game.i18n!.localize(
+                    option.resource ?? game.i18n.localize('GENERIC.Unknown');
+                let label = game.i18n.localize(
                     'DIALOG.ItemConsume.ShouldConsume.None',
                 );
                 let isVariable = false;
@@ -95,7 +95,7 @@ export class ItemConsumeDialog extends foundry.applications.api.DialogV2 {
                 if (option.amount) {
                     // Static or optional consumption
                     if (option.amount.min === option.amount.max) {
-                        label = game.i18n!.format(
+                        label = game.i18n.format(
                             'DIALOG.ItemConsume.ShouldConsume.Static',
                             {
                                 amount: option.amount.min.toFixed(),
@@ -105,7 +105,7 @@ export class ItemConsumeDialog extends foundry.applications.api.DialogV2 {
                     }
                     // Uncapped consumption
                     else if (option.amount.max === -1) {
-                        label = game.i18n!.format(
+                        label = game.i18n.format(
                             'DIALOG.ItemConsume.ShouldConsume.RangeUncapped',
                             {
                                 amount: option.amount.min.toFixed(),
@@ -116,7 +116,7 @@ export class ItemConsumeDialog extends foundry.applications.api.DialogV2 {
                     }
                     // Capped consumption
                     else {
-                        label = game.i18n!.format(
+                        label = game.i18n.format(
                             'DIALOG.ItemConsume.ShouldConsume.RangeCapped',
                             {
                                 min: option.amount.min.toFixed(),
@@ -255,9 +255,12 @@ export class ItemConsumeDialog extends foundry.applications.api.DialogV2 {
                     }
 
                     if (!acc[key]) {
-                        acc[key] = { ...consumable } as any; // TEMP: Workaround 
+                        // TODO: Resolve typing issues
+                        // NOTE: Use any as workaround for foundry-vtt-types issues
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
+                        acc[key] = { ...consumable } as any;
                     } else {
-                        acc[key]!.value.actual! += consumable.value.actual!;
+                        acc[key].value.actual += consumable.value.actual!;
                     }
 
                     return acc;

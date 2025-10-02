@@ -37,7 +37,8 @@ export type HandlerExecutor<E extends Event = Event<any, any, any>> = (
 ) => void | boolean | Promise<void | boolean>;
 
 export interface IHandler<
-    TSchema extends foundry.data.fields.DataSchema
+    TSchema extends
+        foundry.data.fields.DataSchema = foundry.data.fields.DataSchema,
 > {
     type: string;
     typeLabel: string;
@@ -47,6 +48,7 @@ export interface IHandler<
 }
 
 export type HandlerCls<
-    TSchema extends foundry.data.fields.DataSchema = {}
+    TSchema extends
+        foundry.data.fields.DataSchema = foundry.data.fields.DataSchema,
 > = ConstructorOf<IHandler<TSchema>> &
     Concrete<typeof foundry.abstract.DataModel<HandlerBaseSchema & TSchema>>;

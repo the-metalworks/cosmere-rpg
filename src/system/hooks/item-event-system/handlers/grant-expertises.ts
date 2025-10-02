@@ -123,7 +123,7 @@ export function register() {
                             ? this.availableTypes
                             : undefined,
                     maxExpertises: this.pickAmount ?? 1,
-                    title: game.i18n!.format(
+                    title: game.i18n.format(
                         `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.GrantExpertises}.PickDialog.Title`,
                         {
                             amount: (this.pickAmount ?? 1).toFixed(),
@@ -182,7 +182,7 @@ export function register() {
                             }),
                             {},
                         ),
-                    }
+                    },
                 },
                 event.op,
             );

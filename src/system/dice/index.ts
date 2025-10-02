@@ -110,7 +110,7 @@ export async function d20Roll(
     if (
         Hooks.call(
             HOOKS.PRE_ROLL(config.data.context),
-            roll as any, // Roll object | TEMP: Workaround
+            roll as unknown as Roll, // Roll object | TEMP: Workaround
             config.data.source, // Source
             config, // Options
         ) === false
@@ -138,7 +138,7 @@ export async function d20Roll(
                       raiseStakes: config.plotDie,
                       defaultRollMode:
                           config.rollMode ??
-                          game.settings!.get('core', 'rollMode')!,
+                          game.settings.get('core', 'rollMode'),
                       defaultAttribute:
                           config.defaultAttribute ??
                           config.data.skill.attribute,
@@ -170,7 +170,7 @@ export async function d20Roll(
      */
     Hooks.callAll(
         HOOKS.ROLL(config.data.context),
-        roll as any, // Roll object | TEMP: Workaround
+        roll as unknown as Roll, // Roll object | TEMP: Workaround
         config.data.source, // Source
         config, // Options
     );
@@ -205,7 +205,7 @@ export async function damageRoll(
     // the results with additional side effects.
     Hooks.callAll(
         HOOKS.PRE_DAMAGE_ROLL,
-        roll as any, // Roll object | TEMP: Workaround
+        roll as unknown as Roll, // Roll object | TEMP: Workaround
         config.data.source, // Source
         config, // Options
     );
@@ -218,7 +218,7 @@ export async function damageRoll(
      */
     Hooks.callAll(
         HOOKS.DAMAGE_ROLL,
-        roll as any, // Roll object | TEMP: Workaround
+        roll as unknown as Roll, // Roll object | TEMP: Workaround
         config.data.source, // Source
         config, // Options
     );

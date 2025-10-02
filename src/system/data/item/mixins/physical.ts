@@ -56,9 +56,7 @@ const SCHEMA = () => ({
             initial: 'none',
             choices: {
                 none: localize('GENERIC.None'),
-                ...Object.entries(
-                    CONFIG.COSMERE.currencies,
-                ).reduce(
+                ...Object.entries(CONFIG.COSMERE.currencies).reduce(
                     (acc, [id, currency]) => ({
                         ...acc,
                         [id]: currency.label,
@@ -74,16 +72,13 @@ const SCHEMA = () => ({
                 initial: 'none',
                 choices: {
                     none: localize('GENERIC.None'),
-                    ...Object.entries(
-                        CONFIG.COSMERE.currencies,
-                    ).reduce(
+                    ...Object.entries(CONFIG.COSMERE.currencies).reduce(
                         (acc, [currencyId, currency]) => ({
                             ...acc,
                             ...currency.denominations.primary.reduce(
                                 (acc, denomination) => ({
                                     ...acc,
-                                    [denomination.id]:
-                                        denomination.label,
+                                    [denomination.id]: denomination.label,
                                 }),
                                 {},
                             ),
@@ -99,9 +94,7 @@ const SCHEMA = () => ({
                     none: localize('GENERIC.None'),
                     ...Object.entries(CONFIG.COSMERE.currencies)
                         .filter(
-                            ([_, currency]) =>
-                                currency.denominations
-                                    .secondary,
+                            ([_, currency]) => currency.denominations.secondary,
                         )
                         .reduce(
                             (acc, [currencyId, currency]) => ({
@@ -109,8 +102,7 @@ const SCHEMA = () => ({
                                 ...currency.denominations.secondary!.reduce(
                                     (acc, denomination) => ({
                                         ...acc,
-                                        [denomination.id]:
-                                            denomination.label,
+                                        [denomination.id]: denomination.label,
                                     }),
                                     {},
                                 ),
@@ -125,20 +117,31 @@ const SCHEMA = () => ({
 });
 
 export type PhysicalItemDataSchema = ReturnType<typeof SCHEMA>;
-export type PhysicalItemData = foundry.data.fields.SchemaField.InitializedData<PhysicalItemDataSchema>;
-export type PhysicalItemDerivedData = Merge<PhysicalItemData, {
-    price: {
-        baseValue: number;
+export type PhysicalItemData =
+    foundry.data.fields.SchemaField.InitializedData<PhysicalItemDataSchema>;
+export type PhysicalItemDerivedData = Merge<
+    PhysicalItemData,
+    {
+        price: {
+            baseValue: number;
+        };
     }
-}>;
+>;
 
-export function PhysicalItemMixin<TParent extends foundry.abstract.Document.Any>() {
-    return (
-        base: typeof foundry.abstract.TypeDataModel,
-    ) => {
-        return class extends base<PhysicalItemDataSchema, TParent, PhysicalItemDerivedData> {
+export function PhysicalItemMixin<
+    TParent extends foundry.abstract.Document.Any,
+>() {
+    return (base: typeof foundry.abstract.TypeDataModel) => {
+        return class extends base<
+            PhysicalItemDataSchema,
+            TParent,
+            PhysicalItemDerivedData
+        > {
             static defineSchema() {
-                return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());
+                return foundry.utils.mergeObject(
+                    super.defineSchema(),
+                    SCHEMA(),
+                );
             }
 
             public prepareDerivedData() {
@@ -165,7 +168,7 @@ export function PhysicalItemMixin<TParent extends foundry.abstract.Document.Any>
                     );
 
                     // Set unit
-                    this.price.unit = `${this.price.currency}.${primary.id}`;
+                    this.price.unit = `${this.price.currency as string}.${primary.id}`;
 
                     // Calculate base value
                     this.price.baseValue =
