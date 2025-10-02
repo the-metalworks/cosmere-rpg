@@ -149,7 +149,7 @@ export type CosmereActorRollData<
         name: string;
     };
 
-    source: CosmereActor;
+    source: CosmereItem | CosmereActor;
 };
 
 // Constants

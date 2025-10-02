@@ -89,9 +89,9 @@ any> {
     protected _onInitialize(params: AnyObject): void {
         super._onInitialize(params);
         // TODO: Resolve typing issues
-        // @ts-expect-error ActorImmunitiesComponent is not typed to have application of type BaseActorSheet due to foundry-vtt-types issues
-        this.sectionCollapsed = this.application
-            .areImmunitiesCollapsed as boolean;
+        this.sectionCollapsed =
+            // @ts-expect-error ActorImmunitiesComponent is not typed to have application of type BaseActorSheet due to foundry-vtt-types issues
+            this.application.areImmunitiesCollapsed as boolean;
     }
 
     protected _onRender(params: AnyObject): void {

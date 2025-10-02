@@ -49,7 +49,7 @@ export class TalentTreeItemSheet extends EditModeApplicationMixin(
                 submitOnChange: true,
             } as unknown,
         },
-    );
+    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
     /* eslint-enable @typescript-eslint/unbound-method */
 
     static PARTS = foundry.utils.mergeObject(

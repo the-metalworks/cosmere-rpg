@@ -35,7 +35,7 @@ export class EditNodePrerequisiteDialog extends ComponentHandlebarsApplicationMi
                 update: this.onUpdatePrerequisite,
             },
         },
-    );
+    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
 
     static PARTS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.PARTS),
@@ -205,9 +205,11 @@ export class EditNodePrerequisiteDialog extends ComponentHandlebarsApplicationMi
         } else if (
             this.data.type === TalentTree.Node.Prerequisite.Type.Talent
         ) {
-            this.data.talents ??= new RecordCollection<TalentTree.Node.Prerequisite.TalentRef>();
+            this.data.talents ??=
+                new RecordCollection<TalentTree.Node.Prerequisite.TalentRef>();
         } else if (this.data.type === TalentTree.Node.Prerequisite.Type.Goal) {
-            this.data.goals ??= new RecordCollection<TalentTree.Node.Prerequisite.ItemRef>();
+            this.data.goals ??=
+                new RecordCollection<TalentTree.Node.Prerequisite.ItemRef>();
         } else if (
             this.data.type === TalentTree.Node.Prerequisite.Type.Connection
         ) {
@@ -257,7 +259,10 @@ export class EditNodePrerequisiteDialog extends ComponentHandlebarsApplicationMi
 
     /* --- Lifecycle --- */
 
-    protected async _onRender(context: AnyObject, options: AnyObject): Promise<void> {
+    protected async _onRender(
+        context: AnyObject,
+        options: AnyObject,
+    ): Promise<void> {
         await super._onRender(context, options);
 
         $(this.element).prop('open', true);

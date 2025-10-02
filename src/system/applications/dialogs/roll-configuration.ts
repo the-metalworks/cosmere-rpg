@@ -114,7 +114,7 @@ export class RollConfigurationDialog extends ComponentHandlebarsApplicationMixin
                 submit: this.onSubmit,
             },
         },
-    );
+    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
 
     static PARTS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.PARTS),

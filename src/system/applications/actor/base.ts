@@ -188,17 +188,18 @@ export class BaseActorSheet<
 
             // Embed document
             // TODO: Resolve typing issues
-            // @ts-expect-error packDocument is not typed correctly due to foundry-vtt-types issues
+
             void this.actor.createEmbeddedDocuments(
                 data.type as Actor.Embedded.Name,
+                // @ts-expect-error packDocument is not typed correctly due to foundry-vtt-types issues
                 [packDocument],
             );
         } else if (document.parent !== this.actor) {
             // Document not yet on this actor, create it
             // TODO: Resolve typing issues
-            // @ts-expect-error document is not typed correctly due to foundry-vtt-types issues
             void this.actor.createEmbeddedDocuments(
                 data.type as Actor.Embedded.Name,
+                // @ts-expect-error document is not typed correctly due to foundry-vtt-types issues
                 [document],
             );
         }

@@ -22,7 +22,7 @@ export type DamageRollData<
         dice: DamageRoll;
     };
 
-    source: CosmereItem | CosmereActor | null;
+    source: CosmereItem | CosmereActor;
 };
 
 export interface DamageRollOptions

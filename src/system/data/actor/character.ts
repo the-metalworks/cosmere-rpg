@@ -55,13 +55,15 @@ export type CharacterActorDataSchema = ReturnType<typeof SCHEMA> &
 export type CharacterActorData =
     foundry.data.fields.SchemaField.InitializedData<CharacterActorDataSchema>;
 
-export interface CharacterActorDerivedData {
+// NOTE: Must use type here instead of interface as an interface doesn't match AnyObject type
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+export type CharacterActorDerivedData = {
     /**
      * Derived value for the maximum rank a skill can be.
      * Based on the configured advancement rules.
      */
     maxSkillRank: number;
-}
+};
 
 export class CharacterActorDataModel extends CommonActorDataModel<
     CharacterActorDataSchema,

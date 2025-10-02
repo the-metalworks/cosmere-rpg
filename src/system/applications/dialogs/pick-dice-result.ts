@@ -50,7 +50,7 @@ export class PickDiceResultDialog extends ComponentHandlebarsApplicationMixin(
                 submit: this.onSubmit,
             },
         },
-    );
+    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
     /* eslint-enable @typescript-eslint/unbound-method */
 
     static PARTS = foundry.utils.mergeObject(
