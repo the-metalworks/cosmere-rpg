@@ -32,7 +32,11 @@ const TITLE_MAP: Record<EffectListType, string> = {
 };
 
 export class ActorEffectsListComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<BaseActorSheet>,
+    // typeof BaseActorSheet,
+    // TODO: Resolve typing issues
+    // NOTE: Use any as workaround for foundry-vtt-types issues
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    any,
     Params
 > {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_EFFECTS_LIST}`;
@@ -67,7 +71,7 @@ export class ActorEffectsListComponent extends HandlebarsApplicationComponent<
     public _prepareContext(params: Params, context: RenderContext) {
         // Get effects
         let effects = this.application.actor.applicableEffects
-            .filter((effect) => !effect.id.startsWith('cond'))
+            .filter((effect) => !effect.id!.startsWith('cond'))
             .filter((effect) =>
                 effect.name.toLowerCase().includes(context.effectsSearch.text),
             );
@@ -122,10 +126,7 @@ export class ActorEffectsListComponent extends HandlebarsApplicationComponent<
                             const effect = this.getEffectFromElement(element);
                             if (!effect) return;
 
-                            void effect.parent?.deleteEmbeddedDocuments(
-                                'ActiveEffect',
-                                [effect.id],
-                            );
+                            void effect.delete();
                         },
                     },
                 ],
@@ -168,16 +169,16 @@ export class ActorEffectsListComponent extends HandlebarsApplicationComponent<
             return this.application.actor.getEmbeddedDocument(
                 'ActiveEffect',
                 effectId,
-            ) as ActiveEffect | undefined;
+                {},
+            );
         else {
             // Get item
             const item = this.application.actor.getEmbeddedDocument(
                 'Item',
                 parentId,
-            ) as CosmereItem | undefined;
-            return item?.getEmbeddedDocument('ActiveEffect', effectId) as
-                | ActiveEffect
-                | undefined;
+                {},
+            );
+            return item?.getEmbeddedDocument('ActiveEffect', effectId, {});
         }
     }
 }

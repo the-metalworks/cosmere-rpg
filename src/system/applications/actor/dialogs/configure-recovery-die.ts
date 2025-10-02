@@ -35,7 +35,7 @@ export class ConfigureRecoveryDieDialog extends HandlebarsApplicationMixin(
                 'update-recovery': this.onUpdateRecoveryDie,
             },
         },
-    );
+    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
 
     static PARTS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.PARTS),
@@ -60,8 +60,8 @@ export class ConfigureRecoveryDieDialog extends HandlebarsApplicationMixin(
         super({
             id: `${actor.uuid}.RecoveryDie`,
             window: {
-                title: game
-                    .i18n!.localize('DIALOG.ConfigureRecoveryDie.Title')
+                title: game.i18n
+                    .localize('DIALOG.ConfigureRecoveryDie.Title')
                     .replace('{actor}', actor.name),
             },
         });
@@ -82,7 +82,9 @@ export class ConfigureRecoveryDieDialog extends HandlebarsApplicationMixin(
 
     private static onUpdateRecoveryDie(this: ConfigureRecoveryDieDialog) {
         void this.actor.update({
-            'system.recovery': this.recoveryData,
+            system: {
+                recovery: this.recoveryData,
+            },
         });
         void this.close();
     }
@@ -116,8 +118,8 @@ export class ConfigureRecoveryDieDialog extends HandlebarsApplicationMixin(
 
     /* --- Lifecycle --- */
 
-    protected _onRender(context: AnyObject, options: AnyObject): void {
-        super._onRender(context, options);
+    protected async _onRender(context: AnyObject, options: AnyObject) {
+        await super._onRender(context, options);
 
         $(this.element).prop('open', true);
     }

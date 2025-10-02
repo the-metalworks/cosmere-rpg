@@ -9,7 +9,6 @@ import { LootItemDataModel } from './loot';
 import { AncestryItemDataModel } from './ancestry';
 import { CultureItemDataModel } from './culture';
 import { PathItemDataModel } from './path';
-import { SpecialtyItemDataModel } from './specialty';
 import { TalentItemDataModel } from './talent';
 import { TraitItemDataModel } from './trait';
 
@@ -23,13 +22,7 @@ import { PowerItemDataModel } from './power';
 
 import { TalentTreeItemDataModel } from './talent-tree';
 
-export const config: Record<
-    ItemType,
-    typeof foundry.abstract.TypeDataModel<
-        foundry.abstract.DataModel,
-        CosmereItem
-    >
-> = {
+export const config = {
     [ItemType.Weapon]: WeaponItemDataModel,
     [ItemType.Armor]: ArmorItemDataModel,
     [ItemType.Equipment]: EquipmentItemDataModel,
@@ -38,7 +31,6 @@ export const config: Record<
     [ItemType.Ancestry]: AncestryItemDataModel,
     [ItemType.Culture]: CultureItemDataModel,
     [ItemType.Path]: PathItemDataModel,
-    [ItemType.Specialty]: SpecialtyItemDataModel,
     [ItemType.Talent]: TalentItemDataModel,
     [ItemType.Trait]: TraitItemDataModel,
 
@@ -60,7 +52,6 @@ export * from './loot';
 export * from './ancestry';
 export * from './culture';
 export * from './path';
-export * from './specialty';
 export * from './talent';
 export * from './action';
 export * from './injury';
@@ -69,3 +60,30 @@ export * from './trait';
 export * from './goal';
 export * from './power';
 export * from './talent-tree';
+
+declare module "@league-of-foundry-developers/foundry-vtt-types/configuration" {
+    interface DataModelConfig {
+        Item: {
+            [ItemType.Weapon]: typeof WeaponItemDataModel,
+            [ItemType.Armor]: typeof ArmorItemDataModel
+            [ItemType.Equipment]: typeof EquipmentItemDataModel
+            [ItemType.Loot]: typeof LootItemDataModel
+
+            [ItemType.Ancestry]: typeof AncestryItemDataModel
+            [ItemType.Culture]: typeof CultureItemDataModel
+            [ItemType.Path]: typeof PathItemDataModel
+            [ItemType.Talent]: typeof TalentItemDataModel
+            [ItemType.Trait]: typeof TraitItemDataModel
+
+            [ItemType.Action]: typeof ActionItemDataModel
+
+            [ItemType.Injury]: typeof InjuryItemDataModel
+            [ItemType.Connection]: typeof ConnectionItemDataModel
+            [ItemType.Goal]: typeof GoalItemDataModel
+
+            [ItemType.Power]: typeof PowerItemDataModel
+
+            [ItemType.TalentTree]: typeof TalentTreeItemDataModel
+        }
+    }
+}

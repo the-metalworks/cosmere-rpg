@@ -5,7 +5,7 @@ import { CosmereCombatant } from './combatant';
 // Constants
 import { SYSTEM_ID } from '@system/constants';
 
-export class CosmereCombat extends Combat<CosmereCombatant> {
+export class CosmereCombat extends Combat {
     /**
      * Sets all defeated combatants activation status to true (already activated),
      * and all others to false (hasn't activated yet)
@@ -46,7 +46,7 @@ export class CosmereCombat extends Combat<CosmereCombatant> {
                     return c;
                 }
             })
-            .sort(this._sortCombatants);
+            .sort(this._sortCombatants.bind(this));
 
         if (this.turn !== null)
             this.turn = Math.clamp(this.turn, 0, turns.length - 1);
@@ -58,7 +58,16 @@ export class CosmereCombat extends Combat<CosmereCombatant> {
         // One-time initialization of the previous state
         if (!this.previous) this.previous = this.current;
 
+        // Assign turns
+        this.turns = turns;
+
         // Return the array of prepared turns
-        return (this.turns = turns);
+        return this.turns;
+    }
+}
+
+declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
+    interface ConfiguredCombat<SubType extends Combat.SubType> {
+        document: CosmereCombat;
     }
 }

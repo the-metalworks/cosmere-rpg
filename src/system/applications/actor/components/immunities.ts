@@ -10,9 +10,11 @@ import { HandlebarsApplicationComponent } from '@system/applications/component-s
 import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
 import { DamageType, Status } from '@src/system/types/cosmere';
 
-export class ActorImmunitiesComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<BaseActorSheet>
-> {
+export class ActorImmunitiesComponent extends HandlebarsApplicationComponent<// typeof BaseActorSheet
+// TODO: Resolve typing issues
+// NOTE: Use any as workaround for foundry-vtt-types issues
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+any> {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_IMMUNITIES}`;
 
     /**
@@ -86,7 +88,10 @@ export class ActorImmunitiesComponent extends HandlebarsApplicationComponent<
 
     protected _onInitialize(params: AnyObject): void {
         super._onInitialize(params);
-        this.sectionCollapsed = this.application.areImmunitiesCollapsed;
+        // TODO: Resolve typing issues
+        // @ts-expect-error ActorImmunitiesComponent is not typed to have application of type BaseActorSheet due to foundry-vtt-types issues
+        this.sectionCollapsed = this.application
+            .areImmunitiesCollapsed as boolean;
     }
 
     protected _onRender(params: AnyObject): void {
@@ -108,8 +113,11 @@ export class ActorImmunitiesComponent extends HandlebarsApplicationComponent<
 
         void this.application.actor.update(
             {
-                'flags.cosmere-rpg.sheet.immunitiesCollapsed':
-                    this.sectionCollapsed,
+                flags: {
+                    'cosmere-rpg': {
+                        'sheet.immunitiesCollapsed': this.sectionCollapsed,
+                    },
+                },
             },
             { render: false },
         );

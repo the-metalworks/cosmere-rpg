@@ -18,7 +18,11 @@ type Params = {
 
 export class NodePrerequisiteTalentListComponent extends DragDropComponentMixin(
     HandlebarsApplicationComponent<
-        ConstructorOf<EditNodePrerequisiteDialog>,
+        // typeof EditNodePrerequisiteDialog,
+        // TODO: Resolve typing issues
+        // NOTE: Use any as workaround for foundry-vtt-types issues
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        any,
         Params
     >,
 ) {
@@ -95,7 +99,7 @@ export class NodePrerequisiteTalentListComponent extends DragDropComponentMixin(
         // Check if the talent is the same as the root talent
         if (item.system.id === this.node.talentId) {
             return ui.notifications.warn(
-                game.i18n!.localize(
+                game.i18n.localize(
                     'GENERIC.Warning.TalentCannotBePrerequisiteOfItself',
                 ),
             );
@@ -113,7 +117,7 @@ export class NodePrerequisiteTalentListComponent extends DragDropComponentMixin(
 
             // Show a warning
             return ui.notifications.warn(
-                game.i18n!.format(
+                game.i18n.format(
                     'GENERIC.Warning.DuplicatePrerequisiteTalentRef',
                     {
                         talentId: duplicate.system.id,

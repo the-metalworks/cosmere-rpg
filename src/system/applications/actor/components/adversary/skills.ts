@@ -11,9 +11,11 @@ import {
 } from '../../adversary-sheet';
 import { ConfigureSkillsDialog } from '../../dialogs/configure-skills';
 
-export class AdversarySkillsComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<AdversarySheet>
-> {
+export class AdversarySkillsComponent extends HandlebarsApplicationComponent<// typeof AdversarySheet
+// TODO: Resolve typing issues
+// NOTE: Use any as workaround for foundry-vtt-types issues
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+any> {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_ADVERSARY_SKILLS}`;
 
     /**
@@ -53,7 +55,9 @@ export class AdversarySkillsComponent extends HandlebarsApplicationComponent<
         void this.application.actor.setFlag(
             SYSTEM_ID,
             'sheet.hideUnranked',
-            !this.application.hideUnrankedSkills,
+            // TODO: Resolve typing issues
+            // @ts-expect-error AdversarySkillsComponent is not typed to have application of type AdversarySheet due to foundry-vtt-types issues
+            this.application.hideUnrankedSkills as boolean,
         );
     }
 
@@ -91,7 +95,9 @@ export class AdversarySkillsComponent extends HandlebarsApplicationComponent<
                     ...this.application.actor.system.skills[skillId],
                     active:
                         (!skillConfig.hiddenUntilAcquired &&
-                            !this.application.hideUnrankedSkills) ||
+                            // TODO: Resolve typing issues
+                            // @ts-expect-error AdversarySkillsComponent is not typed to have application of type AdversarySheet due to foundry-vtt-types issues
+                            (this.application.hideUnrankedSkills as boolean)) ||
                         this.application.actor.system.skills[skillId].rank >= 1,
                 };
             })
@@ -105,7 +111,9 @@ export class AdversarySkillsComponent extends HandlebarsApplicationComponent<
             ...context,
 
             sectionCollapsed: this.sectionCollapsed,
-            hideUnranked: this.application.hideUnrankedSkills,
+            // TODO: Resolve typing issues
+            // @ts-expect-error AdversarySkillsComponent is not typed to have application of type AdversarySheet due to foundry-vtt-types issues
+            hideUnranked: this.application.hideUnrankedSkills as boolean,
             skills,
             hasActiveSkills: skills.some((skill) => skill.active),
         });
@@ -115,7 +123,9 @@ export class AdversarySkillsComponent extends HandlebarsApplicationComponent<
 
     protected _onInitialize(params: AnyObject): void {
         super._onInitialize(params);
-        this.sectionCollapsed = this.application.areSkillsCollapsed;
+        // TODO: Resolve typing issues
+        // @ts-expect-error AdversarySkillsComponent is not typed to have application of type AdversarySheet due to foundry-vtt-types issues
+        this.sectionCollapsed = this.application.areSkillsCollapsed as boolean;
     }
 
     protected _onRender(params: AnyObject): void {
@@ -136,8 +146,11 @@ export class AdversarySkillsComponent extends HandlebarsApplicationComponent<
 
         void this.application.actor.update(
             {
-                'flags.cosmere-rpg.sheet.skillsCollapsed':
-                    this.sectionCollapsed,
+                flags: {
+                    'cosmere-rpg': {
+                        'sheet.skillsCollapsed': this.sectionCollapsed,
+                    },
+                },
             },
             { render: false },
         );

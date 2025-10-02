@@ -63,7 +63,8 @@ app-document-reference-input {
 app-multi-value-select {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: 4px;
+    flex: 1;
 
     .values {
         flex: 1;

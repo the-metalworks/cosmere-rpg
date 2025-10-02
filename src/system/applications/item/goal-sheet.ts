@@ -7,6 +7,8 @@ import { TEMPLATES } from '@src/system/utils/templates';
 import { BaseItemSheet } from './base';
 
 export class GoalItemSheet extends BaseItemSheet {
+    declare item: GoalItem;
+
     static DEFAULT_OPTIONS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.DEFAULT_OPTIONS),
         {
@@ -19,7 +21,7 @@ export class GoalItemSheet extends BaseItemSheet {
                 positioned: true,
             },
         },
-    );
+    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
 
     static TABS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.TABS),
@@ -40,10 +42,6 @@ export class GoalItemSheet extends BaseItemSheet {
             },
         },
     );
-
-    get item(): GoalItem {
-        return super.document;
-    }
 
     /* --- Context --- */
 

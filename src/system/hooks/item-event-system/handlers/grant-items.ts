@@ -1,4 +1,4 @@
-import { CosmereItem } from '@system/documents/item';
+import { CosmereItem, PhysicialItem } from '@system/documents/item';
 import { HandlerType, Event } from '@system/types/item/event-system';
 import { AnyObject } from '@system/types/utils';
 import { ItemRelationship } from '@system/data/item/mixins/relationships';
@@ -168,7 +168,7 @@ export function register() {
                         // NOTE: Use logical OR to provide a default title if field is empty string
                         // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
                         this.pickPromptTitle ||
-                        game.i18n!.localize(
+                        game.i18n.localize(
                             `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.GrantItems}.PickPromptTitle.Default`,
                         ),
                     options: items.map((item) => ({
@@ -188,7 +188,7 @@ export function register() {
             const nonPhysicalItems = items.filter((item) => !item.isPhysical());
 
             const documentUpdates: object[] = [];
-            const documentsToCreate: object[] = [];
+            const documentsToCreate: Item.CreateData[] = [];
 
             // Handle physical items
             physicalItems.forEach((item) => {
@@ -197,7 +197,7 @@ export function register() {
                 // Find the existing item in the actor
                 const existingItem = actor.items.find((other) =>
                     areSameItems(item, other, true),
-                );
+                ) as PhysicialItem | undefined;
 
                 // If the item already exists and we're increasing the quantity, update it, otherwise create a new item
                 if (this.increaseQuantity && existingItem) {
@@ -265,7 +265,7 @@ export function register() {
             if (this.notify !== false) {
                 items.forEach((item) => {
                     ui.notifications.info(
-                        game.i18n!.format('GENERIC.Notification.AddedItem', {
+                        game.i18n.format('GENERIC.Notification.AddedItem', {
                             item: item.name,
                             quantity:
                                 item.isPhysical() && quantities[item.uuid] > 1

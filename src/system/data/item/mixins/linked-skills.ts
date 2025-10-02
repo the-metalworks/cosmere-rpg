@@ -1,47 +1,42 @@
-import { PathType, Skill } from '@system/types/cosmere';
-
 import { CosmereItem } from '@system/documents';
+import { Skill } from '@system/types/cosmere';
 
-export interface LinkedSkillsItemData {
-    /**
-     * The non-core skills linked to this item.
-     * These skills are displayed with the item in the sheet.
-     */
-    linkedSkills: Skill[];
-}
+const SCHEMA = () => ({
+    linkedSkills: new foundry.data.fields.ArrayField(
+        new foundry.data.fields.StringField({
+            required: true,
+            nullable: false,
+            blank: false,
+            choices: () =>
+                Object.entries(CONFIG.COSMERE.skills)
+                    .filter(([key, skill]) => !skill.core)
+                    .reduce(
+                        (acc, [key, skill]) => ({
+                            ...acc,
+                            [key]: skill.label,
+                        }),
+                        {} as Record<Skill, string>,
+                    ),
+        }),
+        {
+            required: true,
+            nullable: false,
+            initial: [],
+            label: 'COSMERE.Item.General.LinkedSkills.Label',
+            hint: 'COSMERE.Item.General.LinkedSkills.Hint',
+        },
+    ),
+});
 
-export function LinkedSkillsMixin<P extends CosmereItem>() {
+export type LinkedSkillsItemDataSchema = ReturnType<typeof SCHEMA>;
+
+export function LinkedSkillsMixin<TParent extends foundry.abstract.Document.Any>() {
     return (
-        base: typeof foundry.abstract.TypeDataModel<LinkedSkillsItemData, P>,
+        base: typeof foundry.abstract.TypeDataModel<LinkedSkillsItemDataSchema, TParent>,
     ) => {
         return class extends base {
             static defineSchema() {
-                return foundry.utils.mergeObject(super.defineSchema(), {
-                    linkedSkills: new foundry.data.fields.ArrayField(
-                        new foundry.data.fields.StringField({
-                            required: true,
-                            nullable: false,
-                            blank: false,
-                            choices: () =>
-                                Object.entries(CONFIG.COSMERE.skills)
-                                    .filter(([key, skill]) => !skill.core)
-                                    .reduce(
-                                        (acc, [key, skill]) => ({
-                                            ...acc,
-                                            [key]: skill.label,
-                                        }),
-                                        {},
-                                    ),
-                        }),
-                        {
-                            required: true,
-                            nullable: false,
-                            initial: [],
-                            label: 'COSMERE.Item.General.LinkedSkills.Label',
-                            hint: 'COSMERE.Item.General.LinkedSkills.Hint',
-                        },
-                    ),
-                });
+                return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());
             }
         };
     };

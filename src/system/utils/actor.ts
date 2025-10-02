@@ -16,7 +16,7 @@ export function getTypeLabel(type: CommonActorData['type']): string {
     const primaryLabel =
         isCustom && type.custom
             ? type.custom
-            : game.i18n!.localize(typeConfig.label);
+            : game.i18n.localize(typeConfig.label);
 
     // Construct type label
     return `${primaryLabel} ${subtype ? `(${subtype})` : ''}`.trim();
@@ -31,7 +31,12 @@ export async function getActor(uuid: string) {
             : (collection!.get(documentId!) as Scene | CosmereActor);
 
     return document instanceof Scene
-        ? (document.tokens.get(uuid.split('.')[3])!.actor as CosmereActor)
+        ? (
+              document.tokens as foundry.abstract.EmbeddedCollection<
+                  TokenDocument,
+                  Scene
+              >
+          ).get(uuid.split('.')[3])!.actor!
         : document;
 }
 
@@ -56,5 +61,6 @@ export function containsExpertise(
     ...rest: [Expertise] | [ExpertiseType, string]
 ): boolean {
     const [type, id] = rest.length === 1 ? [rest[0].type, rest[0].id] : rest;
-    return collection.has(Expertise.getKey({ type, id }));
+    const key = Expertise.getKey({ type, id });
+    return !key || collection.has(key);
 }

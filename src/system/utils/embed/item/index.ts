@@ -18,7 +18,6 @@ const EMBEDDERS: Record<ItemType, EmbedHelpers | null> = {
     [ItemType.Ancestry]: ancestryEmbed,
     [ItemType.Culture]: null,
     [ItemType.Path]: pathEmbed,
-    [ItemType.Specialty]: null,
     [ItemType.Talent]: talentEmbed,
     [ItemType.Trait]: null,
 

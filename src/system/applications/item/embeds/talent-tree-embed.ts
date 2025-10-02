@@ -21,7 +21,6 @@ import { getLinkDataStr } from '@system/utils/embed/item/generic';
 // Constants
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
-import HandlebarsApplicationMixin from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/client-esm/applications/api/handlebars-application.mjs';
 
 interface TalentTreeEmbedConfiguration
     extends DeepPartial<foundry.applications.api.ApplicationV2.Configuration> {
@@ -34,9 +33,15 @@ interface TalentTreeEmbedRenderContext extends AnyObject {
     item: TalentTreeItem;
 }
 
+// TEMP: Workaround
+// export class TalentTreeEmbed extends ComponentHandlebarsApplicationMixin(
+//     ApplicationV2,
+// )<TalentTreeEmbedRenderContext> {
 export class TalentTreeEmbed extends ComponentHandlebarsApplicationMixin(
     ApplicationV2,
-)<TalentTreeEmbedRenderContext> {
+) {
+    declare readonly id: string; //TEMP: Workaround
+
     static DEFAULT_OPTIONS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.DEFAULT_OPTIONS),
         {
@@ -51,7 +56,7 @@ export class TalentTreeEmbed extends ComponentHandlebarsApplicationMixin(
             },
             tag: 'div',
         },
-    );
+    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
 
     static PARTS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.PARTS),

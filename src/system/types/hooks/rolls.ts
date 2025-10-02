@@ -1,4 +1,5 @@
 import { CosmereDocument } from '@system/types/utils';
+import { HOOKS } from '@system/constants/hooks';
 
 export type PreRoll = (
     roll: globalThis.Roll,
@@ -44,3 +45,25 @@ export type PreItemRollConfiguration = PreRollConfiguration;
 export type ItemRollConfiguration = RollConfiguration;
 export type PreAttackRollConfiguration = PreRollConfiguration;
 export type AttackRollConfiguration = RollConfiguration;
+
+declare module "@league-of-foundry-developers/foundry-vtt-types/configuration" {
+    namespace Hooks {
+        interface HookConfig {
+            [HOOKS.PRE_INJURY_TYPE_ROLL]: PreInjuryTypeRoll;
+            [HOOKS.INJURY_TYPE_ROLL]: InjuryTypeRoll;
+            [HOOKS.PRE_INJURY_DURATION_ROLL]: PreInjuryDurationRoll;
+            [HOOKS.INJURY_DURATION_ROLL]: InjuryDurationRoll;
+            [HOOKS.PRE_SHORT_REST_RECOVERY_ROLL]: PreShortRestRecoveryRoll;
+            [HOOKS.SHORT_REST_RECOVERY_ROLL]: ShortRestRecoveryRoll;
+            [HOOKS.PRE_ATTACK_ROLL_CONFIGURATION]: PreAttackRollConfiguration;
+            [HOOKS.ATTACK_ROLL_CONFIGURATION]: AttackRollConfiguration;
+            [HOOKS.PRE_DAMAGE_ROLL]: PreDamageRoll;
+            [HOOKS.DAMAGE_ROLL]: DamageRoll;
+            [key: ReturnType<typeof HOOKS.PRE_ROLL>]: PreRoll;
+            [key: ReturnType<typeof HOOKS.ROLL>]: Roll;
+            [key: ReturnType<typeof HOOKS.PRE_ROLL_CONFIGURATION>]: PreRollConfiguration;
+            [key: ReturnType<typeof HOOKS.ROLL_CONFIGURATION>]: RollConfiguration;
+            
+        }
+    }
+}

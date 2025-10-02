@@ -13,9 +13,11 @@ interface ConnectionItemState {
     expanded?: boolean;
 }
 
-export class CharacterConnectionsListComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<BaseActorSheet>
-> {
+export class CharacterConnectionsListComponent extends HandlebarsApplicationComponent<// typeof BaseActorSheet
+// TODO: Resolve typing issues
+// NOTE: Use any as workaround for foundry-vtt-types issues
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+any> {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_CONNECTIONS_LIST}`;
 
     /**
@@ -85,7 +87,7 @@ export class CharacterConnectionsListComponent extends HandlebarsApplicationComp
             [
                 {
                     type: ItemType.Connection,
-                    name: game.i18n!.localize(
+                    name: game.i18n.localize(
                         'COSMERE.Actor.Sheet.Details.Connections.NewText',
                     ),
                 },
@@ -187,8 +189,8 @@ export class CharacterConnectionsListComponent extends HandlebarsApplicationComp
 
         // Ensure item state exists for each connection
         connections.forEach((item) => {
-            if (!(item.id in this.connectionItemStates)) {
-                this.connectionItemStates[item.id] = {};
+            if (!(item.id! in this.connectionItemStates)) {
+                this.connectionItemStates[item.id!] = {};
             }
         });
 
@@ -198,17 +200,18 @@ export class CharacterConnectionsListComponent extends HandlebarsApplicationComp
             connections: await Promise.all(
                 connections.map(async (item) => ({
                     ...item,
-                    ...this.connectionItemStates[item.id],
+                    ...this.connectionItemStates[item.id!],
                     id: item.id,
-                    descriptionHTML: await TextEditor.enrichHTML(
-                        // NOTE: We use a logical OR here to catch both nullish values and empty string
-                        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-                        item.system.description?.value || '<p>—</p>',
-                        {
-                            relativeTo: (item as CosmereItem).system
-                                .parent as foundry.abstract.Document.Any,
-                        },
-                    ),
+                    descriptionHTML:
+                        await foundry.applications.ux.TextEditor.enrichHTML(
+                            // NOTE: We use a logical OR here to catch both nullish values and empty string
+
+                            item.system.description?.value || '<p>—</p>',
+                            {
+                                relativeTo: (item as CosmereItem).system
+                                    .parent as foundry.abstract.Document.Any,
+                            },
+                        ),
                 })),
             ),
         };
@@ -242,7 +245,7 @@ export class CharacterConnectionsListComponent extends HandlebarsApplicationComp
 
                 // Update the connection
                 await connection.update({
-                    name: input.val(),
+                    name: input.val() as string,
                 });
 
                 // Render

@@ -115,8 +115,8 @@ export class PickDialog extends ComponentHandlebarsApplicationMixin(
 
     /* --- Lifecycle --- */
 
-    protected _onRender(context: AnyObject, options: AnyObject) {
-        super._onRender(context, options);
+    protected async _onRender(context: AnyObject, options: AnyObject) {
+        await super._onRender(context, options);
 
         $(this.element).prop('open', true);
     }
@@ -127,7 +127,7 @@ export class PickDialog extends ComponentHandlebarsApplicationMixin(
 
     /* --- Context --- */
 
-    protected _prepareContext() {
+    public _prepareContext() {
         return Promise.resolve({
             ...this.data,
         });

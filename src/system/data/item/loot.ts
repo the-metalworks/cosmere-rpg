@@ -1,33 +1,42 @@
 import { CosmereItem } from '@src/system/documents';
+import { EmptyObject } from '@system/types/utils';
 
 // Mixins
 import { DataModelMixin } from '../mixins';
 import {
     DescriptionItemMixin,
-    DescriptionItemData,
+    DescriptionItemDataSchema,
 } from './mixins/description';
-import { PhysicalItemMixin, PhysicalItemData } from './mixins/physical';
-import { EventsItemMixin, EventsItemData } from './mixins/events';
+import { PhysicalItemMixin, PhysicalItemDataSchema, PhysicalItemDerivedData } from './mixins/physical';
+import { EventsItemMixin, EventsItemDataSchema } from './mixins/events';
 import {
     RelationshipsMixin,
-    RelationshipsItemData,
+    RelationshipsItemDataSchema,
 } from './mixins/relationships';
 
-export interface LootItemData
-    extends DescriptionItemData,
-        PhysicalItemData,
-        EventsItemData,
-        RelationshipsItemData {
-    /**
-     * Is this item a form of currency?
-     * If so, its value will be added to the character's total.
-     */
-    isMoney: boolean;
-}
+const SCHEMA = () => ({
+    isMoney: new foundry.data.fields.BooleanField({
+        required: true,
+        initial: false,
+        label: 'COSMERE.Item.Loot.isMoney',
+        nullable: false,
+    }),
+});
+
+export type LootItemDataSchema = 
+    & ReturnType<typeof SCHEMA>
+    & DescriptionItemDataSchema
+    & PhysicalItemDataSchema
+    & EventsItemDataSchema
+    & RelationshipsItemDataSchema;
+
+export type LootItemDerivedData = PhysicalItemDerivedData;
 
 export class LootItemDataModel extends DataModelMixin<
-    LootItemData,
-    CosmereItem
+    LootItemDataSchema,
+    foundry.abstract.Document.Any,
+    EmptyObject,
+    LootItemDerivedData
 >(
     DescriptionItemMixin({
         value: 'COSMERE.Item.Type.Loot.desc_placeholder',
@@ -37,11 +46,6 @@ export class LootItemDataModel extends DataModelMixin<
     RelationshipsMixin(),
 ) {
     static defineSchema() {
-        return foundry.utils.mergeObject(super.defineSchema(), {
-            isMoney: new foundry.data.fields.BooleanField({
-                required: true,
-                initial: false,
-            }),
-        });
+        return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());
     }
 }

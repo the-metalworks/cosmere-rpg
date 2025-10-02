@@ -1,43 +1,48 @@
-import { PathType, Skill } from '@system/types/cosmere';
+import { PathType } from '@system/types/cosmere';
 import { CosmereItem } from '@system/documents/item';
+import { EmptyObject } from '@system/types/utils';
 
 // Mixins
 import { DataModelMixin } from '../mixins';
-import { IdItemMixin, IdItemData } from './mixins/id';
-import { TypedItemMixin, TypedItemData } from './mixins/typed';
+import { IdItemMixin, IdItemDataSchema } from './mixins/id';
+import { TypedItemMixin, TypedItemDataSchema, TypedItemDerivedData } from './mixins/typed';
 import {
     DescriptionItemMixin,
-    DescriptionItemData,
+    DescriptionItemDataSchema,
 } from './mixins/description';
 import {
     TalentsProviderMixin,
-    TalentsProviderData,
+    TalentsProviderDataSchema,
 } from './mixins/talents-provider';
-import { EventsItemMixin, EventsItemData } from './mixins/events';
+import { EventsItemMixin, EventsItemDataSchema } from './mixins/events';
 import {
     LinkedSkillsMixin,
-    LinkedSkillsItemData,
+    LinkedSkillsItemDataSchema,
 } from './mixins/linked-skills';
 import {
     RelationshipsMixin,
-    RelationshipsItemData,
+    RelationshipsItemDataSchema,
 } from './mixins/relationships';
 
-export interface PathItemData
-    extends IdItemData,
-        TypedItemData<PathType>,
-        DescriptionItemData,
-        TalentsProviderData,
-        EventsItemData,
-        LinkedSkillsItemData,
-        RelationshipsItemData {}
+export type PathItemDataSchema =
+    & IdItemDataSchema
+    & TypedItemDataSchema<PathType>
+    & DescriptionItemDataSchema
+    & TalentsProviderDataSchema
+    & EventsItemDataSchema
+    & LinkedSkillsItemDataSchema
+    & RelationshipsItemDataSchema;
+
+export type PathItemDerivedData = TypedItemDerivedData;
 
 export class PathItemDataModel extends DataModelMixin<
-    PathItemData,
-    CosmereItem
+    PathItemDataSchema,
+    foundry.abstract.Document.Any,
+    EmptyObject,
+    PathItemDerivedData
 >(
     IdItemMixin({ initialFromName: true }),
-    TypedItemMixin<CosmereItem, PathType>({
+    TypedItemMixin({
         initial: PathType.Heroic,
         choices: () => {
             return Object.entries(CONFIG.COSMERE.paths.types).reduce(
@@ -57,12 +62,6 @@ export class PathItemDataModel extends DataModelMixin<
     LinkedSkillsMixin(),
     RelationshipsMixin(),
 ) {
-    static defineSchema() {
-        return foundry.utils.mergeObject(super.defineSchema(), {
-            // TODO: Advancements
-        });
-    }
-
     get typeLabel(): string {
         return CONFIG.COSMERE.paths.types[this.type].label;
     }

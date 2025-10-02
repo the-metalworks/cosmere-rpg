@@ -15,7 +15,6 @@ import {
 import { Talent, TalentTree } from '@system/types/item';
 import {
     CosmereItem,
-    CosmereItemData,
     AncestryItem,
     CultureItem,
     PathItem,
@@ -33,8 +32,8 @@ import {
 } from '@system/data/actor/common';
 import { CharacterActorDataModel } from '@system/data/actor/character';
 import { AdversaryActorDataModel } from '@system/data/actor/adversary';
+import { PowerItemCreateData } from '@system/data/item';
 
-import { PowerItemData } from '@system/data/item';
 import { Derived } from '@system/data/fields';
 
 import { d20Roll, D20Roll, D20RollData, DamageRoll } from '@system/dice';
@@ -56,8 +55,8 @@ import { containsExpertise } from '@system/utils/actor';
 import { SYSTEM_ID } from '@system/constants';
 import { HOOKS } from '@system/constants/hooks';
 
-export type CharacterActor = CosmereActor<CharacterActorDataModel>;
-export type AdversaryActor = CosmereActor<AdversaryActorDataModel>;
+export type CharacterActor = CosmereActor<ActorType.Character>;
+export type AdversaryActor = CosmereActor<ActorType.Adversary>;
 
 interface RollSkillOptions {
     /**
@@ -79,7 +78,7 @@ interface RollSkillOptions {
      *
      * @default - ChatMessage.getSpeaker({ actor })`
      */
-    speaker?: ChatSpeakerData;
+    speaker?: ChatMessage.SpeakerData;
 }
 
 interface LongRestOptions {
@@ -116,34 +115,42 @@ interface ApplyDamageOptions {
     originatingItem?: CosmereItem;
 }
 
-export type CosmereActorRollData<T extends CommonActorData = CommonActorData> =
-    {
-        [K in keyof T]: T[K];
-    } & {
-        name: string;
-        attr: Record<string, number>;
-        skills: Record<string, { rank: number; mod: number }>;
+type ActorRollData<
+    SubType extends Actor.SubType = Actor.SubType,
+    SystemType = Actor.SystemOfType<SubType>,
+> = {
+    [K in keyof SystemType]: SystemType[K];
+};
 
-        scalar: {
-            damage: {
-                unarmed: string;
-            };
+export type CosmereActorRollData<
+    SubType extends Actor.SubType = Actor.SubType,
+> = ActorRollData<SubType> & {
+    name: string;
+    attr: Record<string, number>;
+    skills: Record<string, { rank: number; mod: number }>;
 
-            power: Record<
-                string,
-                {
-                    die: string;
-                    'effect-size': Size;
-                }
-            >;
+    scalar: {
+        damage: {
+            unarmed: string;
         };
-        // this comes from the enricher use case, don't know if there's anything on a token
-        // that isn't on the actor doc so probably not helpful at all in rolls, but moving it here
-        // as per the 30/04 meeting outcome.
-        token?: {
-            name: string;
-        };
+
+        power: Record<
+            string,
+            {
+                die: string;
+                'effect-size': Size;
+            }
+        >;
     };
+    // this comes from the enricher use case, don't know if there's anything on a token
+    // that isn't on the actor doc so probably not helpful at all in rolls, but moving it here
+    // as per the 30/04 meeting outcome.
+    token?: {
+        name: string;
+    };
+
+    source: CosmereActor;
+};
 
 // Constants
 /**
@@ -152,16 +159,18 @@ export type CosmereActorRollData<T extends CommonActorData = CommonActorData> =
  */
 const SINGLETON_ITEM_TYPES = [ItemType.Ancestry];
 
-export class CosmereActor<
-    T extends CommonActorDataModel = CommonActorDataModel,
-    SystemType extends CommonActorData = T extends CommonActorDataModel<infer S>
-        ? S
-        : never,
-> extends Actor<T, CosmereItem, CosmereActiveEffect> {
-    // Redeclare `actor.type` to specifically be of `ActorType`.
-    // This way we avoid casting everytime we want to check/use its type
-    declare type: ActorType;
+abstract class _Actor<
+    out SubType extends Actor.SubType,
+> extends Actor<SubType> {
+    declare items: foundry.abstract.EmbeddedCollection<
+        CosmereItem,
+        CosmereActor
+    >;
+}
 
+export class CosmereActor<
+    out SubType extends Actor.SubType = Actor.SubType,
+> extends _Actor<SubType> {
     /* --- Accessors --- */
 
     public get conditions(): Set<Status> {
@@ -174,18 +183,6 @@ export class CosmereActor<
             effects.push(effect);
         }
         return effects;
-    }
-
-    public get favorites(): CosmereItem[] {
-        return this.items
-            .filter((i) => i.isFavorite)
-            .sort(
-                (a, b) =>
-                    (a.getFlag<number>(SYSTEM_ID, 'favorites.sort') ??
-                        Number.MAX_VALUE) -
-                    (b.getFlag<number>(SYSTEM_ID, 'favorites.sort') ??
-                        Number.MAX_VALUE),
-            );
     }
 
     public get deflect(): number {
@@ -293,17 +290,10 @@ export class CosmereActor<
         this.system.prepareSecondaryDerivedData();
     }
 
-    protected override _initialize(options?: object) {
-        super._initialize(options);
-
-        // Migrate goals
-        void this.migrateGoals();
-    }
-
     public override async _preCreate(
-        data: object,
-        options: object,
-        user: foundry.documents.BaseUser,
+        data: Actor.CreateData,
+        options: Actor.Database.PreCreateOptions,
+        user: User,
     ): Promise<boolean | void> {
         if ((await super._preCreate(data, options, user)) === false)
             return false;
@@ -324,14 +314,18 @@ export class CosmereActor<
         this.updateSource({ prototypeToken });
     }
 
-    public override async createEmbeddedDocuments(
-        embeddedName: string,
-        data: object[],
-        opertion?: Partial<foundry.abstract.DatabaseCreateOperation>,
-    ): Promise<foundry.abstract.Document[]> {
+    public override async createEmbeddedDocuments<
+        EmbeddedName extends Actor.Embedded.Name,
+    >(
+        embeddedName: EmbeddedName,
+        data:
+            | foundry.abstract.Document.CreateDataForName<EmbeddedName>[]
+            | undefined,
+        operation?: foundry.abstract.Document.Database.CreateOperationForName<EmbeddedName>,
+    ) {
         // Pre create actions
         if (
-            this.preCreateEmbeddedDocuments(embeddedName, data, opertion) ===
+            this.preCreateEmbeddedDocuments(embeddedName, data, operation) ===
             false
         )
             return [];
@@ -340,7 +334,7 @@ export class CosmereActor<
         const result = await super.createEmbeddedDocuments(
             embeddedName,
             data,
-            opertion,
+            operation,
         );
 
         // Post create actions
@@ -382,9 +376,7 @@ export class CosmereActor<
                 { attribute, value, isDelta, isBar },
                 updates,
             );
-            return allowed !== false
-                ? ((await this.update(updates)) as this)
-                : this;
+            return allowed !== false ? (await this.update(updates))! : this;
         } else {
             await super.modifyTokenAttribute(attribute, value, isDelta, isBar);
         }
@@ -393,7 +385,7 @@ export class CosmereActor<
     public override toggleStatusEffect(
         statusId: string,
         options?: Actor.ToggleStatusEffectOptions,
-    ): Promise<ActiveEffect | boolean | undefined> {
+    ): Promise<ActiveEffect.Implementation | boolean | undefined> {
         // Check if actor is immune to status effect
         if (
             statusId in this.system.immunities.condition &&
@@ -401,9 +393,9 @@ export class CosmereActor<
         ) {
             // Notify
             ui.notifications.warn(
-                game.i18n!.format('GENERIC.Warning.ActorConditionImmune', {
+                game.i18n.format('GENERIC.Warning.ActorConditionImmune', {
                     actor: this.name,
-                    condition: game.i18n!.localize(
+                    condition: game.i18n.localize(
                         CONFIG.COSMERE.statuses[statusId as Status].label,
                     ),
                 }),
@@ -418,13 +410,20 @@ export class CosmereActor<
 
     /* --- Handlers --- */
 
-    protected preCreateEmbeddedDocuments(
-        embeddedName: string,
-        data: object[],
-        opertion?: Partial<foundry.abstract.DatabaseCreateOperation>,
+    protected preCreateEmbeddedDocuments<
+        EmbeddedName extends Actor.Embedded.Name,
+    >(
+        embeddedName: EmbeddedName,
+        data:
+            | foundry.abstract.Document.CreateDataForName<EmbeddedName>[]
+            | undefined,
+        operation?: foundry.abstract.Document.Database.CreateOperationForName<EmbeddedName>,
     ): boolean | void {
+        if (!data) return;
+
         if (embeddedName === 'Item') {
-            const itemData = data as CosmereItemData[];
+            const itemData =
+                data as foundry.abstract.Document.CreateDataForName<'Item'>[];
 
             // Check for singleton items
             SINGLETON_ITEM_TYPES.forEach((type) => {
@@ -432,19 +431,17 @@ export class CosmereActor<
                 const item = itemData.find((d) => d.type === type);
 
                 // Filter out any other items of this type
-                data = item
-                    ? itemData.filter((d) => d.type !== type || d === item)
-                    : itemData;
+                data = (
+                    item
+                        ? itemData.filter((d) => d.type !== type || d === item)
+                        : itemData
+                ) as foundry.abstract.Document.CreateDataForName<EmbeddedName>[];
             });
 
             // Pre add powers
             itemData.forEach((d, i) => {
                 if (d.type === ItemType.Power) {
-                    if (
-                        this.preAddPower(
-                            d as CosmereItemData<PowerItemData>,
-                        ) === false
-                    ) {
+                    if (this.preAddPower(d as PowerItemCreateData) === false) {
                         itemData.splice(i, 1);
                     }
                 }
@@ -452,9 +449,7 @@ export class CosmereActor<
         }
     }
 
-    protected preAddPower(
-        data: CosmereItemData<PowerItemData>,
-    ): boolean | void {
+    protected preAddPower(data: PowerItemCreateData): boolean | void {
         // Ensure a power with the same id does not already exist
         if (
             this.powers.some(
@@ -462,11 +457,11 @@ export class CosmereActor<
             )
         ) {
             ui.notifications.error(
-                game.i18n!.format(
+                game.i18n.format(
                     'COSMERE.Item.Power.Notification.PowerExists',
                     {
                         actor: this.name,
-                        identifier: data.system!.id,
+                        identifier: data.system.id!,
                     },
                 ),
             );
@@ -476,7 +471,7 @@ export class CosmereActor<
 
     protected postCreateEmbeddedDocuments(
         embeddedName: string,
-        documents: foundry.abstract.Document[],
+        documents: foundry.abstract.Document.Any[],
     ): void {
         documents.forEach((doc) => {
             if (embeddedName === 'Item') {
@@ -583,7 +578,7 @@ export class CosmereActor<
          * Hook: preRollInjuryType
          */
         if (
-            Hooks.call<CosmereHooks.PreInjuryTypeRoll>(
+            Hooks.call(
                 HOOKS.PRE_INJURY_TYPE_ROLL,
                 roll, // Roll object
                 this, // Source
@@ -600,12 +595,12 @@ export class CosmereActor<
         /* eslint-Enable @typescript-eslint/no-explicit-any */
 
         // Get result
-        const result = draw.results[0] as TableResult;
+        const result = draw.results[0];
 
         /**
          * Hook: rollInjuryType
          */
-        Hooks.callAll<CosmereHooks.InjuryTypeRoll>(
+        Hooks.callAll(
             HOOKS.INJURY_TYPE_ROLL,
             roll, // Evaluated roll
             result, // Table result
@@ -613,8 +608,7 @@ export class CosmereActor<
         );
 
         // Get injury data
-        const data: { type: InjuryType; durationFormula: string } =
-            result.getFlag(SYSTEM_ID, 'injury-data');
+        const data = result.getFlag(SYSTEM_ID, 'injury-data');
 
         const rolls = [];
         if (
@@ -628,7 +622,7 @@ export class CosmereActor<
              * Hook: preRollInjuryDuration
              */
             if (
-                Hooks.call<CosmereHooks.PreInjuryDurationRoll>(
+                Hooks.call(
                     HOOKS.PRE_INJURY_DURATION_ROLL,
                     durationRoll, // Roll object
                     this, // Source
@@ -644,7 +638,7 @@ export class CosmereActor<
              *
              * Passes the evaluated roll
              */
-            Hooks.callAll<CosmereHooks.InjuryDurationRoll>(
+            Hooks.callAll(
                 HOOKS.INJURY_DURATION_ROLL,
                 durationRoll, // Roll object
                 this, // Source
@@ -665,10 +659,10 @@ export class CosmereActor<
 
         // Chat message
         await ChatMessage.create({
-            user: game.user!.id,
+            author: game.user.id,
             speaker: ChatMessage.getSpeaker({
                 actor: this,
-            }) as ChatSpeakerData,
+            }),
             flags,
             rolls,
         });
@@ -757,19 +751,18 @@ export class CosmereActor<
         /**
          * Hook: preApplyDamage
          */
-        if (
-            Hooks.call<CosmereHooks.PreApplyDamage>(
-                HOOKS.PRE_APPLY_DAMAGE,
-                this,
-                damage,
-            ) === false
-        )
-            return;
+        if (Hooks.call(HOOKS.PRE_APPLY_DAMAGE, this, damage) === false) return;
 
         // Apply damage
         const newHealth = Math.max(0, health - damage.calculated);
         await this.update({
-            'system.resources.hea.value': newHealth,
+            system: {
+                resources: {
+                    hea: {
+                        value: newHealth,
+                    },
+                },
+            },
         });
         // Actual damage that was applied
         damage.dealt = health - newHealth;
@@ -777,18 +770,14 @@ export class CosmereActor<
         /**
          * Hook: applyDamage
          */
-        Hooks.callAll<CosmereHooks.ApplyDamage>(
-            HOOKS.APPLY_DAMAGE,
-            this,
-            damage,
-        );
+        Hooks.callAll(HOOKS.APPLY_DAMAGE, this, damage);
 
         if (options.chatMessage ?? true) {
             const messageConfig = {
-                user: game.user!.id,
+                author: game.user.id,
                 speaker: ChatMessage.getSpeaker({
                     actor: this,
-                }) as ChatSpeakerData,
+                }),
                 flags: {} as Record<string, unknown>,
             };
 
@@ -875,9 +864,9 @@ export class CosmereActor<
         data.context = 'Skill';
 
         // Prepare roll data
-        const flavor = `${game.i18n!.localize(
+        const flavor = `${game.i18n.localize(
             CONFIG.COSMERE.skills[skillId].label,
-        )} ${game.i18n!.localize('GENERIC.SkillTest')}`;
+        )} ${game.i18n.localize('GENERIC.SkillTest')}`;
         const rollData = foundry.utils.mergeObject(
             {
                 data: data as D20RollData,
@@ -886,9 +875,9 @@ export class CosmereActor<
                 messageData: {
                     speaker:
                         options.speaker ??
-                        (ChatMessage.getSpeaker({
+                        ChatMessage.getSpeaker({
                             actor: this,
-                        }) as ChatSpeakerData),
+                        }),
                     flags: {} as Record<string, any>,
                 },
             },
@@ -994,13 +983,7 @@ export class CosmereActor<
         /**
          * Hook: preRest
          */
-        if (
-            Hooks.call<CosmereHooks.PreRest>(
-                HOOKS.PRE_REST,
-                this,
-                RestType.Short,
-            ) === false
-        ) {
+        if (Hooks.call(HOOKS.PRE_REST, this, RestType.Short) === false) {
             return;
         }
 
@@ -1021,7 +1004,7 @@ export class CosmereActor<
          * Hook: preShortRestRecoveryRoll
          */
         if (
-            Hooks.call<CosmereHooks.PreShortRestRecoveryRoll>(
+            Hooks.call(
                 HOOKS.PRE_SHORT_REST_RECOVERY_ROLL,
                 roll, // Roll object
                 this, // Source
@@ -1035,7 +1018,7 @@ export class CosmereActor<
         /**
          * Hook: shortRestRecoveryRoll
          */
-        Hooks.callAll<CosmereHooks.ShortRestRecoveryRoll>(
+        Hooks.callAll(
             HOOKS.SHORT_REST_RECOVERY_ROLL,
             roll, // Roll object
             this, // Source
@@ -1043,12 +1026,12 @@ export class CosmereActor<
         );
 
         // Set up flavor
-        let flavor = game
-            .i18n!.localize('ROLLS.Recovery')
+        let flavor = game.i18n
+            .localize('ROLLS.Recovery')
             .replace('[character]', this.name);
         if (options.tendedBy) {
-            flavor += ` ${game
-                .i18n!.localize('ROLLS.RecoveryTend')
+            flavor += ` ${game.i18n
+                .localize('ROLLS.RecoveryTend')
                 .replace('[tender]', options.tendedBy.name)}`;
         }
 
@@ -1060,7 +1043,7 @@ export class CosmereActor<
         /**
          * Hook: rest
          */
-        Hooks.callAll<CosmereHooks.Rest>(HOOKS.REST, this, RestType.Short);
+        Hooks.callAll(HOOKS.REST, this, RestType.Short);
     }
 
     /**
@@ -1081,7 +1064,7 @@ export class CosmereActor<
                     window: {
                         title: 'COSMERE.Actor.Sheet.LongRest',
                     },
-                    content: `<span>${game.i18n!.localize(
+                    content: `<span>${game.i18n.localize(
                         'DIALOG.LongRest.ShouldPerform',
                     )}</span>`,
                     buttons: [
@@ -1108,31 +1091,33 @@ export class CosmereActor<
         /**
          * Hook: preRest
          */
-        if (
-            Hooks.call<CosmereHooks.PreRest>(
-                HOOKS.PRE_REST,
-                this,
-                RestType.Long,
-            ) === false
-        )
-            return;
+        if (Hooks.call(HOOKS.PRE_REST, this, RestType.Long) === false) return;
 
         // Update the actor
         await this.update({
-            'system.resources.hea.value': this.system.resources.hea.max.value,
-            'system.resources.foc.value': this.system.resources.foc.max.value,
+            system: {
+                resources: {
+                    hea: {
+                        value: this.system.resources.hea.max.value,
+                    },
+                    foc: {
+                        value: this.system.resources.foc.max.value,
+                    },
+                },
+            },
         });
 
         /**
          * Hook: rest
          */
-        Hooks.callAll<CosmereHooks.Rest>(HOOKS.REST, this, RestType.Long);
+        Hooks.callAll(HOOKS.REST, this, RestType.Long);
     }
 
-    public getRollData(): CosmereActorRollData<SystemType> {
+    public getRollData(): CosmereActorRollData<SubType> {
         const tokens = this.getActiveTokens();
+
         return {
-            ...(super.getRollData() as SystemType),
+            ...(super.getRollData() as ActorRollData<SubType>),
 
             name: this.name,
             // Attributes shorthand
@@ -1200,10 +1185,7 @@ export class CosmereActor<
                 },
             },
 
-            token:
-                tokens.length > 0
-                    ? { name: (tokens[0] as Token)?.name }
-                    : undefined,
+            token: tokens.length > 0 ? { name: tokens[0]?.name } : undefined,
 
             // Hook data
             source: this,
@@ -1217,7 +1199,7 @@ export class CosmereActor<
         return {
             actor,
             target: targets.length > 0 ? targets[0] : undefined,
-        } as const satisfies EnricherData;
+        } as const satisfies EnricherData<SubType>;
     }
 
     // public *allApplicableEffects() {
@@ -1270,7 +1252,7 @@ export class CosmereActor<
     public hasExpertise(
         ...args: [Expertise] | [ExpertiseType, string]
     ): boolean {
-        return containsExpertise(this.system.expertises, ...args);
+        return containsExpertise(this.system.expertises as any, ...args); // TEMP: Workaround
     }
 
     /**
@@ -1317,35 +1299,36 @@ export class CosmereActor<
             (goal) => goal.system.id === id && goal.system.level === 3,
         );
     }
+}
 
-    /* --- Helpers --- */
+declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
+    interface ConfiguredActor<SubType extends Actor.SubType> {
+        document: CosmereActor;
+    }
 
-    /**
-     * Migrate goals from the system object to individual items.
-     *
-     */
-    private async migrateGoals() {
-        if (!this.isCharacter() || !this.system.goals) return;
+    interface FlagConfig {
+        Actor: {
+            'cosmere-rpg': {
+                sheet: object;
+                'sheet.mode': 'edit' | 'view';
+                'sheet.expertisesCollapsed': boolean;
+                'sheet.immunitiesCollapsed': boolean;
+                'sheet.skillsCollapsed': boolean;
+                'sheet.hideUnranked': boolean;
+                goals: object;
+                'goals.hide-completed': boolean;
+                [key: `meta.update.mode.${string}`]: string;
+                [key: `mode.${string}`]: string;
+            };
+        };
 
-        const goals = this.system.goals;
-
-        // Remove goals from data
-        await this.update({
-            'system.goals': null,
-        });
-
-        // Create goal items
-        goals.forEach((goalData) => {
-            void Item.create(
-                {
-                    type: ItemType.Goal,
-                    name: goalData.text,
-                    system: {
-                        level: goalData.level,
-                    },
-                },
-                { parent: this },
-            );
-        });
+        TableResult: {
+            [SYSTEM_ID]: {
+                'injury-data': {
+                    type: InjuryType;
+                    durationFormula: string;
+                };
+            };
+        };
     }
 }

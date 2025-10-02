@@ -1,11 +1,14 @@
 import { BonusTalentsRule } from '@system/data/item/ancestry';
 import { AnyObject } from '@system/types/utils';
 
+// TEMP: Workaround
+import { ComponentHandlebarsApplication } from '@system/applications/component-system/mixin';
+
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
-export class EditBonusTalentsRuleDialog extends HandlebarsApplicationMixin(
+export class EditBonusTalentsRuleDialog extends (HandlebarsApplicationMixin(
     ApplicationV2<AnyObject>,
-) {
+) as unknown as typeof ComponentHandlebarsApplication) {
     /**
      * NOTE: Unbound methods is the standard for defining actions and forms
      * within ApplicationV2
@@ -97,8 +100,8 @@ export class EditBonusTalentsRuleDialog extends HandlebarsApplicationMixin(
 
     /* --- Lifecycle --- */
 
-    protected _onRender(context: AnyObject, options: AnyObject): void {
-        super._onRender(context, options);
+    protected async _onRender(context: AnyObject, options: AnyObject) {
+        await super._onRender(context, options);
 
         $(this.element).prop('open', true);
     }
@@ -109,7 +112,7 @@ export class EditBonusTalentsRuleDialog extends HandlebarsApplicationMixin(
 
     /* --- Context --- */
 
-    protected _prepareContext() {
+    public _prepareContext() {
         return Promise.resolve({
             ...this.rule,
         });

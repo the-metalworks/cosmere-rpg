@@ -134,6 +134,7 @@
 
         button.header-control {
             color: var(--cosmere-color-text-sub);
+            background: none;
 
             &:hover {
                 box-shadow: none;
@@ -384,7 +385,7 @@
 
             .title {
                 margin-left: 0.25rem;
-                font-size: var(--font-size-15);
+                font-size: var(--font-size-14);
                 font-weight: 600;
                 color: var(--cosmere-color-text-main);
             }
@@ -434,6 +435,7 @@
             .subtitle {
                 font-family: var(--cosmere-font-header);
                 font-size: var(--font-size-8);
+                margin-top: 4px;
             }
 
             .detail {

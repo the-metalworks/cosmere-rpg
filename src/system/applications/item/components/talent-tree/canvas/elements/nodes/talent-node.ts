@@ -48,7 +48,7 @@ export class TalentNode extends BaseNode {
         >;
 
         this.name = item.name;
-        this.img = item.img;
+        this.img = item.img!;
 
         // Set event mode
         this.eventMode = 'static';

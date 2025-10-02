@@ -54,7 +54,7 @@ function getPageTextContent(
     target: string | undefined,
     includeHeading = true,
 ): string | null {
-    if (!target) return page.text.content;
+    if (!target || !page.text.content) return page.text.content ?? null;
 
     const renderTarget = document.createElement('template');
     renderTarget.innerHTML = page.text.content;

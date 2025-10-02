@@ -1,3 +1,5 @@
+import { DeepReadonly } from '@system/types/utils';
+
 import { Viewport } from './viewport';
 import { World } from './world';
 import { CanvasDebug } from './debug';

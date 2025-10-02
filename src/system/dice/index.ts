@@ -108,9 +108,9 @@ export async function d20Roll(
      * Hook: preRoll
      */
     if (
-        Hooks.call<CosmereHooks.PreRoll>(
+        Hooks.call(
             HOOKS.PRE_ROLL(config.data.context),
-            roll, // Roll object
+            roll as unknown as Roll, // Roll object | TEMP: Workaround
             config.data.source, // Source
             config, // Options
         ) === false
@@ -122,7 +122,7 @@ export async function d20Roll(
          * Hook: preRollConfiguration
          */
         if (
-            Hooks.call<CosmereHooks.PreRollConfiguration>(
+            Hooks.call(
                 HOOKS.PRE_ROLL_CONFIGURATION(config.data.context),
                 config, // Config
                 config.data.source, // Source
@@ -138,7 +138,7 @@ export async function d20Roll(
                       raiseStakes: config.plotDie,
                       defaultRollMode:
                           config.rollMode ??
-                          game.settings!.get('core', 'rollMode'),
+                          game.settings.get('core', 'rollMode'),
                       defaultAttribute:
                           config.defaultAttribute ??
                           config.data.skill.attribute,
@@ -153,7 +153,7 @@ export async function d20Roll(
         /**
          * Hook: rollConfiguration
          */
-        Hooks.callAll<CosmereHooks.RollConfiguration>(
+        Hooks.callAll(
             HOOKS.ROLL_CONFIGURATION(config.data.context),
             config, // Config
             config.data.source, // Source
@@ -168,9 +168,9 @@ export async function d20Roll(
     /**
      * Hook: roll
      */
-    Hooks.callAll<CosmereHooks.Roll>(
+    Hooks.callAll(
         HOOKS.ROLL(config.data.context),
-        roll, // Roll object
+        roll as unknown as Roll, // Roll object | TEMP: Workaround
         config.data.source, // Source
         config, // Options
     );
@@ -203,9 +203,9 @@ export async function damageRoll(
     // Note: this setup doesn't allow for early exits from hook listeners,
     // in order to not modify the function signature and not jeopardize
     // the results with additional side effects.
-    Hooks.callAll<CosmereHooks.PreDamageRoll>(
+    Hooks.callAll(
         HOOKS.PRE_DAMAGE_ROLL,
-        roll, // Roll object
+        roll as unknown as Roll, // Roll object | TEMP: Workaround
         config.data.source, // Source
         config, // Options
     );
@@ -216,9 +216,9 @@ export async function damageRoll(
     /**
      * Hook: damageRoll
      */
-    Hooks.callAll<CosmereHooks.DamageRoll>(
+    Hooks.callAll(
         HOOKS.DAMAGE_ROLL,
-        roll, // Roll object
+        roll as unknown as Roll, // Roll object | TEMP: Workaround
         config.data.source, // Source
         config, // Options
     );

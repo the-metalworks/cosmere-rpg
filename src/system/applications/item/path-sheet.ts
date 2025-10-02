@@ -13,6 +13,8 @@ import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
 export class PathItemSheet extends TalentsTabMixin(BaseItemSheet) {
+    declare item: PathItem;
+
     static DEFAULT_OPTIONS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.DEFAULT_OPTIONS),
         {
@@ -25,7 +27,7 @@ export class PathItemSheet extends TalentsTabMixin(BaseItemSheet) {
                 positioned: true,
             },
         },
-    );
+    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
 
     static TABS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.TABS),
@@ -46,8 +48,4 @@ export class PathItemSheet extends TalentsTabMixin(BaseItemSheet) {
             },
         },
     );
-
-    get item(): PathItem {
-        return super.document;
-    }
 }

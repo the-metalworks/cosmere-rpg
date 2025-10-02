@@ -25,7 +25,11 @@ type Params = {
 };
 
 export class ActorSearchBarComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<BaseActorSheet>,
+    // typeof BaseActorSheet,
+    // TODO: Resolve typing issues
+    // NOTE: Use any as workaround for foundry-vtt-types issues
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    any,
     Params
 > {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_SEARCH_BAR}`;
@@ -101,7 +105,7 @@ export class ActorSearchBarComponent extends HandlebarsApplicationComponent<
     private triggerChange() {
         const event = new CustomEvent('search', {
             detail: {
-                text: this.searchText.toLocaleLowerCase(game.i18n!.lang),
+                text: this.searchText.toLocaleLowerCase(game.i18n.lang),
                 sort: this.sortDirection,
             },
         });

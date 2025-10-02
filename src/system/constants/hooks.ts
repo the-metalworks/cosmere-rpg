@@ -57,8 +57,8 @@ export const HOOKS = {
 
     /* ----- Roll Hooks ----- */
     PRE_ROLL: (context: string) =>
-        `${SYSTEM_ID}.pre${context.toLowerCase().capitalize()}Roll`,
-    ROLL: (context: string) => `${SYSTEM_ID}.${context.toLowerCase()}Roll`,
+        `${SYSTEM_ID}.pre${context.toLowerCase().capitalize()}Roll` as const,
+    ROLL: (context: string) => `${SYSTEM_ID}.${context.toLowerCase()}Roll` as const,
     PRE_SKILL_ROLL: `${SYSTEM_ID}.preSkillRoll`,
     SKILL_ROLL: `${SYSTEM_ID}.skillRoll`,
     PRE_ITEM_ROLL: `${SYSTEM_ID}.preItemRoll`,
@@ -75,9 +75,9 @@ export const HOOKS = {
     SHORT_REST_RECOVERY_ROLL: `${SYSTEM_ID}.shortRestRecoveryRoll`,
 
     PRE_ROLL_CONFIGURATION: (context: string) =>
-        `${SYSTEM_ID}.pre${context.toLowerCase().capitalize()}RollConfiguration`,
+        `${SYSTEM_ID}.pre${context.toLowerCase().capitalize()}RollConfiguration` as const,
     ROLL_CONFIGURATION: (context: string) =>
-        `${SYSTEM_ID}.${context.toLowerCase()}RollConfiguration`,
+        `${SYSTEM_ID}.${context.toLowerCase()}RollConfiguration` as const,
     PRE_SKILL_ROLL_CONFIGURATION: `${SYSTEM_ID}.preSkillRollConfiguration`,
     SKILL_ROLL_CONFIGURATION: `${SYSTEM_ID}.skillRollConfiguration`,
     PRE_ITEM_ROLL_CONFIGURATION: `${SYSTEM_ID}.preItemRollConfiguration`,
@@ -93,7 +93,7 @@ export const HOOKS = {
 
     /* ----- Enricher Hooks ----- */
     TRIGGER_ENRICHER: (type: 'Test' | 'Damage') =>
-        `${SYSTEM_ID}.trigger${type.toLowerCase().capitalize()}Enricher`,
+        `${SYSTEM_ID}.trigger${type.toLowerCase().capitalize()}Enricher` as const,
     TRIGGER_TEST_ENRICHER: `${SYSTEM_ID}.triggerTestEnricher`,
     TRIGGER_DAMAGE_ENRICHER: `${SYSTEM_ID}.triggerDamageEnricher`,
 } as const;

@@ -7,12 +7,12 @@ import ComponentSystem from './system';
 import { HandlebarsApplicationComponent } from './component';
 
 // Types
-import { ApplicationV2Constructor, ComponentState, PartState } from './types';
+import { ComponentState, PartState } from './types';
 
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 
 export type ComponentHandlebarsRenderOptions =
-    foundry.applications.api.HandlebarsApplicationMixin.HandlebarsRenderOptions & {
+    foundry.applications.api.HandlebarsApplicationMixin.RenderOptions & {
         components?: string[];
         componentRefs: string[];
     };
@@ -21,13 +21,7 @@ type RenderContext = AnyObject;
 type RenderOptions = ComponentHandlebarsRenderOptions & AnyObject;
 
 export function ComponentHandlebarsApplicationMixin<
-    /**
-     * NOTE: ApplicationV2 types appear to be wrong in places
-     * and won't play nice in this use case.
-     * Have resorted to `any` type as a way around the problems.
-     */
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    BaseClass extends ApplicationV2Constructor<AnyObject, any, any>,
+    BaseClass extends foundry.applications.api.ApplicationV2.AnyConstructor,
 >(base: BaseClass) {
     return class mixin extends HandlebarsApplicationMixin(base) {
         public get components(): Record<
@@ -50,6 +44,8 @@ export function ComponentHandlebarsApplicationMixin<
             await super._preFirstRender(context, options);
 
             // Register instance
+            // TODO: Resolve typing issues
+            // @ts-expect-error Use any as workaround for foundry-vtt-types issues
             ComponentSystem.registerApplicationInstance(this);
         }
 
@@ -57,6 +53,8 @@ export function ComponentHandlebarsApplicationMixin<
             super._onClose(options);
 
             // Deregister instance
+            // TODO: Resolve typing issues
+            // @ts-expect-error Use any as workaround for foundry-vtt-types issues
             ComponentSystem.deregisterApplicationInstance(this);
         }
 
@@ -255,11 +253,13 @@ export function ComponentHandlebarsApplicationMixin<
         protected override _onRender(
             context: RenderContext,
             options: RenderOptions,
-        ): void {
+        ): Promise<void> {
             // Trigger render events
             options.componentRefs.forEach((ref) =>
                 this.dispatchRenderEventRecursive(ref),
             );
+
+            return Promise.resolve();
         }
 
         private dispatchRenderEventRecursive(componentRef: string) {
@@ -281,11 +281,49 @@ export function ComponentHandlebarsApplicationMixin<
                 this.dispatchRenderEventRecursive(childRef),
             );
         }
-    };
+    } as unknown as typeof ComponentHandlebarsApplication;
 }
 
-export type ComponentHandlebarsApplication<
-    // NOTE: See above note
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    BaseClass extends ApplicationV2Constructor<AnyObject, any, any>,
-> = ReturnType<typeof ComponentHandlebarsApplicationMixin<BaseClass>>;
+// export type ComponentHandlebarsApplication<
+//     BaseClass extends foundry.applications.api.ApplicationV2.AnyConstructor,
+// > = ReturnType<typeof ComponentHandlebarsApplicationMixin<BaseClass>>;
+
+// TODO: Resolve typing issues
+// NOTE: Use any as workaround for foundry-vtt-types issues
+/* eslint-disable @typescript-eslint/no-explicit-any */
+export declare class ComponentHandlebarsApplication {
+    static DEFAULT_OPTIONS: foundry.applications.api.ApplicationV2.DefaultOptions;
+    static PARTS: any;
+    static TABS: any;
+
+    constructor(...args: any[]);
+
+    // public get actor(): T extends 'Actor' ? Actor.Implementation : never;
+    // public get item(): T extends 'Item' ? Item.Implementation : never;
+
+    public readonly components: Record<string, HandlebarsApplicationComponent>;
+
+    public id: string;
+    public document: foundry.abstract.Document.Any;
+    public isEditable: boolean;
+    public element: HTMLElement;
+    public window: foundry.applications.api.ApplicationV2.Window;
+    public position: foundry.applications.api.ApplicationV2.Position;
+
+    public render(...args: any[]): Promise<void>;
+    public close(): Promise<void>;
+    public setPosition(
+        position: DeepPartial<foundry.applications.api.ApplicationV2.Position>,
+    ): void;
+
+    protected _renderFrame(...args: any[]): Promise<HTMLElement>;
+    protected _onRender(...args: any[]): Promise<void>;
+    public _prepareContext(...args: any[]): Promise<AnyObject>;
+    protected _onFirstRender(...args: any[]): Promise<void>;
+    protected _onPosition(...args: any[]): void;
+    protected _preRender(...args: any[]): Promise<void>;
+    protected _onClose(...args: any[]): void;
+
+    public changeTab(tab: string, group: string, options?: AnyObject): void;
+}
+/* eslint-enable @typescript-eslint/no-explicit-any */

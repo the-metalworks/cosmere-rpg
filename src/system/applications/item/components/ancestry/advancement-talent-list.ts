@@ -2,6 +2,8 @@ import { AnyObject, ConstructorOf } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
+import { AncestryItem } from '@system/documents/item';
+
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
 import { AncestrySheet } from '../../ancestry-sheet';
@@ -10,7 +12,11 @@ import { AncestrySheet } from '../../ancestry-sheet';
 import { DragDropComponentMixin } from '@system/applications/mixins/drag-drop';
 
 export class AdvancementTalentListComponent extends DragDropComponentMixin(
-    HandlebarsApplicationComponent<ConstructorOf<AncestrySheet>>,
+    // HandlebarsApplicationComponent<ConstructorOf<AncestrySheet>>,
+    // TODO: Resolve typing issues
+    // NOTE: Use any as workaround for foundry-vtt-types issues
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    HandlebarsApplicationComponent<any>,
 ) {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_ANCESTRY_TALENT_LIST}`;
 
@@ -37,6 +43,8 @@ export class AdvancementTalentListComponent extends DragDropComponentMixin(
         this: AdvancementTalentListComponent,
         event: Event,
     ) {
+        if (!this.application.item.isAncestry()) return; // TEMP: Workaround
+
         // Get the element
         const el = $(event.currentTarget!).closest('.talent');
 
@@ -51,7 +59,11 @@ export class AdvancementTalentListComponent extends DragDropComponentMixin(
 
         // Remove the talent
         void this.application.item.update({
-            'system.advancement.extraTalents': extraTalents,
+            system: {
+                advancement: {
+                    extraTalents,
+                },
+            },
         });
     }
 
@@ -94,7 +106,7 @@ export class AdvancementTalentListComponent extends DragDropComponentMixin(
         // Validate type
         if (data.type !== 'Item') {
             return ui.notifications.warn(
-                game.i18n!.localize(
+                game.i18n.localize(
                     'COSMERE.Item.Sheet.Ancestry.Component.AdvancementTalentList.Warning.WrongType',
                 ),
             );
@@ -108,14 +120,16 @@ export class AdvancementTalentListComponent extends DragDropComponentMixin(
         // Ensure the document is a talent
         if (doc.type !== 'talent') {
             return ui.notifications.warn(
-                game.i18n!.localize(
+                game.i18n.localize(
                     'COSMERE.Item.Sheet.Ancestry.Component.AdvancementTalentList.Warning.WrongType',
                 ),
             );
         }
 
+        const item = this.application.item as AncestryItem; // TEMP: Workaround
+
         // Get the talents list
-        let talents = this.application.item.system.advancement.extraTalents;
+        let talents = item.system.advancement.extraTalents;
 
         // Append
         talents.push({
@@ -128,7 +142,11 @@ export class AdvancementTalentListComponent extends DragDropComponentMixin(
 
         // Add the talent
         await this.application.item.update({
-            [`system.advancement.extraTalents`]: talents,
+            system: {
+                advancement: {
+                    extraTalents: talents,
+                },
+            },
         });
 
         // Find the index
@@ -152,8 +170,10 @@ export class AdvancementTalentListComponent extends DragDropComponentMixin(
     /* --- Context --- */
 
     public async _prepareContext(params: never, context: AnyObject) {
+        const item = this.application.item as AncestryItem; // TEMP: Workaround
+
         // Get the extra talents from the item
-        let { extraTalents } = this.application.item.system.advancement;
+        let { extraTalents } = item.system.advancement;
 
         // Sort
         extraTalents = extraTalents.sort((a, b) => a.level - b.level);
@@ -187,6 +207,8 @@ export class AdvancementTalentListComponent extends DragDropComponentMixin(
     /* --- Helpers --- */
 
     protected editTalent(index: number) {
+        if (!this.application.item.isAncestry()) return; // TEMP: Workaround
+
         const extraTalents =
             this.application.item.system.advancement.extraTalents;
 
@@ -228,7 +250,11 @@ export class AdvancementTalentListComponent extends DragDropComponentMixin(
                     extraTalents[index].level = newLevel;
 
                     void this.application.item.update({
-                        'system.advancement.extraTalents': extraTalents,
+                        system: {
+                            advancement: {
+                                extraTalents,
+                            },
+                        },
                     });
                 } else {
                     // Trigger render

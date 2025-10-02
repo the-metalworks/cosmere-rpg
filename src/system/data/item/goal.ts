@@ -1,34 +1,39 @@
 import { CosmereItem } from '@system/documents';
 
-import { CollectionField } from '@system/data/fields';
-
 // Mixins
 import { DataModelMixin } from '../mixins';
-import { IdItemMixin, IdItemData } from './mixins/id';
+import { IdItemMixin, IdItemDataSchema } from './mixins/id';
 import {
     DescriptionItemMixin,
-    DescriptionItemData,
+    DescriptionItemDataSchema,
 } from './mixins/description';
-import { EventsItemMixin, EventsItemData } from './mixins/events';
+import { EventsItemMixin, EventsItemDataSchema } from './mixins/events';
 import {
     RelationshipsMixin,
-    RelationshipsItemData,
+    RelationshipsItemDataSchema,
 } from './mixins/relationships';
 
-export interface GoalItemData
-    extends IdItemData,
-        DescriptionItemData,
-        EventsItemData,
-        RelationshipsItemData {
-    /**
-     * The progress level of the goal
-     */
-    level: number;
-}
+const SCHEMA = () => ({
+    level: new foundry.data.fields.NumberField({
+        required: true,
+        nullable: false,
+        integer: true,
+        min: 0,
+        max: 3,
+        initial: 0,
+        label: 'COSMERE.Item.Goal.Level.Label',
+    }),
+});
+
+export type GoalItemDataSchema = 
+    & ReturnType<typeof SCHEMA>
+    & IdItemDataSchema
+    & DescriptionItemDataSchema
+    & EventsItemDataSchema
+    & RelationshipsItemDataSchema;
 
 export class GoalItemDataModel extends DataModelMixin<
-    GoalItemData,
-    CosmereItem
+    GoalItemDataSchema
 >(
     IdItemMixin({
         initialFromName: true,
@@ -40,16 +45,6 @@ export class GoalItemDataModel extends DataModelMixin<
     RelationshipsMixin(),
 ) {
     static defineSchema() {
-        return foundry.utils.mergeObject(super.defineSchema(), {
-            level: new foundry.data.fields.NumberField({
-                required: true,
-                nullable: false,
-                integer: true,
-                min: 0,
-                max: 3,
-                initial: 0,
-                label: 'COSMERE.Item.Goal.Level.Label',
-            }),
-        });
+        return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());
     }
 }

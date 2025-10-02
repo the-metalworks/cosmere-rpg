@@ -7,9 +7,11 @@ import { TEMPLATES } from '@src/system/utils/templates';
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
 import { BaseItemSheet, BaseItemSheetRenderContext } from '../base';
 
-export class DetailsDamageComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<BaseItemSheet>
-> {
+export class DetailsDamageComponent extends HandlebarsApplicationComponent<// typeof BaseItemSheet
+// TODO: Resolve typing issues
+// NOTE: Use any as workaround for foundry-vtt-types issues
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+any> {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_DETAILS_DAMAGE}`;
 
     /* eslint-disable @typescript-eslint/unbound-method */
@@ -43,6 +45,7 @@ export class DetailsDamageComponent extends HandlebarsApplicationComponent<
             this.application.item.system.activation.type ===
                 ActivationType.SkillTest;
         const hasSkill =
+            this.application.item.hasActivation() &&
             hasSkillTest &&
             this.application.item.system.activation.resolvedSkill;
 

@@ -129,7 +129,10 @@
 
     //Rest of the code should only work on the page
     .journal-entry-page {
-        
+        font-family: var(--cosmere-font-normal);
+        font-weight: 600;
+        font-variant-numeric: lining-nums;
+
         //This replaces the default page title formatting
         .journal-page-header {
             h1 {
@@ -142,10 +145,6 @@
                 font-family: var(--cosmere-font-header-sc);
             }
         }
-
-        font-family: var(--cosmere-font-normal);
-        font-weight: 600;
-        font-variant-numeric: lining-nums;
 
         // Used to make the bolded sections of text blue, as they are in the handbook  
         strong {

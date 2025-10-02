@@ -1,4 +1,7 @@
-import { ConstructorOf, AnyObject } from '@system/types/utils';
+import { AnyObject, ConstructorOf } from '@system/types/utils';
+
+// TEMP
+import { ComponentHandlebarsApplication } from '../component-system/mixin';
 
 // Constants
 const PRIMARY_TAB_GROUP = 'primary';
@@ -38,23 +41,21 @@ export interface ApplicationTab {
 }
 
 export interface TabApplicationRenderOptions
-    extends foundry.applications.api.ApplicationV2.RenderOptions {
+    extends Omit<foundry.applications.api.ApplicationV2.RenderOptions, 'tab'> {
     /**
      * The initial tab to show for the primary tab group, when rendering the application.
      */
     tab?: string;
 }
 
-/**
- * Mixin that adds standardized tabs to an ApplicationV2
- */
+// /**
+//  * Mixin that adds standardized tabs to an ApplicationV2
+//  */
+// export function TabsApplicationMixin<
+//     T extends AnyConcreteApplicationV2Constructor
+// >(base: T) {
 export function TabsApplicationMixin<
-    T extends ConstructorOf<
-        // NOTE: Use of any as the mixin doesn't care about the types
-        // and we don't want to interfere with the final type
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        foundry.applications.api.ApplicationV2<any, any, any>
-    >,
+    T extends ConstructorOf<ComponentHandlebarsApplication>
 >(base: T) {
     return class mixin extends base {
         /**
@@ -94,11 +95,11 @@ export function TabsApplicationMixin<
 
         /* --- Context --- */
 
-        protected _onFirstRender(
+        protected async _onFirstRender(
             context: unknown,
             options: TabApplicationRenderOptions,
-        ): void {
-            super._onFirstRender(context, options);
+        ): Promise<void> {
+            await super._onFirstRender(context, options);
 
             // Set the initial tab for the primary tab group
             if (
@@ -172,7 +173,7 @@ export function TabsApplicationMixin<
                 tabsMap,
                 tabGroups: this.tabGroups,
                 activeTab: this.tabGroups.primary,
-            };
+            } as AnyObject; // TEMP: Workaround
         }
     };
 }

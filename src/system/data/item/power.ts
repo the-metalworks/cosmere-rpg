@@ -1,49 +1,77 @@
 import { Skill, PowerType } from '@system/types/cosmere';
 import { CosmereItem } from '@system/documents';
+import { EmptyObject } from '@system/types/utils';
 
 // Mixins
 import { DataModelMixin } from '../mixins';
-import { IdItemMixin, IdItemData } from './mixins/id';
-import { TypedItemMixin, TypedItemData } from './mixins/typed';
+import { IdItemMixin, IdItemDataSchema } from './mixins/id';
+import { TypedItemMixin, TypedItemDataSchema, TypedItemDerivedData } from './mixins/typed';
 import {
-    ActivatableItemData,
+    ActivatableItemDataSchema,
     ActivatableItemMixin,
 } from './mixins/activatable';
 import {
     DescriptionItemMixin,
-    DescriptionItemData,
+    DescriptionItemDataSchema,
 } from './mixins/description';
-import { DamagingItemData, DamagingItemMixin } from './mixins/damaging';
-import { EventsItemMixin, EventsItemData } from './mixins/events';
+import { DamagingItemDataSchema, DamagingItemMixin } from './mixins/damaging';
+import { EventsItemMixin, EventsItemDataSchema } from './mixins/events';
 import {
     RelationshipsMixin,
-    RelationshipsItemData,
+    RelationshipsItemDataSchema,
 } from './mixins/relationships';
 
-export interface PowerItemData
-    extends IdItemData,
-        TypedItemData<PowerType>,
-        DamagingItemData,
-        DescriptionItemData,
-        EventsItemData,
-        RelationshipsItemData {
-    /**
-     * Wether to a custom skill is used, or
-     * the skill is derived from the power's id.
-     */
-    customSkill: boolean;
+const SCHEMA = () => ({
+    customSkill: new foundry.data.fields.BooleanField({
+        required: true,
+        initial: false,
+        label: 'COSMERE.Item.Power.CustomSkill.Label',
+        hint: 'COSMERE.Item.Power.CustomSkill.Hint',
+    }),
 
-    /**
-     * The skill associated with this power.
-     * This cannot be a core skill.
-     * If `customSkill` is `false`, the skill with the same id as the power is used.
-     */
-    skill: Skill | null;
-}
+    skill: new foundry.data.fields.StringField({
+        required: true,
+        nullable: true,
+        blank: false,
+        label: 'COSMERE.Item.Power.Skill.Label',
+        hint: 'COSMERE.Item.Power.Skill.Hint',
+        initial: null,
+        choices: () =>
+            Object.entries(CONFIG.COSMERE.skills)
+                .filter(([key, skill]) => !skill.core)
+                .reduce(
+                    (acc, [key, skill]) => ({
+                        ...acc,
+                        [key]: skill.label,
+                    }),
+                    {} as Record<Skill, string>,
+                ),
+    }),
+});
+
+export type PowerItemDataSchema =
+    & ReturnType<typeof SCHEMA>
+    & IdItemDataSchema
+    & TypedItemDataSchema<PowerType>
+    & DamagingItemDataSchema
+    & DescriptionItemDataSchema
+    & ActivatableItemDataSchema
+    & EventsItemDataSchema
+    & RelationshipsItemDataSchema;
+
+export type PowerItemDerivedData = TypedItemDerivedData;
+
+export type PowerItemCreateData = Item.CreateData & {
+    system: foundry.data.fields.SchemaField.CreateData<
+        PowerItemDataSchema
+    >
+};
 
 export class PowerItemDataModel extends DataModelMixin<
-    PowerItemData,
-    CosmereItem
+    PowerItemDataSchema,
+    foundry.abstract.Document.Any,
+    EmptyObject,
+    PowerItemDerivedData
 >(
     IdItemMixin({
         initialFromName: true,
@@ -69,33 +97,7 @@ export class PowerItemDataModel extends DataModelMixin<
     RelationshipsMixin(),
 ) {
     static defineSchema() {
-        return foundry.utils.mergeObject(super.defineSchema(), {
-            customSkill: new foundry.data.fields.BooleanField({
-                required: true,
-                initial: false,
-                label: 'COSMERE.Item.Power.CustomSkill.Label',
-                hint: 'COSMERE.Item.Power.CustomSkill.Hint',
-            }),
-
-            skill: new foundry.data.fields.StringField({
-                required: true,
-                nullable: true,
-                blank: false,
-                label: 'COSMERE.Item.Power.Skill.Label',
-                hint: 'COSMERE.Item.Power.Skill.Hint',
-                initial: null,
-                choices: () =>
-                    Object.entries(CONFIG.COSMERE.skills)
-                        .filter(([key, skill]) => !skill.core)
-                        .reduce(
-                            (acc, [key, skill]) => ({
-                                ...acc,
-                                [key]: skill.label,
-                            }),
-                            {},
-                        ),
-            }),
-        });
+        return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());
     }
 
     public prepareDerivedData() {

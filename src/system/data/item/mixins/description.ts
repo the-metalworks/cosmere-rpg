@@ -1,12 +1,6 @@
-import { CosmereItem } from '@system/documents';
+// import { CosmereItem } from '@system/documents';
 
-export interface DescriptionItemData {
-    description?: {
-        value?: string;
-        chat?: string;
-        short?: string;
-    };
-}
+import { localize } from '@system/utils/i18n';
 
 export interface InitialDescriptionItemValues {
     value: string;
@@ -14,36 +8,41 @@ export interface InitialDescriptionItemValues {
     chat?: string;
 }
 
-export function DescriptionItemMixin<P extends CosmereItem>(
+const SCHEMA = (params?: InitialDescriptionItemValues) => ({
+    description: new foundry.data.fields.SchemaField({
+        value: new foundry.data.fields.HTMLField({
+            label: 'Description',
+            initial: params?.value
+                ? `<p>${localize(params.value)}</p>`
+                : '',
+        }),
+        chat: new foundry.data.fields.HTMLField({
+            label: 'Chat description',
+            initial: params?.chat
+                ? `<p>${localize(params.chat)}</p>`
+                : '',
+        }),
+        short: new foundry.data.fields.StringField({
+            initial: params?.short
+                ? `<p>${localize(params.short)}</p>`
+                : '',
+        }),
+    }),
+});
+
+export type DescriptionItemDataSchema = ReturnType<typeof SCHEMA>;
+export type DescriptionItemData = foundry.data.fields.SchemaField.InitializedData<DescriptionItemDataSchema>;
+
+export function DescriptionItemMixin<TParent extends foundry.abstract.Document.Any>(
     params?: InitialDescriptionItemValues,
 ) {
     return (
-        base: typeof foundry.abstract.TypeDataModel<DescriptionItemData, P>,
+        base: typeof foundry.abstract.TypeDataModel,
     ) => {
-        return class extends base {
+        return class extends base<DescriptionItemDataSchema, TParent> {
             static defineSchema() {
-                return foundry.utils.mergeObject(super.defineSchema(), {
-                    description: new foundry.data.fields.SchemaField({
-                        value: new foundry.data.fields.HTMLField({
-                            label: 'Description',
-                            initial: params?.value
-                                ? `<p>${game.i18n!.localize(params.value)}</p>`
-                                : '',
-                        }),
-                        chat: new foundry.data.fields.HTMLField({
-                            label: 'Chat description',
-                            initial: params?.chat
-                                ? `<p>${game.i18n!.localize(params.chat)}</p>`
-                                : '',
-                        }),
-                        short: new foundry.data.fields.StringField({
-                            initial: params?.short
-                                ? `<p>${game.i18n!.localize(params.short)}</p>`
-                                : '',
-                        }),
-                    }),
-                });
+                return foundry.utils.mergeObject(super.defineSchema(), SCHEMA(params));
             }
-        };
+        }
     };
 }

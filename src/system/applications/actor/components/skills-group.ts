@@ -30,7 +30,11 @@ type Params = {
 };
 
 export class ActorSkillsGroupComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<BaseActorSheet>,
+    // typeof BaseActorSheet,
+    // TODO: Resolve typing issues
+    // NOTE: Use any as workaround for foundry-vtt-types issues
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    any,
     Params
 > {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_SKILLS_GROUP}`;

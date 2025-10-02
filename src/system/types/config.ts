@@ -361,7 +361,7 @@ export interface ItemEventTypeConfig {
      * Function to transform the hook arguments into a fixed set of arguments.
      */
     transform?: (...args: any[]) => {
-        document: foundry.abstract.Document;
+        document: foundry.abstract.Document.Any;
         options?: AnyObject & { _eti?: string; _d?: number };
         userId?: string;
     };

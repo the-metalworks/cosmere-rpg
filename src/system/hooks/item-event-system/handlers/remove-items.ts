@@ -111,7 +111,7 @@ export function register() {
 
                     // If the new quantity is 0, remove the item
                     if (newQuantity === 0) {
-                        itemRemovals.push(matchingItem.id);
+                        itemRemovals.push(matchingItem.id!);
                     } else {
                         // Otherwise, update the item quantity
                         itemUpdates.push({
@@ -121,7 +121,7 @@ export function register() {
                     }
                 } else {
                     // Remove the item outright
-                    itemRemovals.push(matchingItem.id);
+                    itemRemovals.push(matchingItem.id!);
                 }
             });
 

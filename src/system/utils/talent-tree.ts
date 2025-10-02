@@ -13,7 +13,7 @@ export function addNode(
     node: Omit<TalentTree.Node, 'connections'>,
     tree: TalentTreeItem,
     operation?: Partial<
-        Omit<foundry.abstract.DatabaseUpdateOperation, 'updates' | '_result'>
+        Omit<Item.Database.UpdateOperation, 'updates' | '_result'>
     >,
 ) {
     return tree.update(
@@ -32,7 +32,7 @@ export async function removeNode(
     node: TalentTree.Node,
     tree: TalentTreeItem,
     operation?: Partial<
-        Omit<foundry.abstract.DatabaseUpdateOperation, 'updates' | '_result'>
+        Omit<Item.Database.UpdateOperation, 'updates' | '_result'>
     >,
 ) {
     // Get all connections TO the removed node (if relevant)
@@ -59,7 +59,7 @@ export function addConnection(
     toId: string,
     tree: TalentTreeItem,
     operation?: Partial<
-        Omit<foundry.abstract.DatabaseUpdateOperation, 'updates' | '_result'>
+        Omit<Item.Database.UpdateOperation, 'updates' | '_result'>
     >,
 ) {
     // Get the nodes
@@ -140,7 +140,7 @@ export function removeConnection(
     toId: string,
     tree: TalentTreeItem,
     operation?: Partial<
-        Omit<foundry.abstract.DatabaseUpdateOperation, 'updates' | '_result'>
+        Omit<Item.Database.UpdateOperation, 'updates' | '_result'>
     >,
 ) {
     // Get the nodes
@@ -166,7 +166,7 @@ export function removeConnection(
     // Prepare node changes
     const nodeChanges = prereq
         ? Array.from(prereq.talents).length === 1
-            ? { [`prerequisites.-=${prereq.id}`]: {} }
+            ? { [`prerequisites.-=${prereq.id}`]: null }
             : {
                   [`prerequisites.${prereq.id}.talents`]: prereq.talents.filter(
                       (talent) => talent.id !== to.talentId,
@@ -175,7 +175,7 @@ export function removeConnection(
         : {};
 
     // Remove the connection
-    nodeChanges[`connections.-=${to.id}`] = {};
+    nodeChanges[`connections.-=${to.id}`] = null;
 
     // Update the tree
     return tree.update(
@@ -195,7 +195,7 @@ export function removePrerequisite(
     prereqId: string,
     tree: TalentTreeItem,
     operation?: Partial<
-        Omit<foundry.abstract.DatabaseUpdateOperation, 'updates' | '_result'>
+        Omit<Item.Database.UpdateOperation, 'updates' | '_result'>
     >,
 ) {
     // Get the prerequisite
@@ -214,11 +214,11 @@ export function removePrerequisite(
     return tree.update(
         {
             [`system.nodes.${node.id}`]: {
-                [`prerequisites.-=${prereqId}`]: {},
+                [`prerequisites.-=${prereqId}`]: null,
                 ...connections.reduce(
                     (acc, id) => ({
                         ...acc,
-                        [`connections.-=${id}`]: {},
+                        [`connections.-=${id}`]: null,
                     }),
                     {} as Record<string, unknown>,
                 ),
@@ -328,9 +328,7 @@ export async function isTalentRequiredAsPrerequisite(
     // Resolve all nested talent trees
     const nestedTrees = (
         await Promise.all(
-            nestedTreeNodes.map(
-                (node) => fromUuid(node.uuid) as Promise<TalentTreeItem | null>,
-            ),
+            nestedTreeNodes.map((node) => fromUuid<TalentTreeItem>(node.uuid)),
         )
     ).filter((tree) => !!tree);
 
@@ -361,9 +359,7 @@ export async function getTalents(
             tree.system.nodes
                 .filter((node) => node.type === TalentTree.Node.Type.Talent)
                 .map(async (node) => {
-                    const talent = (await fromUuid(
-                        node.uuid,
-                    )) as TalentItem | null;
+                    const talent = await fromUuid<TalentItem>(node.uuid);
                     if (!talent?.isTalent()) return null;
 
                     return talent;
@@ -377,9 +373,7 @@ export async function getTalents(
             tree.system.nodes
                 .filter((node) => node.type === TalentTree.Node.Type.Tree)
                 .map(async (node) => {
-                    const tree = (await fromUuid(
-                        node.uuid,
-                    )) as TalentTreeItem | null;
+                    const tree = await fromUuid<TalentTreeItem>(node.uuid);
                     if (!tree?.isTalentTree()) return [];
 
                     return getTalents(tree, true);

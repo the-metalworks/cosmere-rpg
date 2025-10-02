@@ -1,44 +1,55 @@
 import { ActionType } from '@system/types/cosmere';
 import { CosmereItem } from '@system/documents';
+import { EmptyObject } from '@system/types/utils';
 
 // Mixins
 import { DataModelMixin } from '../mixins';
-import { IdItemMixin, IdItemData } from './mixins/id';
-import { TypedItemMixin, TypedItemData } from './mixins/typed';
+import { IdItemMixin, IdItemDataSchema } from './mixins/id';
+import { TypedItemMixin, TypedItemDataSchema, TypedItemDerivedData } from './mixins/typed';
 import {
     DescriptionItemMixin,
-    DescriptionItemData,
+    DescriptionItemDataSchema,
 } from './mixins/description';
 import {
     ActivatableItemMixin,
-    ActivatableItemData,
+    ActivatableItemDataSchema,
 } from './mixins/activatable';
-import { DamagingItemMixin, DamagingItemData } from './mixins/damaging';
-import { ModalityItemMixin, ModalityItemData } from './mixins/modality';
-import { EventsItemMixin, EventsItemData } from './mixins/events';
+import { DamagingItemMixin, DamagingItemDataSchema } from './mixins/damaging';
+import { ModalityItemMixin, ModalityItemDataSchema } from './mixins/modality';
+import { EventsItemMixin, EventsItemDataSchema } from './mixins/events';
 import {
     RelationshipsMixin,
-    RelationshipsItemData,
+    RelationshipsItemDataSchema,
 } from './mixins/relationships';
 
-export interface ActionItemData
-    extends DescriptionItemData,
-        ActivatableItemData,
-        IdItemData,
-        TypedItemData<ActionType>,
-        DamagingItemData,
-        ModalityItemData,
-        EventsItemData,
-        RelationshipsItemData {
-    /**
-     * The id of the Ancestry this Talent belongs to.
-     */
-    ancestry?: string;
-}
+const SCHEMA = {
+    ancestry: new foundry.data.fields.StringField({
+        required: false,
+        nullable: true,
+        initial: null,
+        label: 'COSMERE.Item.Action.Ancestry.Label',
+        hint: 'COSMERE.Item.Action.Ancestry.Hint',
+    }),
+};
+
+export type ActionItemDataSchema = 
+    & typeof SCHEMA 
+    & IdItemDataSchema
+    & TypedItemDataSchema<ActionType>
+    & DescriptionItemDataSchema
+    & ActivatableItemDataSchema
+    & DamagingItemDataSchema
+    & ModalityItemDataSchema
+    & EventsItemDataSchema
+    & RelationshipsItemDataSchema;
+
+export type ActionItemDerivedData = TypedItemDerivedData;
 
 export class ActionItemDataModel extends DataModelMixin<
-    ActionItemData,
-    CosmereItem
+    ActionItemDataSchema,
+    foundry.abstract.Document.Any,
+    EmptyObject,
+    ActionItemDerivedData
 >(
     IdItemMixin({
         initialFromName: true,
@@ -64,14 +75,6 @@ export class ActionItemDataModel extends DataModelMixin<
     RelationshipsMixin(),
 ) {
     static defineSchema() {
-        return foundry.utils.mergeObject(super.defineSchema(), {
-            ancestry: new foundry.data.fields.StringField({
-                required: false,
-                nullable: true,
-                initial: null,
-                label: 'COSMERE.Item.Action.Ancestry.Label',
-                hint: 'COSMERE.Item.Action.Ancestry.Hint',
-            }),
-        });
+        return foundry.utils.mergeObject(super.defineSchema(), SCHEMA);
     }
 }

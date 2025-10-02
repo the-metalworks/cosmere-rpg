@@ -7,9 +7,11 @@ import { TEMPLATES } from '@src/system/utils/templates';
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
 import { BaseItemSheet, BaseItemSheetRenderContext } from '../base';
 
-export class DetailsEquipComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<BaseItemSheet>
-> {
+export class DetailsEquipComponent extends HandlebarsApplicationComponent<// typeof BaseItemSheet
+// TODO: Resolve typing issues
+// NOTE: Use any as workaround for foundry-vtt-types issues
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+any> {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_DETAILS_EQUIP}`;
 
     /**
@@ -49,7 +51,8 @@ export class DetailsEquipComponent extends HandlebarsApplicationComponent<
     /* --- Context --- */
 
     public _prepareContext(params: never, context: BaseItemSheetRenderContext) {
-        const isEquippable = this.application.item.isEquippable();
+        const item = this.application.item; // TEMP: Workaround
+        const isEquippable = item.isEquippable();
 
         if (!isEquippable) {
             return Promise.resolve({
@@ -68,10 +71,8 @@ export class DetailsEquipComponent extends HandlebarsApplicationComponent<
                 }),
                 {},
             ),
-            holdTypeLabel: this.application.item.system.equip.hold
-                ? CONFIG.COSMERE.items.equip.hold[
-                      this.application.item.system.equip.hold
-                  ].label
+            holdTypeLabel: item.system.equip.hold
+                ? CONFIG.COSMERE.items.equip.hold[item.system.equip.hold].label
                 : '—',
             normalTraitsCollapsed: this.normalTraitsCollapsed,
             expertTraitsCollapsed: this.expertTraitsCollapsed,
@@ -83,7 +84,7 @@ export class DetailsEquipComponent extends HandlebarsApplicationComponent<
     }
 
     private prepareTraitsData(expert: boolean) {
-        const item = this.application.item;
+        const item = this.application.item; // TEMP: Workaround
 
         if (!item.isArmor() && !item.isWeapon()) return null;
 
@@ -117,13 +118,13 @@ export class DetailsEquipComponent extends HandlebarsApplicationComponent<
                                   {
                                       id,
                                       type: 'modify-trait-value',
-                                      label: game
-                                          .i18n!.localize(
+                                      label: game.i18n
+                                          .localize(
                                               'COSMERE.Item.Sheet.Equip.ModifyTraitValue',
                                           )
                                           .replace(
                                               '[trait]',
-                                              game.i18n!.localize(config.label),
+                                              game.i18n.localize(config.label),
                                           )
                                           .replace(
                                               '[value]',
@@ -142,13 +143,11 @@ export class DetailsEquipComponent extends HandlebarsApplicationComponent<
                         {
                             id,
                             type: 'lose-trait',
-                            label: game
-                                .i18n!.localize(
-                                    'COSMERE.Item.Sheet.Equip.LoseTrait',
-                                )
+                            label: game.i18n
+                                .localize('COSMERE.Item.Sheet.Equip.LoseTrait')
                                 .replace(
                                     '[trait]',
-                                    game.i18n!.localize(config.label),
+                                    game.i18n.localize(config.label),
                                 ),
                             active: traitData.expertise.toggleActive,
                         },
@@ -169,7 +168,7 @@ export class DetailsEquipComponent extends HandlebarsApplicationComponent<
     }
 
     private prepareNormalTraitsString() {
-        const item = this.application.item;
+        const item = this.application.item; // TEMP: Workaround
         if (!item.hasTraits()) return null;
 
         const isArmor = item.isArmor();
@@ -185,13 +184,13 @@ export class DetailsEquipComponent extends HandlebarsApplicationComponent<
                           trait.id as WeaponTraitId
                       ];
 
-                return game.i18n!.localize(config.label);
+                return game.i18n.localize(config.label);
             })
             .join(', ');
     }
 
     private prepareExpertTraitsString() {
-        const item = this.application.item;
+        const item = this.application.item; // TEMP: Workaround
         if (!item.hasTraits()) return null;
 
         const isArmor = item.isArmor();
@@ -212,27 +211,25 @@ export class DetailsEquipComponent extends HandlebarsApplicationComponent<
                       ];
 
                 if (trait.defaultActive && trait.expertise.toggleActive) {
-                    return game
-                        .i18n!.localize('COSMERE.Item.Sheet.Equip.LoseTrait')
-                        .replace('[trait]', game.i18n!.localize(config.label));
+                    return game.i18n
+                        .localize('COSMERE.Item.Sheet.Equip.LoseTrait')
+                        .replace('[trait]', game.i18n.localize(config.label));
                 } else if (
                     !trait.defaultActive &&
                     trait.expertise.toggleActive
                 ) {
-                    return game.i18n!.localize(config.label);
+                    return game.i18n.localize(config.label);
                 } else if (
-                    trait.defaultValue !== null &&
-                    trait.expertise.value !== null
+                    trait.defaultValue != null &&
+                    trait.expertise.value != null
                 ) {
-                    return game
-                        .i18n!.localize(
-                            'COSMERE.Item.Sheet.Equip.ModifyTraitValue',
-                        )
-                        .replace('[trait]', game.i18n!.localize(config.label))
-                        .replace('[value]', trait.defaultValue!.toString())
+                    return game.i18n
+                        .localize('COSMERE.Item.Sheet.Equip.ModifyTraitValue')
+                        .replace('[trait]', game.i18n.localize(config.label))
+                        .replace('[value]', trait.defaultValue.toString())
                         .replace(
                             '[newValue]',
-                            trait.expertise.value!.toString(),
+                            trait.expertise.value.toString(),
                         );
                 }
             })

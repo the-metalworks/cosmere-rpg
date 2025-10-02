@@ -1,21 +1,24 @@
 import { CosmereItem } from '@system/documents';
 import { IdItemData } from './id';
 
-export interface ModalityItemData {
-    /**
-     * The id of the modality this item belongs to. (i.e. "stance")
-     */
-    modality: string | null;
-}
+const SCHEMA = () => ({
+    modality: new foundry.data.fields.StringField({
+        required: true,
+        nullable: true,
+        label: 'COSMERE.Item.Modality.Label',
+        hint: 'COSMERE.Item.Modality.Hint',
+        initial: null,
+    }),
+});
 
-export function ModalityItemMixin<P extends CosmereItem>() {
+export type ModalityItemDataSchema = ReturnType<typeof SCHEMA>;
+export type ModalityItemData = foundry.data.fields.SchemaField.InitializedData<ModalityItemDataSchema>;
+
+export function ModalityItemMixin<TParent extends foundry.abstract.Document.Any>() {
     return (
-        base: typeof foundry.abstract.TypeDataModel<
-            ModalityItemData & IdItemData,
-            P
-        >,
+        base: typeof foundry.abstract.TypeDataModel,
     ) => {
-        return class extends base {
+        return class extends base<ModalityItemDataSchema, TParent> {
             static defineSchema() {
                 const superSchema = super.defineSchema();
 
@@ -26,15 +29,7 @@ export function ModalityItemMixin<P extends CosmereItem>() {
                     );
                 }
 
-                return foundry.utils.mergeObject(super.defineSchema(), {
-                    modality: new foundry.data.fields.StringField({
-                        required: true,
-                        nullable: true,
-                        label: 'COSMERE.Item.Modality.Label',
-                        hint: 'COSMERE.Item.Modality.Hint',
-                        initial: null,
-                    }),
-                });
+                return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());
             }
         };
     };

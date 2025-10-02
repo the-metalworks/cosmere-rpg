@@ -35,18 +35,25 @@ export const enum BaseSheetTab {
     Effects = 'effects',
 }
 
-// NOTE: Have to use type instead of interface to comply with AnyObject type
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-export type BaseActorSheetRenderContext = {
+export interface BaseActorSheetRenderContext
+    extends foundry.applications.sheets.ActorSheetV2.RenderContext {
     actor: CosmereActor;
     isEditMode: boolean;
-};
+}
 
+// TEMP: Workaround
+// export class BaseActorSheet<
+//     T extends BaseActorSheetRenderContext = BaseActorSheetRenderContext,
+// > extends TabsApplicationMixin(
+//     DragDropApplicationMixin(ComponentHandlebarsApplicationMixin(ActorSheetV2)),
+// )<T> {
 export class BaseActorSheet<
     T extends BaseActorSheetRenderContext = BaseActorSheetRenderContext,
 > extends TabsApplicationMixin(
     DragDropApplicationMixin(ComponentHandlebarsApplicationMixin(ActorSheetV2)),
-)<T> {
+) {
+    declare actor: CosmereActor;
+
     /* eslint-disable @typescript-eslint/unbound-method */
     static DEFAULT_OPTIONS = foundry.utils.mergeObject(
         foundry.utils.mergeObject({}, super.DEFAULT_OPTIONS),
@@ -67,7 +74,7 @@ export class BaseActorSheet<
                 },
             ],
         },
-    );
+    ) as foundry.applications.api.DocumentSheetV2.DefaultOptions;
     /* eslint-enable @typescript-eslint/unbound-method */
 
     static PARTS = foundry.utils.mergeObject(super.PARTS, {
@@ -102,10 +109,6 @@ export class BaseActorSheet<
 
     get isUpdatingHtmlField(): boolean {
         return this.updatingHtmlField;
-    }
-
-    get actor(): CosmereActor {
-        return super.document;
     }
 
     protected actionsSearchText = '';
@@ -177,17 +180,27 @@ export class BaseActorSheet<
             const index = document as Record<string, string>;
 
             // Get the pack
-            const pack = game.packs!.get(index.pack);
+            const pack = game.packs.get(index.pack);
             if (!pack) return;
 
             // Get the document
             const packDocument = (await pack.getDocument(index._id))!;
 
             // Embed document
-            void this.actor.createEmbeddedDocuments(data.type, [packDocument]);
+            // TODO: Resolve typing issues
+            // @ts-expect-error packDocument is not typed correctly due to foundry-vtt-types issues
+            void this.actor.createEmbeddedDocuments(
+                data.type as Actor.Embedded.Name,
+                [packDocument],
+            );
         } else if (document.parent !== this.actor) {
             // Document not yet on this actor, create it
-            void this.actor.createEmbeddedDocuments(data.type, [document]);
+            // TODO: Resolve typing issues
+            // @ts-expect-error document is not typed correctly due to foundry-vtt-types issues
+            void this.actor.createEmbeddedDocuments(
+                data.type as Actor.Embedded.Name,
+                [document],
+            );
         }
     }
 
@@ -201,12 +214,10 @@ export class BaseActorSheet<
         event.stopPropagation();
 
         // Update the actor and re-render
-        await this.actor.update(
-            {
-                'flags.cosmere-rpg.sheet.mode':
-                    this.mode === 'view' ? 'edit' : 'view',
-            },
-            { render: true },
+        await this.actor.setFlag(
+            SYSTEM_ID,
+            'sheet.mode',
+            this.mode === 'view' ? 'edit' : 'view',
         );
 
         // Get toggle
@@ -218,7 +229,7 @@ export class BaseActorSheet<
         // Update tooltip
         toggle.attr(
             'data-tooltip',
-            game.i18n!.localize(
+            game.i18n.localize(
                 `COSMERE.Actor.Sheet.${this.mode === 'edit' ? 'View' : 'Edit'}`,
             ),
         );
@@ -354,11 +365,11 @@ export class BaseActorSheet<
 
     /* --- Lifecycle --- */
 
-    protected _onRender(
+    protected async _onRender(
         context: AnyObject,
         options: ComponentHandlebarsRenderOptions,
     ) {
-        super._onRender(context, options);
+        await super._onRender(context, options);
 
         if (options.parts.includes('content')) {
             this.element
@@ -461,19 +472,19 @@ export class BaseActorSheet<
         if (this.actor.system.biography) {
             enrichedBiographyValue = await TextEditor.enrichHTML(
                 this.actor.system.biography,
-                { relativeTo: this.document as foundry.abstract.Document.Any },
+                { relativeTo: this.document },
             );
         }
         if (this.actor.system.appearance) {
             enrichedAppearanceValue = await TextEditor.enrichHTML(
                 this.actor.system.appearance,
-                { relativeTo: this.document as foundry.abstract.Document.Any },
+                { relativeTo: this.document },
             );
         }
         if (this.actor.system.notes) {
             enrichedNotesValue = await TextEditor.enrichHTML(
                 this.actor.system.notes,
-                { relativeTo: this.document as foundry.abstract.Document.Any },
+                { relativeTo: this.document },
             );
         }
 

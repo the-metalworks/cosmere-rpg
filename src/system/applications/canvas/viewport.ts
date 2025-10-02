@@ -1,3 +1,5 @@
+import { DeepReadonly } from '@system/types/utils';
+
 import { World } from './world';
 
 export interface ViewportOptions {

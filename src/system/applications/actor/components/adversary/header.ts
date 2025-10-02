@@ -15,9 +15,11 @@ import {
     AdversarySheetRenderContext,
 } from '../../adversary-sheet';
 
-export class AdversaryHeaderComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<AdversarySheet>
-> {
+export class AdversaryHeaderComponent extends HandlebarsApplicationComponent<// typeof AdversarySheet
+// TODO: Resolve typing issues
+// NOTE: Use any as workaround for foundry-vtt-types issues
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+any> {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_ADVERSARY_HEADER}`;
 
     /**

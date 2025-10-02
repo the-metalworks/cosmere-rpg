@@ -48,7 +48,7 @@ type Params = {
 
 export class ItemDropListComponent extends DragDropComponentMixin(
     HandlebarsApplicationComponent<
-        ConstructorOf<foundry.applications.api.ApplicationV2>,
+        foundry.applications.api.ApplicationV2.AnyConstructor,
         Params
     >,
 ) {
@@ -161,7 +161,7 @@ export class ItemDropListComponent extends DragDropComponentMixin(
         // Ensure the document is not already in the list
         if (this.value.some((v) => v.uuid === data.uuid)) {
             return ui.notifications.warn(
-                game.i18n!.format(
+                game.i18n.format(
                     'COMPONENT.DocumentDropListComponent.Warning.DocumentAlreadyInList',
                     {
                         type: 'Item',
@@ -173,7 +173,7 @@ export class ItemDropListComponent extends DragDropComponentMixin(
         // Validate document type
         if (data.type !== 'Item') {
             return ui.notifications.warn(
-                game.i18n!.format(
+                game.i18n.format(
                     'COMPONENT.DocumentDropListComponent.Warning.WrongType',
                     {
                         type: 'Item',
@@ -189,7 +189,7 @@ export class ItemDropListComponent extends DragDropComponentMixin(
         if (this.params!.type) {
             if (item.type !== this.params!.type) {
                 return ui.notifications.warn(
-                    game.i18n!.format(
+                    game.i18n.format(
                         'COMPONENT.DocumentDropListComponent.Warning.WrongSubtype',
                         {
                             subtype: this.params!.type,

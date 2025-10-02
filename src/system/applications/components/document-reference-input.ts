@@ -43,7 +43,7 @@ type Params = {
 
 export class DocumentReferenceInputComponent extends DragDropComponentMixin(
     HandlebarsApplicationComponent<
-        ConstructorOf<foundry.applications.api.ApplicationV2>,
+        foundry.applications.api.ApplicationV2.AnyConstructor,
         Params
     >,
 ) {
@@ -144,7 +144,7 @@ export class DocumentReferenceInputComponent extends DragDropComponentMixin(
         // Validate type
         if (this.params!.type && data.type !== this.params!.type) {
             return ui.notifications.warn(
-                game.i18n!.format(
+                game.i18n.format(
                     'COMPONENT.DocumentReferenceInput.Warning.WrongType',
                     {
                         type: this.params!.type,
@@ -169,11 +169,11 @@ export class DocumentReferenceInputComponent extends DragDropComponentMixin(
                 )[this.params.type].typeLabels[this.params.subtype];
 
                 return ui.notifications.warn(
-                    game.i18n!.format(
+                    game.i18n.format(
                         'COMPONENT.DocumentReferenceInput.Warning.WrongSubtype',
                         {
                             type: this.params.type,
-                            subtype: game.i18n!.localize(subtypeLabel),
+                            subtype: game.i18n.localize(subtypeLabel),
                         },
                     ),
                 );
@@ -225,7 +225,7 @@ export class DocumentReferenceInputComponent extends DragDropComponentMixin(
     public async _prepareContext(params: Params) {
         // Look up the document
         const doc = this.value
-            ? ((await fromUuid(this.value)) as ClientDocument | null)
+            ? await fromUuid<ClientDocument>(this.value)
             : undefined;
 
         // Generate content link
@@ -244,10 +244,10 @@ export class DocumentReferenceInputComponent extends DragDropComponentMixin(
                 : undefined;
 
         // Format default placeholder
-        const defaultPlaceholder = game.i18n!.format(
+        const defaultPlaceholder = game.i18n.format(
             'COMPONENT.DocumentReferenceInput.Placeholder',
             {
-                type: game.i18n!.localize(
+                type: game.i18n.localize(
                     subtypeLabel ?? params.type ?? 'GENERIC.Document',
                 ),
             },

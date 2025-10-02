@@ -11,9 +11,11 @@ import { BaseActorSheet } from '../base';
 // Utils
 import { journalEntryPageTextFromUuid } from '@system/utils/uuid';
 
-export class ActorConditionsComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<BaseActorSheet>
-> {
+export class ActorConditionsComponent extends HandlebarsApplicationComponent<// typeof BaseActorSheet
+// TODO: Resolve typing issues
+// NOTE: Use any as workaround for foundry-vtt-types issues
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+any> {
     static readonly TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_CONDITIONS}`;
 
     /**
@@ -61,7 +63,9 @@ export class ActorConditionsComponent extends HandlebarsApplicationComponent<
             if (newStacks > 0) {
                 // Update the effect
                 await effect.update({
-                    'system.stacks': newStacks,
+                    system: {
+                        stacks: newStacks,
+                    },
                 });
             } else {
                 await this.application.actor.toggleStatusEffect(condition);

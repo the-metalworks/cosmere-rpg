@@ -1,5 +1,6 @@
 import { Attribute, Skill } from '@system/types/cosmere';
-import { CosmereActorRollData } from '@system/documents/actor';
+import { CosmereItem } from '@system/documents/item';
+import { CosmereActor, CosmereActorRollData } from '@system/documents/actor';
 import { AdvantageMode } from '@system/types/roll';
 
 // Dialogs
@@ -36,6 +37,8 @@ export type D20RollData<
 
     /* --- For hooks --- */
     context: string; // The roll context, for naming
+
+    source: CosmereItem | CosmereActor | null;
 };
 
 export interface D20RollOptions
@@ -284,26 +287,14 @@ export class D20Roll extends foundry.dice.Roll<D20RollData> {
         return this;
     }
 
-    public toMessage<
-        T extends foundry.documents.BaseChatMessage.ConstructorData = Record<
-            string,
-            never
-        >,
-        Create extends boolean = true,
-    >(
-        messageData?: T,
-        options?: Partial<{
-            rollMode: keyof CONFIG.Dice.RollModes | 'roll';
-            create: Create;
-        }>,
-    ): Promise<
-        | (true extends Create ? ChatMessage | undefined : never)
-        | (false extends Create ? foundry.dice.Roll.MessageData<T> : never)
-    > {
+    public toMessage<Create extends boolean | null | undefined = undefined>(
+        messageData?: Roll.MessageData | null,
+        options?: Roll.ToMessageOptions<Create>,
+    ): Promise<Roll.ToMessageReturn<Create>> {
         options ??= {};
         options.rollMode ??= this.options.rollMode;
         if (options.rollMode === 'roll') options.rollMode = undefined;
-        options.rollMode ??= game.settings!.get('core', 'rollMode');
+        options.rollMode ??= game.settings.get('core', 'rollMode');
 
         return super.toMessage(messageData, options);
     }

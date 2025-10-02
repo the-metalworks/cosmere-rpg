@@ -1,3 +1,5 @@
+import { AnyObject } from '@system/types/utils';
+
 // Documents
 import { TalentTreeItem, CosmereItem } from '@system/documents/item';
 
@@ -11,13 +13,13 @@ const EMBEDDED_APPS: Record<
 
 export async function buildEmbedHTML(
     item: TalentTreeItem,
-    config: DocumentHTMLEmbedConfig,
+    config: TextEditor.DocumentHTMLEmbedConfig,
     options?: TextEditor.EnrichmentOptions,
 ): Promise<HTMLElement | HTMLCollection | null> {
     if (!(options?.relativeTo instanceof JournalEntryPage)) return null;
 
     // Create the embedded application
-    const embededApp = await getEmbedApp(item, options.relativeTo, config);
+    const embededApp = await getEmbedApp(item, options.relativeTo, config as unknown as TextEditor.DocumentHTMLEmbedConfig & AnyObject);
 
     // Return target
     return $(
@@ -28,7 +30,7 @@ export async function buildEmbedHTML(
 export function createInlineEmbed(
     item: TalentTreeItem,
     content: HTMLElement | HTMLCollection,
-    config: DocumentHTMLEmbedConfig,
+    config: TextEditor.DocumentHTMLEmbedConfig,
     options?: TextEditor.EnrichmentOptions,
 ): Promise<HTMLElement | null> {
     const section = document.createElement('section');
@@ -43,23 +45,23 @@ export function createInlineEmbed(
 async function getEmbedApp(
     item: TalentTreeItem,
     page: JournalEntryPage,
-    config: DocumentHTMLEmbedConfig,
+    config: TextEditor.DocumentHTMLEmbedConfig & AnyObject,
 ): Promise<TalentTreeEmbed> {
     const journalEntry = page.parent as unknown as JournalEntry;
 
     if (!EMBEDDED_APPS[journalEntry.uuid])
         EMBEDDED_APPS[journalEntry.uuid] = {};
-    if (!EMBEDDED_APPS[journalEntry.uuid][page.id])
-        EMBEDDED_APPS[journalEntry.uuid][page.id] = {};
-    if (!EMBEDDED_APPS[journalEntry.uuid][page.id][item.id]) {
-        EMBEDDED_APPS[journalEntry.uuid][page.id][item.id] =
+    if (!EMBEDDED_APPS[journalEntry.uuid][page.id!])
+        EMBEDDED_APPS[journalEntry.uuid][page.id!] = {};
+    if (!EMBEDDED_APPS[journalEntry.uuid][page.id!][item.id!]) {
+        EMBEDDED_APPS[journalEntry.uuid][page.id!][item.id!] =
             new TalentTreeEmbed({
                 item,
                 position: { width: (config.width ?? 600) as number },
             });
     }
 
-    const app = EMBEDDED_APPS[journalEntry.uuid][page.id][item.id];
+    const app = EMBEDDED_APPS[journalEntry.uuid][page.id!][item.id!];
 
     if (config.x || config.y || config.zoom) {
         app.view = {};
@@ -81,13 +83,13 @@ async function getEmbedApp(
 }
 
 Hooks.on('renderJournalPageSheet', (app: JournalPageSheet, html: JQuery) => {
-    const page = app.document as JournalEntryPage;
+    const page = app.document;
     const journalEntry = page.parent as unknown as JournalEntry;
 
-    if (!EMBEDDED_APPS[journalEntry.uuid]?.[page.id]) return;
+    if (!EMBEDDED_APPS[journalEntry.uuid]?.[page.id!]) return;
 
     // Get all embedded applications for this page
-    const embedApps = Object.values(EMBEDDED_APPS[journalEntry.uuid][page.id]);
+    const embedApps = Object.values(EMBEDDED_APPS[journalEntry.uuid][page.id!]);
 
     setTimeout(() => {
         // Render each embedded application
@@ -103,8 +105,8 @@ Hooks.on('renderJournalPageSheet', (app: JournalPageSheet, html: JQuery) => {
     }, 10);
 });
 
-Hooks.on('closeJournalSheet', (app: JournalPageSheet) => {
-    const journalEntry = app.document as JournalEntryPage;
+Hooks.on('closeJournalSheet', (app: JournalSheet.Any) => {
+    const journalEntry = app.document;
 
     if (!EMBEDDED_APPS[journalEntry.uuid]) return;
 
