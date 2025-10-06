@@ -77,10 +77,10 @@ any> {
         params: never,
         context: AdversarySheetRenderContext,
     ) {
-        // TODO: Resolve typing issues
-        // @ts-expect-error AdversarySkillsComponent is not typed to have application of type AdversarySheet due to foundry-vtt-types issues
-        const shouldHideUnranked = this.application
-            .hideUnrankedSkills as boolean;
+        const shouldHideUnranked =
+            // TODO: Resolve typing issues
+            // @ts-expect-error AdversarySkillsComponent is not typed to have application of type AdversarySheet due to foundry-vtt-types issues
+            this.application.hideUnrankedSkills as boolean;
 
         // Get the skill ids
         const skillIds = Object.keys(CONFIG.COSMERE.skills).sort((a, b) =>
