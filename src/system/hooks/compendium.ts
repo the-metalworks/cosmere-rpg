@@ -4,10 +4,16 @@ import { AnyObject } from '@system/types/utils';
 // Constants
 import { SYSTEM_ID } from '@system/constants';
 
+// Temporary type to access collection property which is missing in foundry-vtt-types
+type AnyCompendiumCollection = CompendiumCollection.Any & {
+    id: string;
+    metadata: { flags: AnyObject };
+};
+type AnyCompendium = Compendium.Any & { collection: AnyCompendiumCollection };
+
 // TODO: Resolve typing issue
-// NOTE: Use any as workaround for foundry-vtt-types issues
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call */
-Hooks.on('renderCompendium', async (compendium: any) => {
+// @ts-expect-error Due to foundry-vtt-types issue
+Hooks.on('renderCompendium', async (compendium: AnyCompendium) => {
     if (
         !foundry.utils.hasProperty(
             compendium.collection.metadata.flags ?? {},
@@ -17,7 +23,7 @@ Hooks.on('renderCompendium', async (compendium: any) => {
         return;
 
     const sortingModes = game.settings.get('core', 'collectionSortingModes');
-    if (sortingModes[compendium.metadata.id]) return;
+    if (sortingModes[compendium.collection.id]) return;
 
     // Get the default sorting mode from the compendium metadata
     const defaultSortingMode = foundry.utils.getProperty(
@@ -28,13 +34,12 @@ Hooks.on('renderCompendium', async (compendium: any) => {
     // Set the sorting mode for the compendium
     await game.settings.set('core', 'collectionSortingModes', {
         ...sortingModes,
-        [compendium.metadata.id]: defaultSortingMode,
+        [compendium.collection.id]: defaultSortingMode,
     });
 
     // Initialize the compendium collection tree
     compendium.collection.initializeTree();
 
     // Re-render
-    compendium.render();
+    void compendium.render();
 });
-/* eslint-enable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call */
