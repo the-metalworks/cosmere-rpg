@@ -57,7 +57,7 @@ any> {
             'sheet.hideUnranked',
             // TODO: Resolve typing issues
             // @ts-expect-error AdversarySkillsComponent is not typed to have application of type AdversarySheet due to foundry-vtt-types issues
-            this.application.hideUnrankedSkills as boolean,
+            !this.application.hideUnrankedSkills,
         );
     }
 
@@ -77,6 +77,11 @@ any> {
         params: never,
         context: AdversarySheetRenderContext,
     ) {
+        // TODO: Resolve typing issues
+        // @ts-expect-error AdversarySkillsComponent is not typed to have application of type AdversarySheet due to foundry-vtt-types issues
+        const shouldHideUnranked = this.application
+            .hideUnrankedSkills as boolean;
+
         // Get the skill ids
         const skillIds = Object.keys(CONFIG.COSMERE.skills).sort((a, b) =>
             a.localeCompare(b),
@@ -95,9 +100,7 @@ any> {
                     ...this.application.actor.system.skills[skillId],
                     active:
                         (!skillConfig.hiddenUntilAcquired &&
-                            // TODO: Resolve typing issues
-                            // @ts-expect-error AdversarySkillsComponent is not typed to have application of type AdversarySheet due to foundry-vtt-types issues
-                            (this.application.hideUnrankedSkills as boolean)) ||
+                            !shouldHideUnranked) ||
                         this.application.actor.system.skills[skillId].rank >= 1,
                 };
             })
@@ -111,9 +114,7 @@ any> {
             ...context,
 
             sectionCollapsed: this.sectionCollapsed,
-            // TODO: Resolve typing issues
-            // @ts-expect-error AdversarySkillsComponent is not typed to have application of type AdversarySheet due to foundry-vtt-types issues
-            hideUnranked: this.application.hideUnrankedSkills as boolean,
+            hideUnranked: shouldHideUnranked,
             skills,
             hasActiveSkills: skills.some((skill) => skill.active),
         });
