@@ -356,7 +356,7 @@ export class CosmereItem<
             ) as Promise<foundry.applications.api.ApplicationV2.Any>;
 
         const target = event.currentTarget as HTMLElement;
-        await this.sheet.render({ tab: target.dataset.tab });
+        await this.sheet.render({ force: true, tab: target.dataset.tab });
         return this
             .sheet as unknown as foundry.applications.api.ApplicationV2.Any;
     }
