@@ -5,6 +5,9 @@ import {
     CosmereItem,
 } from '@system/documents/item';
 
+// Types
+import { AnyMutableObject } from '@system/types/utils';
+
 // Talent tree embed
 import {
     buildEmbedHTML as buildTalentTreeEmbedHTML,
@@ -19,7 +22,7 @@ import {
 
 export async function buildEmbedHTML(
     item: AncestryItem,
-    config: TextEditor.DocumentHTMLEmbedConfig,
+    config: TextEditor.DocumentHTMLEmbedConfig & AnyMutableObject,
     options?: TextEditor.EnrichmentOptions,
 ): Promise<HTMLElement | HTMLCollection | null> {
     if (!(options?.relativeTo instanceof JournalEntryPage)) return null;
@@ -46,7 +49,7 @@ export async function buildEmbedHTML(
 export async function createInlineEmbed(
     item: AncestryItem,
     content: HTMLElement | HTMLCollection,
-    config: TextEditor.DocumentHTMLEmbedConfig,
+    config: TextEditor.DocumentHTMLEmbedConfig & AnyMutableObject,
     options?: TextEditor.EnrichmentOptions,
 ): Promise<HTMLElement | null> {
     if (config.values?.includes('talents') && item.system.talentTree) {

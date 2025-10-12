@@ -1,8 +1,19 @@
-<{{{headingTag}}}>
-    <span>{{default config.label item.name}}</span>
-    <a {{{linkDataStr}}}>
-        <i class="fa-solid fa-up-right-from-square"></i>
-    </a>
-</{{{headingTag}}}>
+{{#if config.heading}}
+    <{{{headingTag}}}>
+        <span>{{default config.label item.name}}</span>
+        <a {{{linkDataStr}}}>
+            <i class="fa-solid fa-up-right-from-square"></i>
+        </a>
+    </{{{headingTag}}}>
+{{/if}}
 
-{{{description}}}
+{{#if config.prependLabel}}
+    <a class="embed-label" {{{linkDataStr}}}>
+        <span>{{default config.label item.name}}.</span>
+        <i class="icon fa-solid fa-link"></i>
+    </a>
+{{/if}}
+
+<div {{#if config.prependLabel}}style="display: inline-block;"{{/if}}>
+    {{{description}}}
+</div>

@@ -6,6 +6,23 @@
                 font-size: 10pt;
             }
         }
+
+        > a.embed-label {
+            position: relative;
+            padding-right: 1ch;
+
+            span {
+                font-weight: bold;
+                color: var(--cosmere-color-opportunity);
+            }
+
+            > i.icon {
+                position: absolute;
+                font-size: .5em;
+                top: 2px;
+                right: .9ch;
+            } 
+        }
     }
 
     section.item-embed.talent-tree {
