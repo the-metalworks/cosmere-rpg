@@ -1,5 +1,7 @@
 import { CosmereItem } from '@system/documents/item';
 
+import { AnyMutableObject } from '@system/types/utils';
+
 // Constants
 import { TEMPLATES, renderSystemTemplate } from '@system/utils/templates';
 const ITEM_EMBED_TEMPLATES: Record<string, string | undefined> = {
@@ -14,7 +16,7 @@ const DEFAULT_HEADING_TAG = 'h3';
 
 export async function buildEmbedHTML(
     item: CosmereItem,
-    config: TextEditor.DocumentHTMLEmbedConfig,
+    config: TextEditor.DocumentHTMLEmbedConfig & AnyMutableObject,
     options?: TextEditor.EnrichmentOptions,
 ): Promise<HTMLElement | HTMLCollection | null> {
     // Create the link data string
@@ -36,6 +38,11 @@ export async function buildEmbedHTML(
                 secrets: options?.secrets,
             },
         );
+
+    config.heading ??= true;
+    config.prependLabel = config.heading
+        ? false
+        : (config.prependLabel ?? true);
 
     const headingTag =
         config.values?.find((v) => HEADING_TAGS.includes(v)) ??

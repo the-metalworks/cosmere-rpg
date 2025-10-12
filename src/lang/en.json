@@ -302,6 +302,7 @@
                     "SetTooltip": "Left Click to adjust {skill}'s Rank.<br>Right Click to clear {skill}'s Rank."
                 },
                 "Attributes": {
+                    "Defense": "DEF",
                     "IsModifiedTooltip": "This attribute is being modified by an effect."
                 }
             }
@@ -1196,6 +1197,12 @@
                         "Label": "Talent Tree",
                         "Hint": "Talent tree that contains all talents for this path. This tree is displayed on the \"talents\" tab."
                     }
+                },
+                "EventsList": {
+                    "Description": "Description",
+                    "Trigger": "Trigger",
+                    "Handler": "Handler",
+                    "Create": "Add event rule"
                 }
             },
             "General": {

@@ -1,13 +1,13 @@
 <ul class="item-list events-list">
     <li class="item header">
         <section class="details">
-            <span class="title">Description</span>
-            <span class="subtitle wide">Trigger</span>
-            <span class="subtitle wide">Handler</span>
+            <span class="title">{{localize "COSMERE.Item.Sheet.EventsList.Description"}}</span>
+            <span class="subtitle wide">{{localize "COSMERE.Item.Sheet.EventsList.Trigger"}}</span>
+            <span class="subtitle wide">{{localize "COSMERE.Item.Sheet.EventsList.Handler"}}</span>
             <div class="controls icon active">
                 {{#if editable}}
                 <a data-action="create-rule" 
-                    data-tooltip="Add event rule"
+                    data-tooltip="COSMERE.Item.Sheet.EventsList.Create"
                 >
                     <i class="fa-solid fa-plus"></i>
                 </a>

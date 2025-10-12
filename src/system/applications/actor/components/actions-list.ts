@@ -134,7 +134,7 @@ export const STATIC_SECTIONS: Record<string, ItemListSection> = {
         id: 'basic-actions',
         sortOrder: 600,
         label: 'COSMERE.Item.Action.Type.Basic.label_plural',
-        itemTypeLabel: 'COSMERE.Item.Action.Type.Basic.label_action',
+        itemTypeLabel: 'COSMERE.Item.Action.Type.Basic.label',
         default: true,
         filter: (item: CosmereItem) =>
             item.isAction() && item.system.type === ActionType.Basic,

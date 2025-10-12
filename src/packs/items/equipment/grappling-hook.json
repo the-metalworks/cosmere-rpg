@@ -7,7 +7,7 @@
     "system": {
         "type": "basic",
         "description": {
-            "value": "<p><strong>Price</strong> 10 mk; <strong>Weight</strong> 4 lb.;</p><p>A grappling hook is typically attached to the end of a rope to aid in scaling or descending from walls and cliffs. A securely anchored grappling hook grants an advantage on <strong>Athletics</strong> tests made to climb using its attached rope.</p><p>You can use an @UUID[Compendium.cosmere-rpg.actions.Item.iqjFbO4BLuTSt4cQ]{Interact} action to attach the grappling hook to an anchor within reach without making a test. Alternatively, you can throw and attach it to a suitable anchor within 20 feet of you by succeeding on an <strong>Athletics</strong> or <strong>Agility</strong> test (DC set by the GM).</p>",
+            "value": "<p><strong>Price</strong> 10 mk; <strong>Weight</strong> 4 lb.;</p><p>A grappling hook is typically attached to the end of a rope to aid in scaling or descending from walls and cliffs. A securely anchored grappling hook grants an advantage on <strong>Athletics</strong> tests made to climb using its attached rope.</p><p>You can use an @UUID[Compendium.cosmere-rpg.actions.Item.iqjFbO4BLuTSt4cQ]{Interact} action to attach the grappling hook to an anchor within reach without making a test. Alternatively, you can throw and attach it to a suitable anchor within 20 feet of you by succeeding on an <strong>Agility</strong> or <strong>Athletics</strong> test (DC set by the GM).</p>",
             "chat": ""
         },
         "quantity": 1,

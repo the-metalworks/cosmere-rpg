@@ -1141,6 +1141,8 @@ const COSMERE: CosmereRPGConfig = {
         },
     },
 
+    rollData: {},
+
     sheet: {
         actor: {
             components: {
