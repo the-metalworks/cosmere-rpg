@@ -88,8 +88,8 @@ async function getEmbedApp(
 
 Hooks.on('renderJournalEntryPageSheet', (app, html) => {
     const page = app.document;
-    const journalEntry = page.parent as unknown as JournalEntry;
-
+    const journalEntry = page.parent;
+    if (!journalEntry) return;
     if (!EMBEDDED_APPS[journalEntry.uuid]?.[page.id!]) return;
 
     // Get all embedded applications for this page
