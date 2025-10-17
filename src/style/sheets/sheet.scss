@@ -1,4 +1,8 @@
-.application.sheet {    
+.application.sheet:not(
+    .scene-config,
+    .active-effect-config,
+    .journal-sheet,
+    .token-config) {    
     --minimized-width: 250px;
         
     border: 3px solid var(--cosmere-color-accent);
