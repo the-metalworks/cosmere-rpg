@@ -179,6 +179,10 @@
                     readonly=(not editable)
                 }}
 
+                <p class="hint">
+                    {{localize "COSMERE.Item.Sheet.Activation.AdditionalFormulaDescription"}}
+                </p>
+
                 {{!-- Raise the stakes --}}
                 {{formGroup systemFields.activation.fields.plotDie 
                     name="system.activation.plotDie"

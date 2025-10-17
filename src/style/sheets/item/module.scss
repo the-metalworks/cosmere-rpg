@@ -421,7 +421,12 @@
                     flex: none;
                 }
             }
-        }        
+        }
+        
+        .form-group-stacked {
+            flex-direction: column;
+            align-items: stretch;
+        }
 
         .hint {
             color: var(--cosmere-color-faded);
