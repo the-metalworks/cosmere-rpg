@@ -1,4 +1,5 @@
 :root {
+    --stormlight-journal-color-text: #000000;
     --stormlight-journal-translucent-1: rgba(215, 215, 215, 0.4);
     --stormlight-journal-yellow-1: #dcbc88;
     --stormlight-journal-yellow-2: #f8f0e2;
@@ -129,10 +130,11 @@
 
     //Rest of the code should only work on the page
     .journal-entry-page {
+        color: var(--stormlight-journal-color-text);
         font-family: var(--cosmere-font-normal);
         font-weight: 600;
         font-variant-numeric: lining-nums;
-
+        
         //This replaces the default page title formatting
         .journal-page-header {
             h1 {
@@ -148,7 +150,7 @@
 
         // Used to make the bolded sections of text blue, as they are in the handbook  
         strong {
-            color: var(--cosmere-color-opportunity)
+            color: var(--cosmere-color-opportunity);
         }
 
         // All-caps text with yellow underline border
@@ -170,6 +172,7 @@
             font-size: 14pt;
             border-bottom-width: 1px;
             border-bottom-color: var(--cosmere-color-opportunity);
+            border-bottom-style: solid;
             font-variant-numeric: lining-nums;
         }
 
@@ -190,12 +193,14 @@
             background: none;
             border: none;
             text-decoration: underline;
+            color: unset;
 
             >i {
                 position: absolute;
                 font-size: .5em;
                 top: 2px;
                 right: 0;
+                color: var(--content-link-border-color);
 
                 &::before {
                     content: "\f0c1";
@@ -299,13 +304,16 @@
                     // Header section for the standardized blue 'tip' section
                     color: var(--cosmere-color-white);
                     font-family: var(--cosmere-font-normal);
-                    font-weight: bold;
-                    font-size: 20px;
                     font-variant-caps: small-caps;
                     padding-left: 1rem !important;
                     padding-top: 0;
                     padding-bottom: 0;
                     transform: scaleX(.998);
+
+                    p {
+                        font-weight: bold;
+                        font-size: 20px;
+                    }
 
                     strong {
                         //Bypass the strong color above for the header
@@ -374,5 +382,15 @@
                     margin-left:16px;
                 }
             }
+
+        img.centered {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        table {
+            background-color: unset;
+        }
     }
 }

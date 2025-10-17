@@ -19,7 +19,11 @@ export async function buildEmbedHTML(
     if (!(options?.relativeTo instanceof JournalEntryPage)) return null;
 
     // Create the embedded application
-    const embededApp = await getEmbedApp(item, options.relativeTo, config as unknown as TextEditor.DocumentHTMLEmbedConfig & AnyObject);
+    const embededApp = await getEmbedApp(
+        item,
+        options.relativeTo,
+        config as unknown as TextEditor.DocumentHTMLEmbedConfig & AnyObject,
+    );
 
     // Return target
     return $(
@@ -82,10 +86,10 @@ async function getEmbedApp(
     return app;
 }
 
-Hooks.on('renderJournalPageSheet', (app: JournalPageSheet, html: JQuery) => {
+Hooks.on('renderJournalEntryPageSheet', (app, html) => {
     const page = app.document;
-    const journalEntry = page.parent as unknown as JournalEntry;
-
+    const journalEntry = page.parent;
+    if (!journalEntry) return;
     if (!EMBEDDED_APPS[journalEntry.uuid]?.[page.id!]) return;
 
     // Get all embedded applications for this page
@@ -98,14 +102,14 @@ Hooks.on('renderJournalPageSheet', (app: JournalPageSheet, html: JQuery) => {
             await embedApp.render(true);
 
             // Find and replace the target element in the HTML
-            html.find(
-                `.embed-talent-tree-target[data-id="${embedApp.id}"]`,
-            ).replaceWith(embedApp.element);
+            $(html)
+                .find(`.embed-talent-tree-target[data-id="${embedApp.id}"]`)
+                .replaceWith(embedApp.element);
         });
     }, 10);
 });
 
-Hooks.on('closeJournalSheet', (app: JournalSheet.Any) => {
+Hooks.on('closeJournalEntrySheet', (app) => {
     const journalEntry = app.document;
 
     if (!EMBEDDED_APPS[journalEntry.uuid]) return;
