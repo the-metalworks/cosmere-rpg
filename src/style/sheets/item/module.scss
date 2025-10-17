@@ -370,14 +370,17 @@
                 display: flex;
                 flex-direction: column;
                 flex: 2;
-                gap: 0.25rem;
+                gap: 4px;
+                align-items: center;
             }
 
             > app-id-input,
             .form-fields {
                 display: flex;
                 flex-direction: row;
-                flex: 2;
+                flex: 2;                
+                gap: 4px;
+                align-items: center;
 
                 input[type="text"],
                 input[type="number"] {
