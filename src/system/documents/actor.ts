@@ -274,10 +274,12 @@ export class CosmereActor<
          */
         /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
 
-        // Grab the Actor's parent class' prepareEmbeddedDocuments method
+        // Grab the Base Actor class' prepareEmbeddedDocuments method
         const parentProto = Object.getPrototypeOf(Object.getPrototypeOf(this));
         const grandparentProto = Object.getPrototypeOf(parentProto);
-        const f = grandparentProto.prepareEmbeddedDocuments as () => void;
+        const greatGrandparentProto = Object.getPrototypeOf(grandparentProto);
+
+        const f = greatGrandparentProto.prepareEmbeddedDocuments as () => void;
 
         /* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
 
