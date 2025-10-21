@@ -157,7 +157,6 @@ const ACTIVATION_SCHEMA = () => ({
         nullable: true,
         blank: true,
         label: 'COSMERE.Item.Sheet.Activation.AdditionalFormula',
-        hint: 'COSMERE.Item.Sheet.Activation.AdditionalFormulaDescription',
     }),
     plotDie: new foundry.data.fields.BooleanField({
         nullable: true,

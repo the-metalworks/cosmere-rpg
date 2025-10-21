@@ -198,8 +198,7 @@ any> {
         return item.system.traitsArray
             .filter(
                 (trait) =>
-                    !!trait.expertise.toggleActive ||
-                    trait.expertise.value !== null,
+                    !!trait.expertise.toggleActive || trait.expertise.value,
             )
             .map((trait) => {
                 const config = isArmor
