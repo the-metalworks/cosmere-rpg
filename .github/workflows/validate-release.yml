@@ -1,0 +1,64 @@
+name: validate-release
+run-name: Validate Release
+description: Validate the contents of the manifest and package.json for release PRs
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate:
+    if: startsWith(github.head_ref, 'release-')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Load package.json into memory
+      - name: Load package.json
+        id: package
+        uses: zoexx/github-action-json-file-properties@release
+        with:
+          file_path: "./package.json"
+
+      # Load the manifest into memory
+      - name: Load system manifest
+        id: manifest
+        uses: zoexx/github-action-json-file-properties@release
+        with:
+          file_path: "./src/system.json"
+
+      # Verify manifest
+      - name: Verify manifest
+        run: |
+          # Verify that the manifest version matches the branch name
+          if [[ ! "${{github.head_ref}}" == release-$MANIFEST_VERSION ]]; then
+            echo "Manifest version does not match branch name."
+            echo "Manifest version: $MANIFEST_VERSION"
+            echo "Branch name: ${{github.head_ref}}"
+            echo "Please update the manifest version to match the branch name."
+            exit 1
+          fi
+
+          # Verify the package version matches the manifest version
+          if [[ "$MANIFEST_VERSION" != "$PACKAGE_VERSION" ]]; then
+            echo "Package version does not match manifest version."
+            echo "Package version: $PACKAGE_VERSION"
+            echo "Manifest version: $MANIFEST_VERSION"
+            echo "Please update the version in package.json to match the manifest version."
+            exit 1
+          fi
+
+          DOWNLOAD_URL=https://github.com/${{github.repository}}/releases/download/${{github.head_ref}}/cosmere-rpg-${{github.head_ref}}.zip
+
+          # Verify that the download URL matches the release asset
+          if [[ ! $DOWNLOAD_URL == $MANIFEST_DOWNLOAD ]]; then
+            echo "Download URL does not match release asset."
+            echo "Download URL: $DOWNLOAD_URL"
+            echo "Release asset: $MANIFEST_DOWNLOAD"
+            echo "Please update the manifest download URL to match the release asset."
+            exit 1
+          fi
+        env:
+          MANIFEST_VERSION: ${{ steps.manifest.outputs.version }}
+          MANIFEST_DOWNLOAD: ${{ steps.manifest.outputs.download }}
+          PACKAGE_VERSION: ${{ steps.package.outputs.version }}

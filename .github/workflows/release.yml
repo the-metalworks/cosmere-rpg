@@ -1,17 +1,38 @@
 name: release
-run-name: Create release
+run-name: Tag, Build, and Create Release
+description: |
+  Tags the release commit when a release PR is merged into main,
+  builds the release artifacts, and creates a release.
 on:
-  push:
-    tags:
-      - 'release-*'
+  pull_request:
+    types: [closed]
+    branches:
+      - main
 
 jobs:
-  build:
+  tag-build-release:
+    if: |
+      github.event.pull_request.merged == true && 
+      startsWith(github.event.pull_request.head.ref, 'release-')
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
       - uses: actions/checkout@v4
+
+      # Get tag name
+      - name: Get tag name
+        run: |
+          # Get tag name from branch name
+          PR_BRANCH=${{ github.event.pull_request.head.ref }}
+          echo "TAG=$PR_BRANCH" >> $GITHUB_ENV
+
+      # Load package.json into memory
+      - name: Load package.json
+        id: package
+        uses: zoexx/github-action-json-file-properties@release
+        with:
+          file_path: "./package.json"
 
       # Load the manifest into memory
       - name: Load system manifest
@@ -23,7 +44,6 @@ jobs:
       # Set up variables
       - name: Set up vars
         run: |
-          TAG=${{github.ref_name}}
           echo "ZIP_NAME=cosmere-rpg-$TAG.zip" >> $GITHUB_ENV
           echo "DOWNLOAD_URL=https://github.com/${{github.repository}}/releases/download/$TAG/cosmere-rpg-$TAG.zip" >> $GITHUB_ENV
 
@@ -31,25 +51,41 @@ jobs:
       - name: Verify manifest
         run: |
           # Verify that the manifest version matches the tag
-          if [[ ! "${{github.ref_name}}" == release-$PACKAGE_VERSION ]]; then
+          if [[ ! $TAG == release-$MANIFEST_VERSION ]]; then
             echo "Manifest version does not match tag name."
-            echo "Manifest version: $PACKAGE_VERSION"
+            echo "Manifest version: $MANIFEST_VERSION"
             echo "Tag name: $TAG"
             echo "Please update the manifest version to match the tag name."
             exit 1
           fi
 
+          # Verify the package version matches the manifest version
+          if [[ "$MANIFEST_VERSION" != "$PACKAGE_VERSION" ]]; then
+            echo "Package version does not match manifest version."
+            echo "Package version: $PACKAGE_VERSION"
+            echo "Manifest version: $MANIFEST_VERSION"
+            echo "Please update the version in package.json to match the manifest version."
+            exit 1
+          fi
+
           # Verify that the download URL matches the release asset
-          if [[ ! "${{ env.DOWNLOAD_URL }}" == $PACKAGE_DOWNLOAD ]]; then
+          if [[ ! "${{ env.DOWNLOAD_URL }}" == $MANIFEST_DOWNLOAD ]]; then
             echo "Download URL does not match release asset."
             echo "Download URL: $DOWNLOAD_URL"
-            echo "Release asset: $PACKAGE_DOWNLOAD"
+            echo "Release asset: $MANIFEST_DOWNLOAD"
             echo "Please update the manifest download URL to match the release asset."
             exit 1
           fi
         env:
-          PACKAGE_VERSION: ${{ steps.manifest.outputs.version }}
-          PACKAGE_DOWNLOAD: ${{  steps.manifest.outputs.download }}
+          MANIFEST_VERSION: ${{ steps.manifest.outputs.version }}
+          MANIFEST_DOWNLOAD: ${{  steps.manifest.outputs.download }}
+          PACKAGE_VERSION: ${{ steps.package.outputs.version }}
+
+      # Create tag
+      - name: Create Tag
+        run: |
+          git tag $TAG
+          git push origin $TAG
 
       # Set up node 
       - name: Use Node 20
@@ -87,7 +123,7 @@ jobs:
             echo "No previous releases found. Release is a major or minor release."
           else
             # Get the current version info
-            CURRENT_VERSION=$(echo ${{github.ref_name}} | cut -d'-' -f2)
+            CURRENT_VERSION=$MANIFEST_VERSION
             CURRENT_VERSION_MAJOR=$(echo $CURRENT_VERSION | cut -d'.' -f1)
             CURRENT_VERSION_MINOR=$(echo $CURRENT_VERSION | cut -d'.' -f2)
             CURRENT_VERSION_PATCH=$(echo $CURRENT_VERSION | cut -d'.' -f3)
@@ -109,6 +145,8 @@ jobs:
               echo "Release is a patch release."
             fi
           fi
+        env:
+          MANIFEST_VERSION: ${{ steps.manifest.outputs.version }}
 
       # Create release
       - name: Create release
@@ -116,8 +154,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: ${{ github.ref_name }}
-          tag: ${{ github.ref_name }}
+          name: ${{ github.event.pull_request.title }}
+          tag: ${{ env.TAG }}
           bodyFile: ${{ env.RELEASE_NOTES }}
           artifacts: "./${{ env.ZIP_NAME }}"
           draft: true
