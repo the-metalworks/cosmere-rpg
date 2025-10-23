@@ -22,7 +22,11 @@ const TITLE_MAP: Record<EffectListType, string> = {
 };
 
 export class ItemEffectsListComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<BaseItemSheet>,
+    // typeof BaseItemSheet,
+    // TODO: Resolve typing issues
+    // NOTE: Use any as workaround for foundry-vtt-types issues
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    any,
     Params
 > {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_EFFECTS_LIST}`;
@@ -99,7 +103,9 @@ export class ItemEffectsListComponent extends HandlebarsApplicationComponent<
         params: Params,
         context: BaseItemSheetRenderContext,
     ) {
-        const effects = this.application.item.effects.filter((effect) => {
+        const item = this.application.item; // TEMP: Workaround
+
+        const effects = item.effects.filter((effect) => {
             switch (params.type) {
                 case 'inactive':
                     return !effect.active;

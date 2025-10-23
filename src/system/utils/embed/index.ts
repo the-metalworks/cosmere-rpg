@@ -3,7 +3,7 @@ import { CosmereItem } from '@system/documents/item';
 // Embed helpers
 import getItemEmbedHelpers from './item';
 
-export function getEmbedHelpers(document: foundry.abstract.Document) {
+export function getEmbedHelpers(document: foundry.abstract.Document.Any) {
     switch (document.documentName) {
         case 'Item':
             return getItemEmbedHelpers((document as CosmereItem).type);

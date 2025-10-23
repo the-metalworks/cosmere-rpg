@@ -33,7 +33,11 @@ type Params = {
 };
 
 export class ActorSkillComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<BaseActorSheet>,
+    // typeof BaseActorSheet,
+    // TODO: Resolve typing issues
+    // NOTE: Use any as workaround for foundry-vtt-types issues
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    any,
     Params
 > {
     static readonly TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_SKILL}`;
@@ -128,11 +132,9 @@ export class ActorSkillComponent extends HandlebarsApplicationComponent<
         // Get skill config
         const config = CONFIG.COSMERE.skills[params.skill];
 
-        let maxSkillRank = 5;
-        if (this.application.actor.type === ActorType.Character) {
-            const actor = this.application.actor as CharacterActor;
-            maxSkillRank = actor.system.maxSkillRank;
-        }
+        const maxSkillRank = this.application.actor.isCharacter()
+            ? this.application.actor.system.maxSkillRank
+            : 5;
 
         // Get attribute config
         const attributeConfig = CONFIG.COSMERE.attributes[config.attribute];

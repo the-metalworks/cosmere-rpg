@@ -1,4 +1,4 @@
-import { AnyObject, DeepPartial } from '@system/types/utils';
+import { AnyObject, DeepPartial, AnyConcreteApplicationV2Constructor, ConcreteApplicationV2Constructor } from '@system/types/utils';
 
 // Component system
 import ComponentSystem from './system';
@@ -10,21 +10,13 @@ import {
 } from './mixin';
 
 // Types
-import { ApplicationV2Constructor, ComponentEvent } from './types';
+import { ComponentEvent } from './types';
 
 export class HandlebarsApplicationComponent<
-    BaseClass extends ApplicationV2Constructor<
-        AnyObject,
-        foundry.applications.api.ApplicationV2.Configuration,
-        foundry.applications.api.ApplicationV2.RenderOptions
-    > = ApplicationV2Constructor<
-        AnyObject,
-        foundry.applications.api.ApplicationV2.Configuration,
-        foundry.applications.api.ApplicationV2.RenderOptions
-    >,
+    BaseClass extends foundry.applications.api.ApplicationV2.AnyConstructor = foundry.applications.api.ApplicationV2.AnyConstructor,
     Params extends AnyObject = AnyObject,
     out RenderContext extends
-        AnyObject = BaseClass extends ApplicationV2Constructor<infer R>
+        object = InstanceType<BaseClass> extends foundry.applications.api.ApplicationV2<infer R>
         ? R
         : never,
 > extends foundry.utils.EventEmitterMixin(Object) {
@@ -81,9 +73,7 @@ export class HandlebarsApplicationComponent<
         public readonly selector: string,
         public readonly partId: string,
         public readonly ref: string,
-        public readonly application: InstanceType<
-            ComponentHandlebarsApplication<BaseClass>
-        >,
+        public readonly application: ComponentHandlebarsApplication & { item: Item.Implementation; actor: Actor.Implementation; mode: 'edit' | 'view'; }, // TEMP: Workaround
     ) {
         super();
 

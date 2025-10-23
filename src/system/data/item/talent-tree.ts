@@ -25,159 +25,123 @@ const VALID_NODE_TYPES = [
     TalentTree.Node.Type.Text,
 ] as string[];
 
-export interface TalentTreeItemData {
-    /**
-     * The list of nodes in the tree
-     */
-    nodes: Collection<TalentTree.Node>;
+const SCHEMA = () => ({
+    nodes: new TalentTreeNodeCollectionField({
+        required: true,
+        nullable: false,
+        gmOnly: true,
+    }),
 
-    /**
-     * The view bounds of the talent tree when
-     * not in edit mode.
-     */
-    viewBounds: {
-        x: number;
-        y: number;
-        width: number;
-        height: number;
-    };
-
-    /**
-     * The display size of the talent tree
-     */
-    display: {
-        width?: number;
-        height?: number;
-    };
-
-    /**
-     * The background image of the talent tree
-     */
-    background: {
-        img?: string;
-        width: number;
-        height: number;
-        position: {
-            x: number;
-            y: number;
-        };
-    };
-}
-
-export class TalentTreeItemDataModel extends DataModelMixin<
-    TalentTreeItemData,
-    CosmereItem
->() {
-    static defineSchema() {
-        return foundry.utils.mergeObject(super.defineSchema(), {
-            nodes: new TalentTreeNodeCollectionField({
+    viewBounds: new foundry.data.fields.SchemaField(
+        {
+            x: new foundry.data.fields.NumberField({
                 required: true,
                 nullable: false,
-                gmOnly: true,
+                integer: true,
+                initial: 0,
+                label: 'COSMERE.Item.TalentTree.ViewBounds.X.Label',
             }),
-
-            viewBounds: new foundry.data.fields.SchemaField(
-                {
-                    x: new foundry.data.fields.NumberField({
-                        required: true,
-                        nullable: false,
-                        integer: true,
-                        initial: 0,
-                        label: 'COSMERE.Item.TalentTree.ViewBounds.X.Label',
-                    }),
-                    y: new foundry.data.fields.NumberField({
-                        required: true,
-                        nullable: false,
-                        integer: true,
-                        initial: 0,
-                        label: 'COSMERE.Item.TalentTree.ViewBounds.Y.Label',
-                    }),
-                    width: new foundry.data.fields.NumberField({
-                        required: true,
-                        nullable: false,
-                        integer: true,
-                        initial: 800,
-                        label: 'COSMERE.Item.TalentTree.ViewBounds.Width.Label',
-                    }),
-                    height: new foundry.data.fields.NumberField({
-                        required: true,
-                        nullable: false,
-                        integer: true,
-                        initial: 650,
-                        label: 'COSMERE.Item.TalentTree.ViewBounds.Height.Label',
-                    }),
-                },
-                {
-                    required: true,
-                    nullable: false,
-                },
-            ),
-
-            display: new foundry.data.fields.SchemaField({
-                width: new foundry.data.fields.NumberField({
-                    required: false,
-                    nullable: true,
-                    integer: true,
-                    label: 'COSMERE.Item.TalentTree.Display.Width.Label',
-                }),
-                height: new foundry.data.fields.NumberField({
-                    required: false,
-                    nullable: true,
-                    integer: true,
-                    label: 'COSMERE.Item.TalentTree.Display.Height.Label',
-                }),
+            y: new foundry.data.fields.NumberField({
+                required: true,
+                nullable: false,
+                integer: true,
+                initial: 0,
+                label: 'COSMERE.Item.TalentTree.ViewBounds.Y.Label',
             }),
+            width: new foundry.data.fields.NumberField({
+                required: true,
+                nullable: false,
+                integer: true,
+                initial: 800,
+                label: 'COSMERE.Item.TalentTree.ViewBounds.Width.Label',
+            }),
+            height: new foundry.data.fields.NumberField({
+                required: true,
+                nullable: false,
+                integer: true,
+                initial: 650,
+                label: 'COSMERE.Item.TalentTree.ViewBounds.Height.Label',
+            }),
+        },
+        {
+            required: true,
+            nullable: false,
+        },
+    ),
 
-            background: new foundry.data.fields.SchemaField({
-                img: new foundry.data.fields.FilePathField({
-                    required: false,
-                    nullable: true,
-                    categories: ['IMAGE'],
-                    label: 'COSMERE.Item.TalentTree.Background.Img.Label',
-                }),
-                width: new foundry.data.fields.NumberField({
+    display: new foundry.data.fields.SchemaField({
+        width: new foundry.data.fields.NumberField({
+            required: false,
+            nullable: true,
+            integer: true,
+            label: 'COSMERE.Item.TalentTree.Display.Width.Label',
+        }),
+        height: new foundry.data.fields.NumberField({
+            required: false,
+            nullable: true,
+            integer: true,
+            label: 'COSMERE.Item.TalentTree.Display.Height.Label',
+        }),
+    }),
+
+    background: new foundry.data.fields.SchemaField({
+        img: new foundry.data.fields.FilePathField({
+            required: false,
+            nullable: true,
+            categories: ['IMAGE'],
+            label: 'COSMERE.Item.TalentTree.Background.Img.Label',
+        }),
+        width: new foundry.data.fields.NumberField({
+            required: true,
+            nullable: false,
+            integer: true,
+            initial: 0,
+            label: 'COSMERE.Item.TalentTree.Background.Size.Width.Label',
+        }),
+        height: new foundry.data.fields.NumberField({
+            required: true,
+            nullable: false,
+            integer: true,
+            initial: 0,
+            label: 'COSMERE.Item.TalentTree.Background.Size.Height.Label',
+        }),
+        position: new foundry.data.fields.SchemaField(
+            {
+                x: new foundry.data.fields.NumberField({
                     required: true,
                     nullable: false,
                     integer: true,
                     initial: 0,
-                    label: 'COSMERE.Item.TalentTree.Background.Size.Width.Label',
+                    label: 'COSMERE.Item.TalentTree.Background.Position.X.Label',
                 }),
-                height: new foundry.data.fields.NumberField({
+                y: new foundry.data.fields.NumberField({
                     required: true,
                     nullable: false,
                     integer: true,
                     initial: 0,
-                    label: 'COSMERE.Item.TalentTree.Background.Size.Height.Label',
+                    label: 'COSMERE.Item.TalentTree.Background.Position.Y.Label',
                 }),
-                position: new foundry.data.fields.SchemaField(
-                    {
-                        x: new foundry.data.fields.NumberField({
-                            required: true,
-                            nullable: false,
-                            integer: true,
-                            initial: 0,
-                            label: 'COSMERE.Item.TalentTree.Background.Position.X.Label',
-                        }),
-                        y: new foundry.data.fields.NumberField({
-                            required: true,
-                            nullable: false,
-                            integer: true,
-                            initial: 0,
-                            label: 'COSMERE.Item.TalentTree.Background.Position.Y.Label',
-                        }),
-                    },
-                    {
-                        required: true,
-                        nullable: false,
-                    },
-                ),
-            }),
-        });
+            },
+            {
+                required: true,
+                nullable: false,
+            },
+        ),
+    }),
+});
+
+export type TalentTreeItemDataSchema = ReturnType<typeof SCHEMA>;
+
+export class TalentTreeItemDataModel extends DataModelMixin<
+    TalentTreeItemDataSchema
+>() {
+    static defineSchema() {
+        return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());
     }
 
     public prepareDerivedData() {
         // Get item
-        const item = this.parent;
+        const item = this.parent as Item;
 
         // Get actor
         const actor = item.actor;

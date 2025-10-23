@@ -1,3 +1,4 @@
+import { HOOKS } from '@system/constants/hooks';
 import { CosmereItem } from '@system/documents/item';
 
 /**
@@ -71,3 +72,22 @@ export type CompleteGoal = (item: CosmereItem) => void;
  * Executed before a Goal Item's progress is filled and the goal is completed.
  */
 export type PreCompleteGoal = (item: CosmereItem) => boolean;
+
+declare module "@league-of-foundry-developers/foundry-vtt-types/configuration" {
+    namespace Hooks {
+        interface HookConfig {
+            [HOOKS.PRE_USE_ITEM]: PreUseItem;
+            [HOOKS.USE_ITEM]: UseItem;
+            [HOOKS.PRE_MODE_ACTIVATE_ITEM]: PreModeActivateItem;
+            [HOOKS.MODE_ACTIVATE_ITEM]: ModeActivateItem;
+            [HOOKS.PRE_MODE_DEACTIVATE_ITEM]: PreModeDeactivateItem;
+            [HOOKS.MODE_DEACTIVATE_ITEM]: ModeDeactivateItem;
+            [HOOKS.PROGRESS_GOAL]: ProgressGoal;
+            [HOOKS.PRE_PROGRESS_GOAL]: PreProgressGoal;
+            [HOOKS.UPDATE_PROGRESS_GOAL]: UpdateProgressGoal;
+            [HOOKS.PRE_UPDATE_PROGRESS_GOAL]: PreUpdateProgressGoal;
+            [HOOKS.COMPLETE_GOAL]: CompleteGoal;
+            [HOOKS.PRE_COMPLETE_GOAL]: PreCompleteGoal;
+        }
+    }
+}

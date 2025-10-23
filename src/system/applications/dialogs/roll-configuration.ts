@@ -114,7 +114,7 @@ export class RollConfigurationDialog extends ComponentHandlebarsApplicationMixin
                 submit: this.onSubmit,
             },
         },
-    );
+    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
 
     static PARTS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.PARTS),
@@ -271,8 +271,8 @@ export class RollConfigurationDialog extends ComponentHandlebarsApplicationMixin
 
     /* --- Lifecycle --- */
 
-    protected _onRender(context: AnyObject, options: AnyObject) {
-        super._onRender(context, options);
+    protected async _onRender(context: AnyObject, options: AnyObject) {
+        await super._onRender(context, options);
 
         $(this.element).prop('open', true);
 
@@ -295,7 +295,7 @@ export class RollConfigurationDialog extends ComponentHandlebarsApplicationMixin
 
     /* --- Context --- */
 
-    protected _prepareContext() {
+    public _prepareContext() {
         return Promise.resolve({
             rollModes: CONFIG.Dice.rollModes,
             defaultRollMode: this.data.defaultRollMode,

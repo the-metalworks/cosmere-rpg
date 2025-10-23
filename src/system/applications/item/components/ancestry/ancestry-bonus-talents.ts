@@ -1,7 +1,8 @@
-import { BonusTalentsRule } from '@system/data/item/ancestry';
 import { AnyObject, ConstructorOf } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
+
+import { AncestryItem } from '@system/documents/item';
 
 // Dialogs
 import { EditBonusTalentsRuleDialog } from '../../dialogs/talent/edit-bonus-talents-rule';
@@ -10,9 +11,11 @@ import { EditBonusTalentsRuleDialog } from '../../dialogs/talent/edit-bonus-tale
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
 import { AncestrySheet } from '../../ancestry-sheet';
 
-export class AncestryBonusTalentsComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<AncestrySheet>
-> {
+export class AncestryBonusTalentsComponent extends HandlebarsApplicationComponent<// typeof AncestrySheet
+// TODO: Resolve typing issues
+// NOTE: Use any as workaround for foundry-vtt-types issues
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+any> {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_ANCESTRY_BONUS_TALENTS}`;
 
     /**
@@ -33,8 +36,10 @@ export class AncestryBonusTalentsComponent extends HandlebarsApplicationComponen
         this: AncestryBonusTalentsComponent,
         event: Event,
     ) {
+        const item = this.application.item as AncestryItem; // TEMP: Workaround
+
         // Get bonus talents
-        const { bonusTalents } = this.application.item.system.advancement;
+        const { bonusTalents } = item.system.advancement;
 
         // Find the highest level
         const highest = bonusTalents.reduce(
@@ -51,7 +56,11 @@ export class AncestryBonusTalentsComponent extends HandlebarsApplicationComponen
 
         // Update the item
         await this.application.item.update({
-            'system.advancement.bonusTalents': bonusTalents,
+            system: {
+                advancement: {
+                    bonusTalents,
+                },
+            },
         });
 
         // Edit the rule
@@ -76,6 +85,8 @@ export class AncestryBonusTalentsComponent extends HandlebarsApplicationComponen
         this: AncestryBonusTalentsComponent,
         event: Event,
     ) {
+        if (!this.application.item.isAncestry()) return; // TEMP: Workaround
+
         // Get the element
         const el = $(event.currentTarget!).closest('li');
 
@@ -90,17 +101,22 @@ export class AncestryBonusTalentsComponent extends HandlebarsApplicationComponen
 
         // Update the item
         void this.application.item.update({
-            'system.advancement.bonusTalents': bonusTalents,
+            system: {
+                advancement: {
+                    bonusTalents,
+                },
+            },
         });
     }
 
     /* --- Context --- */
 
     public _prepareContext(params: never, context: AnyObject) {
-        const levels =
-            this.application.item.system.advancement.bonusTalents.sort(
-                (a, b) => a.level - b.level,
-            );
+        const item = this.application.item as AncestryItem; // TEMP: Workaround
+
+        const levels = item.system.advancement.bonusTalents.sort(
+            (a, b) => a.level - b.level,
+        );
 
         return Promise.resolve({
             ...context,
@@ -111,8 +127,10 @@ export class AncestryBonusTalentsComponent extends HandlebarsApplicationComponen
     /* --- Helpers --- */
 
     protected async editRule(index: number) {
+        const item = this.application.item as AncestryItem; // TEMP: Workaround
+
         // Get bonus talents
-        const { bonusTalents } = this.application.item.system.advancement;
+        const { bonusTalents } = item.system.advancement;
 
         // Get the rule
         const rule = bonusTalents[index];
@@ -127,10 +145,10 @@ export class AncestryBonusTalentsComponent extends HandlebarsApplicationComponen
 
                 if (existing) {
                     return ui.notifications.warn(
-                        game.i18n!.format(
+                        game.i18n.format(
                             'DIALOG.EditBonusTalentsRule.Warning.DuplicateLevel',
                             {
-                                level: changes.level,
+                                level: changes.level.toFixed(),
                             },
                         ),
                     );
@@ -139,7 +157,11 @@ export class AncestryBonusTalentsComponent extends HandlebarsApplicationComponen
 
             bonusTalents[index] = changes;
             void this.application.item.update({
-                'system.advancement.bonusTalents': bonusTalents,
+                system: {
+                    advancement: {
+                        bonusTalents,
+                    },
+                },
             });
         }
     }

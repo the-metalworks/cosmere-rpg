@@ -65,7 +65,7 @@ export const STATIC_SECTIONS: Record<string, ItemListSection> = {
             CosmereItem.create(
                 {
                     type: ItemType.Weapon,
-                    name: game.i18n!.localize('COSMERE.Item.Type.Weapon.New'),
+                    name: game.i18n.localize('COSMERE.Item.Type.Weapon.New'),
                     system: {
                         activation: {
                             type: ActivationType.SkillTest,
@@ -78,7 +78,7 @@ export const STATIC_SECTIONS: Record<string, ItemListSection> = {
                     },
                 },
                 { parent },
-            ) as Promise<CosmereItem>,
+            ),
     },
     armor: {
         id: 'armor',
@@ -91,7 +91,7 @@ export const STATIC_SECTIONS: Record<string, ItemListSection> = {
             CosmereItem.create(
                 {
                     type: ItemType.Equipment,
-                    name: game.i18n!.localize('COSMERE.Item.Type.Armor.New'),
+                    name: game.i18n.localize('COSMERE.Item.Type.Armor.New'),
                     system: {
                         activation: {
                             type: ActivationType.Utility,
@@ -116,9 +116,7 @@ export const STATIC_SECTIONS: Record<string, ItemListSection> = {
             CosmereItem.create(
                 {
                     type: ItemType.Equipment,
-                    name: game.i18n!.localize(
-                        'COSMERE.Item.Type.Equipment.New',
-                    ),
+                    name: game.i18n.localize('COSMERE.Item.Type.Equipment.New'),
                     system: {
                         activation: {
                             type: ActivationType.Utility,
@@ -144,7 +142,7 @@ export const STATIC_SECTIONS: Record<string, ItemListSection> = {
             CosmereItem.create(
                 {
                     type: ItemType.Action,
-                    name: game.i18n!.localize('COSMERE.Item.Type.Action.New'),
+                    name: game.i18n.localize('COSMERE.Item.Type.Action.New'),
                     system: {
                         type: ActionType.Basic,
                         activation: {
@@ -177,8 +175,8 @@ export const DYNAMIC_SECTIONS: Record<string, DynamicItemListSectionGenerator> =
                 return {
                     id: type,
                     sortOrder: 100,
-                    label: game.i18n!.localize(config.plural),
-                    itemTypeLabel: game.i18n!.localize(config.label),
+                    label: game.i18n.localize(config.plural),
+                    itemTypeLabel: game.i18n.localize(config.label),
                     default: false,
                     filter: (item: CosmereItem) =>
                         item.isPower() && item.system.type === type,
@@ -186,10 +184,10 @@ export const DYNAMIC_SECTIONS: Record<string, DynamicItemListSectionGenerator> =
                         CosmereItem.create(
                             {
                                 type: ItemType.Power,
-                                name: game.i18n!.format(
+                                name: game.i18n.format(
                                     'COSMERE.Item.Type.Power.New',
                                     {
-                                        type: game.i18n!.localize(config.label),
+                                        type: game.i18n.localize(config.label),
                                     },
                                 ),
                                 system: {
@@ -203,7 +201,9 @@ export const DYNAMIC_SECTIONS: Record<string, DynamicItemListSectionGenerator> =
                                         consume: {
                                             type: ItemConsumeType.Resource,
                                             resource: Resource.Investiture,
-                                            value: 1,
+                                            value: {
+                                                actual: 1,
+                                            },
                                         },
                                     },
                                 },
@@ -220,7 +220,7 @@ export const DYNAMIC_SECTIONS: Record<string, DynamicItemListSectionGenerator> =
             return paths.map((path) => ({
                 id: path.system.id,
                 sortOrder: 200,
-                label: game.i18n!.format(
+                label: game.i18n.format(
                     'COSMERE.Actor.Sheet.Actions.BaseSectionName',
                     {
                         type: path.name,
@@ -235,7 +235,7 @@ export const DYNAMIC_SECTIONS: Record<string, DynamicItemListSectionGenerator> =
                     CosmereItem.create(
                         {
                             type: ItemType.Talent,
-                            name: game.i18n!.localize(
+                            name: game.i18n.localize(
                                 'COSMERE.Item.Type.Talent.New',
                             ),
                             system: {
@@ -263,7 +263,7 @@ export const DYNAMIC_SECTIONS: Record<string, DynamicItemListSectionGenerator> =
                 {
                     id: ancestry.system.id,
                     sortOrder: 300,
-                    label: game.i18n!.format(
+                    label: game.i18n.format(
                         'COSMERE.Actor.Sheet.Actions.BaseSectionName',
                         {
                             type: ancestry.name,
@@ -284,7 +284,7 @@ export const DYNAMIC_SECTIONS: Record<string, DynamicItemListSectionGenerator> =
                         CosmereItem.create(
                             {
                                 type: ItemType.Action,
-                                name: game.i18n!.localize(
+                                name: game.i18n.localize(
                                     'COSMERE.Item.Type.Action.New',
                                 ),
                                 system: {
@@ -312,9 +312,11 @@ const MISC_SECTION: ItemListSection = {
     filter: () => false, // Filter function is not used for this section
 };
 
-export class ActorActionsListComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<BaseActorSheet>
-> {
+export class ActorActionsListComponent extends HandlebarsApplicationComponent<// typeof BaseActorSheet
+// TODO: Resolve typing issues
+// NOTE: Use any as workaround for foundry-vtt-types issues
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+any> {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_ACTIONS_LIST}`;
 
     /**
@@ -412,8 +414,8 @@ export class ActorActionsListComponent extends HandlebarsApplicationComponent<
 
         // Ensure all items have an expand state record
         activatableItems.forEach((item) => {
-            if (!(item.id in this.itemState)) {
-                this.itemState[item.id] = {
+            if (!(item.id! in this.itemState)) {
+                this.itemState[item.id!] = {
                     expanded: false,
                 };
             }
@@ -506,10 +508,10 @@ export class ActorActionsListComponent extends HandlebarsApplicationComponent<
                         ? typeof section.createItemTooltip === 'function'
                             ? section.createItemTooltip()
                             : section.createItemTooltip
-                        : game.i18n!.format(
+                        : game.i18n.format(
                               'COSMERE.Actor.Sheet.Actions.NewItem',
                               {
-                                  type: game.i18n!.localize(
+                                  type: game.i18n.localize(
                                       section.itemTypeLabel ??
                                           'COSMERE.Item.Type.Action.label',
                                   ),
@@ -526,7 +528,7 @@ export class ActorActionsListComponent extends HandlebarsApplicationComponent<
         return await items.reduce(
             async (prev, item) => ({
                 ...(await prev),
-                [item.id]: {
+                [item.id!]: {
                     ...(item.hasDescription() && item.system.description?.value
                         ? {
                               descriptionHTML: await TextEditor.enrichHTML(
@@ -560,12 +562,6 @@ export class ActorActionsListComponent extends HandlebarsApplicationComponent<
                     // Get item
                     const item = this.application.actor.items.get(itemId)!;
 
-                    // Check if actor is character
-                    const isCharacter = this.application.actor.isCharacter();
-
-                    // Check if item is favorited
-                    const isFavorite = item.isFavorite;
-
                     return [
                         /**
                          * NOTE: This is a TEMPORARY context menu option
@@ -578,28 +574,6 @@ export class ActorActionsListComponent extends HandlebarsApplicationComponent<
                                 void item.recharge();
                             },
                         },
-
-                        // Favorite (only for characters)
-                        isCharacter
-                            ? isFavorite
-                                ? {
-                                      name: 'GENERIC.Button.RemoveFavorite',
-                                      icon: 'fa-solid fa-star',
-                                      callback: () => {
-                                          void item.clearFavorite();
-                                      },
-                                  }
-                                : {
-                                      name: 'GENERIC.Button.Favorite',
-                                      icon: 'fa-solid fa-star',
-                                      callback: () => {
-                                          void item.markFavorite(
-                                              this.application.actor.favorites
-                                                  .length,
-                                          );
-                                      },
-                                  }
-                            : null,
 
                         {
                             name: 'GENERIC.Button.Edit',
@@ -615,7 +589,7 @@ export class ActorActionsListComponent extends HandlebarsApplicationComponent<
                                 // Remove the item
                                 void this.application.actor.deleteEmbeddedDocuments(
                                     'Item',
-                                    [item.id],
+                                    [item.id!],
                                 );
                             },
                         },

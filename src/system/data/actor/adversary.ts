@@ -1,21 +1,22 @@
 import { AdversaryRole } from '@system/types/cosmere';
-import { CommonActorDataModel, CommonActorData } from './common';
-import { DerivedValueField } from '../fields';
+import { CommonActorDataModel, CommonActorDataSchema } from './common';
 
-export interface AdversaryActorData extends CommonActorData {
-    role: AdversaryRole;
-}
+const SCHEMA = () => ({
+    role: new foundry.data.fields.StringField({
+        required: true,
+        nullable: false,
+        blank: false,
+        initial: AdversaryRole.Minion,
+        choices: Object.keys(CONFIG.COSMERE.adversary.roles) as AdversaryRole[],
+    }),
+});
 
-export class AdversaryActorDataModel extends CommonActorDataModel<AdversaryActorData> {
+export type AdversaryActorDataSchema =
+    & ReturnType<typeof SCHEMA>
+    & CommonActorDataSchema;
+
+export class AdversaryActorDataModel extends CommonActorDataModel<AdversaryActorDataSchema> {
     public static defineSchema() {
-        return foundry.utils.mergeObject(super.defineSchema(), {
-            role: new foundry.data.fields.StringField({
-                required: true,
-                nullable: false,
-                blank: false,
-                initial: AdversaryRole.Minion,
-                choices: Object.keys(CONFIG.COSMERE.adversary.roles),
-            }),
-        });
+        return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());
     }
 }

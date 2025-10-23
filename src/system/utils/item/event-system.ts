@@ -6,23 +6,25 @@ import {
 } from '@system/types/item/event-system';
 import { AnyObject } from '@system/types/utils';
 
-export function constructHandlerClass(
+import { BASE_SCHEMA, HandlerBaseSchema } from '@system/data/item/event-system/handler';
+
+export function constructHandlerClass<
+    TSchema extends foundry.data.fields.DataSchema
+>(
     type: string,
     executor: HandlerExecutor,
     config: {
-        schema: foundry.data.fields.DataSchema;
+        schema: TSchema;
     } & (
-        | {
-              template?: string;
-          }
-        | {
-              render?: (data: AnyObject) => Promise<string>;
-          }
-    ),
+            | {
+                template?: string;
+            }
+            | {
+                render?: (data: AnyObject) => Promise<string>;
+            }
+        ),
 ) {
-    return class Handler extends foundry.abstract.DataModel {
-        public declare type: HandlerType | 'none';
-
+    return class Handler extends foundry.abstract.DataModel<HandlerBaseSchema & TSchema> {
         public static get TYPE() {
             return type;
         }
@@ -56,33 +58,14 @@ export function constructHandlerClass(
             return 'render' in config && config.render
                 ? config.render
                 : 'template' in config && config.template
-                  ? (data: AnyObject) => renderTemplate(config.template!, data)
-                  : null;
+                    ? (data: AnyObject) => renderTemplate(config.template!, data)
+                    : null;
         }
 
         static defineSchema() {
             return foundry.utils.mergeObject(
                 foundry.utils.deepClone(config.schema),
-                {
-                    type: new foundry.data.fields.StringField({
-                        required: true,
-                        initial: type,
-                        blank: false,
-                        choices: () => ({
-                            none: 'None',
-                            ...Object.entries(
-                                CONFIG.COSMERE.items.events.handlers,
-                            ).reduce(
-                                (choices, [id, config]) => ({
-                                    ...choices,
-                                    [id]: config.label,
-                                }),
-                                {},
-                            ),
-                        }),
-                        label: 'Type',
-                    }),
-                },
+                BASE_SCHEMA(type as HandlerType | 'none'),
             );
         }
 
@@ -90,5 +73,5 @@ export function constructHandlerClass(
             // Execute the handler
             return executor.call(this, event);
         }
-    } as HandlerCls;
+    } as HandlerCls<TSchema>;
 }

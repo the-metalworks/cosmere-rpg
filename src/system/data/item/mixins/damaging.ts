@@ -1,46 +1,41 @@
-import { Skill, Attribute, DamageType } from '@system/types/cosmere';
 import { CosmereItem } from '@system/documents';
+import { Skill, Attribute, DamageType } from '@system/types/cosmere';
 
-export interface DamagingItemData {
-    damage: {
-        formula?: string;
-        type?: DamageType;
-        grazeOverrideFormula?: string;
-        skill?: Skill;
-        attribute?: Attribute;
-    };
-}
+const SCHEMA = () => ({
+    damage: new foundry.data.fields.SchemaField({
+        formula: new foundry.data.fields.StringField({
+            nullable: true,
+            blank: false,
+        }),
+        grazeOverrideFormula:
+            new foundry.data.fields.StringField({
+                nullable: true,
+            }),
+        type: new foundry.data.fields.StringField({
+            nullable: true,
+            choices: Object.keys(CONFIG.COSMERE.damageTypes) as DamageType[],
+        }),
+        skill: new foundry.data.fields.StringField({
+            nullable: true,
+            choices: Object.keys(CONFIG.COSMERE.skills) as Skill[],
+        }),
+        attribute: new foundry.data.fields.StringField({
+            nullable: true,
+            choices: Object.keys(CONFIG.COSMERE.attributes) as Attribute[],
+        }),
+    }),
+});
 
-export function DamagingItemMixin<P extends CosmereItem>() {
+export type DamagingItemDataSchema = ReturnType<typeof SCHEMA>;
+export type DamagingItemData = foundry.data.fields.SchemaField.InitializedData<DamagingItemDataSchema>;
+
+export function DamagingItemMixin<TParent extends foundry.abstract.Document.Any>() {
     return (
-        base: typeof foundry.abstract.TypeDataModel<DamagingItemData, P>,
+        base: typeof foundry.abstract.TypeDataModel,
     ) => {
-        return class extends base {
+        return class extends base<DamagingItemDataSchema, TParent> {
             static defineSchema() {
-                return foundry.utils.mergeObject(super.defineSchema(), {
-                    damage: new foundry.data.fields.SchemaField({
-                        formula: new foundry.data.fields.StringField({
-                            nullable: true,
-                            blank: false,
-                        }),
-                        grazeOverrideFormula:
-                            new foundry.data.fields.StringField({
-                                nullable: true,
-                            }),
-                        type: new foundry.data.fields.StringField({
-                            nullable: true,
-                            choices: Object.keys(CONFIG.COSMERE.damageTypes),
-                        }),
-                        skill: new foundry.data.fields.StringField({
-                            nullable: true,
-                            choices: Object.keys(CONFIG.COSMERE.skills),
-                        }),
-                        attribute: new foundry.data.fields.StringField({
-                            nullable: true,
-                            choices: Object.keys(CONFIG.COSMERE.attributes),
-                        }),
-                    }),
-                });
+                return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());
             }
         };
     };

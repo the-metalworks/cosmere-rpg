@@ -14,10 +14,12 @@ const enum CharacterSheetTab {
 }
 
 export class CharacterSheet extends BaseActorSheet {
+    declare actor: CharacterActor;
+
     static DEFAULT_OPTIONS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.DEFAULT_OPTIONS),
         {
-            classes: [SYSTEM_ID, 'sheet', 'actor', 'character'],
+            classes: [SYSTEM_ID, 'sheet', 'actor', 'character'] as string[],
             position: {
                 width: 850,
                 height: 1000,
@@ -54,19 +56,13 @@ export class CharacterSheet extends BaseActorSheet {
         },
     );
 
-    get actor(): CharacterActor {
-        return super.document;
-    }
-
     /* --- Context --- */
 
     public async _prepareContext(
         options: Partial<foundry.applications.api.ApplicationV2.RenderOptions>,
     ) {
         // Find the ancestry
-        const ancestryItem = this.actor.items.find(
-            (item) => item.type === ItemType.Ancestry,
-        );
+        const ancestryItem = this.actor.items.find((item) => item.isAncestry());
 
         // Find all paths
         const pathItems = this.actor.items.filter((item) => item.isPath());

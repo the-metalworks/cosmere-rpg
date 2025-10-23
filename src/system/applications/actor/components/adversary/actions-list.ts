@@ -38,8 +38,8 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
 
         // Ensure all items have an expand state record
         activatableItems.forEach((item) => {
-            if (!(item.id in this.itemState)) {
-                this.itemState[item.id] = {
+            if (!(item.id! in this.itemState)) {
+                this.itemState[item.id!] = {
                     expanded: false,
                 };
             }
@@ -99,7 +99,7 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
                 CosmereItem.create(
                     {
                         type,
-                        name: game.i18n!.localize(
+                        name: game.i18n.localize(
                             `COSMERE.Item.Type.${type.capitalize()}.New`,
                         ),
                         system: {

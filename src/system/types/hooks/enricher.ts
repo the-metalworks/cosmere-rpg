@@ -1,3 +1,5 @@
+import { HOOKS } from '@system/constants/hooks';
+
 /**
  * Enricher Hooks
  *
@@ -13,3 +15,12 @@ type TriggerEnricher = (
 ) => void;
 export type TriggerTestEnricher = TriggerEnricher;
 export type TriggerDamageEnricher = TriggerEnricher;
+
+declare module "@league-of-foundry-developers/foundry-vtt-types/configuration" {
+    namespace Hooks {
+        interface HookConfig {
+            [HOOKS.TRIGGER_TEST_ENRICHER]: TriggerTestEnricher;
+            [HOOKS.TRIGGER_DAMAGE_ENRICHER]: TriggerDamageEnricher;
+        }
+    }
+}

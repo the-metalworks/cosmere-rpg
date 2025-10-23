@@ -4,11 +4,16 @@ import { AnyObject } from '@system/types/utils';
 // Constants
 import { SYSTEM_ID } from '@system/constants';
 
-interface Metadata extends CompendiumCollection.Metadata {
-    flags?: AnyObject;
-}
+// Temporary type to access collection property which is missing in foundry-vtt-types
+type AnyCompendiumCollection = CompendiumCollection.Any & {
+    id: string;
+    metadata: { flags: AnyObject };
+};
+type AnyCompendium = Compendium.Any & { collection: AnyCompendiumCollection };
 
-Hooks.on('renderCompendium', async (compendium: Compendium<Metadata>) => {
+// TODO: Resolve typing issue
+// @ts-expect-error Due to foundry-vtt-types issue
+Hooks.on('renderCompendium', async (compendium: AnyCompendium) => {
     if (
         !foundry.utils.hasProperty(
             compendium.collection.metadata.flags ?? {},
@@ -17,27 +22,24 @@ Hooks.on('renderCompendium', async (compendium: Compendium<Metadata>) => {
     )
         return;
 
-    const sortingModes = game.settings!.get(
-        'core',
-        'collectionSortingModes',
-    ) as Record<string, string>;
-    if (sortingModes[compendium.metadata.id]) return;
+    const sortingModes = game.settings.get('core', 'collectionSortingModes');
+    if (sortingModes[compendium.collection.id]) return;
 
     // Get the default sorting mode from the compendium metadata
     const defaultSortingMode = foundry.utils.getProperty(
-        compendium.collection.metadata.flags!,
+        compendium.collection.metadata.flags,
         `${SYSTEM_ID}.defaultSortingMode`,
     ) as string;
 
     // Set the sorting mode for the compendium
-    await game.settings!.set('core', 'collectionSortingModes', {
+    await game.settings.set('core', 'collectionSortingModes', {
         ...sortingModes,
-        [compendium.metadata.id]: defaultSortingMode,
+        [compendium.collection.id]: defaultSortingMode,
     });
 
     // Initialize the compendium collection tree
     compendium.collection.initializeTree();
 
     // Re-render
-    compendium.render();
+    void compendium.render();
 });

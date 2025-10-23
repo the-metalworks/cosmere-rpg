@@ -22,7 +22,11 @@ type Params = {
 };
 
 export class NodePrerequisitesComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<TalentTreeItemSheet>,
+    // typeof TalentTreeItemSheet,
+    // TODO: Resolve typing issues
+    // NOTE: Use any as workaround for foundry-vtt-types issues
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    any,
     Params
 > {
     static TEMPLATE =
@@ -52,6 +56,8 @@ export class NodePrerequisitesComponent extends HandlebarsApplicationComponent<
         this: NodePrerequisitesComponent,
         event: Event,
     ) {
+        if (!this.application.item.isTalentTree()) return; // TEMP: Workaround
+
         // Create a new prerequisite
         const newRule: TalentTree.Node.Prerequisite = {
             id: foundry.utils.randomID(),
@@ -78,6 +84,8 @@ export class NodePrerequisitesComponent extends HandlebarsApplicationComponent<
         this: NodePrerequisitesComponent,
         event: Event,
     ) {
+        if (!this.application.item.isTalentTree()) return; // TEMP: Workaround
+
         // Get the rule ID
         const id = this.getRuleIdFromEvent(event);
         if (!id) return;
@@ -101,6 +109,8 @@ export class NodePrerequisitesComponent extends HandlebarsApplicationComponent<
         this: NodePrerequisitesComponent,
         event: Event,
     ) {
+        if (!this.application.item.isTalentTree()) return; // TEMP: Workaround
+
         // Get the rule ID
         const id = this.getRuleIdFromEvent(event);
         if (!id) return;

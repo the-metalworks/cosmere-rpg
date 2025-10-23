@@ -157,5 +157,5 @@ jobs:
           name: ${{ github.event.pull_request.title }}
           tag: ${{ env.TAG }}
           bodyFile: ${{ env.RELEASE_NOTES }}
-          artifacts: "./${{ env.ZIP_NAME }}"
+          artifacts: "./${{ env.ZIP_NAME }},./src/system.json"
           draft: true

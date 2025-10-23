@@ -1,3 +1,4 @@
+import { EmptyObject } from '@system/types/utils';
 import { CosmereItem } from '@system/documents';
 
 interface TypedItemMixinOptions<Type extends string = string> {
@@ -8,45 +9,69 @@ interface TypedItemMixinOptions<Type extends string = string> {
         | (() => Type[] | Record<Type, string>);
 }
 
-export interface TypedItemData<T extends string = string> {
-    type: T;
+function SCHEMA<Type extends string = string>(
+    options = {} as TypedItemMixinOptions<Type>,
+) {
+    const initial =
+        typeof options.initial === 'function'
+            ? options.initial()
+            : options.initial;
 
-    readonly typeLabel: string;
-    readonly typeSelectOptions: Record<string | number, string>;
+    const choices =
+        typeof options.choices === 'function'
+            ? options.choices()
+            : options.choices;
+
+    const typeFieldOptions = {
+        required: true,
+        nullable: false,
+        initial: initial ?? 'unknown',
+        label: 'Type',
+        choices,
+    };
+
+    return {
+        type: new foundry.data.fields.StringField<
+            typeof typeFieldOptions,
+            Type | null | undefined,
+            Type
+        >(typeFieldOptions),
+    };
 }
 
+export type TypedItemDataSchema<Type extends string = string> = ReturnType<
+    typeof SCHEMA<Type>
+>;
+export type TypedItemData = foundry.data.fields.SchemaField.InitializedData<
+    TypedItemDataSchema<string>
+>;
+
+// NOTE: Have to explicitly use a type here instead of an interface to comply with DataSchema type
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+export type TypedItemDerivedData = {
+    readonly typeLabel: string;
+};
+
 export function TypedItemMixin<
-    P extends CosmereItem,
+    TParent extends foundry.abstract.Document.Any,
     Type extends string = string,
->(options: TypedItemMixinOptions<Type> = {}) {
-    return (base: typeof foundry.abstract.TypeDataModel<TypedItemData, P>) => {
-        return class extends base {
+>(options = {} as TypedItemMixinOptions<Type>) {
+    return (base: typeof foundry.abstract.TypeDataModel) => {
+        return class extends base<
+            TypedItemDataSchema<Type>,
+            TParent,
+            EmptyObject,
+            TypedItemDerivedData
+        > {
             static defineSchema() {
-                const initial =
-                    typeof options.initial === 'function'
-                        ? options.initial()
-                        : options.initial;
-
-                const choices =
-                    typeof options.choices === 'function'
-                        ? options.choices()
-                        : options.choices;
-
-                return foundry.utils.mergeObject(super.defineSchema(), {
-                    type: new foundry.data.fields.StringField({
-                        required: true,
-                        nullable: false,
-                        initial: initial ?? 'unknown',
-                        label: 'Type',
-                        choices,
-                    }),
-                });
+                return foundry.utils.mergeObject(
+                    super.defineSchema(),
+                    SCHEMA(options),
+                );
             }
 
-            get typeSelectOptions(): Record<string | number, string> {
-                let choices = (
-                    this.schema.fields.type as foundry.data.fields.StringField
-                ).choices;
+            get typeSelectOptions(): Record<Type, string> {
+                let choices = this.schema.fields.type.choices;
 
                 if (choices instanceof Function) choices = choices();
 
@@ -56,10 +81,10 @@ export function TypedItemMixin<
                             ...acc,
                             [i]: key,
                         }),
-                        {} as Record<number, string>,
+                        {} as Record<Type, string>,
                     );
                 } else {
-                    return choices as Record<string, string>;
+                    return choices as Record<Type, string>;
                 }
             }
 

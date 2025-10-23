@@ -4,7 +4,7 @@ import { DeepPartial, DeepMutable } from '@system/types/utils';
 import { ItemOrigin } from '@system/types/item';
 
 // Data
-import { GoalItemDataModel } from '@system/data/item/goal';
+import { GoalItemDataModel, GoalItemDataSchema } from '@system/data/item/goal';
 import { ItemRelationship } from '@system/data/item/mixins/relationships';
 
 // Utils
@@ -14,128 +14,102 @@ import ItemRelationshipUtils from '@system/utils/item/relationship';
 import { SYSTEM_ID } from '@system/constants';
 import { HOOKS } from '@system/constants/hooks';
 
-Hooks.on(
-    'preUpdateItem',
-    (item: CosmereItem, update: DeepMutable<DeepPartial<CosmereItem>>) => {
-        if (item.isGoal()) {
-            if (foundry.utils.hasProperty(update, 'system.level')) {
-                const currentLevel = item.system.level;
-                const newLevel = foundry.utils.getProperty(
-                    update,
-                    'system.level',
-                ) as number;
+Hooks.on('preUpdateItem', (item: CosmereItem, update: Item.UpdateData) => {
+    if (item.isGoal()) {
+        if (foundry.utils.hasProperty(update, 'system.level')) {
+            const currentLevel = item.system.level;
+            const newLevel = foundry.utils.getProperty(
+                update,
+                'system.level',
+            ) as number;
 
-                if (newLevel !== currentLevel) {
+            if (newLevel !== currentLevel) {
+                /**
+                 * Hook: preUpdateProgressGoal
+                 */
+                if (
+                    Hooks.call(
+                        HOOKS.PRE_UPDATE_PROGRESS_GOAL,
+                        item,
+                        newLevel,
+                    ) === false
+                ) {
+                    return false;
+                }
+
+                if (newLevel > currentLevel) {
                     /**
-                     * Hook: preUpdateProgressGoal
+                     * Hook: preProgressGoal
                      */
                     if (
-                        Hooks.call<CosmereHooks.PreUpdateProgressGoal>(
-                            HOOKS.PRE_UPDATE_PROGRESS_GOAL,
-                            item,
-                            newLevel,
-                        ) === false
+                        Hooks.call(HOOKS.PRE_PROGRESS_GOAL, item, newLevel) ===
+                        false
                     ) {
                         return false;
                     }
-
-                    if (newLevel > currentLevel) {
-                        /**
-                         * Hook: preProgressGoal
-                         */
-                        if (
-                            Hooks.call<CosmereHooks.PreProgressGoal>(
-                                HOOKS.PRE_PROGRESS_GOAL,
-                                item,
-                                newLevel,
-                            ) === false
-                        ) {
-                            return false;
-                        }
-                    }
-
-                    if (
-                        newLevel ===
-                        (
-                            GoalItemDataModel.schema.fields
-                                .level as foundry.data.fields.NumberField
-                        ).options.max!
-                    ) {
-                        /**
-                         * Hook: preCompleteGoal
-                         */
-                        if (
-                            Hooks.call<CosmereHooks.PreCompleteGoal>(
-                                HOOKS.PRE_COMPLETE_GOAL,
-                                item,
-                            ) === false
-                        ) {
-                            return false;
-                        }
-                    }
-
-                    // Add the previous level to the update
-                    foundry.utils.mergeObject(
-                        update,
-                        {
-                            [`flags.${SYSTEM_ID}.previousLevel`]: currentLevel,
-                        },
-                        {
-                            inplace: true,
-                        },
-                    );
-                }
-            }
-        }
-    },
-);
-
-Hooks.on(
-    'updateItem',
-    (item: CosmereItem, update: DeepPartial<CosmereItem>) => {
-        if (item.isGoal()) {
-            const previousLevel =
-                item.getFlag<number>(SYSTEM_ID, 'previousLevel') ?? 0;
-            const newLevel = item.system.level;
-
-            if (newLevel !== previousLevel) {
-                /**
-                 * Hook: updateProgressGoal
-                 */
-                Hooks.callAll<CosmereHooks.UpdateProgressGoal>(
-                    HOOKS.UPDATE_PROGRESS_GOAL,
-                    item,
-                );
-
-                if (newLevel > previousLevel) {
-                    /**
-                     * Hook: progressGoal
-                     */
-                    Hooks.callAll<CosmereHooks.ProgressGoal>(
-                        HOOKS.PROGRESS_GOAL,
-                        item,
-                    );
                 }
 
                 if (
                     newLevel ===
                     (
-                        GoalItemDataModel.schema.fields
-                            .level as foundry.data.fields.NumberField
-                    ).options.max!
+                        GoalItemDataModel.schema as unknown as foundry.data.fields.SchemaField<GoalItemDataSchema>
+                    ).fields.level.options.max
                 ) {
                     /**
-                     * Hook: completeGoal
+                     * Hook: preCompleteGoal
                      */
-                    Hooks.callAll<CosmereHooks.CompleteGoal>(
-                        HOOKS.COMPLETE_GOAL,
-                        item,
-                    );
+                    if (Hooks.call(HOOKS.PRE_COMPLETE_GOAL, item) === false) {
+                        return false;
+                    }
                 }
+
+                // Add the previous level to the update
+                foundry.utils.mergeObject(
+                    update,
+                    {
+                        [`flags.${SYSTEM_ID}.previousLevel`]: currentLevel,
+                    },
+                    {
+                        inplace: true,
+                    },
+                );
             }
         }
-    },
-);
+    }
+});
+
+Hooks.on('updateItem', (item: CosmereItem, update: Item.UpdateData) => {
+    if (item.isGoal()) {
+        const previousLevel = item.getFlag(SYSTEM_ID, 'previousLevel') ?? 0;
+        const newLevel = item.system.level;
+
+        if (newLevel !== previousLevel) {
+            /**
+             * Hook: updateProgressGoal
+             */
+            Hooks.callAll(HOOKS.UPDATE_PROGRESS_GOAL, item);
+
+            if (newLevel > previousLevel) {
+                /**
+                 * Hook: progressGoal
+                 */
+                Hooks.callAll(HOOKS.PROGRESS_GOAL, item);
+            }
+
+            if (
+                newLevel ===
+                (
+                    GoalItemDataModel.schema as unknown as foundry.data.fields.SchemaField<GoalItemDataSchema>
+                ).fields.level.options.max
+            ) {
+                /**
+                 * Hook: completeGoal
+                 */
+                Hooks.callAll(HOOKS.COMPLETE_GOAL, item);
+            }
+        }
+    }
+});
 
 /* --- Relationships --- */
 
@@ -145,7 +119,7 @@ Hooks.on('preCreateItem', (item: CosmereItem) => {
     if (!item.actor) return;
 
     // Get origin flag
-    const origin = item.getFlag<ItemOrigin>(SYSTEM_ID, 'meta.origin');
+    const origin = item.getFlag(SYSTEM_ID, 'meta.origin');
     if (!origin) return;
 
     // Attempt to find a suitable parent item on the actor
@@ -170,12 +144,12 @@ Hooks.on('preCreateItem', (item: CosmereItem) => {
 Hooks.on(
     'createItem',
     async (item: CosmereItem, _: unknown, userId: string) => {
-        if (game.user!.id !== userId) return;
+        if (game.user.id !== userId) return;
         if (!item.hasRelationships()) return;
 
         await Promise.all(
             item.system.relationships.map((relationship) =>
-                connectRelationship(item, relationship),
+                connectRelationship(item, relationship as ItemRelationship),
             ),
         );
 
@@ -187,15 +161,11 @@ Hooks.on(
             )!;
 
             // Get the parent item
-            const parentItem = (await fromUuid(
+            const parentItem = await fromUuid<CosmereItem>(
                 parentRelationship.uuid,
-            )) as CosmereItem | null;
+            );
 
-            if (
-                parentItem &&
-                parentItem.hasRelationships() &&
-                parentItem.hasId()
-            ) {
+            if (parentItem?.hasRelationships() && parentItem.hasId()) {
                 // Set the origin flag on the item
                 await item.setFlag(SYSTEM_ID, 'meta.origin', {
                     id: parentItem.system.id,
@@ -217,7 +187,7 @@ Hooks.on(
             // For each orphaned item, check if it has an origin flag pointing to this item
             await Promise.all(
                 orphanedItems.map(async (orphanedItem) => {
-                    const origin = orphanedItem.getFlag<ItemOrigin>(
+                    const origin = orphanedItem.getFlag(
                         SYSTEM_ID,
                         'meta.origin',
                     );
@@ -243,11 +213,11 @@ Hooks.on(
     'updateItem',
     async (
         item: CosmereItem,
-        update: DeepPartial<CosmereItem>,
+        update: Item.UpdateData,
         _: unknown,
         userId: string,
     ) => {
-        if (game.user!.id !== userId) return;
+        if (game.user.id !== userId) return;
         if (!item.hasRelationships()) return;
         if (!foundry.utils.hasProperty(update, 'system.relationships')) return;
 
@@ -266,16 +236,16 @@ Hooks.on(
 Hooks.on(
     'deleteItem',
     async (item: CosmereItem, _: unknown, userId: string) => {
-        if (game.user!.id !== userId) return;
+        if (game.user.id !== userId) return;
         if (!item.hasRelationships()) return;
 
         await Promise.all(
             item.system.relationships.map(async (relationship) => {
                 if (relationship.type === ItemRelationship.Type.Child) {
                     // Get the related item
-                    const relatedItem = (await fromUuid(
+                    const relatedItem = await fromUuid<CosmereItem>(
                         relationship.uuid,
-                    )) as CosmereItem | null;
+                    );
                     if (!relatedItem?.hasRelationships()) return;
 
                     if (
@@ -286,11 +256,17 @@ Hooks.on(
                         await relatedItem.delete();
                     } else {
                         // Remove the relationship from the related item
-                        await disconnectRelationship(relatedItem, relationship);
+                        await disconnectRelationship(
+                            relatedItem,
+                            relationship as ItemRelationship,
+                        );
                     }
                 } else {
                     // If the relationship is a parent, we need to disconnect it from the related item
-                    await disconnectRelationship(item, relationship);
+                    await disconnectRelationship(
+                        item,
+                        relationship as ItemRelationship,
+                    );
                 }
             }),
         );
@@ -304,9 +280,7 @@ async function connectRelationship(
     relationShip: ItemRelationship,
 ): Promise<void> {
     // Get the related item
-    const relatedItem = (await fromUuid(
-        relationShip.uuid,
-    )) as CosmereItem | null;
+    const relatedItem = await fromUuid<CosmereItem>(relationShip.uuid);
     if (!relatedItem?.hasRelationships()) return;
 
     const contraType =
@@ -332,15 +306,11 @@ async function disconnectRelationship(
     relationShip: ItemRelationship,
 ): Promise<void> {
     // Get the related item
-    const relatedItem = (await fromUuid(
-        relationShip.uuid,
-    )) as CosmereItem | null;
+    const relatedItem = await fromUuid<CosmereItem>(relationShip.uuid);
     if (!relatedItem?.hasRelationships()) return;
 
     // Remove the relationship from the related item
     await relatedItem.update({
-        [`system.relationships.-=${relationShip.id}`]: {
-            type: relationShip.type,
-        },
+        [`system.relationships.-=${relationShip.id}`]: null,
     });
 }

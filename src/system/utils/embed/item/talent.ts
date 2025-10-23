@@ -1,4 +1,5 @@
 import { TalentTree } from '@system/types/item';
+import { AnyObject } from '@system/types/utils';
 
 // Documents
 import { TalentItem, TalentTreeItem } from '@system/documents/item';
@@ -11,7 +12,7 @@ import { TEMPLATES, renderSystemTemplate } from '@system/utils/templates';
 
 export async function buildEmbedHTML(
     item: TalentItem,
-    config: DocumentHTMLEmbedConfig,
+    config: TextEditor.DocumentHTMLEmbedConfig & AnyObject,
     options?: TextEditor.EnrichmentOptions,
 ): Promise<HTMLElement | HTMLCollection | null> {
     // Create the link data string

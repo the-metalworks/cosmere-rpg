@@ -9,10 +9,10 @@ export function handleDocumentMigrationError(
     console.log(document);
 
     ui.notifications.warn(
-        game.i18n!.format('COSMERE.Migration.DocumentMigrationFailed', {
+        game.i18n.format('COSMERE.Migration.DocumentMigrationFailed', {
             name: document.name,
-            sort: game.i18n!.localize(`DOCUMENT.${documentType}`),
-            type: game.i18n!.localize(`TYPES.${documentType}.${document.type}`),
+            sort: game.i18n.localize(`DOCUMENT.${documentType}`),
+            type: game.i18n.localize(`TYPES.${documentType}.${document.type}`),
             error:
                 error instanceof Error
                     ? `${error.name}: ${error.message}`

@@ -1,72 +1,69 @@
 import { DamageType } from '@system/types/cosmere';
 import { CosmereItem } from '@system/documents';
 
-import { MappingField } from '@system/data/fields';
+const DAMAGE_TYPE_SCHEMA = (type: DamageType) => ({
+    active: new foundry.data.fields.BooleanField({
+        required: true,
+        nullable: false,
+        initial: !(CONFIG.COSMERE.damageTypes[type].ignoreDeflect ?? false),
+    }),
+});
 
-interface DeflectData {
-    /**
-     * Whether or not this trait is currently active.
-     */
-    active: boolean;
-}
+const SCHEMA = () => ({
+    deflect: new foundry.data.fields.NumberField({
+        required: true,
+        nullable: false,
+        initial: 0,
+        min: 0,
+        integer: true,
+    }),
+    deflects: new foundry.data.fields.SchemaField(
+        Object.keys(CONFIG.COSMERE.damageTypes).reduce(
+            (schemas, key) => ({
+                ...schemas,
+                [key]: new foundry.data.fields.SchemaField(
+                    DAMAGE_TYPE_SCHEMA(key as DamageType),
+                ),
+            }),
+            {} as Record<
+                DamageType,
+                foundry.data.fields.SchemaField<
+                    ReturnType<typeof DAMAGE_TYPE_SCHEMA>
+                >
+            >,
+        ),
+    ),
+});
 
-export interface DeflectItemData {
-    deflect: number;
-    deflects: Record<DamageType, DeflectData>;
-    readonly deflectsArray: ({ id: DamageType } & DeflectData)[];
-}
+export type DeflectItemDataSchema = ReturnType<typeof SCHEMA>;
+export type DeflectItemData =
+    foundry.data.fields.SchemaField.InitializedData<DeflectItemDataSchema>;
+
+// NOTE: Have to explicitly use a type here instead of an interface to comply with DataSchema type
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+export type DeflectItemDerivedData = {
+    deflectsArray: (DeflectItemData['deflects'][DamageType] & {
+        id: DamageType;
+    })[];
+};
 
 /**
  * Mixin for deflect data
  */
-export function DeflectItemMixin<P extends CosmereItem>() {
-    return (
-        base: typeof foundry.abstract.TypeDataModel<DeflectItemData, P>,
-    ) => {
-        return class extends base {
+export function DeflectItemMixin<
+    TParent extends foundry.abstract.Document.Any,
+>() {
+    return (base: typeof foundry.abstract.TypeDataModel) => {
+        return class extends base<DeflectItemDataSchema, TParent> {
             static defineSchema() {
-                const damageTypes = CONFIG.COSMERE.damageTypes;
-
-                return foundry.utils.mergeObject(super.defineSchema(), {
-                    deflect: new foundry.data.fields.NumberField({
-                        required: true,
-                        initial: 0,
-                        min: 0,
-                        integer: true,
-                    }),
-                    deflects: new foundry.data.fields.SchemaField(
-                        Object.keys(damageTypes).reduce(
-                            (schemas, key) => {
-                                schemas[key] =
-                                    new foundry.data.fields.SchemaField({
-                                        active: new foundry.data.fields.BooleanField(
-                                            {
-                                                required: true,
-                                                nullable: false,
-                                                initial: !(
-                                                    damageTypes[
-                                                        key as DamageType
-                                                    ].ignoreDeflect ?? false
-                                                ),
-                                            },
-                                        ),
-                                    });
-
-                                return schemas;
-                            },
-                            {} as Record<
-                                string,
-                                foundry.data.fields.SchemaField
-                            >,
-                        ),
-                    ),
-                });
+                return foundry.utils.mergeObject(
+                    super.defineSchema(),
+                    SCHEMA(),
+                );
             }
 
-            get deflectsArray(): ({ id: DamageType } & DeflectData)[] {
-                return (
-                    Object.entries(this.deflects) as [DamageType, DeflectData][]
-                )
+            get deflectsArray() {
+                return Object.entries(this.deflects)
                     .map(([id, deflect]) => ({ id, ...deflect }))
                     .sort((a, b) => a.id.localeCompare(b.id));
             }

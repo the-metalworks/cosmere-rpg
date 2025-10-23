@@ -1,12 +1,13 @@
-import { Status } from '@system/types/cosmere';
-import { ActiveEffectDataModel } from '@system/data/active-effect/active-effect';
+import { CosmereActor } from '@system/documents/actor';
 
-import { AnyMutableObject } from '@system/types/utils';
+import { Status } from '@system/types/cosmere';
 
 // Utils
 import { tryApplyRollData } from '@system/utils/changes';
 
-export class CosmereActiveEffect extends ActiveEffect<ActiveEffectDataModel> {
+export class CosmereActiveEffect<
+    out SubType extends ActiveEffect.SubType = ActiveEffect.SubType,
+> extends ActiveEffect<SubType> {
     /* --- Accessors --- */
 
     /**
@@ -23,7 +24,7 @@ export class CosmereActiveEffect extends ActiveEffect<ActiveEffectDataModel> {
     public get isStatusEffect() {
         return (
             this.statuses.size === 1 &&
-            this.id.startsWith(`cond${this.statuses.first()}`)
+            this.id!.startsWith(`cond${this.statuses.first()}`)
         );
     }
 
@@ -46,9 +47,9 @@ export class CosmereActiveEffect extends ActiveEffect<ActiveEffectDataModel> {
     /* --- Lifecylce --- */
 
     public override async _preCreate(
-        data: object,
-        options: object,
-        user: foundry.documents.BaseUser,
+        data: ActiveEffect.CreateData,
+        options: ActiveEffect.Database.PreCreateOptions,
+        user: User,
     ): Promise<boolean | void> {
         if ((await super._preCreate(data, options, user)) === false)
             return false;
@@ -58,7 +59,7 @@ export class CosmereActiveEffect extends ActiveEffect<ActiveEffectDataModel> {
                 CONFIG.COSMERE.statuses[this.statuses.first() as Status];
 
             this.updateSource({
-                name: `${game.i18n!.localize(config.label)} [${
+                name: `${game.i18n.localize(config.label)} [${
                     config.stacksDisplayTransform
                         ? config.stacksDisplayTransform(this.stacks)
                         : this.stacks
@@ -68,9 +69,9 @@ export class CosmereActiveEffect extends ActiveEffect<ActiveEffectDataModel> {
     }
 
     public override async _preUpdate(
-        data: AnyMutableObject,
-        options: object,
-        user: foundry.documents.BaseUser,
+        data: ActiveEffect.UpdateData,
+        options: ActiveEffect.Database.PreUpdateOptions,
+        user: User,
     ): Promise<boolean | void> {
         if (
             foundry.utils.hasProperty(data, 'system.stacks') &&
@@ -84,7 +85,7 @@ export class CosmereActiveEffect extends ActiveEffect<ActiveEffectDataModel> {
             const config =
                 CONFIG.COSMERE.statuses[this.statuses.first() as Status];
 
-            data.name = `${game.i18n!.localize(config.label)} [${
+            data.name = `${game.i18n.localize(config.label)} [${
                 config.stacksDisplayTransform
                     ? config.stacksDisplayTransform(stacks)
                     : stacks
@@ -94,12 +95,12 @@ export class CosmereActiveEffect extends ActiveEffect<ActiveEffectDataModel> {
         return await super._preUpdate(data, options, user);
     }
 
-    public override async _onUpdate(
-        changed: object,
-        options: object,
+    public override _onUpdate(
+        changed: ActiveEffect.UpdateData,
+        options: ActiveEffect.Database.OnUpdateOperation,
         userId: string,
     ) {
-        await super._onUpdate(changed, options, userId);
+        super._onUpdate(changed, options, userId);
 
         if (
             foundry.utils.hasProperty(changed, 'system.stacks') &&
@@ -110,7 +111,10 @@ export class CosmereActiveEffect extends ActiveEffect<ActiveEffectDataModel> {
         }
     }
 
-    public override apply(actor: Actor, change: ActiveEffect.EffectChangeData) {
+    public override apply(
+        actor: CosmereActor,
+        change: ActiveEffect.ChangeData,
+    ) {
         // Update the change
         const newChange = tryApplyRollData(actor, change);
 
@@ -120,5 +124,11 @@ export class CosmereActiveEffect extends ActiveEffect<ActiveEffectDataModel> {
 
         // Execute the standard ActiveEffect application logic
         return super.apply(actor, newChange);
+    }
+}
+
+declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
+    interface ConfiguredActiveEffect<SubType extends ActiveEffect.SubType> {
+        document: CosmereActiveEffect<SubType>;
     }
 }

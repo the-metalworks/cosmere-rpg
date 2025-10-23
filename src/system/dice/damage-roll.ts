@@ -1,8 +1,7 @@
 import { DamageType, Skill, Attribute } from '@system/types/cosmere';
-import { CosmereActorRollData } from '@system/documents/actor';
+import { CosmereItem } from '@system/documents/item';
+import { CosmereActor, CosmereActorRollData } from '@system/documents/actor';
 import { AdvantageMode } from '@system/types/roll';
-import RollTerm from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/client-esm/dice/terms/term.mjs';
-import { CosmereItem } from '../documents';
 
 export type DamageRollData<
     ActorRollData extends CosmereActorRollData = CosmereActorRollData,
@@ -22,6 +21,8 @@ export type DamageRollData<
         unmodded: DamageRoll;
         dice: DamageRoll;
     };
+
+    source: CosmereItem | CosmereActor;
 };
 
 export interface DamageRollOptions
@@ -175,9 +176,9 @@ export class DamageRoll extends foundry.dice.Roll<DamageRollData> {
 
     public removeTermSafely(
         conditional: (
-            value: RollTerm,
+            value: foundry.dice.terms.RollTerm,
             index: number,
-            obj: RollTerm[],
+            obj: foundry.dice.terms.RollTerm[],
         ) => boolean,
     ) {
         this.terms.findSplice(conditional);
@@ -185,7 +186,11 @@ export class DamageRoll extends foundry.dice.Roll<DamageRollData> {
     }
 
     public filterTermsSafely(
-        condition: (value: RollTerm, index: number, obj: RollTerm[]) => boolean,
+        condition: (
+            value: foundry.dice.terms.RollTerm,
+            index: number,
+            obj: foundry.dice.terms.RollTerm[],
+        ) => boolean,
     ) {
         this.terms = this.terms.filter(condition);
         this.cleanUpTerms();

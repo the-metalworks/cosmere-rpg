@@ -31,8 +31,12 @@ import CosmereAPI from './system/api';
 import CosmereUtils from './system/utils/global';
 
 declare global {
-    interface LenientGlobalVariableTypes {
-        game: never; // the type doesn't matter
+    namespace CONFIG {
+        namespace Canvas {
+            interface VisionModes {
+                sense: foundry.canvas.perception.VisionMode;
+            }
+        }
     }
 
     interface CONFIG {
@@ -47,37 +51,40 @@ declare global {
     };
 }
 
+// TODO: Resolve typing issues
+// NOTE: Use any as workaround for foundry-vtt-types issues
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment */
+
 Hooks.once('init', async () => {
-    globalThis.cosmereRPG = Object.assign(game.system!, {
+    globalThis.cosmereRPG = Object.assign(game.system, {
         api: CosmereAPI,
         utils: CosmereUtils,
     });
 
     CONFIG.COSMERE = COSMERE;
 
-    CONFIG.ChatMessage.documentClass = documents.CosmereChatMessage;
+    CONFIG.ChatMessage.documentClass = documents.CosmereChatMessage as any;
 
     CONFIG.Actor.dataModels = dataModels.actor.config;
-    CONFIG.Actor.documentClass = documents.CosmereActor;
+    CONFIG.Actor.documentClass = documents.CosmereActor as any;
 
-    CONFIG.Item.dataModels = dataModels.item.config;
-    CONFIG.Item.documentClass = documents.CosmereItem;
+    CONFIG.Item.dataModels = dataModels.item.config as any;
+    CONFIG.Item.documentClass = documents.CosmereItem as any;
 
-    CONFIG.Combat.documentClass = documents.CosmereCombat as typeof Combat;
+    CONFIG.Combat.documentClass = documents.CosmereCombat as any;
     CONFIG.ui.combat = applications.combat.CosmereCombatTracker;
 
     // NOTE: Disabled for now as v12 doesn't permit users to update the system of combatants they own
     // (CONFIG.Combatant as AnyMutableObject).dataModels =
     //     dataModels.combatant.config;
-    CONFIG.Combatant.documentClass =
-        documents.CosmereCombatant as typeof Combatant;
+    CONFIG.Combatant.documentClass = documents.CosmereCombatant as any;
 
-    CONFIG.Token.documentClass = documents.CosmereTokenDocument;
+    CONFIG.Token.documentClass = documents.CosmereTokenDocument as any;
 
     (CONFIG.ActiveEffect as AnyMutableObject).dataModels =
         dataModels.activeEffect.config;
     CONFIG.ActiveEffect.documentClass =
-        documents.CosmereActiveEffect as typeof ActiveEffect;
+        documents.CosmereActiveEffect as typeof ActiveEffect as any;
     CONFIG.ActiveEffect.legacyTransferral = false;
 
     Roll.TOOLTIP_TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.CHAT_ROLL_TOOLTIP}`;
@@ -92,59 +99,84 @@ Hooks.once('init', async () => {
     registerStarterRulesConfig();
 
     Actors.unregisterSheet('core', ActorSheet);
-    registerActorSheet(ActorType.Character, applications.actor.CharacterSheet);
-    registerActorSheet(ActorType.Adversary, applications.actor.AdversarySheet);
+    registerActorSheet(
+        ActorType.Character,
+        applications.actor.CharacterSheet as any,
+    );
+    registerActorSheet(
+        ActorType.Adversary,
+        applications.actor.AdversarySheet as any,
+    );
 
     Items.unregisterSheet('core', ItemSheet);
-    registerItemSheet(ItemType.Culture, applications.item.CultureItemSheet);
-    registerItemSheet(ItemType.Ancestry, applications.item.AncestrySheet);
-    registerItemSheet(ItemType.Path, applications.item.PathItemSheet);
+    registerItemSheet(
+        ItemType.Culture,
+        applications.item.CultureItemSheet as any,
+    );
+    registerItemSheet(
+        ItemType.Ancestry,
+        applications.item.AncestrySheet as any,
+    );
+    registerItemSheet(ItemType.Path, applications.item.PathItemSheet as any);
     registerItemSheet(
         ItemType.Connection,
-        applications.item.ConnectionItemSheet,
+        applications.item.ConnectionItemSheet as any,
     );
-    registerItemSheet(ItemType.Injury, applications.item.InjuryItemSheet);
-    registerItemSheet(ItemType.Specialty, applications.item.SpecialtyItemSheet);
-    registerItemSheet(ItemType.Loot, applications.item.LootItemSheet);
-    registerItemSheet(ItemType.Armor, applications.item.ArmorItemSheet);
-    registerItemSheet(ItemType.Trait, applications.item.TraitItemSheet);
-    registerItemSheet(ItemType.Action, applications.item.ActionItemSheet);
-    registerItemSheet(ItemType.Talent, applications.item.TalentItemSheet);
-    registerItemSheet(ItemType.Equipment, applications.item.EquipmentItemSheet);
-    registerItemSheet(ItemType.Weapon, applications.item.WeaponItemSheet);
-    registerItemSheet(ItemType.Goal, applications.item.GoalItemSheet);
-    registerItemSheet(ItemType.Power, applications.item.PowerItemSheet);
+    registerItemSheet(
+        ItemType.Injury,
+        applications.item.InjuryItemSheet as any,
+    );
+    registerItemSheet(ItemType.Loot, applications.item.LootItemSheet as any);
+    registerItemSheet(ItemType.Armor, applications.item.ArmorItemSheet as any);
+    registerItemSheet(ItemType.Trait, applications.item.TraitItemSheet as any);
+    registerItemSheet(
+        ItemType.Action,
+        applications.item.ActionItemSheet as any,
+    );
+    registerItemSheet(
+        ItemType.Talent,
+        applications.item.TalentItemSheet as any,
+    );
+    registerItemSheet(
+        ItemType.Equipment,
+        applications.item.EquipmentItemSheet as any,
+    );
+    registerItemSheet(
+        ItemType.Weapon,
+        applications.item.WeaponItemSheet as any,
+    );
+    registerItemSheet(ItemType.Goal, applications.item.GoalItemSheet as any);
+    registerItemSheet(ItemType.Power, applications.item.PowerItemSheet as any);
     registerItemSheet(
         ItemType.TalentTree,
-        applications.item.TalentTreeItemSheet,
+        applications.item.TalentTreeItemSheet as any,
     );
 
     CONFIG.Dice.types.push(dice.PlotDie);
     CONFIG.Dice.terms.p = dice.PlotDie;
     CONFIG.Dice.termTypes[dice.PlotDie.name] = dice.PlotDie;
 
-    // NOTE: foundry-vtt-types has two version of the RollTerm class which do not match
-    // causing this to error. Bug?
-    // @league-of-foundry-developers/foundry-vtt-types/src/foundry/client/dice/term.d.mts
-    // @league-of-foundry-developers/foundry-vtt-types/src/foundry/client-esm/dice/terms/term.d.mts
-    // @ts-expect-error see note
-    CONFIG.Dice.rolls.push(dice.D20Roll);
-    // @ts-expect-error see note
+    CONFIG.Dice.rolls.push(dice.D20Roll as any);
     CONFIG.Dice.rolls.push(dice.DamageRoll);
 
-    CONFIG.Canvas.visionModes.sense = new VisionMode({
+    CONFIG.Canvas.visionModes.sense = new foundry.canvas.perception.VisionMode({
         id: 'sense',
         label: 'COSMERE.Actor.Statistics.SensesRange',
         canvas: {
-            shader: ColorAdjustmentsSamplerShader,
+            shader: foundry.canvas.rendering.shaders
+                .ColorAdjustmentsSamplerShader,
             uniforms: { contrast: 0, saturation: -1.0, brightness: 0 },
         },
         lighting: {
             levels: {
-                [VisionMode.LIGHTING_LEVELS.DIM]:
-                    VisionMode.LIGHTING_LEVELS.BRIGHT,
+                [foundry.canvas.perception.VisionMode.LIGHTING_LEVELS.DIM]:
+                    foundry.canvas.perception.VisionMode.LIGHTING_LEVELS.BRIGHT,
             },
-            background: { visibility: VisionMode.LIGHTING_VISIBILITY.REQUIRED },
+            background: {
+                visibility:
+                    foundry.canvas.perception.VisionMode.LIGHTING_VISIBILITY
+                        .REQUIRED,
+            },
         },
         vision: {
             darkness: { adaptive: false },
@@ -219,30 +251,31 @@ function registerStatusEffects() {
     CONFIG.statusEffects = statusEffects;
 }
 
-// NOTE: Must cast to `any` as registerSheet type doesn't accept ApplicationV2 (even though it's valid to pass it)
-/* eslint-disable @typescript-eslint/no-explicit-any */
 function registerActorSheet(
     type: ActorType,
-    sheet: typeof foundry.applications.api.ApplicationV2<any, any, any>,
+    sheet: typeof foundry.applications.api.ApplicationV2,
 ) {
-    Actors.registerSheet(SYSTEM_ID, sheet as any, {
-        types: [type],
-        makeDefault: true,
-        label: `TYPES.Actor.${type}`,
-    });
+    foundry.documents.collections.Actors.registerSheet(
+        SYSTEM_ID,
+        sheet as any,
+        {
+            types: [type],
+            makeDefault: true,
+            label: `TYPES.Actor.${type}`,
+        },
+    );
 }
 
 function registerItemSheet(
     type: ItemType,
-    sheet: typeof foundry.applications.api.ApplicationV2<any, any, any>,
+    sheet: typeof foundry.applications.api.ApplicationV2,
 ) {
-    Items.registerSheet(SYSTEM_ID, sheet as any, {
+    foundry.documents.collections.Items.registerSheet(SYSTEM_ID, sheet as any, {
         types: [type],
         makeDefault: true,
         label: `TYPES.Item.${type}`,
     });
 }
-/* eslint-enable @typescript-eslint/no-explicit-any */
 
 /**
  * Configure additional system fonts.
@@ -370,3 +403,5 @@ function configureFonts() {
         },
     });
 }
+
+/* eslint-enable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment */

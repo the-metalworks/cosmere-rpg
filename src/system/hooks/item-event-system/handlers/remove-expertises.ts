@@ -47,13 +47,15 @@ export function register() {
             // Remove the expertises
             await actor.update(
                 {
-                    'system.expertises': expertises.reduce(
-                        (acc, expertise) => ({
-                            ...acc,
-                            [`-=${expertise.key}`]: expertise.toObject(),
-                        }),
-                        {},
-                    ),
+                    system: {
+                        expertises: expertises.reduce(
+                            (acc, expertise) => ({
+                                ...acc,
+                                [`-=${expertise.key}`]: null,
+                            }),
+                            {},
+                        ),
+                    }
                 },
                 event.op,
             );

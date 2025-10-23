@@ -1,7 +1,7 @@
 import { CosmereItem } from '@system/documents/item';
 import { CosmereActor } from '@system/documents/actor';
 
-import { Event } from '@system/types/item/event-system';
+import { Event, IHandler } from '@system/types/item/event-system';
 import { ItemEventTypeConfig } from '@system/types/config';
 import { AnyObject } from '@system/types/utils';
 
@@ -13,9 +13,10 @@ import { InvalidHookError } from './errors';
 // Constants
 import { SYSTEM_ID } from '@system/constants';
 
+// TEMP: Workaround
 const VALID_DOCUMENT_TYPES = [
-    CONFIG.Item.documentClass.metadata.name,
-    CONFIG.Actor.documentClass.metadata.name,
+    (CONFIG.Item.documentClass as unknown as typeof Item).metadata.name,
+    (CONFIG.Actor.documentClass as unknown as typeof Actor).metadata.name,
 ];
 
 /**
@@ -93,7 +94,7 @@ Hooks.once('ready', () => {
     // Register hooks for each event type
     Object.entries(evenTypesByHook).forEach(([hook, eventTypes]) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        Hooks.on(hook, async (...args: any[]) => {
+        Hooks.on(hook as any, async (...args: any[]) => {
             const freshTraceId = foundry.utils.randomID();
             const freshDepth = 0;
 
@@ -126,7 +127,8 @@ Hooks.once('ready', () => {
 
                 if (
                     document.documentName ===
-                    CONFIG.Actor.documentClass.metadata.name
+                    (CONFIG.Actor.documentClass as unknown as typeof Actor)
+                        .metadata.name
                 ) {
                     // Document is an actor
                     const actor = document as CosmereActor;
@@ -148,7 +150,8 @@ Hooks.once('ready', () => {
                     }, Promise.resolve());
                 } else if (
                     document.documentName ===
-                    CONFIG.Item.documentClass.metadata.name
+                    (CONFIG.Item.documentClass as unknown as typeof Item)
+                        .metadata.name
                 ) {
                     // Document is an item
                     const item = document as CosmereItem;
@@ -253,7 +256,7 @@ function preventInfiniteLoop(eventType: string, trace: { _d: number }) {
     // Check if the event chain depth exceeds the maximum allowed
     if (trace._d > MAX_EVENT_CHAIN_DEPTH) {
         ui.notifications.error(
-            game.i18n!.localize(
+            game.i18n.localize(
                 `COSMERE.Item.EventSystem.Notification.ExceededMaxDepth`,
             ),
         );
@@ -276,7 +279,7 @@ function preventInfiniteLoop(eventType: string, trace: { _d: number }) {
     // Check if the number of recent events is greater than the limit
     if (recentEventOfTypeCounts[eventType] >= MAX_RECENT_EVENTS) {
         ui.notifications.error(
-            game.i18n!.format(
+            game.i18n.format(
                 `COSMERE.Item.EventSystem.Notification.RecentEventsExceeded`,
                 {
                     eventType,
@@ -305,7 +308,9 @@ async function fireEvent(event: Event) {
 
             try {
                 // Execute the rule
-                return await rule.handler.execute(
+                // NOTE: Await is used here as the handler is potentially async
+                // eslint-disable-next-line @typescript-eslint/await-thenable
+                return ((await rule.handler) as IHandler).execute(
                     foundry.utils.deepClone(event),
                 );
             } catch (e) {
@@ -333,7 +338,7 @@ function getTransform(type: string, config: ItemEventTypeConfig) {
             }
 
             // Get the document
-            const document = args[0] as foundry.abstract.Document;
+            const document = args[0] as foundry.abstract.Document.Any;
 
             // Grab options and source user id, if present
             const options =
@@ -368,7 +373,7 @@ function getTransform(type: string, config: ItemEventTypeConfig) {
                 options,
                 userId,
             } as {
-                document: foundry.abstract.Document;
+                document: foundry.abstract.Document.Any;
                 options?: AnyObject & { _eti?: string; _d?: number };
                 userId?: string;
             };

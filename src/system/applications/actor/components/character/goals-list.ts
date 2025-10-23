@@ -12,9 +12,11 @@ import { CharacterSheet } from '../../character-sheet';
 
 const HIDE_COMPLETED_FLAG = 'goals.hide-completed';
 
-export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<CharacterSheet>
-> {
+export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<// typeof CharacterSheet
+// TODO: Resolve typing issues
+// NOTE: Use any as workaround for foundry-vtt-types issues
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+any> {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_GOALS_LIST}`;
 
     /**
@@ -105,7 +107,9 @@ export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<
 
         // Update the goal
         await goalItem.update({
-            'system.level': newLevel,
+            system: {
+                level: newLevel,
+            },
         });
 
         // Render
@@ -117,16 +121,17 @@ export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<
     ) {
         // Get current state
         const hideCompletedGoals =
-            this.application.actor.getFlag<boolean>(
-                SYSTEM_ID,
-                HIDE_COMPLETED_FLAG,
-            ) ?? false;
+            this.application.actor.getFlag(SYSTEM_ID, HIDE_COMPLETED_FLAG) ??
+            false;
 
         // Update
         await this.application.actor.update(
             {
-                [`flags.cosmere-rpg.${HIDE_COMPLETED_FLAG}`]:
-                    !hideCompletedGoals,
+                flags: {
+                    'cosmere-rpg': {
+                        [HIDE_COMPLETED_FLAG]: !hideCompletedGoals,
+                    },
+                },
             },
             { render: false },
         );
@@ -185,7 +190,7 @@ export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<
         const goal = (await Item.create(
             {
                 type: ItemType.Goal,
-                name: game.i18n!.localize(
+                name: game.i18n.localize(
                     'COSMERE.Actor.Sheet.Details.Goals.NewText',
                 ),
                 system: {
@@ -197,7 +202,7 @@ export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<
 
         setTimeout(() => {
             // Edit the goal
-            this.editGoal(goal.id);
+            this.editGoal(goal.id!);
         }, 50);
     }
 
@@ -208,10 +213,8 @@ export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<
         context: BaseActorSheetRenderContext,
     ) {
         const hideCompletedGoals =
-            this.application.actor.getFlag<boolean>(
-                SYSTEM_ID,
-                HIDE_COMPLETED_FLAG,
-            ) ?? false;
+            this.application.actor.getFlag(SYSTEM_ID, HIDE_COMPLETED_FLAG) ??
+            false;
 
         return Promise.resolve({
             ...context,
@@ -255,7 +258,7 @@ export class CharacterGoalsListComponent extends HandlebarsApplicationComponent<
 
                 // Update the connection
                 await goal.update({
-                    name: input.val(),
+                    name: input.val() as string,
                 });
 
                 // Render

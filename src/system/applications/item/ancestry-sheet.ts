@@ -13,6 +13,8 @@ import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
 export class AncestrySheet extends TalentsTabMixin(BaseItemSheet) {
+    declare item: AncestryItem;
+
     static DEFAULT_OPTIONS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.DEFAULT_OPTIONS),
         {
@@ -25,7 +27,7 @@ export class AncestrySheet extends TalentsTabMixin(BaseItemSheet) {
                 positioned: true,
             },
         },
-    );
+    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
 
     static TABS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.TABS),
@@ -46,10 +48,6 @@ export class AncestrySheet extends TalentsTabMixin(BaseItemSheet) {
             },
         },
     );
-
-    get item(): AncestryItem {
-        return super.document;
-    }
 
     /* --- Context --- */
 

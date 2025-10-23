@@ -3,26 +3,32 @@ interface DropData {
     uuid: string;
 }
 
-const VALID_DOCUMENT_TYPES = [CONFIG.Item.documentClass.metadata.name];
+const VALID_DOCUMENT_TYPES = [
+    (CONFIG.Item.documentClass as unknown as typeof Item).metadata.name,
+] as string[];
 
-Hooks.on('hotbarDrop', (bar, data: DropData, slot) => {
+Hooks.on('hotbarDrop', ((_: unknown, data: DropData, slot: number) => {
     if (VALID_DOCUMENT_TYPES.includes(data.type)) {
         void createCosmereMacro(data, slot);
         // We block the default drop behaviour if the type is supported
         return false;
     }
-});
+    // TODO: Resolve typing issue
+    // NOTE: Use any as workaround for foundry-vtt-types issues
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+}) as any);
 
 /* --- Helpers --- */
 
 async function createCosmereMacro(data: DropData, slot: number) {
-    const macroData = { type: 'script', scope: 'actor' } as MacroData;
+    const macroData = { type: 'script', scope: 'actor' } as Macro.CreateData;
 
     let itemData;
 
     switch (data.type) {
-        case CONFIG.Item.documentClass.metadata.name:
-            itemData = (await Item.fromDropData(data)) as Item;
+        case (CONFIG.Item.documentClass as unknown as typeof Item).metadata
+            .name:
+            itemData = await Item.fromDropData(data);
 
             if (!itemData) return;
 
@@ -34,18 +40,13 @@ async function createCosmereMacro(data: DropData, slot: number) {
             break;
         default:
             return;
-    }    
+    }
 
-    // TODO: Clean up this linter mess with v13 types.
     // Assign the macro to the hotbar
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const macro =
-        (game.macros as foundry.documents.BaseMacro[]).find(
+        game.macros.find(
             (m) => m.name === macroData.name && m.command === macroData.command,
-        ) 
-        ?? 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-        (await (Macro as any).create(macroData));
+        ) ?? (await Macro.create(macroData))!;
 
     await game.user?.assignHotbarMacro(macro, slot);
 }

@@ -11,20 +11,21 @@ import {
     HoldType,
     AttackType,
     TurnSpeed,
-} from '@src/system/types/cosmere';
+    ItemRechargeType,
+} from '@system/types/cosmere';
 
 import { CosmereActor } from '@system/documents/actor';
 import { CosmereItem } from '@system/documents/item';
 import { AttributeData } from '@system/data/actor';
 import { Derived } from '@system/data/fields';
 
-import { AnyObject, NumberRange } from '@src/system/types/utils';
+import { AnyObject, NumberRange } from '@system/types/utils';
+import { CosmereTurnContext } from '@system/applications/combat';
 
 import { ItemContext, ItemContextOptions } from './types';
 import { TEMPLATES } from '../templates';
-import { SYSTEM_ID } from '@src/system/constants';
-import { CosmereTurn } from '@src/system/applications/combat';
-import { ItemConsumeData } from '@src/system/data/item/mixins/activatable';
+import { SYSTEM_ID } from '@system/constants';
+import { ItemConsumeData } from '@system/data/item/mixins/activatable';
 
 Handlebars.registerHelper('add', (a: number, b: number) => a + b);
 Handlebars.registerHelper('sub', (a: number, b: number) => a - b);
@@ -159,10 +160,8 @@ Handlebars.registerHelper('effect-duration', (effect: ActiveEffect) => {
     if (seconds) return `${seconds}s`;
     else {
         return [
-            rounds
-                ? `${rounds} ${game.i18n!.localize('GENERIC.Rounds')}`
-                : null,
-            turns ? `${turns} ${game.i18n!.localize('GENERIC.Turns')}` : null,
+            rounds ? `${rounds} ${game.i18n.localize('GENERIC.Rounds')}` : null,
+            turns ? `${turns} ${game.i18n.localize('GENERIC.Turns')}` : null,
         ]
             .filter((v) => !!v)
             .join(', ');
@@ -195,7 +194,7 @@ Handlebars.registerHelper(
                 const attack = item.system.attack;
 
                 subtitle.push({
-                    text: game.i18n!.localize(
+                    text: game.i18n.localize(
                         CONFIG.COSMERE.attack.types[attack.type].label,
                     ),
                 });
@@ -218,7 +217,7 @@ Handlebars.registerHelper(
 
             if (item.isArmor() && item.system.deflect) {
                 subtitle.push({
-                    text: `${game.i18n!.localize(
+                    text: `${game.i18n.localize(
                         'COSMERE.Item.Armor.Deflect',
                     )} [${item.system.deflect}]`,
                 });
@@ -256,17 +255,17 @@ Handlebars.registerHelper(
                     type,
                     typeLabel: CONFIG.COSMERE.items.equip.types[type].label,
 
-                    hold,
                     ...(hold
                         ? {
+                              hold,
                               holdLabel:
                                   CONFIG.COSMERE.items.equip.hold[hold].label,
                           }
                         : {}),
 
-                    hand,
                     ...(hand
                         ? {
+                              hand,
                               handLabel:
                                   CONFIG.COSMERE.items.equip.hand[hand].label,
                           }
@@ -276,7 +275,7 @@ Handlebars.registerHelper(
                 if (options?.hash?.showEquippedHand !== false) {
                     if (hold && hold !== HoldType.TwoHanded) {
                         subtitle.push({
-                            text: game.i18n!.localize(
+                            text: game.i18n.localize(
                                 CONFIG.COSMERE.items.equip.hold[hold].label,
                             ),
                         });
@@ -303,7 +302,7 @@ Handlebars.registerHelper(
                                 trait.value !== trait.defaultValue;
 
                             return {
-                                text: `${game.i18n!.localize(config.label)} ${config.hasValue ? `[${trait.value}]` : ''}`.trim(),
+                                text: `${game.i18n.localize(config.label)} ${config.hasValue ? `[${trait.value}]` : ''}`.trim(),
                                 classes: modifiedByExpertise
                                     ? ['highlight']
                                     : [],
@@ -317,7 +316,10 @@ Handlebars.registerHelper(
                 context.hasActivation = true;
                 context.activation = {};
 
-                if (item.system.activation.cost?.type) {
+                if (
+                    item.system.activation.cost?.type &&
+                    item.system.activation.cost?.type !== 'none'
+                ) {
                     context.activation.hasCost = true;
                     context.activation.cost = {
                         type: item.system.activation.cost.type,
@@ -414,7 +416,7 @@ Handlebars.registerHelper(
                         recharge,
                         rechargeLabel: hasRecharge
                             ? CONFIG.COSMERE.items.activation.uses.recharge[
-                                  recharge
+                                  recharge as ItemRechargeType
                               ].label
                             : '',
                     };
@@ -473,7 +475,7 @@ Handlebars.registerHelper(
 
             if (item.isAction()) {
                 subtitle.push({
-                    text: game.i18n!.localize(
+                    text: game.i18n.localize(
                         CONFIG.COSMERE.action.types[item.system.type].label,
                     ),
                 });
@@ -499,7 +501,7 @@ Handlebars.registerHelper('damageTypeConfig', (type: DamageType) => {
     return CONFIG.COSMERE.damageTypes[type];
 });
 
-Handlebars.registerHelper('getCombatActedState', (turn: CosmereTurn) => {
+Handlebars.registerHelper('getCombatActedState', (turn: CosmereTurnContext) => {
     // use default activated for boss slow turns, and all other combatants' turns
     if (!turn.isBoss || turn.turnSpeed === TurnSpeed.Slow) {
         return turn.activated;
@@ -514,7 +516,7 @@ Handlebars.registerHelper('getCombatActedState', (turn: CosmereTurn) => {
  */
 Handlebars.registerHelper('resourceCostLabel', (consume: ItemConsumeData) => {
     const { value } = consume;
-    const resource = game.i18n!.localize(
+    const resource = game.i18n.localize(
         consume.resource
             ? CONFIG.COSMERE.resources[consume.resource].label
             : 'GENERIC.Unknown',
@@ -527,31 +529,28 @@ Handlebars.registerHelper('resourceCostLabel', (consume: ItemConsumeData) => {
 
     // Static range
     if (adjustedMin === value.max) {
-        label = game.i18n!.format(
-            'COSMERE.Actor.Sheet.Actions.Consume.Static',
-            {
-                amount: adjustedMin,
-                resource,
-            },
-        );
+        label = game.i18n.format('COSMERE.Actor.Sheet.Actions.Consume.Static', {
+            amount: adjustedMin.toFixed(),
+            resource,
+        });
     }
     // Uncapped range
     else if (value.max === -1) {
-        label = game.i18n!.format(
+        label = game.i18n.format(
             'COSMERE.Actor.Sheet.Actions.Consume.RangeUncapped',
             {
-                amount: adjustedMin,
+                amount: adjustedMin.toFixed(),
                 resource,
             },
         );
     }
     // Capped range
     else {
-        label = game.i18n!.format(
+        label = game.i18n.format(
             'COSMERE.Actor.Sheet.Actions.Consume.RangeCapped',
             {
-                min: adjustedMin,
-                max: value.max,
+                min: adjustedMin.toFixed(),
+                max: value.max.toFixed(),
                 resource,
             },
         );
@@ -559,7 +558,7 @@ Handlebars.registerHelper('resourceCostLabel', (consume: ItemConsumeData) => {
 
     // Treat actual minimum value of 0 as an "optional" cost
     if (value.min === 0) {
-        label = game.i18n!.format(
+        label = game.i18n.format(
             'COSMERE.Actor.Sheet.Actions.Consume.Optional',
             {
                 label,

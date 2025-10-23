@@ -1,7 +1,11 @@
 // Import spark-md5 for hashing (used for component ids)
 import md5 from 'spark-md5';
 
-import { AnyObject, DeepPartial } from '@system/types/utils';
+import {
+    AnyObject,
+    DeepPartial,
+    AnyConcreteApplicationV2Constructor,
+} from '@system/types/utils';
 
 // Component
 import { HandlebarsApplicationComponent } from './component';
@@ -13,24 +17,18 @@ import {
 } from './mixin';
 
 // Types
-import {
-    ComponentActionHandler,
-    ComponentState,
-    ApplicationV2Constructor,
-} from './types';
+import { ComponentActionHandler, ComponentState } from './types';
 
 const componentClsRegistry: Record<
     string,
-    typeof HandlebarsApplicationComponent<ApplicationV2Constructor<AnyObject>>
+    typeof HandlebarsApplicationComponent
 > = {};
 
 const componentRegistry: Record<
     string,
     {
         selector: string;
-        instance: HandlebarsApplicationComponent<
-            ApplicationV2Constructor<AnyObject>
-        >;
+        instance: HandlebarsApplicationComponent;
         parentRef?: string;
         params?: Record<string, unknown>;
         element?: HTMLElement;
@@ -38,18 +36,11 @@ const componentRegistry: Record<
     }
 > = {};
 
-const applicationInstances: Record<
-    string,
-    InstanceType<
-        ComponentHandlebarsApplication<ApplicationV2Constructor<AnyObject>>
-    >
-> = {};
+const applicationInstances: Record<string, ComponentHandlebarsApplication> = {};
 
 export function registerComponent(
     selector: string,
-    componentCls: typeof HandlebarsApplicationComponent<
-        ApplicationV2Constructor<AnyObject>
-    >,
+    componentCls: typeof HandlebarsApplicationComponent,
 ) {
     if (selector in componentClsRegistry)
         throw new Error(
@@ -80,9 +71,8 @@ export function registerComponent(
         };
 
         // Get from root data
-        const application = options.data!.root.__application as InstanceType<
-            ComponentHandlebarsApplication<ApplicationV2Constructor<AnyObject>>
-        >;
+        const application = options.data!.root
+            .__application as ComponentHandlebarsApplication;
         const partId = (options.data!.root.partId as string).replace(
             `${application.id}-`,
             '',
@@ -239,6 +229,7 @@ function initComponent(selector: string, componentRef: string): boolean {
         selector,
         partId,
         componentRef,
+        //@ts-expect-error App type is incorrect due to foundry-vtt-types issues
         app,
     );
 
@@ -273,25 +264,22 @@ function onComponentAction(
 }
 
 export function registerApplicationInstance(
-    application: InstanceType<
-        ComponentHandlebarsApplication<ApplicationV2Constructor<AnyObject>>
-    >,
+    application: ComponentHandlebarsApplication,
 ) {
     applicationInstances[application.id] = application;
 }
 
 export function deregisterApplicationInstance(
-    application: InstanceType<
-        ComponentHandlebarsApplication<ApplicationV2Constructor<AnyObject>>
-    >,
+    application: ComponentHandlebarsApplication,
 ) {
     console.log('Deregistering application instance:', application.id);
 
     // Destroy all components that belonged to this application
     Object.keys(componentRegistry)
-        .filter((componentRef) => 
-            componentRef.startsWith(application.id) && 
-            !componentRegistry[componentRef]?.parentRef // no parent, only top level components
+        .filter(
+            (componentRef) =>
+                componentRef.startsWith(application.id) &&
+                !componentRegistry[componentRef]?.parentRef, // no parent, only top level components
         )
         .forEach((componentRef) => destroyComponent(componentRef));
 

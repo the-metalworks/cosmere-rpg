@@ -19,6 +19,30 @@ export const SETTINGS = {
     SYSTEM_THEME: 'systemTheme',
 } as const;
 
+type SystemSettingsConfig = {
+    [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.INTERNAL_FIRST_CREATION}`]: boolean;
+} & {
+    [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.INTERNAL_LATEST_VERSION}`]: string;
+} & {
+    [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.DIALOG_ROLL_SKIP_DEFAULT}`]: boolean;
+} & {
+    [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.DIALOG_DAMAGE_MODIFIER_SKIP_DEFAULT}`]: boolean;
+} & {
+    [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.CHAT_ENABLE_OVERLAY_BUTTONS}`]: boolean;
+} & {
+    [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.CHAT_ENABLE_APPLY_BUTTONS}`]: boolean;
+} & {
+    [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.CHAT_ALWAYS_SHOW_BUTTONS}`]: boolean;
+} & {
+    [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.APPLY_BUTTONS_TO}`]: string;
+} & {
+    [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.SHEET_EXPAND_DESCRIPTION_DEFAULT}`]: boolean;
+} & {
+    [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.SHEET_SKILL_INCDEC_TOGGLE}`]: boolean;
+} & { [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.SYSTEM_THEME}`]: Theme };
+
+type SystemSettingKey = (typeof SETTINGS)[keyof typeof SETTINGS];
+
 export const enum TargetingOptions {
     SelectedOnly = 0,
     TargetedOnly = 1,
@@ -31,7 +55,7 @@ export const enum TargetingOptions {
  * Register all of the system's settings.
  */
 export function registerSystemSettings() {
-    game.settings!.register(SYSTEM_ID, SETTINGS.INTERNAL_FIRST_CREATION, {
+    game.settings.register(SYSTEM_ID, SETTINGS.INTERNAL_FIRST_CREATION, {
         name: 'First Time World Creation',
         scope: 'world',
         config: false,
@@ -39,7 +63,7 @@ export function registerSystemSettings() {
         type: Boolean,
     });
 
-    game.settings!.register(SYSTEM_ID, SETTINGS.INTERNAL_LATEST_VERSION, {
+    game.settings.register(SYSTEM_ID, SETTINGS.INTERNAL_LATEST_VERSION, {
         name: 'Latest Version',
         scope: 'world',
         config: false,
@@ -62,9 +86,9 @@ export function registerSystemSettings() {
     ];
 
     sheetOptions.forEach((option) => {
-        game.settings!.register(SYSTEM_ID, option.name, {
-            name: game.i18n!.localize(`SETTINGS.${option.name}.name`),
-            hint: game.i18n!.localize(`SETTINGS.${option.name}.hint`),
+        game.settings.register(SYSTEM_ID, option.name, {
+            name: game.i18n.localize(`SETTINGS.${option.name}.name`),
+            hint: game.i18n.localize(`SETTINGS.${option.name}.hint`),
             scope: option.scope as 'client' | 'world' | undefined,
             config: true,
             type: Boolean,
@@ -79,9 +103,9 @@ export function registerSystemSettings() {
     ];
 
     dialogOptions.forEach((option) => {
-        game.settings!.register(SYSTEM_ID, option.name, {
-            name: game.i18n!.localize(`SETTINGS.${option.name}.name`),
-            hint: game.i18n!.localize(`SETTINGS.${option.name}.hint`),
+        game.settings.register(SYSTEM_ID, option.name, {
+            name: game.i18n.localize(`SETTINGS.${option.name}.name`),
+            hint: game.i18n.localize(`SETTINGS.${option.name}.hint`),
             scope: 'client',
             config: true,
             type: Boolean,
@@ -97,9 +121,9 @@ export function registerSystemSettings() {
     ];
 
     chatOptions.forEach((option) => {
-        game.settings!.register(SYSTEM_ID, option.name, {
-            name: game.i18n!.localize(`SETTINGS.${option.name}.name`),
-            hint: game.i18n!.localize(`SETTINGS.${option.name}.hint`),
+        game.settings.register(SYSTEM_ID, option.name, {
+            name: game.i18n.localize(`SETTINGS.${option.name}.name`),
+            hint: game.i18n.localize(`SETTINGS.${option.name}.hint`),
             scope: 'client',
             config: true,
             type: Boolean,
@@ -108,28 +132,32 @@ export function registerSystemSettings() {
         });
     });
 
-    game.settings!.register(SYSTEM_ID, SETTINGS.APPLY_BUTTONS_TO, {
-        name: game.i18n!.localize(`SETTINGS.${SETTINGS.APPLY_BUTTONS_TO}.name`),
-        hint: game.i18n!.localize(`SETTINGS.${SETTINGS.APPLY_BUTTONS_TO}.hint`),
+    game.settings.register(SYSTEM_ID, SETTINGS.APPLY_BUTTONS_TO, {
+        name: game.i18n.localize(`SETTINGS.${SETTINGS.APPLY_BUTTONS_TO}.name`),
+        hint: game.i18n.localize(`SETTINGS.${SETTINGS.APPLY_BUTTONS_TO}.hint`),
         scope: 'client',
         config: true,
-        type: Number,
-        default: TargetingOptions.SelectedOnly as number,
+        // TODO: Resolve typing issue
+        // NOTE: Use any as workaround for foundry-vtt-types issues
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
+        type: Number as any,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
+        default: TargetingOptions.SelectedOnly as number as any,
         requiresReload: true,
         choices: {
-            [TargetingOptions.SelectedOnly]: game.i18n!.localize(
+            [TargetingOptions.SelectedOnly]: game.i18n.localize(
                 `SETTINGS.${SETTINGS.APPLY_BUTTONS_TO}.choices.SelectedOnly`,
             ),
-            [TargetingOptions.TargetedOnly]: game.i18n!.localize(
+            [TargetingOptions.TargetedOnly]: game.i18n.localize(
                 `SETTINGS.${SETTINGS.APPLY_BUTTONS_TO}.choices.TargetedOnly`,
             ),
-            [TargetingOptions.SelectedAndTargeted]: game.i18n!.localize(
+            [TargetingOptions.SelectedAndTargeted]: game.i18n.localize(
                 `SETTINGS.${SETTINGS.APPLY_BUTTONS_TO}.choices.SelectedAndTargeted`,
             ),
-            [TargetingOptions.PrioritiseSelected]: game.i18n!.localize(
+            [TargetingOptions.PrioritiseSelected]: game.i18n.localize(
                 `SETTINGS.${SETTINGS.APPLY_BUTTONS_TO}.choices.PrioritiseSelected`,
             ),
-            [TargetingOptions.PrioritiseTargeted]: game.i18n!.localize(
+            [TargetingOptions.PrioritiseTargeted]: game.i18n.localize(
                 `SETTINGS.${SETTINGS.APPLY_BUTTONS_TO}.choices.PrioritiseTargeted`,
             ),
         },
@@ -140,9 +168,9 @@ export function registerSystemSettings() {
  * Register additional settings after modules have had a chance to initialize to give them a chance to modify choices.
  */
 export function registerDeferredSettings() {
-    game.settings!.register(SYSTEM_ID, SETTINGS.SYSTEM_THEME, {
-        name: game.i18n!.localize(`SETTINGS.${SETTINGS.SYSTEM_THEME}.name`),
-        hint: game.i18n!.localize(`SETTINGS.${SETTINGS.SYSTEM_THEME}.hint`),
+    game.settings.register(SYSTEM_ID, SETTINGS.SYSTEM_THEME, {
+        name: game.i18n.localize(`SETTINGS.${SETTINGS.SYSTEM_THEME}.name`),
+        hint: game.i18n.localize(`SETTINGS.${SETTINGS.SYSTEM_THEME}.hint`),
         scope: 'client',
         config: true,
         type: String,
@@ -215,7 +243,7 @@ export function registerSystemKeybindings() {
     ];
 
     keybindings.forEach((keybind) => {
-        game.keybindings!.register(SYSTEM_ID, keybind.name, {
+        game.keybindings.register(SYSTEM_ID, keybind.name, {
             name: `KEYBINDINGS.${keybind.name}`,
             editable: keybind.editable,
         });
@@ -229,8 +257,8 @@ export function registerSystemKeybindings() {
  */
 export function getSystemSetting<
     T extends string | boolean | number = string | boolean | number,
->(settingKey: string) {
-    return game.settings!.get(SYSTEM_ID, settingKey) as T;
+>(settingKey: SystemSettingKey) {
+    return game.settings.get(SYSTEM_ID, settingKey) as T;
 }
 
 /**
@@ -238,8 +266,14 @@ export function getSystemSetting<
  * @param settingKey  The identifier of the setting to set.
  * @param value The value to set the setting to.
  */
-export function setSystemSetting<T = unknown>(settingKey: string, value: T) {
-    return game.settings!.set(SYSTEM_ID, settingKey, value);
+export function setSystemSetting<
+    TKey extends SystemSettingKey,
+    TValue extends SystemSettingsConfig[`${typeof SYSTEM_ID}.${TKey}`],
+>(settingKey: TKey, value: TValue) {
+    // TODO: Proper typing
+    // NOTE: Use any as workaround for foundry-vtt-types issues
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return game.settings.set(SYSTEM_ID, settingKey, value as any); // TEMP: Workaround
 }
 
 /**
@@ -248,5 +282,11 @@ export function setSystemSetting<T = unknown>(settingKey: string, value: T) {
  * @returns {Array<object>} The value of the keybindings associated with the given key.
  */
 export function getSystemKeybinding(keybindingKey: string) {
-    return game.keybindings!.get(SYSTEM_ID, keybindingKey);
+    return game.keybindings.get(SYSTEM_ID, keybindingKey);
+}
+
+declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
+    interface SettingConfig extends SystemSettingsConfig {
+        'core.collectionSortingModes': Record<string, string>;
+    }
 }

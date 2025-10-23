@@ -1,6 +1,6 @@
-import { CosmereItem } from '@system/documents/item';
-import { EventsItemData } from '@system/data/item/mixins/events';
+import { EventsItem } from '@system/documents/item';
 import { ConstructorOf } from '@system/types/utils';
+import { Rule } from '@system/data/item/event-system';
 
 // Dialogs
 import { ItemEditEventRuleDialog } from '../dialogs/edit-event-rule';
@@ -13,9 +13,11 @@ import { BaseItemSheet, BaseItemSheetRenderContext } from '../base';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
-export class ItemEventRulesListComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<BaseItemSheet>
-> {
+export class ItemEventRulesListComponent extends HandlebarsApplicationComponent<// typeof BaseItemSheet
+// TODO: Resolve typing issues
+// NOTE: Use any as workaround for foundry-vtt-types issues
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+any> {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_EVENT_RULES_LIST}`;
 
     /**
@@ -32,8 +34,8 @@ export class ItemEventRulesListComponent extends HandlebarsApplicationComponent<
 
     /* --- Accessors --- */
 
-    public get item(): CosmereItem<EventsItemData> {
-        return this.application.item as CosmereItem<EventsItemData>;
+    public get item(): EventsItem {
+        return this.application.item as EventsItem;
     }
 
     /* --- Actions --- */
@@ -46,7 +48,7 @@ export class ItemEventRulesListComponent extends HandlebarsApplicationComponent<
         await this.item.update({
             [`system.events.${id}`]: {
                 id,
-                description: game.i18n!.localize(
+                description: game.i18n.localize(
                     'COSMERE.Item.EventSystem.Event.Rule.NewRuleDescription',
                 ),
                 event: 'none',
@@ -57,7 +59,7 @@ export class ItemEventRulesListComponent extends HandlebarsApplicationComponent<
         });
 
         // Get the rule
-        const rule = this.item.system.events.get(id)!;
+        const rule = this.item.system.events.get(id) as Rule; // TEMP: Workaround
 
         // Show the edit dialog
         void ItemEditEventRuleDialog.show(this.item, rule);
@@ -71,7 +73,7 @@ export class ItemEventRulesListComponent extends HandlebarsApplicationComponent<
         if (!id) return;
 
         // Get the rule
-        const rule = this.item.system.events.get(id);
+        const rule = this.item.system.events.get(id) as Rule; // TEMP: Workaround
         if (!rule) return;
 
         // Show the edit dialog
@@ -90,7 +92,7 @@ export class ItemEventRulesListComponent extends HandlebarsApplicationComponent<
 
         // Delete the rule
         void this.item.update({
-            [`system.events.-=${id}`]: {},
+            [`system.events.-=${id}`]: null,
         });
     }
 

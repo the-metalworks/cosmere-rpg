@@ -47,6 +47,7 @@ import {
 } from './application/actor/components/item-list';
 
 import { CosmereItem } from '@system/documents/item';
+import { CosmereActor } from '../documents';
 
 export interface SizeConfig {
     label: string;
@@ -362,7 +363,7 @@ export interface ItemEventTypeConfig {
      * Function to transform the hook arguments into a fixed set of arguments.
      */
     transform?: (...args: any[]) => {
-        document: foundry.abstract.Document;
+        document: foundry.abstract.Document.Any;
         options?: AnyObject & { _eti?: string; _d?: number };
         userId?: string;
     };
@@ -389,7 +390,7 @@ export interface RollDataConfig {
     /**
      * The types of document the data applies to.
      */
-    types: ActorType[];
+    types: CosmereActor['type'];
 
     /**
      * The data to provide, in the form of raw values to add or document.system variables to pull from.

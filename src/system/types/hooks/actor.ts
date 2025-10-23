@@ -1,5 +1,6 @@
 import { CosmereActor, InjuryItem } from '@system/documents';
 import { InjuryType, RestType } from '@system/types/cosmere';
+import { HOOKS } from '@system/constants/hooks';
 
 /**
  * --- Damage application hooks ---
@@ -46,4 +47,17 @@ export type Rest = _Rest<void>;
 export interface DamageValues {
     calculated: number; // Total damage calculation
     dealt?: number; // Actual damage dealt to actor
+}
+
+declare module "@league-of-foundry-developers/foundry-vtt-types/configuration" {
+    namespace Hooks {
+        interface HookConfig {
+            [HOOKS.PRE_APPLY_INJURY]: PreApplyInjury;
+            [HOOKS.APPLY_INJURY]: ApplyInjury;
+            [HOOKS.PRE_APPLY_DAMAGE]: PreApplyDamage;
+            [HOOKS.APPLY_DAMAGE]: ApplyDamage;
+            [HOOKS.PRE_REST]: PreRest;
+            [HOOKS.REST]: Rest;
+        }
+    }
 }

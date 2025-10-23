@@ -132,7 +132,7 @@ export abstract class BaseConnection extends Drawable {
 
     public override _draw() {
         // Draw path
-        this.drawPath();
+        this.drawConnectionPath();
 
         // // Debug hit area
         // this.lineStyle(1, 'red');
@@ -162,7 +162,7 @@ export abstract class BaseConnection extends Drawable {
         this.prevIsObtained = this.isObtained;
     }
 
-    protected drawPath() {
+    protected drawConnectionPath() {
         // Set line style
         this.lineStyle(this.getLineStyle());
 

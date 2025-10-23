@@ -41,9 +41,11 @@ interface RenderContext extends BaseActorSheetRenderContext {
     };
 }
 
-export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<BaseActorSheet>
-> {
+export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<// typeof BaseActorSheet
+// TODO: Resolve typing issues
+// NOTE: Use any as workaround for foundry-vtt-types issues
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+any> {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_EQUIPMENT_LIST}`;
 
     /**
@@ -140,7 +142,9 @@ export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<
         if (!item.isEquippable()) return;
 
         void item.update({
-            'system.equipped': !item.system.equipped,
+            system: {
+                equipped: !item.system.equipped,
+            },
         });
     }
 
@@ -174,8 +178,12 @@ export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<
 
         // Update item
         void item.update({
-            'system.equipped': newEquip,
-            'system.equip.hand': handTypes[newIndex],
+            system: {
+                equipped: newEquip,
+                equip: {
+                    hand: handTypes[newIndex],
+                },
+            },
         });
     }
 
@@ -222,7 +230,9 @@ export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<
 
         await item.update(
             {
-                'system.quantity': item.system.quantity + modifier,
+                system: {
+                    quantity: item.system.quantity + modifier,
+                },
             },
             { render: false },
         );
@@ -241,8 +251,8 @@ export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<
 
         // Ensure all items have an expand state record
         physicalItems.forEach((item) => {
-            if (!(item.id in this.itemState)) {
-                this.itemState[item.id] = {
+            if (!(item.id! in this.itemState)) {
+                this.itemState[item.id!] = {
                     expanded: false,
                 };
             }
@@ -284,7 +294,7 @@ export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<
                 CosmereItem.create(
                     {
                         type,
-                        name: game.i18n!.localize(
+                        name: game.i18n.localize(
                             `COSMERE.Item.Type.${type.capitalize()}.New`,
                         ),
                     },
@@ -320,7 +330,7 @@ export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<
         return await items.reduce(
             async (prev, item) => ({
                 ...(await prev),
-                [item.id]: {
+                [item.id!]: {
                     ...(item.hasDescription() && item.system.description?.value
                         ? {
                               descriptionHTML: await TextEditor.enrichHTML(
@@ -354,35 +364,7 @@ export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<
                     // Get item
                     const item = this.application.actor.items.get(itemId)!;
 
-                    // Check if actor is character
-                    const isCharacter = this.application.actor.isCharacter();
-
-                    // Check if item is favorited
-                    const isFavorite = item.isFavorite;
-
                     return [
-                        // Favorite (only for characters)
-                        isCharacter
-                            ? isFavorite
-                                ? {
-                                      name: 'GENERIC.Button.RemoveFavorite',
-                                      icon: 'fa-solid fa-star',
-                                      callback: () => {
-                                          void item.clearFavorite();
-                                      },
-                                  }
-                                : {
-                                      name: 'GENERIC.Button.Favorite',
-                                      icon: 'fa-solid fa-star',
-                                      callback: () => {
-                                          void item.markFavorite(
-                                              this.application.actor.favorites
-                                                  .length,
-                                          );
-                                      },
-                                  }
-                            : null,
-
                         {
                             name: 'GENERIC.Button.Edit',
                             icon: 'fa-solid fa-pen-to-square',
@@ -397,7 +379,7 @@ export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<
                                 // Remove the item
                                 void this.application.actor.deleteEmbeddedDocuments(
                                     'Item',
-                                    [item.id],
+                                    [item.id!],
                                 );
                             },
                         },

@@ -2,31 +2,30 @@ import { CosmereItem } from '@src/system/documents';
 
 // Mixins
 import { DataModelMixin } from '../mixins';
-import { IdItemMixin, IdItemData } from './mixins/id';
+import { IdItemMixin, IdItemDataSchema } from './mixins/id';
 import {
     DescriptionItemMixin,
-    DescriptionItemData,
+    DescriptionItemDataSchema,
 } from './mixins/description';
-import { EventsItemMixin, EventsItemData } from './mixins/events';
+import { EventsItemMixin, EventsItemDataSchema } from './mixins/events';
 import {
     LinkedSkillsMixin,
-    LinkedSkillsItemData,
+    LinkedSkillsItemDataSchema,
 } from './mixins/linked-skills';
 import {
     RelationshipsMixin,
-    RelationshipsItemData,
+    RelationshipsItemDataSchema,
 } from './mixins/relationships';
 
-export interface CultureItemData
-    extends IdItemData,
-        DescriptionItemData,
-        EventsItemData,
-        LinkedSkillsItemData,
-        RelationshipsItemData {}
+export type CultureItemDataSchema =
+    & IdItemDataSchema
+    & DescriptionItemDataSchema
+    & EventsItemDataSchema
+    & LinkedSkillsItemDataSchema
+    & RelationshipsItemDataSchema;
 
 export class CultureItemDataModel extends DataModelMixin<
-    CultureItemData,
-    CosmereItem
+    CultureItemDataSchema
 >(
     IdItemMixin({
         initial: 'none',
@@ -38,8 +37,4 @@ export class CultureItemDataModel extends DataModelMixin<
     EventsItemMixin(),
     LinkedSkillsMixin(),
     RelationshipsMixin(),
-) {
-    static defineSchema() {
-        return foundry.utils.mergeObject(super.defineSchema(), {});
-    }
-}
+) {}

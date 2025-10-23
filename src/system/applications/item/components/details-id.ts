@@ -6,9 +6,11 @@ import { TEMPLATES } from '@src/system/utils/templates';
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
 import { BaseItemSheet, BaseItemSheetRenderContext } from '../base';
 
-export class DetailsIdComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<BaseItemSheet>
-> {
+export class DetailsIdComponent extends HandlebarsApplicationComponent<// typeof BaseItemSheet
+// TODO: Resolve typing issues
+// NOTE: Use any as workaround for foundry-vtt-types issues
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+any> {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_DETAILS_ID}`;
 
     /* --- Context --- */

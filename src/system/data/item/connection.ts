@@ -4,35 +4,25 @@ import { CosmereItem } from '@src/system/documents';
 import { DataModelMixin } from '../mixins';
 import {
     DescriptionItemMixin,
-    DescriptionItemData,
+    DescriptionItemDataSchema,
 } from './mixins/description';
-import { EventsItemMixin, EventsItemData } from './mixins/events';
+import { EventsItemMixin, EventsItemDataSchema } from './mixins/events';
 import {
     RelationshipsMixin,
-    RelationshipsItemData,
+    RelationshipsItemDataSchema
 } from './mixins/relationships';
 
-/**
- * NOTE: Kept interface with no members for consistency with
- * other item data.
- */
-
-export interface ConnectionItemData
-    extends DescriptionItemData,
-        EventsItemData,
-        RelationshipsItemData {}
+export type ConnectionItemDataSchema = 
+    & DescriptionItemDataSchema
+    & EventsItemDataSchema
+    & RelationshipsItemDataSchema;
 
 export class ConnectionItemDataModel extends DataModelMixin<
-    ConnectionItemData,
-    CosmereItem
+    ConnectionItemDataSchema
 >(
     DescriptionItemMixin({
         value: 'COSMERE.Item.Type.Connection.desc_placeholder',
     }),
     EventsItemMixin(),
     RelationshipsMixin(),
-) {
-    static defineSchema() {
-        return foundry.utils.mergeObject(super.defineSchema(), {});
-    }
-}
+) {}

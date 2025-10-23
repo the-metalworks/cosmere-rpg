@@ -2,24 +2,36 @@ import { ConstructorOf } from '@system/types/utils';
 
 import { SYSTEM_ID } from '@system/constants';
 
+import { ComponentHandlebarsApplication } from '@system/applications/component-system';
+
 export type SheetMode = 'view' | 'edit';
 
-/**
- * Mixin that adds an edit mode to an ApplicationV2
- */
+// TEMP: Workaround
+// /**
+//  * Mixin that adds an edit mode to an ApplicationV2
+//  */
+// export function EditModeApplicationMixin<
+//     T extends ConstructorOf<
+//         // NOTE: Use of any as the mixin doesn't care about the types
+//         // and we don't want to interfere with the final type
+//         // eslint-disable-next-line @typescript-eslint/no-explicit-any
+//         foundry.applications.api.DocumentSheetV2<any, any, any, any>
+//     >,
+// >(base: T) {
 export function EditModeApplicationMixin<
-    T extends ConstructorOf<
-        // NOTE: Use of any as the mixin doesn't care about the types
-        // and we don't want to interfere with the final type
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        foundry.applications.api.DocumentSheetV2<any, any, any, any>
-    >,
+    T extends ConstructorOf<ComponentHandlebarsApplication>,
 >(base: T) {
     return class mixin extends base {
+        /**
+         * TEMP: Workaround
+         * Can actually be a number of document types but the getFlag and setFlag
+         * types won't merge nicely, even if each individual type is compatible.
+         */
+        declare document: Actor.Implementation;
+
         /* --- Accessors --- */
 
         public get mode(): SheetMode {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
             return this.document.getFlag(SYSTEM_ID, 'sheet.mode') ?? 'view';
         }
 
@@ -30,7 +42,6 @@ export function EditModeApplicationMixin<
         /* --- Public Functions --- */
 
         public async setMode(mode: SheetMode) {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
             await this.document.setFlag(SYSTEM_ID, 'sheet.mode', mode);
 
             // Get toggle

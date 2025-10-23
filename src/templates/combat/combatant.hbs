@@ -1,50 +1,45 @@
-<li class="combatant actor directory-item flexrow {{this.css}} {{this.turnSpeed}} {{#if this.defeated}}defeated{{/if}}" data-phase="{{this.turnSpeed}}" data-combatant-id="{{this.id}}">
-    <img class="token-image" data-src="{{this.img}}" alt="{{this.name}}" />
+<li class="combatant flexrow {{css}} {{turnSpeed}} {{#if hidden}}hide{{/if}} {{#if isDefeated}}defeated{{/if}}" data-phase="{{turnSpeed}}" data-combatant-id="{{id}}">
+    <img class="token-image" src="{{img}}" alt="{{name}}" />
     <div class="token-name flexcol">
-        <h4 class="combatant-name">{{this.name}}</h4>
+        <h4 class="combatant-name">{{name}}</h4>
         <div class="combatant-controls flexrow">
             {{#if @root.user.isGM}}
-            <a class="combatant-control {{#if this.hidden}}active{{/if}}" aria-label="{{localize 'COMBAT.ToggleVis'}}"
-                role="button" data-tooltip="COMBAT.ToggleVis" data-control="toggleHidden">
-                <i class="fas fa-eye-slash"></i>
-            </a>
-            <a class="combatant-control {{#if this.defeated}}active{{/if}}"
-                aria-label="{{localize 'COMBAT.ToggleDead'}}" role="button" data-tooltip="COMBAT.ToggleDead"
-                data-control="toggleDefeated">
-                <i class="fas fa-skull"></i>
-            </a>
+                <button type="button" class="inline-control combatant-control icon fa-solid fa-eye-slash {{#if hidden}}active{{/if}}"
+                        data-action="toggleHidden" data-tooltip aria-label="{{ localize "COMBAT.ToggleVis" }}"></button>
+                <button type="button" class="inline-control combatant-control icon fa-solid fa-skull {{#if isDefeated}}active{{/if}}"
+                        data-action="toggleDefeated" data-tooltip
+                        aria-label="{{ localize "COMBAT.ToggleDead" }}"></button>
             {{/if}}
-            {{#if this.canPing}}
-            <a class="combatant-control" aria-label="{{localize 'COMBAT.PingCombatant'}}" role="button"
-                data-tooltip="COMBAT.PingCombatant" data-control="pingCombatant">
-                <i class="fa-solid fa-bullseye-arrow"></i>
-            </a>
+            {{#if canPing}}
+                <button type="button" class="inline-control combatant-control icon fa-solid fa-bullseye-arrow"
+                            data-action="pingCombatant" data-tooltip
+                            aria-label="{{ localize "COMBAT.PingCombatant" }}"></button>
             {{/if}}
             {{#unless @root.user.isGM}}
-            <a class="combatant-control" aria-label="{{localize 'COMBAT.PanToCombatant'}}" role="button"
-                data-tooltip="COMBAT.PanToCombatant" data-control="panToCombatant">
-                <i class="fa-solid fa-arrows-to-eye"></i>
-            </a>
+                <button type="button" class="inline-control combatant-control icon fa-solid fa-arrows-to-eye"
+                        data-action="panToCombatant" data-tooltip
+                        aria-label="{{ localize "COMBAT.PanToCombatant" }}"></button>
             {{/unless}}
-            <div class="token-effects">
-                {{#each this.effects}}
-                <img class="token-effect" src="{{this}}" />
+            <div class="token-effects" data-tooltip-html="{{ effects.tooltip }}">
+                {{#each effects.icons}}
+                    <img class="token-effect" src="{{ img }}" alt="{{ name }}">
                 {{/each}}
             </div>
         </div>
     </div>
 
-    {{#if this.hasResource}}
-    <div class="token-resource">
-        <span class="resource">{{this.resource}}</span>
-    </div>
+    {{#if resource includeZero=true}}
+        <div class="token-resource">
+            <span class="resource">{{resource}}</span>
+        </div>
     {{/if}}
+
     <div class="combatant-turn-controls">
-        {{#if this.owner}}
-        {{#unless this.isBoss}}
-        <a class="combatant-turn-speed-control {{this.turnSpeed}}" role="button" data-tooltip="COSMERE.Combat.ToggleTurn" data-control="toggleSpeed"></a>
-        {{/unless}} 
+        {{#if isOwner}}
+            {{#unless isBoss}}
+                <a class="combatant-turn-speed-control {{turnSpeed}}" role="button" data-tooltip="COSMERE.Combat.ToggleTurn" data-action="toggleSpeed"></a>
+            {{/unless}} 
         {{/if}}
-        <a class="combatant-turn-finish-control {{#if (getCombatActedState this)}}done{{/if}}" data-tooltip="COSMERE.Combat.Activate" {{#if this.owner}}data-control="activateCombatant"{{/if}}></a>    
+        <a class="combatant-turn-finish-control {{#if (getCombatActedState this)}}done{{/if}}" data-tooltip="COSMERE.Combat.Activate" {{#if isOwner}}data-action="activateCombatant"{{/if}}></a>    
     </div>
 </li>

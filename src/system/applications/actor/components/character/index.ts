@@ -1,4 +1,3 @@
-import './favorites';
 import './paths';
 import './ancestry';
 import './goals-list';

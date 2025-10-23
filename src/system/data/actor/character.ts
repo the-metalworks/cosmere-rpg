@@ -1,8 +1,12 @@
 // Types
 import { Resource } from '@system/types/cosmere';
-import { DeepPartial, AnyObject } from '@system/types/utils';
+import { DeepPartial, AnyObject, EmptyObject } from '@system/types/utils';
 
-import { CommonActorDataModel, CommonActorData, AttributeData } from './common';
+import {
+    CommonActorDataModel,
+    CommonActorDataSchema,
+    AttributeData,
+} from './common';
 
 // Utils
 import * as Advancement from '@system/utils/advancement';
@@ -10,113 +14,63 @@ import * as Advancement from '@system/utils/advancement';
 // Fields
 import { DerivedValueField, Derived, MappingField } from '../fields';
 
-interface GoalData {
-    text: string;
-    level: number;
-}
-
-interface ConnectionData {
-    name: string;
-    description: string;
-}
-
-export interface CharacterActorData extends CommonActorData {
+const SCHEMA = () => ({
     /* --- Advancement --- */
-    level: number;
+    level: new foundry.data.fields.NumberField({
+        required: true,
+        nullable: false,
+        integer: true,
+        min: 1,
+        initial: 1,
+        label: 'COSMERE.Actor.Level.Label',
+    }),
 
+    /* --- Derived statistics --- */
+    recovery: new foundry.data.fields.SchemaField({
+        die: new DerivedValueField(
+            new foundry.data.fields.StringField({
+                required: true,
+                blank: false,
+                initial: 'd4',
+                choices: () => RECOVERY_DICE,
+                nullable: false,
+            }),
+        ),
+    }),
+
+    /* --- Purpose and Obstacle --- */
+    purpose: new foundry.data.fields.HTMLField({
+        required: true,
+        initial: '',
+    }),
+    obstacle: new foundry.data.fields.HTMLField({
+        required: true,
+        initial: '',
+    }),
+});
+
+export type CharacterActorDataSchema = ReturnType<typeof SCHEMA> &
+    CommonActorDataSchema;
+
+export type CharacterActorData =
+    foundry.data.fields.SchemaField.InitializedData<CharacterActorDataSchema>;
+
+// NOTE: Must use type here instead of interface as an interface doesn't match AnyObject type
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+export type CharacterActorDerivedData = {
     /**
      * Derived value for the maximum rank a skill can be.
      * Based on the configured advancement rules.
      */
     maxSkillRank: number;
+};
 
-    /* --- Derived statistics --- */
-    recovery: { die: Derived<string> };
-
-    /* --- Goals, Connections, Purpose, and Obstacle --- */
-    purpose: string;
-    obstacle: string;
-    goals?: GoalData[];
-    connections: ConnectionData[];
-}
-
-export class CharacterActorDataModel extends CommonActorDataModel<CharacterActorData> {
+export class CharacterActorDataModel extends CommonActorDataModel<
+    CharacterActorDataSchema,
+    CharacterActorDerivedData
+> {
     public static defineSchema() {
-        return foundry.utils.mergeObject(super.defineSchema(), {
-            /* --- Advancement --- */
-            level: new foundry.data.fields.NumberField({
-                required: true,
-                nullable: false,
-                integer: true,
-                min: 1,
-                initial: 1,
-                label: 'COSMERE.Actor.Level.Label',
-            }),
-
-            maxSkillRank: new foundry.data.fields.NumberField({
-                required: true,
-                nullable: false,
-                integer: true,
-                initial: 2,
-                max: 5,
-            }),
-
-            /* --- Derived statistics --- */
-            recovery: new foundry.data.fields.SchemaField({
-                die: new DerivedValueField(
-                    new foundry.data.fields.StringField({
-                        required: true,
-                        blank: false,
-                        initial: 'd4',
-                        choices: RECOVERY_DICE,
-                    }),
-                ),
-            }),
-
-            /* --- Goals, Connections, Purpose, and Obstacle --- */
-            goals: new foundry.data.fields.ArrayField(
-                new foundry.data.fields.SchemaField({
-                    text: new foundry.data.fields.StringField({
-                        required: true,
-                    }),
-                    level: new foundry.data.fields.NumberField({
-                        required: true,
-                        integer: true,
-                        initial: 0,
-                        min: 0,
-                        max: 3,
-                    }),
-                }),
-                {
-                    required: true,
-                    nullable: true,
-                    initial: null,
-                },
-            ),
-            connections: new foundry.data.fields.ArrayField(
-                new foundry.data.fields.SchemaField({
-                    name: new foundry.data.fields.StringField({
-                        required: true,
-                    }),
-                    description: new foundry.data.fields.HTMLField({
-                        required: true,
-                    }),
-                }),
-                {
-                    required: true,
-                    nullable: false,
-                    initial: [],
-                },
-            ),
-            purpose: new foundry.data.fields.HTMLField({
-                required: true,
-                initial: '',
-            }),
-            obstacle: new foundry.data.fields.HTMLField({
-                required: true,
-                initial: '',
-            }),
-        });
+        return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());
     }
 
     public prepareDerivedData() {

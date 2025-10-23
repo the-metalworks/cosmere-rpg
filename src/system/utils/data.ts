@@ -1,4 +1,3 @@
-import { DatabaseGetOperation } from '@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/abstract/_types.mjs';
 import {
     AnyObject,
     AnyMutableObject,
@@ -7,8 +6,6 @@ import {
     InvalidCollection,
     RawDocumentData,
 } from '../types/utils';
-import { StoredDocument } from '@league-of-foundry-developers/foundry-vtt-types/src/types/utils.mjs';
-
 import { RecordCollection } from '@system/data/fields/collection';
 
 export function cloneCollection<T = unknown>(source: Collection<T>) {
@@ -99,11 +96,7 @@ export function getObjectChanges(original: object, updated: object): AnyObject {
 
     // Add removed keys
     removedKeys.forEach((key) => {
-        let keyParts = key.split('.');
-        keyParts = [...keyParts.slice(0, -1), keyParts.at(-1)!.slice(2)];
-
-        // Add the removal operator
-        changes[key] = foundry.utils.getProperty(original, keyParts.join('.'));
+        changes[key] = null;
     });
 
     return foundry.utils.expandObject(changes) as AnyObject;
@@ -114,7 +107,7 @@ export function getObjectChanges(original: object, updated: object): AnyObject {
  */
 function getCollectionForDocumentType(
     documentType: string,
-): WorldCollection<foundry.abstract.Document.AnyConstructor, string> {
+): WorldCollection<foundry.abstract.Document.WorldType, string> {
     const collection = game.collections?.get(documentType);
     if (!collection) {
         throw new Error(`Failed to retrieve "${documentType}" collection`);
@@ -126,18 +119,21 @@ function getCollectionForDocumentType(
 export async function getRawDocumentSources<
     T extends RawDocumentData = RawDocumentData,
 >(documentType: string, packID?: string): Promise<T[]> {
-    const operation: DatabaseGetOperation = {
+    const operation: foundry.abstract.types.DatabaseGetOperation = {
         query: {},
     };
     if (packID) operation.pack = packID;
 
     // NOTE: Use any type here as it keeps resolving to ManageCompendiumRequest instead of DocumentSocketRequest
-    const { result } = await SocketInterface.dispatch('modifyDocument', {
-        type: documentType,
-        operation,
-        action: 'get',
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } as any);
+    const { result } = await foundry.helpers.SocketInterface.dispatch(
+        'modifyDocument',
+        {
+            type: documentType,
+            operation,
+            action: 'get',
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } as any,
+    );
 
     return (result as T[] | undefined) ?? [];
 }
@@ -148,16 +144,18 @@ export async function getRawDocumentSources<
 export async function getPossiblyInvalidDocument<T extends CosmereDocument>(
     documentType: string,
     id: string,
-    compendium?: CompendiumCollection<CompendiumCollection.Metadata>,
+    compendium?: CompendiumCollection<CompendiumCollection.DocumentName>,
 ): Promise<T> {
     if (compendium) {
         if (compendium.invalidDocumentIds.has(id)) {
-            return compendium.getInvalid(id, { strict: true }) as T;
+            return compendium.getInvalid(id, { strict: true }) as unknown as T;
         }
         return (await compendium.getDocument(id)) as unknown as T;
     } else {
         return (
-            getCollectionForDocumentType(documentType) as InvalidCollection<T>
+            getCollectionForDocumentType(
+                documentType,
+            ) as unknown as InvalidCollection<T>
         ).get(id, {
             strict: true,
             invalid: true,
@@ -171,7 +169,7 @@ export async function getPossiblyInvalidDocument<T extends CosmereDocument>(
 function isDocumentInvalid(
     documentType: string,
     id: string,
-    compendium?: CompendiumCollection<CompendiumCollection.Metadata>,
+    compendium?: CompendiumCollection<CompendiumCollection.DocumentName>,
 ): boolean {
     return (
         compendium ??
@@ -188,7 +186,7 @@ export function addDocumentToCollection(
     documentType: string,
     id: string,
     document: CosmereDocument,
-    compendium?: CompendiumCollection<CompendiumCollection.Metadata>,
+    compendium?: CompendiumCollection<CompendiumCollection.DocumentName>,
 ) {
     // Get the correct document class for the static fromSource call.
     // This is extremely important for foundry to recognize the new
@@ -200,7 +198,10 @@ export function addDocumentToCollection(
     // method declarations in Actor, Item, etc. must return `this`.
     // We want an instance of the actual class we're calling from.
     const documentToAdd = documentClass.fromSource(
-        document._source,
+        // TODO: Resolve typing issues
+        // NOTE: Use any as workaround for foundry-vtt-types issues
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        document._source as any,
     ) as unknown as CosmereDocument;
 
     // Manually update collection with document.
@@ -223,12 +224,12 @@ export function addDocumentToCollection(
 export function fixInvalidDocument(
     documentType: string,
     document: CosmereDocument,
-    compendium?: CompendiumCollection<CompendiumCollection.Metadata>,
+    compendium?: CompendiumCollection<CompendiumCollection.DocumentName>,
 ) {
-    if (isDocumentInvalid(documentType, document.id, compendium)) {
+    if (isDocumentInvalid(documentType, document.id!, compendium)) {
         addDocumentToCollection(
             documentType,
-            document.id,
+            document.id!,
             document,
             compendium,
         );

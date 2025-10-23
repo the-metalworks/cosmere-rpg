@@ -50,7 +50,7 @@ export class PickDiceResultDialog extends ComponentHandlebarsApplicationMixin(
                 submit: this.onSubmit,
             },
         },
-    );
+    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
     /* eslint-enable @typescript-eslint/unbound-method */
 
     static PARTS = foundry.utils.mergeObject(
@@ -111,8 +111,8 @@ export class PickDiceResultDialog extends ComponentHandlebarsApplicationMixin(
         // Ensure the amount picked is less than the amount to pick
         if (this.picked.length >= this.data.amount && !!result.discarded) {
             return void ui.notifications.error(
-                game.i18n!.format('DIALOG.PickDiceResult.Error.TooManyPicked', {
-                    max: this.data.amount,
+                game.i18n.format('DIALOG.PickDiceResult.Error.TooManyPicked', {
+                    max: this.data.amount.toFixed(),
                 }),
             );
         }
@@ -145,8 +145,8 @@ export class PickDiceResultDialog extends ComponentHandlebarsApplicationMixin(
 
     /* --- Lifecycle --- */
 
-    protected _onRender(context: AnyObject, options: AnyObject) {
-        super._onRender(context, options);
+    protected async _onRender(context: AnyObject, options: AnyObject) {
+        await super._onRender(context, options);
 
         $(this.element).prop('open', true);
     }
@@ -157,7 +157,7 @@ export class PickDiceResultDialog extends ComponentHandlebarsApplicationMixin(
 
     /* --- Context --- */
 
-    protected _prepareContext() {
+    public _prepareContext() {
         const isPlotDie = this.data.term instanceof PlotDie;
 
         return Promise.resolve({

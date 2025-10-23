@@ -1,6 +1,6 @@
-import { Viewport, ViewportOptions, World } from '@system/applications/canvas';
-
 import '@pixi/filter-glow';
+import { Viewport, ViewportOptions, World } from '@system/applications/canvas';
+import { DeepReadonly } from '@system/types/utils';
 
 // Constants
 import { GRID_SIZE, SUB_GRID_SIZE, MIN_SUB_GRID_ZOOM } from '../constants';

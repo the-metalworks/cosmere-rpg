@@ -45,7 +45,7 @@ export async function migrate(from: string, to: string, packID?: string) {
     /**
      * Hook: preMigration
      */
-    Hooks.callAll<CosmereHooks.PreMigration>(HOOKS.PRE_MIGRATION, from, to);
+    Hooks.callAll(HOOKS.PRE_MIGRATION, from, to);
 
     // Get all migrations between the versions
     const migrations = MIGRATIONS.filter((migration) => {
@@ -67,11 +67,7 @@ export async function migrate(from: string, to: string, packID?: string) {
         /**
          * Hook: preMigrationVersion
          */
-        Hooks.callAll<CosmereHooks.PreMigrateVersion>(
-            HOOKS.PRE_MIGRATE_VERSION,
-            migration.from,
-            migration.to,
-        );
+        Hooks.callAll(HOOKS.PRE_MIGRATE_VERSION, migration.from, migration.to);
 
         const packName = packID ? ` (${packID})` : '';
 
@@ -103,11 +99,7 @@ export async function migrate(from: string, to: string, packID?: string) {
         /**
          * Hooks: migrateVersion
          */
-        Hooks.callAll<CosmereHooks.MigrateVersion>(
-            HOOKS.MIGRATE_VERSION,
-            migration.from,
-            migration.to,
-        );
+        Hooks.callAll(HOOKS.MIGRATE_VERSION, migration.from, migration.to);
     }
 
     // Re-render sidebar to include re-validated documents
@@ -119,7 +111,7 @@ export async function migrate(from: string, to: string, packID?: string) {
     /**
      * Hook: migration
      */
-    Hooks.callAll<CosmereHooks.Migration>(HOOKS.MIGRATION, from, to);
+    Hooks.callAll(HOOKS.MIGRATION, from, to);
 
     // Re-enable event system
     EventSystem.enable();
@@ -131,7 +123,7 @@ export async function invokeMigration(
     to: string,
     compendiumIDs: string[] = [],
 ) {
-    if (!game.user!.isGM) return;
+    if (!game.user.isGM) return;
     if (!requiresMigration(from, to)) return;
 
     // Migrate world data

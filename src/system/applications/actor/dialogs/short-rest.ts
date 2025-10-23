@@ -84,12 +84,12 @@ export class ShortRestDialog extends foundry.applications.api.DialogV2 {
         // Render dialog inner HTML
         const content = await renderTemplate(TEMPLATE, {
             characters: {
-                none: game.i18n!.localize('GENERIC.None'),
+                none: game.i18n.localize('GENERIC.None'),
 
                 ...playerCharacters.reduce(
                     (acc, character) => ({
                         ...acc,
-                        [character.id]: character.name,
+                        [character.id!]: character.name,
                     }),
                     {} as Record<string, string>,
                 ),
@@ -127,8 +127,8 @@ export class ShortRestDialog extends foundry.applications.api.DialogV2 {
 
     /* --- Lifecycle --- */
 
-    protected _onRender(context: never, options: AnyObject) {
-        super._onRender(context, options);
+    protected async _onRender(context: never, options: AnyObject) {
+        await super._onRender(context, options);
 
         // Event handler for tended by selection
         $(this.element)

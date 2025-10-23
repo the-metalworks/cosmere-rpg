@@ -18,7 +18,7 @@ type Params = {
 const INVALID_CHARS_REGEX = /[^a-z0-9-_\s]/g;
 
 export class IdInputComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<foundry.applications.api.ApplicationV2>,
+    foundry.applications.api.ApplicationV2.AnyConstructor,
     Params
 > {
     static readonly TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.COMPONENT_ID_INPUT}`;

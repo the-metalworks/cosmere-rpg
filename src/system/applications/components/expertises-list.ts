@@ -1,5 +1,3 @@
-import { ConstructorOf } from '@system/types/utils';
-
 import { Expertise } from '@system/data/actor/fields/expertises-field';
 
 // Dialog
@@ -23,7 +21,7 @@ type Params = {
 };
 
 export class ExpertisesListComponent extends HandlebarsApplicationComponent<
-    ConstructorOf<foundry.applications.api.ApplicationV2>,
+    foundry.applications.api.ApplicationV2.AnyConstructor,
     Params
 > {
     static FORM_ASSOCIATED = true;
@@ -92,9 +90,9 @@ export class ExpertisesListComponent extends HandlebarsApplicationComponent<
         $(this.element!).attr('name', value ?? '');
     }
 
-    public get expertises() {
+    public get expertises(): Collection<Expertise> {
         return this.application instanceof BaseActorSheet
-            ? this.application.actor.system.expertises
+            ? this.application.actor.system.expertises as unknown as Collection<Expertise> // TEMP: Workaround
             : this._value;
     }
 
@@ -170,13 +168,7 @@ export class ExpertisesListComponent extends HandlebarsApplicationComponent<
         if (this.application instanceof BaseActorSheet) {
             if (!this.application.isEditable) return;
 
-            void this.application.actor.update(
-                {
-                    'flags.cosmere-rpg.sheet.expertisesCollapsed':
-                        this._collapsed,
-                },
-                { render: false },
-            );
+            void this.application.actor.setFlag('cosmere-rpg', 'sheet.expertisesCollapsed', this._collapsed);
         }
     }
 
