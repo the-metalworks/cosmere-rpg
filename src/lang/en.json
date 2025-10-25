@@ -122,7 +122,7 @@
                 "Defense": "Defense",
                 "SensesRange": "Sense",
                 "MovementRate": "Move",
-                "LiftingCapactiy": "Lifting Capactiy",
+                "LiftingCapacity": "Lifting Capacity",
                 "RecoveryDie": "Recover",
                 "Deflect": "Deflect",
                 "NoObscuredSense": "Unaffected by Obscured Senses.",
