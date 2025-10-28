@@ -19,23 +19,20 @@ export class ConfigureRecoveryDieDialog extends HandlebarsApplicationMixin(
      * within ApplicationV2
      */
     /* eslint-disable @typescript-eslint/unbound-method */
-    static DEFAULT_OPTIONS = foundry.utils.mergeObject(
-        foundry.utils.deepClone(super.DEFAULT_OPTIONS),
-        {
-            window: {
-                minimizable: false,
-                positioned: true,
-            },
-            classes: ['dialog', 'configure-recovery-die'],
-            tag: 'dialog',
-            position: {
-                width: 350,
-            },
-            actions: {
-                'update-recovery': this.onUpdateRecoveryDie,
-            },
+    static DEFAULT_OPTIONS = {
+        window: {
+            minimizable: false,
+            positioned: true,
         },
-    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
+        classes: ['dialog', 'configure-recovery-die'],
+        tag: 'dialog',
+        position: {
+            width: 350,
+        },
+        actions: {
+            'update-recovery': this.onUpdateRecoveryDie,
+        },
+    };
 
     static PARTS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.PARTS),

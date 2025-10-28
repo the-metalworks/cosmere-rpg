@@ -55,26 +55,23 @@ export class BaseActorSheet<
     declare actor: CosmereActor;
 
     /* eslint-disable @typescript-eslint/unbound-method */
-    static DEFAULT_OPTIONS = foundry.utils.mergeObject(
-        foundry.utils.mergeObject({}, super.DEFAULT_OPTIONS),
-        {
-            actions: {
-                'toggle-mode': this.onToggleMode,
-                'edit-html-field': this.editHtmlField,
-                save: this.onSave,
-            },
-            form: {
-                handler: this.onFormEvent,
-                submitOnChange: true,
-            } as unknown,
-            dragDrop: [
-                {
-                    dragSelector: '[data-drag]',
-                    dropSelector: '*',
-                },
-            ],
+    static DEFAULT_OPTIONS = {
+        actions: {
+            'toggle-mode': this.onToggleMode,
+            'edit-html-field': this.editHtmlField,
+            save: this.onSave,
         },
-    ) as foundry.applications.api.DocumentSheetV2.DefaultOptions;
+        form: {
+            handler: this.onFormEvent,
+            submitOnChange: true,
+        } as unknown,
+        dragDrop: [
+            {
+                dragSelector: '[data-drag]',
+                dropSelector: '*',
+            },
+        ],
+    } as foundry.applications.api.DocumentSheetV2.DefaultOptions;
     /* eslint-enable @typescript-eslint/unbound-method */
 
     static PARTS = foundry.utils.mergeObject(super.PARTS, {

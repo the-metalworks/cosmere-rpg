@@ -18,22 +18,19 @@ export type AdversarySheetRenderContext = Omit<
 export class AdversarySheet extends BaseActorSheet<AdversarySheetRenderContext> {
     declare actor: AdversaryActor;
 
-    static DEFAULT_OPTIONS = foundry.utils.mergeObject(
-        foundry.utils.deepClone(super.DEFAULT_OPTIONS),
-        {
-            classes: [SYSTEM_ID, 'sheet', 'actor', 'adversary'],
-            position: {
-                width: 850,
-                height: 850,
-            },
-            dragDrop: [
-                {
-                    dropSelector: '*',
-                },
-            ],
-            actions: {},
+    static DEFAULT_OPTIONS = {
+        classes: [SYSTEM_ID, 'sheet', 'actor', 'adversary'],
+        position: {
+            width: 850,
+            height: 850,
         },
-    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
+        dragDrop: [
+            {
+                dropSelector: '*',
+            },
+        ],
+        actions: {},
+    };
 
     static PARTS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.PARTS),

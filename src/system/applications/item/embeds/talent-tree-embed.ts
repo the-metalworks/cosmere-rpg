@@ -42,21 +42,18 @@ export class TalentTreeEmbed extends ComponentHandlebarsApplicationMixin(
 ) {
     declare readonly id: string; //TEMP: Workaround
 
-    static DEFAULT_OPTIONS = foundry.utils.mergeObject(
-        foundry.utils.deepClone(super.DEFAULT_OPTIONS),
-        {
-            classes: [SYSTEM_ID, 'embed', 'talent-tree'],
-            position: {
-                width: 600,
-                top: 0,
-                left: 0,
-            },
-            window: {
-                frame: false,
-            },
-            tag: 'div',
+    static DEFAULT_OPTIONS = {
+        classes: [SYSTEM_ID, 'embed', 'talent-tree'],
+        position: {
+            width: 600,
+            top: 0,
+            left: 0,
         },
-    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
+        window: {
+            frame: false,
+        },
+        tag: 'div',
+    };
 
     static PARTS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.PARTS),
@@ -80,7 +77,7 @@ export class TalentTreeEmbed extends ComponentHandlebarsApplicationMixin(
 
         // Get configured width
         const width = (options.position?.width ??
-            TalentTreeEmbed.DEFAULT_OPTIONS.position!.width!) as number;
+            TalentTreeEmbed.DEFAULT_OPTIONS.position.width) as number;
 
         // Calculate height based on aspect ratio
         const height = width / aspectRatio;

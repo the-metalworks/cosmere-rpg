@@ -126,33 +126,30 @@ type EditExpertisesDialogConfig =
 export class EditExpertisesDialog extends HandlebarsApplicationMixin(
     ApplicationV2<AnyObject>,
 ) {
-    static DEFAULT_OPTIONS = foundry.utils.mergeObject(
-        foundry.utils.deepClone(super.DEFAULT_OPTIONS),
-        {
-            window: {
-                minimizable: false,
-                positioned: true,
-            },
-            classes: ['edit-expertises', 'dialog'],
-            tag: 'dialog',
-            position: {
-                width: 300,
-                height: 800,
-            },
-
-            /**
-             * NOTE: Unbound methods is the standard for defining actions and forms
-             * within ApplicationV2
-             */
-            /* eslint-disable @typescript-eslint/unbound-method */
-            actions: {
-                'add-custom-expertise': this.onAddCustomExpertise,
-                'remove-custom-expertise': this.onRemoveCustomExpertise,
-                'update-expertises': this.onSave,
-            },
-            /* eslint-enable @typescript-eslint/unbound-method */
+    static DEFAULT_OPTIONS = {
+        window: {
+            minimizable: false,
+            positioned: true,
         },
-    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
+        classes: ['edit-expertises', 'dialog'],
+        tag: 'dialog',
+        position: {
+            width: 300,
+            height: 800,
+        },
+
+        /**
+         * NOTE: Unbound methods is the standard for defining actions and forms
+         * within ApplicationV2
+         */
+        /* eslint-disable @typescript-eslint/unbound-method */
+        actions: {
+            'add-custom-expertise': this.onAddCustomExpertise,
+            'remove-custom-expertise': this.onRemoveCustomExpertise,
+            'update-expertises': this.onSave,
+        },
+        /* eslint-enable @typescript-eslint/unbound-method */
+    };
 
     static PARTS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.PARTS),

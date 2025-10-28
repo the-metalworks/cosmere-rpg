@@ -17,25 +17,22 @@ export class EditNodePrerequisiteDialog extends ComponentHandlebarsApplicationMi
      * within ApplicationV2
      */
     /* eslint-disable @typescript-eslint/unbound-method */
-    static DEFAULT_OPTIONS = foundry.utils.mergeObject(
-        foundry.utils.deepClone(super.DEFAULT_OPTIONS),
-        {
-            window: {
-                title: 'DIALOG.EditTalentPrerequisite.Title',
-                minimizable: false,
-                resizable: true,
-                positioned: true,
-            },
-            classes: ['dialog', 'edit-talent-prerequisite'],
-            tag: 'dialog',
-            position: {
-                width: 350,
-            },
-            actions: {
-                update: this.onUpdatePrerequisite,
-            },
+    static DEFAULT_OPTIONS = {
+        window: {
+            title: 'DIALOG.EditTalentPrerequisite.Title',
+            minimizable: false,
+            resizable: true,
+            positioned: true,
         },
-    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
+        classes: ['dialog', 'edit-talent-prerequisite'],
+        tag: 'dialog',
+        position: {
+            width: 350,
+        },
+        actions: {
+            update: this.onUpdatePrerequisite,
+        },
+    };
 
     static PARTS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.PARTS),
