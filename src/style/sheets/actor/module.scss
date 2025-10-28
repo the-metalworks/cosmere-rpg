@@ -148,7 +148,6 @@
                 overflow-x: hidden;
                 scrollbar-color: var(--cosmere-color-base-6) var(--color-scrollbar-track);
                 scrollbar-gutter: stable;
-                filter: var(--cosmere-drop-shadow);
 
                 .scroll-body {
                     overflow: visible;
@@ -171,7 +170,6 @@
                 scrollbar-color: var(--cosmere-color-base-6) var(--color-scrollbar-track);
                 scrollbar-gutter: stable;
                 flex: 1;
-                filter: var(--cosmere-drop-shadow);
 
                 .tab-body {
                     overflow: visible;
@@ -195,7 +193,6 @@
         }
 
         .container {
-            filter: var(--cosmere-drop-shadow);
             position: relative;
             text-align: center;
 
@@ -410,7 +407,6 @@
 
                 border: 4px solid var(--cosmere-color-accent);
                 border-radius: 50%;
-                filter: var(--cosmere-drop-shadow);
 
                 img {
                     width: 100%;
