@@ -16,23 +16,20 @@ export class ConfigureSensesRangeDialog extends HandlebarsApplicationMixin(
      * within ApplicationV2
      */
     /* eslint-disable @typescript-eslint/unbound-method */
-    static DEFAULT_OPTIONS = foundry.utils.mergeObject(
-        foundry.utils.deepClone(super.DEFAULT_OPTIONS),
-        {
-            window: {
-                minimizable: false,
-                positioned: true,
-            },
-            classes: ['dialog', 'configure-senses-range'],
-            tag: 'dialog',
-            position: {
-                width: 350,
-            },
-            actions: {
-                'update-sense': this.onUpdateSensesRange,
-            },
+    static DEFAULT_OPTIONS = {
+        window: {
+            minimizable: false,
+            positioned: true,
         },
-    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
+        classes: ['dialog', 'configure-senses-range'],
+        tag: 'dialog',
+        position: {
+            width: 350,
+        },
+        actions: {
+            'update-sense': this.onUpdateSensesRange,
+        },
+    };
 
     static PARTS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.PARTS),

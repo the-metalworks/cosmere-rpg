@@ -34,15 +34,12 @@ export class CosmereCombatTracker extends foundry.applications.sidebar.tabs
      * within ApplicationV2
      */
     /* eslint-disable @typescript-eslint/unbound-method */
-    static DEFAULT_OPTIONS = foundry.utils.mergeObject(
-        foundry.utils.deepClone(super.DEFAULT_OPTIONS),
-        {
-            actions: {
-                toggleSpeed: this._onClickToggleTurnSpeed,
-                activateCombatant: this._onActivateCombatant,
-            },
+    static DEFAULT_OPTIONS = {
+        actions: {
+            toggleSpeed: this._onClickToggleTurnSpeed,
+            activateCombatant: this._onActivateCombatant,
         },
-    );
+    };
     /* eslint-enable @typescript-eslint/unbound-method */
 
     static PARTS = foundry.utils.mergeObject(

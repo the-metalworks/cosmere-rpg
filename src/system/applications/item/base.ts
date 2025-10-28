@@ -46,19 +46,16 @@ export class BaseItemSheet extends TabsApplicationMixin(
      * within ApplicationV2
      */
     /* eslint-disable @typescript-eslint/unbound-method */
-    static DEFAULT_OPTIONS = foundry.utils.mergeObject(
-        foundry.utils.deepClone(super.DEFAULT_OPTIONS),
-        {
-            form: {
-                handler: this.onFormEvent,
-                submitOnChange: true,
-            } as unknown,
-            actions: {
-                'edit-description': this.editDescription,
-                save: this.onSave,
-            },
+    static DEFAULT_OPTIONS = {
+        form: {
+            handler: this.onFormEvent,
+            submitOnChange: true,
+        } as unknown,
+        actions: {
+            'edit-description': this.editDescription,
+            save: this.onSave,
         },
-    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
+    } as foundry.applications.api.ApplicationV2.DefaultOptions;
     /* eslint-enable @typescript-eslint/unbound-method */
 
     static TABS = foundry.utils.mergeObject(

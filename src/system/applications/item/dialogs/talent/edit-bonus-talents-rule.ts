@@ -14,25 +14,22 @@ export class EditBonusTalentsRuleDialog extends (HandlebarsApplicationMixin(
      * within ApplicationV2
      */
     /* eslint-disable @typescript-eslint/unbound-method */
-    static DEFAULT_OPTIONS = foundry.utils.mergeObject(
-        foundry.utils.deepClone(super.DEFAULT_OPTIONS),
-        {
-            window: {
-                title: 'DIALOG.EditBonusTalentsRule.Title',
-                minimizable: false,
-                resizable: true,
-                positioned: true,
-            },
-            classes: ['dialog', 'edit-bonus-talents-rule'],
-            tag: 'dialog',
-            position: {
-                width: 350,
-            },
-            actions: {
-                update: this.onSubmit,
-            },
+    static DEFAULT_OPTIONS = {
+        window: {
+            title: 'DIALOG.EditBonusTalentsRule.Title',
+            minimizable: false,
+            resizable: true,
+            positioned: true,
         },
-    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
+        classes: ['dialog', 'edit-bonus-talents-rule'],
+        tag: 'dialog',
+        position: {
+            width: 350,
+        },
+        actions: {
+            update: this.onSubmit,
+        },
+    };
 
     static PARTS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.PARTS),

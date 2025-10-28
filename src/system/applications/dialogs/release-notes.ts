@@ -12,18 +12,15 @@ interface ReleaseNotesDialogOptions {
 export class ReleaseNotesDialog extends HandlebarsApplicationMixin(
     ApplicationV2<AnyObject>,
 ) {
-    static DEFAULT_OPTIONS = foundry.utils.mergeObject(
-        foundry.utils.deepClone(super.DEFAULT_OPTIONS),
-        {
-            window: {
-                resizable: true,
-            },
-            position: {
-                width: 800,
-            },
-            classes: ['cosmere', 'dialog', 'release-notes'],
+    static DEFAULT_OPTIONS = {
+        window: {
+            resizable: true,
         },
-    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
+        position: {
+            width: 800,
+        },
+        classes: ['cosmere', 'dialog', 'release-notes'],
+    };
 
     static PARTS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.PARTS),

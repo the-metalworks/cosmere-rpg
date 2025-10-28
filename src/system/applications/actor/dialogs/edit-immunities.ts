@@ -9,22 +9,19 @@ const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 export class EditImmunitiesDialog extends HandlebarsApplicationMixin(
     ApplicationV2<AnyObject>,
 ) {
-    static DEFAULT_OPTIONS = foundry.utils.mergeObject(
-        foundry.utils.deepClone(super.DEFAULT_OPTIONS),
-        {
-            window: {
-                title: 'COSMERE.Actor.Sheet.EditImmunities',
-                minimizable: false,
-                positioned: true,
-            },
-            classes: ['edit-immunities', 'dialog'],
-            tag: 'dialog',
-            position: {
-                width: 300,
-                height: 800,
-            },
+    static DEFAULT_OPTIONS = {
+        window: {
+            title: 'COSMERE.Actor.Sheet.EditImmunities',
+            minimizable: false,
+            positioned: true,
         },
-    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
+        classes: ['edit-immunities', 'dialog'],
+        tag: 'dialog',
+        position: {
+            width: 300,
+            height: 800,
+        },
+    };
 
     static PARTS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.PARTS),
