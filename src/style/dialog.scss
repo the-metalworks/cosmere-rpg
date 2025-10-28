@@ -28,7 +28,6 @@
         scrollbar-color: var(--cosmere-color-base-6)
             var(--color-scrollbar-track);
         scrollbar-gutter: stable;
-        filter: var(--cosmere-drop-shadow);
     }
 
     ul {
@@ -176,10 +175,6 @@
     &.roll-configuration,
     &.edit-event-rule,
     &.edit-creature-type {
-        > .window-content {
-            filter: var(--cosmere-drop-shadow);
-        }
-
         form,
         #consumables {
             display: flex;
@@ -432,12 +427,6 @@
                     height: 48px;
                 }
             }
-        }
-    }
-
-    &.configure-skills {
-        .skills-column {
-            filter: var(--cosmere-drop-shadow);
         }
     }
 
