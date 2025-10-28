@@ -278,20 +278,24 @@ export class BaseActorSheet<
         form: HTMLFormElement,
         formData: FormDataExtended,
     ) {
-        // Handle notes fields separately
-        if ((event.target as HTMLElement).className.includes('prosemirror')) {
-            await this.saveHtmlField();
-            void this.actor.update(formData.object);
-            return;
-        }
-
         if (
             !(event.target instanceof HTMLInputElement) &&
             !(event.target instanceof HTMLTextAreaElement) &&
-            !(event.target instanceof HTMLSelectElement)
+            !(event.target instanceof HTMLSelectElement) &&
+            !(
+                event.target instanceof
+                foundry.applications.elements.HTMLProseMirrorElement
+            )
         )
             return;
         if (!event.target.name) return;
+
+        // Handle prose-mirror fields separately
+        if (
+            event.target instanceof
+            foundry.applications.elements.HTMLProseMirrorElement
+        )
+            await this.saveHtmlField();
 
         Object.keys(this.actor.system.resources).forEach((resourceId) => {
             let resourceValue = formData.object[
@@ -545,7 +549,6 @@ export class BaseActorSheet<
      * Helper to update the prose mirror edit state
      */
     private async saveHtmlField() {
-        console.log('Saving HTML Field');
         // Switches back from prose mirror
         this.updatingHtmlField = false;
         await this.render(true);
