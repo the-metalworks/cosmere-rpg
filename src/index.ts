@@ -24,6 +24,7 @@ import * as applications from './system/applications';
 import * as dataModels from './system/data';
 import * as documents from './system/documents';
 import * as dice from './system/dice';
+import * as dicev2 from './system/dicev2';
 
 import Editor from './system/ui/editor';
 
