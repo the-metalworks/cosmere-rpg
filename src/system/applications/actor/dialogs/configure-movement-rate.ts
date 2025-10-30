@@ -17,23 +17,20 @@ export class ConfigureMovementRateDialog extends HandlebarsApplicationMixin(
      * within ApplicationV2
      */
     /* eslint-disable @typescript-eslint/unbound-method */
-    static DEFAULT_OPTIONS = foundry.utils.mergeObject(
-        foundry.utils.deepClone(super.DEFAULT_OPTIONS),
-        {
-            window: {
-                minimizable: false,
-                positioned: true,
-            },
-            classes: ['dialog', 'configure-movement-rate'],
-            tag: 'dialog',
-            position: {
-                width: 350,
-            },
-            actions: {
-                'update-movement': this.onUpdateMovementRate,
-            },
+    static DEFAULT_OPTIONS = {
+        window: {
+            minimizable: false,
+            positioned: true,
         },
-    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
+        classes: ['dialog', 'configure-movement-rate'],
+        tag: 'dialog',
+        position: {
+            width: 350,
+        },
+        actions: {
+            'update-movement': this.onUpdateMovementRate,
+        },
+    };
 
     static PARTS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.PARTS),

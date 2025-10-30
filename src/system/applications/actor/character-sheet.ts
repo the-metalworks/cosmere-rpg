@@ -16,16 +16,13 @@ const enum CharacterSheetTab {
 export class CharacterSheet extends BaseActorSheet {
     declare actor: CharacterActor;
 
-    static DEFAULT_OPTIONS = foundry.utils.mergeObject(
-        foundry.utils.deepClone(super.DEFAULT_OPTIONS),
-        {
-            classes: [SYSTEM_ID, 'sheet', 'actor', 'character'] as string[],
-            position: {
-                width: 850,
-                height: 1000,
-            },
+    static DEFAULT_OPTIONS = {
+        classes: [SYSTEM_ID, 'sheet', 'actor', 'character'] as string[],
+        position: {
+            width: 850,
+            height: 1000,
         },
-    );
+    };
 
     static PARTS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.PARTS),

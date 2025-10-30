@@ -130,7 +130,6 @@
         z-index: 1;
         border: none;
         align-items: center;
-        filter: var(--cosmere-drop-shadow);
 
         .window-title {
             font-weight: 600;
@@ -270,7 +269,6 @@
         font-weight: 600;
         color: var(--cosmere-color-faded);
         text-transform: uppercase;
-        filter: var(--cosmere-drop-shadow);
 
         opacity: 0.5;
 

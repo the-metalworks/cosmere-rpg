@@ -32,25 +32,22 @@ export class PickDiceResultDialog extends ComponentHandlebarsApplicationMixin(
      * within ApplicationV2
      */
     /* eslint-disable @typescript-eslint/unbound-method */
-    static DEFAULT_OPTIONS = foundry.utils.mergeObject(
-        foundry.utils.deepClone(super.DEFAULT_OPTIONS),
-        {
-            window: {
-                minimizable: false,
-                resizable: false,
-                title: 'DIALOG.PickDiceResult.Title',
-            },
-            classes: ['dialog', 'pick-dice-result'],
-            tag: 'dialog',
-            position: {
-                width: 300,
-            },
-            actions: {
-                'select-result': this.onSelectResult,
-                submit: this.onSubmit,
-            },
+    static DEFAULT_OPTIONS = {
+        window: {
+            minimizable: false,
+            resizable: false,
+            title: 'DIALOG.PickDiceResult.Title',
         },
-    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
+        classes: ['dialog', 'pick-dice-result'],
+        tag: 'dialog',
+        position: {
+            width: 300,
+        },
+        actions: {
+            'select-result': this.onSelectResult,
+            submit: this.onSubmit,
+        },
+    };
     /* eslint-enable @typescript-eslint/unbound-method */
 
     static PARTS = foundry.utils.mergeObject(

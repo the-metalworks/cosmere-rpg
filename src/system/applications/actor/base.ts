@@ -55,26 +55,23 @@ export class BaseActorSheet<
     declare actor: CosmereActor;
 
     /* eslint-disable @typescript-eslint/unbound-method */
-    static DEFAULT_OPTIONS = foundry.utils.mergeObject(
-        foundry.utils.mergeObject({}, super.DEFAULT_OPTIONS),
-        {
-            actions: {
-                'toggle-mode': this.onToggleMode,
-                'edit-html-field': this.editHtmlField,
-                save: this.onSave,
-            },
-            form: {
-                handler: this.onFormEvent,
-                submitOnChange: true,
-            } as unknown,
-            dragDrop: [
-                {
-                    dragSelector: '[data-drag]',
-                    dropSelector: '*',
-                },
-            ],
+    static DEFAULT_OPTIONS = {
+        actions: {
+            'toggle-mode': this.onToggleMode,
+            'edit-html-field': this.editHtmlField,
+            save: this.onSave,
         },
-    ) as foundry.applications.api.DocumentSheetV2.DefaultOptions;
+        form: {
+            handler: this.onFormEvent,
+            submitOnChange: true,
+        } as unknown,
+        dragDrop: [
+            {
+                dragSelector: '[data-drag]',
+                dropSelector: '*',
+            },
+        ],
+    } as foundry.applications.api.DocumentSheetV2.DefaultOptions;
     /* eslint-enable @typescript-eslint/unbound-method */
 
     static PARTS = foundry.utils.mergeObject(super.PARTS, {
@@ -278,20 +275,24 @@ export class BaseActorSheet<
         form: HTMLFormElement,
         formData: FormDataExtended,
     ) {
-        // Handle notes fields separately
-        if ((event.target as HTMLElement).className.includes('prosemirror')) {
-            await this.saveHtmlField();
-            void this.actor.update(formData.object);
-            return;
-        }
-
         if (
             !(event.target instanceof HTMLInputElement) &&
             !(event.target instanceof HTMLTextAreaElement) &&
-            !(event.target instanceof HTMLSelectElement)
+            !(event.target instanceof HTMLSelectElement) &&
+            !(
+                event.target instanceof
+                foundry.applications.elements.HTMLProseMirrorElement
+            )
         )
             return;
         if (!event.target.name) return;
+
+        // Handle prose-mirror fields separately
+        if (
+            event.target instanceof
+            foundry.applications.elements.HTMLProseMirrorElement
+        )
+            await this.saveHtmlField();
 
         Object.keys(this.actor.system.resources).forEach((resourceId) => {
             let resourceValue = formData.object[
@@ -545,7 +546,6 @@ export class BaseActorSheet<
      * Helper to update the prose mirror edit state
      */
     private async saveHtmlField() {
-        console.log('Saving HTML Field');
         // Switches back from prose mirror
         this.updatingHtmlField = false;
         await this.render(true);

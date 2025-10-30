@@ -9,19 +9,16 @@ import { BaseItemSheet } from './base';
 export class WeaponItemSheet extends BaseItemSheet {
     declare item: WeaponItem;
 
-    static DEFAULT_OPTIONS = foundry.utils.mergeObject(
-        foundry.utils.deepClone(super.DEFAULT_OPTIONS),
-        {
-            classes: [SYSTEM_ID, 'sheet', 'item', 'weapon'],
-            position: {
-                width: 550,
-            },
-            window: {
-                resizable: false,
-                positioned: true,
-            },
+    static DEFAULT_OPTIONS = {
+        classes: [SYSTEM_ID, 'sheet', 'item', 'weapon'],
+        position: {
+            width: 550,
         },
-    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
+        window: {
+            resizable: false,
+            positioned: true,
+        },
+    };
 
     static TABS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.TABS),

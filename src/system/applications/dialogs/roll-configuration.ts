@@ -97,24 +97,21 @@ export class RollConfigurationDialog extends ComponentHandlebarsApplicationMixin
      * within ApplicationV2
      */
     /* eslint-disable @typescript-eslint/unbound-method */
-    static DEFAULT_OPTIONS = foundry.utils.mergeObject(
-        foundry.utils.deepClone(super.DEFAULT_OPTIONS),
-        {
-            window: {
-                minimizable: false,
-                resizable: false,
-                positioned: true,
-            },
-            classes: ['dialog', 'roll-configuration'],
-            tag: 'dialog',
-            position: {
-                width: 500,
-            },
-            actions: {
-                submit: this.onSubmit,
-            },
+    static DEFAULT_OPTIONS = {
+        window: {
+            minimizable: false,
+            resizable: false,
+            positioned: true,
         },
-    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
+        classes: ['dialog', 'roll-configuration'],
+        tag: 'dialog',
+        position: {
+            width: 500,
+        },
+        actions: {
+            submit: this.onSubmit,
+        },
+    };
 
     static PARTS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.PARTS),
@@ -221,7 +218,7 @@ export class RollConfigurationDialog extends ComponentHandlebarsApplicationMixin
             attribute: getNullableFromFormInput<Attribute>(
                 form.attribute.value,
             ),
-            rollMode: (form.rollMode?.value as RollMode) ?? 'roll',
+            rollMode: (form.rollMode?.value as RollMode) ?? 'publicroll',
             temporaryModifiers: form.temporaryMod.value,
             plotDie: form.raiseStakes.checked,
             advantageMode:

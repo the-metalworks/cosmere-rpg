@@ -33,23 +33,20 @@ export class TalentTreeItemSheet extends EditModeApplicationMixin(
      * within ApplicationV2
      */
     /* eslint-disable @typescript-eslint/unbound-method */
-    static DEFAULT_OPTIONS = foundry.utils.mergeObject(
-        foundry.utils.deepClone(super.DEFAULT_OPTIONS),
-        {
-            classes: [SYSTEM_ID, 'sheet', 'item', 'talent-tree'],
-            window: {
-                positioned: true,
-                resizable: true,
-            },
-            actions: {
-                // configure: this.onConfigure,
-            },
-            form: {
-                handler: this.onFormEvent,
-                submitOnChange: true,
-            } as unknown,
+    static DEFAULT_OPTIONS = {
+        classes: [SYSTEM_ID, 'sheet', 'item', 'talent-tree'],
+        window: {
+            positioned: true,
+            resizable: true,
         },
-    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
+        actions: {
+            // configure: this.onConfigure,
+        },
+        form: {
+            handler: this.onFormEvent,
+            submitOnChange: true,
+        },
+    };
     /* eslint-enable @typescript-eslint/unbound-method */
 
     static PARTS = foundry.utils.mergeObject(

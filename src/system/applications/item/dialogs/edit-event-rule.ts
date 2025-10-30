@@ -24,25 +24,22 @@ export class ItemEditEventRuleDialog extends ComponentHandlebarsApplicationMixin
      * within ApplicationV2
      */
     /* eslint-disable @typescript-eslint/unbound-method */
-    static DEFAULT_OPTIONS = foundry.utils.mergeObject(
-        foundry.utils.deepClone(super.DEFAULT_OPTIONS),
-        {
-            window: {
-                title: 'DIALOG.EditEventRule.Title',
-                minimizable: false,
-                resizable: false,
-                positioned: true,
-            },
-            classes: ['dialog', 'edit-event-rule'],
-            tag: 'dialog',
-            position: {
-                width: 500,
-            },
-            actions: {
-                update: this.onUpdateRule,
-            },
+    static DEFAULT_OPTIONS = {
+        window: {
+            title: 'DIALOG.EditEventRule.Title',
+            minimizable: false,
+            resizable: false,
+            positioned: true,
         },
-    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
+        classes: ['dialog', 'edit-event-rule'],
+        tag: 'dialog',
+        position: {
+            width: 500,
+        },
+        actions: {
+            update: this.onUpdateRule,
+        },
+    };
 
     static PARTS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.PARTS),

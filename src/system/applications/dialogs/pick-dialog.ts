@@ -37,21 +37,18 @@ export class PickDialog extends ComponentHandlebarsApplicationMixin(
      * within ApplicationV2
      */
     /* eslint-disable @typescript-eslint/unbound-method */
-    static DEFAULT_OPTIONS = foundry.utils.mergeObject(
-        foundry.utils.deepClone(super.DEFAULT_OPTIONS),
-        {
-            window: {
-                minimizable: false,
-                resizable: false,
-                title: 'DIALOG.PickDialog.Title',
-            },
-            classes: ['dialog', 'pick-dialog'],
-            tag: 'dialog',
-            position: {
-                width: 300,
-            },
+    static DEFAULT_OPTIONS = {
+        window: {
+            minimizable: false,
+            resizable: false,
+            title: 'DIALOG.PickDialog.Title',
         },
-    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
+        classes: ['dialog', 'pick-dialog'],
+        tag: 'dialog',
+        position: {
+            width: 300,
+        },
+    };
 
     static PARTS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.PARTS),

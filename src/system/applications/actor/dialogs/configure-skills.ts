@@ -11,21 +11,18 @@ const { ApplicationV2 } = foundry.applications.api;
 export class ConfigureSkillsDialog extends ComponentHandlebarsApplicationMixin(
     ApplicationV2<AnyObject>,
 ) {
-    static DEFAULT_OPTIONS = foundry.utils.mergeObject(
-        foundry.utils.deepClone(super.DEFAULT_OPTIONS),
-        {
-            window: {
-                title: 'COSMERE.Actor.Sheet.ConfigureSkills',
-                minimizable: false,
-                positioned: true,
-            },
-            classes: ['dialog', 'configure-skills'],
-            tag: 'dialog',
-            position: {
-                width: 300,
-            },
+    static DEFAULT_OPTIONS = {
+        window: {
+            title: 'COSMERE.Actor.Sheet.ConfigureSkills',
+            minimizable: false,
+            positioned: true,
         },
-    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
+        classes: ['dialog', 'configure-skills'],
+        tag: 'dialog',
+        position: {
+            width: 300,
+        },
+    };
 
     static PARTS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.PARTS),

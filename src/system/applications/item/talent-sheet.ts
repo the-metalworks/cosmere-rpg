@@ -15,22 +15,19 @@ export class TalentItemSheet extends BaseItemSheet {
      * within ApplicationV2
      */
     /* eslint-disable @typescript-eslint/unbound-method */
-    static DEFAULT_OPTIONS = foundry.utils.mergeObject(
-        foundry.utils.deepClone(super.DEFAULT_OPTIONS),
-        {
-            classes: [SYSTEM_ID, 'sheet', 'item', 'talent'],
-            position: {
-                width: 550,
-            },
-            window: {
-                resizable: false,
-                positioned: true,
-            },
-            form: {
-                handler: this.onFormEvent,
-            } as unknown,
+    static DEFAULT_OPTIONS = {
+        classes: [SYSTEM_ID, 'sheet', 'item', 'talent'],
+        position: {
+            width: 550,
         },
-    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
+        window: {
+            resizable: false,
+            positioned: true,
+        },
+        form: {
+            handler: this.onFormEvent,
+        },
+    };
     /* eslint-enable @typescript-eslint/unbound-method */
 
     static TABS = foundry.utils.mergeObject(

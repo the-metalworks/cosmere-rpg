@@ -19,24 +19,21 @@ export class EditCreatureTypeDialog extends HandlebarsApplicationMixin(
      * within ApplicationV2
      */
     /* eslint-disable @typescript-eslint/unbound-method */
-    static DEFAULT_OPTIONS = foundry.utils.mergeObject(
-        foundry.utils.deepClone(super.DEFAULT_OPTIONS),
-        {
-            window: {
-                title: 'COSMERE.Actor.Sheet.EditType',
-                minimizable: false,
-                positioned: true,
-            },
-            classes: ['dialog', 'edit-creature-type'],
-            tag: 'dialog',
-            position: {
-                width: 350,
-            },
-            actions: {
-                'update-type': this.onUpdateType,
-            },
+    static DEFAULT_OPTIONS = {
+        window: {
+            title: 'COSMERE.Actor.Sheet.EditType',
+            minimizable: false,
+            positioned: true,
         },
-    ) as foundry.applications.api.ApplicationV2.DefaultOptions;
+        classes: ['dialog', 'edit-creature-type'],
+        tag: 'dialog',
+        position: {
+            width: 350,
+        },
+        actions: {
+            'update-type': this.onUpdateType,
+        },
+    };
 
     static PARTS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.PARTS),
@@ -76,7 +73,7 @@ export class EditCreatureTypeDialog extends HandlebarsApplicationMixin(
         void this.actor.update({
             system: {
                 type: this.type,
-            }
+            },
         });
         void this.close();
     }

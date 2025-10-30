@@ -1,1 +1,1 @@
-export type RollMode = keyof CONFIG.Dice.RollModes | 'roll';
+export type RollMode = keyof CONFIG.Dice.RollModes;
