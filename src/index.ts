@@ -160,6 +160,9 @@ Hooks.once('init', async () => {
     CONFIG.Dice.rolls.push(dice.D20Roll as any);
     CONFIG.Dice.rolls.push(dice.DamageRoll);
 
+    CONFIG.Dice.types.push(dicev2.CosmereDie);
+    CONFIG.Dice.types.push(dicev2.CosmerePlotDie);
+
     CONFIG.Dice.rolls.push(dicev2.CosmereRoll);
     CONFIG.Dice.rolls.push(dicev2.CosmereSkillRoll);
     CONFIG.Dice.rolls.push(dicev2.CosmereDamageRoll);
