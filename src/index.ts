@@ -160,6 +160,12 @@ Hooks.once('init', async () => {
     CONFIG.Dice.rolls.push(dice.D20Roll as any);
     CONFIG.Dice.rolls.push(dice.DamageRoll);
 
+    CONFIG.Dice.rolls.push(dicev2.CosmereRoll);
+    CONFIG.Dice.rolls.push(dicev2.CosmereSkillRoll);
+    CONFIG.Dice.rolls.push(dicev2.CosmereDamageRoll);
+    CONFIG.Dice.rolls.push(dicev2.CosmereInjuryRoll);
+    CONFIG.Dice.rolls.push(dicev2.CosmerePlotRoll);
+
     CONFIG.Canvas.visionModes.sense = new foundry.canvas.perception.VisionMode({
         id: 'sense',
         label: 'COSMERE.Actor.Statistics.SensesRange',

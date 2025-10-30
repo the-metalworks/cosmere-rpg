@@ -1,3 +1,20 @@
-import { CosmereRoll } from './cosmere-roll';
+import { RollType } from '../types';
+import {
+    CosmereRoll,
+    CosmereRollData,
+    CosmereRollOptions,
+} from './cosmere-roll';
 
-export class CosmereInjuryRoll extends CosmereRoll {}
+export class CosmereInjuryRoll extends CosmereRoll {
+    public constructor(
+        protected parts: string,
+        data: CosmereRollData,
+        options: CosmereRollOptions = {},
+    ) {
+        super(parts, data, options);
+    }
+
+    protected get rollType(): string {
+        return RollType.Injury;
+    }
+}
