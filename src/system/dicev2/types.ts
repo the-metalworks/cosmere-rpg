@@ -7,3 +7,8 @@ export const enum RollType {
     Injury = 'injury',
     Plot = 'plot',
 }
+
+export const enum DieType {
+    Generic = 'generic',
+    Plot = 'plot',
+}

@@ -14,6 +14,7 @@ export class CosmereInjuryRoll extends CosmereRoll {
         super(parts, data, options);
     }
 
+    /* --- Accessors --- */
     protected override get rollType(): string {
         return RollType.Injury;
     }
@@ -37,4 +38,6 @@ export class CosmereInjuryRoll extends CosmereRoll {
     public override get hasComplication() {
         return this._hasComplication;
     }
+
+    /* --- Functions --- */
 }

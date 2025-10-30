@@ -5,6 +5,8 @@ import { RollMode, RollType } from '../types';
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type CosmereRollData = {
+    parent?: string;
+
     source: CosmereItem | CosmereActor | null;
 
     context: string;
@@ -22,11 +24,14 @@ export abstract class CosmereRoll extends foundry.dice.Roll<CosmereRollData> {
     ) {
         super(parts, data, options);
 
+        this.parent = data.parent;
         this.uuid = `cosmere:roll:${this.rollType}:${foundry.utils.randomID()}`;
     }
 
     public readonly uuid: string;
+    public readonly parent?: string;
 
+    /* --- Accessors --- */
     protected get rollType(): string {
         return RollType.Generic;
     }
@@ -46,4 +51,6 @@ export abstract class CosmereRoll extends foundry.dice.Roll<CosmereRollData> {
     public get hasComplication(): boolean {
         return false;
     }
+
+    /* --- Functions --- */
 }
