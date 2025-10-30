@@ -12,7 +12,7 @@ export class CosmereDie extends foundry.dice.terms.Die {
     public constructor(protected termData: CosmereDieData) {
         super(termData);
 
-        this.uuid = `cosmere:die:${this.dieType}:${foundry.utils.randomID()}`;
+        this.uuid = `cosmere:die:${this.type}:${foundry.utils.randomID()}`;
 
         this.opportunityRange = termData.opportunityRange ?? termData.faces;
         this.complicationRange = termData.complicationRange ?? 1;
@@ -24,7 +24,7 @@ export class CosmereDie extends foundry.dice.terms.Die {
     public complicationRange: number;
 
     /* --- Accessors --- */
-    protected get dieType(): string {
+    protected get type(): string {
         return DieType.Generic;
     }
 

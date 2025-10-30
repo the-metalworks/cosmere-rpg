@@ -15,7 +15,7 @@ export class CosmereInjuryRoll extends CosmereRoll {
     }
 
     /* --- Accessors --- */
-    protected override get rollType(): string {
+    protected override get type(): string {
         return RollType.Injury;
     }
 

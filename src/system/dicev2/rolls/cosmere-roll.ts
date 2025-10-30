@@ -25,14 +25,14 @@ export abstract class CosmereRoll extends foundry.dice.Roll<CosmereRollData> {
         super(parts, data, options);
 
         this.parent = data.parent;
-        this.uuid = `cosmere:roll:${this.rollType}:${foundry.utils.randomID()}`;
+        this.uuid = `cosmere:roll:${this.type}:${foundry.utils.randomID()}`;
     }
 
     public readonly uuid: string;
     public readonly parent?: string;
 
     /* --- Accessors --- */
-    protected get rollType(): string {
+    protected get type(): string {
         return RollType.Generic;
     }
 
