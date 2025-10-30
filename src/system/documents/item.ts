@@ -665,6 +665,7 @@ export class CosmereItem<
                 ? actor.system.skills[damageSkillId].attribute
                 : null);
 
+        options.rollMode ??= game.settings.get('core', 'rollMode');
         options.skillTest ??= {};
         options.skillTest.parts ??= this.system.activation.modifierFormula
             ? [this.system.activation.modifierFormula]
@@ -832,12 +833,17 @@ export class CosmereItem<
                 .replace('[item]', this.name);
 
             // Create chat message
-            const message = (await ChatMessage.create({
-                author: game.user.id,
-                speaker,
-                content: `<p>${flavor}</p>`,
-                rolls: [skillRoll, ...damageRolls],
-            })) as ChatMessage;
+            const message = (await ChatMessage.create(
+                {
+                    author: game.user.id,
+                    speaker,
+                    content: `<p>${flavor}</p>`,
+                    rolls: [skillRoll, ...damageRolls],
+                },
+                {
+                    rollMode: options.rollMode,
+                },
+            )) as ChatMessage;
         }
 
         // Return the rolls
@@ -871,6 +877,8 @@ export class CosmereItem<
             );
             return null;
         }
+
+        options.rollMode ??= game.settings.get('core', 'rollMode');
 
         const { fastForward, advantageMode, plotDie } =
             determineConfigurationMode(options);
@@ -1121,7 +1129,9 @@ export class CosmereItem<
             messageConfig.rolls = rolls;
 
             // Create chat message
-            await ChatMessage.create(messageConfig);
+            await ChatMessage.create(messageConfig, {
+                rollMode: options.rollMode,
+            });
 
             // Perform post roll actions
             postRoll.forEach((action) => action());
@@ -1136,10 +1146,9 @@ export class CosmereItem<
             const flavor = this.system.activation.flavor || undefined;
 
             // Create chat message
-            const message = (await ChatMessage.create(
-                messageConfig,
-            )) as ChatMessage;
-            message.applyRollMode('roll');
+            const message = (await ChatMessage.create(messageConfig, {
+                rollMode: options.rollMode,
+            })) as ChatMessage;
 
             // Perform post roll actions
             postRoll.forEach((action) => action());
