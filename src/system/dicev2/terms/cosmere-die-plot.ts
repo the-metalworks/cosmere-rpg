@@ -24,7 +24,7 @@ export class CosmerePlotDie extends CosmereDie {
     };
 
     /* --- Accessors --- */
-    protected override get type(): string {
+    protected override get type(): DieType {
         return DieType.Plot;
     }
 

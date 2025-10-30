@@ -32,7 +32,7 @@ export abstract class CosmereRoll extends foundry.dice.Roll<CosmereRollData> {
     public readonly parent?: string;
 
     /* --- Accessors --- */
-    protected get type(): string {
+    protected get type(): RollType {
         return RollType.Generic;
     }
 

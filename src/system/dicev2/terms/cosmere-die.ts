@@ -24,7 +24,7 @@ export class CosmereDie extends foundry.dice.terms.Die {
     public complicationRange: number;
 
     /* --- Accessors --- */
-    protected get type(): string {
+    protected get type(): DieType {
         return DieType.Generic;
     }
 
