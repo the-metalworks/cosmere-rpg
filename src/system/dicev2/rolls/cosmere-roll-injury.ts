@@ -14,7 +14,27 @@ export class CosmereInjuryRoll extends CosmereRoll {
         super(parts, data, options);
     }
 
-    protected get rollType(): string {
+    protected override get rollType(): string {
         return RollType.Injury;
+    }
+
+    private readonly _hasAdvantage = false;
+    public override get hasAdvantage() {
+        return this._hasAdvantage;
+    }
+
+    private readonly _hasDisadvantage = false;
+    public override get hasDisadvantage() {
+        return this._hasDisadvantage;
+    }
+
+    private readonly _hasOpportunity = false;
+    public override get hasOpportunity() {
+        return this._hasOpportunity;
+    }
+
+    private readonly _hasComplication = false;
+    public override get hasComplication() {
+        return this._hasComplication;
     }
 }

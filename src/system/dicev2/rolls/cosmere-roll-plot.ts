@@ -14,7 +14,7 @@ export class CosmerePlotRoll extends CosmereRoll {
         super(parts, data, options);
     }
 
-    protected get rollType(): string {
+    protected override get rollType(): string {
         return RollType.Plot;
     }
 }

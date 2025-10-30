@@ -14,7 +14,7 @@ export class CosmereSkillRoll extends CosmereRoll {
         super(parts, data, options);
     }
 
-    protected get rollType(): string {
+    protected override get rollType(): string {
         return RollType.Skill;
     }
 }
