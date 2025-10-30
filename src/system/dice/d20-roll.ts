@@ -293,7 +293,6 @@ export class D20Roll extends foundry.dice.Roll<D20RollData> {
     ): Promise<Roll.ToMessageReturn<Create>> {
         options ??= {};
         options.rollMode ??= this.options.rollMode;
-        if (options.rollMode === 'roll') options.rollMode = undefined;
         options.rollMode ??= game.settings.get('core', 'rollMode');
 
         return super.toMessage(messageData, options);
