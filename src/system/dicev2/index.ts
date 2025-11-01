@@ -7,3 +7,5 @@ export * from './rolls/cosmere-roll-injury';
 export * from './terms/cosmere-die';
 export * from './terms/cosmere-die-plot';
 export * from './terms/cosmere-dice-group';
+
+export * from './types'
