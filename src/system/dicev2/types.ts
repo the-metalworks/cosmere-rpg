@@ -15,17 +15,20 @@ export const enum DieType {
 
 export const enum DieModifier {
     Advantage = 'kh',
-    Disadvantage ='kl',
+    Disadvantage = 'kl',
     RerollOnce = 'r',
     Reroll = 'rr',
     Minimum = 'min',
-    Maximum = 'max'
+    Maximum = 'max',
+    Pick = 'p',
+    PickGM = 'gmp',
 }
 
 export interface DiceTermResult extends foundry.dice.terms.DiceTerm.Result {
     hidden?: boolean;
 }
 
-export interface EvaluationOptions extends Partial<foundry.dice.terms.DiceTerm.EvaluationOptions> {
+export interface EvaluationOptions
+    extends Partial<foundry.dice.terms.DiceTerm.EvaluationOptions> {
     reroll?: boolean;
 }

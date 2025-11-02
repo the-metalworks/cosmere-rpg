@@ -18,13 +18,13 @@ export interface CosmereRollOptions extends Partial<foundry.dice.Roll.Options> {
 
 export abstract class CosmereRoll extends foundry.dice.Roll<CosmereRollData> {
     public constructor(
-        protected parts: string,
+        formula: string,
         data: CosmereRollData,
         options: CosmereRollOptions = {},
     ) {
-        super(parts, data, options);
+        super(formula, data, options);
 
-        this.parent = data.parent;
+        this.parent = data?.parent;
         this.uuid = `cosmere:roll:${this.type}:${foundry.utils.randomID()}`;
     }
 

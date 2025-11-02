@@ -1,4 +1,9 @@
-import { DiceTermResult, EvaluationOptions, DieType, DieModifier } from '../types';
+import {
+    DiceTermResult,
+    EvaluationOptions,
+    DieType,
+    DieModifier,
+} from '../types';
 
 export interface CosmereDieData extends foundry.dice.terms.Die.TermData {
     opportunityRange?: number;
@@ -29,6 +34,14 @@ export class CosmereDie extends foundry.dice.terms.Die {
         return DieType.Generic;
     }
 
+    public override get dice(): CosmereDie[] {
+        return []; // Block this getter since CosmereDie should only ever contain 1 die.
+    }
+
+    public override get values(): number[] {
+        return []; // Block this getter since CosmereDie should only ever have 1 value, accessed as total.
+    }
+
     public get hasAdvantage(): boolean {
         return this.modifiers.includes(DieModifier.Advantage);
     }
@@ -46,7 +59,9 @@ export class CosmereDie extends foundry.dice.terms.Die {
     }
 
     /* --- Functions --- */
-    public override evaluate(options?: EvaluationOptions): this | Promise<this> {
+    public override evaluate(
+        options?: EvaluationOptions,
+    ): this | Promise<this> {
         if (options?.maximize || options?.minimize || options?.reroll) {
             this.results = [];
             this._evaluated = false;
@@ -59,8 +74,13 @@ export class CosmereDie extends foundry.dice.terms.Die {
         switch (modifier) {
             case DieModifier.Advantage:
             case DieModifier.Disadvantage:
-                if (this.modifiers.includes(DieModifier.Advantage) || this.modifiers.includes(DieModifier.Disadvantage)) {
-                    throw new Error(`The ${this.constructor.name} already has advantage or disadvantage`)
+                if (
+                    this.modifiers.includes(DieModifier.Advantage) ||
+                    this.modifiers.includes(DieModifier.Disadvantage)
+                ) {
+                    throw new Error(
+                        `The ${this.constructor.name} already has advantage or disadvantage`,
+                    );
                 }
 
                 this.number = 2;

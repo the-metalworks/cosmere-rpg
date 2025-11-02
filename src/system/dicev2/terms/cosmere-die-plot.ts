@@ -1,5 +1,5 @@
 import { IMPORTED_RESOURCES } from '@src/system/constants';
-import { DieType } from '../types';
+import { DiceTermResult, DieType } from '../types';
 import { CosmereDie, CosmereDieData } from './cosmere-die';
 
 export class CosmerePlotDie extends CosmereDie {
@@ -29,9 +29,7 @@ export class CosmerePlotDie extends CosmereDie {
     }
 
     /* --- Functions --- */
-    override getResultLabel(
-        result: foundry.dice.terms.DiceTerm.Result,
-    ): string {
+    public override getResultLabel(result: DiceTermResult): string {
         return CosmerePlotDie.SIDES[result.result];
     }
 }
