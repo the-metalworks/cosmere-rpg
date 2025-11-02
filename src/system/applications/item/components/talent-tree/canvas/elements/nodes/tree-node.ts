@@ -6,7 +6,7 @@ import { BaseNode } from './types';
 
 // Canvas
 import { PIXICanvasApplication, Drawable } from '@system/applications/canvas';
-import { TalentTreeWorld, MouseOverNodeEvent } from '../../world';
+import { TalentTreeWorld } from '../../world';
 import { TalentNode } from './talent-node';
 import {
     BaseConnection,
@@ -15,7 +15,7 @@ import {
 } from '../connection';
 
 // Constants
-import { SUB_GRID_SIZE, GRID_SIZE } from '../../../constants';
+import { SUB_GRID_SIZE } from '../../../constants';
 
 class Layer<
     T extends PIXI.DisplayObject = PIXI.DisplayObject,
@@ -104,6 +104,42 @@ class TreeHeader extends Drawable {
             this.node.contentBounds!.x + this.node.contentBounds!.width / 2,
             this.node.contentBounds!.y - this.node.padding.y - size.height / 2,
         );
+    }
+
+    /**
+     * Measured width of the header text (unconstrained by the node size).
+     */
+    public get textWidth() {
+        return this.text.width;
+    }
+
+    /**
+     * Reduce the header font size as needed so the rendered text width does
+     * not exceed `maxWidth`. The font size will not be reduced below
+     * `minFontSize`. Returns the resulting text width.
+     *
+     * This implementation reduces the font size in 1px steps for
+     * predictable visual results. It's intentionally simple — if you want
+     * faster adjustments for many headers, we can switch to a binary
+     * search implementation instead.
+     */
+    public fitToWidth(maxWidth: number, minFontSize = 14) {
+        // If it already fits, nothing to do
+        if (this.text.width <= maxWidth) return this.text.width;
+
+        const style = this.text.style;
+        let fontSize = Math.floor((style.fontSize as number) || 16);
+
+        // Decrease in steps of 1px until it fits (or we reach minFontSize)
+        while (fontSize > minFontSize && this.text.width > maxWidth) {
+            fontSize -= 1;
+            style.fontSize = fontSize;
+            this.text.style = style;
+            // Ensure the display updates
+            this.markDirty();
+        }
+
+        return this.text.width;
     }
 }
 
@@ -541,21 +577,67 @@ export class TalentTreeNode extends BaseNode {
     }
 
     private calculateContentBounds() {
-        const leftMostPosition = Math.min(
-            ...this.nodesLayer.children.map((node) => node.data.position.x),
-        );
-        const rightMostPosition = Math.max(
-            ...this.nodesLayer.children.map((node) => {
-                if (node instanceof TalentNode) {
-                    return node.data.position.x + node.data.size.width;
-                } else if (node instanceof TalentTreeNode) {
-                    return node.data.position.x + node.contentBounds!.width;
-                } else {
-                    return 0;
-                }
-            }),
-        );
+        // Compute horizontal extents, taking into account that a nested
+        // tree's header text may be wider than its content. When the
+        // header text is wider, expand the child's extents symmetrically
+        // so the title won't overflow the calculated content bounds.
+        let leftMostPosition = Number.POSITIVE_INFINITY;
+        let rightMostPosition = Number.NEGATIVE_INFINITY;
 
+        for (const node of this.nodesLayer.children) {
+            if (node instanceof TalentNode) {
+                const left = node.data.position.x;
+                const right = node.data.position.x + node.data.size.width;
+                leftMostPosition = Math.min(leftMostPosition, left);
+                rightMostPosition = Math.max(rightMostPosition, right);
+            } else if (node instanceof TalentTreeNode) {
+                const contentWidth = node.contentBounds!.width;
+
+                // Base left/right using content width
+                let left = node.data.position.x;
+                let right = node.data.position.x + contentWidth;
+
+                // If the tree node has a header, make sure its title fits.
+                if (node.header) {
+                    let headerTextWidth = node.header.textWidth;
+
+                    // The node's total visual width (including padding)
+                    const nodeTotalWidth = contentWidth + node.padding.x * 2;
+
+                    // Allow the title to increase the node width by up to 30%
+                    // of the node's total width. If the header is wider than
+                    // that, attempt to shrink the header font (down to 14px)
+                    // so it fits within the allowed expansion.
+                    const maxAllowedTotalWidth = nodeTotalWidth * 1.3;
+
+                    // If header is wider than allowed, try to reduce font size
+                    if (headerTextWidth > maxAllowedTotalWidth) {
+                        headerTextWidth = node.header.fitToWidth(
+                            maxAllowedTotalWidth,
+                            14,
+                        );
+                    }
+
+                    const desiredTotalWidth = Math.max(
+                        nodeTotalWidth,
+                        headerTextWidth,
+                    );
+                    const extra = Math.max(
+                        0,
+                        desiredTotalWidth - nodeTotalWidth,
+                    );
+                    const halfExtra = extra / 2;
+
+                    left -= halfExtra;
+                    right += halfExtra;
+                }
+
+                leftMostPosition = Math.min(leftMostPosition, left);
+                rightMostPosition = Math.max(rightMostPosition, right);
+            }
+        }
+
+        // Compute vertical extents (unchanged): node positions and heights
         const topMostPosition = Math.min(
             ...this.nodesLayer.children.map((node) => node.data.position.y),
         );
