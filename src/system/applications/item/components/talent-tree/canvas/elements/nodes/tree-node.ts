@@ -574,12 +574,6 @@ export class TalentTreeNode extends BaseNode {
             // The node's total visual width (including padding)
             const nodeTotalWidth = contentWidth + this.padding.x * 2;
 
-            // Allow the title to increase the node width by up to 50%
-            // of the node's total width. If the header is wider than
-            // that, attempt to shrink the header font (down to 14px)
-            // so it fits within the allowed expansion.
-            const maxAllowedTotalWidth = nodeTotalWidth * 1.5;
-
             const desiredTotalWidth = Math.max(nodeTotalWidth, headerTextWidth);
             const extra = Math.max(0, desiredTotalWidth - nodeTotalWidth);
             const halfExtra = extra / 2 + this.padding.x;
