@@ -101,9 +101,9 @@ export class HandlerField<
         difference[key].type = type;
     }
 
-    public override getInitialValue(data: { type: string }) {
+    public override getInitialValue(data: { type?: string }) {
         // Get model
-        const cls = HandlerField.getModelForType(data.type);
+        const cls = HandlerField.getModelForType(data.type ?? 'none');
 
         // Get initial value
         return cls.schema.getInitialValue(data);
