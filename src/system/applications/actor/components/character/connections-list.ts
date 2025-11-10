@@ -30,16 +30,11 @@ any> {
     /* eslint-disable @typescript-eslint/unbound-method */
     static readonly ACTIONS = {
         'add-connection': this.onAddConnection,
-        'remove-connection': this.onRemoveConnection,
-        'edit-connection': this.onEditConnection,
         'toggle-expand-connection': this.onToggleExpandConnection,
     };
     /* eslint-enable @typescript-eslint/unbound-method */
 
     private connectionItemStates: Record<string, ConnectionItemState> = {};
-
-    private contextConnectionId: string | null = null;
-    private controlsDropdownExpanded = false;
 
     /* --- Connections --- */
 
@@ -71,45 +66,38 @@ any> {
         }, 50);
     }
 
-    public static async onRemoveConnection(
+    public static onRemoveConnection(
         this: CharacterConnectionsListComponent,
+        element: HTMLElement,
     ) {
-        this.controlsDropdownExpanded = false;
+        const connectionId = $(element).closest('.item[data-id]').data('id') as
+            | string
+            | undefined;
+        if (!connectionId) return;
 
-        // Ensure context goal id is set
-        if (this.contextConnectionId !== null) {
-            // Remove the connection
-            await this.application.actor.deleteEmbeddedDocuments(
-                'Item',
-                [this.contextConnectionId],
-                { render: false },
-            );
+        // Get the connection
+        const connectionItem = this.application.actor.items.get(connectionId);
+        if (!connectionItem?.isConnection()) return;
 
-            this.contextConnectionId = null;
-        }
-
-        // Render
-        await this.render();
+        // Delete the connection
+        void connectionItem.delete();
     }
 
-    public static onEditConnection(this: CharacterConnectionsListComponent) {
-        this.controlsDropdownExpanded = false;
+    public static onEditConnection(
+        this: CharacterConnectionsListComponent,
+        element: HTMLElement,
+    ) {
+        const connectionId = $(element).closest('.item[data-id]').data('id') as
+            | string
+            | undefined;
+        if (!connectionId) return;
 
-        // Ensure context goal id is set
-        if (this.contextConnectionId !== null) {
-            // Get the connection
-            const connection = this.application.actor.items.find(
-                (i) => i.id === this.contextConnectionId,
-            ) as CosmereItem<ConnectionItemDataModel>;
+        // Get the connection
+        const connectionItem = this.application.actor.items.get(connectionId);
+        if (!connectionItem?.isConnection()) return;
 
-            // Show connection sheet
-            void connection.sheet?.render(true);
-
-            this.contextConnectionId = null;
-        }
-
-        // Render
-        void this.render();
+        // Show item sheet
+        void connectionItem.sheet?.render(true);
     }
 
     public static onToggleExpandConnection(
