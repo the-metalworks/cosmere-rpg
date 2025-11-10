@@ -28,14 +28,9 @@ any> {
     static readonly ACTIONS = {
         'reduce-injury-duration': this.onDecreaseInjuryDuration,
         'increase-injury-duration': this.onIncreaseInjuryDuration,
-        'edit-injury': this.onEditInjury,
-        'remove-injury': this.onRemoveInjury,
         'create-injury': this.onCreateInjury,
     };
     /* eslint-enable @typescript-eslint/unbound-method */
-
-    private contextInjuryId: string | null = null;
-    private controlsDropdownExpanded = false;
 
     /* --- Actions --- */
 
@@ -81,48 +76,41 @@ any> {
         });
     }
 
-    public static async onRemoveInjury(this: ActorInjuriesListComponent) {
-        this.controlsDropdownExpanded = false;
+    public static onRemoveInjury(
+        this: ActorInjuriesListComponent,
+        element: HTMLElement,
+    ) {
+        const injuryId = $(element)
+            .closest('.item[data-item-id]')
+            .data('item-id') as string | undefined;
+        if (!injuryId) return;
 
-        // Ensure context goal id is set
-        if (this.contextInjuryId !== null) {
-            // Remove the connection
-            await this.application.actor.deleteEmbeddedDocuments(
-                'Item',
-                [this.contextInjuryId],
-                { render: false },
-            );
+        // Get the injury
+        const injuryItem = this.application.actor.items.get(injuryId);
+        if (!injuryItem?.isInjury()) return;
 
-            this.contextInjuryId = null;
-        }
-
-        // Render
-        await this.render();
+        // Delete the injury
+        void injuryItem.delete();
     }
 
-    public static onEditInjury(this: ActorInjuriesListComponent) {
-        this.controlsDropdownExpanded = false;
+    public static onEditInjury(
+        this: ActorInjuriesListComponent,
+        element: HTMLElement,
+    ) {
+        const injuryId = $(element)
+            .closest('.item[data-item-id]')
+            .data('item-id') as string | undefined;
+        if (!injuryId) return;
 
-        // Ensure context goal id is set
-        if (this.contextInjuryId !== null) {
-            // Get the injur
-            const injury = this.application.actor.items.find(
-                (i) => i.id === this.contextInjuryId,
-            ) as CosmereItem<InjuryItemDataModel>;
+        // Get the injury
+        const injuryItem = this.application.actor.items.get(injuryId);
+        if (!injuryItem?.isInjury()) return;
 
-            // Show injury sheet
-            void injury.sheet?.render(true);
-
-            this.contextInjuryId = null;
-        }
-
-        // Render
-        void this.render();
+        // Show item sheet
+        void injuryItem.sheet?.render(true);
     }
 
     protected static async onCreateInjury(this: ActorInjuriesListComponent) {
-        this.controlsDropdownExpanded = false;
-
         // Create new injury
         const item = (await Item.create(
             {
