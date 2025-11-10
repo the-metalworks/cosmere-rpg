@@ -4,6 +4,9 @@ import { MouseButton } from '@system/types/utils';
 
 import type { HandlebarsApplicationComponent } from '@system/applications/component-system';
 
+// Utils
+import { debounce } from '@system/utils/generic';
+
 export namespace AppContextMenu {
     export interface Item {
         name: string;
@@ -67,6 +70,34 @@ const applicationContextMenus = new WeakMap<
     Set<AppContextMenu>
 >();
 
+document.addEventListener(
+    'scroll',
+    debounce(
+        (event) => {
+            if (!(event.target instanceof HTMLElement)) return;
+
+            const target: HTMLElement = event.target;
+
+            const app = Array.from(
+                foundry.applications.instances.values(),
+            ).find((app) => app.element.contains(target));
+            if (!app) return;
+
+            applicationContextMenus
+                .get(app)
+                ?.filter((menu) => target.contains(menu.parent.element!))
+                ?.forEach((menu) => {
+                    if (menu.expanded) {
+                        menu.hide();
+                    }
+                });
+        },
+        50,
+        true,
+    ),
+    true,
+);
+
 export class AppContextMenu {
     /**
      * The application that owns this context menu.
@@ -95,7 +126,7 @@ export class AppContextMenu {
     private itemsFn?: (element: HTMLElement) => AppContextMenu.Item[];
 
     private constructor(
-        private parent: AppContextMenu.Parent,
+        public readonly parent: AppContextMenu.Parent,
         private anchor: AppContextMenu.Anchor,
         items?:
             | AppContextMenu.Item[]
