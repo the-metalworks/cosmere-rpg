@@ -1,12 +1,15 @@
 import { ItemType } from '@system/types/cosmere';
 import { GoalItem } from '@system/documents/item';
-import { ConstructorOf, MouseButton } from '@system/types/utils';
+import { MouseButton } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
 import { BaseActorSheetRenderContext } from '../../base';
+
+// Utils
+import { AppContextMenu } from '@system/applications/utils/context-menu';
 
 import { CharacterSheet } from '../../character-sheet';
 
@@ -25,7 +28,6 @@ any> {
      */
     /* eslint-disable @typescript-eslint/unbound-method */
     static readonly ACTIONS = {
-        'toggle-goal-controls': this.onToggleGoalControls,
         'adjust-goal-progress': {
             handler: this.onAdjustGoalProgress,
             buttons: [MouseButton.Primary, MouseButton.Secondary],
@@ -41,43 +43,6 @@ any> {
     private controlsDropdownExpanded = false;
 
     /* --- Actions --- */
-
-    public static onToggleGoalControls(
-        this: CharacterGoalsListComponent,
-        event: PointerEvent,
-    ) {
-        // Get goal id
-        const goalId = $(event.currentTarget!)
-            .closest('[data-id]')
-            .data('id') as string;
-
-        const target = event.currentTarget as HTMLElement;
-        const root = $(target).closest('.tab-body');
-        const dropdown = $(target)
-            .closest('.item-list')
-            .siblings('.controls-dropdown');
-
-        const targetRect = target.getBoundingClientRect();
-        const rootRect = root[0].getBoundingClientRect();
-
-        if (this.contextGoalId !== goalId) {
-            dropdown.css({
-                top: `${Math.round(targetRect.top - rootRect.top)}px`,
-                right: `${Math.round(rootRect.right - targetRect.right + targetRect.width)}px`,
-            });
-
-            if (!this.controlsDropdownExpanded) {
-                dropdown.addClass('expanded');
-                this.controlsDropdownExpanded = true;
-            }
-
-            this.contextGoalId = goalId;
-        } else if (this.controlsDropdownExpanded) {
-            dropdown.removeClass('expanded');
-            this.controlsDropdownExpanded = false;
-            this.contextGoalId = null;
-        }
-    }
 
     public static async onAdjustGoalProgress(
         this: CharacterGoalsListComponent,
@@ -229,6 +194,32 @@ any> {
                 .filter((goal) => !hideCompletedGoals || !goal.achieved),
 
             hideCompletedGoals,
+        });
+    }
+
+    /* --- Lifecyle --- */
+
+    public _onInitialize(): void {
+        if (!this.application.isEditable) return;
+
+        // Create context menu
+        AppContextMenu.create({
+            parent: this,
+            items: [
+                {
+                    name: 'GENERIC.Button.Edit',
+                    icon: 'fa-solid fa-pen-to-square',
+                    callback: CharacterGoalsListComponent.onEditGoal.bind(this),
+                },
+                {
+                    name: 'GENERIC.Button.Remove',
+                    icon: 'fa-solid fa-trash',
+                    callback:
+                        CharacterGoalsListComponent.onRemoveGoal.bind(this),
+                },
+            ],
+            selectors: ['a[data-action="toggle-controls"]'],
+            anchor: 'right',
         });
     }
 

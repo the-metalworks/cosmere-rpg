@@ -33,7 +33,7 @@
             <div class="controls icon faded">
                 {{#if @root.editable}}
                 <a
-                    data-action="toggle-goal-controls"
+                    data-action="toggle-controls"
                     data-tooltip="APPLICATION.TOOLS.ToggleControls"
                 >
                     <i class="fa-solid fa-ellipsis-vertical"></i>
@@ -68,23 +68,4 @@
         {{/if}}
     </a>
 </div>
-
-<menu class="controls-dropdown">
-    <li class="header-control">
-        <button class="control"
-            data-action="edit-goal"
-        >
-            <i class="fa-solid fa-pen-to-square"></i>
-            <span>{{localize "GENERIC.Button.Edit"}}</span>
-        </button>
-    </li>
-    <li class="header-control">
-        <button class="control"
-            data-action="remove-goal"
-        >
-            <i class="fa-solid fa-trash"></i>
-            <span>{{localize "GENERIC.Button.Remove"}}</span>
-        </button>
-    </li>
-</menu>
 {{/if}}

@@ -5,7 +5,9 @@ import { InjuryItemDataModel } from '@system/data/item';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
+// Utils
 import AppUtils from '@system/applications/utils';
+import { AppContextMenu } from '@system/applications/utils/context-menu';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
@@ -24,7 +26,6 @@ any> {
      */
     /* eslint-disable @typescript-eslint/unbound-method */
     static readonly ACTIONS = {
-        'toggle-injury-controls': this.onToggleInjuryControls,
         'reduce-injury-duration': this.onDecreaseInjuryDuration,
         'increase-injury-duration': this.onIncreaseInjuryDuration,
         'edit-injury': this.onEditInjury,
@@ -37,43 +38,6 @@ any> {
     private controlsDropdownExpanded = false;
 
     /* --- Actions --- */
-
-    public static onToggleInjuryControls(
-        this: ActorInjuriesListComponent,
-        event: PointerEvent,
-    ) {
-        // Get connection id
-        const injuryId = $(event.currentTarget!)
-            .closest('[data-item-id]')
-            .data('item-id') as string;
-
-        const target = event.currentTarget as HTMLElement;
-        const root = $(target).closest('.tab-body');
-        const dropdown = $(target)
-            .closest('.item-list')
-            .siblings('.controls-dropdown');
-
-        const targetRect = target.getBoundingClientRect();
-        const rootRect = root[0].getBoundingClientRect();
-
-        if (this.contextInjuryId !== injuryId) {
-            dropdown.css({
-                top: `${Math.round(targetRect.top - rootRect.top)}px`,
-                right: `${Math.round(rootRect.right - targetRect.right + targetRect.width)}px`,
-            });
-
-            if (!this.controlsDropdownExpanded) {
-                dropdown.addClass('expanded');
-                this.controlsDropdownExpanded = true;
-            }
-
-            this.contextInjuryId = injuryId;
-        } else if (this.controlsDropdownExpanded) {
-            dropdown.removeClass('expanded');
-            this.controlsDropdownExpanded = false;
-            this.contextInjuryId = null;
-        }
-    }
 
     public static onDecreaseInjuryDuration(
         this: ActorInjuriesListComponent,
@@ -217,6 +181,35 @@ any> {
                     return remainingB - remainingA;
                 }),
         });
+    }
+
+    /* --- Lifecycle --- */
+
+    public _onInitialize(): void {
+        if (this.application.isEditable) {
+            // Create context menu
+            AppContextMenu.create({
+                parent: this,
+                items: [
+                    {
+                        name: 'GENERIC.Button.Edit',
+                        icon: 'fa-solid fa-pen-to-square',
+                        callback:
+                            ActorInjuriesListComponent.onEditInjury.bind(this),
+                    },
+                    {
+                        name: 'GENERIC.Button.Remove',
+                        icon: 'fa-solid fa-trash',
+                        callback:
+                            ActorInjuriesListComponent.onRemoveInjury.bind(
+                                this,
+                            ),
+                    },
+                ],
+                selectors: ['a[data-action="toggle-controls"]'],
+                anchor: 'right',
+            });
+        }
     }
 }
 
