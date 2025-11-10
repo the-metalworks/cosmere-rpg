@@ -287,10 +287,19 @@ export class TalentTreeEditorComponent extends TalentTreeViewComponent {
             height: event.node.size.height * this.viewport!.view.zoom,
         };
 
+        const applicationBounds =
+            this.application.element.getBoundingClientRect();
+        const elementBounds = this.element!.getBoundingClientRect();
+
+        const elementOffset = {
+            top: elementBounds.top - applicationBounds.top,
+            left: elementBounds.left - applicationBounds.left,
+        };
+
         // Show context menu
         await this.contextMenu!.show(options, {
-            left: viewPos.x + size.width,
-            top: viewPos.y,
+            left: viewPos.x + size.width + elementOffset.left,
+            top: viewPos.y + elementOffset.top,
         });
     }
 
