@@ -11,13 +11,55 @@ import { getChangeValue, tryApplyRollData } from '@system/utils/changes';
 import { SYSTEM_ID } from '@system/constants';
 import { TEMPLATES } from '@system/utils/templates';
 
-interface UpdateItemHandlerConfigData {
-    target: ItemTarget;
-    uuid?: string | null;
-    matchMode?: MatchMode | null;
-    matchAll?: boolean | null;
-    changes: ChangeData[];
-}
+const SCHEMA = {
+    target: new foundry.data.fields.StringField({
+        choices: {
+            [ItemTarget.Self]: `COSMERE.Item.EventSystem.Event.Handler.General.Target.Choices.${ItemTarget.Self}`,
+            [ItemTarget.Sibling]: `COSMERE.Item.EventSystem.Event.Handler.General.Target.Choices.${ItemTarget.Sibling}`,
+            [ItemTarget.EquippedWeapon]: `COSMERE.Item.EventSystem.Event.Handler.General.Target.Choices.${ItemTarget.EquippedWeapon}`,
+            [ItemTarget.EquippedArmor]: `COSMERE.Item.EventSystem.Event.Handler.General.Target.Choices.${ItemTarget.EquippedArmor}`,
+            [ItemTarget.Global]: `COSMERE.Item.EventSystem.Event.Handler.General.Target.Choices.${ItemTarget.Global}`,
+        },
+        initial: ItemTarget.Self,
+        required: true,
+        blank: false,
+        label: `COSMERE.Item.EventSystem.Event.Handler.General.Target.Label`,
+    }),
+    uuid: new foundry.data.fields.DocumentUUIDField({
+        type: 'Item',
+        initial: null,
+        nullable: true,
+        label: 'Item',
+    }),
+    matchMode: new foundry.data.fields.StringField({
+        nullable: true,
+        initial: MatchMode.Identifier,
+        choices: {
+            [MatchMode.Identifier]: `COSMERE.Item.EventSystem.Event.Handler.General.MatchMode.Choices.${MatchMode.Identifier}`,
+            [MatchMode.Name]: `COSMERE.Item.EventSystem.Event.Handler.General.MatchMode.Choices.${MatchMode.Name}`,
+            [MatchMode.UUID]: `COSMERE.Item.EventSystem.Event.Handler.General.MatchMode.Choices.${MatchMode.UUID}`,
+        },
+        label: `COSMERE.Item.EventSystem.Event.Handler.General.MatchMode.Label`,
+        hint: `COSMERE.Item.EventSystem.Event.Handler.General.MatchMode.Hint`,
+    }),
+    matchAll: new foundry.data.fields.BooleanField({
+        initial: false,
+        nullable: true,
+        label: `COSMERE.Item.EventSystem.Event.Handler.General.MatchAll.Label`,
+        hint: `COSMERE.Item.EventSystem.Event.Handler.General.MatchAll.Hint`,
+    }),
+    changes: new foundry.data.fields.ArrayField(
+        new foundry.data.fields.SchemaField(ChangeDataModel.defineSchema()),
+        {
+            required: true,
+            initial: [],
+            label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UpdateItem}.Changes.Label`,
+        },
+    ),
+};
+type UpdateItemHandlerConfigSchema = typeof SCHEMA;
+type UpdateItemHandlerConfigData =
+    foundry.data.fields.SchemaField.InitializedData<UpdateItemHandlerConfigSchema>;
 
 export function register() {
     cosmereRPG.api.registerItemEventHandlerType({
@@ -26,54 +68,7 @@ export function register() {
         label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UpdateItem}.Title`,
         description: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UpdateItem}.Description`,
         config: {
-            schema: {
-                target: new foundry.data.fields.StringField({
-                    choices: {
-                        [ItemTarget.Self]: `COSMERE.Item.EventSystem.Event.Handler.General.Target.Choices.${ItemTarget.Self}`,
-                        [ItemTarget.Sibling]: `COSMERE.Item.EventSystem.Event.Handler.General.Target.Choices.${ItemTarget.Sibling}`,
-                        [ItemTarget.EquippedWeapon]: `COSMERE.Item.EventSystem.Event.Handler.General.Target.Choices.${ItemTarget.EquippedWeapon}`,
-                        [ItemTarget.EquippedArmor]: `COSMERE.Item.EventSystem.Event.Handler.General.Target.Choices.${ItemTarget.EquippedArmor}`,
-                        [ItemTarget.Global]: `COSMERE.Item.EventSystem.Event.Handler.General.Target.Choices.${ItemTarget.Global}`,
-                    },
-                    initial: ItemTarget.Self,
-                    required: true,
-                    blank: false,
-                    label: `COSMERE.Item.EventSystem.Event.Handler.General.Target.Label`,
-                }),
-                uuid: new foundry.data.fields.DocumentUUIDField({
-                    type: 'Item',
-                    initial: null,
-                    nullable: true,
-                    label: 'Item',
-                }),
-                matchMode: new foundry.data.fields.StringField({
-                    nullable: true,
-                    initial: MatchMode.Identifier,
-                    choices: {
-                        [MatchMode.Identifier]: `COSMERE.Item.EventSystem.Event.Handler.General.MatchMode.Choices.${MatchMode.Identifier}`,
-                        [MatchMode.Name]: `COSMERE.Item.EventSystem.Event.Handler.General.MatchMode.Choices.${MatchMode.Name}`,
-                        [MatchMode.UUID]: `COSMERE.Item.EventSystem.Event.Handler.General.MatchMode.Choices.${MatchMode.UUID}`,
-                    },
-                    label: `COSMERE.Item.EventSystem.Event.Handler.General.MatchMode.Label`,
-                    hint: `COSMERE.Item.EventSystem.Event.Handler.General.MatchMode.Hint`,
-                }),
-                matchAll: new foundry.data.fields.BooleanField({
-                    initial: false,
-                    nullable: true,
-                    label: `COSMERE.Item.EventSystem.Event.Handler.General.MatchAll.Label`,
-                    hint: `COSMERE.Item.EventSystem.Event.Handler.General.MatchAll.Hint`,
-                }),
-                changes: new foundry.data.fields.ArrayField(
-                    new foundry.data.fields.SchemaField(
-                        ChangeDataModel.defineSchema(),
-                    ),
-                    {
-                        required: true,
-                        initial: [],
-                        label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UpdateItem}.Changes.Label`,
-                    },
-                ),
-            },
+            schema: SCHEMA,
             template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.IES_HANDLER_UPDATE_ITEM}`,
         },
         executor: async function (
@@ -81,8 +76,7 @@ export function register() {
             event: Event,
         ) {
             if (this.changes.length === 0) return;
-            if (this.target === ItemTarget.Sibling && !event.item.actor) return;
-            if (this.target !== ItemTarget.Self && !this.uuid) return;
+            if (!hasValidMatchConfig(event, this)) return;
 
             // Get the item(s) to update
             const itemsToUpdate = await matchItems(
@@ -126,4 +120,25 @@ export function register() {
             );
         },
     });
+}
+
+/* --- Helpers --- */
+
+const MATCH_RULES: Record<
+    ItemTarget,
+    (event: Event, config: UpdateItemHandlerConfigData) => boolean
+> = {
+    [ItemTarget.Self]: () => true,
+    [ItemTarget.Sibling]: (event: Event, config: UpdateItemHandlerConfigData) =>
+        !!event.item.actor && !!config.uuid,
+    [ItemTarget.EquippedWeapon]: (event: Event) => !!event.item.actor,
+    [ItemTarget.EquippedArmor]: (event: Event) => !!event.item.actor,
+    [ItemTarget.Global]: (_: Event, config: UpdateItemHandlerConfigData) =>
+        !!config.uuid,
+};
+function hasValidMatchConfig(
+    event: Event,
+    config: UpdateItemHandlerConfigData,
+) {
+    return MATCH_RULES[config.target](event, config);
 }
