@@ -2,6 +2,8 @@ import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 import { MouseButton } from '@system/types/utils';
 
+import type { HandlebarsApplicationComponent } from '@system/applications/component-system';
+
 export namespace AppContextMenu {
     export interface Item {
         name: string;
@@ -10,13 +12,9 @@ export namespace AppContextMenu {
         callback?: (element: HTMLElement) => void;
     }
 
-    export interface Parent {
-        element: HTMLElement;
-        addEventListener: (
-            event: string,
-            handler: (...args: unknown[]) => void,
-        ) => void;
-    }
+    export type Parent =
+        | foundry.applications.api.ApplicationV2
+        | HandlebarsApplicationComponent;
 
     export type Anchor = 'left' | 'right' | 'cursor';
 
@@ -64,7 +62,19 @@ type Positioning = {
 // Constants
 const TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.GENERAL_CONTEXT_MENU}`;
 
+const applicationContextMenus = new WeakMap<
+    foundry.applications.api.ApplicationV2,
+    Set<AppContextMenu>
+>();
+
 export class AppContextMenu {
+    /**
+     * The application that owns this context menu.
+     * This is set either explicitly when the parent is an Application,
+     * or implicitly when the parent is an Application Component.
+     */
+    private application: foundry.applications.api.ApplicationV2;
+
     /**
      * The root element of the context menu.
      */
@@ -74,9 +84,11 @@ export class AppContextMenu {
      * The element that was clicked to open the context menu.
      */
     private contextElement?: HTMLElement;
-    private expanded = false;
+
+    private mutationObserver?: MutationObserver;
     private rendered = false;
 
+    private _expanded = false;
     private _active = true;
 
     private items?: AppContextMenu.Item[];
@@ -89,6 +101,22 @@ export class AppContextMenu {
             | AppContextMenu.Item[]
             | ((element: HTMLElement) => AppContextMenu.Item[]),
     ) {
+        // Set application
+        // @ts-expect-error Foundry Due to foundry-vtt-types issue. TODO: Resolve typing issues
+        this.application =
+            parent instanceof foundry.applications.api.ApplicationV2
+                ? parent
+                : parent.application;
+
+        // Register this context menu with the application
+        if (!applicationContextMenus.has(this.application)) {
+            applicationContextMenus.set(
+                this.application,
+                new Set<AppContextMenu>(),
+            );
+        }
+        applicationContextMenus.get(this.application)!.add(this);
+
         if (typeof items === 'function') {
             this.itemsFn = items;
         } else {
@@ -102,6 +130,14 @@ export class AppContextMenu {
 
     public get active(): boolean {
         return this._active;
+    }
+
+    public get expanded(): boolean {
+        return this._expanded;
+    }
+
+    private set expanded(value: boolean) {
+        this._expanded = value;
     }
 
     /**
@@ -148,7 +184,9 @@ export class AppContextMenu {
             elements.push(
                 ...param1
                     .map((selector) =>
-                        $(this.parent.element).find(selector as string).toArray(),
+                        $(this.parent.element!)
+                            .find(selector as string)
+                            .toArray(),
                     )
                     .flat(),
             );
@@ -170,7 +208,7 @@ export class AppContextMenu {
 
                 if (shouldShow && this._active) {
                     const rootBounds =
-                        this.parent.element.getBoundingClientRect();
+                        this.application.element.getBoundingClientRect();
                     const positioning =
                         this.anchor === 'cursor'
                             ? {
@@ -209,6 +247,12 @@ export class AppContextMenu {
               ? (args[2] as Positioning)
               : undefined;
 
+        // Hide other context menus for this application
+        applicationContextMenus
+            .get(this.application)
+            ?.filter((menu) => menu !== this && menu.expanded)
+            .forEach((menu) => menu.hide());
+
         // Set items
         this.items = !firstArgIsElement
             ? (args[0] as AppContextMenu.Item[])
@@ -234,9 +278,7 @@ export class AppContextMenu {
         if (firstArgIsElement) {
             // Get element bounds
             const elementBounds = element!.getBoundingClientRect();
-            const rootBounds = (
-                this.parent.element.closest('.tab-body') ?? this.parent.element
-            ).getBoundingClientRect();
+            const rootBounds = this.application.element.getBoundingClientRect();
 
             // Figure out positioning with anchor
             positioning = {
@@ -296,6 +338,9 @@ export class AppContextMenu {
     }
 
     public async render(): Promise<void> {
+        // Observe visibility changes
+        this.observeVisibilityChanges();
+
         // Clean up old element
         if (this._element) this.destroy();
 
@@ -325,7 +370,10 @@ export class AppContextMenu {
             });
 
         // Add element to parent
-        this.parent.element.appendChild(this._element);
+        this.application.element.appendChild(this._element);
+
+        // Set rendered flag
+        this.rendered = true;
     }
 
     public destroy(): void {
@@ -336,14 +384,49 @@ export class AppContextMenu {
     }
 
     private async renderElement(): Promise<HTMLElement> {
-        const htmlStr = await renderTemplate(TEMPLATE, {
-            items: this.items!.map((item) => ({
-                ...item,
-                cssClasses: item.classes?.join(' ') ?? '',
-            })),
-        });
+        const htmlStr = await foundry.applications.handlebars.renderTemplate(
+            TEMPLATE,
+            {
+                items: this.items!.map((item) => ({
+                    ...item,
+                    cssClasses: item.classes?.join(' ') ?? '',
+                })),
+            },
+        );
         const t = document.createElement('template');
         t.innerHTML = htmlStr;
         return t.content.children[0] as HTMLElement;
+    }
+
+    /**
+     * Observe visibility changes to the parent application / component.
+     * If the parent becomes hidden while the context menu is expanded, hide the context menu.
+     */
+    private observeVisibilityChanges() {
+        if (this.mutationObserver) return;
+
+        this.mutationObserver = new MutationObserver((mutations) => {
+            const hasRelevantMutation = mutations
+                .filter((mutation) => mutation.type === 'attributes')
+                .filter((mutation) =>
+                    mutation.target.contains(this.parent.element!),
+                )
+                .some(() => true); // Check if any mutation affects the parent element
+
+            if (!hasRelevantMutation) return;
+
+            // Check if parent is visible
+            const parentVisible = this.parent.element!.checkVisibility();
+
+            // If parent is not visible and context menu is expanded, hide it
+            if (!parentVisible && this.expanded) {
+                this.hide();
+            }
+        });
+
+        this.mutationObserver.observe(this.application.element, {
+            attributes: true,
+            subtree: true,
+        });
     }
 }
