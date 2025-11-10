@@ -1,7 +1,7 @@
 import { IHandler } from '@system/types/item/event-system';
 import { constructHandlerClass } from '@system/utils/item/event-system';
 import { HandlerBaseSchema } from '../handler';
-import { AnyObject, AnyMutableObject } from '@system/types/utils';
+import { AnyObject, AnyMutableObject, DeepPartial } from '@system/types/utils';
 
 // Constants
 const NONE_HANDLER_CLASS = constructHandlerClass('none', () => {}, {
@@ -75,6 +75,15 @@ export class HandlerField<
         ) as HandlerBaseAssignmentType;
     }
 
+    protected override _addTypes(
+        source?: AnyMutableObject & HandlerBaseInitializedType,
+        changes?: AnyMutableObject & DeepPartial<HandlerBaseInitializedType>,
+    ) {
+        if (!source || !changes) return super._addTypes(source, changes);
+
+        changes.type ??= source.type;
+    }
+
     public _updateDiff<
         TKey extends string,
         TSource extends AnyMutableObject & {
@@ -94,10 +103,14 @@ export class HandlerField<
         const type =
             ('type' in value ? value.type : undefined) ?? fieldSource.type;
 
-        // Standard update diff
-        super._updateDiff(source, key, value, difference, options);
+        // Get model schema
+        const schema = HandlerField.getModelForType(type).schema;
+
+        // Update diff for schema fields
+        schema._updateDiff(source, key, value, difference, options);
 
         // Ensure type is always included in the diff
+        difference[key] ??= {} as (typeof difference)[TKey];
         difference[key].type = type;
     }
 
