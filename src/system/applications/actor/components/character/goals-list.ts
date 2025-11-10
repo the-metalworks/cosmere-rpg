@@ -33,14 +33,9 @@ any> {
             buttons: [MouseButton.Primary, MouseButton.Secondary],
         },
         'toggle-hide-completed-goals': this.onToggleHideCompletedGoals,
-        'edit-goal': this.onEditGoal,
-        'remove-goal': this.onRemoveGoal,
         'add-goal': this.onAddGoal,
     };
     /* eslint-enable @typescript-eslint/unbound-method */
-
-    private contextGoalId: string | null = null;
-    private controlsDropdownExpanded = false;
 
     /* --- Actions --- */
 
@@ -101,56 +96,45 @@ any> {
             { render: false },
         );
 
-        // Close controls dropdown if it happens to be open
-        this.controlsDropdownExpanded = false;
-
         // Render
         await this.render();
     }
 
-    public static async onEditGoal(this: CharacterGoalsListComponent) {
-        this.controlsDropdownExpanded = false;
+    public static onEditGoal(
+        this: CharacterGoalsListComponent,
+        element: HTMLElement,
+    ) {
+        const goalId = $(element).closest('[data-id]').data('id') as
+            | string
+            | undefined;
+        if (!goalId) return;
 
-        // Render
-        await this.render();
+        // Get the goal
+        const goalItem = this.application.actor.items.get(goalId);
+        if (!goalItem?.isGoal()) return;
 
-        // Ensure context goal id is set
-        if (this.contextGoalId !== null) {
-            // Get the goal
-            const goalItem = this.application.actor.items.get(
-                this.contextGoalId,
-            );
-            if (!goalItem?.isGoal()) return;
-
-            // Show item sheet
-            void goalItem.sheet?.render(true);
-
-            this.contextGoalId = null;
-        }
+        // Show item sheet
+        void goalItem.sheet?.render(true);
     }
 
-    public static async onRemoveGoal(this: CharacterGoalsListComponent) {
-        this.controlsDropdownExpanded = false;
+    public static onRemoveGoal(
+        this: CharacterGoalsListComponent,
+        element: HTMLElement,
+    ) {
+        const goalId = $(element).closest('[data-id]').data('id') as
+            | string
+            | undefined;
+        if (!goalId) return;
 
-        // Ensure context goal id is set
-        if (this.contextGoalId !== null) {
-            // Get the goal
-            const goalItem = this.application.actor.items.get(
-                this.contextGoalId,
-            );
-            if (!goalItem?.isGoal()) return;
+        // Get the goal
+        const goalItem = this.application.actor.items.get(goalId);
+        if (!goalItem?.isGoal()) return;
 
-            // Delete the goal
-            await goalItem.delete();
-
-            this.contextGoalId = null;
-        }
+        // Delete the goal
+        void goalItem.delete();
     }
 
     public static async onAddGoal(this: CharacterGoalsListComponent) {
-        // Ensure controls dropdown is closed
-        this.controlsDropdownExpanded = false;
-
         // Create goal
         const goal = (await Item.create(
             {
