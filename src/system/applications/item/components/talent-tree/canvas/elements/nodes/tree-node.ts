@@ -576,7 +576,15 @@ export class TalentTreeNode extends BaseNode {
 
             const desiredTotalWidth = Math.max(nodeTotalWidth, headerTextWidth);
             const extra = Math.max(0, desiredTotalWidth - nodeTotalWidth);
-            const halfExtra = extra / 2 + this.padding.x;
+            let halfExtra = extra / 2 + this.padding.x;
+
+            // Snap the expansion to the parent grid so nested trees align.
+            const gridStep = SUB_GRID_SIZE;
+            if (halfExtra > 0) {
+                halfExtra = Math.ceil(halfExtra / gridStep) * gridStep;
+            } else {
+                halfExtra = 0;
+            }
 
             leftMostPosition -= halfExtra;
             rightMostPosition += halfExtra;
