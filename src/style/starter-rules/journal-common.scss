@@ -75,22 +75,28 @@
             padding-left: 0;
             padding-right: 0;
 
-            p:nth-child(2) {
+            p, input {
                 //Chapter name text
                 text-wrap: nowrap;
-                //vertical-align: middle;
-                color: var(--cosmere-color-opportunity);
-                border-bottom-color: var(--stormlight-journal-yellow-1);
                 border-bottom-width: 3px;
                 margin-bottom: 12px;
                 margin-top: 0px;
-                padding: 0.5rem 0.5rem 0 0.5rem;
+                padding: 0.5rem 0.5rem 0;
                 font-size: 2rem;
                 font-weight: normal;
                 font-family: var(--cosmere-font-header-sc);
+                text-transform: uppercase;
+            }
+            input {
+                background: transparent;
+                border: none;
+                outline: none;
+                text-align: center;
+                width: auto;
+                height: 1rem;
             }
 
-            p:first-child {
+            &::before {
                 //Left side squiggle
                 flex: 1;
                 content: "";
@@ -101,7 +107,7 @@
                 margin: 0;
             }
 
-            p:last-child {
+            &::after {
                 //Right side squiggle
                 flex: 1;
                 content: "";
@@ -116,6 +122,7 @@
         div:nth-child(2) {
             //This is the underline beneath the text
             width: 100%;
+            height: 13px;
             background-image: url("assets/journal/header-line.webp");
             background-size: 90% auto;
             background-repeat: no-repeat;
