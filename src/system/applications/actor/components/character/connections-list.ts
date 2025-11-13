@@ -70,9 +70,7 @@ any> {
         this: CharacterConnectionsListComponent,
         element: HTMLElement,
     ) {
-        const connectionId = $(element).closest('.item[data-id]').data('id') as
-            | string
-            | undefined;
+        const connectionId = element.closest('[data-id]')?.getAttribute('data-id');
         if (!connectionId) return;
 
         // Get the connection
@@ -87,9 +85,7 @@ any> {
         this: CharacterConnectionsListComponent,
         element: HTMLElement,
     ) {
-        const connectionId = $(element).closest('.item[data-id]').data('id') as
-            | string
-            | undefined;
+        const connectionId = $(element.closest('[data-id]')?.getAttribute('data-id');
         if (!connectionId) return;
 
         // Get the connection

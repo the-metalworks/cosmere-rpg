@@ -80,9 +80,7 @@ any> {
         this: ActorInjuriesListComponent,
         element: HTMLElement,
     ) {
-        const injuryId = $(element)
-            .closest('.item[data-item-id]')
-            .data('item-id') as string | undefined;
+        const injuryId = element.closest('[data-item-id]')?.getAttribute('data-item-id');
         if (!injuryId) return;
 
         // Get the injury
@@ -97,9 +95,7 @@ any> {
         this: ActorInjuriesListComponent,
         element: HTMLElement,
     ) {
-        const injuryId = $(element)
-            .closest('.item[data-item-id]')
-            .data('item-id') as string | undefined;
+        const injuryId = element.closest('[data-item-id]')?.getAttribute('data-item-id');
         if (!injuryId) return;
 
         // Get the injury

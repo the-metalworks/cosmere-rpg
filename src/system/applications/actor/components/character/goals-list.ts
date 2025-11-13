@@ -104,9 +104,7 @@ any> {
         this: CharacterGoalsListComponent,
         element: HTMLElement,
     ) {
-        const goalId = $(element).closest('[data-id]').data('id') as
-            | string
-            | undefined;
+        const goalId = element.closest('[data-id]')?.getAttribute('data-id');
         if (!goalId) return;
 
         // Get the goal
@@ -121,9 +119,7 @@ any> {
         this: CharacterGoalsListComponent,
         element: HTMLElement,
     ) {
-        const goalId = $(element).closest('[data-id]').data('id') as
-            | string
-            | undefined;
+        const goalId = element.closest('[data-id]')?.getAttribute('data-id');
         if (!goalId) return;
 
         // Get the goal
