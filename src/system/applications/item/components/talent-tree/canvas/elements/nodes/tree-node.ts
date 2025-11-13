@@ -6,7 +6,7 @@ import { BaseNode } from './types';
 
 // Canvas
 import { PIXICanvasApplication, Drawable } from '@system/applications/canvas';
-import { TalentTreeWorld, MouseOverNodeEvent } from '../../world';
+import { TalentTreeWorld } from '../../world';
 import { TalentNode } from './talent-node';
 import {
     BaseConnection,
@@ -15,7 +15,7 @@ import {
 } from '../connection';
 
 // Constants
-import { SUB_GRID_SIZE, GRID_SIZE } from '../../../constants';
+import { SUB_GRID_SIZE } from '../../../constants';
 
 class Layer<
     T extends PIXI.DisplayObject = PIXI.DisplayObject,
@@ -104,6 +104,13 @@ class TreeHeader extends Drawable {
             this.node.contentBounds!.x + this.node.contentBounds!.width / 2,
             this.node.contentBounds!.y - this.node.padding.y - size.height / 2,
         );
+    }
+
+    /**
+     * Measured width of the header text (unconstrained by the node size).
+     */
+    public get textWidth() {
+        return this.text.width;
     }
 }
 
@@ -541,21 +548,49 @@ export class TalentTreeNode extends BaseNode {
     }
 
     private calculateContentBounds() {
-        const leftMostPosition = Math.min(
-            ...this.nodesLayer.children.map((node) => node.data.position.x),
-        );
-        const rightMostPosition = Math.max(
-            ...this.nodesLayer.children.map((node) => {
-                if (node instanceof TalentNode) {
-                    return node.data.position.x + node.data.size.width;
-                } else if (node instanceof TalentTreeNode) {
-                    return node.data.position.x + node.contentBounds!.width;
-                } else {
-                    return 0;
-                }
-            }),
-        );
+        // Compute horizontal extents, taking into account that a nested
+        // tree's header text may be wider than its content. When the
+        // header text is wider, expand the child's extents symmetrically
+        // so the title won't overflow the calculated content bounds.
+        let leftMostPosition = Number.POSITIVE_INFINITY;
+        let rightMostPosition = Number.NEGATIVE_INFINITY;
 
+        for (const node of this.nodesLayer.children) {
+            const left = node.data.position.x;
+            const nodeWidth =
+                node instanceof TalentTreeNode
+                    ? node.contentBounds!.width
+                    : (node as TalentNode).data.size.width;
+            const right = node.data.position.x + nodeWidth;
+            leftMostPosition = Math.min(leftMostPosition, left);
+            rightMostPosition = Math.max(rightMostPosition, right);
+        }
+        const contentWidth = rightMostPosition - leftMostPosition;
+
+        // If the tree node has a header, make sure its title fits.
+        if (this.header) {
+            const headerTextWidth = this.header.textWidth;
+
+            // The node's total visual width (including padding)
+            const nodeTotalWidth = contentWidth + this.padding.x * 2;
+
+            const desiredTotalWidth = Math.max(nodeTotalWidth, headerTextWidth);
+            const extra = Math.max(0, desiredTotalWidth - nodeTotalWidth);
+            let halfExtra = extra / 2 + this.padding.x;
+
+            // Snap the expansion to the parent grid so nested trees align.
+            const gridStep = SUB_GRID_SIZE;
+            if (halfExtra > 0) {
+                halfExtra = Math.ceil(halfExtra / gridStep) * gridStep;
+            } else {
+                halfExtra = 0;
+            }
+
+            leftMostPosition -= halfExtra;
+            rightMostPosition += halfExtra;
+        }
+
+        // Compute vertical extents (unchanged): node positions and heights
         const topMostPosition = Math.min(
             ...this.nodesLayer.children.map((node) => node.data.position.y),
         );
