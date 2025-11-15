@@ -6,7 +6,7 @@
     "img": "icons/weapons/misc/whip-red-yellow.webp",
     "system": {
         "id": "improvised-weapon-heavy",
-        "type": "heavy_wpn",
+        "type": "special_wpn",
         "description": {
             "value": "<p><strong>Damage</strong> 1d — ; <strong>Range</strong> —; <strong>Traits</strong> Fragile; <strong>Expert Traits</strong> Unique;</p><p><strong>Type</strong> Special Weapon; <strong>Weapons Skill</strong> Heavy; <strong>Price</strong> —; <strong>Weight</strong> —;</p><p><em>Edit this Improvised Weapon statblock to match the most fitting weapon from the Heavy Weapons table<br><br></em>In the heat of the moment, you might wish to attack with an object that isn’t a traditional weapon (such as hitting someone with a pot) or use a weapon in an unconventional way (such as swinging a shortbow at someone like a staff). If you can pick an object up in one or both hands, you can use it as an improvised weapon!</p><p><strong>Expertise.</strong> Unlike other entries on the Special Weapons table, you can choose Improvised Weapons as a weapon expertise. If you do, your improvised weapon attacks benefit from the expert traits of the weapon most similar to it, even if you don’t have expertise in that similar weapon.</p><p><strong>Using an Improvised Weapon.</strong> When you attack with an improvised weapon, the GM decides which non-special light or heavy weapon it is most similar to. Make the attack as though with that weapon, but add the Fragile trait (see “Weapon Traits”)</p>",
             "chat": "",
