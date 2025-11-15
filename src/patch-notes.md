@@ -1,7 +1,9 @@
-### Patch 2.0.2
+### Patch 2.0.3
 <sup>2025-11-15</sup>
 
 This patch fixes some larger remaining bugs of the V13 release, addressing issues with the event system, talent trees, and sheets.  
+
+**Note.** Patch `2.0.2` contained an issue with our internal data models that could cause problems when deleting entries from collection fields (such as removing an expertise or deleting an event rule). Patch `2.0.2` has been made unavailable from Foundry.
 
 #### 🛠️ Full Changelog
 
