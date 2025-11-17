@@ -1,3 +1,3 @@
 export default {
-    '*.{ts,hbs}': ['eslint --fix', 'prettier --write'],
+    '*.{ts,hbs}': ['prettier --write'],
 };
