@@ -104,6 +104,10 @@ export namespace CosmereCombatant {
 }
 
 declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
+    interface DocumentClassConfig {
+        Combatant: typeof CosmereCombatant;
+    }
+
     interface ConfiguredCombatant<SubType extends Combatant.SubType> {
         document: CosmereCombatant;
     }

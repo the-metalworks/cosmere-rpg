@@ -22,3 +22,9 @@ export class CosmereTokenDocument extends TokenDocument {
         return attr;
     }
 }
+
+declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
+    interface DocumentClassConfig {
+        Token: typeof CosmereTokenDocument;
+    }
+}

@@ -1166,6 +1166,10 @@ export class CosmereChatMessage<
 }
 
 declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
+    interface DocumentClassConfig {
+        ChatMessage: typeof CosmereChatMessage;
+    }
+
     interface ConfiguredChatMessage<SubType extends ChatMessage.SubType> {
         document: CosmereChatMessage<SubType>;
     }

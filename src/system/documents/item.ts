@@ -1685,6 +1685,10 @@ export type RelationshipsItem =
     CosmereItemFromSchema<RelationshipsItemDataSchema>;
 
 declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
+    interface DocumentClassConfig {
+        Item: typeof CosmereItem;
+    }
+
     interface ConfiguredItem<SubType extends Item.SubType> {
         document: CosmereItem;
     }
