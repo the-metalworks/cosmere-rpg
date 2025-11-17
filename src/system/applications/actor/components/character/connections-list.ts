@@ -9,6 +9,9 @@ import { TEMPLATES } from '@src/system/utils/templates';
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
 import { BaseActorSheet, BaseActorSheetRenderContext } from '../../base';
 
+// Utils
+import { AppContextMenu } from '@system/applications/utils/context-menu';
+
 interface ConnectionItemState {
     expanded?: boolean;
 }
@@ -26,57 +29,14 @@ any> {
      */
     /* eslint-disable @typescript-eslint/unbound-method */
     static readonly ACTIONS = {
-        'toggle-connection-controls': this.onToggleConnectionControls,
         'add-connection': this.onAddConnection,
-        'remove-connection': this.onRemoveConnection,
-        'edit-connection': this.onEditConnection,
         'toggle-expand-connection': this.onToggleExpandConnection,
     };
     /* eslint-enable @typescript-eslint/unbound-method */
 
     private connectionItemStates: Record<string, ConnectionItemState> = {};
 
-    private contextConnectionId: string | null = null;
-    private controlsDropdownExpanded = false;
-
     /* --- Connections --- */
-
-    public static onToggleConnectionControls(
-        this: CharacterConnectionsListComponent,
-        event: PointerEvent,
-    ) {
-        // Get connection id
-        const connectionId = $(event.currentTarget!)
-            .closest('[data-id]')
-            .data('id') as string;
-
-        const target = event.currentTarget as HTMLElement;
-        const root = $(target).closest('.tab-body');
-        const dropdown = $(target)
-            .closest('.item-list')
-            .siblings('.controls-dropdown');
-
-        const targetRect = target.getBoundingClientRect();
-        const rootRect = root[0].getBoundingClientRect();
-
-        if (this.contextConnectionId !== connectionId) {
-            dropdown.css({
-                top: `${Math.round(targetRect.top - rootRect.top)}px`,
-                right: `${Math.round(rootRect.right - targetRect.right + targetRect.width)}px`,
-            });
-
-            if (!this.controlsDropdownExpanded) {
-                dropdown.addClass('expanded');
-                this.controlsDropdownExpanded = true;
-            }
-
-            this.contextConnectionId = connectionId;
-        } else if (this.controlsDropdownExpanded) {
-            dropdown.removeClass('expanded');
-            this.controlsDropdownExpanded = false;
-            this.contextConnectionId = null;
-        }
-    }
 
     public static async onAddConnection(
         this: CharacterConnectionsListComponent,
@@ -106,45 +66,38 @@ any> {
         }, 50);
     }
 
-    public static async onRemoveConnection(
+    public static onRemoveConnection(
         this: CharacterConnectionsListComponent,
+        element: HTMLElement,
     ) {
-        this.controlsDropdownExpanded = false;
+        const connectionId = element
+            .closest('[data-id]')
+            ?.getAttribute('data-id');
+        if (!connectionId) return;
 
-        // Ensure context goal id is set
-        if (this.contextConnectionId !== null) {
-            // Remove the connection
-            await this.application.actor.deleteEmbeddedDocuments(
-                'Item',
-                [this.contextConnectionId],
-                { render: false },
-            );
+        // Get the connection
+        const connectionItem = this.application.actor.items.get(connectionId);
+        if (!connectionItem?.isConnection()) return;
 
-            this.contextConnectionId = null;
-        }
-
-        // Render
-        await this.render();
+        // Delete the connection
+        void connectionItem.delete();
     }
 
-    public static onEditConnection(this: CharacterConnectionsListComponent) {
-        this.controlsDropdownExpanded = false;
+    public static onEditConnection(
+        this: CharacterConnectionsListComponent,
+        element: HTMLElement,
+    ) {
+        const connectionId = element
+            .closest('[data-id]')
+            ?.getAttribute('data-id');
+        if (!connectionId) return;
 
-        // Ensure context goal id is set
-        if (this.contextConnectionId !== null) {
-            // Get the connection
-            const connection = this.application.actor.items.find(
-                (i) => i.id === this.contextConnectionId,
-            ) as CosmereItem<ConnectionItemDataModel>;
+        // Get the connection
+        const connectionItem = this.application.actor.items.get(connectionId);
+        if (!connectionItem?.isConnection()) return;
 
-            // Show connection sheet
-            void connection.sheet?.render(true);
-
-            this.contextConnectionId = null;
-        }
-
-        // Render
-        void this.render();
+        // Show item sheet
+        void connectionItem.sheet?.render(true);
     }
 
     public static onToggleExpandConnection(
@@ -215,6 +168,37 @@ any> {
                 })),
             ),
         };
+    }
+
+    /* --- Lifecycle --- */
+
+    public _onInitialize(): void {
+        if (!this.application.isEditable) return;
+
+        // Create context menu
+        AppContextMenu.create({
+            parent: this,
+            items: [
+                {
+                    name: 'GENERIC.Button.Edit',
+                    icon: 'fa-solid fa-pen-to-square',
+                    callback:
+                        CharacterConnectionsListComponent.onEditConnection.bind(
+                            this,
+                        ),
+                },
+                {
+                    name: 'GENERIC.Button.Remove',
+                    icon: 'fa-solid fa-trash',
+                    callback:
+                        CharacterConnectionsListComponent.onRemoveConnection.bind(
+                            this,
+                        ),
+                },
+            ],
+            selectors: ['a[data-action="toggle-controls"]'],
+            anchor: 'right',
+        });
     }
 
     /* --- Helpers --- */

@@ -1,12 +1,15 @@
 import { ItemType } from '@system/types/cosmere';
 import { GoalItem } from '@system/documents/item';
-import { ConstructorOf, MouseButton } from '@system/types/utils';
+import { MouseButton } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
 import { BaseActorSheetRenderContext } from '../../base';
+
+// Utils
+import { AppContextMenu } from '@system/applications/utils/context-menu';
 
 import { CharacterSheet } from '../../character-sheet';
 
@@ -25,59 +28,16 @@ any> {
      */
     /* eslint-disable @typescript-eslint/unbound-method */
     static readonly ACTIONS = {
-        'toggle-goal-controls': this.onToggleGoalControls,
         'adjust-goal-progress': {
             handler: this.onAdjustGoalProgress,
             buttons: [MouseButton.Primary, MouseButton.Secondary],
         },
         'toggle-hide-completed-goals': this.onToggleHideCompletedGoals,
-        'edit-goal': this.onEditGoal,
-        'remove-goal': this.onRemoveGoal,
         'add-goal': this.onAddGoal,
     };
     /* eslint-enable @typescript-eslint/unbound-method */
 
-    private contextGoalId: string | null = null;
-    private controlsDropdownExpanded = false;
-
     /* --- Actions --- */
-
-    public static onToggleGoalControls(
-        this: CharacterGoalsListComponent,
-        event: PointerEvent,
-    ) {
-        // Get goal id
-        const goalId = $(event.currentTarget!)
-            .closest('[data-id]')
-            .data('id') as string;
-
-        const target = event.currentTarget as HTMLElement;
-        const root = $(target).closest('.tab-body');
-        const dropdown = $(target)
-            .closest('.item-list')
-            .siblings('.controls-dropdown');
-
-        const targetRect = target.getBoundingClientRect();
-        const rootRect = root[0].getBoundingClientRect();
-
-        if (this.contextGoalId !== goalId) {
-            dropdown.css({
-                top: `${Math.round(targetRect.top - rootRect.top)}px`,
-                right: `${Math.round(rootRect.right - targetRect.right + targetRect.width)}px`,
-            });
-
-            if (!this.controlsDropdownExpanded) {
-                dropdown.addClass('expanded');
-                this.controlsDropdownExpanded = true;
-            }
-
-            this.contextGoalId = goalId;
-        } else if (this.controlsDropdownExpanded) {
-            dropdown.removeClass('expanded');
-            this.controlsDropdownExpanded = false;
-            this.contextGoalId = null;
-        }
-    }
 
     public static async onAdjustGoalProgress(
         this: CharacterGoalsListComponent,
@@ -136,56 +96,41 @@ any> {
             { render: false },
         );
 
-        // Close controls dropdown if it happens to be open
-        this.controlsDropdownExpanded = false;
-
         // Render
         await this.render();
     }
 
-    public static async onEditGoal(this: CharacterGoalsListComponent) {
-        this.controlsDropdownExpanded = false;
+    public static onEditGoal(
+        this: CharacterGoalsListComponent,
+        element: HTMLElement,
+    ) {
+        const goalId = element.closest('[data-id]')?.getAttribute('data-id');
+        if (!goalId) return;
 
-        // Render
-        await this.render();
+        // Get the goal
+        const goalItem = this.application.actor.items.get(goalId);
+        if (!goalItem?.isGoal()) return;
 
-        // Ensure context goal id is set
-        if (this.contextGoalId !== null) {
-            // Get the goal
-            const goalItem = this.application.actor.items.get(
-                this.contextGoalId,
-            );
-            if (!goalItem?.isGoal()) return;
-
-            // Show item sheet
-            void goalItem.sheet?.render(true);
-
-            this.contextGoalId = null;
-        }
+        // Show item sheet
+        void goalItem.sheet?.render(true);
     }
 
-    public static async onRemoveGoal(this: CharacterGoalsListComponent) {
-        this.controlsDropdownExpanded = false;
+    public static onRemoveGoal(
+        this: CharacterGoalsListComponent,
+        element: HTMLElement,
+    ) {
+        const goalId = element.closest('[data-id]')?.getAttribute('data-id');
+        if (!goalId) return;
 
-        // Ensure context goal id is set
-        if (this.contextGoalId !== null) {
-            // Get the goal
-            const goalItem = this.application.actor.items.get(
-                this.contextGoalId,
-            );
-            if (!goalItem?.isGoal()) return;
+        // Get the goal
+        const goalItem = this.application.actor.items.get(goalId);
+        if (!goalItem?.isGoal()) return;
 
-            // Delete the goal
-            await goalItem.delete();
-
-            this.contextGoalId = null;
-        }
+        // Delete the goal
+        void goalItem.delete();
     }
 
     public static async onAddGoal(this: CharacterGoalsListComponent) {
-        // Ensure controls dropdown is closed
-        this.controlsDropdownExpanded = false;
-
         // Create goal
         const goal = (await Item.create(
             {
@@ -229,6 +174,32 @@ any> {
                 .filter((goal) => !hideCompletedGoals || !goal.achieved),
 
             hideCompletedGoals,
+        });
+    }
+
+    /* --- Lifecyle --- */
+
+    public _onInitialize(): void {
+        if (!this.application.isEditable) return;
+
+        // Create context menu
+        AppContextMenu.create({
+            parent: this,
+            items: [
+                {
+                    name: 'GENERIC.Button.Edit',
+                    icon: 'fa-solid fa-pen-to-square',
+                    callback: CharacterGoalsListComponent.onEditGoal.bind(this),
+                },
+                {
+                    name: 'GENERIC.Button.Remove',
+                    icon: 'fa-solid fa-trash',
+                    callback:
+                        CharacterGoalsListComponent.onRemoveGoal.bind(this),
+                },
+            ],
+            selectors: ['a[data-action="toggle-controls"]'],
+            anchor: 'right',
         });
     }
 

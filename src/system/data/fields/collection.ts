@@ -3,7 +3,7 @@ import {
     InferInitializedType,
     InferPersistedType,
 } from '../types';
-import { AnyObject } from '@system/types/utils';
+import { AnyObject, AnyMutableObject } from '@system/types/utils';
 
 export interface CollectionFieldOptions<T = AnyObject>
     extends foundry.data.fields.DataField.Options<AnyObject> {
@@ -376,6 +376,56 @@ export class CollectionField<
         ) as TAssignment;
 
         return result;
+    }
+
+    public override _addTypes(
+        source?: Record<string, AnyObject>,
+        changes?: Record<string, AnyMutableObject>,
+    ) {
+        if (!source || !changes) return super._addTypes(source, changes);
+
+        Object.entries(changes).forEach(([k, v]) => {
+            // @ts-expect-error foundry-vtt-types seem to be wrong here, _addTypes aren't used in a protected way within Foundry itself
+            this.model._addTypes(source[k], v);
+        });
+    }
+
+    public _updateDiff(
+        source: AnyMutableObject,
+        key: string,
+        value: Record<string, AnyMutableObject>,
+        difference: AnyMutableObject,
+        options?: foundry.abstract.DataModel.UpdateOptions,
+    ) {
+        const current = source[key] as Record<string, AnyMutableObject>;
+        if (!current)
+            return super._updateDiff(source, key, value, difference, options);
+
+        const schemaDiff: AnyMutableObject = (difference[key] = {});
+        Object.entries(value).forEach(([k, v]) => {
+            let name = k;
+            const specialKey = foundry.utils.isDeletionKey(k);
+            if (specialKey) name = k.slice(2);
+
+            if (specialKey) {
+                if (k.startsWith('-')) {
+                    if (v !== null)
+                        throw new Error(
+                            'Removing a key using the -= deletion syntax requires the value of that deletion key to be null, for example {-=key: null}',
+                        );
+                    if (name in current) {
+                        schemaDiff[k] = v;
+                        delete current[name];
+                    }
+                } else if (k.startsWith('=')) {
+                    schemaDiff[k] = current[name] =
+                        foundry.utils.applySpecialKeys(v);
+                }
+                return;
+            }
+
+            this.model._updateDiff(current, name, v, schemaDiff, options);
+        });
     }
 
     public override getInitialValue() {

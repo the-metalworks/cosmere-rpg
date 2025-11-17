@@ -28,7 +28,7 @@
                 </a>
                 {{#if @root.editable}}
                 <a
-                    data-action="toggle-connection-controls"
+                    data-action="toggle-controls"
                     data-tooltip="APPLICATION.TOOLS.ToggleControls"
                 >
                     <i class="fa-solid fa-ellipsis-vertical"></i>
@@ -55,24 +55,3 @@
     </li>
     {{/if}}
 </ul>
-
-{{#if editable}}
-<menu class="controls-dropdown">
-    <li class="header-control">
-        <button class="control"
-            data-action="edit-connection"
-        >
-            <i class="fa-solid fa-pen-to-square"></i>
-            <span>{{localize "GENERIC.Button.Edit"}}</span>
-        </button>
-    </li>
-    <li class="header-control">
-        <button class="control"
-            data-action="remove-connection"
-        >
-            <i class="fa-solid fa-trash"></i>
-            <span>{{localize "GENERIC.Button.Remove"}}</span>
-        </button>
-    </li>
-</menu>
-{{/if}}

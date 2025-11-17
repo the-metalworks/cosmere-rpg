@@ -5,7 +5,9 @@ import { InjuryItemDataModel } from '@system/data/item';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
+// Utils
 import AppUtils from '@system/applications/utils';
+import { AppContextMenu } from '@system/applications/utils/context-menu';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
@@ -24,56 +26,13 @@ any> {
      */
     /* eslint-disable @typescript-eslint/unbound-method */
     static readonly ACTIONS = {
-        'toggle-injury-controls': this.onToggleInjuryControls,
         'reduce-injury-duration': this.onDecreaseInjuryDuration,
         'increase-injury-duration': this.onIncreaseInjuryDuration,
-        'edit-injury': this.onEditInjury,
-        'remove-injury': this.onRemoveInjury,
         'create-injury': this.onCreateInjury,
     };
     /* eslint-enable @typescript-eslint/unbound-method */
 
-    private contextInjuryId: string | null = null;
-    private controlsDropdownExpanded = false;
-
     /* --- Actions --- */
-
-    public static onToggleInjuryControls(
-        this: ActorInjuriesListComponent,
-        event: PointerEvent,
-    ) {
-        // Get connection id
-        const injuryId = $(event.currentTarget!)
-            .closest('[data-item-id]')
-            .data('item-id') as string;
-
-        const target = event.currentTarget as HTMLElement;
-        const root = $(target).closest('.tab-body');
-        const dropdown = $(target)
-            .closest('.item-list')
-            .siblings('.controls-dropdown');
-
-        const targetRect = target.getBoundingClientRect();
-        const rootRect = root[0].getBoundingClientRect();
-
-        if (this.contextInjuryId !== injuryId) {
-            dropdown.css({
-                top: `${Math.round(targetRect.top - rootRect.top)}px`,
-                right: `${Math.round(rootRect.right - targetRect.right + targetRect.width)}px`,
-            });
-
-            if (!this.controlsDropdownExpanded) {
-                dropdown.addClass('expanded');
-                this.controlsDropdownExpanded = true;
-            }
-
-            this.contextInjuryId = injuryId;
-        } else if (this.controlsDropdownExpanded) {
-            dropdown.removeClass('expanded');
-            this.controlsDropdownExpanded = false;
-            this.contextInjuryId = null;
-        }
-    }
 
     public static onDecreaseInjuryDuration(
         this: ActorInjuriesListComponent,
@@ -117,48 +76,37 @@ any> {
         });
     }
 
-    public static async onRemoveInjury(this: ActorInjuriesListComponent) {
-        this.controlsDropdownExpanded = false;
+    public static onRemoveInjury(
+        this: ActorInjuriesListComponent,
+        element: HTMLElement,
+    ) {
+        const injuryId = element.closest('[data-item-id]')?.getAttribute('data-item-id');
+        if (!injuryId) return;
 
-        // Ensure context goal id is set
-        if (this.contextInjuryId !== null) {
-            // Remove the connection
-            await this.application.actor.deleteEmbeddedDocuments(
-                'Item',
-                [this.contextInjuryId],
-                { render: false },
-            );
+        // Get the injury
+        const injuryItem = this.application.actor.items.get(injuryId);
+        if (!injuryItem?.isInjury()) return;
 
-            this.contextInjuryId = null;
-        }
-
-        // Render
-        await this.render();
+        // Delete the injury
+        void injuryItem.delete();
     }
 
-    public static onEditInjury(this: ActorInjuriesListComponent) {
-        this.controlsDropdownExpanded = false;
+    public static onEditInjury(
+        this: ActorInjuriesListComponent,
+        element: HTMLElement,
+    ) {
+        const injuryId = element.closest('[data-item-id]')?.getAttribute('data-item-id');
+        if (!injuryId) return;
 
-        // Ensure context goal id is set
-        if (this.contextInjuryId !== null) {
-            // Get the injur
-            const injury = this.application.actor.items.find(
-                (i) => i.id === this.contextInjuryId,
-            ) as CosmereItem<InjuryItemDataModel>;
+        // Get the injury
+        const injuryItem = this.application.actor.items.get(injuryId);
+        if (!injuryItem?.isInjury()) return;
 
-            // Show injury sheet
-            void injury.sheet?.render(true);
-
-            this.contextInjuryId = null;
-        }
-
-        // Render
-        void this.render();
+        // Show item sheet
+        void injuryItem.sheet?.render(true);
     }
 
     protected static async onCreateInjury(this: ActorInjuriesListComponent) {
-        this.controlsDropdownExpanded = false;
-
         // Create new injury
         const item = (await Item.create(
             {
@@ -217,6 +165,35 @@ any> {
                     return remainingB - remainingA;
                 }),
         });
+    }
+
+    /* --- Lifecycle --- */
+
+    public _onInitialize(): void {
+        if (this.application.isEditable) {
+            // Create context menu
+            AppContextMenu.create({
+                parent: this,
+                items: [
+                    {
+                        name: 'GENERIC.Button.Edit',
+                        icon: 'fa-solid fa-pen-to-square',
+                        callback:
+                            ActorInjuriesListComponent.onEditInjury.bind(this),
+                    },
+                    {
+                        name: 'GENERIC.Button.Remove',
+                        icon: 'fa-solid fa-trash',
+                        callback:
+                            ActorInjuriesListComponent.onRemoveInjury.bind(
+                                this,
+                            ),
+                    },
+                ],
+                selectors: ['a[data-action="toggle-controls"]'],
+                anchor: 'right',
+            });
+        }
     }
 }
 

@@ -55,7 +55,7 @@
             <div class="detail thin action"></div>
             <div class="controls icon faded">
                 {{#if @root.editable}}
-                <a data-action="toggle-injury-controls" 
+                <a data-action="toggle-controls" 
                     data-tooltip="APPLICATION.TOOLS.ToggleControls"
                 >
                     <i class="fa-solid fa-ellipsis-vertical"></i>
@@ -66,24 +66,3 @@
     </li>
     {{/each}}
 </ul>
-
-{{#if editable}}
-<menu class="controls-dropdown">
-    <li class="header-control">
-        <button class="control"
-            data-action="edit-injury"
-        >
-            <i class="fa-solid fa-pen-to-square"></i>
-            <span>{{localize "GENERIC.Button.Edit"}}</span>
-        </button>
-    </li>
-    <li class="header-control">
-        <button class="control"
-            data-action="remove-injury"
-        >
-            <i class="fa-solid fa-trash"></i>
-            <span>{{localize "GENERIC.Button.Remove"}}</span>
-        </button>
-    </li>
-</menu>
-{{/if}}

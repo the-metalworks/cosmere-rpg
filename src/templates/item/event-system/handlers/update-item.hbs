@@ -13,7 +13,7 @@
 </div>
 
 {{!-- UUID --}}
-{{#if (not (eq handler.target "self"))}}
+{{#if (or (eq handler.target "sibling") (eq handler.target "global"))}}
     <div class="form-group">
         <label>
             {{localize handler.schema.fields.uuid.label}}
