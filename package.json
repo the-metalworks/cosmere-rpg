@@ -1,6 +1,6 @@
 {
     "name": "cosmere-rpg",
-    "version": "2.0.4",
+    "version": "2.0.4_forge_compat",
     "private": true,
     "type": "module",
     "scripts": {
