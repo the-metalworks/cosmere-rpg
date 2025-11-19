@@ -12,17 +12,33 @@ export class CosmereRollParser extends foundry.dice.RollParser {
         modifiers: string | null,
         flavor: string | null,
         formula: string,
-    ): foundry.dice.types.DiceRollParseNode {
-        return super._onDiceTerm(number, faces, modifiers, flavor, formula);
-    }
+    ): foundry.dice.types.DiceRollParseNode & { evaluated: boolean } {
+        if (CONFIG.debug.rollParsing) {
+            console.debug(
+                foundry.dice.RollParser.formatDebug(
+                    'onDiceTerm',
+                    number,
+                    faces,
+                    modifiers,
+                    flavor,
+                    formula,
+                ),
+            );
+        }
 
-    public override _onPoolTerm(
-        head: foundry.dice.types.RollParseNode,
-        tail: foundry.dice.types.RollParseNode[],
-        modifiers: string | null,
-        flavor: string | null,
-        formula: string,
-    ): foundry.dice.types.PoolRollParseNode {
-        return super._onPoolTerm(head, tail, modifiers, flavor, formula);
+        return {
+            class: 'CosmereDiceGroup',
+            formula,
+            modifiers: modifiers!,
+            number: number! as
+                | number
+                | foundry.dice.types.ParentheticalRollParseNode,
+            faces: faces! as
+                | string
+                | number
+                | foundry.dice.types.ParentheticalRollParseNode,
+            evaluated: false,
+            options: { flavour: flavor! },
+        };
     }
 }

@@ -42,6 +42,10 @@ export class CosmereDie extends foundry.dice.terms.Die {
         return []; // Block this getter since CosmereDie should only ever have 1 value, accessed as total.
     }
 
+    public get evaluated(): boolean {
+        return this._evaluated;
+    }
+
     public get hasAdvantage(): boolean {
         return this.modifiers.includes(DieModifier.Advantage);
     }

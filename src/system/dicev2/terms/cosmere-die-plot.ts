@@ -28,6 +28,10 @@ export class CosmerePlotDie extends CosmereDie {
         return DieType.Plot;
     }
 
+    public override get denomination(): string {
+        return CosmerePlotDie.DENOMINATION;
+    }
+
     /* --- Functions --- */
     public override getResultLabel(result: DiceTermResult): string {
         return CosmerePlotDie.SIDES[result.result];
