@@ -1,6 +1,6 @@
 import {
     DiceTermResult,
-    EvaluationOptions,
+    DiceEvaluationOptions,
     DieType,
     DieModifier,
 } from '../types';
@@ -64,7 +64,7 @@ export class CosmereDie extends foundry.dice.terms.Die {
 
     /* --- Functions --- */
     public override evaluate(
-        options?: EvaluationOptions,
+        options?: DiceEvaluationOptions,
     ): this | Promise<this> {
         if (options?.maximize || options?.minimize || options?.reroll) {
             this.results = [];
@@ -83,13 +83,18 @@ export class CosmereDie extends foundry.dice.terms.Die {
                     this.modifiers.includes(DieModifier.Disadvantage)
                 ) {
                     throw new Error(
-                        `The ${this.constructor.name} already has advantage or disadvantage`,
+                        `The ${this.constructor.name} already has ${modifier === DieModifier.Advantage ? 'advantage' : 'disadvantage'}`,
                     );
                 }
 
                 this.number = 2;
                 break;
             default:
+                if (this.modifiers.includes(modifier)) {
+                    throw new Error(
+                        `The ${this.constructor.name} already has modifier ${modifier}`,
+                    );
+                }
                 break;
         }
 

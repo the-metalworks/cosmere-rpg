@@ -1,5 +1,5 @@
 import { CosmereRoll } from '../rolls/cosmere-roll';
-import { DieType, EvaluationOptions } from '../types';
+import { DieModifier, DieType, DiceEvaluationOptions } from '../types';
 import { CosmereDie } from './cosmere-die';
 import { CosmerePlotDie } from './cosmere-die-plot';
 
@@ -44,6 +44,16 @@ export class CosmereDiceGroup extends foundry.dice.terms.RollTerm {
 
     /* --- Accessors --- */
     public override get expression(): string {
+        if (
+            this._evaluated &&
+            this._dice.length > 0 &&
+            this._dice.some(
+                (d) => (d.number ?? 0) > 1 || d.modifiers.length > 0,
+            )
+        ) {
+            return `{${this._dice.map((d) => d.formula).join(',')}}`;
+        }
+
         return `${this._number as number}d${this._faces as number}`;
     }
 
@@ -51,27 +61,6 @@ export class CosmereDiceGroup extends foundry.dice.terms.RollTerm {
     public override get isDeterministic(): boolean {
         return false;
     }
-
-    // public override get expression(): string {
-    //     switch (this._dice.length)
-    //     {
-    //         case 0:
-    //             return `XdX`;
-    //         case 1:
-    //             return this._dice[0].formula;
-    //         default:
-    //         {
-    //             const x = this._dice.every(d => d.type === DieType.Regular) ? this._faces : this._dice[0].denomination;
-
-    //             if (this._dice.every(d => d.number === 1 && !(d.modifiers.length > 0)))
-    //             {
-    //                 return `${this.number}d${x}`;
-    //             }
-
-    //             return `{${this._dice.map(d => d.formula).join(",")}}`;
-    //         }
-    //     }
-    // }
 
     public get dice(): CosmereDie[] {
         return this._dice;
@@ -108,8 +97,43 @@ export class CosmereDiceGroup extends foundry.dice.terms.RollTerm {
     }
 
     /* --- Functions --- */
+    public static override fromParseNode(
+        node: foundry.dice.types.DiceRollParseNode,
+    ): CosmereDiceGroup {
+        if (node.number === null) node.number = 1;
+        const number = (
+            node.number as foundry.dice.types.ParentheticalRollParseNode
+        ).class
+            ? CosmereRoll.fromTerms(
+                  CosmereRoll.instantiateAST(
+                      node.number as foundry.dice.types.ParentheticalRollParseNode,
+                  ),
+              )
+            : (node.number as number);
+
+        if (node.faces === null) node.faces = 6;
+        const faces = (
+            node.faces as foundry.dice.types.ParentheticalRollParseNode
+        ).class
+            ? CosmereRoll.fromTerms(
+                  CosmereRoll.instantiateAST(
+                      node.faces as foundry.dice.types.ParentheticalRollParseNode,
+                  ),
+              )
+            : (node.faces as number);
+
+        const modifiers = Array.from(
+            (node.modifiers || '').matchAll(
+                foundry.dice.terms.Die.MODIFIER_REGEXP,
+            ),
+        ).map(([m]) => m);
+        const data = { ...node, number, faces, modifiers, class: this.name };
+
+        return this.fromData(data) as CosmereDiceGroup;
+    }
+
     public override evaluate(
-        options?: EvaluationOptions,
+        options?: DiceEvaluationOptions,
     ): this | Promise<this> {
         if (options?.maximize || options?.minimize || options?.reroll) {
             this._evaluated = false;
@@ -119,16 +143,16 @@ export class CosmereDiceGroup extends foundry.dice.terms.RollTerm {
     }
 
     protected override async _evaluate(
-        options?: EvaluationOptions,
+        options?: DiceEvaluationOptions,
     ): Promise<this> {
         const number =
             this._number instanceof CosmereRoll
-                ? (await this._number.evaluate(options)).total
+                ? (await this._number.evaluate(options ?? {})).total
                 : this._number;
 
         const faces =
             this._faces instanceof CosmereRoll
-                ? (await this._faces.evaluate(options)).total
+                ? (await this._faces.evaluate(options ?? {})).total
                 : this._faces;
 
         if (this.termData.modifiers?.length > 0) {
@@ -150,47 +174,6 @@ export class CosmereDiceGroup extends foundry.dice.terms.RollTerm {
         await Promise.all(evals);
 
         return this;
-    }
-
-    public static override fromParseNode(
-        node: foundry.dice.types.DiceRollParseNode,
-    ): CosmereDiceGroup {
-        let denomination = CosmereDiceGroup.DENOMINATION;
-
-        if (node.number === null) node.number = 1;
-
-        const number = (
-            node.number as foundry.dice.types.ParentheticalRollParseNode
-        ).class
-            ? CosmereRoll.fromTerms(
-                  CosmereRoll.instantiateAST(
-                      node.number as foundry.dice.types.ParentheticalRollParseNode,
-                  ),
-              )
-            : (node.number as number);
-
-        if (typeof node.faces === 'string')
-            denomination = node.faces.toLowerCase();
-        if (node.faces === null) node.faces = 6;
-
-        const faces = (
-            node.faces as foundry.dice.types.ParentheticalRollParseNode
-        ).class
-            ? CosmereRoll.fromTerms(
-                  CosmereRoll.instantiateAST(
-                      node.faces as foundry.dice.types.ParentheticalRollParseNode,
-                  ),
-              )
-            : (node.faces as number);
-
-        const modifiers = Array.from(
-            (node.modifiers || '').matchAll(
-                foundry.dice.terms.Die.MODIFIER_REGEXP,
-            ),
-        ).map(([m]) => m);
-        const data = { ...node, number, faces, modifiers, class: this.name };
-
-        return this.fromData(data) as CosmereDiceGroup;
     }
 
     private pushDie(

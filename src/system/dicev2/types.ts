@@ -28,7 +28,12 @@ export interface DiceTermResult extends foundry.dice.terms.DiceTerm.Result {
     hidden?: boolean;
 }
 
-export interface EvaluationOptions
+export interface DiceEvaluationOptions
     extends Partial<foundry.dice.terms.DiceTerm.EvaluationOptions> {
+    reroll?: boolean;
+}
+
+export interface RollEvaluationOptions
+    extends Partial<foundry.dice.Roll.Options> {
     reroll?: boolean;
 }

@@ -1,6 +1,12 @@
 import { CosmereActor, CosmereItem } from '@src/system/documents';
-import { RollMode, RollType } from '../types';
+import {
+    DieModifier,
+    RollEvaluationOptions,
+    RollMode,
+    RollType,
+} from '../types';
 import { CosmereDiceGroup } from '../terms/cosmere-dice-group';
+import { CosmereDie } from '../terms/cosmere-die';
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type CosmereRollData = {
@@ -33,6 +39,10 @@ export abstract class CosmereRoll extends foundry.dice.Roll<CosmereRollData> {
     /* --- Accessors --- */
     protected get type(): RollType {
         return RollType.Generic;
+    }
+
+    public override get dice(): CosmereDie[] {
+        return super.dice.filter((d) => d instanceof CosmereDie);
     }
 
     public get hasAdvantage(): boolean {
@@ -89,5 +99,33 @@ export abstract class CosmereRoll extends foundry.dice.Roll<CosmereRollData> {
                 foundry.dice.terms.RollTerm;
             return cls.fromParseNode(node);
         });
+    }
+
+    public override evaluate(
+        options?: RollEvaluationOptions,
+    ): Promise<Roll.Evaluated<this>> {
+        if (options?.maximize || options?.minimize || options?.reroll) {
+            this._evaluated = false;
+        }
+
+        return super.evaluate(options);
+    }
+
+    public async modify(modifier: DieModifier, uuid?: string): Promise<this> {
+        if (!this._evaluated) {
+            throw new Error(
+                `The ${this.constructor.name} has not yet been evaluated and cannot be modified`,
+            );
+        }
+
+        const die = uuid
+            ? this.dice.find((d) => d.uuid === uuid)
+            : this.dice.find((d) => d !== undefined); // Apply modify to first die if no uuid given
+
+        if (die) {
+            await die.modify(modifier);
+        }
+
+        return this;
     }
 }
