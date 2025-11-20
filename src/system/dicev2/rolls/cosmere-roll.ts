@@ -45,6 +45,10 @@ export abstract class CosmereRoll extends foundry.dice.Roll<CosmereRollData> {
         return super.dice.filter((d) => d instanceof CosmereDie);
     }
 
+    public get groups(): CosmereDiceGroup[] {
+        return this.terms.filter((d) => d instanceof CosmereDiceGroup);
+    }
+
     public get hasAdvantage(): boolean {
         return this.terms.some(
             (t) => t instanceof CosmereDiceGroup && t.hasAdvantage,
@@ -101,9 +105,18 @@ export abstract class CosmereRoll extends foundry.dice.Roll<CosmereRollData> {
         });
     }
 
-    public override evaluate(
+    public override async evaluate(
         options?: RollEvaluationOptions,
     ): Promise<Roll.Evaluated<this>> {
+        // On first evaluation, prepare all dice groups by generating internal dice
+        if (!this._evaluated) {
+            const preps: Promise<CosmereDiceGroup>[] = [];
+            this.terms
+                .filter((t) => t instanceof CosmereDiceGroup)
+                .forEach((t) => preps.push(t.prepare(options)));
+            await Promise.all(preps);
+        }
+
         if (options?.maximize || options?.minimize || options?.reroll) {
             this._evaluated = false;
         }

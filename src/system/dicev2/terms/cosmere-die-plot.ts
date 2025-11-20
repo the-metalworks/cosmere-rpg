@@ -23,6 +23,15 @@ export class CosmerePlotDie extends CosmereDie {
         6: `<img src="${IMPORTED_RESOURCES.PLOT_DICE_OP_IN_CHAT}" />`,
     };
 
+    static BONUS: Record<number, number> = {
+        1: 2,
+        2: 4,
+        3: 0,
+        4: 0,
+        5: 0,
+        6: 0,
+    };
+
     /* --- Accessors --- */
     protected override get type(): DieType {
         return DieType.Plot;
@@ -30,6 +39,15 @@ export class CosmerePlotDie extends CosmereDie {
 
     public override get denomination(): string {
         return CosmerePlotDie.DENOMINATION;
+    }
+
+    public override get total(): number | undefined {
+        if (!this._evaluated) return undefined;
+
+        return this.results.reduce((t, r) => {
+            if (!r.active) return t;
+            return t + CosmerePlotDie.BONUS[r.result];
+        }, 0);
     }
 
     /* --- Functions --- */

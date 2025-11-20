@@ -1,5 +1,5 @@
 import { CosmereRoll } from '../rolls/cosmere-roll';
-import { DieModifier, DieType, DiceEvaluationOptions } from '../types';
+import { DiceEvaluationOptions } from '../types';
 import { CosmereDie } from './cosmere-die';
 import { CosmerePlotDie } from './cosmere-die-plot';
 
@@ -142,9 +142,7 @@ export class CosmereDiceGroup extends foundry.dice.terms.RollTerm {
         return super.evaluate(options);
     }
 
-    protected override async _evaluate(
-        options?: DiceEvaluationOptions,
-    ): Promise<this> {
+    public async prepare(options?: DiceEvaluationOptions): Promise<this> {
         const number =
             this._number instanceof CosmereRoll
                 ? (await this._number.evaluate(options ?? {})).total
@@ -169,6 +167,12 @@ export class CosmereDiceGroup extends foundry.dice.terms.RollTerm {
             }
         }
 
+        return this;
+    }
+
+    protected override async _evaluate(
+        options?: DiceEvaluationOptions,
+    ): Promise<this> {
         const evals: (CosmereDie | Promise<CosmereDie>)[] = [];
         this._dice.forEach((d) => evals.push(d.evaluate(options)));
         await Promise.all(evals);
