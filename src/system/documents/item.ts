@@ -137,7 +137,10 @@ interface ShowConsumeDialogOptions {
 //     system?: T;
 // }
 
-class _Item<TSystem extends foundry.abstract.TypeDataModel.Any> extends Item {
+class _Item<
+    TSystem extends foundry.abstract.TypeDataModel.Any,
+> extends Item<'base'> {
+    // @ts-expect-error Explicitly declare to get proper typing
     declare type: ItemType;
     // @ts-expect-error Explicitly declare to get proper typing
     declare system: TSystem;
@@ -146,6 +149,8 @@ class _Item<TSystem extends foundry.abstract.TypeDataModel.Any> extends Item {
     // @ts-expect-error Explicitly declare to get proper typing
     declare sheet: BaseItemSheet | null;
 }
+
+type T = CosmereItem['schema']['fields'];
 
 export class CosmereItem<
     T extends

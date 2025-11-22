@@ -20,7 +20,7 @@ function _makePseudoDocumentClass<
     const documentName =
         `Pseudo${concreteDocumentName}` as PseudoDocument.Type<ConcreteDocumentName>;
 
-    return class<
+    return class _PseudoDocument<
         const ParentDoc extends PseudoDocument.ParentDocument,
     > extends foundry.abstract.DataModel<
         TSchema,
@@ -45,17 +45,54 @@ function _makePseudoDocumentClass<
             name: documentName,
             label: `DOCUMENT.COSMERE.Pseudo${concreteDocumentName}`,
             schemaVersion: concreteDocument.metadata.schemaVersion,
+            coreTypes: concreteDocument.metadata.coreTypes,
         }) as TMetadata;
+
+        public static override defineSchema() {
+            return foundry.utils.deepClone(concreteDocument.defineSchema());
+        }
 
         public static get documentName() {
             return this.metadata.name;
         }
 
+        public static get TYPES() {
+            return concreteDocument.TYPES;
+        }
+
         public static getModelForType<
             T extends
                 foundry.abstract.Document.SubTypesOf<ConcreteDocumentName>,
-        >(type: T) {
-            return CONFIG?.[concreteDocumentName].dataModels?.[type] ?? null;
+        >(type: T): foundry.abstract.DataModel.ConcreteConstructor;
+        public static getModelForType<
+            T extends
+                foundry.abstract.Document.SubTypesOf<ConcreteDocumentName>,
+        >(
+            type: T | string | undefined,
+        ): foundry.abstract.DataModel.ConcreteConstructor | null;
+        public static getModelForType<
+            T extends
+                foundry.abstract.Document.SubTypesOf<ConcreteDocumentName>,
+        >(
+            type: T | string | undefined,
+        ): foundry.abstract.DataModel.ConcreteConstructor | null {
+            if (!type) return null;
+            return (
+                (CONFIG?.[concreteDocumentName].dataModels?.[
+                    type
+                ] as unknown as
+                    | foundry.abstract.DataModel.ConcreteConstructor
+                    | undefined) ?? null
+            );
+        }
+
+        public static fromConcrete<
+            TParentDoc extends PseudoDocument.ParentDocument,
+        >(
+            document: InstanceType<typeof concreteDocument>,
+            parent: TParentDoc,
+        ): _PseudoDocument<TParentDoc> {
+            return new this(document.toObject() as any, { parent });
         }
 
         /* --- Instance properties --- */
@@ -113,14 +150,6 @@ export type PseudoDocument<
     ConcreteDocumentName extends
         PseudoDocument.ConcreteDocumentType = PseudoDocument.ConcreteDocumentType,
 > = InstanceType<PseudoDocumentClass<ConcreteDocumentName>>;
-
-// interface A<T extends B = B> {
-//     prop: T;
-// }
-
-// type A<T extends B = B> = B & { prop: T };
-
-// type B = A & { other: string };
 
 export namespace PseudoDocument {
     // export type ConcreteDocumentType = Exclude<foundry.abstract.Document.WithSystem, 'ActorDelta'>;
@@ -180,6 +209,7 @@ export namespace PseudoDocument {
         readonly name: PseudoDocument.Type<ConcreteDocumentName>;
         readonly label: string;
         readonly schemaVersion: string;
+        readonly coreTypes: string[];
     };
 
     export namespace Metadata {
