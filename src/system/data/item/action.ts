@@ -4,8 +4,16 @@ import { EmptyObject } from '@system/types/utils';
 
 // Mixins
 import { DataModelMixin } from '../mixins';
+import {
+    PseudoCollectionsMixin,
+    PseudoCollectionsDataSchema,
+} from '../mixins/pseudo-collections';
 import { IdItemMixin, IdItemDataSchema } from './mixins/id';
-import { TypedItemMixin, TypedItemDataSchema, TypedItemDerivedData } from './mixins/typed';
+import {
+    TypedItemMixin,
+    TypedItemDataSchema,
+    TypedItemDerivedData,
+} from './mixins/typed';
 import {
     DescriptionItemMixin,
     DescriptionItemDataSchema,
@@ -32,16 +40,16 @@ const SCHEMA = {
     }),
 };
 
-export type ActionItemDataSchema = 
-    & typeof SCHEMA 
-    & IdItemDataSchema
-    & TypedItemDataSchema<ActionType>
-    & DescriptionItemDataSchema
-    & ActivatableItemDataSchema
-    & DamagingItemDataSchema
-    & ModalityItemDataSchema
-    & EventsItemDataSchema
-    & RelationshipsItemDataSchema;
+export type ActionItemDataSchema = typeof SCHEMA &
+    IdItemDataSchema &
+    TypedItemDataSchema<ActionType> &
+    DescriptionItemDataSchema &
+    ActivatableItemDataSchema &
+    DamagingItemDataSchema &
+    ModalityItemDataSchema &
+    EventsItemDataSchema &
+    RelationshipsItemDataSchema;
+// & PseudoCollectionsDataSchema;
 
 export type ActionItemDerivedData = TypedItemDerivedData;
 
@@ -73,6 +81,7 @@ export class ActionItemDataModel extends DataModelMixin<
     ModalityItemMixin(),
     EventsItemMixin(),
     RelationshipsMixin(),
+    // PseudoCollectionsMixin(),
 ) {
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), SCHEMA);

@@ -1,5 +1,7 @@
-import { PseudoDocument } from '@system/documents/pseudo/document';
-
+import type {
+    PseudoDocument,
+    PseudoDocumentClass,
+} from '@system/documents/pseudo/document';
 import type { SimpleMerge, AnyObject } from '@system/types/utils';
 
 export class PseudoDocumentField<
@@ -15,8 +17,14 @@ export class PseudoDocumentField<
         | AnyObject
         | null
         | undefined = PseudoDocumentField.PersistedType<TDocument, TOptions>,
+    const TConcreteDocumentType extends
+        PseudoDocument.ConcreteDocumentType = TDocument extends PseudoDocument<
+        infer U
+    >
+        ? U
+        : PseudoDocument.ConcreteDocumentType,
     const TDocumentClass extends
-        PseudoDocumentField.DocumentClass<TDocument> = PseudoDocumentField.DocumentClass<TDocument>,
+        PseudoDocumentClass<TConcreteDocumentType> = PseudoDocumentClass<TConcreteDocumentType>,
 > extends foundry.data.fields.ObjectField<
     TOptions,
     TAssignment,
@@ -37,7 +45,11 @@ export class PseudoDocumentField<
         return this.document.documentName;
     }
 
-    public getModelForType;
+    public getModelForType<
+        T extends foundry.abstract.Document.SubTypesOf<TConcreteDocumentType>,
+    >(type: T) {
+        return this.document.getModelForType(type);
+    }
 }
 
 export namespace PseudoDocumentField {
@@ -79,5 +91,5 @@ export namespace PseudoDocumentField {
     >;
 
     export type DocumentClass<TDocument extends PseudoDocument.Any> =
-        typeof PseudoDocument & { new: (...args: any[]) => TDocument };
+        PseudoDocumentClass & { new: (...args: any[]) => TDocument };
 }

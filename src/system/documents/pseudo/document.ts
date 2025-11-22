@@ -1,7 +1,15 @@
 // type
 
-export function PseudoDocument<
-    const ConcreteDocumentName extends foundry.abstract.Document.Type,
+export function makePseudoDocumentClass<
+    const ConcreteDocumentName extends PseudoDocument.ConcreteDocumentType,
+>(
+    concreteDocumentName: ConcreteDocumentName,
+): PseudoDocumentClass<ConcreteDocumentName> {
+    return _makePseudoDocumentClass<ConcreteDocumentName>(concreteDocumentName);
+}
+
+function _makePseudoDocumentClass<
+    const ConcreteDocumentName extends PseudoDocument.ConcreteDocumentType,
     const TSchema extends
         PseudoDocument.Schema = (typeof concreteDocument)['schema']['fields'],
     const TMetadata extends
@@ -18,7 +26,7 @@ export function PseudoDocument<
         TSchema,
         PseudoDocument.Parent<ParentDoc>
     > {
-        constructor(
+        public constructor(
             ...[data, options]: PseudoDocument.ConstructorArgs<
                 TSchema,
                 ParentDoc
@@ -43,6 +51,13 @@ export function PseudoDocument<
             return this.metadata.name;
         }
 
+        public static getModelForType<
+            T extends
+                foundry.abstract.Document.SubTypesOf<ConcreteDocumentName>,
+        >(type: T) {
+            return CONFIG?.[concreteDocumentName].dataModels?.[type] ?? null;
+        }
+
         /* --- Instance properties --- */
 
         public readonly isEmbedded = true; // Pseudo-documents are always embedded
@@ -65,45 +80,59 @@ export function PseudoDocument<
 
         /* --- Operation functions --- */
 
-        public async update(
-            data: PseudoDocument.UpdateData<Schema> | undefined,
-            operation?: PseudoDocument.Database.UpdateOperation<
-                Schema,
-                Metadata
-            >,
-        ) {
-            const result = await this.parentDocument.update({
-                system: {
-                    // pseudoCollections: {
-                    //     [this.documentName]: {
-                    //         ...data,
-                    //         _id: this.id,
-                    //         id: this.id,
-                    //     }
-                    // }
-                },
-            });
+        // public async update(
+        //     data: PseudoDocument.UpdateData<Schema> | undefined,
+        //     operation?: PseudoDocument.Database.UpdateOperation<
+        //         Schema,
+        //         Metadata
+        //     >,
+        // ) {
+        //     const result = await this.parentDocument.update({
+        //         system: {
+        //             // pseudoCollections: {
+        //             //     [this.documentName]: {
+        //             //         ...data,
+        //             //         _id: this.id,
+        //             //         id: this.id,
+        //             //     }
+        //             // }
+        //         },
+        //     });
 
-            return result;
-        }
+        //     return result;
+        // }
     };
 }
 
+export type PseudoDocumentClass<
+    ConcreteDocumentName extends
+        PseudoDocument.ConcreteDocumentType = PseudoDocument.ConcreteDocumentType,
+> = ReturnType<typeof _makePseudoDocumentClass<ConcreteDocumentName>>;
+
 export type PseudoDocument<
-    ConcreteDocumentName extends foundry.abstract.Document.Type,
-> = InstanceType<ReturnType<typeof PseudoDocument<ConcreteDocumentName>>>;
+    ConcreteDocumentName extends
+        PseudoDocument.ConcreteDocumentType = PseudoDocument.ConcreteDocumentType,
+> = InstanceType<PseudoDocumentClass<ConcreteDocumentName>>;
+
+// interface A<T extends B = B> {
+//     prop: T;
+// }
+
+// type A<T extends B = B> = B & { prop: T };
+
+// type B = A & { other: string };
 
 export namespace PseudoDocument {
-    export type Any = PseudoDocument<
-        PseudoDocument.Type,
-        PseudoDocument.Schema,
-        PseudoDocument.ParentDocument,
-        PseudoDocument.Metadata.Any
-    >;
+    // export type ConcreteDocumentType = Exclude<foundry.abstract.Document.WithSystem, 'ActorDelta'>;
+    export type ConcreteDocumentType = 'Item';
+
+    export type Any = PseudoDocument<ConcreteDocumentType>;
 
     export type Type<
-        DocumentName extends foundry.abstract.Document.Type | 'Document',
-    > = `Pseudo${DocumentName}`;
+        ConcreteDocumentName extends
+            | foundry.abstract.Document.Type
+            | 'Document' = foundry.abstract.Document.Type | 'Document',
+    > = `Pseudo${ConcreteDocumentName}`;
 
     export type UpdateData<Schema extends PseudoDocument.Schema> =
         foundry.data.fields.SchemaField.UpdateData<Schema>;
