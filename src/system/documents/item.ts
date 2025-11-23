@@ -137,9 +137,11 @@ interface ShowConsumeDialogOptions {
 //     system?: T;
 // }
 
+import { PseudoEmbeddedCollectionsMixin } from './mixins/pseudo-embedded-collections';
+
 class _Item<
     TSystem extends foundry.abstract.TypeDataModel.Any,
-> extends Item<'base'> {
+> extends PseudoEmbeddedCollectionsMixin(Item<'base'>) {
     // @ts-expect-error Explicitly declare to get proper typing
     declare type: ItemType;
     // @ts-expect-error Explicitly declare to get proper typing
@@ -149,8 +151,6 @@ class _Item<
     // @ts-expect-error Explicitly declare to get proper typing
     declare sheet: BaseItemSheet | null;
 }
-
-type T = CosmereItem['schema']['fields'];
 
 export class CosmereItem<
     T extends

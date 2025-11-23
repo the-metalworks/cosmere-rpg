@@ -48,8 +48,8 @@ export type ActionItemDataSchema = typeof SCHEMA &
     DamagingItemDataSchema &
     ModalityItemDataSchema &
     EventsItemDataSchema &
-    RelationshipsItemDataSchema &
-    PseudoCollectionsDataSchema;
+    RelationshipsItemDataSchema;
+// PseudoCollectionsDataSchema;
 
 export type ActionItemDerivedData = TypedItemDerivedData;
 
@@ -81,7 +81,7 @@ export class ActionItemDataModel extends DataModelMixin<
     ModalityItemMixin(),
     EventsItemMixin(),
     RelationshipsMixin(),
-    PseudoCollectionsMixin(),
+    // PseudoCollectionsMixin(),
 ) {
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), SCHEMA);
