@@ -9,6 +9,8 @@ export function PseudoEmbeddedCollectionsMixin<
     // const cls = CONFIG[concreteDocumentName].documentClass;
 
     return class extends (cls as any) {
+        public readonly hasSystemEmbeddedCollections: true = true;
+
         declare static __schema: any;
         private static _systemHierarchy?: AnyObject;
         private static _hierarchy?: AnyObject;
@@ -197,12 +199,13 @@ export function PseudoEmbeddedCollectionsMixin<
             data: Object[],
             operation: foundry.abstract.DatabaseBackend.CreateOperation<foundry.abstract.Document.AnyConstructor>,
         ) {
-            if ((this.constructor as any).isNativeEmbedding(embeddedName))
+            if ((this.constructor as any).isNativeEmbedding(embeddedName)) {
                 return super.createEmbeddedDocuments(
                     embeddedName,
                     data,
                     operation,
                 );
+            }
 
             const collectionField =
                 this.getEmbeddedCollectionField(embeddedName);
@@ -212,12 +215,79 @@ export function PseudoEmbeddedCollectionsMixin<
                 collection._initializeDocument(d, { parent: this }),
             );
 
-            this.update(
+            const update = await this.update(
                 {
                     [collectionField.fieldPath]: collection.toObject(),
                 },
-                { recursive: false },
+                { recursive: false, diff: false },
             );
+
+            return data.map(() => update);
+        }
+
+        public async updateEmbeddedDocuments(
+            embeddedName: string,
+            updates: AnyObject[] = [],
+            operation: Partial<
+                foundry.abstract.DatabaseBackend.UpdateOperation<foundry.abstract.Document.AnyConstructor>
+            > = {},
+        ) {
+            if ((this.constructor as any).isNativeEmbedding(embeddedName)) {
+                return super.updateEmbeddedDocuments(
+                    embeddedName,
+                    updates,
+                    operation,
+                );
+            }
+
+            const collectionField =
+                this.getEmbeddedCollectionField(embeddedName);
+            const collection = this.getEmbeddedCollection(embeddedName);
+
+            updates.forEach((update) => {
+                const doc = collection.get(update._id!);
+                if (!doc) return;
+
+                doc.updateSource(update);
+            });
+
+            const update = await this.update(
+                {
+                    [collectionField.fieldPath]: collection.toObject(),
+                },
+                { recursive: false, diff: false },
+            );
+
+            return updates.map(() => update);
+        }
+
+        public async deleteEmbeddedDocuments(
+            embeddedName: string,
+            ids: string[],
+            operation: Partial<foundry.abstract.DatabaseBackend.DeleteOperation> = {},
+        ) {
+            if ((this.constructor as any).isNativeEmbedding(embeddedName)) {
+                return super.deleteEmbeddedDocuments(
+                    embeddedName,
+                    ids,
+                    operation,
+                );
+            }
+
+            const collectionField =
+                this.getEmbeddedCollectionField(embeddedName);
+            const collection = this.getEmbeddedCollection(embeddedName);
+
+            ids.forEach((id) => collection.delete(id));
+
+            const update = await this.update(
+                {
+                    [collectionField.fieldPath]: collection.toObject(),
+                },
+                { recursive: false, diff: false },
+            );
+
+            return ids.map(() => update);
         }
     } as unknown as typeof cls;
 }

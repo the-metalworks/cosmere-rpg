@@ -137,11 +137,12 @@ interface ShowConsumeDialogOptions {
 //     system?: T;
 // }
 
+import { PseudoEmbeddableMixin } from './mixins/pseudo-embeddable';
 import { PseudoEmbeddedCollectionsMixin } from './mixins/pseudo-embedded-collections';
 
 class _Item<
     TSystem extends foundry.abstract.TypeDataModel.Any,
-> extends PseudoEmbeddedCollectionsMixin(Item<'base'>) {
+> extends PseudoEmbeddableMixin(PseudoEmbeddedCollectionsMixin(Item<'base'>)) {
     // @ts-expect-error Explicitly declare to get proper typing
     declare type: ItemType;
     // @ts-expect-error Explicitly declare to get proper typing
