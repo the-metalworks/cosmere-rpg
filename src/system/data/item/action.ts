@@ -30,7 +30,7 @@ import {
     RelationshipsItemDataSchema,
 } from './mixins/relationships';
 
-const SCHEMA = {
+const SCHEMA = () => ({
     ancestry: new foundry.data.fields.StringField({
         required: false,
         nullable: true,
@@ -38,9 +38,9 @@ const SCHEMA = {
         label: 'COSMERE.Item.Action.Ancestry.Label',
         hint: 'COSMERE.Item.Action.Ancestry.Hint',
     }),
-};
+});
 
-export type ActionItemDataSchema = typeof SCHEMA &
+export type ActionItemDataSchema = ReturnType<typeof SCHEMA> &
     IdItemDataSchema &
     TypedItemDataSchema<ActionType> &
     DescriptionItemDataSchema &
@@ -84,6 +84,6 @@ export class ActionItemDataModel extends DataModelMixin<
     // PseudoCollectionsMixin(),
 ) {
     static defineSchema() {
-        return foundry.utils.mergeObject(super.defineSchema(), SCHEMA);
+        return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());
     }
 }
