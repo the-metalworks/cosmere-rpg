@@ -5,7 +5,7 @@ import type { AnyMutableObject, AnyObject } from '@system/types/utils';
  * To be able to embed a document, it must use the `SystemEmbeddableMixin`
  */
 export function PseudoEmbeddedCollectionsMixin<
-    const DocumentClass extends foundry.abstract.Document.WithSystem,
+    const DocumentClass extends foundry.abstract.Document.SystemConstructor,
 >(cls: DocumentClass) {
     return class extends (cls as any) {
         // Markers to flag system embedded collection support
@@ -42,7 +42,7 @@ export function PseudoEmbeddedCollectionsMixin<
             ) as unknown as typeof baseSchema;
         }
 
-        public static defineSystemEmbeddedCollectionSchema() {
+        public static defineSystemEmbeddedCollectionsSchema() {
             const embeddedDocumentNames = Object.keys(
                 this.metadata.systemEmbedded,
             ) as foundry.abstract.Document.Type[];
@@ -51,8 +51,8 @@ export function PseudoEmbeddedCollectionsMixin<
                 (schema, documentName) => ({
                     ...schema,
                     [this.metadata.systemEmbedded[documentName]]:
-                        new PseudoEmbeddedCollectionField(
-                            foundry.documents[`Base${documentName}`],
+                        new foundry.data.fields.EmbeddedCollectionField(
+                            (foundry.documents as any)[`Base${documentName}`],
                         ),
                 }),
                 {} as foundry.data.fields.DataSchema,
@@ -110,7 +110,7 @@ export function PseudoEmbeddedCollectionsMixin<
             if (this._systemHierarchy) return this._systemHierarchy;
 
             const hierarchy: AnyMutableObject = {};
-            this.schema.fields.system.schema
+            this.schema.fields.system.embeddedCollectionsSchema
                 .entries()
                 .filter(
                     ([_, field]: [any, any]) => field.constructor.hierarchical,
@@ -133,7 +133,7 @@ export function PseudoEmbeddedCollectionsMixin<
              * Foundry natively always grabs the source data directly by field name (`this._source[fieldName]`)
              * rather than doing a look up by fieldPath.
              * Additionally, Foundry seals the resulting collections object and makes it
-             * not writable.
+             * non-writable.
              * All of this combined means the only way for us to inject our own Embedded Collections
              * and have them be treated like Embedded Collections by Foundry, is to re-implement
              * this function.
@@ -324,100 +324,129 @@ export function PseudoEmbeddedCollectionsMixin<
     } as unknown as typeof cls;
 }
 
-class PseudoEmbeddedCollectionField<
-    const ElementFieldType extends foundry.abstract.Document.AnyConstructor,
-    const ParentDataModel extends foundry.abstract.Document.Any,
-> extends foundry.data.fields.EmbeddedCollectionField<
-    ElementFieldType,
-    ParentDataModel
-> {
+class SystemCollectionsTypeDataField<
+    const SystemDocument extends foundry.abstract.Document.SystemConstructor,
+> extends foundry.data.fields.TypeDataField<SystemDocument> {
+    private static _embeddedCollectionsSchemas = new Map<
+        foundry.abstract.Document.Type,
+        foundry.data.fields.SchemaField<foundry.data.fields.DataSchema>
+    >();
+
+    public defineEmbeddedCollectionsSchema(): foundry.data.fields.DataSchema {
+        return (this.document as any).defineSystemEmbeddedCollectionsSchema();
+    }
+
+    public get embeddedCollectionsSchema() {
+        if (
+            !SystemCollectionsTypeDataField._embeddedCollectionsSchemas.has(
+                this.document.documentName,
+            )
+        ) {
+            SystemCollectionsTypeDataField._embeddedCollectionsSchemas.set(
+                this.document.documentName,
+                new foundry.data.fields.SchemaField(
+                    this.defineEmbeddedCollectionsSchema(),
+                    undefined as any,
+                    {
+                        name: 'system',
+                    },
+                ),
+            );
+        }
+
+        return SystemCollectionsTypeDataField._embeddedCollectionsSchemas.get(
+            this.document.documentName,
+        )!;
+    }
+
+    public getModelForType(type: string) {
+        let cls = super.getModelForType(type);
+        if (!cls) return null;
+
+        if (!('__systemEmbeddedCollections' in cls)) {
+            const embeddedCollectionsSchema =
+                this.defineEmbeddedCollectionsSchema();
+
+            cls = (CONFIG as any)[this.documentName]!.dataModels![type] =
+                class System extends cls {
+                    // Flag to mark system embedded collections
+                    public static __systemEmbeddedCollections = true;
+                    private static _combinedSchema?: foundry.data.fields.SchemaField<foundry.data.fields.DataSchema>;
+
+                    public static get combinedSchema() {
+                        return (this._combinedSchema ??=
+                            new foundry.data.fields.SchemaField(
+                                foundry.utils.mergeObject(
+                                    super.defineSchema(),
+                                    embeddedCollectionsSchema,
+                                ) as foundry.data.fields.DataSchema,
+                            ));
+                    }
+
+                    public static cleanData(
+                        source: AnyObject = {},
+                        options: foundry.data.fields.DataField.CleanOptions = {},
+                    ) {
+                        return this.combinedSchema.clean(source, options);
+                    }
+                };
+        }
+
+        return cls;
+    }
+
     public override initialize(
         value: any,
         model: foundry.abstract.DataModel.Any,
         options?: foundry.data.fields.DataField.InitializeOptions,
     ) {
-        // Model is system, model.parent is the containing document
-        return super.initialize(value, model.parent, options);
-    }
-}
+        const result = super.initialize(value, model, options);
 
-class SystemCollectionsTypeDataField<
-    const SystemDocument extends foundry.abstract.Document.SystemConstructor,
-> extends foundry.data.fields.TypeDataField<SystemDocument> {
-    private static modelsForType: Record<
-        string,
-        foundry.abstract.DataModel.AnyConstructor | null
-    > = {};
-    private static _sharedSchema: foundry.data.fields.SchemaField<
-        ReturnType<typeof SystemCollectionsTypeDataField.defineSharedSchema>
-    > | null = null;
+        const embeddedSchema = this.embeddedCollectionsSchema;
+        embeddedSchema.initialize(value, model, options);
 
-    public static defineSharedSchema() {
-        return {
-            items: new PseudoEmbeddedCollectionField(
-                foundry.documents.BaseItem,
-            ),
-        };
+        return result;
     }
 
-    public static get sharedSchema() {
-        if (!this._sharedSchema) {
-            this._sharedSchema = new foundry.data.fields.SchemaField(
-                this.defineSharedSchema(),
-            );
-        }
-        return this._sharedSchema;
+    public override _updateDiff(
+        source: AnyMutableObject,
+        key: string,
+        value: unknown,
+        difference: AnyObject,
+        options?: foundry.abstract.DataModel.UpdateOptions,
+    ) {
+        // Embedded Collections
+        const embeddedSchema = this.embeddedCollectionsSchema;
+        embeddedSchema._updateCommit(source, key, value, difference, options);
+
+        // System DataModel
+        super._updateDiff(source, key, value, difference, options);
     }
 
-    private _commonSchema: foundry.data.fields.SchemaField<
-        ReturnType<typeof SystemCollectionsTypeDataField.defineSharedSchema>
-    > | null = null;
+    public override _updateCommit(
+        source: AnyMutableObject,
+        key: string,
+        value: unknown,
+        difference: AnyObject,
+        options?: foundry.abstract.DataModel.UpdateOptions,
+    ) {
+        // Embedded Collections
+        const embeddedSchema = this.embeddedCollectionsSchema;
+        embeddedSchema._updateCommit(source, key, value, difference, options);
 
-    public get commonSchema() {
-        if (!this._commonSchema) {
-            this._commonSchema = new foundry.data.fields.SchemaField(
-                SystemCollectionsTypeDataField.defineSharedSchema(),
-            );
-            this._commonSchema.parent = this;
-        }
-
-        return this._commonSchema;
+        // System DataModel
+        super._updateCommit(source, key, value, difference, options);
     }
 
-    public override getModelForType(
-        type: string,
-    ): foundry.abstract.DataModel.AnyConstructor | null {
-        if (!type) return null;
+    public override _validateType(
+        value: any,
+        options: foundry.data.fields.DataField.ValidateOptions<foundry.data.fields.DataField.Any> = {},
+    ) {
+        const result = super._validateType(value, options);
+        if (result !== undefined) return result;
 
-        if (!SystemCollectionsTypeDataField.modelsForType[type]) {
-            let model = super.getModelForType(type);
-
-            if (model) {
-                model = class extends model {
-                    static __schema?: (typeof model)['_schema'];
-
-                    public static get schema() {
-                        if (this.__schema) return this.__schema;
-                        const schema = new foundry.data.fields.SchemaField(
-                            foundry.utils.mergeObject(
-                                this.defineSchema(),
-                                SystemCollectionsTypeDataField.defineSharedSchema(),
-                            ),
-                        );
-                        this.__schema = schema;
-                        return this.__schema;
-                    }
-                };
-            }
-
-            SystemCollectionsTypeDataField.modelsForType[type] = model;
-        }
-
-        return SystemCollectionsTypeDataField.modelsForType[type];
+        // Embedded Collections
+        const embeddedSchema = this.embeddedCollectionsSchema;
+        return embeddedSchema.validate(value, options);
     }
-}
-
-export namespace PseudoEmbeddedCollectionMixin {
-    // export type ConcreteDocumentType = 'Item';
-    // export type DocumentClass = foundry.abstract.Document<foundry.abstract.Document.SystemType>
 }

@@ -1,3 +1,5 @@
+import './inject';
+
 export * from './actor';
 export * from './item';
 export * from './combat';

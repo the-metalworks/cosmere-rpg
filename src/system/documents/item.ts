@@ -142,7 +142,7 @@ import { PseudoEmbeddedCollectionsMixin } from './mixins/pseudo-embedded-collect
 
 class _Item<
     TSystem extends foundry.abstract.TypeDataModel.Any,
-> extends PseudoEmbeddableMixin(PseudoEmbeddedCollectionsMixin(Item<'base'>)) {
+> extends Item<'base'> {
     // @ts-expect-error Explicitly declare to get proper typing
     declare type: ItemType;
     // @ts-expect-error Explicitly declare to get proper typing
