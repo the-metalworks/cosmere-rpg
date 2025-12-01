@@ -8,12 +8,6 @@ export function PseudoEmbeddableMixin<const SystemDocument>(
             data: any[] = [],
             operation: any = {},
         ) {
-            console.log(
-                'PseudoEmbeddableMixin createDocuments called',
-                data,
-                operation,
-            );
-
             if (
                 !operation.parent?.hasSystemEmbeddedCollections ||
                 operation.parent.constructor.isNativeEmbedding(

@@ -1,14 +1,15 @@
-import type { InferPersistedType } from '@system/data/types';
-
 import type { AnyMutableObject, AnyObject } from '@system/types/utils';
 
+/**
+ * Mixin to add system define embedded collections to an existing document
+ * To be able to embed a document, it must use the `SystemEmbeddableMixin`
+ */
 export function PseudoEmbeddedCollectionsMixin<
-    // const ConcreteDocumentName extends PseudoEmbeddedCollectionMixin.ConcreteDocumentType,
-    const SystemDocument,
->(cls: SystemDocument) {
-    // const cls = CONFIG[concreteDocumentName].documentClass;
-
+    const DocumentClass extends foundry.abstract.Document.WithSystem,
+>(cls: DocumentClass) {
     return class extends (cls as any) {
+        // Markers to flag system embedded collection support
+        public static readonly hasSystemEmbeddedCollections: true = true;
         public readonly hasSystemEmbeddedCollections: true = true;
 
         declare static __schema: any;
@@ -19,7 +20,7 @@ export function PseudoEmbeddedCollectionsMixin<
             foundry.utils.mergeObject(
                 super.metadata,
                 {
-                    pseudoEmbedded: {
+                    systemEmbedded: {
                         Item: 'items', // TEMP
                     },
                 },
@@ -33,12 +34,29 @@ export function PseudoEmbeddedCollectionsMixin<
 
             return foundry.utils.mergeObject(
                 {
-                    system: new PseudoCollectionsTypeDataField(
+                    system: new SystemCollectionsTypeDataField(
                         systemField.document,
                     ),
                 },
                 baseSchema,
             ) as unknown as typeof baseSchema;
+        }
+
+        public static defineSystemEmbeddedCollectionSchema() {
+            const embeddedDocumentNames = Object.keys(
+                this.metadata.systemEmbedded,
+            ) as foundry.abstract.Document.Type[];
+
+            return embeddedDocumentNames.reduce(
+                (schema, documentName) => ({
+                    ...schema,
+                    [this.metadata.systemEmbedded[documentName]]:
+                        new PseudoEmbeddedCollectionField(
+                            foundry.documents[`Base${documentName}`],
+                        ),
+                }),
+                {} as foundry.data.fields.DataSchema,
+            );
         }
 
         public static get schema() {
@@ -75,6 +93,11 @@ export function PseudoEmbeddedCollectionsMixin<
                     hierarchy[fieldName] = field;
                 });
 
+            /**
+             * Append system embedded collection fields to overall hierarchy
+             * This ensure broader comptability with Foundry's handling of
+             * embedded collections.
+             */
             this._hierarchy = foundry.utils.mergeObject(
                 hierarchy,
                 this.systemHierarchy,
@@ -87,7 +110,7 @@ export function PseudoEmbeddedCollectionsMixin<
             if (this._systemHierarchy) return this._systemHierarchy;
 
             const hierarchy: AnyMutableObject = {};
-            this.schema.fields.system.commonSchema.fields.pseudoCollections
+            this.schema.fields.system.schema
                 .entries()
                 .filter(
                     ([_, field]: [any, any]) => field.constructor.hierarchical,
@@ -104,6 +127,18 @@ export function PseudoEmbeddedCollectionsMixin<
             pack = null,
             parentCollection = null,
         }: foundry.abstract.Document.ConfigureOptions = {}) {
+            /**
+             * Unfortunately we need to override and re-implement this whole function.
+             * This is due to the fact that when constructing the Embedded Collections,
+             * Foundry natively always grabs the source data directly by field name (`this._source[fieldName]`)
+             * rather than doing a look up by fieldPath.
+             * Additionally, Foundry seals the resulting collections object and makes it
+             * not writable.
+             * All of this combined means the only way for us to inject our own Embedded Collections
+             * and have them be treated like Embedded Collections by Foundry, is to re-implement
+             * this function.
+             */
+
             Object.defineProperty(this, 'parentCollection', {
                 value: this._getParentCollection(parentCollection),
                 writable: false,
@@ -127,6 +162,7 @@ export function PseudoEmbeddedCollectionsMixin<
                 (this.constructor as any).hierarchy as Record<string, any>,
             )) {
                 if (!field.constructor.implementation) continue;
+                // This is the only change from native Foundry (`this._source[fieldName]`)
                 const data = foundry.utils.getProperty(
                     this._source,
                     field.fieldPath,
@@ -143,10 +179,6 @@ export function PseudoEmbeddedCollectionsMixin<
                 });
             }
 
-            /**
-             * A mapping of embedded Document collections which exist in this model.
-             * @type {Record<string, EmbeddedCollection>}
-             */
             Object.defineProperty(this, 'collections', {
                 value: Object.seal(collections),
                 writable: false,
@@ -164,7 +196,7 @@ export function PseudoEmbeddedCollectionsMixin<
 
             // Initialize hierarchical fields last
             for (const [name, field] of Object.entries(hierarchy)) {
-                if (!(name in this.schema.fields)) continue;
+                if (!(name in this.schema.fields)) continue; // Check to skip system embedded collections
                 yield [name, field];
             }
         }
@@ -292,19 +324,6 @@ export function PseudoEmbeddedCollectionsMixin<
     } as unknown as typeof cls;
 }
 
-// class PseudoEmbeddedCollection<
-//     ContainedDocument extends foundry.abstract.Document.Any,
-//     ParentDocument extends foundry.abstract.Document.Any,
-// > extends foundry.abstract.EmbeddedCollection<ContainedDocument, ParentDocument> {
-//     public constructor(
-//         name: string,
-//         parent: ParentDocument,
-//         sourceArray: ContainedDocument["_source"][],
-//     ) {
-
-//     }
-// }
-
 class PseudoEmbeddedCollectionField<
     const ElementFieldType extends foundry.abstract.Document.AnyConstructor,
     const ParentDataModel extends foundry.abstract.Document.Any,
@@ -317,13 +336,12 @@ class PseudoEmbeddedCollectionField<
         model: foundry.abstract.DataModel.Any,
         options?: foundry.data.fields.DataField.InitializeOptions,
     ) {
-        // console.log('PseudoEmbeddedCollectionField.initialize', (model.parent as any).collections);
-
+        // Model is system, model.parent is the containing document
         return super.initialize(value, model.parent, options);
     }
 }
 
-class PseudoCollectionsTypeDataField<
+class SystemCollectionsTypeDataField<
     const SystemDocument extends foundry.abstract.Document.SystemConstructor,
 > extends foundry.data.fields.TypeDataField<SystemDocument> {
     private static modelsForType: Record<
@@ -331,16 +349,14 @@ class PseudoCollectionsTypeDataField<
         foundry.abstract.DataModel.AnyConstructor | null
     > = {};
     private static _sharedSchema: foundry.data.fields.SchemaField<
-        ReturnType<typeof PseudoCollectionsTypeDataField.defineSharedSchema>
+        ReturnType<typeof SystemCollectionsTypeDataField.defineSharedSchema>
     > | null = null;
 
     public static defineSharedSchema() {
         return {
-            pseudoCollections: new foundry.data.fields.SchemaField({
-                items: new PseudoEmbeddedCollectionField(
-                    foundry.documents.BaseItem,
-                ),
-            }),
+            items: new PseudoEmbeddedCollectionField(
+                foundry.documents.BaseItem,
+            ),
         };
     }
 
@@ -354,13 +370,13 @@ class PseudoCollectionsTypeDataField<
     }
 
     private _commonSchema: foundry.data.fields.SchemaField<
-        ReturnType<typeof PseudoCollectionsTypeDataField.defineSharedSchema>
+        ReturnType<typeof SystemCollectionsTypeDataField.defineSharedSchema>
     > | null = null;
 
     public get commonSchema() {
         if (!this._commonSchema) {
             this._commonSchema = new foundry.data.fields.SchemaField(
-                PseudoCollectionsTypeDataField.defineSharedSchema(),
+                SystemCollectionsTypeDataField.defineSharedSchema(),
             );
             this._commonSchema.parent = this;
         }
@@ -373,7 +389,7 @@ class PseudoCollectionsTypeDataField<
     ): foundry.abstract.DataModel.AnyConstructor | null {
         if (!type) return null;
 
-        if (!PseudoCollectionsTypeDataField.modelsForType[type]) {
+        if (!SystemCollectionsTypeDataField.modelsForType[type]) {
             let model = super.getModelForType(type);
 
             if (model) {
@@ -385,7 +401,7 @@ class PseudoCollectionsTypeDataField<
                         const schema = new foundry.data.fields.SchemaField(
                             foundry.utils.mergeObject(
                                 this.defineSchema(),
-                                PseudoCollectionsTypeDataField.defineSharedSchema(),
+                                SystemCollectionsTypeDataField.defineSharedSchema(),
                             ),
                         );
                         this.__schema = schema;
@@ -394,13 +410,14 @@ class PseudoCollectionsTypeDataField<
                 };
             }
 
-            PseudoCollectionsTypeDataField.modelsForType[type] = model;
+            SystemCollectionsTypeDataField.modelsForType[type] = model;
         }
 
-        return PseudoCollectionsTypeDataField.modelsForType[type];
+        return SystemCollectionsTypeDataField.modelsForType[type];
     }
 }
 
 export namespace PseudoEmbeddedCollectionMixin {
-    export type ConcreteDocumentType = 'Item';
+    // export type ConcreteDocumentType = 'Item';
+    // export type DocumentClass = foundry.abstract.Document<foundry.abstract.Document.SystemType>
 }
