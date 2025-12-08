@@ -17,7 +17,10 @@ export {
     Identity,
     RemoveIndexSignatures,
 } from '@league-of-foundry-developers/foundry-vtt-types/utils';
-import { AnyObject } from '@league-of-foundry-developers/foundry-vtt-types/utils';
+import {
+    AnyObject,
+    AnyConstructor,
+} from '@league-of-foundry-developers/foundry-vtt-types/utils';
 
 // Constant to improve UI consistency
 export const NONE = 'none';
@@ -44,6 +47,18 @@ export type ConstructorArguments<T> = T extends abstract new (
 ) => any
     ? A
     : never;
+
+export type NonConstructorKeys<T> = {
+    [K in keyof T]: T[K] extends abstract new (...args: any[]) => any
+        ? never
+        : K;
+}[keyof T];
+
+// export type Constructable<T extends AnyConstructor> = Pick<T, NonConstructorKeys<T>> & { new (...args: any[]): InstanceType<T> };
+
+// export type Constructable<T extends { new: (...args: any[]) => any }> = T & {
+//     new: (...args: any[]) => InstanceType<T>;
+// }
 
 export type ConcreteApplicationV2Constructor<
     TClass extends foundry.applications.api.ApplicationV2.AnyConstructor,

@@ -1,4 +1,13 @@
-import { PseudoEmbeddedCollectionsMixin } from './mixins/pseudo-embedded-collections';
-import { PseudoEmbeddableMixin } from './mixins/pseudo-embeddable';
+import { SystemEmbeddedCollectionsMixin } from './mixins/system-embedded-collections';
+import { SystemEmbeddableMixin } from './mixins/system-embeddable';
 
-globalThis.Item = PseudoEmbeddableMixin(PseudoEmbeddedCollectionsMixin(Item));
+globalThis.Item = SystemEmbeddedCollectionsMixin(SystemEmbeddableMixin(Item), {
+    Item: 'items',
+    // Actor: 'actors',
+});
+globalThis.Actor = SystemEmbeddedCollectionsMixin(
+    SystemEmbeddableMixin(Actor),
+    {
+        Actor: 'actors',
+    },
+);

@@ -137,9 +137,6 @@ interface ShowConsumeDialogOptions {
 //     system?: T;
 // }
 
-import { PseudoEmbeddableMixin } from './mixins/pseudo-embeddable';
-import { PseudoEmbeddedCollectionsMixin } from './mixins/pseudo-embedded-collections';
-
 class _Item<
     TSystem extends foundry.abstract.TypeDataModel.Any,
 > extends Item<'base'> {
