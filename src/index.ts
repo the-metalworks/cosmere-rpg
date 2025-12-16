@@ -153,15 +153,7 @@ Hooks.once('init', async () => {
         applications.item.TalentTreeItemSheet as any,
     );
 
-    CONFIG.Dice.types.push(dice.PlotDie);
-    CONFIG.Dice.terms.p = dice.PlotDie;
-    CONFIG.Dice.termTypes[dice.PlotDie.name] = dice.PlotDie;
-
-    CONFIG.Dice.rolls.push(dice.D20Roll as any);
-    CONFIG.Dice.rolls.push(dice.DamageRoll);
-
     CONFIG.Dice.types.push(dicev2.CosmereDie);
-    CONFIG.Dice.types.push(dicev2.CosmerePlotDie);
 
     CONFIG.Dice.termTypes[dicev2.CosmereDiceGroup.name] =
         dicev2.CosmereDiceGroup;
@@ -170,6 +162,7 @@ Hooks.once('init', async () => {
         dicev2.CosmerePlotDie;
     CONFIG.Dice.terms[dicev2.CosmereDie.DENOMINATION] = dicev2.CosmereDie;
 
+    CONFIG.Dice.rolls = [];
     CONFIG.Dice.rolls.push(dicev2.CosmereRoll);
     CONFIG.Dice.rolls.push(dicev2.CosmereSkillRoll);
     CONFIG.Dice.rolls.push(dicev2.CosmereDamageRoll);
