@@ -1,8 +1,9 @@
 {{#each sections as |section|}}
-<ul class="item-list" data-section-id="{{section.id}}">
+{{#with (lookup @root.sectionState section.id) as |sectionState|}}
+<ul class="item-list collapsible {{#if sectionState.expanded}}expanded{{/if}}" data-section-id="{{section.id}}">
     <li class="item header">
         <section class="details">
-            <span class="title">{{localize section.label}}</span>
+            <span class="title" data-action="toggle-section-collapsed">{{localize section.label}}</span>
             <span class="subtitle">
                 {{localize "COSMERE.Actor.Sheet.Actions.Activation"}}
             </span>
@@ -13,6 +14,20 @@
                 {{localize "COSMERE.Actor.Sheet.Actions.Uses"}}
             </span>
             <div class="controls icon active">
+                <a role="button"
+                    data-action="toggle-section-collapsed"
+                    {{#if sectionState.expanded}}
+                    data-tooltip="GENERIC.HideDetails"
+                    {{else}}
+                    data-tooltip="GENERIC.ViewDetails"
+                    {{/if}}
+                >
+                    {{#if sectionState.expanded}}
+                        <i class="fa-solid fa-compress"></i>
+                    {{else}}
+                        <i class="fa-solid fa-expand"></i>
+                    {{/if}}
+                </a>
                 {{#if @root.editable}}
                     {{#if section.canAddNewItems}}
                         <a data-action="new-item"
@@ -27,134 +42,139 @@
             </div>
         </section>
     </li>
+    <section class="collapsible-content">
+        <div class="wrapper">
 
-    {{#each section.items as |item|}}
-    {{#with (lookup @root.itemState item.id) as |state|}}
-    {{#with (itemContext item) as |ctx|}}
-    {{#with (lookup section.itemData item.id) as |data|}}
+            {{#each section.items as |item|}}
+            {{#with (lookup @root.itemState item.id) as |state|}}
+            {{#with (itemContext item) as |ctx|}}
+            {{#with (lookup section.itemData item.id) as |data|}}
 
-    <li class="item usable collapsible {{#if state.expanded}}expanded{{/if}}"
-        data-item-id="{{item.id}}"
-        {{#if @root.editable}}data-drag="true"{{/if}}
-    >
-        <section class="details">
-            {{!-- Image --}}
-            <div class="img"
-                data-action="use-item"
-                data-tooltip="COSMERE.Actor.Sheet.Actions.Use"
-            >
-                <img class="roll-icon" src="systems/cosmere-rpg/assets/icons/svg/dice/d20_white.svg">
-                <img src="{{item.img}}">
-            </div>
-
-            {{!-- Name --}}
-            <span class="name" data-action="toggle-action-details">
-                {{#if ctx.isWeapon}}{{localize "COSMERE.Item.Weapon.Strike"}}: {{/if}}{{item.name}}
-            </span>
-
-            {{!-- Activation --}}
-            <div class="detail action">
-                {{#if ctx.hasActivation}}
-                    {{#if ctx.activation.hasCost}}
-                    <i class="cosmere-icon">
-                        {{#if (eq ctx.activation.cost.type "act")}}
-                        {{ ctx.activation.cost.value }}
-                        {{else}}
-                        {{cosmereDingbat ctx.activation.cost.type}}
-                        {{/if}}
-                    </i>
-                    {{else}}
-                    <i class="cosmere-icon passive"></i>
-                    {{/if}}
-                {{/if}}
-            </div>
-
-            {{!-- Consume --}}
-            <div class="detail wide">
-                {{!-- Consume --}}
-                {{#if ctx.hasConsume}}
-                    {{#if (gt ctx.consume.length 1)}}
-                        <span>{{localize "COSMERE.Actor.Sheet.Actions.Consume.Multiple"}}</span>
-                    {{else}}
-                    {{#if (eq ctx.consume.length 1)}}
-                        {{#with ctx.consume.[0] as |consume|}}
-                        {{#if consume.consumesResource}}
-                        <span>{{resourceCostLabel consume}}</span>
-                        {{/if}}
-
-                        {{!-- TODO: Item consume --}}
-                        {{#if consume.consumesItem}}
-                        <span>—</span>
-                        {{/if}}
-                        {{/with}}
-                    {{/if}}
-                    {{/if}}
-                {{else}}
-                    <span>—</span>
-                {{/if}}
-            </div>
-
-            {{!-- Uses --}}
-            <div class="detail">
-                {{#if ctx.hasUses}}
-
-                {{#if (or (gt ctx.uses.max 1) (not ctx.uses.hasRecharge))}}
-                <span>
-                    {{ ctx.uses.value }} / {{ctx.uses.max}}
-                    {{#if ctx.uses.hasRecharge}}
-                    {{localize ctx.uses.rechargeLabel }}
-                    {{/if}}
-                </span>
-                {{else}}
-                <span {{#if (eq ctx.uses.value 0)}}class="inactive"{{/if}}>
-                    {{#if ctx.uses.hasRecharge}}
-                    {{localize ctx.uses.rechargeLabel }}
-                    {{/if}}
-                </span>
-                {{/if}}
-
-                {{else}}
-                <span>—</span>
-                {{/if}}
-            </div>
-
-            {{!-- Controls --}}
-            <div class="controls icon faded">
-                <a role="button"
-                    data-action="toggle-action-details"
-                    {{#if state.expanded}}
-                    data-tooltip="GENERIC.HideDetails"
-                    {{else}}
-                    data-tooltip="GENERIC.ViewDetails"
-                    {{/if}}
+                <li class="item usable collapsible {{#if state.expanded}}expanded{{/if}}"
+                    data-item-id="{{item.id}}"
+                    {{#if @root.editable}}data-drag="true"{{/if}}
                 >
-                    {{#if state.expanded}}
-                        <i class="fa-solid fa-compress"></i>
-                    {{else}}
-                        <i class="fa-solid fa-expand"></i>
-                    {{/if}}
-                </a>
-                {{#if @root.editable}}
-                <a role="button"
-                    data-action="toggle-actions-controls"
-                    data-tooltip="APPLICATION.TOOLS.ToggleControls"
-                >
-                    <i class="fa-solid fa-ellipsis-vertical"></i>
-                </a>
-                {{/if}}
-            </div>
-        </section>
+                    <section class="details">
+                        {{!-- Image --}}
+                        <div class="img"
+                            data-action="use-item"
+                            data-tooltip="COSMERE.Actor.Sheet.Actions.Use"
+                        >
+                            <img class="roll-icon" src="systems/cosmere-rpg/assets/icons/svg/dice/d20_white.svg">
+                            <img src="{{item.img}}">
+                        </div>
 
-        <section class="description collapsible-content">
-            <div class="wrapper">
-                {{{default data.descriptionHTML '<p>—</p>'}}}
-            </div>
-        </section>
-    </li>
+                        {{!-- Name --}}
+                        <span class="name" data-action="toggle-action-details">
+                            {{#if ctx.isWeapon}}{{localize "COSMERE.Item.Weapon.Strike"}}: {{/if}}{{item.name}}
+                        </span>
 
-    {{/with}}
-    {{/with}}
-    {{/with}}
-    {{/each}}
+                        {{!-- Activation --}}
+                        <div class="detail action">
+                            {{#if ctx.hasActivation}}
+                                {{#if ctx.activation.hasCost}}
+                                <i class="cosmere-icon">
+                                    {{#if (eq ctx.activation.cost.type "act")}}
+                                    {{ ctx.activation.cost.value }}
+                                    {{else}}
+                                    {{cosmereDingbat ctx.activation.cost.type}}
+                                    {{/if}}
+                                </i>
+                                {{else}}
+                                <i class="cosmere-icon passive"></i>
+                                {{/if}}
+                            {{/if}}
+                        </div>
+
+                        {{!-- Consume --}}
+                        <div class="detail wide">
+                            {{!-- Consume --}}
+                            {{#if ctx.hasConsume}}
+                                {{#if (gt ctx.consume.length 1)}}
+                                    <span>{{localize "COSMERE.Actor.Sheet.Actions.Consume.Multiple"}}</span>
+                                {{else}}
+                                {{#if (eq ctx.consume.length 1)}}
+                                    {{#with ctx.consume.[0] as |consume|}}
+                                    {{#if consume.consumesResource}}
+                                    <span>{{resourceCostLabel consume}}</span>
+                                    {{/if}}
+
+                                    {{!-- TODO: Item consume --}}
+                                    {{#if consume.consumesItem}}
+                                    <span>—</span>
+                                    {{/if}}
+                                    {{/with}}
+                                {{/if}}
+                                {{/if}}
+                            {{else}}
+                                <span>—</span>
+                            {{/if}}
+                        </div>
+
+                        {{!-- Uses --}}
+                        <div class="detail">
+                            {{#if ctx.hasUses}}
+
+                            {{#if (or (gt ctx.uses.max 1) (not ctx.uses.hasRecharge))}}
+                            <span>
+                                {{ ctx.uses.value }} / {{ctx.uses.max}}
+                                {{#if ctx.uses.hasRecharge}}
+                                {{localize ctx.uses.rechargeLabel }}
+                                {{/if}}
+                            </span>
+                            {{else}}
+                            <span {{#if (eq ctx.uses.value 0)}}class="inactive"{{/if}}>
+                                {{#if ctx.uses.hasRecharge}}
+                                {{localize ctx.uses.rechargeLabel }}
+                                {{/if}}
+                            </span>
+                            {{/if}}
+
+                            {{else}}
+                            <span>—</span>
+                            {{/if}}
+                        </div>
+
+                        {{!-- Controls --}}
+                        <div class="controls icon faded">
+                            <a role="button"
+                                data-action="toggle-action-details"
+                                {{#if state.expanded}}
+                                data-tooltip="GENERIC.HideDetails"
+                                {{else}}
+                                data-tooltip="GENERIC.ViewDetails"
+                                {{/if}}
+                            >
+                                {{#if state.expanded}}
+                                    <i class="fa-solid fa-compress"></i>
+                                {{else}}
+                                    <i class="fa-solid fa-expand"></i>
+                                {{/if}}
+                            </a>
+                            {{#if @root.editable}}
+                            <a role="button"
+                                data-action="toggle-actions-controls"
+                                data-tooltip="APPLICATION.TOOLS.ToggleControls"
+                            >
+                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                            </a>
+                            {{/if}}
+                        </div>
+                    </section>
+
+                    <section class="description collapsible-content">
+                        <div class="wrapper">
+                            {{{default data.descriptionHTML '<p>—</p>'}}}
+                        </div>
+                    </section>
+                </li>
+
+            {{/with}}
+            {{/with}}
+            {{/with}}
+            {{/each}}
+        </div>
+    </section>
 </ul>
+{{/with}}
 {{/each}}

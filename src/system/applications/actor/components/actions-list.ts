@@ -44,6 +44,10 @@ interface ItemListSectionData extends ItemListSection {
     itemData: Record<string, AdditionalItemData>;
 }
 
+interface ItemListSectionState {
+    expanded?: boolean;
+}
+
 export interface ActorActionsListComponentRenderContext
     extends BaseActorSheetRenderContext {
     actionsSearch?: {
@@ -325,6 +329,7 @@ any> {
      */
     /* eslint-disable @typescript-eslint/unbound-method */
     static readonly ACTIONS = {
+        'toggle-section-collapsed': this.onToggleSectionCollapsed,
         'toggle-action-details': this.onToggleActionDetails,
         'use-item': this.onUseItem,
         'new-item': this.onNewItem,
@@ -334,11 +339,48 @@ any> {
     protected sections: ItemListSection[] = [];
 
     /**
+     * Map of section id to state
+     */
+    protected sectionState: Record<string, ItemListSectionState> = {};
+
+    /**
      * Map of id to state
      */
     protected itemState: Record<string, ActionItemState> = {};
 
     /* --- Actions --- */
+
+    public static onToggleSectionCollapsed(
+        this: ActorActionsListComponent,
+        event: Event,
+    ) {
+        // Get item element
+        const sectionElement = $(event.target!).closest(
+            '.item-list[data-section-id]',
+        );
+
+        // Get section id
+        const sectionId = sectionElement.data('section-id') as string;
+
+        // Update the state
+        this.sectionState[sectionId].expanded =
+            !this.sectionState[sectionId].expanded;
+
+        // Set classes
+        sectionElement.toggleClass(
+            'expanded',
+            this.sectionState[sectionId].expanded,
+        );
+
+        sectionElement
+            .find('a[data-action="toggle-section-collapsed"')
+            .empty()
+            .append(
+                this.sectionState[sectionId].expanded
+                    ? '<i class="fa-solid fa-compress"></i>'
+                    : '<i class="fa-solid fa-expand"></i>',
+            );
+    }
 
     public static onToggleActionDetails(
         this: ActorActionsListComponent,
@@ -435,6 +477,15 @@ any> {
             sortMode,
         );
 
+        // Ensure all sections have an expand state record defaulting to true
+        this.sections.forEach((section) => {
+            if (!(section.id in this.sectionState)) {
+                this.sectionState[section.id] = {
+                    expanded: true,
+                };
+            }
+        });
+
         return {
             ...context,
 
@@ -443,7 +494,7 @@ any> {
                     section.items.length > 0 ||
                     (this.application.mode === 'edit' && section.default),
             ),
-
+            sectionState: this.sectionState,
             itemState: this.itemState,
         };
     }

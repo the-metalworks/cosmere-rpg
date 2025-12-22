@@ -34,6 +34,10 @@ interface ListSectionData extends ItemListSection {
     itemData: Record<string, AdditionalItemData>;
 }
 
+interface ItemListSectionState {
+    expanded?: boolean;
+}
+
 interface RenderContext extends BaseActorSheetRenderContext {
     equipmentSearch: {
         text: string;
@@ -54,6 +58,7 @@ any> {
      */
     /* eslint-disable @typescript-eslint/unbound-method */
     static readonly ACTIONS = {
+        'toggle-section-collapsed': this.onToggleSectionCollapsed,
         'toggle-action-details': this.onToggleActionDetails,
         'use-item': this.onUseItem,
         'new-item': this.onNewItem,
@@ -67,11 +72,48 @@ any> {
     protected sections: ItemListSection[] = [];
 
     /**
+     * Map of section id to state
+     */
+    protected sectionState: Record<string, ItemListSectionState> = {};
+
+    /**
      * Map of id to state
      */
     private itemState: Record<string, EquipmentItemState> = {};
 
     /* --- Actions --- */
+
+    public static onToggleSectionCollapsed(
+        this: ActorEquipmentListComponent,
+        event: Event,
+    ) {
+        // Get item element
+        const sectionElement = $(event.target!).closest(
+            '.item-list[data-section-id]',
+        );
+
+        // Get section id
+        const sectionId = sectionElement.data('section-id') as string;
+
+        // Update the state
+        this.sectionState[sectionId].expanded =
+            !this.sectionState[sectionId].expanded;
+
+        // Set classes
+        sectionElement.toggleClass(
+            'expanded',
+            this.sectionState[sectionId].expanded,
+        );
+
+        sectionElement
+            .find('a[data-action="toggle-section-collapsed"')
+            .empty()
+            .append(
+                this.sectionState[sectionId].expanded
+                    ? '<i class="fa-solid fa-compress"></i>'
+                    : '<i class="fa-solid fa-expand"></i>',
+            );
+    }
 
     public static onToggleActionDetails(
         this: ActorEquipmentListComponent,
@@ -266,6 +308,15 @@ any> {
             this.prepareSection(ItemType.Loot),
         ];
 
+        // Ensure all sections have an expand state record defaulting to true
+        this.sections.forEach((section) => {
+            if (!(section.id in this.sectionState)) {
+                this.sectionState[section.id] = {
+                    expanded: true,
+                };
+            }
+        });
+
         return {
             ...context,
 
@@ -279,7 +330,7 @@ any> {
                     ),
                 ),
             ),
-
+            sectionState: this.sectionState,
             itemState: this.itemState,
         };
     }
