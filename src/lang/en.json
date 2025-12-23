@@ -1686,6 +1686,10 @@
             "name": "Expand Item Description By Default",
             "hint": "Determines whether the description section of an item should be expanded by default when opening the item sheet."
         },
+        "expandSectionByDefault": {
+            "name": "Expand Actor Sheet Sections By Default",
+            "hint": "Determines whether the sections of action or equipment lists should be expanded by default when opening an actor sheet."
+        },
         "skillIncrementDecrementToggle": {
             "name": "Enable Skill Pip Increment Behavior",
             "hint": "Determines whether the skill pips increment/decrement on left click or right click, rather than setting to the clicked rank."
