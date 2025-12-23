@@ -327,6 +327,7 @@ export class CosmereActor<
 
         // Size changes
         let prototypeTokenSize = 0; // Size in grid spaces
+
         // Switch on actor size
         switch (this.system.size) {
             case Size.Small:
@@ -346,12 +347,46 @@ export class CosmereActor<
                 break;
         }
 
+        // Senses changes
+        const sensesData = this.system.senses;
+
+        // If actor is affected by obscured senses
+        if (sensesData?.obscuredAffected ?? true) {
+            foundry.utils.mergeObject(prototypeToken, {
+                sight: {
+                    range: sensesData?.range?.value,
+                    visionMode: 'sense',
+                },
+            });
+        }
+        // If actor is not affected by obscured senses
+        else {
+            foundry.utils.mergeObject(prototypeToken, {
+                sight: {
+                    range: null,
+                    visionMode: 'sense',
+                },
+            });
+        }
+
         foundry.utils.mergeObject(prototypeToken, {
             width: prototypeTokenSize,
             height: prototypeTokenSize,
         });
 
         this.updateSource({ prototypeToken });
+
+        // Configure default actor flags
+        const flags = {
+            'cosmere-rpg': {
+                sheet: {
+                    autosetPrototypeTokenValues: true,
+                    hideUnranked: true,
+                },
+            },
+        };
+
+        this.updateSource({ flags });
     }
 
     public override async createEmbeddedDocuments<
@@ -1453,6 +1488,7 @@ declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
                 'sheet.immunitiesCollapsed': boolean;
                 'sheet.skillsCollapsed': boolean;
                 'sheet.hideUnranked': boolean;
+                'sheet.autosetPrototypeTokenValues': boolean;
                 goals: object;
                 'goals.hide-completed': boolean;
                 [key: `meta.update.mode.${string}`]: string;

@@ -107,7 +107,7 @@ Handlebars.registerHelper(
 
 Handlebars.registerHelper(
     'isNumMax',
-    (value: number) => value === Number.MAX_VALUE,
+    (value: number) => value === Number.MAX_SAFE_INTEGER,
 );
 
 Handlebars.registerHelper('cosmereDingbat', (type: ActionCostType) => {

@@ -744,7 +744,7 @@ export class CommonActorDataModel<
     }
 }
 
-const SENSES_RANGES = [5, 10, 20, 50, 100, Number.MAX_VALUE];
+const SENSES_RANGES = [5, 10, 20, 50, 100, Number.MAX_SAFE_INTEGER];
 function awarenessToSensesRange(attr: AttributeData) {
     const awareness = attr.value + attr.bonus;
     return SENSES_RANGES[
