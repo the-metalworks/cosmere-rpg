@@ -7,7 +7,7 @@ import {
 import { ItemRelationship } from '@system/data/item/mixins/relationships';
 
 // Types
-import { Resource } from '@system/types/cosmere';
+import { Resource, Size } from '@system/types/cosmere';
 import { CosmereHooks } from '@system/types/hooks';
 import { DeepPartial, AnyMutableObject } from '@system/types/utils';
 
@@ -191,6 +191,96 @@ Hooks.on('updateActor', (actor: CosmereActor, changed: Actor.UpdateData) => {
                 Hooks.callAll(HOOKS.MODE_ACTIVATE_ITEM, newModalityItem);
             }
         }
+    }
+});
+
+/* --- Token changes --- */
+
+Hooks.on('preUpdateActor', (actor: CosmereActor, changed: Actor.UpdateData) => {
+    // Prototype token settings
+    const prototypeTokenChanges = {};
+
+    // Size changes
+    if (foundry.utils.hasProperty(changed, `system.size`)) {
+        // Size in grid spaces
+        let prototypeTokenSize = 0;
+        // Switch on new actor size
+        switch (changed.system.size) {
+            case Size.Small:
+                prototypeTokenSize = 0.5;
+                break;
+            case Size.Medium:
+                prototypeTokenSize = 1;
+                break;
+            case Size.Large:
+                prototypeTokenSize = 2;
+                break;
+            case Size.Huge:
+                prototypeTokenSize = 3;
+                break;
+            case Size.Garguantuan:
+                prototypeTokenSize = 4;
+                break;
+        }
+
+        foundry.utils.mergeObject(prototypeTokenChanges, {
+            width: prototypeTokenSize,
+            height: prototypeTokenSize,
+        });
+    }
+
+    // Senses changes
+    if (foundry.utils.hasProperty(changed, `system.senses`)) {
+        // TODO: Change token default senses
+    }
+
+    // Send prototype token changes
+    if (Object.keys(prototypeTokenChanges).length > 0) {
+        void actor.prototypeToken.update(prototypeTokenChanges);
+    }
+});
+
+Hooks.on('updateActor', (actor: CosmereActor, changed: Actor.UpdateData) => {
+    // Prototype token settings
+    const prototypeTokenChanges = {};
+
+    // Size changes
+    if (foundry.utils.hasProperty(changed, `system.size`)) {
+        // Size in grid spaces
+        let prototypeTokenSize = 0;
+        // Switch on new actor size
+        switch (changed.system.size) {
+            case Size.Small:
+                prototypeTokenSize = 0.5;
+                break;
+            case Size.Medium:
+                prototypeTokenSize = 1;
+                break;
+            case Size.Large:
+                prototypeTokenSize = 2;
+                break;
+            case Size.Huge:
+                prototypeTokenSize = 3;
+                break;
+            case Size.Garguantuan:
+                prototypeTokenSize = 4;
+                break;
+        }
+
+        foundry.utils.mergeObject(prototypeTokenChanges, {
+            width: prototypeTokenSize,
+            height: prototypeTokenSize,
+        });
+    }
+
+    // Senses changes
+    if (foundry.utils.hasProperty(changed, `system.senses`)) {
+        // TODO: Change token default senses
+    }
+
+    // Send prototype token changes
+    if (Object.keys(prototypeTokenChanges).length > 0) {
+        void actor.prototypeToken.update(prototypeTokenChanges);
     }
 });
 

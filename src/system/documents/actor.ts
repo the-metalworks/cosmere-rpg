@@ -314,6 +314,43 @@ export class CosmereActor<
             });
         }
 
+        // Set bars to default to health and focus, viewed when hovered by owner
+        foundry.utils.mergeObject(prototypeToken, {
+            displayBars: CONST.TOKEN_DISPLAY_MODES.OWNER_HOVER,
+            bar1: {
+                attribute: `resources.hea`,
+            },
+            bar2: {
+                attribute: `resources.foc`,
+            },
+        });
+
+        // Size changes
+        let prototypeTokenSize = 0; // Size in grid spaces
+        // Switch on actor size
+        switch (this.system.size) {
+            case Size.Small:
+                prototypeTokenSize = 0.5;
+                break;
+            case Size.Medium:
+                prototypeTokenSize = 1;
+                break;
+            case Size.Large:
+                prototypeTokenSize = 2;
+                break;
+            case Size.Huge:
+                prototypeTokenSize = 3;
+                break;
+            case Size.Garguantuan:
+                prototypeTokenSize = 4;
+                break;
+        }
+
+        foundry.utils.mergeObject(prototypeToken, {
+            width: prototypeTokenSize,
+            height: prototypeTokenSize,
+        });
+
         this.updateSource({ prototypeToken });
     }
 
