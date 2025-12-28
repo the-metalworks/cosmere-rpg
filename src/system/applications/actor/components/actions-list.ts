@@ -6,8 +6,6 @@ import {
     ItemConsumeType,
     Resource,
 } from '@system/types/cosmere';
-import { ConstructorOf } from '@system/types/utils';
-import { Talent } from '@system/types/item';
 import {
     ItemListSection,
     DynamicItemListSectionGenerator,
@@ -24,7 +22,6 @@ import AppUtils from '@system/applications/utils';
 import { AppContextMenu } from '@system/applications/utils/context-menu';
 
 // Component imports
-import { HandlebarsApplicationComponent } from '@system/applications/component-system';
 import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
 import { SortMode } from './search-bar';
 
