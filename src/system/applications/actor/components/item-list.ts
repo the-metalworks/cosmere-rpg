@@ -13,11 +13,11 @@ interface ItemState {
     expanded?: boolean;
 }
 
-interface AdditionalItemData {
+export interface AdditionalItemData {
     descriptionHTML?: string;
 }
 
-interface ListSectionData extends ItemListSection {
+export interface ItemListSectionData extends ItemListSection {
     items: CosmereItem[];
     itemData: Record<string, AdditionalItemData>;
 }

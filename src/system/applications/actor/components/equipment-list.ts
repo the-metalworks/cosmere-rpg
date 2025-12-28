@@ -1,7 +1,10 @@
 import { EquipHand, ItemType } from '@system/types/cosmere';
 import { ConstructorOf } from '@system/types/utils';
 import { ItemListSection } from '@system/types/application/actor/components/item-list';
-import { ActorItemListComponent } from '@system/applications/actor/components/item-list';
+import {
+    ActorItemListComponent,
+    AdditionalItemData,
+} from '@system/applications/actor/components/item-list';
 
 // Documents
 import { CosmereItem } from '@system/documents/item';
@@ -20,23 +23,6 @@ import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 import { areKeysPressed } from '@src/system/utils/generic';
 import { KEYBINDINGS } from '@src/system/settings';
-
-interface EquipmentItemState {
-    expanded?: boolean;
-}
-
-interface AdditionalItemData {
-    descriptionHTML?: string;
-}
-
-interface ListSectionData extends ItemListSection {
-    items: CosmereItem[];
-    itemData: Record<string, AdditionalItemData>;
-}
-
-interface ItemListSectionState {
-    expanded?: boolean;
-}
 
 interface RenderContext extends BaseActorSheetRenderContext {
     equipmentSearch: {
