@@ -106,7 +106,7 @@ Handlebars.registerHelper(
 );
 
 Handlebars.registerHelper(
-    'isNumMax',
+    'isNumMaxSafeInt',
     (value: number) => value === Number.MAX_SAFE_INTEGER,
 );
 
