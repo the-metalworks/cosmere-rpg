@@ -8,12 +8,14 @@ import { ItemRelationship } from '@system/data/item/mixins/relationships';
 
 // Types
 import { Resource, Size } from '@system/types/cosmere';
+import { sizeToTokenDimensions } from '@system/types/config';
 import { CosmereHooks } from '@system/types/hooks';
 import { DeepPartial, AnyMutableObject } from '@system/types/utils';
 
 // Constants
 import { SYSTEM_ID } from '@system/constants';
 import { HOOKS } from '@system/constants/hooks';
+import { CosmereTokenDocument } from '../documents';
 
 /* --- Resource Max --- */
 
@@ -197,101 +199,92 @@ Hooks.on('updateActor', (actor: CosmereActor, changed: Actor.UpdateData) => {
 /* --- Token changes --- */
 
 Hooks.on('preUpdateActor', (actor: CosmereActor, changed: Actor.UpdateData) => {
-    if (actor.getFlag(SYSTEM_ID, 'sheet.autosetPrototypeTokenValues')) {
-        // Prototype token settings
-        const prototypeTokenChanges = {};
+    // Prototype token settings
+    const prototypeTokenChanges = {};
 
-        // Size changes
-        if (foundry.utils.hasProperty(changed, `system.size`)) {
-            // Size in grid spaces
-            let prototypeTokenSize = 0;
-            // Switch on new actor size
-            switch (changed.system.size) {
-                case Size.Small:
-                    prototypeTokenSize = 0.5;
-                    break;
-                case Size.Medium:
-                    prototypeTokenSize = 1;
-                    break;
-                case Size.Large:
-                    prototypeTokenSize = 2;
-                    break;
-                case Size.Huge:
-                    prototypeTokenSize = 3;
-                    break;
-                case Size.Garguantuan:
-                    prototypeTokenSize = 4;
-                    break;
-            }
+    // Size changes
+    if (
+        actor.getFlag(SYSTEM_ID, 'automation.token.size') &&
+        foundry.utils.hasProperty(changed, `system.size`)
+    ) {
+        // Size in grid spaces
+        const prototypeTokenSize = sizeToTokenDimensions(changed.system.size!);
 
-            foundry.utils.mergeObject(prototypeTokenChanges, {
-                width: prototypeTokenSize,
-                height: prototypeTokenSize,
-            });
-        }
+        foundry.utils.mergeObject(prototypeTokenChanges, {
+            width: prototypeTokenSize,
+            height: prototypeTokenSize,
+        });
+    }
 
-        // Send prototype token changes
-        if (Object.keys(prototypeTokenChanges).length > 0) {
-            void actor.prototypeToken.update(prototypeTokenChanges);
-        }
+    // Send prototype token changes
+    if (Object.keys(prototypeTokenChanges).length > 0) {
+        void actor.prototypeToken.update(prototypeTokenChanges);
+
+        // Send active token changes
+        actor.getActiveTokens(false, true).forEach((token: TokenDocument) => {
+            const activeTokenChanges = {};
+            foundry.utils.mergeObject(
+                activeTokenChanges,
+                prototypeTokenChanges,
+            );
+            void token.update(activeTokenChanges);
+        });
     }
 });
 
-Hooks.on('updateActor', (actor: CosmereActor, changed: Actor.UpdateData) => {
-    if (actor.getFlag(SYSTEM_ID, 'sheet.autosetPrototypeTokenValues')) {
+Hooks.on(
+    'updateActor',
+    (
+        actor: CosmereActor,
+        changed: Actor.UpdateData,
+        options: Actor.Database.PreUpdateOptions,
+        userId: string,
+    ) => {
+        // If this is firing for any other user besides the user who updated the actor, return
+        if (game.user.id !== userId) {
+            return;
+        }
+
         // Prototype token settings
         const prototypeTokenChanges = {};
 
-        // Size changes
-        if (foundry.utils.hasProperty(changed, `system.size`)) {
-            // Size in grid spaces
-            let prototypeTokenSize = 0;
-            // Switch on new actor size
-            switch (changed.system.size) {
-                case Size.Small:
-                    prototypeTokenSize = 0.5;
-                    break;
-                case Size.Medium:
-                    prototypeTokenSize = 1;
-                    break;
-                case Size.Large:
-                    prototypeTokenSize = 2;
-                    break;
-                case Size.Huge:
-                    prototypeTokenSize = 3;
-                    break;
-                case Size.Garguantuan:
-                    prototypeTokenSize = 4;
-                    break;
-            }
-
-            foundry.utils.mergeObject(prototypeTokenChanges, {
-                width: prototypeTokenSize,
-                height: prototypeTokenSize,
-            });
-        }
-
-        // Senses changes
         if (
-            foundry.utils.hasProperty(changed, `system.senses`) ||
-            foundry.utils.hasProperty(changed, `system.attributes.awa`)
+            actor.getFlag(SYSTEM_ID, `automation.token.vision`) &&
+            actor.system.senses.range.value != actor.prototypeToken.sight.range
         ) {
+            // Senses changes
             const sensesData = actor.system.senses;
 
+            const affectedByObscuredSenses =
+                sensesData?.obscuredAffected ?? true;
             foundry.utils.mergeObject(prototypeTokenChanges, {
                 sight: {
-                    range: sensesData?.range?.value,
+                    range: affectedByObscuredSenses
+                        ? sensesData.range?.value
+                        : null,
                     visionMode: 'sense',
                 },
             });
-        }
 
-        // Send prototype token changes
-        if (Object.keys(prototypeTokenChanges).length > 0) {
-            void actor.prototypeToken.update(prototypeTokenChanges);
+            // Send prototype token changes
+            if (Object.keys(prototypeTokenChanges).length > 0) {
+                void actor.prototypeToken.update(prototypeTokenChanges);
+
+                // Send active token changes
+                actor
+                    .getActiveTokens(false, true)
+                    .forEach((token: TokenDocument) => {
+                        const activeTokenChanges = {};
+                        foundry.utils.mergeObject(
+                            activeTokenChanges,
+                            prototypeTokenChanges,
+                        );
+                        void token.update(activeTokenChanges);
+                    });
+            }
         }
-    }
-});
+    },
+);
 
 Hooks.on(
     'createItem',

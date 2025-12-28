@@ -49,6 +49,32 @@ import {
 import { CosmereItem } from '@system/documents/item';
 import { CosmereActor } from '../documents';
 
+export function sizeToTokenDimensions(size: Size) {
+    let tokenDimensions = 0;
+    // Switch on actor size
+    switch (size) {
+        case Size.Small:
+            tokenDimensions = 0.5;
+            break;
+        case Size.Medium:
+            tokenDimensions = 1;
+            break;
+        case Size.Large:
+            tokenDimensions = 2;
+            break;
+        case Size.Huge:
+            tokenDimensions = 3;
+            break;
+        case Size.Garguantuan:
+            tokenDimensions = 4;
+            break;
+        default:
+            tokenDimensions = 1;
+            break;
+    }
+    return tokenDimensions;
+}
+
 export interface SizeConfig {
     label: string;
     size?: number;
