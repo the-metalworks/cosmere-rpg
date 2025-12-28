@@ -1,6 +1,7 @@
 import { EquipHand, ItemType } from '@system/types/cosmere';
 import { ConstructorOf } from '@system/types/utils';
 import { ItemListSection } from '@system/types/application/actor/components/item-list';
+import { ActorItemListComponent } from '@system/applications/actor/components/item-list';
 
 // Documents
 import { CosmereItem } from '@system/documents/item';
@@ -45,11 +46,7 @@ interface RenderContext extends BaseActorSheetRenderContext {
     };
 }
 
-export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<// typeof BaseActorSheet
-// TODO: Resolve typing issues
-// NOTE: Use any as workaround for foundry-vtt-types issues
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-any> {
+export class ActorEquipmentListComponent extends ActorItemListComponent {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_EQUIPMENT_LIST}`;
 
     /**
@@ -68,109 +65,6 @@ any> {
         'increase-quantity': this.onIncreaseQuantity,
     };
     /* eslint-enable @typescript-eslint/unbound-method */
-
-    protected sections: ItemListSection[] = [];
-
-    /**
-     * Map of section id to state
-     */
-    protected sectionState: Record<string, ItemListSectionState> = {};
-
-    /**
-     * Map of id to state
-     */
-    private itemState: Record<string, EquipmentItemState> = {};
-
-    /* --- Actions --- */
-
-    public static onToggleSectionCollapsed(
-        this: ActorEquipmentListComponent,
-        event: Event,
-    ) {
-        // Get item element
-        const sectionElement = $(event.target!).closest(
-            '.item-list[data-section-id]',
-        );
-
-        // Get section id
-        const sectionId = sectionElement.data('section-id') as string;
-
-        // Update the state
-        this.sectionState[sectionId].expanded =
-            !this.sectionState[sectionId].expanded;
-
-        // Set classes
-        sectionElement.toggleClass(
-            'expanded',
-            this.sectionState[sectionId].expanded,
-        );
-
-        sectionElement
-            .find('a[data-action="toggle-section-collapsed"')
-            .empty()
-            .append(
-                this.sectionState[sectionId].expanded
-                    ? '<i class="fa-solid fa-compress"></i>'
-                    : '<i class="fa-solid fa-expand"></i>',
-            );
-    }
-
-    public static onToggleActionDetails(
-        this: ActorEquipmentListComponent,
-        event: Event,
-    ) {
-        // Get item element
-        const itemElement = $(event.target!).closest('.item[data-item-id]');
-
-        // Get item id
-        const itemId = itemElement.data('item-id') as string;
-
-        // Update the state
-        this.itemState[itemId].expanded = !this.itemState[itemId].expanded;
-
-        // Set classes
-        itemElement.toggleClass('expanded', this.itemState[itemId].expanded);
-
-        itemElement
-            .find('a[data-action="toggle-action-details"')
-            .empty()
-            .append(
-                this.itemState[itemId].expanded
-                    ? '<i class="fa-solid fa-compress"></i>'
-                    : '<i class="fa-solid fa-expand"></i>',
-            );
-    }
-
-    public static onUseItem(this: ActorEquipmentListComponent, event: Event) {
-        // Get item
-        const item = AppUtils.getItemFromEvent(event, this.application.actor);
-        if (!item) return;
-
-        // Use the item
-        void this.application.actor.useItem(item);
-    }
-
-    private static async onNewItem(
-        this: ActorEquipmentListComponent,
-        event: Event,
-    ) {
-        // Get section element
-        const sectionElement = $(event.target!).closest('[data-section-id]');
-
-        // Get section id
-        const sectionId = sectionElement.data('section-id') as string;
-
-        // Get section
-        const section = this.sections.find((s) => s.id === sectionId);
-        if (!section) return;
-
-        // Create new item
-        const item = await section.new?.(this.application.actor);
-        if (!item) return;
-
-        // Render the item sheet
-        void item.sheet?.render(true);
-    }
 
     public static onToggleEquip(
         this: ActorEquipmentListComponent,
