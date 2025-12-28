@@ -38,7 +38,7 @@ import { Derived } from '@system/data/fields';
 
 import { d20Roll, D20Roll, D20RollData, DamageRoll } from '@system/dice';
 
-import { AttributeScale } from '@system/types/config';
+import { AttributeScale, sizeToTokenDimensions } from '@system/types/config';
 import { CosmereHooks } from '@system/types/hooks';
 
 // Dialogs
@@ -325,68 +325,45 @@ export class CosmereActor<
             },
         });
 
-        // Size changes
-        let prototypeTokenSize = 0; // Size in grid spaces
-
-        // Switch on actor size
-        switch (this.system.size) {
-            case Size.Small:
-                prototypeTokenSize = 0.5;
-                break;
-            case Size.Medium:
-                prototypeTokenSize = 1;
-                break;
-            case Size.Large:
-                prototypeTokenSize = 2;
-                break;
-            case Size.Huge:
-                prototypeTokenSize = 3;
-                break;
-            case Size.Garguantuan:
-                prototypeTokenSize = 4;
-                break;
-        }
-
-        // Senses changes
-        const sensesData = this.system.senses;
-
-        // If actor is affected by obscured senses
-        if (sensesData?.obscuredAffected ?? true) {
-            foundry.utils.mergeObject(prototypeToken, {
-                sight: {
-                    range: sensesData?.range?.value,
-                    visionMode: 'sense',
-                },
-            });
-        }
-        // If actor is not affected by obscured senses
-        else {
-            foundry.utils.mergeObject(prototypeToken, {
-                sight: {
-                    range: null,
-                    visionMode: 'sense',
-                },
-            });
-        }
+        // Size in grid spaces
+        const prototypeTokenSize = sizeToTokenDimensions(
+            this.system.size as Size,
+        );
 
         foundry.utils.mergeObject(prototypeToken, {
             width: prototypeTokenSize,
             height: prototypeTokenSize,
         });
 
-        this.updateSource({ prototypeToken });
+        // Senses changes
+        const sensesData = this.system.senses;
+
+        const affectedByObscuredSenses = sensesData?.obscuredAffected ?? true;
+        foundry.utils.mergeObject(prototypeToken, {
+            sight: {
+                range: affectedByObscuredSenses
+                    ? sensesData.range?.value
+                    : null,
+                visionMode: 'sense',
+            },
+        });
 
         // Configure default actor flags
         const flags = {
-            'cosmere-rpg': {
+            [SYSTEM_ID]: {
+                automation: {
+                    token: {
+                        vision: true,
+                        size: true,
+                    },
+                },
                 sheet: {
-                    autosetPrototypeTokenValues: true,
                     hideUnranked: true,
                 },
             },
         };
 
-        this.updateSource({ flags });
+        this.updateSource({ prototypeToken, flags });
     }
 
     public override async createEmbeddedDocuments<
@@ -1482,6 +1459,10 @@ declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
     interface FlagConfig {
         Actor: {
             'cosmere-rpg': {
+                automation: object;
+                'automation.token': object;
+                'automation.token.vision': boolean;
+                'automation.token.size': boolean;
                 sheet: object;
                 'sheet.mode': 'edit' | 'view';
                 'sheet.expertisesCollapsed': boolean;
