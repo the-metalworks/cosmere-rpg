@@ -55,11 +55,14 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
         const searchText = context.actionsSearch?.text ?? '';
         const sortMode = context.actionsSearch?.sort ?? SortMode.Alphabetic;
 
-        // Ensure all sections have an expand state record defaulting to true
+        // Ensure all sections have an expand state record defaulting to settings.expandSectionByDefault
+        const expandSectionDefaultSetting =
+            game.settings?.get('cosmere-rpg', 'expandSectionsByDefault') ??
+            true;
         this.sections.forEach((section) => {
             if (!(section.id in this.sectionState)) {
                 this.sectionState[section.id] = {
-                    expanded: true,
+                    expanded: expandSectionDefaultSetting,
                 };
             }
         });
