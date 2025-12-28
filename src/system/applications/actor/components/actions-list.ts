@@ -10,7 +10,11 @@ import {
     ItemListSection,
     DynamicItemListSectionGenerator,
 } from '@system/types/application/actor/components/item-list';
-import { ActorItemListComponent } from '@system/applications/actor/components/item-list';
+import {
+    ActorItemListComponent,
+    ItemListSectionData,
+    AdditionalItemData,
+} from '@system/applications/actor/components/item-list';
 
 // Documents
 import { CosmereItem } from '@system/documents/item';
@@ -28,23 +32,6 @@ import { SortMode } from './search-bar';
 // Constants
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
-
-interface ActionItemState {
-    expanded?: boolean;
-}
-
-interface AdditionalItemData {
-    descriptionHTML?: string;
-}
-
-interface ItemListSectionData extends ItemListSection {
-    items: CosmereItem[];
-    itemData: Record<string, AdditionalItemData>;
-}
-
-interface ItemListSectionState {
-    expanded?: boolean;
-}
 
 export interface ActorActionsListComponentRenderContext
     extends BaseActorSheetRenderContext {
