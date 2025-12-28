@@ -12,7 +12,6 @@ import AppUtils from '@system/applications/utils';
 import { AppContextMenu } from '@system/applications/utils/context-menu';
 
 // Component imports
-import { HandlebarsApplicationComponent } from '@system/applications/component-system';
 import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
 import { SortMode } from './search-bar';
 

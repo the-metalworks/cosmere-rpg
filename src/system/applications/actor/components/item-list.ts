@@ -1,25 +1,13 @@
-import { ConstructorOf } from '@system/types/utils';
-import {
-    ItemListSection,
-    DynamicItemListSectionGenerator,
-} from '@system/types/application/actor/components/item-list';
+import { ItemListSection } from '@system/types/application/actor/components/item-list';
 
 // Documents
 import { CosmereItem } from '@system/documents/item';
-import { CosmereActor } from '@system/documents/actor';
 
 // Utils
 import AppUtils from '@system/applications/utils';
-import { AppContextMenu } from '@system/applications/utils/context-menu';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
-import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
-import { SortMode } from './search-bar';
-
-// Constants
-import { SYSTEM_ID } from '@src/system/constants';
-import { TEMPLATES } from '@src/system/utils/templates';
 
 interface ItemState {
     expanded?: boolean;
