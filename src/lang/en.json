@@ -1690,6 +1690,14 @@
             "name": "Enable Skill Pip Increment Behavior",
             "hint": "Determines whether the skill pips increment/decrement on left click or right click, rather than setting to the clicked rank."
         },
+        "defaultTokenBar1Value": {
+            "name": "Default Token Bar 1 Resource",
+            "hint": "Determines default actor resource associated with bar 1 on tokens."
+        },
+        "defaultTokenBar2Value": {
+            "name": "Default Token Bar 2 Resource",
+            "hint": "Determines default actor resource associated with bar 2 on tokens."
+        },
         "systemTheme": {
             "name": "Preferred System Theme",
             "hint": "Specify the themed set of colours to use for system documents and interface elements. The selected theme will respect the preferred Dark/Light mode selected in the core settings."

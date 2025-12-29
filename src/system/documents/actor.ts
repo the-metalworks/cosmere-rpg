@@ -314,14 +314,20 @@ export class CosmereActor<
             });
         }
 
-        // Set bars to default to health and focus, viewed when hovered by owner
+        // Set bars to default to settings values, viewed when hovered by owner
         foundry.utils.mergeObject(prototypeToken, {
             displayBars: CONST.TOKEN_DISPLAY_MODES.OWNER_HOVER,
             bar1: {
-                attribute: `resources.hea`,
+                attribute: game.settings.get(
+                    SYSTEM_ID,
+                    'defaultTokenBar1Value',
+                ),
             },
             bar2: {
-                attribute: `resources.foc`,
+                attribute: game.settings.get(
+                    SYSTEM_ID,
+                    'defaultTokenBar2Value',
+                ),
             },
         });
 
