@@ -15,6 +15,7 @@ export const SETTINGS = {
     CHAT_ALWAYS_SHOW_BUTTONS: 'alwaysShowApplyButtons',
     APPLY_BUTTONS_TO: 'applyButtonsTo',
     SHEET_EXPAND_DESCRIPTION_DEFAULT: 'expandDescriptionByDefault',
+    SHEET_EXPAND_SECTIONS_DEFAULT: 'expandSectionsByDefault',
     SHEET_SKILL_INCDEC_TOGGLE: 'skillIncrementDecrementToggle',
     SYSTEM_THEME: 'systemTheme',
 } as const;
@@ -37,6 +38,8 @@ type SystemSettingsConfig = {
     [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.APPLY_BUTTONS_TO}`]: string;
 } & {
     [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.SHEET_EXPAND_DESCRIPTION_DEFAULT}`]: boolean;
+} & {
+    [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.SHEET_EXPAND_SECTIONS_DEFAULT}`]: boolean;
 } & {
     [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.SHEET_SKILL_INCDEC_TOGGLE}`]: boolean;
 } & { [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.SYSTEM_THEME}`]: Theme };
@@ -76,6 +79,11 @@ export function registerSystemSettings() {
         {
             name: SETTINGS.SHEET_EXPAND_DESCRIPTION_DEFAULT,
             default: false,
+            scope: 'client',
+        },
+        {
+            name: SETTINGS.SHEET_EXPAND_SECTIONS_DEFAULT,
+            default: true,
             scope: 'client',
         },
         {

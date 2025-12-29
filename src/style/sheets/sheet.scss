@@ -117,7 +117,7 @@
     }    
 
     .collapsible {
-        .collapsible-content {
+        > .collapsible-content {
             display: grid;
             grid-template-rows: 0fr;
             transition: grid-template-rows 250ms ease;
@@ -127,7 +127,7 @@
             }
         } 
         
-        &.expanded .collapsible-content{
+        &.expanded >.collapsible-content{
             grid-template-rows: 1fr;
         }
     }

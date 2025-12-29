@@ -349,7 +349,7 @@ export class BaseActorSheet<
         // Insert mode toggle
         if (this.isEditable) {
             $(this.window.title!).before(`
-                <label id="mode-toggle" 
+                <label id="mode-toggle"
                     class="toggle-switch"
                     data-action="toggle-mode"
                     data-tooltip="COSMERE.Actor.Sheet.Edit"
@@ -406,18 +406,9 @@ export class BaseActorSheet<
         $(this.element)
             .find('#mode-toggle')
             .on('dblclick', (event) => this.onDoubleClickModeToggle(event));
-
-        $(this.element)
-            .find('.collapsible .header')
-            .on('click', (event) => this.onClickCollapsible(event));
     }
 
     /* --- Event handlers --- */
-
-    protected onClickCollapsible(event: JQuery.ClickEvent) {
-        const target = event.currentTarget as HTMLElement;
-        target?.parentElement?.classList.toggle('expanded');
-    }
 
     protected onDoubleClickModeToggle(event: JQuery.DoubleClickEvent) {
         event.preventDefault();
