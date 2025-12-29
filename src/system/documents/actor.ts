@@ -314,60 +314,81 @@ export class CosmereActor<
             });
         }
 
-        // Set bars to default to settings values, viewed when hovered by owner
-        foundry.utils.mergeObject(prototypeToken, {
-            displayBars: CONST.TOKEN_DISPLAY_MODES.OWNER_HOVER,
-            bar1: {
-                attribute: game.settings.get(
-                    SYSTEM_ID,
-                    'defaultTokenBar1Value',
-                ),
-            },
-            bar2: {
-                attribute: game.settings.get(
-                    SYSTEM_ID,
-                    'defaultTokenBar2Value',
-                ),
-            },
-        });
-
-        // Size in grid spaces
-        const prototypeTokenSize = sizeToTokenDimensions(
-            this.system.size as Size,
-        );
-
-        foundry.utils.mergeObject(prototypeToken, {
-            width: prototypeTokenSize,
-            height: prototypeTokenSize,
-        });
-
-        // Senses changes
-        const sensesData = this.system.senses;
-
-        const affectedByObscuredSenses = sensesData?.obscuredAffected ?? true;
-        foundry.utils.mergeObject(prototypeToken, {
-            sight: {
-                range: affectedByObscuredSenses
-                    ? sensesData.range?.value
-                    : null,
-                visionMode: 'sense',
-            },
-        });
-
         // Configure default actor flags
         const flags = {
             [SYSTEM_ID]: {
-                automation: {
-                    token: {
-                        vision: true,
-                        size: true,
-                    },
-                },
                 sheet: {
                     hideUnranked: true,
                 },
             },
         };
+
+        if (game.settings.get(SYSTEM_ID, 'defaultTokenAutomationBars')) {
+            // Set bars to default to settings values, viewed when hovered by owner
+            foundry.utils.mergeObject(prototypeToken, {
+                displayBars: CONST.TOKEN_DISPLAY_MODES.OWNER_HOVER,
+                bar1: {
+                    attribute: game.settings.get(
+                        SYSTEM_ID,
+                        'defaultTokenBar1Value',
+                    ),
+                },
+                bar2: {
+                    attribute: game.settings.get(
+                        SYSTEM_ID,
+                        'defaultTokenBar2Value',
+                    ),
+                },
+            });
+        }
+
+        if (game.settings.get(SYSTEM_ID, 'defaultTokenAutomationSize')) {
+            // Size in grid spaces
+            const prototypeTokenSize = sizeToTokenDimensions(
+                this.system.size as Size,
+            );
+
+            foundry.utils.mergeObject(prototypeToken, {
+                width: prototypeTokenSize,
+                height: prototypeTokenSize,
+            });
+
+            foundry.utils.mergeObject(flags, {
+                [SYSTEM_ID]: {
+                    automation: {
+                        token: {
+                            size: true,
+                        },
+                    },
+                },
+            });
+        }
+
+        if (game.settings.get(SYSTEM_ID, 'defaultTokenAutomationSight')) {
+            // Senses changes
+            const sensesData = this.system.senses;
+
+            const affectedByObscuredSenses =
+                sensesData?.obscuredAffected ?? true;
+            foundry.utils.mergeObject(prototypeToken, {
+                sight: {
+                    range: affectedByObscuredSenses
+                        ? sensesData.range?.value
+                        : null,
+                    visionMode: 'sense',
+                },
+            });
+
+            foundry.utils.mergeObject(flags, {
+                [SYSTEM_ID]: {
+                    automation: {
+                        token: {
+                            vision: true,
+                        },
+                    },
+                },
+            });
+        }
 
         this.updateSource({ prototypeToken, flags });
     }
