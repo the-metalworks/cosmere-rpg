@@ -8,7 +8,6 @@ import { ItemRelationship } from '@system/data/item/mixins/relationships';
 
 // Types
 import { Resource, Size } from '@system/types/cosmere';
-import { sizeToTokenDimensions } from '@system/types/config';
 import { CosmereHooks } from '@system/types/hooks';
 import { DeepPartial, AnyMutableObject } from '@system/types/utils';
 
@@ -208,7 +207,8 @@ Hooks.on('preUpdateActor', (actor: CosmereActor, changed: Actor.UpdateData) => {
         foundry.utils.hasProperty(changed, `system.size`)
     ) {
         // Size in grid spaces
-        const prototypeTokenSize = sizeToTokenDimensions(changed.system.size!);
+        const prototypeTokenSize =
+            CONFIG.COSMERE.sizes[changed.system.size!].tokenDimensions;
 
         foundry.utils.mergeObject(prototypeTokenChanges, {
             width: prototypeTokenSize,

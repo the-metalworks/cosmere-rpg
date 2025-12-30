@@ -38,7 +38,7 @@ import { Derived } from '@system/data/fields';
 
 import { d20Roll, D20Roll, D20RollData, DamageRoll } from '@system/dice';
 
-import { AttributeScale, sizeToTokenDimensions } from '@system/types/config';
+import { AttributeScale } from '@system/types/config';
 import { CosmereHooks } from '@system/types/hooks';
 
 // Dialogs
@@ -55,6 +55,7 @@ import { containsExpertise } from '@system/utils/actor';
 import { SYSTEM_ID } from '@system/constants';
 import { HOOKS } from '@system/constants/hooks';
 import { AnyObject } from '@league-of-foundry-developers/foundry-vtt-types/utils';
+import { prototype } from 'events';
 
 export type CharacterActor = CosmereActor<ActorType.Character>;
 export type AdversaryActor = CosmereActor<ActorType.Adversary>;
@@ -324,34 +325,54 @@ export class CosmereActor<
         };
 
         if (game.settings.get(SYSTEM_ID, 'defaultTokenAutomationBars')) {
-            // Set bars to default to settings values, viewed when hovered by owner
-            foundry.utils.mergeObject(prototypeToken, {
-                displayBars: CONST.TOKEN_DISPLAY_MODES.OWNER_HOVER,
-                bar1: {
-                    attribute: game.settings.get(
-                        SYSTEM_ID,
-                        'defaultTokenBar1Value',
-                    ),
-                },
-                bar2: {
-                    attribute: game.settings.get(
-                        SYSTEM_ID,
-                        'defaultTokenBar2Value',
-                    ),
-                },
-            });
+            // If no value is passed in for default bar viewing states, set to "hovered by owner"
+            if (
+                !foundry.utils.hasProperty(data, `prototypeToken.displayBars`)
+            ) {
+                foundry.utils.mergeObject(prototypeToken, {
+                    displayBars: CONST.TOKEN_DISPLAY_MODES.OWNER_HOVER,
+                });
+            }
+
+            // If no value is passed in for bars, set bars to default to settings values
+            if (!foundry.utils.hasProperty(data, `prototypeToken.bar1`)) {
+                foundry.utils.mergeObject(prototypeToken, {
+                    bar1: {
+                        attribute: game.settings.get(
+                            SYSTEM_ID,
+                            'defaultTokenBar1Value',
+                        ),
+                    },
+                });
+            }
+            if (!foundry.utils.hasProperty(data, `prototypeToken.bar2`)) {
+                foundry.utils.mergeObject(prototypeToken, {
+                    bar2: {
+                        attribute: game.settings.get(
+                            SYSTEM_ID,
+                            'defaultTokenBar2Value',
+                        ),
+                    },
+                });
+            }
         }
 
         if (game.settings.get(SYSTEM_ID, 'defaultTokenAutomationSize')) {
             // Size in grid spaces
-            const prototypeTokenSize = sizeToTokenDimensions(
-                this.system.size as Size,
-            );
+            const prototypeTokenSize =
+                CONFIG.COSMERE.sizes[this.system.size].tokenDimensions ?? 1;
 
-            foundry.utils.mergeObject(prototypeToken, {
-                width: prototypeTokenSize,
-                height: prototypeTokenSize,
-            });
+            // If values are not passed in for token size, set token size from actor size
+            if (!foundry.utils.hasProperty(data, `prototypeToken.width`)) {
+                foundry.utils.mergeObject(prototypeToken, {
+                    width: prototypeTokenSize,
+                });
+            }
+            if (!foundry.utils.hasProperty(data, `prototypeToken.height`)) {
+                foundry.utils.mergeObject(prototypeToken, {
+                    height: prototypeTokenSize,
+                });
+            }
 
             foundry.utils.mergeObject(flags, {
                 [SYSTEM_ID]: {
