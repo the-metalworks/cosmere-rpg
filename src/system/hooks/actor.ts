@@ -221,14 +221,14 @@ Hooks.on('preUpdateActor', (actor: CosmereActor, changed: Actor.UpdateData) => {
         void actor.prototypeToken.update(prototypeTokenChanges);
 
         // Send active token changes
-        actor.getActiveTokens(false, true).forEach((token: TokenDocument) => {
+        for (const token of actor.getActiveTokens(false, true)) {
             const activeTokenChanges = {};
             foundry.utils.mergeObject(
                 activeTokenChanges,
                 prototypeTokenChanges,
             );
-            void token.update(activeTokenChanges);
-        });
+            void (token as TokenDocument).update(activeTokenChanges);
+        }
     }
 });
 
@@ -271,16 +271,14 @@ Hooks.on(
                 void actor.prototypeToken.update(prototypeTokenChanges);
 
                 // Send active token changes
-                actor
-                    .getActiveTokens(false, true)
-                    .forEach((token: TokenDocument) => {
-                        const activeTokenChanges = {};
-                        foundry.utils.mergeObject(
-                            activeTokenChanges,
-                            prototypeTokenChanges,
-                        );
-                        void token.update(activeTokenChanges);
-                    });
+                for (const token of actor.getActiveTokens(false, true)) {
+                    const activeTokenChanges = {};
+                    foundry.utils.mergeObject(
+                        activeTokenChanges,
+                        prototypeTokenChanges,
+                    );
+                    void (token as TokenDocument).update(activeTokenChanges);
+                }
             }
         }
     },

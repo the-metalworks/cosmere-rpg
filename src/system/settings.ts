@@ -112,7 +112,7 @@ export function registerSystemSettings() {
         },
     ];
 
-    automationOptions.forEach((option) => {
+    for (const option of automationOptions) {
         game.settings.register(SYSTEM_ID, option.name, {
             name: game.i18n.localize(`SETTINGS.${option.name}.name`),
             hint: game.i18n.localize(`SETTINGS.${option.name}.hint`),
@@ -121,7 +121,7 @@ export function registerSystemSettings() {
             type: Boolean,
             default: option.default,
         });
-    });
+    }
 
     // TOKEN SETTINGS
     const tokenOptions = [
@@ -137,7 +137,7 @@ export function registerSystemSettings() {
         },
     ];
 
-    tokenOptions.forEach((option) => {
+    for (const option of tokenOptions) {
         game.settings.register(SYSTEM_ID, option.name, {
             name: game.i18n.localize(`SETTINGS.${option.name}.name`),
             hint: game.i18n.localize(`SETTINGS.${option.name}.hint`),
@@ -158,7 +158,7 @@ export function registerSystemSettings() {
                 [TokenBarOptions.none]: game.i18n.localize(`GENERIC.None`),
             },
         });
-    });
+    }
 
     // SHEET SETTINGS
     const sheetOptions = [
