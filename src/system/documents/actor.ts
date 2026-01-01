@@ -25,6 +25,8 @@ import {
 } from '@system/documents/item';
 import { CosmereActiveEffect } from '@system/documents/active-effect';
 
+import { getSystemSetting, SETTINGS } from '@system/settings';
+
 import {
     CommonActorData,
     CommonActorDataModel,
@@ -55,7 +57,6 @@ import { containsExpertise } from '@system/utils/actor';
 import { SYSTEM_ID } from '@system/constants';
 import { HOOKS } from '@system/constants/hooks';
 import { AnyObject } from '@league-of-foundry-developers/foundry-vtt-types/utils';
-import { prototype } from 'events';
 
 export type CharacterActor = CosmereActor<ActorType.Character>;
 export type AdversaryActor = CosmereActor<ActorType.Adversary>;
@@ -324,7 +325,7 @@ export class CosmereActor<
             },
         };
 
-        if (game.settings.get(SYSTEM_ID, 'defaultTokenAutomationBars')) {
+        if (getSystemSetting(SETTINGS.AUTOMATION_TOKEN_FLAGS_BARS)) {
             // If no value is passed in for default bar viewing states, set to "hovered by owner"
             if (
                 !foundry.utils.hasProperty(data, `prototypeToken.displayBars`)
@@ -338,9 +339,8 @@ export class CosmereActor<
             if (!foundry.utils.hasProperty(data, `prototypeToken.bar1`)) {
                 foundry.utils.mergeObject(prototypeToken, {
                     bar1: {
-                        attribute: game.settings.get(
-                            SYSTEM_ID,
-                            'defaultTokenBar1Value',
+                        attribute: getSystemSetting(
+                            SETTINGS.TOKEN_DEFAULT_BAR_1_VAL,
                         ),
                     },
                 });
@@ -348,16 +348,15 @@ export class CosmereActor<
             if (!foundry.utils.hasProperty(data, `prototypeToken.bar2`)) {
                 foundry.utils.mergeObject(prototypeToken, {
                     bar2: {
-                        attribute: game.settings.get(
-                            SYSTEM_ID,
-                            'defaultTokenBar2Value',
+                        attribute: getSystemSetting(
+                            SETTINGS.TOKEN_DEFAULT_BAR_2_VAL,
                         ),
                     },
                 });
             }
         }
 
-        if (game.settings.get(SYSTEM_ID, 'defaultTokenAutomationSize')) {
+        if (getSystemSetting(SETTINGS.AUTOMATION_TOKEN_FLAGS_SIZE)) {
             // Size in grid spaces
             const prototypeTokenSize =
                 CONFIG.COSMERE.sizes[this.system.size].tokenDimensions ?? 1;
@@ -385,7 +384,7 @@ export class CosmereActor<
             });
         }
 
-        if (game.settings.get(SYSTEM_ID, 'defaultTokenAutomationSight')) {
+        if (getSystemSetting(SETTINGS.AUTOMATION_TOKEN_FLAGS_SIGHT)) {
             // Senses changes
             const sensesData = this.system.senses;
 
