@@ -98,17 +98,17 @@ export function registerSystemSettings() {
         {
             name: SETTINGS.AUTOMATION_TOKEN_FLAGS_BARS,
             default: true,
-            scope: 'client',
+            scope: 'world',
         },
         {
             name: SETTINGS.AUTOMATION_TOKEN_FLAGS_SIGHT,
             default: true,
-            scope: 'client',
+            scope: 'world',
         },
         {
             name: SETTINGS.AUTOMATION_TOKEN_FLAGS_SIZE,
             default: true,
-            scope: 'client',
+            scope: 'world',
         },
     ];
 

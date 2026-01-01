@@ -222,9 +222,7 @@ Hooks.on('preUpdateActor', (actor: CosmereActor, changed: Actor.UpdateData) => {
 
         // Send active token changes
         for (const token of actor.getActiveTokens(false, true)) {
-            const activeTokenChanges = {};
-            foundry.utils.mergeObject(
-                activeTokenChanges,
+            const activeTokenChanges = foundry.utils.deepClone(
                 prototypeTokenChanges,
             );
             void (token as TokenDocument).update(activeTokenChanges);
@@ -272,9 +270,7 @@ Hooks.on(
 
                 // Send active token changes
                 for (const token of actor.getActiveTokens(false, true)) {
-                    const activeTokenChanges = {};
-                    foundry.utils.mergeObject(
-                        activeTokenChanges,
+                    const activeTokenChanges = foundry.utils.deepClone(
                         prototypeTokenChanges,
                     );
                     void (token as TokenDocument).update(activeTokenChanges);
