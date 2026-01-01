@@ -3,7 +3,7 @@
         <div class="form-fields">
             {{#with (derived range) as |value|}}
             <input name="range"
-                {{#if (isNumMax value)}}
+                {{#if (isNumMaxSafeInt value)}}
                 type="text"
                 value="—"
 
@@ -14,12 +14,12 @@
                 step="1"
                 {{/if}}
 
-                {{#if (or (eq @root.mode 'derived') (isNumMax value))}}
+                {{#if (or (eq @root.mode 'derived') (isNumMaxSafeInt value))}}
                 readonly
                 {{/if}}
             >
             {{/with}}
-        </div>        
+        </div>
     </div>
     <div class="form-group">
         <label>{{localize "GENERIC.Mode"}}</label>
@@ -27,13 +27,13 @@
             <select name="mode">
                 {{selectOptions modes selected=mode localize=true}}
             </select>
-        </div>        
+        </div>
     </div>
     <div class="form-group">
         <label>{{localize "DIALOG.ConfigureSensesRange.IgnoreObscure"}}</label>
-        <input type="checkbox" 
+        <input type="checkbox"
             name="ignoreObscure"
-            {{#if (isNumMax (derived range))}}
+            {{#if (isNumMaxSafeInt (derived range))}}
             checked
             {{/if}}
             {{#if (eq mode 'derived')}}

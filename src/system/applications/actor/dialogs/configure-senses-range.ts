@@ -111,7 +111,7 @@ export class ConfigureSensesRangeDialog extends HandlebarsApplicationMixin(
             target.name === 'ignoreObscure'
         ) {
             this.sensesData.range.override = formData.object.ignoreObscure
-                ? Number.MAX_VALUE
+                ? Number.MAX_SAFE_INTEGER
                 : 0;
         }
 

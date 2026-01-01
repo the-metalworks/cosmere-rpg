@@ -45,26 +45,31 @@ const COSMERE: CosmereRPGConfig = {
             label: 'COSMERE.Actor.Size.Small',
             size: 2.5,
             unit: 'feet',
+            tokenDimensions: 0.5,
         },
         [Size.Medium]: {
             label: 'COSMERE.Actor.Size.Medium',
             size: 5,
             unit: 'feet',
+            tokenDimensions: 1,
         },
         [Size.Large]: {
             label: 'COSMERE.Actor.Size.Large',
             size: 10,
             unit: 'feet',
+            tokenDimensions: 2,
         },
         [Size.Huge]: {
             label: 'COSMERE.Actor.Size.Huge',
             size: 15,
             unit: 'feet',
+            tokenDimensions: 3,
         },
         [Size.Garguantuan]: {
             label: 'COSMERE.Actor.Size.Gargantuan',
             size: 20,
             unit: 'feet',
+            tokenDimensions: 4,
         },
     },
     creatureTypes: {

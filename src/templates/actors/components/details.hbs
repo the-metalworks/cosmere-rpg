@@ -3,27 +3,27 @@
         <img class="profile" src="{{actor.img}}" data-action="edit-img">
     </div>
 
-    {{#if (and editable displayRestButtons)}}    
+    {{#if (and editable displayRestButtons)}}
     <a class="end-scene rest"
-        data-action="end-scene" 
+        data-action="end-scene"
         data-tooltip="COSMERE.Actor.Sheet.EndScene"
     >
     </a>
 
     <a class="short-rest rest"
-        data-action="short-rest" 
+        data-action="short-rest"
         data-tooltip="COSMERE.Actor.Sheet.ShortRest"
     >
     </a>
 
-    <a class="long-rest rest" 
-        data-action="long-rest" 
+    <a class="long-rest rest"
+        data-action="long-rest"
         data-tooltip="COSMERE.Actor.Sheet.LongRest"
     >
     </a>
     {{/if}}
 
-    {{#if displayRecovery}}     
+    {{#if displayRecovery}}
     <div class="sheet-stack deflect">
         <div class="container" data-tooltip="{{deflectTooltip}}">
             <div class="background"></div>
@@ -31,7 +31,7 @@
             {{#with actor.system.deflect as |deflect|}}
             <span class="value">{{derived deflect}}</span>
             {{/with}}
-        </div>        
+        </div>
         <span class="label">
             {{localize "COSMERE.Actor.Statistics.Deflect"}}
             {{#if isEditMode}}
@@ -96,7 +96,7 @@
             {{/with}}
         </div>
         <span class="label">
-            {{localize "COSMERE.Actor.Statistics.Deflect"}}            
+            {{localize "COSMERE.Actor.Statistics.Deflect"}}
             {{#if isEditMode}}
             <a data-action="configure-deflect"
                 data-tooltip="COSMERE.Actor.Sheet.ConfigureDeflect"
@@ -115,7 +115,7 @@
             <div class="background"></div>
             <div class="border"></div>
             {{#with (derived actor.system.senses.range) as |range|}}
-            {{#if (isNumMax range)}}
+            {{#if (isNumMaxSafeInt range)}}
             <span class="value">—</span>
             {{else}}
             <span class="value">{{range}}</span>
