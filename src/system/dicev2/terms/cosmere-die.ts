@@ -5,6 +5,8 @@ import {
     DieModifier,
 } from '../types';
 
+import { PickDiceResultDialog } from '@system/applications/dialogs/pick-dice-result';
+
 export interface CosmereDieData extends foundry.dice.terms.Die.TermData {
     opportunityRange?: number;
 
@@ -21,6 +23,12 @@ export class CosmereDie extends foundry.dice.terms.Die {
         this.opportunityRange = termData.opportunityRange ?? termData.faces;
         this.complicationRange = termData.complicationRange ?? 1;
     }
+
+    static override MODIFIERS = {
+        ...super.MODIFIERS,
+        p: 'pick',
+        gmp: 'pick',
+    };
 
     public readonly uuid: string;
 
@@ -74,6 +82,22 @@ export class CosmereDie extends foundry.dice.terms.Die {
         return super.evaluate(options);
     }
 
+    public setResult(result: number): this {
+        if (result < 1 || result > (this.faces ?? 1)) {
+            throw new Error(
+                `The given result ${result} is outside the possible result range of the ${this.constructor.name} (1 to ${this.faces})`,
+            );
+        }
+
+        this.results.forEach((r) => {
+            if (r.active ?? false) {
+                r.result = result;
+            }
+        });
+
+        return this;
+    }
+
     public modify(modifier: DieModifier): this | Promise<this> {
         switch (modifier) {
             case DieModifier.Advantage:
@@ -102,5 +126,22 @@ export class CosmereDie extends foundry.dice.terms.Die {
         this._evaluated = false;
 
         return this.evaluate();
+    }
+
+    public async pick(modifier: string) {
+        const rgx = /(gm)?p([0-9]+)?/i;
+        const match = rgx.exec(modifier);
+
+        if (!match) return false;
+
+        const [gm, number] = match.slice(1);
+        const isGm = !!gm;
+        const amount = Math.min(parseInt(number) || 1, this.number ?? 0);
+
+        // Show dialog
+        await PickDiceResultDialog.show({
+            term: this,
+            amount,
+        });
     }
 }

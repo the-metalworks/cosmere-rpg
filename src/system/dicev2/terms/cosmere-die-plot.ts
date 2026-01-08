@@ -1,5 +1,5 @@
 import { IMPORTED_RESOURCES } from '@src/system/constants';
-import { DiceTermResult, DieType } from '../types';
+import { DiceTermResult, DieModifier, DieType } from '../types';
 import { CosmereDie, CosmereDieData } from './cosmere-die';
 
 export class CosmerePlotDie extends CosmereDie {
@@ -32,6 +32,14 @@ export class CosmerePlotDie extends CosmereDie {
         6: 0,
     };
 
+    // For plot dice, we override the default adv/disadv behaviour to always use pick
+    static override MODIFIERS = {
+        ...super.MODIFIERS,
+        k: 'pick' as 'keep',
+        kh: 'pick' as 'keep',
+        kl: 'pick' as 'keep',
+    };
+
     /* --- Accessors --- */
     protected override get type(): DieType {
         return DieType.Plot;
@@ -53,5 +61,21 @@ export class CosmerePlotDie extends CosmereDie {
     /* --- Functions --- */
     public override getResultLabel(result: DiceTermResult): string {
         return CosmerePlotDie.SIDES[result.result];
+    }
+
+    public override async pick(modifier: string) {
+        // For plot dice, we override the default adv/disadv behaviour to always use pick
+        const rgx = /k([hl])?([0-9]+)?/i;
+        const match = rgx.exec(modifier);
+
+        if (match) {
+            const [direction, number] = match.slice(1);
+            const isGm = !direction || direction.toLowerCase() === 'h';
+            const amount = parseInt(number) || 1;
+
+            modifier = `${isGm ? DieModifier.PickGM : DieModifier.Pick}${amount}`;
+        }
+
+        return super.pick(modifier);
     }
 }

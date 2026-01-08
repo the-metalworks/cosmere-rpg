@@ -141,4 +141,20 @@ export abstract class CosmereRoll extends foundry.dice.Roll<CosmereRollData> {
 
         return this;
     }
+
+    public setDieResult(result: number, uuid: string): this {
+        if (!this._evaluated) {
+            throw new Error(
+                `The ${this.constructor.name} has not yet been evaluated and cannot be modified`,
+            );
+        }
+
+        const die = this.dice.find((d) => d.uuid === uuid);
+
+        if (die) {
+            die.setResult(result);
+        }
+
+        return this;
+    }
 }
