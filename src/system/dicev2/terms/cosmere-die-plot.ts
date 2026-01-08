@@ -33,6 +33,7 @@ export class CosmerePlotDie extends CosmereDie {
     };
 
     // For plot dice, we override the default adv/disadv behaviour to always use pick
+    // Have to do this weird cast due to typing constraints in the fvtt types module
     static override MODIFIERS = {
         ...super.MODIFIERS,
         k: 'pick' as 'keep',
@@ -64,7 +65,7 @@ export class CosmerePlotDie extends CosmereDie {
     }
 
     public override async pick(modifier: string) {
-        // For plot dice, we override the default adv/disadv behaviour to always use pick
+        // When the pick call is from a "keep" (i.e. adv/disadv), we properly generate the pick modifier
         const rgx = /k([hl])?([0-9]+)?/i;
         const match = rgx.exec(modifier);
 
