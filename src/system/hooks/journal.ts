@@ -17,11 +17,17 @@ Hooks.on('renderJournalEntrySheet', (app, html) => {
         const header_node = html.getElementsByClassName('journal-header')[0];
 
         header_node.removeChild(header_node.children[0]);
+
         header_node.insertAdjacentHTML(
             'beforeend',
-            '<div class="sl-chapter-header"><div><p></p><p>' +
-                entry.name.toUpperCase() +
-                '</p><p></p></div><div><p></p></div></div>',
+            `<div class="sl-chapter-header">
+                <div>
+                    <p>${entry.name}</p>
+                </div>
+                <div>
+                    <p></p>
+                </div>
+            </div>`,
         );
     }
 });

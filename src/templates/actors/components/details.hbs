@@ -1,6 +1,6 @@
 <div class="portrait-info">
     <div class="portrait">
-        <img class="profile" src="{{actor.img}}" data-action="edit-img">
+        <img class="profile" src="{{actor.img}}" {{#if isEditMode}}data-edit="img" data-action="editImage"{{/if}}>
     </div>
 
     {{#if (and editable displayRestButtons)}}    

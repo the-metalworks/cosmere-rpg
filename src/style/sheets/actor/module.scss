@@ -38,6 +38,7 @@
     }
 
     > .window-content {
+        z-index: 0; // Ensures stacking context is created even when performance mode is set to low (which removes backdrop-filter)
         padding: 0 1.875rem;
     }
 

@@ -1490,6 +1490,11 @@
         },
         "EditEventRule": {
             "Title": "Edit Event Rule"
+        },
+        "RenameDirectoryEntry": {
+            "Title": "Rename {type}",
+            "Label": "New Name",
+            "Hint": "Enter a new name for this {type}."
         }
     },
     "COMPONENT": {
@@ -1558,6 +1563,7 @@
         "Description": "Description",
         "Talent": "Talent",
         "Goal": "Goal",
+        "Rename": "Rename",
         "Button": {
             "Roll": "Roll",
             "Continue": "Continue",
