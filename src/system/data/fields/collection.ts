@@ -401,10 +401,31 @@ export class CollectionField<
         if (!current)
             return super._updateDiff(source, key, value, difference, options);
 
-        const schemaDiff = (difference[key] = {});
-        Object.entries(value).forEach(([k, v]) =>
-            this.model._updateDiff(current, k, v, schemaDiff, options),
-        );
+        const schemaDiff: AnyMutableObject = (difference[key] = {});
+        Object.entries(value).forEach(([k, v]) => {
+            let name = k;
+            const specialKey = foundry.utils.isDeletionKey(k);
+            if (specialKey) name = k.slice(2);
+
+            if (specialKey) {
+                if (k.startsWith('-')) {
+                    if (v !== null)
+                        throw new Error(
+                            'Removing a key using the -= deletion syntax requires the value of that deletion key to be null, for example {-=key: null}',
+                        );
+                    if (name in current) {
+                        schemaDiff[k] = v;
+                        delete current[name];
+                    }
+                } else if (k.startsWith('=')) {
+                    schemaDiff[k] = current[name] =
+                        foundry.utils.applySpecialKeys(v);
+                }
+                return;
+            }
+
+            this.model._updateDiff(current, name, v, schemaDiff, options);
+        });
     }
 
     public override getInitialValue() {
