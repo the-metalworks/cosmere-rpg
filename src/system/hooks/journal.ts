@@ -22,11 +22,7 @@ Hooks.on('renderJournalEntrySheet', (app, html) => {
             'beforeend',
             `<div class="sl-chapter-header">
                 <div>
-                    ${
-                        app.isEditable
-                            ? `<input type="text" name="name" value="${entry.name}" />`
-                            : `<p>${entry.name}</p>`
-                    }
+                    <p>${entry.name}</p>
                 </div>
                 <div>
                     <p></p>

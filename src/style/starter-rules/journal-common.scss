@@ -75,7 +75,7 @@
             padding-left: 0;
             padding-right: 0;
 
-            p, input {
+            p {
                 //Chapter name text
                 text-wrap: nowrap;
                 border-bottom-width: 3px;
@@ -86,14 +86,6 @@
                 font-weight: normal;
                 font-family: var(--cosmere-font-header-sc);
                 text-transform: uppercase;
-            }
-            input {
-                background: transparent;
-                border: none;
-                outline: none;
-                text-align: center;
-                width: auto;
-                height: 1rem;
             }
 
             &::before {
