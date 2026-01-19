@@ -1,4 +1,4 @@
-import './inject';
+import './system-embedded-collections/inject';
 
 export * from './actor';
 export * from './item';

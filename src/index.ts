@@ -6,7 +6,7 @@ import COSMERE from './system/config';
 
 import './style.scss';
 import './system/mixins';
-import './system/documents/inject';
+import './system/documents/system-embedded-collections/inject';
 
 import {
     registerItemEventSystem,

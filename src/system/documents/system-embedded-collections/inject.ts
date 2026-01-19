@@ -1,4 +1,6 @@
-import { SystemEmbeddedCollectionsMixin } from './mixins/system-embedded-collections';
+import './socket';
+
+import { SystemEmbeddedCollectionsMixin } from './mixin';
 
 globalThis.Item = SystemEmbeddedCollectionsMixin(Item, {
     Item: 'items',
