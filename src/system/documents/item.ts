@@ -148,6 +148,8 @@ class _Item<
     declare actor: CosmereActor | null;
     // @ts-expect-error Explicitly declare to get proper typing
     declare sheet: BaseItemSheet | null;
+
+    declare items: foundry.abstract.EmbeddedCollection<CosmereItem, this>;
 }
 
 export class CosmereItem<

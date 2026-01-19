@@ -4,10 +4,6 @@ import { EmptyObject } from '@system/types/utils';
 
 // Mixins
 import { DataModelMixin } from '../mixins';
-import {
-    PseudoCollectionsMixin,
-    PseudoCollectionsDataSchema,
-} from '../mixins/pseudo-collections';
 import { IdItemMixin, IdItemDataSchema } from './mixins/id';
 import {
     TypedItemMixin,
@@ -49,7 +45,6 @@ export type ActionItemDataSchema = ReturnType<typeof SCHEMA> &
     ModalityItemDataSchema &
     EventsItemDataSchema &
     RelationshipsItemDataSchema;
-// PseudoCollectionsDataSchema;
 
 export type ActionItemDerivedData = TypedItemDerivedData;
 

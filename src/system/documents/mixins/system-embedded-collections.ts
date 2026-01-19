@@ -1,17 +1,34 @@
 import type { AnyMutableObject, AnyObject } from '@system/types/utils';
 import type { Document } from '@system/types/foundry/document';
 
-import { inPlaceMap } from '@system/utils/array';
+type DatabaseCRUDAction = Exclude<foundry.abstract.types.DatabaseAction, 'get'>;
 
-type SystemEmbeddedCollectionsConfig = {
+type CustomEmbeddedCollectionsConfig = {
     [K in foundry.abstract.Document.Type]?: string;
 };
 
-type DocumentHierarchy = Record<
-    string,
-    | foundry.data.fields.EmbeddedCollectionField.Any
-    | foundry.data.fields.EmbeddedDocumentField.Any
->;
+interface SystemEmbeddedCollectionsDocumentConstructor
+    extends foundry.abstract.Document.AnyConstructor {
+    hasSystemEmbeddedCollections: true;
+    isNativeEmbedding(embeddedName: string): boolean;
+    isSystemEmbedding(embeddedName: string): boolean;
+    metadata: foundry.abstract.Document.Metadata.Any & {
+        systemEmbedded: CustomEmbeddedCollectionsConfig;
+    };
+}
+
+interface SystemEmbeddedCollectionsDocument
+    extends foundry.abstract.Document.Any {
+    hasSystemEmbeddedCollections: true;
+    isNativeEmbedding(embeddedName: string): boolean;
+    isSystemEmbedding(embeddedName: string): boolean;
+    getCollectionName(
+        embeddedName: foundry.abstract.Document.Type,
+    ): string | null;
+    getEmbeddedCollection(
+        embeddedName: foundry.abstract.Document.Type,
+    ): AnyEmbeddedCollection | null;
+}
 
 declare class AnyEmbeddedCollection extends foundry.abstract.EmbeddedCollection<
     foundry.abstract.Document.Any,
@@ -23,26 +40,38 @@ declare class AnyEmbeddedCollection extends foundry.abstract.EmbeddedCollection<
     ): foundry.abstract.Document.Any | null;
 }
 
-/**
- * Mixin to add system defined embedded collections to an existing document
- * To be able to embed a document, it must use the `SystemEmbeddableMixin`
- */
+interface SocketResponse
+    extends Omit<foundry.helpers.SocketInterface.SocketResponse, 'request'> {
+    action: foundry.abstract.types.DatabaseAction;
+    broadcast?: boolean;
+    operation: Omit<foundry.abstract.types.DatabaseOperation, 'data'> & {
+        action: foundry.abstract.types.DatabaseAction;
+        modifiedTime: number;
+        render?: boolean;
+        renderSheet?: boolean;
+        isSystemEmbeddedCollectionOperation?: boolean;
+        sourceRequest?: foundry.abstract.types.DocumentSocketRequest<foundry.abstract.types.DatabaseAction>;
+    };
+    type: foundry.abstract.Document.Type;
+}
+
+const SYSTEM_EMBEDDED_COLLECTIONS_KEYS = '__systemEmbeddedCollections' as const;
+
 export function SystemEmbeddedCollectionsMixin<
     const DocumentClass extends Document.Constructable.SystemConstructor,
->(cls: DocumentClass, config: SystemEmbeddedCollectionsConfig) {
+>(cls: DocumentClass, config: CustomEmbeddedCollectionsConfig) {
     return class SystemEmbeddedCollectionsDocument extends cls {
         // Markers to flag system embedded collection support
         public static readonly hasSystemEmbeddedCollections: true = true;
         public readonly hasSystemEmbeddedCollections: true = true;
 
         declare static __schema: foundry.data.fields.SchemaField<foundry.data.fields.DataSchema>;
-        private static _systemHierarchy?: DocumentHierarchy;
-        private static _hierarchy?: DocumentHierarchy;
 
         static metadata = Object.freeze(
             foundry.utils.mergeObject(
                 super.metadata,
                 {
+                    embedded: config,
                     systemEmbedded: config,
                 },
                 { inplace: false },
@@ -51,34 +80,24 @@ export function SystemEmbeddedCollectionsMixin<
 
         public static defineSchema() {
             const baseSchema = super.defineSchema();
-            const systemField =
-                baseSchema.system as foundry.data.fields.TypeDataField<DocumentClass>;
 
             return foundry.utils.mergeObject(
-                {
-                    system: new SystemCollectionsTypeDataField(
-                        systemField.document,
-                    ),
-                },
+                (
+                    Object.entries(config) as [
+                        foundry.abstract.Document.Type,
+                        string,
+                    ][]
+                ).reduce(
+                    (schema, [embeddedName, collectionName]) => ({
+                        ...schema,
+                        [collectionName]: new PseudoEmbeddedCollectionField(
+                            foundry.documents[`Base${embeddedName}`],
+                        ),
+                    }),
+                    {},
+                ),
                 baseSchema,
             ) as unknown as typeof baseSchema;
-        }
-
-        public static defineSystemEmbeddedCollectionsSchema() {
-            const embeddedDocumentNames = Object.keys(
-                this.metadata.systemEmbedded,
-            ) as foundry.abstract.Document.Type[];
-
-            return embeddedDocumentNames.reduce(
-                (schema, documentName) => ({
-                    ...schema,
-                    [this.metadata.systemEmbedded[documentName]!]:
-                        new SystemEmbeddedCollectionField(
-                            foundry.documents[`Base${documentName}`],
-                        ),
-                }),
-                {} as foundry.data.fields.DataSchema,
-            );
         }
 
         public static get schema(): foundry.data.fields.SchemaField<foundry.data.fields.DataSchema> {
@@ -102,482 +121,436 @@ export function SystemEmbeddedCollectionsMixin<
             return this.__schema;
         }
 
-        public static get hierarchy(): DocumentHierarchy {
-            if (this._hierarchy) return this._hierarchy;
-
-            const hierarchy: AnyMutableObject = {};
-            this.schema
-                .entries()
-                .filter(
-                    ([_, field]) =>
-                        (
-                            field.constructor as unknown as typeof foundry.data.fields.DataField
-                        ).hierarchical,
-                )
-                .forEach(([fieldName, field]) => {
-                    hierarchy[fieldName] = field;
-                });
-
-            /**
-             * Append system embedded collection fields to overall hierarchy
-             * This ensure broader comptability with Foundry's handling of
-             * embedded collections.
-             */
-            this._hierarchy = foundry.utils.mergeObject(
-                hierarchy,
-                this.systemHierarchy,
-            );
-
-            return this._hierarchy;
-        }
-
-        public static get systemHierarchy(): DocumentHierarchy {
-            if (this._systemHierarchy) return this._systemHierarchy;
-
-            const hierarchy: DocumentHierarchy = {};
-            (
-                this.schema.fields.system
-                    .embeddedCollectionsSchema as foundry.data.fields.SchemaField<foundry.data.fields.DataSchema>
-            )
-                .entries()
-                .filter(
-                    ([_, field]) =>
-                        (
-                            field.constructor as unknown as typeof foundry.data.fields.DataField
-                        ).hierarchical,
-                )
-                .forEach(([fieldName, field]) => {
-                    hierarchy[fieldName] =
-                        field as foundry.data.fields.EmbeddedCollectionField.Any;
-                });
-
-            return (this._systemHierarchy = hierarchy);
-        }
-
-        protected _configure({
-            pack = null,
-            parentCollection = null,
-        }: foundry.abstract.Document.ConfigureOptions = {}) {
-            /**
-             * Unfortunately we need to override and re-implement this whole function.
-             * This is due to the fact that when constructing the Embedded Collections,
-             * Foundry natively always grabs the source data directly by field name (`this._source[fieldName]`)
-             * rather than doing a look up by fieldPath.
-             * Additionally, Foundry seals the resulting collections object and makes it
-             * non-writable.
-             * All of this combined means the only way for us to inject our own Embedded Collections
-             * and have them be treated like Embedded Collections by Foundry, is to re-implement
-             * this function.
-             */
-
-            Object.defineProperty(this, 'parentCollection', {
-                value: this._getParentCollection(
-                    parentCollection as string | undefined,
-                ),
-                writable: false,
-            });
-
-            Object.defineProperty(this, 'pack', {
-                value: (() => {
-                    if (typeof pack === 'string') return pack;
-                    if (this.parent?.pack) return this.parent.pack;
-                    if (pack === null) return null;
-                    throw new Error(
-                        'The provided compendium pack ID must be a string',
-                    );
-                })(),
-                writable: false,
-            });
-
-            // Construct Embedded Collections
-            const collections: AnyMutableObject = {};
-            for (const [fieldName, field] of Object.entries(
-                (this.constructor as DocumentClass).hierarchy,
-            )) {
-                if (
-                    !(
-                        field.constructor as typeof foundry.data.fields.EmbeddedCollectionField
-                    ).implementation
-                )
-                    continue;
-                // This is the only change from native Foundry (`this._source[fieldName]`)
-                const data = foundry.utils.getProperty(
-                    this._source,
-                    field.fieldPath,
-                ) as object[];
-
-                const c = (collections[fieldName] = new (
-                    field.constructor as typeof foundry.data.fields.EmbeddedCollectionField
-                ).implementation(fieldName, this, data));
-                Object.defineProperty(this, fieldName, {
-                    value: c,
-                    writable: false,
-                });
-            }
-
-            Object.defineProperty(this, 'collections', {
-                value: Object.seal(collections),
-                writable: false,
-            });
-        }
-
-        public static *_initializationOrder() {
-            const hierarchy = this.hierarchy;
-
-            // Initialize non-hierarchical fields first
-            for (const [name, field] of this.schema.entries()) {
-                if (name in hierarchy) continue;
-                yield [name, field];
-            }
-
-            // Initialize hierarchical fields last
-            for (const [name, field] of Object.entries(hierarchy)) {
-                if (!(name in this.schema.fields)) continue; // Check to skip system embedded collections
-                yield [name, field];
-            }
-        }
-
         public static isNativeEmbedding(embeddedName: string): boolean {
             const collectionName = this.getCollectionName(
                 embeddedName as never,
             );
             return (
                 !!collectionName &&
-                collectionName in this.hierarchy &&
-                !(collectionName in this.systemHierarchy)
+                embeddedName in this.metadata.embedded &&
+                !(embeddedName in this.metadata.systemEmbedded)
             );
+        }
+
+        public isNativeEmbedding(embeddedName: string): boolean {
+            return (
+                this.constructor as unknown as SystemEmbeddedCollectionsDocument
+            ).isNativeEmbedding(embeddedName);
         }
 
         public static isSystemEmbedding(embeddedName: string): boolean {
             const collectionName = this.getCollectionName(
                 embeddedName as never,
             );
-            return !!collectionName && collectionName in this.systemHierarchy;
+            return (
+                !!collectionName && embeddedName in this.metadata.systemEmbedded
+            );
         }
 
-        public getEmbeddedCollectionField(embeddedName: string) {
-            const collectionName = (
-                this.constructor as DocumentClass
+        public isSystemEmbedding(embeddedName: string): boolean {
+            return (
+                this.constructor as unknown as SystemEmbeddedCollectionsDocument
+            ).isSystemEmbedding(embeddedName);
+        }
+
+        public getCollectionName(embeddedName: foundry.abstract.Document.Type) {
+            return (
+                this
+                    .constructor as unknown as SystemEmbeddedCollectionsDocumentConstructor
             ).getCollectionName(embeddedName as never);
-            if (!collectionName)
-                throw new Error(
-                    `${embeddedName} is not a valid embedded Document within the ${this.documentName} Document`,
-                );
-
-            return (this.constructor as DocumentClass).hierarchy[
-                collectionName
-            ];
         }
-
-        public async createEmbeddedDocuments(
-            embeddedName: string,
-            data: Object[],
-            operation?: foundry.abstract.DatabaseBackend.CreateOperation<foundry.abstract.Document.AnyConstructor>,
-        ) {
-            if (
-                (
-                    this.constructor as typeof SystemEmbeddedCollectionsDocument
-                ).isNativeEmbedding(embeddedName)
-            ) {
-                return super.createEmbeddedDocuments(
-                    embeddedName as never,
-                    data as never,
-                    operation as never,
-                );
-            }
-
-            const collectionField =
-                this.getEmbeddedCollectionField(embeddedName);
-            const collection = this.getEmbeddedCollection(
-                embeddedName as never,
-            ) as AnyEmbeddedCollection;
-
-            const docs = data
-                .map((d) => collection._initializeDocument(d, { parent: this }))
-                .filter((v) => !!v);
-
-            const update = await this.update(
-                {
-                    [collectionField.fieldPath]: collection.toObject(),
-                } as never,
-                { diff: false } as never,
-            );
-
-            return data.map(() => update);
-        }
-
-        public async updateEmbeddedDocuments(
-            embeddedName: string,
-            updates: AnyObject[] = [],
-            operation: Partial<
-                foundry.abstract.DatabaseBackend.UpdateOperation<foundry.abstract.Document.AnyConstructor>
-            > = {},
-        ) {
-            if (
-                (
-                    this.constructor as typeof SystemEmbeddedCollectionsDocument
-                ).isNativeEmbedding(embeddedName)
-            ) {
-                return super.updateEmbeddedDocuments(
-                    embeddedName as never,
-                    updates as never,
-                    operation as never,
-                );
-            }
-
-            const collectionField =
-                this.getEmbeddedCollectionField(embeddedName);
-            const collection = this.getEmbeddedCollection(
-                embeddedName as never,
-            ) as AnyEmbeddedCollection;
-
-            updates.forEach((update) => {
-                const doc = collection.get(update._id as string);
-                if (!doc) return;
-
-                doc.updateSource(update);
-            });
-
-            const update = await this.update(
-                {
-                    [collectionField.fieldPath]: collection.toObject(),
-                } as never,
-                { recursive: false, diff: false } as never,
-            );
-
-            return updates.map(() => update);
-        }
-
-        public async deleteEmbeddedDocuments(
-            embeddedName: string,
-            ids: string[],
-            operation: Partial<foundry.abstract.DatabaseBackend.DeleteOperation> = {},
-        ) {
-            if (
-                (
-                    this.constructor as typeof SystemEmbeddedCollectionsDocument
-                ).isNativeEmbedding(embeddedName)
-            ) {
-                return super.deleteEmbeddedDocuments(
-                    embeddedName as never,
-                    ids as never,
-                    operation as never,
-                );
-            }
-
-            const collectionField =
-                this.getEmbeddedCollectionField(embeddedName);
-            const collection = this.getEmbeddedCollection(
-                embeddedName as never,
-            ) as AnyEmbeddedCollection;
-
-            ids.forEach((id) => collection.delete(id));
-
-            const update = await this.update(
-                {
-                    [collectionField.fieldPath]: collection.toObject(),
-                } as never,
-                { recursive: false, diff: false } as never,
-            );
-
-            return ids.map(() => update);
-        }
-    } as unknown as typeof cls;
+    };
 }
 
-/**
- * Identical to Foundry's native EmbeddedCollectionField, but
- * overrides the _cleanType function to use in-place mapping of the array.
- * This prevents issues where the source data reference of the collection
- * diverges from the document source data.
- *
- * This is also more in-line with Foundry's general approach of mutating
- * source data in-place rather than replacing references.
- */
-class SystemEmbeddedCollectionField<
+class PseudoEmbeddedCollectionField<
     const ElementFieldType extends foundry.abstract.Document.AnyConstructor,
     const ParentDataModel extends foundry.abstract.Document.Any,
 > extends foundry.data.fields.EmbeddedCollectionField<
     ElementFieldType,
     ParentDataModel
 > {
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    protected override _cleanType(
-        value: any,
-        options: foundry.data.fields.DataField.CleanOptions & {
-            recursive?: boolean;
-        } = {},
-    ) {
-        if (options.recursive === false)
-            options = { ...options, partial: false };
-        return inPlaceMap(value, (v: any) =>
-            this._cleanElement(v, options),
-        ) as any;
+    public override apply<Value, Options, Return>(
+        fn:
+            | keyof this
+            | ((this: this, value: Value, options: Options) => Return),
+        value?: Value,
+        options?: Options,
+    ): Return {
+        // Prevent recursive invocations
+        const applied =
+            (
+                options as
+                    | { _applied?: foundry.data.fields.DataField.Any[] }
+                    | undefined
+            )?._applied ?? ([] as foundry.data.fields.DataField.Any[]);
+        if (applied.includes(this)) return value as unknown as Return;
+        else
+            return super.apply(fn, value, {
+                ...options,
+                _applied: [...applied, this],
+            } as Options);
     }
-    /* eslint-enable @typescript-eslint/no-explicit-any */
 }
 
-class SystemCollectionsTypeDataField<
-    const SystemDocument extends foundry.abstract.Document.SystemConstructor,
-> extends foundry.data.fields.TypeDataField<SystemDocument> {
-    private static _embeddedCollectionsSchemas = new Map<
-        foundry.abstract.Document.Type,
-        foundry.data.fields.SchemaField<foundry.data.fields.DataSchema>
-    >();
+const _dispatch = foundry.helpers.SocketInterface.dispatch;
+foundry.helpers.SocketInterface.dispatch = async function <
+    DatabaseAction extends foundry.abstract.types.DatabaseAction,
+>(
+    this: any,
+    eventName: string,
+    request: foundry.abstract.types.DocumentSocketRequest<DatabaseAction>,
+): Promise<foundry.helpers.SocketInterface.SocketResponse> {
+    if (request.action === 'get' || eventName !== 'modifyDocument')
+        return _dispatch.call(this, eventName, request);
+    if (!request.operation.parent && !request.operation.parentUuid)
+        return _dispatch.call(this, eventName, request);
 
-    declare document: SystemDocument & {
-        defineSystemEmbeddedCollectionsSchema(): foundry.data.fields.DataSchema;
+    const documentType = request.type as foundry.abstract.Document.Type;
+
+    // Get parent document
+    const parent =
+        request.operation.parent ??
+        (await fromUuid(request.operation.parentUuid!));
+
+    // Ensure parent document supports system embedded collections
+    if (!parent || !hasSystemEmbeddedCollections(parent))
+        return _dispatch.call(this, eventName, request);
+
+    // Ensure parent supports this type of system embedded collection
+    if (!parent.isSystemEmbedding(documentType))
+        return _dispatch.call(this, eventName, request);
+
+    // Assign parent document to request
+    request.operation.parent = parent;
+
+    const response = await _dispatch.call(
+        this,
+        eventName,
+        transformRequest(request),
+    );
+    return transformResponse(
+        response as unknown as SocketResponse,
+    ) as unknown as foundry.helpers.SocketInterface.SocketResponse;
+};
+
+const _getData = foundry.Game.getData;
+foundry.Game.getData = async function (socket: any, view: any) {
+    const data = (await _getData.call(this, socket, view)) as AnyMutableObject;
+
+    (
+        Object.entries(foundry.documents) as [
+            foundry.abstract.Document.Type,
+            foundry.abstract.Document.AnyConstructor,
+        ][]
+    ).forEach(([documentType, cls]) => {
+        if (!hasSystemEmbeddedCollections(cls)) return;
+
+        const systemEmbeddedCollections = cls.metadata.systemEmbedded;
+
+        const documents = (data[cls.collectionName] ??
+            []) as AnyMutableObject[];
+
+        documents.forEach((doc) => {
+            if (
+                'system' in doc &&
+                !(SYSTEM_EMBEDDED_COLLECTIONS_KEYS in (doc.system as AnyObject))
+            )
+                return;
+
+            const docSystemEmbeddedCollections = (doc.system as AnyObject)[
+                SYSTEM_EMBEDDED_COLLECTIONS_KEYS
+            ] as Record<string, AnyObject[]>;
+            Object.values(systemEmbeddedCollections).forEach(
+                (collectionName) => {
+                    if (!(collectionName in docSystemEmbeddedCollections))
+                        return;
+                    doc[collectionName] =
+                        docSystemEmbeddedCollections[collectionName];
+                },
+            );
+
+            delete (doc.system as AnyMutableObject)[
+                SYSTEM_EMBEDDED_COLLECTIONS_KEYS
+            ];
+        });
+    });
+
+    return data;
+};
+
+const _connect = foundry.Game.connect;
+foundry.Game.connect = async function (this: foundry.Game, sessionId: string) {
+    const socket = await _connect.call(this, sessionId);
+
+    const _on = socket.on;
+    socket.on = function (
+        this: unknown,
+        eventName: string,
+        listener: (...args: any[]) => void,
+    ) {
+        if (eventName !== 'modifyDocument')
+            return _on.call(this, eventName, listener);
+
+        return _on.call(this, eventName, function (response: SocketResponse) {
+            if (response.action !== 'update') return listener(response);
+            if (!response.operation.isSystemEmbeddedCollectionOperation)
+                return listener(response);
+
+            // Transform response
+            response = transformResponse(response);
+
+            // Invoke listener
+            return listener(response);
+        });
     };
 
-    public defineEmbeddedCollectionsSchema(): foundry.data.fields.DataSchema {
-        return this.document.defineSystemEmbeddedCollectionsSchema();
-    }
+    return socket;
+};
 
-    public get documentName() {
-        return super.documentName as foundry.abstract.Document.SystemType;
-    }
+/* --- Helpers -- */
 
-    public get embeddedCollectionsSchema() {
-        if (
-            !SystemCollectionsTypeDataField._embeddedCollectionsSchemas.has(
-                this.document.documentName,
-            )
-        ) {
-            SystemCollectionsTypeDataField._embeddedCollectionsSchemas.set(
-                this.document.documentName,
-                new foundry.data.fields.SchemaField(
-                    this.defineEmbeddedCollectionsSchema(),
-                    undefined as never,
-                    {
-                        name: 'system',
-                    },
-                ),
-            );
-        }
-
-        return SystemCollectionsTypeDataField._embeddedCollectionsSchemas.get(
-            this.document.documentName,
-        )!;
-    }
-
-    public getModelForType(type: string) {
-        let cls = super.getModelForType(type);
-        if (!cls) return null;
-
-        if (!('__systemEmbeddedCollections' in cls)) {
-            const embeddedCollectionsSchema =
-                this.defineEmbeddedCollectionsSchema();
-
-            cls = CONFIG[this.documentName].dataModels[type] =
-                class System extends cls {
-                    // Marker to flag system embedded collection support
-                    public static __systemEmbeddedCollections = true;
-                    private static _combinedSchema?: foundry.data.fields.SchemaField<foundry.data.fields.DataSchema>;
-
-                    public static get combinedSchema() {
-                        return (this._combinedSchema ??=
-                            new foundry.data.fields.SchemaField(
-                                foundry.utils.mergeObject(
-                                    super.defineSchema(),
-                                    embeddedCollectionsSchema,
-                                ) as foundry.data.fields.DataSchema,
-                            ));
-                    }
-
-                    public static cleanData(
-                        source: AnyObject = {},
-                        options: foundry.data.fields.DataField.CleanOptions = {},
-                    ) {
-                        return this.combinedSchema.clean(source, options);
-                    }
-                };
-        }
-
-        return cls;
-    }
-
-    public override initialize(
-        value: SystemCollectionsTypeDataField.PersistedType<SystemDocument>,
-        model: foundry.abstract.DataModel.Any,
-        options?: foundry.data.fields.DataField.InitializeOptions,
-    ) {
-        const result = super.initialize(value, model, options);
-
-        const embeddedSchema = this.embeddedCollectionsSchema;
-        embeddedSchema.initialize(value, model, options);
-
-        return result;
-    }
-
-    public override _updateDiff(
-        source: AnyMutableObject,
-        key: string,
-        value: unknown,
-        difference: AnyObject,
-        options?: foundry.abstract.DataModel.UpdateOptions,
-    ) {
-        // Embedded Collections
-        const embeddedSchema = this.embeddedCollectionsSchema;
-        const embeddedDifference = structuredClone(difference);
-        embeddedSchema._updateDiff(
-            source,
-            key,
-            value,
-            embeddedDifference,
-            options,
-        );
-
-        // System DataModel
-        super._updateDiff(source, key, value, difference, options);
-
-        // Merge differences
-        foundry.utils.mergeObject(difference, embeddedDifference);
-    }
-
-    public override _updateCommit(
-        source: AnyMutableObject,
-        key: string,
-        value: unknown,
-        difference: AnyObject,
-        options?: foundry.abstract.DataModel.UpdateOptions,
-    ) {
-        // System DataModel
-        super._updateCommit(source, key, value, difference, options);
-
-        // Embedded Collections
-        const embeddedSchema = this.embeddedCollectionsSchema;
-        embeddedSchema._updateCommit(source, key, value, difference, options);
-    }
-
-    public override _validateType(
-        value: SystemCollectionsTypeDataField.InitializedType<SystemDocument>,
-        options: foundry.data.fields.DataField.ValidateOptions<foundry.data.fields.DataField.Any> = {},
-    ) {
-        const result = super._validateType(value, options);
-        if (result !== undefined) return result;
-
-        // Embedded Collections
-        const embeddedSchema = this.embeddedCollectionsSchema;
-        return embeddedSchema.validate(value, options);
-    }
+function isCreateRequest(
+    request: foundry.abstract.types.DocumentSocketRequest<foundry.abstract.types.DatabaseAction>,
+): request is foundry.abstract.types.DocumentSocketRequest<'create'> {
+    return request.action === 'create';
 }
 
-namespace SystemCollectionsTypeDataField {
-    export type InitializedType<
-        SystemDocument extends foundry.abstract.Document.SystemConstructor,
-        Options extends
-            foundry.data.fields.TypeDataField.Options<SystemDocument> = foundry.data.fields.TypeDataField.DefaultOptions,
-    > = foundry.data.fields.TypeDataField.InitializedType<
-        SystemDocument,
-        Options
-    >;
+function isUpdateRequest(
+    request: foundry.abstract.types.DocumentSocketRequest<foundry.abstract.types.DatabaseAction>,
+): request is foundry.abstract.types.DocumentSocketRequest<'update'> {
+    return request.action === 'update';
+}
 
-    export type PersistedType<
-        SystemDocument extends foundry.abstract.Document.SystemConstructor,
-        Options extends
-            foundry.data.fields.TypeDataField.Options<SystemDocument> = foundry.data.fields.TypeDataField.DefaultOptions,
-    > = foundry.data.fields.TypeDataField.PersistedType<
-        SystemDocument,
-        Options
-    >;
+function isDeleteRequest(
+    request: foundry.abstract.types.DocumentSocketRequest<foundry.abstract.types.DatabaseAction>,
+): request is foundry.abstract.types.DocumentSocketRequest<'delete'> {
+    return request.action === 'delete';
+}
+
+function transformRequest<
+    DatabaseAction extends foundry.abstract.types.DatabaseAction,
+>(
+    inRequest: foundry.abstract.types.DocumentSocketRequest<DatabaseAction>,
+): foundry.abstract.types.DocumentSocketRequest<'update'> {
+    if (isCreateRequest(inRequest)) {
+        return transformCreateRequest(inRequest);
+    } else if (isUpdateRequest(inRequest)) {
+        return transformUpdateRequest(inRequest);
+    } else if (isDeleteRequest(inRequest)) {
+        return transformDeleteRequest(inRequest);
+    }
+
+    throw new Error(`Unsupported Database Action: ${inRequest.action}`);
+}
+
+function transformRequestCommon(
+    inRequest: foundry.abstract.types.DocumentSocketRequest<DatabaseCRUDAction>,
+): foundry.abstract.types.DocumentSocketRequest<'update'> {
+    const documentType = inRequest.type as foundry.abstract.Document.Type;
+
+    const parent = inRequest.operation
+        .parent as SystemEmbeddedCollectionsDocument;
+    const collection = parent.getEmbeddedCollection(
+        documentType,
+    ) as AnyEmbeddedCollection;
+    const collectionName = parent.getCollectionName(documentType)!;
+
+    const outRequest = {
+        action: 'update' as const,
+        broadcast: inRequest.broadcast,
+        userId: inRequest.userId,
+        type: inRequest.type,
+        operation: {
+            action: 'update',
+            diff: false,
+            modifiedTime: inRequest.operation.modifiedTime,
+            pack: inRequest.operation.pack,
+            parent: null,
+            recursive: true,
+            render: inRequest.operation.render,
+            updates: [
+                {
+                    _id: parent.id,
+                    system: {
+                        [SYSTEM_EMBEDDED_COLLECTIONS_KEYS]: {
+                            [collectionName]: [
+                                ...collection.toObject(),
+                                ...(inRequest.action === 'create'
+                                    ? (
+                                          inRequest as foundry.abstract.types.DocumentSocketRequest<'create'>
+                                      ).operation.data
+                                    : []),
+                            ],
+                        },
+                    },
+                },
+            ],
+            isSystemEmbeddedCollectionOperation: true,
+            sourceRequest: foundry.utils.mergeObject(inRequest, {
+                'operation.parent': null,
+            }),
+        },
+    };
+
+    return outRequest;
+}
+
+function transformCreateRequest(
+    inRequest: foundry.abstract.types.DocumentSocketRequest<'create'>,
+): foundry.abstract.types.DocumentSocketRequest<'update'> {
+    inRequest.operation.data = inRequest.operation.data
+        .filter((data) => !!data)
+        .map((data: any) => {
+            if (data instanceof foundry.abstract.Document)
+                data = data.toObject();
+
+            data._id ??= foundry.utils.randomID();
+            return data;
+        });
+
+    return transformRequestCommon(inRequest);
+}
+
+function transformUpdateRequest(
+    inRequest: foundry.abstract.types.DocumentSocketRequest<'update'>,
+): foundry.abstract.types.DocumentSocketRequest<'update'> {
+    const documentType = inRequest.type as foundry.abstract.Document.Type;
+
+    const parent = inRequest.operation.parent!;
+    const collection = parent.getEmbeddedCollection(
+        documentType as never,
+    ) as AnyEmbeddedCollection;
+
+    (inRequest.operation.updates as AnyObject[])
+        .filter((update) => !!update)
+        .forEach((update) => {
+            const doc = collection.get(update._id as string);
+            if (!doc) return;
+
+            doc.updateSource(update);
+        });
+
+    return transformRequestCommon(inRequest);
+}
+
+function transformDeleteRequest(
+    inRequest: foundry.abstract.types.DocumentSocketRequest<'delete'>,
+): foundry.abstract.types.DocumentSocketRequest<'update'> {
+    const documentType = inRequest.type as foundry.abstract.Document.Type;
+
+    const parent = inRequest.operation.parent!;
+    const collection = parent.getEmbeddedCollection(
+        documentType as never,
+    ) as AnyEmbeddedCollection;
+
+    inRequest.operation.ids.forEach((id) => collection.delete(id));
+
+    return transformRequestCommon(inRequest);
+}
+
+function transformResponse(inResult: SocketResponse): SocketResponse {
+    if (!inResult.operation.sourceRequest) return inResult;
+
+    const inRequest = inResult.operation.sourceRequest;
+    if (!inRequest.operation.parentUuid) return inResult;
+
+    if (isCreateRequest(inRequest) || isUpdateRequest(inRequest)) {
+        return transformCreateUpdateResponse(inResult, inRequest);
+    } else if (isDeleteRequest(inRequest)) {
+        return transformDeleteResponse(inResult, inRequest);
+    }
+
+    throw new Error(`Unsupported Database Action: ${inRequest.action}`);
+}
+
+function transformResponseCommon(
+    inResult: SocketResponse,
+    inRequest: foundry.abstract.types.DocumentSocketRequest<DatabaseCRUDAction>,
+): SocketResponse {
+    return {
+        action: inRequest.action,
+        broadcast: inResult.broadcast,
+        userId: inResult.userId,
+        operation: {
+            action: inRequest.action,
+            modifiedTime: inRequest.operation.modifiedTime,
+            pack: inRequest.operation.pack,
+            parentUuid: inRequest.operation.parentUuid,
+            render: inRequest.operation.render,
+            renderSheet: (inRequest.operation as any).renderSheet,
+        },
+        type: inRequest.type as foundry.abstract.Document.Type,
+        result: [],
+    };
+}
+
+function transformCreateUpdateResponse(
+    inResult: SocketResponse,
+    inRequest: foundry.abstract.types.DocumentSocketRequest<
+        Exclude<DatabaseCRUDAction, 'delete'>
+    >,
+): SocketResponse {
+    const documentType = inRequest.type as foundry.abstract.Document.Type;
+
+    const collectionName = getCollectionNameFor(
+        inRequest.operation.parentUuid!,
+        documentType,
+    );
+    if (!collectionName) return inResult;
+
+    return foundry.utils.mergeObject(
+        transformResponseCommon(inResult, inRequest),
+        {
+            result: foundry.utils.getProperty(
+                (inResult.result as AnyObject[])[0],
+                `system.${SYSTEM_EMBEDDED_COLLECTIONS_KEYS}.${collectionName}`,
+            ) as AnyObject[],
+        },
+    );
+}
+
+function transformDeleteResponse(
+    inResult: SocketResponse,
+    inRequest: foundry.abstract.types.DocumentSocketRequest<'delete'>,
+): SocketResponse {
+    return foundry.utils.mergeObject(
+        transformResponseCommon(inResult, inRequest),
+        {
+            result: inRequest.operation.ids,
+        },
+    );
+}
+
+function hasSystemEmbeddedCollections(
+    doc: foundry.abstract.Document.Any,
+): doc is SystemEmbeddedCollectionsDocument;
+function hasSystemEmbeddedCollections(
+    doc: foundry.abstract.Document.AnyConstructor,
+): doc is SystemEmbeddedCollectionsDocumentConstructor;
+function hasSystemEmbeddedCollections(
+    doc:
+        | foundry.abstract.Document.Any
+        | foundry.abstract.Document.AnyConstructor,
+): boolean {
+    return (
+        'hasSystemEmbeddedCollections' in doc &&
+        doc.hasSystemEmbeddedCollections === true
+    );
+}
+
+function getDocumentClassFor(uuid: string) {
+    const { documentType } = foundry.utils.parseUuid(uuid);
+    if (!documentType) return null;
+    return CONFIG[documentType]
+        .documentClass as foundry.abstract.Document.AnyConstructor | null;
+}
+
+function getCollectionNameFor(
+    parentUuid: string,
+    embeddedName: foundry.abstract.Document.Type,
+): string | null {
+    const parentDocumentClass = getDocumentClassFor(parentUuid);
+    if (!parentDocumentClass) return null;
+
+    return parentDocumentClass.getCollectionName(embeddedName as never);
 }
