@@ -9,6 +9,8 @@ import type { SocketResponse, DocumentSocketRequest } from './types/socket';
 // Constants
 import { SYSTEM_EMBEDDED_COLLECTIONS_KEY } from './constants';
 
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/require-await */
+
 const EMIT_EVENT_PATCHES = {
     /**
      * Patches the emit call for the `modifyDocument` event to transform requests
@@ -34,7 +36,7 @@ const EMIT_EVENT_PATCHES = {
         // Get parent document
         const parent =
             request.operation.parent ??
-            (await fromUuid(request.operation.parentUuid!));
+            (await fromUuid(request.operation.parentUuid));
 
         // Ensure parent document supports system embedded collections
         if (!parent || !hasSystemEmbeddedCollections(parent)) return;
@@ -149,7 +151,7 @@ const ON_EVENT_PATCHES = {
  * embeds are real embedded collections) and the server (where they are stored on
  * the `system` field of the parent document).
  */
-const _connect = foundry.Game.connect;
+const _connect = foundry.Game.connect.bind(foundry.Game);
 foundry.Game.connect = async function (this: foundry.Game, sessionId: string) {
     const socket = await _connect.call(this, sessionId);
 
@@ -165,7 +167,7 @@ foundry.Game.connect = async function (this: foundry.Game, sessionId: string) {
         if (!(eventName in EMIT_EVENT_PATCHES))
             return _emit.call(this, eventName, ...args);
 
-        EMIT_EVENT_PATCHES[eventName as keyof typeof EMIT_EVENT_PATCHES](
+        void EMIT_EVENT_PATCHES[eventName as keyof typeof EMIT_EVENT_PATCHES](
             args,
             _emit.bind(this, eventName),
         ).then((handled) => {
@@ -200,3 +202,5 @@ foundry.Game.connect = async function (this: foundry.Game, sessionId: string) {
 
     return socket;
 };
+
+/* eslint-enable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/require-await */

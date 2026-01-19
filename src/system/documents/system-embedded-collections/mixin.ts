@@ -5,13 +5,15 @@ import type {
     SystemEmbeddedCollectionsDocumentConstructor,
 } from './types/general';
 
+/* eslint-disable no-prototype-builtins */
+
 export function SystemEmbeddedCollectionsMixin<
     const DocumentClass extends Document.Constructable.SystemConstructor,
 >(cls: DocumentClass, config: SystemEmbeddedCollectionsConfig) {
     return class SystemEmbeddedCollectionsDocument extends cls {
         // Markers to flag system embedded collection support
-        public static readonly hasSystemEmbeddedCollections: true = true;
-        public readonly hasSystemEmbeddedCollections: true = true;
+        public static readonly hasSystemEmbeddedCollections = true as const;
+        public readonly hasSystemEmbeddedCollections = true as const;
 
         declare static __schema: foundry.data.fields.SchemaField<foundry.data.fields.DataSchema>;
 
@@ -139,3 +141,5 @@ class PseudoEmbeddedCollectionField<
             } as Options);
     }
 }
+
+/* eslint-enable no-prototype-builtins */

@@ -1,2 +1,1 @@
-export const SYSTEM_EMBEDDED_COLLECTIONS_KEY =
-    '__systemEmbeddedCollections' as const;
+export const SYSTEM_EMBEDDED_COLLECTIONS_KEY = '__systemEmbeddedCollections';

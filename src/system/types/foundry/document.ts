@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-empty-object-type */
 declare class AnyConstructableDocument extends foundry.abstract.Document<
     foundry.abstract.Document.Type,
     {},
@@ -7,7 +7,7 @@ declare class AnyConstructableDocument extends foundry.abstract.Document<
     constructor(...args: any[]);
     _source: object;
 }
-/* eslint-enable @typescript-eslint/no-explicit-any */
+/* eslint-enable @typescript-eslint/no-explicit-any, @typescript-eslint/no-empty-object-type */
 
 export namespace Document {
     export namespace Constructable {

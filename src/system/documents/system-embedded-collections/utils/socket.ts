@@ -2,7 +2,7 @@
 import { getCollectionNameFor } from './general';
 
 // Types
-import type { AnyObject } from '@system/types/utils';
+import type { AnyObject, AnyMutableObject } from '@system/types/utils';
 
 import type {
     AnyEmbeddedCollection,
@@ -64,11 +64,11 @@ function transformCreateRequest(
 ): DocumentSocketRequest<'update'> {
     inRequest.operation.data = inRequest.operation.data
         .filter((data) => !!data)
-        .map((data: any) => {
+        .map((data) => {
             if (data instanceof foundry.abstract.Document)
                 data = data.toObject();
 
-            data._id ??= foundry.utils.randomID();
+            (data as AnyMutableObject)._id ??= foundry.utils.randomID();
             return data;
         });
 
@@ -119,9 +119,7 @@ function transformRequestCommon(
 
     const parent = inRequest.operation
         .parent as SystemEmbeddedCollectionsDocument;
-    const collection = parent.getEmbeddedCollection(
-        documentType,
-    ) as AnyEmbeddedCollection;
+    const collection = parent.getEmbeddedCollection(documentType)!;
     const collectionName = parent.getCollectionName(documentType)!;
 
     const outRequest = {
@@ -199,7 +197,10 @@ function transformResponseCommon(
             pack: inRequest.operation.pack,
             parentUuid: inRequest.operation.parentUuid,
             render: inRequest.operation.render,
-            renderSheet: (inRequest.operation as any).renderSheet,
+            renderSheet: foundry.utils.getProperty(
+                inRequest.operation,
+                'renderSheet',
+            ) as boolean,
         },
         type: inRequest.type as foundry.abstract.Document.Type,
         result: [],
