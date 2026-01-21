@@ -54,7 +54,7 @@ import { containsExpertise } from '@system/utils/actor';
 // Constants
 import { SYSTEM_ID } from '@system/constants';
 import { HOOKS } from '@system/constants/hooks';
-import { AnyObject } from '@league-of-foundry-developers/foundry-vtt-types/utils';
+import type { AnyObject } from '@league-of-foundry-developers/foundry-vtt-types/utils';
 
 export type CharacterActor = CosmereActor<ActorType.Character>;
 export type AdversaryActor = CosmereActor<ActorType.Adversary>;

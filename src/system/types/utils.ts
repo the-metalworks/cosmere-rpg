@@ -1,6 +1,6 @@
 import { CosmereActor, CosmereItem } from '../documents';
 
-export {
+export type {
     DeepPartial,
     DeepReadonly,
     AnyObject,
@@ -17,7 +17,7 @@ export {
     Identity,
     RemoveIndexSignatures,
 } from '@league-of-foundry-developers/foundry-vtt-types/utils';
-import { AnyObject } from '@league-of-foundry-developers/foundry-vtt-types/utils';
+import type { AnyObject } from '@league-of-foundry-developers/foundry-vtt-types/utils';
 
 // Constant to improve UI consistency
 export const NONE = 'none';
