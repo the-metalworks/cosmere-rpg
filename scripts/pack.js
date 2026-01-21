@@ -16,7 +16,15 @@ async function compilePacks() {
         const dest = path.join(PACK_DEST, folder.name);
 
         console.log(`Compiling pack ${folder.name}`);
-        await compilePack(src, dest, { recursive: true, log: true });
+        try {
+            await compilePack(src, dest, { recursive: true, log: true });
+        } catch (error) {
+            // Ignore iterator cleanup errors that occur after successful packing
+            // This is a known issue with LevelDB (https://github.com/google/leveldb/issues/1292)
+            if (error.code !== 'LEVEL_ITERATOR_NOT_OPEN') {
+                throw error;
+            }
+        }
     }
 }
 

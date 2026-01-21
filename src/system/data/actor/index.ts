@@ -11,14 +11,14 @@ export const config = {
 
 // export { AdversaryActorData } from './adversary';
 // export { CharacterActorData } from './character';
-export { CommonActorData, AttributeData } from './common';
+export type { CommonActorData, AttributeData } from './common';
 
-declare module "@league-of-foundry-developers/foundry-vtt-types/configuration" {
+declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
     interface DataModelConfig {
         Actor: {
-            'base': typeof CommonActorDataModel;
-            [ActorType.Character]: typeof CharacterActorDataModel,
-            [ActorType.Adversary]: typeof AdversaryActorDataModel
-        }
+            base: typeof CommonActorDataModel;
+            [ActorType.Character]: typeof CharacterActorDataModel;
+            [ActorType.Adversary]: typeof AdversaryActorDataModel;
+        };
     }
 }
