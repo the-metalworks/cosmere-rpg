@@ -145,11 +145,16 @@ class _Item<
     // @ts-expect-error Explicitly declare to get proper typing
     declare system: TSystem;
     // @ts-expect-error Explicitly declare to get proper typing
-    declare actor: CosmereActor | null;
-    // @ts-expect-error Explicitly declare to get proper typing
     declare sheet: BaseItemSheet | null;
 
+    // @ts-expect-error Overriden by system embedded collections
+    declare parent: CosmereActor | CosmereItem | null;
+
     declare items: foundry.abstract.EmbeddedCollection<CosmereItem, this>;
+
+    public get actor(): CosmereActor | null {
+        return this.parent instanceof CosmereActor ? this.parent : null;
+    }
 }
 
 export class CosmereItem<
