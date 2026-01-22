@@ -61,29 +61,29 @@ export * from './goal';
 export * from './power';
 export * from './talent-tree';
 
-declare module "@league-of-foundry-developers/foundry-vtt-types/configuration" {
+declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
     interface DataModelConfig {
         Item: {
-            [ItemType.Weapon]: typeof WeaponItemDataModel,
-            [ItemType.Armor]: typeof ArmorItemDataModel
-            [ItemType.Equipment]: typeof EquipmentItemDataModel
-            [ItemType.Loot]: typeof LootItemDataModel
+            [ItemType.Weapon]: typeof foundry.abstract.TypeDataModel;
+            [ItemType.Armor]: typeof foundry.abstract.TypeDataModel;
+            [ItemType.Equipment]: typeof foundry.abstract.TypeDataModel;
+            [ItemType.Loot]: typeof foundry.abstract.TypeDataModel;
 
-            [ItemType.Ancestry]: typeof AncestryItemDataModel
-            [ItemType.Culture]: typeof CultureItemDataModel
-            [ItemType.Path]: typeof PathItemDataModel
-            [ItemType.Talent]: typeof TalentItemDataModel
-            [ItemType.Trait]: typeof TraitItemDataModel
+            [ItemType.Ancestry]: typeof foundry.abstract.TypeDataModel;
+            [ItemType.Culture]: typeof foundry.abstract.TypeDataModel;
+            [ItemType.Path]: typeof foundry.abstract.TypeDataModel;
+            [ItemType.Talent]: typeof foundry.abstract.TypeDataModel;
+            [ItemType.Trait]: typeof foundry.abstract.TypeDataModel;
 
-            [ItemType.Action]: typeof ActionItemDataModel
+            [ItemType.Action]: typeof foundry.abstract.TypeDataModel;
 
-            [ItemType.Injury]: typeof InjuryItemDataModel
-            [ItemType.Connection]: typeof ConnectionItemDataModel
-            [ItemType.Goal]: typeof GoalItemDataModel
+            [ItemType.Injury]: typeof foundry.abstract.TypeDataModel;
+            [ItemType.Connection]: typeof foundry.abstract.TypeDataModel;
+            [ItemType.Goal]: typeof foundry.abstract.TypeDataModel;
 
-            [ItemType.Power]: typeof PowerItemDataModel
+            [ItemType.Power]: typeof foundry.abstract.TypeDataModel;
 
-            [ItemType.TalentTree]: typeof TalentTreeItemDataModel
-        }
+            [ItemType.TalentTree]: typeof foundry.abstract.TypeDataModel;
+        };
     }
 }

@@ -137,14 +137,24 @@ interface ShowConsumeDialogOptions {
 //     system?: T;
 // }
 
-class _Item<TSystem extends foundry.abstract.TypeDataModel.Any> extends Item {
+class _Item<
+    TSystem extends foundry.abstract.TypeDataModel.Any,
+> extends Item<'base'> {
+    // @ts-expect-error Explicitly declare to get proper typing
     declare type: ItemType;
     // @ts-expect-error Explicitly declare to get proper typing
     declare system: TSystem;
     // @ts-expect-error Explicitly declare to get proper typing
-    declare actor: CosmereActor | null;
-    // @ts-expect-error Explicitly declare to get proper typing
     declare sheet: BaseItemSheet | null;
+
+    // @ts-expect-error Overriden by system embedded collections
+    declare parent: CosmereActor | CosmereItem | null;
+
+    declare items: foundry.abstract.EmbeddedCollection<CosmereItem, this>;
+
+    public get actor(): CosmereActor | null {
+        return this.parent instanceof CosmereActor ? this.parent : null;
+    }
 }
 
 export class CosmereItem<
@@ -1685,6 +1695,10 @@ export type RelationshipsItem =
     CosmereItemFromSchema<RelationshipsItemDataSchema>;
 
 declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
+    interface DocumentClassConfig {
+        Item: typeof CosmereItem;
+    }
+
     interface ConfiguredItem<SubType extends Item.SubType> {
         document: CosmereItem;
     }

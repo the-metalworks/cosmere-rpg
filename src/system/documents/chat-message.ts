@@ -1035,7 +1035,7 @@ export class CosmereChatMessage<
 
             await Promise.all(
                 Array.from(targets).map(async (t) => {
-                    const target = (t as Token).actor as CosmereActor;
+                    const target = (t as Token).actor!;
                     return await target.applyDamage(damageToApply, {
                         originatingItem: this.itemSource ?? undefined,
                     });
@@ -1052,7 +1052,7 @@ export class CosmereChatMessage<
                 : 0;
             await Promise.all(
                 Array.from(targets).map(async (t) => {
-                    const target = (t as Token).actor as CosmereActor;
+                    const target = (t as Token).actor!;
                     return await target.update({
                         system: {
                             resources: {
@@ -1166,6 +1166,10 @@ export class CosmereChatMessage<
 }
 
 declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
+    interface DocumentClassConfig {
+        ChatMessage: typeof CosmereChatMessage;
+    }
+
     interface ConfiguredChatMessage<SubType extends ChatMessage.SubType> {
         document: CosmereChatMessage<SubType>;
     }

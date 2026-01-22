@@ -5,7 +5,11 @@ import { EmptyObject } from '@system/types/utils';
 // Mixins
 import { DataModelMixin } from '../mixins';
 import { IdItemMixin, IdItemDataSchema } from './mixins/id';
-import { TypedItemMixin, TypedItemDataSchema, TypedItemDerivedData } from './mixins/typed';
+import {
+    TypedItemMixin,
+    TypedItemDataSchema,
+    TypedItemDerivedData,
+} from './mixins/typed';
 import {
     DescriptionItemMixin,
     DescriptionItemDataSchema,
@@ -22,7 +26,7 @@ import {
     RelationshipsItemDataSchema,
 } from './mixins/relationships';
 
-const SCHEMA = {
+const SCHEMA = () => ({
     ancestry: new foundry.data.fields.StringField({
         required: false,
         nullable: true,
@@ -30,18 +34,17 @@ const SCHEMA = {
         label: 'COSMERE.Item.Action.Ancestry.Label',
         hint: 'COSMERE.Item.Action.Ancestry.Hint',
     }),
-};
+});
 
-export type ActionItemDataSchema = 
-    & typeof SCHEMA 
-    & IdItemDataSchema
-    & TypedItemDataSchema<ActionType>
-    & DescriptionItemDataSchema
-    & ActivatableItemDataSchema
-    & DamagingItemDataSchema
-    & ModalityItemDataSchema
-    & EventsItemDataSchema
-    & RelationshipsItemDataSchema;
+export type ActionItemDataSchema = ReturnType<typeof SCHEMA> &
+    IdItemDataSchema &
+    TypedItemDataSchema<ActionType> &
+    DescriptionItemDataSchema &
+    ActivatableItemDataSchema &
+    DamagingItemDataSchema &
+    ModalityItemDataSchema &
+    EventsItemDataSchema &
+    RelationshipsItemDataSchema;
 
 export type ActionItemDerivedData = TypedItemDerivedData;
 
@@ -75,6 +78,6 @@ export class ActionItemDataModel extends DataModelMixin<
     RelationshipsMixin(),
 ) {
     static defineSchema() {
-        return foundry.utils.mergeObject(super.defineSchema(), SCHEMA);
+        return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());
     }
 }

@@ -17,7 +17,10 @@ export {
     Identity,
     RemoveIndexSignatures,
 } from '@league-of-foundry-developers/foundry-vtt-types/utils';
-import { AnyObject } from '@league-of-foundry-developers/foundry-vtt-types/utils';
+import {
+    AnyObject,
+    AnyConstructor,
+} from '@league-of-foundry-developers/foundry-vtt-types/utils';
 
 // Constant to improve UI consistency
 export const NONE = 'none';

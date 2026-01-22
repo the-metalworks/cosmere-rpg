@@ -1403,6 +1403,10 @@ export class CosmereActor<
 }
 
 declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
+    interface DocumentClassConfig {
+        Actor: typeof CosmereActor;
+    }
+
     interface ConfiguredActor<SubType extends Actor.SubType> {
         document: CosmereActor;
     }
