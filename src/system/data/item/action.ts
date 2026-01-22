@@ -76,7 +76,6 @@ export class ActionItemDataModel extends DataModelMixin<
     ModalityItemMixin(),
     EventsItemMixin(),
     RelationshipsMixin(),
-    // PseudoCollectionsMixin(),
 ) {
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());

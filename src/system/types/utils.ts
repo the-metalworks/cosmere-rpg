@@ -48,18 +48,6 @@ export type ConstructorArguments<T> = T extends abstract new (
     ? A
     : never;
 
-export type NonConstructorKeys<T> = {
-    [K in keyof T]: T[K] extends abstract new (...args: any[]) => any
-        ? never
-        : K;
-}[keyof T];
-
-// export type Constructable<T extends AnyConstructor> = Pick<T, NonConstructorKeys<T>> & { new (...args: any[]): InstanceType<T> };
-
-// export type Constructable<T extends { new: (...args: any[]) => any }> = T & {
-//     new: (...args: any[]) => InstanceType<T>;
-// }
-
 export type ConcreteApplicationV2Constructor<
     TClass extends foundry.applications.api.ApplicationV2.AnyConstructor,
     TInstance extends
