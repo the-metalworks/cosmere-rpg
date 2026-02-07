@@ -118,6 +118,10 @@ export class CosmereCombat extends Combat {
 
         if (turnIndex !== -1) {
             const updateData: Combat.UpdateData = { turn: turnIndex };
+            const updateOptions: Combat.Database.UpdateOperation = {
+                direction: 1,
+            };
+            Hooks.callAll('combatTurn', this, updateData, updateOptions);
             await this.update(updateData);
         }
     }
