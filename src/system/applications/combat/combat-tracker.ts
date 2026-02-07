@@ -111,7 +111,6 @@ export class CosmereCombatTracker extends foundry.applications.sidebar.tabs
             activated: combatant.activated,
             isBoss: combatant.isBoss,
             bossFastActivated: combatant.bossFastActivated,
-            css: '', // Strip active player formatting
         };
     }
 
@@ -153,9 +152,17 @@ export class CosmereCombatTracker extends foundry.applications.sidebar.tabs
         // Get the combatant
         const combatant = this.viewed!.combatants.get(li.dataset.combatantId!)!;
 
+        // Determine if this is a boss fast turn
+        const isBossFastTurn =
+            combatant.isBoss && li.dataset.phase === TurnSpeed.Fast;
+
         // Mark the combatant as activated
-        void combatant.markActivated(
-            combatant.isBoss && li.dataset.phase === TurnSpeed.Fast,
+        void combatant.markActivated(isBossFastTurn);
+
+        // Set the current turn to this combatant
+        void this.viewed?.setCurrentTurnFromCombatant(
+            combatant,
+            isBossFastTurn,
         );
     }
 

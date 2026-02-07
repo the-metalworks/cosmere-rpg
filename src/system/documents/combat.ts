@@ -21,7 +21,40 @@ export class CosmereCombat extends Combat {
 
     override async nextRound(): Promise<this> {
         this.resetActivations();
+
+        // Ensure that at the start of the round, it's no combatant's turn
+        await this.update(
+            { round: this.round, turn: null },
+            { turnEvents: false },
+        );
+
         return super.nextRound();
+    }
+
+    override async nextTurn(): Promise<this> {
+        // The Cosmere RPG doesn't have an easy programmatic "next turn", so we should reset the combat tracker to be no-one's turn when the nextTurn button is pressed.
+        if (this.turn === null) {
+            return this;
+        }
+        let advanceTime;
+        if (this.turns.length > this.turn + 1) {
+            advanceTime = this.getTimeDelta(
+                this.round,
+                this.turn,
+                this.round,
+                this.turn + 1,
+            );
+        } else advanceTime = 0;
+        const updateData = { round: this.round, turn: null };
+        const updateOptions: Combat.Database.UpdateOperation = {
+            direction: 1,
+            worldTime: { delta: advanceTime },
+            turnEvents: false,
+            broadcast: true,
+        };
+
+        await this.update(updateData, updateOptions);
+        return this;
     }
 
     override setupTurns(): CosmereCombatant[] {
@@ -63,6 +96,30 @@ export class CosmereCombat extends Combat {
 
         // Return the array of prepared turns
         return this.turns;
+    }
+
+    public async setCurrentTurnFromCombatant(
+        combatant: CosmereCombatant,
+        isBossFastTurn = false,
+    ) {
+        let turnIndex: number;
+
+        if (isBossFastTurn) {
+            // Find the turn index that matches this combatant with a fast turn speed
+            turnIndex = this.turns.findIndex(
+                (turn: CosmereCombatant) =>
+                    turn.id === combatant.id &&
+                    turn.turnSpeed === TurnSpeed.Fast,
+            );
+        } else {
+            // If it's not a boss fast turn, find the combatant
+            turnIndex = this.turns.indexOf(combatant);
+        }
+
+        if (turnIndex !== -1) {
+            const updateData: Combat.UpdateData = { turn: turnIndex };
+            await this.update(updateData);
+        }
     }
 }
 
