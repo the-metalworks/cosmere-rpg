@@ -1,0 +1,19 @@
+<form>
+    <div class="form-group-stacked"></div>
+        <div class="form-field">
+            <input type="text" name="name" value="{{originalName}}" id="name">
+            <label for="name">
+                {{localize "DIALOG.RenameDirectoryEntry.Label" type=documentType}}
+            </label>
+            <span class="hint">
+                {{localize "DIALOG.RenameDirectoryEntry.Hint" type=documentType}}
+            </span>
+        </div>
+    </div>
+
+    <div class="form-group submit">
+        <button type="submit" data-action="submit">
+            {{localize "GENERIC.Button.Save"}}
+        </button>
+    </div>
+</form>
