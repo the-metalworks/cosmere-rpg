@@ -11,6 +11,7 @@ export const TEMPLATES = {
     GENERAL_SHEET_BACKGROUND: 'general/sheet-background.hbs',
     GENERAL_CONTEXT_MENU: 'general/context-menu.hbs',
     COMBAT_TRACKER: 'combat/combat-tracker.hbs',
+    COMBAT_TRACKER_FOOTER: 'combat/combat-tracker-footer.hbs',
     COMBAT_COMBATANT: 'combat/combatant.hbs',
 
     COMPONENT_DOCUMENT_DROP_LIST: 'general/components/document-drop-list.hbs',
@@ -218,7 +219,10 @@ export function renderSystemTemplate(
     template: string,
     data: AnyObject,
 ): Promise<string> {
-    return foundry.applications.handlebars.renderTemplate(`systems/${SYSTEM_ID}/templates/${template}`, data);
+    return foundry.applications.handlebars.renderTemplate(
+        `systems/${SYSTEM_ID}/templates/${template}`,
+        data,
+    );
 }
 
 export const THEME_TAG = 'cosmere-theme';

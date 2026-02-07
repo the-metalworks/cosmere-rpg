@@ -48,6 +48,9 @@ export class CosmereCombatTracker extends foundry.applications.sidebar.tabs
             tracker: {
                 template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.COMBAT_TRACKER}`,
             },
+            footer: {
+                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.COMBAT_TRACKER_FOOTER}`,
+            },
         },
     );
 
