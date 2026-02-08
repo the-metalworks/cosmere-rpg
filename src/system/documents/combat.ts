@@ -121,7 +121,10 @@ export class CosmereCombat extends Combat {
                 direction: 1,
             };
             Hooks.callAll('combatTurn', this, updateData, updateOptions);
-            await this.update(updateData);
+            await this.update(
+                updateData,
+                updateOptions as Combat.Database.UpdateOperation,
+            );
         }
     }
 }
