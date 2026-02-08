@@ -179,6 +179,11 @@ export class CosmereCombatTracker extends foundry.applications.sidebar.tabs
             li.data('combatant-id') as string,
         )!;
 
+        // Toggling a boss's turn speed should not be possible, so return
+        if (combatant.isBoss) {
+            return;
+        }
+
         // Toggle the combatant's turn speed
         void combatant.toggleTurnSpeed();
     }
