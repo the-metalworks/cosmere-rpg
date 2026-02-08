@@ -1,6 +1,7 @@
 import { SYSTEM_ID } from './constants';
-import { Theme } from './types/cosmere';
+import { Resource, Theme } from './types/cosmere';
 import { setTheme } from './utils/templates';
+import { ResourceConfig } from './types/config';
 
 /**
  * Index of identifiers for system settings.
@@ -51,9 +52,13 @@ type SystemSettingsConfig = {
 } & {
     [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.AUTOMATION_TOKEN_FLAGS_SIZE}`]: boolean;
 } & {
-    [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.TOKEN_DEFAULT_BAR_1_VAL}`]: string;
+    [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.TOKEN_DEFAULT_BAR_1_VAL}`]:
+        | `resources.${Resource}`
+        | 'none';
 } & {
-    [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.TOKEN_DEFAULT_BAR_2_VAL}`]: string;
+    [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.TOKEN_DEFAULT_BAR_2_VAL}`]:
+        | `resources.${Resource}`
+        | 'none';
 } & { [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.SYSTEM_THEME}`]: Theme };
 
 type SystemSettingKey = (typeof SETTINGS)[keyof typeof SETTINGS];
@@ -64,13 +69,6 @@ export const enum TargetingOptions {
     SelectedAndTargeted = 2,
     PrioritiseSelected = 3,
     PrioritiseTargeted = 4,
-}
-
-export const enum TokenBarOptions {
-    health = `resources.hea`,
-    focus = `resources.foc`,
-    investiture = `resources.inv`,
-    none = ``,
 }
 
 /**
@@ -120,43 +118,6 @@ export function registerSystemSettings() {
             config: true,
             type: Boolean,
             default: option.default,
-        });
-    }
-
-    // TOKEN SETTINGS
-    const tokenOptions = [
-        {
-            name: SETTINGS.TOKEN_DEFAULT_BAR_1_VAL,
-            default: TokenBarOptions.health,
-            scope: 'client',
-        },
-        {
-            name: SETTINGS.TOKEN_DEFAULT_BAR_2_VAL,
-            default: TokenBarOptions.focus,
-            scope: 'client',
-        },
-    ];
-
-    for (const option of tokenOptions) {
-        game.settings.register(SYSTEM_ID, option.name, {
-            name: game.i18n.localize(`SETTINGS.${option.name}.name`),
-            hint: game.i18n.localize(`SETTINGS.${option.name}.hint`),
-            scope: option.scope as 'client' | 'world' | undefined,
-            config: true,
-            type: String,
-            default: option.default,
-            choices: {
-                [TokenBarOptions.health]: game.i18n.localize(
-                    `COSMERE.Actor.Resource.Health`,
-                ),
-                [TokenBarOptions.focus]: game.i18n.localize(
-                    `COSMERE.Actor.Resource.Focus`,
-                ),
-                [TokenBarOptions.investiture]: game.i18n.localize(
-                    `COSMERE.Actor.Resource.Investiture`,
-                ),
-                [TokenBarOptions.none]: game.i18n.localize(`GENERIC.None`),
-            },
         });
     }
 
@@ -257,6 +218,51 @@ export function registerSystemSettings() {
  * Register additional settings after modules have had a chance to initialize to give them a chance to modify choices.
  */
 export function registerDeferredSettings() {
+    // TOKEN SETTINGS
+    const tokenOptions = [
+        {
+            name: SETTINGS.TOKEN_DEFAULT_BAR_1_VAL,
+            default: 'none' as `resources.${Resource}` | 'none',
+            scope: 'client',
+        },
+        {
+            name: SETTINGS.TOKEN_DEFAULT_BAR_2_VAL,
+            default: 'none' as `resources.${Resource}` | 'none',
+            scope: 'client',
+        },
+    ];
+    const tokenBarChoices: Map<`resources.${Resource}` | 'none', string> =
+        new Map<`resources.${Resource}` | 'none', string>();
+
+    for (let i = 0; i < Object.keys(CONFIG.COSMERE.resources).length; i++) {
+        // Iterate through all the resources in the config
+        const resourceKey =
+            `resources.${Object.keys(CONFIG.COSMERE.resources)[i]}` as `resources.${Resource}`;
+        const resourceConfig: ResourceConfig = Object.values(
+            CONFIG.COSMERE.resources,
+        )[i];
+        tokenBarChoices.set(resourceKey, resourceConfig.label);
+        if (i < tokenOptions.length) {
+            // If this is the first or second resource in the config, set the first or second bar to default to it
+            tokenOptions[i].default = resourceKey;
+        }
+    }
+    // Set an option to be "None"
+    tokenBarChoices.set('none', 'GENERIC.None');
+
+    for (const option of tokenOptions) {
+        game.settings.register(SYSTEM_ID, option.name, {
+            name: game.i18n.localize(`SETTINGS.${option.name}.name`),
+            hint: game.i18n.localize(`SETTINGS.${option.name}.hint`),
+            scope: option.scope as 'client' | 'world' | undefined,
+            config: true,
+            type: String,
+            default: option.default,
+            choices: Object.fromEntries(tokenBarChoices.entries()),
+        });
+    }
+
+    // THEME SETTINGS
     game.settings.register(SYSTEM_ID, SETTINGS.SYSTEM_THEME, {
         name: game.i18n.localize(`SETTINGS.${SETTINGS.SYSTEM_THEME}.name`),
         hint: game.i18n.localize(`SETTINGS.${SETTINGS.SYSTEM_THEME}.hint`),
