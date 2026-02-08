@@ -49,8 +49,6 @@ export class CosmereCombat extends Combat {
         const updateOptions: Combat.Database.UpdateOperation = {
             direction: 1,
             worldTime: { delta: advanceTime },
-            turnEvents: false,
-            broadcast: true,
         };
 
         await this.update(updateData, updateOptions);
