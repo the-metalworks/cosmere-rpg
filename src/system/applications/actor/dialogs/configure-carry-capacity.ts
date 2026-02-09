@@ -8,7 +8,7 @@ import { Derived } from '@system/data/fields';
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
-export class ConfigureCarryLimitDialog extends HandlebarsApplicationMixin(
+export class ConfigureCarryCapacityDialog extends HandlebarsApplicationMixin(
     ApplicationV2<AnyObject>,
 ) {
     /**
@@ -21,13 +21,13 @@ export class ConfigureCarryLimitDialog extends HandlebarsApplicationMixin(
             minimizable: false,
             positioned: true,
         },
-        classes: ['dialog', 'configure-carry-limit'],
+        classes: ['dialog', 'configure-carry-capacity'],
         tag: 'dialog',
         position: {
             width: 350,
         },
         actions: {
-            'update-carry': this.onUpdateCarryLimit,
+            'update-carry': this.onUpdateCarryCapacity,
         },
     };
 
@@ -52,10 +52,10 @@ export class ConfigureCarryLimitDialog extends HandlebarsApplicationMixin(
 
     private constructor(private actor: CosmereActor) {
         super({
-            id: `${actor.uuid}.CarryLimit`,
+            id: `${actor.uuid}.CarryCapacity`,
             window: {
                 title: game.i18n
-                    .localize('DIALOG.ConfigureCarryLimit.Title')
+                    .localize('DIALOG.ConfigureCarryCapacity.Title')
                     .replace('{actor}', actor.name),
             },
         });
@@ -69,12 +69,12 @@ export class ConfigureCarryLimitDialog extends HandlebarsApplicationMixin(
     /* --- Statics --- */
 
     public static async show(actor: CosmereActor) {
-        await new ConfigureCarryLimitDialog(actor).render(true);
+        await new ConfigureCarryCapacityDialog(actor).render(true);
     }
 
     /* --- Actions --- */
 
-    private static onUpdateCarryLimit(this: ConfigureCarryLimitDialog) {
+    private static onUpdateCarryCapacity(this: ConfigureCarryCapacityDialog) {
         void this.actor.update({
             system: {
                 encumbrance: this.encumbranceData,
@@ -86,7 +86,7 @@ export class ConfigureCarryLimitDialog extends HandlebarsApplicationMixin(
     /* --- Form --- */
 
     private static onFormEvent(
-        this: ConfigureCarryLimitDialog,
+        this: ConfigureCarryCapacityDialog,
         event: Event,
         form: HTMLFormElement,
         formData: FormDataExtended,

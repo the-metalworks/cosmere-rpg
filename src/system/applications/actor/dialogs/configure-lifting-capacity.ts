@@ -8,7 +8,7 @@ import { Derived } from '@system/data/fields';
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
-export class ConfigureLiftLimitDialog extends HandlebarsApplicationMixin(
+export class ConfigureLiftingCapacityDialog extends HandlebarsApplicationMixin(
     ApplicationV2<AnyObject>,
 ) {
     /**
@@ -21,13 +21,13 @@ export class ConfigureLiftLimitDialog extends HandlebarsApplicationMixin(
             minimizable: false,
             positioned: true,
         },
-        classes: ['dialog', 'configure-lift-limit'],
+        classes: ['dialog', 'configure-lifting-capacity'],
         tag: 'dialog',
         position: {
             width: 350,
         },
         actions: {
-            'update-lift': this.onUpdateLiftLimit,
+            'update-lift': this.onUpdateLiftingCapacity,
         },
     };
 
@@ -52,10 +52,10 @@ export class ConfigureLiftLimitDialog extends HandlebarsApplicationMixin(
 
     private constructor(private actor: CosmereActor) {
         super({
-            id: `${actor.uuid}.LiftLimit`,
+            id: `${actor.uuid}.LiftingCapacity`,
             window: {
                 title: game.i18n
-                    .localize('DIALOG.ConfigureLiftLimit.Title')
+                    .localize('DIALOG.ConfigureLiftingCapacity.Title')
                     .replace('{actor}', actor.name),
             },
         });
@@ -69,12 +69,14 @@ export class ConfigureLiftLimitDialog extends HandlebarsApplicationMixin(
     /* --- Statics --- */
 
     public static async show(actor: CosmereActor) {
-        await new ConfigureLiftLimitDialog(actor).render(true);
+        await new ConfigureLiftingCapacityDialog(actor).render(true);
     }
 
     /* --- Actions --- */
 
-    private static onUpdateLiftLimit(this: ConfigureLiftLimitDialog) {
+    private static onUpdateLiftingCapacity(
+        this: ConfigureLiftingCapacityDialog,
+    ) {
         void this.actor.update({
             system: {
                 encumbrance: this.encumbranceData,
@@ -86,7 +88,7 @@ export class ConfigureLiftLimitDialog extends HandlebarsApplicationMixin(
     /* --- Form --- */
 
     private static onFormEvent(
-        this: ConfigureLiftLimitDialog,
+        this: ConfigureLiftingCapacityDialog,
         event: Event,
         form: HTMLFormElement,
         formData: FormDataExtended,

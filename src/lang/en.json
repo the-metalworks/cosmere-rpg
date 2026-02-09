@@ -1441,11 +1441,11 @@
             "Title": "Configure Senses Range: {actor}",
             "IgnoreObscure": "Ignores Obscured"
         },
-        "ConfigureCarryLimit": {
-            "Title": "Configure Carry Limit: {actor}"
+        "ConfigureCarryCapacity": {
+            "Title": "Configure Carry Capacity: {actor}"
         },
-        "ConfigureLiftLimit": {
-            "Title": "Configure Lift Limit: {actor}"
+        "ConfigureLiftingCapacity": {
+            "Title": "Configure Lifting Capacity: {actor}"
         },
         "ConfigureRecoveryDie": {
             "Title": "Configure Recovery Die: {actor}"
