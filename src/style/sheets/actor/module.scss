@@ -12,7 +12,9 @@
     --border-deflect-svg: url('assets/icons/svg/sheet/border_deflect.svg');
     --mask-deflect-svg: url('assets/icons/svg/sheet/mask_deflect.svg');
     --border-stat-svg: url('assets/icons/svg/sheet/border_stat.svg');
+    --border-stat-long-svg: url('assets/icons/svg/sheet/border_stat_long.svg');
     --mask-stat-svg: url('assets/icons/svg/sheet/mask_stat.svg');
+    --mask-stat-long-svg: url('assets/icons/svg/sheet/mask_stat_long.svg');
     --border-bar-svg: url('assets/icons/svg/sheet/border_bar.svg');
     --mask-bar-svg: url('assets/icons/svg/sheet/mask_bar.svg');
     --border-attribute-left-svg: url('assets/icons/svg/sheet/border_attribute_left.svg');
@@ -494,6 +496,8 @@
                 transform: translateY(0.875rem);
             }
 
+            
+
             .container {
                 width: 58px;
                 height: 30px;
@@ -504,6 +508,7 @@
     
                 .border {
                     mask: var(--border-stat-svg) no-repeat center;
+                    
                 }
 
                 .value,
@@ -519,7 +524,25 @@
                     position: relative;
                     z-index: 1;
                 }
+
+                
             }
+
+            &.carry, &.lift{
+                .container {
+                    width: 78px;
+
+                    .background {
+                        mask: var(--mask-stat-long-svg) no-repeat center;
+                    }
+
+                    .border {
+                        mask: var(--border-stat-long-svg) no-repeat center;
+                    }
+                }
+            }
+
+                    
 
             .label {
                 margin-top: 0.25rem;

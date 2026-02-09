@@ -134,4 +134,47 @@
             {{/if}}
         </span>
     </div>
+
+    {{!-- Encumbrance --}}
+    <div class="sheet-stack derived-stat carry">
+        <div class="container">
+            <div class="background"></div>
+            <div class="border"></div>
+            {{#with (derived actor.system.encumbrance.carry) as |carry|}}
+            <span class="value">{{carry}}</span>
+            <span class="unit">lbs</span>
+            {{/with}}
+        </div>
+        <span class="label">
+            Carry
+            {{#if isEditMode}}
+            <a data-action="configure-carry-limit"
+                data-tooltip="COSMERE.Actor.Sheet.ConfigureCarryLimit"
+            >
+                <i class="fa-solid fa-gear"></i>
+            </a>
+            {{/if}}
+        </span>
+    </div>
+
+    <div class="sheet-stack derived-stat lift">
+        <div class="container">
+            <div class="background"></div>
+            <div class="border"></div>
+            {{#with (derived actor.system.encumbrance.lift) as |lift|}}
+            <span class="value">{{lift}}</span>
+            <span class="unit">lbs</span>
+            {{/with}}
+        </div>
+        <span class="label">
+            Lift
+            {{#if isEditMode}}
+            <a data-action="configure-lift-limit"
+                data-tooltip="COSMERE.Actor.Sheet.ConfigureLiftLimit"
+            >
+                <i class="fa-solid fa-gear"></i>
+            </a>
+            {{/if}}
+        </span>
+    </div>
 </div>

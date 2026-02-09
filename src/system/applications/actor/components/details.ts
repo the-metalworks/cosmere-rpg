@@ -10,6 +10,8 @@ import { Derived } from '@system/data/fields';
 // Dialogs
 import { ConfigureMovementRateDialog } from '@system/applications/actor/dialogs/configure-movement-rate';
 import { ConfigureSensesRangeDialog } from '@system/applications/actor/dialogs/configure-senses-range';
+import { ConfigureCarryLimitDialog } from '@src/system/applications/actor/dialogs/configure-carry-limit';
+import { ConfigureLiftLimitDialog } from '@src/system/applications/actor/dialogs/configure-lift-limit';
 import { ConfigureRecoveryDieDialog } from '@system/applications/actor/dialogs/configure-recovery-die';
 import { ConfigureDeflectDialog } from '@system/applications/actor/dialogs/configure-deflect';
 
@@ -35,6 +37,8 @@ any> {
         'long-rest': this.onLongRest,
         'configure-movement-rate': this.onConfigureMovementRate,
         'configure-senses-range': this.onConfigureSensesRange,
+        'configure-carry-limit': this.onConfigureCarryLimit,
+        'configure-lift-limit': this.onConfigureLiftLimit,
         'configure-recovery': this.onConfigureRecovery,
         'configure-deflect': this.onConfigureDeflect,
     };
@@ -56,6 +60,14 @@ any> {
 
     private static onConfigureSensesRange(this: ActorDetailsComponent) {
         void ConfigureSensesRangeDialog.show(this.application.actor);
+    }
+
+    private static onConfigureCarryLimit(this: ActorDetailsComponent) {
+        void ConfigureCarryLimitDialog.show(this.application.actor);
+    }
+
+    private static onConfigureLiftLimit(this: ActorDetailsComponent) {
+        void ConfigureLiftLimitDialog.show(this.application.actor);
     }
 
     private static onConfigureDeflect(this: ActorDetailsComponent) {

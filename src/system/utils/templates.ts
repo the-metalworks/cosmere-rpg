@@ -170,6 +170,8 @@ export const TEMPLATES = {
     DIALOG_ACTOR_CONFIGURE_MOVEMENT:
         'actors/dialogs/configure-movement-rate.hbs',
     DIALOG_ACTOR_CONFIGURE_SENSES: 'actors/dialogs/configure-senses-range.hbs',
+    DIALOG_ACTOR_CONFIGURE_CARRY: 'actors/dialogs/configure-carry-limit.hbs',
+    DIALOG_ACTOR_CONFIGURE_LIFT: 'actors/dialogs/configure-lift-limit.hbs',
 
     DIALOG_CHARACTER_SHORT_REST: 'actors/character/dialogs/short-rest.hbs',
     DIALOG_ADVERSARY_CONFIGURE_SKILLS:
@@ -218,7 +220,10 @@ export function renderSystemTemplate(
     template: string,
     data: AnyObject,
 ): Promise<string> {
-    return foundry.applications.handlebars.renderTemplate(`systems/${SYSTEM_ID}/templates/${template}`, data);
+    return foundry.applications.handlebars.renderTemplate(
+        `systems/${SYSTEM_ID}/templates/${template}`,
+        data,
+    );
 }
 
 export const THEME_TAG = 'cosmere-theme';
