@@ -868,7 +868,8 @@ export class CosmereItem<
             this.actor ??
             (game.canvas?.tokens?.controlled?.[0]?.actor as
                 | CosmereActor
-                | undefined);
+                | undefined) ??
+            (game.user?.character as CosmereActor | undefined);
 
         // Ensure an actor was found
         if (!actor) {
