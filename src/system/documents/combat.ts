@@ -23,10 +23,7 @@ export class CosmereCombat extends Combat {
         this.resetActivations();
 
         // Ensure that at the start of the round, it's no combatant's turn
-        await this.update(
-            { round: this.round, turn: null },
-            { turnEvents: false },
-        );
+        await this.update({ round: this.round, turn: null });
 
         return super.nextRound();
     }
