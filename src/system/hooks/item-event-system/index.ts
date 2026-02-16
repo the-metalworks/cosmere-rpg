@@ -78,7 +78,7 @@ export function register() {
 
 Hooks.once('ready', () => {
     // Group all item event types by their hook
-    const evenTypesByHook: Record<string, string[]> = Object.entries(
+    const eventTypesByHook: Record<string, string[]> = Object.entries(
         CONFIG.COSMERE.items.events.types,
     ).reduce(
         (acc, [type, config]) => {
@@ -92,7 +92,7 @@ Hooks.once('ready', () => {
     );
 
     // Register hooks for each event type
-    Object.entries(evenTypesByHook).forEach(([hook, eventTypes]) => {
+    Object.entries(eventTypesByHook).forEach(([hook, eventTypes]) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         Hooks.on(hook as any, async (...args: any[]) => {
             const freshTraceId = foundry.utils.randomID();
