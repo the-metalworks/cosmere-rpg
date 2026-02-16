@@ -113,7 +113,6 @@ import {
 import { SYSTEM_ID } from '@system/constants';
 import { HOOKS } from '@system/constants/hooks';
 import { ItemOrigin } from '@system/types/item';
-import { getObjectChanges } from '@system/utils/data';
 
 interface ShowConsumeDialogOptions {
     /**
@@ -1339,6 +1338,23 @@ export class CosmereItem<
                 continue;
             event.disabled = false;
         }
+        await this.update({ system: { events } });
+    }
+
+    public async setEventsToggleState(
+        this: CosmereItem,
+        options?: EventToggleOptions,
+    ) {
+        if (!this.hasEvents()) return;
+        const events = this.system.events;
+        const forceDisable = options?.disable;
+        for (const event of events) {
+            if (options?.filter && !options.filter(event as Rule)) continue;
+
+            if (forceDisable && !event.disabled) event.disabled = true;
+            else event.disabled = !event.disabled;
+        }
+
         await this.update({ system: { events } });
     }
 
