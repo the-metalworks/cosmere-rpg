@@ -308,10 +308,8 @@ async function fireEvent(event: Event) {
 
             try {
                 // Execute the rule
-                // NOTE: Await is used here as the handler is potentially async
-                // eslint-disable-next-line @typescript-eslint/await-thenable
-                return ((await rule.handler) as IHandler).execute(
-                    foundry.utils.deepClone(event),
+                return await (rule.handler as IHandler).execute(
+                    foundry.utils.deepClone({ ...event, rule }),
                 );
             } catch (e) {
                 console.error(
