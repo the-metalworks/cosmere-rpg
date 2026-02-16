@@ -301,7 +301,7 @@ async function fireEvent(event: Event) {
 
     // Execute any relevant rules
     await item.system.events
-        .filter((rule) => rule.event === event.type)
+        .filter((rule) => rule.event === event.type && !rule.disabled)
         .sort((a, b) => a.order - b.order)
         .reduce(async (prev, rule) => {
             if ((await prev) === false) return false;
