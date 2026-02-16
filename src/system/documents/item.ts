@@ -12,6 +12,7 @@ import {
 } from '@system/types/cosmere';
 import { CosmereHooks } from '@system/types/hooks';
 import { AnyObject, EmptyObject, DeepPartial } from '@system/types/utils';
+import { Rule } from '@system/types/item/event-system';
 
 // Data model
 import {
@@ -99,6 +100,7 @@ import { getEmbedHelpers } from '@system/utils/embed';
 import ItemRelationshipUtils, {
     RemoveRelationshipOptions,
 } from '@src/system/utils/item/relationship';
+import { EventToggleOptions } from '@system/utils/item/event-system';
 
 // Dialogs
 import { AttackConfigurationDialog } from '@system/applications/dialogs/attack-configuration';
@@ -111,6 +113,7 @@ import {
 import { SYSTEM_ID } from '@system/constants';
 import { HOOKS } from '@system/constants/hooks';
 import { ItemOrigin } from '../types/item';
+import { getObjectChanges } from '@system/utils/data';
 
 interface ShowConsumeDialogOptions {
     /**
@@ -345,6 +348,22 @@ export class CosmereItem<
 
         // Check if the actor has the mode active
         return activeMode === this.system.id;
+    }
+
+    /**
+     * Returns a list of all event rules which are currently disabled on this item.
+     */
+    public get disabledEvents(): Rule[] {
+        if (!this.hasEvents()) return [];
+        return this.system.events.filter((event) => event.disabled) as Rule[];
+    }
+
+    /**
+     * Returns a list of all event rules which are currently enabled on this item.
+     */
+    public get enabledEvents(): Rule[] {
+        if (!this.hasEvents()) return [];
+        return this.system.events.filter((event) => !event.disabled) as Rule[];
     }
 
     /* --- Lifecycle --- */
@@ -1285,6 +1304,42 @@ export class CosmereItem<
         if (!this.hasRelationships() || !item.hasRelationships()) return;
 
         return ItemRelationshipUtils.removeRelationship(this, item, options);
+    }
+
+    public async disableEvents(
+        this: CosmereItem,
+        options?: EventToggleOptions,
+    ): Promise<void> {
+        if (!this.hasEvents()) return undefined;
+
+        const events = this.system.events;
+        for (const event of events) {
+            if (
+                event.disabled ||
+                (options?.filter && !options.filter(event as Rule))
+            )
+                continue;
+            event.disabled = true;
+        }
+        await this.update({ system: { events } });
+    }
+
+    public async enableEvents(
+        this: CosmereItem,
+        options?: EventToggleOptions,
+    ): Promise<void> {
+        if (!this.hasEvents()) return undefined;
+
+        const events = this.system.events;
+        for (const event of events) {
+            if (
+                !event.disabled ||
+                (options?.filter && !options.filter(event as Rule))
+            )
+                continue;
+            event.disabled = false;
+        }
+        await this.update({ system: { events } });
     }
 
     /* --- Helpers --- */
