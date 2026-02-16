@@ -94,12 +94,12 @@ import {
     getApplyTargets,
     getTargetDescriptors,
 } from '@system/utils/generic';
-import { EnricherData } from '../utils/enrichers';
+import { EnricherData } from '@system/utils/enrichers';
 import { renderSystemTemplate, TEMPLATES } from '@system/utils/templates';
 import { getEmbedHelpers } from '@system/utils/embed';
 import ItemRelationshipUtils, {
     RemoveRelationshipOptions,
-} from '@src/system/utils/item/relationship';
+} from '@system/utils/item/relationship';
 import { EventToggleOptions } from '@system/utils/item/event-system';
 
 // Dialogs
@@ -112,7 +112,7 @@ import {
 // Constants
 import { SYSTEM_ID } from '@system/constants';
 import { HOOKS } from '@system/constants/hooks';
-import { ItemOrigin } from '../types/item';
+import { ItemOrigin } from '@system/types/item';
 import { getObjectChanges } from '@system/utils/data';
 
 interface ShowConsumeDialogOptions {
