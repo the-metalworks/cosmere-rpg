@@ -100,6 +100,7 @@ any> {
                                   config.reference.value,
                                   {
                                       enrich: true,
+                                      filters: config.reference.filters,
                                   },
                               )}</div>`
                             : null;
