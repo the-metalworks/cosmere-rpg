@@ -3,6 +3,7 @@ name: 'INTERNAL: Chore / Enhancement'
 about: A small piece of work that needs doing to keep the system building well or
   enhancing a process
 title: ''
+type: Task
 labels: type | enhancement
 assignees: ''
 
