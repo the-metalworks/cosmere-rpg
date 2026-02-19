@@ -2,6 +2,7 @@
 name: Feature request
 about: Suggest an idea for this project
 title: ''
+type: Feature
 labels: type | feature request
 assignees: ''
 
