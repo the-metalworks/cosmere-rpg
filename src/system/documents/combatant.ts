@@ -119,10 +119,6 @@ export class CosmereCombatant extends Combatant {
         return this.getFlag(SYSTEM_ID, 'activated') ?? false;
     }
 
-    public get bossFastActivated(): boolean {
-        return this.getFlag(SYSTEM_ID, 'bossFastActivated') ?? false;
-    }
-
     public get linkedCombatantIds(): string[] | undefined {
         return this.getFlag(SYSTEM_ID, 'linkedCombatantIds') ?? undefined;
     }
@@ -147,12 +143,8 @@ export class CosmereCombatant extends Combatant {
         await this.setFlag(SYSTEM_ID, 'turnSpeed', newSpeed);
     }
 
-    public async markActivated(bossFastActivated = false) {
-        if (bossFastActivated && this.isBoss) {
-            await this.setFlag(SYSTEM_ID, 'bossFastActivated', true);
-        } else {
-            await this.setFlag(SYSTEM_ID, 'activated', true);
-        }
+    public async markActivated() {
+        await this.setFlag(SYSTEM_ID, 'activated', true);
     }
 
     public async resetActivation() {
@@ -160,7 +152,6 @@ export class CosmereCombatant extends Combatant {
             flags: {
                 [SYSTEM_ID]: {
                     activated: false,
-                    bossFastActivated: false,
                 },
             },
         });
@@ -185,7 +176,6 @@ declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
         Combatant: {
             [SYSTEM_ID]: {
                 turnSpeed: TurnSpeed;
-                bossFastActivated: boolean;
                 activated: boolean;
                 linkedCombatantIds: string[];
             };

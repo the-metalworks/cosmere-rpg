@@ -502,13 +502,7 @@ Handlebars.registerHelper('damageTypeConfig', (type: DamageType) => {
 });
 
 Handlebars.registerHelper('getCombatActedState', (turn: CosmereTurnContext) => {
-    // use default activated for boss slow turns, and all other combatants' turns
-    if (!turn.isBoss || turn.turnSpeed === TurnSpeed.Slow) {
-        return turn.activated;
-    }
-
-    // track a boss's additional fast turn separately
-    return turn.bossFastActivated;
+    return turn.activated;
 });
 
 /**

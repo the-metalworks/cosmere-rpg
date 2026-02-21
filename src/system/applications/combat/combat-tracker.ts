@@ -13,7 +13,6 @@ export interface CosmereTurnContext extends CombatTracker.TurnContext {
     turnSpeed?: TurnSpeed;
     activated?: boolean;
     isBoss?: boolean;
-    bossFastActivated?: boolean;
 }
 
 interface CosmereTrackerContext extends CombatTracker.TrackerContext {
@@ -113,7 +112,6 @@ export class CosmereCombatTracker extends foundry.applications.sidebar.tabs
             type: combatant.actor?.type,
             activated: combatant.activated,
             isBoss: combatant.isBoss,
-            bossFastActivated: combatant.bossFastActivated,
         };
     }
 
@@ -155,12 +153,8 @@ export class CosmereCombatTracker extends foundry.applications.sidebar.tabs
         // Get the combatant
         const combatant = this.viewed!.combatants.get(li.dataset.combatantId!)!;
 
-        // Determine if this is a boss fast turn
-        const isBossFastTurn =
-            combatant.isBoss && li.dataset.phase === TurnSpeed.Fast;
-
         // Mark the combatant as activated
-        void combatant.markActivated(isBossFastTurn);
+        void combatant.markActivated();
 
         // Set the current turn to this combatant
         void this.viewed?.setCurrentTurnFromCombatant(combatant);
