@@ -163,10 +163,7 @@ export class CosmereCombatTracker extends foundry.applications.sidebar.tabs
         void combatant.markActivated(isBossFastTurn);
 
         // Set the current turn to this combatant
-        void this.viewed?.setCurrentTurnFromCombatant(
-            combatant,
-            isBossFastTurn,
-        );
+        void this.viewed?.setCurrentTurnFromCombatant(combatant);
     }
 
     /**

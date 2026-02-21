@@ -29,7 +29,9 @@ export class CosmereCombat extends Combat {
     }
 
     override async nextTurn(): Promise<this> {
-        // The Cosmere RPG doesn't have an easy programmatic "next turn", so we should reset the combat tracker to be no-one's turn when the nextTurn button is pressed.
+        // The Cosmere RPG doesn't have an easy programmatic "next turn",
+        // so we should reset the combat tracker to be no-one's turn when
+        // the nextTurn button is pressed.
         if (this.turn === null) {
             return this;
         }
@@ -54,34 +56,25 @@ export class CosmereCombat extends Combat {
 
     override setupTurns(): CosmereCombatant[] {
         this.turns ??= [];
+        let currTurnId: string | undefined | null;
+        if (this.current) {
+            currTurnId = this.current.combatantId;
+        }
 
-        const turns = Array.from(this.combatants)
-            .flatMap((c) => {
-                if (c.isBoss) {
-                    // If the combatant is a boss, clone it to create a fast turn beside its slow turn
-                    const clone = new (CONFIG.Combatant
-                        .documentClass as unknown as new (
-                        data: unknown,
-                        options: unknown,
-                    ) => CosmereCombatant)(
-                        foundry.utils.mergeObject(c.toObject(), {
-                            [`flags.${SYSTEM_ID}.turnSpeed`]: TurnSpeed.Fast,
-                        }),
-                        { parent: c.parent },
-                    );
-                    return [clone, c];
-                } else {
-                    return c;
-                }
-            })
-            .sort(this._sortCombatants.bind(this));
+        const turns = Array.from(this.combatants).sort(
+            this._sortCombatants.bind(this),
+        );
+
+        // Update state tracking
+        if (this.current) {
+            const c = turns.find((combatant) => {
+                return combatant.id == currTurnId;
+            });
+            this.current = this._getCurrentState(c);
+        }
 
         if (this.turn !== null)
             this.turn = Math.clamp(this.turn, 0, turns.length - 1);
-
-        // Update state tracking
-        const c = turns[this.turn!];
-        this.current = this._getCurrentState(c);
 
         // One-time initialization of the previous state
         if (!this.previous) this.previous = this.current;
@@ -93,23 +86,28 @@ export class CosmereCombat extends Combat {
         return this.turns;
     }
 
-    public async setCurrentTurnFromCombatant(
-        combatant: CosmereCombatant,
-        isBossFastTurn = false,
-    ) {
-        let turnIndex: number;
-
-        if (isBossFastTurn) {
-            // Find the turn index that matches this combatant with a fast turn speed
-            turnIndex = this.turns.findIndex(
-                (turn: CosmereCombatant) =>
-                    turn.id === combatant.id &&
-                    turn.turnSpeed === TurnSpeed.Fast,
-            );
-        } else {
-            // If it's not a boss fast turn, find the combatant
-            turnIndex = this.turns.indexOf(combatant);
+    override async _onEnter(combatant: CosmereCombatant) {
+        // If the combatant is a boss, clone it to create a fast turn beside its slow turn
+        if (combatant.isBoss && combatant.turnSpeed == TurnSpeed.Slow) {
+            const createData: Combatant.CreateData = {
+                tokenId: combatant.tokenId,
+                sceneId: combatant.sceneId,
+                actorId: combatant.actorId,
+                hidden: combatant.hidden,
+                flags: {
+                    [SYSTEM_ID]: {
+                        turnSpeed: TurnSpeed.Fast,
+                    },
+                },
+            };
+            void (await this.createEmbeddedDocuments('Combatant', [
+                createData,
+            ]));
         }
+    }
+
+    public async setCurrentTurnFromCombatant(combatant: CosmereCombatant) {
+        const turnIndex = this.turns.indexOf(combatant);
 
         if (turnIndex !== -1) {
             const updateData = { round: this.round, turn: turnIndex };
