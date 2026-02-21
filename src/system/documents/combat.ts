@@ -100,9 +100,31 @@ export class CosmereCombat extends Combat {
                     },
                 },
             };
-            void (await this.createEmbeddedDocuments('Combatant', [
-                createData,
-            ]));
+            void (await this.createLinkedCombatants(combatant, [createData]));
+        }
+    }
+
+    async createLinkedCombatants(
+        combatant: CosmereCombatant,
+        data: Combatant.CreateData[],
+    ) {
+        const linkedCombatants: CosmereCombatant[] =
+            await this.createEmbeddedDocuments('Combatant', data);
+        const linkedCombatantIds: string[] = [combatant.id!];
+        for (const linkedCombatant of linkedCombatants) {
+            linkedCombatantIds.push(linkedCombatant.id!);
+        }
+        void (await combatant.setFlag(
+            SYSTEM_ID,
+            'linkedCombatantIds',
+            linkedCombatantIds.filter((id) => id !== combatant.id),
+        ));
+        for (const linkedCombatant of linkedCombatants) {
+            void (await linkedCombatant.setFlag(
+                SYSTEM_ID,
+                'linkedCombatantIds',
+                linkedCombatantIds.filter((id) => id !== linkedCombatant.id),
+            ));
         }
     }
 
