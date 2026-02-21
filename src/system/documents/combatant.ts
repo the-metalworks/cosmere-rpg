@@ -37,11 +37,9 @@ export class CosmereCombatant extends Combatant {
 
         // These are a set of keys the system wants never to be propagated between combatant turns
         let noPropagateKeys = [`system`, `flags.${SYSTEM_ID}`];
-        if (operation.propagateIgnoreKeys) {
+        if (operation.noPropagateKeys) {
             // If the operation had instructions to ignore any more keys of the update, add those here
-            noPropagateKeys = noPropagateKeys.concat(
-                operation.propagateIgnoreKeys,
-            );
+            noPropagateKeys = noPropagateKeys.concat(operation.noPropagateKeys);
         }
         for (const update of operation.updates) {
             if (!update._id) {
@@ -71,7 +69,7 @@ export class CosmereCombatant extends Combatant {
                 for (const key of Object.keys(linkedCombatantUpdate)) {
                     if (key !== '_id' && key !== '_stats') {
                         // If the update has a key other than the _id property or the _stats property, this update contains useful data
-                        // TODO: Check to make sure there is a non-empty object within the update information
+                        // TODO: Check to make sure this is a non-empty object?
                         documents.push(
                             changedCombatant.parent.getEmbeddedDocument(
                                 'Combatant',
@@ -173,8 +171,7 @@ export namespace CosmereCombatant {
     export type Schema = Omit<Combatant.Schema, 'initiative'>;
     export namespace Database {
         export interface Update extends Combatant.Database.Update {
-            noLinkPropagate?: boolean;
-            propagateIgnoreKeys?: string[];
+            noPropagateKeys?: string[];
         }
     }
 }
