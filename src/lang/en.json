@@ -1204,7 +1204,6 @@
                     "Handler": "Handler",
                     "Create": "Add event rule",
                     "Toggle": {
-                        "Label": "Toggle",
                         "Active": "Disable",
                         "Inactive": "Enable"
                     },

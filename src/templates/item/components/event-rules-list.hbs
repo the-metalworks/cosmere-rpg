@@ -1,7 +1,7 @@
 <ul class="item-list events-list">
     <li class="item header">
         <section class="details">
-            <span class="subtitle wide">{{localize "COSMERE.Item.Sheet.EventsList.Toggle.Label"}}</span>
+            <span class="subtitle"></span>
             <span class="title">{{localize "COSMERE.Item.Sheet.EventsList.Description"}}</span>
             <span class="subtitle wide">{{localize "COSMERE.Item.Sheet.EventsList.Trigger"}}</span>
             <span class="subtitle wide">{{localize "COSMERE.Item.Sheet.EventsList.Handler"}}</span>
@@ -23,7 +23,7 @@
         <li class="item rule" data-id="{{rule.id}}">
             <section class="details">
                 {{#if rule.disabled}}
-                <div class="controls icon faded wide start">
+                <div class="controls icon faded start">
                     <a data-action="toggle-rule"
                         data-tooltip="COSMERE.Item.Sheet.EventsList.Toggle.Inactive"
                     >
@@ -31,7 +31,7 @@
                     </a>
                 </div>
                 {{else}}
-                <div class="controls icon wide start">
+                <div class="controls icon start">
                     <a data-action="toggle-rule"
                         data-tooltip="COSMERE.Item.Sheet.EventsList.Toggle.Active"
                     >
