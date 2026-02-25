@@ -97,9 +97,10 @@ any> {
 
                         const description = config.reference
                             ? `<div class="conditiontip">${await journalEntryPageTextFromUuid(
-                                  config.reference,
+                                  config.reference.value,
                                   {
                                       enrich: true,
+                                      filters: config.reference.filters,
                                   },
                               )}</div>`
                             : null;
