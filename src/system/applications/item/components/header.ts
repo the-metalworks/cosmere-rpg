@@ -20,7 +20,7 @@ any> {
      */
     /* eslint-disable @typescript-eslint/unbound-method */
     static ACTIONS = {
-        'edit-img': this.onEditImg,
+        'edit-image': this.onEditImg,
     };
     /* eslint-enable @typescript-eslint/unbound-method */
 
