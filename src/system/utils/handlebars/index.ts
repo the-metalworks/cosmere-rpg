@@ -397,7 +397,7 @@ Handlebars.registerHelper(
                     const max = item.system.activation.uses.max;
                     const recharge = item.system.activation.uses.recharge;
 
-                    const hasRecharge = recharge != null;
+                    const hasRecharge = recharge != null && recharge !== 'none';
 
                     // Get config
                     const config =
