@@ -12,6 +12,7 @@ A few more fixes to document sheets and a styling change in the combat tracker!
 * Fixed an issue with the Restrained condition displaying extra text when hovering it in a character sheet
 * Fixed an issue with several talents in the starter rules where the Attribute of their skill test field was undefined
 * Fixed an issue causing the fast turn section of the combat tracker to inherit erroneous styling
+* Fixed an issue where the actor that used an item was not always passed along the use chain
 
 <br>
 
