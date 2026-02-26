@@ -38,8 +38,10 @@
         {{#if isOwner}}
             {{#unless isBoss}}
                 <a class="combatant-turn-speed-control {{turnSpeed}}" role="button" data-tooltip="COSMERE.Combat.ToggleTurn" data-action="toggleSpeed"></a>
-            {{/unless}} 
+            {{/unless}}
         {{/if}}
-        <a class="combatant-turn-finish-control {{#if (getCombatActedState this)}}done{{/if}}" data-tooltip="COSMERE.Combat.Activate" {{#if isOwner}}data-action="activateCombatant"{{/if}}></a>    
+        {{#if @root.combat.round}}
+            <a class="combatant-turn-finish-control {{#if (getCombatActedState this)}}done{{/if}}" data-tooltip="COSMERE.Combat.Activate" {{#if isOwner}}data-action="activateCombatant"{{/if}}></a>
+        {{/if}}
     </div>
 </li>

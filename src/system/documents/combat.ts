@@ -61,26 +61,27 @@ export class CosmereCombat extends Combat {
             currTurnId = this.current.combatantId;
         }
 
+        // One-time initialization of the previous state
+        if (!this.previous) this.previous = this.current;
+
         const turns = Array.from(this.combatants).sort(
             this._sortCombatants.bind(this),
         );
 
+        // Assign turns
+        this.turns = turns;
+
         // Update state tracking
-        if (this.current) {
-            const c = turns.find((combatant) => {
+        if (this.current.combatantId) {
+            this.turn = turns.findIndex((combatant) => {
                 return combatant.id == currTurnId;
             });
+            const c = turns[this.turn];
             this.current = this._getCurrentState(c);
         }
 
         if (this.turn !== null)
             this.turn = Math.clamp(this.turn, 0, turns.length - 1);
-
-        // One-time initialization of the previous state
-        if (!this.previous) this.previous = this.current;
-
-        // Assign turns
-        this.turns = turns;
 
         // Return the array of prepared turns
         return this.turns;
