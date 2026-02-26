@@ -53,6 +53,7 @@ export interface SizeConfig {
     label: string;
     size?: number;
     unit?: string;
+    tokenDimensions?: number;
 }
 
 export interface CreatureTypeConfig {
