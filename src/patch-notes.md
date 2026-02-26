@@ -1,3 +1,22 @@
+### Patch 2.0.5
+<sup>2026-02-26</sup>
+
+A few more fixes to document sheets and a styling change in the combat tracker!
+
+#### 🛠️ Full Changelog
+
+🐛 **Bug Fixes**
+
+* Fixed an issue with the last patch which caused actor portraits to not save properly when updated
+* Fixed an issue where character sheets would fail to render if an embedded item contained a recharge mode of 'None'
+* Fixed an issue with the Restrained condition displaying extra text when hovering it in a character sheet
+* Fixed an issue with several talents in the starter rules where the Attribute of their skill test field was undefined
+* Fixed an issue causing the fast turn section of the combat tracker to inherit erroneous styling
+
+<br>
+
+----
+
 ### Patch 2.0.4
 <sup>2026-02-06</sup>
 
