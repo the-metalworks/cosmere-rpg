@@ -16,53 +16,140 @@ export class CosmereCombat extends Combat {
 
     override async startCombat(): Promise<this> {
         this.resetActivations();
-        return super.startCombat();
+        this._playCombatSound('startEncounter');
+        const updateData = { round: 1, turn: null };
+        //@ts-expect-error: FVTT Types expects the combatStart hook to never have a "null" turn, but
+        // with the Cosmere RPG, having a null turn at start of combat makes sense.
+        Hooks.callAll('combatStart', this, updateData);
+        await this.update(updateData);
+        return this;
     }
 
     override async nextRound(): Promise<this> {
         this.resetActivations();
+
+        // Ensure that at the start of the round, it's no combatant's turn
+        await this.update({ round: this.round, turn: null });
+
         return super.nextRound();
+    }
+
+    override async nextTurn(): Promise<this> {
+        // The Cosmere RPG doesn't have an easy programmatic "next turn",
+        // so we should reset the combat tracker to be no-one's turn when
+        // the nextTurn button is pressed.
+        if (this.turn === null) {
+            return this;
+        }
+        let advanceTime;
+        if (this.turns.length > this.turn + 1) {
+            advanceTime = this.getTimeDelta(
+                this.round,
+                this.turn,
+                this.round,
+                this.turn + 1,
+            );
+        } else advanceTime = 0;
+        const updateData = { round: this.round, turn: null };
+        const updateOptions: Combat.Database.UpdateOperation = {
+            direction: 1,
+            worldTime: { delta: advanceTime },
+        };
+
+        await this.update(updateData, updateOptions);
+        return this;
     }
 
     override setupTurns(): CosmereCombatant[] {
         this.turns ??= [];
-
-        const turns = Array.from(this.combatants)
-            .flatMap((c) => {
-                if (c.isBoss) {
-                    // If the combatant is a boss, clone it to create a fast turn beside its slow turn
-                    const clone = new (CONFIG.Combatant
-                        .documentClass as unknown as new (
-                        data: unknown,
-                        options: unknown,
-                    ) => CosmereCombatant)(
-                        foundry.utils.mergeObject(c.toObject(), {
-                            [`flags.${SYSTEM_ID}.turnSpeed`]: TurnSpeed.Fast,
-                        }),
-                        { parent: c.parent },
-                    );
-                    return [clone, c];
-                } else {
-                    return c;
-                }
-            })
-            .sort(this._sortCombatants.bind(this));
-
-        if (this.turn !== null)
-            this.turn = Math.clamp(this.turn, 0, turns.length - 1);
-
-        // Update state tracking
-        const c = turns[this.turn!];
-        this.current = this._getCurrentState(c);
+        let currTurnId: string | undefined | null;
+        if (this.current) {
+            currTurnId = this.current.combatantId;
+        }
 
         // One-time initialization of the previous state
         if (!this.previous) this.previous = this.current;
 
+        const turns = Array.from(this.combatants).sort(
+            this._sortCombatants.bind(this),
+        );
+
         // Assign turns
         this.turns = turns;
 
+        // Update state tracking
+        if (currTurnId) {
+            this.turn = turns.findIndex((combatant) => {
+                return combatant.id == currTurnId;
+            });
+            const c = turns[this.turn];
+            this.current = this._getCurrentState(c);
+        }
+
+        if (this.turn !== null)
+            this.turn = Math.clamp(this.turn, 0, turns.length - 1);
+
         // Return the array of prepared turns
         return this.turns;
+    }
+
+    override async _onEnter(combatant: CosmereCombatant) {
+        // If the combatant is a boss, clone it to create a fast turn beside its slow turn
+        if (combatant.isBoss && combatant.turnSpeed == TurnSpeed.Slow) {
+            const createData: Combatant.CreateData = {
+                tokenId: combatant.tokenId,
+                sceneId: combatant.sceneId,
+                actorId: combatant.actorId,
+                hidden: combatant.hidden,
+                flags: {
+                    [SYSTEM_ID]: {
+                        turnSpeed: TurnSpeed.Fast,
+                    },
+                },
+            };
+            void (await this.createLinkedCombatants(combatant, [createData]));
+        }
+    }
+
+    async createLinkedCombatants(
+        combatant: CosmereCombatant,
+        data: Combatant.CreateData[],
+    ) {
+        const linkedCombatants: CosmereCombatant[] =
+            await this.createEmbeddedDocuments('Combatant', data);
+        const linkedCombatantIds: string[] = [combatant.id!];
+        for (const linkedCombatant of linkedCombatants) {
+            linkedCombatantIds.push(linkedCombatant.id!);
+        }
+        void (await combatant.setFlag(
+            SYSTEM_ID,
+            'linkedCombatantIds',
+            linkedCombatantIds.filter((id) => id !== combatant.id),
+        ));
+        for (const linkedCombatant of linkedCombatants) {
+            void (await linkedCombatant.setFlag(
+                SYSTEM_ID,
+                'linkedCombatantIds',
+                linkedCombatantIds.filter((id) => id !== linkedCombatant.id),
+            ));
+        }
+    }
+
+    public async setCurrentTurnFromCombatant(combatant: CosmereCombatant) {
+        const turnIndex = this.turns.indexOf(combatant);
+
+        if (turnIndex !== -1) {
+            const updateData = { round: this.round, turn: turnIndex };
+            const updateOptions = {
+                advanceTime: 0,
+                direction: 1,
+            };
+            Hooks.callAll('combatTurn', this, updateData, updateOptions);
+            await this.update(
+                updateData,
+                updateOptions as Combat.Database.UpdateOperation,
+            );
+        }
     }
 }
 

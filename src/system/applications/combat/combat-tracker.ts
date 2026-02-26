@@ -13,7 +13,6 @@ export interface CosmereTurnContext extends CombatTracker.TurnContext {
     turnSpeed?: TurnSpeed;
     activated?: boolean;
     isBoss?: boolean;
-    bossFastActivated?: boolean;
 }
 
 interface CosmereTrackerContext extends CombatTracker.TrackerContext {
@@ -47,6 +46,9 @@ export class CosmereCombatTracker extends foundry.applications.sidebar.tabs
         {
             tracker: {
                 template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.COMBAT_TRACKER}`,
+            },
+            footer: {
+                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.COMBAT_TRACKER_FOOTER}`,
             },
         },
     );
@@ -110,8 +112,6 @@ export class CosmereCombatTracker extends foundry.applications.sidebar.tabs
             type: combatant.actor?.type,
             activated: combatant.activated,
             isBoss: combatant.isBoss,
-            bossFastActivated: combatant.bossFastActivated,
-            css: '', // Strip active player formatting
         };
     }
 
@@ -154,9 +154,10 @@ export class CosmereCombatTracker extends foundry.applications.sidebar.tabs
         const combatant = this.viewed!.combatants.get(li.dataset.combatantId!)!;
 
         // Mark the combatant as activated
-        void combatant.markActivated(
-            combatant.isBoss && li.dataset.phase === TurnSpeed.Fast,
-        );
+        void combatant.markActivated();
+
+        // Set the current turn to this combatant
+        void this.viewed?.setCurrentTurnFromCombatant(combatant);
     }
 
     /**
@@ -168,6 +169,11 @@ export class CosmereCombatTracker extends foundry.applications.sidebar.tabs
         const combatant = this.viewed!.combatants.get(
             li.data('combatant-id') as string,
         )!;
+
+        // Toggling a boss's turn speed should not be possible, so return
+        if (combatant.isBoss) {
+            return;
+        }
 
         // Toggle the combatant's turn speed
         void combatant.toggleTurnSpeed();

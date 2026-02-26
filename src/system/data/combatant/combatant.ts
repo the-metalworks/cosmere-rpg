@@ -24,9 +24,10 @@ const SCHEMA = () => ({
      * Whether or not the boss combatant has acted on its fast turn.
      * This is only used for boss adversaries.
      */
-    bossFastActivated: new foundry.data.fields.BooleanField({
-        required: false,
-    }),
+    linkedCombatantIds: new foundry.data.fields.ArrayField(
+        new foundry.data.fields.StringField(),
+        { required: false },
+    ),
 });
 
 export type CombatantDataSchema = ReturnType<typeof SCHEMA>;
