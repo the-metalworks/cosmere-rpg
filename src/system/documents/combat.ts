@@ -16,7 +16,13 @@ export class CosmereCombat extends Combat {
 
     override async startCombat(): Promise<this> {
         this.resetActivations();
-        return super.startCombat();
+        this._playCombatSound('startEncounter');
+        const updateData = { round: 1, turn: null };
+        //@ts-expect-error: FVTT Types expects the combatStart hook to never have a "null" turn, but
+        // with the Cosmere RPG, having a null turn at start of combat makes sense.
+        Hooks.callAll('combatStart', this, updateData);
+        await this.update(updateData);
+        return this;
     }
 
     override async nextRound(): Promise<this> {
@@ -72,7 +78,7 @@ export class CosmereCombat extends Combat {
         this.turns = turns;
 
         // Update state tracking
-        if (this.current.combatantId) {
+        if (currTurnId) {
             this.turn = turns.findIndex((combatant) => {
                 return combatant.id == currTurnId;
             });
