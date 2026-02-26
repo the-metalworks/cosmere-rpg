@@ -1,8 +1,9 @@
 {{#each sections as |section|}}
-<ul class="item-list" data-section-id="{{section.id}}">
+{{#with (lookup @root.sectionState section.id) as |sectionState|}}
+<ul class="item-list collapsible {{#if sectionState.expanded}}expanded{{/if}}" data-section-id="{{section.id}}">
     <li class="item header">
         <section class="details">
-            <span class="title">{{localize section.label}}</span>
+            <span class="title" data-action="toggle-section-collapsed">{{localize section.label}}</span>
             <span class="subtitle wide">
                 {{localize "COSMERE.Actor.Sheet.Equipment.Quantity"}}
             </span>
@@ -11,6 +12,20 @@
             </span>
             <div class="subtitle"></div>
             <div class="controls icon active">
+                <a role="button"
+                    data-action="toggle-section-collapsed"
+                    {{#if sectionState.expanded}}
+                    data-tooltip="GENERIC.HideDetails"
+                    {{else}}
+                    data-tooltip="GENERIC.ViewDetails"
+                    {{/if}}
+                >
+                    {{#if sectionState.expanded}}
+                        <i class="fa-solid fa-compress"></i>
+                    {{else}}
+                        <i class="fa-solid fa-expand"></i>
+                    {{/if}}
+                </a>
                 {{#if @root.editable}}
                     {{#if section.canAddNewItems}}
                         <a data-action="new-item"
@@ -23,155 +38,160 @@
                     {{/if}}
                 {{/if}}
             </div>
-        </section>        
-    </li>
-
-    {{#each section.items as |item|}}
-    {{#with (lookup @root.itemState item.id) as |state|}}
-    {{#with (itemContext item) as |ctx|}}
-    {{#with (lookup section.itemData item.id) as |data|}}
-
-    <li class="item {{#if ctx.hasActivation}}usable{{/if}} collapsible {{#if state.expanded}}expanded{{/if}}" 
-        data-item-id="{{item.id}}"
-        {{#if @root.editable}}data-drag="true"{{/if}}
-    >
-        <section class="details">
-            {{!-- Image --}}
-            <div class="img" 
-                {{#if ctx.hasActivation}}
-                data-action="use-item"
-                data-tooltip="COSMERE.Actor.Sheet.Actions.Strike"
-                {{/if}}
-            >
-                <img class="roll-icon" src="systems/cosmere-rpg/assets/icons/svg/dice/d20_white.svg">
-                <img src="{{item.img}}">
-            </div>
-
-            {{!-- Name --}}
-            <div class="name" data-action="toggle-action-details">
-                <span>{{item.name}}</span>
-                <span class="traits">{{{ctx.subtitle}}}</span>
-            </div>
-
-            {{!-- Quantity --}}
-            <div class="detail wide quantity">
-                {{#if ctx.hasQuantity}}
-                {{#if @root.editable}}
-                <a role="button"
-                    data-action="decrease-quantity"
-                    data-tooltip="COSMERE.Actor.Sheet.Equipment.DecreaseQuantity"
-                >
-                    <i class="fa-solid fa-minus"></i>
-                </a>
-                {{/if}}
-                <span class="val">{{ctx.quantity}}</span>
-                {{#if @root.editable}}
-                <a role="button"
-                    data-action="increase-quantity"
-                    data-tooltip="COSMERE.Actor.Sheet.Equipment.IncreaseQuantity"
-                >
-                    <i class="fa-solid fa-plus"></i>
-                </a>
-                {{/if}}
-                {{else}}
-                <span class="val none">—</span>
-                {{/if}}
-            </div>
-
-            {{!-- Weight --}}
-            <div class="detail weight">
-                {{#if ctx.hasWeight}}
-                <i class="fa-solid fa-weight-hanging"></i>
-                <span class="val">{{ctx.weight.total}}</span>
-                {{else}}
-                <span class="val none">—</span>
-                {{/if}}
-            </div>
-
-            {{!-- Equipped --}}
-            <div class="detail equip">
-            {{#if ctx.isEquippable}}
-                {{#if (eq ctx.equip.type 'hold')}}
-                {{!-- Items equipped by holding them --}}
-                    {{#if (eq ctx.equip.hold 'two_handed')}}
-                    {{!-- Two handed item --}}
-                    <a role="button"
-                        data-action="toggle-equip"
-                        {{#if ctx.equipped}}
-                        data-tooltip="{{localize ctx.equip.holdLabel}}"
-                        {{else}}
-                        data-tooltip="COSMERE.Item.Equip.Unequipped.Label"
-                        {{/if}}
-                    >
-                        <div class="hold-2h {{#if ctx.equipped}}equipped{{/if}}"></div>
-                    </a>                
-                    {{else}}
-                    {{!-- One handed item --}}
-                    <a role="button"
-                        data-action="cycle-equip"
-                        {{#if ctx.equipped}}
-                        data-tooltip="{{localize ctx.equip.handLabel}}"
-                        {{else}}
-                        data-tooltip="COSMERE.Item.Equip.Unequipped.Label"
-                        {{/if}}
-                    >
-                        <div class="hold-1h main-hand {{#if ctx.equipped}}{{#if (eq ctx.equip.hand 'main_hand')}}equipped{{/if}}{{/if}}"></div>
-                        <div class="hold-1h off-hand {{#if ctx.equipped}}{{#if (eq ctx.equip.hand 'off_hand')}}equipped{{/if}}{{/if}}"></div>
-                    </a>                
-                    {{/if}}
-
-                {{else}}
-                {{!-- Items equipped by wearing them --}}
-                    <a role="button"
-                        data-action="toggle-equip"
-                        {{#if ctx.equipped}}
-                        data-tooltip="{{localize ctx.equip.typeLabel}}"
-                        {{else}}
-                        data-tooltip="COSMERE.Item.Equip.Unequipped.Label"
-                        {{/if}}
-                    >
-                        <i class="{{#if ctx.equipped}}equipped{{/if}} fa-solid fa-shield-halved"></i>
-                    </a>
-                {{/if}}
-            {{/if}}
-            </div>
-
-            {{!-- Controls --}}
-            <div class="controls icon faded">
-                <a role="button"
-                    data-action="toggle-action-details"
-                    {{#if state.expanded}}
-                    data-tooltip="GENERIC.HideDetails"
-                    {{else}}
-                    data-tooltip="GENERIC.ViewDetails"
-                    {{/if}}
-                >
-                    {{#if state.expanded}}
-                        <i class="fa-solid fa-compress"></i>
-                    {{else}}
-                        <i class="fa-solid fa-expand"></i>
-                    {{/if}}
-                </a>
-                {{#if @root.editable}}
-                <a role="button"
-                    data-action="toggle-actions-controls"
-                    data-tooltip="APPLICATION.TOOLS.ToggleControls"
-                >
-                    <i class="fa-solid fa-ellipsis-vertical"></i>
-                </a>
-                {{/if}}
-            </div>
         </section>
-
-        <section class="description collapsible-content">
-            <div class="wrapper">
-                {{{default data.descriptionHTML '<p>—</p>'}}}
-            </div>
-        </section>        
     </li>
-    {{/with}}
-    {{/with}}
-    {{/with}}
-    {{/each}}
+    <section class="collapsible-content">
+        <div class="wrapper">
+
+            {{#each section.items as |item|}}
+            {{#with (lookup @root.itemState item.id) as |state|}}
+            {{#with (itemContext item) as |ctx|}}
+            {{#with (lookup section.itemData item.id) as |data|}}
+
+            <li class="item {{#if ctx.hasActivation}}usable{{/if}} collapsible {{#if state.expanded}}expanded{{/if}}"
+                data-item-id="{{item.id}}"
+                {{#if @root.editable}}data-drag="true"{{/if}}
+            >
+                <section class="details">
+                    {{!-- Image --}}
+                    <div class="img"
+                        {{#if ctx.hasActivation}}
+                        data-action="use-item"
+                        data-tooltip="COSMERE.Actor.Sheet.Actions.Strike"
+                        {{/if}}
+                    >
+                        <img class="roll-icon" src="systems/cosmere-rpg/assets/icons/svg/dice/d20_white.svg">
+                        <img src="{{item.img}}">
+                    </div>
+
+                    {{!-- Name --}}
+                    <div class="name" data-action="toggle-action-details">
+                        <span>{{item.name}}</span>
+                        <span class="traits">{{{ctx.subtitle}}}</span>
+                    </div>
+
+                    {{!-- Quantity --}}
+                    <div class="detail wide quantity">
+                        {{#if ctx.hasQuantity}}
+                        {{#if @root.editable}}
+                        <a role="button"
+                            data-action="decrease-quantity"
+                            data-tooltip="COSMERE.Actor.Sheet.Equipment.DecreaseQuantity"
+                        >
+                            <i class="fa-solid fa-minus"></i>
+                        </a>
+                        {{/if}}
+                        <span class="val">{{ctx.quantity}}</span>
+                        {{#if @root.editable}}
+                        <a role="button"
+                            data-action="increase-quantity"
+                            data-tooltip="COSMERE.Actor.Sheet.Equipment.IncreaseQuantity"
+                        >
+                            <i class="fa-solid fa-plus"></i>
+                        </a>
+                        {{/if}}
+                        {{else}}
+                        <span class="val none">—</span>
+                        {{/if}}
+                    </div>
+
+                    {{!-- Weight --}}
+                    <div class="detail weight">
+                        {{#if ctx.hasWeight}}
+                        <i class="fa-solid fa-weight-hanging"></i>
+                        <span class="val">{{ctx.weight.total}}</span>
+                        {{else}}
+                        <span class="val none">—</span>
+                        {{/if}}
+                    </div>
+
+                    {{!-- Equipped --}}
+                    <div class="detail equip">
+                    {{#if ctx.isEquippable}}
+                        {{#if (eq ctx.equip.type 'hold')}}
+                        {{!-- Items equipped by holding them --}}
+                            {{#if (eq ctx.equip.hold 'two_handed')}}
+                            {{!-- Two handed item --}}
+                            <a role="button"
+                                data-action="toggle-equip"
+                                {{#if ctx.equipped}}
+                                data-tooltip="{{localize ctx.equip.holdLabel}}"
+                                {{else}}
+                                data-tooltip="COSMERE.Item.Equip.Unequipped.Label"
+                                {{/if}}
+                            >
+                                <div class="hold-2h {{#if ctx.equipped}}equipped{{/if}}"></div>
+                            </a>
+                            {{else}}
+                            {{!-- One handed item --}}
+                            <a role="button"
+                                data-action="cycle-equip"
+                                {{#if ctx.equipped}}
+                                data-tooltip="{{localize ctx.equip.handLabel}}"
+                                {{else}}
+                                data-tooltip="COSMERE.Item.Equip.Unequipped.Label"
+                                {{/if}}
+                            >
+                                <div class="hold-1h main-hand {{#if ctx.equipped}}{{#if (eq ctx.equip.hand 'main_hand')}}equipped{{/if}}{{/if}}"></div>
+                                <div class="hold-1h off-hand {{#if ctx.equipped}}{{#if (eq ctx.equip.hand 'off_hand')}}equipped{{/if}}{{/if}}"></div>
+                            </a>
+                            {{/if}}
+
+                        {{else}}
+                        {{!-- Items equipped by wearing them --}}
+                            <a role="button"
+                                data-action="toggle-equip"
+                                {{#if ctx.equipped}}
+                                data-tooltip="{{localize ctx.equip.typeLabel}}"
+                                {{else}}
+                                data-tooltip="COSMERE.Item.Equip.Unequipped.Label"
+                                {{/if}}
+                            >
+                                <i class="{{#if ctx.equipped}}equipped{{/if}} fa-solid fa-shield-halved"></i>
+                            </a>
+                        {{/if}}
+                    {{/if}}
+                    </div>
+
+                    {{!-- Controls --}}
+                    <div class="controls icon faded">
+                        <a role="button"
+                            data-action="toggle-action-details"
+                            {{#if state.expanded}}
+                            data-tooltip="GENERIC.HideDetails"
+                            {{else}}
+                            data-tooltip="GENERIC.ViewDetails"
+                            {{/if}}
+                        >
+                            {{#if state.expanded}}
+                                <i class="fa-solid fa-compress"></i>
+                            {{else}}
+                                <i class="fa-solid fa-expand"></i>
+                            {{/if}}
+                        </a>
+                        {{#if @root.editable}}
+                        <a role="button"
+                            data-action="toggle-actions-controls"
+                            data-tooltip="APPLICATION.TOOLS.ToggleControls"
+                        >
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </a>
+                        {{/if}}
+                    </div>
+                </section>
+
+                <section class="description collapsible-content">
+                    <div class="wrapper">
+                        {{{default data.descriptionHTML '<p>—</p>'}}}
+                    </div>
+                </section>
+            </li>
+            {{/with}}
+            {{/with}}
+            {{/with}}
+            {{/each}}
+        </div>
+    </section>
 </ul>
+{{/with}}
 {{/each}}
