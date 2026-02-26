@@ -863,15 +863,15 @@ export class CosmereItem<
         const postRoll: (() => void)[] = [];
 
         // Get the actor to use this item for
-        const actor =
-            options.actor ??
+        options.actor ??=
             this.actor ??
             (game.canvas?.tokens?.controlled?.[0]?.actor as
                 | CosmereActor
-                | undefined);
+                | undefined) ??
+            (game.user?.character as CosmereActor | undefined);
 
         // Ensure an actor was found
-        if (!actor) {
+        if (!options.actor) {
             ui.notifications.warn(
                 game.i18n.localize('GENERIC.Warning.NoActor'),
             );
@@ -922,7 +922,8 @@ export class CosmereItem<
                 switch (consumption.type) {
                     case ItemConsumeType.Resource:
                         currentAmount =
-                            actor.system.resources[consumption.resource].value;
+                            options.actor.system.resources[consumption.resource]
+                                .value;
                         break;
                     // case ItemConsumeType.Item:
                     // TODO
@@ -943,7 +944,7 @@ export class CosmereItem<
                 postRoll.push(() => {
                     if (consumption.type === ItemConsumeType.Resource) {
                         // Handle actor resource consumption
-                        void actor.update({
+                        void options.actor!.update({
                             system: {
                                 resources: {
                                     [consumption.resource]: {
@@ -1021,7 +1022,9 @@ export class CosmereItem<
 
         const messageConfig = {
             user: game.user.id,
-            speaker: options.speaker ?? ChatMessage.getSpeaker({ actor }),
+            speaker:
+                options.speaker ??
+                ChatMessage.getSpeaker({ actor: options.actor }),
             rolls: [] as foundry.dice.Roll[],
             flags: {} as Record<string, unknown>,
         };
@@ -1059,7 +1062,6 @@ export class CosmereItem<
             if (hasAttack && hasDamage) {
                 const attackResult = await this.rollAttack({
                     ...options,
-                    actor,
                     skillTest: {
                         parts: options.parts,
                         plotDie: options.plotDie,
@@ -1093,7 +1095,6 @@ export class CosmereItem<
                     const damageRolls = await this.rollDamage({
                         ...options,
                         ...options.damage,
-                        actor,
                         chatMessage: false,
                     });
                     if (!damageRolls) return null;
@@ -1107,7 +1108,6 @@ export class CosmereItem<
                 if (this.system.activation.type === ActivationType.SkillTest) {
                     const roll = await this.roll({
                         ...options,
-                        actor,
                         chatMessage: false,
                     });
                     if (!roll) return null;
