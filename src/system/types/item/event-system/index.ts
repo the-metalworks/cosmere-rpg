@@ -1,4 +1,3 @@
-import { Event } from './event';
 import { HandlerConfig } from './handler';
 
 export { Event } from './event';
@@ -8,5 +7,6 @@ export interface Rule {
     id: string;
     description: string;
     event: string;
+    disabled: boolean;
     handler: HandlerConfig;
 }
