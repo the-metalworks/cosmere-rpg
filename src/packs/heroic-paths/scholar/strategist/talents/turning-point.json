@@ -36,7 +36,6 @@
                 "recharge": "per_scene"
             },
             "skill": "ded",
-            "attribute": null,
             "opportunity": null,
             "complication": null,
             "modifierFormula": ""
