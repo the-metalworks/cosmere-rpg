@@ -177,6 +177,13 @@
                 .tab-body {
                     overflow: visible;
                 }
+
+                
+            }
+
+            // Allows the equipment lists to be hidden behind the sticky tab which shows the total weight
+            &:has(.tab[data-tab="equipment"].active){
+                height: 98%;
             }
         }
     }
@@ -855,6 +862,106 @@
         display: flex;
         flex-direction: column;
         gap: 0.75rem;        
+    }
+
+    
+    app-actor-encumbrance-list {
+        display: flex;
+        width: 100%;
+
+        position: sticky;
+        bottom: 0;
+        z-index: 10;
+
+        transform: translateY(6px);
+        background-color: var(--cosmere-color-base-1);
+        border-top: 1px solid var(--cosmere-color-border);
+        border-bottom: 1px solid var(--cosmere-color-border);
+        border-radius: 0px 0px 6px 6px;
+        
+        .encumbrance-list {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 0.75rem;
+            
+
+            .details {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 0.75rem;
+                width: 100%;
+            }
+
+            .title {
+                font-family: var(--cosmere-font-normal);
+                font-size: var(--font-size-14);
+                font-weight: 600;
+                color: var(--cosmere-color-text-main);
+                flex: 1;
+            }
+
+            .weight {
+                flex: 1;
+                color: var(--cosmere-font-header);
+                text-transform: uppercase;
+                font-family: var(--cosmere-font-normal);
+                font-size: var(--font-size-10);
+                font-weight: 600;
+                text-align: center;
+
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                .currentWeightGroup{
+                    display:flex;
+                    align-items: center;
+                    justify-content: flex-end;
+                    flex: 1;
+                    gap: 0.25rem;
+                }
+
+                .currentWeight{
+                    font-family: var(--cosmere-font-header);
+                    font-size: var(--font-size-14);
+                    font-weight: 600;
+                    color: var(--cosmere-color-text-main);
+                    text-align: right;
+                    transform: translateY(-2px);
+                }
+
+                .separator {
+                    font-family: var(--cosmere-font-normal);
+                    font-size: var(--font-size-10);
+                    font-weight: 600;
+                    color: var(--cosmere-color-text-sub);
+                    text-align: center;
+                    flex: 0 0 auto;
+                    transform: translateY(2px);
+                }
+
+                .totalWeight {
+                    font-family: var(--cosmere-font-normal);
+                    font-size: var(--font-size-10);
+                    font-weight: 600;
+                    color: var(--cosmere-color-text-sub);
+                    text-align: left;
+                    transform: translateY(2px);
+                    flex: 0.75;
+                }
+
+                .spacer{
+                    width: 95px;
+                }
+
+            }
+
+            
+        }
     }
 
     app-actor-currency-list {
