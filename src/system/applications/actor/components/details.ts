@@ -37,6 +37,7 @@ any> {
         'configure-senses-range': this.onConfigureSensesRange,
         'configure-recovery': this.onConfigureRecovery,
         'configure-deflect': this.onConfigureDeflect,
+        'edit-image': this.onEditImage,
     };
     /* eslint-enable @typescript-eslint/unbound-method */
 
@@ -65,6 +66,26 @@ any> {
     private static onConfigureRecovery(this: ActorDetailsComponent) {
         if (this.application.actor.isCharacter())
             void ConfigureRecoveryDieDialog.show(this.application.actor);
+    }
+
+    private static onEditImage(this: ActorDetailsComponent) {
+        if (this.application.mode !== 'edit') return;
+
+        const { img: defaultImg } = CosmereActor.getDefaultArtwork(
+            this.application.actor.toObject(),
+        );
+
+        void new foundry.applications.apps.FilePicker.implementation({
+            current: this.application.actor.img ?? undefined,
+            type: 'image',
+            redirectToRoot: [defaultImg],
+            callback: (path) => {
+                console.log(path);
+                void this.application.actor.update({
+                    img: path,
+                });
+            },
+        }).browse();
     }
 
     /* --- Context --- */

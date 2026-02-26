@@ -23,7 +23,6 @@
             "plotDie": false,
             "uses": null,
             "skill": "ath",
-            "attribute": null,
             "modifierFormula": ""
         },
         "damage": {
