@@ -1,9 +1,10 @@
 ---
-name: "INTERNAL: Chore / Enhancement"
-about: A small piece of work that needs doing to keep the system building well or enhancing a process
+name: 'INTERNAL: Chore / Enhancement'
+about: A small piece of work that needs doing to keep the system building well or
+  enhancing a process
 title: ''
 type: Task
-label: Enhancement
+labels: type | enhancement
 assignees: ''
 
 ---
