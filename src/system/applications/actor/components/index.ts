@@ -4,6 +4,7 @@ import './conditions';
 import './details';
 import './effects-list';
 import './equipment-list';
+import './encumbrance-list';
 import './injuries-list';
 import './currency-list';
 import './notes-fields';

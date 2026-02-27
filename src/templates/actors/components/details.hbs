@@ -1,6 +1,6 @@
 <div class="portrait-info">
     <div class="portrait">
-        <img class="profile" src="{{actor.img}}" data-action="edit-img">
+        <img class="profile" src="{{actor.img}}" {{#if isEditMode}}data-edit="img" data-action="editImage"{{/if}}>
     </div>
 
     {{#if (and editable displayRestButtons)}}    
@@ -128,6 +128,30 @@
             {{#if isEditMode}}
             <a data-action="configure-senses-range"
                 data-tooltip="COSMERE.Actor.Sheet.ConfigureSensesRange"
+            >
+                <i class="fa-solid fa-gear"></i>
+            </a>
+            {{/if}}
+        </span>
+    </div>
+
+    {{!-- Encumbrance --}}
+    
+
+    <div class="sheet-stack derived-stat lift">
+        <div class="container">
+            <div class="background"></div>
+            <div class="border"></div>
+            {{#with (derived actor.system.encumbrance.lift) as |lift|}}
+            <span class="value">{{lift}}</span>
+            <span class="unit">lbs</span>
+            {{/with}}
+        </div>
+        <span class="label">
+            Lift
+            {{#if isEditMode}}
+            <a data-action="configure-lifting-capacity"
+                data-tooltip="COSMERE.Actor.Sheet.ConfigureLiftingCapacity"
             >
                 <i class="fa-solid fa-gear"></i>
             </a>

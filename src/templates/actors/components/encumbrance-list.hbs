@@ -1,0 +1,17 @@
+<div class="encumbrance-list">
+    <section class="details">
+        <span class="title">Total Weight:</span>
+        <div class="weight">
+            <div class="currentWeightGroup {{#if isOverCarry}}is-over-carry{{/if}}">
+                <i class="fa-solid fa-weight-hanging"></i>
+                <span class="currentWeight">{{currentWeight}}</span>
+            </div>
+            <div class="carryWeightGroup">
+                <span class="carryWeight">/{{carryLimit}}</span>
+                <a data-action="configure-carry-capacity" data-tooltip="COSMERE.Actor.Sheet.ConfigureCarryCapacity">
+                    <i class="fa-solid fa-gear"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+</div>

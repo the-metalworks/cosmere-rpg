@@ -1447,6 +1447,12 @@
             "Title": "Configure Senses Range: {actor}",
             "IgnoreObscure": "Ignores Obscured"
         },
+        "ConfigureCarryCapacity": {
+            "Title": "Configure Carry Capacity: {actor}"
+        },
+        "ConfigureLiftingCapacity": {
+            "Title": "Configure Lifting Capacity: {actor}"
+        },
         "ConfigureRecoveryDie": {
             "Title": "Configure Recovery Die: {actor}"
         },

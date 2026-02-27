@@ -1,0 +1,32 @@
+<form>
+    {{!-- Value --}}
+    <div class="form-group max">
+        <div class="form-fields">
+            {{#with (derived lift) as |value|}}
+            <input name="range"
+                type="number"
+                value="{{value}}"
+                min="0"
+                step="1"
+
+                {{#if (eq @root.mode 'derived')}}
+                readonly
+                {{/if}}
+            >
+            {{/with}}
+        </div>        
+    </div>
+    <div class="form-group">
+        <label>{{localize "GENERIC.Mode"}}</label>
+        <div class="form-fields">
+            <select name="mode">
+                {{selectOptions modes selected=mode localize=true}}
+            </select>
+        </div>        
+    </div>
+    <div class="form-group submit">
+        <button data-action="update-lift" type="submit">
+            {{localize "GENERIC.Button.Update"}}
+        </button>
+    </div>
+</form>
