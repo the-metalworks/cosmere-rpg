@@ -136,26 +136,7 @@
     </div>
 
     {{!-- Encumbrance --}}
-    <div class="sheet-stack derived-stat carry">
-        <div class="container">
-            <div class="background"></div>
-            <div class="border"></div>
-            {{#with (derived actor.system.encumbrance.carry) as |carry|}}
-            <span class="value">{{carry}}</span>
-            <span class="unit">lbs</span>
-            {{/with}}
-        </div>
-        <span class="label">
-            Carry
-            {{#if isEditMode}}
-            <a data-action="configure-carry-capacity"
-                data-tooltip="COSMERE.Actor.Sheet.ConfigureCarryCapacity"
-            >
-                <i class="fa-solid fa-gear"></i>
-            </a>
-            {{/if}}
-        </span>
-    </div>
+    
 
     <div class="sheet-stack derived-stat lift">
         <div class="container">

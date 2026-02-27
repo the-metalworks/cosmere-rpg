@@ -873,7 +873,6 @@
         bottom: 0;
         z-index: 10;
 
-        transform: translateY(6px);
         background-color: var(--cosmere-color-base-1);
         border-top: 1px solid var(--cosmere-color-border);
         border-bottom: 1px solid var(--cosmere-color-border);
@@ -885,7 +884,7 @@
             align-items: center;
             justify-content: space-between;
             width: 100%;
-            padding: 0.75rem;
+            padding: 0.5rem;
             
 
             .details {
@@ -914,45 +913,63 @@
                 text-align: center;
 
                 display: flex;
+                flex-direction: column;
                 align-items: center;
                 justify-content: space-between;
 
                 .currentWeightGroup{
                     display:flex;
                     align-items: center;
-                    justify-content: flex-end;
+                    justify-content: center;
                     flex: 1;
                     gap: 0.25rem;
+
+                    &.is-over-carry {
+                        color: var(--cosmere-color-complication);
+
+                        .currentWeight {
+                            color: var(--cosmere-color-complication);
+                        }
+                    }
+
+                    .fa-weight-hanging{
+                        font-size: var(--font-size-10);
+                        transform: translateY(-3px);
+                    }
+
+                    .currentWeight{
+                        font-family: var(--cosmere-font-header);
+                        font-size: var(--font-size-14);
+                        font-weight: 600;
+                        color: var(--cosmere-color-text-main);
+                        text-align: center;
+                    }
                 }
 
-                .currentWeight{
-                    font-family: var(--cosmere-font-header);
-                    font-size: var(--font-size-14);
-                    font-weight: 600;
-                    color: var(--cosmere-color-text-main);
-                    text-align: right;
-                    transform: translateY(-2px);
-                }
+                .carryWeightGroup{
+                    display:flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex: 1;
+                    gap: 0.25rem;
+                    margin-left: 2.5rem;
+                    
+                    .carryWeight {
+                        font-family: var(--cosmere-font-normal);
+                        font-size: var(--font-size-10);
+                        font-weight: 600;
+                        color: var(--cosmere-color-text-sub);
+                        text-align: center;
+                        flex: 0.75;
 
-                .separator {
-                    font-family: var(--cosmere-font-normal);
-                    font-size: var(--font-size-10);
-                    font-weight: 600;
-                    color: var(--cosmere-color-text-sub);
-                    text-align: center;
-                    flex: 0 0 auto;
-                    transform: translateY(2px);
-                }
+                    }
 
-                .totalWeight {
-                    font-family: var(--cosmere-font-normal);
-                    font-size: var(--font-size-10);
-                    font-weight: 600;
-                    color: var(--cosmere-color-text-sub);
-                    text-align: left;
-                    transform: translateY(2px);
-                    flex: 0.75;
+                    .fa-gear{
+                        font-size: 0.5rem;
+                    }
+
                 }
+                
 
                 .spacer{
                     width: 95px;
