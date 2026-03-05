@@ -15,6 +15,22 @@ If you have:
   b. npm run test:all
   c. npm run docker:test:down
 
+## Docker
+
+The `docker` folder contains compose files that pull the `felddy/foundryvtt:13` image and use the credentials stored in `.env` to obtain the FoundryVTT licensed runtime for the container.
+
+### Credentials file (.env)
+
+Before the first time trying to spin up the docker image, copy `.env.example` to `.env` (note that `.env` is listed in the `.gitignore` file - please be very careful to not accidentally commit any secrets or sensitive information to the Git repository.)
+
+### Spinning up and down
+
+Run `npm run docker:test:up` to start the docker container. This will also go through the system build process so that the system `build` folder is available to mount to the docker container.
+
+While up, the Playwright tests can be run (see below) and the FoundryVTT system is available at `localhost:3000` with the game system loaded and a small test game world created.
+
+Once up, the container can be spun down with `npm run docker:test:down`.
+
 ## Playwright
 
 Playwright is an end-to-end test framework. Tests can be written in `describe - it - expect` style. (They can also be written in BDD/Gherkin style - see *_BDD_* section below.) Playwright abstracts the application "page" and a combination of `fixtures` and `page-objects` help keep tests succinct.
