@@ -1,0 +1,24 @@
+# Test environment: clean data directory, designed for CI/headless Playwright runs.
+# Usage:
+#   npm run build:test     # Build with Quench tests included
+#   docker compose -f docker/docker-compose.test.yml up -d --wait
+
+services:
+  foundryvtt:
+    image: felddy/foundryvtt:13
+    env_file:
+      - ../.env
+    ports:
+      - "${FOUNDRY_PORT:-30000}:30000"
+    environment:
+      - CONTAINER_PRESERVE_CONFIG=true
+    volumes:
+      - ./data-test:/data
+      - ../build:/data/Data/systems/cosmere-rpg:ro
+      - ./quench-module:/data/Data/modules/quench:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:30000"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+      start_period: 20s

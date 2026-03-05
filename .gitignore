@@ -1,5 +1,19 @@
+.env
 node_modules/
 build/
 
 .vscode/
 .idea/
+
+# Docker persistent data
+docker/data-dev/
+docker/data-test/
+docker/quench-module/
+
+# Playwright
+test-results/
+playwright-report/
+src/playwright/.auth/
+
+# OS
+.DS_Store

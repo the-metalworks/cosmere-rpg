@@ -410,8 +410,8 @@ function configureFonts() {
 // Conditionally register Quench tests. The __INCLUDE_TESTS__ flag is set
 // by Rollup's replace plugin. In production builds this entire block is
 // removed by tree-shaking since the flag evaluates to false.
-if (__INCLUDE_TESTS__) {
-    void import('./tests/quench/index').then(({ registerQuenchTests }) => {
+if (typeof __INCLUDE_TESTS__ !== 'undefined' && __INCLUDE_TESTS__) {
+    void import('./src/tests/quench/index').then(({ registerQuenchTests }) => {
         registerQuenchTests();
     });
 }

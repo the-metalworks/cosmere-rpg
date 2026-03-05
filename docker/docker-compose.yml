@@ -1,0 +1,30 @@
+# Development environment: mounts the built system and persists Foundry data.
+# Usage:
+#   npm run build          # Build the system first
+#   docker compose -f docker/docker-compose.yml up
+#
+# For live development, run `npm run build:watch` in a separate terminal.
+# The container reads from build/ which Rollup updates on each rebuild.
+
+services:
+  foundryvtt:
+    image: felddy/foundryvtt:13
+    env_file:
+      - ../.env
+    ports:
+      - "30000:30000"
+    environment:
+      - CONTAINER_PRESERVE_CONFIG=true
+    volumes:
+      # Persistent Foundry data (Config, worlds, logs, etc.)
+      - ./data-dev:/data
+      # Mount the built system into the container's system directory (read-only)
+      - ../build:/data/Data/systems/cosmere-rpg:ro
+      # Mount the Quench module (downloaded by scripts/setup-quench.sh)
+      - ./quench-module:/data/Data/modules/quench:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:30000"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s

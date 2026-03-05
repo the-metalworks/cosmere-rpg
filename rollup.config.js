@@ -8,6 +8,7 @@ import typescript from '@rollup/plugin-typescript';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import copy from 'rollup-plugin-copy';
 import commonjs from '@rollup/plugin-commonjs';
+import replace from '@rollup/plugin-replace';
 import scss from 'rollup-plugin-scss';
 
 export default {
@@ -24,6 +25,15 @@ export default {
     ],
     plugins: [
         clearOutputDir(),
+
+        // Compile-time flag: set INCLUDE_TESTS=true to bundle Quench tests
+        // Must run before typescript so TS sees true/false, not the raw identifier
+        replace({
+            preventAssignment: true,
+            values: {
+                __INCLUDE_TESTS__: JSON.stringify(process.env.INCLUDE_TESTS === 'true'),
+            },
+        }),
 
         // CSS
         scss(),

@@ -1,0 +1,76 @@
+# Runs Playwright E2E tests and Quench in-browser tests against a Dockerized
+# FoundryVTT instance.
+#
+# Required repository secrets:
+#   - FOUNDRY_USERNAME: foundryvtt.com account username
+#   - FOUNDRY_PASSWORD: foundryvtt.com account password
+#   - FOUNDRY_LICENSE_KEY: FoundryVTT license key
+
+name: test
+run-name: E2E & Quench Tests
+on: [pull_request, workflow_dispatch]
+
+jobs:
+    test:
+        name: Run Tests
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+
+        env:
+            FOUNDRY_USERNAME: ${{ secrets.FOUNDRY_USERNAME }}
+            FOUNDRY_PASSWORD: ${{ secrets.FOUNDRY_PASSWORD }}
+            FOUNDRY_LICENSE_KEY: ${{ secrets.FOUNDRY_LICENSE_KEY }}
+            FOUNDRY_ADMIN_KEY: 'ci-admin-key'
+            FOUNDRY_UID: '1001'
+            FOUNDRY_GID: '1001'
+
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Use Node 20
+              uses: actions/setup-node@v4
+              with:
+                  node-version: '20'
+                  cache: 'npm'
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Install Playwright browsers
+              run: npx playwright install --with-deps chromium
+
+            - name: Setup Quench module
+              run: bash scripts/setup-quench.sh
+
+            - name: Build system (with tests)
+              run: INCLUDE_TESTS=true npx rollup -c
+
+            - name: Seed test world
+              run: bash scripts/seed-test-world.sh
+
+            - name: Start FoundryVTT container
+              run: docker compose -f docker/docker-compose.test.yml up -d --wait
+              timeout-minutes: 5
+
+            - name: Verify FoundryVTT is ready
+              run: bash scripts/wait-for-foundry.sh http://localhost:30000 90
+
+            - name: Run Playwright tests
+              run: npx playwright test
+              env:
+                  FOUNDRY_URL: http://localhost:30000
+                  CI: true
+
+            - name: Upload test results
+              uses: actions/upload-artifact@v4
+              if: always()
+              with:
+                  name: playwright-report
+                  path: |
+                      tests/e2e/reports/
+                      tests/e2e/results/
+                  retention-days: 14
+
+            - name: Stop FoundryVTT container
+              if: always()
+              run: docker compose -f docker/docker-compose.test.yml down -v

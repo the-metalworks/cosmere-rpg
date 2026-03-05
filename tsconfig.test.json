@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "strict": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "forceConsistentCasingInFileNames": true,
+        "skipLibCheck": true,
+        "rootDir": ".",
+        "baseUrl": ".",
+        "types": ["node"],
+        "paths": {
+            "@e2e/*": ["./src/tests/e2e/*"]
+        }
+    },
+    "include": ["src/tests/e2e/**/*.ts", "playwright.config.ts"]
+}
