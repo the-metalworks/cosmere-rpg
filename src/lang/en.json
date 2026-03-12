@@ -1379,6 +1379,15 @@
         },
         "Migration": {
             "DocumentMigrationFailed": "Failed to migrate {type} \"{name}\". {error}"
+        },
+        "CharacterBuilder": {
+            "Choices": {
+                "delta": "Delta",
+                "Talents": {
+                    "id": "Talent ID",
+                    "sourceUuid": "Source UUID"
+                }
+            }
         }
     },
     "DICE": {
