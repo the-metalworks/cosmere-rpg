@@ -24,6 +24,77 @@ const SCHEMA = () => ({
         initial: 1,
         label: 'COSMERE.Actor.Level.Label',
     }),
+    builderSteps: new foundry.data.fields.ArrayField(
+        new foundry.data.fields.SchemaField({
+            level: new foundry.data.fields.NumberField({
+                required: true,
+                nullable: false,
+                integer: true,
+                min: 1,
+                initial: 1,
+                label: 'COSMERE.Actor.Level.Label',
+            }),
+            choices: new foundry.data.fields.SchemaField({
+                attributes: new foundry.data.fields.ArrayField(
+                    new foundry.data.fields.SchemaField({
+                        attribute: new foundry.data.fields.StringField({
+                            required: true,
+                            nullable: false,
+                            choices: Object.keys(CONFIG.COSMERE.attributes),
+                            label: 'COSMERE.Actor.Attribute.name',
+                        }),
+                        delta: new foundry.data.fields.NumberField({
+                            required: true,
+                            nullable: false,
+                            integer: true,
+                            initial: 1,
+                            label: 'COSMERE.CharacterBuilder.Choices.delta',
+                        }),
+                    }),
+                    {
+                        required: false,
+                    },
+                ),
+                skills: new foundry.data.fields.ArrayField(
+                    new foundry.data.fields.SchemaField({
+                        skill: new foundry.data.fields.StringField({
+                            required: true,
+                            nullable: false,
+                            choices: Object.keys(CONFIG.COSMERE.skills),
+                            label: 'COSMERE.Actor.Skill.label',
+                        }),
+                        delta: new foundry.data.fields.NumberField({
+                            required: true,
+                            nullable: false,
+                            integer: true,
+                            initial: 1,
+                            label: 'COSMERE.CharacterBuilder.Choices.delta',
+                        }),
+                    }),
+                    {
+                        required: false,
+                    },
+                ),
+                talents: new foundry.data.fields.ArrayField(
+                    new foundry.data.fields.SchemaField({
+                        id: new foundry.data.fields.DocumentIdField({
+                            required: true,
+                            nullable: false,
+                            label: 'COSMERE.CharacterBuilder.Choices.Talents.id',
+                        }),
+                        sourceUuid: new foundry.data.fields.DocumentUUIDField({
+                            required: true,
+                            nullable: false,
+                            label: 'COSMERE.CharacterBuilder.Choices.Talents.sourceUuid',
+                        }),
+                    }),
+                    {
+                        required: false,
+                    },
+                ),
+            }),
+        }),
+    ),
 
     /* --- Derived statistics --- */
     recovery: new foundry.data.fields.SchemaField({
