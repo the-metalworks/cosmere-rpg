@@ -1427,6 +1427,15 @@
                     }
                 }
             }
+        },
+        "CharacterBuilder": {
+            "Choices": {
+                "delta": "Delta",
+                "Talents": {
+                    "id": "Talent ID",
+                    "sourceUuid": "Source UUID"
+                }
+            }
         }
     },
     "DICE": {
