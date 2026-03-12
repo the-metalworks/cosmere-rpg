@@ -1,6 +1,10 @@
 // Utils
 import { hasSystemEmbeddedCollections } from './utils/general';
-import { transformRequest, transformResponse } from './utils/socket';
+import {
+    transformRequest,
+    transformResponse,
+    toClientViewObject,
+} from './utils/socket';
 
 // Types
 import type { AnyObject, AnyMutableObject } from '@system/types/utils';
@@ -25,34 +29,23 @@ const EMIT_EVENT_PATCHES = {
         const request: DocumentSocketRequest = args[0];
         const callback: (response: SocketResponse) => void = args[1];
 
-        if (typeof request !== 'object') return;
-        if (typeof callback !== 'function') return;
+        const transformedRequest = await transformRequest(request);
 
-        if (request.action === 'get') return;
-        if (!request.operation.parent && !request.operation.parentUuid) return;
+        console.log('Intercepted emit call - request', {
+            raw: structuredClone(request),
+            transformed: structuredClone(transformedRequest),
+        });
 
-        const documentType = request.type as foundry.abstract.Document.Type;
+        emit(transformedRequest, (response: SocketResponse) => {
+            const transformedResponse = transformResponse(response);
 
-        // Get parent document
-        const parent =
-            request.operation.parent ??
-            (await fromUuid(request.operation.parentUuid));
+            console.log('Intercepted emit call - response', {
+                raw: structuredClone(response),
+                transformed: structuredClone(transformedResponse),
+            });
+            callback(transformedResponse);
+        });
 
-        // Ensure parent document supports system embedded collections
-        if (!parent || !hasSystemEmbeddedCollections(parent)) return;
-
-        // Ensure parent supports this type of system embedded collection
-        if (!parent.isSystemEmbedding(documentType)) return;
-
-        // Assign parent document to request
-        request.operation.parent = parent;
-
-        // Execute transformed emit
-        emit(transformRequest(request), (response: SocketResponse) =>
-            callback(transformResponse(response)),
-        );
-
-        // Indicate that the emit was handled
         return true;
     },
     /**
@@ -75,46 +68,11 @@ const EMIT_EVENT_PATCHES = {
                     foundry.abstract.Document.AnyConstructor,
                 ][]
             ).forEach(([_, cls]) => {
-                if (!hasSystemEmbeddedCollections(cls)) return;
-
-                const systemEmbeddedCollections = cls.metadata.systemEmbedded;
-
                 const documents = (data[cls.collectionName] ??
                     []) as AnyMutableObject[];
 
                 documents.forEach((doc) => {
-                    if (
-                        'system' in doc &&
-                        !(
-                            SYSTEM_EMBEDDED_COLLECTIONS_KEY in
-                            (doc.system as AnyObject)
-                        )
-                    )
-                        return;
-
-                    const docSystemEmbeddedCollections = (
-                        doc.system as AnyObject
-                    )[SYSTEM_EMBEDDED_COLLECTIONS_KEY] as Record<
-                        string,
-                        AnyObject[]
-                    >;
-                    Object.values(systemEmbeddedCollections).forEach(
-                        (collectionName) => {
-                            if (
-                                !(
-                                    collectionName in
-                                    docSystemEmbeddedCollections
-                                )
-                            )
-                                return;
-                            doc[collectionName] =
-                                docSystemEmbeddedCollections[collectionName];
-                        },
-                    );
-
-                    delete (doc.system as AnyMutableObject)[
-                        SYSTEM_EMBEDDED_COLLECTIONS_KEY
-                    ];
+                    toClientViewObject(doc, cls.documentName);
                 });
             });
 
@@ -135,11 +93,38 @@ const ON_EVENT_PATCHES = {
     modifyDocument: (args: any[]): void | any[] => {
         const response: SocketResponse = args[0];
 
-        if (response.action !== 'update') return;
-        if (!response.operation.isSystemEmbeddedCollectionOperation) return;
+        console.log(
+            'Intercepted modifyDocument event - raw',
+            structuredClone(response),
+        );
+
+        const transformedResponse = transformResponse(
+            structuredClone(response),
+        );
+
+        console.log(
+            'Intercepted modifyDocument event - transformed',
+            structuredClone(transformedResponse),
+        );
 
         // Transform response
-        return [transformResponse(response)];
+        return [transformedResponse];
+    },
+
+    manageCompendium: (args: any[]): void | any[] => {
+        console.log(
+            'Intercepted manageCompendium event - original args:',
+            structuredClone(args),
+        );
+        return args;
+    },
+
+    userActivity: (args: any[]): void | any[] => {
+        console.log(
+            'Intercepted userActivity event - original args:',
+            structuredClone(args),
+        );
+        return args;
     },
 };
 
@@ -188,6 +173,8 @@ foundry.Game.connect = async function (this: foundry.Game, sessionId: string) {
         eventName: string,
         listener: (...args: any[]) => void,
     ) {
+        console.log('Registering socket listener for event:', eventName);
+
         if (!(eventName in ON_EVENT_PATCHES))
             return _on.call(this, eventName, listener);
 

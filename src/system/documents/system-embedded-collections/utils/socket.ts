@@ -1,12 +1,16 @@
 // Utils
-import { getCollectionNameFor } from './general';
+import { getCollectionNameFor, hasSystemEmbeddedCollections } from './general';
+import { cloneCollection } from '@system/utils/data';
 
 // Types
 import type { AnyObject, AnyMutableObject } from '@system/types/utils';
+import type { Document } from '@system/types/foundry/document';
 
 import type {
     AnyEmbeddedCollection,
+    AnyDocumentData,
     SystemEmbeddedCollectionsDocument,
+    SystemEmbeddedCollectionsDocumentConstructor,
 } from '../types/general';
 import type {
     DocumentSocketRequest,
@@ -16,8 +20,37 @@ import type {
 
 // Constants
 import { SYSTEM_EMBEDDED_COLLECTIONS_KEY } from '../constants';
+import { CosmereItem } from '../../item';
+
+const DOCUMENT_REQUEST_TIMEOUT_WINDOW = 100;
+const documentsRequestTimeoutMap = new Map<string, number>();
+
+/* --- Queueing --- */
+
+/**
+ * Simple timeout-based queueing mechanism to ensure that multiple requests related to the same host document are processed sequentially,
+ * to prevent race conditions.
+ */
+async function queueRequestFor(hostDocumentUuid: string): Promise<void> {
+    const existingTimeout =
+        documentsRequestTimeoutMap.get(hostDocumentUuid) ??
+        Number.NEGATIVE_INFINITY;
+    const waitTime = Math.max(0, existingTimeout - Date.now());
+
+    documentsRequestTimeoutMap.set(
+        hostDocumentUuid,
+        Date.now() + waitTime + DOCUMENT_REQUEST_TIMEOUT_WINDOW,
+    );
+    await new Promise((res) => setTimeout(res, waitTime));
+}
 
 /* --- Type Guards --- */
+
+export function isGetRequest(
+    request: DocumentSocketRequest,
+): request is DocumentSocketRequest<'get'> {
+    return request.action === 'get';
+}
 
 export function isCreateRequest(
     request: DocumentSocketRequest,
@@ -37,129 +70,335 @@ export function isDeleteRequest(
     return request.action === 'delete';
 }
 
+export function isCRUDRequest(
+    request: DocumentSocketRequest,
+): request is DocumentSocketRequest<DatabaseCRUDAction> {
+    return (
+        isCreateRequest(request) ||
+        isUpdateRequest(request) ||
+        isDeleteRequest(request)
+    );
+}
+
 /* --- Transforms - Request --- */
 
 /**
  * Transforms a client socket request for a system embedded collection document
  * into an update request on the parent document, that the backend can process.
  */
-export function transformRequest<
-    DatabaseAction extends foundry.abstract.types.DatabaseAction,
->(
-    inRequest: DocumentSocketRequest<DatabaseAction>,
-): DocumentSocketRequest<'update'> {
-    if (isCreateRequest(inRequest)) {
-        return transformCreateRequest(inRequest);
-    } else if (isUpdateRequest(inRequest)) {
-        return transformUpdateRequest(inRequest);
-    } else if (isDeleteRequest(inRequest)) {
-        return transformDeleteRequest(inRequest);
+export function transformRequest(
+    inRequest: DocumentSocketRequest,
+): Promise<DocumentSocketRequest>;
+export function transformRequest(
+    inRequest: DocumentSocketRequest<DatabaseCRUDAction>,
+): Promise<DocumentSocketRequest<'update'>>;
+export function transformRequest(
+    inRequest: DocumentSocketRequest<'get'>,
+): Promise<DocumentSocketRequest<'get'>>;
+export async function transformRequest(
+    inRequest: DocumentSocketRequest,
+): Promise<DocumentSocketRequest> {
+    // if (isGetRequest(inRequest)) {
+    //     return transformGetRequest(inRequest);
+    // } else if (isCreateRequest(inRequest)) {
+    //     return transformCreateRequest(inRequest);
+    // } else if (isUpdateRequest(inRequest)) {
+    //     return transformUpdateRequest(inRequest);
+    // } else if (isDeleteRequest(inRequest)) {
+    //     return transformDeleteRequest(inRequest);
+    // }
+
+    // throw new Error(`Unsupported Database Action: ${inRequest.action}`);
+
+    /**
+     * 1. Host document -> The real foundry document that ultimately contains the system embedded document (possibly via multiple levels of embedding)
+     * 2. Parent document -> The immediate parent document that directly contains the system embedded document
+     * 3. System embedded document -> The document inside the system embedded collection
+     */
+
+    if (isGetRequest(inRequest)) {
+        return transformGetRequest(inRequest);
+    } else if (isCRUDRequest(inRequest)) {
+        return transformCRUDRequest(inRequest);
     }
 
-    throw new Error(`Unsupported Database Action: ${inRequest.action}`);
+    return inRequest;
 }
 
-function transformCreateRequest(
-    inRequest: DocumentSocketRequest<'create'>,
-): DocumentSocketRequest<'update'> {
-    inRequest.operation.data = inRequest.operation.data
-        .filter((data) => !!data)
-        .map((data) => {
-            if (data instanceof foundry.abstract.Document)
-                data = data.toObject();
-
-            (data as AnyMutableObject)._id ??= foundry.utils.randomID();
-            return data;
-        });
+function transformGetRequest(
+    inRequest: DocumentSocketRequest<'get'>,
+): DocumentSocketRequest<'get'> {
+    const documentType = inRequest.type;
+    const cls = CONFIG[documentType]?.documentClass;
+    if (!hasSystemEmbeddedCollections(cls)) return inRequest;
 
     return transformRequestCommon(inRequest);
 }
 
-function transformUpdateRequest(
-    inRequest: DocumentSocketRequest<'update'>,
-): DocumentSocketRequest<'update'> {
-    const documentType = inRequest.type as foundry.abstract.Document.Type;
-
-    const parent = inRequest.operation.parent!;
-    const collection = parent.getEmbeddedCollection(
-        documentType as never,
-    ) as AnyEmbeddedCollection;
-
-    (inRequest.operation.updates as AnyObject[])
-        .filter((update) => !!update)
-        .forEach((update) => {
-            const doc = collection.get(update._id as string);
-            if (!doc) return;
-
-            doc.updateSource(update);
-        });
-
-    return transformRequestCommon(inRequest);
-}
-
-function transformDeleteRequest(
-    inRequest: DocumentSocketRequest<'delete'>,
-): DocumentSocketRequest<'update'> {
-    const documentType = inRequest.type as foundry.abstract.Document.Type;
-
-    const parent = inRequest.operation.parent!;
-    const collection = parent.getEmbeddedCollection(
-        documentType as never,
-    ) as AnyEmbeddedCollection;
-
-    inRequest.operation.ids.forEach((id) => collection.delete(id));
-
-    return transformRequestCommon(inRequest);
-}
-
-function transformRequestCommon(
+async function transformCRUDRequest(
     inRequest: DocumentSocketRequest<DatabaseCRUDAction>,
-): DocumentSocketRequest<'update'> {
-    const documentType = inRequest.type as foundry.abstract.Document.Type;
+): Promise<DocumentSocketRequest> {
+    const targets = await getCRUDRequestTargets(inRequest);
+    if (targets.length === 0) return inRequest;
 
-    const parent = inRequest.operation
-        .parent as SystemEmbeddedCollectionsDocument;
-    const collection = parent.getEmbeddedCollection(documentType)!;
-    const collectionName = parent.getCollectionName(documentType)!;
+    console.log('targets', targets);
 
-    const outRequest = {
-        action: 'update' as const,
-        broadcast: inRequest.broadcast,
-        userId: inRequest.userId,
-        type: inRequest.type,
-        operation: {
+    const hierarchy = new DocumentHierarchy(targets[0]);
+    console.log('hierarchy', hierarchy);
+    console.log(
+        'hierarchy.includesSystemEmbedding',
+        hierarchy.includesSystemEmbedding,
+    );
+    console.log('hierarchy.host', hierarchy.host);
+
+    if (!hierarchy.includesSystemEmbedding || !hierarchy.host) {
+        if (!isCreateRequest(inRequest)) return inRequest;
+
+        return foundry.utils.mergeObject(transformRequestCommon(inRequest), {
+            operation: {
+                data: inRequest.operation.data.map((data) =>
+                    data
+                        ? toServerViewObject(
+                              data as AnyDocumentData,
+                              inRequest.type,
+                          )
+                        : data,
+                ),
+            },
+        });
+    } else {
+        await queueRequestFor(hierarchy.host.uuid);
+
+        const update = resolveUpdate(inRequest, hierarchy);
+        console.log('Resolved update for request:', structuredClone(update));
+
+        const outRequest = {
             action: 'update',
-            diff: false,
-            modifiedTime: inRequest.operation.modifiedTime,
-            pack: inRequest.operation.pack,
-            parent: null,
-            recursive: true,
-            render: inRequest.operation.render,
-            updates: [
-                {
-                    _id: parent.id,
-                    system: {
-                        [SYSTEM_EMBEDDED_COLLECTIONS_KEY]: {
-                            [collectionName]: [
-                                ...collection.toObject(),
-                                ...(inRequest.action === 'create'
-                                    ? (
-                                          inRequest as DocumentSocketRequest<'create'>
-                                      ).operation.data
-                                    : []),
-                            ],
-                        },
-                    },
-                },
-            ],
-            isSystemEmbeddedCollectionOperation: true,
-            sourceRequest: foundry.utils.mergeObject(inRequest, {
-                'operation.parent': null,
-            }),
-        },
-    };
+            broadcast: inRequest.broadcast,
+            userId: inRequest.userId,
+            type: hierarchy.host.documentName,
+            operation: {
+                action: 'update',
+                diff: false,
+                modifiedTime: inRequest.operation.modifiedTime,
+                pack: inRequest.operation.pack,
+                parent: null,
+                parentUuid: hierarchy.host.parent?.uuid ?? null,
+                data: null,
+                ids: null,
+                recursive: true,
+                render: inRequest.operation.render,
+                updates: [update],
+                hierarchy: Array.from(hierarchy)
+                    .slice(0, hierarchy.hostIndex! + 1)
+                    .map((doc) => ({
+                        documentName: doc.documentName,
+                        id: doc.id,
+                    })),
+                queue: true,
+            },
+        };
 
-    return outRequest;
+        return foundry.utils.mergeObject(
+            transformRequestCommon(inRequest),
+            outRequest,
+        ) as DocumentSocketRequest<'update'>;
+    }
+}
+
+async function getCRUDRequestTargets(
+    request: DocumentSocketRequest<DatabaseCRUDAction>,
+): Promise<foundry.abstract.Document.Any[]> {
+    const parent =
+        request.operation.parent ??
+        (await fromUuid(request.operation.parentUuid));
+    const pack = request.operation.pack
+        ? game.packs.get(request.operation.pack)
+        : null;
+    const collection = (parent?.getEmbeddedCollection(request.type as never) ??
+        pack ??
+        CONFIG[request.type as foundry.abstract.Document.WorldType]?.collection
+            .instance) as AnyEmbeddedCollection;
+
+    console.log('collection', collection);
+
+    if (isCreateRequest(request)) {
+        const cls = CONFIG[request.type]?.documentClass as
+            | Document.Constructable.AnyConstructor
+            | undefined;
+        if (!cls) return [];
+
+        return request.operation.data
+            .filter((data) => !!data)
+            .map((data) =>
+                data instanceof cls ? data : new cls(data, { parent }),
+            );
+    } else if (isUpdateRequest(request)) {
+        return (
+            request.operation.updates as (AnyDocumentData | null | undefined)[]
+        )
+            .filter((update) => !!update)
+            .map((update) => collection.get(update._id))
+            .filter((doc) => !!doc);
+    } else if (isDeleteRequest(request)) {
+        return request.operation.ids
+            .map((id) => collection.get(id))
+            .filter((doc) => !!doc);
+    }
+
+    return [];
+}
+
+function resolveUpdatedCollectionData(
+    request: DocumentSocketRequest<DatabaseCRUDAction>,
+    hierarchy: DocumentHierarchy,
+): AnyDocumentData[] {
+    const parent = hierarchy[1]; // Immediate parent document
+
+    const creates = !isCreateRequest(request)
+        ? []
+        : request.operation.data
+              .filter((data) => !!data)
+              .map((data) => {
+                  if (data instanceof foundry.abstract.Document)
+                      data = data.toObject() as AnyMutableObject;
+
+                  (data as AnyMutableObject)._id ??= foundry.utils.randomID();
+                  return toServerViewObject(
+                      data as AnyMutableObject,
+                      request.type,
+                  ) as AnyDocumentData;
+              });
+
+    const updates = !isUpdateRequest(request)
+        ? {}
+        : (request.operation.updates as AnyDocumentData[])
+              .filter((update) => !!update)
+              .reduce(
+                  (acc, curr) => ({
+                      ...acc,
+                      [curr._id]: curr,
+                  }),
+                  {} as Record<string, AnyDocumentData>,
+              );
+
+    const deletes = !isDeleteRequest(request)
+        ? []
+        : request.operation.ids.filter((id) => !!id);
+
+    const collection = parent.getEmbeddedCollection(
+        request.type as never,
+    ) as AnyEmbeddedCollection;
+    if (!collection) return [];
+
+    console.log('collection documents before update', Array.from(collection));
+
+    return [
+        ...collection
+            .map((doc) =>
+                foundry.utils.mergeObject(
+                    doc.toObject(),
+                    updates[doc.id!] ?? {},
+                ),
+            )
+            .filter((data) => !deletes.includes(data._id)),
+        ...creates,
+    ];
+}
+
+function resolveUpdate(
+    request: DocumentSocketRequest<DatabaseCRUDAction>,
+    hierarchy: DocumentHierarchy,
+): AnyObject {
+    const updatedCollectionData = resolveUpdatedCollectionData(
+        request,
+        hierarchy,
+    );
+
+    console.log('updatedCollectionData', updatedCollectionData);
+
+    return Array.from(hierarchy)
+        .slice(0, hierarchy.hostIndex! + 1) // Only walk down to the host document, since that's the document that will actually be updated
+        .slice(1) // Skip the first document (request target)
+        .reduce((acc, curr, index, hierarchy) => {
+            console.log('Resolving update for document', curr);
+
+            const prevDocName =
+                index > 0 ? hierarchy[index - 1].documentName : request.type;
+            const parent =
+                index < hierarchy.length - 1 ? hierarchy[index + 1] : null;
+            const collection = curr.getEmbeddedCollection(
+                prevDocName as never,
+            ) as AnyEmbeddedCollection;
+            if (!collection)
+                throw new Error(
+                    `Unable to find collection for embedded document type ${prevDocName} in parent document ${curr.documentName}`,
+                );
+
+            const parentCollection = parent?.getEmbeddedCollection(
+                curr.documentName as never,
+            ) as AnyEmbeddedCollection | null;
+            if (parent && !parentCollection)
+                throw new Error(
+                    `Unable to find collection for embedded document type ${curr.documentName} in parent document ${parent.documentName}`,
+                );
+
+            console.log('parent collection', parentCollection);
+
+            const update = foundry.utils.mergeObject(
+                curr.toObject() as AnyDocumentData,
+                {
+                    ...(hasSystemEmbeddedCollections(curr) &&
+                    curr.isSystemEmbedding(prevDocName)
+                        ? {
+                              system: {
+                                  [SYSTEM_EMBEDDED_COLLECTIONS_KEY]: {
+                                      [collection.name]: acc,
+                                  },
+                              },
+                              [collection.name]: undefined,
+                          }
+                        : {
+                              [collection.name]: acc,
+                          }),
+                } as AnyObject,
+            );
+
+            console.log(
+                `Resolved update for document ${curr.documentName} (${curr.id}):`,
+                structuredClone(update),
+            );
+
+            return (
+                parentCollection?.map((doc) =>
+                    foundry.utils.mergeObject(
+                        doc.toObject() as AnyDocumentData,
+                        doc.id === curr.id ? update : {},
+                    ),
+                ) ?? ([update] as AnyDocumentData[])
+            );
+        }, updatedCollectionData)[0];
+}
+
+/**
+ * Utility function to inject common metadata into transformed requests
+ */
+function transformRequestCommon<
+    DatabaseAction extends foundry.abstract.types.DatabaseAction,
+>(inRequest: DocumentSocketRequest<DatabaseAction>) {
+    return foundry.utils.mergeObject(
+        inRequest,
+        {
+            operation: {
+                id: foundry.utils.randomID(),
+                isSystemEmbeddedCollectionOperation: true,
+                sourceRequest: foundry.utils.mergeObject(inRequest, {
+                    'operation.parent': null,
+                }),
+            },
+        },
+        { inplace: false },
+    ) as DocumentSocketRequest<DatabaseAction>;
 }
 
 /* --- Transforms - Response --- */
@@ -168,30 +407,160 @@ function transformRequestCommon(
  * Transforms a server socket response for a system embedded collection document
  * into a response that the client can handle.
  */
-export function transformResponse(inResult: SocketResponse): SocketResponse {
-    if (!inResult.operation.sourceRequest) return inResult;
+export function transformResponse(inResponse: SocketResponse): SocketResponse {
+    if (!inResponse.operation.sourceRequest) return inResponse;
 
-    const inRequest = inResult.operation.sourceRequest;
-    if (!inRequest.operation.parentUuid) return inResult;
+    const inRequest = inResponse.operation.sourceRequest;
 
-    if (isCreateRequest(inRequest) || isUpdateRequest(inRequest)) {
-        return transformCreateUpdateResponse(inResult, inRequest);
+    if (isGetRequest(inRequest)) {
+        return transformGetReponse(inResponse);
+    } else if (isCreateRequest(inRequest) || isUpdateRequest(inRequest)) {
+        return transformCreateUpdateResponse(inResponse);
     } else if (isDeleteRequest(inRequest)) {
-        return transformDeleteResponse(inResult, inRequest);
+        return transformDeleteResponse(inResponse);
     }
 
-    throw new Error(`Unsupported Database Action: ${inRequest.action}`);
+    return inResponse;
 }
 
-function transformResponseCommon(
-    inResult: SocketResponse,
-    inRequest: DocumentSocketRequest<DatabaseCRUDAction>,
+function transformGetReponse(inResponse: SocketResponse) {
+    const inRequest = inResponse.operation.sourceRequest!;
+
+    if (!inResponse.result || inResponse.result.length !== 1) return inResponse;
+    const result = inResponse.result[0] as AnyMutableObject;
+
+    console.log('Original GET response result:', structuredClone(result));
+
+    return foundry.utils.mergeObject(inResponse, {
+        result: [toClientViewObject(result, inRequest.type)],
+    }) as SocketResponse;
+}
+
+function transformCreateUpdateResponse(
+    inResponse: SocketResponse,
 ): SocketResponse {
+    const inRequest = inResponse.operation
+        .sourceRequest as DocumentSocketRequest<DatabaseCRUDAction>;
+
+    let result = inResponse.result;
+
+    if (result) {
+        if (inResponse.operation.hierarchy) {
+            // Handle responses for system embedded collection documents
+            const hostDocumentName =
+                inResponse.operation.hierarchy[
+                    inResponse.operation.hierarchy.length - 1
+                ].documentName;
+
+            // Walk down the reverse hierarchy, starting from the host document
+            result = inResponse.operation.hierarchy
+                .slice(1)
+                .reverse()
+                .reduce(
+                    (acc, { documentName, id }, index, self) => {
+                        console.log('Walking hierarchy', acc, {
+                            documentName,
+                            id,
+                            index,
+                        });
+
+                        const cls = CONFIG[documentName]?.documentClass as
+                            | Document.Constructable.AnyConstructor
+                            | undefined;
+                        if (!cls)
+                            throw new Error(
+                                `Unable to find document class for document type ${documentName}`,
+                            );
+
+                        const data = acc?.find(
+                            (doc) =>
+                                typeof doc === 'object' &&
+                                doc !== null &&
+                                '_id' in doc &&
+                                doc._id === id,
+                        );
+                        if (!data)
+                            throw new Error(
+                                `Unable to find data for document ${documentName} with id ${id} in response result`,
+                            );
+
+                        const nextDocumentName =
+                            index < self.length - 1
+                                ? self[index + 1].documentName
+                                : inRequest.type;
+                        const collectionName = cls.getCollectionName(
+                            nextDocumentName as never,
+                        );
+                        if (!collectionName)
+                            throw new Error(
+                                `Unable to find collection name for document ${nextDocumentName}`,
+                            );
+
+                        const innerData = foundry.utils.getProperty(
+                            data,
+                            collectionName,
+                        ) as AnyObject[] | undefined;
+                        if (!innerData)
+                            throw new Error(
+                                `Unable to find collection data for collection ${collectionName} in document ${documentName}`,
+                            );
+
+                        return innerData;
+                    },
+                    result
+                        .filter(
+                            (doc) =>
+                                typeof doc === 'object' &&
+                                doc !== null &&
+                                '_id' in doc,
+                        )
+                        .map((doc) =>
+                            toClientViewObject(
+                                doc as AnyObject,
+                                hostDocumentName,
+                            ),
+                        ),
+                );
+        } else {
+            const documentCls = CONFIG[inRequest.type]?.documentClass as
+                | Document.Constructable.AnyConstructor
+                | undefined;
+
+            if (documentCls && hasSystemEmbeddedCollections(documentCls)) {
+                result = result.map((doc) =>
+                    toClientViewObject(doc as AnyObject, inRequest.type),
+                );
+            }
+        }
+    }
+
+    return foundry.utils.mergeObject(transformCRUDResponseCommon(inResponse), {
+        result,
+    });
+}
+
+function transformDeleteResponse(inResponse: SocketResponse): SocketResponse {
+    const inRequest = inResponse.operation
+        .sourceRequest as DocumentSocketRequest<'delete'>;
+    if (!inRequest.operation.parentUuid) return inResponse;
+
+    return foundry.utils.mergeObject(transformCRUDResponseCommon(inResponse), {
+        result: inRequest.operation.ids,
+    });
+}
+
+function transformCRUDResponseCommon(
+    inResponse: SocketResponse,
+): SocketResponse {
+    const inRequest = inResponse.operation
+        .sourceRequest as DocumentSocketRequest<DatabaseCRUDAction>;
+
     return {
         action: inRequest.action,
-        broadcast: inResult.broadcast,
-        userId: inResult.userId,
+        broadcast: inResponse.broadcast,
+        userId: inResponse.userId,
         operation: {
+            id: inRequest.operation.id,
             action: inRequest.action,
             modifiedTime: inRequest.operation.modifiedTime,
             pack: inRequest.operation.pack,
@@ -202,42 +571,335 @@ function transformResponseCommon(
                 'renderSheet',
             ) as boolean,
         },
-        type: inRequest.type as foundry.abstract.Document.Type,
+        type: inRequest.type,
         result: [],
     };
 }
 
-function transformCreateUpdateResponse(
-    inResult: SocketResponse,
-    inRequest: DocumentSocketRequest<Exclude<DatabaseCRUDAction, 'delete'>>,
-): SocketResponse {
-    const documentType = inRequest.type as foundry.abstract.Document.Type;
+/* --- Helpers --- */
 
-    const collectionName = getCollectionNameFor(
-        inRequest.operation.parentUuid!,
-        documentType,
-    );
-    if (!collectionName) return inResult;
+async function documentUuidsFromRequest(
+    request: DocumentSocketRequest,
+): Promise<string[] | null> {
+    const ids = isGetRequest(request)
+        ? [foundry.utils.getProperty(request, 'operation.query._id') as string]
+        : isUpdateRequest(request)
+          ? request.operation.updates
+                ?.filter((update) => !!update)
+                ?.map(
+                    (update) =>
+                        foundry.utils.getProperty(update, '_id') as string,
+                )
+          : isDeleteRequest(request)
+            ? request.operation.ids
+            : isCreateRequest(request)
+              ? request.operation.data
+                    ?.filter((data) => !!data)
+                    ?.map(
+                        (data) =>
+                            foundry.utils.getProperty(data, '_id') as string,
+                    )
+              : null;
+    if (!ids) return null;
 
-    return foundry.utils.mergeObject(
-        transformResponseCommon(inResult, inRequest),
-        {
-            result: foundry.utils.getProperty(
-                (inResult.result as AnyObject[])[0],
-                `system.${SYSTEM_EMBEDDED_COLLECTIONS_KEY}.${collectionName}`,
-            ) as AnyObject[],
-        },
-    );
+    const parent =
+        request.operation.parent ??
+        (await fromUuid(request.operation.parentUuid));
+
+    return ids
+        .filter((id) => !!id)
+        .map(
+            (id) =>
+                foundry.utils.buildUuid({
+                    id,
+                    documentName: request.type,
+                    pack: request.operation.pack,
+                    parent,
+                })!,
+        );
 }
 
-function transformDeleteResponse(
-    inResult: SocketResponse,
-    inRequest: DocumentSocketRequest<'delete'>,
-): SocketResponse {
-    return foundry.utils.mergeObject(
-        transformResponseCommon(inResult, inRequest),
-        {
-            result: inRequest.operation.ids,
+async function hostDocumentUuidFromCRUDResponse(
+    response: SocketResponse,
+): Promise<string | null> {
+    const sourceRequest = response.operation.sourceRequest!;
+    if (
+        !isCRUDRequest(sourceRequest) ||
+        !response.result ||
+        response.result.length === 0
+    )
+        return null;
+
+    const hostDocumentData = response.result[0] as AnyDocumentData;
+    if (!hostDocumentData._id) return null;
+
+    const hostDocumentId = hostDocumentData._id;
+    const hostDocumentType = response.type;
+
+    return foundry.utils.buildUuid({
+        id: hostDocumentId,
+        documentName: hostDocumentType,
+        pack: response.operation.pack,
+        parent:
+            response.operation.parent ??
+            (await fromUuid(response.operation.parentUuid)),
+    });
+}
+
+export function toServerViewObject(
+    document: foundry.abstract.Document.Any,
+): AnyObject;
+export function toServerViewObject(
+    object: AnyMutableObject,
+    documentType: foundry.abstract.Document.Type,
+): AnyObject;
+export function toServerViewObject(
+    documentOrObject: foundry.abstract.Document.Any | AnyMutableObject,
+    documentType?: foundry.abstract.Document.Type,
+): AnyObject {
+    let obj =
+        documentOrObject instanceof foundry.abstract.Document
+            ? (documentOrObject.toObject() as AnyMutableObject)
+            : documentOrObject;
+
+    console.log('toServerViewObject input:', structuredClone(obj));
+
+    if (
+        !documentType &&
+        !(documentOrObject instanceof foundry.abstract.Document)
+    )
+        throw new Error(
+            'Document type must be provided when converting from a plain object',
+        );
+
+    documentType =
+        documentOrObject instanceof foundry.abstract.Document
+            ? documentOrObject.documentName
+            : documentType!;
+
+    const cls = CONFIG[documentType]
+        ?.documentClass as Document.Constructable.AnyConstructor;
+
+    // Handle system embedded collections
+    if (hasSystemEmbeddedCollections(cls)) {
+        const systemEmbeddedConfig = Object.entries(
+            cls.metadata.systemEmbedded,
+        ) as [foundry.abstract.Document.Type, string][];
+
+        obj = foundry.utils.mergeObject(
+            obj,
+            {
+                [`system.${SYSTEM_EMBEDDED_COLLECTIONS_KEY}`]:
+                    systemEmbeddedConfig.reduce(
+                        (acc, [embeddedName, collectionName]) => {
+                            const collectionData = foundry.utils.getProperty(
+                                obj,
+                                collectionName,
+                            ) as AnyObject[] | undefined;
+                            if (!collectionData) return acc;
+
+                            return {
+                                ...acc,
+                                [collectionName]:
+                                    collectionData?.map((doc) =>
+                                        toServerViewObject(doc, embeddedName),
+                                    ) ?? [],
+                            };
+                        },
+                        {} as Record<string, AnyObject[]>,
+                    ),
+            },
+            { inplace: false },
+        );
+
+        systemEmbeddedConfig.forEach(([_, collectionName]) => {
+            delete obj[collectionName];
+        });
+    }
+
+    // Handle native embedded collections
+    Object.entries(cls.metadata.embedded).forEach(
+        ([embeddedName, collectionName]) => {
+            const collectionData = foundry.utils.getProperty(
+                obj,
+                collectionName,
+            ) as AnyObject[] | undefined;
+            if (!collectionData) return;
+
+            foundry.utils.setProperty(
+                obj,
+                collectionName,
+                collectionData.map((doc) =>
+                    toServerViewObject(
+                        doc,
+                        embeddedName as foundry.abstract.Document.Type,
+                    ),
+                ),
+            );
         },
     );
+
+    return obj;
+}
+
+export function toClientViewObject(
+    data: AnyMutableObject,
+    documentType: foundry.abstract.Document.Type,
+    toDocument?: false,
+): AnyMutableObject;
+export function toClientViewObject(
+    data: AnyMutableObject,
+    documentType: foundry.abstract.Document.Type,
+    toDocument: true,
+    parent?: foundry.abstract.Document.Any | null,
+): foundry.abstract.Document.Any;
+export function toClientViewObject(
+    data: AnyMutableObject,
+    documentType: foundry.abstract.Document.Type,
+    toDocument = false,
+    parent?: foundry.abstract.Document.Any | null,
+): AnyMutableObject | foundry.abstract.Document.Any {
+    const cls = CONFIG[documentType]?.documentClass;
+
+    // Handle system embedded collections
+    if (hasSystemEmbeddedCollections(cls)) {
+        Object.entries(cls.metadata.systemEmbedded).forEach(
+            ([embeddedName, collectionName]) => {
+                const collectionData = foundry.utils.getProperty(
+                    data,
+                    `system.${SYSTEM_EMBEDDED_COLLECTIONS_KEY}.${collectionName}`,
+                ) as AnyObject[] | undefined;
+                if (!collectionData) return;
+
+                foundry.utils.setProperty(
+                    data,
+                    collectionName,
+                    collectionData.map((doc) =>
+                        toClientViewObject(
+                            doc,
+                            embeddedName as foundry.abstract.Document.Type,
+                        ),
+                    ),
+                );
+            },
+        );
+
+        foundry.utils.deleteProperty(
+            data,
+            `system.${SYSTEM_EMBEDDED_COLLECTIONS_KEY}`,
+        );
+    }
+
+    // Handle native embedded collections
+    Object.entries(cls.metadata.embedded)
+        .filter(
+            ([embeddedName, _]) =>
+                !hasSystemEmbeddedCollections(cls) ||
+                cls.isNativeEmbedding(embeddedName),
+        )
+        .forEach(([embeddedName, collectionName]) => {
+            const collectionData = foundry.utils.getProperty(
+                data,
+                collectionName,
+            ) as AnyObject[] | undefined;
+            if (!collectionData) return;
+
+            foundry.utils.setProperty(
+                data,
+                collectionName,
+                collectionData.map((doc) =>
+                    toClientViewObject(
+                        doc,
+                        embeddedName as foundry.abstract.Document.Type,
+                    ),
+                ),
+            );
+        });
+
+    return toDocument
+        ? new (cls as Document.Constructable.AnyConstructor)(data, { parent })
+        : data;
+}
+
+class DocumentHierarchy<
+    TOriginDocument extends
+        foundry.abstract.Document.Any = foundry.abstract.Document.Any,
+> {
+    /**
+     * Whether or not the document hierarchy includes at least one system embedding relationship
+     */
+    public readonly includesSystemEmbedding: boolean;
+
+    /**
+     * If the hierarchy includes a system embedding relationship, this will be the document at the root of that relationship (the "host" document). Otherwise, it will be undefined.
+     * This is the first document that can be updated directly.
+     */
+    public readonly host?: SystemEmbeddedCollectionsDocument;
+    public readonly hostIndex?: number;
+
+    readonly [index: number]: foundry.abstract.Document.Any;
+
+    private hierarchy: foundry.abstract.Document.Any[];
+
+    public constructor(public readonly origin: TOriginDocument) {
+        this.hierarchy = this.getDocumentParents(this.origin);
+
+        this.includesSystemEmbedding = this.hierarchy.some((doc, index) => {
+            if (index === this.hierarchy.length - 1) return false;
+            const parent = this.hierarchy[index + 1];
+            return (
+                hasSystemEmbeddedCollections(parent) &&
+                parent.isSystemEmbedding(doc.documentName)
+            );
+        });
+
+        if (this.includesSystemEmbedding) {
+            this.host = Array.from(this.hierarchy)
+                .reverse()
+                .find((doc, index, self) => {
+                    if (index === self.length - 1) return false;
+                    const child = self[index + 1];
+                    return (
+                        hasSystemEmbeddedCollections(doc) &&
+                        doc.isSystemEmbedding(child.documentName)
+                    );
+                }) as SystemEmbeddedCollectionsDocument;
+            this.hostIndex = this.hierarchy.indexOf(this.host);
+        }
+
+        // Proxy the hierarchy array so that we can access documents via index (e.g. hierarchy[0] for immediate parent, hierarchy[hierarchy.length - 1] for root parent)
+        return new Proxy(this, {
+            get: (target, prop, receiver) => {
+                if (typeof prop === 'string') {
+                    const index = Number(prop);
+
+                    if (
+                        !isNaN(index) &&
+                        Number.isInteger(index) &&
+                        index >= 0
+                    ) {
+                        return target.hierarchy[index];
+                    }
+                }
+
+                return Reflect.get(target, prop, receiver);
+            },
+        });
+    }
+
+    public get [Symbol.iterator]() {
+        return this.hierarchy[Symbol.iterator].bind(this.hierarchy);
+    }
+
+    public get length() {
+        return this.hierarchy.length;
+    }
+
+    private getDocumentParents(
+        document: foundry.abstract.Document.Any,
+    ): foundry.abstract.Document.Any[] {
+        const parent = document.parent;
+        if (!(parent instanceof foundry.abstract.Document)) return [document];
+        return [document, ...this.getDocumentParents(parent)];
+    }
 }
