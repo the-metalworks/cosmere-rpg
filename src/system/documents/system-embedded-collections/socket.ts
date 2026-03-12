@@ -1,5 +1,5 @@
 // Utils
-import { hasSystemEmbeddedCollections } from './utils/general';
+import { Logger } from '@system/utils/logger';
 import {
     transformRequest,
     transformResponse,
@@ -7,11 +7,10 @@ import {
 } from './utils/socket';
 
 // Types
-import type { AnyObject, AnyMutableObject } from '@system/types/utils';
+import type { AnyMutableObject } from '@system/types/utils';
 import type { SocketResponse, DocumentSocketRequest } from './types/socket';
 
-// Constants
-import { SYSTEM_EMBEDDED_COLLECTIONS_KEY } from './constants';
+const logger = new Logger('systemEmbeddedCollections');
 
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/require-await */
 
@@ -31,7 +30,7 @@ const EMIT_EVENT_PATCHES = {
 
         const transformedRequest = await transformRequest(request);
 
-        console.log('Intercepted emit call - request', {
+        logger.debug('Intercepted emit call - request', {
             raw: structuredClone(request),
             transformed: structuredClone(transformedRequest),
         });
@@ -39,7 +38,7 @@ const EMIT_EVENT_PATCHES = {
         emit(transformedRequest, (response: SocketResponse) => {
             const transformedResponse = transformResponse(response);
 
-            console.log('Intercepted emit call - response', {
+            logger.debug('Intercepted emit call - response', {
                 raw: structuredClone(response),
                 transformed: structuredClone(transformedResponse),
             });
@@ -93,7 +92,7 @@ const ON_EVENT_PATCHES = {
     modifyDocument: (args: any[]): void | any[] => {
         const response: SocketResponse = args[0];
 
-        console.log(
+        logger.debug(
             'Intercepted modifyDocument event - raw',
             structuredClone(response),
         );
@@ -102,29 +101,13 @@ const ON_EVENT_PATCHES = {
             structuredClone(response),
         );
 
-        console.log(
+        logger.debug(
             'Intercepted modifyDocument event - transformed',
             structuredClone(transformedResponse),
         );
 
         // Transform response
         return [transformedResponse];
-    },
-
-    manageCompendium: (args: any[]): void | any[] => {
-        console.log(
-            'Intercepted manageCompendium event - original args:',
-            structuredClone(args),
-        );
-        return args;
-    },
-
-    userActivity: (args: any[]): void | any[] => {
-        console.log(
-            'Intercepted userActivity event - original args:',
-            structuredClone(args),
-        );
-        return args;
     },
 };
 
@@ -173,8 +156,6 @@ foundry.Game.connect = async function (this: foundry.Game, sessionId: string) {
         eventName: string,
         listener: (...args: any[]) => void,
     ) {
-        console.log('Registering socket listener for event:', eventName);
-
         if (!(eventName in ON_EVENT_PATCHES))
             return _on.call(this, eventName, listener);
 

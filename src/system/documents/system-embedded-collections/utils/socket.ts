@@ -1,6 +1,5 @@
 // Utils
-import { getCollectionNameFor, hasSystemEmbeddedCollections } from './general';
-import { cloneCollection } from '@system/utils/data';
+import { hasSystemEmbeddedCollections } from './general';
 
 // Types
 import type { AnyObject, AnyMutableObject } from '@system/types/utils';
@@ -10,7 +9,6 @@ import type {
     AnyEmbeddedCollection,
     AnyDocumentData,
     SystemEmbeddedCollectionsDocument,
-    SystemEmbeddedCollectionsDocumentConstructor,
 } from '../types/general';
 import type {
     DocumentSocketRequest,
@@ -20,7 +18,6 @@ import type {
 
 // Constants
 import { SYSTEM_EMBEDDED_COLLECTIONS_KEY } from '../constants';
-import { CosmereItem } from '../../item';
 
 const DOCUMENT_REQUEST_TIMEOUT_WINDOW = 100;
 const documentsRequestTimeoutMap = new Map<string, number>();
@@ -141,15 +138,7 @@ async function transformCRUDRequest(
     const targets = await getCRUDRequestTargets(inRequest);
     if (targets.length === 0) return inRequest;
 
-    console.log('targets', targets);
-
     const hierarchy = new DocumentHierarchy(targets[0]);
-    console.log('hierarchy', hierarchy);
-    console.log(
-        'hierarchy.includesSystemEmbedding',
-        hierarchy.includesSystemEmbedding,
-    );
-    console.log('hierarchy.host', hierarchy.host);
 
     if (!hierarchy.includesSystemEmbedding || !hierarchy.host) {
         if (!isCreateRequest(inRequest)) return inRequest;
@@ -170,7 +159,6 @@ async function transformCRUDRequest(
         await queueRequestFor(hierarchy.host.uuid);
 
         const update = resolveUpdate(inRequest, hierarchy);
-        console.log('Resolved update for request:', structuredClone(update));
 
         const outRequest = {
             action: 'update',
@@ -219,8 +207,6 @@ async function getCRUDRequestTargets(
         pack ??
         CONFIG[request.type as foundry.abstract.Document.WorldType]?.collection
             .instance) as AnyEmbeddedCollection;
-
-    console.log('collection', collection);
 
     if (isCreateRequest(request)) {
         const cls = CONFIG[request.type]?.documentClass as
@@ -291,8 +277,6 @@ function resolveUpdatedCollectionData(
     ) as AnyEmbeddedCollection;
     if (!collection) return [];
 
-    console.log('collection documents before update', Array.from(collection));
-
     return [
         ...collection
             .map((doc) =>
@@ -315,14 +299,10 @@ function resolveUpdate(
         hierarchy,
     );
 
-    console.log('updatedCollectionData', updatedCollectionData);
-
     return Array.from(hierarchy)
         .slice(0, hierarchy.hostIndex! + 1) // Only walk down to the host document, since that's the document that will actually be updated
         .slice(1) // Skip the first document (request target)
         .reduce((acc, curr, index, hierarchy) => {
-            console.log('Resolving update for document', curr);
-
             const prevDocName =
                 index > 0 ? hierarchy[index - 1].documentName : request.type;
             const parent =
@@ -343,8 +323,6 @@ function resolveUpdate(
                     `Unable to find collection for embedded document type ${curr.documentName} in parent document ${parent.documentName}`,
                 );
 
-            console.log('parent collection', parentCollection);
-
             const update = foundry.utils.mergeObject(
                 curr.toObject() as AnyDocumentData,
                 {
@@ -362,11 +340,6 @@ function resolveUpdate(
                               [collection.name]: acc,
                           }),
                 } as AnyObject,
-            );
-
-            console.log(
-                `Resolved update for document ${curr.documentName} (${curr.id}):`,
-                structuredClone(update),
             );
 
             return (
@@ -429,8 +402,6 @@ function transformGetReponse(inResponse: SocketResponse) {
     if (!inResponse.result || inResponse.result.length !== 1) return inResponse;
     const result = inResponse.result[0] as AnyMutableObject;
 
-    console.log('Original GET response result:', structuredClone(result));
-
     return foundry.utils.mergeObject(inResponse, {
         result: [toClientViewObject(result, inRequest.type)],
     }) as SocketResponse;
@@ -458,12 +429,6 @@ function transformCreateUpdateResponse(
                 .reverse()
                 .reduce(
                     (acc, { documentName, id }, index, self) => {
-                        console.log('Walking hierarchy', acc, {
-                            documentName,
-                            id,
-                            index,
-                        });
-
                         const cls = CONFIG[documentName]?.documentClass as
                             | Document.Constructable.AnyConstructor
                             | undefined;
@@ -578,74 +543,6 @@ function transformCRUDResponseCommon(
 
 /* --- Helpers --- */
 
-async function documentUuidsFromRequest(
-    request: DocumentSocketRequest,
-): Promise<string[] | null> {
-    const ids = isGetRequest(request)
-        ? [foundry.utils.getProperty(request, 'operation.query._id') as string]
-        : isUpdateRequest(request)
-          ? request.operation.updates
-                ?.filter((update) => !!update)
-                ?.map(
-                    (update) =>
-                        foundry.utils.getProperty(update, '_id') as string,
-                )
-          : isDeleteRequest(request)
-            ? request.operation.ids
-            : isCreateRequest(request)
-              ? request.operation.data
-                    ?.filter((data) => !!data)
-                    ?.map(
-                        (data) =>
-                            foundry.utils.getProperty(data, '_id') as string,
-                    )
-              : null;
-    if (!ids) return null;
-
-    const parent =
-        request.operation.parent ??
-        (await fromUuid(request.operation.parentUuid));
-
-    return ids
-        .filter((id) => !!id)
-        .map(
-            (id) =>
-                foundry.utils.buildUuid({
-                    id,
-                    documentName: request.type,
-                    pack: request.operation.pack,
-                    parent,
-                })!,
-        );
-}
-
-async function hostDocumentUuidFromCRUDResponse(
-    response: SocketResponse,
-): Promise<string | null> {
-    const sourceRequest = response.operation.sourceRequest!;
-    if (
-        !isCRUDRequest(sourceRequest) ||
-        !response.result ||
-        response.result.length === 0
-    )
-        return null;
-
-    const hostDocumentData = response.result[0] as AnyDocumentData;
-    if (!hostDocumentData._id) return null;
-
-    const hostDocumentId = hostDocumentData._id;
-    const hostDocumentType = response.type;
-
-    return foundry.utils.buildUuid({
-        id: hostDocumentId,
-        documentName: hostDocumentType,
-        pack: response.operation.pack,
-        parent:
-            response.operation.parent ??
-            (await fromUuid(response.operation.parentUuid)),
-    });
-}
-
 export function toServerViewObject(
     document: foundry.abstract.Document.Any,
 ): AnyObject;
@@ -661,8 +558,6 @@ export function toServerViewObject(
         documentOrObject instanceof foundry.abstract.Document
             ? (documentOrObject.toObject() as AnyMutableObject)
             : documentOrObject;
-
-    console.log('toServerViewObject input:', structuredClone(obj));
 
     if (
         !documentType &&
