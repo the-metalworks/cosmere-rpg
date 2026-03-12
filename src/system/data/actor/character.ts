@@ -48,7 +48,7 @@ const SCHEMA = () => ({
                             nullable: false,
                             integer: true,
                             initial: 1,
-                            label: 'COSMERE.CharacterBuilder.Choices.delta',
+                            label: 'COSMERE.CharacterBuilder.Steps.Common.Delta',
                         }),
                     }),
                     {
@@ -68,7 +68,7 @@ const SCHEMA = () => ({
                             nullable: false,
                             integer: true,
                             initial: 1,
-                            label: 'COSMERE.CharacterBuilder.Choices.delta',
+                            label: 'COSMERE.CharacterBuilder.Steps.Common.Delta',
                         }),
                     }),
                     {
@@ -80,12 +80,12 @@ const SCHEMA = () => ({
                         id: new foundry.data.fields.DocumentIdField({
                             required: true,
                             nullable: false,
-                            label: 'COSMERE.CharacterBuilder.Choices.Talents.id',
+                            label: 'COSMERE.CharacterBuilder.Steps.Talent.ID',
                         }),
                         sourceUuid: new foundry.data.fields.DocumentUUIDField({
                             required: true,
                             nullable: false,
-                            label: 'COSMERE.CharacterBuilder.Choices.Talents.sourceUuid',
+                            label: 'COSMERE.CharacterBuilder.Steps.Talent.SourceUUID',
                         }),
                     }),
                     {
