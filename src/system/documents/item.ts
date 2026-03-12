@@ -153,7 +153,11 @@ class _Item<
     declare items: foundry.abstract.EmbeddedCollection<CosmereItem, this>;
 
     public get actor(): CosmereActor | null {
-        return this.parent instanceof CosmereActor ? this.parent : null;
+        return this.parent instanceof CosmereActor
+            ? this.parent
+            : this.parent instanceof CosmereItem
+              ? this.parent.actor
+              : null;
     }
 }
 
