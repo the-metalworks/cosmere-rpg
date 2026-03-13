@@ -33,7 +33,6 @@ import {
     Theme,
     MovementType,
     ImmunityType,
-    ActorType,
 } from './cosmere';
 import { AdvantageMode } from './roll';
 
@@ -275,6 +274,15 @@ export interface PowerTypeConfig {
     plural: string;
 }
 
+export const enum OverridableAdvancementRuleKeys {
+    Health = 'health',
+    Attributes = 'attributePoints',
+    SkillRanks = 'skillRanks',
+    SkillMax = 'maxSkillRanks',
+    Talents = 'talents',
+    SkillsOrTalents = 'skillRanksOrTalents',
+}
+
 export interface AdvancementRuleConfig {
     /**
      * The level at which this rule applies.
@@ -325,6 +333,35 @@ export interface AdvancementRuleConfig {
      */
     skillRanksOrTalents?: number;
 }
+
+export interface RelativeRuleOverride {
+    /**
+     * How much the default is changed by.
+     */
+    delta: number;
+}
+
+export interface AbsoluteRuleOverride {
+    /**
+     * A complete override of the default value.
+     */
+    absolute: number;
+}
+
+export type AdvancementRuleOverride = {
+    /**
+     * Which aspect of the Advancement Rule to change.
+     */
+    modifiesKey: OverridableAdvancementRuleKeys;
+} & (RelativeRuleOverride | AbsoluteRuleOverride);
+
+/**
+ * Map ancestry names to the levels they override, and the actual changes at each level.
+ */
+export type AdvancementRuleOverrideConfig = Record<
+    string,
+    Record<number, AdvancementRuleOverride[]>
+>;
 
 export type AttributeScale<T extends string = string> = {
     formula: T;
@@ -417,6 +454,7 @@ export interface CosmereRPGConfig {
     skills: Record<Skill, SkillConfig>;
     advancement: {
         rules: AdvancementRuleConfig[];
+        overrides: AdvancementRuleOverrideConfig;
     };
 
     currencies: Record<string, CurrencyConfig>;
