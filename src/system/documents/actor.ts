@@ -54,6 +54,7 @@ import { getTargetDescriptors } from '../utils/generic';
 import { EnricherData } from '../utils/enrichers';
 import { characterMeetsTalentPrerequisites } from '@system/utils/talent-tree';
 import { containsExpertise } from '@system/utils/actor';
+import * as Advancement from '@system/utils/advancement';
 
 // Constants
 import { SYSTEM_ID } from '@system/constants';
@@ -300,7 +301,42 @@ export class CosmereActor<
 
     public prepareDerivedData() {
         super.prepareDerivedData();
+
+        // Unfortunately, some character data derivation requires full document context,
+        // because a character's ancestry can override the rules governing advancement.
+        // We'll fetch it now, if necessary, to use in both the primary and secondary
+        // data derivation steps.
+        const advancementRules = this.isCharacter()
+            ? Advancement.getAdvancementRulesUpToLevel(this.system.level, this)
+            : [];
+
+        // Primary advancement-based data derivation
+        if (this.isCharacter()) {
+            const currentAdvancementRule =
+                advancementRules[advancementRules.length - 1];
+
+            // Derive the tier
+            this.system.tier = currentAdvancementRule.tier;
+
+            // Derive the maximum skill rank
+            this.system.maxSkillRank = currentAdvancementRule.maxSkillRanks;
+        }
+
+        // Apply AEs regardless of subtype
         this.applyActiveEffects();
+
+        // Secondary advancement-based data derivation
+        if (this.isCharacter()) {
+            // Derive max health from current advancement
+            this.system.resources[Resource.Health].max.derived =
+                Advancement.deriveMaxHealth(
+                    advancementRules,
+                    this.system.attributes.str.value,
+                    this,
+                );
+        }
+
+        // Do the rest of the secondary derivation
         this.system.prepareSecondaryDerivedData();
     }
 

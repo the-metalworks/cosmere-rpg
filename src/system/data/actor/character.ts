@@ -146,46 +146,15 @@ export class CharacterActorDataModel extends CommonActorDataModel<
 
     public prepareDerivedData() {
         super.prepareDerivedData();
-
-        // Get advancement rules relevant to the character
-        const advancementRules = Advancement.getAdvancementRulesUpToLevel(
-            this.level,
-        );
-        const currentAdvancementRule =
-            advancementRules[advancementRules.length - 1];
-
-        // Derive the tier
-        this.tier = currentAdvancementRule.tier;
-
-        // Derive the maximum skill rank
-        this.maxSkillRank = currentAdvancementRule.maxSkillRanks;
     }
 
     public override prepareSecondaryDerivedData(): void {
-        // Get advancement rules relevant to the character
-        const advancementRules = Advancement.getAdvancementRulesUpToLevel(
-            this.level,
-        );
-
         // Derive the recovery die based on the character's willpower
         this.recovery.die.derived = willpowerToRecoveryDie(this.attributes.wil);
 
-        // Derive resource max
-        (Object.keys(this.resources) as Resource[]).forEach((key) => {
-            // Get the resource
-            const resource = this.resources[key];
-
-            if (key === Resource.Health) {
-                // Assign max
-                resource.max.derived = Advancement.deriveMaxHealth(
-                    advancementRules,
-                    this.attributes.str.value, // Should only be the value, not include the bonus
-                );
-            } else if (key === Resource.Focus) {
-                // Assign max
-                resource.max.derived = 2 + this.attributes.wil.value; // Should only be the value, not include the bonus
-            }
-        });
+        // Derive max focus
+        this.resources[Resource.Focus].max.derived =
+            2 + this.attributes.wil.value; // Should only be the value, not include the bonus
 
         // Perform super secondary derived data preparation after so resource max is set
         super.prepareSecondaryDerivedData();
