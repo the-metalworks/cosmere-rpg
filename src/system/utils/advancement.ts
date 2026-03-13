@@ -78,11 +78,21 @@ export function getAdvancementRulesForLevelChange(
     // Get the rules
     const { rules, overrides } = CONFIG.COSMERE.advancement;
 
+    const ancestryOverrides = actor.ancestry
+        ? overrides[actor.ancestry.name]
+        : undefined;
+
     return Array.from({ length: endLevel - startLevel }, (_, i) => {
         const index = startLevel + i;
         return index >= rules.length
             ? { ...rules[rules.length - 1], level: index + 1 }
-            : { ...rules[index], level: index + 1 };
+            : {
+                  ...getOverriddenRule(
+                      rules[index],
+                      ancestryOverrides ? ancestryOverrides[index] : [],
+                  ),
+                  level: index + 1,
+              };
     });
 }
 
