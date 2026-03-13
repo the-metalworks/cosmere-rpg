@@ -3,10 +3,7 @@ import {
     AdvancementRuleOverride,
 } from '@system/types/config';
 
-import { CosmereItem } from '@system/documents/item';
 import { CharacterActor } from '@system/documents/actor';
-import { AdversaryActorDataModel } from '../data/actor/adversary';
-import { CharacterActorDataModel } from '../data/actor/character';
 
 /**
  * Gets any relevant overrides for the given character and level

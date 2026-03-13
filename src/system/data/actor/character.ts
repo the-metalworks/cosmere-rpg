@@ -8,9 +8,6 @@ import {
     AttributeData,
 } from './common';
 
-// Utils
-import * as Advancement from '@system/utils/advancement';
-
 // Fields
 import { DerivedValueField, Derived, MappingField } from '../fields';
 
