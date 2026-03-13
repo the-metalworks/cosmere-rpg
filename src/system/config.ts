@@ -709,6 +709,7 @@ const COSMERE: CosmereRPGConfig = {
                 skillRanksOrTalents: 1,
             }, // Level 21
         ],
+        overrides: {},
     },
 
     paths: {
