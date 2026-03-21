@@ -23,6 +23,10 @@ The `docker` folder contains compose files that pull the `felddy/foundryvtt:13` 
 
 Before the first time trying to spin up the docker image, copy `.env.example` to `.env` (note that `.env` is listed in the `.gitignore` file - please be very careful to not accidentally commit any secrets or sensitive information to the Git repository.)
 
+### Playwright install
+
+Run `npx playwright install chromium`.
+
 ### Spinning up and down
 
 Run `npm run docker:test:up` to start the docker container. This will also go through the system build process so that the system `build` folder is available to mount to the docker container.
@@ -69,6 +73,22 @@ Playwright also runs the Quench tests by default. The `quench-runner` "test" pro
 
 New Quench tests should live under `src/tests/quench` and will be run with the `quench-runner` (or manually in-game with the Quench module).
 New Playwright tests should live under `src/tests/e2e` and will be run by `npx playwright`.
+
+## Platform architecture differences
+
+The playwright headless runner needs to ensure that WebGL is active before FoundryVTT tries to hook in Pixi. On Apple silicon, we have to provide `--use-angle=metal` or `--use-angle=default`. For other archs, we'll use:
+
++----------+------+-----+
+| Platform | Flag | Why |
++----------+------+-----+
+| macOS (Intel + Silicon) | --use-angle=default | ANGLE picks Metal automatically; works on both archs |
+| Windows | --use-angle=default | ANGLE picks D3D11; solid WebGL on any Windows machine |
+| Linux | --use-gl=swiftshader | Software WebGL renderer — no GPU required, works in headless CI and on dev machines with or without a real GPU |
++----------+------+-----+
+
+Why SwiftShader on Linux? Linux headless environments (CI runners, containers, WSL) typically have no GPU context available. SwiftShader is a CPU-based WebGL implementation that works everywhere. It's slower than hardware but that doesn't matter much for test correctness.
+
+Why not SwiftShader everywhere? It supports a narrower subset of WebGL extensions than real GPU backends, so some pixi.js texture format detection might behave differently. Better to use real GPU paths where they're available.
 
 ## How I created this framework with Claude's help
 

@@ -34,6 +34,18 @@ export default defineConfig({
         trace: 'on',
         screenshot: 'on',
         video: 'on',
+        // FoundryVTT uses Pixi.js which requires WebGL. Headless Chromium needs an
+        // explicit flag to initialize a working WebGL context:
+        //   macOS/Windows: --use-angle=default lets ANGLE pick Metal or D3D11
+        //   Linux:         --use-gl=swiftshader uses software rendering (no GPU needed,
+        //                  safe for CI and dev machines alike)
+        launchOptions: {
+            args: [
+                process.platform === 'linux'
+                    ? '--use-gl=swiftshader'
+                    : '--use-angle=default',
+            ],
+        },
     },
 
     projects: [
@@ -48,7 +60,7 @@ export default defineConfig({
             name: 'chromium',
             use: {
                 ...devices['Desktop Chrome'],
-                storageState: 'src/playwright/.auth/user.json',
+                storageState: 'playwright/.auth/user.json',
                 // Override Desktop Chrome's 1280x720 — FoundryVTT requires ≥1366x768
                 viewport: { width: 1440, height: 900 },
             },
@@ -56,16 +68,15 @@ export default defineConfig({
         },
 
         // Quench bridge: triggers in-browser Quench tests via Playwright
-        // FIXME already getting picked up automatically in the chromium tests.
-        // {
-        //     name: 'quench',
-        //     testMatch: /.*quench-runner\.spec\.ts/,
-        //     use: {
-        //         ...devices['Desktop Chrome'],
-        //         storageState: 'src/playwright/.auth/user.json',
-        //         viewport: { width: 1440, height: 900 },
-        //     },
-        //     dependencies: ['setup'],
-        // },
+        {
+            name: 'quench',
+            testMatch: /.*quench-runner\.spec\.ts/,
+            use: {
+                ...devices['Desktop Chrome'],
+                storageState: 'playwright/.auth/user.json',
+                viewport: { width: 1440, height: 900 },
+            },
+            dependencies: ['setup'],
+        },
     ],
 });

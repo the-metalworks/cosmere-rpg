@@ -16,7 +16,7 @@ import { fileURLToPath } from 'url';
 import { dismissTours } from './helpers/foundry-auth';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const authFile = path.join(__dirname, '../../playwright/.auth/user.json');
+const authFile = path.join(__dirname, '../../../playwright/.auth/user.json');
 
 setup('authenticate with FoundryVTT', async ({ page }) => {
     setup.setTimeout(120_000);

@@ -23,6 +23,7 @@
         "docker:dev:down": "docker compose -f docker/docker-compose.yml down",
         "docker:test:up": "npm run build:test && bash scripts/seed-test-world.sh && docker compose -f docker/docker-compose.test.yml up -d --wait",
         "docker:test:down": "docker compose -f docker/docker-compose.test.yml down -v",
+        "test:setup": "npx playwright install chromium",
         "test:e2e": "npx playwright test --project=chromium",
         "test:quench": "npx playwright test --project=quench",
         "test:all": "npx playwright test"

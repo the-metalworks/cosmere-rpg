@@ -12,8 +12,8 @@ docker/quench-module/
 
 # Playwright
 test-results/
+playwright/
 playwright-report/
-src/playwright/.auth/
 
 # OS
 .DS_Store
