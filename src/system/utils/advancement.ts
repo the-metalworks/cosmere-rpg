@@ -7,13 +7,15 @@ import * as Advancement from '@system/types/advancement';
 
 import { CharacterActor } from '@system/documents/actor';
 import { SYSTEM_ID } from '@system/constants';
+import { Attribute, Skill } from '../types/cosmere';
 
 export class AdvancementOverride {
     public readonly type: Advancement.OverrideType;
     public readonly mode: Advancement.OverrideMode;
     public readonly key:
-        | Advancement.OverridableFieldKey
+        | Advancement.GenericFieldKey
         | Advancement.MaxStatFieldKey;
+    public readonly stat?: Advancement.MaxStatType;
     public readonly value: Advancement.OverrideFieldType;
 
     constructor(data: Advancement.OverrideData) {
@@ -35,33 +37,130 @@ export class AdvancementOverride {
         this.mode = data.mode;
         this.key = data.key;
         this.value = data.value;
+
+        if (data.type === Advancement.OverrideType.Maximum) {
+            this.stat = data.stat;
+        }
     }
 
-    public apply(rule: AdvancementRule) {
-        // TODO: this
-        return;
+    /**
+     * Mutate the provided rule according to the override's configuration
+     */
+    public apply(rule: AdvancementRule): AdvancementRule {
+        switch (this.type) {
+            case Advancement.OverrideType.Generic:
+                return this._applyGeneric(rule);
+            case Advancement.OverrideType.Maximum:
+                return this._applyMaximum(rule);
+        }
+    }
+
+    /**
+     * Apply this override's data to a given rule's generic field
+     */
+    private _applyGeneric(rule: AdvancementRule): AdvancementRule {
+        const key = this.key as Advancement.GenericFieldKey;
+        const updatedValue =
+            this.mode === Advancement.OverrideMode.Absolute
+                ? this.value
+                : // Relative overrides must be numeric. This is asserted in the constructor,
+                  // so we can safely assume that here.
+                  (this.value as number) + ((rule.fields[key] as number) ?? 0);
+        rule.fields = {
+            ...rule.fields,
+            [key]: updatedValue,
+        };
+
+        return rule;
+    }
+
+    /**
+     * Apply this override's data to a given rule's maximum stats
+     */
+    private _applyMaximum(rule: AdvancementRule): AdvancementRule {
+        const key = this.key as Advancement.MaxStatFieldKey;
+
+        if (!rule.maxStats) rule.maxStats = {};
+        if (!rule.maxStats[key]) rule.maxStats[key] = { base: Infinity };
+
+        const stat = this.stat ?? 'base';
+
+        // Reconstruct the max stats, replacing the relevant entry
+        rule.maxStats = {
+            ...rule.maxStats,
+            [key]: {
+                ...rule.maxStats[key],
+                [stat]:
+                    this.mode === Advancement.OverrideMode.Absolute
+                        ? (this.value as number)
+                        : (this.value as number) +
+                          rule.getMaxForStat(stat, key),
+            },
+        };
+
+        return rule;
     }
 }
 
 export class AdvancementRule {
     public level: number;
     public tier: number;
-
-    // public fields: Partial<Advancement.GenericFields>;
-    public maxStats: Advancement.MaxStatFields | undefined;
+    public fields: Advancement.GenericFields;
+    public maxStats?: Advancement.MaxStatFields;
 
     constructor(data: Advancement.RuleData) {
         this.level = data.level;
         this.tier = data.tier;
-        // this.fields = data.fields;
+        this.fields = data.fields;
         this.maxStats = data.maxStats;
     }
 
-    // Mutates the rule in-place
-    public applyOverride(override: AdvancementOverride): AdvancementRule {
-        override.apply(this);
+    public getMaxForStat(
+        stat: Advancement.MaxStatType | 'base',
+        field: Advancement.MaxStatFieldKey,
+    ): number {
+        if (stat === 'base') return this.maxStats?.[field]?.base ?? 0;
 
-        return this;
+        switch (field) {
+            case Advancement.MaxStatFieldKey.Attributes:
+                return this.maxStats?.[field]?.[stat as Attribute] ?? 0;
+            case Advancement.MaxStatFieldKey.Skills:
+                return this.maxStats?.[field]?.[stat as Skill] ?? 0;
+        }
+    }
+
+    /**
+     * @param override
+     * @returns a new rule with the override applied
+     */
+    public applyOverride(override: AdvancementOverride): AdvancementRule {
+        return override.apply(this.clone());
+    }
+
+    // Helpers
+
+    public clone(): AdvancementRule {
+        return new AdvancementRule({
+            level: this.level,
+            tier: this.tier,
+            fields: {
+                ...this.fields,
+            },
+            maxStats: this.maxStats
+                ? {
+                      attributes: this.maxStats.attributes
+                          ? {
+                                ...this.maxStats.attributes,
+                            }
+                          : undefined,
+                      skills: this.maxStats.skills
+                          ? {
+                                ...this.maxStats.skills,
+                            }
+                          : undefined,
+                  }
+                : undefined,
+        });
     }
 }
 
