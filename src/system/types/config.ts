@@ -278,12 +278,21 @@ export interface PowerTypeConfig {
 
 export const enum OverridableAdvancementRuleKeys {
     Health = 'health',
-    Attributes = 'attributePoints',
+    AttributePoints = 'attributePoints',
+    AttributeMax = 'maxAttributePoints',
     SkillRanks = 'skillRanks',
     SkillMax = 'maxSkillRanks',
     Talents = 'talents',
     SkillsOrTalents = 'skillRanksOrTalents',
 }
+
+export const enum SpecificAdvancementRuleKeys {
+    AttributeMax = 'specificAttributeMax',
+    SkillMax = 'specificSkillMax',
+}
+
+export type SpecificAttributeMax = Partial<Record<Attribute, number>>;
+export type SpecificSkillMax = Partial<Record<Skill, number>>;
 
 export interface AdvancementRuleConfig {
     /**
@@ -306,6 +315,12 @@ export interface AdvancementRuleConfig {
      * The amount of attribute points granted at this level.
      */
     attributePoints?: number;
+
+    /**
+     * The maximum number of attribute points that can be allocated for any
+     * given attribute at this level.
+     */
+    maxAttributePoints?: number;
 
     /**
      * The amount of health granted at this level.
@@ -334,6 +349,18 @@ export interface AdvancementRuleConfig {
      * This is used when the character must choose between skill ranks and talents.
      */
     skillRanksOrTalents?: number;
+
+    /**
+     * The maximum attribute points for any attribute where it differs
+     * from the standard cap at this level.
+     */
+    specificAttributeMax?: SpecificAttributeMax;
+
+    /**
+     * The maximum skill ranks for any skill where it differs from
+     * the standard cap at this level.
+     */
+    specificSkillMax?: SpecificSkillMax;
 }
 
 export interface RelativeRuleOverride {
@@ -350,12 +377,39 @@ export interface AbsoluteRuleOverride {
     absolute: number;
 }
 
-export type AdvancementRuleOverride = {
+export type AdvancementOverrideMode =
+    | RelativeRuleOverride
+    | AbsoluteRuleOverride;
+
+export interface GenericRuleOverride {
     /**
      * Which aspect of the Advancement Rule to change.
      */
-    modifiesKey: OverridableAdvancementRuleKeys;
-} & (RelativeRuleOverride | AbsoluteRuleOverride);
+    genericKey: OverridableAdvancementRuleKeys;
+}
+
+export interface SpecificRuleOverride {
+    /**
+     * Which aspect of the Advancement Rule to change.
+     */
+    specificKey: SpecificAdvancementRuleKeys;
+
+    /**
+     * The subkey to change.
+     * This should correspond to the correct value for a
+     * the SpecificAdvancementRuleKey referenced in `modifiesKey`.
+     *
+     * E.g. "awa" to allow extra Awareness on a "specificAttributeMax" override.
+     */
+    subKey: Attribute | Skill;
+}
+
+export type AdvancementOverrideType =
+    | GenericRuleOverride
+    | SpecificRuleOverride;
+
+export type AdvancementRuleOverride = AdvancementOverrideType &
+    AdvancementOverrideMode;
 
 /**
  * Map ancestry names to the levels they override, and the actual changes at each level.

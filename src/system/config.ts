@@ -484,6 +484,7 @@ const COSMERE: CosmereRPGConfig = {
                 tier: 1,
                 maxSkillRanks: 2,
                 attributePoints: 12,
+                maxAttributePoints: 3,
                 health: 10,
                 healthIncludeStrength: true,
                 skillRanks: 4,
