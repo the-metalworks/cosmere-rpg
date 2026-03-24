@@ -61,6 +61,7 @@ import { SYSTEM_ID } from '@system/constants';
 import { HOOKS } from '@system/constants/hooks';
 import { AnyObject } from '@league-of-foundry-developers/foundry-vtt-types/utils';
 import { FLAGS } from '@system/utils/macros/talents/erudition';
+import { MaxStatFieldKey } from '../types/advancement';
 
 export type CharacterActor = CosmereActor<ActorType.Character>;
 export type AdversaryActor = CosmereActor<ActorType.Adversary>;
@@ -322,7 +323,10 @@ export class CosmereActor<
             this.system.tier = currentAdvancementRule.tier;
 
             // Derive the maximum skill rank
-            this.system.maxSkillRank = currentAdvancementRule.maxSkillRanks;
+            // TODO: Figure out a better, not hard-coded system for defaults
+            this.system.maxSkillRank =
+                currentAdvancementRule.maxStats?.[MaxStatFieldKey.Skills]
+                    ?.base ?? 5;
         }
 
         // Apply AEs regardless of subtype
