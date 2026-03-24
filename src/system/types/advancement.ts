@@ -95,13 +95,6 @@ export type MaxStatFields = Partial<{
     [k in keyof MaxStatFieldTypes]: MaxStatField<MaxStatFieldTypes[k]>;
 }>;
 
-export interface RuleData {
-    level: number;
-    tier: number;
-    fields: GenericFields;
-    maxStats?: MaxStatFields;
-}
-
 // Type assertions
 
 export function assertValidGenericOverride(

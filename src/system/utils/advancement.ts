@@ -1,9 +1,8 @@
+import * as Advancement from '@system/types/advancement';
 import {
     AdvancementRuleConfig,
-    AdvancementRuleOverride,
+    AdvancementOverrideConfig,
 } from '@system/types/config';
-
-import * as Advancement from '@system/types/advancement';
 
 import { CharacterActor } from '@system/documents/actor';
 import { SYSTEM_ID } from '@system/constants';
@@ -108,7 +107,7 @@ export class AdvancementRule {
     public fields: Advancement.GenericFields;
     public maxStats?: Advancement.MaxStatFields;
 
-    constructor(data: Advancement.RuleData) {
+    constructor(data: AdvancementRuleConfig) {
         this.level = data.level;
         this.tier = data.tier;
         this.fields = data.fields;
@@ -130,11 +129,42 @@ export class AdvancementRule {
     }
 
     /**
+     * Apply a list of overrides to this rule, and return the result.
+     * The state of this rule is preserved.
+     * @param overrides
+     * @returns
+     */
+    public applyOverrides(overrides: AdvancementOverride[]): AdvancementRule {
+        const rule = this.clone();
+
+        let override = overrides.shift();
+        while (override) {
+            rule.applyOverrideInPlace(override);
+            override = overrides.shift();
+        }
+
+        return rule;
+    }
+
+    /**
+     * Get a new rule with the override applied.
+     * The state of this rule is preserved.
      * @param override
-     * @returns a new rule with the override applied
+     * @returns
      */
     public applyOverride(override: AdvancementOverride): AdvancementRule {
-        return override.apply(this.clone());
+        return this.clone().applyOverrideInPlace(override);
+    }
+
+    /**
+     * Mutate this rule with the given override.
+     * @param override
+     * @returns
+     */
+    public applyOverrideInPlace(
+        override: AdvancementOverride,
+    ): AdvancementRule {
+        return override.apply(this);
     }
 
     // Helpers
@@ -165,7 +195,66 @@ export class AdvancementRule {
 }
 
 export default class AdvancementManager {
-    static rules: AdvancementRule[];
+    static readonly rules: AdvancementRule[];
+    static readonly overrides: Record<
+        string,
+        Record<number, AdvancementOverride[]>
+    >;
+
+    // Rule registration
+
+    public static init() {
+        // Get base advancement rules from config
+        const { rules, overrides } = CONFIG.COSMERE.advancement;
+
+        rules.forEach((rule) => this.registerAdvancementRule(rule));
+
+        this.registerAdvancementOverrides(overrides);
+
+        console.log(`${SYSTEM_ID}: Advancement manager initialized`);
+    }
+
+    public static registerAdvancementRule(
+        data: AdvancementRuleConfig,
+    ): AdvancementRule[] {
+        this.rules.push(new AdvancementRule(data));
+        return this.rules;
+    }
+
+    public static registerAdvancementOverrides(
+        data: AdvancementOverrideConfig,
+    ) {
+        Object.keys(data).forEach((ancestry) => {
+            data[ancestry].forEach((overrides, level) => {
+                overrides.forEach((override) => {
+                    this.registerAdvancementOverride(ancestry, level, override);
+                });
+            });
+        });
+    }
+
+    public static registerAdvancementOverride(
+        ancestry: string,
+        level: number,
+        data: Advancement.OverrideData,
+    ): boolean {
+        let override: AdvancementOverride;
+        try {
+            override = new AdvancementOverride(data);
+        } catch (error) {
+            console.error(error);
+            return false;
+        }
+
+        const existingOverrides = this.overrides[ancestry] ?? {};
+        const overridesAtLevel = existingOverrides[level] ?? [];
+
+        overridesAtLevel.push(override);
+
+        this.overrides[ancestry] = existingOverrides;
+
+        return true;
+    }
 
     /**
      * Gets any relevant overrides for the given character and level
@@ -173,12 +262,9 @@ export default class AdvancementManager {
     public static getRelevantAdvancementOverrides(
         level: number,
         actor: CharacterActor,
-    ): AdvancementRuleOverride[] {
-        return actor.ancestry &&
-            actor.ancestry.name in CONFIG.COSMERE.advancement.overrides
-            ? (CONFIG.COSMERE.advancement.overrides[actor.ancestry.name][
-                  level
-              ] ?? [])
+    ): AdvancementOverride[] {
+        return actor.ancestry && actor.ancestry.uuid in this.overrides
+            ? (this.overrides[actor.ancestry.uuid][level] ?? [])
             : [];
     }
 
@@ -188,20 +274,16 @@ export default class AdvancementManager {
     public static getAdvancementRuleForLevel(
         level: number,
         actor: CharacterActor,
-    ): AdvancementRuleConfig {
-        const { rules, overrides } = CONFIG.COSMERE.advancement;
-
+    ): AdvancementRule {
         const relevantOverrides =
             AdvancementManager.getRelevantAdvancementOverrides(level, actor);
 
         const rule =
-            level >= rules.length
-                ? rules[rules.length - 1] // Repeat the last rule if the level is higher than the last rule
-                : rules[level - 1];
+            level >= this.rules.length
+                ? this.rules[this.rules.length - 1] // Repeat the last rule if the level is higher than the last rule
+                : this.rules[level - 1];
 
-        return relevantOverrides
-            ? AdvancementManager.getOverriddenRule(rule, relevantOverrides)
-            : rule;
+        return rule.applyOverrides(relevantOverrides);
     }
 
     /**
@@ -212,7 +294,7 @@ export default class AdvancementManager {
     public static getAdvancementRulesUpToLevel(
         level: number,
         actor: CharacterActor,
-    ): AdvancementRuleConfig[] {
+    ): AdvancementRule[] {
         return AdvancementManager.getAdvancementRulesForLevelChange(
             0,
             level,
@@ -228,10 +310,10 @@ export default class AdvancementManager {
         startLevel: number,
         endLevel: number,
         actor: CharacterActor,
-    ): (AdvancementRuleConfig & { level: number })[] {
+    ): AdvancementRule[] {
         // Swap the levels if the end level is lower than the start level
         if (endLevel < startLevel)
-            return AdvancementManager.getAdvancementRulesForLevelChange(
+            return this.getAdvancementRulesForLevelChange(
                 endLevel,
                 startLevel,
                 actor,
@@ -240,49 +322,18 @@ export default class AdvancementManager {
         // Ensure start level is at least 0
         startLevel = Math.max(0, startLevel);
 
-        // Get the rules
-        const { rules, overrides } = CONFIG.COSMERE.advancement;
-
         const ancestryOverrides = actor.ancestry
-            ? overrides[actor.ancestry.name]
-            : undefined;
+            ? this.overrides[actor.ancestry.uuid]
+            : [];
 
         return Array.from({ length: endLevel - startLevel }, (_, i) => {
             const index = startLevel + i;
-            return index >= rules.length
-                ? { ...rules[rules.length - 1], level: index + 1 }
-                : {
-                      ...AdvancementManager.getOverriddenRule(
-                          rules[index],
-                          ancestryOverrides ? ancestryOverrides[index] : [],
-                      ),
-                      level: index + 1,
-                  };
+            const rule =
+                this.rules[Math.min(index, this.rules.length - 1)].clone();
+            if (index >= this.rules.length) rule.level = index + 1;
+
+            return rule.applyOverrides(ancestryOverrides[index + 1]);
         });
-    }
-
-    /**
-     * Get overriden advancement rule
-     */
-    public static getOverriddenRule(
-        rule: AdvancementRuleConfig,
-        overrides: AdvancementRuleOverride[],
-    ): AdvancementRuleConfig {
-        const overridden: AdvancementRuleConfig = { ...rule };
-
-        // Apply each relevant override to the rule
-        overrides.forEach((override) => {
-            const isGeneric = 'genericKey' in override;
-            const isAbsolute = 'absolute' in override;
-            // Generic override
-            if (isGeneric) {
-                overridden[override.genericKey] = isAbsolute
-                    ? override.absolute
-                    : override.delta + (overridden[override.genericKey] ?? 0);
-            }
-        });
-
-        return overridden;
     }
 
     /**
@@ -294,12 +345,12 @@ export default class AdvancementManager {
         actor: CharacterActor,
     ): number;
     public static deriveMaxHealth(
-        rules: AdvancementRuleConfig[],
+        rules: AdvancementRule[],
         strength: number,
         actor: CharacterActor,
     ): number;
     public static deriveMaxHealth(
-        levelOrRules: number | AdvancementRuleConfig[],
+        levelOrRules: number | AdvancementRule[],
         strength: number,
         actor: CharacterActor,
     ): number {
@@ -315,8 +366,8 @@ export default class AdvancementManager {
         return rules.reduce(
             (health, rule) =>
                 health +
-                (rule.health ?? 0) +
-                (rule.healthIncludeStrength ? strength : 0),
+                (rule.fields.health ?? 0) +
+                (rule.fields.healthIncludeStrength ? strength : 0),
             0,
         );
     }
@@ -330,11 +381,11 @@ export default class AdvancementManager {
         actor: CharacterActor,
     ): number;
     public static deriveTotalAttributePoints(
-        rules: AdvancementRuleConfig[],
+        rules: AdvancementRule[],
         actor: CharacterActor,
     ): number;
     public static deriveTotalAttributePoints(
-        levelOrRules: number | AdvancementRuleConfig[],
+        levelOrRules: number | AdvancementRule[],
         actor: CharacterActor,
     ): number {
         // Get rules up to the given level
@@ -347,7 +398,7 @@ export default class AdvancementManager {
 
         // Calculate the attribute points
         return rules.reduce(
-            (points, rule) => points + (rule.attributePoints ?? 0),
+            (points, rule) => points + (rule.fields.attributePoints ?? 0),
             0,
         );
     }
@@ -361,11 +412,11 @@ export default class AdvancementManager {
         actor: CharacterActor,
     ): number;
     public static deriveTotalSkillRanks(
-        rules: AdvancementRuleConfig[],
+        rules: AdvancementRule[],
         actor: CharacterActor,
     ): number;
     public static deriveTotalSkillRanks(
-        levelOrRules: number | AdvancementRuleConfig[],
+        levelOrRules: number | AdvancementRule[],
         actor: CharacterActor,
     ): number {
         // Get rules up to the given level
@@ -377,7 +428,10 @@ export default class AdvancementManager {
               );
 
         // Calculate the skill ranks
-        return rules.reduce((ranks, rule) => ranks + (rule.skillRanks ?? 0), 0);
+        return rules.reduce(
+            (ranks, rule) => ranks + (rule.fields.skillRanks ?? 0),
+            0,
+        );
     }
 
     /**
@@ -389,11 +443,11 @@ export default class AdvancementManager {
         actor: CharacterActor,
     ): number;
     public static deriveTotalTalents(
-        rules: AdvancementRuleConfig[],
+        rules: AdvancementRule[],
         actor: CharacterActor,
     ): number;
     public static deriveTotalTalents(
-        levelOrRules: number | AdvancementRuleConfig[],
+        levelOrRules: number | AdvancementRule[],
         actor: CharacterActor,
     ): number {
         // Get rules up to the given level
@@ -406,7 +460,7 @@ export default class AdvancementManager {
 
         // Calculate the talents
         return rules.reduce(
-            (talents, rule) => talents + (rule.talents ?? 0),
+            (talents, rule) => talents + (rule.fields.talents ?? 0),
             0,
         );
     }
@@ -419,11 +473,11 @@ export default class AdvancementManager {
         actor: CharacterActor,
     ): number;
     public static deriveTotalSkillRanksOrTalentsChoices(
-        rules: AdvancementRuleConfig[],
+        rules: AdvancementRule[],
         actor: CharacterActor,
     ): number;
     public static deriveTotalSkillRanksOrTalentsChoices(
-        levelOrRules: number | AdvancementRuleConfig[],
+        levelOrRules: number | AdvancementRule[],
         actor: CharacterActor,
     ): number {
         // Get rules up to the given level
@@ -436,7 +490,7 @@ export default class AdvancementManager {
 
         // Calculate the skill ranks
         return rules.reduce(
-            (choices, rule) => choices + (rule.skillRanksOrTalents ?? 0),
+            (choices, rule) => choices + (rule.fields.skillRanksOrTalents ?? 0),
             0,
         );
     }
