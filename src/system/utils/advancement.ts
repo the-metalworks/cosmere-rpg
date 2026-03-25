@@ -183,11 +183,11 @@ export class AdvancementRule {
 }
 
 export default class AdvancementManager {
-    static readonly rules: AdvancementRule[];
+    static readonly rules: AdvancementRule[] = [];
     static readonly overrides: Record<
         string,
         Record<number, AdvancementOverride[]>
-    >;
+    > = {};
 
     // Rule registration
 
