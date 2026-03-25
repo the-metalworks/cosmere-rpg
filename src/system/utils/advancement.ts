@@ -239,6 +239,7 @@ export default class AdvancementManager {
 
         overridesAtLevel.push(override);
 
+        existingOverrides[level] = overridesAtLevel;
         this.overrides[ancestry] = existingOverrides;
 
         return true;
