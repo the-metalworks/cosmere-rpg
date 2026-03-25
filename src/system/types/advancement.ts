@@ -127,20 +127,26 @@ export function assertValidMaximumOverride(
     const maxData = data as MaxOverrideData;
 
     // If no specific state was specified, we'll treat it as the base value
-    if (!maxData.stat) return;
-
     // Otherwise, assert that it exists within the system
-    switch (maxData.key) {
-        case MaxStatFieldKey.Attributes:
-            if (!(maxData.stat in Object.keys(CONFIG.COSMERE.attributes)))
-                throw new Error(
-                    `invalid attribute for override: ${maxData.stat}`,
-                );
-            break;
-        case MaxStatFieldKey.Skills:
-            if (!(maxData.stat in Object.keys(CONFIG.COSMERE.skills)))
-                throw new Error(`invalid skill for override: ${maxData.stat}`);
-            break;
+    if (maxData.stat) {
+        switch (maxData.key) {
+            case MaxStatFieldKey.Attributes:
+                if (
+                    !Object.keys(CONFIG.COSMERE.attributes).includes(
+                        maxData.stat,
+                    )
+                )
+                    throw new Error(
+                        `invalid attribute for override: ${maxData.stat}`,
+                    );
+                break;
+            case MaxStatFieldKey.Skills:
+                if (!Object.keys(CONFIG.COSMERE.skills).includes(maxData.stat))
+                    throw new Error(
+                        `invalid skill for override: ${maxData.stat}`,
+                    );
+                break;
+        }
     }
 
     // All max overrides must be numeric
