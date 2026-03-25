@@ -42,6 +42,8 @@ export class AdvancementOverride {
         }
     }
 
+    // Override application
+
     /**
      * Mutate the provided rule according to the override's configuration
      */
@@ -78,10 +80,6 @@ export class AdvancementOverride {
      */
     private _applyMaximum(rule: AdvancementRule): AdvancementRule {
         const key = this.key as Advancement.MaxStatFieldKey;
-
-        if (!rule.maxStats) rule.maxStats = {};
-        if (!rule.maxStats[key]) rule.maxStats[key] = { base: Infinity };
-
         const stat = this.stat ?? 'base';
 
         // Reconstruct the max stats, replacing the relevant entry
@@ -93,7 +91,7 @@ export class AdvancementOverride {
                     this.mode === Advancement.OverrideMode.Absolute
                         ? (this.value as number)
                         : (this.value as number) +
-                          rule.getMaxForStat(stat, key),
+                          rule.getMaxForStat(key, stat),
             },
         };
 
@@ -105,7 +103,7 @@ export class AdvancementRule {
     public level: number;
     public tier: number;
     public fields: Advancement.GenericFields;
-    public maxStats?: Advancement.MaxStatFields;
+    public maxStats: Advancement.MaxStatFields;
 
     constructor(data: AdvancementRuleConfig) {
         this.level = data.level;
@@ -115,16 +113,16 @@ export class AdvancementRule {
     }
 
     public getMaxForStat(
-        stat: Advancement.MaxStatType | 'base',
         field: Advancement.MaxStatFieldKey,
+        stat: Advancement.MaxStatType | 'base',
     ): number {
-        if (stat === 'base') return this.maxStats?.[field]?.base ?? 0;
+        if (stat === 'base') return this.maxStats[field].base ?? 0;
 
         switch (field) {
             case Advancement.MaxStatFieldKey.Attributes:
-                return this.maxStats?.[field]?.[stat as Attribute] ?? 0;
+                return this.maxStats[field][stat as Attribute] ?? 0;
             case Advancement.MaxStatFieldKey.Skills:
-                return this.maxStats?.[field]?.[stat as Skill] ?? 0;
+                return this.maxStats[field][stat as Skill] ?? 0;
         }
     }
 
@@ -176,20 +174,10 @@ export class AdvancementRule {
             fields: {
                 ...this.fields,
             },
-            maxStats: this.maxStats
-                ? {
-                      attributes: this.maxStats.attributes
-                          ? {
-                                ...this.maxStats.attributes,
-                            }
-                          : undefined,
-                      skills: this.maxStats.skills
-                          ? {
-                                ...this.maxStats.skills,
-                            }
-                          : undefined,
-                  }
-                : undefined,
+            maxStats: {
+                attributes: { ...this.maxStats.attributes },
+                skills: { ...this.maxStats.skills },
+            },
         });
     }
 }

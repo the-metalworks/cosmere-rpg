@@ -323,10 +323,10 @@ export class CosmereActor<
             this.system.tier = currentAdvancementRule.tier;
 
             // Derive the maximum skill rank
-            // TODO: Figure out a better, not hard-coded system for defaults
-            this.system.maxSkillRank =
-                currentAdvancementRule.maxStats?.[MaxStatFieldKey.Skills]
-                    ?.base ?? 5;
+            this.system.maxSkillRank = currentAdvancementRule.getMaxForStat(
+                MaxStatFieldKey.Skills,
+                'base',
+            );
         }
 
         // Apply AEs regardless of subtype

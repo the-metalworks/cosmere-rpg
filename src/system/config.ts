@@ -489,6 +489,14 @@ const COSMERE: CosmereRPGConfig = {
                     skillRanks: 4,
                     talents: 1,
                 },
+                maxStats: {
+                    attributes: {
+                        base: 3,
+                    },
+                    skills: {
+                        base: 2,
+                    },
+                },
             }, // Level 1
             {
                 level: 2,
@@ -497,6 +505,14 @@ const COSMERE: CosmereRPGConfig = {
                     health: 5,
                     skillRanks: 2,
                     talents: 1,
+                },
+                maxStats: {
+                    attributes: {
+                        base: 5,
+                    },
+                    skills: {
+                        base: 2,
+                    },
                 },
             }, // Level 2
             {
@@ -508,6 +524,14 @@ const COSMERE: CosmereRPGConfig = {
                     skillRanks: 2,
                     talents: 1,
                 },
+                maxStats: {
+                    attributes: {
+                        base: 5,
+                    },
+                    skills: {
+                        base: 2,
+                    },
+                },
             }, // Level 3
             {
                 level: 4,
@@ -517,6 +541,14 @@ const COSMERE: CosmereRPGConfig = {
                     skillRanks: 2,
                     talents: 1,
                 },
+                maxStats: {
+                    attributes: {
+                        base: 5,
+                    },
+                    skills: {
+                        base: 2,
+                    },
+                },
             }, // Level 4
             {
                 level: 5,
@@ -525,6 +557,14 @@ const COSMERE: CosmereRPGConfig = {
                     health: 5,
                     skillRanks: 2,
                     talents: 1,
+                },
+                maxStats: {
+                    attributes: {
+                        base: 5,
+                    },
+                    skills: {
+                        base: 2,
+                    },
                 },
             }, // Level 5
             {
@@ -537,6 +577,14 @@ const COSMERE: CosmereRPGConfig = {
                     skillRanks: 2,
                     talents: 1,
                 },
+                maxStats: {
+                    attributes: {
+                        base: 5,
+                    },
+                    skills: {
+                        base: 3,
+                    },
+                },
             }, // Level 6
             {
                 level: 7,
@@ -546,6 +594,14 @@ const COSMERE: CosmereRPGConfig = {
                     skillRanks: 2,
                     talents: 1,
                 },
+                maxStats: {
+                    attributes: {
+                        base: 5,
+                    },
+                    skills: {
+                        base: 3,
+                    },
+                },
             }, // Level 7
             {
                 level: 8,
@@ -554,6 +610,14 @@ const COSMERE: CosmereRPGConfig = {
                     health: 4,
                     skillRanks: 2,
                     talents: 1,
+                },
+                maxStats: {
+                    attributes: {
+                        base: 5,
+                    },
+                    skills: {
+                        base: 3,
+                    },
                 },
             }, // Level 8
             {
@@ -565,6 +629,14 @@ const COSMERE: CosmereRPGConfig = {
                     skillRanks: 2,
                     talents: 1,
                 },
+                maxStats: {
+                    attributes: {
+                        base: 5,
+                    },
+                    skills: {
+                        base: 3,
+                    },
+                },
             }, // Level 9
             {
                 level: 10,
@@ -573,6 +645,14 @@ const COSMERE: CosmereRPGConfig = {
                     health: 4,
                     skillRanks: 2,
                     talents: 1,
+                },
+                maxStats: {
+                    attributes: {
+                        base: 5,
+                    },
+                    skills: {
+                        base: 3,
+                    },
                 },
             }, // Level 10
             {
@@ -584,6 +664,14 @@ const COSMERE: CosmereRPGConfig = {
                     skillRanks: 2,
                     talents: 1,
                 },
+                maxStats: {
+                    attributes: {
+                        base: 5,
+                    },
+                    skills: {
+                        base: 4,
+                    },
+                },
             }, // Level 11
             {
                 level: 12,
@@ -594,6 +682,14 @@ const COSMERE: CosmereRPGConfig = {
                     skillRanks: 2,
                     talents: 1,
                 },
+                maxStats: {
+                    attributes: {
+                        base: 5,
+                    },
+                    skills: {
+                        base: 4,
+                    },
+                },
             }, // Level 12
             {
                 level: 13,
@@ -603,6 +699,14 @@ const COSMERE: CosmereRPGConfig = {
                     skillRanks: 2,
                     talents: 1,
                 },
+                maxStats: {
+                    attributes: {
+                        base: 5,
+                    },
+                    skills: {
+                        base: 4,
+                    },
+                },
             }, // Level 13
             {
                 level: 14,
@@ -611,6 +715,14 @@ const COSMERE: CosmereRPGConfig = {
                     health: 3,
                     skillRanks: 2,
                     talents: 1,
+                },
+                maxStats: {
+                    attributes: {
+                        base: 5,
+                    },
+                    skills: {
+                        base: 4,
+                    },
                 },
             }, // Level 14
             {
@@ -622,6 +734,14 @@ const COSMERE: CosmereRPGConfig = {
                     skillRanks: 2,
                     talents: 1,
                 },
+                maxStats: {
+                    attributes: {
+                        base: 5,
+                    },
+                    skills: {
+                        base: 4,
+                    },
+                },
             }, // Level 15
             {
                 level: 16,
@@ -632,6 +752,14 @@ const COSMERE: CosmereRPGConfig = {
                     skillRanks: 2,
                     talents: 1,
                 },
+                maxStats: {
+                    attributes: {
+                        base: 5,
+                    },
+                    skills: {
+                        base: 5,
+                    },
+                },
             }, // Level 16
             {
                 level: 17,
@@ -640,6 +768,14 @@ const COSMERE: CosmereRPGConfig = {
                     health: 2,
                     skillRanks: 2,
                     talents: 1,
+                },
+                maxStats: {
+                    attributes: {
+                        base: 5,
+                    },
+                    skills: {
+                        base: 5,
+                    },
                 },
             }, // Level 17
             {
@@ -651,6 +787,14 @@ const COSMERE: CosmereRPGConfig = {
                     skillRanks: 2,
                     talents: 1,
                 },
+                maxStats: {
+                    attributes: {
+                        base: 5,
+                    },
+                    skills: {
+                        base: 5,
+                    },
+                },
             }, // Level 18
             {
                 level: 19,
@@ -659,6 +803,14 @@ const COSMERE: CosmereRPGConfig = {
                     health: 2,
                     skillRanks: 2,
                     talents: 1,
+                },
+                maxStats: {
+                    attributes: {
+                        base: 5,
+                    },
+                    skills: {
+                        base: 5,
+                    },
                 },
             }, // Level 19
             {
@@ -669,6 +821,14 @@ const COSMERE: CosmereRPGConfig = {
                     skillRanks: 2,
                     talents: 1,
                 },
+                maxStats: {
+                    attributes: {
+                        base: 5,
+                    },
+                    skills: {
+                        base: 5,
+                    },
+                },
             }, // Level 20
             {
                 level: 21,
@@ -676,6 +836,14 @@ const COSMERE: CosmereRPGConfig = {
                 fields: {
                     health: 1,
                     skillRanksOrTalents: 1,
+                },
+                maxStats: {
+                    attributes: {
+                        base: 5,
+                    },
+                    skills: {
+                        base: 5,
+                    },
                 },
             }, // Level 21
         ],

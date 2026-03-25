@@ -291,7 +291,7 @@ export interface AdvancementRuleConfig {
 
     fields: Advancement.GenericFields;
 
-    maxStats?: Advancement.MaxStatFields;
+    maxStats: Advancement.MaxStatFields;
 }
 
 // Ancestry UUIDs are the keys, Maps of level -> overrides are the values

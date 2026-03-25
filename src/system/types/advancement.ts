@@ -91,9 +91,9 @@ export type MaxStatField<T extends MaxStatType> = {
     base: number;
 } & Partial<Record<T, number>>;
 
-export type MaxStatFields = Partial<{
+export type MaxStatFields = {
     [k in keyof MaxStatFieldTypes]: MaxStatField<MaxStatFieldTypes[k]>;
-}>;
+};
 
 // Type assertions
 
