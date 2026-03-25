@@ -101,9 +101,7 @@ export function assertValidGenericOverride(
     data: OverrideData,
 ): asserts data is GenericOverrideData {
     if (data.type !== OverrideType.Generic || !(data.key in GenericFieldKey))
-        throw new Error(
-            `${SYSTEM_ID}: cannot create generic override for ${data.key}`,
-        );
+        throw new Error(`cannot create generic override for ${data.key}`);
 
     const fieldType = GENERIC_FIELD_TYPES[data.key as GenericFieldKey];
     switch (fieldType) {
@@ -111,10 +109,6 @@ export function assertValidGenericOverride(
             return assertBooleanOverride(data.value);
         case FieldType.Numeric:
             return assertNumericOverride(data.value);
-        default:
-            throw new Error(
-                `${SYSTEM_ID}: field type ${fieldType as string} is valid but not implemented`,
-            );
     }
 }
 
@@ -122,9 +116,7 @@ export function assertValidMaximumOverride(
     data: OverrideData,
 ): asserts data is MaxOverrideData {
     if (data.type !== OverrideType.Maximum || !(data.key in MaxStatFieldKey))
-        throw new Error(
-            `${SYSTEM_ID}: cannot create max stat override for ${data.key}`,
-        );
+        throw new Error(`cannot create max stat override for ${data.key}`);
 
     const maxData = data as MaxOverrideData;
 
@@ -136,14 +128,12 @@ export function assertValidMaximumOverride(
         case MaxStatFieldKey.Attributes:
             if (!(maxData.stat in Object.keys(CONFIG.COSMERE.attributes)))
                 throw new Error(
-                    `${SYSTEM_ID}: invalid attribute for override: ${maxData.stat}`,
+                    `invalid attribute for override: ${maxData.stat}`,
                 );
             break;
         case MaxStatFieldKey.Skills:
             if (!(maxData.stat in Object.keys(CONFIG.COSMERE.skills)))
-                throw new Error(
-                    `${SYSTEM_ID}: invalid skill for override: ${maxData.stat}`,
-                );
+                throw new Error(`invalid skill for override: ${maxData.stat}`);
             break;
     }
 
@@ -155,16 +145,12 @@ export function assertNumericOverride(
     value: OverrideFieldType,
 ): asserts value is number {
     if (!Number.isNumeric(value))
-        throw new Error(
-            `${SYSTEM_ID}: invalid value for numeric override: ${value}`,
-        );
+        throw new Error(`invalid value for numeric override: ${value}`);
 }
 
 export function assertBooleanOverride(
     value: OverrideFieldType,
 ): asserts value is boolean {
     if (typeof value !== 'boolean')
-        throw new Error(
-            `${SYSTEM_ID}: invalid value for boolean override: ${value}`,
-        );
+        throw new Error(`invalid value for boolean override: ${value}`);
 }

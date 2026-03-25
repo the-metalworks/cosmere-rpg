@@ -28,7 +28,7 @@ export class AdvancementOverride {
                 break;
             default:
                 throw new Error(
-                    `${SYSTEM_ID}: override not implemented for type ${data.type as string}`,
+                    `override not implemented for type ${data.type as string}`,
                 );
         }
 
@@ -199,7 +199,7 @@ export default class AdvancementManager {
 
         this.registerAdvancementOverrides(overrides);
 
-        console.log(`${SYSTEM_ID}: Advancement manager initialized`);
+        console.log(`[${SYSTEM_ID}] Advancement manager initialized`);
     }
 
     public static registerAdvancementRule(
@@ -230,7 +230,7 @@ export default class AdvancementManager {
         try {
             override = new AdvancementOverride(data);
         } catch (error) {
-            console.error(error);
+            console.error(`[${SYSTEM_ID}] Error registering override:`, error);
             return false;
         }
 
