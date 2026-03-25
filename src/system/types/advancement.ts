@@ -100,7 +100,10 @@ export type MaxStatFields = {
 export function assertValidGenericOverride(
     data: OverrideData,
 ): asserts data is GenericOverrideData {
-    if (data.type !== OverrideType.Generic || !(data.key in GenericFieldKey))
+    if (
+        data.type !== OverrideType.Generic ||
+        !Object.values<string>(GenericFieldKey).includes(data.key)
+    )
         throw new Error(`cannot create generic override for ${data.key}`);
 
     const fieldType = GENERIC_FIELD_TYPES[data.key as GenericFieldKey];
@@ -115,7 +118,10 @@ export function assertValidGenericOverride(
 export function assertValidMaximumOverride(
     data: OverrideData,
 ): asserts data is MaxOverrideData {
-    if (data.type !== OverrideType.Maximum || !(data.key in MaxStatFieldKey))
+    if (
+        data.type !== OverrideType.Maximum ||
+        !Object.values<string>(MaxStatFieldKey).includes(data.key)
+    )
         throw new Error(`cannot create max stat override for ${data.key}`);
 
     const maxData = data as MaxOverrideData;
