@@ -294,7 +294,7 @@ export interface AdvancementRuleConfig {
     maxStats: Advancement.MaxStatFields;
 }
 
-// Ancestry UUIDs are the keys, Maps of level -> overrides are the values
+// Ancestry ids are the keys, Maps of level -> overrides are the values
 export type AdvancementOverrideConfig = Record<
     string,
     Map<number, Advancement.OverrideData[]>
