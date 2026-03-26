@@ -252,8 +252,8 @@ export default class AdvancementManager {
         level: number,
         actor: CharacterActor,
     ): AdvancementOverride[] {
-        return actor.ancestry && actor.ancestry.uuid in this.overrides
-            ? (this.overrides[actor.ancestry.uuid][level] ?? [])
+        return actor.ancestry && actor.ancestry.system.id in this.overrides
+            ? (this.overrides[actor.ancestry.system.id][level] ?? [])
             : [];
     }
 
@@ -312,7 +312,7 @@ export default class AdvancementManager {
         startLevel = Math.max(0, startLevel);
 
         const ancestryOverrides = actor.ancestry
-            ? this.overrides[actor.ancestry.uuid]
+            ? this.overrides[actor.ancestry.system.id]
             : [];
 
         return Array.from({ length: endLevel - startLevel }, (_, i) => {
