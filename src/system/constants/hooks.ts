@@ -58,7 +58,8 @@ export const HOOKS = {
     /* ----- Roll Hooks ----- */
     PRE_ROLL: (context: string) =>
         `${SYSTEM_ID}.pre${context.toLowerCase().capitalize()}Roll` as const,
-    ROLL: (context: string) => `${SYSTEM_ID}.${context.toLowerCase()}Roll` as const,
+    ROLL: (context: string) =>
+        `${SYSTEM_ID}.${context.toLowerCase()}Roll` as const,
     PRE_SKILL_ROLL: `${SYSTEM_ID}.preSkillRoll`,
     SKILL_ROLL: `${SYSTEM_ID}.skillRoll`,
     PRE_ITEM_ROLL: `${SYSTEM_ID}.preItemRoll`,
@@ -96,4 +97,10 @@ export const HOOKS = {
         `${SYSTEM_ID}.trigger${type.toLowerCase().capitalize()}Enricher` as const,
     TRIGGER_TEST_ENRICHER: `${SYSTEM_ID}.triggerTestEnricher`,
     TRIGGER_DAMAGE_ENRICHER: `${SYSTEM_ID}.triggerDamageEnricher`,
+
+    /* --- Advancement Hooks ---- */
+    PRE_OVERRIDE_ADVANCEMENT: `${SYSTEM_ID}.preOverrideAdvancement`,
+    OVERRIDE_ADVANCEMENT: `${SYSTEM_ID}.overrideAdvancement`,
+    PRE_REGISTER_ADVANCEMENT_OVERRIDE: `${SYSTEM_ID}.preRegisterAdvancementOverride`,
+    REGISTER_ADVANCEMENT_OVERRIDE: `${SYSTEM_ID}.registerAdvancementOverride`,
 } as const;

@@ -7,6 +7,7 @@ import {
 import { CharacterActor } from '@system/documents/actor';
 import { SYSTEM_ID } from '@system/constants';
 import { Attribute, Skill } from '../types/cosmere';
+import { HOOKS } from '../constants/hooks';
 
 export class AdvancementOverride {
     public readonly type: Advancement.OverrideType;
@@ -158,7 +159,15 @@ export class AdvancementRule {
     public applyOverrideInPlace(
         override: AdvancementOverride,
     ): AdvancementRule {
-        return override.apply(this);
+        if (!Hooks.call(HOOKS.PRE_OVERRIDE_ADVANCEMENT, this, override)) {
+            return this;
+        }
+
+        override.apply(this);
+
+        Hooks.callAll(HOOKS.OVERRIDE_ADVANCEMENT, this, override);
+
+        return this;
     }
 
     // Helpers
@@ -230,6 +239,10 @@ export default class AdvancementManager {
             return false;
         }
 
+        if (!Hooks.call(HOOKS.PRE_REGISTER_ADVANCEMENT_OVERRIDE, override)) {
+            return false;
+        }
+
         const existingOverrides = this.overrides[ancestry] ?? {};
         const overridesAtLevel = existingOverrides[level] ?? [];
 
@@ -237,6 +250,8 @@ export default class AdvancementManager {
 
         existingOverrides[level] = overridesAtLevel;
         this.overrides[ancestry] = existingOverrides;
+
+        Hooks.callAll(HOOKS.REGISTER_ADVANCEMENT_OVERRIDE, override);
 
         return true;
     }
