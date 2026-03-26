@@ -312,7 +312,7 @@ export default class AdvancementManager {
         startLevel = Math.max(0, startLevel);
 
         const ancestryOverrides = actor.ancestry
-            ? this.overrides[actor.ancestry.system.id]
+            ? (this.overrides[actor.ancestry.system.id] ?? [])
             : [];
 
         return Array.from({ length: endLevel - startLevel }, (_, i) => {
@@ -321,7 +321,7 @@ export default class AdvancementManager {
                 this.rules[Math.min(index, this.rules.length - 1)].clone();
             if (index >= this.rules.length) rule.level = index + 1;
 
-            return rule.applyOverrides(ancestryOverrides[index + 1]);
+            return rule.applyOverrides(ancestryOverrides[index + 1] ?? []);
         });
     }
 
