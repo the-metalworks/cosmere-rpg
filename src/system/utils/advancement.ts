@@ -135,11 +135,7 @@ export class AdvancementRule {
     public applyOverrides(overrides: AdvancementOverride[]): AdvancementRule {
         const rule = this.clone();
 
-        let override = overrides.shift();
-        while (override) {
-            rule.applyOverrideInPlace(override);
-            override = overrides.shift();
-        }
+        overrides.forEach((override) => rule.applyOverrideInPlace(override));
 
         return rule;
     }
