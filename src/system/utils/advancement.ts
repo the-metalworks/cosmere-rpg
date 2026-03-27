@@ -121,9 +121,15 @@ export class AdvancementRule {
 
         switch (field) {
             case Advancement.MaxStatFieldKey.Attributes:
-                return this.maxStats[field][stat as Attribute] ?? 0;
+                return (
+                    this.maxStats[field][stat as Attribute] ??
+                    this.maxStats[field].base
+                );
             case Advancement.MaxStatFieldKey.Skills:
-                return this.maxStats[field][stat as Skill] ?? 0;
+                return (
+                    this.maxStats[field][stat as Skill] ??
+                    this.maxStats[field].base
+                );
         }
     }
 
