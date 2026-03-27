@@ -1427,32 +1427,6 @@
                     }
                 }
             }
-        },
-        "CharacterBuilder": {
-            "Name": "Character Builder",
-            "Steps": {
-                "Gain": "At level {level}, you gain:",
-                "Common": {
-                    "Delta": "Delta",
-                    "Max": "Max: {max}",
-                    "MaxedOut": "This stat is already at its maximum value!"
-                },
-                "Attribute": {
-                    "ChooseOne": "Increase one of your attributes by one:",
-                    "ChooseMany": "You gain {amount} points. Distribute them among your attributes:"
-                },
-                "Skill": {
-                    "ChooseOne": "Choose a skill, and increase its rank by one:",
-                    "ChooseMany": "You gain {amount} skill ranks. Distribute them among your skills:"
-                },
-                "Talent": {
-                    "ChooseOne": "Choose a talent:",
-                    "ChooseOneVerbose": "You gain a talent. Choose one from an existing talent tree, or take the key talent from a new tree.",
-                    "ChooseFromAncestry": "Choose a talent from your ancestry ({ancestry}):",
-                    "ID": "Talent ID",
-                    "SourceUUID": "Source UUID"
-                }
-            }
         }
     },
     "DICE": {
