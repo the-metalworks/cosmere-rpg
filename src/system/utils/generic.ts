@@ -1,4 +1,5 @@
-import { CosmereActor } from '@system/documents/actor';
+import type { Skill, Attribute } from '@system/types/cosmere';
+
 import { CosmereItem } from '@system/documents/item';
 import {
     getSystemKeybinding,
@@ -8,7 +9,7 @@ import {
     TargetingOptions,
 } from '../settings';
 import { AdvantageMode } from '../types/roll';
-import { NONE } from '../types/utils';
+import { NONE, type Noneable } from '../types/utils';
 
 const HTML_TAG_REGEX = /<[^>]+>/g;
 
@@ -350,4 +351,24 @@ export function debounce<T extends (...args: any[]) => void>(
 
         if (callNow) callback.apply(this, args);
     } as T;
+}
+
+export function resolveSkill(skill?: Noneable<Skill> | null): Skill | null {
+    if (!skill || skill === NONE) return null;
+
+    // If the skill is configured, check if it is valid
+    if (!(skill in CONFIG.COSMERE.skills)) return null;
+
+    return skill;
+}
+
+export function resolveAttribute(
+    attribute?: Noneable<Attribute> | null,
+): Attribute | null {
+    if (!attribute || attribute === NONE) return null;
+
+    // If the attribute is configured, check if it is valid
+    if (!(attribute in CONFIG.COSMERE.attributes)) return null;
+
+    return attribute;
 }
