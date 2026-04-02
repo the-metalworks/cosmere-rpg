@@ -3,28 +3,42 @@ import {
     HandlerType,
     HandlerExecutor,
     HandlerCls,
+    Rule,
 } from '@system/types/item/event-system';
 import { AnyObject } from '@system/types/utils';
 
-import { BASE_SCHEMA, HandlerBaseSchema } from '@system/data/item/event-system/handler';
+import {
+    BASE_SCHEMA,
+    HandlerBaseSchema,
+} from '@system/data/item/event-system/handler';
+
+/**
+ * Options for filtering which events should be affected by a toggle function
+ */
+export interface EventToggleOptions {
+    filter?: (event: Rule) => boolean;
+    disable?: boolean;
+}
 
 export function constructHandlerClass<
-    TSchema extends foundry.data.fields.DataSchema
+    TSchema extends foundry.data.fields.DataSchema,
 >(
     type: string,
     executor: HandlerExecutor,
     config: {
         schema: TSchema;
     } & (
-            | {
-                template?: string;
-            }
-            | {
-                render?: (data: AnyObject) => Promise<string>;
-            }
-        ),
+        | {
+              template?: string;
+          }
+        | {
+              render?: (data: AnyObject) => Promise<string>;
+          }
+    ),
 ) {
-    return class Handler extends foundry.abstract.DataModel<HandlerBaseSchema & TSchema> {
+    return class Handler extends foundry.abstract.DataModel<
+        HandlerBaseSchema & TSchema
+    > {
         public static get TYPE() {
             return type;
         }
@@ -58,8 +72,8 @@ export function constructHandlerClass<
             return 'render' in config && config.render
                 ? config.render
                 : 'template' in config && config.template
-                    ? (data: AnyObject) => renderTemplate(config.template!, data)
-                    : null;
+                  ? (data: AnyObject) => renderTemplate(config.template!, data)
+                  : null;
         }
 
         static defineSchema() {

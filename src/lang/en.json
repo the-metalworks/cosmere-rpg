@@ -1202,7 +1202,13 @@
                     "Description": "Description",
                     "Trigger": "Trigger",
                     "Handler": "Handler",
-                    "Create": "Add event rule"
+                    "Create": "Add event rule",
+                    "Toggle": {
+                        "Active": "Disable",
+                        "Inactive": "Enable"
+                    },
+                    "Edit": "Edit",
+                    "Delete": "Delete"
                 }
             },
             "General": {
