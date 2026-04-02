@@ -20,6 +20,7 @@ import {
     RelationshipsMixin,
     RelationshipsItemDataSchema,
 } from './mixins/relationships';
+import * as Advancement from '@src/system/types/advancement';
 
 const SCHEMA = () => ({
     size: new foundry.data.fields.StringField({
@@ -41,9 +42,7 @@ const SCHEMA = () => ({
             nullable: false,
             blank: false,
             initial: CreatureType.Humanoid,
-            choices: Object.entries(
-                CONFIG.COSMERE.creatureTypes,
-            ).reduce(
+            choices: Object.entries(CONFIG.COSMERE.creatureTypes).reduce(
                 (acc, [key, config]) => ({
                     ...acc,
                     [key]: config.label,
@@ -90,24 +89,63 @@ const SCHEMA = () => ({
                 restrictions: new foundry.data.fields.StringField(),
             }),
         ),
+
+        overrides: new foundry.data.fields.ArrayField(
+            new foundry.data.fields.SchemaField({
+                level: new foundry.data.fields.NumberField({
+                    required: true,
+                    nullable: false,
+                    min: 0,
+                    initial: 0,
+                }),
+                type: new foundry.data.fields.StringField({
+                    required: true,
+                    choices: [
+                        Advancement.OverrideType.Generic,
+                        Advancement.OverrideType.Maximum,
+                    ],
+                }),
+                mode: new foundry.data.fields.StringField({
+                    required: true,
+                    choices: [
+                        Advancement.OverrideMode.Absolute,
+                        Advancement.OverrideMode.Relative,
+                    ],
+                }),
+                key: new foundry.data.fields.StringField({
+                    required: true,
+                    choices: ([] as string[])
+                        .concat(Object.values(Advancement.GenericFieldKey))
+                        .concat(Object.values(Advancement.MaxStatFieldKey)),
+                }),
+                stat: new foundry.data.fields.StringField({
+                    required: false,
+                    choices: ([] as string[])
+                        .concat(Object.keys(CONFIG.COSMERE.attributes))
+                        .concat(Object.keys(CONFIG.COSMERE.skills)),
+                }),
+                value: new foundry.data.fields.AnyField(),
+            }),
+        ),
     }),
 });
 
-type AncestryItemDataSchema = 
-    & ReturnType<typeof SCHEMA>
-    & IdItemDataSchema
-    & DescriptionItemDataSchema
-    & TalentsProviderDataSchema
-    & EventsItemDataSchema
-    & LinkedSkillsItemDataSchema
-    & RelationshipsItemDataSchema;
+type AncestryItemDataSchema = ReturnType<typeof SCHEMA> &
+    IdItemDataSchema &
+    DescriptionItemDataSchema &
+    TalentsProviderDataSchema &
+    EventsItemDataSchema &
+    LinkedSkillsItemDataSchema &
+    RelationshipsItemDataSchema;
 
-export type AncestryItemData = foundry.data.fields.SchemaField.InitializedData<AncestryItemDataSchema>;
-export type BonusTalentsRule = AncestryItemData['advancement']['bonusTalents'][number];
+export type AncestryItemData =
+    foundry.data.fields.SchemaField.InitializedData<AncestryItemDataSchema>;
+export type BonusTalentsRule =
+    AncestryItemData['advancement']['bonusTalents'][number];
+export type AncestryOverrideData =
+    AncestryItemData['advancement']['overrides'][number];
 
-export class AncestryItemDataModel extends DataModelMixin<
-    AncestryItemDataSchema
->(
+export class AncestryItemDataModel extends DataModelMixin<AncestryItemDataSchema>(
     IdItemMixin({
         initial: 'none',
     }),
@@ -133,5 +171,11 @@ export class AncestryItemDataModel extends DataModelMixin<
 
     get extraTalents() {
         return this.advancement.extraTalents;
+    }
+
+    public getOverridesAtLevel(level: number): AncestryOverrideData[] {
+        return this.advancement.overrides.filter(
+            (override) => override.level === level,
+        );
     }
 }

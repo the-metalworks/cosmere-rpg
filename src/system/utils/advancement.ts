@@ -8,6 +8,7 @@ import { CharacterActor } from '@system/documents/actor';
 import { SYSTEM_ID } from '@system/constants';
 import { Attribute, Skill } from '../types/cosmere';
 import { HOOKS } from '../constants/hooks';
+import { AncestryOverrideData } from '../data/item';
 
 export class AdvancementOverride {
     public readonly type: Advancement.OverrideType;
@@ -41,6 +42,22 @@ export class AdvancementOverride {
         if (data.type === Advancement.OverrideType.Maximum) {
             this.stat = data.stat;
         }
+    }
+
+    static fromAncestryData(data: AncestryOverrideData): AdvancementOverride {
+        return new AdvancementOverride({
+            type: data.type as Advancement.OverrideType,
+            mode: data.mode as Advancement.OverrideMode,
+            key: data.key as
+                | Advancement.GenericFieldKey
+                | Advancement.MaxStatFieldKey,
+            value: data.value as Advancement.OverrideFieldType,
+            ...(data.type === Advancement.OverrideType.Maximum
+                ? {
+                      stat: data.stat as Advancement.MaxStatType,
+                  }
+                : {}),
+        });
     }
 
     // Override application
@@ -269,9 +286,22 @@ export default class AdvancementManager {
         level: number,
         actor: CharacterActor,
     ): AdvancementOverride[] {
-        return actor.ancestry && actor.ancestry.system.id in this.overrides
-            ? (this.overrides[actor.ancestry.system.id][level] ?? [])
-            : [];
+        if (actor.ancestry) {
+            // Prioritize overrides that are innate to the ancestry itself
+            return (
+                actor.ancestry.system
+                    .getOverridesAtLevel(level)
+                    .map((override) =>
+                        AdvancementOverride.fromAncestryData(override),
+                    )
+                    // Then add the registered overrides on top, if any
+                    .concat(
+                        this.overrides[actor.ancestry.system.id][level] ?? [],
+                    )
+            );
+        }
+
+        return [];
     }
 
     /**
@@ -281,8 +311,10 @@ export default class AdvancementManager {
         level: number,
         actor: CharacterActor,
     ): AdvancementRule {
-        const relevantOverrides =
-            AdvancementManager.getRelevantAdvancementOverrides(level, actor);
+        const relevantOverrides = this.getRelevantAdvancementOverrides(
+            level,
+            actor,
+        );
 
         const rule =
             level >= this.rules.length
@@ -301,11 +333,7 @@ export default class AdvancementManager {
         level: number,
         actor: CharacterActor,
     ): AdvancementRule[] {
-        return AdvancementManager.getAdvancementRulesForLevelChange(
-            0,
-            level,
-            actor,
-        );
+        return this.getAdvancementRulesForLevelChange(0, level, actor);
     }
 
     /**
@@ -328,17 +356,15 @@ export default class AdvancementManager {
         // Ensure start level is at least 0
         startLevel = Math.max(0, startLevel);
 
-        const ancestryOverrides = actor.ancestry
-            ? (this.overrides[actor.ancestry.system.id] ?? [])
-            : [];
-
         return Array.from({ length: endLevel - startLevel }, (_, i) => {
             const index = startLevel + i;
             const rule =
                 this.rules[Math.min(index, this.rules.length - 1)].clone();
             if (index >= this.rules.length) rule.level = index + 1;
 
-            return rule.applyOverrides(ancestryOverrides[index + 1] ?? []);
+            return rule.applyOverrides(
+                this.getRelevantAdvancementOverrides(index + 1, actor),
+            );
         });
     }
 
@@ -363,10 +389,7 @@ export default class AdvancementManager {
         // Get rules up to the given level
         const rules = Array.isArray(levelOrRules)
             ? levelOrRules
-            : AdvancementManager.getAdvancementRulesUpToLevel(
-                  levelOrRules,
-                  actor,
-              );
+            : this.getAdvancementRulesUpToLevel(levelOrRules, actor);
 
         // Calculate the health
         return rules.reduce(
@@ -397,10 +420,7 @@ export default class AdvancementManager {
         // Get rules up to the given level
         const rules = Array.isArray(levelOrRules)
             ? levelOrRules
-            : AdvancementManager.getAdvancementRulesUpToLevel(
-                  levelOrRules,
-                  actor,
-              );
+            : this.getAdvancementRulesUpToLevel(levelOrRules, actor);
 
         // Calculate the attribute points
         return rules.reduce(
@@ -428,10 +448,7 @@ export default class AdvancementManager {
         // Get rules up to the given level
         const rules = Array.isArray(levelOrRules)
             ? levelOrRules
-            : AdvancementManager.getAdvancementRulesUpToLevel(
-                  levelOrRules,
-                  actor,
-              );
+            : this.getAdvancementRulesUpToLevel(levelOrRules, actor);
 
         // Calculate the skill ranks
         return rules.reduce(
@@ -459,10 +476,7 @@ export default class AdvancementManager {
         // Get rules up to the given level
         const rules = Array.isArray(levelOrRules)
             ? levelOrRules
-            : AdvancementManager.getAdvancementRulesUpToLevel(
-                  levelOrRules,
-                  actor,
-              );
+            : this.getAdvancementRulesUpToLevel(levelOrRules, actor);
 
         // Calculate the talents
         return rules.reduce(
@@ -489,10 +503,7 @@ export default class AdvancementManager {
         // Get rules up to the given level
         const rules = Array.isArray(levelOrRules)
             ? levelOrRules
-            : AdvancementManager.getAdvancementRulesUpToLevel(
-                  levelOrRules,
-                  actor,
-              );
+            : this.getAdvancementRulesUpToLevel(levelOrRules, actor);
 
         // Calculate the skill ranks
         return rules.reduce(
