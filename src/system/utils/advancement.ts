@@ -6,9 +6,10 @@ import {
 
 import { CharacterActor } from '@system/documents/actor';
 import { SYSTEM_ID } from '@system/constants';
-import { Attribute, Skill } from '../types/cosmere';
-import { HOOKS } from '../constants/hooks';
-import { AncestryOverrideData } from '../data/item';
+import { Attribute, Skill } from '@system/types/cosmere';
+import { HOOKS } from '@system/constants/hooks';
+import { CosmereItem } from '@system/documents/item';
+import { ItemOverrideData } from '@system/data/item/mixins/overrides-advancement';
 
 export class AdvancementOverride {
     public readonly type: Advancement.OverrideType;
@@ -44,7 +45,7 @@ export class AdvancementOverride {
         }
     }
 
-    static fromAncestryData(data: AncestryOverrideData): AdvancementOverride {
+    static fromItemData(data: ItemOverrideData): AdvancementOverride {
         return new AdvancementOverride({
             type: data.type as Advancement.OverrideType,
             mode: data.mode as Advancement.OverrideMode,
@@ -211,11 +212,8 @@ export class AdvancementRule {
 }
 
 export default class AdvancementManager {
-    static readonly rules: AdvancementRule[] = [];
-    static readonly overrides: Record<
-        string,
-        Record<number, AdvancementOverride[]>
-    > = {};
+    static readonly rules: AdvancementRule[];
+    static readonly overrides: Advancement.OverrideRegistry;
 
     // Rule registration
 
@@ -240,20 +238,47 @@ export default class AdvancementManager {
     public static registerAdvancementOverrides(
         data: AdvancementOverrideConfig,
     ) {
-        Object.keys(data).forEach((ancestry) => {
-            data[ancestry].forEach((overrides, level) => {
-                overrides.forEach((override) => {
-                    this.registerAdvancementOverride(ancestry, level, override);
-                });
-            });
+        // Register global overrides
+        data.global.forEach((override) => {
+            this.registerAdvancementOverride(
+                override.level,
+                override.data,
+                'global',
+            );
+        });
+
+        // Register source overrides
+        data.ancestries.forEach((override) => {
+            this.registerAdvancementOverride(
+                override.level,
+                override.data,
+                'ancestries',
+                override.sourceId,
+            );
+        });
+        data.items.forEach((override) => {
+            this.registerAdvancementOverride(
+                override.level,
+                override.data,
+                'items',
+                override.sourceId,
+            );
         });
     }
 
     public static registerAdvancementOverride(
-        ancestry: string,
         level: number,
         data: Advancement.OverrideData,
+        sourceType: keyof Advancement.OverrideRegistry,
+        sourceId?: string,
     ): boolean {
+        if (sourceType !== 'global' && !sourceId) {
+            console.error(
+                `[${SYSTEM_ID}] Overrides from ${sourceType as string} require an ID`,
+            );
+            return false;
+        }
+
         let override: AdvancementOverride;
         try {
             override = new AdvancementOverride(data);
@@ -266,17 +291,35 @@ export default class AdvancementManager {
             return false;
         }
 
-        const existingOverrides = this.overrides[ancestry] ?? {};
-        const overridesAtLevel = existingOverrides[level] ?? [];
-
-        overridesAtLevel.push(override);
-
-        existingOverrides[level] = overridesAtLevel;
-        this.overrides[ancestry] = existingOverrides;
+        if (sourceType === 'global') {
+            if (this.overrides.global[level])
+                this.overrides.global[level].push(override);
+            else this.overrides.global[level] = [override];
+        } else {
+            if (this.overrides[sourceType][sourceId!][level])
+                this.overrides[sourceType][sourceId!][level].push(override);
+            else this.overrides[sourceType][sourceId!][level] = [override];
+        }
 
         Hooks.callAll(HOOKS.REGISTER_ADVANCEMENT_OVERRIDE, override);
 
         return true;
+    }
+
+    private static _getOverridesFromItem(
+        item: CosmereItem,
+        level: number,
+    ): AdvancementOverride[] {
+        if (!item.hasAdvancementOverrides() || !item.hasId()) return [];
+
+        return item.system
+            .getOverridesAtLevel(level)
+            .map((override) => AdvancementOverride.fromItemData(override))
+            .concat(
+                this.overrides[item.isAncestry() ? 'ancestries' : 'items'][
+                    item.system.id
+                ][level] ?? [],
+            );
     }
 
     /**
@@ -286,22 +329,30 @@ export default class AdvancementManager {
         level: number,
         actor: CharacterActor,
     ): AdvancementOverride[] {
+        // Get any global overrides first
+        let overrides = this.overrides.global[level] ?? [];
+
+        // Get ancestry overrides next
         if (actor.ancestry) {
-            // Prioritize overrides that are innate to the ancestry itself
-            return (
-                actor.ancestry.system
-                    .getOverridesAtLevel(level)
-                    .map((override) =>
-                        AdvancementOverride.fromAncestryData(override),
-                    )
-                    // Then add the registered overrides on top, if any
-                    .concat(
-                        this.overrides[actor.ancestry.system.id][level] ?? [],
-                    )
+            // Start with overrides that are innate to the ancestry itself
+            overrides = overrides.concat(
+                this._getOverridesFromItem(actor.ancestry, level),
             );
         }
 
-        return [];
+        // Get anything from any other items on the actor
+        actor.items
+            .filter((item) => {
+                if (item.isAncestry()) return false;
+                return item.hasAdvancementOverrides();
+            })
+            .forEach((item) => {
+                overrides = overrides.concat(
+                    this._getOverridesFromItem(item, level),
+                );
+            });
+
+        return overrides;
     }
 
     /**

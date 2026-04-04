@@ -1,5 +1,7 @@
 import { Attribute, Skill } from '@system/types/cosmere';
-import { SYSTEM_ID } from '@system/constants';
+import type { AdvancementOverride } from '@system/utils/advancement';
+
+// Overrides
 
 export const enum OverrideType {
     Generic = 'generic',
@@ -94,6 +96,14 @@ export type MaxStatField<T extends MaxStatType> = {
 export type MaxStatFields = {
     [k in keyof MaxStatFieldTypes]: MaxStatField<MaxStatFieldTypes[k]>;
 };
+
+// Types for the Advancement Manager
+export type OverrideSet = Record<number, AdvancementOverride[]>;
+export interface OverrideRegistry {
+    global: OverrideSet;
+    ancestries: Record<string, OverrideSet>;
+    items: Record<string, OverrideSet>;
+}
 
 // Type assertions
 
