@@ -847,7 +847,11 @@ const COSMERE: CosmereRPGConfig = {
                 },
             }, // Level 21
         ],
-        overrides: {},
+        overrides: {
+            global: [],
+            ancestries: [],
+            items: [],
+        },
     },
 
     paths: {

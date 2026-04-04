@@ -289,16 +289,49 @@ export interface AdvancementRuleConfig {
      */
     tier: number;
 
+    /**
+     * The usual fields for advancement which modify
+     * what is granted at this level.
+     */
     fields: Advancement.GenericFields;
 
+    /**
+     * The maximum possible value for a given stat,
+     * split between `attributes` and `skills`, with
+     * general (`base`) values and stat-specific differences.
+     */
     maxStats: Advancement.MaxStatFields;
 }
 
-// Ancestry ids are the keys, Maps of level -> overrides are the values
-export type AdvancementOverrideConfig = Record<
-    string,
-    Map<number, Advancement.OverrideData[]>
->;
+export interface AdvancementOverrideConfig {
+    global: GlobalOverrideConfig[];
+    ancestries: SourceOverrideConfig[];
+    items: SourceOverrideConfig[];
+}
+
+export interface SourceOverrideConfig {
+    /**
+     * The id of the related source, whose presence on an actor indicates
+     * that this override should be applied to their advancement.
+     *
+     * This field should be equivalent not to the document id,
+     * but the system id, e.g. `'human'` for a Human ancestry.
+     */
+    sourceId: string;
+
+    /**
+     * The level at which the override applies.
+     */
+    level: number;
+
+    /**
+     * The actual override data defining its modifications.
+     */
+    data: Advancement.OverrideData;
+}
+
+// Global overrides are completely sourceless, and apply to actors universally
+export type GlobalOverrideConfig = Omit<SourceOverrideConfig, 'sourceId'>;
 
 export type AttributeScale<T extends string = string> = {
     formula: T;
