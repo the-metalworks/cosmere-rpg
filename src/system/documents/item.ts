@@ -371,12 +371,42 @@ export class CosmereItem<
 
     /* --- Accessors --- */
 
+    public get isActivatable(): boolean {
+        if (this.type !== ItemType.Action) return true;
+
+        const embeddedConfig = (this.constructor as typeof CosmereItem).metadata
+            .embeddedConfig;
+        const configForType =
+            embeddedConfig[this.type] ?? embeddedConfig.base ?? {};
+
+        if (configForType.Item === false) return false;
+
+        const actionConfig =
+            configForType.Item!.action ?? configForType.Item!.base ?? true;
+
+        return actionConfig !== false;
+    }
+
     public get hasActions(): boolean {
         return this.actions.length > 0;
     }
 
     public get actions(): readonly ActionItem[] {
         return this.items.filter((item) => item.isAction());
+    }
+
+    /**
+     * Whether or not this action is the default activation for its parent item.
+     * Only available for action items that are embedded in other items.
+     */
+    public get isDefaultActivation(): boolean {
+        if (
+            !this.isAction() ||
+            !this.parent ||
+            !(this.parent instanceof CosmereItem)
+        )
+            return false;
+        return this.parent.actions.at(0)?.id === this.id;
     }
 
     /**

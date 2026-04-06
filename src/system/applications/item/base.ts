@@ -15,6 +15,9 @@ import {
 } from '@system/types/utils';
 import { renderSystemTemplate, TEMPLATES } from '@src/system/utils/templates';
 
+// Data
+import { ActionItemDataModel } from '@system/data/item';
+
 // Mixins
 import { ComponentHandlebarsApplicationMixin } from '@system/applications/component-system';
 import {
@@ -22,7 +25,6 @@ import {
     TabApplicationRenderOptions,
 } from '@system/applications/mixins';
 import { DescriptionItemData } from '@src/system/data/item/mixins/description';
-import { ItemConsumeData } from '@src/system/data/item/mixins/activatable';
 import { SYSTEM_ID } from '@src/system/constants';
 
 const { ItemSheetV2 } = foundry.applications.sheets;
@@ -129,7 +131,8 @@ export class BaseItemSheet extends TabsApplicationMixin(
             }
         }
 
-        if (this.item.hasActivation()) {
+        if (this.item.isAction()) {
+            // TODO: Refactor to use new resources
             if (
                 'system.activation.uses.type' in formData.object &&
                 formData.object['system.activation.uses.type'] === NONE
@@ -139,9 +142,9 @@ export class BaseItemSheet extends TabsApplicationMixin(
             // Handle consumption
             const consumption = this.getUpdatedConsumption(formData);
             if (consumption.length === 0) {
-                formData.set('system.activation.consume', null);
+                formData.set('system.activation.consumption', null);
             } else {
-                formData.set('system.activation.consume', consumption);
+                formData.set('system.activation.consumption', consumption);
             }
         }
 
@@ -416,11 +419,11 @@ export class BaseItemSheet extends TabsApplicationMixin(
      */
     private getUpdatedConsumption(
         formData: FormDataExtended,
-    ): ItemConsumeData[] {
+    ): ActionItemDataModel.ConsumeData[] {
         const consumeData = new Map<number, AnyMutableObject>();
 
         const consumeFormKeys = Object.keys(formData.object).filter((k) =>
-            k.startsWith('system.activation.consume'),
+            k.startsWith('system.activation.consumption'),
         );
 
         // Track removed options, to ensure a later key doesn't recreate
@@ -516,6 +519,6 @@ export class BaseItemSheet extends TabsApplicationMixin(
             .sort(([a], [b]) => {
                 return a - b;
             })
-            .map(([_, v]) => v as unknown as ItemConsumeData);
+            .map(([_, v]) => v as unknown as ActionItemDataModel.ConsumeData);
     }
 }
