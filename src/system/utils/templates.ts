@@ -28,6 +28,7 @@ export const TEMPLATES = {
     ACTOR_BASE_BOX_CORNERS: 'actors/parts/box-corners.hbs',
     ACTOR_BASE_SEARCH_BAR: 'actors/components/search-bar.hbs',
     ACTOR_BASE_ACTIONS_LIST: 'actors/components/actions-list.hbs',
+    ACTOR_BASE_ACTIONS_LIST_ENTRY: 'actors/components/actions-list-entry.hbs',
     ACTOR_BASE_EFFECTS_LIST: 'actors/components/effects-list.hbs',
     ACTOR_BASE_EQUIPMENT_LIST: 'actors/components/equipment-list.hbs',
     ACTOR_BASE_INJURIES_LIST: 'actors/components/injuries-list.hbs',
@@ -96,6 +97,7 @@ export const TEMPLATES = {
     ITEM_EFFECTS_TAB: 'item/partials/item-effects-tab.hbs',
     ITEM_DETAILS_TAB: 'item/partials/item-details-tab.hbs',
     ITEM_EVENTS_TAB: 'item/partials/item-events-tab.hbs',
+    ITEM_ACTIONS_TAB: 'item/partials/item-actions-tab.hbs',
 
     ITEM_INJURY_DETAILS_TAB: 'item/injury/partials/injury-details-tab.hbs',
     ITEM_TALENTS_TAB: 'item/partials/item-talents-tab.hbs',
@@ -128,6 +130,7 @@ export const TEMPLATES = {
 
     ITEM_EFFECTS_LIST: 'item/components/effects-list.hbs',
     ITEM_EVENT_RULES_LIST: 'item/components/event-rules-list.hbs',
+    ITEM_ACTIONS_LIST: 'item/components/actions-list.hbs',
 
     ITEM_ANCESTRY_TALENT_LIST:
         'item/ancestry/components/advancement-talent-list.hbs',
@@ -218,7 +221,10 @@ export function renderSystemTemplate(
     template: string,
     data: AnyObject,
 ): Promise<string> {
-    return foundry.applications.handlebars.renderTemplate(`systems/${SYSTEM_ID}/templates/${template}`, data);
+    return foundry.applications.handlebars.renderTemplate(
+        `systems/${SYSTEM_ID}/templates/${template}`,
+        data,
+    );
 }
 
 export const THEME_TAG = 'cosmere-theme';

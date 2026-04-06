@@ -14,7 +14,7 @@ import {
 } from '@system/types/application/actor/components/item-list';
 
 // Documents
-import { CosmereItem } from '@system/documents/item';
+import { CosmereItem, ActionItem } from '@system/documents/item';
 import { CosmereActor } from '@system/documents/actor';
 import { ItemRelationship } from '@system/data/item/mixins/relationships';
 
@@ -39,8 +39,8 @@ interface AdditionalItemData {
     descriptionHTML?: string;
 }
 
-interface ItemListSectionData extends ItemListSection {
-    items: CosmereItem[];
+interface ActionListSectionData extends ItemListSection {
+    items: (ActionItem | [CosmereItem, ActionItem[]])[]; // Either an action item, or a parent item with its actions
     itemData: Record<string, AdditionalItemData>;
 }
 
@@ -61,24 +61,6 @@ export const STATIC_SECTIONS: Record<string, ItemListSection> = {
         itemTypeLabel: 'COSMERE.Item.Type.Weapon.label_action',
         default: false,
         filter: (item: CosmereItem) => item.isWeapon(),
-        new: (parent: CosmereActor) =>
-            CosmereItem.create(
-                {
-                    type: ItemType.Weapon,
-                    name: game.i18n.localize('COSMERE.Item.Type.Weapon.New'),
-                    system: {
-                        activation: {
-                            type: ActivationType.SkillTest,
-                            cost: {
-                                type: ActionCostType.Action,
-                                value: 1,
-                            },
-                        },
-                        equipped: true,
-                    },
-                },
-                { parent },
-            ),
     },
     armor: {
         id: 'armor',
@@ -87,23 +69,6 @@ export const STATIC_SECTIONS: Record<string, ItemListSection> = {
         itemTypeLabel: 'COSMERE.Item.Type.Armor.label_action',
         default: false,
         filter: (item: CosmereItem) => item.isArmor(),
-        new: (parent: CosmereActor) =>
-            CosmereItem.create(
-                {
-                    type: ItemType.Equipment,
-                    name: game.i18n.localize('COSMERE.Item.Type.Armor.New'),
-                    system: {
-                        activation: {
-                            type: ActivationType.Utility,
-                            cost: {
-                                type: ActionCostType.Action,
-                                value: 1,
-                            },
-                        },
-                    },
-                },
-                { parent },
-            ) as Promise<CosmereItem>,
     },
     equipment: {
         id: 'equipment',
@@ -112,23 +77,6 @@ export const STATIC_SECTIONS: Record<string, ItemListSection> = {
         itemTypeLabel: 'COSMERE.Item.Type.Equipment.label_action',
         default: false,
         filter: (item: CosmereItem) => item.isEquipment(),
-        new: (parent: CosmereActor) =>
-            CosmereItem.create(
-                {
-                    type: ItemType.Equipment,
-                    name: game.i18n.localize('COSMERE.Item.Type.Equipment.New'),
-                    system: {
-                        activation: {
-                            type: ActivationType.Utility,
-                            cost: {
-                                type: ActionCostType.Action,
-                                value: 1,
-                            },
-                        },
-                    },
-                },
-                { parent },
-            ) as Promise<CosmereItem>,
     },
     'basic-actions': {
         id: 'basic-actions',
@@ -137,14 +85,14 @@ export const STATIC_SECTIONS: Record<string, ItemListSection> = {
         itemTypeLabel: 'COSMERE.Item.Action.Type.Basic.label',
         default: true,
         filter: (item: CosmereItem) =>
-            item.isAction() && item.system.type === ActionType.Basic,
+            item.isAction() && !(item.parent instanceof CosmereItem),
         new: (parent: CosmereActor) =>
             CosmereItem.create(
                 {
                     type: ItemType.Action,
                     name: game.i18n.localize('COSMERE.Item.Type.Action.New'),
                     system: {
-                        type: ActionType.Basic,
+                        // type: ActionType.Basic,
                         activation: {
                             type: ActivationType.Utility,
                             cost: {
@@ -272,14 +220,11 @@ export const DYNAMIC_SECTIONS: Record<string, DynamicItemListSectionGenerator> =
                     itemTypeLabel: `${ancestry.name} ${game.i18n?.localize('COSMERE.Item.Type.Action.label')}`,
                     default: false,
                     filter: (item: CosmereItem) =>
-                        (item.hasRelationships() &&
-                            item.isRelatedTo(
-                                ancestry,
-                                ItemRelationship.Type.Parent,
-                            )) ||
-                        (item.isAction() &&
-                            item.system.type === ActionType.Ancestry &&
-                            item.system.ancestry === ancestry.system.id),
+                        item.hasRelationships() &&
+                        item.isRelatedTo(
+                            ancestry,
+                            ItemRelationship.Type.Parent,
+                        ),
                     new: (parent: CosmereActor) =>
                         CosmereItem.create(
                             {
@@ -325,8 +270,6 @@ any> {
      */
     /* eslint-disable @typescript-eslint/unbound-method */
     static readonly ACTIONS = {
-        'toggle-action-details': this.onToggleActionDetails,
-        'use-item': this.onUseItem,
         'new-item': this.onNewItem,
     };
     /* eslint-enable @typescript-eslint/unbound-method */
@@ -339,41 +282,6 @@ any> {
     protected itemState: Record<string, ActionItemState> = {};
 
     /* --- Actions --- */
-
-    public static onToggleActionDetails(
-        this: ActorActionsListComponent,
-        event: Event,
-    ) {
-        // Get item element
-        const itemElement = $(event.target!).closest('.item[data-item-id]');
-
-        // Get item id
-        const itemId = itemElement.data('item-id') as string;
-
-        // Update the state
-        this.itemState[itemId].expanded = !this.itemState[itemId].expanded;
-
-        // Set classes
-        itemElement.toggleClass('expanded', this.itemState[itemId].expanded);
-
-        itemElement
-            .find('a[data-action="toggle-action-details"')
-            .empty()
-            .append(
-                this.itemState[itemId].expanded
-                    ? '<i class="fa-solid fa-compress"></i>'
-                    : '<i class="fa-solid fa-expand"></i>',
-            );
-    }
-
-    public static onUseItem(this: ActorActionsListComponent, event: Event) {
-        // Get item
-        const item = AppUtils.getItemFromEvent(event, this.application.actor);
-        if (!item) return;
-
-        // Use the item
-        void this.application.actor.useItem(item);
-    }
 
     private static async onNewItem(
         this: ActorActionsListComponent,
@@ -402,18 +310,17 @@ any> {
         params: unknown,
         context: ActorActionsListComponentRenderContext,
     ) {
-        // Get all activatable items (actions & items with an associated action)
-        const activatableItems = this.application.actor.items
-            .filter((item) => item.hasActivation())
-            .filter(
-                (item) =>
-                    !item.isEquippable() ||
-                    item.system.equipped ||
-                    item.system.alwaysEquipped,
-            );
+        // Get all activatable items (actions and items with actions)
+        const activatableItems = Array.from(
+            this.application.actor.items,
+        ).filter((item) => item.isAction() || item.hasActions);
 
-        // Ensure all items have an expand state record
-        activatableItems.forEach((item) => {
+        const actions = activatableItems.flatMap((item) =>
+            item.isAction() ? [item] : item.actions,
+        );
+
+        // Ensure all actions have an expand state record
+        actions.forEach((item) => {
             if (!(item.id! in this.itemState)) {
                 this.itemState[item.id!] = {
                     expanded: false,
@@ -469,7 +376,7 @@ any> {
         items: CosmereItem[],
         searchText: string,
         sort: SortMode,
-    ): Promise<ItemListSectionData[]> {
+    ): Promise<ActionListSectionData[]> {
         // Filter items into sections, putting all items that don't fit into a section into a "Misc" section
         const itemsBySectionId = items.reduce(
             (result, item) => {
@@ -501,6 +408,17 @@ any> {
                     );
                 }
 
+                const sectionActions = sectionItems.map((item) =>
+                    item.isAction()
+                        ? item
+                        : item.actions.length === 1
+                          ? item.actions[0]
+                          : ([item, item.actions] as [
+                                CosmereItem,
+                                ActionItem[],
+                            ]),
+                );
+
                 return {
                     ...section,
                     canAddNewItems: !!section.new,
@@ -517,14 +435,19 @@ any> {
                                   ),
                               },
                           ),
-                    items: sectionItems,
-                    itemData: await this.prepareItemData(sectionItems),
+                    items: sectionActions,
+                    itemData: await this.prepareItemData(
+                        sectionActions
+                            .flat()
+                            .flat()
+                            .filter((item) => item.isAction()),
+                    ),
                 };
             }),
         );
     }
 
-    protected async prepareItemData(items: CosmereItem[]) {
+    protected async prepareItemData(items: ActionItem[]) {
         return await items.reduce(
             async (prev, item) => ({
                 ...(await prev),
@@ -534,8 +457,8 @@ any> {
                               descriptionHTML: await TextEditor.enrichHTML(
                                   item.system.description.value,
                                   {
-                                      relativeTo: (item as CosmereItem).system
-                                          .parent as foundry.abstract.Document.Any,
+                                      relativeTo: (item as ActionItem).system
+                                          .parent,
                                   },
                               ),
                           }
@@ -554,13 +477,16 @@ any> {
             AppContextMenu.create({
                 parent: this as AppContextMenu.Parent,
                 items: (element) => {
-                    // Get item id
-                    const itemId = $(element)
-                        .closest('.item[data-item-id]')
-                        .data('item-id') as string;
+                    console.log('AppContextMenu items callback', { element });
+
+                    // Get item uuid
+                    const itemUuid = $(element)
+                        .closest('.item[data-item-uuid]')
+                        .data('item-uuid') as string;
 
                     // Get item
-                    const item = this.application.actor.items.get(itemId)!;
+                    const item = fromUuidSync(itemUuid) as CosmereItem;
+                    if (!item) return [];
 
                     return [
                         /**

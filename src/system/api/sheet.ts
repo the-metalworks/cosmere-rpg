@@ -1,4 +1,4 @@
-import {
+import type {
     ItemListSection,
     DynamicItemListSectionGenerator,
 } from '@system/types/application/actor/components/item-list';

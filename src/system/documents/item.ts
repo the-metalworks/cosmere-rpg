@@ -145,9 +145,6 @@ class _Item<
     // @ts-expect-error Explicitly declare to get proper typing
     declare sheet: BaseItemSheet | null;
 
-    // @ts-expect-error Overriden by system embedded collections
-    declare parent: CosmereActor | CosmereItem | null;
-
     declare items: foundry.abstract.EmbeddedCollection<CosmereItem, this>;
 
     public get actor(): CosmereActor | null {
