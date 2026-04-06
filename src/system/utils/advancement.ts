@@ -19,6 +19,7 @@ export class AdvancementOverride {
         | Advancement.MaxStatFieldKey;
     public readonly stat?: Advancement.MaxStatType;
     public readonly value: Advancement.OverrideFieldType;
+    public readonly priority: number;
 
     constructor(data: Advancement.OverrideData) {
         // Validate incoming data for the given override type
@@ -39,6 +40,7 @@ export class AdvancementOverride {
         this.mode = data.mode;
         this.key = data.key;
         this.value = data.value;
+        this.priority = data.priority ?? 0;
 
         if (data.type === Advancement.OverrideType.Maximum) {
             this.stat = data.stat;
@@ -292,13 +294,20 @@ export default class AdvancementManager {
         }
 
         if (sourceType === 'global') {
-            if (this.overrides.global[level])
-                this.overrides.global[level].push(override);
-            else this.overrides.global[level] = [override];
+            if (this.overrides.global[level]) {
+                this._insertOverride(override, this.overrides.global[level]);
+            } else {
+                this.overrides.global[level] = [override];
+            }
         } else {
-            if (this.overrides[sourceType][sourceId!][level])
-                this.overrides[sourceType][sourceId!][level].push(override);
-            else this.overrides[sourceType][sourceId!][level] = [override];
+            if (this.overrides[sourceType][sourceId!][level]) {
+                this._insertOverride(
+                    override,
+                    this.overrides[sourceType][sourceId!][level],
+                );
+            } else {
+                this.overrides[sourceType][sourceId!][level] = [override];
+            }
         }
 
         Hooks.callAll(HOOKS.REGISTER_ADVANCEMENT_OVERRIDE, override);
@@ -561,5 +570,30 @@ export default class AdvancementManager {
             (choices, rule) => choices + (rule.fields.skillRanksOrTalents ?? 0),
             0,
         );
+    }
+
+    // Helpers
+
+    /**
+     * Helper function to insert an override into a list based on priority.
+     * Lower priority comes first (higher priority overrides assert their
+     * changes later).
+     */
+    private static _insertOverride(
+        override: AdvancementOverride,
+        list: AdvancementOverride[],
+    ) {
+        if (list.length === 0) {
+            list.push(override);
+            return;
+        }
+
+        // Insert after all other identical priorities
+        let i = 0;
+        while (i < list.length && list[i].priority <= override.priority) {
+            i++;
+        }
+
+        list.splice(i, 0, override);
     }
 }

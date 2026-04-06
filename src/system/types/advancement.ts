@@ -34,6 +34,7 @@ export interface OverrideData {
     mode: OverrideMode;
     key: GenericFieldKey | MaxStatFieldKey;
     value: OverrideFieldType;
+    priority?: number;
 }
 
 export interface GenericOverrideData extends OverrideData {
