@@ -50,9 +50,11 @@ export type OverridesAdvancementData =
 export type ItemOverrideData =
     OverridesAdvancementData['advancement']['overrides'][number];
 
-export interface OverridesAdvancementDerivedData {
+// NOTE: Have to explicitly use a type here instead of an interface to comply with DataSchema type
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+export type OverridesAdvancementDerivedData = {
     getOverridesAtLevel(level: number): ItemOverrideData[];
-}
+};
 
 export function OverridesAdvancementMixin<
     TParent extends foundry.abstract.Document.Any,
