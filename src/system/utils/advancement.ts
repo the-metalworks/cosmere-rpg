@@ -15,7 +15,7 @@ export class AdvancementOverride {
     public readonly type: Advancement.OverrideType;
     public readonly mode: Advancement.OverrideMode;
     public readonly key:
-        | Advancement.GenericFieldKey
+        | Advancement.GrantsFieldKey
         | Advancement.MaxStatFieldKey;
     public readonly stat?: Advancement.MaxStatType;
     public readonly value: Advancement.OverrideFieldType;
@@ -24,10 +24,10 @@ export class AdvancementOverride {
     constructor(data: Advancement.OverrideData) {
         // Validate incoming data for the given override type
         switch (data.type) {
-            case Advancement.OverrideType.Generic:
-                Advancement.assertValidGenericOverride(data);
+            case Advancement.OverrideType.Grants:
+                Advancement.assertValidGrantsOverride(data);
                 break;
-            case Advancement.OverrideType.Maximum:
+            case Advancement.OverrideType.MaxStat:
                 Advancement.assertValidMaximumOverride(data);
                 break;
             default:
@@ -42,7 +42,7 @@ export class AdvancementOverride {
         this.value = data.value;
         this.priority = data.priority ?? 0;
 
-        if (data.type === Advancement.OverrideType.Maximum) {
+        if (data.type === Advancement.OverrideType.MaxStat) {
             this.stat = data.stat;
         }
     }
@@ -52,10 +52,10 @@ export class AdvancementOverride {
             type: data.type as Advancement.OverrideType,
             mode: data.mode as Advancement.OverrideMode,
             key: data.key as
-                | Advancement.GenericFieldKey
+                | Advancement.GrantsFieldKey
                 | Advancement.MaxStatFieldKey,
             value: data.value as Advancement.OverrideFieldType,
-            ...(data.type === Advancement.OverrideType.Maximum
+            ...(data.type === Advancement.OverrideType.MaxStat
                 ? {
                       stat: data.stat as Advancement.MaxStatType,
                   }
@@ -70,26 +70,26 @@ export class AdvancementOverride {
      */
     public apply(rule: AdvancementRule): AdvancementRule {
         switch (this.type) {
-            case Advancement.OverrideType.Generic:
-                return this._applyGeneric(rule);
-            case Advancement.OverrideType.Maximum:
+            case Advancement.OverrideType.Grants:
+                return this._applyGrants(rule);
+            case Advancement.OverrideType.MaxStat:
                 return this._applyMaximum(rule);
         }
     }
 
     /**
-     * Apply this override's data to a given rule's generic field
+     * Apply this override's data to a given rule's grant fields
      */
-    private _applyGeneric(rule: AdvancementRule): AdvancementRule {
-        const key = this.key as Advancement.GenericFieldKey;
+    private _applyGrants(rule: AdvancementRule): AdvancementRule {
+        const key = this.key as Advancement.GrantsFieldKey;
         const updatedValue =
             this.mode === Advancement.OverrideMode.Absolute
                 ? this.value
                 : // Relative overrides must be numeric. This is asserted in the constructor,
                   // so we can safely assume that here.
-                  (this.value as number) + ((rule.fields[key] as number) ?? 0);
-        rule.fields = {
-            ...rule.fields,
+                  (this.value as number) + ((rule.grants[key] as number) ?? 0);
+        rule.grants = {
+            ...rule.grants,
             [key]: updatedValue,
         };
 
@@ -123,13 +123,13 @@ export class AdvancementOverride {
 export class AdvancementRule {
     public level: number;
     public tier: number;
-    public fields: Advancement.GenericFields;
+    public grants: Advancement.GrantsFields;
     public maxStats: Advancement.MaxStatFields;
 
     constructor(data: AdvancementRuleConfig) {
         this.level = data.level;
         this.tier = data.tier;
-        this.fields = data.fields;
+        this.grants = data.grants;
         this.maxStats = data.maxStats;
     }
 
@@ -202,8 +202,8 @@ export class AdvancementRule {
         return new AdvancementRule({
             level: this.level,
             tier: this.tier,
-            fields: {
-                ...this.fields,
+            grants: {
+                ...this.grants,
             },
             maxStats: {
                 attributes: { ...this.maxStats.attributes },
@@ -455,8 +455,8 @@ export default class AdvancementManager {
         return rules.reduce(
             (health, rule) =>
                 health +
-                (rule.fields.health ?? 0) +
-                (rule.fields.healthIncludeStrength ? strength : 0),
+                (rule.grants.health ?? 0) +
+                (rule.grants.healthIncludeStrength ? strength : 0),
             0,
         );
     }
@@ -484,7 +484,7 @@ export default class AdvancementManager {
 
         // Calculate the attribute points
         return rules.reduce(
-            (points, rule) => points + (rule.fields.attributePoints ?? 0),
+            (points, rule) => points + (rule.grants.attributePoints ?? 0),
             0,
         );
     }
@@ -512,7 +512,7 @@ export default class AdvancementManager {
 
         // Calculate the skill ranks
         return rules.reduce(
-            (ranks, rule) => ranks + (rule.fields.skillRanks ?? 0),
+            (ranks, rule) => ranks + (rule.grants.skillRanks ?? 0),
             0,
         );
     }
@@ -540,7 +540,7 @@ export default class AdvancementManager {
 
         // Calculate the talents
         return rules.reduce(
-            (talents, rule) => talents + (rule.fields.talents ?? 0),
+            (talents, rule) => talents + (rule.grants.talents ?? 0),
             0,
         );
     }
@@ -567,7 +567,7 @@ export default class AdvancementManager {
 
         // Calculate the skill ranks
         return rules.reduce(
-            (choices, rule) => choices + (rule.fields.skillRanksOrTalents ?? 0),
+            (choices, rule) => choices + (rule.grants.skillRanksOrTalents ?? 0),
             0,
         );
     }

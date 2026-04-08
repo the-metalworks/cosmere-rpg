@@ -293,7 +293,7 @@ export interface AdvancementRuleConfig {
      * The usual fields for advancement which modify
      * what is granted at this level.
      */
-    fields: Advancement.GenericFields;
+    grants: Advancement.GrantsFields;
 
     /**
      * The maximum possible value for a given stat,

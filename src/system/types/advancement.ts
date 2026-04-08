@@ -4,8 +4,8 @@ import type { AdvancementOverride } from '@system/utils/advancement';
 // Overrides
 
 export const enum OverrideType {
-    Generic = 'generic',
-    Maximum = 'maximum',
+    Grants = 'grants',
+    MaxStat = 'max_stat',
 }
 
 export const enum OverrideMode {
@@ -32,24 +32,24 @@ export interface FieldTypeToOverrideType
 export interface OverrideData {
     type: OverrideType;
     mode: OverrideMode;
-    key: GenericFieldKey | MaxStatFieldKey;
+    key: GrantsFieldKey | MaxStatFieldKey;
     value: OverrideFieldType;
     priority?: number;
 }
 
-export interface GenericOverrideData extends OverrideData {
-    type: OverrideType.Generic;
-    key: GenericFieldKey;
+export interface GrantsOverrideData extends OverrideData {
+    type: OverrideType.Grants;
+    key: GrantsFieldKey;
 }
 
-export interface MaxOverrideData extends OverrideData {
-    type: OverrideType.Maximum;
+export interface MaxStatOverrideData extends OverrideData {
+    type: OverrideType.MaxStat;
     key: MaxStatFieldKey;
     stat?: MaxStatType;
     value: number;
 }
 
-export enum GenericFieldKey {
+export enum GrantsFieldKey {
     Health = 'health',
     HealthIncludeStrength = 'healthIncludeStrength',
     AttributePoints = 'attributePoints',
@@ -59,23 +59,23 @@ export enum GenericFieldKey {
 }
 
 /**
- * Living list of the fields that can be overridden on a generic basis
+ * Living list of the advancement rule grants that can be overridden
  */
-export const GENERIC_FIELD_TYPES = {
-    [GenericFieldKey.Health]: FieldType.Numeric,
-    [GenericFieldKey.HealthIncludeStrength]: FieldType.Boolean,
-    [GenericFieldKey.AttributePoints]: FieldType.Numeric,
-    [GenericFieldKey.SkillRanks]: FieldType.Numeric,
-    [GenericFieldKey.Talents]: FieldType.Numeric,
-    [GenericFieldKey.SkillRanksOrTalents]: FieldType.Numeric,
+export const GRANTS_FIELD_TYPES = {
+    [GrantsFieldKey.Health]: FieldType.Numeric,
+    [GrantsFieldKey.HealthIncludeStrength]: FieldType.Boolean,
+    [GrantsFieldKey.AttributePoints]: FieldType.Numeric,
+    [GrantsFieldKey.SkillRanks]: FieldType.Numeric,
+    [GrantsFieldKey.Talents]: FieldType.Numeric,
+    [GrantsFieldKey.SkillRanksOrTalents]: FieldType.Numeric,
 } as const;
 
 /**
  * Automatically map the above fields to the proper OverrideFieldType
  * Not all fields need to be present at a given time
  */
-export type GenericFields = Partial<{
-    -readonly [k in keyof typeof GENERIC_FIELD_TYPES]: FieldTypeToOverrideType[(typeof GENERIC_FIELD_TYPES)[k]];
+export type GrantsFields = Partial<{
+    -readonly [k in keyof typeof GRANTS_FIELD_TYPES]: FieldTypeToOverrideType[(typeof GRANTS_FIELD_TYPES)[k]];
 }>;
 
 export enum MaxStatFieldKey {
@@ -108,16 +108,16 @@ export interface OverrideRegistry {
 
 // Type assertions
 
-export function assertValidGenericOverride(
+export function assertValidGrantsOverride(
     data: OverrideData,
-): asserts data is GenericOverrideData {
+): asserts data is GrantsOverrideData {
     if (
-        data.type !== OverrideType.Generic ||
-        !Object.values<string>(GenericFieldKey).includes(data.key)
+        data.type !== OverrideType.Grants ||
+        !Object.values<string>(GrantsFieldKey).includes(data.key)
     )
-        throw new Error(`cannot create generic override for ${data.key}`);
+        throw new Error(`cannot create grants override for ${data.key}`);
 
-    const fieldType = GENERIC_FIELD_TYPES[data.key as GenericFieldKey];
+    const fieldType = GRANTS_FIELD_TYPES[data.key as GrantsFieldKey];
     switch (fieldType) {
         case FieldType.Boolean:
             return assertBooleanOverride(data.value);
@@ -128,14 +128,14 @@ export function assertValidGenericOverride(
 
 export function assertValidMaximumOverride(
     data: OverrideData,
-): asserts data is MaxOverrideData {
+): asserts data is MaxStatOverrideData {
     if (
-        data.type !== OverrideType.Maximum ||
+        data.type !== OverrideType.MaxStat ||
         !Object.values<string>(MaxStatFieldKey).includes(data.key)
     )
         throw new Error(`cannot create max stat override for ${data.key}`);
 
-    const maxData = data as MaxOverrideData;
+    const maxData = data as MaxStatOverrideData;
 
     // If no specific state was specified, we'll treat it as the base value
     // Otherwise, assert that it exists within the system
