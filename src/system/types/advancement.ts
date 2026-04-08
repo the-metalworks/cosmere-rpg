@@ -5,7 +5,7 @@ import type { AdvancementOverride } from '@system/utils/advancement';
 
 export const enum OverrideType {
     Grants = 'grants',
-    MaxStat = 'max_stat',
+    MaxStat = 'max-stat',
 }
 
 export const enum OverrideMode {
