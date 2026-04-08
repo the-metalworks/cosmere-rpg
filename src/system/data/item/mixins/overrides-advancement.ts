@@ -13,8 +13,8 @@ const SCHEMA = () => ({
                 type: new foundry.data.fields.StringField({
                     required: true,
                     choices: [
-                        Advancement.OverrideType.Generic,
-                        Advancement.OverrideType.Maximum,
+                        Advancement.OverrideType.Grants,
+                        Advancement.OverrideType.MaxStat,
                     ],
                 }),
                 mode: new foundry.data.fields.StringField({
@@ -27,7 +27,7 @@ const SCHEMA = () => ({
                 key: new foundry.data.fields.StringField({
                     required: true,
                     choices: ([] as string[])
-                        .concat(Object.values(Advancement.GenericFieldKey))
+                        .concat(Object.values(Advancement.GrantsFieldKey))
                         .concat(Object.values(Advancement.MaxStatFieldKey)),
                 }),
                 stat: new foundry.data.fields.StringField({
