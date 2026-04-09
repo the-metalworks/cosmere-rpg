@@ -80,6 +80,12 @@ export function isCRUDRequest(
 /* --- Transforms - Request --- */
 
 /**
+ * 1. Host document -> The real foundry document that ultimately contains the system embedded document (possibly via multiple levels of embedding)
+ * 2. Parent document -> The immediate parent document that directly contains the system embedded document
+ * 3. System embedded document -> The document inside the system embedded collection
+ */
+
+/**
  * Transforms a client socket request for a system embedded collection document
  * into an update request on the parent document, that the backend can process.
  */
@@ -95,24 +101,6 @@ export function transformRequest(
 export async function transformRequest(
     inRequest: DocumentSocketRequest,
 ): Promise<DocumentSocketRequest> {
-    // if (isGetRequest(inRequest)) {
-    //     return transformGetRequest(inRequest);
-    // } else if (isCreateRequest(inRequest)) {
-    //     return transformCreateRequest(inRequest);
-    // } else if (isUpdateRequest(inRequest)) {
-    //     return transformUpdateRequest(inRequest);
-    // } else if (isDeleteRequest(inRequest)) {
-    //     return transformDeleteRequest(inRequest);
-    // }
-
-    // throw new Error(`Unsupported Database Action: ${inRequest.action}`);
-
-    /**
-     * 1. Host document -> The real foundry document that ultimately contains the system embedded document (possibly via multiple levels of embedding)
-     * 2. Parent document -> The immediate parent document that directly contains the system embedded document
-     * 3. System embedded document -> The document inside the system embedded collection
-     */
-
     if (isGetRequest(inRequest)) {
         return transformGetRequest(inRequest);
     } else if (isCRUDRequest(inRequest)) {
