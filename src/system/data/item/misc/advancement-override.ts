@@ -1,4 +1,4 @@
-import * as Advancement from '@system/types/advancement';
+import { Advancement } from '@system/types/advancement';
 
 const SCHEMA = () => ({
     priority: new foundry.data.fields.NumberField({

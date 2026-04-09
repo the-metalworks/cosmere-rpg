@@ -1,6 +1,5 @@
 // Types
 import { Resource } from '@system/types/cosmere';
-import { DeepPartial, AnyObject, EmptyObject } from '@system/types/utils';
 
 import {
     CommonActorDataModel,
@@ -9,7 +8,7 @@ import {
 } from './common';
 
 // Fields
-import { DerivedValueField, Derived, MappingField } from '../fields';
+import { DerivedValueField } from '../fields';
 
 // Advancement
 import {
@@ -17,7 +16,8 @@ import {
     AdvancementOverrideDataModel,
 } from '../item/misc/advancement-override';
 import AdvancementManager from '@src/system/utils/advancement';
-import { MaxStatFieldKey } from '@src/system/types/advancement';
+import { Advancement } from '@src/system/types/advancement';
+import { CharacterActor } from '@src/system/documents';
 
 const SCHEMA = () => ({
     /* --- Advancement --- */
@@ -96,7 +96,7 @@ export class CharacterActorDataModel extends CommonActorDataModel<
         const advancementRules =
             AdvancementManager.getAdvancementRulesUpToLevel(
                 this.advancement.level,
-                this.advancement.overrides,
+                this.parent as CharacterActor,
             );
         const currentAdvancementRule =
             advancementRules[advancementRules.length - 1];
@@ -106,7 +106,9 @@ export class CharacterActorDataModel extends CommonActorDataModel<
 
         // Derive the maximum skill rank
         this.maxSkillRank =
-            currentAdvancementRule.maxStats[MaxStatFieldKey.Skills].base;
+            currentAdvancementRule.maxStats[
+                Advancement.MaxStatFieldKey.Skills
+            ].base;
     }
 
     public override prepareSecondaryDerivedData(): void {
@@ -114,7 +116,7 @@ export class CharacterActorDataModel extends CommonActorDataModel<
         const advancementRules =
             AdvancementManager.getAdvancementRulesUpToLevel(
                 this.advancement.level,
-                this.advancement.overrides,
+                this.parent as CharacterActor,
             );
 
         // Derive the recovery die based on the character's willpower
@@ -125,7 +127,7 @@ export class CharacterActorDataModel extends CommonActorDataModel<
             AdvancementManager.deriveMaxHealth(
                 advancementRules,
                 this.attributes.str.value, // Should only be the value, not include the bonus
-                this.advancement.overrides,
+                this.parent as CharacterActor,
             );
 
         // Derive max focus
@@ -143,9 +145,9 @@ export class CharacterActorDataModel extends CommonActorDataModel<
     public getAdvancementOverridesAtLevel(
         level: number,
     ): AdvancementOverrideData[] {
-        return this.advancement.overrides
-            .filter((override) => override.level === level)
-            .sort((a, b) => a.priority - b.priority);
+        return this.advancement.overrides.filter(
+            (override) => override.level === level,
+        );
     }
 }
 

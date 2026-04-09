@@ -1,10 +1,11 @@
-import { SYSTEM_ID } from '@src/system/constants';
+import { SYSTEM_ID } from '@system/constants';
 import {
     AdvancementOverrideData,
     AdvancementOverrideDataModel,
-} from '@src/system/data/item/misc/advancement-override';
-import * as Advancement from '@src/system/types/advancement';
-import { Event, HandlerType } from '@src/system/types/item/event-system';
+} from '@system/data/item/misc/advancement-override';
+import { Advancement } from '@system/types/advancement';
+import { Event, HandlerType } from '@system/types/item/event-system';
+import AdvancementManager from '@system/utils/advancement';
 
 interface GrantAdvancementOverridesHandlerConfigData {
     overrides: Advancement.OverrideData[];
@@ -39,22 +40,23 @@ export function register() {
             const actor = event.item.actor;
             if (!actor.isCharacter()) return;
 
-            const newOverrides = this.overrides.map(
-                (override) =>
-                    ({
+            const newOverrides = [...actor.system.advancement.overrides];
+            this.overrides.forEach((override) => {
+                // Transform event data into schema data and insert by priority
+                AdvancementManager.insertOverrideIntoList(
+                    {
                         ...override,
                         source: event.item.uuid,
-                    }) as AdvancementOverrideData,
-            );
+                    } as AdvancementOverrideData,
+                    newOverrides,
+                );
+            });
 
             await actor.update(
                 {
                     system: {
                         advancement: {
-                            overrides:
-                                actor.system.advancement.overrides.concat(
-                                    newOverrides,
-                                ),
+                            overrides: newOverrides,
                         },
                     },
                 },

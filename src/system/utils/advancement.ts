@@ -1,4 +1,4 @@
-import * as Advancement from '@system/types/advancement';
+import { Advancement } from '@system/types/advancement';
 import {
     AdvancementRuleConfig,
     AdvancementOverrideConfig,
@@ -39,7 +39,7 @@ export class AdvancementOverride {
         this.mode = data.mode;
         this.key = data.key;
         this.value = data.value;
-        this.priority = data.priority ?? 0;
+        this.priority = data.priority;
 
         if (data.type === Advancement.OverrideType.MaxStat) {
             this.stat = data.stat;
@@ -245,27 +245,14 @@ export default class AdvancementManager {
     ) {
         // Register global overrides
         data.global.forEach((override) => {
-            this.registerAdvancementOverride(
-                override.level,
-                override.data,
-                'global',
-            );
+            this.registerAdvancementOverride(override.level, override.data);
         });
 
         // Register source overrides
-        data.ancestries.forEach((override) => {
-            this.registerAdvancementOverride(
-                override.level,
-                override.data,
-                'ancestries',
-                override.sourceId,
-            );
-        });
         data.items.forEach((override) => {
             this.registerAdvancementOverride(
                 override.level,
                 override.data,
-                'items',
                 override.sourceId,
             );
         });
@@ -274,16 +261,8 @@ export default class AdvancementManager {
     public static registerAdvancementOverride(
         level: number,
         data: Advancement.OverrideData,
-        sourceType: keyof Advancement.OverrideRegistry,
         sourceId?: string,
     ): boolean {
-        if (sourceType !== 'global' && !sourceId) {
-            console.error(
-                `[${SYSTEM_ID}] Overrides from ${sourceType as string} require an ID`,
-            );
-            return false;
-        }
-
         let override: AdvancementOverride;
         try {
             override = new AdvancementOverride(data);
@@ -296,20 +275,23 @@ export default class AdvancementManager {
             return false;
         }
 
-        if (sourceType === 'global') {
+        if (!sourceId) {
             if (this.overrides.global[level]) {
-                this._insertOverride(override, this.overrides.global[level]);
+                this.insertOverrideIntoList(
+                    override,
+                    this.overrides.global[level],
+                );
             } else {
                 this.overrides.global[level] = [override];
             }
         } else {
-            if (this.overrides[sourceType][sourceId!][level]) {
-                this._insertOverride(
+            if (this.overrides.items[sourceId][level]) {
+                this.insertOverrideIntoList(
                     override,
-                    this.overrides[sourceType][sourceId!][level],
+                    this.overrides.items[sourceId][level],
                 );
             } else {
-                this.overrides[sourceType][sourceId!][level] = [override];
+                this.overrides.items[sourceId][level] = [override];
             }
         }
 
@@ -323,21 +305,31 @@ export default class AdvancementManager {
      */
     public static getRelevantAdvancementOverrides(
         level: number,
-        overrideSource: Advancement.OverrideSource,
+        actor: CharacterActor,
     ): AdvancementOverride[] {
         // Get any global overrides first
         let overrides = this.overrides.global[level] ?? [];
 
-        // Get actor overrides next
+        // Get actor overrides next, i.e. from owned items or AEs
         overrides = overrides.concat(
-            Array.isArray(overrideSource)
-                ? overrides
-                : overrideSource.system
-                      .getAdvancementOverridesAtLevel(level)
-                      .map((override) =>
-                          AdvancementOverride.fromDataSchema(override),
-                      ),
+            actor.system
+                .getAdvancementOverridesAtLevel(level)
+                .map((override) =>
+                    AdvancementOverride.fromDataSchema(override),
+                ),
         );
+
+        // Get item-specific registered overrides
+        actor.items.contents.forEach((item) => {
+            const idsToCheck: string[] = item.hasId() ? [item.system.id] : [];
+            idsToCheck.push(item.uuid);
+
+            overrides = overrides.concat(
+                idsToCheck.flatMap(
+                    (id) => this.overrides.items[id]?.[level] ?? [],
+                ),
+            );
+        });
 
         return overrides;
     }
@@ -348,11 +340,11 @@ export default class AdvancementManager {
      */
     public static getAdvancementRuleForLevel(
         level: number,
-        overrideSource: Advancement.OverrideSource,
+        actor: CharacterActor,
     ): AdvancementRule {
         const relevantOverrides = this.getRelevantAdvancementOverrides(
             level,
-            overrideSource,
+            actor,
         );
 
         const rule =
@@ -370,9 +362,9 @@ export default class AdvancementManager {
      */
     public static getAdvancementRulesUpToLevel(
         level: number,
-        overrideSource: Advancement.OverrideSource,
+        actor: CharacterActor,
     ): AdvancementRule[] {
-        return this.getAdvancementRulesForLevelChange(0, level, overrideSource);
+        return this.getAdvancementRulesForLevelChange(0, level, actor);
     }
 
     /**
@@ -382,14 +374,14 @@ export default class AdvancementManager {
     public static getAdvancementRulesForLevelChange(
         startLevel: number,
         endLevel: number,
-        overrideSource: Advancement.OverrideSource,
+        actor: CharacterActor,
     ): AdvancementRule[] {
         // Swap the levels if the end level is lower than the start level
         if (endLevel < startLevel)
             return this.getAdvancementRulesForLevelChange(
                 endLevel,
                 startLevel,
-                overrideSource,
+                actor,
             ).reverse();
 
         // Ensure start level is at least 0
@@ -402,7 +394,7 @@ export default class AdvancementManager {
             if (index >= this.rules.length) rule.level = index + 1;
 
             return rule.applyOverrides(
-                this.getRelevantAdvancementOverrides(index + 1, overrideSource),
+                this.getRelevantAdvancementOverrides(index + 1, actor),
             );
         });
     }
@@ -413,22 +405,22 @@ export default class AdvancementManager {
     public static deriveMaxHealth(
         level: number,
         strength: number,
-        overrideSource: Advancement.OverrideSource,
+        actor: CharacterActor,
     ): number;
     public static deriveMaxHealth(
         rules: AdvancementRule[],
         strength: number,
-        overrideSource: Advancement.OverrideSource,
+        actor: CharacterActor,
     ): number;
     public static deriveMaxHealth(
         levelOrRules: number | AdvancementRule[],
         strength: number,
-        overrideSource: Advancement.OverrideSource,
+        actor: CharacterActor,
     ): number {
         // Get rules up to the given level
         const rules = Array.isArray(levelOrRules)
             ? levelOrRules
-            : this.getAdvancementRulesUpToLevel(levelOrRules, overrideSource);
+            : this.getAdvancementRulesUpToLevel(levelOrRules, actor);
 
         // Calculate the health
         return rules.reduce(
@@ -558,10 +550,9 @@ export default class AdvancementManager {
      * Lower priority comes first (higher priority overrides assert their
      * changes later).
      */
-    private static _insertOverride(
-        override: AdvancementOverride,
-        list: AdvancementOverride[],
-    ) {
+    public static insertOverrideIntoList<
+        TOverrideData extends Advancement.Override,
+    >(override: TOverrideData, list: TOverrideData[]) {
         if (list.length === 0) {
             list.push(override);
             return;
