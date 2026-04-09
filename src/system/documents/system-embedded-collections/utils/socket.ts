@@ -165,6 +165,10 @@ async function transformCRUDRequest(
                 recursive: true,
                 render: inRequest.operation.render,
                 updates: [update],
+                targets: targets.map((doc) => ({
+                    id: doc.id!,
+                    uuid: doc.uuid,
+                })),
                 hierarchy: Array.from(hierarchy)
                     .slice(0, hierarchy.hostIndex! + 1)
                     .map((doc) => ({
@@ -206,7 +210,14 @@ async function getCRUDRequestTargets(
             .filter((data) => !!data)
             .map((data) =>
                 data instanceof cls ? data : new cls(data, { parent }),
-            );
+            )
+            .map((doc) => {
+                if (!doc.id) {
+                    doc.updateSource({ _id: foundry.utils.randomID() });
+                }
+
+                return doc;
+            });
     } else if (isUpdateRequest(request)) {
         return (
             request.operation.updates as (AnyDocumentData | null | undefined)[]
@@ -485,6 +496,16 @@ function transformCreateUpdateResponse(
                 );
             }
         }
+
+        const targetIds = inResponse.operation.targets?.map(
+            (target) => target.id,
+        );
+        if (targetIds)
+            result = (result as AnyObject[]).filter((doc) =>
+                targetIds.includes(
+                    foundry.utils.getProperty(doc, '_id') as string,
+                ),
+            );
     }
 
     return foundry.utils.mergeObject(transformCRUDResponseCommon(inResponse), {
