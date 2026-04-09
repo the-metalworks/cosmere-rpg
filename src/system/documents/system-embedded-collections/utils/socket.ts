@@ -674,27 +674,49 @@ export function toClientViewObject(
     }
 
     // Handle native embedded collections
-    Object.entries(cls.metadata.embedded)
+    (
+        Object.entries(cls.metadata.embedded) as [
+            foundry.abstract.Document.Type,
+            string,
+        ][]
+    )
         .filter(
             ([embeddedName, _]) =>
                 !hasSystemEmbeddedCollections(cls) ||
                 cls.isNativeEmbedding(embeddedName),
         )
         .forEach(([embeddedName, collectionName]) => {
-            const collectionData = foundry.utils.getProperty(
+            let collectionData = foundry.utils.getProperty(
                 data,
                 collectionName,
-            ) as AnyObject[] | undefined;
+            );
             if (!collectionData) return;
+
+            const collectionDataType = foundry.utils.getType(collectionData);
+            if (collectionDataType !== 'Array') {
+                const isIterable =
+                    typeof collectionData === 'object' &&
+                    Symbol.iterator in collectionData &&
+                    typeof collectionData[Symbol.iterator] === 'function';
+
+                if (!isIterable) {
+                    console.warn(
+                        `Expected collection data for ${collectionName} to be an array or iterable, but got ${collectionDataType}. Skipping transformation for this collection.`,
+                        collectionData,
+                    );
+                    return;
+                }
+
+                collectionData = Array.from(
+                    collectionData as Iterable<AnyObject>,
+                );
+            }
 
             foundry.utils.setProperty(
                 data,
                 collectionName,
-                collectionData.map((doc) =>
-                    toClientViewObject(
-                        doc,
-                        embeddedName as foundry.abstract.Document.Type,
-                    ),
+                (collectionData as AnyObject[]).map((doc) =>
+                    toClientViewObject(doc, embeddedName),
                 ),
             );
         });
