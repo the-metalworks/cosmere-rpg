@@ -31,16 +31,16 @@ const EMIT_EVENT_PATCHES = {
         const transformedRequest = await transformRequest(request);
 
         logger.debug('Intercepted emit call - request', {
-            raw: structuredClone(request),
-            transformed: structuredClone(transformedRequest),
+            raw: foundry.utils.deepClone(request),
+            transformed: foundry.utils.deepClone(transformedRequest),
         });
 
         emit(transformedRequest, (response: SocketResponse) => {
             const transformedResponse = transformResponse(response);
 
             logger.debug('Intercepted emit call - response', {
-                raw: structuredClone(response),
-                transformed: structuredClone(transformedResponse),
+                raw: foundry.utils.deepClone(response),
+                transformed: foundry.utils.deepClone(transformedResponse),
             });
             callback(transformedResponse);
         });
@@ -94,16 +94,16 @@ const ON_EVENT_PATCHES = {
 
         logger.debug(
             'Intercepted modifyDocument event - raw',
-            structuredClone(response),
+            foundry.utils.deepClone(response),
         );
 
         const transformedResponse = transformResponse(
-            structuredClone(response),
+            foundry.utils.deepClone(response),
         );
 
         logger.debug(
             'Intercepted modifyDocument event - transformed',
-            structuredClone(transformedResponse),
+            foundry.utils.deepClone(transformedResponse),
         );
 
         // Transform response

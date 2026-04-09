@@ -30,6 +30,7 @@ export interface SocketResponse
         renderSheet?: boolean;
         isSystemEmbeddedCollectionOperation?: boolean;
         sourceRequest?: DocumentSocketRequest;
+        targets?: { id: string; uuid: string }[];
         hierarchy?: {
             documentName: foundry.abstract.Document.Type;
             id: string;
