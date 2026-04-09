@@ -9,7 +9,7 @@ import { SYSTEM_ID } from '@system/constants';
 import { Attribute, Skill } from '@system/types/cosmere';
 import { HOOKS } from '@system/constants/hooks';
 import { CosmereItem } from '@system/documents/item';
-import { ItemOverrideData } from '@system/data/item/mixins/overrides-advancement';
+import { AdvancementOverrideData } from '../data/item/misc/advancement-override';
 
 export class AdvancementOverride {
     public readonly type: Advancement.OverrideType;
@@ -47,17 +47,21 @@ export class AdvancementOverride {
         }
     }
 
-    static fromItemData(data: ItemOverrideData): AdvancementOverride {
+    public static fromDataSchema(
+        data: AdvancementOverrideData,
+    ): AdvancementOverride {
         return new AdvancementOverride({
-            type: data.type as Advancement.OverrideType,
-            mode: data.mode as Advancement.OverrideMode,
+            type: data.type,
+            mode: data.mode,
             key: data.key as
                 | Advancement.GrantsFieldKey
                 | Advancement.MaxStatFieldKey,
             value: data.value as Advancement.OverrideFieldType,
-            ...(data.type === Advancement.OverrideType.MaxStat
+            priority: data.priority,
+
+            ...(data.stat
                 ? {
-                      stat: data.stat as Advancement.MaxStatType,
+                      stat: data.stat,
                   }
                 : {}),
         });
@@ -315,22 +319,6 @@ export default class AdvancementManager {
         return true;
     }
 
-    private static _getOverridesFromItem(
-        item: CosmereItem,
-        level: number,
-    ): AdvancementOverride[] {
-        if (!item.hasAdvancementOverrides() || !item.hasId()) return [];
-
-        return item.system
-            .getOverridesAtLevel(level)
-            .map((override) => AdvancementOverride.fromItemData(override))
-            .concat(
-                this.overrides[item.isAncestry() ? 'ancestries' : 'items'][
-                    item.system.id
-                ][level] ?? [],
-            );
-    }
-
     /**
      * Gets any relevant overrides for the given character and level
      */
@@ -341,25 +329,14 @@ export default class AdvancementManager {
         // Get any global overrides first
         let overrides = this.overrides.global[level] ?? [];
 
-        // Get ancestry overrides next
-        if (actor.ancestry) {
-            // Start with overrides that are innate to the ancestry itself
-            overrides = overrides.concat(
-                this._getOverridesFromItem(actor.ancestry, level),
-            );
-        }
-
-        // Get anything from any other items on the actor
-        actor.items
-            .filter((item) => {
-                if (item.isAncestry()) return false;
-                return item.hasAdvancementOverrides();
-            })
-            .forEach((item) => {
-                overrides = overrides.concat(
-                    this._getOverridesFromItem(item, level),
-                );
-            });
+        // Get actor overrides next
+        overrides = overrides.concat(
+            actor.system
+                .getAdvancementOverridesAtLevel(level)
+                .map((override) =>
+                    AdvancementOverride.fromDataSchema(override),
+                ),
+        );
 
         return overrides;
     }

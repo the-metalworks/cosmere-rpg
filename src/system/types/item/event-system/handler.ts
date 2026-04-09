@@ -18,6 +18,8 @@ export const enum HandlerType {
     SetSkillRank = 'set-skill-rank',
     GrantExpertises = 'grant-expertises',
     RemoveExpertises = 'remove-expertises',
+    GrantAdvancementOverrides = 'grant-advancement-overrides',
+    RemoveAdvancementOverrides = 'remove-advancement-overrides',
 
     UseItem = 'use-item',
 

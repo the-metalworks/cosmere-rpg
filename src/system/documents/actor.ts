@@ -309,7 +309,7 @@ export class CosmereActor<
         // data derivation steps.
         const advancementRules = this.isCharacter()
             ? AdvancementManager.getAdvancementRulesUpToLevel(
-                  this.system.level,
+                  this.system.advancement.level,
                   this,
               )
             : [];

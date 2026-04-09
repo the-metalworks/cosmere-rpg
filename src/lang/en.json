@@ -812,6 +812,13 @@
                     },
                     "Handler": {
                         "Types": {
+                            "grant-advancement-overrides": {
+                                "Title": "Grant Advancement Overrides",
+                                "Description": "Grants overrides to a character's advancement rules",
+                                "Overrides": {
+                                    "Label": "Overrides"
+                                }
+                            },
                             "grant-expertises": {
                                 "Title": "Grant Expertises",
                                 "Description": "Grants expertises to an actor.",
@@ -892,6 +899,14 @@
                                 "Amount": {
                                     "Label": "Amount",
                                     "Hint": "The amount to modify the skill rank by. Can be positive or negative."
+                                }
+                            },
+                            "remove-advancement-overrides": {
+                                "Title": "Remove Advancement Overrides",
+                                "Description": "Removes advancement overrides from a character that were granted by a particular source.",
+                                "UUID": {
+                                    "Label": "Source",
+                                    "Hint": "The UUID of the source item. If unspecified, this item is assumed to be the source."
                                 }
                             },
                             "remove-expertises": {

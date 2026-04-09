@@ -11,15 +11,32 @@ import {
 // Fields
 import { DerivedValueField, Derived, MappingField } from '../fields';
 
+// Advancement
+import {
+    AdvancementOverrideData,
+    AdvancementOverrideDataModel,
+} from '../item/misc/advancement-override';
+
 const SCHEMA = () => ({
     /* --- Advancement --- */
-    level: new foundry.data.fields.NumberField({
-        required: true,
-        nullable: false,
-        integer: true,
-        min: 1,
-        initial: 1,
-        label: 'COSMERE.Actor.Level.Label',
+    advancement: new foundry.data.fields.SchemaField({
+        level: new foundry.data.fields.NumberField({
+            required: true,
+            nullable: false,
+            integer: true,
+            min: 1,
+            initial: 1,
+            label: 'COSMERE.Actor.Advancement.Level.Label',
+        }),
+        overrides: new foundry.data.fields.ArrayField(
+            new foundry.data.fields.SchemaField(
+                AdvancementOverrideDataModel.defineSchema(),
+            ),
+            {
+                required: true,
+                label: 'COSMERE.Actor.Advancement.Overrides.Label',
+            },
+        ),
     }),
 
     /* --- Derived statistics --- */
@@ -84,6 +101,18 @@ export class CharacterActorDataModel extends CommonActorDataModel<
 
         // Perform super secondary derived data preparation after so resource max is set
         super.prepareSecondaryDerivedData();
+    }
+
+    /**
+     * Get all applicable overrides on this character at a given level,
+     * sorted by priority (i.e. ready to be applied to a given AdvancementRule)
+     */
+    public getAdvancementOverridesAtLevel(
+        level: number,
+    ): AdvancementOverrideData[] {
+        return this.advancement.overrides
+            .filter((override) => override.level === level)
+            .sort((a, b) => a.priority - b.priority);
     }
 }
 
