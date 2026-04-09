@@ -21,10 +21,6 @@ import {
     RelationshipsMixin,
     RelationshipsItemDataSchema,
 } from './mixins/relationships';
-import {
-    OverridesAdvancementMixin,
-    OverridesAdvancementDataSchema,
-} from './mixins/overrides-advancement';
 
 const SCHEMA = () => ({
     size: new foundry.data.fields.StringField({
@@ -123,7 +119,6 @@ export class AncestryItemDataModel extends DataModelMixin<AncestryItemDataSchema
     EventsItemMixin(),
     LinkedSkillsMixin(),
     RelationshipsMixin(),
-    OverridesAdvancementMixin(),
 ) {
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());
