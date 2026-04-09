@@ -285,6 +285,8 @@ export default class AdvancementManager {
                 this.overrides.global[level] = [override];
             }
         } else {
+            if (!this.overrides.items[sourceId])
+                this.overrides.items[sourceId] = {};
             if (this.overrides.items[sourceId][level]) {
                 this.insertOverrideIntoList(
                     override,
