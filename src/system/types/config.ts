@@ -40,7 +40,7 @@ import { Talent, TalentTree, EventSystem as ItemEventSystem } from './item';
 
 import { AnyObject } from './utils';
 
-import * as Advancement from './advancement';
+import { Advancement } from './advancement';
 
 import {
     ItemListSection,
@@ -305,7 +305,6 @@ export interface AdvancementRuleConfig {
 
 export interface AdvancementOverrideConfig {
     global: GlobalOverrideConfig[];
-    ancestries: SourceOverrideConfig[];
     items: SourceOverrideConfig[];
 }
 
@@ -314,8 +313,8 @@ export interface SourceOverrideConfig {
      * The id of the related source, whose presence on an actor indicates
      * that this override should be applied to their advancement.
      *
-     * This field should be equivalent not to the document id,
-     * but the system id, e.g. `'human'` for a Human ancestry.
+     * This field can be the system id, e.g. `'human'` for a human ancestry,
+     * or a particular item's UUID instead.
      */
     sourceId: string;
 

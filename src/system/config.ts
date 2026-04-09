@@ -849,7 +849,6 @@ const COSMERE: CosmereRPGConfig = {
         ],
         overrides: {
             global: [],
-            ancestries: [],
             items: [],
         },
     },
