@@ -8,8 +8,7 @@ import { CharacterActor } from '@system/documents/actor';
 import { SYSTEM_ID } from '@system/constants';
 import { Attribute, Skill } from '@system/types/cosmere';
 import { HOOKS } from '@system/constants/hooks';
-import { CosmereItem } from '@system/documents/item';
-import { AdvancementOverrideData } from '../data/item/misc/advancement-override';
+import { AdvancementOverrideData } from '@system/data/item/misc/advancement-override';
 
 export class AdvancementOverride {
     public readonly type: Advancement.OverrideType;
@@ -320,37 +319,40 @@ export default class AdvancementManager {
     }
 
     /**
-     * Gets any relevant overrides for the given character and level
+     * Gets any relevant overrides at the given level
      */
     public static getRelevantAdvancementOverrides(
         level: number,
-        actor: CharacterActor,
+        overrideSource: Advancement.OverrideSource,
     ): AdvancementOverride[] {
         // Get any global overrides first
         let overrides = this.overrides.global[level] ?? [];
 
         // Get actor overrides next
         overrides = overrides.concat(
-            actor.system
-                .getAdvancementOverridesAtLevel(level)
-                .map((override) =>
-                    AdvancementOverride.fromDataSchema(override),
-                ),
+            Array.isArray(overrideSource)
+                ? overrides
+                : overrideSource.system
+                      .getAdvancementOverridesAtLevel(level)
+                      .map((override) =>
+                          AdvancementOverride.fromDataSchema(override),
+                      ),
         );
 
         return overrides;
     }
 
     /**
-     * Returns the advancement rule for the given level.
+     * Returns the advancement rule for the given level,
+     * overriden as applicable.
      */
     public static getAdvancementRuleForLevel(
         level: number,
-        actor: CharacterActor,
+        overrideSource: Advancement.OverrideSource,
     ): AdvancementRule {
         const relevantOverrides = this.getRelevantAdvancementOverrides(
             level,
-            actor,
+            overrideSource,
         );
 
         const rule =
@@ -368,9 +370,9 @@ export default class AdvancementManager {
      */
     public static getAdvancementRulesUpToLevel(
         level: number,
-        actor: CharacterActor,
+        overrideSource: Advancement.OverrideSource,
     ): AdvancementRule[] {
-        return this.getAdvancementRulesForLevelChange(0, level, actor);
+        return this.getAdvancementRulesForLevelChange(0, level, overrideSource);
     }
 
     /**
@@ -380,14 +382,14 @@ export default class AdvancementManager {
     public static getAdvancementRulesForLevelChange(
         startLevel: number,
         endLevel: number,
-        actor: CharacterActor,
+        overrideSource: Advancement.OverrideSource,
     ): AdvancementRule[] {
         // Swap the levels if the end level is lower than the start level
         if (endLevel < startLevel)
             return this.getAdvancementRulesForLevelChange(
                 endLevel,
                 startLevel,
-                actor,
+                overrideSource,
             ).reverse();
 
         // Ensure start level is at least 0
@@ -400,7 +402,7 @@ export default class AdvancementManager {
             if (index >= this.rules.length) rule.level = index + 1;
 
             return rule.applyOverrides(
-                this.getRelevantAdvancementOverrides(index + 1, actor),
+                this.getRelevantAdvancementOverrides(index + 1, overrideSource),
             );
         });
     }
@@ -411,22 +413,22 @@ export default class AdvancementManager {
     public static deriveMaxHealth(
         level: number,
         strength: number,
-        actor: CharacterActor,
+        overrideSource: Advancement.OverrideSource,
     ): number;
     public static deriveMaxHealth(
         rules: AdvancementRule[],
         strength: number,
-        actor: CharacterActor,
+        overrideSource: Advancement.OverrideSource,
     ): number;
     public static deriveMaxHealth(
         levelOrRules: number | AdvancementRule[],
         strength: number,
-        actor: CharacterActor,
+        overrideSource: Advancement.OverrideSource,
     ): number {
         // Get rules up to the given level
         const rules = Array.isArray(levelOrRules)
             ? levelOrRules
-            : this.getAdvancementRulesUpToLevel(levelOrRules, actor);
+            : this.getAdvancementRulesUpToLevel(levelOrRules, overrideSource);
 
         // Calculate the health
         return rules.reduce(

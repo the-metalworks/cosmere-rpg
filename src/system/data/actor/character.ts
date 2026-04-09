@@ -16,6 +16,8 @@ import {
     AdvancementOverrideData,
     AdvancementOverrideDataModel,
 } from '../item/misc/advancement-override';
+import AdvancementManager from '@src/system/utils/advancement';
+import { MaxStatFieldKey } from '@src/system/types/advancement';
 
 const SCHEMA = () => ({
     /* --- Advancement --- */
@@ -89,11 +91,42 @@ export class CharacterActorDataModel extends CommonActorDataModel<
 
     public prepareDerivedData() {
         super.prepareDerivedData();
+
+        // Get advancement rules relevant to the character
+        const advancementRules =
+            AdvancementManager.getAdvancementRulesUpToLevel(
+                this.advancement.level,
+                this.advancement.overrides,
+            );
+        const currentAdvancementRule =
+            advancementRules[advancementRules.length - 1];
+
+        // Derive the tier
+        this.tier = currentAdvancementRule.tier;
+
+        // Derive the maximum skill rank
+        this.maxSkillRank =
+            currentAdvancementRule.maxStats[MaxStatFieldKey.Skills].base;
     }
 
     public override prepareSecondaryDerivedData(): void {
+        // Get advancement rules relevant to the character
+        const advancementRules =
+            AdvancementManager.getAdvancementRulesUpToLevel(
+                this.advancement.level,
+                this.advancement.overrides,
+            );
+
         // Derive the recovery die based on the character's willpower
         this.recovery.die.derived = willpowerToRecoveryDie(this.attributes.wil);
+
+        // Derive max health
+        this.resources[Resource.Health].max.derived =
+            AdvancementManager.deriveMaxHealth(
+                advancementRules,
+                this.attributes.str.value, // Should only be the value, not include the bonus
+                this.advancement.overrides,
+            );
 
         // Derive max focus
         this.resources[Resource.Focus].max.derived =

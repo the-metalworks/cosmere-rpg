@@ -1,5 +1,7 @@
 import { Attribute, Skill } from '@system/types/cosmere';
 import type { AdvancementOverride } from '@system/utils/advancement';
+import { CharacterActor } from '@system/documents/actor';
+import { AdvancementOverrideData } from '@system/data/item/misc/advancement-override';
 
 // Overrides
 
@@ -105,6 +107,7 @@ export interface OverrideRegistry {
     ancestries: Record<string, OverrideSet>;
     items: Record<string, OverrideSet>;
 }
+export type OverrideSource = CharacterActor | AdvancementOverrideData[];
 
 // Type assertions
 
