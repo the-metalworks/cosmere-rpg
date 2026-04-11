@@ -1053,7 +1053,7 @@ export class CosmereItem<
         }
 
         // Handle item uses
-        if ('uses' in this.system.resources) {
+        if (this.system.resources.uses) {
             // Get the current uses
             const currentUses = this.system.resources.uses.value;
 
