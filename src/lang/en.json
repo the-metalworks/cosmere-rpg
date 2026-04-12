@@ -645,6 +645,9 @@
                     },
                     "Item": {
                         "Label": "Item"
+                    },
+                    "ItemResource": {
+                        "Label": "Item Resource"
                     }
                 },
                 "Uses": {
