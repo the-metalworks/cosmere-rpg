@@ -25,7 +25,7 @@ import { CosmereTurnContext } from '@system/applications/combat';
 import { ItemContext, ItemContextOptions } from './types';
 import { TEMPLATES } from '../templates';
 import { SYSTEM_ID } from '@system/constants';
-// import { ItemConsumeData } from '@system/data/item/mixins/activatable';
+import { ActionItemDataModel } from '@system/data/item/action';
 
 Handlebars.registerHelper('add', (a: number, b: number) => a + b);
 Handlebars.registerHelper('sub', (a: number, b: number) => a - b);
@@ -427,8 +427,18 @@ Handlebars.registerHelper(
             }
 
             if (item.hasDamage() && item.system.damage.formula) {
-                const skill = item.system.damage.skill;
-                const attribute = item.system.damage.attribute;
+                let skill = item.system.damage.skill as
+                    | Skill
+                    | 'default'
+                    | null;
+                let attribute = item.system.damage.attribute as
+                    | Attribute
+                    | 'default'
+                    | null;
+
+                // TEMP
+                if (skill === 'default') skill = null;
+                if (attribute === 'default') attribute = null;
 
                 const hasSkill = !!skill;
                 const hasAttribute = !!attribute;
@@ -442,7 +452,7 @@ Handlebars.registerHelper(
                     hasSkill,
                     hasAttribute,
 
-                    ...(hasSkill
+                    ...(skill
                         ? {
                               skill,
                               skillLabel: CONFIG.COSMERE.skills[skill].label,
@@ -453,7 +463,7 @@ Handlebars.registerHelper(
                           }
                         : {}),
 
-                    ...(hasAttribute
+                    ...(attribute
                         ? {
                               attribute,
                               attributeLabel:
@@ -517,60 +527,66 @@ Handlebars.registerHelper('getCombatActedState', (turn: CosmereTurnContext) => {
 /**
  * Get the resource cost label of an item in an actor's action list
  */
-Handlebars.registerHelper('resourceCostLabel', (consume: unknown) => {
-    // const { value } = consume;
-    // const resource = game.i18n.localize(
-    //     consume.resource
-    //         ? CONFIG.COSMERE.resources[consume.resource].label
-    //         : 'GENERIC.Unknown',
-    // );
+Handlebars.registerHelper(
+    'resourceCostLabel',
+    (consume: ActionItemDataModel.ConsumeData) => {
+        const { value } = consume;
+        const resource = game.i18n.localize(
+            consume.resource
+                ? CONFIG.COSMERE.resources[consume.resource].label
+                : 'GENERIC.Unknown',
+        );
 
-    const label = '';
+        let label = '';
 
-    // // Get adjusted minimum value, to account for optional formatting
-    // const adjustedMin = Math.max(value.min, 1);
+        // Get adjusted minimum value, to account for optional formatting
+        const adjustedMin = Math.max(value.min, 1);
 
-    // // Static range
-    // if (adjustedMin === value.max) {
-    //     label = game.i18n.format('COSMERE.Actor.Sheet.Actions.Consume.Static', {
-    //         amount: adjustedMin.toFixed(),
-    //         resource,
-    //     });
-    // }
-    // // Uncapped range
-    // else if (value.max === -1) {
-    //     label = game.i18n.format(
-    //         'COSMERE.Actor.Sheet.Actions.Consume.RangeUncapped',
-    //         {
-    //             amount: adjustedMin.toFixed(),
-    //             resource,
-    //         },
-    //     );
-    // }
-    // // Capped range
-    // else {
-    //     label = game.i18n.format(
-    //         'COSMERE.Actor.Sheet.Actions.Consume.RangeCapped',
-    //         {
-    //             min: adjustedMin.toFixed(),
-    //             max: value.max.toFixed(),
-    //             resource,
-    //         },
-    //     );
-    // }
+        // Static range
+        if (adjustedMin === value.max) {
+            label = game.i18n.format(
+                'COSMERE.Actor.Sheet.Actions.Consume.Static',
+                {
+                    amount: adjustedMin.toFixed(),
+                    resource,
+                },
+            );
+        }
+        // Uncapped range
+        else if (value.max === -1) {
+            label = game.i18n.format(
+                'COSMERE.Actor.Sheet.Actions.Consume.RangeUncapped',
+                {
+                    amount: adjustedMin.toFixed(),
+                    resource,
+                },
+            );
+        }
+        // Capped range
+        else {
+            label = game.i18n.format(
+                'COSMERE.Actor.Sheet.Actions.Consume.RangeCapped',
+                {
+                    min: adjustedMin.toFixed(),
+                    max: value.max.toFixed(),
+                    resource,
+                },
+            );
+        }
 
-    // // Treat actual minimum value of 0 as an "optional" cost
-    // if (value.min === 0) {
-    //     label = game.i18n.format(
-    //         'COSMERE.Actor.Sheet.Actions.Consume.Optional',
-    //         {
-    //             label,
-    //         },
-    //     );
-    // }
+        // Treat actual minimum value of 0 as an "optional" cost
+        if (value.min === 0) {
+            label = game.i18n.format(
+                'COSMERE.Actor.Sheet.Actions.Consume.Optional',
+                {
+                    label,
+                },
+            );
+        }
 
-    return label;
-});
+        return label;
+    },
+);
 
 /**
  * Format the resource cost input field of an item's activation config

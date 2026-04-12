@@ -37,16 +37,16 @@
                     }}
                 </div>
             </div>
-
+      
             {{!-- Resources --}}
 
             {{!-- Consume --}}
             <div class="form-group consume">
-                <label>{{localize systemFields.activation.fields.consume.label}}</label>
+                <label>{{localize systemFields.activation.fields.consumption.label}}</label>
                 <div class="form-fields-list">
                     {{#each consume}}
                     <div class="form-fields">
-                        <input name="system.activation.consume[{{@index}}].value"
+                        <input name="system.activation.consumption[{{@index}}].value"
                             type="text"
                             value={{resourceCostInput this.value}}
                             {{#if (not ../editable)}}
@@ -55,8 +55,8 @@
                         >
 
                         {{#if (eq this.type "resource")}}
-                            {{formInput @root.systemFields.activation.fields.consume.element.fields.resource
-                                name=(concat "system.activation.consume[" @index "].resource")
+                            {{formInput @root.systemFields.activation.fields.consumption.element.fields.resource
+                                name=(concat "system.activation.consumption[" @index "].resource")
                                 value=this.resource
                                 localize=true
                                 disabled=(not @root.editable)
@@ -65,8 +65,8 @@
 
                         {{!-- TODO: Consume type = item --}}
 
-                        {{formInput @root.systemFields.activation.fields.consume.element.fields.type
-                            name=(concat "system.activation.consume[" @index "].type")
+                        {{formInput @root.systemFields.activation.fields.consumption.element.fields.type
+                            name=(concat "system.activation.consumption[" @index "].type")
                             value=this.type
                             localize=true
                             disabled=(not @root.editable)
@@ -82,8 +82,8 @@
                     </div>
                     {{else}}            
                     <div class="form-fields">
-                       {{formInput systemFields.activation.fields.consume.element.fields.type
-                            name="system.activation.consume[].type"
+                       {{formInput systemFields.activation.fields.consumption.element.fields.type
+                            name="system.activation.consumption[].type"
                             value="none"
                             localize=true
                             disabled=(not editable)
@@ -93,74 +93,27 @@
                 </div>
             </div>
 
-            {{!-- Uses --}}
-            <div class="form-group uses">
-                <label>{{localize systemFields.activation.fields.uses.label}}</label>
-                <div class="form-fields">
-                    {{#if hasUses}}
-                        {{!-- Uses value --}}
-                        {{formInput systemFields.activation.fields.uses.fields.value
-                            name="system.activation.uses.value"
-                            value=item.system.activation.uses.value
-                            type="number"
-                            localize=true
-                            readonly=(not editable)
-                        }}
-
-                        <span class="delim">/</span>
-
-                        {{!-- Uses max --}}
-                        {{formInput systemFields.activation.fields.uses.fields.max
-                            name="system.activation.uses.max"
-                            value=item.system.activation.uses.max
-                            type="number"
-                            localize=true
-                            readonly=(not editable)
-                        }}
-                    {{/if}}
-
-                    {{!-- Uses type select options --}}
-                    {{formInput systemFields.activation.fields.uses.fields.type
-                        name="system.activation.uses.type"
-                        value=item.system.activation.uses.type
-                        localize=true
-                        disabled=(not editable)
-                        choices=usesTypeSelectOptions
-                    }}
-                </div>        
-            </div>
-
-            {{!-- Uses recharge --}}
-            {{#if hasUses}}
-                {{formGroup systemFields.activation.fields.uses.fields.recharge 
-                    name="system.activation.uses.recharge"
-                    value=item.system.activation.uses.recharge 
-                    localize=true
-                    disabled=(not editable)
-                }}
-            {{/if}}
-
             {{!-- Skill test --}}
             {{#if (eq item.system.activation.type "skill_test")}}
                 {{!-- Skill select --}}
-                {{formGroup systemFields.activation.fields.skill 
-                    name="system.activation.skill"
-                    value=item.system.activation.skill 
+                {{formGroup systemFields.skillTest.fields.skill 
+                    name="system.skillTest.skill"
+                    value=item.system.skillTest.skill 
                     localize=true
                     disabled=(not editable)
                 }}
 
                 {{!-- Attribute select --}}
                 {{#if hasSkill}}
-                    {{formGroup systemFields.activation.fields.attribute 
-                        name="system.activation.attribute"
-                        value=item.system.activation.attribute 
+                    {{formGroup systemFields.skillTest.fields.attribute 
+                        name="system.skillTest.attribute"
+                        value=item.system.skillTest.attribute 
                         localize=true
                         disabled=(not editable)
                     }}
                 {{else}}
                     <div class="form-group">
-                        <label>{{localize systemFields.activation.fields.attribute.label}}</label>
+                        <label>{{localize systemFields.skillTest.fields.attribute.label}}</label>
                         <div class="form-fields">
                             <input
                                 type="text"
@@ -172,9 +125,9 @@
                 {{/if}}
 
                 {{!-- Additional Formula --}}
-                {{formGroup systemFields.activation.fields.modifierFormula 
-                    name="system.activation.modifierFormula"
-                    value=item.system.activation.modifierFormula 
+                {{formGroup systemFields.skillTest.fields.modifierFormula 
+                    name="system.skillTest.modifierFormula"
+                    value=item.system.skillTest.modifierFormula 
                     localize=true
                     readonly=(not editable)
                 }}
@@ -184,24 +137,24 @@
                 </p>
 
                 {{!-- Raise the stakes --}}
-                {{formGroup systemFields.activation.fields.plotDie 
-                    name="system.activation.plotDie"
-                    value=item.system.activation.plotDie 
+                {{formGroup systemFields.skillTest.fields.plotDie 
+                    name="system.skillTest.plotDie"
+                    value=item.system.skillTest.plotDie 
                     localize=true
                     readonly=(not editable)
                 }}
 
                 {{!-- Opportunity and Complication --}}
-                {{formGroup systemFields.activation.fields.opportunity 
-                    value=item.system.activation.opportunity 
+                {{formGroup systemFields.skillTest.fields.opportunity 
+                    value=item.system.skillTest.opportunity 
                     type="number"
                     placeholder="20"
                     localize=true
                     class="field"
                     readonly=(not editable)
                 }}
-                {{formGroup systemFields.activation.fields.complication 
-                    value=item.system.activation.complication 
+                {{formGroup systemFields.skillTest.fields.complication 
+                    value=item.system.skillTest.complication 
                     type="number"
                     placeholder="1"
                     localize=true
