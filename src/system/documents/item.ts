@@ -599,7 +599,7 @@ export class CosmereItem<
         // Get the skill id
         const skillId =
             options.skill ??
-            (activatable ? this.system.skillTest.resolvedSkill : null);
+            (activatable ? this.system.damage.resolvedSkill : null);
 
         // Get the skill
         const skill = skillId ? actor.system.skills[skillId] : undefined;
@@ -607,7 +607,7 @@ export class CosmereItem<
         // Get the attribute id
         const attributeId =
             options.attribute ??
-            (activatable ? this.system.skillTest.resolvedAttribute : null);
+            (activatable ? this.system.damage.resolvedAttribute : null);
 
         // Set up data
         const rollData: DamageRollData = this.getDamageRollData(
