@@ -2,6 +2,7 @@ import { defineConfig, Plugin } from 'vite';
 import path from 'path';
 import fs from 'fs';
 import { marked } from 'marked';
+import MagicString from 'magic-string';
 
 /**
  * Plugin to clear the output directory before building, preserving the packs folder.
@@ -63,14 +64,24 @@ function markdownParser(config: {
 function pixiImportFix(): Plugin {
     return {
         name: 'pixi-import-fix',
-        renderChunk(code) {
-            return code.replace(
-                "import { Filter, utils } from '@pixi/core';",
-                [
-                    'const Filter = PIXI.Filter;',
-                    'const utils = PIXI.utils;',
-                ].join('\n'),
-            );
+        renderChunk(code, chunk, options) {
+            const target = "import { Filter, utils } from '@pixi/core';";
+            const index = code.indexOf(target);
+
+            if (index === -1) return null; // no change needed, skip sourcemap work
+
+            const replacement = [
+                'const Filter = PIXI.Filter;',
+                'const utils = PIXI.utils;',
+            ].join('\n');
+
+            const ms = new MagicString(code);
+            ms.overwrite(index, index + target.length, replacement);
+
+            return {
+                code: ms.toString(),
+                map: ms.generateMap({ hires: true }),
+            };
         },
     };
 }
