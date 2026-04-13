@@ -1,6 +1,9 @@
 import type { Skill, Attribute } from '@system/types/cosmere';
 import { NONE } from '@system/types/utils';
 
+// Documents
+import { CosmereItem } from '@system/documents';
+
 // Fields
 import { SkillField } from '@system/data/fields/skill-field';
 import { AttributeField } from '@system/data/fields/attribute-field';
@@ -59,14 +62,25 @@ export class SkillTestDataModel extends foundry.abstract.DataModel<
     public get resolvedSkill(): Skill | null {
         if (!this.skill || this.skill === NONE) return null;
 
-        switch (this.skill) {
-            case 'default':
-                return null; // TODO: Handle
-            default:
-                // Ensure the configured skill is valid
-                if (!(this.skill in CONFIG.COSMERE.skills)) return null;
+        const action = this.item;
 
-                return this.skill;
+        if (this.skill === 'default') {
+            if (
+                !action?.parent ||
+                !(action.parent instanceof CosmereItem) ||
+                !action.parent.isWeapon()
+            )
+                return null;
+
+            const weaponType = action.parent.system.type;
+            const skill = CONFIG.COSMERE.items.weapon.types[weaponType]?.skill;
+
+            return skill ?? null;
+        } else {
+            // Ensure the configured skill is valid
+            if (!(this.skill in CONFIG.COSMERE.skills)) return null;
+
+            return this.skill;
         }
     }
 
@@ -86,6 +100,23 @@ export class SkillTestDataModel extends foundry.abstract.DataModel<
 
                 return this.attribute;
         }
+    }
+
+    protected get item(): CosmereItem | null {
+        let item: CosmereItem | null = null;
+        let dataModel: foundry.abstract.DataModel.Any = this.parent;
+
+        while (item === null) {
+            if (dataModel instanceof CosmereItem) {
+                item = dataModel;
+            } else if (dataModel.parent) {
+                dataModel = dataModel.parent as foundry.abstract.DataModel.Any;
+            } else {
+                return null;
+            }
+        }
+
+        return item;
     }
 }
 
