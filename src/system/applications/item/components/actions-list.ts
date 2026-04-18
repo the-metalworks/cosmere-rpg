@@ -47,6 +47,7 @@ export class ItemActionsListComponent extends HandlebarsApplicationComponent<
                 ),
                 img: this.item.img,
             },
+            // @ts-expect-error foundry-vtt-types doesn't correctly resolve the Item.Parent type for the operation's parent property
             { parent: this.item },
         );
 
