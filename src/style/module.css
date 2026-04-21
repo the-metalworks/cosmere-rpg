@@ -1,11 +1,11 @@
-@import './sheets/module.scss';
-@import './chat/module.scss';
-@import './sidebar/combat.scss';
-@import './dialog.scss';
-@import './components.scss';
-@import './tooltip.scss';
-@import './release-notes.scss';
-@import './starter-rules/journal.scss';
+@import './sheets/module.css';
+@import './chat/module.css';
+@import './sidebar/combat.css';
+@import './dialog.css';
+@import './components.css';
+@import './tooltip.css';
+@import './release-notes.css';
+@import './starter-rules/journal.css';
 
 .application.sheet:not(
     .scene-config,

@@ -1,7 +1,7 @@
-@import './style/module.scss';
+@import './style/module.css';
 
 /* ----------------------------------------- */
-/*  Globals                                  */
+/* Globals                                   */
 /* ----------------------------------------- */
 :root {
     --cosmere-color-black: #000;
@@ -57,7 +57,7 @@
     --cosmere-shadow-85: rgba(0, 0, 0, 0.85);
 
     --cosmere-shadow-svg: drop-shadow(0 0 4px rgba(255, 0, 0, 0.6));
-    
+
     --cosmere-font-normal: "Laski Sans", sans-serif;
     --cosmere-font-header: "Penumbra Serif Std", serif;
     --cosmere-font-header-sc: "Penumbra Serif Std SC", serif;
@@ -69,10 +69,10 @@
     --font-size-22: 1.375rem;
 
     /* ----------------------------------------- */
-    /*  Default Cosmere Theme                    */
+    /* Default Cosmere Theme                     */
     /* ----------------------------------------- */
     .cosmere-theme-default {
-        //TO-DO: Replace with Plotweaver colours
+        /* TO-DO: Replace with Plotweaver colours */
         &.theme-dark {
             --cosmere-banner-actor-top: url('assets/art/banner_actor_cosmere_top_dark.webp');
             --cosmere-banner-actor-bot: url('assets/art/banner_actor_cosmere_bot_dark.webp');
@@ -97,7 +97,7 @@
             --cosmere-color-text-accent: var(--cosmere-color-accent);
         }
 
-        &.theme-light {            
+        &.theme-light {
             --cosmere-banner-actor-top: url('assets/art/banner_actor_cosmere_top_light.webp');
             --cosmere-banner-actor-bot: url('assets/art/banner_actor_cosmere_bot_light.webp');
             --cosmere-banner-item-top: url('assets/art/banner_actor_cosmere_top_light.webp');
@@ -124,13 +124,13 @@
 }
 
 /* ----------------------------------------- */
-/*  Fonts                                    */
+/* Fonts                                     */
 /* ----------------------------------------- */
 
 .application h1,
 .application h4,
 .application h5,
-span.document-name {    
+span.document-name {
     font-family: var(--cosmere-font-normal);
 }
 

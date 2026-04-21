@@ -1,0 +1,18 @@
+:root {
+    --stormlight-journal-color-text: #000000;
+    --stormlight-journal-translucent-1: rgba(215, 215, 215, 0.4);
+    --stormlight-journal-yellow-1: #dcbc88;
+    --stormlight-journal-yellow-2: #f8f0e2;
+    --stormlight-journal-table-background-1: rgba(228, 232, 236, 0.75);
+    --stormlight-journal-table-background-2: rgba(248, 249, 250, 0.75);
+    --stormlight-journal-ra-background: rgba(239, 237, 230, 0.75);
+    --stormlight-journal-ra-header: #cea453;
+    --stormlight-journal-me-header: #802728;
+    --stormlight-journal-me-background: rgba(245, 227, 228, 0.75);
+    --stormlight-journal-pr-blue: #135baa;
+    --stormlight-journal-pr-yellow: #a5752b;
+    --stormlight-journal-foundry-orange: #bc2e0a;
+
+    --stormlight-journal-sl-sidebar-corner-size: 20px;
+    --stormlight-journal-sl-sidebar-border-width: 2px;
+}

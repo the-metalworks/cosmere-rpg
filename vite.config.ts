@@ -1,4 +1,5 @@
 import { defineConfig, Plugin } from 'vite';
+import { createHash } from 'crypto';
 import path from 'path';
 import fs from 'fs';
 import { marked } from 'marked';
@@ -130,11 +131,70 @@ function renameCssOutput(): Plugin {
     };
 }
 
+/**
+ *
+ * Plugin to defeat vite's penchant for inlining assets, especially base64-encoded image files.
+ */
+function deInlineCssAssets(outDir = 'build'): Plugin {
+    return {
+        name: 'de-inline-css-assets',
+        closeBundle() {
+            const cssPath = path.resolve(outDir, 'cosmere-rpg.css');
+            if (!fs.existsSync(cssPath)) return;
+
+            // Build content-hash → relative path map from already-copied assets
+            const assetsDir = path.resolve(outDir, 'assets');
+            const hashToPath = new Map<string, string>();
+            const walkDir = (dir: string, base: string) => {
+                for (const entry of fs.readdirSync(dir, {
+                    withFileTypes: true,
+                })) {
+                    const full = path.join(dir, entry.name);
+                    const rel = path.join(base, entry.name);
+                    if (entry.isDirectory()) walkDir(full, rel);
+                    else {
+                        const hash = createHash('sha256')
+                            .update(fs.readFileSync(full))
+                            .digest('hex')
+                            .slice(0, 8);
+                        hashToPath.set(hash, rel.replace(/\\/g, '/'));
+                    }
+                }
+            };
+            if (fs.existsSync(assetsDir)) walkDir(assetsDir, 'assets');
+
+            let css = fs.readFileSync(cssPath, 'utf-8');
+
+            css = css.replace(
+                /url\(["']data:([^;]+);base64,([^"']+)["']\)/g,
+                (_match, _mime, data) => {
+                    const buf = Buffer.from(data, 'base64');
+                    const hash = createHash('sha256')
+                        .update(buf)
+                        .digest('hex')
+                        .slice(0, 8);
+                    const known = hashToPath.get(hash);
+                    if (known) {
+                        console.log('[de-inline] restored', known);
+                        return `url("${known}")`;
+                    }
+                    console.warn('[de-inline] no match for hash', hash);
+                    return _match; // leave as-is if no match
+                },
+            );
+
+            fs.writeFileSync(cssPath, css);
+        },
+    };
+}
+
 export default defineConfig({
     build: {
         outDir: 'build',
         emptyOutDir: false, // We handle this manually to preserve packs
         sourcemap: true,
+        minify: false,
+        assetsInlineLimit: 0, // never inline; always emit as files
         lib: {
             entry: 'src/index.ts',
             formats: ['es'],
@@ -147,13 +207,6 @@ export default defineConfig({
             },
         },
     },
-    css: {
-        preprocessorOptions: {
-            scss: {
-                api: 'modern-compiler',
-            },
-        },
-    },
     resolve: {
         alias: {
             '@src': path.resolve(__dirname, 'src'),
@@ -163,6 +216,7 @@ export default defineConfig({
     plugins: [
         clearOutputDir(),
         copyStaticFiles(),
+        deInlineCssAssets(),
         markdownParser({
             targets: [
                 { src: 'src/release-notes.md', dest: 'build/' },

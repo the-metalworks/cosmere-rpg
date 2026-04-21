@@ -1,5 +1,5 @@
-@import './character.scss';
-@import './adversary.scss';
+@import './character.css';
+@import './adversary.css';
 
 .application.sheet.actor {
     --border-sheet-corner-svg: url('assets/icons/svg/sheet/border_sheet_actor_corner.svg');
@@ -40,7 +40,7 @@
     }
 
     > .window-content {
-        z-index: 0; // Ensures stacking context is created even when performance mode is set to low (which removes backdrop-filter)
+        z-index: 0; /* Ensures stacking context is created even when performance mode is set to low (which removes backdrop-filter) */
         padding: 0 1.875rem;
     }
 
@@ -179,7 +179,7 @@
                 }
             }
 
-            // Allows the equipment lists to be hidden behind the sticky tab which shows the total weight
+            /* Allows the equipment lists to be hidden behind the sticky tab which shows the total weight */
             &:has(.tab[data-tab="equipment"].active){
                 height: 98%;
             }

@@ -1,24 +1,9 @@
-:root {
-    --stormlight-journal-color-text: #000000;
-    --stormlight-journal-translucent-1: rgba(215, 215, 215, 0.4);
-    --stormlight-journal-yellow-1: #dcbc88;
-    --stormlight-journal-yellow-2: #f8f0e2;
-    --stormlight-journal-table-background-1: rgba(228, 232, 236, 0.75);
-    --stormlight-journal-table-background-2: rgba(248, 249, 250, 0.75);
-    --stormlight-journal-ra-background: rgba(239, 237, 230, 0.75);
-    --stormlight-journal-ra-header: #cea453;
-    --stormlight-journal-me-header: #802728;
-    --stormlight-journal-me-background: rgba(245, 227, 228, 0.75);
-    --stormlight-journal-pr-blue: #135baa;
-    --stormlight-journal-pr-yellow: #a5752b;
-    --stormlight-journal-foundry-orange: #bc2e0a;
+@import './journal-common.css';
 
-    --stormlight-journal-sl-sidebar-corner-size: 20px;
-    --stormlight-journal-sl-sidebar-border-width: 2px;
-}
+.sheet.journal-entry.sljsr {
+    /* ===== beging manual inlining of journal common styles, originally a @mixin in journal-common.css ===== */
 
-@mixin sl-journal-common {
-    //Overall Journal Styling
+    /* Overall Journal Styling */
     border: 3px solid var(--stormlight-journal-yellow-1);
     padding: 0px 5px 5px 5px;
     border-image-outset: 5px;
@@ -26,14 +11,14 @@
     background: url("assets/journal/window-background.webp") repeat;
     background-size: 1000px auto, auto auto;
 
-    //White with hills page background
+    /* White with hills page background */
     .journal-entry-content {
         background: url("assets/journal/page-background.webp");
         background-size: 100% 100%;
     }
 
-    //Because of the modified header attribute, we can incidently scale the sidebar to 0px.
-    // This enforces a min-width to keep it readable.
+    /* Because of the modified header attribute, we can incidently scale the sidebar to 0px. */
+    /* This enforces a min-width to keep it readable. */
     @keyframes scaleMin {
         from {
             min-width: inherit;
@@ -49,12 +34,12 @@
         animation-duration: 1s;
     }
 
-    //Update the scrollbar to match the journal colouring
+    /* Update the scrollbar to match the journal colouring */
     .scrollable {
         scrollbar-color: var(--stormlight-journal-yellow-1) var(--color-scrollbar-track);
     }
 
-    // Header for chapters
+    /* Header for chapters */
     /* Utilization:
             <div class="sl-chapter-header">
                 <div>
@@ -65,20 +50,20 @@
                 <div>
                     <p></p>
                 </div>
-            </div> 
-        */
+            </div>
+         */
     .sl-chapter-header {
         div:nth-child(1) {
-            //First div is the two Squiggles + main title text
+            /* First div is the two Squiggles + main title text */
             display: flex;
             height: 3rem;
             padding-left: 0;
             padding-right: 0;
 
             p:nth-child(2) {
-                //Chapter name text
+                /* Chapter name text */
                 text-wrap: nowrap;
-                //vertical-align: middle;
+                /* vertical-align: middle; */
                 color: var(--cosmere-color-opportunity);
                 border-bottom-color: var(--stormlight-journal-yellow-1);
                 border-bottom-width: 3px;
@@ -91,7 +76,7 @@
             }
 
             p:first-child {
-                //Left side squiggle
+                /* Left side squiggle */
                 flex: 1;
                 content: "";
                 background-image: url("assets/journal/header-left.webp");
@@ -102,7 +87,7 @@
             }
 
             p:last-child {
-                //Right side squiggle
+                /* Right side squiggle */
                 flex: 1;
                 content: "";
                 background-image: url("assets/journal/header-right.webp");
@@ -114,7 +99,7 @@
         }
 
         div:nth-child(2) {
-            //This is the underline beneath the text
+            /* This is the underline beneath the text */
             width: 100%;
             background-image: url("assets/journal/header-line.webp");
             background-size: 90% auto;
@@ -128,17 +113,17 @@
         }
     }
 
-    //Rest of the code should only work on the page
+    /* Rest of the code should only work on the page */
     .journal-entry-page {
         color: var(--stormlight-journal-color-text);
         font-family: var(--cosmere-font-normal);
         font-weight: 600;
         font-variant-numeric: lining-nums;
-        
-        //This replaces the default page title formatting
+
+        /* This replaces the default page title formatting */
         .journal-page-header {
             h1 {
-                // All-caps text with yellow underline border
+                /* All-caps text with yellow underline border */
                 color: var(--cosmere-color-opportunity);
                 border-bottom-color: var(--stormlight-journal-yellow-1);
                 border-bottom-width: 3px;
@@ -148,12 +133,12 @@
             }
         }
 
-        // Used to make the bolded sections of text blue, as they are in the handbook  
+        /* Used to make the bolded sections of text blue, as they are in the handbook   */
         strong {
             color: var(--cosmere-color-opportunity);
         }
 
-        // All-caps text with yellow underline border
+        /* All-caps text with yellow underline border */
         h2 {
             font-family: var(--cosmere-font-header-sc);
             font-size: 18pt;
@@ -164,7 +149,7 @@
             font-variant-numeric: lining-nums;
         }
 
-        // In the book this is just a blue slightly larger text. Im including an underline as it works clearer with the design of foundry
+        /* In the book this is just a blue slightly larger text. Im including an underline as it works clearer with the design of foundry */
         h3 {
             color: var(--cosmere-color-opportunity);
             font-family: var(--cosmere-font-header-sc);
@@ -176,7 +161,7 @@
             font-variant-numeric: lining-nums;
         }
 
-        //H4 for tables
+        /* H4 for tables */
         h4 {
             color: black;
             font-family: var(--cosmere-font-normal);
@@ -185,7 +170,7 @@
             font-size: 14pt;
         }
 
-        // Formatting for all links
+        /* Formatting for all links */
         a.content-link {
             position: relative;
             padding: 0;
@@ -214,7 +199,7 @@
             }
         }
 
-        // Formatting for all tables
+        /* Formatting for all tables */
         .sl-table {
             border-top: 0;
             border-bottom: 0;
@@ -230,7 +215,7 @@
                 }
 
                 td {
-                    // Table main header
+                    /* Table main header */
                     color: var(--cosmere-color-white);
                     font-family: var(--cosmere-font-normal);
                     font-weight: bold;
@@ -242,13 +227,13 @@
                     padding-bottom: 0;
 
                     strong {
-                        // Bypass the strong color above for the header
+                        /* Bypass the strong color above for the header */
                         color: inherit;
                         font-variant-numeric: lining-nums;
                     }
 
                     p {
-                        // This may need to be changed, for now this makes the text in the headers not wrap, but some headers do wrap. Likely will make two table variations?
+                        /* This may need to be changed, for now this makes the text in the headers not wrap, but some headers do wrap. Likely will make two table variations? */
                         white-space: nowrap;
                         padding-right: 0.75rem;
                         font-variant-numeric: lining-nums;
@@ -257,10 +242,10 @@
             }
 
             tbody tr {
-                // Make text at top of columns
+                /* Make text at top of columns */
                 vertical-align: text-top;
 
-                // Specialty padding (will make this one line later if not needed, was a remnant from experimnentation)
+                /* Specialty padding (will make this one line later if not needed, was a remnant from experimnentation) */
                 td:first-child {
                     padding-left: 0.5rem;
                 }
@@ -274,7 +259,7 @@
                 }
             }
 
-            // Table background colors
+            /* Table background colors */
             tbody tr:nth-child(even) {
                 background-color: var(--stormlight-journal-table-background-1);
             }
@@ -288,7 +273,7 @@
         .sl-red,
         .sl-foundry,
         .sl-sidebar {
-            //Remove the default table borders
+            /* Remove the default table borders */
             border-top: 0;
             border-bottom: 0;
             background: transparent;
@@ -301,7 +286,7 @@
                 background-color: transparent;
 
                 td {
-                    // Header section for the standardized blue 'tip' section
+                    /* Header section for the standardized blue 'tip' section */
                     color: var(--cosmere-color-white);
                     font-family: var(--cosmere-font-normal);
                     font-variant-caps: small-caps;
@@ -316,7 +301,7 @@
                     }
 
                     strong {
-                        //Bypass the strong color above for the header
+                        /* Bypass the strong color above for the header */
                         color: inherit;
                     }
                 }
@@ -326,7 +311,7 @@
                 background-color: transparent;
 
                 td {
-                    //Introduce padding on the text, as the default table padding isn't enough with the custom border
+                    /* Introduce padding on the text, as the default table padding isn't enough with the custom border */
                     padding-left: 1rem !important;
                     padding-right: 1rem !important;
                     position: relative;
@@ -354,12 +339,12 @@
             color: var(--cosmere-color-opportunity);
         }
 
-        //Reduced version included here. Modifies the ul element to use diamonds like the book.
-        ul, .sl-ul{  
+        /* Reduced version included here. Modifies the ul element to use diamonds like the book. */
+        ul, .sl-ul{
                 list-style: none;
                 padding-left: 0;
                 margin-left: 0;
-            
+
                 li {
                     position: relative;
                     padding-left: 2px;
@@ -391,6 +376,64 @@
 
         table {
             background-color: unset;
+        }
+    }
+    /* ===== end manual inlining of journal common styles ===== */
+
+    .journal-entry-page {
+        .sl-blue {
+            tbody tr:first-child td {
+                background-color: var(--cosmere-color-opportunity);
+            }
+
+            tbody tr:last-child {
+                td {
+                    background-color: var(--stormlight-journal-translucent-1);
+                }
+
+                &::after {
+                    background: var(--cosmere-color-opportunity);
+                }
+            }
+        }
+
+        .sl-foundry {
+            tbody tr:first-child td {
+                background-color: var(--stormlight-journal-foundry-orange);
+
+                >p {
+                    padding-left: 2.5ch;
+                }
+
+                &::before {
+                    content: "";
+                    position: absolute;
+                    display: inline-block;
+                    background-image: url(../../icons/vtt-512.png);
+                    background-size: 30px 30px;
+                    width: 30px;
+                    height: 30px;
+                    z-index: 100;
+                    top: calc(100% - 36px);
+                    left: 3px;
+                }
+            }
+
+            tbody tr:last-child {
+                td {
+                    background-color: var(--stormlight-journal-me-background);
+                }
+
+                &::after {
+                    background: var(--stormlight-journal-foundry-orange);
+                }
+            }
+
+            ::marker {
+                font-variant-numeric: lining-nums;
+                font-weight: bold;
+                color: var(--stormlight-journal-foundry-orange);
+            }
         }
     }
 }

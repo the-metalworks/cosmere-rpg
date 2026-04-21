@@ -32,7 +32,7 @@ app-talent-tree-editor {
             border-right: 1px solid var(--cosmere-color-accent);
         }
 
-        .menu {         
+        .menu {
             width: 30rem;
             right: -30rem;
             transition: right 0.3s;
@@ -82,7 +82,7 @@ app-talent-tree-editor {
                     > i {
                         margin: 0;
                     }
-                } 
+                }
             }
 
             .view-bounds {
