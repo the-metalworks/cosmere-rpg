@@ -404,6 +404,7 @@ any> {
     ) {
         // Get all activatable items (actions & items with an associated action)
         const activatableItems = this.application.actor.items
+            .filter((item) => !item.isTalent())
             .filter((item) => item.hasActivation())
             .filter(
                 (item) =>
