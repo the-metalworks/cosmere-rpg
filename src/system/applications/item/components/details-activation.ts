@@ -32,12 +32,12 @@ any> {
 
     /* --- Actions --- */
     protected static addConsumptionOption(this: DetailsActivationComponent) {
-        if (!this.application.item.hasActivation()) return;
+        if (!this.application.item.isAction()) return;
 
         // Get the activation data
         const { activation } = this.application.item.system;
 
-        activation.consume?.push({
+        activation!.consumption?.push({
             type: ItemConsumeType.Resource,
             value: {
                 min: 0,
@@ -50,7 +50,7 @@ any> {
         void this.application.item.update({
             system: {
                 activation: {
-                    consume: activation.consume,
+                    consumption: activation!.consumption,
                 },
             },
         });
@@ -62,22 +62,23 @@ any> {
         return Promise.resolve({
             ...context,
             ...this.prepareActivationContext(),
-            hasActivation: this.application.item.hasActivation(),
+            hasActivation: this.application.item.isAction(),
         });
     }
 
     private prepareActivationContext() {
-        if (!this.application.item.hasActivation()) return {};
+        if (!this.application.item.isAction()) return {};
 
         // Get the activation data
         const { activation } = this.application.item.system;
+        if (!activation) return {};
 
         return {
             hasActivationType: activation.type !== ActivationType.None,
             hasActivationCost: !!activation.cost.type,
-            consume: activation.consume,
-            hasUses: !!activation.uses,
-            hasSkill: !!activation.resolvedSkill,
+            consume: activation.consumption,
+            hasUses: !!this.application.item.system.resources.uses,
+            hasSkill: !!this.application.item.system.skillTest?.resolvedSkill,
 
             usesTypeSelectOptions: {
                 [NONE]: 'GENERIC.None',
@@ -86,9 +87,9 @@ any> {
                         this.application.item
                             .system as unknown as foundry.abstract.DataModel.Any
                     ).schema.getField(
-                        'activation.uses.type',
+                        'resources.uses.type',
                     ) as foundry.data.fields.StringField
-                ).options.choices as unknown as AnyObject), // TEMP: Workaround
+                )?.options.choices as unknown as AnyObject), // TEMP: Workaround
             },
             consumeTypeSelectOptions: {
                 '': 'GENERIC.None',
@@ -97,7 +98,7 @@ any> {
                         this.application.item
                             .system as unknown as foundry.abstract.DataModel.Any
                     ).schema.getField(
-                        'activation.consume.element.type',
+                        'activation.consumption.element.type',
                     ) as foundry.data.fields.StringField
                 ).options.choices as unknown as AnyObject), // TEMP: Workaround
             },

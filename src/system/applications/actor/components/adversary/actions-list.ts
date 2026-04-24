@@ -7,7 +7,7 @@ import {
 import { ItemListSection } from '@system/types/application/actor/components/item-list';
 
 // Documents
-import { CosmereItem } from '@system/documents/item';
+import { CosmereItem, type ActionItem } from '@system/documents/item';
 import { CosmereActor } from '@system/documents/actor';
 
 // Components
@@ -26,18 +26,13 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
         params: unknown,
         context: ActorActionsListComponentRenderContext,
     ) {
-        // Get all activatable items (actions & items with an associated action)
-        const activatableItems = this.application.actor.items
-            .filter((item) => item.hasActivation())
-            .filter(
-                (item) =>
-                    !item.isEquippable() ||
-                    item.system.equipped ||
-                    item.system.alwaysEquipped,
-            );
+        // Get all actions
+        const actions = Array.from(this.application.actor.items).flatMap(
+            (item) => (item.isAction() ? [item] : item.actions),
+        );
 
         // Ensure all items have an expand state record
-        activatableItems.forEach((item) => {
+        actions.forEach((item) => {
             if (!(item.id! in this.itemState)) {
                 this.itemState[item.id!] = {
                     expanded: false,
@@ -61,19 +56,19 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
             sections: [
                 await this.prepareSectionData(
                     this.sections[0],
-                    activatableItems,
+                    actions,
                     searchText,
                     sortMode,
                 ),
                 await this.prepareSectionData(
                     this.sections[1],
-                    activatableItems,
+                    actions,
                     searchText,
                     sortMode,
                 ),
                 await this.prepareSectionData(
                     this.sections[2],
-                    activatableItems,
+                    actions,
                     searchText,
                     sortMode,
                 ),
@@ -94,38 +89,16 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
             id: type,
             label: CONFIG.COSMERE.items.types[type].labelPlural,
             default: true,
-            filter: (item: CosmereItem) => item.type === type,
-            new: (parent: CosmereActor) =>
-                CosmereItem.create(
-                    {
-                        type,
-                        name: game.i18n.localize(
-                            `COSMERE.Item.Type.${type.capitalize()}.New`,
-                        ),
-                        system: {
-                            activation: {
-                                type: ActivationType.Utility,
-                                cost: {
-                                    type: ActionCostType.Action,
-                                    value: 1,
-                                },
-                            },
-
-                            ...(type === ItemType.Weapon
-                                ? {
-                                      equipped: true,
-                                  }
-                                : {}),
-                        },
-                    },
-                    { parent },
-                ) as Promise<CosmereItem>,
+            filter: (item: CosmereItem) =>
+                item.parent instanceof CosmereItem &&
+                item.parent.isTyped() &&
+                item.parent.system.type === type,
         };
     }
 
     private async prepareSectionData(
         section: ItemListSection,
-        items: CosmereItem[],
+        items: ActionItem[],
         searchText: string,
         sort: SortMode,
     ) {

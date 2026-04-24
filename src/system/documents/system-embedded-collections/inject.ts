@@ -12,3 +12,11 @@ foundry.documents = {
 };
 
 foundry.utils.setProperty(CONFIG, 'Item.documentClass', globalThis.Item);
+
+declare global {
+    interface ConfiguredSystemEmbeddedCollections {
+        Item: {
+            Item: string;
+        };
+    }
+}

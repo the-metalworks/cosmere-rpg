@@ -1,0 +1,7 @@
+{{#with (lookup tabsMap "actions") as |tab|}}
+
+<div class="tab tab-content {{tab.cssClass}}" data-tab="actions" data-group="primary">
+    {{app-item-actions-list}}
+</div>
+
+{{/with}}

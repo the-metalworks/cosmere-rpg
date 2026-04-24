@@ -11,7 +11,7 @@ import {
 } from '../../data';
 import { CosmereActor, CosmereItem } from '@src/system/documents';
 import { handleDocumentMigrationError } from '../utils';
-import { ItemConsumeData } from '@src/system/data/item/mixins/activatable';
+// import { ItemConsumeData } from '@src/system/data/item/mixins/activatable';
 import { ItemConsumeType } from '@src/system/types/cosmere';
 
 export default {
@@ -157,7 +157,7 @@ function migrateItemData(item: RawDocumentData<any>, changes: object) {
                                   resource: consume.resource,
                               }
                             : {}),
-                    } as ItemConsumeData;
+                    };
                 });
 
             foundry.utils.mergeObject(changes, {

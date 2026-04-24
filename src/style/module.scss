@@ -300,7 +300,12 @@
         margin: 0;
         padding: 0;
 
-        &>li {
+        &>[data-component-id] {
+            display: block;
+        }
+
+        &>li, &>[data-component-id] {
+            overflow: hidden;
             margin: 0;
             list-style-type: none;
 
@@ -317,6 +322,10 @@
                     }
                 }
             }
+        }
+
+        &>li.indent, &>[data-component-id].indent>li {
+            padding-left: 1rem;
         }
 
         .item {
@@ -553,6 +562,10 @@
 
             &.basic {
                 background-color: var(--cosmere-color-dark-1);
+            }
+
+            &.item .img {
+                border: none;
             }
         }
     }

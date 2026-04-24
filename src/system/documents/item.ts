@@ -9,9 +9,12 @@ import {
     WeaponTraitId,
     ArmorTraitId,
     ActionCostType,
+    ItemResource,
 } from '@system/types/cosmere';
 import { CosmereHooks } from '@system/types/hooks';
 import { AnyObject, EmptyObject, DeepPartial } from '@system/types/utils';
+
+import type { EmbeddedDocumentsConfig } from './embed-config/types';
 
 // Data model
 import {
@@ -32,10 +35,6 @@ import {
     TalentTreeItemDataModel,
 } from '@system/data/item';
 
-import {
-    ActivatableItemDataSchema,
-    ItemConsumeData,
-} from '@system/data/item/mixins/activatable';
 import { AttackingItemDataSchema } from '@system/data/item/mixins/attacking';
 import { DamagingItemDataSchema } from '@system/data/item/mixins/damaging';
 import {
@@ -68,6 +67,7 @@ import {
     RelationshipsItemDataSchema,
     ItemRelationship,
 } from '@system/data/item/mixins/relationships';
+import { ResourcesItemMixin } from '@system/data/item/mixins/resources';
 
 // Sheet
 import { BaseItemSheet } from '@system/applications/item/base';
@@ -92,6 +92,8 @@ import {
     determineConfigurationMode,
     getApplyTargets,
     getTargetDescriptors,
+    resolveSkill,
+    resolveAttribute,
 } from '@system/utils/generic';
 import { EnricherData } from '../utils/enrichers';
 import { renderSystemTemplate, TEMPLATES } from '@system/utils/templates';
@@ -129,26 +131,19 @@ interface ShowConsumeDialogOptions {
     consumeType?: ItemConsumeType;
 }
 
-// export interface CosmereItemData<
-//     T extends foundry.abstract.DataSchema = foundry.abstract.DataSchema,
-// > {
-//     name: string;
-//     type: ItemType;
-//     system?: T;
-// }
-
 class _Item<
-    TSystem extends foundry.abstract.TypeDataModel.Any,
+    const TSystem extends foundry.abstract.TypeDataModel.Any,
 > extends Item<'base'> {
+    declare static metadata: foundry.abstract.Document.MetadataFor<'Item'> & {
+        embeddedConfig: EmbeddedDocumentsConfig<'Item'>;
+    };
+
     // @ts-expect-error Explicitly declare to get proper typing
     declare type: ItemType;
     // @ts-expect-error Explicitly declare to get proper typing
     declare system: TSystem;
     // @ts-expect-error Explicitly declare to get proper typing
     declare sheet: BaseItemSheet | null;
-
-    // @ts-expect-error Overriden by system embedded collections
-    declare parent: CosmereActor | CosmereItem | null;
 
     declare items: foundry.abstract.EmbeddedCollection<CosmereItem, this>;
 
@@ -162,9 +157,45 @@ class _Item<
 }
 
 export class CosmereItem<
-    T extends
+    const T extends
         foundry.abstract.TypeDataModel.Any = foundry.abstract.TypeDataModel.Any,
 > extends _Item<T> {
+    static metadata = Object.freeze(
+        foundry.utils.mergeObject(
+            super.metadata,
+            {
+                embeddedConfig: {
+                    base: {
+                        Item: {
+                            // Allow actions to be embedded in items by default, but disallow all other item types
+                            base: false,
+                            action: true,
+                        },
+                    },
+                    action: {
+                        Item: false, // Disable embedding of items in action items
+                    },
+                    connection: {
+                        Item: false, // Disable embedding of items in connection items
+                    },
+                    goal: {
+                        Item: false, // Disable embedding of items in goal items
+                    },
+                    injury: {
+                        Item: false, // Disable embedding of items in injury items
+                    },
+                    loot: {
+                        Item: false, // Disable embedding of items in loot items
+                    },
+                    talent_tree: {
+                        Item: false, // Disable embedding of items in talent tree items
+                    },
+                } as EmbeddedDocumentsConfig<'Item'>,
+            },
+            { inplace: false },
+        ),
+    );
+
     /* --- ItemType type guards --- */
 
     public isWeapon(): this is CosmereItem<WeaponItemDataModel> {
@@ -199,7 +230,7 @@ export class CosmereItem<
         return this.type === ItemType.Injury;
     }
 
-    public isAction(): this is CosmereItem<ActionItemDataModel> {
+    public isAction(): this is ActionItem {
         return this.type === ItemType.Action;
     }
 
@@ -228,13 +259,6 @@ export class CosmereItem<
     }
 
     /* --- Mixin type guards --- */
-
-    /**
-     * Can this item be activated?
-     */
-    public hasActivation(): this is ActivatableItem {
-        return 'activation' in this.system;
-    }
 
     /**
      * Does this item have an attack?
@@ -335,7 +359,52 @@ export class CosmereItem<
         return 'relationships' in this.system;
     }
 
+    /**
+     * Whether or not this item has resources that can be consumed.
+     */
+    public hasResources(): this is ResourcesItem {
+        return 'resources' in this.system;
+    }
+
     /* --- Accessors --- */
+
+    public get isActivatable(): boolean {
+        if (this.type !== ItemType.Action) return true;
+
+        const embeddedConfig = (this.constructor as typeof CosmereItem).metadata
+            .embeddedConfig;
+        const configForType =
+            embeddedConfig[this.type] ?? embeddedConfig.base ?? {};
+
+        if (configForType.Item === false) return false;
+
+        const actionConfig =
+            configForType.Item!.action ?? configForType.Item!.base ?? true;
+
+        return actionConfig !== false;
+    }
+
+    public get hasActions(): boolean {
+        return this.actions.length > 0;
+    }
+
+    public get actions(): readonly ActionItem[] {
+        return this.items.filter((item) => item.isAction());
+    }
+
+    /**
+     * Whether or not this action is the default activation for its parent item.
+     * Only available for action items that are embedded in other items.
+     */
+    public get isDefaultActivation(): boolean {
+        if (
+            !this.isAction() ||
+            !this.parent ||
+            !(this.parent instanceof CosmereItem)
+        )
+            return false;
+        return this.parent.actions.at(0)?.id === this.id;
+    }
 
     /**
      * Checks if the talent item mode is active.
@@ -420,7 +489,8 @@ export class CosmereItem<
     public async roll(
         options: CosmereItem.RollOptions = {},
     ): Promise<D20Roll | null> {
-        if (!this.hasActivation()) return null;
+        if (!this.isAction() || !this.system || !this.system.skillTest)
+            return null;
 
         // Get the actor to roll for (either assigned through option, the parent of this item, or the first controlled actor)
         const actor =
@@ -439,7 +509,8 @@ export class CosmereItem<
         }
 
         // Get skill to use
-        const skillId = options.skill ?? this.system.activation.resolvedSkill;
+        const skillId =
+            options.skill ?? this.system.skillTest.resolvedSkill ?? null;
 
         const skill = skillId
             ? actor.system.skills[skillId]
@@ -447,7 +518,9 @@ export class CosmereItem<
 
         // Get the attribute id
         const attributeId =
-            options.attribute ?? this.system.activation.resolvedAttribute;
+            options.attribute ??
+            this.system.skillTest.resolvedAttribute ??
+            null;
 
         // Set up actor data
         const data: D20RollData = this.getSkillTestRollData(
@@ -474,11 +547,11 @@ export class CosmereItem<
                 })`,
                 defaultAttribute: skill.attribute ? skill.attribute : undefined,
                 parts: parts,
-                plotDie: options.plotDie ?? this.system.activation.plotDie,
+                plotDie: options.plotDie ?? this.system.skillTest.plotDie,
                 opportunity:
-                    options.opportunity ?? this.system.activation.opportunity,
+                    options.opportunity ?? this.system.skillTest.opportunity,
                 complication:
-                    options.complication ?? this.system.activation.complication,
+                    options.complication ?? this.system.skillTest.complication,
             }) as D20RollConfigration,
         );
 
@@ -521,12 +594,12 @@ export class CosmereItem<
             return null;
         }
 
-        const activatable = this.hasActivation();
+        const activatable = this.isAction();
 
         // Get the skill id
         const skillId =
             options.skill ??
-            (activatable ? this.system.activation.resolvedSkill : null);
+            (activatable ? this.system.damage.resolvedSkill : null);
 
         // Get the skill
         const skill = skillId ? actor.system.skills[skillId] : undefined;
@@ -534,7 +607,7 @@ export class CosmereItem<
         // Get the attribute id
         const attributeId =
             options.attribute ??
-            (activatable ? this.system.activation.resolvedAttribute : null);
+            (activatable ? this.system.damage.resolvedAttribute : null);
 
         // Set up data
         const rollData: DamageRollData = this.getDamageRollData(
@@ -637,7 +710,7 @@ export class CosmereItem<
     public async rollAttack(
         options: CosmereItem.RollAttackOptions = {},
     ): Promise<[D20Roll, DamageRoll[]] | null> {
-        if (!this.hasActivation()) return null;
+        if (!this.isAction()) return null;
         if (!this.hasDamage() || !this.system.damage.formula) return null;
 
         // Get the actor to roll for (either assigned through option, the parent of this item, or the first controlled actor)
@@ -658,7 +731,7 @@ export class CosmereItem<
 
         // Get the skill to use during the skill test
         const skillTestSkillId =
-            options.skillTest?.skill ?? this.system.activation.resolvedSkill;
+            options.skillTest?.skill ?? this.system.skillTest.resolvedSkill;
 
         // Get the skill to use during the damage roll
         const damageSkillId =
@@ -669,7 +742,7 @@ export class CosmereItem<
         // Get the attribute to use during the skill test
         let skillTestAttributeId =
             options.skillTest?.attribute ??
-            this.system.activation.resolvedAttribute;
+            this.system.skillTest.resolvedAttribute;
 
         // Get the attribute to use during the damage roll
         const damageAttributeId =
@@ -681,8 +754,8 @@ export class CosmereItem<
 
         options.rollMode ??= game.settings.get('core', 'rollMode');
         options.skillTest ??= {};
-        options.skillTest.parts ??= this.system.activation.modifierFormula
-            ? [this.system.activation.modifierFormula]
+        options.skillTest.parts ??= this.system.skillTest.modifierFormula
+            ? [this.system.skillTest.modifierFormula]
             : [];
         options.damage ??= {};
 
@@ -738,8 +811,7 @@ export class CosmereItem<
                 defaultAttribute: skillTestAttributeId,
                 defaultRollMode: options.rollMode,
                 raiseStakes:
-                    options.skillTest?.plotDie ??
-                    this.system.activation.plotDie,
+                    options.skillTest?.plotDie ?? this.system.skillTest.plotDie,
                 skillTest: {
                     ...options.skillTest,
                     parts,
@@ -871,7 +943,7 @@ export class CosmereItem<
     public async use(
         options: CosmereItem.UseOptions = {},
     ): Promise<D20Roll | [D20Roll, ...DamageRoll[]] | null> {
-        if (!this.hasActivation()) return null;
+        if (!this.isAction()) return null;
 
         // Set up post roll actions
         const postRoll: (() => void)[] = [];
@@ -915,11 +987,11 @@ export class CosmereItem<
         // Determine whether or not resource consumption is available
         const consumptionAvailable =
             options.shouldConsume !== false &&
-            !!this.system.activation.consume &&
-            this.system.activation.consume.length > 0;
+            !!this.system.activation!.consumption &&
+            this.system.activation!.consumption.length > 0;
 
         // Determine if we should handle resource consumption
-        let consumeResponse: ItemConsumeData[] | null = null;
+        let consumeResponse: ActionItemDataModel.ConsumeData[] | null = null;
         if (consumptionAvailable && !options.shouldConsume) {
             consumeResponse = await this.showConsumeDialog();
 
@@ -981,9 +1053,9 @@ export class CosmereItem<
         }
 
         // Handle item uses
-        if (this.system.activation.uses) {
+        if (this.system.resources.uses) {
             // Get the current uses
-            const currentUses = this.system.activation.uses.value;
+            const currentUses = this.system.resources.uses.value;
 
             // Validate we can use the item
             if (currentUses < 1) {
@@ -996,9 +1068,9 @@ export class CosmereItem<
             // Add post roll action to consume a use
             postRoll.push(() => {
                 // Handle use consumption
-                void (this as ActivatableItem).update({
+                void this.update({
                     system: {
-                        activation: {
+                        resources: {
                             uses: {
                                 value: currentUses - 1,
                             },
@@ -1030,7 +1102,7 @@ export class CosmereItem<
 
         // Check if a roll is required
         const rollRequired =
-            this.system.activation.type === ActivationType.SkillTest ||
+            this.system.activation!.type === ActivationType.SkillTest ||
             hasDamage;
 
         const messageConfig = {
@@ -1068,7 +1140,7 @@ export class CosmereItem<
 
         if (rollRequired) {
             const rolls: foundry.dice.Roll[] = [];
-            let flavor = this.system.activation.flavor;
+            let flavor = this.system.activation!.flavor;
 
             if (hasAttack && hasDamage) {
                 const attackResult = await this.rollAttack({
@@ -1115,10 +1187,10 @@ export class CosmereItem<
                     rolls.push(...(damageRolls as unknown as Roll[]));
                 }
 
-                options.parts ??= this.system.activation.modifierFormula
-                    ? [this.system.activation.modifierFormula]
+                options.parts ??= this.system.skillTest.modifierFormula
+                    ? [this.system.skillTest.modifierFormula]
                     : [];
-                if (this.system.activation.type === ActivationType.SkillTest) {
+                if (this.system.activation!.type === ActivationType.SkillTest) {
                     const roll = await this.roll({
                         ...options,
                         actor,
@@ -1157,7 +1229,7 @@ export class CosmereItem<
         } else {
             // NOTE: Use boolean or operator (`||`) here instead of nullish coalescing (`??`),
             // as flavor can also be an empty string, which we'd like to replace with the default flavor too
-            const flavor = this.system.activation.flavor || undefined;
+            const flavor = this.system.activation!.flavor || undefined;
 
             // Create chat message
             const message = (await ChatMessage.create(messageConfig, {
@@ -1173,11 +1245,11 @@ export class CosmereItem<
 
     protected async showConsumeDialog(
         options: ShowConsumeDialogOptions = {},
-    ): Promise<ItemConsumeData[] | null> {
-        if (!this.hasActivation()) return null;
-        if (!this.system.activation.consume) return null;
+    ): Promise<ActionItemDataModel.ConsumeData[] | null> {
+        if (!this.isAction()) return null;
+        if (!this.system.activation!.consumption) return null;
 
-        const consumeOptions = this.system.activation.consume.map(
+        const consumeOptions = this.system.activation!.consumption.map(
             (consumptionData, i) => {
                 const consumeType = options.consumeType ?? consumptionData.type;
                 // Only automatically check first option, or anything overridden.
@@ -1215,17 +1287,42 @@ export class CosmereItem<
 
     /* --- Functions --- */
 
-    public async recharge() {
-        if (!this.hasActivation() || !this.system.activation.uses) return;
+    /**
+     * Recharge the item, restoring specified resource(s) to their maximum value.
+     * If no specific resource(s) are provided, all resources will be recharged.
+     */
+    public async recharge(resource?: ItemResource): Promise<void>;
+
+    /**
+     * Recharge the item, restoring specified resource(s) to their maximum value.
+     * If no specific resource(s) are provided, all resources will be recharged.
+     */
+    public async recharge(resources?: ItemResource[]): Promise<void>;
+    public async recharge(
+        resourceOrResources?: ItemResource | ItemResource[],
+    ): Promise<void> {
+        if (!this.hasResources()) return;
+
+        // Default to recharging all resources if no specific resource(s) were provided
+        resourceOrResources =
+            resourceOrResources ??
+            (Object.keys(this.system.resources) as ItemResource[]);
+
+        const resourcesToRecharge = Array.isArray(resourceOrResources)
+            ? resourceOrResources
+            : [resourceOrResources];
 
         // Recharge resource
         await this.update({
             system: {
-                activation: {
-                    uses: {
-                        value: this.system.activation.uses.max,
-                    },
-                },
+                resources: Object.fromEntries(
+                    resourcesToRecharge.map((resource) => [
+                        resource,
+                        {
+                            value: this.system.resources[resource].max,
+                        },
+                    ]),
+                ),
             },
         });
     }
@@ -1342,10 +1439,10 @@ export class CosmereItem<
         }
 
         let action;
-        if (this.hasActivation() && this.system.activation.cost.value) {
-            switch (this.system.activation.cost.type) {
+        if (this.isAction() && this.system.activation!.cost.value) {
+            switch (this.system.activation!.cost.type) {
                 case ActionCostType.Action:
-                    action = `action${Math.min(3, this.system.activation.cost.value)}`;
+                    action = `action${Math.min(3, this.system.activation!.cost.value)}`;
                     break;
                 case ActionCostType.Reaction:
                     action = 'reaction';
@@ -1461,14 +1558,14 @@ export class CosmereItem<
             actor,
             item: {
                 name: this.name,
-                charges: this.hasActivation()
+                charges: this.hasResources()
                     ? {
                           value:
-                              (this as unknown as ActivatableItem).system
-                                  .activation.uses?.value ?? 0,
+                              (this as unknown as ResourcesItem).system
+                                  .resources.charges?.value ?? 0,
                           max:
-                              (this as unknown as ActivatableItem).system
-                                  .activation.uses?.max ?? 0,
+                              (this as unknown as ResourcesItem).system
+                                  .resources.charges?.max ?? 0,
                       }
                     : undefined,
             },
@@ -1660,7 +1757,6 @@ export type CosmereItemFromSchema<
     >
 >;
 
-export type ActivatableItem = CosmereItemFromSchema<ActivatableItemDataSchema>;
 export type AttackingItem = CosmereItemFromSchema<AttackingItemDataSchema>;
 export type DamagingItem = CosmereItemFromSchema<DamagingItemDataSchema>;
 export type DescriptionItem = CosmereItemFromSchema<DescriptionItemDataSchema>;
@@ -1698,6 +1794,8 @@ export type LinkedSkillsItem =
 export type RelationshipsItem =
     CosmereItemFromSchema<RelationshipsItemDataSchema>;
 
+export type ResourcesItem = CosmereItemFromSchema<ResourcesItemMixin.Schema>;
+
 declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
     interface DocumentClassConfig {
         Item: typeof CosmereItem;
@@ -1706,6 +1804,12 @@ declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
     interface ConfiguredItem<SubType extends Item.SubType> {
         document: CosmereItem;
     }
+
+    // interface ConfiguredMetadata {
+    //     Item: Item.Metadata & {
+    //         'test': string;
+    //     }
+    // }
 
     interface FlagConfig {
         Item: {

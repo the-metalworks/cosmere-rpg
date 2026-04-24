@@ -1,8 +1,11 @@
 import { SYSTEM_ID } from '@src/system/constants';
-import { ItemConsumeData } from '@src/system/data/item/mixins/activatable';
+
+import { ActionItemDataModel } from '@system/data/item';
+
+// import { ItemConsumeData } from '@src/system/data/item/mixins/activatable';
 import { CosmereItem } from '@src/system/documents';
 import { ItemConsumeType, Resource } from '@src/system/types/cosmere';
-import { NumberRange } from '@src/system/types/utils';
+import type { NumberRange, AnyObject } from '@src/system/types/utils';
 import { TEMPLATES } from '@src/system/utils/templates';
 
 // Constants
@@ -39,7 +42,7 @@ interface ItemConsumeDialogResult {
     /**
      * Resource(s) to consume
      */
-    consumption: ItemConsumeData[];
+    consumption: ActionItemDataModel.ConsumeData[];
 }
 
 export class ItemConsumeDialog extends foundry.applications.api.DialogV2 {
@@ -244,27 +247,30 @@ export class ItemConsumeDialog extends foundry.applications.api.DialogV2 {
                     };
                 })
                 .filter((elem) => !!elem)
-                .reduce<Record<string, ItemConsumeData>>((acc, consumable) => {
-                    // Get specific key, including the consume type and the actual
-                    // value that's meant to be consumed.
-                    let key = consumable.type as string;
-                    switch (consumable.type) {
-                        case ItemConsumeType.Resource:
-                            key += `.${consumable.resource!}`;
-                            break;
-                    }
+                .reduce<Record<string, ActionItemDataModel.ConsumeData>>(
+                    (acc, consumable) => {
+                        // Get specific key, including the consume type and the actual
+                        // value that's meant to be consumed.
+                        let key = consumable.type as string;
+                        switch (consumable.type) {
+                            case ItemConsumeType.Resource:
+                                key += `.${consumable.resource!}`;
+                                break;
+                        }
 
-                    if (!acc[key]) {
-                        // TODO: Resolve typing issues
-                        // NOTE: Use any as workaround for foundry-vtt-types issues
-                        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
-                        acc[key] = { ...consumable } as any;
-                    } else {
-                        acc[key].value.actual += consumable.value.actual!;
-                    }
+                        if (!acc[key]) {
+                            // TODO: Resolve typing issues
+                            // NOTE: Use any as workaround for foundry-vtt-types issues
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
+                            acc[key] = { ...consumable } as any;
+                        } else {
+                            acc[key].value.actual += consumable.value.actual!;
+                        }
 
-                    return acc;
-                }, {});
+                        return acc;
+                    },
+                    {},
+                );
 
             // Reconstruct list
             const consumption = Object.entries(collated).map(([_, v]) => v);

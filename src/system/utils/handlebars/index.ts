@@ -11,7 +11,7 @@ import {
     HoldType,
     AttackType,
     TurnSpeed,
-    ItemRechargeType,
+    ItemResourceRechargeType,
 } from '@system/types/cosmere';
 
 import { CosmereActor } from '@system/documents/actor';
@@ -25,7 +25,7 @@ import { CosmereTurnContext } from '@system/applications/combat';
 import { ItemContext, ItemContextOptions } from './types';
 import { TEMPLATES } from '../templates';
 import { SYSTEM_ID } from '@system/constants';
-import { ItemConsumeData } from '@system/data/item/mixins/activatable';
+import { ActionItemDataModel } from '@system/data/item/action';
 
 Handlebars.registerHelper('add', (a: number, b: number) => a + b);
 Handlebars.registerHelper('sub', (a: number, b: number) => a - b);
@@ -77,6 +77,8 @@ Handlebars.registerHelper('typeof', (value: unknown) => {
     if (Array.isArray(value)) return 'array';
     return typeof value;
 });
+
+Handlebars.registerHelper('isArray', (value: unknown) => Array.isArray(value));
 
 Handlebars.registerHelper(
     'perc',
@@ -312,29 +314,29 @@ Handlebars.registerHelper(
                 );
             }
 
-            if (item.hasActivation()) {
+            if (item.isAction()) {
                 context.hasActivation = true;
                 context.activation = {};
 
                 if (
-                    item.system.activation.cost?.type &&
-                    item.system.activation.cost?.type !== 'none'
+                    item.system.activation!.cost?.type &&
+                    item.system.activation!.cost?.type !== 'none'
                 ) {
                     context.activation.hasCost = true;
                     context.activation.cost = {
-                        type: item.system.activation.cost.type,
+                        type: item.system.activation!.cost.type,
                         typeLabel:
                             CONFIG.COSMERE.action.costs[
-                                item.system.activation.cost.type
+                                item.system.activation!.cost.type
                             ].label,
-                        value: item.system.activation.cost.value,
+                        value: item.system.activation!.cost.value,
                     };
                 }
 
                 // Check if a skill test is configured
-                if (item.system.activation.resolvedSkill) {
-                    const skill = item.system.activation.resolvedSkill;
-                    const attribute = item.system.activation.resolvedAttribute;
+                if (item.system.skillTest.resolvedSkill) {
+                    const skill = item.system.skillTest.resolvedSkill;
+                    const attribute = item.system.skillTest.resolvedAttribute;
 
                     context.hasSkillTest = true;
                     context.skillTest = {
@@ -360,10 +362,11 @@ Handlebars.registerHelper(
                 }
 
                 // Check if the activation consumes some resource
-                if (item.system.activation.consume) {
+                if (item.system.activation!.consumption) {
                     context.consume = [];
 
-                    for (const consumable of item.system.activation.consume) {
+                    for (const consumable of item.system.activation!
+                        .consumption) {
                         const consumesResource =
                             consumable.type === ItemConsumeType.Resource;
                         const consumesItem =
@@ -391,41 +394,51 @@ Handlebars.registerHelper(
                     }
                 }
 
-                if (item.system.activation.uses) {
-                    const type = item.system.activation.uses.type;
-                    const value = item.system.activation.uses.value;
-                    const max = item.system.activation.uses.max;
-                    const recharge = item.system.activation.uses.recharge;
+                // if (item.system.activation.uses) {
+                //     const type = item.system.activation.uses.type;
+                //     const value = item.system.activation.uses.value;
+                //     const max = item.system.activation.uses.max;
+                //     const recharge = item.system.activation.uses.recharge;
 
-                    const hasRecharge = recharge != null;
+                //     const hasRecharge = recharge != null;
 
-                    // Get config
-                    const config =
-                        CONFIG.COSMERE.items.activation.uses.types[type];
+                //     // Get config
+                //     const config =
+                //         CONFIG.COSMERE.items.activation.uses.types[type];
 
-                    context.hasUses = true;
-                    context.uses = {
-                        type,
-                        value,
-                        label:
-                            (max ?? value) > 1
-                                ? config.labelPlural
-                                : config.label,
-                        max,
-                        hasRecharge,
-                        recharge,
-                        rechargeLabel: hasRecharge
-                            ? CONFIG.COSMERE.items.activation.uses.recharge[
-                                  recharge as ItemRechargeType
-                              ].label
-                            : '',
-                    };
-                }
+                //     context.hasUses = true;
+                //     context.uses = {
+                //         type,
+                //         value,
+                //         label:
+                //             (max ?? value) > 1
+                //                 ? config.labelPlural
+                //                 : config.label,
+                //         max,
+                //         hasRecharge,
+                //         recharge,
+                //         rechargeLabel: hasRecharge
+                //             ? CONFIG.COSMERE.items.activation.uses.recharge[
+                //                   recharge as ItemRechargeType
+                //               ].label
+                //             : '',
+                //     };
+                // }
             }
 
             if (item.hasDamage() && item.system.damage.formula) {
-                const skill = item.system.damage.skill;
-                const attribute = item.system.damage.attribute;
+                let skill = item.system.damage.skill as
+                    | Skill
+                    | 'default'
+                    | null;
+                let attribute = item.system.damage.attribute as
+                    | Attribute
+                    | 'default'
+                    | null;
+
+                // TEMP
+                if (skill === 'default') skill = null;
+                if (attribute === 'default') attribute = null;
 
                 const hasSkill = !!skill;
                 const hasAttribute = !!attribute;
@@ -439,7 +452,7 @@ Handlebars.registerHelper(
                     hasSkill,
                     hasAttribute,
 
-                    ...(hasSkill
+                    ...(skill
                         ? {
                               skill,
                               skillLabel: CONFIG.COSMERE.skills[skill].label,
@@ -450,7 +463,7 @@ Handlebars.registerHelper(
                           }
                         : {}),
 
-                    ...(hasAttribute
+                    ...(attribute
                         ? {
                               attribute,
                               attributeLabel:
@@ -473,13 +486,13 @@ Handlebars.registerHelper(
                 };
             }
 
-            if (item.isAction()) {
-                subtitle.push({
-                    text: game.i18n.localize(
-                        CONFIG.COSMERE.action.types[item.system.type].label,
-                    ),
-                });
-            }
+            // if (item.isAction()) {
+            //     subtitle.push({
+            //         text: game.i18n.localize(
+            //             CONFIG.COSMERE.action.types[item.system.type].label,
+            //         ),
+            //     });
+            // }
 
             return {
                 ...context,
@@ -514,60 +527,66 @@ Handlebars.registerHelper('getCombatActedState', (turn: CosmereTurnContext) => {
 /**
  * Get the resource cost label of an item in an actor's action list
  */
-Handlebars.registerHelper('resourceCostLabel', (consume: ItemConsumeData) => {
-    const { value } = consume;
-    const resource = game.i18n.localize(
-        consume.resource
-            ? CONFIG.COSMERE.resources[consume.resource].label
-            : 'GENERIC.Unknown',
-    );
-
-    let label = '';
-
-    // Get adjusted minimum value, to account for optional formatting
-    const adjustedMin = Math.max(value.min, 1);
-
-    // Static range
-    if (adjustedMin === value.max) {
-        label = game.i18n.format('COSMERE.Actor.Sheet.Actions.Consume.Static', {
-            amount: adjustedMin.toFixed(),
-            resource,
-        });
-    }
-    // Uncapped range
-    else if (value.max === -1) {
-        label = game.i18n.format(
-            'COSMERE.Actor.Sheet.Actions.Consume.RangeUncapped',
-            {
-                amount: adjustedMin.toFixed(),
-                resource,
-            },
+Handlebars.registerHelper(
+    'resourceCostLabel',
+    (consume: ActionItemDataModel.ConsumeData) => {
+        const { value } = consume;
+        const resource = game.i18n.localize(
+            consume.resource
+                ? CONFIG.COSMERE.resources[consume.resource].label
+                : 'GENERIC.Unknown',
         );
-    }
-    // Capped range
-    else {
-        label = game.i18n.format(
-            'COSMERE.Actor.Sheet.Actions.Consume.RangeCapped',
-            {
-                min: adjustedMin.toFixed(),
-                max: value.max.toFixed(),
-                resource,
-            },
-        );
-    }
 
-    // Treat actual minimum value of 0 as an "optional" cost
-    if (value.min === 0) {
-        label = game.i18n.format(
-            'COSMERE.Actor.Sheet.Actions.Consume.Optional',
-            {
-                label,
-            },
-        );
-    }
+        let label = '';
 
-    return label;
-});
+        // Get adjusted minimum value, to account for optional formatting
+        const adjustedMin = Math.max(value.min, 1);
+
+        // Static range
+        if (adjustedMin === value.max) {
+            label = game.i18n.format(
+                'COSMERE.Actor.Sheet.Actions.Consume.Static',
+                {
+                    amount: adjustedMin.toFixed(),
+                    resource,
+                },
+            );
+        }
+        // Uncapped range
+        else if (value.max === -1) {
+            label = game.i18n.format(
+                'COSMERE.Actor.Sheet.Actions.Consume.RangeUncapped',
+                {
+                    amount: adjustedMin.toFixed(),
+                    resource,
+                },
+            );
+        }
+        // Capped range
+        else {
+            label = game.i18n.format(
+                'COSMERE.Actor.Sheet.Actions.Consume.RangeCapped',
+                {
+                    min: adjustedMin.toFixed(),
+                    max: value.max.toFixed(),
+                    resource,
+                },
+            );
+        }
+
+        // Treat actual minimum value of 0 as an "optional" cost
+        if (value.min === 0) {
+            label = game.i18n.format(
+                'COSMERE.Actor.Sheet.Actions.Consume.Optional',
+                {
+                    label,
+                },
+            );
+        }
+
+        return label;
+    },
+);
 
 /**
  * Format the resource cost input field of an item's activation config
