@@ -1,26 +1,44 @@
 <ul class="item-list events-list">
     <li class="item header">
         <section class="details">
+            <span class="subtitle"></span>
             <span class="title">{{localize "COSMERE.Item.Sheet.EventsList.Description"}}</span>
             <span class="subtitle wide">{{localize "COSMERE.Item.Sheet.EventsList.Trigger"}}</span>
             <span class="subtitle wide">{{localize "COSMERE.Item.Sheet.EventsList.Handler"}}</span>
+            {{#if editable}}
             <div class="controls icon active">
-                {{#if editable}}
-                <a data-action="create-rule" 
+                <a data-action="create-rule"
                     data-tooltip="COSMERE.Item.Sheet.EventsList.Create"
                 >
                     <i class="fa-solid fa-plus"></i>
                 </a>
-                {{else}}
-                <div></div>
-                {{/if}}
             </div>
+            {{else}}
+            <div></div>
+            {{/if}}
         </section>
     </li>
 
     {{#each rules as |rule|}}
         <li class="item rule" data-id="{{rule.id}}">
-            <section class="details"> 
+            <section class="details">
+                {{#if rule.disabled}}
+                <div class="controls icon faded start">
+                    <a data-action="toggle-rule"
+                        data-tooltip="COSMERE.Item.Sheet.EventsList.Toggle.Inactive"
+                    >
+                        <i class="fa-solid fa-toggle-off"></i>
+                    </a>
+                </div>
+                {{else}}
+                <div class="controls icon start">
+                    <a data-action="toggle-rule"
+                        data-tooltip="COSMERE.Item.Sheet.EventsList.Toggle.Active"
+                    >
+                        <i class="fa-solid fa-toggle-on"></i>
+                    </a>
+                </div>
+                {{/if}}
                 <div class="name">
                     <span>{{rule.description}}</span>
                 </div>
@@ -34,20 +52,20 @@
                         {{localize rule.handler.typeLabel}}
                     </span>
                 </div>
+                {{#if @root.editable}}
                 <div class="controls icon faded">
-                    {{#if @root.editable}}
-                    <a data-action="edit-rule" 
-                        data-tooltip="Edit"
+                    <a data-action="edit-rule"
+                        data-tooltip="COSMERE.Item.Sheet.EventsList.Edit"
                     >
                         <i class="fa-solid fa-pen-to-square"></i>
                     </a>
-                    <a data-action="delete-rule" 
-                        data-tooltip="Delete"
+                    <a data-action="delete-rule"
+                        data-tooltip="COSMERE.Item.Sheet.EventsList.Delete"
                     >
                         <i class="fa-solid fa-trash"></i>
                     </a>
-                    {{/if}}
                 </div>
+                {{/if}}
             </section>
         </li>
     {{/each}}

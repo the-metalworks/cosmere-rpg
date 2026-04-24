@@ -1202,7 +1202,13 @@
                     "Description": "Description",
                     "Trigger": "Trigger",
                     "Handler": "Handler",
-                    "Create": "Add event rule"
+                    "Create": "Add event rule",
+                    "Toggle": {
+                        "Active": "Disable",
+                        "Inactive": "Enable"
+                    },
+                    "Edit": "Edit",
+                    "Delete": "Delete"
                 }
             },
             "General": {
@@ -1440,6 +1446,12 @@
         "ConfigureSensesRange": {
             "Title": "Configure Senses Range: {actor}",
             "IgnoreObscure": "Ignores Obscured"
+        },
+        "ConfigureCarryCapacity": {
+            "Title": "Configure Carry Capacity: {actor}"
+        },
+        "ConfigureLiftingCapacity": {
+            "Title": "Configure Lifting Capacity: {actor}"
         },
         "ConfigureRecoveryDie": {
             "Title": "Configure Recovery Die: {actor}"

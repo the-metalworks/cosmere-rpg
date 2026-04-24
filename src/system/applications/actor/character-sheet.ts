@@ -16,11 +16,25 @@ const enum CharacterSheetTab {
 export class CharacterSheet extends BaseActorSheet {
     declare actor: CharacterActor;
 
+    private static readonly MIN_WIDTH = 800;
+    private static readonly MAX_WIDTH = 800;
+    private static readonly MIN_HEIGHT = 728;
+    private static readonly MAX_HEIGHT = 900;
+
+    private isApplyingPositionConstraint = false;
+
     static DEFAULT_OPTIONS = {
         classes: [SYSTEM_ID, 'sheet', 'actor', 'character'] as string[],
+        window: {
+            positioned: true,
+            resizable: true,
+        },
         position: {
-            width: 850,
-            height: 1000,
+            width: CharacterSheet.MIN_WIDTH,
+            height: Math.max(
+                Math.min(CharacterSheet.MAX_HEIGHT, window.innerHeight),
+                CharacterSheet.MIN_HEIGHT,
+            ),
         },
     };
 
@@ -82,5 +96,35 @@ export class CharacterSheet extends BaseActorSheet {
                 ancestryItem?.name ??
                 game.i18n?.localize('COSMERE.Item.Type.Ancestry.label'),
         };
+    }
+
+    /* --- Lifecycle --- */
+
+    protected override _onPosition(options: unknown): void {
+        super._onPosition(options);
+
+        if (this.isApplyingPositionConstraint) return;
+
+        const width = this.position.width as number;
+        const height = this.position.height as number;
+
+        const clampedWidth = Math.min(
+            Math.max(width, CharacterSheet.MIN_WIDTH),
+            CharacterSheet.MAX_WIDTH,
+        );
+        const clampedHeight = Math.min(
+            Math.max(height, CharacterSheet.MIN_HEIGHT),
+            CharacterSheet.MAX_HEIGHT,
+        );
+
+        if (width === clampedWidth && height === clampedHeight) return;
+
+        // Since we are setting the position, this will set off the _onPosition event. We ensure this code wont loop forever.
+        this.isApplyingPositionConstraint = true;
+        this.setPosition({
+            width: clampedWidth,
+            height: clampedHeight,
+        });
+        this.isApplyingPositionConstraint = false;
     }
 }
