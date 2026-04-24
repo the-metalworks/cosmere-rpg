@@ -181,6 +181,13 @@
                     "MiscSectionName": "Miscellaneous Actions",
                     "NewItem": "Add {type}"
                 },
+                "Talents": {
+                    "label": "Talents",
+                    "Use": "Use Talent",
+                    "BaseSectionName": "{type} Talents",
+                    "MiscSectionName": "Miscellaneous Talents",
+                    "NewItem": "Add {type}"
+                },
                 "Equipment": {
                     "Quantity": "Quantity",
                     "Weight": "Weight",
