@@ -27,7 +27,7 @@ import { SortMode } from '../search-bar';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
-interface ActionItemState {
+interface TalentItemState {
     expanded?: boolean;
 }
 
@@ -58,12 +58,12 @@ export const DYNAMIC_SECTIONS: Record<string, DynamicItemListSectionGenerator> =
                 id: path.system.id,
                 sortOrder: 200,
                 label: game.i18n.format(
-                    'COSMERE.Actor.Sheet.Actions.BaseSectionName',
+                    'COSMERE.Actor.Sheet.Talents.BaseSectionName',
                     {
                         type: path.name,
                     },
                 ),
-                itemTypeLabel: `${path.name} ${game.i18n?.localize('COSMERE.Item.Type.Action.label')}`,
+                itemTypeLabel: `${path.name} ${game.i18n?.localize('COSMERE.Item.Type.Talent.label')}`,
                 default: true,
                 filter: (item: CosmereItem) =>
                     item.hasRelationships() &&
@@ -77,13 +77,6 @@ export const DYNAMIC_SECTIONS: Record<string, DynamicItemListSectionGenerator> =
                             ),
                             system: {
                                 path: path.system.id,
-                                activation: {
-                                    type: ActivationType.Utility,
-                                    cost: {
-                                        type: ActionCostType.Action,
-                                        value: 1,
-                                    },
-                                },
                             },
                         },
                         { parent },
@@ -101,38 +94,28 @@ export const DYNAMIC_SECTIONS: Record<string, DynamicItemListSectionGenerator> =
                     id: ancestry.system.id,
                     sortOrder: 300,
                     label: game.i18n.format(
-                        'COSMERE.Actor.Sheet.Actions.BaseSectionName',
+                        'COSMERE.Actor.Sheet.Talents.BaseSectionName',
                         {
                             type: ancestry.name,
                         },
                     ),
-                    itemTypeLabel: `${ancestry.name} ${game.i18n?.localize('COSMERE.Item.Type.Action.label')}`,
+                    itemTypeLabel: `${ancestry.name} ${game.i18n?.localize('COSMERE.Item.Type.Talent.label')}`,
                     default: false,
                     filter: (item: CosmereItem) =>
-                        (item.hasRelationships() &&
-                            item.isRelatedTo(
-                                ancestry,
-                                ItemRelationship.Type.Parent,
-                            )) ||
-                        (item.isAction() &&
-                            item.system.type === ActionType.Ancestry &&
-                            item.system.ancestry === ancestry.system.id),
+                        item.hasRelationships() &&
+                        item.isRelatedTo(
+                            ancestry,
+                            ItemRelationship.Type.Parent,
+                        ),
                     new: (parent: CosmereActor) =>
                         CosmereItem.create(
                             {
                                 type: ItemType.Action,
                                 name: game.i18n.localize(
-                                    'COSMERE.Item.Type.Action.New',
+                                    'COSMERE.Item.Type.Talent.New',
                                 ),
                                 system: {
                                     ancestry: ancestry.system.id,
-                                    activation: {
-                                        type: ActivationType.Utility,
-                                        cost: {
-                                            type: ActionCostType.Action,
-                                            value: 1,
-                                        },
-                                    },
                                 },
                             },
                             { parent },
@@ -144,7 +127,7 @@ export const DYNAMIC_SECTIONS: Record<string, DynamicItemListSectionGenerator> =
 
 const MISC_SECTION: ItemListSection = {
     id: 'misc-talents',
-    label: 'COSMERE.Actor.Sheet.Actions.MiscSectionName',
+    label: 'COSMERE.Actor.Sheet.Talents.MiscSectionName',
     default: false,
     filter: () => false, // Filter function is not used for this section
 };
@@ -157,12 +140,12 @@ any> {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_TALENTS_LIST}`;
 
     /**
-     * NOTE: Unbound methods is the standard for defining talents
+     * NOTE: Unbound methods is the standard for defining actions
      * within ApplicationV2
      */
     /* eslint-disable @typescript-eslint/unbound-method */
-    static readonly TALENTS = {
-        'toggle-action-details': this.onToggleActionDetails,
+    static readonly ACTIONS = {
+        'toggle-talent-details': this.onToggleTalentDetails,
         'use-item': this.onUseItem,
         'new-item': this.onNewItem,
     };
@@ -173,11 +156,11 @@ any> {
     /**
      * Map of id to state
      */
-    protected itemState: Record<string, ActionItemState> = {};
+    protected itemState: Record<string, TalentItemState> = {};
 
     /* --- Talents --- */
 
-    public static onToggleActionDetails(
+    public static onToggleTalentDetails(
         this: ActorTalentsListComponent,
         event: Event,
     ) {
@@ -194,7 +177,7 @@ any> {
         itemElement.toggleClass('expanded', this.itemState[itemId].expanded);
 
         itemElement
-            .find('a[data-action="toggle-action-details"')
+            .find('a[data-action="toggle-talent-details"')
             .empty()
             .append(
                 this.itemState[itemId].expanded
@@ -338,7 +321,7 @@ any> {
                             ? section.createItemTooltip()
                             : section.createItemTooltip
                         : game.i18n.format(
-                              'COSMERE.Actor.Sheet.Actions.NewItem',
+                              'COSMERE.Actor.Sheet.Talents.NewItem',
                               {
                                   type: game.i18n.localize(
                                       section.itemTypeLabel ??
