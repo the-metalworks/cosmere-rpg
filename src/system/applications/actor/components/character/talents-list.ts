@@ -266,7 +266,7 @@ any> {
     protected prepareSections() {
         return [
             ...Object.values(
-                CONFIG.COSMERE.sheet.actor.components.actions.sections.dynamic,
+                CONFIG.COSMERE.sheet.actor.components.talents.sections.dynamic,
             ).flatMap((gen) => gen(this.application.actor)),
             MISC_SECTION,
         ].sort(
@@ -410,7 +410,7 @@ ActorTalentsListComponent.register('app-character-talents-list');
 export function configure() {
     // Register dynamic sections
     Object.values(DYNAMIC_SECTIONS).forEach((gen) => {
-        cosmereRPG.api.registerActionListDynamicSectionGenerator({
+        cosmereRPG.api.registerTalentListDynamicSectionGenerator({
             source: SYSTEM_ID,
             id: gen.name,
             generator: gen,
