@@ -1,0 +1,50 @@
+<div>
+    <ul class="item-list">
+        <li class="item header">
+            <section class="details">
+                <span class="subtitle">{{localize "COSMERE.Advancement.Override.Data.Level"}}</span>
+                <span class="subtitle">{{localize "COSMERE.Advancement.Override.Data.Type"}}</span>
+                <span class="subtitle">{{localize "COSMERE.Advancement.Override.Data.Mode"}}</span>
+                <span class="subtitle">{{localize "COSMERE.Advancement.Override.Data.Key"}}</span>
+                <span class="subtitle">{{localize "COSMERE.Advancement.Override.Data.Stat"}}</span>
+                <span class="subtitle">{{localize "COSMERE.Advancement.Override.Data.Value"}}</span>
+                <span class="subtitle">{{localize "COSMERE.Advancement.Override.Data.Priority"}}</span>
+                <div class="controls icon active">
+                    <a data-action="add-override"
+                        data-tooltip="COSMERE.Sheet.Advancement.Overrides.Add"
+                    >
+                        <i class="fa-solid fa-plus"></i>
+                    </a>
+                </div>
+            </section>
+
+            {{#each overrides as |override|}}
+            <li class="item override">
+                <section class="details">
+                    <div class="detail">
+                        {{override.level}}
+                    </div>
+                    <div class="detail">
+                        {{localizeOverrideData override "type"}}
+                    </div>
+                    <div class="detail">
+                        {{localizeOverrideData override "mode"}}
+                    </div>
+                    <div class="detail">
+                        {{localizeOverrideData override "key"}}
+                    </div>
+                    <div class="detail">
+                        {{localizeOverrideData override "stat"}}
+                    </div>
+                    <div class="detail">
+                        {{override.value}}
+                    </div>
+                    <div class="detail">
+                        {{override.priority}}
+                    </div>
+                </section>
+            </li>
+            {{/each}}
+        </li>
+    </ul>
+</div>

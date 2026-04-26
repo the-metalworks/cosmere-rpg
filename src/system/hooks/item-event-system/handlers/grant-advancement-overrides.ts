@@ -1,4 +1,3 @@
-import { SYSTEM_ID } from '@system/constants';
 import {
     AdvancementOverrideData,
     AdvancementOverrideDataModel,
@@ -6,6 +5,10 @@ import {
 import { Advancement } from '@system/types/advancement';
 import { Event, HandlerType } from '@system/types/item/event-system';
 import AdvancementManager from '@system/utils/advancement';
+
+// Constants
+import { SYSTEM_ID } from '@system/constants';
+import { TEMPLATES } from '@system/utils/templates';
 
 interface GrantAdvancementOverridesHandlerConfigData {
     overrides: Advancement.OverrideData[];
@@ -30,6 +33,7 @@ export function register() {
                     },
                 ),
             },
+            template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.IES_HANDLER_GRANT_ADVANCEMENT_OVERRIDES}`,
         },
         executor: async function (
             this: GrantAdvancementOverridesHandlerConfigData,

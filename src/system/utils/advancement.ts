@@ -217,8 +217,11 @@ export class AdvancementRule {
 }
 
 export default class AdvancementManager {
-    static readonly rules: AdvancementRule[];
-    static readonly overrides: Advancement.OverrideRegistry;
+    static readonly rules: AdvancementRule[] = [];
+    static readonly overrides: Advancement.OverrideRegistry = {
+        global: {},
+        items: {},
+    };
 
     // Rule registration
 

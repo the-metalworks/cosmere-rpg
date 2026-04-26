@@ -28,6 +28,9 @@ import { TEMPLATES } from '../templates';
 import { SYSTEM_ID } from '@system/constants';
 import { ActionItemDataModel } from '@system/data/item/action';
 import { getUnitLabel } from '@system/settings';
+import { AdvancementOverride } from '../advancement';
+import { AdvancementOverrideData } from '@src/system/data/item/misc/advancement-override';
+import { Advancement } from '@src/system/types/advancement';
 
 Handlebars.registerHelper('add', (a: number, b: number) => a + b);
 Handlebars.registerHelper('sub', (a: number, b: number) => a - b);
@@ -737,6 +740,45 @@ Handlebars.registerHelper('filterSelectOptions', ((
 Handlebars.registerHelper('getProperty', (obj: AnyObject, path: string) => {
     return foundry.utils.getProperty(obj, path);
 });
+
+Handlebars.registerHelper(
+    'localizeOverrideData',
+    (override: AdvancementOverrideData, key: keyof AdvancementOverrideData) => {
+        let localeKey: string;
+        switch (key) {
+            case 'type':
+                localeKey = `COSMERE.Advancement.Override.Type.${override.type}`;
+                break;
+            case 'mode':
+                localeKey = `COSMERE.Advancement.Override.Mode.${override.mode}`;
+                break;
+            case 'key':
+                localeKey = `COSMERE.Advancement.Override.Field.${override.type}.${override.key}`;
+                break;
+            case 'stat':
+                if (!override.stat) return '';
+                localeKey =
+                    override.key === Advancement.MaxStatFieldKey.Attributes
+                        ? `COSMERE.Attribute.${override.stat}`
+                        : `COSMERE.Skill.${override.stat}`;
+                break;
+            default:
+                return '';
+        }
+
+        return game.i18n.localize(localeKey);
+    },
+);
+
+export async function preloadHandlebarsTemplates() {
+    const templates = Object.values(TEMPLATES).reduce(
+        (partials, path) => {
+            partials[path.split('/').pop()!.replace('.hbs', '')] =
+                `systems/${SYSTEM_ID}/templates/${path}`;
+            return partials;
+        },
+        {} as Record<string, string>,
+    );
 
 export async function preloadHandlebarsTemplates() {
     const templates = Object.values(TEMPLATES)
