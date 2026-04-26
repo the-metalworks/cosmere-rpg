@@ -26,6 +26,9 @@ import { ItemContext, ItemContextOptions } from './types';
 import { TEMPLATES } from '../templates';
 import { SYSTEM_ID } from '@system/constants';
 import { ActionItemDataModel } from '@system/data/item/action';
+import { AdvancementOverride } from '../advancement';
+import { AdvancementOverrideData } from '@src/system/data/item/misc/advancement-override';
+import { Advancement } from '@src/system/types/advancement';
 
 Handlebars.registerHelper('add', (a: number, b: number) => a + b);
 Handlebars.registerHelper('sub', (a: number, b: number) => a - b);
@@ -625,6 +628,35 @@ Handlebars.registerHelper('filterSelectOptions', ((
             {} as Record<string, string>,
         );
 }) as unknown as Handlebars.HelperDelegate);
+
+Handlebars.registerHelper(
+    'localizeOverrideData',
+    (override: AdvancementOverrideData, key: keyof AdvancementOverrideData) => {
+        let localeKey: string;
+        switch (key) {
+            case 'type':
+                localeKey = `COSMERE.Advancement.Override.Type.${override.type}`;
+                break;
+            case 'mode':
+                localeKey = `COSMERE.Advancement.Override.Mode.${override.mode}`;
+                break;
+            case 'key':
+                localeKey = `COSMERE.Advancement.Override.Field.${override.type}.${override.key}`;
+                break;
+            case 'stat':
+                if (!override.stat) return '';
+                localeKey =
+                    override.key === Advancement.MaxStatFieldKey.Attributes
+                        ? `COSMERE.Attribute.${override.stat}`
+                        : `COSMERE.Skill.${override.stat}`;
+                break;
+            default:
+                return '';
+        }
+
+        return game.i18n.localize(localeKey);
+    },
+);
 
 export async function preloadHandlebarsTemplates() {
     const templates = Object.values(TEMPLATES).reduce(

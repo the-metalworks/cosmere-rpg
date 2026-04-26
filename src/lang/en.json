@@ -1353,6 +1353,13 @@
                 "Delete": "Remove",
                 "Cancel": "Discard Changes",
                 "Submit": "Finish Editing"
+            },
+            "Advancement": {
+                "Overrides": {
+                    "Label": "Overrides",
+                    "Add": "New Override",
+                    "Delete": "Remove Override"
+                }
             }
         },
         "Attribute": {
@@ -1439,6 +1446,46 @@
                             "UniqueExpertises": "Cannot select the same expertise multiple times."
                         },
                         "Confirm": "Confirm"
+                    }
+                }
+            }
+        },
+        "Advancement": {
+            "Override": {
+                "Label": "Override",
+                "Data": {
+                    "Level": "Level",
+                    "Type": "Type",
+                    "Mode": "Mode",
+                    "Key": "Key",
+                    "Stat": "Stat",
+                    "Value": "Value",
+                    "Priority": "Priority"
+                },
+                "Type": {
+                    "grants": "Grants",
+                    "max-stat": "Max Stat"
+                },
+                "Mode": {
+                    "absolute": "Absolute",
+                    "relative": "Relative"
+                },
+                "Field": {
+                    "Type": {
+                        "numeric": "Numeric",
+                        "boolean": "Boolean"
+                    },
+                    "grants": {
+                        "health": "Health",
+                        "healthIncludeStrength": "Health increase includes Strength?",
+                        "attributePoints": "Attribute points",
+                        "skillRanks": "Skill ranks",
+                        "talents": "Talents",
+                        "skillRanksOrTalents": "Skill ranks or talents gained"
+                    },
+                    "max-stat": {
+                        "attributes": "Maximum points per attribute",
+                        "skills": "Maximum ranks per skill"
                     }
                 }
             }
