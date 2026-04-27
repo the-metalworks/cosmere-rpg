@@ -109,8 +109,19 @@ export namespace Advancement {
 
     // Types for the Advancement Manager
 
+    /**
+     * The `AdvancementManager`'s internal registry
+     */
     export interface OverrideRegistry {
+        /**
+         * Overrides which apply without regard to any actor-specific context.
+         */
         global: AdvancementOverride[];
+
+        /**
+         * A mapping from an item ID (`item.system.id`) to a list
+         * of registered overrides.
+         */
         items: Record<string, AdvancementOverride[]>;
     }
 

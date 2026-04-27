@@ -297,6 +297,9 @@ export default class AdvancementManager {
         return true;
     }
 
+    /**
+     * Reduce a list of overrides to only those applicable at the current level
+     */
     public static filterOverridesByLevel<
         TOverride extends Advancement.Override,
     >(overrides: TOverride[], level: number): TOverride[] {
