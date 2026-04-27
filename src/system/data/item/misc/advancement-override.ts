@@ -10,12 +10,19 @@ const SCHEMA = () => ({
     source: new foundry.data.fields.DocumentUUIDField({
         type: 'Item',
     }),
-    level: new foundry.data.fields.NumberField({
-        required: true,
-        integer: true,
-        nullable: false,
-        min: 1,
-        initial: 1,
+    levels: new foundry.data.fields.SchemaField({
+        min: new foundry.data.fields.NumberField({
+            required: false,
+            integer: true,
+            positive: true,
+            nullable: false,
+        }),
+        max: new foundry.data.fields.NumberField({
+            required: false,
+            integer: true,
+            positive: true,
+            nullable: false,
+        }),
     }),
     type: new foundry.data.fields.StringField({
         required: true,

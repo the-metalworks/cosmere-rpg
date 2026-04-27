@@ -8,16 +8,13 @@ import {
 // Constants
 import { SYSTEM_ID } from '@system/constants';
 import { TEMPLATES } from '@system/utils/templates';
-import AdvancementManager from '@system/utils/advancement';
-import {
-    DeepPartial,
-    AnyObject,
-} from '@league-of-foundry-developers/foundry-vtt-types/utils';
 import { AdvancementOverrideData } from '@src/system/data/item/misc/advancement-override';
 
-interface Params {
+// NOTE: Must use type here instead of interface as an interface doesn't match AnyObject type
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+type Params = {
     value?: AdvancementOverrideData[];
-}
+};
 
 export class AdvancementOverridesListComponent extends HandlebarsApplicationComponent<
     foundry.applications.api.ApplicationV2.AnyConstructor,
@@ -75,7 +72,10 @@ export class AdvancementOverridesListComponent extends HandlebarsApplicationComp
         this.value = [
             ...this.value,
             {
-                level: 1,
+                levels: {
+                    min: 1,
+                    max: 1,
+                },
                 type: Advancement.OverrideType.Grants,
                 mode: Advancement.OverrideMode.Relative,
                 key: Advancement.GrantsFieldKey.Health,
@@ -106,7 +106,29 @@ export class AdvancementOverridesListComponent extends HandlebarsApplicationComp
         return Promise.resolve({
             ...context,
 
-            overrides: this.value.sort((a, b) => a.level - b.level),
+            overrides: this.value.sort((a, b) => {
+                if (
+                    a.levels.min === b.levels.min &&
+                    a.levels.max === b.levels.max
+                ) {
+                    // Both apply to identical level ranges
+                    return 0;
+                }
+
+                const aMin = a.levels.min ?? -Infinity;
+                const bMin = b.levels.min ?? -Infinity;
+                if (aMin !== bMin) {
+                    // A and B start at different levels.
+                    // Sort accordingly.
+                    return aMin - bMin;
+                }
+
+                // A and B start at the same level.
+                // Sort based on end level.
+                const aMax = a.levels.max ?? Infinity;
+                const bMax = b.levels.max ?? Infinity;
+                return aMax - bMax;
+            }),
         });
     }
 }

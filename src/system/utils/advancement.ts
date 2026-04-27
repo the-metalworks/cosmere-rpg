@@ -19,6 +19,7 @@ export class AdvancementOverride {
     public readonly stat?: Advancement.MaxStatType;
     public readonly value: Advancement.OverrideFieldType;
     public readonly priority: number;
+    public readonly levels: Advancement.OverrideLevels;
 
     constructor(data: Advancement.OverrideData) {
         // Validate incoming data for the given override type
@@ -40,6 +41,7 @@ export class AdvancementOverride {
         this.key = data.key;
         this.value = data.value;
         this.priority = data.priority;
+        this.levels = data.levels;
 
         if (data.type === Advancement.OverrideType.MaxStat) {
             this.stat = data.stat;
@@ -50,8 +52,7 @@ export class AdvancementOverride {
         data: AdvancementOverrideData,
     ): AdvancementOverride {
         return new AdvancementOverride({
-            type: data.type,
-            mode: data.mode,
+            ...data,
             key: data.key as
                 | Advancement.GrantsFieldKey
                 | Advancement.MaxStatFieldKey,
@@ -219,7 +220,7 @@ export class AdvancementRule {
 export default class AdvancementManager {
     static readonly rules: AdvancementRule[] = [];
     static readonly overrides: Advancement.OverrideRegistry = {
-        global: {},
+        global: [],
         items: {},
     };
 
@@ -278,31 +279,32 @@ export default class AdvancementManager {
             return false;
         }
 
+        let overrideList: AdvancementOverride[];
         if (!sourceId) {
-            if (this.overrides.global[level]) {
-                this.insertOverrideIntoList(
-                    override,
-                    this.overrides.global[level],
-                );
-            } else {
-                this.overrides.global[level] = [override];
-            }
+            overrideList = this.overrides.global;
         } else {
-            if (!this.overrides.items[sourceId])
-                this.overrides.items[sourceId] = {};
-            if (this.overrides.items[sourceId][level]) {
-                this.insertOverrideIntoList(
-                    override,
-                    this.overrides.items[sourceId][level],
-                );
-            } else {
-                this.overrides.items[sourceId][level] = [override];
+            if (!this.overrides.items[sourceId]) {
+                this.overrides.items[sourceId] = [];
             }
+
+            overrideList = this.overrides.items[sourceId];
         }
+
+        this.insertOverrideIntoList(override, overrideList);
 
         Hooks.callAll(HOOKS.REGISTER_ADVANCEMENT_OVERRIDE, override);
 
         return true;
+    }
+
+    public static filterOverridesByLevel<
+        TOverride extends Advancement.Override,
+    >(overrides: TOverride[], level: number): TOverride[] {
+        return overrides.filter(
+            (override) =>
+                level >= (override.levels.min ?? 1) &&
+                level <= (override.levels.max ?? Infinity),
+        );
     }
 
     /**
@@ -312,31 +314,27 @@ export default class AdvancementManager {
         level: number,
         actor: CharacterActor,
     ): AdvancementOverride[] {
-        // Get any global overrides first
-        let overrides = this.overrides.global[level] ?? [];
+        return [
+            // Get any global overrides first
+            this.filterOverridesByLevel(this.overrides.global, level),
 
-        // Get actor overrides next, i.e. from owned items or AEs
-        overrides = overrides.concat(
+            // Get actor overrides next, i.e. from owned items or AEs
             actor.system
                 .getAdvancementOverridesAtLevel(level)
                 .map((override) =>
                     AdvancementOverride.fromDataSchema(override),
                 ),
-        );
 
-        // Get item-specific registered overrides
-        actor.items.contents.forEach((item) => {
-            const idsToCheck: string[] = item.hasId() ? [item.system.id] : [];
-            idsToCheck.push(item.uuid);
-
-            overrides = overrides.concat(
-                idsToCheck.flatMap(
-                    (id) => this.overrides.items[id]?.[level] ?? [],
-                ),
-            );
-        });
-
-        return overrides;
+            // Get item-specific registered overrides last
+            actor.items.contents.flatMap((item) => {
+                if (!item.hasId() || !this.overrides.items[item.system.id])
+                    return [];
+                return this.filterOverridesByLevel(
+                    this.overrides.items[item.system.id],
+                    level,
+                );
+            }),
+        ].flat();
     }
 
     /**

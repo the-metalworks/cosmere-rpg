@@ -31,12 +31,19 @@ export namespace Advancement {
         [FieldType.Numeric]: number;
     }
 
+    export interface OverrideLevels {
+        min?: number;
+        max?: number;
+    }
+
     export interface OverrideData {
         type: OverrideType;
         mode: OverrideMode;
         key: GrantsFieldKey | MaxStatFieldKey;
         value: OverrideFieldType;
         priority: number;
+
+        levels: OverrideLevels;
     }
 
     export interface GrantsOverrideData extends OverrideData {
@@ -102,10 +109,9 @@ export namespace Advancement {
 
     // Types for the Advancement Manager
 
-    export type OverrideSet = Record<number, AdvancementOverride[]>;
     export interface OverrideRegistry {
-        global: OverrideSet;
-        items: Record<string, OverrideSet>;
+        global: AdvancementOverride[];
+        items: Record<string, AdvancementOverride[]>;
     }
 
     /**
