@@ -145,8 +145,9 @@ export class CharacterActorDataModel extends CommonActorDataModel<
     public getAdvancementOverridesAtLevel(
         level: number,
     ): AdvancementOverrideData[] {
-        return this.advancement.overrides.filter(
-            (override) => override.level === level,
+        return AdvancementManager.filterOverridesByLevel(
+            this.advancement.overrides,
+            level,
         );
     }
 }
