@@ -439,7 +439,9 @@
                     "TwoHanded": "Two-Handed",
                     "Unique": "Unique",
                     "Fragile": "Fragile",
-                    "Reach": "Reach"
+                    "Reach": "Reach",
+                    "Blast": "Blast",
+                    "SingleUse": "Single-Use"
                 },
                 "Strike": "Strike",
                 "Improvised": "Improvised Weapon",
@@ -453,7 +455,8 @@
                     "Cumbersome": "Cumbersome",
                     "Dangerous": "Dangerous",
                     "Presentable": "Presentable",
-                    "Unique": "Unique"
+                    "Unique": "Unique",
+                    "Fragile": "Fragile"
                 },
                 "Deflect": "Deflect"
             },
