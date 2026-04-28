@@ -548,6 +548,10 @@ export class BaseActorSheet<
                 text: this.actionsSearchText,
                 sort: this.actionsSearchSort,
             },
+            talentsSearch: {
+                text: this.talentsSearchText,
+                sort: this.talentsSearchSort,
+            },
             equipmentSearch: {
                 text: this.equipmentSearchText,
                 sort: this.equipmentSearchSort,
