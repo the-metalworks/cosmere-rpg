@@ -906,7 +906,7 @@
                                 "Description": "Removes advancement overrides from a character that were granted by a particular source.",
                                 "UUID": {
                                     "Label": "Source",
-                                    "Hint": "The UUID of the source item. If unspecified, this item is assumed to be the source."
+                                    "Hint": "The ID of the source item. If unspecified, this item is assumed to be the source."
                                 }
                             },
                             "remove-expertises": {
