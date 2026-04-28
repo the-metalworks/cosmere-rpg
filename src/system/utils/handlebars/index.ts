@@ -604,6 +604,41 @@ Handlebars.registerHelper('resourceCostInput', (value: NumberRange) => {
     }
 });
 
+Handlebars.registerHelper(
+    'advancementOverrideLevels',
+    (value: Advancement.OverrideLevels) => {
+        const min = value.min ?? 1;
+        const max = value.max ?? Infinity;
+
+        if (min === max) {
+            return min.toString();
+        }
+
+        if (max === Infinity) {
+            if (min === 1) {
+                return game.i18n.localize(
+                    'COSMERE.Advancement.Override.Data.Levels.All',
+                );
+            }
+
+            return game.i18n.format(
+                'COSMERE.Advancement.Override.Data.Levels.AtLeast',
+                {
+                    level: min.toString(),
+                },
+            );
+        }
+
+        return game.i18n.format(
+            'COSMERE.Advancement.Override.Data.Levels.Between',
+            {
+                min: min.toString(),
+                max: max.toString(),
+            },
+        );
+    },
+);
+
 Handlebars.registerHelper('entries', (obj: AnyObject) => {
     return Object.entries(obj).map(([key, value]) => ({ key, value }));
 });

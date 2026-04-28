@@ -2,7 +2,7 @@
     <ul class="item-list">
         <li class="item header">
             <section class="details">
-                <span class="subtitle">{{localize "COSMERE.Advancement.Override.Data.Level"}}</span>
+                <span class="subtitle">{{localize "COSMERE.Advancement.Override.Data.Levels.Label"}}</span>
                 <span class="subtitle">{{localize "COSMERE.Advancement.Override.Data.Type"}}</span>
                 <span class="subtitle">{{localize "COSMERE.Advancement.Override.Data.Mode"}}</span>
                 <span class="subtitle">{{localize "COSMERE.Advancement.Override.Data.Key"}}</span>
@@ -22,7 +22,7 @@
             <li class="item override">
                 <section class="details">
                     <div class="detail">
-                        {{override.level}}
+                        {{advancementOverrideLevels override.levels}}
                     </div>
                     <div class="detail">
                         {{localizeOverrideData override "type"}}

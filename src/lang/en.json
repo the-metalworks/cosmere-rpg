@@ -1454,7 +1454,14 @@
             "Override": {
                 "Label": "Override",
                 "Data": {
-                    "Level": "Level",
+                    "Levels": {
+                        "Label": "Levels",
+                        "Min": "Start Level",
+                        "Max": "End Level",
+                        "All": "All",
+                        "AtLeast": "{level}+",
+                        "Between": "{min}-{max}"
+                    },
                     "Type": "Type",
                     "Mode": "Mode",
                     "Key": "Key",
