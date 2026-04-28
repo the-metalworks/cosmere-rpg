@@ -1,7 +1,7 @@
 {{#with (lookup tabsMap "actions") as |tab|}}
 
 <div class="tab tab-content {{tab.cssClass}}" data-tab="actions" data-group="primary">
-    {{app-actor-search-bar id='actions-search' placeholder=(localize 'COSMERE.Actor.Sheet.Search.Item.Placeholder')}}
+    {{app-actor-search-bar id='actions-search' placeholder=(localize "COSMERE.Actor.Sheet.Search.Placeholder" type=(localize "COSMERE.Actor.Sheet.Tabs.Actions"))}}
 
     {{app-adversary-actions-list class="list-component"}}
 </div>

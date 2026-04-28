@@ -256,15 +256,7 @@
                     "Effects": "Effects & Conditions"
                 },
                 "Search": {
-                    "Item": {
-                        "Placeholder": "Search actions"
-                    },
-                    "Equipment": {
-                        "Placeholder": "Search items"
-                    },
-                    "Effects": {
-                        "Placeholder": "Search effects"
-                    },
+                    "Placeholder": "Search {type}",
                     "Clear": "Clear Filters",
                     "Filter": "Filter By",
                     "SortManually": "Sort Manually",
