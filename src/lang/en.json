@@ -248,6 +248,7 @@
                 "ImmuneTo": "Immune to {condition}",
                 "Tabs": {
                     "Details": "Details",
+                    "Talents": "Talents",
                     "Actions": "Actions",
                     "Equipment": "Equipment",
                     "Goals": "Goals",
