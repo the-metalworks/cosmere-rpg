@@ -58,7 +58,6 @@ const SCHEMA = () => ({
             TalentTree.Node.Type.Talent,
             TalentTree.Node.Type.Tree,
             TalentTree.Node.Type.Text,
-            TalentTree.Node.Type.Power,
         ],
     }),
     position: new foundry.data.fields.SchemaField(

@@ -4,7 +4,6 @@ import { TalentItem, TalentTreeItem } from '@system/documents/item';
 export namespace Node {
     export const enum Type {
         Talent = 'talent',
-        Power = 'power',
         Tree = 'tree',
         Text = 'text',
     }
@@ -219,11 +218,4 @@ export interface TextNode extends BaseNode<Node.Type.Text> {
     text: string;
 }
 
-export interface PowerNode extends BaseNode<Node.Type.Power> {
-    /**
-     * The UUID of the PowerItem the node refers to.
-     */
-    uuid: string;
-}
-
-export type Node = TalentNode | TreeNode | TextNode | PowerNode;
+export type Node = TalentNode | TreeNode | TextNode;
