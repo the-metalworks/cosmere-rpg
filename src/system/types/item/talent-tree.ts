@@ -38,6 +38,7 @@ export namespace Node {
             Ancestry = 'ancestry',
             Culture = 'culture',
             Goal = 'goal',
+            Power = 'power',
         }
 
         export const enum Mode {
