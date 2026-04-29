@@ -4,6 +4,7 @@ import { TalentItem, TalentTreeItem } from '@system/documents/item';
 export namespace Node {
     export const enum Type {
         Talent = 'talent',
+        Power = 'power',
         Tree = 'tree',
         Text = 'text',
     }
@@ -121,6 +122,11 @@ export namespace Node {
         culture: Prerequisite.ItemRef;
     }
 
+    export interface PowerPrerequisite
+        extends BasePrerequisite<Prerequisite.Type.Power> {
+        power: Prerequisite.ItemRef;
+    }
+
     export type Prerequisite =
         | ConnectionPrerequisite
         | AttributePrerequisite
@@ -129,7 +135,8 @@ export namespace Node {
         | LevelPrerequisite
         | AncestryPrerequisite
         | CulturePrerequisite
-        | GoalPrerequisite;
+        | GoalPrerequisite
+        | PowerPrerequisite;
 }
 
 export interface BaseNode<Type extends Node.Type = Node.Type> {
@@ -212,4 +219,11 @@ export interface TextNode extends BaseNode<Node.Type.Text> {
     text: string;
 }
 
-export type Node = TalentNode | TreeNode | TextNode;
+export interface PowerNode extends BaseNode<Node.Type.Power> {
+    /**
+     * The UUID of the PowerItem the node refers to.
+     */
+    uuid: string;
+}
+
+export type Node = TalentNode | TreeNode | TextNode | PowerNode;

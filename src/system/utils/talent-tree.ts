@@ -287,6 +287,10 @@ export function characterMeetsPrerequisiteRule(
             );
         case TalentTree.Node.Prerequisite.Type.Connection:
             return true; // No way to check connections
+        case TalentTree.Node.Prerequisite.Type.Power:
+            return actor.powers.some(
+                (power) => power.system.id === prereq.power.id,
+            );
         default:
             return false;
     }

@@ -878,6 +878,8 @@ const COSMERE: CosmereRPGConfig = {
                             'COSMERE.Item.Talent.Prerequisite.Type.culture',
                         [TalentTree.Node.Prerequisite.Type.Goal]:
                             'COSMERE.Item.Talent.Prerequisite.Type.goal',
+                        [TalentTree.Node.Prerequisite.Type.Power]:
+                            'COSMERE.Item.Talent.Prerequisite.Type.power',
                     },
                 },
             },

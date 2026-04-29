@@ -518,7 +518,8 @@
                         "level": "Level",
                         "ancestry": "Ancestry",
                         "culture": "Culture",
-                        "goal": "Goal"
+                        "goal": "Goal",
+                        "power": "Power"
                     },
                     "Mode": {
                         "AnyOf": "Any of",
@@ -532,6 +533,9 @@
                     },
                     "Culture": {
                         "Label": "Culture"
+                    },
+                    "Power": {
+                        "Label": "Power"
                     }
                 },
                 "GrantRule": {
