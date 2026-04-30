@@ -166,8 +166,6 @@ export const enum WeaponTraitId {
     Unique = 'unique',
     Fragile = 'fragile',
     Reach = 'reach',
-    Blast = 'blast',
-    SingleUse = 'single_use',
 }
 
 /**
@@ -180,7 +178,6 @@ export const enum ArmorTraitId {
     Dangerous = 'dangerous',
     Presentable = 'presentable',
     Unique = 'unique',
-    Fragile = 'fragile',
 }
 
 export const enum AdversaryRole {

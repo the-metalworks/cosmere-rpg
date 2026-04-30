@@ -994,13 +994,6 @@ const COSMERE: CosmereRPGConfig = {
             [WeaponTraitId.Reach]: {
                 label: 'COSMERE.Item.Weapon.Trait.Reach',
             },
-            [WeaponTraitId.SingleUse]: {
-                label: 'COSMERE.Item.Weapon.Trait.SingleUse',
-            },
-            [WeaponTraitId.Blast]: {
-                label: 'COSMERE.Item.Weapon.Trait.Blast',
-                hasValue: true,
-            },
         },
 
         armorTraits: {
@@ -1016,9 +1009,6 @@ const COSMERE: CosmereRPGConfig = {
             },
             [ArmorTraitId.Unique]: {
                 label: 'COSMERE.Item.Armor.Trait.Unique',
-            },
-            [ArmorTraitId.Fragile]: {
-                label: 'COSMERE.Item.Armor.Trait.Fragile',
             },
         },
     },
