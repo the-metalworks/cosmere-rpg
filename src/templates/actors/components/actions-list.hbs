@@ -2,8 +2,8 @@
 {{#with (lookup @root.sectionState section.id) as |sectionState|}}
 <ul class="item-list collapsible {{#if sectionState.expanded}}expanded{{/if}}" data-section-id="{{section.id}}">
     <li class="item header">
-        <section class="details">
-            <span class="title" data-action="toggle-section-collapsed">{{localize section.label}}</span>
+        <section class="details" data-action="toggle-section-collapsed">
+            <span class="title">{{localize section.label}}</span>
             <span class="subtitle">
                 {{localize "COSMERE.Actor.Sheet.Actions.Activation"}}
             </span>

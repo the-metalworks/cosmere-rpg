@@ -60,6 +60,8 @@ any> {
         this: ActorItemListComponent,
         event: Event,
     ) {
+        event.preventDefault();
+        event.stopPropagation();
         // Get item element
         const sectionElement = $(event.target!).closest(
             '.item-list[data-section-id]',
@@ -92,6 +94,8 @@ any> {
         this: ActorItemListComponent,
         event: Event,
     ) {
+        event.preventDefault();
+        event.stopPropagation();
         // Get item element
         const itemElement = $(event.target!).closest('.item[data-item-id]');
 
@@ -115,6 +119,8 @@ any> {
     }
 
     public static onUseItem(this: ActorItemListComponent, event: Event) {
+        event.preventDefault();
+        event.stopPropagation();
         // Get item
         const item = AppUtils.getItemFromEvent(event, this.application.actor);
         if (!item) return;
@@ -127,6 +133,8 @@ any> {
         this: ActorItemListComponent,
         event: Event,
     ) {
+        event.preventDefault();
+        event.stopPropagation();
         // Get section element
         const sectionElement = $(event.target!).closest('[data-section-id]');
 
