@@ -32,6 +32,7 @@ import { SortMode } from './search-bar';
 // Constants
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
+import { getSystemSetting, SETTINGS } from '@src/system/settings';
 
 export interface ActorActionsListComponentRenderContext
     extends BaseActorSheetRenderContext {
@@ -357,9 +358,8 @@ export class ActorActionsListComponent extends ActorItemListComponent {
         );
 
         // Ensure all sections have an expand state record defaulting to settings.expandSectionByDefault
-        const expandSectionDefaultSetting =
-            game.settings?.get('cosmere-rpg', 'expandSectionsByDefault') ??
-            true;
+        const expandSectionDefaultSetting: boolean =
+            getSystemSetting(SETTINGS.SHEET_EXPAND_SECTIONS_DEFAULT) ?? true;
         this.sections.forEach((section) => {
             if (!(section.id in this.sectionState)) {
                 this.sectionState[section.id] = {
