@@ -14,20 +14,6 @@
                 {{localize "COSMERE.Actor.Sheet.Actions.Uses"}}
             </span>
             <div class="controls icon active">
-                <a role="button"
-                    data-action="toggle-section-collapsed"
-                    {{#if sectionState.expanded}}
-                    data-tooltip="GENERIC.HideDetails"
-                    {{else}}
-                    data-tooltip="GENERIC.ViewDetails"
-                    {{/if}}
-                >
-                    {{#if sectionState.expanded}}
-                        <i class="fa-solid fa-compress"></i>
-                    {{else}}
-                        <i class="fa-solid fa-expand"></i>
-                    {{/if}}
-                </a>
                 {{#if @root.editable}}
                     {{#if section.canAddNewItems}}
                         <a data-action="new-item"
