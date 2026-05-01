@@ -305,6 +305,12 @@
             list-style-type: none;
         }
 
+        &:not(.expanded), &.empty {
+            >li.item.header {
+                border-radius: 6px;
+            }
+        }
+
         &>section.collapsible-content>div.wrapper>li {
             margin: 0;
             list-style-type: none;

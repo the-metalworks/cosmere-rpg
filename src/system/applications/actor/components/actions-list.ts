@@ -349,14 +349,6 @@ export class ActorActionsListComponent extends ActorItemListComponent {
         // Prepare sections
         this.sections = this.prepareSections();
 
-        // Prepare sections data
-        const sectionsData = await this.prepareSectionsData(
-            this.sections,
-            activatableItems,
-            searchText,
-            sortMode,
-        );
-
         // Ensure all sections have an expand state record defaulting to settings.expandSectionByDefault
         const expandSectionDefaultSetting: boolean =
             getSystemSetting(SETTINGS.SHEET_EXPAND_SECTIONS_DEFAULT) ?? true;
@@ -367,6 +359,14 @@ export class ActorActionsListComponent extends ActorItemListComponent {
                 };
             }
         });
+
+        // Prepare sections data
+        const sectionsData = await this.prepareSectionsData(
+            this.sections,
+            activatableItems,
+            searchText,
+            sortMode,
+        );
 
         return {
             ...context,
@@ -419,6 +419,13 @@ export class ActorActionsListComponent extends ActorItemListComponent {
             },
             {} as Record<string, CosmereItem[]>,
         );
+
+        // Prepare "Is section empty" data
+        this.sections.forEach((section) => {
+            this.sectionState[section.id].hasItems =
+                itemsBySectionId[section.id] &&
+                itemsBySectionId[section.id].length > 0;
+        });
 
         // Prepare sections
         return await Promise.all(

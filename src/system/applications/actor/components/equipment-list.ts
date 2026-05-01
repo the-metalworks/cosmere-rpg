@@ -22,7 +22,7 @@ import { SortMode } from './search-bar';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 import { areKeysPressed } from '@src/system/utils/generic';
-import { KEYBINDINGS } from '@src/system/settings';
+import { getSystemSetting, KEYBINDINGS, SETTINGS } from '@src/system/settings';
 
 interface RenderContext extends BaseActorSheetRenderContext {
     equipmentSearch: {
@@ -188,9 +188,8 @@ export class ActorEquipmentListComponent extends ActorItemListComponent {
         ];
 
         // Ensure all sections have an expand state record defaulting to settings.expandSectionByDefault
-        const expandSectionDefaultSetting =
-            game.settings?.get('cosmere-rpg', 'expandSectionsByDefault') ??
-            true;
+        const expandSectionDefaultSetting: boolean =
+            getSystemSetting(SETTINGS.SHEET_EXPAND_SECTIONS_DEFAULT) ?? true;
         this.sections.forEach((section) => {
             if (!(section.id in this.sectionState)) {
                 this.sectionState[section.id] = {
@@ -250,6 +249,9 @@ export class ActorEquipmentListComponent extends ActorItemListComponent {
         if (sort === SortMode.Alphabetic) {
             sectionItems = sectionItems.sort((a, b) => a.name.compare(b.name));
         }
+
+        // Prepare "Is section empty" data
+        this.sectionState[section.id].hasItems = sectionItems.length > 0;
 
         return {
             ...section,

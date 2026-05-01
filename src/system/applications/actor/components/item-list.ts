@@ -24,6 +24,7 @@ export interface ItemListSectionData extends ItemListSection {
 
 interface ItemListSectionState {
     expanded?: boolean;
+    hasItems?: boolean;
 }
 
 export class ActorItemListComponent extends HandlebarsApplicationComponent<// typeof BaseActorSheet
