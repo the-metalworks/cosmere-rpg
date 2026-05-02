@@ -22,7 +22,7 @@ import { Derived } from '@system/data/fields';
 import { AnyObject, NumberRange } from '@system/types/utils';
 import { CosmereTurnContext } from '@system/applications/combat';
 
-import { ItemContext, ItemContextOptions } from './types';
+import { ItemContext, ItemContextOptions, OverrideSelectOption } from './types';
 import { TEMPLATES } from '../templates';
 import { SYSTEM_ID } from '@system/constants';
 import { ActionItemDataModel } from '@system/data/item/action';
@@ -676,7 +676,7 @@ Handlebars.registerHelper(
                 localeKey = `COSMERE.Advancement.Override.Mode.${override.mode}`;
                 break;
             case 'key':
-                localeKey = `COSMERE.Advancement.Override.Field.${override.type}.${override.key}`;
+                localeKey = `COSMERE.Advancement.Override.Field.${override.type}.${override.key}.Label`;
                 break;
             case 'stat':
                 if (!override.stat) return '';
@@ -690,6 +690,18 @@ Handlebars.registerHelper(
         }
 
         return game.i18n.localize(localeKey);
+    },
+);
+
+Handlebars.registerHelper(
+    'getOverrideSelectOptions',
+    (options: OverrideSelectOption[], selected: string) => {
+        return options
+            .map(
+                (option) =>
+                    `<option value="${option.value}" selected=${option.value === selected}>${option.label}</option>`,
+            )
+            .join('\n');
     },
 );
 

@@ -1483,16 +1483,40 @@
                         "boolean": "Boolean"
                     },
                     "grants": {
-                        "health": "Health",
-                        "healthIncludeStrength": "Health increase includes Strength?",
-                        "attributePoints": "Attribute points",
-                        "skillRanks": "Skill ranks",
-                        "talents": "Talents",
-                        "skillRanksOrTalents": "Skill ranks or talents gained"
+                        "health": {
+                            "Label": "Health",
+                            "Description": "Health points gained"
+                        },
+                        "healthIncludeStrength": {
+                            "Label": "Health w/ Str",
+                            "Description": "Does this level's health increase include Strength?"
+                        },
+                        "attributePoints": {
+                            "Label": "Attributes",
+                            "Description": "Attribute points gained"
+                        },
+                        "skillRanks": {
+                            "Label": "Skill Ranks",
+                            "Description": "Allocable skill ranks gained"
+                        },
+                        "talents": {
+                            "Label": "Talents",
+                            "Description": "Number of additional talents gained"
+                        },
+                        "skillRanksOrTalents": {
+                            "Label": "Skills/Talents",
+                            "Description": "Skill ranks or talents gained (player choice)"
+                        }
                     },
                     "max-stat": {
-                        "attributes": "Maximum points per attribute",
-                        "skills": "Maximum ranks per skill"
+                        "attributes": {
+                            "Label": "Attributes",
+                            "Description": "Maximum points per Attribute"
+                        },
+                        "skills": {
+                            "Label": "Skills",
+                            "Description": "Maximum ranks per Skill"
+                        }
                     }
                 }
             }

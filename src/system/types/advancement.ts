@@ -5,12 +5,12 @@ import { AdvancementOverrideData } from '@system/data/item/misc/advancement-over
 export namespace Advancement {
     // Overrides
 
-    export const enum OverrideType {
+    export enum OverrideType {
         Grants = 'grants',
         MaxStat = 'max-stat',
     }
 
-    export const enum OverrideMode {
+    export enum OverrideMode {
         Absolute = 'absolute',
         Relative = 'relative',
     }

@@ -22,25 +22,62 @@
             <li class="item override">
                 <section class="details">
                     <div class="detail">
+                        {{#if ../editable}}
+                        <input type="number" name="levels.min" value={{override.levels.min}}>
+                        <input type="number" name="levels.max" value={{override.levels.max}}>
+                        {{else}}
                         {{advancementOverrideLevels override.levels}}
+                        {{/if}}
                     </div>
                     <div class="detail">
+                        {{#if ../editable}}
+                        <select name="type">
+                            {{selectOptions override.options.type selected=override.type localize=true}}
+                        </select>
+                        {{else}}
                         {{localizeOverrideData override "type"}}
+                        {{/if}}
                     </div>
                     <div class="detail">
+                        {{#if ../editable}}
+                        <select name="mode">
+                            {{selectOptions override.options.mode selected=override.mode localize=true}}
+                        </select>
+                        {{else}}
                         {{localizeOverrideData override "mode"}}
+                        {{/if}}
                     </div>
                     <div class="detail">
+                        {{#if ../editable}}
+                        <select name="key">
+                            {{selectOptions override.options.key selected=override.key localize=true}}
+                        </select>
+                        {{else}}
                         {{localizeOverrideData override "key"}}
+                        {{/if}}
                     </div>
                     <div class="detail">
+                        {{#if ../editable}}
+                        <select name="stat">
+                            {{selectOptions override.options.stat selected=override.stat localize=true}}
+                        </select>
+                        {{else}}
                         {{localizeOverrideData override "stat"}}
+                        {{/if}}
                     </div>
                     <div class="detail">
+                        {{#if ../editable}}
+                        <input type="number" name="value" value={{override.value}}>
+                        {{else}}
                         {{override.value}}
+                        {{/if}}
                     </div>
                     <div class="detail">
+                        {{#if ../editable}}
+                        <input type="number" name="priority" value={{override.priority}}>
+                        {{else}}
                         {{override.priority}}
+                        {{/if}}
                     </div>
                 </section>
             </li>
