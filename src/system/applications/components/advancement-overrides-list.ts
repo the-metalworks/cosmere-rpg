@@ -1,14 +1,13 @@
 import { Advancement } from '@system/types/advancement';
 
-import {
-    ComponentHandlebarsRenderOptions,
-    HandlebarsApplicationComponent,
-} from '@system/applications/component-system';
+import { HandlebarsApplicationComponent } from '@system/applications/component-system';
 
 // Constants
 import { SYSTEM_ID } from '@system/constants';
 import { TEMPLATES } from '@system/utils/templates';
 import { AdvancementOverrideData } from '@src/system/data/item/misc/advancement-override';
+import { OverrideSelectOption } from '@src/system/utils/handlebars/types';
+import { AttributeConfig, SkillConfig } from '@src/system/types/config';
 
 // NOTE: Must use type here instead of interface as an interface doesn't match AnyObject type
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
@@ -87,6 +86,43 @@ export class AdvancementOverridesListComponent extends HandlebarsApplicationComp
         ];
     }
 
+    private static getOptionsContext(
+        override: AdvancementOverrideData,
+    ): Record<string, OverrideSelectOption[]> {
+        return {
+            type: Object.values(Advancement.OverrideType).map((v) => ({
+                value: v,
+                label: `COSMERE.Advancement.Override.Type.${v}`,
+            })),
+            mode: Object.values(Advancement.OverrideMode).map((v) => ({
+                value: v,
+                label: `COSMERE.Advancement.Override.Mode.${v}`,
+            })),
+            key:
+                override.type === Advancement.OverrideType.Grants
+                    ? Object.values(Advancement.GrantsFieldKey).map((v) => ({
+                          value: v,
+                          label: `COSMERE.Advancement.Override.Field.grants.${v}.Label`,
+                          tooltip: `COSMERE.Advancement.Override.Field.grants.${v}.Description`,
+                      }))
+                    : Object.values(Advancement.MaxStatFieldKey).map((v) => ({
+                          value: v,
+                          label: `COSMERE.Advancement.Override.Field.max-stat.${v}.Label`,
+                          tooltip: `COSMERE.Advancement.Override.Field.grants.${v}.Description`,
+                      })),
+            stat: CONFIG.COSMERE[override.key as Advancement.MaxStatFieldKey]
+                ? Object.entries(
+                      CONFIG.COSMERE[
+                          override.key as Advancement.MaxStatFieldKey
+                      ],
+                  ).map(([k, v]) => ({
+                      value: k,
+                      label: (v as AttributeConfig | SkillConfig).label,
+                  }))
+                : [],
+        };
+    }
+
     /* --- Lifecycle --- */
 
     protected override _onInitialize() {
@@ -103,32 +139,41 @@ export class AdvancementOverridesListComponent extends HandlebarsApplicationComp
     }
 
     public _prepareContext(params: Params, context: object) {
+        console.log('Using context', context);
         return Promise.resolve({
             ...context,
 
-            overrides: this.value.sort((a, b) => {
-                if (
-                    a.levels.min === b.levels.min &&
-                    a.levels.max === b.levels.max
-                ) {
-                    // Both apply to identical level ranges
-                    return 0;
-                }
+            overrides: this.value
+                .map((override) => ({
+                    ...override,
+                    options:
+                        AdvancementOverridesListComponent.getOptionsContext(
+                            override,
+                        ),
+                }))
+                .sort((a, b) => {
+                    if (
+                        a.levels.min === b.levels.min &&
+                        a.levels.max === b.levels.max
+                    ) {
+                        // Both apply to identical level ranges
+                        return 0;
+                    }
 
-                const aMin = a.levels.min ?? -Infinity;
-                const bMin = b.levels.min ?? -Infinity;
-                if (aMin !== bMin) {
-                    // A and B start at different levels.
-                    // Sort accordingly.
-                    return aMin - bMin;
-                }
+                    const aMin = a.levels.min ?? -Infinity;
+                    const bMin = b.levels.min ?? -Infinity;
+                    if (aMin !== bMin) {
+                        // A and B start at different levels.
+                        // Sort accordingly.
+                        return aMin - bMin;
+                    }
 
-                // A and B start at the same level.
-                // Sort based on end level.
-                const aMax = a.levels.max ?? Infinity;
-                const bMax = b.levels.max ?? Infinity;
-                return aMax - bMax;
-            }),
+                    // A and B start at the same level.
+                    // Sort based on end level.
+                    const aMax = a.levels.max ?? Infinity;
+                    const bMax = b.levels.max ?? Infinity;
+                    return aMax - bMax;
+                }),
         });
     }
 }
