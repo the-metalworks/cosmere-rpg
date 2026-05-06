@@ -92,6 +92,8 @@ export const TEMPLATES = {
     ITEM_POWER_CONTENT: 'item/power/parts/content.hbs',
     ITEM_SPECIALTY_CONTENT: 'item/specialty/parts/content.hbs',
     ITEM_TALENT_CONTENT: 'item/talent/parts/content.hbs',
+    ITEM_GENERIC_EQUIPPABLE_CONTENT:
+        'item/generic-equippable/parts/content.hbs',
 
     ITEM_DESCRIPTION_TAB: 'item/partials/item-description-tab.hbs',
     ITEM_EFFECTS_TAB: 'item/partials/item-effects-tab.hbs',
@@ -106,6 +108,8 @@ export const TEMPLATES = {
         'item/specialty/partials/specialty-details-tab.hbs',
     ITEM_LOOT_DETAILS_TAB: 'item/loot/partials/loot-details-tab.hbs',
     ITEM_ARMOR_DETAILS_TAB: 'item/armor/partials/armor-details-tab.hbs',
+    ITEM_GENERIC_EQUIPPABLE_DETAILS_TAB:
+        'item/generic-equippable/partials/generic-equippable-details-tab.hbs',
     ITEM_ANCESTRY_DETAILS_TAB:
         'item/ancestry/partials/ancestry-details-tab.hbs',
     ITEM_TALENT_DETAILS_TAB: 'item/talent/partials/talent-details-tab.hbs',

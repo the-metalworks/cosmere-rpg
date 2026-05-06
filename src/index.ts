@@ -130,6 +130,10 @@ Hooks.once('init', async () => {
     );
     registerItemSheet(ItemType.Loot, applications.item.LootItemSheet as any);
     registerItemSheet(ItemType.Armor, applications.item.ArmorItemSheet as any);
+    registerItemSheet(
+        ItemType.GenericEquippable,
+        applications.item.GenericEquippableItemSheet as any,
+    );
     registerItemSheet(ItemType.Trait, applications.item.TraitItemSheet as any);
     registerItemSheet(
         ItemType.Action,

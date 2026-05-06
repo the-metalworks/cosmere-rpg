@@ -739,6 +739,12 @@ const COSMERE: CosmereRPGConfig = {
                 labelPlural: 'COSMERE.Item.Type.Loot.label_plural',
                 desc_placeholder: 'COSMERE.Item.Type.Loot.desc_placeholder',
             },
+            [ItemType.GenericEquippable]: {
+                label: 'COSMERE.Item.Type.GenericEquippable.label',
+                labelPlural: 'COSMERE.Item.Type.GenericEquippable.label_plural',
+                desc_placeholder:
+                    'COSMERE.Item.Type.GenericEquippable.desc_placeholder',
+            },
             [ItemType.Ancestry]: {
                 label: 'COSMERE.Item.Type.Ancestry.label',
                 labelPlural: 'COSMERE.Item.Type.Ancestry.label_plural',
@@ -803,6 +809,9 @@ const COSMERE: CosmereRPGConfig = {
                 },
                 [EquipType.Hold]: {
                     label: 'COSMERE.Item.Equip.Types.Hold.Label',
+                },
+                [EquipType.Equip]: {
+                    label: 'COSMERE.Item.Equip.Types.Equip.Label',
                 },
             },
             hold: {

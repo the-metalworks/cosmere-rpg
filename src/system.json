@@ -29,6 +29,7 @@
             "armor": {},
             "equipment": {},
             "loot": {},
+            "generic_equippable": {},
             "ancestry": {},
             "culture": {},
             "path": {},

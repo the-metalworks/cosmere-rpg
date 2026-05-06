@@ -30,6 +30,7 @@ import {
     TraitItemDataModel,
     LootItemDataModel,
     EquipmentItemDataModel,
+    GenericEquippableItemDataModel,
     GoalItemDataModel,
     PowerItemDataModel,
     TalentTreeItemDataModel,
@@ -240,6 +241,10 @@ export class CosmereItem<
 
     public isEquipment(): this is CosmereItem<EquipmentItemDataModel> {
         return this.type === ItemType.Equipment;
+    }
+
+    public isGenericEquippable(): this is CosmereItem<GenericEquippableItemDataModel> {
+        return this.type === ItemType.GenericEquippable;
     }
 
     public isGoal(): this is GoalItem {
@@ -1735,6 +1740,7 @@ export type ConnectionItem = CosmereItem<ConnectionItemDataModel>;
 export type InjuryItem = CosmereItem<InjuryItemDataModel>;
 export type LootItem = CosmereItem<LootItemDataModel>;
 export type ArmorItem = CosmereItem<ArmorItemDataModel>;
+export type GenericEquippableItem = CosmereItem<GenericEquippableItemDataModel>;
 export type TraitItem = CosmereItem<TraitItemDataModel>;
 export type ActionItem = CosmereItem<ActionItemDataModel>;
 export type TalentItem = CosmereItem<TalentItemDataModel>;

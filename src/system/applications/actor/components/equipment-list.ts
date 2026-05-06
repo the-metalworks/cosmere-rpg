@@ -262,6 +262,7 @@ any> {
         this.sections = [
             this.prepareSection(ItemType.Weapon),
             this.prepareSection(ItemType.Armor),
+            this.prepareSection(ItemType.GenericEquippable),
             this.prepareSection(ItemType.Equipment),
             this.prepareSection(ItemType.Loot),
         ];

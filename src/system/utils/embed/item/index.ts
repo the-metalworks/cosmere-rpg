@@ -14,6 +14,7 @@ const EMBEDDERS: Record<ItemType, EmbedHelpers | null> = {
     [ItemType.Armor]: null,
     [ItemType.Equipment]: null,
     [ItemType.Loot]: null,
+    [ItemType.GenericEquippable]: null,
 
     [ItemType.Ancestry]: ancestryEmbed,
     [ItemType.Culture]: null,

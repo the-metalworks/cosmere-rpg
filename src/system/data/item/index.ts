@@ -5,6 +5,7 @@ import { WeaponItemDataModel } from './weapon';
 import { ArmorItemDataModel } from './armor';
 import { EquipmentItemDataModel } from './equipment';
 import { LootItemDataModel } from './loot';
+import { GenericEquippableItemDataModel } from './generic-equippable';
 
 import { AncestryItemDataModel } from './ancestry';
 import { CultureItemDataModel } from './culture';
@@ -27,6 +28,7 @@ export const config = {
     [ItemType.Armor]: ArmorItemDataModel,
     [ItemType.Equipment]: EquipmentItemDataModel,
     [ItemType.Loot]: LootItemDataModel,
+    [ItemType.GenericEquippable]: GenericEquippableItemDataModel,
 
     [ItemType.Ancestry]: AncestryItemDataModel,
     [ItemType.Culture]: CultureItemDataModel,
@@ -49,6 +51,7 @@ export * from './weapon';
 export * from './armor';
 export * from './equipment';
 export * from './loot';
+export * from './generic-equippable';
 export * from './ancestry';
 export * from './culture';
 export * from './path';
@@ -68,6 +71,7 @@ declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
             [ItemType.Armor]: typeof foundry.abstract.TypeDataModel;
             [ItemType.Equipment]: typeof foundry.abstract.TypeDataModel;
             [ItemType.Loot]: typeof foundry.abstract.TypeDataModel;
+            [ItemType.GenericEquippable]: typeof foundry.abstract.TypeDataModel;
 
             [ItemType.Ancestry]: typeof foundry.abstract.TypeDataModel;
             [ItemType.Culture]: typeof foundry.abstract.TypeDataModel;
