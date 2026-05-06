@@ -689,6 +689,9 @@
                     },
                     "Hold": {
                         "Label": "Held"
+                    },
+                    "Equip": {
+                        "Label": "Equipped"
                     }
                 },
                 "Hold": {
@@ -1109,6 +1112,8 @@
                 },
                 "Equip": {
                     "Title": "Equipment Details",
+                    "IsEquippable": "Is Equippable",
+                    "EquipType": "Equip Type",
                     "AlwaysEquipped": "Always Equipped",
                     "Traits": "Traits",
                     "ExpertTraits": "Expert Traits",

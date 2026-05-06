@@ -804,6 +804,9 @@ const COSMERE: CosmereRPGConfig = {
                 [EquipType.Hold]: {
                     label: 'COSMERE.Item.Equip.Types.Hold.Label',
                 },
+                [EquipType.Equip]: {
+                    label: 'COSMERE.Item.Equip.Types.Equip.Label',
+                },
             },
             hold: {
                 [HoldType.OneHanded]: {

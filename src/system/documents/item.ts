@@ -304,10 +304,17 @@ export class CosmereItem<
     }
 
     /**
+     * Does this item have equippable data?
+     */
+    public isEquippableItem(): this is EquippableItem {
+        return 'equipped' in this.system;
+    }
+
+    /**
      * Can this item be equipped?
      */
     public isEquippable(): this is EquippableItem {
-        return 'equipped' in this.system;
+        return this.isEquippableItem() && this.system.equippableEnabled;
     }
 
     /**
