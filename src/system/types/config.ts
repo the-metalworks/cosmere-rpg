@@ -239,6 +239,7 @@ export interface ItemTypeConfig {
     label: string;
     labelPlural: string;
     desc_placeholder?: string;
+    new?: string;
 }
 
 export interface EquipTypeConfig {

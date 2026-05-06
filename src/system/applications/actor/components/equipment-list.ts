@@ -296,7 +296,8 @@ any> {
                     {
                         type,
                         name: game.i18n.localize(
-                            `COSMERE.Item.Type.${type.capitalize()}.New`,
+                            CONFIG.COSMERE.items.types[type].new ??
+                                `COSMERE.Item.Type.${type.capitalize()}.New`,
                         ),
                     },
                     { parent },

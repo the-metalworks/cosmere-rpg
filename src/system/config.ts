@@ -722,28 +722,33 @@ const COSMERE: CosmereRPGConfig = {
                 label: 'COSMERE.Item.Type.Weapon.label',
                 labelPlural: 'COSMERE.Item.Type.Weapon.label_plural',
                 desc_placeholder: 'COSMERE.Item.Type.Weapon.desc_placeholder',
+                new: 'COSMERE.Item.Type.Weapon.New',
             },
             [ItemType.Armor]: {
                 label: 'COSMERE.Item.Type.Armor.label',
                 labelPlural: 'COSMERE.Item.Type.Armor.label_plural',
                 desc_placeholder: 'COSMERE.Item.Type.Armor.desc_placeholder',
+                new: 'COSMERE.Item.Type.Armor.New',
             },
             [ItemType.Equipment]: {
                 label: 'COSMERE.Item.Type.Equipment.label',
                 labelPlural: 'COSMERE.Item.Type.Equipment.label_plural',
                 desc_placeholder:
                     'COSMERE.Item.Type.Equipment.desc_placeholder',
+                new: 'COSMERE.Item.Type.Equipment.New',
             },
             [ItemType.Loot]: {
                 label: 'COSMERE.Item.Type.Loot.label',
                 labelPlural: 'COSMERE.Item.Type.Loot.label_plural',
                 desc_placeholder: 'COSMERE.Item.Type.Loot.desc_placeholder',
+                new: 'COSMERE.Item.Type.Loot.New',
             },
             [ItemType.GenericEquippable]: {
                 label: 'COSMERE.Item.Type.GenericEquippable.label',
                 labelPlural: 'COSMERE.Item.Type.GenericEquippable.label_plural',
                 desc_placeholder:
                     'COSMERE.Item.Type.GenericEquippable.desc_placeholder',
+                new: 'COSMERE.Item.Type.GenericEquippable.New',
             },
             [ItemType.Ancestry]: {
                 label: 'COSMERE.Item.Type.Ancestry.label',
@@ -764,16 +769,19 @@ const COSMERE: CosmereRPGConfig = {
                 label: 'COSMERE.Item.Type.Talent.label',
                 labelPlural: 'COSMERE.Item.Type.Talent.label_plural',
                 desc_placeholder: 'COSMERE.Item.Type.Talent.desc_placeholder',
+                new: 'COSMERE.Item.Type.Talent.New',
             },
             [ItemType.Action]: {
                 label: 'COSMERE.Item.Type.Action.label',
                 labelPlural: 'COSMERE.Item.Type.Action.label_plural',
                 desc_placeholder: 'COSMERE.Item.Type.Action.desc_placeholder',
+                new: 'COSMERE.Item.Type.Action.New',
             },
             [ItemType.Trait]: {
                 label: 'COSMERE.Item.Type.Trait.label',
                 labelPlural: 'COSMERE.Item.Type.Trait.label_plural',
                 desc_placeholder: 'COSMERE.Item.Type.Trait.desc_placeholder',
+                new: 'COSMERE.Item.Type.Trait.New',
             },
             [ItemType.Injury]: {
                 label: 'COSMERE.Item.Type.Injury.label',
@@ -795,6 +803,7 @@ const COSMERE: CosmereRPGConfig = {
                 label: 'COSMERE.Item.Type.Power.label',
                 labelPlural: 'COSMERE.Item.Type.Power.label_plural',
                 desc_placeholder: 'COSMERE.Item.Type.Power.desc_placeholder',
+                new: 'COSMERE.Item.Type.Power.New',
             },
             [ItemType.TalentTree]: {
                 label: 'COSMERE.Item.Type.TalentTree.label',
