@@ -372,7 +372,7 @@ any> {
         if (!item) return;
 
         // Use the item
-        void this.application.actor.useItem(item);
+        void this.application.actor.rollItem(item);
     }
 
     private static async onNewItem(

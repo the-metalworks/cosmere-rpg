@@ -1,4 +1,4 @@
-<section class="chat-card-section description collapsible">
+<section class="chat-card-section description {{#if injury}}injury{{/if}} collapsible" {{#if uuid}}data-uuid="{{uuid}}"{{/if}}>
     <header class="summary">
         <img src="{{img}}">
         <div class="name-stacked">
@@ -15,6 +15,9 @@
         </div>
         {{#if action}}
             <span class="icon cosmere-icon {{action}}"></span>
+        {{/if}}
+        {{#if apply}}
+            <span class="icon clickable" data-action="apply" data-tooltip="{{localize "COSMERE.ChatMessage.Buttons.ApplyInjury"}}"><i class="fas fa-reply-all fa-flip-horizontal"></i></span>
         {{/if}}
     </header>
     {{#if description}}

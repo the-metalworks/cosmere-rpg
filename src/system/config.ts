@@ -1,4 +1,5 @@
 // Types
+import { AdvantageMode } from './dice';
 import { CosmereRPGConfig } from './types/config';
 import {
     Size,
@@ -35,7 +36,6 @@ import {
     MovementType,
     ImmunityType,
 } from './types/cosmere';
-import { AdvantageMode } from './types/roll';
 
 import { Talent, TalentTree } from './types/item';
 

@@ -3,7 +3,6 @@ import { ReleaseNotesDialog } from '@system/applications/dialogs/release-notes';
 
 // Constants
 import {
-    SYSTEM_ID,
     METALWORKS_DISCORD_INVITE,
     GITHUB_ISSUES_URL,
     GITHUB_CONTRIBUTING_URL,
@@ -34,11 +33,6 @@ Hooks.on('ready', async () => {
         }),
         speaker: {
             alias: AUTHOR_NAME,
-        },
-        flags: {
-            [SYSTEM_ID]: {
-                headerImg: `systems/${SYSTEM_ID}/assets/art/the-metalworks.png`,
-            },
         },
     });
 

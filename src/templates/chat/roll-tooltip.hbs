@@ -1,21 +1,14 @@
-{{#if parts.length}}
-<div class="collapsible-content">
-    <div class="dice-tooltip">
-        {{#each parts}}
-        <section class="tooltip-part">
-            <div class="dice">
-                <ol class="dice-rolls">
-                    {{#each rolls}}
-                    <li class="roll {{ classes }}">{{{ result }}}</li>
-                    {{/each}}
-                </ol>
-                <div class="total">
-                    <span class="label">{{ flavor }}</span>
-                    <span class="value">{{ total }}</span>
-                </div>
-            </div>
-        </section>
-        {{/each}}
+<section class="tooltip-part" data-uuid="{{uuid}}">
+    <div class="dice">
+        <ol class="dice-rolls">
+            {{#each results}}
+            <li class="roll {{classes}}" data-uuid="{{uuid}}">{{{result}}}</li>
+            {{/each}}
+        </ol>
+        <div class="total">
+            {{{icon}}}
+            <span class="label">{{label}}</span>
+            <span class="value">{{total}}</span>
+        </div>
     </div>
-</div>
-{{/if}}
+</section>

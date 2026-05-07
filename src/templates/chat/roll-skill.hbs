@@ -1,0 +1,34 @@
+<div class="dice-roll collapsible">
+    <div class="dice-result">
+        {{#if tooltip}}
+        <div class="collapsible-content">
+            <div class="dice-tooltip">
+                <div class="dice-formula">{{formula}}</div>
+                {{{tooltip}}}
+            </div>
+        </div> 
+        {{/if}}      
+        <div class="dice-roll-d20">
+            {{#each entries as |entry|}}
+            <h4 class="dice-total {{#if entry.ignored}}ignored{{/if}} {{entry.plotType}}">
+                {{entry.total}}
+                {{#if entry.plotResults}}
+                    {{#each entry.plotResults}}
+                        <span class="cosmere-icon {{this}}"></span>
+                    {{/each}}
+                {{/if}}
+                {{#if ../overlay}}
+                <div class="overlay overlay-d20">
+                    <div data-action="retro" data-state="kl" data-tooltip="{{localize "COSMERE.ChatMessage.Buttons.RollDisadvantage"}}">
+                        <img src="{{../overlayDisImg}}">
+                    </div>
+                    <div data-action="retro" data-state="kh" data-tooltip="{{localize "COSMERE.ChatMessage.Buttons.RollAdvantage"}}">
+                        <img src="{{../overlayAdvImg}}">
+                    </div>
+                </div>
+                {{/if}}
+            </h4>
+            {{/each}}
+        </div>
+    </div>
+</div>

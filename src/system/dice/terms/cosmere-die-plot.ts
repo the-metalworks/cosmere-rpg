@@ -64,6 +64,10 @@ export class CosmerePlotDie extends CosmereDie {
         return CosmerePlotDie.SIDES[result.result];
     }
 
+    public override getResultCSS(result: DiceTermResult): (string | null)[] {
+        return [...super.getResultCSS(result), 'plot'];
+    }
+
     public override async pick(modifier: string) {
         // When the pick call is from a "keep" (i.e. adv/disadv), we properly generate the pick modifier
         const rgx = /k([hl])?([0-9]+)?/i;

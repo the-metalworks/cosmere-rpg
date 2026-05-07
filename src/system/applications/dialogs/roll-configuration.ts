@@ -1,18 +1,25 @@
-import { Attribute } from '@system/types/cosmere';
 import { RollMode } from '@system/dice/types';
-import { AdvantageMode } from '@system/types/roll';
-import { AnyObject, NONE, Nullable } from '@system/types/utils';
+import { AnyObject } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
-import {
-    toggleAdvantageMode,
-    getFormulaDisplayString,
-    getNullableFromFormInput,
-} from '@src/system/utils/generic';
-import { D20RollData } from '@system/dice/d20-roll';
 
 // Mixins
 import { ComponentHandlebarsApplicationMixin } from '@system/applications/component-system';
+import {
+    CosmereDamageRoll,
+    CosmereDamageRollData,
+    CosmereDamageRollOptions,
+    CosmerePlotRoll,
+    CosmereRoll,
+    CosmereRollOptions,
+    CosmereSkillRoll,
+    CosmereSkillRollData,
+    CosmereSkillRollOptions,
+    DieModifier,
+    RollEvaluationOptions,
+} from '@src/system/dice';
+import { Attribute, Skill } from '@src/system/types/cosmere';
+import { CosmereGrazeRoll } from '@src/system/dice/rolls/cosmere-roll-graze';
 
 const { ApplicationV2 } = foundry.applications.api;
 
@@ -24,68 +31,26 @@ export namespace RollConfigurationDialog {
         title: string;
 
         /**
-         * The attribute that is used for the roll by default
+         * The input array of rolls to configure
          */
-        defaultAttribute?: Nullable<Attribute>;
+        rolls: CosmereRoll[];
 
         /**
-         * The roll mode that should be selected by default
+         * The initial roll options applied to all rolls (e.g. roll mode)
          */
-        defaultRollMode?: RollMode;
-
-        /**
-         * A dice formula stating any miscellaneous other bonuses or negatives to the specific roll
-         */
-        temporaryModifiers?: string;
-
-        /**
-         * Whether or not to include a plot die in the test
-         */
-        raiseStakes?: boolean;
-
-        /**
-         * Data about the skill test
-         */
-        skillTest: {
-            /**
-             * The formula parts of the roll
-             */
-            parts: string[];
-
-            /**
-             * The data to be used when parsing the roll
-             */
-            data: D20RollData;
-
-            /**
-             * The roll formula parsed from the roll parts.
-             */
-            formula?: string;
-
-            /**
-             * What advantage modifier to apply to the skill test roll
-             */
-            advantageMode?: AdvantageMode;
-        };
-
-        /**
-         * Data about the plot die
-         */
-        plotDie: {
-            /**
-             * What advantage modifer to apply to the plot die roll
-             */
-            advantageMode?: AdvantageMode;
-        };
+        options: CosmereRollOptions;
     }
 
     export interface Result {
-        attribute: Nullable<Attribute>;
-        rollMode: RollMode;
-        plotDie: boolean;
-        advantageMode: AdvantageMode;
-        advantageModePlot: AdvantageMode;
-        temporaryModifiers: string;
+        /**
+         * The final configured rolls array
+         */
+        rolls: CosmereRoll[];
+
+        /**
+         * The configured roll options applied to all rolls (e.g. roll mode)
+         */
+        options: CosmereRollOptions;
     }
 }
 
@@ -130,7 +95,6 @@ export class RollConfigurationDialog extends ComponentHandlebarsApplicationMixin
     /* eslint-enable @typescript-eslint/unbound-method */
 
     private submitted = false;
-    private originalFormulaSize = 0;
 
     private constructor(
         private data: RollConfigurationDialog.Data,
@@ -141,23 +105,9 @@ export class RollConfigurationDialog extends ComponentHandlebarsApplicationMixin
                 title: data.title,
             },
         });
-
-        this.originalFormulaSize = this.data.skillTest.parts.length;
-
-        this.data.skillTest.advantageMode ??= AdvantageMode.None;
-        this.data.plotDie.advantageMode ??= AdvantageMode.None;
-
-        this.data.skillTest.formula = foundry.dice.Roll.replaceFormulaData(
-            getFormulaDisplayString(this.data.skillTest.parts),
-            this.data.skillTest.data,
-            {
-                missing: '0',
-            },
-        );
     }
 
     /* --- Statics --- */
-
     public static show(data: RollConfigurationDialog.Data) {
         return new Promise<RollConfigurationDialog.Result | null>((resolve) => {
             void new this(data, resolve).render(true);
@@ -165,8 +115,7 @@ export class RollConfigurationDialog extends ComponentHandlebarsApplicationMixin
     }
 
     /* --- Form --- */
-
-    private static onFormEvent(
+    private static async onFormEvent(
         this: RollConfigurationDialog,
         event: Event,
         form: HTMLFormElement,
@@ -174,57 +123,156 @@ export class RollConfigurationDialog extends ComponentHandlebarsApplicationMixin
     ) {
         if (event instanceof SubmitEvent) return;
 
-        const attribute = getNullableFromFormInput<Attribute>(
-            formData.get('attribute') as string,
-        );
         const rollMode = formData.get('rollMode') as RollMode;
-        const raiseStakes = formData.get('raiseStakes') === 'true';
-        const tempMod = formData.get('temporaryMod')?.valueOf() as string;
+        this.data.options.rollMode = rollMode;
 
-        // get rid of existing temp mod formula
-        if (this.data.skillTest.parts.length > this.originalFormulaSize)
-            this.data.skillTest.parts.pop();
-        // add the current ones in for display in the formula bar
-        this.data.skillTest.parts.push(tempMod);
-        // store it
-        this.data.temporaryModifiers = tempMod;
+        for (const skillRoll of this.data.rolls.filter(
+            (r) => r instanceof CosmereSkillRoll,
+        )) {
+            if (skillRoll.parent !== undefined) continue;
 
-        const skill = this.data.skillTest.data.skill;
-        const attributeData = attribute
-            ? this.data.skillTest.data.attributes[attribute]
-            : { value: 0, bonus: 0 };
-        const rank = skill.rank;
-        const value = attributeData.value + attributeData.bonus;
+            // Handle skill and attribute selection
+            const skill = formData.get(`${skillRoll.uuid} skill`) as Skill;
+            const attribute = formData.get(
+                `${skillRoll.uuid} attribute`,
+            ) as Attribute;
 
-        this.data.skillTest.data.mod = rank + value;
-        this.data.defaultAttribute = attribute ?? undefined;
-        this.data.defaultRollMode = rollMode;
-        this.data.raiseStakes = raiseStakes;
+            if (
+                skill !== (skillRoll.data as CosmereSkillRollData).skill ||
+                attribute !== (skillRoll.data as CosmereSkillRollData).attribute
+            ) {
+                (skillRoll.data as CosmereSkillRollData).skill = skill;
+                (skillRoll.data as CosmereSkillRollData).attribute = attribute;
+
+                skillRoll.recalculateMod();
+            }
+
+            // Handle raise stakes checkbox
+            const raiseStakes =
+                formData.get(`${skillRoll.uuid} stakes`) === 'true';
+
+            if (
+                raiseStakes &&
+                !(skillRoll.options as CosmereSkillRollOptions).raiseStakes
+            ) {
+                const data = foundry.utils.deepClone(skillRoll.data);
+                data.source = this;
+                data.parent = skillRoll.uuid;
+                data.parts = ['1dp'];
+
+                this.data.rolls.push(
+                    new CosmerePlotRoll(data.parts.join(' + '), data, {}),
+                );
+            }
+
+            if (
+                !raiseStakes &&
+                (skillRoll.options as CosmereSkillRollOptions).raiseStakes
+            ) {
+                const plotRollIndex = this.data.rolls.findIndex(
+                    (r) =>
+                        r instanceof CosmerePlotRoll &&
+                        r.data.parent === skillRoll.uuid,
+                );
+
+                if (plotRollIndex > -1) {
+                    this.data.rolls.splice(plotRollIndex, 1);
+                }
+            }
+
+            (skillRoll.options as CosmereSkillRollOptions).raiseStakes =
+                raiseStakes;
+
+            // Handle temporary bonus field
+            const tempBonus = formData
+                .get(`${skillRoll.uuid} temp`)
+                ?.valueOf() as string;
+
+            let tempRollIndex = this.data.rolls.findIndex(
+                (r) =>
+                    !(r instanceof CosmerePlotRoll) &&
+                    r.data.source === this &&
+                    r.data.parent === skillRoll.uuid,
+            );
+
+            if (
+                tempRollIndex > -1 &&
+                (tempBonus === '' ||
+                    this.data.rolls[tempRollIndex].formula !== tempBonus)
+            ) {
+                this.data.rolls.splice(tempRollIndex, 1);
+                tempRollIndex = -1;
+            }
+
+            if (tempBonus !== '' && tempRollIndex < 0) {
+                const data = foundry.utils.deepClone(skillRoll.data);
+                data.source = this;
+                data.parent = skillRoll.uuid;
+                data.parts = [tempBonus];
+
+                this.data.rolls.push(
+                    new CosmereRoll(data.parts.join(' + '), data, {}),
+                );
+            }
+        }
+
+        const firstDamage = this.data.rolls.find(
+            (r) => r instanceof CosmereDamageRoll && r.parent === undefined,
+        );
+
+        if (firstDamage) {
+            const tempBonus = formData.get(`damage temp`)?.valueOf() as string;
+
+            let tempRollIndex = this.data.rolls.findIndex(
+                (r) =>
+                    !(r instanceof CosmereGrazeRoll) &&
+                    r.data.source === this &&
+                    r.data.parent === firstDamage.uuid,
+            );
+
+            if (
+                tempRollIndex > -1 &&
+                (tempBonus === '' ||
+                    this.data.rolls[tempRollIndex].formula !== tempBonus)
+            ) {
+                this.data.rolls.splice(tempRollIndex, 1);
+                tempRollIndex = -1;
+            }
+
+            if (tempBonus !== '' && tempRollIndex < 0) {
+                const data = foundry.utils.deepClone(
+                    firstDamage.data,
+                ) as CosmereDamageRollData;
+                data.source = this;
+                data.parent = firstDamage.uuid;
+                data.parts = [tempBonus];
+
+                this.data.rolls.push(
+                    new CosmereDamageRoll(data.parts.join(' + '), data, {}),
+                );
+            }
+        }
+
+        const preps: Promise<CosmereRoll>[] = [];
+        this.data.rolls.forEach((r) =>
+            preps.push(r.prepare(this.data.options as RollEvaluationOptions)),
+        );
+        await Promise.all(preps);
 
         void this.render();
     }
 
     /* --- Actions --- */
-
     protected static onSubmit(this: RollConfigurationDialog) {
         const form = this.element.querySelector('form')! as HTMLFormElement & {
-            attribute: HTMLSelectElement;
             rollMode: HTMLSelectElement;
-            raiseStakes: HTMLInputElement;
-            temporaryMod: HTMLInputElement;
         };
 
         this.resolve({
-            attribute: getNullableFromFormInput<Attribute>(
-                form.attribute.value,
-            ),
-            rollMode: (form.rollMode?.value as RollMode) ?? 'publicroll',
-            temporaryModifiers: form.temporaryMod.value,
-            plotDie: form.raiseStakes.checked,
-            advantageMode:
-                this.data.skillTest.advantageMode ?? AdvantageMode.None,
-            advantageModePlot:
-                this.data.plotDie.advantageMode ?? AdvantageMode.None,
+            rolls: this.data.rolls,
+            options: foundry.utils.mergeObject(this.data.options, {
+                rollMode: form.rollMode?.value as RollMode,
+            }) as CosmereRollOptions,
         });
 
         this.submitted = true;
@@ -233,37 +281,64 @@ export class RollConfigurationDialog extends ComponentHandlebarsApplicationMixin
 
     /* --- Event handlers --- */
 
-    protected onClickConfigureDie(event: JQuery.MouseDownEvent) {
+    protected async onClickConfigureDie(event: JQuery.MouseDownEvent) {
         event.preventDefault();
         event.stopPropagation();
 
         if (event.which !== 1 && event.which !== 3) return;
 
         const target = event.currentTarget as HTMLElement;
-        const action = target.dataset.action;
+        const uuidDie = target.dataset.uuid;
+        const uuidRoll = $(target).closest('.roll-config').get(0)?.dataset.uuid;
 
-        target.classList.remove(AdvantageMode.Advantage);
-        target.classList.remove(AdvantageMode.Disadvantage);
-        target.classList.remove(AdvantageMode.None);
+        if (!uuidDie || !uuidRoll) return;
 
-        switch (action) {
-            case 'skill-adv-mode':
-                this.data.skillTest.advantageMode = toggleAdvantageMode(
-                    this.data.skillTest.advantageMode ?? AdvantageMode.None,
-                    event.which === 1,
+        const rollIndex = this.data.rolls.findIndex((r) => r.uuid === uuidRoll);
+
+        if (rollIndex < 0) return;
+
+        switch (event.which) {
+            case 1:
+                if (
+                    this.data.rolls[rollIndex].dice.find(
+                        (d) => d.uuid === uuidDie,
+                    )?.hasDisadvantage
+                ) {
+                    await this.data.rolls[rollIndex].modify(
+                        DieModifier.Disadvantage,
+                        uuidDie,
+                        true,
+                    );
+                }
+
+                await this.data.rolls[rollIndex].modify(
+                    DieModifier.Advantage,
+                    uuidDie,
+                    true,
                 );
-                target.classList.add(this.data.skillTest.advantageMode);
                 break;
-            case 'plot-adv-mode':
-                this.data.plotDie.advantageMode = toggleAdvantageMode(
-                    this.data.plotDie.advantageMode ?? AdvantageMode.None,
-                    event.which === 1,
+            case 3:
+                if (
+                    this.data.rolls[rollIndex].dice.find(
+                        (d) => d.uuid === uuidDie,
+                    )?.hasAdvantage
+                ) {
+                    await this.data.rolls[rollIndex].modify(
+                        DieModifier.Advantage,
+                        uuidDie,
+                        true,
+                    );
+                }
+
+                await this.data.rolls[rollIndex].modify(
+                    DieModifier.Disadvantage,
+                    uuidDie,
+                    true,
                 );
-                target.classList.add(this.data.plotDie.advantageMode);
-                break;
-            default:
                 break;
         }
+
+        void this.render();
     }
 
     /* --- Lifecycle --- */
@@ -272,14 +347,6 @@ export class RollConfigurationDialog extends ComponentHandlebarsApplicationMixin
         await super._onRender(context, options);
 
         $(this.element).prop('open', true);
-
-        $(this.element)
-            .find('.roll-config.test .dice-tooltip .dice-rolls .roll.die')
-            .addClass(this.data.skillTest.advantageMode ?? AdvantageMode.None);
-
-        $(this.element)
-            .find('.roll-config.plot .dice-tooltip .dice-rolls .roll.die')
-            .addClass(this.data.plotDie.advantageMode ?? AdvantageMode.None);
 
         $(this.element)
             .find('.dice-tooltip .dice-rolls .roll.die')
@@ -293,11 +360,80 @@ export class RollConfigurationDialog extends ComponentHandlebarsApplicationMixin
     /* --- Context --- */
 
     public _prepareContext() {
+        const configuredRollMode =
+            this.data.options.rollMode ?? game.settings.get('core', 'rollMode');
+
+        const skillRolls = this.data.rolls
+            .filter(
+                (r) => r instanceof CosmereSkillRoll && r.parent === undefined,
+            )
+            .map((r) => ({
+                roll: r,
+                plot: this.data.rolls.find(
+                    (p) => p instanceof CosmerePlotRoll && p.parent === r.uuid,
+                ),
+                tempBonus: this.data.rolls
+                    .find(
+                        (b) =>
+                            !(b instanceof CosmerePlotRoll) &&
+                            b.data.source === this &&
+                            b.parent === r.uuid,
+                    )
+                    ?.data.parts?.join(' + '),
+                bonuses: this.data.rolls.filter(
+                    (b) =>
+                        !(b instanceof CosmerePlotRoll) && b.parent === r.uuid,
+                ),
+            }));
+
+        const damageRolls = this.data.rolls
+            .filter(
+                (r) => r instanceof CosmereDamageRoll && r.parent === undefined,
+            )
+            .map((r) => ({
+                roll: r,
+                graze: this.data.rolls.find(
+                    (g) => g instanceof CosmereGrazeRoll && g.parent === r.uuid,
+                ),
+                bonuses: this.data.rolls.filter(
+                    (b) =>
+                        !(b instanceof CosmereGrazeRoll) && b.parent === r.uuid,
+                ),
+            }));
+
+        const otherRolls = this.data.rolls.filter(
+            (r) =>
+                !(r instanceof CosmereSkillRoll) &&
+                !(r instanceof CosmereDamageRoll) &&
+                r.parent === undefined,
+        );
+
         return Promise.resolve({
             rollModes: CONFIG.Dice.rollModes,
-            defaultRollMode: this.data.defaultRollMode,
+            configuredRollMode,
+
+            skillRolls,
+            damageRolls,
+            otherRolls,
+
+            tempDamage: this.data.rolls
+                .find(
+                    (b) =>
+                        b instanceof CosmereDamageRoll &&
+                        b.data.source === this,
+                )
+                ?.data.parts?.join(' + '),
+
+            skills: {
+                ...Object.entries(CONFIG.COSMERE.skills).reduce(
+                    (acc, [key, config]) => ({
+                        ...acc,
+                        [key]: config.label,
+                    }),
+                    {},
+                ),
+            },
             attributes: {
-                [NONE]: 'GENERIC.None',
                 ...Object.entries(CONFIG.COSMERE.attributes).reduce(
                     (acc, [key, config]) => ({
                         ...acc,
@@ -306,21 +442,6 @@ export class RollConfigurationDialog extends ComponentHandlebarsApplicationMixin
                     {},
                 ),
             },
-            defaultAttribute: this.data.defaultAttribute,
-            temporaryModifiers: this.data.temporaryModifiers,
-            skillTest: this.data.skillTest.formula
-                ? {
-                      formula: this.data.skillTest.formula,
-                      dice: new foundry.dice.Roll(this.data.skillTest.formula)
-                          .dice,
-                  }
-                : undefined,
-            plotDie: this.data.raiseStakes
-                ? {
-                      formula: '1dp',
-                      dice: new foundry.dice.Roll('1dp').dice,
-                  }
-                : undefined,
         });
     }
 }

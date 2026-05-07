@@ -1,10 +1,12 @@
-<section class="chat-card-section {{type}} {{#if critical}}critical{{/if}}">
+<section class="chat-card-section {{type}} {{#if critical}}critical{{/if}}" data-uuid="{{uuid}}">
     <div class="section-header">
+        {{#if title}}
         <span class="title"><i class="{{icon}}"></i>{{title}}</span>
+        {{/if}}
         {{#if subtitle}}
         <span class="subtitle">
             <span class="skill">{{localize subtitle.skill}}</span>
-            <span class="attribute">({{localize subtitle.attribute}})</span>
+            {{#if subtitle.attribute}}<span class="attribute">({{localize subtitle.attribute}})</span>{{/if}}
         </span>
         {{/if}}
         {{#if damageTypes}}

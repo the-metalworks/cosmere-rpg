@@ -8,11 +8,11 @@ import {
     DamageType,
     Resource,
     InjuryType,
-    Size,
     RestType,
     ImmunityType,
+    Size,
 } from '@system/types/cosmere';
-import { Talent, TalentTree } from '@system/types/item';
+import { TalentTree } from '@system/types/item';
 import {
     CosmereItem,
     AncestryItem,
@@ -25,28 +25,38 @@ import {
 } from '@system/documents/item';
 import { CosmereActiveEffect } from '@system/documents/active-effect';
 
-import {
-    CommonActorData,
-    CommonActorDataModel,
-    Expertise,
-} from '@system/data/actor/common';
-import { CharacterActorDataModel } from '@system/data/actor/character';
-import { AdversaryActorDataModel } from '@system/data/actor/adversary';
+import { Expertise } from '@system/data/actor/common';
 import { PowerItemCreateData } from '@system/data/item';
 
 import { Derived } from '@system/data/fields';
 
-import { d20Roll, D20Roll, D20RollData, DamageRoll } from '@system/dice';
+import {
+    AdvantageMode,
+    CosmereInjuryRoll,
+    CosmereInjuryRollData,
+    CosmerePlotRoll,
+    CosmereRoll,
+    CosmereRollData,
+    CosmereRollOptions,
+    CosmereSkillRoll,
+    CosmereSkillRollData,
+    CosmereSkillRollOptions,
+    DieModifier,
+    executeRolls,
+    RollEvaluationOptions,
+} from '@src/system/dice';
 
 import { AttributeScale } from '@system/types/config';
 import { CosmereHooks } from '@system/types/hooks';
 
 // Dialogs
 import { ShortRestDialog } from '@system/applications/actor/dialogs/short-rest';
-import { MESSAGE_TYPES } from './chat-message';
 
 // Utils
-import { getTargetDescriptors } from '../utils/generic';
+import {
+    determineConfigurationMode,
+    getTargetDescriptors,
+} from '../utils/generic';
 import { EnricherData } from '../utils/enrichers';
 import { characterMeetsTalentPrerequisites } from '@system/utils/talent-tree';
 import { containsExpertise } from '@system/utils/actor';
@@ -54,33 +64,9 @@ import { containsExpertise } from '@system/utils/actor';
 // Constants
 import { SYSTEM_ID } from '@system/constants';
 import { HOOKS } from '@system/constants/hooks';
-import { AnyObject } from '@league-of-foundry-developers/foundry-vtt-types/utils';
 
 export type CharacterActor = CosmereActor<ActorType.Character>;
 export type AdversaryActor = CosmereActor<ActorType.Adversary>;
-
-interface RollSkillOptions {
-    /**
-     * The attribute to be used with this skill roll.
-     * Used to roll a skill with an alternate attribute.
-     *
-     * @default - The attribute associated with this skill
-     */
-    attribute?: Attribute;
-
-    /**
-     * The dice roll component parts, excluding the initial d20
-     * @default []
-     */
-    parts?: string[];
-
-    /**
-     * Who is sending the chat message for this roll?
-     *
-     * @default - ChatMessage.getSpeaker({ actor })`
-     */
-    speaker?: ChatMessage.SpeakerData;
-}
 
 interface LongRestOptions {
     /**
@@ -115,43 +101,6 @@ interface ApplyDamageOptions {
      */
     originatingItem?: CosmereItem;
 }
-
-type ActorRollData<
-    SubType extends Actor.SubType = Actor.SubType,
-    SystemType = Actor.SystemOfType<SubType>,
-> = {
-    [K in keyof SystemType]: SystemType[K];
-};
-
-export type CosmereActorRollData<
-    SubType extends Actor.SubType = Actor.SubType,
-> = ActorRollData<SubType> & {
-    name: string;
-    attr: Record<string, number>;
-    skills: Record<string, { rank: number; mod: number }>;
-
-    scalar: {
-        damage: {
-            unarmed: string;
-        };
-
-        power: Record<
-            string,
-            {
-                die: string;
-                'effect-size': Size;
-            }
-        >;
-    };
-    // this comes from the enricher use case, don't know if there's anything on a token
-    // that isn't on the actor doc so probably not helpful at all in rolls, but moving it here
-    // as per the 30/04 meeting outcome.
-    token?: {
-        name: string;
-    };
-
-    source: CosmereItem | CosmereActor;
-};
 
 // Constants
 /**
@@ -557,120 +506,6 @@ export class CosmereActor<
         return this.getFlag(SYSTEM_ID, `mode.${modality}`);
     }
 
-    public async rollInjury() {
-        // Get roll table
-        const table = (await fromUuid(
-            CONFIG.COSMERE.injury.durationTable,
-        )) as unknown as RollTable;
-
-        // Get injury roll bonus
-        const bonus = this.system.injuryRollBonus;
-
-        // Get injuries modifier
-        const injuriesModifier = this.system.injuries.value * -5;
-
-        // Build formula
-        const formula = ['1d20', this.deflect, bonus, injuriesModifier].join(
-            ' + ',
-        );
-
-        // Roll
-        const roll = new foundry.dice.Roll(formula);
-
-        /**
-         * Hook: preRollInjuryType
-         */
-        if (
-            Hooks.call(
-                HOOKS.PRE_INJURY_TYPE_ROLL,
-                roll, // Roll object
-                this, // Source
-            ) === false
-        )
-            return;
-
-        // NOTE: Draw function type definition is wrong, must use `any` type as a workaround
-        /* eslint-disable @typescript-eslint/no-explicit-any */
-        const draw = await table.draw({
-            roll,
-            displayChat: false,
-        } as any);
-        /* eslint-Enable @typescript-eslint/no-explicit-any */
-
-        // Get result
-        const result = draw.results[0];
-
-        /**
-         * Hook: rollInjuryType
-         */
-        Hooks.callAll(
-            HOOKS.INJURY_TYPE_ROLL,
-            roll, // Evaluated roll
-            result, // Table result
-            this, // Source
-        );
-
-        // Get injury data
-        const data = result.getFlag(SYSTEM_ID, 'injury-data');
-
-        const rolls = [];
-        if (
-            data.type !== InjuryType.Death &&
-            data.type !== InjuryType.PermanentInjury
-        ) {
-            // Roll duration
-            const durationRoll = new foundry.dice.Roll(data.durationFormula);
-
-            /**
-             * Hook: preRollInjuryDuration
-             */
-            if (
-                Hooks.call(
-                    HOOKS.PRE_INJURY_DURATION_ROLL,
-                    durationRoll, // Roll object
-                    this, // Source
-                ) === false
-            )
-                return;
-
-            await durationRoll.evaluate();
-            rolls.push(durationRoll);
-
-            /**
-             * Hook: rollInjuryDuration
-             *
-             * Passes the evaluated roll
-             */
-            Hooks.callAll(
-                HOOKS.INJURY_DURATION_ROLL,
-                durationRoll, // Roll object
-                this, // Source
-                {}, // Options
-            );
-        }
-
-        const flags = {} as Record<string, any>;
-        flags[SYSTEM_ID] = {
-            message: {
-                type: MESSAGE_TYPES.INJURY,
-            },
-            injury: {
-                details: result,
-                roll: draw.roll,
-            },
-        };
-
-        // Chat message
-        await ChatMessage.create({
-            author: game.user.id,
-            speaker: ChatMessage.getSpeaker({
-                actor: this,
-            }),
-            flags,
-            rolls,
-        });
-    }
-
     /**
      * Utility function to apply damage to this actor.
      * This function will automatically apply deflect & immunities and
@@ -785,9 +620,6 @@ export class CosmereActor<
             };
 
             messageConfig.flags[SYSTEM_ID] = {
-                message: {
-                    type: MESSAGE_TYPES.DAMAGE_TAKEN,
-                },
                 taken: {
                     health,
                     damageTaken: damage.calculated,
@@ -813,104 +645,349 @@ export class CosmereActor<
 
     /**
      * Utility function to get the modifier for a given attribute for this actor.
-     * @param attribute The attribute to get the modifier for
+     * @param attributeId The attribute to get the modifier for
      */
-    public getAttributeMod(attribute: Attribute): number {
+    public getAttributeMod(attributeId: Attribute): number {
         // Get attribute
-        const attr = this.system.attributes[attribute];
-        return attr.value + attr.bonus;
+        const attribute = this.system.attributes[attributeId];
+        return attribute.value + attribute.bonus;
     }
 
     /**
      * Utility function to get the modifier for a given skill for this actor.
-     * @param skill The skill to get the modifier for
+     * @param skillId The skill to get the modifier for
      * @param attributeOverride An optional attribute override, used instead of the default attribute
      */
-    public getSkillMod(skill: Skill, attributeOverride?: Attribute): number {
+    public getSkillMod(skillId: Skill, attributeOverride?: Attribute): number {
         // Get attribute id
         const attributeId =
-            attributeOverride ?? CONFIG.COSMERE.skills[skill].attribute;
+            attributeOverride ?? CONFIG.COSMERE.skills[skillId].attribute;
 
         // Get skill rank
-        const rank = this.system.skills[skill]?.rank ?? 0;
+        const rank = this.system.skills[skillId]?.rank ?? 0;
 
         // Get attribute value
-        const attrValue = this.getAttributeMod(attributeId);
+        const attributeMod = this.getAttributeMod(attributeId);
 
-        return attrValue + rank;
+        return attributeMod + rank;
+    }
+
+    public override getRollData(): CosmereRollData {
+        const data = {
+            source: this,
+            attributes: this.system.attributes,
+            skills: this.system.skills,
+            deflect: this.deflect,
+            scalar: this._getScalarRollData(),
+            targets: getTargetDescriptors(),
+        } as CosmereRollData;
+
+        return data;
+    }
+
+    private _getScalarRollData() {
+        return {
+            damage: {
+                unarmed: this.getFormulaFromScalarAttribute(
+                    Attribute.Strength,
+                    CONFIG.COSMERE.scaling.damage.unarmed.strength,
+                ),
+            },
+            power: {
+                ...this.powers.reduce(
+                    (scaling, power) => {
+                        // Get the power skill id
+                        const skillId = power.system.skill;
+                        if (!skillId) return scaling;
+
+                        // Get the skill
+                        const skill = this.system.skills[skillId];
+                        if (!skill?.unlocked) return scaling;
+
+                        // Add scaling
+                        scaling[power.system.id] = {
+                            die: this.getFormulaFromScalar(
+                                skill.rank,
+                                CONFIG.COSMERE.scaling.power.die.ranks,
+                            ),
+                            'effect-size': this.getFormulaFromScalar(
+                                skill.rank,
+                                CONFIG.COSMERE.scaling.power.effectSize.ranks,
+                            ),
+                        };
+
+                        return scaling;
+                    },
+                    {} as Record<string, { die: string; 'effect-size': Size }>,
+                ),
+            },
+        };
+    }
+
+    public generateSkillTest(
+        skillId: Skill,
+        options: CosmereSkillRollOptions = {},
+        source: CosmereActor | CosmereItem = this,
+    ): CosmereRoll[] {
+        const rolls = [] as CosmereRoll[];
+
+        const data = source.getRollData() as CosmereSkillRollData;
+
+        data.skill = skillId;
+        const skill = this.system.skills[skillId];
+
+        data.attribute = options.attribute ?? skill.attribute;
+        const attribute = this.system.attributes[data.attribute];
+
+        data.mod = options.attribute
+            ? attribute.value + attribute.bonus + skill.rank + skill.mod.bonus
+            : skill.mod.value;
+
+        let root = '';
+        switch (options.advantageMode) {
+            case AdvantageMode.Advantage:
+                root = '2d20kh';
+                break;
+            case AdvantageMode.Disadvantage:
+                root = '2d20kl';
+                break;
+            case AdvantageMode.None:
+            default:
+                root = '1d20';
+                break;
+        }
+
+        data.parts = [root, '@mod'];
+
+        const skillRoll = new CosmereSkillRoll(
+            data.parts.join(' + '),
+            data,
+            options,
+        );
+
+        rolls.push(skillRoll);
+
+        if (options.raiseStakes) {
+            const dataPlot = source.getRollData();
+            dataPlot.parent = skillRoll.uuid;
+            dataPlot.parts = ['1dp'];
+
+            rolls.push(
+                new CosmerePlotRoll(dataPlot.parts.join(' + '), dataPlot, {}),
+            );
+        }
+
+        return rolls;
     }
 
     /**
-     * Roll a skill for this actor
+     * Rolls a skill test for the given skill from the actor
+     * @param skillId The ID of the skill to roll from the actor.
+     * @param options Additional options for the skill test.
+     * @returns The roll object for the skill test.
      */
     public async rollSkill(
         skillId: Skill,
-        options: RollSkillOptions = {},
-    ): Promise<D20Roll | null> {
-        const skill = this.system.skills[skillId];
-        const attribute =
-            this.system.attributes[options.attribute ?? skill.attribute];
-        const data = this.getRollData() as Partial<D20RollData>;
+        options: CosmereSkillRollOptions = {},
+    ): Promise<CosmereRoll[]> {
+        const rolls = [] as CosmereRoll[];
 
-        // Add attribute mod
-        data.mod = options.attribute
-            ? attribute.value + attribute.bonus + skill.rank
-            : skill.mod.value;
-        data.skill = {
-            id: skillId,
-            rank: skill.rank,
-            mod: data.mod,
-            attribute: skill.attribute,
-        };
-        data.attribute = attribute.value + attribute.bonus;
-        data.attributes = this.system.attributes;
-        data.context = 'Skill';
+        const { fastForward, advantageMode, raiseStakes } =
+            determineConfigurationMode(options);
 
-        // Prepare roll data
-        const flavor = `${game.i18n.localize(
-            CONFIG.COSMERE.skills[skillId].label,
-        )} ${game.i18n.localize('GENERIC.SkillTest')}`;
-        const rollData = foundry.utils.mergeObject(
+        options = foundry.utils.mergeObject(
             {
-                data: data as D20RollData,
-                title: flavor,
-                defaultAttribute: options.attribute ?? skill.attribute,
-                messageData: {
-                    speaker:
-                        options.speaker ??
-                        ChatMessage.getSpeaker({
-                            actor: this,
-                        }),
-                    flags: {} as Record<string, any>,
-                },
+                chatMessage: true,
+                speaker: ChatMessage.getSpeaker({ actor: this }),
+                rollMode: game.settings.get('core', 'rollMode'),
+                configure: !fastForward,
+                advantageMode,
+                raiseStakes,
             },
             options,
         );
 
-        rollData.parts = [`@mod`].concat(options.parts ?? []);
-        rollData.messageData.flags[SYSTEM_ID] = {
-            message: {
-                type: MESSAGE_TYPES.SKILL,
-                targets: getTargetDescriptors(),
+        rolls.push(...this.generateSkillTest(skillId, options));
+
+        return await executeRolls(rolls, options);
+    }
+
+    public async rollItem(
+        item: CosmereItem,
+        options: CosmereRollOptions = {},
+    ): Promise<CosmereRoll[]> {
+        const rolls = [] as CosmereRoll[];
+
+        const { fastForward, advantageMode, raiseStakes } =
+            determineConfigurationMode(options);
+
+        options = foundry.utils.mergeObject(
+            {
+                chatMessage: true,
+                speaker: ChatMessage.getSpeaker({ actor: this }),
+                rollMode: game.settings.get('core', 'rollMode'),
+                configure: !fastForward,
+                advantageMode,
+                raiseStakes,
             },
-        };
+            options,
+        );
 
-        // Perform roll
-        const roll = await d20Roll(rollData);
+        rolls.push(...(await item.use(options)));
 
-        // Return roll
-        return roll;
+        return await executeRolls(rolls, options);
+    }
+
+    public async rollInjury(
+        options: CosmereRollOptions = {},
+    ): Promise<CosmereRoll[]> {
+        const rolls = [] as CosmereRoll[];
+
+        options = foundry.utils.mergeObject(
+            {
+                chatMessage: true,
+                speaker: ChatMessage.getSpeaker({ actor: this }),
+            },
+            options,
+        );
+
+        const data = this.getRollData() as CosmereInjuryRollData;
+
+        data.mod =
+            this.system.injuryRollBonus + this.system.injuries.value * -5;
+        data.character = this.name;
+        data.parts = ['1d20', '@deflect', '@mod'];
+
+        rolls.push(
+            new CosmereInjuryRoll(data.parts.join(' + '), data, options),
+        );
+
+        return await executeRolls(rolls, options);
     }
 
     /**
      * Utility function to roll an item for this actor
      */
-    public async rollItem(
-        item: CosmereItem,
-        options?: Omit<CosmereItem.RollOptions, 'actor'>,
-    ): Promise<D20Roll | null> {
-        return item.roll({ ...options, actor: this });
-    }
+    // public async rollItem(
+    //     item: CosmereItem,
+    //     options?: Omit<CosmereItem.RollOptions, 'actor'>,
+    // ): Promise<D20Roll | null> {
+    //     return item.roll({ ...options, actor: this });
+    // }
+
+    //public async rollInjury() {
+    //     // Get roll table
+    //     const table = (await fromUuid(
+    //         CONFIG.COSMERE.injury.durationTable,
+    //     )) as unknown as RollTable;
+
+    //     // Get injury roll bonus
+    //     const bonus = this.system.injuryRollBonus;
+
+    //     // Get injuries modifier
+    //     const injuriesModifier = this.system.injuries.value * -5;
+
+    //     // Build formula
+    //     const formula = ['1d20', this.deflect, bonus, injuriesModifier].join(
+    //         ' + ',
+    //     );
+
+    //     // Roll
+    //     const roll = new foundry.dice.Roll(formula);
+
+    //     /**
+    //      * Hook: preRollInjuryType
+    //      */
+    //     if (
+    //         Hooks.call(
+    //             HOOKS.PRE_INJURY_TYPE_ROLL,
+    //             roll, // Roll object
+    //             this, // Source
+    //         ) === false
+    //     )
+    //         return;
+
+    //     // NOTE: Draw function type definition is wrong, must use `any` type as a workaround
+    //     /* eslint-disable @typescript-eslint/no-explicit-any */
+    //     const draw = await table.draw({
+    //         roll,
+    //         displayChat: false,
+    //     } as any);
+    //     /* eslint-Enable @typescript-eslint/no-explicit-any */
+
+    //     // Get result
+    //     const result = draw.results[0];
+
+    //     /**
+    //      * Hook: rollInjuryType
+    //      */
+    //     Hooks.callAll(
+    //         HOOKS.INJURY_TYPE_ROLL,
+    //         roll, // Evaluated roll
+    //         result, // Table result
+    //         this, // Source
+    //     );
+
+    //     // Get injury data
+    //     const data = result.getFlag(SYSTEM_ID, 'injury-data');
+
+    //     const rolls = [];
+    //     if (
+    //         data.type !== InjuryType.Death &&
+    //         data.type !== InjuryType.PermanentInjury
+    //     ) {
+    //         // Roll duration
+    //         const durationRoll = new foundry.dice.Roll(data.durationFormula);
+
+    //         /**
+    //          * Hook: preRollInjuryDuration
+    //          */
+    //         if (
+    //             Hooks.call(
+    //                 HOOKS.PRE_INJURY_DURATION_ROLL,
+    //                 durationRoll, // Roll object
+    //                 this, // Source
+    //             ) === false
+    //         )
+    //             return;
+
+    //         await durationRoll.evaluate();
+    //         rolls.push(durationRoll);
+
+    //         /**
+    //          * Hook: rollInjuryDuration
+    //          *
+    //          * Passes the evaluated roll
+    //          */
+    //         Hooks.callAll(
+    //             HOOKS.INJURY_DURATION_ROLL,
+    //             durationRoll, // Roll object
+    //             this, // Source
+    //             {}, // Options
+    //         );
+    //     }
+
+    //     const flags = {} as Record<string, any>;
+    //     flags[SYSTEM_ID] = {
+    //         message: {
+    //             type: MESSAGE_TYPES.INJURY,
+    //         },
+    //         injury: {
+    //             details: result,
+    //             roll: draw.roll,
+    //         },
+    //     };
+
+    //     // Chat message
+    //     await ChatMessage.create({
+    //         author: game.user.id,
+    //         speaker: ChatMessage.getSpeaker({
+    //             actor: this,
+    //         }),
+    //         flags,
+    //         rolls,
+    //     });
+    //}
 
     /**
      * Utility function to modify a skill value
@@ -920,6 +997,7 @@ export class CosmereActor<
         change: number,
         render?: boolean,
     ): Promise<void>;
+
     /**
      * Utility function to increment/decrement a skill value
      */
@@ -928,6 +1006,7 @@ export class CosmereActor<
         increment: boolean,
         render?: boolean,
     ): Promise<void>;
+
     public async modifySkillRank(
         skillId: Skill,
         param1: boolean | number = true,
@@ -949,18 +1028,6 @@ export class CosmereActor<
                 { render },
             );
         }
-    }
-
-    /**
-     * Utility function to use an item for this actor
-     */
-    public async useItem(
-        item: CosmereItem,
-        options?: Omit<CosmereItem.UseOptions, 'actor'>,
-    ): Promise<D20Roll | [D20Roll, ...DamageRoll[]] | null> {
-        // Checks for relevant Active Effects triggers/manual toggles will go here
-        // E.g. permanent/conditional: attack bonuses, damage riders, auto opportunity/complications, etc.
-        return item.use({ ...options, actor: this });
     }
 
     /**
@@ -1116,93 +1183,127 @@ export class CosmereActor<
         Hooks.callAll(HOOKS.REST, this, RestType.Long);
     }
 
-    public getRollData(): CosmereActorRollData<SubType> {
-        const tokens = this.getActiveTokens();
-        const data = {
-            ...(super.getRollData() as ActorRollData<SubType>),
+    // public getRollData(): CosmereActorRollData<SubType> {
+    //     const tokens = this.getActiveTokens();
+    //     const data = {
+    //         ...(super.getRollData() as ActorRollData<SubType>),
 
-            name: this.name,
-            // Attributes shorthand
-            attr: (
-                Object.keys(CONFIG.COSMERE.attributes) as Attribute[]
-            ).reduce(
-                (data, attrId) => ({
-                    ...data,
-                    [attrId]: this.system.attributes[attrId].value,
-                }),
-                {} as Record<Attribute, number>,
-            ),
+    //         name: this.name,
+    //         // Attributes shorthand
+    //         attributes: (
+    //             Object.keys(CONFIG.COSMERE.attributes) as Attribute[]
+    //         ).reduce(
+    //             (data, attrId) => ({
+    //                 ...data,
+    //                 [attrId]: this.system.attributes[attrId].value,
+    //             }),
+    //             {} as Record<Attribute, number>,
+    //         ),
 
-            // Skills
-            skills: (Object.keys(CONFIG.COSMERE.skills) as Skill[]).reduce(
-                (data, skillId) => ({
-                    ...data,
-                    [skillId]: {
-                        rank: this.system.skills[skillId].rank,
-                        mod: this.system.skills[skillId].mod.value,
-                    },
-                }),
-                {} as Record<Skill, { rank: number; mod: number }>,
-            ),
+    //         // Skills
+    //         skills: (
+    //             Object.keys(CONFIG.COSMERE.skills) as Skill[]
+    //         ).reduce(
+    //             (data, skillId) => ({
+    //                 ...data,
+    //                 [skillId]: {
+    //                     rank: this.system.skills[skillId].rank,
+    //                     mod: this.system.skills[skillId].mod.value,
+    //                 },
+    //             }),
+    //             {} as Record<Skill, { rank: number; mod: number }>,
+    //         ),
 
-            // Scalars
-            scalar: {
-                damage: {
-                    unarmed: this.getFormulaFromScalarAttribute(
-                        Attribute.Strength,
-                        CONFIG.COSMERE.scaling.damage.unarmed.strength,
-                    ),
-                },
-                power: {
-                    ...this.powers.reduce(
-                        (scaling, power) => {
-                            // Get the power skill id
-                            const skillId = power.system.skill;
-                            if (!skillId) return scaling;
+    //         // Scalars
+    //         scalar: {
+    //             damage: {
+    //                 unarmed: this.getFormulaFromScalarAttribute(
+    //                     Attribute.Strength,
+    //                     CONFIG.COSMERE.scaling.damage.unarmed.strength,
+    //                 ),
+    //             },
+    //             power: {
+    //                 ...this.powers.reduce(
+    //                     (scaling, power) => {
+    //                         // Get the power skill id
+    //                         const skillId = power.system.skill;
+    //                         if (!skillId) return scaling;
 
-                            // Get the skill
-                            const skill = this.system.skills[skillId];
-                            if (!skill?.unlocked) return scaling;
+    //                         // Get the skill
+    //                         const skill = this.system.skills[skillId];
+    //                         if (!skill?.unlocked) return scaling;
 
-                            // Add scaling
-                            scaling[power.system.id] = {
-                                die: this.getFormulaFromScalar(
-                                    skill.rank,
-                                    CONFIG.COSMERE.scaling.power.die.ranks,
-                                ),
-                                'effect-size': this.getFormulaFromScalar(
-                                    skill.rank,
-                                    CONFIG.COSMERE.scaling.power.effectSize
-                                        .ranks,
-                                ),
-                            };
+    //                         // Add scaling
+    //                         scaling[power.system.id] = {
+    //                             die: this.getFormulaFromScalar(
+    //                                 skill.rank,
+    //                                 CONFIG.COSMERE.scaling.power.die.ranks,
+    //                             ),
+    //                             'effect-size': this.getFormulaFromScalar(
+    //                                 skill.rank,
+    //                                 CONFIG.COSMERE.scaling.power.effectSize
+    //                                     .ranks,
+    //                             ),
+    //                         };
 
-                            return scaling;
-                        },
-                        {} as Record<
-                            string,
-                            { die: string; 'effect-size': Size }
-                        >,
-                    ),
-                },
-            },
+    //                         return scaling;
+    //                     },
+    //                     {} as Record<
+    //                         string,
+    //                         { die: string; 'effect-size': Size }
+    //                     >,
+    //                 ),
+    //             },
+    //         },
 
-            token: tokens.length > 0 ? { name: tokens[0]?.name } : undefined,
+    //         token: tokens.length > 0 ? { name: tokens[0]?.name } : undefined,
 
-            // Hook data
-            source: this,
-        };
-        const registeredData = this.getRegisteredRollData(data) as Record<
-            string,
-            any
-        >;
-        return foundry.utils.mergeObject(data, registeredData, {
-            insertKeys: true,
-            insertValues: true,
-            overwrite: true,
-            recursive: true,
-        });
-    }
+    //         // Hook data
+    //         source: this,
+    //     };
+
+    //     const registeredData = this.getRegisteredRollData(data) as Record<
+    //         string,
+    //         any
+    //     >;
+
+    //     return foundry.utils.mergeObject(data, registeredData, {
+    //         insertKeys: true,
+    //         insertValues: true,
+    //         overwrite: true,
+    //         recursive: true,
+    //     });
+    // }
+
+    /**
+     * Utility Function to determine a formula value based on a scalar plot of an attribute value
+     */
+    // public getRegisteredRollData(
+    //     initialRollData: CosmereActorRollData<SubType>,
+    // ): AnyObject {
+    //     const registeredData: AnyObject = {};
+    //     for (const key in CONFIG.COSMERE.rollData) {
+    //         const rollData = CONFIG.COSMERE.rollData[key];
+
+    //         if (!rollData.types.includes(this.type)) {
+    //             continue;
+    //         }
+
+    //         const originalData = foundry.utils.getProperty(
+    //             initialRollData,
+    //             key,
+    //         ) as object | string | number | undefined;
+    //         if (!rollData.override && originalData && originalData !== 0) {
+    //             continue;
+    //         }
+
+    //         const value = this.parseRollData(rollData.data);
+
+    //         foundry.utils.setProperty(registeredData, key, value);
+    //     }
+
+    //     return registeredData;
+    // }
 
     public getEnricherData() {
         const actor = this.getRollData();
@@ -1316,36 +1417,6 @@ export class CosmereActor<
     }
 
     /**
-     * Utility Function to determine a formula value based on a scalar plot of an attribute value
-     */
-    public getRegisteredRollData(
-        initialRollData: CosmereActorRollData<SubType>,
-    ): AnyObject {
-        const registeredData: AnyObject = {};
-        for (const key in CONFIG.COSMERE.rollData) {
-            const rollData = CONFIG.COSMERE.rollData[key];
-
-            if (!rollData.types.includes(this.type)) {
-                continue;
-            }
-
-            const originalData = foundry.utils.getProperty(
-                initialRollData,
-                key,
-            ) as object | string | number | undefined;
-            if (!rollData.override && originalData && originalData !== 0) {
-                continue;
-            }
-
-            const value = this.parseRollData(rollData.data);
-
-            foundry.utils.setProperty(registeredData, key, value);
-        }
-
-        return registeredData;
-    }
-
-    /**
      * Utility function to determine if an actor has a given expertise
      */
     public hasExpertise(expertise: Expertise): boolean;
@@ -1353,6 +1424,7 @@ export class CosmereActor<
     public hasExpertise(
         ...args: [Expertise] | [ExpertiseType, string]
     ): boolean {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         return containsExpertise(this.system.expertises as any, ...args); // TEMP: Workaround
     }
 

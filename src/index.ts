@@ -23,8 +23,7 @@ import {
 import * as applications from './system/applications';
 import * as dataModels from './system/data';
 import * as documents from './system/documents';
-import * as dice from './system/dice';
-import * as dicev2 from './system/dicev2';
+import * as dicev2 from './system/dice';
 
 import Editor from './system/ui/editor';
 
@@ -65,6 +64,7 @@ Hooks.once('init', async () => {
     CONFIG.COSMERE = COSMERE;
 
     CONFIG.ChatMessage.documentClass = documents.CosmereChatMessage as any;
+    CONFIG.ChatMessage.template = `systems/${SYSTEM_ID}/templates/${TEMPLATES.CHAT_CARD}`;
 
     CONFIG.Actor.dataModels = dataModels.actor.config;
     CONFIG.Actor.documentClass = documents.CosmereActor as any;
@@ -87,8 +87,6 @@ Hooks.once('init', async () => {
     CONFIG.ActiveEffect.documentClass =
         documents.CosmereActiveEffect as typeof ActiveEffect as any;
     CONFIG.ActiveEffect.legacyTransferral = false;
-
-    Roll.TOOLTIP_TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.CHAT_ROLL_TOOLTIP}`;
 
     // Add fonts
     configureFonts();
@@ -166,6 +164,7 @@ Hooks.once('init', async () => {
     CONFIG.Dice.rolls.push(dicev2.CosmereRoll);
     CONFIG.Dice.rolls.push(dicev2.CosmereSkillRoll);
     CONFIG.Dice.rolls.push(dicev2.CosmereDamageRoll);
+    CONFIG.Dice.rolls.push(dicev2.CosmereGrazeRoll);
     CONFIG.Dice.rolls.push(dicev2.CosmereInjuryRoll);
     CONFIG.Dice.rolls.push(dicev2.CosmerePlotRoll);
 

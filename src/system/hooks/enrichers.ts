@@ -1,5 +1,3 @@
-import { DamageRoll } from '@system/dice';
-import { MESSAGE_TYPES } from '@system/documents/chat-message';
 import { Attribute, DamageType, Skill } from '@system/types/cosmere';
 import { CosmereHooks } from '@system/types/hooks';
 
@@ -26,31 +24,31 @@ Hooks.on(
     },
 );
 
-Hooks.on(
-    HOOKS.TRIGGER_DAMAGE_ENRICHER,
-    async (actorId: string, source: string, data: Record<string, string>) => {
-        const actor = await getActor(actorId ?? '');
-        if (actor && data.formula) {
-            const roll = new DamageRoll(
-                String(data.formula),
-                actor.getRollData(),
-                { damageType: data.damageType as DamageType },
-            );
-            await roll.evaluate();
+// Hooks.on(
+//     HOOKS.TRIGGER_DAMAGE_ENRICHER,
+//     async (actorId: string, source: string, data: Record<string, string>) => {
+//         const actor = await getActor(actorId ?? '');
+//         if (actor && data.formula) {
+//             const roll = new DamageRoll(
+//                 String(data.formula),
+//                 actor.getRollData(),
+//                 { damageType: data.damageType as DamageType },
+//             );
+//             await roll.evaluate();
 
-            // Create chat message
-            await ChatMessage.create({
-                author: game.user.id,
-                speaker: ChatMessage.getSpeaker({ actor }),
-                rolls: [roll],
-                flags: {
-                    [SYSTEM_ID]: {
-                        message: {
-                            type: MESSAGE_TYPES.ACTION,
-                        },
-                    },
-                },
-            });
-        }
-    },
-);
+//             // Create chat message
+//             await ChatMessage.create({
+//                 author: game.user.id,
+//                 speaker: ChatMessage.getSpeaker({ actor }),
+//                 rolls: [roll],
+//                 flags: {
+//                     [SYSTEM_ID]: {
+//                         message: {
+//                             type: MESSAGE_TYPES.ACTION,
+//                         },
+//                     },
+//                 },
+//             });
+//         }
+//     },
+// );

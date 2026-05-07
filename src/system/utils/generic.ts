@@ -7,8 +7,9 @@ import {
     SETTINGS,
     TargetingOptions,
 } from '../settings';
-import { AdvantageMode } from '../types/roll';
 import { NONE } from '../types/utils';
+import { AdvantageMode } from '../dice/types';
+import { CosmereRollOptions, CosmereSkillRollOptions } from '../dice';
 
 const HTML_TAG_REGEX = /<[^>]+>/g;
 
@@ -88,7 +89,7 @@ export function getNullableFromFormInput<T>(formField: string | null) {
 export interface ConfigurationMode {
     fastForward: boolean;
     advantageMode: AdvantageMode;
-    plotDie: boolean;
+    raiseStakes: boolean;
 }
 
 /**
@@ -101,59 +102,42 @@ export interface ConfigurationMode {
  * @returns Whether a roll should fast forward, have a plot die, and its advantage mode.
  */
 export function determineConfigurationMode(
-    useOptions?: CosmereItem.UseOptions,
-): ConfigurationMode;
-export function determineConfigurationMode(
-    configure?: boolean,
-    advantage?: boolean,
-    disadvantage?: boolean,
-    raiseStakes?: boolean,
-): ConfigurationMode;
-export function determineConfigurationMode(
-    ...args:
-        | [CosmereItem.UseOptions?]
-        | [boolean?, boolean?, boolean?, boolean?]
+    options?: CosmereRollOptions,
 ): ConfigurationMode {
-    const useOptions =
-        args.length === 1
-            ? (args[0] as CosmereItem.UseOptions | undefined)
-            : undefined;
-
-    const [configure, advantage, disadvantage, raiseStakes] =
-        args.length === 1
-            ? [
-                  useOptions?.configurable,
-                  useOptions?.advantageMode !== undefined
-                      ? useOptions.advantageMode === AdvantageMode.Advantage
-                      : undefined,
-                  useOptions?.advantageMode !== undefined
-                      ? useOptions.advantageMode === AdvantageMode.Disadvantage
-                      : undefined,
-                  useOptions?.plotDie,
-              ]
-            : args;
-
     const modifiers = {
         advantage: areKeysPressed(KEYBINDINGS.SKIP_DIALOG_ADVANTAGE),
         disadvantage: areKeysPressed(KEYBINDINGS.SKIP_DIALOG_DISADVANTAGE),
-        raiseStakes: areKeysPressed(KEYBINDINGS.SKIP_DIALOG_RAISE_STAKES),
+        stakes: areKeysPressed(KEYBINDINGS.SKIP_DIALOG_RAISE_STAKES),
     };
 
     const fastForward =
-        configure !== undefined
-            ? !configure
+        options?.configure !== undefined
+            ? !options?.configure
             : isFastForward() || Object.values(modifiers).some((k) => k);
 
-    const hasAdvantage = advantage ?? modifiers.advantage;
-    const hasDisadvantage = disadvantage ?? modifiers.disadvantage;
+    const overrideAdv =
+        (options as CosmereSkillRollOptions)?.advantageMode !== undefined
+            ? (options as CosmereSkillRollOptions).advantageMode ===
+              AdvantageMode.Advantage
+            : undefined;
+
+    const overrideDis =
+        (options as CosmereSkillRollOptions)?.advantageMode !== undefined
+            ? (options as CosmereSkillRollOptions).advantageMode ===
+              AdvantageMode.Disadvantage
+            : undefined;
+
+    const hasAdvantage = overrideAdv ?? modifiers.advantage;
+    const hasDisadvantage = overrideDis ?? modifiers.disadvantage;
     const advantageMode = hasAdvantage
         ? AdvantageMode.Advantage
         : hasDisadvantage
           ? AdvantageMode.Disadvantage
           : AdvantageMode.None;
-    const plotDie = raiseStakes ?? modifiers.raiseStakes;
+    const raiseStakes =
+        (options as CosmereSkillRollOptions)?.raiseStakes ?? modifiers.stakes;
 
-    return { fastForward, advantageMode, plotDie };
+    return { fastForward, advantageMode, raiseStakes };
 }
 
 /**

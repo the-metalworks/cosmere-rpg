@@ -1,71 +1,170 @@
 <form>
-    {{!-- NOTE: Hiding this until roll workflow refactor since it does not work and is not an easy fix. --}}
-    {{!-- <div class="form-group">
+    <div class="form-group">
         <label>{{ localize "DICE.RollMode" }}</label>
         <div class="form-fields">
             <select name="rollMode">
-                {{selectOptions rollModes selected=defaultRollMode localize=true}}
-            </select>
-        </div>        
-    </div> --}}
-    <div class="form-group">
-        <label>{{ localize 'COSMERE.Actor.Attribute.name' }}</label>
-        <div class="form-fields">
-            <select name="attribute">
-                {{selectOptions attributes selected=defaultAttribute localize=true}}
+                {{selectOptions rollModes selected=configuredRollMode localize=true}}
             </select>
         </div>        
     </div>
-    <div class="form-group">
-        <label>
-            {{ localize "DICE.TemporaryBonus.Label" }}
-            <i class="info fa-regular fa-circle-question" data-tooltip="{{localize "DICE.TemporaryBonus.Hint"}}"></i>
-        </label>
-        <div class="form-fields">
-            <input name="temporaryMod" type="text" value="{{temporaryModifiers}}"/>
-        </div>        
-    </div>
-    <div class="form-group">
-        <label>{{ localize "DICE.Plot.RaiseTheStakes" }}</label>
-        <input type="checkbox" name="raiseStakes" {{#if plotDie}}checked{{/if}}>
-    </div>
+    
+    {{#each skillRolls as |skillRoll|}}
+    <fieldset data-uuid="{{skillRoll.roll.uuid}}">
+        <legend>
+            {{ localize "DIALOG.ConfigureRolls.Skill" }}
+        </legend>
+        <div class="form-group">
+            <label>{{ localize 'COSMERE.Actor.Skill.label' }}</label>
+            <div class="form-fields">
+                <select name="{{skillRoll.roll.uuid}} skill">
+                    {{selectOptions ../skills selected=skillRoll.roll.data.skill localize=true}}
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>{{ localize 'COSMERE.Actor.Attribute.name' }}</label>
+            <div class="form-fields">
+                <select name="{{skillRoll.roll.uuid}} attribute">
+                    {{selectOptions ../attributes selected=skillRoll.roll.data.attribute localize=true}}
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>{{ localize "DICE.Plot.RaiseTheStakes" }}</label>
+            <input type="checkbox" name="{{skillRoll.roll.uuid}} stakes" {{#if skillRoll.roll.options.raiseStakes}}checked{{/if}}>
+        </div>
+        <div class="form-group">
+            <label>
+                {{ localize "DICE.TemporaryBonus.Label" }}
+                <i class="info fa-regular fa-circle-question" data-tooltip="{{localize "DICE.TemporaryBonus.Hint"}}"></i>
+            </label>
+            <div class="form-fields">
+                <input name="{{skillRoll.roll.uuid}} temp" type="text" value="{{skillRoll.tempBonus}}"/>
+            </div>        
+        </div>
+        <div class="roll-config-group">
+            <div class="roll-config test" data-uuid="{{skillRoll.roll.uuid}}">
+                <span class="title">{{localize "GENERIC.SkillTest"}}</span>
+                <span class="formula">{{skillRoll.roll.formula}}</span>
+                <div class="dice-tooltip">
+                    <div class="dice-rolls">
+                        {{#each skillRoll.roll.dice as |die index|}}
+                            <div class="roll die {{die.denomination}} {{#if die.hasAdvantage}}advantage{{else if die.hasDisadvantage}}disadvantage{{/if}}" data-uuid="{{die.uuid}}" data-index="{{index}}"></div>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+
+            {{#if skillRoll.plot}}
+            <div class="roll-config plot" data-uuid="{{skillRoll.plot.uuid}}">
+                <span class="title">{{localize "DICE.Plot.Die"}}</span>
+                <span class="formula">{{skillRoll.plot.formula}}</span>
+                <div class="dice-tooltip">
+                    <div class="dice-rolls">
+                        {{#each skillRoll.plot.dice as |die index|}}
+                            <div class="roll die plotDie {{die.denomination}} {{#if die.hasAdvantage}}advantage{{else if die.hasDisadvantage}}disadvantage{{/if}}" data-uuid="{{die.uuid}}" data-index="{{index}}"></div>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+            {{/if}}
+
+            {{#each skillRoll.bonuses as |bonus|}}
+            <div class="roll-config bonus" data-uuid="{{bonus.uuid}}">
+                <span class="title">{{localize "GENERIC.Bonus"}}</span>
+                <span class="formula">{{bonus.formula}}</span>
+                <div class="dice-tooltip">
+                    <div class="dice-rolls">
+                        {{#each bonus.dice as |die index|}}
+                            <div class="roll die {{die.denomination}} {{#if die.hasAdvantage}}advantage{{else if die.hasDisadvantage}}disadvantage{{/if}}" data-uuid="{{die.uuid}}" data-index="{{index}}"></div>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+            
+            <p class="hint">
+                {{localize "DIALOG.ConfigureRolls.Hint"}}
+            </p>
+        </div>
+    </fieldset>
+    {{/each}}
+
+    {{#if (gt damageRolls.length 0) }}
     <fieldset>
         <legend>
-            {{ localize "DIALOG.ConfigureRoll.Title" }}
-            <i class="info fa-regular fa-circle-question" data-tooltip="{{localize "DIALOG.ConfigureRoll.Hint"}}"></i>
+            {{ localize "DIALOG.ConfigureRolls.Damage" }}
         </legend>
-        {{!-- Skill Test --}}
-        {{#if skillTest}}
-        <div class="roll-config test">
-            <span class="title">{{localize "GENERIC.SkillTest"}}</span>
-            <span class="formula">{{skillTest.formula}}</span>
-            <div class="dice-tooltip">
-                <div class="dice-rolls">
-                    {{#each skillTest.dice as |die index|}}
-                        <div class="roll die {{die.denomination}}" data-index="{{index}}" data-action="skill-adv-mode"></div>
-                    {{/each}}
+        <div class="form-group">
+            <label>
+                {{ localize "DICE.AdditionalDamage.Label" }}
+                <i class="info fa-regular fa-circle-question" data-tooltip="{{localize "DICE.AdditionalDamage.Hint"}}"></i>
+            </label>
+            <div class="form-fields">
+                <input name="damage temp" type="text" value="{{tempDamage}}"/>
+            </div>        
+        </div>
+        <div class="roll-config-group">
+            {{#each damageRolls as |damageRoll|}}
+            <div class="roll-config test" data-uuid="{{damageRoll.roll.uuid}}">
+                <span class="title">{{localize "GENERIC.Damage"}}</span>
+                <span class="formula">{{damageRoll.roll.formula}}</span>
+                <div class="dice-tooltip">
+                    <div class="dice-rolls">
+                        {{#each damageRoll.roll.dice as |die index|}}
+                            <div class="roll die {{die.denomination}} {{#if die.hasAdvantage}}advantage{{else if die.hasDisadvantage}}disadvantage{{/if}}" data-uuid="{{die.uuid}}" data-index="{{index}}"></div>
+                        {{/each}}
+                    </div>
                 </div>
             </div>
-        </div>
-        {{/if}}
-
-        {{!-- Plot Die --}}
-        {{#if plotDie}}
-        <div class="roll-config plot">
-            <span class="title">{{localize "DICE.Plot.Die"}}</span>
-            <span class="formula">{{plotDie.formula}}</span>
-            <div class="dice-tooltip">
-                <div class="dice-rolls">
-                    {{#each plotDie.dice as |die index|}}
-                        <div class="roll die plotDie {{die.denomination}}" data-index="{{index}}" data-action="plot-adv-mode"></div>
-                    {{/each}}
+            {{#if damageRoll.graze}}
+            <div class="roll-config graze" data-uuid="{{damageRoll.graze.uuid}}">
+                <span class="title">{{localize "DICE.Damage.Graze"}}</span>
+                <span class="formula">{{damageRoll.graze.formula}}</span>
+                <div class="dice-tooltip">
+                    <div class="dice-rolls">
+                        {{#each damageRoll.graze.dice as |die index|}}
+                            <div class="roll die {{die.denomination}} {{#if die.hasAdvantage}}advantage{{else if die.hasDisadvantage}}disadvantage{{/if}}" data-uuid="{{die.uuid}}" data-index="{{index}}"></div>
+                        {{/each}}
+                    </div>
                 </div>
             </div>
+            {{/if}}
+            {{#each damageRoll.bonuses as |bonus|}}
+            <div class="roll-config bonus" data-uuid="{{bonus.uuid}}">
+                <span class="title">{{localize "GENERIC.Bonus"}}</span>
+                <span class="formula">{{bonus.formula}}</span>
+                <div class="dice-tooltip">
+                    <div class="dice-rolls">
+                        {{#each bonus.dice as |die index|}}
+                            <div class="roll die {{die.denomination}} {{#if die.hasAdvantage}}advantage{{else if die.hasDisadvantage}}disadvantage{{/if}}" data-uuid="{{die.uuid}}" data-index="{{index}}"></div>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+            {{/each}}
+            
+            <p class="hint">
+                {{localize "DIALOG.ConfigureRolls.Hint"}}
+            </p>
         </div>
-        {{/if}}
+    </fieldset>
+    {{/if}}
 
+    {{#if (gt otherRolls.length 0) }}
+    <fieldset>
+        <legend>
+            {{ localize "DIALOG.ConfigureRolls.Other" }}
+        </legend>
+        <div class="roll-config-group">
+        </div>
+    </fieldset>
+    {{/if}}
+
+    
         {{!-- Damage --}}
-        {{#if damageRoll}}
+        {{!-- {{#if damageRoll}}
         <div class="roll-config damage">
             <span class="title">{{localize "GENERIC.Damage"}}</span>
             <span class="formula">{{damageRoll.formula}}</span>
@@ -77,9 +176,8 @@
                 </div>
             </div>
         </div>
-        {{/if}}
+        {{/if}} --}}
 
-    </fieldset>
     <div class="form-group submit">
         <button data-action="submit" type="submit">
             {{ localize "GENERIC.Button.Roll" }}

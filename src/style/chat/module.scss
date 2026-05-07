@@ -322,7 +322,9 @@
                     .dice-result {
                         .dice-roll-injury,
                         .dice-roll-d20,
-                        .dice-roll-damage {
+                        .dice-roll-damage,
+                        .dice-roll-generic,
+                        .dice-roll-private {
                             display: flex;
                             height: 36px;
                         }
@@ -381,7 +383,7 @@
                                             filter: sepia(0.5) contrast(0.75) opacity(0.4);
                                         }
 
-                                        &.plotdie > img {
+                                        &.plot > img {
                                             width:24px;
                                             height:24px;
                                             border: 0;

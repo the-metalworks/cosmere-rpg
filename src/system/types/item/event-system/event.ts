@@ -1,3 +1,4 @@
+import { CosmereRollOptions } from '@src/system/dice';
 import { CosmereItem } from '@system/documents/item';
 import { AnyMutableObject, AnyObject } from '@system/types/utils';
 
@@ -48,5 +49,5 @@ export namespace Event {
         Source = 'source',
     }
 
-    export type UseItem = Event<unknown, 'use', CosmereItem.UseOptions>;
+    export type UseItem = Event<unknown, 'use', CosmereRollOptions>;
 }

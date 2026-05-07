@@ -1,6 +1,6 @@
 import { CosmereItem } from '@system/documents/item';
 import { HandlerType, Event } from '@system/types/item/event-system';
-import { AdvantageMode } from '@system/types/roll';
+import { AdvantageMode, CosmereSkillRollOptions } from '@src/system/dice';
 
 // Utils
 import { ItemTarget, MatchMode, matchItems } from './utils';
@@ -16,7 +16,7 @@ interface UseItemHandlerConfigData {
     matchAll?: boolean | null;
     fastForward: boolean;
     advantageMode: AdvantageMode;
-    plotDie: boolean;
+    raiseStakes: boolean;
     temporaryModifiers?: string;
     temporaryDamageModifiers?: string;
 }
@@ -124,22 +124,25 @@ export function register() {
                 this.matchAll ?? false,
             );
 
-            const configurable =
-                !this.fastForward || (event.options?.configurable ?? true);
+            const configure =
+                !this.fastForward || (event.options?.configure ?? true);
 
             const advantageMode =
                 this.advantageMode && this.advantageMode !== AdvantageMode.None
                     ? this.advantageMode
-                    : (event.options?.advantageMode ?? AdvantageMode.None);
+                    : ((event.options as CosmereSkillRollOptions)
+                          ?.advantageMode ?? AdvantageMode.None);
 
-            const plotDie = this.plotDie || !!event.options?.plotDie;
+            const raiseStakes =
+                this.raiseStakes ||
+                !!(event.options as CosmereSkillRollOptions)?.raiseStakes;
 
             await Promise.all(
                 itemsToUse.map((item) =>
                     item.use({
-                        configurable,
+                        configure,
                         advantageMode,
-                        plotDie,
+                        raiseStakes,
                         temporaryModifiers: this.temporaryModifiers,
 
                         ...(item.hasDamage()
@@ -156,7 +159,7 @@ export function register() {
                             : {}),
 
                         ...event.op,
-                    }),
+                    } as CosmereSkillRollOptions),
                 ),
             );
         },

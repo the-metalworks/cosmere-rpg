@@ -1,31 +1,40 @@
 <div class="dice-roll collapsible">
     <div class="dice-result">
+        {{#if tooltip}}
         <div class="collapsible-content">
             <div class="dice-tooltip">
                 <div>
-                    <div class="dice-formula">{{formulaNormal}}</div>
-                    {{{tooltipNormal}}}
+                    <div class="dice-formula">{{formula}}</div>
+                    {{{tooltip}}}
                 </div>
-                {{#if showGraze}}
+                {{#if graze}}
                 <div>
                     <div class="dice-formula">
                         <span class="label">{{localize "DICE.Damage.Graze"}}</span>
-                        <span>{{formulaGraze}}</div>
-                    {{{tooltipGraze}}}
+                        <span>{{graze.formula}}</div>
+                    {{{graze.tooltip}}}
                 </div>
                 {{/if}}
             </div>
         </div>
+        {{/if}} 
         <div class="dice-roll-damage">
             <h4 class="dice-total {{#if critical}}opportunity{{/if}}">
                 <div class="dice-subtotal left active">
                     <span class="label">{{localize "DICE.Damage.Full"}}</span>
-                    <span class="value">{{totalNormal}}</span>
+                    <span class="value">{{total}}</span>
                 </div>
-                {{#if showGraze}}
+                {{#if graze}}
                 <div class="dice-subtotal right ">
                     <span class="label">{{localize "DICE.Damage.Graze"}}</span>
-                    <span class="value">{{totalGraze}}</span>
+                    <span class="value">{{graze.total}}</span>
+                </div>
+                {{/if}}
+                {{#if overlay}}
+                <div class="overlay overlay-crit left">
+                    <div data-action="retro" data-tooltip="{{ localize "COSMERE.ChatMessage.Buttons.RollCrit"}}">
+                        <img src="{{overlayCritImg}}">
+                    </div>
                 </div>
                 {{/if}}
             </h4>

@@ -2,11 +2,9 @@ import { AnyObject } from '@system/types/utils';
 import { IMPORTED_RESOURCES, SYSTEM_ID } from '@system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
-// Dice
-import { PlotDie } from '@system/dice/plot-die';
-
 // Mixins
 import { ComponentHandlebarsApplicationMixin } from '@system/applications/component-system';
+import { DiceTermResult } from '@src/system/dice';
 
 const { ApplicationV2 } = foundry.applications.api;
 
@@ -59,19 +57,14 @@ export class PickDiceResultDialog extends ComponentHandlebarsApplicationMixin(
         },
     );
 
-    private rolls: foundry.dice.terms.DiceTerm.Result[];
-    private submitted = false;
-
     private constructor(
         private data: PickDiceResultDialog.Data,
-        private resolve: (
-            results: foundry.dice.terms.DiceTerm.Result[] | null,
-        ) => void,
+        private resolve: (results: DiceTermResult[] | null) => void,
     ) {
         super({});
 
         // Mark all results as discarded to begin with
-        this.rolls = foundry.utils
+        this.results = foundry.utils
             .deepClone(this.data.term.results)
             .map((result) => ({
                 ...result,
@@ -79,10 +72,13 @@ export class PickDiceResultDialog extends ComponentHandlebarsApplicationMixin(
             }));
     }
 
+    private results: DiceTermResult[];
+    private submitted = false;
+
     /* --- Statics --- */
 
     public static show(data: PickDiceResultDialog.Data) {
-        return new Promise<foundry.dice.terms.DiceTerm.Result[] | null>(
+        return new Promise<DiceTermResult[] | null>(
             (resolve) => void new this(data, resolve).render(true),
         );
     }
@@ -90,7 +86,7 @@ export class PickDiceResultDialog extends ComponentHandlebarsApplicationMixin(
     /* --- Accessors --- */
 
     get picked() {
-        return this.rolls.filter((result) => !result.discarded);
+        return this.results.filter((result) => !result.discarded);
     }
 
     /* --- Actions --- */
@@ -103,7 +99,7 @@ export class PickDiceResultDialog extends ComponentHandlebarsApplicationMixin(
         if (index === undefined) return;
 
         // Get selected result
-        const result = this.rolls[index];
+        const result = this.results[index];
 
         // Ensure the amount picked is less than the amount to pick
         if (this.picked.length >= this.data.amount && !!result.discarded) {
@@ -124,7 +120,7 @@ export class PickDiceResultDialog extends ComponentHandlebarsApplicationMixin(
     private static onSubmit(this: PickDiceResultDialog) {
         // Apply to term
         this.data.term.results.forEach((result, index) => {
-            const match = this.rolls[index];
+            const match = this.results[index];
 
             result.discarded = match.discarded;
             result.active = match.discarded ? false : result.active;
@@ -155,19 +151,15 @@ export class PickDiceResultDialog extends ComponentHandlebarsApplicationMixin(
     /* --- Context --- */
 
     public _prepareContext() {
-        const isPlotDie = this.data.term instanceof PlotDie;
-
         return Promise.resolve({
-            isPlotDie,
-            die: isPlotDie ? 'd6' : this.data.term.denomination,
-            faces: this.data.term.faces ?? 0,
-            rolls: this.rolls,
             amountLeft: this.data.amount - this.picked.length,
-            plotDie: {
-                c2: IMPORTED_RESOURCES.PLOT_DICE_C2_IN_CHAT,
-                c4: IMPORTED_RESOURCES.PLOT_DICE_C4_IN_CHAT,
-                op: IMPORTED_RESOURCES.PLOT_DICE_OP_IN_CHAT,
-            },
+            results: this.results.map((r, idx) => {
+                return {
+                    result: this.data.term.getResultLabel(r),
+                    classes: this.data.term.getResultCSS(r).filterJoin(' '),
+                    index: idx,
+                };
+            }),
         });
     }
 }

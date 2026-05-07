@@ -35,7 +35,6 @@ import {
     ImmunityType,
     ActorType,
 } from './cosmere';
-import { AdvantageMode } from './roll';
 
 import { Talent, TalentTree, EventSystem as ItemEventSystem } from './item';
 
@@ -48,6 +47,7 @@ import {
 
 import { CosmereItem } from '@system/documents/item';
 import { CosmereActor } from '../documents';
+import { AdvantageMode } from '../dice';
 
 export interface SizeConfig {
     label: string;

@@ -1,4 +1,4 @@
-import { CosmereActor, CosmereActorRollData } from '@system/documents/actor';
+import { CosmereActor } from '@system/documents/actor';
 import { CosmereItem } from '@system/documents/item';
 import { AttributeConfig, SkillConfig } from '../types/config';
 import { Attribute, AttributeGroup, DamageType, Skill } from '../types/cosmere';
@@ -7,6 +7,7 @@ import { TargetDescriptor } from './generic';
 
 // Constants
 import { SYSTEM_ID } from '@system/constants';
+import { CosmereRollData } from '../dice';
 
 // Full Documentation: https://github.com/the-metalworks/cosmere-rpg/wiki/Enrichers
 
@@ -19,7 +20,7 @@ interface EnricherConfig {
 export interface EnricherData<
     ActorSubType extends Actor.SubType = Actor.SubType,
 > {
-    actor?: CosmereActorRollData<ActorSubType>;
+    actor?: CosmereRollData;
     item?: {
         name: string;
         charges?: {

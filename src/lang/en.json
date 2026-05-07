@@ -1332,6 +1332,8 @@
             "sur": "Survival"
         },
         "ChatMessage": {
+            "Repeat": "Repeat",
+            "Delete": "Delete",
             "Buttons": {
                 "DamageFull": "Click to apply full damage to selected token(s).",
                 "DamageHalf": "Click to apply half damage to selected token(s).",
@@ -1397,6 +1399,10 @@
         "TemporaryBonus": {
             "Label": "Temporary Bonus",
             "Hint": "Enter an optional formula to apply as a temporary modifier to this skill test."
+        },        
+        "AdditionalDamage": {
+            "Label": "Additional Damage",
+            "Hint": "Enter an optional formula to add as additional damage. This bonus is added ONLY to the first damage roll."
         }
     },
     "ROLLS": {
@@ -1450,18 +1456,12 @@
         "EditTalentPrerequisite": {
             "Title": "Edit Prerequisite"
         },
-        "ConfigureRoll": {
-            "Title": "Configure Rolls",
-            "Hint": "Left click or right click any individual die to apply advantage or disadvantage respectively."
-        },
-        "ConfigureAttack": {
-            "AdvantageMode": {
-                "Title": "Advantage Mode",
-                "Field": {
-                    "Type": "Type",
-                    "Dice": "Dice"
-                }
-            }
+        "ConfigureRolls": {
+            "Default": "Configure Roll",
+            "Skill": "Configure Skill Test",
+            "Damage": "Configure Damage",
+            "Other": "Configure Other",
+            "Hint": "Apply advantage (left click) or disadvantage (right click) to any die of your choice"
         },
         "EditBonusTalentsRule": {
             "Title": "Edit Bonus Talents Rule",
@@ -1522,6 +1522,7 @@
         }
     },
     "GENERIC": {
+        "Obfuscate": "???",
         "Unknown": "Unknown",
         "None": "None",
         "Custom": "Custom",
@@ -1538,6 +1539,7 @@
         "Plot": "Plot",
         "Damage": "Damage",
         "Healing": "Healing",
+        "OtherRoll": "Other Roll",
         "Immune": "Immune",
         "Condition": "Condition",
         "Cost": "Cost",

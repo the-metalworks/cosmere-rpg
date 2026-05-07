@@ -1,3 +1,4 @@
+import { CosmereRollOptions } from '@src/system/dice';
 import { HOOKS } from '@system/constants/hooks';
 import { CosmereItem } from '@system/documents/item';
 
@@ -20,13 +21,10 @@ import { CosmereItem } from '@system/documents/item';
  * - preCompleteGoal
  */
 
-export type UseItem = (
-    item: CosmereItem,
-    options: CosmereItem.UseOptions,
-) => void;
+export type UseItem = (item: CosmereItem, options: CosmereRollOptions) => void;
 export type PreUseItem = (
     item: CosmereItem,
-    options: CosmereItem.UseOptions,
+    options: CosmereRollOptions,
 ) => boolean;
 
 export type ModeChangeItem = (item: CosmereItem) => void;
@@ -73,7 +71,7 @@ export type CompleteGoal = (item: CosmereItem) => void;
  */
 export type PreCompleteGoal = (item: CosmereItem) => boolean;
 
-declare module "@league-of-foundry-developers/foundry-vtt-types/configuration" {
+declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
     namespace Hooks {
         interface HookConfig {
             [HOOKS.PRE_USE_ITEM]: PreUseItem;

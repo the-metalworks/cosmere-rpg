@@ -142,7 +142,7 @@ export const TEMPLATES = {
     ITEM_GENERIC_EMBED: 'item/generic/embed.hbs',
 
     //CHAT
-    CHAT_CARD_HEADER: 'chat/card-header.hbs',
+    CHAT_CARD: 'chat/card.hbs',
     CHAT_CARD_CONTENT: 'chat/card-content.hbs',
     CHAT_CARD_SECTION: 'chat/card-section.hbs',
     CHAT_CARD_DESCRIPTION: 'chat/card-description.hbs',
@@ -152,12 +152,12 @@ export const TEMPLATES = {
 
     CHAT_CARD_TRAY_TARGETS: 'chat/card-tray-targets.hbs',
 
-    CHAT_ROLL_D20: 'chat/roll-d20.hbs',
+    CHAT_ROLL_GENERIC: 'chat/roll-generic.hbs',
+    CHAT_ROLL_PRIVATE: 'chat/roll-private.hbs',
+    CHAT_ROLL_SKILL: 'chat/roll-skill.hbs',
     CHAT_ROLL_DAMAGE: 'chat/roll-damage.hbs',
     CHAT_ROLL_TOOLTIP: 'chat/roll-tooltip.hbs',
-
-    CHAT_OVERLAY_D20: 'chat/overlay-d20.hbs',
-    CHAT_OVERLAY_CRIT: 'chat/overlay-crit.hbs',
+    CHAT_ROLL_TOOLTIP_CONSTANT: 'chat/roll-tooltip-constant.hbs',
 
     //DIALOGS
     DIALOG_ACTOR_EDIT_EXPERTISES: 'actors/dialogs/edit-expertises.hbs',
@@ -218,7 +218,10 @@ export function renderSystemTemplate(
     template: string,
     data: AnyObject,
 ): Promise<string> {
-    return foundry.applications.handlebars.renderTemplate(`systems/${SYSTEM_ID}/templates/${template}`, data);
+    return foundry.applications.handlebars.renderTemplate(
+        `systems/${SYSTEM_ID}/templates/${template}`,
+        data,
+    );
 }
 
 export const THEME_TAG = 'cosmere-theme';

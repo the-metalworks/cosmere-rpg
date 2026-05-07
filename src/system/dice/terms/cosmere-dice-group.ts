@@ -1,3 +1,4 @@
+import { FixedInstanceType } from '@league-of-foundry-developers/foundry-vtt-types/utils';
 import { CosmereRoll } from '../rolls/cosmere-roll';
 import { DiceEvaluationOptions } from '../types';
 import { CosmereDie } from './cosmere-die';
@@ -28,30 +29,41 @@ export class CosmereDiceGroup extends foundry.dice.terms.RollTerm {
 
         this.uuid = `cosmere:group:${foundry.utils.randomID()}`;
 
+        this._dice = [];
         this._number = termData.number;
         this._faces = termData.faces;
-        this._dice = [];
+        this._prepared = false;
     }
 
     static DENOMINATION = 'g';
 
-    public readonly uuid: string;
+    static SERIALIZE_ATTRIBUTES = [
+        'uuid',
+        '_dice',
+        '_number',
+        '_faces',
+        '_prepared',
+    ];
 
-    private readonly _dice: CosmereDie[];
+    public uuid: string;
 
+    private _dice: CosmereDie[];
     private _number: number | CosmereRoll;
     private _faces: number | CosmereRoll;
+    private _prepared: boolean;
 
     /* --- Accessors --- */
     public override get expression(): string {
         if (
-            this._evaluated &&
+            this._prepared &&
             this._dice.length > 0 &&
             this._dice.some(
                 (d) => (d.number ?? 0) > 1 || d.modifiers.length > 0,
             )
         ) {
-            return `{${this._dice.map((d) => d.formula).join(',')}}`;
+            return this._dice.length > 1
+                ? `{${this._dice.map((d) => d.formula).join(',')}}`
+                : `${this._dice[0].formula}`;
         }
 
         return `${this._number as number}d${this._faces as number}`;
@@ -132,6 +144,25 @@ export class CosmereDiceGroup extends foundry.dice.terms.RollTerm {
         return this.fromData(data) as CosmereDiceGroup;
     }
 
+    protected static override _fromData<
+        T extends foundry.dice.terms.RollTerm.AnyConstructor,
+    >(this: T, data: Record<string, unknown>): FixedInstanceType<T> {
+        const term = super._fromData(data) as CosmereDiceGroup;
+
+        term.uuid = (data.uuid as string) ?? term.uuid;
+        term._number = (data._number as number | CosmereRoll) ?? term._number;
+        term._faces = (data._faces as number | CosmereRoll) ?? term._faces;
+        term._prepared = (data._prepared as boolean) ?? term._prepared;
+
+        if (data._dice) {
+            term._dice = (data._dice as Record<string, unknown>[]).map((d) =>
+                CosmereDie.fromData(d),
+            ) as CosmereDie[];
+        }
+
+        return term as FixedInstanceType<T>;
+    }
+
     public override evaluate(
         options?: DiceEvaluationOptions,
     ): this | Promise<this> {
@@ -143,6 +174,8 @@ export class CosmereDiceGroup extends foundry.dice.terms.RollTerm {
     }
 
     public async prepare(options?: DiceEvaluationOptions): Promise<this> {
+        this._dice = [];
+
         const number =
             this._number instanceof CosmereRoll
                 ? (await this._number.evaluate(options ?? {})).total
@@ -154,7 +187,7 @@ export class CosmereDiceGroup extends foundry.dice.terms.RollTerm {
                 : this._faces;
 
         if (this.termData.modifiers?.length > 0) {
-            this.pushDie(
+            this._pushDie(
                 this.termData,
                 number,
                 faces,
@@ -163,9 +196,12 @@ export class CosmereDiceGroup extends foundry.dice.terms.RollTerm {
             );
         } else {
             for (let i = 0; i < number; i++) {
-                this.pushDie(this.termData, 1, faces);
+                this._pushDie(this.termData, 1, faces);
             }
         }
+
+        this._prepared = true;
+        this._evaluated = false;
 
         return this;
     }
@@ -180,7 +216,7 @@ export class CosmereDiceGroup extends foundry.dice.terms.RollTerm {
         return this;
     }
 
-    private pushDie(
+    private _pushDie(
         data: CosmereDiceGroupData,
         number = 1,
         faces = 6,
