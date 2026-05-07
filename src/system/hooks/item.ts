@@ -1,3 +1,9 @@
+import {
+    ItemType,
+    ActivationType,
+    ActionCostType,
+} from '@system/types/cosmere';
+
 import { CosmereItem, RelationshipsItem } from '@system/documents/item';
 import { CosmereHooks } from '@system/types/hooks';
 import { DeepPartial, DeepMutable } from '@system/types/utils';
@@ -13,6 +19,52 @@ import ItemRelationshipUtils from '@system/utils/item/relationship';
 // Constants
 import { SYSTEM_ID } from '@system/constants';
 import { HOOKS } from '@system/constants/hooks';
+
+/* --- Weapon Hooks --- */
+
+/**
+ * Embed default strike action on weapon creation
+ */
+Hooks.on(
+    'createItem',
+    async (item: CosmereItem, _: unknown, userId: string) => {
+        if (!item.isWeapon()) return;
+        if (game.user.id !== userId) return;
+        if (item.actions.length > 0) return;
+
+        await CosmereItem.create(
+            {
+                type: ItemType.Action,
+                name: `${game.i18n.localize('COSMERE.Item.Weapon.Strike')}: ${item.name}`,
+                img: item.img,
+                system: {
+                    activation: {
+                        type: ActivationType.SkillTest,
+                        cost: {
+                            value: 1,
+                            type: ActionCostType.Action,
+                        },
+                    },
+                },
+            },
+            { parent: item },
+        );
+    },
+);
+
+/* --- Action hooks --- */
+
+/**
+ * Prevent deletion of the default strike action on weapons.
+ */
+Hooks.on('preDeleteItem', (item: CosmereItem) => {
+    if (!item.isAction()) return;
+    if (!item.parent || !(item.parent instanceof CosmereItem)) return;
+
+    return item.parent.isWeapon() && !item.isDefaultActivation;
+});
+
+/* --- Progress Goal Hooks --- */
 
 Hooks.on('preUpdateItem', (item: CosmereItem, update: Item.UpdateData) => {
     if (item.isGoal()) {
