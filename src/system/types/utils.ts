@@ -1,6 +1,6 @@
 import { CosmereActor, CosmereItem } from '../documents';
 
-export {
+export type {
     DeepPartial,
     DeepReadonly,
     AnyObject,
@@ -17,15 +17,30 @@ export {
     Identity,
     RemoveIndexSignatures,
 } from '@league-of-foundry-developers/foundry-vtt-types/utils';
-import { AnyObject } from '@league-of-foundry-developers/foundry-vtt-types/utils';
+import type {
+    AnyObject,
+    AnyConstructor,
+} from '@league-of-foundry-developers/foundry-vtt-types/utils';
 
 // Constant to improve UI consistency
 export const NONE = 'none';
+export type Noneable<T> = T | typeof NONE;
 
 // Simple utility type for easier null definitions, but general rule: only use it when you have one type that is nullable (i.e. prefer X | Y | null over Nullable<X | Y>)
 export type Nullable<T> = T | null;
 
+export type RemoveIndex<T> = {
+    [K in keyof T as string extends K
+        ? never
+        : number extends K
+          ? never
+          : symbol extends K
+            ? never
+            : K]: T[K];
+};
+
 export type SharedKeys<T, U> = keyof T & keyof U;
+export type KnownKeys<T> = keyof RemoveIndex<T>;
 
 export type Mutable<T> = { -readonly [P in keyof T]: T[P] };
 export type DeepMutable<T> = { -readonly [P in keyof T]: DeepMutable<T[P]> };

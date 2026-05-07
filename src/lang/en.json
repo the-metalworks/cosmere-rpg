@@ -645,6 +645,9 @@
                     },
                     "Item": {
                         "Label": "Item"
+                    },
+                    "ItemResource": {
+                        "Label": "Item Resource"
                     }
                 },
                 "Uses": {
@@ -1057,7 +1060,8 @@
                     "Effects": "Effects",
                     "Details": "Details",
                     "Talents": "Talents",
-                    "Events": "Events"
+                    "Events": "Events",
+                    "Actions": "Actions"
                 },
                 "Identifier": {
                     "Label": "Identifier",
@@ -1203,6 +1207,18 @@
                     "Trigger": "Trigger",
                     "Handler": "Handler",
                     "Create": "Add event rule"
+                },
+                "ActionsList": {
+                    "Description": "Description",
+                    "Action": "Action",
+                    "Cost": "Cost",
+                    "Uses": "Uses",
+                    "Create": "Add Action",
+                    "Edit": "Edit",
+                    "Delete": "Remove",
+                    "NewAction": {
+                        "Name": "New Action"
+                    }
                 }
             },
             "General": {

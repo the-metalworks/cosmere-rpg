@@ -33,7 +33,6 @@
             "plotDie": false,
             "uses": null,
             "skill": "lea",
-            "attribute": null,
             "opportunity": null,
             "complication": null,
             "modifierFormula": ""

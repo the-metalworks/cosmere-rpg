@@ -198,16 +198,25 @@ export const enum ActivationType {
 }
 
 export const enum ItemConsumeType {
-    Resource = 'resource', // E.g. health, focus, investiture
+    /**
+     * Actor resource, e.g. health, focus, investiture
+     */
+    Resource = 'resource',
+
+    /**
+     * Item resource, e.g. uses, charges
+     */
+    ItemResource = 'item_resource',
+
     Item = 'item',
 }
 
-export const enum ItemUseType {
-    Use = 'use',
-    Charge = 'charge',
+export const enum ItemResource {
+    Uses = 'uses',
+    Charges = 'charges',
 }
 
-export const enum ItemRechargeType {
+export const enum ItemResourceRechargeType {
     PerScene = 'per_scene',
 }
 

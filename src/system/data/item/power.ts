@@ -5,16 +5,16 @@ import { EmptyObject } from '@system/types/utils';
 // Mixins
 import { DataModelMixin } from '../mixins';
 import { IdItemMixin, IdItemDataSchema } from './mixins/id';
-import { TypedItemMixin, TypedItemDataSchema, TypedItemDerivedData } from './mixins/typed';
 import {
-    ActivatableItemDataSchema,
-    ActivatableItemMixin,
-} from './mixins/activatable';
+    TypedItemMixin,
+    TypedItemDataSchema,
+    TypedItemDerivedData,
+} from './mixins/typed';
 import {
     DescriptionItemMixin,
     DescriptionItemDataSchema,
 } from './mixins/description';
-import { DamagingItemDataSchema, DamagingItemMixin } from './mixins/damaging';
+import { ResourcesItemMixin } from './mixins/resources';
 import { EventsItemMixin, EventsItemDataSchema } from './mixins/events';
 import {
     RelationshipsMixin,
@@ -49,22 +49,18 @@ const SCHEMA = () => ({
     }),
 });
 
-export type PowerItemDataSchema =
-    & ReturnType<typeof SCHEMA>
-    & IdItemDataSchema
-    & TypedItemDataSchema<PowerType>
-    & DamagingItemDataSchema
-    & DescriptionItemDataSchema
-    & ActivatableItemDataSchema
-    & EventsItemDataSchema
-    & RelationshipsItemDataSchema;
+export type PowerItemDataSchema = ReturnType<typeof SCHEMA> &
+    IdItemDataSchema &
+    TypedItemDataSchema<PowerType> &
+    DescriptionItemDataSchema &
+    ResourcesItemMixin.Schema &
+    EventsItemDataSchema &
+    RelationshipsItemDataSchema;
 
 export type PowerItemDerivedData = TypedItemDerivedData;
 
 export type PowerItemCreateData = Item.CreateData & {
-    system: foundry.data.fields.SchemaField.CreateData<
-        PowerItemDataSchema
-    >
+    system: foundry.data.fields.SchemaField.CreateData<PowerItemDataSchema>;
 };
 
 export class PowerItemDataModel extends DataModelMixin<
@@ -88,11 +84,10 @@ export class PowerItemDataModel extends DataModelMixin<
                 {},
             ),
     }),
-    ActivatableItemMixin(),
-    DamagingItemMixin(),
     DescriptionItemMixin({
         value: 'COSMERE.Item.Type.Power.desc_placeholder',
     }),
+    ResourcesItemMixin(),
     EventsItemMixin(),
     RelationshipsMixin(),
 ) {

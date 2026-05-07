@@ -1,5 +1,6 @@
 // Types
 import {
+    ItemResource,
     EquipmentType,
     WeaponId,
     ArmorId,
@@ -9,6 +10,7 @@ import {
     WeaponType,
 } from '@system/types/cosmere';
 import {
+    ItemResourceConfig,
     PowerTypeConfig,
     ActionTypeConfig,
     ItemEventTypeConfig,
@@ -28,6 +30,51 @@ import { CommonRegistrationData } from './types';
 // Utils
 import * as EventSystemUtils from '@system/utils/item/event-system';
 import { RegistrationHelper } from './helper';
+
+interface ItemResourceConfigData
+    extends Omit<ItemResourceConfig, 'key'>,
+        CommonRegistrationData {
+    /**
+     * Unique id for the item resource type.
+     */
+    id: string;
+}
+
+export function registerItemResource(data: ItemResourceConfigData) {
+    if (!CONFIG.COSMERE) {
+        throw new Error(
+            'Cannot access API until after the system is initialized.',
+        );
+    }
+
+    // Clean data, remove fields that are not part of the config
+    const cleaned = {
+        id: data.id as ItemResource,
+        label: data.label,
+        labelPlural: data.labelPlural,
+        source: data.source,
+        priority: data.priority,
+        strict: data.strict,
+    };
+
+    const key = `item.resource.types.${cleaned.id}`;
+
+    const register = () => {
+        CONFIG.COSMERE.item.resource.types[cleaned.id] = {
+            key: cleaned.id,
+            label: cleaned.label,
+            labelPlural: cleaned.labelPlural,
+        };
+
+        return true;
+    };
+
+    return RegistrationHelper.tryRegisterConfig({
+        key,
+        data: cleaned,
+        register,
+    });
+}
 
 interface PowerTypeConfigData extends PowerTypeConfig, CommonRegistrationData {
     /**

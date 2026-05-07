@@ -1,0 +1,121 @@
+<ul class="item-list actions-list">
+    <li class="item header">
+        <section class="details">
+            <div class="img"></div>
+            <span class="title">{{localize "COSMERE.Item.Sheet.ActionsList.Description"}}</span>
+            <span class="subtitle wide">{{localize "COSMERE.Item.Sheet.ActionsList.Action"}}</span>
+            <span class="subtitle wide">{{localize "COSMERE.Item.Sheet.ActionsList.Cost"}}</span>
+            <span class="subtitle wide">{{localize "COSMERE.Item.Sheet.ActionsList.Uses"}}</span>
+            <div class="controls icon active">
+                {{#if editable}}
+                <a data-action="create-action" 
+                    data-tooltip="COSMERE.Item.Sheet.ActionsList.Create"
+                >
+                    <i class="fa-solid fa-plus"></i>
+                </a>
+                {{else}}
+                <div></div>
+                {{/if}}
+            </div>
+        </section>
+    </li>
+
+    {{#each actions as |action|}}
+    {{#with (itemContext action) as |ctx|}}
+        <li class="item action" data-id="{{action.id}}">
+            <section class="details">
+                {{!-- Image --}}
+                <div class="img">
+                    <img src="{{action.img}}">
+                </div>
+
+                {{!-- Name --}}
+                <div class="name">
+                    <span>{{action.name}}</span>
+                </div>
+
+                {{!-- Action --}}
+                <div class="detail wide">
+                    {{#if ctx.hasActivation}}
+                        {{#if ctx.activation.hasCost}}
+                        <i class="cosmere-icon">
+                            {{#if (eq ctx.activation.cost.type "act")}}
+                            {{ ctx.activation.cost.value }}
+                            {{else}}
+                            {{cosmereDingbat ctx.activation.cost.type}}
+                            {{/if}}
+                        </i>
+                        {{else}}
+                        <i class="cosmere-icon passive"></i>
+                        {{/if}}
+                    {{/if}}
+                </div>
+
+                {{!-- Cost --}}
+                <div class="detail wide">
+                    {{#if ctx.hasConsume}}
+                        {{#if (gt ctx.consume.length 1)}}
+                            <span>{{localize "COSMERE.Actor.Sheet.Actions.Consume.Multiple"}}</span>
+                        {{else}}
+                        {{#if (eq ctx.consume.length 1)}}
+                            {{#with ctx.consume.[0] as |consume|}}
+                            {{#if consume.consumesResource}}
+                            <span>{{resourceCostLabel consume}}</span>
+                            {{/if}}
+
+                            {{!-- TODO: Item consume --}}
+                            {{#if consume.consumesItem}}
+                            <span>—</span>
+                            {{/if}}
+                            {{/with}}
+                        {{/if}}
+                        {{/if}}
+                    {{else}}
+                        <span>—</span>
+                    {{/if}}
+                </div>
+
+                {{!-- Uses --}}
+                <div class="detail wide">
+                    {{#if ctx.hasUses}}
+
+                    {{#if (or (gt ctx.uses.max 1) (not ctx.uses.hasRecharge))}}
+                    <span>
+                        {{ ctx.uses.value }} / {{ctx.uses.max}}
+                        {{#if ctx.uses.hasRecharge}}
+                        {{localize ctx.uses.rechargeLabel }}
+                        {{/if}}
+                    </span>
+                    {{else}}
+                    <span {{#if (eq ctx.uses.value 0)}}class="inactive"{{/if}}>
+                        {{#if ctx.uses.hasRecharge}}
+                        {{localize ctx.uses.rechargeLabel }}
+                        {{/if}}
+                    </span>
+                    {{/if}}
+
+                    {{else}}
+                    <span>—</span>
+                    {{/if}}
+                </div>
+
+                {{!-- Controls --}}
+                <div class="controls icon faded">
+                    {{#if @root.editable}}
+                    <a data-action="edit-action" 
+                        data-tooltip="COSMERE.Item.Sheet.ActionsList.Edit"
+                    >
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
+                    <a data-action="delete-action" 
+                        data-tooltip="COSMERE.Item.Sheet.ActionsList.Delete"
+                    >
+                        <i class="fa-solid fa-trash"></i>
+                    </a>
+                    {{/if}}
+                </div>
+            </section>
+        </li>
+    {{/with}}
+    {{/each}}
+</ul>

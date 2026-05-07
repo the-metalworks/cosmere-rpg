@@ -1,4 +1,5 @@
-import { CosmereActor } from '@system/documents/actor';
+import type { Skill, Attribute } from '@system/types/cosmere';
+
 import { CosmereItem } from '@system/documents/item';
 import {
     getSystemKeybinding,
@@ -290,7 +291,7 @@ export interface TargetDescriptor {
 export function getTargetDescriptors() {
     const targets = new Map<string, TargetDescriptor>();
     for (const token of game.user.targets) {
-        const { name, img, system, uuid } = (token.actor as CosmereActor) ?? {};
+        const { name, img, system, uuid } = token.actor! ?? {};
         const phy = system?.defenses.phy.value ?? 10;
         const cog = system?.defenses.cog.value ?? 10;
         const spi = system?.defenses.spi.value ?? 10;
@@ -334,4 +335,24 @@ export function debounce<T extends (...args: any[]) => void>(
 
         if (callNow) callback.apply(this, args);
     } as T;
+}
+
+export function resolveSkill(skill?: Noneable<Skill> | null): Skill | null {
+    if (!skill || skill === NONE) return null;
+
+    // If the skill is configured, check if it is valid
+    if (!(skill in CONFIG.COSMERE.skills)) return null;
+
+    return skill;
+}
+
+export function resolveAttribute(
+    attribute?: Noneable<Attribute> | null,
+): Attribute | null {
+    if (!attribute || attribute === NONE) return null;
+
+    // If the attribute is configured, check if it is valid
+    if (!(attribute in CONFIG.COSMERE.attributes)) return null;
+
+    return attribute;
 }

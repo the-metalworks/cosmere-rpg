@@ -22,6 +22,7 @@ import {
     GoalItem,
     PowerItem,
     TalentTreeItem,
+    ActionItem,
 } from '@system/documents/item';
 import { CosmereActiveEffect } from '@system/documents/active-effect';
 
@@ -137,6 +138,12 @@ export class CosmereActor<
 
     public get deflect(): number {
         return this.system.deflect.value;
+    }
+
+    public get actions(): readonly ActionItem[] {
+        return Array.from(this.items).flatMap((item) =>
+            item.isAction() ? [item] : item.actions,
+        );
     }
 
     public get ancestry(): AncestryItem | undefined {
@@ -1475,6 +1482,10 @@ export class CosmereActor<
 }
 
 declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
+    interface DocumentClassConfig {
+        Actor: typeof CosmereActor;
+    }
+
     interface ConfiguredActor<SubType extends Actor.SubType> {
         document: CosmereActor;
     }

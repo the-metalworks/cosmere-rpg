@@ -1,0 +1,80 @@
+import type { Document } from '@system/types/foundry/document';
+import type { KnownKeys } from '@system/types/utils';
+
+type NativeEmbeddedTypesOf<
+    DocumentType extends foundry.abstract.Document.Type,
+> = KnownKeys<foundry.abstract.Document.MetadataFor<DocumentType>['embedded']>;
+
+type SystemEmbeddedTypesOf<
+    DocumentType extends foundry.abstract.Document.Type,
+> = DocumentType extends keyof ConfiguredSystemEmbeddedCollections
+    ? keyof ConfiguredSystemEmbeddedCollections[DocumentType]
+    : never;
+
+export type EmbeddedTypesOf<
+    DocumentType extends foundry.abstract.Document.Type,
+> = NativeEmbeddedTypesOf<DocumentType> | SystemEmbeddedTypesOf<DocumentType>;
+
+export type DocumentTypeOf<
+    DocumentClass extends Document.Constructable.SystemConstructor,
+> = DocumentClass['metadata']['name'];
+
+export type TypedCreateDataForName<
+    DocumentName extends foundry.abstract.Document.Type,
+> = foundry.abstract.Document.CreateDataForName<DocumentName> & {
+    type: foundry.abstract.Document.SubTypesOf<DocumentName>;
+};
+
+/**
+ * The behavior to apply when an embed limit is exceeded.
+ * - `block`: prevent the embed from being added
+ * - `replace-first`: replace the first existing embed of this type
+ * - `replace-last`: replace the last existing embed of this type
+ */
+export type ExceedBehavior = 'block' | 'replace-first' | 'replace-last';
+
+interface BaseEmbedLimit {
+    notify?: boolean;
+}
+
+/** Configuration for limiting embeds by count. */
+export interface AmountLimitConfig extends BaseEmbedLimit {
+    amount: {
+        max: number;
+
+        /**
+         * @default 'block'
+         */
+        onExceed?: ExceedBehavior;
+    };
+}
+
+export interface BooleanLimitConfig extends BaseEmbedLimit {
+    allowed: boolean;
+}
+
+/**
+ * Limits that can be applied to a specific embedded document type.
+ */
+export type EmbedLimit = AmountLimitConfig | BooleanLimitConfig;
+
+/**
+ * Configuration for a specific embedded document type.
+ */
+export type EmbedTypeConfig = boolean | EmbedLimit;
+
+export type EmbeddedDocumentsConfig<
+    DocumentName extends foundry.abstract.Document.Type,
+> = {
+    [DocumentType in
+        | foundry.abstract.Document.SubTypesOf<DocumentName>
+        | 'base']?: {
+        [EmbeddedName in EmbeddedTypesOf<DocumentName>]?:
+            | {
+                  [EmbeddedType in
+                      | foundry.abstract.Document.SubTypesOf<EmbeddedName>
+                      | 'base']?: EmbedTypeConfig;
+              }
+            | false;
+    };
+};

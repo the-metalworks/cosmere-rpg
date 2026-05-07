@@ -38,6 +38,11 @@ export class TalentItemSheet extends BaseItemSheet {
                 icon: '<i class="fa-solid fa-circle-info"></i>',
                 sortIndex: 15,
             },
+            actions: {
+                label: 'COSMERE.Item.Sheet.Tabs.Actions',
+                icon: '<i class="cosmere-icon">3</i>',
+                sortIndex: 19,
+            },
         },
     );
 

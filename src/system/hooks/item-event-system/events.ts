@@ -25,14 +25,18 @@ const EVENTS: EventDefinition[] = [
     {
         type: 'add-to-actor',
         hook: 'createItem',
-        condition: (_: CosmereItem, options: { parent: CosmereActor | null }) =>
-            !!options.parent,
+        condition: (
+            _: CosmereItem,
+            options: { parent: CosmereActor | CosmereItem | null },
+        ) => !!options.parent && options.parent instanceof CosmereActor,
     },
     {
         type: 'remove-from-actor',
         hook: 'deleteItem',
-        condition: (_: CosmereItem, options: { parent: CosmereActor | null }) =>
-            !!options.parent,
+        condition: (
+            _: CosmereItem,
+            options: { parent: CosmereActor | CosmereItem | null },
+        ) => !!options.parent && options.parent instanceof CosmereActor,
     },
     {
         type: 'equip',
@@ -57,7 +61,7 @@ const EVENTS: EventDefinition[] = [
     {
         type: 'use',
         hook: HOOKS.USE_ITEM,
-        filter: (item: CosmereItem) => item.hasActivation(),
+        filter: (item: CosmereItem) => item.isActivatable,
     },
     {
         type: 'mode-activate',

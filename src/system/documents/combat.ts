@@ -67,6 +67,10 @@ export class CosmereCombat extends Combat {
 }
 
 declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
+    interface DocumentClassConfig {
+        Combat: typeof CosmereCombat;
+    }
+
     interface ConfiguredCombat<SubType extends Combat.SubType> {
         document: CosmereCombat;
     }
