@@ -458,7 +458,10 @@ export class BaseActorSheet<
     protected onCurrencyChange(event: CustomEvent) {
         void this.render({
             parts: [],
-            components: ['app-actor-currency-list'],
+            components: [
+                'app-actor-currency-list',
+                'app-actor-encumbrance-list',
+            ],
         });
     }
 
