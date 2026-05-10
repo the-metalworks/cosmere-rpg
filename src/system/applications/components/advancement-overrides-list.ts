@@ -32,6 +32,7 @@ export class AdvancementOverridesListComponent extends HandlebarsApplicationComp
     /* eslint-disable @typescript-eslint/unbound-method */
     static ACTIONS = {
         'create-override': this.onCreateOverride,
+        'remove-override': this.onRemoveOverride,
     };
     /* eslint-enable @typescript-eslint/unbound-method */
 
@@ -105,6 +106,23 @@ export class AdvancementOverridesListComponent extends HandlebarsApplicationComp
                 source: undefined,
             },
         ];
+    }
+
+    private static onRemoveOverride(
+        this: AdvancementOverridesListComponent,
+        event: Event,
+    ) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        // Get key
+        const key = $(event.target!).closest('[data-id]').data('id') as string;
+
+        // Remove override
+        this.value = this.value.filter((v) => v.id !== key);
+
+        // Re-render
+        void this.render();
     }
 
     private static getOptionsContext(
