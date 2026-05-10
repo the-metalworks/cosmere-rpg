@@ -573,9 +573,12 @@ export default class AdvancementManager {
         list.splice(i, 0, override);
     }
 
-    public static sortOverrideList<TOverrideData extends Advancement.Override>(
-        list: TOverrideData[],
-    ) {
+    /**
+     * Sort a list of overrides based on their level ranges, breaking ties with priority.
+     */
+    public static sortOverridesByLevels<
+        TOverrideData extends Advancement.Override,
+    >(list: TOverrideData[]) {
         return list.sort((a, b) => {
             if (
                 a.levels.min === b.levels.min &&
