@@ -183,7 +183,7 @@ export class AdvancementOverridesListComponent extends HandlebarsApplicationComp
         return Promise.resolve({
             ...context,
 
-            overrides: AdvancementManager.sortOverrideList(
+            overrides: AdvancementManager.sortOverridesByLevels(
                 this.value.map((override) => ({
                     ...override,
                     options:
