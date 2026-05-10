@@ -1,6 +1,8 @@
 {{!-- Overrides --}}
-<div class="form-group">
+<fieldset>
+    <legend>{{localize handler.schema.fields.overrides.label}}</legend>
     {{app-advancement-overrides-list
+        name="handler.overrides"
         value=handler.overrides
     }}
-</div>
+</fieldset>

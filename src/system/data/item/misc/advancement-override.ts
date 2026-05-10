@@ -1,6 +1,11 @@
 import { Advancement } from '@system/types/advancement';
 
 const SCHEMA = () => ({
+    id: new foundry.data.fields.StringField({
+        initial: () => foundry.utils.randomID(),
+        required: true,
+        blank: false,
+    }),
     priority: new foundry.data.fields.NumberField({
         required: true,
         integer: true,

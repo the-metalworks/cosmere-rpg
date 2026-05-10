@@ -572,4 +572,32 @@ export default class AdvancementManager {
 
         list.splice(i, 0, override);
     }
+
+    public static sortOverrideList<TOverrideData extends Advancement.Override>(
+        list: TOverrideData[],
+    ) {
+        return list.sort((a, b) => {
+            if (
+                a.levels.min === b.levels.min &&
+                a.levels.max === b.levels.max
+            ) {
+                // Both apply to identical level ranges, use priority.
+                return a.priority - b.priority;
+            }
+
+            const aMin = a.levels.min ?? -Infinity;
+            const bMin = b.levels.min ?? -Infinity;
+            if (aMin !== bMin) {
+                // A and B start at different levels.
+                // Sort accordingly.
+                return aMin - bMin;
+            }
+
+            // A and B start at the same level.
+            // Sort based on end level.
+            const aMax = a.levels.max ?? Infinity;
+            const bMax = b.levels.max ?? Infinity;
+            return aMax - bMax;
+        });
+    }
 }

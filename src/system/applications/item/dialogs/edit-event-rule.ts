@@ -111,6 +111,8 @@ export class ItemEditEventRuleDialog extends ComponentHandlebarsApplicationMixin
         // Ignore submit events
         if (event instanceof SubmitEvent) return;
 
+        console.log('Got form event data', form, formData);
+
         // Prepare changes
         const changes = Object.entries(formData.object).reduce(
             (changes, [key, value]) => {
