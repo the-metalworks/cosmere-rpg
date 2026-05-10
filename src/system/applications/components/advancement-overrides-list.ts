@@ -240,7 +240,11 @@ export class AdvancementOverridesListComponent extends HandlebarsApplicationComp
                             ref.levels.min = parseInt(target.value);
                             break;
                         case 'levels.max':
-                            ref.levels.max = parseInt(target.value);
+                            if (!target.value) {
+                                ref.levels.max = undefined;
+                            } else {
+                                ref.levels.max = parseInt(target.value);
+                            }
                             break;
                         case 'type':
                             ref.type = target.value as Advancement.OverrideType;
