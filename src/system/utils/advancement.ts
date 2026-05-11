@@ -249,21 +249,16 @@ export default class AdvancementManager {
     ) {
         // Register global overrides
         data.global.forEach((override) => {
-            this.registerAdvancementOverride(override.level, override.data);
+            this.registerAdvancementOverride(override.data);
         });
 
         // Register source overrides
         data.items.forEach((override) => {
-            this.registerAdvancementOverride(
-                override.level,
-                override.data,
-                override.sourceId,
-            );
+            this.registerAdvancementOverride(override.data, override.sourceId);
         });
     }
 
     public static registerAdvancementOverride(
-        level: number,
         data: Advancement.OverrideData,
         sourceId?: string,
     ): boolean {
