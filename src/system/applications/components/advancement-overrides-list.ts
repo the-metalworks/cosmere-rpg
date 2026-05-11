@@ -240,13 +240,12 @@ export class AdvancementOverridesListComponent extends HandlebarsApplicationComp
                     try {
                         this.updateOverrideConfig(field, target.value, ref);
                     } catch (error) {
-                        ui.notifications.error(
+                        return ui.notifications.warn(
                             game.i18n.format(
                                 'COSMERE.Advancement.Override.Error.BadConfig',
                                 { error: (error as Error).message },
                             ),
                         );
-                        return;
                     }
 
                     // Update the value
