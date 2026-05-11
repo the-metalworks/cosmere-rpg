@@ -10,6 +10,11 @@ import { OverrideSelectOption } from '@src/system/utils/handlebars/types';
 import { AttributeConfig, SkillConfig } from '@src/system/types/config';
 import AdvancementManager from '@src/system/utils/advancement';
 
+type OverrideConfigField =
+    | keyof AdvancementOverrideData
+    | 'levels.min'
+    | 'levels.max';
+
 // NOTE: Must use type here instead of interface as an interface doesn't match AnyObject type
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 type Params = {
@@ -218,9 +223,7 @@ export class AdvancementOverridesListComponent extends HandlebarsApplicationComp
     /**
      * Constructs and attaches an event listener to update data for a particular field
      */
-    protected attachChangeListener(
-        field: keyof AdvancementOverrideData | 'levels.min' | 'levels.max',
-    ) {
+    private attachChangeListener(field: OverrideConfigField) {
         $(this.element!)
             .find(`.override .detail > [name="${field}"]`)
             .on('change', (event: JQuery.ChangeEvent) => {
@@ -234,42 +237,16 @@ export class AdvancementOverridesListComponent extends HandlebarsApplicationComp
                 const ref = this.value.find((v) => v.id === overrideId);
 
                 if (ref) {
-                    // Update value for the override based on the relevant field
-                    switch (field) {
-                        case 'levels.min':
-                            ref.levels.min = parseInt(target.value);
-                            break;
-                        case 'levels.max':
-                            if (!target.value) {
-                                ref.levels.max = undefined;
-                            } else {
-                                ref.levels.max = parseInt(target.value);
-                            }
-                            break;
-                        case 'type':
-                            ref.type = target.value as Advancement.OverrideType;
-                            // Set the key to a reasonable default when the type changes
-                            ref.key = Object.values(
-                                ref.type === Advancement.OverrideType.Grants
-                                    ? Advancement.GrantsFieldKey
-                                    : Advancement.MaxStatFieldKey,
-                            )[0] as string;
-                            break;
-                        case 'mode':
-                            ref.mode = target.value as Advancement.OverrideMode;
-                            break;
-                        case 'key':
-                            ref.key = target.value;
-                            break;
-                        case 'stat':
-                            ref.stat = target.value || undefined;
-                            break;
-                        case 'value':
-                            ref.value = target.value;
-                            break;
-                        case 'priority':
-                            ref.priority = parseInt(target.value);
-                            break;
+                    try {
+                        this.updateOverrideConfig(field, target.value, ref);
+                    } catch (error) {
+                        ui.notifications.error(
+                            game.i18n.format(
+                                'COSMERE.Advancement.Override.Error.BadConfig',
+                                { error: (error as Error).message },
+                            ),
+                        );
+                        return;
                     }
 
                     // Update the value
@@ -279,6 +256,90 @@ export class AdvancementOverridesListComponent extends HandlebarsApplicationComp
                     void this.render();
                 }
             });
+    }
+
+    private updateOverrideConfig(
+        field: OverrideConfigField,
+        input: string,
+        override: AdvancementOverrideData,
+    ) {
+        // Update value for the override based on the relevant field
+        switch (field) {
+            case 'levels.min':
+                override.levels.min = parseInt(input);
+                break;
+            case 'levels.max':
+                if (!input) {
+                    override.levels.max = undefined;
+                } else {
+                    override.levels.max = parseInt(input);
+                }
+                break;
+            case 'type':
+                override.type = input as Advancement.OverrideType;
+                // Set the key to a reasonable default when the type changes
+                override.key = Object.values(
+                    override.type === Advancement.OverrideType.Grants
+                        ? Advancement.GrantsFieldKey
+                        : Advancement.MaxStatFieldKey,
+                )[0] as string;
+                break;
+            case 'mode':
+                override.mode = input as Advancement.OverrideMode;
+                break;
+            case 'key':
+                override.key = input;
+                break;
+            case 'stat':
+                override.stat = input || undefined;
+                break;
+            case 'value':
+                override.value = this.parseOverrideValue(input, override);
+                break;
+            case 'priority':
+                override.priority = parseInt(input);
+                break;
+            default:
+                throw new Error(`non-existent config field "${field}"`);
+        }
+    }
+
+    /**
+     * Get the correct value for the given override from a provided `<input/>` field
+     * @param input The value of the `<input/>`
+     * @param override The ref for this override
+     * @returns The value of `input` as coerced to the correct data type for `override`
+     */
+    private parseOverrideValue(
+        input: string,
+        override: AdvancementOverrideData,
+    ): Advancement.OverrideFieldType {
+        const numeric = parseInt(input);
+        const isNaN = Number.isNaN(numeric);
+
+        // Parse a boolean from the input
+        if (
+            Advancement.GRANTS_FIELD_TYPES[
+                override.key as Advancement.GrantsFieldKey
+            ] === Advancement.FieldType.Boolean
+        ) {
+            // parseInt() returns NaN for any non-numeric input.
+            // NaN is falsy but NOT nullish, so we need to guard
+            // against conflating NaN with 0.
+            return isNaN
+                ? // In this case, we'll just say the only non-numeric
+                  // "truthy" input is literally typing "true".
+                  input.toLowerCase().includes('true')
+                : !!numeric;
+        }
+
+        // Parse a proper number from the input
+        if (isNaN) {
+            throw new Error(
+                `got non-numeric value "${input}" on a numeric field`,
+            );
+        }
+        return numeric;
     }
 }
 
