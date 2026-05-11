@@ -4,9 +4,7 @@ import {
 } from '@system/data/item/misc/advancement-override';
 import { Advancement } from '@system/types/advancement';
 import { Event, HandlerType } from '@system/types/item/event-system';
-import AdvancementManager, {
-    AdvancementOverride,
-} from '@system/utils/advancement';
+import AdvancementManager from '@system/utils/advancement';
 
 // Constants
 import { SYSTEM_ID } from '@system/constants';
@@ -48,14 +46,6 @@ export function register() {
 
             const newOverrides = [...actor.system.advancement.overrides];
             this.overrides.forEach((override) => {
-                // Parse/validate data
-                try {
-                    void new AdvancementOverride(override);
-                } catch (error: unknown) {
-                    console.error(error);
-                    return;
-                }
-
                 // Transform event data into schema data and insert by priority
                 AdvancementManager.insertOverrideIntoList(
                     {
