@@ -28,6 +28,7 @@ any> {
     static readonly ACTIONS = {
         'create-rule': this.onCreateRule,
         'edit-rule': this.onEditRule,
+        'toggle-rule': this.onToggleRule,
         'delete-rule': this.onDeleteRule,
     };
     /* eslint-enable @typescript-eslint/unbound-method */
@@ -78,6 +79,25 @@ any> {
 
         // Show the edit dialog
         void ItemEditEventRuleDialog.show(this.item, rule);
+    }
+
+    private static onToggleRule(
+        this: ItemEventRulesListComponent,
+        event: Event,
+    ) {
+        // Get id
+        const id = $(event.target!).closest('.rule[data-id]').data('id') as
+            | string
+            | undefined;
+        if (!id) return;
+
+        // Get the rule
+        const rule = this.item.system.events.get(id) as Rule; // TEMP: Workaround
+        if (!rule) return;
+
+        void this.item.update({
+            [`system.events.${rule.id}`]: { disabled: !rule.disabled },
+        });
     }
 
     private static onDeleteRule(

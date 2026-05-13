@@ -125,6 +125,6 @@ export const RECOVERY_DICE = ['d4', 'd6', 'd8', 'd10', 'd12', 'd20'];
 function willpowerToRecoveryDie(attr: AttributeData) {
     const willpower = attr.value + attr.bonus;
     return RECOVERY_DICE[
-        Math.min(Math.ceil(willpower / 2), RECOVERY_DICE.length)
+        Math.min(Math.ceil(willpower / 2), RECOVERY_DICE.length - 1)
     ];
 }

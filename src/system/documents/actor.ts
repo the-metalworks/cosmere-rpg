@@ -25,6 +25,8 @@ import {
 } from '@system/documents/item';
 import { CosmereActiveEffect } from '@system/documents/active-effect';
 
+import { getSystemSetting, SETTINGS } from '@system/settings';
+
 import {
     CommonActorData,
     CommonActorDataModel,
@@ -314,7 +316,101 @@ export class CosmereActor<
             });
         }
 
-        this.updateSource({ prototypeToken });
+        // Configure default actor flags
+        const flags = {
+            [SYSTEM_ID]: {
+                sheet: {
+                    hideUnranked: true,
+                },
+            },
+        };
+
+        if (getSystemSetting(SETTINGS.AUTOMATION_TOKEN_FLAGS_BARS)) {
+            // If no value is passed in for default bar viewing states, set to "hovered by owner"
+            if (
+                !foundry.utils.hasProperty(data, `prototypeToken.displayBars`)
+            ) {
+                foundry.utils.mergeObject(prototypeToken, {
+                    displayBars: CONST.TOKEN_DISPLAY_MODES.OWNER_HOVER,
+                });
+            }
+
+            // If no value is passed in for bars, set bars to default to settings values
+            if (!foundry.utils.hasProperty(data, `prototypeToken.bar1`)) {
+                foundry.utils.mergeObject(prototypeToken, {
+                    bar1: {
+                        attribute: getSystemSetting(
+                            SETTINGS.TOKEN_DEFAULT_BAR_1_VAL,
+                        ),
+                    },
+                });
+            }
+            if (!foundry.utils.hasProperty(data, `prototypeToken.bar2`)) {
+                foundry.utils.mergeObject(prototypeToken, {
+                    bar2: {
+                        attribute: getSystemSetting(
+                            SETTINGS.TOKEN_DEFAULT_BAR_2_VAL,
+                        ),
+                    },
+                });
+            }
+        }
+
+        if (getSystemSetting(SETTINGS.AUTOMATION_TOKEN_FLAGS_SIZE)) {
+            // Size in grid spaces
+            const prototypeTokenSize =
+                CONFIG.COSMERE.sizes[this.system.size].tokenDimensions ?? 1;
+
+            // If values are not passed in for token size, set token size from actor size
+            if (!foundry.utils.hasProperty(data, `prototypeToken.width`)) {
+                foundry.utils.mergeObject(prototypeToken, {
+                    width: prototypeTokenSize,
+                });
+            }
+            if (!foundry.utils.hasProperty(data, `prototypeToken.height`)) {
+                foundry.utils.mergeObject(prototypeToken, {
+                    height: prototypeTokenSize,
+                });
+            }
+
+            foundry.utils.mergeObject(flags, {
+                [SYSTEM_ID]: {
+                    automation: {
+                        token: {
+                            size: true,
+                        },
+                    },
+                },
+            });
+        }
+
+        if (getSystemSetting(SETTINGS.AUTOMATION_TOKEN_FLAGS_SIGHT)) {
+            // Senses changes
+            const sensesData = this.system.senses;
+
+            const affectedByObscuredSenses =
+                sensesData?.obscuredAffected ?? true;
+            foundry.utils.mergeObject(prototypeToken, {
+                sight: {
+                    range: affectedByObscuredSenses
+                        ? sensesData.range?.value
+                        : null,
+                    visionMode: 'sense',
+                },
+            });
+
+            foundry.utils.mergeObject(flags, {
+                [SYSTEM_ID]: {
+                    automation: {
+                        token: {
+                            vision: true,
+                        },
+                    },
+                },
+            });
+        }
+
+        this.updateSource({ prototypeToken, flags });
     }
 
     public override async createEmbeddedDocuments<
@@ -1410,12 +1506,17 @@ declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
     interface FlagConfig {
         Actor: {
             'cosmere-rpg': {
+                automation: object;
+                'automation.token': object;
+                'automation.token.vision': boolean;
+                'automation.token.size': boolean;
                 sheet: object;
                 'sheet.mode': 'edit' | 'view';
                 'sheet.expertisesCollapsed': boolean;
                 'sheet.immunitiesCollapsed': boolean;
                 'sheet.skillsCollapsed': boolean;
                 'sheet.hideUnranked': boolean;
+                'sheet.autosetPrototypeTokenValues': boolean;
                 goals: object;
                 'goals.hide-completed': boolean;
                 [key: `meta.update.mode.${string}`]: string;
