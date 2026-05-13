@@ -208,6 +208,10 @@ app-match-document-target {
                     text-align: center;
                     max-width: 24px;
                 }
+
+                &:focus {
+                    outline: 2px solid deepskyblue;
+                }
             }
 
             &.wide {
