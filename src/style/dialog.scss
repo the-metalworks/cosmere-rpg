@@ -1,6 +1,7 @@
 .application.dialog {
     border: 1px solid var(--cosmere-color-accent);
     border-radius: 6px;
+    min-width: fit-content;
 
     > .window-header {
         padding: 0 0.75rem !important;

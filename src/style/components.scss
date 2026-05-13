@@ -126,3 +126,36 @@ app-item-drop-list {
         margin: 0;
     }
 }
+
+.application.dialog app-advancement-overrides-list {
+    .item-list.overrides > .item > .details {
+        .subtitle,
+        .detail {
+
+            .override-input {
+                background-color: var(--cosmere-color-base-6) !important;
+                border-radius: 4px !important;
+                height: fit-content !important;
+                font-size: 11px !important;
+                padding: 4px !important;
+                line-height: 11px !important;
+
+                &.slim {
+                    text-align: center;
+                    max-width: 24px;
+                }
+            }
+
+            &.wide {
+                width: 72px;
+            }
+
+            &.levels {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+                align-items: center;
+            }
+        }
+    }
+}
