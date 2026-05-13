@@ -1,11 +1,11 @@
-<ul class="item-list">
+<ul class="item-list overrides">
     <li class="item header">
         <section class="details">
-            <span class="subtitle">{{localize "COSMERE.Advancement.Override.Data.Levels.Label"}}</span>
-            <span class="subtitle">{{localize "COSMERE.Advancement.Override.Data.Type"}}</span>
-            <span class="subtitle">{{localize "COSMERE.Advancement.Override.Data.Mode"}}</span>
-            <span class="subtitle">{{localize "COSMERE.Advancement.Override.Data.Key"}}</span>
-            <span class="subtitle">{{localize "COSMERE.Advancement.Override.Data.Stat"}}</span>
+            <span class="subtitle wide">{{localize "COSMERE.Advancement.Override.Data.Levels.Label"}}</span>
+            <span class="subtitle wide">{{localize "COSMERE.Advancement.Override.Data.Type"}}</span>
+            <span class="subtitle wide">{{localize "COSMERE.Advancement.Override.Data.Mode"}}</span>
+            <span class="subtitle wide">{{localize "COSMERE.Advancement.Override.Data.Key"}}</span>
+            <span class="subtitle wide">{{localize "COSMERE.Advancement.Override.Data.Stat"}}</span>
             <span class="subtitle">{{localize "COSMERE.Advancement.Override.Data.Value"}}</span>
             <span class="subtitle">{{localize "COSMERE.Advancement.Override.Data.Priority"}}</span>
             <div class="controls icon active">
@@ -16,79 +16,80 @@
                 </a>
             </div>
         </section>
-
-        {{#each overrides as |override|}}
-        <li class="item override" data-id="{{override.id}}">
-            <section class="details">
-                <div class="detail">
-                    {{#if ../editable}}
-                    <input type="number" name="levels.min" value={{override.levels.min}}>
-                    <input type="number" name="levels.max" value={{override.levels.max}}>
-                    {{else}}
-                    {{advancementOverrideLevels override.levels}}
-                    {{/if}}
-                </div>
-                <div class="detail">
-                    {{#if ../editable}}
-                    <select name="type">
-                        {{selectOptions override.options.type selected=override.type localize=true}}
-                    </select>
-                    {{else}}
-                    {{localizeOverrideData override "type"}}
-                    {{/if}}
-                </div>
-                <div class="detail">
-                    {{#if ../editable}}
-                    <select name="mode">
-                        {{selectOptions override.options.mode selected=override.mode localize=true}}
-                    </select>
-                    {{else}}
-                    {{localizeOverrideData override "mode"}}
-                    {{/if}}
-                </div>
-                <div class="detail">
-                    {{#if ../editable}}
-                    <select name="key">
-                        {{selectOptions override.options.key selected=override.key localize=true}}
-                    </select>
-                    {{else}}
-                    {{localizeOverrideData override "key"}}
-                    {{/if}}
-                </div>
-                <div class="detail">
-                    {{#if (eq override.type "max-stat")}}
-                        {{#if ../editable}}
-                        <select name="stat">
-                            {{selectOptions override.options.stat selected=override.stat localize=true}}
-                        </select>
-                        {{else}}
-                        {{localizeOverrideData override "stat"}}
-                        {{/if}}
-                    {{/if}}
-                </div>
-                <div class="detail">
-                    {{#if ../editable}}
-                    <input type="text" name="value" value={{override.value}}>
-                    {{else}}
-                    {{override.value}}
-                    {{/if}}
-                </div>
-                <div class="detail">
-                    {{#if ../editable}}
-                    <input type="number" name="priority" value={{override.priority}}>
-                    {{else}}
-                    {{override.priority}}
-                    {{/if}}
-                </div>
-                <div class="controls">
-                    <a data-action="remove-override"
-                        data-tooltip="GENERIC.Button.Remove"
-                    >
-                        <i class="fa-solid fa-trash"></i>
-                    </a>
-                </div>
-            </section>
-        </li>
-        {{/each}}
     </li>
+
+    {{#each overrides as |override|}}
+    <li class="item override" data-id="{{override.id}}">
+        <section class="details">
+            <div class="detail wide levels">
+                {{#if ../editable}}
+                <input class="override-input slim" type="number" name="levels.min" value={{override.levels.min}}>
+                -
+                <input class="override-input slim" type="number" name="levels.max" value={{override.levels.max}}>
+                {{else}}
+                {{advancementOverrideLevels override.levels}}
+                {{/if}}
+            </div>
+            <div class="detail wide">
+                {{#if ../editable}}
+                <select class="override-input" name="type">
+                    {{selectOptions override.options.type selected=override.type localize=true}}
+                </select>
+                {{else}}
+                {{localizeOverrideData override "type"}}
+                {{/if}}
+            </div>
+            <div class="detail wide">
+                {{#if ../editable}}
+                <select class="override-input" name="mode">
+                    {{selectOptions override.options.mode selected=override.mode localize=true}}
+                </select>
+                {{else}}
+                {{localizeOverrideData override "mode"}}
+                {{/if}}
+            </div>
+            <div class="detail wide">
+                {{#if ../editable}}
+                <select class="override-input" name="key">
+                    {{selectOptions override.options.key selected=override.key localize=true}}
+                </select>
+                {{else}}
+                {{localizeOverrideData override "key"}}
+                {{/if}}
+            </div>
+            <div class="detail wide">
+                {{#if (eq override.type "max-stat")}}
+                    {{#if ../editable}}
+                    <select class="override-input" name="stat">
+                        {{selectOptions override.options.stat selected=override.stat localize=true}}
+                    </select>
+                    {{else}}
+                    {{localizeOverrideData override "stat"}}
+                    {{/if}}
+                {{/if}}
+            </div>
+            <div class="detail">
+                {{#if ../editable}}
+                <input class="override-input" type="text" name="value" value={{override.value}}>
+                {{else}}
+                {{override.value}}
+                {{/if}}
+            </div>
+            <div class="detail">
+                {{#if ../editable}}
+                <input class="override-input" type="number" name="priority" value={{override.priority}}>
+                {{else}}
+                {{override.priority}}
+                {{/if}}
+            </div>
+            <div class="controls">
+                <a data-action="remove-override"
+                    data-tooltip="GENERIC.Button.Remove"
+                >
+                    <i class="fa-solid fa-trash"></i>
+                </a>
+            </div>
+        </section>
+    </li>
+    {{/each}}
 </ul>
