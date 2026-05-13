@@ -144,6 +144,10 @@ app-item-drop-list {
                     text-align: center;
                     max-width: 24px;
                 }
+
+                &:focus {
+                    outline: 2px solid deepskyblue;
+                }
             }
 
             &.wide {
