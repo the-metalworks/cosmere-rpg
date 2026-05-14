@@ -136,33 +136,38 @@ export class AdvancementOverridesListComponent extends HandlebarsApplicationComp
         return {
             type: Object.values(Advancement.OverrideType).map((v) => ({
                 value: v,
-                label: `COSMERE.Advancement.Override.Type.${v}`,
+                label: `COSMERE.Advancement.Override.Type.${v}.Label`,
             })),
             mode: Object.values(Advancement.OverrideMode).map((v) => ({
                 value: v,
-                label: `COSMERE.Advancement.Override.Mode.${v}`,
+                label: `COSMERE.Advancement.Override.Mode.${v}.Label`,
             })),
             key:
                 override.type === Advancement.OverrideType.Grants
                     ? Object.values(Advancement.GrantsFieldKey).map((v) => ({
                           value: v,
                           label: `COSMERE.Advancement.Override.Field.grants.${v}.Label`,
-                          tooltip: `COSMERE.Advancement.Override.Field.grants.${v}.Description`,
                       }))
                     : Object.values(Advancement.MaxStatFieldKey).map((v) => ({
                           value: v,
                           label: `COSMERE.Advancement.Override.Field.max-stat.${v}.Label`,
-                          tooltip: `COSMERE.Advancement.Override.Field.grants.${v}.Description`,
                       })),
             stat: CONFIG.COSMERE[override.key as Advancement.MaxStatFieldKey]
-                ? Object.entries(
-                      CONFIG.COSMERE[
-                          override.key as Advancement.MaxStatFieldKey
-                      ],
-                  ).map(([k, v]) => ({
-                      value: k,
-                      label: (v as AttributeConfig | SkillConfig).label,
-                  }))
+                ? [
+                      {
+                          value: 'base',
+                          label: 'COSMERE.Advancement.Override.Stat.base.Label',
+                      } as OverrideSelectOption,
+                  ].concat(
+                      Object.entries(
+                          CONFIG.COSMERE[
+                              override.key as Advancement.MaxStatFieldKey
+                          ],
+                      ).map(([k, v]) => ({
+                          value: k,
+                          label: (v as AttributeConfig | SkillConfig).label,
+                      })),
+                  )
                 : [],
         };
     }

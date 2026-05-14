@@ -1456,26 +1456,60 @@
                 "Data": {
                     "Levels": {
                         "Label": "Levels",
-                        "Min": "Start Level",
-                        "Max": "End Level",
+                        "Description": "The level range this override applies to",
+                        "Min": {
+                            "Label": "Min",
+                            "Description": "Start Level"
+                        },
+                        "Max": {
+                            "Label": "Max",
+                            "Description": "End Level"
+                        },
                         "All": "All",
                         "AtLeast": "{level}+",
                         "Between": "{min}-{max}"
                     },
-                    "Type": "Type",
-                    "Mode": "Mode",
-                    "Key": "Key",
-                    "Stat": "Stat",
-                    "Value": "Value",
-                    "Priority": "Priority"
+                    "Type": {
+                        "Label": "Type",
+                        "Description": "What kind of change this override makes"
+                    },
+                    "Mode": {
+                        "Label": "Mode",
+                        "Description": "How to apply this override's value"
+                    },
+                    "Key": {
+                        "Label": "Key"
+                    },
+                    "Stat": {
+                        "Label": "Stat"
+                    },
+                    "Value": {
+                        "Label": "Value"
+                    },
+                    "Priority": {
+                        "Label": "Priority",
+                        "Description": "Higher priority overrides are applied later.<br>Default: 0"
+                    }
                 },
                 "Type": {
-                    "grants": "Grants",
-                    "max-stat": "Max Stat"
+                    "grants": {
+                        "Label": "Grants",
+                        "Description": "Changes something granted at this level"
+                    },
+                    "max-stat": {
+                        "Label": "Max Stat",
+                        "Description": "Changes the maximum value of a given stat"
+                    }
                 },
                 "Mode": {
-                    "absolute": "Absolute",
-                    "relative": "Relative"
+                    "absolute": {
+                        "Label": "Absolute",
+                        "Description": "Completely overwrite lower priority values"
+                    },
+                    "relative": {
+                        "Label": "Relative",
+                        "Description": "Add this value to what already exists"
+                    }
                 },
                 "Field": {
                     "Type": {
@@ -1517,6 +1551,12 @@
                             "Label": "Skills",
                             "Description": "Maximum ranks per Skill"
                         }
+                    }
+                },
+                "Stat": {
+                    "base": {
+                        "Label": "Base",
+                        "Description": "Applies to the max for all stats of this key"
                     }
                 },
                 "Error": {

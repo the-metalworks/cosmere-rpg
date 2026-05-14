@@ -105,5 +105,4 @@ export interface ItemContext {
 export interface OverrideSelectOption {
     value: string;
     label: string;
-    tooltip?: string;
 }
