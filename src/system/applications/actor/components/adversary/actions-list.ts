@@ -55,6 +55,9 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
         const searchText = context.actionsSearch?.text ?? '';
         const sortMode = context.actionsSearch?.sort ?? SortMode.Alphabetic;
 
+        // Set section expanded defaults
+        this.setSectionExpandedDefaults();
+
         return {
             ...context,
 
@@ -82,7 +85,7 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
                     section.items.length > 0 ||
                     (this.application.mode === 'edit' && section.default),
             ),
-
+            sectionState: this.sectionState,
             itemState: this.itemState,
         };
     }

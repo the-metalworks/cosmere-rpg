@@ -300,21 +300,28 @@
         margin: 0;
         padding: 0;
 
-        &>li {
+        &>li.item.header {
+            margin: 0;
+            list-style-type: none;
+        }
+
+        &:not(.expanded), &.empty {
+            >li.item.header {
+                border-radius: 6px;
+            }
+        }
+
+        &>section.collapsible-content>div.wrapper>li {
             margin: 0;
             list-style-type: none;
 
             &:not(.favorite) {
-                &:not(:first-child):not(:last-child) {
+                &:not(:last-child) {
                     border-bottom: 1px dotted var(--cosmere-color-faded);
                 }
 
                 &:last-child {
                     border-radius: 0 0 6px 6px;
-
-                    &:first-child {
-                        border-radius: 6px;
-                    }
                 }
             }
         }
