@@ -670,10 +670,10 @@ Handlebars.registerHelper(
         let localeKey: string;
         switch (key) {
             case 'type':
-                localeKey = `COSMERE.Advancement.Override.Type.${override.type}`;
+                localeKey = `COSMERE.Advancement.Override.Type.${override.type}.Label`;
                 break;
             case 'mode':
-                localeKey = `COSMERE.Advancement.Override.Mode.${override.mode}`;
+                localeKey = `COSMERE.Advancement.Override.Mode.${override.mode}.Label`;
                 break;
             case 'key':
                 localeKey = `COSMERE.Advancement.Override.Field.${override.type}.${override.key}.Label`;
