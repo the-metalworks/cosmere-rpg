@@ -8,6 +8,7 @@ import AppUtils from '@system/applications/utils';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
+import { getSystemSetting, SETTINGS } from '@src/system/settings';
 
 interface ItemState {
     expanded?: boolean;
@@ -55,7 +56,23 @@ any> {
      */
     protected itemState: Record<string, ItemState> = {};
 
+    /* --- Getters --- */
+    protected get expandSectionDefaultSetting(): boolean {
+        return getSystemSetting(SETTINGS.SHEET_EXPAND_SECTIONS_DEFAULT) ?? true;
+    }
+
     /* --- Actions --- */
+
+    protected setSectionExpandedDefaults() {
+        // Ensure all sections have an expand state record defaulting to settings.expandSectionByDefault
+        this.sections.forEach((section) => {
+            if (!(section.id in this.sectionState)) {
+                this.sectionState[section.id] = {
+                    expanded: this.expandSectionDefaultSetting,
+                };
+            }
+        });
+    }
 
     public static onToggleSectionCollapsed(
         this: ActorItemListComponent,

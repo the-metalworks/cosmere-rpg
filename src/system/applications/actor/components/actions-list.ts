@@ -32,7 +32,6 @@ import { SortMode } from './search-bar';
 // Constants
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
-import { getSystemSetting, SETTINGS } from '@src/system/settings';
 
 export interface ActorActionsListComponentRenderContext
     extends BaseActorSheetRenderContext {
@@ -349,16 +348,8 @@ export class ActorActionsListComponent extends ActorItemListComponent {
         // Prepare sections
         this.sections = this.prepareSections();
 
-        // Ensure all sections have an expand state record defaulting to settings.expandSectionByDefault
-        const expandSectionDefaultSetting: boolean =
-            getSystemSetting(SETTINGS.SHEET_EXPAND_SECTIONS_DEFAULT) ?? true;
-        this.sections.forEach((section) => {
-            if (!(section.id in this.sectionState)) {
-                this.sectionState[section.id] = {
-                    expanded: expandSectionDefaultSetting,
-                };
-            }
-        });
+        // Set section expanded defaults
+        this.setSectionExpandedDefaults();
 
         // Prepare sections data
         const sectionsData = await this.prepareSectionsData(

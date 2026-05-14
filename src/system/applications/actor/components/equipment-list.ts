@@ -187,16 +187,8 @@ export class ActorEquipmentListComponent extends ActorItemListComponent {
             this.prepareSection(ItemType.Loot),
         ];
 
-        // Ensure all sections have an expand state record defaulting to settings.expandSectionByDefault
-        const expandSectionDefaultSetting: boolean =
-            getSystemSetting(SETTINGS.SHEET_EXPAND_SECTIONS_DEFAULT) ?? true;
-        this.sections.forEach((section) => {
-            if (!(section.id in this.sectionState)) {
-                this.sectionState[section.id] = {
-                    expanded: expandSectionDefaultSetting,
-                };
-            }
-        });
+        // Set section expanded defaults
+        this.setSectionExpandedDefaults();
 
         return {
             ...context,
