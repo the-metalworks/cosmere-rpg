@@ -1,15 +1,35 @@
 <ul class="item-list overrides">
     <li class="item header">
         <section class="details">
-            <span class="subtitle wide">
+            <span class="subtitle wide"
+                data-tooltip="COSMERE.Advancement.Override.Data.Levels.Description"
+            >
                 {{localize "COSMERE.Advancement.Override.Data.Levels.Label"}}
             </span>
-            <span class="subtitle wide">{{localize "COSMERE.Advancement.Override.Data.Type"}}</span>
-            <span class="subtitle wide">{{localize "COSMERE.Advancement.Override.Data.Mode"}}</span>
-            <span class="subtitle wide">{{localize "COSMERE.Advancement.Override.Data.Key"}}</span>
-            <span class="subtitle wide">{{localize "COSMERE.Advancement.Override.Data.Stat"}}</span>
-            <span class="subtitle">{{localize "COSMERE.Advancement.Override.Data.Value"}}</span>
-            <span class="subtitle">{{localize "COSMERE.Advancement.Override.Data.Priority"}}</span>
+            <span class="subtitle wide"
+                data-tooltip="COSMERE.Advancement.Override.Data.Type.Description"
+            >
+                {{localize "COSMERE.Advancement.Override.Data.Type.Label"}}
+            </span>
+            <span class="subtitle wide"
+                data-tooltip="COSMERE.Advancement.Override.Data.Mode.Description"
+            >
+                {{localize "COSMERE.Advancement.Override.Data.Mode.Label"}}
+            </span>
+            <span class="subtitle wide">
+                {{localize "COSMERE.Advancement.Override.Data.Key.Label"}}
+            </span>
+            <span class="subtitle wide">
+                {{localize "COSMERE.Advancement.Override.Data.Stat.Label"}}
+            </span>
+            <span class="subtitle">
+                {{localize "COSMERE.Advancement.Override.Data.Value.Label"}}
+            </span>
+            <span class="subtitle"
+                data-tooltip="COSMERE.Advancement.Override.Data.Priority.Description"
+            >
+                {{localize "COSMERE.Advancement.Override.Data.Priority.Label"}}
+            </span>
             <div class="controls icon active">
                 <a data-action="create-override"
                     data-tooltip="COSMERE.Sheet.Advancement.Overrides.Add"
@@ -25,16 +45,31 @@
         <section class="details">
             <div class="detail wide levels">
                 {{#if ../editable}}
-                <input class="override-input slim" type="number" name="levels.min" value={{override.levels.min}}>
+                <input class="override-input slim"
+                    type="number"
+                    name="levels.min"
+                    value="{{override.levels.min}}"
+                    placeholder={{localize "COSMERE.Advancement.Override.Data.Levels.Min.Label"}}
+                    data-tooltip="COSMERE.Advancement.Override.Data.Levels.Min.Description"
+                >
                 -
-                <input class="override-input slim" type="number" name="levels.max" value={{override.levels.max}}>
+                <input class="override-input slim"
+                    type="number"
+                    name="levels.max"
+                    value="{{override.levels.max}}"
+                    placeholder={{localize "COSMERE.Advancement.Override.Data.Levels.Max.Label"}}
+                    data-tooltip="COSMERE.Advancement.Override.Data.Levels.Max.Description"
+                >
                 {{else}}
                 {{advancementOverrideLevels override.levels}}
                 {{/if}}
             </div>
             <div class="detail wide">
                 {{#if ../editable}}
-                <select class="override-input" name="type">
+                <select class="override-input"
+                    name="type"
+                    data-tooltip="COSMERE.Advancement.Override.Type.{{override.type}}.Description"
+                >
                     {{selectOptions override.options.type selected=override.type localize=true}}
                 </select>
                 {{else}}
@@ -43,7 +78,10 @@
             </div>
             <div class="detail wide">
                 {{#if ../editable}}
-                <select class="override-input" name="mode">
+                <select class="override-input"
+                    name="mode"
+                    data-tooltip="COSMERE.Advancement.Override.Mode.{{override.mode}}.Description"
+                >
                     {{selectOptions override.options.mode selected=override.mode localize=true}}
                 </select>
                 {{else}}
@@ -52,7 +90,10 @@
             </div>
             <div class="detail wide">
                 {{#if ../editable}}
-                <select class="override-input" name="key" data-tooltip="COSMERE.Advancement.Override.Field.{{override.type}}.{{override.key}}.Description">
+                <select class="override-input"
+                    name="key"
+                    data-tooltip="COSMERE.Advancement.Override.Field.{{override.type}}.{{override.key}}.Description"
+                >
                     {{selectOptions override.options.key selected=override.key localize=true}}
                 </select>
                 {{else}}
@@ -62,7 +103,12 @@
             <div class="detail wide">
                 {{#if (eq override.type "max-stat")}}
                     {{#if ../editable}}
-                    <select class="override-input" name="stat">
+                    <select class="override-input"
+                        name="stat"
+                        {{#if (eq override.stat "base")}}
+                        data-tooltip="COSMERE.Advancement.Override.Stat.base.Description"
+                        {{/if}}
+                    >
                         {{selectOptions override.options.stat selected=override.stat localize=true}}
                     </select>
                     {{else}}

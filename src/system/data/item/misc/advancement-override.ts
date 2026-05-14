@@ -51,7 +51,7 @@ const SCHEMA = () => ({
     }),
     stat: new foundry.data.fields.StringField({
         required: false,
-        choices: ([] as string[])
+        choices: ['base']
             .concat(Object.keys(CONFIG.COSMERE.attributes))
             .concat(Object.keys(CONFIG.COSMERE.skills)),
     }),
