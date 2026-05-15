@@ -137,6 +137,9 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
             .filter(section.filter)
             .filter((i) => i.name.toLowerCase().includes(searchText));
 
+        // Prepare "Is section empty" data
+        this.sectionState[section.id].hasItems = sectionItems.length > 0;
+
         if (sort === SortMode.Alphabetic) {
             sectionItems = sectionItems.sort(
                 (a, b) => a.name.compare(b.name) * -1,
