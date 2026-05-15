@@ -16,6 +16,7 @@ Minor release which includes a few new features and some non-breaking changes to
 ##### 🐛 Bug Fixes
 
 * Derived values no longer become NaN upon stats exceeding 10 using active effects ([#684](https://github.com/the-metalworks/cosmere-rpg/issues/684))
+* Weapon range fields now appear as expected when selecting attack type ([#705](https://github.com/the-metalworks/cosmere-rpg/issues/705))
 * Grant Items handler on event rules can now scroll when necessary ([#713](https://github.com/the-metalworks/cosmere-rpg/issues/713))
 
 — **Team Metalworks**
