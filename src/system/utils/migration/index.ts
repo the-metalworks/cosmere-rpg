@@ -7,11 +7,16 @@ import { GlobalUI } from '@system/types/utils';
 // Migrations
 import MIGRATE_0_2__0_3 from './migrations/0.2-0.3';
 import MIGRATE_0_3__1_0 from './migrations/0.3-1.0';
+import MIGRATE_1_0__1_1 from './migrations/1.0-1.1';
 
 // Constants
 import { HOOKS } from '@system/constants/hooks';
 import { EventSystem } from '@src/system/hooks/item-event-system';
-const MIGRATIONS: Migration[] = [MIGRATE_0_2__0_3, MIGRATE_0_3__1_0];
+const MIGRATIONS: Migration[] = [
+    MIGRATE_0_2__0_3,
+    MIGRATE_0_3__1_0,
+    MIGRATE_1_0__1_1,
+];
 
 /**
  * Check if the world requires migration between the two version
