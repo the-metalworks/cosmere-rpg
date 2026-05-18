@@ -23,7 +23,9 @@ interface FormDataObject {
     expertises: Record<ExpertiseType, Expertise>;
 }
 
-export class EruditionDialog extends HandlebarsApplicationMixin(foundry.applications.api.ApplicationV2)<AnyObject> {
+export class EruditionDialog extends HandlebarsApplicationMixin(
+    foundry.applications.api.ApplicationV2,
+)<AnyObject> {
     static DEFAULT_OPTIONS = {
         window: {
             minimizable: false,
@@ -34,14 +36,15 @@ export class EruditionDialog extends HandlebarsApplicationMixin(foundry.applicat
         tag: 'dialog',
         position: {
             width: 500,
-        }
+        },
     };
 
     static PARTS = {
-        'form': {
+        form: {
             template: `modules/cosmere-rpg-stormlight-handbook/templates/dialogs/erudition.hbs`,
             forms: {
                 form: {
+                    // eslint-disable-next-line @typescript-eslint/unbound-method
                     handler: this.onFormEvent,
                     submitOnChange: true,
                     closeOnSubmit: false,
@@ -63,35 +66,43 @@ export class EruditionDialog extends HandlebarsApplicationMixin(foundry.applicat
         super({
             id: `${actor.uuid}.talent.erudition.dialog`,
             window: {
-                title: game.i18n!.format(
+                title: game.i18n.format(
                     'COSMERE.Macro.Talents.Erudition.Dialog.Title',
                     {
                         actor: actor.name,
-                    }
-                )
-            }
+                    },
+                ),
+            },
         });
 
         const attributeGroups = this.config.skills.groups;
-        const attributes = attributeGroups.flatMap(group => CONFIG.COSMERE.attributeGroups[group]?.attributes || []);
-        this.availableSkills = attributes.flatMap(attrId => CONFIG.COSMERE.attributes[attrId].skills || [])
-            .filter(skill => CONFIG.COSMERE.skills[skill]?.core);
+        const attributes = attributeGroups.flatMap(
+            (group) => CONFIG.COSMERE.attributeGroups[group]?.attributes || [],
+        );
+        this.availableSkills = attributes
+            .flatMap((attrId) => CONFIG.COSMERE.attributes[attrId].skills || [])
+            .filter((skill) => CONFIG.COSMERE.skills[skill]?.core);
     }
 
     /* --- Statics --- */
 
-    public static show(config: EruditionDialogConfig): Promise<EruditionDialogSelections | null> {
+    public static show(
+        config: EruditionDialogConfig,
+    ): Promise<EruditionDialogSelections | null> {
         const selections: EruditionDialogSelections = {
             skills: config.selected.skills,
             expertises: config.selected.expertises
-                .map(exp => config.actor.system.expertises?.[exp.id] as Expertise)
+                .map(
+                    (exp) =>
+                        config.actor.system.expertises?.[exp.id] as Expertise,
+                )
                 .filter(Boolean)
-                .map(exp => ({
-                    type: exp!.type,
-                    id: exp!.id,
-                    label: exp!.label,
-                    custom: exp!.isCustom,
-                })) as PickedExpertise[]
+                .map((exp) => ({
+                    type: exp.type,
+                    id: exp.id,
+                    label: exp.label,
+                    custom: exp.isCustom,
+                })) as PickedExpertise[],
         };
 
         return new Promise((resolve) => {
@@ -99,7 +110,7 @@ export class EruditionDialog extends HandlebarsApplicationMixin(foundry.applicat
                 config.actor,
                 foundry.utils.deepClone(config.config),
                 foundry.utils.deepClone(selections),
-                resolve
+                resolve,
             );
             void dialog.render(true);
         });
@@ -113,22 +124,28 @@ export class EruditionDialog extends HandlebarsApplicationMixin(foundry.applicat
         form: HTMLFormElement,
         formData: FormDataExtended,
     ) {
-        const data = foundry.utils.expandObject(formData.object) as FormDataObject;
+        const data = foundry.utils.expandObject(
+            formData.object,
+        ) as FormDataObject;
         const skills = Object.values(data.skills) as Skill[];
-        const expertises = Object.values(data.expertises || {})
-            .map(exp => ({
-                type: exp.type,
-                id: exp.id, // Either the id or 'custom' for custom expertises
-                label: exp.label,
-                custom: exp.id === 'custom',
-                trueId: exp.id !== 'custom' ? exp.id : exp.label?.toLowerCase() ?? '<custom>'
-            }));
+        const expertises = Object.values(data.expertises || {}).map((exp) => ({
+            type: exp.type,
+            id: exp.id, // Either the id or 'custom' for custom expertises
+            label: exp.label,
+            custom: exp.id === 'custom',
+            trueId:
+                exp.id !== 'custom'
+                    ? exp.id
+                    : (exp.label?.toLowerCase() ?? '<custom>'),
+        }));
 
         // For each expertise, ensure the id is set correctly
-        for (const exp of expertises.filter(exp => !exp.custom)) {
-             // Look up the configured expertises for the type
-            const registryKey = CONFIG.COSMERE.expertiseTypes[exp.type].configRegistryKey as PropertyKey;
-            const configuredExpertises = foundry.utils.getProperty(CONFIG.COSMERE, registryKey) || {};
+        for (const exp of expertises.filter((exp) => !exp.custom)) {
+            // Look up the configured expertises for the type
+            const registryKey = CONFIG.COSMERE.expertiseTypes[exp.type]
+                .configRegistryKey as PropertyKey;
+            const configuredExpertises =
+                foundry.utils.getProperty(CONFIG.COSMERE, registryKey) || {};
 
             if (!foundry.utils.hasProperty(configuredExpertises, exp.id)) {
                 exp.custom = true; // Mark as custom if the id is not found
@@ -138,10 +155,12 @@ export class EruditionDialog extends HandlebarsApplicationMixin(foundry.applicat
         }
 
         // For each custom expertise, ensure it is valid
-        for (const exp of expertises.filter(exp => exp.custom)) {
+        for (const exp of expertises.filter((exp) => exp.custom)) {
             // Look up the configured expertises for the type
-            const registryKey = CONFIG.COSMERE.expertiseTypes[exp.type].configRegistryKey as PropertyKey;
-            const configuredExpertises = foundry.utils.getProperty(CONFIG.COSMERE, registryKey) || {};
+            const registryKey = CONFIG.COSMERE.expertiseTypes[exp.type]
+                .configRegistryKey as PropertyKey;
+            const configuredExpertises =
+                foundry.utils.getProperty(CONFIG.COSMERE, registryKey) || {};
 
             if (foundry.utils.hasProperty(configuredExpertises, exp.trueId)) {
                 exp.id = exp.trueId;
@@ -160,30 +179,43 @@ export class EruditionDialog extends HandlebarsApplicationMixin(foundry.applicat
             // Ensure the skills are unique
             const uniqueSkills = new Set(skills);
             if (uniqueSkills.size !== skills.length) {
-                ui.notifications.warn(game.i18n!.localize('COSMERE.Macro.Talents.Erudition.Dialog.Warn.UniqueSkills'));
+                ui.notifications.warn(
+                    game.i18n.localize(
+                        'COSMERE.Macro.Talents.Erudition.Dialog.Warn.UniqueSkills',
+                    ),
+                );
                 return;
             }
 
             // Ensure the expertises are unique
-            const uniqueExpertises = new Set(expertises.map(exp => `${exp.type}:${exp.trueId}`));
+            const uniqueExpertises = new Set(
+                expertises.map((exp) => `${exp.type}:${exp.trueId}`),
+            );
             if (uniqueExpertises.size !== expertises.length) {
-                ui.notifications.warn(game.i18n!.localize('COSMERE.Macro.Talents.Erudition.Dialog.Warn.UniqueExpertises'));
+                ui.notifications.warn(
+                    game.i18n.localize(
+                        'COSMERE.Macro.Talents.Erudition.Dialog.Warn.UniqueExpertises',
+                    ),
+                );
                 return;
             }
 
             // Resolve
             this.resolve({
                 skills: skills,
-                expertises: expertises.map(exp => ({
-                    id: exp.custom ? exp.trueId : exp.id,
-                    type: exp.type,
-                    label: exp.custom ? exp.label : undefined,
-                    custom: exp.custom,
-                    locked: true
-                } as PickedExpertise))
+                expertises: expertises.map(
+                    (exp) =>
+                        ({
+                            id: exp.custom ? exp.trueId : exp.id,
+                            type: exp.type,
+                            label: exp.custom ? exp.label : undefined,
+                            custom: exp.custom,
+                            locked: true,
+                        }) as PickedExpertise,
+                ),
             });
 
-            // Mark submitted 
+            // Mark submitted
             this.submitted = true;
 
             // Close
@@ -200,8 +232,7 @@ export class EruditionDialog extends HandlebarsApplicationMixin(foundry.applicat
     }
 
     protected _onClose() {
-        if (!this.submitted)
-            this.resolve(null);
+        if (!this.submitted) this.resolve(null);
     }
 
     /* --- Context --- */
@@ -218,40 +249,59 @@ export class EruditionDialog extends HandlebarsApplicationMixin(foundry.applicat
                 const skillConfig = CONFIG.COSMERE.skills[skillId as Skill];
                 return {
                     ...acc,
-                    [skillId]: skillConfig.label
-                }
-            }, {}),
-            expertiseTypeSelectOptions: this.config.expertises.types.reduce((acc, type) => {
-                const expertiseTypeConfig = CONFIG.COSMERE.expertiseTypes[type];
-
-                return {
-                    ...acc,
-                    [type]: expertiseTypeConfig.label
+                    [skillId]: skillConfig.label,
                 };
             }, {}),
-            expertiseIdSelectOptionsByType: this.config.expertises.types.reduce((acc, type) => {
-                const expertiseTypeConfig = CONFIG.COSMERE.expertiseTypes[type];
-                const registryKey = expertiseTypeConfig.configRegistryKey  as PropertyKey;
+            expertiseTypeSelectOptions: this.config.expertises.types.reduce(
+                (acc, type) => {
+                    const expertiseTypeConfig =
+                        CONFIG.COSMERE.expertiseTypes[type];
 
-                // Look up the expertises registered for this type
-                const expertises = (foundry.utils.getProperty(CONFIG.COSMERE, registryKey) || {}) as Record<string, Expertise>;
-                const selectOptions = {
-                    ...Object.entries(expertises)
-                        .filter(([id]) => !this.actor.hasExpertise(type, id) || this.selections.expertises.some(exp => exp.id === id && exp.type === type))
-                        .reduce((acc, [id, expConfig]) => {
-                            return {
-                                ...acc,
-                                [id]: expConfig.label || id
-                            };
-                        }, {}),
-                    'custom': 'GENERIC.Custom'
-                };
+                    return {
+                        ...acc,
+                        [type]: expertiseTypeConfig.label,
+                    };
+                },
+                {},
+            ),
+            expertiseIdSelectOptionsByType: this.config.expertises.types.reduce(
+                (acc, type) => {
+                    const expertiseTypeConfig =
+                        CONFIG.COSMERE.expertiseTypes[type];
+                    const registryKey =
+                        expertiseTypeConfig.configRegistryKey as PropertyKey;
 
-                return {
-                    ...acc,
-                    [type]: selectOptions
-                };
-            }, {}),
+                    // Look up the expertises registered for this type
+                    const expertises = (foundry.utils.getProperty(
+                        CONFIG.COSMERE,
+                        registryKey,
+                    ) || {}) as Record<string, Expertise>;
+                    const selectOptions = {
+                        ...Object.entries(expertises)
+                            .filter(
+                                ([id]) =>
+                                    !this.actor.hasExpertise(type, id) ||
+                                    this.selections.expertises.some(
+                                        (exp) =>
+                                            exp.id === id && exp.type === type,
+                                    ),
+                            )
+                            .reduce((acc, [id, expConfig]) => {
+                                return {
+                                    ...acc,
+                                    [id]: expConfig.label ?? id,
+                                };
+                            }, {}),
+                        custom: 'GENERIC.Custom',
+                    };
+
+                    return {
+                        ...acc,
+                        [type]: selectOptions,
+                    };
+                },
+                {},
+            ),
             defaultExpertise: {
                 type: this.config.expertises.types[0],
             },
