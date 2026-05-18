@@ -8,7 +8,7 @@ import { EruditionConfig, EruditionSelections, PickedExpertise } from './types';
 import { SYSTEM_ID } from '@module/constants';
 
 // Define constants for flag keys
-const FLAGS = {
+export const FLAGS = {
     SKILLS_COUNT: "talent.erudition.skills.count",
     SKILLS_GROUPS: "talent.erudition.skills.groups",
     SKILLS_INCREASE: "talent.erudition.skills.increase",
@@ -292,21 +292,4 @@ function deselectExpertise(actor: CosmereActor, compositeId: string) {
         [`flags.${SYSTEM_ID}.${FLAGS.EXPERTISES_SELECTED}`]: updatedExpertises,
         [`system.expertises.-=${compositeId}`]: {}
     });
-}
-
-declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
-    interface FlagConfig {
-        Actor: {
-            [SYSTEM_ID]: {
-                [FLAGS.SKILLS_COUNT]: number;
-                [FLAGS.SKILLS_GROUPS]: string[];
-                [FLAGS.SKILLS_INCREASE]: number;
-                [FLAGS.SKILLS_SELECTED]: string[];
-                [FLAGS.EXPERTISES_COUNT]: number;
-                [FLAGS.EXPERTISES_TYPES]: string[];
-                [FLAGS.EXPERTISES_SELECTED]: string[];
-                [key: `skills.${string}.temporaryRanks`]: number;
-            };
-        };
-    }
 }
