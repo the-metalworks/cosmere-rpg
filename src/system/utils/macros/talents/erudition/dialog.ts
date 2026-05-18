@@ -1,5 +1,9 @@
 // Types
+import { CosmereActor } from '@src/system/documents/actor';
 import { EruditionConfig, EruditionSelections, PickedExpertise } from './types';
+import { Expertise } from '@src/system/data/actor/common';
+import { ExpertiseType, Skill } from '@src/system/types/cosmere';
+import { AnyObject } from '@league-of-foundry-developers/foundry-vtt-types/utils';
 
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 
@@ -10,16 +14,16 @@ export interface EruditionDialogConfig {
 }
 
 interface EruditionDialogSelections {
-    skills: string[];
+    skills: Skill[];
     expertises: PickedExpertise[];
 }
 
 interface FormDataObject {
-    skills: { [index: string]: string };
-    expertises: { [index: string]: { type: string, id: string, label?: string } };
+    skills: Skill;
+    expertises: Record<ExpertiseType, Expertise>;
 }
 
-export class EruditionDialog extends HandlebarsApplicationMixin(foundry.applications.api.ApplicationV2)<any> {
+export class EruditionDialog extends HandlebarsApplicationMixin(foundry.applications.api.ApplicationV2)<AnyObject> {
     static DEFAULT_OPTIONS = {
         window: {
             minimizable: false,
@@ -80,7 +84,7 @@ export class EruditionDialog extends HandlebarsApplicationMixin(foundry.applicat
         const selections: EruditionDialogSelections = {
             skills: config.selected.skills,
             expertises: config.selected.expertises
-                .map(exp => config.actor.system.expertises?.[exp])
+                .map(exp => config.actor.system.expertises?.[exp.id] as Expertise)
                 .filter(Boolean)
                 .map(exp => ({
                     type: exp!.type,
@@ -110,7 +114,7 @@ export class EruditionDialog extends HandlebarsApplicationMixin(foundry.applicat
         formData: FormDataExtended,
     ) {
         const data = foundry.utils.expandObject(formData.object) as FormDataObject;
-        const skills = Object.values(data.skills);
+        const skills = Object.values(data.skills) as Skill[];
         const expertises = Object.values(data.expertises || {})
             .map(exp => ({
                 type: exp.type,
@@ -123,7 +127,7 @@ export class EruditionDialog extends HandlebarsApplicationMixin(foundry.applicat
         // For each expertise, ensure the id is set correctly
         for (const exp of expertises.filter(exp => !exp.custom)) {
              // Look up the configured expertises for the type
-            const registryKey = CONFIG.COSMERE.expertiseTypes[exp.type].configRegistryKey;
+            const registryKey = CONFIG.COSMERE.expertiseTypes[exp.type].configRegistryKey as PropertyKey;
             const configuredExpertises = foundry.utils.getProperty(CONFIG.COSMERE, registryKey) || {};
 
             if (!foundry.utils.hasProperty(configuredExpertises, exp.id)) {
@@ -136,7 +140,7 @@ export class EruditionDialog extends HandlebarsApplicationMixin(foundry.applicat
         // For each custom expertise, ensure it is valid
         for (const exp of expertises.filter(exp => exp.custom)) {
             // Look up the configured expertises for the type
-            const registryKey = CONFIG.COSMERE.expertiseTypes[exp.type].configRegistryKey;
+            const registryKey = CONFIG.COSMERE.expertiseTypes[exp.type].configRegistryKey as PropertyKey;
             const configuredExpertises = foundry.utils.getProperty(CONFIG.COSMERE, registryKey) || {};
 
             if (foundry.utils.hasProperty(configuredExpertises, exp.trueId)) {
@@ -148,7 +152,7 @@ export class EruditionDialog extends HandlebarsApplicationMixin(foundry.applicat
         if (!(event instanceof SubmitEvent)) {
             // assign the skills and expertises to the selections
             this.selections.skills = skills;
-            this.selections.expertises = expertises;
+            this.selections.expertises = expertises as PickedExpertise[];
 
             // Re-render the dialog
             void this.render(true);
@@ -176,7 +180,7 @@ export class EruditionDialog extends HandlebarsApplicationMixin(foundry.applicat
                     label: exp.custom ? exp.label : undefined,
                     custom: exp.custom,
                     locked: true
-                }))
+                } as PickedExpertise))
             });
 
             // Mark submitted 
@@ -189,7 +193,7 @@ export class EruditionDialog extends HandlebarsApplicationMixin(foundry.applicat
 
     /* --- Lifecycle --- */
 
-    protected async _onRender(context: any, options: any) {
+    protected async _onRender(context: AnyObject, options: AnyObject) {
         await super._onRender(context, options);
 
         $(this.element).prop('open', true);
@@ -202,6 +206,8 @@ export class EruditionDialog extends HandlebarsApplicationMixin(foundry.applicat
 
     /* --- Context --- */
 
+    // Disabled this rule because AnyObject is not allowed to be passed to super._prepareContext
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected async _prepareContext(options: any) {
         return {
             ...(await super._prepareContext(options)),
@@ -209,7 +215,7 @@ export class EruditionDialog extends HandlebarsApplicationMixin(foundry.applicat
             config: this.config,
             selections: this.selections,
             skillSelectOptions: this.availableSkills.reduce((acc, skillId) => {
-                const skillConfig = CONFIG.COSMERE.skills[skillId];
+                const skillConfig = CONFIG.COSMERE.skills[skillId as Skill];
                 return {
                     ...acc,
                     [skillId]: skillConfig.label
@@ -225,10 +231,10 @@ export class EruditionDialog extends HandlebarsApplicationMixin(foundry.applicat
             }, {}),
             expertiseIdSelectOptionsByType: this.config.expertises.types.reduce((acc, type) => {
                 const expertiseTypeConfig = CONFIG.COSMERE.expertiseTypes[type];
-                const registryKey = expertiseTypeConfig.configRegistryKey;
+                const registryKey = expertiseTypeConfig.configRegistryKey  as PropertyKey;
 
                 // Look up the expertises registered for this type
-                const expertises = (foundry.utils.getProperty(CONFIG.COSMERE, registryKey) || {}) as Record<string, any>;
+                const expertises = (foundry.utils.getProperty(CONFIG.COSMERE, registryKey) || {}) as Record<string, Expertise>;
                 const selectOptions = {
                     ...Object.entries(expertises)
                         .filter(([id]) => !this.actor.hasExpertise(type, id) || this.selections.expertises.some(exp => exp.id === id && exp.type === type))

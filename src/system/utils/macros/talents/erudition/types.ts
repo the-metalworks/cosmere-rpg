@@ -1,22 +1,25 @@
+import { Expertise } from '@src/system/data/actor/common';
+import { AttributeGroup, ExpertiseType, Skill } from '@src/system/types/cosmere';
+
 export interface EruditionConfig {
     skills: {
         count: number;
-        groups: string[];
+        groups: AttributeGroup[];
     };
     expertises: {
         count: number;
-        types: string[];
+        types: ExpertiseType[];
     };
 };
 
 export interface EruditionSelections {
-    skills: string[];
-    expertises: string[];
+    skills: Skill[];
+    expertises: Expertise[];
 }
 
 export interface PickedExpertise {
     id: string;
-    type: string;
+    type: ExpertiseType;
     label?: string;
     custom?: boolean;
 }

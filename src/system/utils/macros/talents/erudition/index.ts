@@ -1,11 +1,14 @@
 // Dialog
+import { Expertise } from '@src/system/data/actor/common';
 import { EruditionDialog } from './dialog';
 
 // Types
 import { EruditionConfig, EruditionSelections, PickedExpertise } from './types';
+import { CosmereActor } from '@src/system/documents';
+import { AttributeGroup, ExpertiseType, Skill } from '@src/system/types/cosmere';
 
 // Constants
-import { SYSTEM_ID } from '@module/constants';
+import { SYSTEM_ID } from '@system/constants';
 
 // Define constants for flag keys
 export const FLAGS = {
@@ -19,15 +22,11 @@ export const FLAGS = {
 } as const;
 
 const DEFAULT_SKILLS_COUNT = 2;
-const DEFAULT_SKILLS_ATTRIBUTE_GROUPS = ["cog"];
+const DEFAULT_SKILLS_ATTRIBUTE_GROUPS = ["cog"] as AttributeGroup[];
 const DEFAULT_SKILLS_INCREASE = 1; // Default increase for skills
 const DEFAULT_EXPERTISES_COUNT = 1;
-const DEFAULT_EXPERTISES_TYPES = ["cultural", "utility"];
+const DEFAULT_EXPERTISES_TYPES = ["cultural", "utility"] as ExpertiseType[];
 
-interface AttributeGroup {
-    key: string;
-    attributes: string[];
-}
 
 /**
  * Applies the effects of a long rest for the Erudition talent.
@@ -92,7 +91,7 @@ export async function validate(actor: CosmereActor) {
     }
 
     // Find all selected expertises that are no longer valid
-    const invalidExpertises = selections.expertises.filter(expertiseId => !config.expertises.types.includes(expertiseId.split(':')[0]));
+    const invalidExpertises = selections.expertises.filter(expertiseId => !config.expertises.types.includes(expertiseId.type));
 
     // Deselect invalid expertises
     for (const expId of invalidExpertises) {
@@ -112,7 +111,7 @@ export async function validate(actor: CosmereActor) {
 }
 
 export async function modifySkillsCount(actor: CosmereActor, amount: number) {
-    const currentCount = actor.getFlag(SYSTEM_ID, FLAGS.SKILLS_COUNT) || DEFAULT_SKILLS_COUNT;
+    const currentCount = actor.getFlag(SYSTEM_ID, FLAGS.SKILLS_COUNT) as number ?? DEFAULT_SKILLS_COUNT;
     await actor.setFlag(SYSTEM_ID, FLAGS.SKILLS_COUNT, currentCount + amount);
 
     // Validate the selections after modifying the count
@@ -120,15 +119,15 @@ export async function modifySkillsCount(actor: CosmereActor, amount: number) {
 }
 
 export async function modifyExpertisesCount(actor: CosmereActor, amount: number) {
-    const currentCount = actor.getFlag(SYSTEM_ID, FLAGS.EXPERTISES_COUNT) || DEFAULT_EXPERTISES_COUNT;
+    const currentCount = actor.getFlag(SYSTEM_ID, FLAGS.EXPERTISES_COUNT) as number ?? DEFAULT_EXPERTISES_COUNT;
     await actor.setFlag(SYSTEM_ID, FLAGS.EXPERTISES_COUNT, currentCount + amount);
 
     // Validate the selections after modifying the count
     await validate(actor);
 }
 
-export async function addSkillsAttributeGroup(actor: CosmereActor, key: string) {
-    const currentGroups = actor.getFlag(SYSTEM_ID, FLAGS.SKILLS_GROUPS) || DEFAULT_SKILLS_ATTRIBUTE_GROUPS;
+export async function addSkillsAttributeGroup(actor: CosmereActor, key: AttributeGroup) {
+    const currentGroups = actor.getFlag(SYSTEM_ID, FLAGS.SKILLS_GROUPS) as AttributeGroup[] || DEFAULT_SKILLS_ATTRIBUTE_GROUPS;
     if (!currentGroups.includes(key)) {
         await actor.setFlag(SYSTEM_ID, FLAGS.SKILLS_GROUPS, [...currentGroups, key]);
     }
@@ -137,8 +136,8 @@ export async function addSkillsAttributeGroup(actor: CosmereActor, key: string) 
     await validate(actor);
 }
 
-export async function removeSkillsAttributeGroup(actor: CosmereActor, key: string) {
-    const currentGroups: string[] = actor.getFlag(SYSTEM_ID, FLAGS.SKILLS_GROUPS) || DEFAULT_SKILLS_ATTRIBUTE_GROUPS;
+export async function removeSkillsAttributeGroup(actor: CosmereActor, key: AttributeGroup) {
+    const currentGroups: AttributeGroup[] = actor.getFlag(SYSTEM_ID, FLAGS.SKILLS_GROUPS) as AttributeGroup[] || DEFAULT_SKILLS_ATTRIBUTE_GROUPS;
     if (currentGroups.includes(key)) {
         await actor.setFlag(SYSTEM_ID, FLAGS.SKILLS_GROUPS, currentGroups.filter(g => g !== key));
     }
@@ -147,8 +146,8 @@ export async function removeSkillsAttributeGroup(actor: CosmereActor, key: strin
     await validate(actor);
 }
 
-export async function addExpertisesType(actor: CosmereActor, type: string) {
-    const currentTypes = actor.getFlag(SYSTEM_ID, FLAGS.EXPERTISES_TYPES) || DEFAULT_EXPERTISES_TYPES;
+export async function addExpertisesType(actor: CosmereActor, type: ExpertiseType) {
+    const currentTypes = actor.getFlag(SYSTEM_ID, FLAGS.EXPERTISES_TYPES) as ExpertiseType[] || DEFAULT_EXPERTISES_TYPES;
     if (!currentTypes.includes(type)) {
         await actor.setFlag(SYSTEM_ID, FLAGS.EXPERTISES_TYPES, [...currentTypes, type]);
     }
@@ -157,8 +156,8 @@ export async function addExpertisesType(actor: CosmereActor, type: string) {
     await validate(actor);
 }
 
-export async function removeExpertisesType(actor: CosmereActor, type: string) {
-    const currentTypes: string[] = actor.getFlag(SYSTEM_ID, FLAGS.EXPERTISES_TYPES) || DEFAULT_EXPERTISES_TYPES;
+export async function removeExpertisesType(actor: CosmereActor, type: ExpertiseType) {
+    const currentTypes: ExpertiseType[] = actor.getFlag(SYSTEM_ID, FLAGS.EXPERTISES_TYPES) as ExpertiseType[] || DEFAULT_EXPERTISES_TYPES;
     if (currentTypes.includes(type)) {
         await actor.setFlag(SYSTEM_ID, FLAGS.EXPERTISES_TYPES, currentTypes.filter(t => t !== type));
     }
@@ -175,19 +174,19 @@ export async function removeExpertisesType(actor: CosmereActor, type: string) {
 function getConfig(actor: CosmereActor): EruditionConfig {
     return {
         skills: {
-            count: actor.getFlag(SYSTEM_ID, FLAGS.SKILLS_COUNT) || DEFAULT_SKILLS_COUNT,
-            groups: actor.getFlag(SYSTEM_ID, FLAGS.SKILLS_GROUPS) || DEFAULT_SKILLS_ATTRIBUTE_GROUPS
+            count: actor.getFlag(SYSTEM_ID, FLAGS.SKILLS_COUNT) as number ?? DEFAULT_SKILLS_COUNT,
+            groups: actor.getFlag(SYSTEM_ID, FLAGS.SKILLS_GROUPS) as AttributeGroup[] || DEFAULT_SKILLS_ATTRIBUTE_GROUPS
         },
         expertises: {
-            count: actor.getFlag(SYSTEM_ID, FLAGS.EXPERTISES_COUNT) || DEFAULT_EXPERTISES_COUNT,
-            types: actor.getFlag(SYSTEM_ID, FLAGS.EXPERTISES_TYPES) || DEFAULT_EXPERTISES_TYPES
+            count: actor.getFlag(SYSTEM_ID, FLAGS.EXPERTISES_COUNT) as number ?? DEFAULT_EXPERTISES_COUNT,
+            types: actor.getFlag(SYSTEM_ID, FLAGS.EXPERTISES_TYPES) as ExpertiseType[] || DEFAULT_EXPERTISES_TYPES
         }
     };
 }
 
 function getValidSkills(actor: CosmereActor): string[] {
-    const attributeGroups: string[] = actor.getFlag(SYSTEM_ID, FLAGS.SKILLS_GROUPS) || DEFAULT_SKILLS_ATTRIBUTE_GROUPS;
-    return (Object.values(CONFIG.COSMERE.attributeGroups) as AttributeGroup[])
+    const attributeGroups: string[] = actor.getFlag(SYSTEM_ID, FLAGS.SKILLS_GROUPS) as AttributeGroup[] || DEFAULT_SKILLS_ATTRIBUTE_GROUPS;
+    return Object.values(CONFIG.COSMERE.attributeGroups)
         .filter(group => attributeGroups.includes(group.key))
         .flatMap(group => group.attributes)
         .flatMap(attrId => CONFIG.COSMERE.attributes[attrId].skills) as string[];
@@ -198,8 +197,8 @@ function getValidSkills(actor: CosmereActor): string[] {
  */
 function getSelections(actor: CosmereActor): EruditionSelections {
     return {
-        skills: actor.getFlag(SYSTEM_ID, FLAGS.SKILLS_SELECTED) || [],
-        expertises: actor.getFlag(SYSTEM_ID, FLAGS.EXPERTISES_SELECTED) || []
+        skills: actor.getFlag(SYSTEM_ID, FLAGS.SKILLS_SELECTED) as Skill[] || [],
+        expertises: actor.getFlag(SYSTEM_ID, FLAGS.EXPERTISES_SELECTED) as Expertise[] || []
     };
 }
 
@@ -217,12 +216,12 @@ async function clearSelections(actor: CosmereActor) {
     }
 }
 
-function selectSkill(actor: CosmereActor, skillId: string) {
+function selectSkill(actor: CosmereActor, skillId: Skill) {
     // Get current selections
     const selections = getSelections(actor);
 
     // Get amount to increase by
-    const increaseAmount = actor.getFlag(SYSTEM_ID, FLAGS.SKILLS_INCREASE) || DEFAULT_SKILLS_INCREASE;
+    const increaseAmount = actor.getFlag(SYSTEM_ID, FLAGS.SKILLS_INCREASE) as number || DEFAULT_SKILLS_INCREASE;
 
     return actor.update({
         [`flags.${SYSTEM_ID}.${FLAGS.SKILLS_SELECTED}`]: [...selections.skills, skillId],
@@ -231,7 +230,7 @@ function selectSkill(actor: CosmereActor, skillId: string) {
     });
 }
 
-function deselectSkill(actor: CosmereActor, skillId: string) {
+function deselectSkill(actor: CosmereActor, skillId: Skill) {
     // Get current selections
     const selections = getSelections(actor);
 
@@ -243,7 +242,7 @@ function deselectSkill(actor: CosmereActor, skillId: string) {
     const updatedSkills = selections.skills.filter(id => id !== skillId);
 
     // Get the amount of temporary ranks to reset
-    const temporaryRanks = actor.getFlag(SYSTEM_ID, `skills.${skillId}.temporaryRanks`) || 0;
+    const temporaryRanks = actor.getFlag(SYSTEM_ID, `skills.${skillId}.temporaryRanks`) as number || 0;
 
     // Update actor with new selections
     return actor.update({
@@ -261,7 +260,7 @@ function selectExpertise(actor: CosmereActor, compositeId: string, label?: strin
     const [type, id] = compositeId.split(':');
 
     // Ensure the expertise is not already selected
-    if (selections.expertises.includes(compositeId)) 
+    if (selections.expertises.find(exp => exp.key === compositeId)) 
         return Promise.resolve();
 
     // Update actor with new selections
@@ -276,7 +275,7 @@ function selectExpertise(actor: CosmereActor, compositeId: string, label?: strin
     });
 }
 
-function deselectExpertise(actor: CosmereActor, compositeId: string) {
+function deselectExpertise(actor: CosmereActor, compositeId: Expertise) {
     // Get current selections
     const selections = getSelections(actor);
 
@@ -290,6 +289,6 @@ function deselectExpertise(actor: CosmereActor, compositeId: string) {
     // Update actor with new selections
     return actor.update({
         [`flags.${SYSTEM_ID}.${FLAGS.EXPERTISES_SELECTED}`]: updatedExpertises,
-        [`system.expertises.-=${compositeId}`]: {}
+        [`system.expertises.-=${compositeId.id}`]: {}
     });
 }
