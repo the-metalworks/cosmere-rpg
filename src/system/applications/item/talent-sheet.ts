@@ -1,4 +1,3 @@
-import { Talent } from '@system/types/item';
 import { TalentItem } from '@system/documents/item';
 import { DeepPartial } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
@@ -10,11 +9,6 @@ import { BaseItemSheet } from './base';
 export class TalentItemSheet extends BaseItemSheet {
     declare item: TalentItem;
 
-    /**
-     * NOTE: Unbound methods is the standard for defining actions and forms
-     * within ApplicationV2
-     */
-    /* eslint-disable @typescript-eslint/unbound-method */
     static DEFAULT_OPTIONS = {
         classes: [SYSTEM_ID, 'sheet', 'item', 'talent'],
         position: {
@@ -24,11 +18,7 @@ export class TalentItemSheet extends BaseItemSheet {
             resizable: false,
             positioned: true,
         },
-        form: {
-            handler: this.onFormEvent,
-        },
     };
-    /* eslint-enable @typescript-eslint/unbound-method */
 
     static TABS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.TABS),
@@ -50,24 +40,6 @@ export class TalentItemSheet extends BaseItemSheet {
         },
     );
 
-    /* --- Form --- */
-
-    protected static async onFormEvent(
-        this: TalentItemSheet,
-        event: Event,
-        form: HTMLFormElement,
-        formData: FormDataExtended,
-    ) {
-        if (
-            'system.path' in formData.object &&
-            formData.object['system.path'] === ''
-        )
-            formData.set('system.path', null);
-
-        // Invoke super
-        await super.onFormEvent(event, form, formData);
-    }
-
     /* --- Context --- */
 
     public async _prepareContext(
@@ -75,9 +47,6 @@ export class TalentItemSheet extends BaseItemSheet {
     ) {
         return {
             ...(await super._prepareContext(options)),
-            isPathTalent: this.item.system.type === Talent.Type.Path,
-            isAncestryTalent: this.item.system.type === Talent.Type.Ancestry,
-            isPowerTalent: this.item.system.type === Talent.Type.Power,
             hasModality: this.item.system.modality !== null,
         };
     }

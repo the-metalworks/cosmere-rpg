@@ -228,7 +228,6 @@ export const DYNAMIC_SECTIONS: Record<string, DynamicItemListSectionGenerator> =
                                 'COSMERE.Item.Type.Talent.New',
                             ),
                             system: {
-                                path: path.system.id,
                                 activation: {
                                     type: ActivationType.Utility,
                                     cost: {
