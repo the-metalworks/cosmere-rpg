@@ -1,10 +1,5 @@
 import { RawActorData, RawDocumentData } from '@src/system/types/utils';
-import {
-    fixInvalidDocument as fixDocumentIfInvalid,
-    getPossiblyInvalidDocument,
-    getRawDocumentSources,
-} from '../../data';
-import { CosmereActor, CosmereItem } from '@src/system/documents';
+import { getRawDocumentSources } from '../../data';
 import { handleDocumentMigrationError } from '../utils';
 
 export default {
@@ -23,7 +18,7 @@ export default {
          */
         if (!compendium || compendium.documentName === 'Item') {
             const items = await getRawDocumentSources('Item', packID);
-            await migrateItems(items, compendium);
+            await migrateItems(items, packID);
         }
 
         /**
@@ -34,7 +29,7 @@ export default {
                 'Actor',
                 packID,
             );
-            await migrateEmbeddedItems(actors, compendium);
+            await migrateEmbeddedItems(actors, packID);
         }
     },
 };
@@ -45,78 +40,75 @@ export default {
 
 // NOTE: Use any here as we're dealing with raw actor data
 /* eslint-disable @typescript-eslint/no-explicit-any */
-async function migrateItems(
-    items: RawDocumentData<any>[],
-    compendium?: CompendiumCollection<CompendiumCollection.DocumentName>,
-) {
-    for (const item of items) {
-        try {
-            const changes = {};
+async function migrateItems(items: RawDocumentData<any>[], packID?: string) {
+    const updates = collectUpdates(items);
+    if (updates.length === 0) return;
 
-            migrateItemData(item, changes);
-
-            // Skip the write entirely if nothing changed
-            if (Object.keys(changes).length === 0) continue;
-
-            const document = await getPossiblyInvalidDocument<CosmereItem>(
-                'Item',
-                item._id,
-                compendium,
-            );
-
-            document.updateSource(changes);
-            await document.update(changes, { diff: false });
-
-            fixDocumentIfInvalid('Item', document, compendium);
-        } catch (err: unknown) {
-            handleDocumentMigrationError(err, 'Item', item);
-        }
+    try {
+        await dispatchUpdate(updates, { pack: packID });
+    } catch (err: unknown) {
+        handleDocumentMigrationError(err, 'Item', items[0]);
     }
 }
 
-async function migrateEmbeddedItems(
-    actors: RawActorData[],
-    compendium?: CompendiumCollection<CompendiumCollection.DocumentName>,
-) {
+async function migrateEmbeddedItems(actors: RawActorData[], packID?: string) {
     for (const actor of actors) {
         if (actor.items.length === 0) continue;
 
+        const updates = collectUpdates(actor.items);
+        if (updates.length === 0) continue;
+
         try {
-            const changes: object[] = [];
-            for (const item of actor.items) {
-                const itemChanges: Record<string, unknown> = { _id: item._id };
-                migrateItemData(item, itemChanges);
-
-                // Only push when more than the _id was set
-                if (Object.keys(itemChanges).length > 1) {
-                    changes.push(itemChanges);
-                }
-            }
-
-            if (changes.length === 0) continue;
-
-            const document = await getPossiblyInvalidDocument<CosmereActor>(
-                'Actor',
-                actor._id,
-                compendium,
-            );
-
-            await document.updateEmbeddedDocuments('Item', changes);
+            const parentUuid = packID
+                ? `Compendium.${packID}.Actor.${actor._id}`
+                : `Actor.${actor._id}`;
+            await dispatchUpdate(updates, { pack: packID, parentUuid });
         } catch (err: unknown) {
             handleDocumentMigrationError(err, 'Actor', actor);
         }
     }
 }
 
-function migrateItemData(item: RawDocumentData<any>, changes: object) {
+function collectUpdates(items: RawDocumentData<any>[]) {
+    const updates: Record<string, unknown>[] = [];
+    for (const item of items) {
+        const changes: Record<string, unknown> = {};
+        migrateItemData(item, changes);
+        if (Object.keys(changes).length > 0) {
+            updates.push({ _id: item._id, ...changes });
+        }
+    }
+    return updates;
+}
+
+// We must bypass Document.update() here: removing fields that are no longer
+// declared in the schema is silently stripped client-side by cleanData(),
+// even when wrapped in Foundry's `-=key` delete syntax. Going straight to
+// the SocketInterface drops the request onto the DB without re-validation.
+async function dispatchUpdate(
+    updates: Record<string, unknown>[],
+    options: { pack?: string; parentUuid?: string },
+) {
+    const operation: Record<string, unknown> = { updates, diff: false };
+    if (options.pack) operation.pack = options.pack;
+    if (options.parentUuid) operation.parentUuid = options.parentUuid;
+
+    await foundry.helpers.SocketInterface.dispatch('modifyDocument', {
+        type: 'Item',
+        action: 'update',
+        operation,
+    } as any);
+}
+
+function migrateItemData(
+    item: RawDocumentData<any>,
+    changes: Record<string, unknown>,
+) {
     if (item.type !== 'talent') return;
 
-    const deletions: Record<string, null> = {};
     for (const key of ['path', 'ancestry', 'power'] as const) {
-        if (key in item.system) deletions[`system.-=${key}`] = null;
-    }
-
-    if (Object.keys(deletions).length > 0) {
-        foundry.utils.mergeObject(changes, deletions);
+        if (key in item.system) {
+            changes[`system.-=${key}`] = null;
+        }
     }
 }
