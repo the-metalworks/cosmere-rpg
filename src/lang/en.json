@@ -1147,15 +1147,6 @@
                     "HasModality": "Has Modality"
                 },
                 "Talent": {
-                    "PathId": "Path Identifier",
-                    "PathIdPlaceholder": "Path Identifier",
-                    "PathIdDescription": "The identifier of the path this talent belongs to.",
-                    "SpecialtyId": "Specialty Identifier",
-                    "SpecialtyIdPlaceholder": "Specialty Identifier — Optional",
-                    "SpecialtyIdDescription": "The identifier of the specialty this talent belongs to.",
-                    "AncestryId": "Ancestry Identifier",
-                    "AncestryIdPlaceholder": "Ancestry Identifier",
-                    "AncestryIdDescription": "The identifier of the ancestry this talent belongs to.",
                     "Prerequisites": {
                         "Label": "Prerequisites",
                         "Type": "Type",
