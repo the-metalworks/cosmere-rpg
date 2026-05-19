@@ -20,6 +20,17 @@ export class ConnectionItemSheet extends BaseItemSheet {
         },
     };
 
+    static TABS = foundry.utils.mergeObject(
+        foundry.utils.deepClone(super.TABS),
+        {
+            details: {
+                label: 'COSMERE.Item.Sheet.Tabs.Details',
+                icon: '<i class="fa-solid fa-circle-info"></i>',
+                sortIndex: 15,
+            },
+        },
+    );
+
     static PARTS = foundry.utils.mergeObject(
         foundry.utils.deepClone(super.PARTS),
         {
