@@ -95,12 +95,27 @@ export class BaseItemSheet extends TabsApplicationMixin(
     ) {
         if (event instanceof SubmitEvent) return;
 
-        // Handle prose mirror saving via hotkey
-        if ((event.target as HTMLElement).className.includes('prosemirror')) {
+        // Filter to relevant form-control element types only.
+        if (
+            !(event.target instanceof HTMLInputElement) &&
+            !(event.target instanceof HTMLTextAreaElement) &&
+            !(event.target instanceof HTMLSelectElement) &&
+            !(
+                event.target instanceof
+                foundry.applications.elements.HTMLProseMirrorElement
+            )
+        )
+            return;
+        if (!event.target.name) return;
+
+        // Handle prose-mirror fields separately: exit edit mode after the
+        // editor commits its content to the form value.
+        if (
+            event.target instanceof
+            foundry.applications.elements.HTMLProseMirrorElement
+        ) {
             await this.saveDescription();
         }
-
-        if (!('name' in event.target!)) return;
 
         if (this.item.isPhysical() && 'system.price.unit' in formData.object) {
             // Get currency id
@@ -296,6 +311,18 @@ export class BaseItemSheet extends TabsApplicationMixin(
     public async _prepareContext(
         options: DeepPartial<foundry.applications.api.ApplicationV2.RenderOptions>,
     ) {
+        if (this.isUpdatingDescription && this.element) {
+            const pm = this.element.querySelector(
+                `prose-mirror[name="${this.proseDescName}"]`,
+            );
+            if (
+                pm instanceof
+                foundry.applications.elements.HTMLProseMirrorElement
+            ) {
+                this.proseDescHtml = pm.value;
+            }
+        }
+
         let enrichedDescValue = undefined;
         let enrichedShortDescValue = undefined;
         let enrichedChatDescValue = undefined;

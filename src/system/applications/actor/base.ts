@@ -461,6 +461,18 @@ export class BaseActorSheet<
     public async _prepareContext(
         options: DeepPartial<foundry.applications.api.ApplicationV2.RenderOptions>,
     ) {
+        if (this.isUpdatingHtmlField && this.element) {
+            const pm = this.element.querySelector(
+                `prose-mirror[name="${this.proseFieldName}"]`,
+            );
+            if (
+                pm instanceof
+                foundry.applications.elements.HTMLProseMirrorElement
+            ) {
+                this.proseFieldHtml = pm.value;
+            }
+        }
+
         // Get enriched versions of HTML fields
         let enrichedBiographyValue = undefined;
         let enrichedAppearanceValue = undefined;
