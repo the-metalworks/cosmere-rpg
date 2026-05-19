@@ -26,9 +26,14 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
         params: unknown,
         context: ActorActionsListComponentRenderContext,
     ) {
+        // Get all activatable items (actions and items with actions)
+        const activatableItems = Array.from(
+            this.application.actor.items,
+        ).filter((item) => item.isAction() || item.hasActions);
+
         // Get all actions
-        const actions = Array.from(this.application.actor.items).flatMap(
-            (item) => (item.isAction() ? [item] : item.actions),
+        const actions = activatableItems.flatMap((item) =>
+            item.isAction() ? [item] : item.actions,
         );
 
         // Ensure all items have an expand state record
@@ -90,9 +95,9 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
             label: CONFIG.COSMERE.items.types[type].labelPlural,
             default: true,
             filter: (item: CosmereItem) =>
-                item.parent instanceof CosmereItem &&
-                item.parent.isTyped() &&
-                item.parent.system.type === type,
+                // the item itself needs to be checked now, not its parent
+                // and it seems the type is directly on the item rather than in its system
+                item.type === type,
         };
     }
 
