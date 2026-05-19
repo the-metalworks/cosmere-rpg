@@ -384,8 +384,8 @@ export class BaseActorSheet<
                     this.onActionsSearchChange.bind(this) as EventListener,
                 );
             this.element
-                .querySelector('#talents-search')!
-                .addEventListener(
+                .querySelector('#talents-search')
+                ?.addEventListener(
                     'search',
                     this.onTalentsSearchChange.bind(this) as EventListener,
                 );
