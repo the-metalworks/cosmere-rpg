@@ -486,6 +486,80 @@ export class CosmereItem<
         );
     }
 
+    protected _onCreate(
+        data: Item.CreateData,
+        options: Item.Database.OnCreateOperation,
+        userId: string,
+    ): void {
+        if (this.isWeapon()) {
+            void this.prepareWeaponStrikes(this);
+        }
+
+        super._onCreate(data, options, userId);
+    }
+
+    protected _onUpdate(
+        changed: Item.UpdateData,
+        options: Item.Database.OnUpdateOperation,
+        userId: string,
+    ): void {
+        if (this.isWeapon()) {
+            const changes = changed as Partial<WeaponItem>;
+            if (
+                changes.system?.attack ||
+                changes.system?.type ||
+                changes.system?.strike ||
+                changes.system?.id
+            ) {
+                void this.prepareWeaponStrikes(this);
+            }
+        }
+
+        super._onUpdate(changed, options, userId);
+    }
+
+    protected async prepareWeaponStrikes(weapon: WeaponItem) {
+        console.log(this);
+
+        const strikeAction = await this.getWeaponStrikeAction(weapon);
+
+        console.log(strikeAction);
+    }
+
+    protected async getWeaponStrikeAction(
+        weapon: WeaponItem,
+    ): Promise<ActionItem> {
+        let action;
+        if (!weapon.hasActions) {
+            action = await this.createWeaponStrike(weapon);
+        }
+
+        action = weapon.actions.find(
+            (action) => action.system.id === `strike-${weapon.system.id}`,
+        );
+        if (!action) {
+            action = await this.createWeaponStrike(weapon);
+        }
+        return action;
+    }
+
+    protected async createWeaponStrike(
+        weapon: WeaponItem,
+    ): Promise<ActionItem> {
+        return (await Item.create(
+            {
+                type: ItemType.Action,
+                name: `Strike: ${weapon.name}`,
+                img: weapon.img,
+                system: {
+                    id: `strike-${weapon.system.id}`,
+                },
+            },
+            // @ts-expect-error foundry-vtt-types doesn't correctly resolve the Item.Parent type for the operation's parent property
+            { parent: weapon },
+        )) as ActionItem;
+    }
+
     /* --- Roll & Usage utilities --- */
 
     /**
