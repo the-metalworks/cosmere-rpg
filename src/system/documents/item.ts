@@ -36,6 +36,7 @@ import {
 } from '@system/data/item';
 
 import { AttackingItemDataSchema } from '@system/data/item/mixins/attacking';
+import { StrikingItemDataSchema } from '../data/item/mixins/striking';
 import { DamagingItemDataSchema } from '@system/data/item/mixins/damaging';
 import {
     PhysicalItemDataSchema,
@@ -265,6 +266,13 @@ export class CosmereItem<
      */
     public hasAttack(): this is AttackingItem {
         return 'attack' in this.system;
+    }
+
+    /**
+     * Does this item have a strike?
+     */
+    public hasStrike(): this is StrikingItem {
+        return 'strike' in this.system;
     }
 
     /**
@@ -1838,6 +1846,7 @@ export type CosmereItemFromSchema<
     >
 >;
 
+export type StrikingItem = CosmereItemFromSchema<StrikingItemDataSchema>;
 export type AttackingItem = CosmereItemFromSchema<AttackingItemDataSchema>;
 export type DamagingItem = CosmereItemFromSchema<DamagingItemDataSchema>;
 export type DescriptionItem = CosmereItemFromSchema<DescriptionItemDataSchema>;
