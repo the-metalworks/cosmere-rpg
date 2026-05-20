@@ -529,11 +529,30 @@ export class CosmereItem<
     }
 
     protected async prepareWeaponStrikes(this: WeaponItem) {
-        console.log(this);
-
         const strikeAction = await this.getWeaponStrikeAction();
 
-        console.log(strikeAction);
+        await strikeAction.update({
+            name: `Strike: ${this.name}`,
+            img: this.img,
+            system: {
+                id: `strike-${this.system.id}`,
+                activation: {
+                    cost: {
+                        value: 1,
+                        type: 'act',
+                    },
+                    type: 'skill_test',
+                },
+                skillTest: {
+                    attribute: 'default',
+                    skill: this.weaponTypeToSkill(),
+                },
+                damage: {
+                    formula: this.strikeDieToFormula(),
+                    type: this.strikeDamageType(),
+                },
+            },
+        });
     }
 
     protected async getWeaponStrikeAction(
