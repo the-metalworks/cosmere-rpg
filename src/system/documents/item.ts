@@ -10,6 +10,8 @@ import {
     ArmorTraitId,
     ActionCostType,
     ItemResource,
+    WeaponType,
+    DamageType,
 } from '@system/types/cosmere';
 import { CosmereHooks } from '@system/types/hooks';
 import { AnyObject, EmptyObject, DeepPartial } from '@system/types/utils';
@@ -500,7 +502,7 @@ export class CosmereItem<
         userId: string,
     ): void {
         if (this.isWeapon()) {
-            void this.prepareWeaponStrikes(this);
+            void this.prepareWeaponStrikes();
         }
 
         super._onCreate(data, options, userId);
@@ -519,53 +521,91 @@ export class CosmereItem<
                 changes.system?.strike ||
                 changes.system?.id
             ) {
-                void this.prepareWeaponStrikes(this);
+                void this.prepareWeaponStrikes();
             }
         }
 
         super._onUpdate(changed, options, userId);
     }
 
-    protected async prepareWeaponStrikes(weapon: WeaponItem) {
+    protected async prepareWeaponStrikes(this: WeaponItem) {
         console.log(this);
 
-        const strikeAction = await this.getWeaponStrikeAction(weapon);
+        const strikeAction = await this.getWeaponStrikeAction();
 
         console.log(strikeAction);
     }
 
     protected async getWeaponStrikeAction(
-        weapon: WeaponItem,
+        this: WeaponItem,
     ): Promise<ActionItem> {
         let action;
-        if (!weapon.hasActions) {
-            action = await this.createWeaponStrike(weapon);
+        if (!this.hasActions) {
+            action = await this.createWeaponStrike();
         }
 
-        action = weapon.actions.find(
-            (action) => action.system.id === `strike-${weapon.system.id}`,
+        action = this.actions.find(
+            (action) => action.system.id === `strike-${this.system.id}`,
         );
         if (!action) {
-            action = await this.createWeaponStrike(weapon);
+            action = await this.createWeaponStrike();
         }
         return action;
     }
 
-    protected async createWeaponStrike(
-        weapon: WeaponItem,
-    ): Promise<ActionItem> {
+    protected async createWeaponStrike(this: WeaponItem): Promise<ActionItem> {
         return (await Item.create(
             {
                 type: ItemType.Action,
-                name: `Strike: ${weapon.name}`,
-                img: weapon.img,
+                name: `Strike: ${this.name}`,
+                img: this.img,
                 system: {
-                    id: `strike-${weapon.system.id}`,
+                    id: `strike-${this.system.id}`,
+                    activation: {
+                        cost: {
+                            value: 1,
+                            type: 'act',
+                        },
+                        type: 'skill_test',
+                    },
+                    skillTest: {
+                        attribute: 'default',
+                        skill: this.weaponTypeToSkill(),
+                    },
+                    damage: {
+                        formula: this.strikeDieToFormula(),
+                        type: this.strikeDamageType(),
+                    },
                 },
             },
             // @ts-expect-error foundry-vtt-types doesn't correctly resolve the Item.Parent type for the operation's parent property
-            { parent: weapon },
+            { parent: this },
         )) as ActionItem;
+    }
+
+    public weaponTypeToSkill(this: WeaponItem): Skill {
+        switch (this.system.type) {
+            case WeaponType.Heavy:
+                return Skill.HeavyWeapons;
+            default:
+                return Skill.LightWeapons;
+        }
+    }
+
+    public strikeDieToFormula(this: CosmereItem): string {
+        if (!this.hasStrike()) {
+            return '';
+        }
+        const strike = this.system.strike;
+        return `${strike.die.count}${strike.die.size}`;
+    }
+
+    public strikeDamageType(this: CosmereItem): DamageType {
+        if (!this.hasStrike()) {
+            return DamageType.Keen;
+        }
+        const strike = this.system.strike;
+        return strike.damageType;
     }
 
     /* --- Roll & Usage utilities --- */
