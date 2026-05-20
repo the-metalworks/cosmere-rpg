@@ -542,12 +542,17 @@ export class CosmereItem<
     ): void {
         if (this.isWeapon()) {
             const changes = changed as Partial<WeaponItem>;
-            if (
-                changes.system?.attack ||
-                changes.system?.type ||
-                changes.system?.strike ||
-                changes.system?.id
-            ) {
+            if (!this.doesSkillMatchType) {
+                void this.update({
+                    system: {
+                        strike: {
+                            skill: this.weaponTypeToSkill(),
+                        },
+                    },
+                });
+                return;
+            }
+            if (changes.system?.strike || changes.system?.id) {
                 void this.prepareWeaponStrikes();
             }
         }
