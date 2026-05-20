@@ -1,0 +1,30 @@
+{{log this}}
+{{#if hasStrike}}
+	<fieldset>
+		<legend>{{localize "COSMERE.Item.Sheet.Strike.Title"}}</legend>
+
+		{{#if isSpecialWeapon}}
+			{{!-- Skill select --}}
+			{{formGroup systemFields.strike.fields.skill
+				name="system.strike.skill"
+				value=item.system.strike.skill
+				localize=true
+				disabled=(not editable)
+			}}
+		{{/if}}
+		{{!-- Die Setup --}}
+		{{formGroup systemFields.strike.fields.die.fields.size
+			name="system.strike.die.size"
+			value=item.system.strike.die.size
+			localize=true
+			disabled=(not editable)
+		}}
+		{{formInput systemFields.strike.fields.die.fields.count
+			name="system.strike.die.count"
+			value=item.system.strike.die.count
+			type="number"
+			localize=true
+			readonly=(not editable)
+		}}
+	</fieldset>
+{{/if}}

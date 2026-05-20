@@ -123,6 +123,7 @@ export const TEMPLATES = {
     ITEM_DETAILS_ID: 'item/components/details-id.hbs',
     ITEM_DETAILS_ACTIVATION: 'item/components/details-activation.hbs',
     ITEM_DETAILS_ATTACK: 'item/components/details-attack.hbs',
+    ITEM_DETAILS_STRIKE: 'item/components/details-strike.hbs',
     ITEM_DETAILS_DAMAGE: 'item/components/details-damage.hbs',
     ITEM_DETAILS_EQUIP: 'item/components/details-equip.hbs',
     ITEM_DETAILS_DEFLECT: 'item/components/details-deflect.hbs',

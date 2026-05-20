@@ -385,6 +385,33 @@ export class CosmereItem<
 
     /* --- Accessors --- */
 
+    public get doesSkillMatchType(): boolean {
+        if (!this.isWeapon() || !this.hasStrike()) {
+            return false;
+        }
+
+        switch (this.system.type) {
+            case WeaponType.Special: {
+                return true;
+            }
+            case WeaponType.Light: {
+                return this.system.strike.skill === Skill.LightWeapons;
+            }
+            case WeaponType.Heavy: {
+                return this.system.strike.skill === Skill.HeavyWeapons;
+            }
+            default:
+                return false;
+        }
+    }
+
+    public get isSpecialWeapon(): boolean {
+        if (!this.isWeapon()) {
+            return false;
+        }
+        return this.system.type === WeaponType.Special;
+    }
+
     public get isActivatable(): boolean {
         if (this.type !== ItemType.Action) return true;
 
@@ -603,11 +630,16 @@ export class CosmereItem<
     }
 
     public weaponTypeToSkill(this: WeaponItem): Skill {
+        if (!this.hasStrike()) {
+            return Skill.LightWeapons;
+        }
         switch (this.system.type) {
             case WeaponType.Heavy:
                 return Skill.HeavyWeapons;
-            default:
+            case WeaponType.Light:
                 return Skill.LightWeapons;
+            default:
+                return this.system.strike.skill;
         }
     }
 
