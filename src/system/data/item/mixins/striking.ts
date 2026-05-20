@@ -1,4 +1,4 @@
-import { DieSize, Skill } from '@src/system/types/cosmere';
+import { DamageType, DieSize, Skill } from '@src/system/types/cosmere';
 
 const SCHEMA = () => ({
     strike: new foundry.data.fields.SchemaField({
@@ -7,7 +7,7 @@ const SCHEMA = () => ({
                 required: true,
                 nullable: false,
                 initial: DieSize.D4,
-                choices: Object.values(DieSize),
+                choices: () => Object.values(DieSize),
             }),
             count: new foundry.data.fields.NumberField({
                 required: true,
@@ -18,11 +18,17 @@ const SCHEMA = () => ({
                 min: 1,
             }),
         }),
+        damageType: new foundry.data.fields.StringField({
+            required: true,
+            nullable: false,
+            initial: DamageType.Keen,
+            choices: Object.keys(CONFIG.COSMERE.damageTypes) as DamageType[],
+        }),
         skill: new foundry.data.fields.StringField({
             required: true,
             nullable: false,
             initial: Skill.LightWeapons,
-            choices: Object.values(Skill),
+            choices: () => Object.values(Skill),
         }),
     }),
 });
