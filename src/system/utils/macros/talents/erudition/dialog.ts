@@ -4,6 +4,7 @@ import { EruditionConfig, EruditionSelections, PickedExpertise } from './types';
 import { Expertise } from '@src/system/data/actor/common';
 import { ExpertiseType, Skill } from '@src/system/types/cosmere';
 import { AnyObject } from '@league-of-foundry-developers/foundry-vtt-types/utils';
+import { SYSTEM_ID } from '@src/system/constants';
 
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 
@@ -41,7 +42,7 @@ export class EruditionDialog extends HandlebarsApplicationMixin(
 
     static PARTS = {
         form: {
-            template: `modules/cosmere-rpg-stormlight-handbook/templates/dialogs/erudition.hbs`,
+            template: `systems/${SYSTEM_ID}/templates/general/dialogs/erudition.hbs`,
             forms: {
                 form: {
                     // eslint-disable-next-line @typescript-eslint/unbound-method
