@@ -1436,7 +1436,10 @@ declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
 
                 /**
                  * The following keys belong to the Erudition macro
-                 * they were ported over from the Stormlight Handbook as is
+                 * they were ported over from the Stormlight Handbook as is.
+                 * Declaring them in erudition/index.ts was not allowing the Actor
+                 * definition to be merged and a proper way to merge them will need
+                 * to be researched to make this cleaner
                  */
                 [FLAGS.SKILLS_COUNT]: number;
                 [FLAGS.SKILLS_GROUPS]: AttributeGroup[];
