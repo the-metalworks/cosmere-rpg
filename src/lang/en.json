@@ -1398,6 +1398,23 @@
         },
         "Migration": {
             "DocumentMigrationFailed": "Failed to migrate {type} \"{name}\". {error}"
+        },
+        "Macro": {
+            "Talents": {
+                "Erudition": {
+                    "Dialog": {
+                        "Title": "{actor}: Erudition",
+                        "Skills": "Skills",
+                        "Expertises": "Expertises",
+                        "Expertise": "Expertise",
+                        "Warn": {
+                            "UniqueSkills": "Cannot select the same skill multiple times.",
+                            "UniqueExpertises": "Cannot select the same expertise multiple times."
+                        },
+                        "Confirm": "Confirm"
+                    }
+                }
+            }
         }
     },
     "DICE": {
