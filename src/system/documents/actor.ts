@@ -1433,6 +1433,11 @@ declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
                 'goals.hide-completed': boolean;
                 [key: `meta.update.mode.${string}`]: string;
                 [key: `mode.${string}`]: string;
+
+                /**
+                 * The following keys belong to the Erudition macro
+                 * they were ported over from the Stormlight Handbook as is
+                 */
                 [FLAGS.SKILLS_COUNT]: number;
                 [FLAGS.SKILLS_GROUPS]: AttributeGroup[];
                 [FLAGS.SKILLS_INCREASE]: number;
