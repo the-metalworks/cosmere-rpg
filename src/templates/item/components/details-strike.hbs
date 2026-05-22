@@ -5,7 +5,11 @@
 
 		{{!-- Skill select --}}
 		<div class="form-group">
-			<label>{{localize "COSMERE.Item.Sheet.Strike.Skill"}}</label>
+			<label>
+				{{localize "COSMERE.Item.Sheet.Strike.Skill"}}
+				<i class="info fa-regular fa-circle-question"
+					data-tooltip="{{localize "COSMERE.Item.Sheet.Strike.Hint"}}"></i>
+			</label>
 			<div class="form-fields">
 				<select name="system.strike.skill" {{#unless isSpecialWeapon}} disabled {{/unless}}>
 					{{selectOptions skillSelectOptions selected=item.system.strike.skill localize=true}}

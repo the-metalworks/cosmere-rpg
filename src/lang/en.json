@@ -1150,7 +1150,8 @@
                 "Strike": {
                     "Title": "Strike",
                     "Skill": "Skill",
-                    "Damage": "Damage"
+                    "Damage": "Damage",
+                    "Hint": "Skill selection is locked by default unless weapon type is set to Special."
                 },
                 "Damage": {
                     "Title": "Damage",
