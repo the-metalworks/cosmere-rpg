@@ -14,6 +14,13 @@
 				<select name="system.strike.skill" {{#if lockSkillSelect}} disabled {{/if}}>
 					{{selectOptions skillSelectOptions selected=item.system.strike.skill localize=true}}
 				</select>
+				{{#if lockSkillSelect}}
+					<i class="lock fa-solid fa-lock" data-tooltip="{{localize "GENERIC.Unlock"}}"
+						data-action="toggle-skill-lock"></i>
+				{{else}}
+					<i class="lock fa-solid fa-lock-open" data-tooltip="{{localize "GENERIC.Lock"}}"
+						data-action="toggle-skill-lock"></i>
+				{{/if}}
 			</div>
 		</div>
 

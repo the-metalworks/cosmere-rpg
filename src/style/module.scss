@@ -186,6 +186,16 @@
         }
     }
 
+    .lock {
+        font-size: var(--font-size-11);
+        color: var(--cosmere-color-faded);
+        margin-left: 0.125rem;
+
+        &:hover {
+            text-shadow: 0 0 6px var(--color-shadow-primary);
+        }
+    }
+
     .skills-column {
         display: flex;
         flex-direction: column;
@@ -592,7 +602,7 @@
             padding: 0.125rem 0.25rem;
             border-radius: 6px;
             background-color: var(--cosmere-color-base-2);
-            
+
             display: flex;
             flex-direction: row;
             gap: 0.125rem;

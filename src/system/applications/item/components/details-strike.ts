@@ -4,7 +4,7 @@ import { TEMPLATES } from '@src/system/utils/templates';
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
 import { BaseItemSheetRenderContext } from '../base';
-import { DieSize } from '@src/system/types/cosmere';
+import { DieSize, Skill } from '@src/system/types/cosmere';
 import { CosmereItem } from '@src/system/documents';
 
 export class DetailsStrikeComponent extends HandlebarsApplicationComponent<// typeof BaseItemSheet
@@ -14,10 +14,41 @@ export class DetailsStrikeComponent extends HandlebarsApplicationComponent<// ty
 any> {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_DETAILS_STRIKE}`;
 
+    /**
+     * NOTE: Unbound methods is the standard for defining actions
+     * within ApplicationV2
+     */
+    /* eslint-disable @typescript-eslint/unbound-method */
+    static readonly ACTIONS = {
+        'toggle-skill-lock': this.onToggleSkillLock,
+    };
+    /* eslint-enable @typescript-eslint/unbound-method */
+
     /* --- Accessors --- */
 
     public get item(): CosmereItem {
         return this.application.item;
+    }
+
+    /* --- Actions --- */
+
+    private static async onToggleSkillLock(
+        this: DetailsStrikeComponent,
+        event: Event,
+    ) {
+        event.preventDefault();
+        event.stopPropagation();
+        if (!this.item.hasStrike()) return;
+
+        const skillUnlocked = this.item.system.strike.skillLocked;
+
+        console.log('DieSize Values: ', Object.values(DieSize));
+        console.log('Skill Values: ', Object.values(Skill));
+
+        await this.item.update({
+            system: { strike: { skillLocked: !skillUnlocked } },
+        });
+        void this.render();
     }
 
     /* --- Context --- */

@@ -1151,7 +1151,7 @@
                     "Title": "Strike",
                     "Skill": "Skill",
                     "Damage": "Damage",
-                    "Hint": "Skill selection is locked by default unless weapon type is set to Special."
+                    "Hint": "Skill selection is locked by default unless weapon type is set to Special. Use the lock button to toggle this behavior."
                 },
                 "Damage": {
                     "Title": "Damage",
@@ -1599,7 +1599,9 @@
             "Update": "Update",
             "RemoveFavorite": "Remove Favorite",
             "Favorite": "Favorite",
-            "Confirm": "Confirm"
+            "Confirm": "Confirm",
+            "Lock": "Lock",
+            "Unlock": "Unlock"
         },
         "Notification": {
             "GrazeFocusSpent": "Reduced focus by 1",
