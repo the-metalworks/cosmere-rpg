@@ -28,7 +28,7 @@ const SCHEMA = () => ({
             required: true,
             nullable: false,
             initial: Skill.LightWeapons,
-            choices: () => Object.values(Skill),
+            choices: Object.keys(CONFIG.COSMERE.skills) as Skill[],
         }),
     }),
 });
