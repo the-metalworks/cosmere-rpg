@@ -536,117 +536,6 @@ export class CosmereItem<
         }
     }
 
-    protected async prepareWeaponStrikes(this: WeaponItem) {
-        const strikeAction = await this.getWeaponStrikeAction();
-
-        await strikeAction.update({
-            name: `Strike: ${this.name}`,
-            img: this.img,
-            system: {
-                id: `strike-${this.system.id}`,
-                activation: {
-                    cost: {
-                        value: 1,
-                        type: 'act',
-                    },
-                    type: 'skill_test',
-                },
-                skillTest: {
-                    attribute: 'default',
-                    skill: this.weaponTypeToSkill(),
-                },
-                damage: {
-                    formula: this.strikeDieToFormula(),
-                    type: this.strikeDamageType(),
-                },
-            },
-        });
-    }
-
-    protected async getWeaponStrikeAction(
-        this: WeaponItem,
-    ): Promise<ActionItem> {
-        let action;
-        if (this.hasActions) {
-            action = this.actions.find((action) =>
-                action.system.id.includes('strike-'),
-            );
-        }
-
-        if (!action) {
-            action = await this.createWeaponStrike();
-        }
-        return action;
-    }
-
-    protected async createWeaponStrike(this: WeaponItem): Promise<ActionItem> {
-        const newStrikeAction = (await Item.create(
-            {
-                type: ItemType.Action,
-                name: `Strike: ${this.name}`,
-                img: this.img,
-                system: {
-                    id: `strike-${this.system.id}`,
-                    activation: {
-                        cost: {
-                            value: 1,
-                            type: 'act',
-                        },
-                        type: 'skill_test',
-                    },
-                    skillTest: {
-                        attribute: 'default',
-                        skill: this.weaponTypeToSkill(),
-                    },
-                    damage: {
-                        formula: this.strikeDieToFormula(),
-                        type: this.strikeDamageType(),
-                    },
-                },
-            },
-            // @ts-expect-error foundry-vtt-types doesn't correctly resolve the Item.Parent type for the operation's parent property
-            { parent: this },
-        )) as ActionItem;
-
-        return newStrikeAction;
-    }
-
-    public weaponTypeToSkill(this: WeaponItem): Skill {
-        if (!this.hasStrike()) {
-            return Skill.LightWeapons;
-        }
-
-        const currentSkill = this.system.strike.skill;
-        if (!this.system.strike.skillLocked) {
-            return currentSkill;
-        }
-
-        switch (this.system.type) {
-            case WeaponType.Heavy:
-                return Skill.HeavyWeapons;
-            case WeaponType.Light:
-                return Skill.LightWeapons;
-            default:
-                return currentSkill;
-        }
-    }
-
-    public strikeDieToFormula(this: CosmereItem): string {
-        if (!this.hasStrike()) {
-            return '';
-        }
-        const strike = this.system.strike;
-        return `${strike.die.count}${strike.die.size}`;
-    }
-
-    public strikeDamageType(this: CosmereItem): DamageType {
-        if (!this.hasStrike()) {
-            return DamageType.Keen;
-        }
-        const strike = this.system.strike;
-        return strike.damageType;
-    }
-
     /* --- Roll & Usage utilities --- */
 
     /**
@@ -1739,6 +1628,91 @@ export class CosmereItem<
             },
             target: targets.length > 0 ? targets[0] : undefined,
         } as const satisfies EnricherData;
+    }
+
+    protected async prepareWeaponStrikes(this: WeaponItem) {
+        const strikeAction = await this.getWeaponStrikeAction();
+
+        await strikeAction.update(this.weaponStrikeData());
+    }
+
+    protected async getWeaponStrikeAction(
+        this: WeaponItem,
+    ): Promise<ActionItem> {
+        let action;
+        if (this.hasActions) {
+            action = this.actions.find((action) =>
+                action.system.id.includes('strike-'),
+            );
+        }
+
+        if (!action) {
+            action = await this.createWeaponStrike();
+        }
+        return action;
+    }
+
+    protected async createWeaponStrike(this: WeaponItem): Promise<ActionItem> {
+        const newStrikeAction = (await Item.create(
+            {
+                type: ItemType.Action,
+                ...this.weaponStrikeData(),
+            },
+            // @ts-expect-error foundry-vtt-types doesn't correctly resolve the Item.Parent type for the operation's parent property
+            { parent: this },
+        )) as ActionItem;
+
+        return newStrikeAction;
+    }
+
+    public weaponStrikeData(this: WeaponItem) {
+        const strike = this.system.strike;
+        const forceSkill = !this.isSpecialWeapon && strike.skillLocked;
+
+        return {
+            name: `Strike: ${this.name}`,
+            img: this.img,
+            system: {
+                id: `strike-${this.system.id}`,
+                activation: {
+                    cost: {
+                        value: 1,
+                        type: ActionCostType.Action,
+                    },
+                    type: ActivationType.SkillTest,
+                },
+                skillTest: {
+                    attribute: 'default',
+                    skill: forceSkill ? this.weaponTypeToSkill() : strike.skill,
+                },
+                damage: {
+                    formula: this.strikeDieToFormula(),
+                    type: this.strikeDamageType(),
+                },
+            },
+        };
+    }
+
+    public weaponTypeToSkill(this: WeaponItem): Skill {
+        return this.system.type === WeaponType.Heavy
+            ? Skill.HeavyWeapons
+            : Skill.LightWeapons;
+    }
+
+    public strikeDieToFormula(this: CosmereItem): string {
+        if (!this.hasStrike()) {
+            return '';
+        }
+        const strike = this.system.strike;
+        return `${strike.die.count}${strike.die.size}`;
+    }
+
+    public strikeDamageType(this: CosmereItem): DamageType {
+        if (!this.hasStrike()) {
+            return DamageType.Keen;
+        }
+        const strike = this.system.strike;
+        return strike.damageType;
     }
 }
 
