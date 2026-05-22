@@ -540,6 +540,35 @@ export class CosmereItem<
         }
     }
 
+    protected _preUpdate(
+        changed: Item.UpdateData,
+        options: Item.Database.PreUpdateOptions,
+        user: User.Implementation,
+    ): Promise<boolean | void> {
+        if (this.isWeapon() && this.hasStrike()) {
+            const changes = changed as Partial<WeaponItem>;
+            const weaponType = changes.system?.type ?? this.system.type;
+            if (
+                (changes.system?.strike?.skillLocked ||
+                    this.system.strike.skillLocked) &&
+                weaponType !== WeaponType.Special &&
+                !!changes.system
+            ) {
+                const strike = foundry.utils.mergeObject(
+                    changes.system.strike,
+                    { skill: this.weaponTypeToSkill(weaponType) },
+                );
+                console.log(strike);
+                changes.system.strike = foundry.utils.mergeObject(
+                    this.system.strike,
+                    strike,
+                );
+            }
+        }
+
+        return super._preUpdate(changed, options, user);
+    }
+
     /* --- Roll & Usage utilities --- */
 
     /**
@@ -1675,9 +1704,6 @@ export class CosmereItem<
     }
 
     public weaponStrikeData(this: WeaponItem) {
-        const strike = this.system.strike;
-        const forceSkill = !this.isSpecialWeapon && strike.skillLocked;
-
         return {
             name: `Strike: ${this.name}`,
             img: this.img,
@@ -1692,7 +1718,7 @@ export class CosmereItem<
                 },
                 skillTest: {
                     attribute: 'default',
-                    skill: forceSkill ? this.weaponTypeToSkill() : strike.skill,
+                    skill: this.system.strike.skill,
                 },
                 damage: {
                     formula: this.strikeDieToFormula(),
@@ -1702,8 +1728,9 @@ export class CosmereItem<
         };
     }
 
-    public weaponTypeToSkill(this: WeaponItem): Skill {
-        return this.system.type === WeaponType.Heavy
+    public weaponTypeToSkill(this: WeaponItem, weaponType?: WeaponType): Skill {
+        weaponType ??= this.system.type;
+        return weaponType === WeaponType.Heavy
             ? Skill.HeavyWeapons
             : Skill.LightWeapons;
     }
