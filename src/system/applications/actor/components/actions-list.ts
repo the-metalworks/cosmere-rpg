@@ -488,38 +488,48 @@ any> {
                     const item = fromUuidSync(itemUuid) as CosmereItem;
                     if (!item) return [];
 
-                    return [
-                        /**
-                         * NOTE: This is a TEMPORARY context menu option
-                         * until we can handle recharging properly.
-                         */
-                        {
-                            name: 'COSMERE.Item.Activation.Uses.Recharge.Label',
-                            icon: 'fa-solid fa-rotate-left',
-                            callback: () => {
-                                void item.recharge();
-                            },
-                        },
+                    const menuItems = [];
 
-                        {
-                            name: 'GENERIC.Button.Edit',
-                            icon: 'fa-solid fa-pen-to-square',
-                            callback: () => {
-                                void item.sheet?.render(true);
+                    if (item.hasResources()) {
+                        menuItems.push(
+                            /**
+                             * NOTE: This is a TEMPORARY context menu option
+                             * until we can handle recharging properly.
+                             */
+                            {
+                                name: 'COSMERE.Item.Activation.Uses.Recharge.Label',
+                                icon: 'fa-solid fa-rotate-left',
+                                callback: () => {
+                                    void item.recharge();
+                                },
                             },
-                        },
-                        {
-                            name: 'GENERIC.Button.Remove',
-                            icon: 'fa-solid fa-trash',
-                            callback: () => {
-                                // Remove the item
-                                void this.application.actor.deleteEmbeddedDocuments(
-                                    'Item',
-                                    [item.id!],
-                                );
+                        );
+                    }
+
+                    if (!item.isStrikeAction) {
+                        menuItems.push(
+                            {
+                                name: 'GENERIC.Button.Edit',
+                                icon: 'fa-solid fa-pen-to-square',
+                                callback: () => {
+                                    void item.sheet?.render(true);
+                                },
                             },
-                        },
-                    ].filter((i) => !!i);
+                            {
+                                name: 'GENERIC.Button.Remove',
+                                icon: 'fa-solid fa-trash',
+                                callback: () => {
+                                    // Remove the item
+                                    void this.application.actor.deleteEmbeddedDocuments(
+                                        'Item',
+                                        [item.id!],
+                                    );
+                                },
+                            },
+                        );
+                    }
+
+                    return menuItems.filter((i) => !!i);
                 },
                 selectors: ['a[data-action="toggle-actions-controls"]'],
                 anchor: 'right',
