@@ -638,13 +638,19 @@ export class CosmereItem<
         if (!this.hasStrike()) {
             return Skill.LightWeapons;
         }
+
+        const currentSkill = this.system.strike.skill;
+        if (!this.system.strike.skillLocked) {
+            return currentSkill;
+        }
+
         switch (this.system.type) {
             case WeaponType.Heavy:
                 return Skill.HeavyWeapons;
             case WeaponType.Light:
                 return Skill.LightWeapons;
             default:
-                return this.system.strike.skill;
+                return currentSkill;
         }
     }
 

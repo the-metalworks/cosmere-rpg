@@ -11,7 +11,7 @@
 					data-tooltip="{{localize "COSMERE.Item.Sheet.Strike.Hint"}}"></i>
 			</label>
 			<div class="form-fields">
-				<select name="system.strike.skill" {{#unless isSpecialWeapon}} disabled {{/unless}}>
+				<select name="system.strike.skill" {{#if lockSkillSelect}} disabled {{/if}}>
 					{{selectOptions skillSelectOptions selected=item.system.strike.skill localize=true}}
 				</select>
 			</div>

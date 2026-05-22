@@ -35,6 +35,9 @@ any> {
 
         return {
             isSpecialWeapon: this.item.isSpecialWeapon,
+            lockSkillSelect:
+                !this.item.isSpecialWeapon &&
+                this.item.system.strike.skillLocked,
             dieSizeSelectOptions: {
                 ...Object.values(DieSize).reduce(
                     (acc, dieSize) => ({
