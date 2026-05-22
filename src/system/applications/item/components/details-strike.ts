@@ -4,6 +4,7 @@ import { TEMPLATES } from '@src/system/utils/templates';
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
 import { BaseItemSheet, BaseItemSheetRenderContext } from '../base';
+import { DieSize } from '@src/system/types/cosmere';
 
 export class DetailsStrikeComponent extends HandlebarsApplicationComponent<// typeof BaseItemSheet
 // TODO: Resolve typing issues
@@ -29,6 +30,33 @@ any> {
 
         return {
             isSpecialWeapon: item.isSpecialWeapon,
+            dieSizeSelectOptions: {
+                ...Object.values(DieSize).reduce(
+                    (acc, dieSize) => ({
+                        ...acc,
+                        [dieSize]: dieSize,
+                    }),
+                    {},
+                ),
+            },
+            damageTypeSelectOptions: {
+                ...Object.entries(CONFIG.COSMERE.damageTypes).reduce(
+                    (acc, [key, config]) => ({
+                        ...acc,
+                        [key]: config.label,
+                    }),
+                    {},
+                ),
+            },
+            skillSelectOptions: {
+                ...Object.entries(CONFIG.COSMERE.skills).reduce(
+                    (acc, [key, config]) => ({
+                        ...acc,
+                        [key]: config.label,
+                    }),
+                    {},
+                ),
+            },
         };
     }
 }
