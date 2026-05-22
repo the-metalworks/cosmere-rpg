@@ -30,6 +30,11 @@ const SCHEMA = () => ({
             initial: Skill.LightWeapons,
             choices: Object.keys(CONFIG.COSMERE.skills) as Skill[],
         }),
+        skillLocked: new foundry.data.fields.BooleanField({
+            required: true,
+            nullable: true,
+            initial: true,
+        }),
     }),
 });
 
