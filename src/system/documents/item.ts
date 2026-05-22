@@ -591,13 +591,12 @@ export class CosmereItem<
         this: WeaponItem,
     ): Promise<ActionItem> {
         let action;
-        if (!this.hasActions) {
-            action = await this.createWeaponStrike();
+        if (this.hasActions) {
+            action = this.actions.find((action) =>
+                action.system.id.includes('strike-'),
+            );
         }
 
-        action = this.actions.find(
-            (action) => action.system.id === `strike-${this.system.id}`,
-        );
         if (!action) {
             action = await this.createWeaponStrike();
         }
@@ -605,7 +604,7 @@ export class CosmereItem<
     }
 
     protected async createWeaponStrike(this: WeaponItem): Promise<ActionItem> {
-        return (await Item.create(
+        const newStrikeAction = (await Item.create(
             {
                 type: ItemType.Action,
                 name: `Strike: ${this.name}`,
@@ -632,6 +631,8 @@ export class CosmereItem<
             // @ts-expect-error foundry-vtt-types doesn't correctly resolve the Item.Parent type for the operation's parent property
             { parent: this },
         )) as ActionItem;
+
+        return newStrikeAction;
     }
 
     public weaponTypeToSkill(this: WeaponItem): Skill {
