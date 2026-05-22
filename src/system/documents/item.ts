@@ -392,6 +392,10 @@ export class CosmereItem<
         return this.system.type === WeaponType.Special;
     }
 
+    public get isStrikeAction(): boolean {
+        return this.isAction() && !!this.getFlag(SYSTEM_ID, 'isStrike');
+    }
+
     public get isActivatable(): boolean {
         if (this.type !== ItemType.Action) return true;
 
@@ -1657,6 +1661,11 @@ export class CosmereItem<
             {
                 type: ItemType.Action,
                 ...this.weaponStrikeData(),
+                flags: {
+                    [SYSTEM_ID]: {
+                        isStrike: true,
+                    },
+                },
             },
             // @ts-expect-error foundry-vtt-types doesn't correctly resolve the Item.Parent type for the operation's parent property
             { parent: this },
@@ -1967,6 +1976,7 @@ declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
                 'meta.origin': ItemOrigin;
                 previousLevel?: number;
                 isStartingPath?: boolean;
+                isStrike?: boolean;
             };
         };
     }
