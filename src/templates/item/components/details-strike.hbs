@@ -3,28 +3,29 @@
 	<fieldset>
 		<legend>{{localize "COSMERE.Item.Sheet.Strike.Title"}}</legend>
 
-		{{#if isSpecialWeapon}}
-			{{!-- Skill select --}}
-			{{formGroup systemFields.strike.fields.skill
-				name="system.strike.skill"
-				value=item.system.strike.skill
-				localize=true
-				disabled=(not editable)
-			}}
-		{{/if}}
-		{{!-- Die Setup --}}
-		{{formGroup systemFields.strike.fields.die.fields.size
-			name="system.strike.die.size"
-			value=item.system.strike.die.size
-			localize=true
-			disabled=(not editable)
-		}}
-		{{formInput systemFields.strike.fields.die.fields.count
-			name="system.strike.die.count"
-			value=item.system.strike.die.count
-			type="number"
-			localize=true
-			readonly=(not editable)
-		}}
+		{{!-- Skill select --}}
+		<div class="form-group">
+			<label>{{localize "COSMERE.Item.Sheet.Strike.Skill"}}</label>
+			<div class="form-fields">
+				<select name="system.strike.skill" {{#unless isSpecialWeapon}} disabled {{/unless}}>
+					{{selectOptions skillSelectOptions selected=item.system.strike.skill localize=true}}
+				</select>
+			</div>
+		</div>
+
+		{{!-- Die setup --}}
+		<div class="form-group">
+			<label>{{localize "COSMERE.Item.Sheet.Strike.Damage"}}</label>
+			<div class="form-fields">
+				<input name="system.strike.die.count" type="text" value="{{item.system.strike.die.count}}"
+					{{#if (not editable)}} readonly {{/if}}>
+				<select name="system.strike.die.size" {{#if (not editable)}} disabled {{/if}}>
+					{{selectOptions dieSizeSelectOptions selected=item.system.strike.die.size localize=true}}
+				</select>
+				<select name="system.strike.damageType" {{#if (not editable)}} disabled {{/if}}>
+					{{selectOptions damageTypeSelectOptions selected=item.system.strike.damageType localize=true}}
+				</select>
+			</div>
+		</div>
 	</fieldset>
 {{/if}}
