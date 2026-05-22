@@ -3,8 +3,9 @@ import { TEMPLATES } from '@src/system/utils/templates';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
-import { BaseItemSheet, BaseItemSheetRenderContext } from '../base';
+import { BaseItemSheetRenderContext } from '../base';
 import { DieSize } from '@src/system/types/cosmere';
+import { CosmereItem } from '@src/system/documents';
 
 export class DetailsStrikeComponent extends HandlebarsApplicationComponent<// typeof BaseItemSheet
 // TODO: Resolve typing issues
@@ -13,23 +14,27 @@ export class DetailsStrikeComponent extends HandlebarsApplicationComponent<// ty
 any> {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_DETAILS_STRIKE}`;
 
+    /* --- Accessors --- */
+
+    public get item(): CosmereItem {
+        return this.application.item;
+    }
+
     /* --- Context --- */
 
     public _prepareContext(params: never, context: BaseItemSheetRenderContext) {
         return Promise.resolve({
             ...context,
             ...this.prepareStrikeContext(),
-            hasStrike: this.application.item.hasStrike(),
+            hasStrike: this.item.hasStrike(),
         });
     }
 
     private prepareStrikeContext() {
-        if (!this.application.item.hasStrike()) return {};
-
-        const item = this.application.item;
+        if (!this.item.hasStrike()) return {};
 
         return {
-            isSpecialWeapon: item.isSpecialWeapon,
+            isSpecialWeapon: this.item.isSpecialWeapon,
             dieSizeSelectOptions: {
                 ...Object.values(DieSize).reduce(
                     (acc, dieSize) => ({
