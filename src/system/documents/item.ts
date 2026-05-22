@@ -532,6 +532,7 @@ export class CosmereItem<
                 changes.name ||
                 changes.img ||
                 changes.system?.id ||
+                changes.system?.description ||
                 changes.system?.type ||
                 changes.system?.strike
             ) {
@@ -1724,6 +1725,7 @@ export class CosmereItem<
                     formula: this.strikeDieToFormula(),
                     type: this.strikeDamageType(),
                 },
+                description: this.system.description,
             },
         };
     }
