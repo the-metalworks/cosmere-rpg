@@ -42,9 +42,6 @@ any> {
 
         const skillUnlocked = this.item.system.strike.skillLocked;
 
-        console.log('DieSize Values: ', Object.values(DieSize));
-        console.log('Skill Values: ', Object.values(Skill));
-
         await this.item.update({
             system: { strike: { skillLocked: !skillUnlocked } },
         });
