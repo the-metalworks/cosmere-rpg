@@ -28,7 +28,20 @@ any> {
         if (!this.application.item.hasAttack()) return {};
 
         const item = this.application.item;
-        const hasRange = item.system.attack.range;
+        // include the attack type check to ensure the variable can remain const
+        const hasRange =
+            item.system.attack.range ??
+            item.system.attack.type === AttackType.Ranged;
+
+        // check if the item should have range and assign if one does not exist
+        if (hasRange && !item.system.attack.range) {
+            item.system.attack.range = {
+                unit: Object.keys(CONFIG.COSMERE.units.distance)[0],
+                // keep these undefined to mimic default behavior when manually selecting range unit
+                value: undefined,
+                long: undefined,
+            };
+        }
 
         return {
             hasRange,

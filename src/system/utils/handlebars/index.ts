@@ -106,8 +106,8 @@ Handlebars.registerHelper(
 );
 
 Handlebars.registerHelper(
-    'isNumMax',
-    (value: number) => value === Number.MAX_VALUE,
+    'isNumMaxSafeInt',
+    (value: number) => value === Number.MAX_SAFE_INTEGER,
 );
 
 Handlebars.registerHelper('cosmereDingbat', (type: ActionCostType) => {
@@ -397,7 +397,7 @@ Handlebars.registerHelper(
                     const max = item.system.activation.uses.max;
                     const recharge = item.system.activation.uses.recharge;
 
-                    const hasRecharge = recharge != null;
+                    const hasRecharge = recharge != null && recharge !== 'none';
 
                     // Get config
                     const config =

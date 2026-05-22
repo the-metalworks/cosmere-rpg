@@ -300,21 +300,28 @@
         margin: 0;
         padding: 0;
 
-        &>li {
+        &>li.item.header {
+            margin: 0;
+            list-style-type: none;
+        }
+
+        &:not(.expanded), &.empty {
+            >li.item.header {
+                border-radius: 6px;
+            }
+        }
+
+        &>section.collapsible-content>div.wrapper>li {
             margin: 0;
             list-style-type: none;
 
             &:not(.favorite) {
-                &:not(:first-child):not(:last-child) {
+                &:not(:last-child) {
                     border-bottom: 1px dotted var(--cosmere-color-faded);
                 }
 
                 &:last-child {
                     border-radius: 0 0 6px 6px;
-
-                    &:first-child {
-                        border-radius: 6px;
-                    }
                 }
             }
         }
@@ -416,6 +423,24 @@
                 }
             }
 
+            .controls {
+                width: 34px;
+                text-align: center;
+                display: flex;
+                gap: 0.375rem;
+                justify-content: flex-end;
+
+                &.start {
+                    justify-content: center;
+                    margin-right: 4px;
+                }
+
+                a {
+                    width: 14px;
+                }
+            }
+
+            .controls,
             .subtitle,
             .detail {
                 width: 48px;
@@ -446,18 +471,6 @@
                 font-size: var(--font-size-10);
                 font-weight: 600;
                 font-variant: lining-nums;
-            }
-
-            .controls {
-                width: 34px;
-                text-align: center;
-                display: flex;
-                gap: 0.375rem;
-                justify-content: flex-end;
-
-                a {
-                    width: 14px;
-                }
             }
 
             .action,
@@ -579,7 +592,7 @@
             padding: 0.125rem 0.25rem;
             border-radius: 6px;
             background-color: var(--cosmere-color-base-2);
-            
+
             display: flex;
             flex-direction: row;
             gap: 0.125rem;

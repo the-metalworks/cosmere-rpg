@@ -10,6 +10,11 @@ interface JournalEntryPageTextFromUuidOptions {
      * @default true
      */
     includeHeading?: boolean;
+
+    /**
+     * An array of strings to filter against (exclude) from elements gathered.
+     */
+    filters?: string[];
 }
 
 export async function journalEntryPageTextFromUuid(
@@ -38,7 +43,12 @@ export async function journalEntryPageTextFromUuid(
     if (!page) return null;
 
     // Get the text content of the page
-    const text = getPageTextContent(page, target, options.includeHeading);
+    const text = getPageTextContent(
+        page,
+        target,
+        options.includeHeading,
+        options.filters,
+    );
     if (!text) return null;
 
     // Enrich the text if requested
@@ -53,6 +63,7 @@ function getPageTextContent(
     page: JournalEntryPage,
     target: string | undefined,
     includeHeading = true,
+    filters?: string[],
 ): string | null {
     if (!target || !page.text.content) return page.text.content ?? null;
 
@@ -79,7 +90,7 @@ function getPageTextContent(
 
     // Get the text between the heading and the next heading
     const els = $(heading)
-        .nextUntil(nextHeading ?? '')
+        .nextUntil(nextHeading ?? '', parseFilters(filters))
         .filter((_, el) => $(el).text().trim() !== '');
 
     // Return the text content of the elements and the heading
@@ -87,4 +98,16 @@ function getPageTextContent(
         includeHeading ? heading.outerHTML : '',
         ...els.toArray().map((el) => el.outerHTML),
     ].join('');
+}
+
+function parseFilters(filters?: string[]): string {
+    let returnString = '*';
+    if (filters && filters.length > 0) {
+        returnString = filters.reduce((prev, cur) => {
+            if (prev !== '') prev += ',';
+            return prev + `:contains(${cur})`;
+        }, '');
+        returnString = `:not(${returnString})`;
+    }
+    return returnString;
 }

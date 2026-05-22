@@ -8,7 +8,7 @@ import { Derived } from '@system/data/fields';
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
-export class ConfigureSensesRangeDialog extends HandlebarsApplicationMixin(
+export class ConfigureLiftingCapacityDialog extends HandlebarsApplicationMixin(
     ApplicationV2<AnyObject>,
 ) {
     /**
@@ -21,13 +21,13 @@ export class ConfigureSensesRangeDialog extends HandlebarsApplicationMixin(
             minimizable: false,
             positioned: true,
         },
-        classes: ['dialog', 'configure-senses-range'],
+        classes: ['dialog', 'configure-lifting-capacity'],
         tag: 'dialog',
         position: {
             width: 350,
         },
         actions: {
-            'update-sense': this.onUpdateSensesRange,
+            'update-lift': this.onUpdateLiftingCapacity,
         },
     };
 
@@ -35,7 +35,7 @@ export class ConfigureSensesRangeDialog extends HandlebarsApplicationMixin(
         foundry.utils.deepClone(super.PARTS),
         {
             form: {
-                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ACTOR_CONFIGURE_SENSES}`,
+                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ACTOR_CONFIGURE_LIFT}`,
                 forms: {
                     form: {
                         handler: this.onFormEvent,
@@ -47,36 +47,39 @@ export class ConfigureSensesRangeDialog extends HandlebarsApplicationMixin(
     );
     /* eslint-enable @typescript-eslint/unbound-method */
 
-    private sensesData: CommonActorData['senses'];
+    private encumbranceData: CommonActorData['encumbrance'];
     private mode: Derived.Mode;
 
     private constructor(private actor: CosmereActor) {
         super({
-            id: `${actor.uuid}.SensesRange`,
+            id: `${actor.uuid}.LiftingCapacity`,
             window: {
                 title: game.i18n
-                    .localize('DIALOG.ConfigureSensesRange.Title')
+                    .localize('DIALOG.ConfigureLiftingCapacity.Title')
                     .replace('{actor}', actor.name),
             },
         });
 
-        this.sensesData = this.actor.system.senses;
-        this.sensesData.range.override ??= this.sensesData.range.value ?? 0;
-        this.mode = this.sensesData.range.mode;
+        this.encumbranceData = this.actor.system.encumbrance;
+        this.encumbranceData.lift.override ??=
+            this.encumbranceData.lift.value ?? 0;
+        this.mode = this.encumbranceData.lift.mode;
     }
 
     /* --- Statics --- */
 
     public static async show(actor: CosmereActor) {
-        await new ConfigureSensesRangeDialog(actor).render(true);
+        await new ConfigureLiftingCapacityDialog(actor).render(true);
     }
 
     /* --- Actions --- */
 
-    private static onUpdateSensesRange(this: ConfigureSensesRangeDialog) {
+    private static onUpdateLiftingCapacity(
+        this: ConfigureLiftingCapacityDialog,
+    ) {
         void this.actor.update({
             system: {
-                senses: this.sensesData,
+                encumbrance: this.encumbranceData,
             },
         });
         void this.close();
@@ -85,7 +88,7 @@ export class ConfigureSensesRangeDialog extends HandlebarsApplicationMixin(
     /* --- Form --- */
 
     private static onFormEvent(
-        this: ConfigureSensesRangeDialog,
+        this: ConfigureLiftingCapacityDialog,
         event: Event,
         form: HTMLFormElement,
         formData: FormDataExtended,
@@ -99,19 +102,20 @@ export class ConfigureSensesRangeDialog extends HandlebarsApplicationMixin(
         this.mode = formData.object.mode as Derived.Mode;
 
         // Assign mode
-        this.sensesData.range.mode = this.mode;
+        this.encumbranceData.lift.mode = this.mode;
 
         // Assign range
         if (this.mode === Derived.Mode.Override && target.name === 'range')
-            this.sensesData.range.override = formData.object.range as number;
+            this.encumbranceData.lift.override = formData.object
+                .range as number;
 
         // Assign obscured affected
         if (
             this.mode === Derived.Mode.Override &&
             target.name === 'ignoreObscure'
         ) {
-            this.sensesData.range.override = formData.object.ignoreObscure
-                ? Number.MAX_SAFE_INTEGER
+            this.encumbranceData.lift.override = formData.object.ignoreObscure
+                ? Number.MAX_VALUE
                 : 0;
         }
 
@@ -134,7 +138,7 @@ export class ConfigureSensesRangeDialog extends HandlebarsApplicationMixin(
             actor: this.actor,
             mode: this.mode,
             modes: Derived.Modes,
-            ...this.sensesData,
+            ...this.encumbranceData,
         });
     }
 }

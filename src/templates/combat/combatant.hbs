@@ -1,4 +1,4 @@
-<li class="combatant flexrow {{css}} {{turnSpeed}} {{#if hidden}}hide{{/if}} {{#if isDefeated}}defeated{{/if}}" data-phase="{{turnSpeed}}" data-combatant-id="{{id}}">
+<li class="combatant flexrow {{css}} turn-{{turnSpeed}} {{#if hidden}}hide{{/if}} {{#if isDefeated}}defeated{{/if}}" data-phase="turn-{{turnSpeed}}" data-combatant-id="{{id}}">
     <img class="token-image" src="{{img}}" alt="{{name}}" />
     <div class="token-name flexcol">
         <h4 class="combatant-name">{{name}}</h4>
@@ -37,9 +37,9 @@
     <div class="combatant-turn-controls">
         {{#if isOwner}}
             {{#unless isBoss}}
-                <a class="combatant-turn-speed-control {{turnSpeed}}" role="button" data-tooltip="COSMERE.Combat.ToggleTurn" data-action="toggleSpeed"></a>
-            {{/unless}} 
+                <a class="combatant-turn-speed-control turn-{{turnSpeed}}" role="button" data-tooltip="COSMERE.Combat.ToggleTurn" data-action="toggleSpeed"></a>
+            {{/unless}}
         {{/if}}
-        <a class="combatant-turn-finish-control {{#if (getCombatActedState this)}}done{{/if}}" data-tooltip="COSMERE.Combat.Activate" {{#if isOwner}}data-action="activateCombatant"{{/if}}></a>    
+        <a class="combatant-turn-finish-control {{#if (getCombatActedState this)}}done{{/if}}" data-tooltip="COSMERE.Combat.Activate" {{#if isOwner}}data-action="activateCombatant"{{/if}}></a>
     </div>
 </li>

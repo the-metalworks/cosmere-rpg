@@ -10,6 +10,8 @@ import { Derived } from '@system/data/fields';
 // Dialogs
 import { ConfigureMovementRateDialog } from '@system/applications/actor/dialogs/configure-movement-rate';
 import { ConfigureSensesRangeDialog } from '@system/applications/actor/dialogs/configure-senses-range';
+import { ConfigureCarryCapacityDialog } from '@src/system/applications/actor/dialogs/configure-carry-capacity';
+import { ConfigureLiftingCapacityDialog } from '@src/system/applications/actor/dialogs/configure-lifting-capacity';
 import { ConfigureRecoveryDieDialog } from '@system/applications/actor/dialogs/configure-recovery-die';
 import { ConfigureDeflectDialog } from '@system/applications/actor/dialogs/configure-deflect';
 
@@ -35,8 +37,11 @@ any> {
         'long-rest': this.onLongRest,
         'configure-movement-rate': this.onConfigureMovementRate,
         'configure-senses-range': this.onConfigureSensesRange,
+        'configure-carry-capacity': this.onConfigureCarryCapacity,
+        'configure-lifting-capacity': this.onConfigureLiftingCapacity,
         'configure-recovery': this.onConfigureRecovery,
         'configure-deflect': this.onConfigureDeflect,
+        'edit-image': this.onEditImage,
     };
     /* eslint-enable @typescript-eslint/unbound-method */
 
@@ -58,6 +63,14 @@ any> {
         void ConfigureSensesRangeDialog.show(this.application.actor);
     }
 
+    private static onConfigureCarryCapacity(this: ActorDetailsComponent) {
+        void ConfigureCarryCapacityDialog.show(this.application.actor);
+    }
+
+    private static onConfigureLiftingCapacity(this: ActorDetailsComponent) {
+        void ConfigureLiftingCapacityDialog.show(this.application.actor);
+    }
+
     private static onConfigureDeflect(this: ActorDetailsComponent) {
         void ConfigureDeflectDialog.show(this.application.actor);
     }
@@ -65,6 +78,26 @@ any> {
     private static onConfigureRecovery(this: ActorDetailsComponent) {
         if (this.application.actor.isCharacter())
             void ConfigureRecoveryDieDialog.show(this.application.actor);
+    }
+
+    private static onEditImage(this: ActorDetailsComponent) {
+        if (this.application.mode !== 'edit') return;
+
+        const { img: defaultImg } = CosmereActor.getDefaultArtwork(
+            this.application.actor.toObject(),
+        );
+
+        void new foundry.applications.apps.FilePicker.implementation({
+            current: this.application.actor.img ?? undefined,
+            type: 'image',
+            redirectToRoot: [defaultImg],
+            callback: (path) => {
+                console.log(path);
+                void this.application.actor.update({
+                    img: path,
+                });
+            },
+        }).browse();
     }
 
     /* --- Context --- */

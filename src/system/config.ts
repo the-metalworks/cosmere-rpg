@@ -45,26 +45,31 @@ const COSMERE: CosmereRPGConfig = {
             label: 'COSMERE.Actor.Size.Small',
             size: 2.5,
             unit: 'feet',
+            tokenDimensions: 0.5,
         },
         [Size.Medium]: {
             label: 'COSMERE.Actor.Size.Medium',
             size: 5,
             unit: 'feet',
+            tokenDimensions: 1,
         },
         [Size.Large]: {
             label: 'COSMERE.Actor.Size.Large',
             size: 10,
             unit: 'feet',
+            tokenDimensions: 2,
         },
         [Size.Huge]: {
             label: 'COSMERE.Actor.Size.Huge',
             size: 15,
             unit: 'feet',
+            tokenDimensions: 3,
         },
         [Size.Garguantuan]: {
             label: 'COSMERE.Actor.Size.Gargantuan',
             size: 20,
             unit: 'feet',
+            tokenDimensions: 4,
         },
     },
     creatureTypes: {
@@ -101,8 +106,9 @@ const COSMERE: CosmereRPGConfig = {
         [Status.Afflicted]: {
             label: 'COSMERE.Status.Afflicted',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/afflicted.svg',
-            reference:
-                'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#afflicted',
+            reference: {
+                value: 'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#afflicted',
+            },
             condition: true,
         },
         [Status.Blind]: {
@@ -118,36 +124,41 @@ const COSMERE: CosmereRPGConfig = {
         [Status.Determined]: {
             label: 'COSMERE.Status.Determined',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/determined.svg',
-            reference:
-                'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#determined',
+            reference: {
+                value: 'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#determined',
+            },
             condition: true,
         },
         [Status.Disoriented]: {
             label: 'COSMERE.Status.Disoriented',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/disoriented.svg',
-            reference:
-                'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#disoriented',
+            reference: {
+                value: 'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#disoriented',
+            },
             condition: true,
         },
         [Status.Empowered]: {
             label: 'COSMERE.Status.Empowered',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/empowered.svg',
-            reference:
-                'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#empowered',
+            reference: {
+                value: 'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#empowered',
+            },
             condition: true,
         },
         [Status.Enhanced]: {
             label: 'COSMERE.Status.Enhanced',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/enhanced.svg',
-            reference:
-                'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#enhanced',
+            reference: {
+                value: 'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#enhanced',
+            },
             condition: true,
         },
         [Status.Exhausted]: {
             label: 'COSMERE.Status.Exhausted',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/exhausted.svg',
-            reference:
-                'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#exhausted',
+            reference: {
+                value: 'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#exhausted',
+            },
             condition: true,
             stackable: true,
             stacksDisplayTransform: (stacks) => (-stacks).toFixed(),
@@ -160,8 +171,9 @@ const COSMERE: CosmereRPGConfig = {
         [Status.Focused]: {
             label: 'COSMERE.Status.Focused',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/focused.svg',
-            reference:
-                'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#focused',
+            reference: {
+                value: 'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#focused',
+            },
             condition: true,
         },
         [Status.Hidden]: {
@@ -172,8 +184,9 @@ const COSMERE: CosmereRPGConfig = {
         [Status.Immobilized]: {
             label: 'COSMERE.Status.Immobilized',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/immobilized.svg',
-            reference:
-                'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#immobilized',
+            reference: {
+                value: 'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#immobilized',
+            },
             condition: true,
         },
         [Status.Invisible]: {
@@ -184,43 +197,50 @@ const COSMERE: CosmereRPGConfig = {
         [Status.Prone]: {
             label: 'COSMERE.Status.Prone',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/prone.svg',
-            reference:
-                'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#prone',
+            reference: {
+                value: 'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#prone',
+            },
             condition: true,
         },
         [Status.Restrained]: {
             label: 'COSMERE.Status.Restrained',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/restrained.svg',
-            reference:
-                'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#restrained',
+            reference: {
+                value: 'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#restrained',
+                filters: ['Amirul'],
+            },
             condition: true,
         },
         [Status.Slowed]: {
             label: 'COSMERE.Status.Slowed',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/slowed.svg',
-            reference:
-                'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#slowed',
+            reference: {
+                value: 'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#slowed',
+            },
             condition: true,
         },
         [Status.Stunned]: {
             label: 'COSMERE.Status.Stunned',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/stunned.svg',
-            reference:
-                'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#stunned',
+            reference: {
+                value: 'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#stunned',
+            },
             condition: true,
         },
         [Status.Surprised]: {
             label: 'COSMERE.Status.Surprised',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/surprised.svg',
-            reference:
-                'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#surprised',
+            reference: {
+                value: 'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#surprised',
+            },
             condition: true,
         },
         [Status.Unconscious]: {
             label: 'COSMERE.Status.Unconscious',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/unconscious.svg',
-            reference:
-                'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#unconscious',
+            reference: {
+                value: 'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#unconscious',
+            },
             condition: true,
         },
         [Status.Dead]: {
@@ -333,12 +353,12 @@ const COSMERE: CosmereRPGConfig = {
             formula: '10 + @attr.str + @bonus',
         },
         [Resource.Focus]: {
-            key: Resource.Health,
+            key: Resource.Focus,
             label: 'COSMERE.Actor.Resource.Focus',
             formula: '2 + @attr.wil + @bonus',
         },
         [Resource.Investiture]: {
-            key: Resource.Health,
+            key: Resource.Investiture,
             label: 'COSMERE.Actor.Resource.Investiture',
         },
     },

@@ -1,24 +1,24 @@
 <ol class="combat-tracker">
     {{#if fastPlayers}}
-    <li class="combat-phase fast"><span class="title">{{localize 'COSMERE.Combat.FastPlayers'}}</span></li>
+    <li class="combat-phase turn-fast"><span class="title">{{localize 'COSMERE.Combat.FastPlayers'}}</span></li>
     {{#each fastPlayers}}
     {{> combatant this}}
     {{/each}}
     {{/if}}
     {{#if fastNPC}}
-    <li class="combat-phase fast"><span class="title">{{localize 'COSMERE.Combat.FastAdversaries'}}</span></li>
+    <li class="combat-phase turn-fast"><span class="title">{{localize 'COSMERE.Combat.FastAdversaries'}}</span></li>
     {{#each fastNPC}}
     {{> combatant}}
     {{/each}}
     {{/if}}
     {{#if slowPlayers}}
-    <li class="combat-phase slow"><span class="title">{{localize 'COSMERE.Combat.SlowPlayers'}}</span></li>
+    <li class="combat-phase turn-slow"><span class="title">{{localize 'COSMERE.Combat.SlowPlayers'}}</span></li>
     {{#each slowPlayers}}
     {{> combatant}}
     {{/each}}
     {{/if}}
     {{#if slowNPC}}
-    <li class="combat-phase slow"><span class="title">{{localize 'COSMERE.Combat.SlowAdversaries'}}</span></li>
+    <li class="combat-phase turn-slow"><span class="title">{{localize 'COSMERE.Combat.SlowAdversaries'}}</span></li>
     {{#each slowNPC}}
     {{> combatant}}
     {{/each}}

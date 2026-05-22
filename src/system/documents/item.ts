@@ -12,6 +12,7 @@ import {
 } from '@system/types/cosmere';
 import { CosmereHooks } from '@system/types/hooks';
 import { AnyObject, EmptyObject, DeepPartial } from '@system/types/utils';
+import { Rule } from '@system/types/item/event-system';
 
 // Data model
 import {
@@ -93,12 +94,13 @@ import {
     getApplyTargets,
     getTargetDescriptors,
 } from '@system/utils/generic';
-import { EnricherData } from '../utils/enrichers';
+import { EnricherData } from '@system/utils/enrichers';
 import { renderSystemTemplate, TEMPLATES } from '@system/utils/templates';
 import { getEmbedHelpers } from '@system/utils/embed';
 import ItemRelationshipUtils, {
     RemoveRelationshipOptions,
-} from '@src/system/utils/item/relationship';
+} from '@system/utils/item/relationship';
+import { EventToggleOptions } from '@system/utils/item/event-system';
 
 // Dialogs
 import { AttackConfigurationDialog } from '@system/applications/dialogs/attack-configuration';
@@ -110,7 +112,7 @@ import {
 // Constants
 import { SYSTEM_ID } from '@system/constants';
 import { HOOKS } from '@system/constants/hooks';
-import { ItemOrigin } from '../types/item';
+import { ItemOrigin } from '@system/types/item';
 
 interface ShowConsumeDialogOptions {
     /**
@@ -345,6 +347,22 @@ export class CosmereItem<
 
         // Check if the actor has the mode active
         return activeMode === this.system.id;
+    }
+
+    /**
+     * Returns a list of all event rules which are currently disabled on this item.
+     */
+    public get disabledEvents(): Rule[] {
+        if (!this.hasEvents()) return [];
+        return this.system.events.filter((event) => event.disabled) as Rule[];
+    }
+
+    /**
+     * Returns a list of all event rules which are currently enabled on this item.
+     */
+    public get enabledEvents(): Rule[] {
+        if (!this.hasEvents()) return [];
+        return this.system.events.filter((event) => !event.disabled) as Rule[];
     }
 
     /* --- Lifecycle --- */
@@ -863,15 +881,15 @@ export class CosmereItem<
         const postRoll: (() => void)[] = [];
 
         // Get the actor to use this item for
-        const actor =
-            options.actor ??
+        options.actor ??=
             this.actor ??
             (game.canvas?.tokens?.controlled?.[0]?.actor as
                 | CosmereActor
-                | undefined);
+                | undefined) ??
+            (game.user?.character as CosmereActor | undefined);
 
         // Ensure an actor was found
-        if (!actor) {
+        if (!options.actor) {
             ui.notifications.warn(
                 game.i18n.localize('GENERIC.Warning.NoActor'),
             );
@@ -922,7 +940,8 @@ export class CosmereItem<
                 switch (consumption.type) {
                     case ItemConsumeType.Resource:
                         currentAmount =
-                            actor.system.resources[consumption.resource].value;
+                            options.actor.system.resources[consumption.resource]
+                                .value;
                         break;
                     // case ItemConsumeType.Item:
                     // TODO
@@ -943,7 +962,7 @@ export class CosmereItem<
                 postRoll.push(() => {
                     if (consumption.type === ItemConsumeType.Resource) {
                         // Handle actor resource consumption
-                        void actor.update({
+                        void options.actor!.update({
                             system: {
                                 resources: {
                                     [consumption.resource]: {
@@ -1021,7 +1040,9 @@ export class CosmereItem<
 
         const messageConfig = {
             user: game.user.id,
-            speaker: options.speaker ?? ChatMessage.getSpeaker({ actor }),
+            speaker:
+                options.speaker ??
+                ChatMessage.getSpeaker({ actor: options.actor }),
             rolls: [] as foundry.dice.Roll[],
             flags: {} as Record<string, unknown>,
         };
@@ -1059,7 +1080,6 @@ export class CosmereItem<
             if (hasAttack && hasDamage) {
                 const attackResult = await this.rollAttack({
                     ...options,
-                    actor,
                     skillTest: {
                         parts: options.parts,
                         plotDie: options.plotDie,
@@ -1093,7 +1113,6 @@ export class CosmereItem<
                     const damageRolls = await this.rollDamage({
                         ...options,
                         ...options.damage,
-                        actor,
                         chatMessage: false,
                     });
                     if (!damageRolls) return null;
@@ -1107,7 +1126,6 @@ export class CosmereItem<
                 if (this.system.activation.type === ActivationType.SkillTest) {
                     const roll = await this.roll({
                         ...options,
-                        actor,
                         chatMessage: false,
                     });
                     if (!roll) return null;
@@ -1285,6 +1303,59 @@ export class CosmereItem<
         if (!this.hasRelationships() || !item.hasRelationships()) return;
 
         return ItemRelationshipUtils.removeRelationship(this, item, options);
+    }
+
+    public async disableEvents(
+        this: CosmereItem,
+        options?: EventToggleOptions,
+    ): Promise<void> {
+        if (!this.hasEvents()) return undefined;
+
+        const events = this.system.events;
+        for (const event of events) {
+            if (
+                event.disabled ||
+                (options?.filter && !options.filter(event as Rule))
+            )
+                continue;
+            event.disabled = true;
+        }
+        await this.update({ system: { events } });
+    }
+
+    public async enableEvents(
+        this: CosmereItem,
+        options?: EventToggleOptions,
+    ): Promise<void> {
+        if (!this.hasEvents()) return undefined;
+
+        const events = this.system.events;
+        for (const event of events) {
+            if (
+                !event.disabled ||
+                (options?.filter && !options.filter(event as Rule))
+            )
+                continue;
+            event.disabled = false;
+        }
+        await this.update({ system: { events } });
+    }
+
+    public async setEventsToggleState(
+        this: CosmereItem,
+        options?: EventToggleOptions,
+    ) {
+        if (!this.hasEvents()) return;
+        const events = this.system.events;
+        const forceDisable = options?.disable;
+        for (const event of events) {
+            if (options?.filter && !options.filter(event as Rule)) continue;
+
+            if (forceDisable && !event.disabled) event.disabled = true;
+            else event.disabled = !event.disabled;
+        }
+
+        await this.update({ system: { events } });
     }
 
     /* --- Helpers --- */

@@ -1202,7 +1202,13 @@
                     "Description": "Description",
                     "Trigger": "Trigger",
                     "Handler": "Handler",
-                    "Create": "Add event rule"
+                    "Create": "Add event rule",
+                    "Toggle": {
+                        "Active": "Disable",
+                        "Inactive": "Enable"
+                    },
+                    "Edit": "Edit",
+                    "Delete": "Delete"
                 }
             },
             "General": {
@@ -1440,6 +1446,12 @@
         "ConfigureSensesRange": {
             "Title": "Configure Senses Range: {actor}",
             "IgnoreObscure": "Ignores Obscured"
+        },
+        "ConfigureCarryCapacity": {
+            "Title": "Configure Carry Capacity: {actor}"
+        },
+        "ConfigureLiftingCapacity": {
+            "Title": "Configure Lifting Capacity: {actor}"
         },
         "ConfigureRecoveryDie": {
             "Title": "Configure Recovery Die: {actor}"
@@ -1686,9 +1698,33 @@
             "name": "Expand Item Description By Default",
             "hint": "Determines whether the description section of an item should be expanded by default when opening the item sheet."
         },
+        "expandSectionsByDefault": {
+            "name": "Expand Actor Sheet Sections By Default",
+            "hint": "Determines whether the sections of action or equipment lists should be expanded by default when opening an actor sheet."
+        },
         "skillIncrementDecrementToggle": {
             "name": "Enable Skill Pip Increment Behavior",
             "hint": "Determines whether the skill pips increment/decrement on left click or right click, rather than setting to the clicked rank."
+        },
+        "defaultTokenAutomationBars": {
+            "name": "Token automation: Bars",
+            "hint": "Determines whether tokens will be set to have bars by default"
+        },
+        "defaultTokenAutomationSight": {
+            "name": "Token automation: Sight",
+            "hint": "Determines whether tokens will be set to have sight settings determined by actor senses by default"
+        },
+        "defaultTokenAutomationSize": {
+            "name": "Token automation: Size",
+            "hint": "Determines whether tokens will be set to have grid size determined by actor size by default"
+        },
+        "defaultTokenBar1Value": {
+            "name": "Default Token Bar 1 Resource",
+            "hint": "Determines default actor resource associated with bar 1 on tokens."
+        },
+        "defaultTokenBar2Value": {
+            "name": "Default Token Bar 2 Resource",
+            "hint": "Determines default actor resource associated with bar 2 on tokens."
         },
         "systemTheme": {
             "name": "Preferred System Theme",

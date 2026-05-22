@@ -23,7 +23,6 @@
             "plotDie": false,
             "uses": null,
             "skill": "med",
-            "attribute": null,
             "opportunity": null,
             "complication": null,
             "modifierFormula": ""
