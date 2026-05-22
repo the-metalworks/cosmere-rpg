@@ -1149,9 +1149,8 @@
                 },
                 "Strike": {
                     "Title": "Strike",
-                    "Skill": "Strike Skill",
-                    "Size": "Die Size",
-                    "Count": "Die Count"
+                    "Skill": "Skill",
+                    "Damage": "Damage"
                 },
                 "Damage": {
                     "Title": "Damage",
