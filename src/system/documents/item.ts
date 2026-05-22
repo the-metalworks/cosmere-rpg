@@ -385,26 +385,6 @@ export class CosmereItem<
 
     /* --- Accessors --- */
 
-    public get doesSkillMatchType(): boolean {
-        if (!this.isWeapon() || !this.hasStrike()) {
-            return false;
-        }
-
-        switch (this.system.type) {
-            case WeaponType.Special: {
-                return true;
-            }
-            case WeaponType.Light: {
-                return this.system.strike.skill === Skill.LightWeapons;
-            }
-            case WeaponType.Heavy: {
-                return this.system.strike.skill === Skill.HeavyWeapons;
-            }
-            default:
-                return false;
-        }
-    }
-
     public get isSpecialWeapon(): boolean {
         if (!this.isWeapon()) {
             return false;
@@ -540,24 +520,20 @@ export class CosmereItem<
         options: Item.Database.OnUpdateOperation,
         userId: string,
     ): void {
+        super._onUpdate(changed, options, userId);
+
         if (this.isWeapon()) {
             const changes = changed as Partial<WeaponItem>;
-            if (!this.doesSkillMatchType) {
-                void this.update({
-                    system: {
-                        strike: {
-                            skill: this.weaponTypeToSkill(),
-                        },
-                    },
-                });
-                return;
-            }
-            if (changes.system?.strike || changes.system?.id) {
+            if (
+                changes.name ||
+                changes.img ||
+                changes.system?.id ||
+                changes.system?.type ||
+                changes.system?.strike
+            ) {
                 void this.prepareWeaponStrikes();
             }
         }
-
-        super._onUpdate(changed, options, userId);
     }
 
     protected async prepareWeaponStrikes(this: WeaponItem) {
