@@ -11,6 +11,7 @@ import {
     Size,
     RestType,
     ImmunityType,
+    AttributeGroup,
 } from '@system/types/cosmere';
 import { Talent, TalentTree } from '@system/types/item';
 import {
@@ -56,6 +57,7 @@ import { containsExpertise } from '@system/utils/actor';
 import { SYSTEM_ID } from '@system/constants';
 import { HOOKS } from '@system/constants/hooks';
 import { AnyObject } from '@league-of-foundry-developers/foundry-vtt-types/utils';
+import { FLAGS } from '@system/utils/macros/talents/erudition';
 
 export type CharacterActor = CosmereActor<ActorType.Character>;
 export type AdversaryActor = CosmereActor<ActorType.Adversary>;
@@ -1431,6 +1433,22 @@ declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
                 'goals.hide-completed': boolean;
                 [key: `meta.update.mode.${string}`]: string;
                 [key: `mode.${string}`]: string;
+
+                /**
+                 * The following keys belong to the Erudition macro
+                 * they were ported over from the Stormlight Handbook as is.
+                 * Declaring them in erudition/index.ts was not allowing the Actor
+                 * definition to be merged and a proper way to merge them will need
+                 * to be researched to make this cleaner
+                 */
+                [FLAGS.SKILLS_COUNT]: number;
+                [FLAGS.SKILLS_GROUPS]: AttributeGroup[];
+                [FLAGS.SKILLS_INCREASE]: number;
+                [FLAGS.SKILLS_SELECTED]: Skill[];
+                [FLAGS.EXPERTISES_COUNT]: number;
+                [FLAGS.EXPERTISES_TYPES]: ExpertiseType[];
+                [FLAGS.EXPERTISES_SELECTED]: Expertise[];
+                [key: `skills.${string}.temporaryRanks`]: number;
             };
         };
 

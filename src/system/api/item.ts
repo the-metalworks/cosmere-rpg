@@ -8,6 +8,8 @@ import {
     PowerType,
     ActionType,
     WeaponType,
+    WeaponTraitId,
+    ArmorTraitId,
 } from '@system/types/cosmere';
 import {
     ItemResourceConfig,
@@ -22,6 +24,7 @@ import {
     CultureConfig,
     AncestryConfig,
     ItemEventHandlerTypeConfig,
+    TraitConfig,
 } from '@system/types/config';
 import { EventSystem as ItemEventSystem } from '@system/types/item';
 import { AnyObject } from '@system/types/utils';
@@ -601,5 +604,86 @@ export function registerItemEventHandlerType(data: ItemEventHandlerConfigData) {
         data,
         register,
         compare: false, // Handlers are not compared by hash
+    });
+}
+
+interface TraitConfigData extends TraitConfig, CommonRegistrationData {
+    /**
+     * Unique id for the trait.
+     */
+    id: string;
+}
+
+export function registerWeaponTrait(data: TraitConfigData) {
+    if (!CONFIG.COSMERE) {
+        throw new Error(
+            'Cannot access API until after the system is initialized.',
+        );
+    }
+
+    // Clean data, remove fields that are not part of the config
+    data = {
+        id: data.id,
+        label: data.label,
+        reference: data.reference,
+        hasValue: data.hasValue,
+        source: data.source,
+        priority: data.priority,
+        strict: data.strict,
+    };
+
+    const key = `traits.weaponTraits.${data.id}`;
+
+    const register = () => {
+        CONFIG.COSMERE.traits.weaponTraits[data.id as WeaponTraitId] = {
+            label: data.label,
+            reference: data.reference,
+            hasValue: data.hasValue,
+        };
+
+        return true;
+    };
+
+    return RegistrationHelper.tryRegisterConfig({
+        key,
+        data,
+        register,
+    });
+}
+
+export function registerArmorTrait(data: TraitConfigData) {
+    if (!CONFIG.COSMERE) {
+        throw new Error(
+            'Cannot access API until after the system is initialized.',
+        );
+    }
+
+    // Clean data, remove fields that are not part of the config
+    data = {
+        id: data.id,
+        label: data.label,
+        reference: data.reference,
+        hasValue: data.hasValue,
+        source: data.source,
+        priority: data.priority,
+        strict: data.strict,
+    };
+
+    const key = `traits.armorTraits.${data.id}`;
+
+    const register = () => {
+        CONFIG.COSMERE.traits.armorTraits[data.id as ArmorTraitId] = {
+            label: data.label,
+            reference: data.reference,
+            hasValue: data.hasValue,
+        };
+
+        return true;
+    };
+
+    return RegistrationHelper.tryRegisterConfig({
+        key,
+        data,
+        register,
     });
 }
