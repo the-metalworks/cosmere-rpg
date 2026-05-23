@@ -30,10 +30,6 @@ import {
     TalentTreeItemDataModel,
 } from '@system/data/item';
 
-import {
-    ActivatableItemDataSchema,
-    ItemConsumeData,
-} from '@system/data/item/mixins/activatable';
 import { AttackingItemDataSchema } from '@system/data/item/mixins/attacking';
 import { DamagingItemDataSchema } from '@system/data/item/mixins/damaging';
 import {
@@ -100,6 +96,8 @@ import {
 // Constants
 import { SYSTEM_ID } from '@system/constants';
 import { ItemOrigin } from '../types/item';
+import { EmbeddedDocumentsConfig } from './embed-config/types';
+import { ResourcesItemMixin } from '../data/item/mixins/resources';
 
 interface ShowConsumeDialogOptions {
     /**
@@ -126,20 +124,71 @@ interface ShowConsumeDialogOptions {
 //     system?: T;
 // }
 
-class _Item<TSystem extends foundry.abstract.TypeDataModel.Any> extends Item {
+class _Item<
+    const TSystem extends foundry.abstract.TypeDataModel.Any,
+> extends Item<'base'> {
+    declare static metadata: foundry.abstract.Document.MetadataFor<'Item'> & {
+        embeddedConfig: EmbeddedDocumentsConfig<'Item'>;
+    };
+
+    // @ts-expect-error Explicitly declare to get proper typing
     declare type: ItemType;
     // @ts-expect-error Explicitly declare to get proper typing
     declare system: TSystem;
     // @ts-expect-error Explicitly declare to get proper typing
-    declare actor: CosmereActor | null;
-    // @ts-expect-error Explicitly declare to get proper typing
     declare sheet: BaseItemSheet | null;
+
+    declare items: foundry.abstract.EmbeddedCollection<CosmereItem, this>;
+
+    public get actor(): CosmereActor | null {
+        return this.parent instanceof CosmereActor
+            ? this.parent
+            : this.parent instanceof CosmereItem
+              ? this.parent.actor
+              : null;
+    }
 }
 
 export class CosmereItem<
     T extends
         foundry.abstract.TypeDataModel.Any = foundry.abstract.TypeDataModel.Any,
-> extends _Item<T> {
+> extends _Item<T> {    
+    static metadata = Object.freeze(
+        foundry.utils.mergeObject(
+            super.metadata,
+            {
+                embeddedConfig: {
+                    base: {
+                        Item: {
+                            // Allow actions to be embedded in items by default, but disallow all other item types
+                            base: false,
+                            action: true,
+                        },
+                    },
+                    action: {
+                        Item: false, // Disable embedding of items in action items
+                    },
+                    connection: {
+                        Item: false, // Disable embedding of items in connection items
+                    },
+                    goal: {
+                        Item: false, // Disable embedding of items in goal items
+                    },
+                    injury: {
+                        Item: false, // Disable embedding of items in injury items
+                    },
+                    loot: {
+                        Item: false, // Disable embedding of items in loot items
+                    },
+                    talent_tree: {
+                        Item: false, // Disable embedding of items in talent tree items
+                    },
+                } as EmbeddedDocumentsConfig<'Item'>,
+            },
+            { inplace: false },
+        ),
+    );
+
     /* --- ItemType type guards --- */
 
     public isWeapon(): this is CosmereItem<WeaponItemDataModel> {
@@ -174,7 +223,7 @@ export class CosmereItem<
         return this.type === ItemType.Injury;
     }
 
-    public isAction(): this is CosmereItem<ActionItemDataModel> {
+    public isAction(): this is ActionItem {
         return this.type === ItemType.Action;
     }
 
@@ -203,13 +252,6 @@ export class CosmereItem<
     }
 
     /* --- Mixin type guards --- */
-
-    /**
-     * Can this item be activated?
-     */
-    public hasActivation(): this is ActivatableItem {
-        return 'activation' in this.system;
-    }
 
     /**
      * Does this item have an attack?
@@ -310,7 +352,52 @@ export class CosmereItem<
         return 'relationships' in this.system;
     }
 
+    /**
+     * Whether or not this item has resources that can be consumed.
+     */
+    public hasResources(): this is ResourcesItem {
+        return 'resources' in this.system;
+    }
+
     /* --- Accessors --- */
+    
+    public get isActivatable(): boolean {
+        if (this.type !== ItemType.Action) return true;
+
+        const embeddedConfig = (this.constructor as typeof CosmereItem).metadata
+            .embeddedConfig;
+        const configForType =
+            embeddedConfig[this.type] ?? embeddedConfig.base ?? {};
+
+        if (configForType.Item === false) return false;
+
+        const actionConfig =
+            configForType.Item!.action ?? configForType.Item!.base ?? true;
+
+        return actionConfig !== false;
+    }
+
+    public get hasActions(): boolean {
+        return this.actions.length > 0;
+    }
+
+    public get actions(): readonly ActionItem[] {
+        return this.items.filter((item) => item.isAction());
+    }
+
+    /**
+     * Whether or not this action is the default activation for its parent item.
+     * Only available for action items that are embedded in other items.
+     */
+    public get isDefaultActivation(): boolean {
+        if (
+            !this.isAction() ||
+            !this.parent ||
+            !(this.parent instanceof CosmereItem)
+        )
+            return false;
+        return this.parent.actions.at(0)?.id === this.id;
+    }
 
     /**
      * Checks if the talent item mode is active.
@@ -337,7 +424,7 @@ export class CosmereItem<
     }
 
     /* --- Lifecycle --- */
-
+    
     public override async _onClickDocumentLink(event: MouseEvent) {
         if (!this.sheet)
             return super._onClickDocumentLink(
@@ -786,11 +873,11 @@ export class CosmereItem<
 
     protected async showConsumeDialog(
         options: ShowConsumeDialogOptions = {},
-    ): Promise<ItemConsumeData[] | null> {
-        if (!this.hasActivation()) return null;
-        if (!this.system.activation.consume) return null;
+    ): Promise<ActionItemDataModel.ConsumeData[] | null> {
+        if (!this.isAction()) return null;
+        if (!this.system.activation!.consumption) return null;
 
-        const consumeOptions = this.system.activation.consume.map(
+        const consumeOptions = this.system.activation!.consumption.map(
             (consumptionData, i) => {
                 const consumeType = options.consumeType ?? consumptionData.type;
                 // Only automatically check first option, or anything overridden.
@@ -800,12 +887,12 @@ export class CosmereItem<
                 const label =
                     consumeType === ItemConsumeType.Resource
                         ? game.i18n.localize(
-                              CONFIG.COSMERE.resources[consumptionData.resource]
-                                  .label,
-                          )
+                                CONFIG.COSMERE.resources[consumptionData.resource]
+                                    .label,
+                            )
                         : consumeType === ItemConsumeType.Item
-                          ? '[TODO ITEM]'
-                          : game.i18n.localize('GENERIC.Unknown');
+                            ? '[TODO ITEM]'
+                            : game.i18n.localize('GENERIC.Unknown');
 
                 return {
                     type: consumeType,
@@ -828,17 +915,42 @@ export class CosmereItem<
 
     /* --- Functions --- */
 
-    public async recharge() {
-        if (!this.hasActivation() || !this.system.activation.uses) return;
+    /**
+     * Recharge the item, restoring specified resource(s) to their maximum value.
+     * If no specific resource(s) are provided, all resources will be recharged.
+     */
+    public async recharge(resource?: ItemResource): Promise<void>;
+
+    /**
+     * Recharge the item, restoring specified resource(s) to their maximum value.
+     * If no specific resource(s) are provided, all resources will be recharged.
+     */
+    public async recharge(resources?: ItemResource[]): Promise<void>;
+    public async recharge(
+        resourceOrResources?: ItemResource | ItemResource[],
+    ): Promise<void> {
+        if (!this.hasResources()) return;
+
+        // Default to recharging all resources if no specific resource(s) were provided
+        resourceOrResources =
+            resourceOrResources ??
+            (Object.keys(this.system.resources) as ItemResource[]);
+
+        const resourcesToRecharge = Array.isArray(resourceOrResources)
+            ? resourceOrResources
+            : [resourceOrResources];
 
         // Recharge resource
         await this.update({
             system: {
-                activation: {
-                    uses: {
-                        value: this.system.activation.uses.max,
-                    },
-                },
+                resources: Object.fromEntries(
+                    resourcesToRecharge.map((resource) => [
+                        resource,
+                        {
+                            value: this.system.resources[resource].max,
+                        },
+                    ]),
+                ),
             },
         });
     }
@@ -955,10 +1067,10 @@ export class CosmereItem<
         }
 
         let action;
-        if (this.hasActivation() && this.system.activation.cost.value) {
-            switch (this.system.activation.cost.type) {
+        if (this.isAction() && this.system.activation!.cost.value) {
+            switch (this.system.activation!.cost.type) {
                 case ActionCostType.Action:
-                    action = `action${Math.min(3, this.system.activation.cost.value)}`;
+                    action = `action${Math.min(3, this.system.activation!.cost.value)}`;
                     break;
                 case ActionCostType.Reaction:
                     action = 'reaction';
@@ -1012,7 +1124,7 @@ export class CosmereItem<
             actor,
             item: {
                 name: this.name,
-                charges: this.hasActivation()
+                charges: this.hasResources()
                     ? {
                           value:
                               (this as unknown as ActivatableItem).system
@@ -1057,7 +1169,6 @@ export type CosmereItemFromSchema<
     >
 >;
 
-export type ActivatableItem = CosmereItemFromSchema<ActivatableItemDataSchema>;
 export type AttackingItem = CosmereItemFromSchema<AttackingItemDataSchema>;
 export type DamagingItem = CosmereItemFromSchema<DamagingItemDataSchema>;
 export type DescriptionItem = CosmereItemFromSchema<DescriptionItemDataSchema>;
@@ -1095,10 +1206,22 @@ export type LinkedSkillsItem =
 export type RelationshipsItem =
     CosmereItemFromSchema<RelationshipsItemDataSchema>;
 
+export type ResourcesItem = CosmereItemFromSchema<ResourcesItemMixin.Schema>;
+
 declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
+    interface DocumentClassConfig {
+        Item: typeof CosmereItem;
+    }
+
     interface ConfiguredItem<SubType extends Item.SubType> {
         document: CosmereItem;
     }
+
+    // interface ConfiguredMetadata {
+    //     Item: Item.Metadata & {
+    //         'test': string;
+    //     }
+    // }
 
     interface FlagConfig {
         Item: {
