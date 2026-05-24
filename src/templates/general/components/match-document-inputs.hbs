@@ -1,0 +1,82 @@
+{{formGroup data.schema.fields.target
+    name="matchDocument.target"
+    value=data.target
+    localize=true
+    disabled=(not editable)
+    hint=false
+}}
+
+{{!-- Don't show match by field if: --}}
+{{!-- 1. Target is global (since it only supports match by UUID) --}}
+{{!-- 2. Target is self --}}
+{{#if (and (not (eq data.target "global")) (not (eq data.target "self")))}}
+    {{formGroup data.schema.fields.matchBy
+        name="matchDocument.matchBy"
+        value=data.matchBy
+        localize=true
+        disabled=(not editable)
+        hint=false
+    }}
+{{/if}}
+
+{{!-- Only show document type field if: --}}
+{{!-- 1. Match by document type --}}
+{{!-- 2. No reference is set --}}
+{{!-- 3. There is more than one document type choice --}}
+{{#if (and (and (eq data.matchBy "document-type") (not data.reference)) (gt (len (keys data.schema.fields.documentType.choices)) 1))}}
+    {{formGroup data.schema.fields.documentType
+        name="matchDocument.documentType"
+        value=data.documentType
+        localize=true
+        disabled=(not editable)
+        hint=false
+    }}
+{{/if}}
+
+{{!-- Don't show reference field if: --}}
+{{!-- 1. Target is "self" --}}
+{{!-- 2. Match by document type and there is only one document type choice --}}
+{{!-- 3. Target is "equipped-weapon" --}}
+{{!-- 4. Target is "equipped-armor" --}}
+{{#if (not (or (eq data.target "self") (and (eq data.matchBy "document-type") (eq (len (keys data.schema.fields.documentType.choices)) 1)) (eq data.target "equipped-weapon") (eq data.target "equipped-armor")))}}
+    <div class="form-group">
+        <label>{{localize data.schema.fields.reference.label}}</label>
+
+        <div class="form-fields">
+            {{app-document-reference-input
+                name="matchDocument.reference"
+                value=data.reference
+                type=data.schema.fields.reference.options.type
+                readonly=(not editable)
+            }}
+        </div>
+    </div>
+{{/if}}
+
+{{!-- Don't show match all field if: --}}
+{{!-- 1. Target is "self" --}}
+{{!-- 2. Target is "global" --}}
+{{!-- 3. Target is "parent" --}}
+{{!-- 4. Target is "equipped-weapon" --}}
+{{!-- 5. Target is "equipped-armor" --}}
+{{#if (not (or (eq data.target "self") (eq data.target "global") (eq data.target "parent") (eq data.target "equipped-weapon") (eq data.target "equipped-armor")))}}
+    <div class="form-group">
+        <label>
+            {{localize data.schema.fields.matchAll.label}}
+            <i class="info fa-regular fa-circle-question"
+                data-tooltip="{{localize data.schema.fields.matchAll.hint}}">
+            </i>
+        </label>
+
+        <div class="form-fields">
+            {{formInput data.schema.fields.matchAll
+                name="matchDocument.matchAll"
+                value=data.matchAll
+                localize=true
+                disabled=(not editable)
+                hint=false
+            }}
+
+        </div>
+    </div>
+{{/if}}

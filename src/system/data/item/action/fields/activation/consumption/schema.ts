@@ -28,6 +28,7 @@ function defineBaseSchema() {
                 ),
             },
             initial: ItemConsumeType.Resource,
+            label: 'COSMERE.Item.Activation.ResourceConsumption.Type.Label',
         }),
         value: new foundry.data.fields.SchemaField({
             min: new foundry.data.fields.NumberField({
@@ -51,6 +52,8 @@ function defineBaseSchema() {
                 integer: true,
                 initial: 0,
             }),
+        }, {
+            label: 'COSMERE.Item.Activation.ResourceConsumption.Value.Label',
         }),
     };
 }
@@ -70,6 +73,7 @@ export function defineConsumeActorResourceSchema() {
             ),
             initial: Resource.Focus,
             allowFallback: true,
+            label: 'COSMERE.Item.Activation.ResourceConsumption.Type.ActorResource.Resource.Label',
         }),
         matchDocument: new MatchDocumentField({
             required: true,
@@ -96,6 +100,7 @@ export function defineConsumeItemResourceSchema() {
             ),
             initial: ItemResource.Uses,
             allowFallback: true,
+            label: 'COSMERE.Item.Activation.ResourceConsumption.Type.ItemResource.Resource.Label',
         }),
         matchDocument: new MatchDocumentField({
             required: true,
@@ -175,9 +180,9 @@ export type ConsumeItemResourceDataModel = InstanceType<
 >;
 
 export type ActivationConsumptionDataModel =
-    | NoneConsumptionDataModel
-    | ConsumeActorResourceDataModel
-    | ConsumeItemResourceDataModel;
+    | (NoneConsumptionDataModel & { type: typeof NONE })
+    | (ConsumeActorResourceDataModel & { type: ItemConsumeType.Resource })
+    | (ConsumeItemResourceDataModel & { type: ItemConsumeType.ItemResource });
 
 export function getDataModelForConsumeType<
     Type extends Noneable<ItemConsumeType>,

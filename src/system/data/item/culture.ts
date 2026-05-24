@@ -8,6 +8,7 @@ import {
     DescriptionItemDataSchema,
 } from './mixins/description';
 import { EventsItemMixin, EventsItemDataSchema } from './mixins/events';
+import { ResourcesItemMixin } from './mixins/resources';
 import {
     LinkedSkillsMixin,
     LinkedSkillsItemDataSchema,
@@ -22,6 +23,7 @@ export type CultureItemDataSchema =
     & DescriptionItemDataSchema
     & EventsItemDataSchema
     & LinkedSkillsItemDataSchema
+    & ResourcesItemMixin.Schema
     & RelationshipsItemDataSchema;
 
 export class CultureItemDataModel extends DataModelMixin<
@@ -35,6 +37,7 @@ export class CultureItemDataModel extends DataModelMixin<
         value: 'COSMERE.Item.Type.Culture.desc_placeholder',
     }),
     EventsItemMixin(),
+    ResourcesItemMixin(),
     LinkedSkillsMixin(),
     RelationshipsMixin(),
 ) {}

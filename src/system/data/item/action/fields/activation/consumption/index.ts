@@ -44,18 +44,8 @@ export class ActivationConsumptionField<
         >,
         options?: foundry.data.fields.DataField.CleanOptions,
     ) {
-        console.log('ActivationConsumptionField._cleanType', {
-            value,
-            options: foundry.utils.deepClone(options),
-        });
-
         const type: Noneable<ItemConsumeType> = value.type ?? NONE;
-
-        console.log('Determined type:', type);
-
         const Model = ActivationConsumptionField.getModelForType(type);
-
-        console.log('Using model:', Model.schema.fields);
 
         const cleaned = Model.cleanData(
             value as AnyMutableObject,
@@ -64,8 +54,6 @@ export class ActivationConsumptionField<
             ActivationConsumptionField.AssignmentType,
             null | undefined
         >;
-
-        console.log('Cleaned value:', cleaned);
 
         return cleaned;
     }
@@ -151,12 +139,12 @@ export class ActivationConsumptionField<
         options?: foundry.data.fields.DataField.InitializeOptions,
     ) {
         const Model = ActivationConsumptionField.getModelForType(value.type);
-        return value instanceof Model
+        return (value instanceof Model
             ? value
             : new Model(foundry.utils.deepClone(value), {
                   parent: model,
                   ...options,
-              });
+              })) as ActivationConsumptionField.InitializedType;
     }
 }
 

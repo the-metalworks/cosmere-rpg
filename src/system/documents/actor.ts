@@ -297,7 +297,9 @@ export class CosmereActor<
     public prepareDerivedData() {
         super.prepareDerivedData();
         this.applyActiveEffects();
-        this.system.prepareSecondaryDerivedData();
+
+        if (this.type !== 'base')
+            this.system.prepareSecondaryDerivedData();
     }
 
     public override async _preCreate(

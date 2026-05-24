@@ -369,11 +369,9 @@ Handlebars.registerHelper(
                         .consumption) {
                         const consumesResource =
                             consumable.type === ItemConsumeType.Resource;
-                        const consumesItem =
-                            consumable.type === ItemConsumeType.Item;
-
-                        // Get resource
-                        const resource = consumable.resource;
+                        // const consumesItem =
+                        //     consumable.type === ItemConsumeType.Item;
+                        const consumesItem = false;
 
                         context.hasConsume = true;
                         context.consume.push({
@@ -382,11 +380,11 @@ Handlebars.registerHelper(
                             consumesResource,
                             consumesItem,
 
-                            ...(resource
+                            ...(consumable.type === ItemConsumeType.Resource
                                 ? {
                                       resource: consumable.resource,
                                       resourceLabel:
-                                          CONFIG.COSMERE.resources[resource]
+                                          CONFIG.COSMERE.resources[consumable.resource]
                                               .label,
                                   }
                                 : {}),
@@ -601,8 +599,21 @@ Handlebars.registerHelper('resourceCostInput', (value: NumberRange) => {
     }
 });
 
+Handlebars.registerHelper('keys', (obj: AnyObject) => Object.keys(obj));
+
+Handlebars.registerHelper('values', (obj: AnyObject) => Object.values(obj));
+
 Handlebars.registerHelper('entries', (obj: AnyObject) => {
     return Object.entries(obj).map(([key, value]) => ({ key, value }));
+});
+
+Handlebars.registerHelper('len', (value: unknown) => {
+    if (Array.isArray(value) || typeof value === 'string') {
+        return value.length;
+    } else if (value instanceof Map || value instanceof Set) {
+        return value.size;
+    }
+    return 0;
 });
 
 Handlebars.registerHelper('filterSelectOptions', ((
@@ -625,6 +636,10 @@ Handlebars.registerHelper('filterSelectOptions', ((
             {} as Record<string, string>,
         );
 }) as unknown as Handlebars.HelperDelegate);
+
+Handlebars.registerHelper('getProperty', (obj: AnyObject, path: string) => {
+    return foundry.utils.getProperty(obj, path);
+});
 
 export async function preloadHandlebarsTemplates() {
     const templates = Object.values(TEMPLATES).reduce(

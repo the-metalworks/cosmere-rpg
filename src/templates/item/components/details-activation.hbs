@@ -43,7 +43,11 @@
             {{!-- Consume --}}
             <div class="form-group consume">
                 <label>{{localize systemFields.activation.fields.consumption.label}}</label>
-                <div class="form-fields-list">
+                {{app-item-resource-consumption-list
+                    item=item
+                    disabled=(not editable)
+                }}
+                {{!-- <div class="form-fields-list">
                     {{#each consume}}
                         <div class="form-fields">
                             <input name="system.activation.consumption[{{@index}}].value"
@@ -62,8 +66,6 @@
                                     disabled=(not @root.editable)
                                 }}
                             {{/if}}
-
-                            {{!-- TODO: Consume type = item --}}
 
                             {{formInput this.schema.fields.type
                                 name=(concat "system.activation.consumption[" @index "].type")
@@ -90,7 +92,7 @@
                         }}
                         </div>
                     {{/each}}
-                </div>
+                </div> --}}
             </div>
 
             {{!-- Skill test --}}

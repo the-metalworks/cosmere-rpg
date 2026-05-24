@@ -174,7 +174,8 @@
     &.pick-dice-result,
     &.roll-configuration,
     &.edit-event-rule,
-    &.edit-creature-type {
+    &.edit-creature-type,
+    &.edit-resource-consumption {
         form,
         #consumables {
             display: flex;

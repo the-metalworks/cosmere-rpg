@@ -126,3 +126,78 @@ app-item-drop-list {
         margin: 0;
     }
 }
+
+app-item-resource-consumption-list {
+    flex: 2;
+    display: flex;
+    align-items: center;
+
+    .entries {
+        flex: 1;
+
+        ul {
+            padding: 0;
+            margin: 0;
+        }
+
+        .entry {
+            display: flex;
+            align-items: center;
+
+            background-color: var(--cosmere-color-base-3);
+            padding: 0.375rem;
+            border-radius: 6px;
+
+            .content {
+                flex: 1;
+                display: flex;
+                gap: .35ch;
+                align-items: center;
+            }
+
+            span:not(.value, .resource, .target) {
+                opacity: 0.8;
+            }
+
+            .resource {
+                font-weight: bold;
+            }
+        }
+    }
+
+    >.controls {
+        margin-left: 0.5rem;
+    }
+}
+
+app-match-document-inputs {
+    display: inherit;
+    flex-direction: inherit;
+    gap: inherit;
+}
+
+app-match-document-target {
+    display: flex;
+    gap: .35ch;
+
+    a.content-link {
+        display: flex;
+        align-items: center;
+        gap: .25ch;
+        padding: 2px 4px;
+
+        > img {
+            width: 20px;
+            height: 20px;
+            border: 1px solid var(--content-link-border-color);
+        }
+    }
+
+    span.target, span.type {
+        font-weight: bold;
+    }
+}
+
+.form-fields>app-document-reference-input {
+    flex: 1;
+}

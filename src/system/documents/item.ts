@@ -1004,17 +1004,12 @@ export class CosmereItem<
             // Process each included resource consumption
             for (const consumption of consumeResponse) {
                 // Get the current amount
-                let currentAmount: number;
-                switch (consumption.type) {
-                    case ItemConsumeType.Resource:
-                        currentAmount =
+                let currentAmount: number = 0;
+
+                if (consumption.type === ItemConsumeType.Resource) {
+                    currentAmount =
                             options.actor.system.resources[consumption.resource]
                                 .value;
-                        break;
-                    // case ItemConsumeType.Item:
-                    // TODO
-                    default:
-                        currentAmount = 0;
                 }
 
                 // Validate that there's enough resource to consume
@@ -1039,16 +1034,17 @@ export class CosmereItem<
                                 },
                             },
                         });
-                    } else if (consumption.type === ItemConsumeType.Item) {
-                        // Handle item consumption
-                        // TODO: Figure out how to handle item consumption
+                    } // TODO: Handle item resource consumption
+                    // } else if (consumption.type === ItemConsumeType.Item) {
+                    //     // Handle item consumption
+                    //     // TODO: Figure out how to handle item consumption
 
-                        ui.notifications.warn(
-                            game.i18n
-                                .localize('GENERIC.Warning.NotImplemented')
-                                .replace('[action]', 'Item consumption'),
-                        );
-                    }
+                    //     ui.notifications.warn(
+                    //         game.i18n
+                    //             .localize('GENERIC.Warning.NotImplemented')
+                    //             .replace('[action]', 'Item consumption'),
+                    //     );
+                    // }
                 });
             }
         }
@@ -1257,7 +1253,7 @@ export class CosmereItem<
                 const amount = consumptionData.value;
 
                 const label =
-                    consumeType === ItemConsumeType.Resource
+                    consumptionData.type === ItemConsumeType.Resource
                         ? game.i18n.localize(
                               CONFIG.COSMERE.resources[consumptionData.resource]
                                   .label,
@@ -1269,7 +1265,7 @@ export class CosmereItem<
                 return {
                     type: consumeType,
                     resource: label,
-                    resourceId: consumptionData.resource ?? 'unknown',
+                    resourceId: consumptionData.type === ItemConsumeType.Resource ? consumptionData.resource : 'unknown',
                     amount,
                     shouldConsume,
                 };

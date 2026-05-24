@@ -32,9 +32,18 @@ export const MatchBy = {
     Identifier: 'identifier', // Match by the document's identifier (only applicable to items)
     Name: 'name', // Match by the document's name
     UUID: 'uuid', // Match by the document's UUID
+    DocumentType: 'document-type', // Match by the document's type (e.g. Item, Actor, etc.)
 } as const;
 
 export type MatchBy = (typeof MatchBy)[keyof typeof MatchBy];
+
+export const SINGLE_MATCH_TARGETS = [
+    DocumentTarget.Self,
+    DocumentTarget.Global,
+    DocumentTarget.Parent,
+    ItemTarget.EquippedWeapon,
+    ItemTarget.EquippedArmor,
+] as ItemTarget[];
 
 interface MatchDocumentParams {
     /**
@@ -42,7 +51,7 @@ interface MatchDocumentParams {
      * This is used to determine the scope of the search (e.g. siblings, ancestors, descendants)
      * and is also used as the document to match if the target is 'self'.
      */
-    origin: foundry.abstract.Document.Any;
+    relativeTo: foundry.abstract.Document.Any;
 
     /**
      * The target type to match.
@@ -53,6 +62,12 @@ interface MatchDocumentParams {
      * By which operation to match the target document(s).
      */
     matchBy: MatchBy;
+
+    /**
+     * The type of document to match. Only applicable when matching by document type.  
+     * Ignored if reference is provided.
+     */
+    documentType?: foundry.abstract.Document.Type;
 
     /**
      * The reference document (or UUID of the reference document) to match against.
@@ -76,37 +91,40 @@ export function matchDocuments(
 ): Promise<foundry.abstract.Document.Any[]>;
 export function matchDocuments(params: MatchItemParams): Promise<CosmereItem[]>;
 export async function matchDocuments({
-    origin,
+    relativeTo,
     target,
     matchBy,
+    documentType,
     reference = null,
     matchAll = false,
 }: MatchDocumentParams | MatchItemParams): Promise<
     foundry.abstract.Document.Any[]
 > {
-    // Validate parameters
-    if (target !== 'self' && !reference)
-        throw new Error(
-            'Reference document or UUID must be provided for target types other than "self"',
-        );
+    if (!reference && documentType && matchBy === 'document-type') {
+        reference = getEphemeralReferenceDocument(documentType);
+    }
 
-    if (target === 'self') return [origin];
+    if (target !== 'self' && !reference)
+        throw new Error('Reference document must be provided when target is not "self"');
+
+    if (target === 'self') return [relativeTo];
 
     // Resolve reference document if a UUID string was provided
     const referenceDoc: foundry.abstract.Document.Any | null =
         typeof reference === 'string' ? await fromUuid(reference) : reference;
-    if (!referenceDoc) return [];
-
-    if (target === 'global' && matchBy !== 'uuid')
-        throw new Error('Global target type only supports matching by UUID');
+    if (!referenceDoc)
+        return [];
 
     if (target === 'global') {
+        if (matchBy !== 'uuid')
+            throw new Error('Global target type only supports matching by UUID');
+
         return [referenceDoc];
     }
 
     const matcher = resolveMatcher(matchBy, referenceDoc);
     const candidates = resolveCandidateDocuments(
-        origin,
+        relativeTo,
         target as Exclude<DocumentTarget, 'self' | 'global'>,
     );
 
@@ -129,6 +147,7 @@ function resolveMatcher(
 ): (doc: foundry.abstract.Document.Any) => boolean {
     if (matchBy === 'name') return getNameMatcher(referenceDoc);
     if (matchBy === 'uuid') return getUUIDMatcher(referenceDoc);
+    if (matchBy === 'document-type') return getDocumentTypeMatcher(referenceDoc);
 
     if (matchBy === 'identifier') {
         if (!(referenceDoc instanceof CosmereItem))
@@ -150,6 +169,11 @@ function getUUIDMatcher(referenceDoc: foundry.abstract.Document.Any) {
         doc.uuid === referenceDoc.uuid;
 }
 
+function getDocumentTypeMatcher(referenceDoc: foundry.abstract.Document.Any) {
+    return (doc: foundry.abstract.Document.Any) =>
+        doc.documentName === referenceDoc.documentName;
+}
+
 function getIdentifierMatcher(referenceItem: CosmereItem) {
     return (doc: foundry.abstract.Document.Any) =>
         doc instanceof CosmereItem &&
@@ -161,24 +185,25 @@ function getIdentifierMatcher(referenceItem: CosmereItem) {
 /* --- Helpers --- */
 
 function resolveCandidateDocuments(
-    origin: foundry.abstract.Document.Any,
+    relativeTo: foundry.abstract.Document.Any,
     target: Exclude<ItemTarget, 'self' | 'global'>,
 ): foundry.abstract.Document.Any[] {
     if (target === 'sibling') {
-        if (!origin.parent) return [];
-        return Object.values(origin.parent.collections)
+        if (!relativeTo.parent) return [];
+        
+        return Object.values(relativeTo.parent.collections)
             .flatMap((collection) => Array.from(collection))
-            .filter((doc) => doc !== origin);
+            .filter((doc) => doc !== relativeTo);
     } else if (target === 'ancestor') {
-        return getAncestors(origin);
+        return getAncestors(relativeTo);
     } else if (target === 'descendant') {
-        return getDescendants(origin);
+        return getDescendants(relativeTo);
     } else if (target === 'parent') {
-        return origin.parent ? [origin.parent] : [];
+        return relativeTo.parent ? [relativeTo.parent] : [];
     } else if (target === 'child') {
-        return getChildren(origin);
+        return getChildren(relativeTo);
     } else if (target === 'equipped-weapon' || target === 'equipped-armor') {
-        const ancestralActor = getAncestors(origin).find(
+        const ancestralActor = getAncestors(relativeTo).find(
             (doc) => doc instanceof Actor,
         );
         if (!ancestralActor) return [];
@@ -194,9 +219,9 @@ function resolveCandidateDocuments(
 }
 
 function getAncestors(
-    doc: foundry.abstract.Document.Any,
+    doc?: foundry.abstract.Document.Any,
 ): foundry.abstract.Document.Any[] {
-    if (!doc.parent) return [];
+    if (!doc || !doc.parent) return [];
     return [doc.parent, ...getAncestors(doc.parent)];
 }
 
@@ -215,4 +240,13 @@ function getChildren(
     return Object.values(doc.collections).flatMap((collection) =>
         Array.from(collection),
     );
+}
+
+function getEphemeralReferenceDocument(documentType: foundry.abstract.Document.Type) {
+    const docClass = CONFIG[documentType].documentClass as new (data: object) => foundry.abstract.Document.Any;
+
+    return new docClass({
+        name: 'Ephemeral Reference Document',
+        type: 'base'
+    });
 }
