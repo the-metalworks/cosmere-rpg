@@ -1037,7 +1037,8 @@ export class CosmereItem<
                     } else if (
                         consumption.type === ItemConsumeType.ItemResource &&
                         target instanceof CosmereItem &&
-                        target.hasResources()
+                        target.hasResources() &&
+                        target.system.resources[consumption.resource]
                     ) {
                         currentAmount =
                             target.system.resources[consumption.resource].value;
