@@ -20,6 +20,10 @@ import {
     RelationshipsMixin,
     RelationshipsItemDataSchema,
 } from './mixins/relationships';
+import {
+    TalentsProviderDataSchema,
+    TalentsProviderMixin,
+} from './mixins/talents-provider';
 
 const SCHEMA = () => ({
     customSkill: new foundry.data.fields.BooleanField({
@@ -55,7 +59,8 @@ export type PowerItemDataSchema = ReturnType<typeof SCHEMA> &
     DescriptionItemDataSchema &
     ResourcesItemMixin.Schema &
     EventsItemDataSchema &
-    RelationshipsItemDataSchema;
+    RelationshipsItemDataSchema &
+    TalentsProviderDataSchema;
 
 export type PowerItemDerivedData = TypedItemDerivedData;
 
@@ -90,6 +95,7 @@ export class PowerItemDataModel extends DataModelMixin<
     ResourcesItemMixin(),
     EventsItemMixin(),
     RelationshipsMixin(),
+    TalentsProviderMixin(),
 ) {
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());

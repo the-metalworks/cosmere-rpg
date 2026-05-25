@@ -304,10 +304,17 @@ export class CosmereItem<
     }
 
     /**
+     * Does this item have equippable data?
+     */
+    public isEquippableItem(): this is EquippableItem {
+        return 'equipped' in this.system;
+    }
+
+    /**
      * Can this item be equipped?
      */
     public isEquippable(): this is EquippableItem {
-        return 'equipped' in this.system;
+        return this.isEquippableItem() && this.system.equippableEnabled;
     }
 
     /**
@@ -1004,12 +1011,12 @@ export class CosmereItem<
             // Process each included resource consumption
             for (const consumption of consumeResponse) {
                 // Get the current amount
-                let currentAmount: number = 0;
+                let currentAmount = 0;
 
                 if (consumption.type === ItemConsumeType.Resource) {
                     currentAmount =
-                            options.actor.system.resources[consumption.resource]
-                                .value;
+                        options.actor.system.resources[consumption.resource]
+                            .value;
                 }
 
                 // Validate that there's enough resource to consume
@@ -1265,7 +1272,10 @@ export class CosmereItem<
                 return {
                     type: consumeType,
                     resource: label,
-                    resourceId: consumptionData.type === ItemConsumeType.Resource ? consumptionData.resource : 'unknown',
+                    resourceId:
+                        consumptionData.type === ItemConsumeType.Resource
+                            ? consumptionData.resource
+                            : 'unknown',
                     amount,
                     shouldConsume,
                 };

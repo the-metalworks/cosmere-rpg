@@ -23,7 +23,7 @@
                     {{/if}}
                 {{/if}}
             </div>
-        </section>        
+        </section>
     </li>
 
     {{#each section.items as |item|}}
@@ -31,13 +31,13 @@
     {{#with (itemContext item) as |ctx|}}
     {{#with (lookup section.itemData item.id) as |data|}}
 
-    <li class="item {{#if ctx.hasActivation}}usable{{/if}} collapsible {{#if state.expanded}}expanded{{/if}}" 
+    <li class="item {{#if ctx.hasActivation}}usable{{/if}} collapsible {{#if state.expanded}}expanded{{/if}}"
         data-item-id="{{item.id}}"
         {{#if @root.editable}}data-drag="true"{{/if}}
     >
         <section class="details">
             {{!-- Image --}}
-            <div class="img" 
+            <div class="img"
                 {{#if ctx.hasActivation}}
                 data-action="use-item"
                 data-tooltip="COSMERE.Actor.Sheet.Actions.Strike"
@@ -104,7 +104,7 @@
                         {{/if}}
                     >
                         <div class="hold-2h {{#if ctx.equipped}}equipped{{/if}}"></div>
-                    </a>                
+                    </a>
                     {{else}}
                     {{!-- One handed item --}}
                     <a role="button"
@@ -117,7 +117,7 @@
                     >
                         <div class="hold-1h main-hand {{#if ctx.equipped}}{{#if (eq ctx.equip.hand 'main_hand')}}equipped{{/if}}{{/if}}"></div>
                         <div class="hold-1h off-hand {{#if ctx.equipped}}{{#if (eq ctx.equip.hand 'off_hand')}}equipped{{/if}}{{/if}}"></div>
-                    </a>                
+                    </a>
                     {{/if}}
 
                 {{else}}
@@ -167,7 +167,7 @@
             <div class="wrapper">
                 {{{default data.descriptionHTML '<p>—</p>'}}}
             </div>
-        </section>        
+        </section>
     </li>
     {{/with}}
     {{/with}}

@@ -52,18 +52,21 @@ any> {
 
     public _prepareContext(params: never, context: BaseItemSheetRenderContext) {
         const item = this.application.item; // TEMP: Workaround
-        const isEquippable = item.isEquippable();
+        const isEquippableItem = item.isEquippableItem();
+        const hasTraits = item.hasTraits();
 
-        if (!isEquippable) {
+        if (!isEquippableItem) {
             return Promise.resolve({
                 ...context,
-                isEquippable,
+                isEquippableItem,
             });
         }
 
         return Promise.resolve({
             ...context,
-            isEquippable,
+            alwaysEquippable: item.system.alwaysEquippable,
+            isEquippableItem,
+            isEquippable: item.isEquippable(),
             equipTypes: Object.entries(CONFIG.COSMERE.items.equip.types).reduce(
                 (acc, [key, type]) => ({
                     ...acc,
@@ -74,6 +77,7 @@ any> {
             holdTypeLabel: item.system.equip.hold
                 ? CONFIG.COSMERE.items.equip.hold[item.system.equip.hold].label
                 : '—',
+            hasTraits,
             normalTraitsCollapsed: this.normalTraitsCollapsed,
             expertTraitsCollapsed: this.expertTraitsCollapsed,
             normalTraits: this.prepareTraitsData(false),

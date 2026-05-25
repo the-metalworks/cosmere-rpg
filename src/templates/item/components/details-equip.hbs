@@ -1,22 +1,57 @@
-{{#if isEquippable}}
+{{#if isEquippableItem}}
 <fieldset>
     <legend>{{localize "COSMERE.Item.Sheet.Equip.Title"}}</legend>
 
+    {{!-- Is currently equippable --}}
+    {{#if (not alwaysEquippable)}}
+    <div class="form-group">
+        <div class="form-fields">
+            <label>{{localize "COSMERE.Item.Sheet.Equip.IsEquippable"}}</label>
+            <input type="checkbox"
+                name="system.equippableEnabled"
+                {{#if item.system.equippableEnabled}}
+                checked
+                {{/if}}
+                {{#if (not editable)}}
+                readonly
+                {{/if}}
+            >
+        </div>
+    </div>
+    {{/if}}
+
+    {{#if isEquippable}}
+
+    {{!-- Equip type --}}
+    {{#if (not alwaysEquippable)}}
+    <div class="form-group">
+        <div class="form-fields">
+            <label>{{localize "COSMERE.Item.Sheet.Equip.EquipType"}}</label>
+            <select name="system.equip.type" {{#if (not editable)}}disabled{{/if}}>
+                {{selectOptions equipTypes selected=item.system.equip.type localize=true}}
+            </select>
+        </div>
+    </div>
+    {{/if}}
+
     {{!-- Is always equipped --}}
     <div class="form-group">
-        <label>{{localize "COSMERE.Item.Sheet.Equip.AlwaysEquipped"}}</label>
-        <input type="checkbox" 
-            name="system.alwaysEquipped" 
-            {{#if item.system.alwaysEquipped}}
-            checked
-            {{/if}}
-            {{#if (not editable)}}
-            readonly
-            {{/if}}
-        >
+        <div class="form-fields">
+            <label>{{localize "COSMERE.Item.Sheet.Equip.AlwaysEquipped"}}</label>
+            <input type="checkbox"
+                name="system.alwaysEquipped"
+                {{#if item.system.alwaysEquipped}}
+                checked
+                {{/if}}
+                {{#if (not editable)}}
+                readonly
+                {{/if}}
+            >
+        </div>
     </div>
 
     {{!-- Traits --}}
+    {{#if hasTraits}}
     <div class="form-group-stacked collapsible {{#unless normalTraitsCollapsed}}expanded{{/unless}}">
         <div class="header" data-action="toggle-traits-collapsed" data-trait="normal">
             <label>{{localize "COSMERE.Item.Sheet.Equip.Traits"}}</label>
@@ -32,8 +67,8 @@
                 <div class="traits-list">
                     {{#each normalTraits as |trait|}}
                     <div class="trait">
-                        <input type="checkbox" 
-                            name="{{concat "system.traits." trait.id ".defaultActive"}}" 
+                        <input type="checkbox"
+                            name="{{concat "system.traits." trait.id ".defaultActive"}}"
                             {{#if trait.active}}
                             checked
                             {{/if}}
@@ -43,11 +78,11 @@
                         >
                         <label>{{localize trait.label}}</label>
                         {{#if trait.hasValue}}
-                        <input 
+                        <input
                             class="trait-value"
-                            name="{{concat "system.traits." trait.id ".defaultValue"}}" 
+                            name="{{concat "system.traits." trait.id ".defaultValue"}}"
                             {{#if trait.active}}
-                            type="number" 
+                            type="number"
                             min="0"
                             value="{{trait.value}}"
                             {{else}}
@@ -76,17 +111,17 @@
                     <i class="fa-solid fa-chevron-down"></i>
                 </a>
             </div>
-        </div>        
+        </div>
         <div class="collapsible-content">
             <div class="wrapper">
                 <div class="traits-list">
                     {{#each expertTraits as |trait|}}
                     <div class="trait">
-                        <input type="checkbox" 
+                        <input type="checkbox"
                             {{#if (eq trait.type "modify-trait-value")}}
                             name="{{concat "system.traits." trait.id ".expertise.modifyValue"}}"
                             {{else}}
-                            name="{{concat "system.traits." trait.id ".expertise.toggleActive"}}" 
+                            name="{{concat "system.traits." trait.id ".expertise.toggleActive"}}"
                             {{/if}}
                             {{#if trait.active}}
                             checked
@@ -97,11 +132,11 @@
                         >
                         <label>{{localize trait.label}}</label>
                         {{#if (eq trait.type "modify-trait-value")}}
-                        <input 
+                        <input
                             class="trait-value"
-                            name="{{concat "system.traits." trait.id ".expertise.value"}}" 
+                            name="{{concat "system.traits." trait.id ".expertise.value"}}"
                             {{#if trait.active}}
-                            type="number" 
+                            type="number"
                             min="0"
                             value="{{trait.value}}"
                             {{else}}
@@ -119,5 +154,8 @@
             </div>
         </div>
     </div>
-</fieldset>    
+    {{/if}}
+
+    {{/if}}
+</fieldset>
 {{/if}}

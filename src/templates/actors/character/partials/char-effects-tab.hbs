@@ -1,7 +1,7 @@
 {{#with (lookup tabsMap "effects") as |tab|}}
 
 <div class="tab tab-content {{tab.cssClass}}" data-tab="effects" data-group="primary">
-    {{app-actor-search-bar id='effects-search' placeholder=(localize 'COSMERE.Actor.Sheet.Search.Effects.Placeholder')}}
+    {{app-actor-search-bar id='effects-search' placeholder=(localize "COSMERE.Actor.Sheet.Search.Placeholder" type=(localize "COSMERE.Actor.Sheet.Tabs.Effects"))}}
     {{app-actor-conditions}}
     {{app-actor-injuries-list class="list-component"}}
 

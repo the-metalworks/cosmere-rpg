@@ -9,7 +9,7 @@ import {
 } from '@system/data/fields';
 
 export class TalentTreeNodeCollectionField extends CollectionField<
-    TalentTreeNodeField, 
+    TalentTreeNodeField,
     CollectionFieldOptions,
     TalentTree.Node,
     TalentTree.Node
@@ -122,8 +122,7 @@ const SCHEMA = () => ({
                 nullable: false,
                 blank: false,
                 choices:
-                    CONFIG.COSMERE.items.talentTree.node
-                        .prerequisite.types,
+                    CONFIG.COSMERE.items.talentTree.node.prerequisite.types,
             }),
             managed: new foundry.data.fields.BooleanField({
                 required: true,
@@ -137,9 +136,7 @@ const SCHEMA = () => ({
             // Attribute
             attribute: new foundry.data.fields.StringField({
                 blank: false,
-                choices: Object.entries(
-                    CONFIG.COSMERE.attributes,
-                ).reduce(
+                choices: Object.entries(CONFIG.COSMERE.attributes).reduce(
                     (acc, [key, config]) => ({
                         ...acc,
                         [key]: config.label,
@@ -155,9 +152,7 @@ const SCHEMA = () => ({
             // Skill
             skill: new foundry.data.fields.StringField({
                 blank: false,
-                choices: Object.entries(
-                    CONFIG.COSMERE.skills,
-                ).reduce(
+                choices: Object.entries(CONFIG.COSMERE.skills).reduce(
                     (acc, [key, config]) => ({
                         ...acc,
                         [key]: config.label,
@@ -276,6 +271,32 @@ const SCHEMA = () => ({
                     nullable: true,
                 },
             ),
+
+            // Power
+            power: new foundry.data.fields.SchemaField(
+                {
+                    uuid: new foundry.data.fields.StringField({
+                        required: true,
+                        nullable: false,
+                        blank: false,
+                    }),
+                    id: new foundry.data.fields.StringField({
+                        required: true,
+                        nullable: false,
+                        blank: false,
+                    }),
+                    label: new foundry.data.fields.StringField({
+                        required: true,
+                        nullable: false,
+                        blank: false,
+                    }),
+                },
+                {
+                    nullable: true,
+                    initial: null,
+                    label: 'COSMERE.Item.Talent.Prerequisite.Power.Label',
+                },
+            ),
         }),
         {
             nullable: true,
@@ -290,12 +311,10 @@ const SCHEMA = () => ({
                 blank: false,
                 readonly: false,
             }),
-            prerequisiteId: new foundry.data.fields.DocumentIdField(
-                {
-                    required: true,
-                    nullable: false,
-                },
-            ),
+            prerequisiteId: new foundry.data.fields.DocumentIdField({
+                required: true,
+                nullable: false,
+            }),
             path: new foundry.data.fields.ArrayField(
                 new foundry.data.fields.SchemaField({
                     x: new foundry.data.fields.NumberField({
@@ -323,7 +342,10 @@ const SCHEMA = () => ({
     }),
 });
 
-class TalentTreeNodeField extends foundry.data.fields.SchemaField<ReturnType<typeof SCHEMA>, foundry.data.fields.DataField.Options.Any> {
+class TalentTreeNodeField extends foundry.data.fields.SchemaField<
+    ReturnType<typeof SCHEMA>,
+    foundry.data.fields.DataField.Options.Any
+> {
     constructor(
         options?: foundry.data.fields.DataField.Options.Any,
         context?: foundry.data.fields.DataField.ConstructionContext,
@@ -331,10 +353,6 @@ class TalentTreeNodeField extends foundry.data.fields.SchemaField<ReturnType<typ
         options ??= {};
         options.gmOnly = true;
 
-        super(
-            SCHEMA(),
-            options,
-            context,
-        );
+        super(SCHEMA(), options, context);
     }
 }

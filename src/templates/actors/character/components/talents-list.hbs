@@ -1,0 +1,72 @@
+{{#each sections as |section|}}
+    <ul class="item-list" data-section-id="{{section.id}}">
+        <li class="item header">
+            <section class="details">
+                <span class="title">{{localize section.label}}</span>
+                <div class="controls icon active">
+                    {{#if @root.editable}}
+                        {{#if section.canAddNewItems}}
+                            <a data-action="new-item" data-tooltip="{{section.createItemTooltip}}">
+                                <i class="fa-solid fa-plus"></i>
+                            </a>
+                        {{else}}
+                            <div></div>
+                        {{/if}}
+                    {{/if}}
+                </div>
+            </section>
+        </li>
+
+        {{#each section.items as |item|}}
+            {{#with (lookup @root.itemState item.id) as |state|}}
+                {{#with (itemContext item) as |ctx|}}
+                    {{#with (lookup section.itemData item.id) as |data|}}
+
+                        <li class="item usable collapsible {{#if state.expanded}}expanded{{/if}}"
+                            data-item-id="{{item.id}}" {{#if @root.editable}}data-drag="true" {{/if}}>
+                            <section class="details">
+                                {{!-- Image --}}
+                                <div class="img" data-action="use-item" data-tooltip="COSMERE.Actor.Sheet.Talents.Use">
+                                    <img class="roll-icon"
+                                        src="systems/cosmere-rpg/assets/icons/svg/dice/d20_white.svg">
+                                    <img src="{{item.img}}">
+                                </div>
+
+                                {{!-- Name --}}
+                                <span class="name" data-action="toggle-talent-details">
+                                    {{item.name}}
+                                </span>
+
+                                {{!-- Controls --}}
+                                <div class="controls icon faded">
+                                    <a role="button" data-action="toggle-talent-details" {{#if state.expanded}}
+                                        data-tooltip="GENERIC.HideDetails" {{else}} data-tooltip="GENERIC.ViewDetails"
+                                        {{/if}}>
+                                        {{#if state.expanded}}
+                                            <i class="fa-solid fa-compress"></i>
+                                        {{else}}
+                                            <i class="fa-solid fa-expand"></i>
+                                        {{/if}}
+                                    </a>
+                                    {{#if @root.editable}}
+                                        <a role="button" data-action="toggle-talents-controls"
+                                            data-tooltip="APPLICATION.TOOLS.ToggleControls">
+                                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                                        </a>
+                                    {{/if}}
+                                </div>
+                            </section>
+
+                            <section class="description collapsible-content">
+                                <div class="wrapper">
+                                    {{{default data.descriptionHTML '<p>—</p>'}}}
+                                </div>
+                            </section>
+                        </li>
+
+                    {{/with}}
+                {{/with}}
+            {{/with}}
+        {{/each}}
+    </ul>
+{{/each}}

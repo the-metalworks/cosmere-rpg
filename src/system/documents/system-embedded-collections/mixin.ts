@@ -16,6 +16,10 @@ export function SystemEmbeddedCollectionsMixin<
         public readonly hasSystemEmbeddedCollections = true as const;
 
         declare static __schema: foundry.data.fields.SchemaField<foundry.data.fields.DataSchema>;
+        declare static __hierarchy: Record<
+            string,
+            foundry.data.fields.DataField.Any
+        >;
 
         static metadata = Object.freeze(
             foundry.utils.mergeObject(
@@ -69,6 +73,28 @@ export function SystemEmbeddedCollectionsMixin<
             });
 
             return this.__schema;
+        }
+
+        public static get hierarchy(): Record<
+            string,
+            foundry.data.fields.DataField.Any
+        > {
+            if (this.__hierarchy) return this.__hierarchy;
+
+            const hierarchy: Record<string, foundry.data.fields.DataField.Any> =
+                {};
+            for (const [fieldName, field] of this.schema.entries()) {
+                if (
+                    (field.constructor as typeof foundry.data.fields.DataField)
+                        .hierarchical
+                )
+                    hierarchy[fieldName] = field;
+            }
+            Object.defineProperty(this, '__hierarchy', {
+                value: Object.freeze(hierarchy),
+                writable: false,
+            });
+            return hierarchy;
         }
 
         public static isNativeEmbedding(embeddedName: string): boolean {

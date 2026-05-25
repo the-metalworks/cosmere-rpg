@@ -194,6 +194,12 @@ export class NodePrerequisitesComponent extends HandlebarsApplicationComponent<
                       culture: await this.prepareRefContext(rule.culture),
                   }
                 : {}),
+
+            ...(rule.type === TalentTree.Node.Prerequisite.Type.Power
+                ? {
+                      power: await this.prepareRefContext(rule.power),
+                  }
+                : {}),
         };
     }
 

@@ -83,9 +83,13 @@ export function registerComponent(
         ).split(':');
         const index = getFullIndexRecursive(options.data);
 
+        const componentHashData = Object.values(options.hash ?? {}).join('.');
+
+        const componentLocData = `${options.loc.start.line}.${index}.${options.loc.start.column}_${options.loc.end.line}.${options.loc.end.column}`;
+
         // Generate id
         const componentId = md5.hash(
-            `${selector}-${options.loc.start.line}.${index}.${options.loc.start.column}_${options.loc.end.line}.${options.loc.end.column}`,
+            `${selector}-${componentHashData ? componentHashData + '-' : ''}${componentLocData}`,
         );
 
         // Append to ref
@@ -125,8 +129,8 @@ export function registerComponent(
 
         // Return result
         return new Handlebars.SafeString(`
-            <${selector} data-component-id="${componentId}" 
-                ${htmlId ? `id="${htmlId}"` : ''} 
+            <${selector} data-component-id="${componentId}"
+                ${htmlId ? `id="${htmlId}"` : ''}
                 ${cssClassList.length > 0 ? `class="${cssClassList}"` : ''}
                 ${cssStyle ? `style="${cssStyle}"` : ''}
             >

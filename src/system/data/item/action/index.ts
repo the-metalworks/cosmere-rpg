@@ -36,9 +36,9 @@ const SCHEMA = () => ({
 });
 
 export class ActionItemDataModel extends DataModelMixin<ActionItemDataModel.Schema>(
-// foundry.abstract.Document.Any,
-// EmptyObject,
-// ActionItemDataModel.DerivedData
+    // foundry.abstract.Document.Any,
+    // EmptyObject,
+    // ActionItemDataModel.DerivedData
     IdItemMixin({
         initialFromName: true,
     }),

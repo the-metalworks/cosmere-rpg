@@ -103,6 +103,7 @@ export class WeaponItemDataModel extends DataModelMixin<
     }),
     ResourcesItemMixin(),
     EquippableItemMixin({
+        alwaysEquippable: true,
         equipType: {
             initial: EquipType.Hold,
             choices: [EquipType.Hold],

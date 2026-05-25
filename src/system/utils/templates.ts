@@ -22,8 +22,10 @@ export const TEMPLATES = {
     COMPONENT_EXPERTISES_LIST: 'general/components/expertises-list.hbs',
     COMPONENT_DOCUMENT_CHANGES_LIST:
         'general/components/document-changes-list.hbs',
-    COMPONENT_MATCH_DOCUMENT_INPUTS: 'general/components/match-document-inputs.hbs',
-    COMPONENT_MATCH_DOCUMENT_TARGET: 'general/components/match-document-target.hbs',
+    COMPONENT_MATCH_DOCUMENT_INPUTS:
+        'general/components/match-document-inputs.hbs',
+    COMPONENT_MATCH_DOCUMENT_TARGET:
+        'general/components/match-document-target.hbs',
 
     // ACTOR BASE
     ACTOR_BASE_NAVIGATION: 'actors/parts/navigation.hbs',
@@ -51,6 +53,8 @@ export const TEMPLATES = {
         'actors/character/partials/char-details-tab.hbs',
     ACTOR_CHARACTER_ACTIONS_TAB:
         'actors/character/partials/char-actions-tab.hbs',
+    ACTOR_CHARACTER_TALENTS_TAB:
+        'actors/character/partials/char-talents-tab.hbs',
     ACTOR_CHARACTER_EQUIPMENT_TAB:
         'actors/character/partials/char-equipment-tab.hbs',
     ACTOR_CHARACTER_GOALS_TAB: 'actors/character/partials/char-goals-tab.hbs',
@@ -64,6 +68,8 @@ export const TEMPLATES = {
     ACTOR_CHARACTER_CONNECTIONS_LIST:
         'actors/character/components/connections-list.hbs',
     ACTOR_CHARACTER_GOALS_LIST: 'actors/character/components/goals-list.hbs',
+    ACTOR_CHARACTER_TALENTS_LIST:
+        'actors/character/components/talents-list.hbs',
     ACTOR_CHARACTER_SKILL_LINKED_ITEM:
         'actors/character/components/skill-linked-item.hbs',
 
@@ -139,7 +145,8 @@ export const TEMPLATES = {
         'item/ancestry/components/advancement-talent-list.hbs',
     ITEM_ANCESTRY_BONUS_TALENTS: 'item/ancestry/components/bonus-talents.hbs',
 
-    ITEM_RESOURCE_CONSUMPTION_LIST: 'item/components/resource-consumption-list.hbs',
+    ITEM_RESOURCE_CONSUMPTION_LIST:
+        'item/components/resource-consumption-list.hbs',
 
     // ITEM EMBEDDINGS
     ITEM_TALENT_EMBED: 'item/talent/embed.hbs',
@@ -150,7 +157,8 @@ export const TEMPLATES = {
     ITEM_GENERIC_EMBED: 'item/generic/embed.hbs',
 
     // ITEM PARTIALS
-    ITEM_ACTION_PARTIAL_RESOURCE_CONSUMPTION_TARGET: 'item/action/partials/resource-consumption-target.hbs',
+    ITEM_ACTION_PARTIAL_RESOURCE_CONSUMPTION_TARGET:
+        'item/action/partials/resource-consumption-target.hbs',
 
     //CHAT
     CHAT_CARD_HEADER: 'chat/card-header.hbs',
@@ -190,7 +198,8 @@ export const TEMPLATES = {
 
     DIALOG_ITEM_CONSUME: 'item/dialog/item-consume.hbs',
     DIALOG_ITEM_EDIT_EVENT_RULE: 'item/dialog/edit-event-rule.hbs',
-    DIALOG_ITEM_EDIT_RESOURCE_CONSUMPTION: 'item/dialog/edit-resource-consumption.hbs',
+    DIALOG_ITEM_EDIT_RESOURCE_CONSUMPTION:
+        'item/dialog/edit-resource-consumption.hbs',
 
     DIALOG_CHAT_MODIFY_DAMAGE: 'chat/dialogs/damage-modifier.hbs',
 

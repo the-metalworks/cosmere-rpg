@@ -24,13 +24,18 @@ import {
     RelationshipsMixin,
     RelationshipsItemDataSchema,
 } from './mixins/relationships';
+import {
+    EquippableItemMixin,
+    EquippableItemDataSchema,
+} from './mixins/equippable';
 
 export type EquipmentItemDataSchema = TypedItemDataSchema<EquipmentType> &
     DescriptionItemDataSchema &
     ResourcesItemMixin.Schema &
     PhysicalItemDataSchema &
     EventsItemDataSchema &
-    RelationshipsItemDataSchema;
+    RelationshipsItemDataSchema &
+    EquippableItemDataSchema;
 
 export type EquipmentItemDerivedData = TypedItemDerivedData &
     PhysicalItemDerivedData;
@@ -59,4 +64,5 @@ export class EquipmentItemDataModel extends DataModelMixin<
     PhysicalItemMixin(),
     EventsItemMixin(),
     RelationshipsMixin(),
+    EquippableItemMixin(),
 ) {}

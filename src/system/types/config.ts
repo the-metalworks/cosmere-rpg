@@ -556,6 +556,16 @@ export interface CosmereRPGConfig {
                         >;
                     };
                 };
+
+                talents: {
+                    sections: {
+                        static: Record<string, ItemListSection>;
+                        dynamic: Record<
+                            string,
+                            DynamicItemListSectionGenerator
+                        >;
+                    };
+                };
             };
         };
     };

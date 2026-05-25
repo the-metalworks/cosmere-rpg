@@ -111,6 +111,9 @@ export class BaseActorSheet<
     protected actionsSearchText = '';
     protected actionsSearchSort: SortMode = SortMode.Alphabetic;
 
+    protected talentsSearchText = '';
+    protected talentsSearchSort: SortMode = SortMode.Alphabetic;
+
     protected equipmentSearchText = '';
     protected equipmentSearchSort: SortMode = SortMode.Alphabetic;
 
@@ -349,7 +352,7 @@ export class BaseActorSheet<
         // Insert mode toggle
         if (this.isEditable) {
             $(this.window.title!).before(`
-                <label id="mode-toggle" 
+                <label id="mode-toggle"
                     class="toggle-switch"
                     data-action="toggle-mode"
                     data-tooltip="COSMERE.Actor.Sheet.Edit"
@@ -379,6 +382,12 @@ export class BaseActorSheet<
                 .addEventListener(
                     'search',
                     this.onActionsSearchChange.bind(this) as EventListener,
+                );
+            this.element
+                .querySelector('#talents-search')!
+                .addEventListener(
+                    'search',
+                    this.onTalentsSearchChange.bind(this) as EventListener,
                 );
 
             this.element
@@ -432,6 +441,16 @@ export class BaseActorSheet<
         void this.render({
             parts: [],
             components: ['app-actor-actions-list'],
+        });
+    }
+
+    protected onTalentsSearchChange(event: SearchBarInputEvent) {
+        this.talentsSearchText = event.detail.text;
+        this.talentsSearchSort = event.detail.sort;
+
+        void this.render({
+            parts: [],
+            components: ['app-character-talents-list'],
         });
     }
 
@@ -528,6 +547,10 @@ export class BaseActorSheet<
             actionsSearch: {
                 text: this.actionsSearchText,
                 sort: this.actionsSearchSort,
+            },
+            talentsSearch: {
+                text: this.talentsSearchText,
+                sort: this.talentsSearchSort,
             },
             equipmentSearch: {
                 text: this.equipmentSearchText,

@@ -804,6 +804,9 @@ const COSMERE: CosmereRPGConfig = {
                 [EquipType.Hold]: {
                     label: 'COSMERE.Item.Equip.Types.Hold.Label',
                 },
+                [EquipType.Equip]: {
+                    label: 'COSMERE.Item.Equip.Types.Equip.Label',
+                },
             },
             hold: {
                 [HoldType.OneHanded]: {
@@ -878,6 +881,8 @@ const COSMERE: CosmereRPGConfig = {
                             'COSMERE.Item.Talent.Prerequisite.Type.culture',
                         [TalentTree.Node.Prerequisite.Type.Goal]:
                             'COSMERE.Item.Talent.Prerequisite.Type.goal',
+                        [TalentTree.Node.Prerequisite.Type.Power]:
+                            'COSMERE.Item.Talent.Prerequisite.Type.power',
                     },
                 },
             },
@@ -1177,6 +1182,13 @@ const COSMERE: CosmereRPGConfig = {
         actor: {
             components: {
                 actions: {
+                    sections: {
+                        static: {},
+                        dynamic: {},
+                    },
+                },
+
+                talents: {
                     sections: {
                         static: {},
                         dynamic: {},

@@ -223,6 +223,7 @@ export const enum ItemResourceRechargeType {
 export const enum EquipType {
     Hold = 'hold', // Item that you equip by holding it (either in one or two hands)
     Wear = 'wear', // Item that you equip by wearing it
+    Equip = 'equip', // Item that you equip generically
 }
 
 export const enum HoldType {

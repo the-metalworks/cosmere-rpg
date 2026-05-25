@@ -1,0 +1,419 @@
+import {
+    ActionType,
+    ItemType,
+    ActivationType,
+    ActionCostType,
+} from '@system/types/cosmere';
+import {
+    ItemListSection,
+    DynamicItemListSectionGenerator,
+} from '@system/types/application/actor/components/item-list';
+
+// Documents
+import { CosmereItem } from '@system/documents/item';
+import { CosmereActor } from '@system/documents/actor';
+import { ItemRelationship } from '@system/data/item/mixins/relationships';
+
+// Utils
+import AppUtils from '@system/applications/utils';
+import { AppContextMenu } from '@system/applications/utils/context-menu';
+
+// Component imports
+import { HandlebarsApplicationComponent } from '@system/applications/component-system';
+import { BaseActorSheetRenderContext } from '../../base';
+import { SortMode } from '../search-bar';
+
+// Constants
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
+
+interface TalentItemState {
+    expanded?: boolean;
+}
+
+interface AdditionalItemData {
+    descriptionHTML?: string;
+}
+
+interface ItemListSectionData extends ItemListSection {
+    items: CosmereItem[];
+    itemData: Record<string, AdditionalItemData>;
+}
+
+export interface ActorTalentsListComponentRenderContext
+    extends BaseActorSheetRenderContext {
+    talentsSearch?: {
+        text: string;
+        sort: SortMode;
+    };
+}
+
+export const DYNAMIC_SECTIONS: Record<string, DynamicItemListSectionGenerator> =
+    {
+        paths: (actor: CosmereActor) => {
+            // Get paths
+            const paths = actor.paths;
+
+            return paths.map((path) => ({
+                id: path.system.id,
+                sortOrder: 200,
+                label: game.i18n.format(
+                    'COSMERE.Actor.Sheet.Talents.BaseSectionName',
+                    {
+                        type: path.name,
+                    },
+                ),
+                itemTypeLabel: `${path.name} ${game.i18n?.localize('COSMERE.Item.Type.Talent.label')}`,
+                default: true,
+                filter: (item: CosmereItem) =>
+                    item.hasRelationships() &&
+                    item.isRelatedTo(path, ItemRelationship.Type.Parent),
+                new: (parent: CosmereActor) =>
+                    CosmereItem.create(
+                        {
+                            type: ItemType.Talent,
+                            name: game.i18n.localize(
+                                'COSMERE.Item.Type.Talent.New',
+                            ),
+                            system: {
+                                path: path.system.id,
+                            },
+                        },
+                        { parent },
+                    ) as Promise<CosmereItem>,
+            }));
+        },
+        ancestry: (actor: CosmereActor) => {
+            // Get ancestry
+            const ancestry = actor.ancestry;
+
+            if (!ancestry) return [];
+
+            return [
+                {
+                    id: ancestry.system.id,
+                    sortOrder: 300,
+                    label: game.i18n.format(
+                        'COSMERE.Actor.Sheet.Talents.BaseSectionName',
+                        {
+                            type: ancestry.name,
+                        },
+                    ),
+                    itemTypeLabel: `${ancestry.name} ${game.i18n?.localize('COSMERE.Item.Type.Talent.label')}`,
+                    default: false,
+                    filter: (item: CosmereItem) =>
+                        item.hasRelationships() &&
+                        item.isRelatedTo(
+                            ancestry,
+                            ItemRelationship.Type.Parent,
+                        ),
+                    new: (parent: CosmereActor) =>
+                        CosmereItem.create(
+                            {
+                                type: ItemType.Action,
+                                name: game.i18n.localize(
+                                    'COSMERE.Item.Type.Talent.New',
+                                ),
+                                system: {
+                                    ancestry: ancestry.system.id,
+                                },
+                            },
+                            { parent },
+                        ) as Promise<CosmereItem>,
+                },
+            ];
+        },
+    };
+
+const MISC_SECTION: ItemListSection = {
+    id: 'misc-talents',
+    label: 'COSMERE.Actor.Sheet.Talents.MiscSectionName',
+    default: false,
+    filter: () => false, // Filter function is not used for this section
+};
+
+export class ActorTalentsListComponent extends HandlebarsApplicationComponent<// typeof BaseActorSheet
+// TODO: Resolve typing issues
+// NOTE: Use any as workaround for foundry-vtt-types issues
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+any> {
+    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_TALENTS_LIST}`;
+
+    /**
+     * NOTE: Unbound methods is the standard for defining actions
+     * within ApplicationV2
+     */
+    /* eslint-disable @typescript-eslint/unbound-method */
+    static readonly ACTIONS = {
+        'toggle-talent-details': this.onToggleTalentDetails,
+        'use-item': this.onUseItem,
+        'new-item': this.onNewItem,
+    };
+    /* eslint-enable @typescript-eslint/unbound-method */
+
+    protected sections: ItemListSection[] = [];
+
+    /**
+     * Map of id to state
+     */
+    protected itemState: Record<string, TalentItemState> = {};
+
+    /* --- Talents --- */
+
+    public static onToggleTalentDetails(
+        this: ActorTalentsListComponent,
+        event: Event,
+    ) {
+        // Get item element
+        const itemElement = $(event.target!).closest('.item[data-item-id]');
+
+        // Get item id
+        const itemId = itemElement.data('item-id') as string;
+
+        // Update the state
+        this.itemState[itemId].expanded = !this.itemState[itemId].expanded;
+
+        // Set classes
+        itemElement.toggleClass('expanded', this.itemState[itemId].expanded);
+
+        itemElement
+            .find('a[data-action="toggle-talent-details"')
+            .empty()
+            .append(
+                this.itemState[itemId].expanded
+                    ? '<i class="fa-solid fa-compress"></i>'
+                    : '<i class="fa-solid fa-expand"></i>',
+            );
+    }
+
+    public static onUseItem(this: ActorTalentsListComponent, event: Event) {
+        // Get item
+        const item = AppUtils.getItemFromEvent(event, this.application.actor);
+        if (!item) return;
+
+        // Use the item
+        void this.application.actor.useItem(item);
+    }
+
+    private static async onNewItem(
+        this: ActorTalentsListComponent,
+        event: Event,
+    ) {
+        // Get section element
+        const sectionElement = $(event.target!).closest('[data-section-id]');
+
+        // Get section id
+        const sectionId = sectionElement.data('section-id') as string;
+
+        // Get section
+        const section = this.sections.find((s) => s.id === sectionId);
+        if (!section) return;
+
+        // Create a new item
+        const item = await section.new?.(this.application.actor);
+
+        // Render the item sheet
+        void item?.sheet?.render(true);
+    }
+
+    /* --- Context --- */
+
+    public async _prepareContext(
+        params: unknown,
+        context: ActorTalentsListComponentRenderContext,
+    ) {
+        // Get all activatable items (talents & items with an associated action)
+        const activatableItems = this.application.actor.items.filter((item) =>
+            item.isTalent(),
+        );
+
+        // Ensure all items have an expand state record
+        activatableItems.forEach((item) => {
+            if (!(item.id! in this.itemState)) {
+                this.itemState[item.id!] = {
+                    expanded: false,
+                };
+            }
+        });
+
+        const searchText = context.talentsSearch?.text ?? '';
+        const sortMode = context.talentsSearch?.sort ?? SortMode.Alphabetic;
+
+        // Prepare sections
+        this.sections = this.prepareSections();
+
+        // Prepare sections data
+        const sectionsData = await this.prepareSectionsData(
+            this.sections,
+            activatableItems,
+            searchText,
+            sortMode,
+        );
+
+        return {
+            ...context,
+
+            sections: sectionsData.filter(
+                (section) =>
+                    section.items.length > 0 ||
+                    (this.application.mode === 'edit' && section.default),
+            ),
+
+            itemState: this.itemState,
+        };
+    }
+
+    protected prepareSections() {
+        return [
+            ...Object.values(
+                CONFIG.COSMERE.sheet.actor.components.talents.sections.dynamic,
+            ).flatMap((gen) => gen(this.application.actor)),
+            MISC_SECTION,
+        ].sort(
+            (a, b) =>
+                (a.sortOrder ?? Number.MAX_VALUE) -
+                (b.sortOrder ?? Number.MAX_VALUE),
+        );
+    }
+
+    protected async prepareSectionsData(
+        sections: ItemListSection[],
+        items: CosmereItem[],
+        searchText: string,
+        sort: SortMode,
+    ): Promise<ItemListSectionData[]> {
+        // Filter items into sections, putting all items that don't fit into a section into a "Misc" section
+        const itemsBySectionId = items.reduce(
+            (result, item) => {
+                const section = sections.find((s) => s.filter(item));
+                if (!section) {
+                    result['misc-talents'] ??= [];
+                    result['misc-talents'].push(item);
+                } else {
+                    if (!result[section.id]) result[section.id] = [];
+                    result[section.id].push(item);
+                }
+
+                return result;
+            },
+            {} as Record<string, CosmereItem[]>,
+        );
+
+        // Prepare sections
+        return await Promise.all(
+            sections.map(async (section) => {
+                // Get items for section, filter by search text, and sort
+                let sectionItems = (itemsBySectionId[section.id] ?? []).filter(
+                    (i) => i.name.toLowerCase().includes(searchText),
+                );
+
+                if (sort === SortMode.Alphabetic) {
+                    sectionItems = sectionItems.sort((a, b) =>
+                        a.name.compare(b.name),
+                    );
+                }
+
+                return {
+                    ...section,
+                    canAddNewItems: !!section.new,
+                    createItemTooltip: section.createItemTooltip
+                        ? typeof section.createItemTooltip === 'function'
+                            ? section.createItemTooltip()
+                            : section.createItemTooltip
+                        : game.i18n.format(
+                              'COSMERE.Actor.Sheet.Talents.NewItem',
+                              {
+                                  type: game.i18n.localize(
+                                      section.itemTypeLabel ??
+                                          'COSMERE.Item.Type.Talent.label',
+                                  ),
+                              },
+                          ),
+                    items: sectionItems,
+                    itemData: await this.prepareItemData(sectionItems),
+                };
+            }),
+        );
+    }
+
+    protected async prepareItemData(items: CosmereItem[]) {
+        return await items.reduce(
+            async (prev, item) => ({
+                ...(await prev),
+                [item.id!]: {
+                    ...(item.hasDescription() && item.system.description?.value
+                        ? {
+                              descriptionHTML:
+                                  await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+                                      item.system.description.value,
+                                      {
+                                          relativeTo: (item as CosmereItem)
+                                              .system
+                                              .parent as foundry.abstract.Document.Any,
+                                      },
+                                  ),
+                          }
+                        : {}),
+                },
+            }),
+            Promise.resolve({} as Record<string, AdditionalItemData>),
+        );
+    }
+
+    /* --- Lifecycle --- */
+
+    public _onInitialize(): void {
+        if (this.application.isEditable) {
+            // Create context menu
+            AppContextMenu.create({
+                parent: this as AppContextMenu.Parent,
+                items: (element) => {
+                    // Get item id
+                    const itemId = $(element)
+                        .closest('.item[data-item-id]')
+                        .data('item-id') as string;
+
+                    // Get item
+                    const item = this.application.actor.items.get(itemId)!;
+
+                    return [
+                        {
+                            name: 'GENERIC.Button.Edit',
+                            icon: 'fa-solid fa-pen-to-square',
+                            callback: () => {
+                                void item.sheet?.render(true);
+                            },
+                        },
+                        {
+                            name: 'GENERIC.Button.Remove',
+                            icon: 'fa-solid fa-trash',
+                            callback: () => {
+                                // Remove the item
+                                void this.application.actor.deleteEmbeddedDocuments(
+                                    'Item',
+                                    [item.id!],
+                                );
+                            },
+                        },
+                    ].filter((i) => !!i);
+                },
+                selectors: ['a[data-action="toggle-talents-controls"]'],
+                anchor: 'right',
+            });
+        }
+    }
+}
+
+// Register component
+ActorTalentsListComponent.register('app-character-talents-list');
+
+export function configure() {
+    // Register dynamic sections
+    Object.values(DYNAMIC_SECTIONS).forEach((gen) => {
+        cosmereRPG.api.registerTalentListDynamicSectionGenerator({
+            source: SYSTEM_ID,
+            id: gen.name,
+            generator: gen,
+        });
+    });
+}
