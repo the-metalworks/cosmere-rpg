@@ -94,7 +94,10 @@
             "Resource": {
                 "Health": "Health",
                 "Focus": "Focus",
-                "Investiture": "Investiture"
+                "Investiture": "Investiture",
+                "health": "Health",
+                "focus": "Focus",
+                "investiture": "Investiture"
             },
             "Skill": {
                 "label": "Skill",

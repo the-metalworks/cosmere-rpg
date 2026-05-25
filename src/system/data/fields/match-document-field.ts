@@ -11,7 +11,8 @@ import type { AnyObject, AnyMutableObject } from '@system/types/utils';
 const PREFIXES = ['-=', '=='];
 
 export type MatchDocumentDataModel<
-    Options extends MatchDocumentDataModel.SchemaDefinitionOptions = MatchDocumentDataModel.SchemaDefinitionOptions,
+    Options extends
+        MatchDocumentDataModel.SchemaDefinitionOptions = MatchDocumentDataModel.SchemaDefinitionOptions,
 > = ReturnType<typeof MatchDocumentDataModel.constructForOptions<Options>>;
 
 export namespace MatchDocumentDataModel {
@@ -19,21 +20,25 @@ export namespace MatchDocumentDataModel {
         documentType?: foundry.abstract.Document.Type;
     }
 
-    export type Schema<Options extends MatchDocumentDataModel.SchemaDefinitionOptions> = ReturnType<typeof defineSchemaForOptions<Options>>;
+    export type Schema<
+        Options extends MatchDocumentDataModel.SchemaDefinitionOptions,
+    > = ReturnType<typeof defineSchemaForOptions<Options>>;
 
     export function constructForOptions<
         const Options extends MatchDocumentDataModel.SchemaDefinitionOptions,
     >(options: Options) {
-        return class extends foundry.abstract.DataModel<MatchDocumentDataModel.Schema<Options>, foundry.abstract.DataModel.Any> {
+        return class extends foundry.abstract.DataModel<
+            MatchDocumentDataModel.Schema<Options>,
+            foundry.abstract.DataModel.Any
+        > {
             static override defineSchema() {
                 return MatchDocumentDataModel.defineSchemaForOptions(options);
             }
-        }
+        };
     }
 
     export function defineSchemaForOptions<
-        const Options extends
-        MatchDocumentDataModel.SchemaDefinitionOptions,
+        const Options extends MatchDocumentDataModel.SchemaDefinitionOptions,
     >(options: Options) {
         const requiresNonItemDocument =
             options.documentType && options.documentType !== 'Item';
@@ -52,7 +57,7 @@ export namespace MatchDocumentDataModel {
                         }),
                         {} as Record<ItemTarget, string>,
                     ),
-                initial: DocumentTarget.Self,
+                initial: DocumentTarget.Self as ItemTarget,
                 label: `COSMERE.Utils.MatchDocument.Target.Label`,
                 hint: `COSMERE.Utils.MatchDocument.Target.Hint`,
             }),
@@ -61,14 +66,16 @@ export namespace MatchDocumentDataModel {
                 nullable: !options.documentType,
                 initial: options.documentType ?? null,
                 choices: options.documentType
-                    ? { [options.documentType]: `DOCUMENT.${options.documentType}` }
+                    ? {
+                          [options.documentType]: `DOCUMENT.${options.documentType}`,
+                      }
                     : Object.keys(game.documentTypes).reduce(
-                        (acc, docType) => ({
-                            ...acc,
-                            [docType]: `DOCUMENT.${docType}`,
-                        }),
-                        {} as Record<string, string>,
-                    ),
+                          (acc, docType) => ({
+                              ...acc,
+                              [docType]: `DOCUMENT.${docType}`,
+                          }),
+                          {} as Record<foundry.abstract.Document.Type, string>,
+                      ),
                 label: `COSMERE.Utils.MatchDocument.DocumentType.Label`,
                 hint: `COSMERE.Utils.MatchDocument.DocumentType.Hint`,
             }),
@@ -106,7 +113,7 @@ export namespace MatchDocumentDataModel {
 
 export class MatchDocumentField<
     const Options extends
-    MatchDocumentField.Options = MatchDocumentField.DefaultOptions,
+        MatchDocumentField.Options = MatchDocumentField.DefaultOptions,
 > extends foundry.data.fields.ObjectField<
     Options,
     MatchDocumentField.AssignmentType<Options>,
@@ -121,7 +128,9 @@ export class MatchDocumentField<
     ) {
         super(options, context);
 
-        this.dataModel = MatchDocumentDataModel.constructForOptions(options ?? {});
+        this.dataModel = MatchDocumentDataModel.constructForOptions(
+            options ?? {},
+        );
     }
 
     //@ts-expect-error foundry-vtt-types sets the value to the initialized type, but initialization hasn't happened yet at this point
@@ -129,8 +138,6 @@ export class MatchDocumentField<
         value: MatchDocumentField.AssignmentType<Options>,
         options: foundry.data.fields.DataField.CleanOptions = {},
     ) {
-        options.source ??= (value instanceof this.dataModel ? value.toObject() : value) ?? {};
-
         // Clear prefixes
         if (value) {
             for (const name of this.dataModel.schema.keys()) {
@@ -148,15 +155,6 @@ export class MatchDocumentField<
             }
         }
 
-        // Inject source values for missing keys to ensure validation has access to all relevant data
-        value = foundry.utils.mergeObject(
-            options.source,
-            this.dataModel.cleanData(value as AnyMutableObject, options),
-            {
-                inplace: false,
-            },
-        );
-
         return value;
     }
 
@@ -168,8 +166,7 @@ export class MatchDocumentField<
             ...options,
             fallback: true,
         } as AnyObject);
-        if (baseResult !== undefined)
-            return baseResult;
+        if (baseResult !== undefined) return baseResult;
         if (!value) return;
 
         const doc = value.reference ? fromUuidSync(value.reference) : null;
@@ -213,26 +210,26 @@ export class MatchDocumentField<
         options?: foundry.data.fields.DataField.InitializeOptions,
     ) {
         return (
-            value instanceof this.dataModel 
+            value instanceof this.dataModel
                 ? value
                 : new this.dataModel(value, {
-                    parent: model,
-                    ...options,
-                    fallback: true,
-                })
-        )
+                      parent: model,
+                      ...options,
+                      fallback: true,
+                  })
+        ) as MatchDocumentField.InitializedType<Options>;
     }
 }
 
 export namespace MatchDocumentField {
     export type Schema<
         Options extends
-        MatchDocumentDataModel.SchemaDefinitionOptions = MatchDocumentDataModel.SchemaDefinitionOptions,
+            MatchDocumentDataModel.SchemaDefinitionOptions = MatchDocumentDataModel.SchemaDefinitionOptions,
     > = MatchDocumentDataModel.Schema<Options>;
 
     export type Options =
         foundry.data.fields.DataField.Options<BaseAssignmentType> &
-        MatchDocumentDataModel.SchemaDefinitionOptions;
+            MatchDocumentDataModel.SchemaDefinitionOptions;
 
     export type DefaultOptions = foundry.data.fields.DataField.DefaultOptions;
 
@@ -247,7 +244,11 @@ export namespace MatchDocumentField {
             Schema<Options>,
             Options
         >;
-    export type InitializedType<Options extends MatchDocumentField.Options> = InstanceType<MatchDocumentDataModel<Options>>;
+    export type InitializedType<
+        Options extends MatchDocumentField.Options = MatchDocumentField.Options,
+    > = InstanceType<MatchDocumentDataModel<Options>> & {
+        documentType: Options['documentType'];
+    };
     export type PersistedType<Options extends MatchDocumentField.Options> =
         foundry.data.fields.SchemaField.Internal.PersistedType<Schema<Options>>;
 }

@@ -384,8 +384,9 @@ Handlebars.registerHelper(
                                 ? {
                                       resource: consumable.resource,
                                       resourceLabel:
-                                          CONFIG.COSMERE.resources[consumable.resource]
-                                              .label,
+                                          CONFIG.COSMERE.resources[
+                                              consumable.resource
+                                          ].label,
                                   }
                                 : {}),
                         });
@@ -530,9 +531,11 @@ Handlebars.registerHelper(
     (consume: ActionItemDataModel.ConsumeData) => {
         const { value } = consume;
         const resource = game.i18n.localize(
-            consume.resource
+            consume.type === ItemConsumeType.Resource
                 ? CONFIG.COSMERE.resources[consume.resource].label
-                : 'GENERIC.Unknown',
+                : consume.type === ItemConsumeType.ItemResource
+                  ? CONFIG.COSMERE.item.resource.types[consume.resource].label
+                  : 'GENERIC.Unknown',
         );
 
         let label = '';

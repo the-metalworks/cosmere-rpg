@@ -62,11 +62,6 @@ export class ActivationConsumptionField<
         value: unknown,
         options?: object,
     ): boolean | foundry.data.validation.DataModelValidationFailure | void {
-        console.log('ActivationConsumptionField._validateType', {
-            value,
-            options,
-        });
-
         if (!value || typeof value !== 'object')
             throw new Error('must be an object');
 
@@ -139,12 +134,14 @@ export class ActivationConsumptionField<
         options?: foundry.data.fields.DataField.InitializeOptions,
     ) {
         const Model = ActivationConsumptionField.getModelForType(value.type);
-        return (value instanceof Model
-            ? value
-            : new Model(foundry.utils.deepClone(value), {
-                  parent: model,
-                  ...options,
-              })) as ActivationConsumptionField.InitializedType;
+        return (
+            value instanceof Model
+                ? value
+                : new Model(foundry.utils.deepClone(value), {
+                      parent: model,
+                      ...options,
+                  })
+        ) as ActivationConsumptionField.InitializedType;
     }
 }
 

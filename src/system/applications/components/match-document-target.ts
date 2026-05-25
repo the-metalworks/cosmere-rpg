@@ -3,7 +3,7 @@ import type { InterfaceToObject } from '@system/types/utils';
 import { matchDocuments } from '@system/utils/match-document';
 
 // Data
-import { MatchDocumentDataModel } from '@system/data/fields/match-document-field';
+import { MatchDocumentField } from '@system/data/fields/match-document-field';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
@@ -28,20 +28,23 @@ export class MatchDocumentTargetComponent extends HandlebarsApplicationComponent
                 const matches = await matchDocuments({
                     ...params.match,
                     relativeTo: params.relativeTo,
-                } as any);
+                });
 
-                if (matches.length > 0)
-                    resolvedDocument = matches[0];
+                if (matches.length > 0) resolvedDocument = matches[0];
             } catch (err) {
-                console.warn('Error matching document for MatchDocumentTargetComponent:', err);
+                console.warn(
+                    'Error matching document for MatchDocumentTargetComponent:',
+                    err,
+                );
 
                 // Ignore errors, resolvedDocument will just be null and the component can handle that case
             }
         }
 
-        const resolvedReference = typeof params.match.reference === 'string'
-            ? await fromUuid(params.match.reference)
-            : params.match.reference;
+        const resolvedReference =
+            typeof params.match.reference === 'string'
+                ? await fromUuid(params.match.reference)
+                : params.match.reference;
 
         return Promise.resolve({
             ...params,
@@ -53,7 +56,7 @@ export class MatchDocumentTargetComponent extends HandlebarsApplicationComponent
 
 export namespace MatchDocumentTargetComponent {
     export interface Params {
-        match: InstanceType<MatchDocumentDataModel>;
+        match: MatchDocumentField.InitializedType;
         relativeTo: foundry.abstract.Document.Any;
     }
 }

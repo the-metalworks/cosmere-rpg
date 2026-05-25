@@ -166,6 +166,8 @@ const SINGLETON_ITEM_TYPES = [ItemType.Ancestry];
 abstract class _Actor<
     out SubType extends Actor.SubType,
 > extends Actor<SubType> {
+    declare system: Actor.SystemOfType<SubType>;
+
     declare items: foundry.abstract.EmbeddedCollection<
         CosmereItem,
         CosmereActor
@@ -175,6 +177,14 @@ abstract class _Actor<
 export class CosmereActor<
     out SubType extends Actor.SubType = Actor.SubType,
 > extends _Actor<SubType> {
+    /* --- Statics --- */
+
+    public static isInstance(
+        document: foundry.abstract.Document.Any,
+    ): document is CosmereActor {
+        return document instanceof CosmereActor;
+    }
+
     /* --- Accessors --- */
 
     public get conditions(): Set<Status> {

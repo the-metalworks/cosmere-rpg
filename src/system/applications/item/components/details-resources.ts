@@ -13,7 +13,9 @@ import { SYSTEM_ID } from '@system/constants';
 import { TEMPLATES } from '@system/utils/templates';
 
 //@ts-expect-error Workaround for foundry-vtt-types issues
-export class DetailsResourcesComponent extends HandlebarsApplicationComponent<typeof BaseItemSheet> {
+export class DetailsResourcesComponent extends HandlebarsApplicationComponent<
+    typeof BaseItemSheet
+> {
     static readonly TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_DETAILS_RESOURCES}`;
 
     /**
@@ -28,16 +30,20 @@ export class DetailsResourcesComponent extends HandlebarsApplicationComponent<ty
 
     /* --- Handlers --- */
 
-    private static _onAddResource(this: DetailsResourcesComponent, event: Event) {
+    private static _onAddResource(
+        this: DetailsResourcesComponent,
+        event: Event,
+    ) {
         if (!this.application.item.hasResources()) return;
         if (!(event.target instanceof HTMLSelectElement)) return;
 
         const id = event.target.value as ItemResource;
 
         // If the resource being added is the first resource, set it as the primary resource
-        const primaryResource = this.application.item.system.primaryResource === NONE
-            ? id
-            : this.application.item.system.primaryResource;
+        const primaryResource =
+            this.application.item.system.primaryResource === NONE
+                ? id
+                : this.application.item.system.primaryResource;
 
         // Add the resource to the item
         void this.application.item.update({
@@ -48,23 +54,29 @@ export class DetailsResourcesComponent extends HandlebarsApplicationComponent<ty
                         value: 1,
                         max: 1,
                         recharge: NONE,
-                    }
-                }
-            }
+                    },
+                },
+            },
         });
     }
 
-    private static onDeleteResource(this: DetailsResourcesComponent, event: Event) {
+    private static onDeleteResource(
+        this: DetailsResourcesComponent,
+        event: Event,
+    ) {
         if (!this.application.item.hasResources()) return;
         if (!(event.target instanceof HTMLElement)) return;
 
         const id = event.target.closest('[data-id]')?.getAttribute('data-id');
         if (!id || !(id in this.application.item.system.resources)) return;
-        
+
         // If the resource being deleted is the primary resource, fallback to the next available resource or NONE if no resources remain
-        const primaryResource = this.application.item.system.primaryResource === id
-            ? Object.values(this.application.item.system.resources).filter(r => !!r).find(r => r.key !== id)?.key || NONE
-            : this.application.item.system.primaryResource;
+        const primaryResource =
+            this.application.item.system.primaryResource === id
+                ? (Object.values(this.application.item.system.resources)
+                      .filter((r) => !!r)
+                      .find((r) => r.key !== id)?.key ?? NONE)
+                : this.application.item.system.primaryResource;
 
         // Remove the resource from the item
         void this.application.item.update({
@@ -72,33 +84,43 @@ export class DetailsResourcesComponent extends HandlebarsApplicationComponent<ty
                 primaryResource,
                 resources: {
                     [id]: null,
-                }
-            }
+                },
+            },
         });
     }
 
-    private static _onValueChange(this: DetailsResourcesComponent, event: Event) {
+    private static _onValueChange(
+        this: DetailsResourcesComponent,
+        event: Event,
+    ) {
         if (!this.application.item.hasResources()) return;
         if (!(event.target instanceof HTMLInputElement)) return;
 
-        const resourceId = event.target.closest('[data-id]')?.getAttribute('data-id');
-        if (!resourceId || !(resourceId in this.application.item.system.resources)) return;
+        const resourceId = event.target
+            .closest('[data-id]')
+            ?.getAttribute('data-id');
+        if (
+            !resourceId ||
+            !(resourceId in this.application.item.system.resources)
+        )
+            return;
 
-        const resource = this.application.item.system.resources[resourceId as ItemResource];
+        const resource =
+            this.application.item.system.resources[resourceId as ItemResource];
         if (!resource) return;
 
         const value = Number(event.target.value);
         if (isNaN(value) || value < 0) return;
 
         if (value > resource.max) {
-            this.application.item.update({
+            void this.application.item.update({
                 system: {
                     resources: {
                         [resourceId]: {
                             max: value,
-                        }
-                    }
-                }
+                        },
+                    },
+                },
             });
         }
     }
@@ -107,24 +129,31 @@ export class DetailsResourcesComponent extends HandlebarsApplicationComponent<ty
         if (!this.application.item.hasResources()) return;
         if (!(event.target instanceof HTMLInputElement)) return;
 
-        const resourceId = event.target.closest('[data-id]')?.getAttribute('data-id');
-        if (!resourceId || !(resourceId in this.application.item.system.resources)) return;
+        const resourceId = event.target
+            .closest('[data-id]')
+            ?.getAttribute('data-id');
+        if (
+            !resourceId ||
+            !(resourceId in this.application.item.system.resources)
+        )
+            return;
 
-        const resource = this.application.item.system.resources[resourceId as ItemResource];
+        const resource =
+            this.application.item.system.resources[resourceId as ItemResource];
         if (!resource) return;
 
         const max = Number(event.target.value);
         if (isNaN(max) || max < 1) return;
 
         if (max < resource.value) {
-            this.application.item.update({
+            void this.application.item.update({
                 system: {
                     resources: {
                         [resourceId]: {
                             value: max,
-                        }
-                    }
-                }
+                        },
+                    },
+                },
             });
         }
     }
@@ -134,14 +163,30 @@ export class DetailsResourcesComponent extends HandlebarsApplicationComponent<ty
     public _onRender(params: never): void {
         super._onRender(params);
 
-        this.element?.querySelector('select[name="new-resource"]')
-            ?.addEventListener('change', DetailsResourcesComponent._onAddResource.bind(this));
+        this.element
+            ?.querySelector('select[name="new-resource"]')
+            ?.addEventListener(
+                'change',
+                DetailsResourcesComponent._onAddResource.bind(this),
+            );
 
-        this.element?.querySelectorAll('input[type="number"][name$=".value"]')
-            .forEach(input => input.addEventListener('change', DetailsResourcesComponent._onValueChange.bind(this)));
+        this.element
+            ?.querySelectorAll('input[type="number"][name$=".value"]')
+            .forEach((input) =>
+                input.addEventListener(
+                    'change',
+                    DetailsResourcesComponent._onValueChange.bind(this),
+                ),
+            );
 
-        this.element?.querySelectorAll('input[type="number"][name$=".max"]')
-            .forEach(input => input.addEventListener('change', DetailsResourcesComponent._onMaxChange.bind(this)));
+        this.element
+            ?.querySelectorAll('input[type="number"][name$=".max"]')
+            .forEach((input) =>
+                input.addEventListener(
+                    'change',
+                    DetailsResourcesComponent._onMaxChange.bind(this),
+                ),
+            );
     }
 
     /* --- Context --- */
@@ -156,23 +201,32 @@ export class DetailsResourcesComponent extends HandlebarsApplicationComponent<ty
         }
 
         const resources = Object.values(item.system.resources)
-                .filter(v => !!v)
-                .map(resource => ({
-                    ...resource,
-                    label: CONFIG.COSMERE.item.resource.types[resource.key].labelPlural,
-                }));
+            .filter((v) => !!v)
+            .map((resource) => ({
+                ...resource,
+                label: CONFIG.COSMERE.item.resource.types[resource.key]
+                    .labelPlural,
+            }));
 
-        const primaryResourceSelectOptions = resources.reduce((acc, resource) => ({
-            ...acc,
-            [resource.key]: resource.label,
-        }), {} as Record<string, string>);
+        const primaryResourceSelectOptions = resources.reduce(
+            (acc, resource) => ({
+                ...acc,
+                [resource.key]: resource.label,
+            }),
+            {} as Record<string, string>,
+        );
 
-        const availableResources = Object.entries(CONFIG.COSMERE.item.resource.types)
-                .filter(([key]) => !resources.some(r => r.key === key))
-                .reduce((acc, [key, config]) => ({
+        const availableResources = Object.entries(
+            CONFIG.COSMERE.item.resource.types,
+        )
+            .filter(([key]) => !resources.some((r) => r.key === key))
+            .reduce(
+                (acc, [key, config]) => ({
                     ...acc,
                     [key]: config.labelPlural,
-                }), {} as Record<string, string>);
+                }),
+                {} as Record<string, string>,
+            );
 
         return Promise.resolve({
             ...context,

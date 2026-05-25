@@ -1,289 +1,198 @@
-import { SYSTEM_ID } from '@src/system/constants';
+import { ItemConsumeType } from '@system/types/cosmere';
+import type { AnyObject } from '@system/types/utils';
 
-import { ActionItemDataModel } from '@system/data/item';
+// Documents
+import { ActionItem } from '@system/documents/item';
 
-// import { ItemConsumeData } from '@src/system/data/item/mixins/activatable';
-import { CosmereItem } from '@src/system/documents';
-import { ItemConsumeType, Resource } from '@src/system/types/cosmere';
-import type { NumberRange, AnyObject } from '@src/system/types/utils';
-import { TEMPLATES } from '@src/system/utils/templates';
+// Data
+import { ActionItemDataModel } from '@system/data/item/action';
+
+// Component imports
+import { ComponentHandlebarsApplicationMixin } from '@system/applications/component-system';
 
 // Constants
-const TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ITEM_CONSUME}`;
+import { SYSTEM_ID } from '@src/system/constants';
+import { TEMPLATES } from '@src/system/utils/templates';
 
-export interface ItemConsumeDialogOptions {
-    /**
-     * The amount to consume
-     */
-    amount?: NumberRange;
+const { ApplicationV2 } = foundry.applications.api;
 
-    /**
-     * The type of consumption
-     */
-    type?: ItemConsumeType;
-
-    /**
-     * The localized name of the resource or item to consume
-     */
-    resource?: string;
-
-    /**
-     * The id of the resource
-     */
-    resourceId?: string;
-
-    /**
-     * Whether or not to carry out the consume.
-     */
-    shouldConsume?: boolean;
+interface ConsumeDataState {
+    shouldConsume: boolean;
 }
 
-interface ItemConsumeDialogResult {
+export class ItemConsumeDialog extends ComponentHandlebarsApplicationMixin(
+    ApplicationV2,
+) {
     /**
-     * Resource(s) to consume
+     * NOTE: Unbound methods is the standard for defining actions and forms
+     * within ApplicationV2
      */
-    consumption: ActionItemDataModel.ConsumeData[];
-}
+    /* eslint-disable @typescript-eslint/unbound-method */
+    static DEFAULT_OPTIONS = {
+        window: {
+            title: 'DIALOG.ItemConsume.Title',
+            minimizable: false,
+            resizable: false,
+            positioned: true,
+        },
+        classes: ['dialog', 'item-consume'],
+        tag: 'dialog',
+        position: {
+            width: 450,
+        },
+        actions: {
+            continue: this.onContinue,
+        },
+    };
 
-export class ItemConsumeDialog extends foundry.applications.api.DialogV2 {
+    static PARTS = foundry.utils.mergeObject(
+        foundry.utils.deepClone(super.PARTS),
+        {
+            form: {
+                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ITEM_CONSUME}`,
+                forms: {
+                    form: {
+                        handler: this.onFormEvent,
+                        submitOnChange: true,
+                    },
+                },
+            },
+        },
+    );
+    /* eslint-enable @typescript-eslint/unbound-method */
+
+    private consumeData: ActionItemDataModel.ConsumeData[];
+    private consumeDataState: ConsumeDataState[];
+
+    private hasResolved = false;
+
     private constructor(
-        private item: CosmereItem,
-        private resolve: (result: ItemConsumeDialogResult | null) => void,
-        content: string,
-        title?: string,
+        private item: ActionItem,
+        private resolve: (
+            result: ActionItemDataModel.ConsumeData[] | null,
+        ) => void,
     ) {
         super({
             id: `${item.uuid}.consume`,
-            window: {
-                title: title ?? 'DIALOG.ItemConsume.Title',
-            },
-            position: {
-                width: 350,
-            },
-            content,
-            buttons: [
-                {
-                    label: 'GENERIC.Button.Continue',
-                    action: 'continue',
-                    // NOTE: Callback must be async
-                    // eslint-disable-next-line @typescript-eslint/require-await
-                    callback: async () => this.onContinue(),
-                },
-            ],
-        });
-    }
-
-    /* --- Lifecycle --- */
-
-    protected _onClose() {
-        this.resolve(null);
-    }
-
-    /* --- Statics --- */
-
-    public static async show(
-        item: CosmereItem,
-        options: ItemConsumeDialogOptions[] = [],
-    ): Promise<ItemConsumeDialogResult | null> {
-        // Render dialog inner HTML
-        const content = await renderTemplate(TEMPLATE, {
-            resources: options.map((option, i) => {
-                const resource =
-                    option.resource ?? game.i18n.localize('GENERIC.Unknown');
-                let label = game.i18n.localize(
-                    'DIALOG.ItemConsume.ShouldConsume.None',
-                );
-                let isVariable = false;
-
-                if (option.amount) {
-                    // Static or optional consumption
-                    if (option.amount.min === option.amount.max) {
-                        label = game.i18n.format(
-                            'DIALOG.ItemConsume.ShouldConsume.Static',
-                            {
-                                amount: option.amount.min.toFixed(),
-                                resource,
-                            },
-                        );
-                    }
-                    // Uncapped consumption
-                    else if (option.amount.max === -1) {
-                        label = game.i18n.format(
-                            'DIALOG.ItemConsume.ShouldConsume.RangeUncapped',
-                            {
-                                amount: option.amount.min.toFixed(),
-                                resource,
-                            },
-                        );
-                        isVariable = true;
-                    }
-                    // Capped consumption
-                    else {
-                        label = game.i18n.format(
-                            'DIALOG.ItemConsume.ShouldConsume.RangeCapped',
-                            {
-                                min: option.amount.min.toFixed(),
-                                max: option.amount.max.toFixed(),
-                                actual: option.amount.actual?.toFixed() ?? '',
-                                resource,
-                            },
-                        );
-                        isVariable = true;
-                    }
-                }
-
-                const resourceType = option.type ?? 'None';
-                const resourceId = option.resourceId ?? 'None';
-                const resourceAmount = option.amount
-                    ? `${option.amount.min}-${option.amount.max === -1 ? 'INF' : option.amount.max}`
-                    : '0-0';
-
-                return {
-                    id: `${resourceType}-${resourceId}-${resourceAmount}-${i}`,
-                    label,
-                    amount: isVariable ? option.amount : null,
-                    shouldConsume: option.shouldConsume ?? false,
-                };
-            }),
         });
 
-        // Render dialog and wrap as promise
+        this.consumeData = item.system.activation!.consumption.map(
+            (consume) => {
+                const clone = consume.clone();
+                clone.value.actual = clone.value.min;
+
+                return clone;
+            },
+        );
+        this.consumeDataState = this.consumeData.map(() => ({
+            shouldConsume: true,
+        }));
+    }
+
+    public static show(
+        item: ActionItem,
+    ): Promise<ActionItemDataModel.ConsumeData[] | null> {
         return new Promise((resolve) => {
-            void new ItemConsumeDialog(item, resolve, content).render(true);
+            void new this(item, resolve).render(true);
         });
     }
 
     /* --- Actions --- */
 
-    private onContinue() {
-        const form = this.element.querySelector('form')!;
+    private static onContinue(this: ItemConsumeDialog) {
+        this.resolve(
+            this.consumeData.filter(
+                (_, index) => this.consumeDataState[index].shouldConsume,
+            ),
+        );
 
-        try {
-            // Collate all valid consumption options, accumulating value
-            // for all options which share the exact same target for
-            // consumption.
-            const collated = [
-                ...form.querySelectorAll('#consumables .form-group').values(),
-            ]
-                .map((elem) => {
-                    // Get inputs
-                    const amountInput = elem.querySelector(
-                        `#${elem.id}-amount`,
-                    );
-                    const shouldConsumeInput = elem.querySelector(
-                        `#${elem.id}-shouldConsume`,
-                    );
+        this.hasResolved = true;
+        void this.close();
+    }
 
-                    // Only consume checked elements
-                    if (
-                        !(shouldConsumeInput instanceof HTMLInputElement) ||
-                        !shouldConsumeInput.checked
-                    )
-                        return null;
+    /* --- Form --- */
 
-                    // Only consume from valid amount inputs, when present
-                    if (
-                        !!amountInput &&
-                        !(amountInput instanceof HTMLInputElement)
-                    )
-                        return null;
+    protected static onFormEvent(
+        this: ItemConsumeDialog,
+        event: Event,
+        form: HTMLFormElement,
+        formData: FormDataExtended,
+    ) {
+        // Ignore submit events
+        if (event instanceof SubmitEvent) return;
 
-                    // Get any additional information from the id
-                    // Only destructure the first 4; the last value is the index,
-                    // which only exists to assert uniqueness.
-                    const [consumeType, consumeFrom, consumeMin, consumeMax] =
-                        elem.id.split('-') as [
-                            ItemConsumeType,
-                            string,
-                            string,
-                            string,
-                        ];
-                    const consumeData = {
-                        ...(consumeType === ItemConsumeType.Resource
-                            ? {
-                                  resource: consumeFrom as Resource,
-                              }
-                            : {}),
-                    };
+        event.preventDefault();
 
-                    const min = parseInt(consumeMin);
-                    const max = parseInt(consumeMax);
+        const formDataObject = formData.object;
 
-                    const range: NumberRange = {
-                        min: isNaN(min) ? 0 : min,
-                        max: isNaN(max) ? -1 : max,
-                        actual: 0,
-                    };
+        this.consumeData.forEach((consume, index) => {
+            let value = Number(
+                foundry.utils.getProperty(formDataObject, `[${index}].value`),
+            );
+            if (isNaN(value)) value = consume.value.actual;
 
-                    // Pass actual consumption back to item
-                    if (range.min === range.max) {
-                        range.actual = range.min;
-                    } else if (amountInput) {
-                        range.actual = amountInput.valueAsNumber;
+            const shouldConsume = Boolean(
+                foundry.utils.getProperty(
+                    formDataObject,
+                    `[${index}].shouldConsume`,
+                ),
+            );
 
-                        // Validate input with useful error notification
-                        if (isNaN(range.actual)) {
-                            throw new Error(
-                                `Invalid amount to consume: "${amountInput.value}"`,
-                            );
-                        } else if (
-                            range.actual < range.min ||
-                            (range.actual > range.max && range.max > -1)
-                        ) {
-                            let error = `Invalid amount "${range.actual}", must consume `;
-                            if (range.max === -1) {
-                                error += `at least ${range.min}`;
-                            } else {
-                                error += `between ${range.min} and ${range.max}`;
-                            }
-                            throw new Error(error);
-                        }
-                    }
+            consume.value.actual = Math.max(
+                consume.value.min,
+                Math.min(
+                    consume.value.max === -1 ? value : consume.value.max,
+                    value,
+                ),
+            );
+            this.consumeDataState[index].shouldConsume = shouldConsume;
+        });
 
-                    return {
-                        type: consumeType,
-                        value: range,
-                        ...consumeData,
-                    };
-                })
-                .filter((elem) => !!elem)
-                .reduce<Record<string, ActionItemDataModel.ConsumeData>>(
-                    (acc, consumable) => {
-                        // Get specific key, including the consume type and the actual
-                        // value that's meant to be consumed.
-                        let key = consumable.type as string;
-                        switch (consumable.type) {
-                            case ItemConsumeType.Resource:
-                                key += `.${consumable.resource!}`;
-                                break;
-                        }
+        void this.render();
+    }
 
-                        if (!acc[key]) {
-                            // TODO: Resolve typing issues
-                            // NOTE: Use any as workaround for foundry-vtt-types issues
-                            // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
-                            acc[key] = { ...consumable } as any;
-                        } else {
-                            acc[key].value.actual += consumable.value.actual!;
-                        }
+    /* --- Lifecycle --- */
 
-                        return acc;
-                    },
-                    {},
-                );
+    protected async _onRender(context: AnyObject, options: AnyObject) {
+        await super._onRender(context, options);
 
-            // Reconstruct list
-            const consumption = Object.entries(collated).map(([_, v]) => v);
+        $(this.element).prop('open', true);
+    }
 
-            console.log(consumption);
+    protected _onClose() {
+        super._onClose();
 
-            // Resolve
-            this.resolve({
-                consumption,
-            });
-        } catch (error) {
-            // Break free upon failed validation
-            ui.notifications.warn((error as Error).message);
-        }
+        if (this.hasResolved) return;
+
+        this.resolve(null);
+        this.hasResolved = true;
+    }
+
+    /* --- Context --- */
+
+    public _prepareContext() {
+        return Promise.resolve({
+            item: this.item,
+            CONFIG,
+            consumption: this.consumeData.map((c, i) => {
+                const isStaticAmount = c.value.min === c.value.max;
+                const isCappedAmount = !isStaticAmount && c.value.max !== -1;
+
+                const resourceLabel =
+                    c.type === ItemConsumeType.Resource
+                        ? CONFIG.COSMERE.resources[c.resource].label
+                        : c.type === ItemConsumeType.ItemResource
+                          ? CONFIG.COSMERE.item.resource.types[c.resource].label
+                          : 'UNKNOWN';
+
+                return {
+                    ...c,
+                    ...this.consumeDataState[i],
+                    isStaticAmount,
+                    isCappedAmount,
+                    resourceLabel,
+                };
+            }),
+        });
     }
 }

@@ -175,7 +175,8 @@
     &.roll-configuration,
     &.edit-event-rule,
     &.edit-creature-type,
-    &.edit-resource-consumption {
+    &.edit-resource-consumption,
+    &.item-consume {
         form,
         #consumables {
             display: flex;
@@ -478,6 +479,24 @@
                     font-variant: lining-nums;
                     font-weight: 600;
                     field-sizing: content;
+                }
+            }
+        }
+    }
+
+    &.item-consume {
+        app-match-document-target {
+            flex: .65;
+        }
+
+        .form-group {
+            height: 1.65rem;
+
+            > .form-fields {
+                align-items: center;
+
+                > div {
+                    flex: 1;
                 }
             }
         }

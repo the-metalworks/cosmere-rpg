@@ -1,14 +1,12 @@
 import {
-    ItemConsumeType,
-    Resource,
-} from '@system/types/cosmere';
-import { type AnyObject, type AnyMutableObject, type NumberRange, NONE } from '@system/types/utils';
+    type AnyObject,
+    type AnyMutableObject,
+    type NumberRange,
+    NONE,
+} from '@system/types/utils';
 
 // Documents
 import { ActionItem } from '@system/documents/item';
-
-// Data
-import { ActionItemDataModel } from '@system/data/item';
 
 // Component imports
 import { ComponentHandlebarsApplicationMixin } from '@system/applications/component-system';
@@ -38,7 +36,7 @@ export class EditResourceConsumptionDialog extends ComponentHandlebarsApplicatio
         tag: 'dialog',
         position: {
             width: 500,
-        }
+        },
     };
 
     static PARTS = foundry.utils.mergeObject(
@@ -93,17 +91,26 @@ export class EditResourceConsumptionDialog extends ComponentHandlebarsApplicatio
         event.preventDefault();
 
         const formDataObject = formData.object;
-        if (event.target instanceof HTMLInputElement && event.target.name === 'value') {
-            foundry.utils.setProperty(formDataObject, 'value', this.parseNumberRange(event.target.value));
+        if (
+            event.target instanceof HTMLInputElement &&
+            event.target.name === 'value'
+        ) {
+            foundry.utils.setProperty(
+                formDataObject,
+                'value',
+                this.parseNumberRange(event.target.value),
+            );
         }
 
         this.consumption.updateSource(formDataObject);
         await this.item.update({
             system: {
                 activation: {
-                    consumption: this.item.system.activation!.consumption.map(c => c.toObject()),
-                }
-            }
+                    consumption: this.item.system.activation!.consumption.map(
+                        (c) => c.toObject(),
+                    ),
+                },
+            },
         });
         void this.render();
     }

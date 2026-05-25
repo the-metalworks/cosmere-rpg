@@ -46,7 +46,9 @@ export class ResourceConsumptionListComponent extends HandlebarsApplicationCompo
 
     /* --- Actions --- */
 
-    private static async _onAddResource(this: ResourceConsumptionListComponent) {
+    private static async _onAddResource(
+        this: ResourceConsumptionListComponent,
+    ) {
         // Get the activation data
         const { activation } = this.params!.item.system;
 
@@ -54,7 +56,7 @@ export class ResourceConsumptionListComponent extends HandlebarsApplicationCompo
             system: {
                 activation: {
                     consumption: [
-                        ...activation!.consumption.map(c => c.toObject()),
+                        ...activation!.consumption.map((c) => c.toObject()),
                         {
                             type: ItemConsumeType.Resource,
                             value: {
@@ -66,53 +68,84 @@ export class ResourceConsumptionListComponent extends HandlebarsApplicationCompo
                             matchDocument: {
                                 target: DocumentTarget.Ancestor,
                                 documentType: 'Actor',
-                                matchBy: MatchBy.DocumentType
-                            }
-                        }
-                    ]
-                }
-            }
+                                matchBy: MatchBy.DocumentType,
+                            },
+                        },
+                    ],
+                },
+            },
         });
 
-        EditResourceConsumptionDialog.show(this.params!.item, this.params!.item.system.activation!.consumption.length - 1);
+        void EditResourceConsumptionDialog.show(
+            this.params!.item,
+            this.params!.item.system.activation!.consumption.length - 1,
+        );
     }
 
-    private static _onEditConsumption(this: ResourceConsumptionListComponent, event: Event) {
+    private static _onEditConsumption(
+        this: ResourceConsumptionListComponent,
+        event: Event,
+    ) {
         if (!(event.target instanceof HTMLElement)) return;
 
-        const index = event.target.closest('[data-index]')?.getAttribute('data-index');
+        const index = event.target
+            .closest('[data-index]')
+            ?.getAttribute('data-index');
         if (!index) return;
 
         const consumptionIndex = parseInt(index);
-        const consumption = this.params!.item.system.activation!.consumption[consumptionIndex];
+        const consumption =
+            this.params!.item.system.activation!.consumption[consumptionIndex];
         if (!consumption) return;
 
-        EditResourceConsumptionDialog.show(this.params!.item, consumptionIndex);
+        void EditResourceConsumptionDialog.show(
+            this.params!.item,
+            consumptionIndex,
+        );
     }
 
-    private static async _onDeleteConsumption(this: ResourceConsumptionListComponent, event: Event) {
+    private static _onDeleteConsumption(
+        this: ResourceConsumptionListComponent,
+        event: Event,
+    ) {
         if (!(event.target instanceof HTMLElement)) return;
 
-        const index = event.target.closest('[data-index]')?.getAttribute('data-index');
+        const index = event.target
+            .closest('[data-index]')
+            ?.getAttribute('data-index');
         if (!index) return;
 
         const consumptionIndex = parseInt(index);
-        if (consumptionIndex < 0 || consumptionIndex >= this.params!.item.system.activation!.consumption.length) return;
+        if (
+            consumptionIndex < 0 ||
+            consumptionIndex >=
+                this.params!.item.system.activation!.consumption.length
+        )
+            return;
 
-        this.params!.item.system.activation!.consumption.splice(consumptionIndex, 1);
+        this.params!.item.system.activation!.consumption.splice(
+            consumptionIndex,
+            1,
+        );
 
         void this.application.item.update({
             system: {
                 activation: {
-                    consumption: this.params!.item.system.activation!.consumption.map(c => c.toObject()),
-                }
-            }
+                    consumption:
+                        this.params!.item.system.activation!.consumption.map(
+                            (c) => c.toObject(),
+                        ),
+                },
+            },
         });
     }
 
     /* --- Context --- */
 
-    public _prepareContext(params: ResourceConsumptionListComponent.Params, context: BaseItemSheetRenderContext) {
+    public _prepareContext(
+        params: ResourceConsumptionListComponent.Params,
+        context: BaseItemSheetRenderContext,
+    ) {
         return Promise.resolve({
             ...context,
             ...params,
