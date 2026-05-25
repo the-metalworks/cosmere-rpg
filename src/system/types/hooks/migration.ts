@@ -1,4 +1,4 @@
-import { HOOKS } from '@system/constants/hooks';
+import type { HOOKS } from '@system/constants/hooks';
 
 type _Migration<R> = (from: string, to: string) => R;
 export type PreMigration = _Migration<boolean>;

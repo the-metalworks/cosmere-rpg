@@ -1,6 +1,7 @@
+import type {
+    ActionCostType} from '@system/types/cosmere';
 import {
     ActivationType,
-    ActionCostType,
     ItemConsumeType,
     Resource,
 } from '@system/types/cosmere';

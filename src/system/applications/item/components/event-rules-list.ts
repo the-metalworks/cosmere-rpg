@@ -1,13 +1,14 @@
-import { EventsItem } from '@system/documents/item';
-import { ConstructorOf } from '@system/types/utils';
-import { Rule } from '@system/data/item/event-system';
+import type { EventsItem } from '@system/documents/item';
+import type { ConstructorOf } from '@system/types/utils';
+import type { Rule } from '@system/data/item/event-system';
 
 // Dialogs
 import { ItemEditEventRuleDialog } from '../dialogs/edit-event-rule';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
-import { BaseItemSheet, BaseItemSheetRenderContext } from '../base';
+import type { BaseItemSheetRenderContext } from '../base';
+import { BaseItemSheet } from '../base';
 
 // Constants
 import { SYSTEM_ID } from '@src/system/constants';

@@ -1,10 +1,12 @@
-import { CosmereItem, RelationshipsItem } from '@system/documents/item';
+import type { CosmereItem, RelationshipsItem } from '@system/documents/item';
 import { CosmereHooks } from '@system/types/hooks';
-import { DeepPartial, DeepMutable } from '@system/types/utils';
-import { ItemOrigin } from '@system/types/item';
+import type { DeepPartial} from '@system/types/utils';
+import type { DeepMutable } from '@system/types/utils';
+import type { ItemOrigin } from '@system/types/item';
 
 // Data
-import { GoalItemDataModel, GoalItemDataSchema } from '@system/data/item/goal';
+import type { GoalItemDataSchema } from '@system/data/item/goal';
+import { GoalItemDataModel } from '@system/data/item/goal';
 import { ItemRelationship } from '@system/data/item/mixins/relationships';
 
 // Utils

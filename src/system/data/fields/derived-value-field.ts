@@ -1,13 +1,15 @@
-import {
+import type {
     ConstructorOf,
     EmptyObject,
-    AnyObject,
+    AnyObject} from '@system/types/utils';
+import type {
     Merge,
 } from '@system/types/utils';
 
-import {
+import type {
+    InferInitializedType} from '../types';
+import type {
     InferOptions,
-    InferInitializedType,
     DataSchemaInitializedType,
 } from '../types';
 

@@ -1,5 +1,5 @@
-import { HOOKS } from '@system/constants/hooks';
-import { CosmereItem } from '@system/documents/item';
+import type { HOOKS } from '@system/constants/hooks';
+import type { CosmereItem } from '@system/documents/item';
 
 /**
  * --- Item activation/usage hooks ---

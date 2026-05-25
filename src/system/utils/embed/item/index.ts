@@ -1,6 +1,6 @@
 // Types
 import { ItemType } from '@system/types/cosmere';
-import { EmbedHelpers } from '../types';
+import type { EmbedHelpers } from '../types';
 
 // Embedders
 import talentEmbed from './talent';

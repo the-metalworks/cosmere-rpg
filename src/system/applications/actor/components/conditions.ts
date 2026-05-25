@@ -1,11 +1,12 @@
-import { Status } from '@system/types/cosmere';
-import { ConstructorOf, MouseButton } from '@system/types/utils';
+import type { Status } from '@system/types/cosmere';
+import type { ConstructorOf } from '@system/types/utils';
+import { MouseButton } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
-import { BaseActorSheetRenderContext } from '../base';
+import type { BaseActorSheetRenderContext } from '../base';
 import { BaseActorSheet } from '../base';
 
 // Utils

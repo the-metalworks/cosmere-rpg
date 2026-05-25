@@ -31,6 +31,13 @@ export default tseslint.config(
             '@typescript-eslint/triple-slash-reference': 'off',
             '@typescript-eslint/no-unsafe-enum-comparison': 'off',
             'no-unexpected-multiline': 'off',
+            '@typescript-eslint/consistent-type-imports': [
+                'error',
+                {
+                    prefer: 'type-imports',
+                    fixStyle: 'separate-type-imports',
+                },
+            ],
         },
         languageOptions: {
             parserOptions: {

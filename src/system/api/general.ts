@@ -1,5 +1,5 @@
-import { CurrencyConfig } from '@system/types/config';
-import { CommonRegistrationData } from './types';
+import type { CurrencyConfig } from '@system/types/config';
+import type { CommonRegistrationData } from './types';
 import { RegistrationHelper } from './helper';
 
 export function getCurrentRegistrations() {

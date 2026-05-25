@@ -1,6 +1,7 @@
-import { ConstructorOf } from '@src/system/types/utils';
+import type { ConstructorOf } from '@src/system/types/utils';
 import { HandlebarsApplicationComponent } from '../../component-system';
-import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
+import type { BaseActorSheetRenderContext } from '../base';
+import { BaseActorSheet } from '../base';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 

@@ -2,11 +2,13 @@
 import { GlowFilter } from '@pixi/filter-glow';
 
 // Canvas
-import { PIXICanvasApplication, Drawable } from '@system/applications/canvas';
-import { TalentTreeWorld } from '../world';
+import type { PIXICanvasApplication} from '@system/applications/canvas';
+import { Drawable } from '@system/applications/canvas';
+import type { TalentTreeWorld } from '../world';
 
 // Nodes
-import { BaseNode, TalentNode, TalentTreeNode } from './nodes';
+import type { BaseNode, TalentNode} from './nodes';
+import { TalentTreeNode } from './nodes';
 
 // Types
 import { TalentTree } from '@system/types/item';

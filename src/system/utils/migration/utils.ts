@@ -1,4 +1,4 @@
-import { RawDocumentData } from '@system/types/utils';
+import type { RawDocumentData } from '@system/types/utils';
 import { SYSTEM_ID } from '@system/constants';
 
 export function handleDocumentMigrationError(

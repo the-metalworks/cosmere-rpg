@@ -1,14 +1,17 @@
-import {
+import type {
     CosmereItem,
     RelationshipsItem,
-    TalentItem,
     TalentTreeItem,
+    TalentItem
 } from '@system/documents/item';
-import { CharacterActor } from '@system/documents/actor';
+import {
+    
+} from '@system/documents/item';
+import type { CharacterActor } from '@system/documents/actor';
 import { ItemRelationship } from '@system/data/item/mixins/relationships';
-import { ConstructorOf } from '@system/types/utils';
+import type { ConstructorOf } from '@system/types/utils';
 import { TalentTree } from '@system/types/item';
-import { NodeConnection } from './types';
+import type { NodeConnection } from './types';
 
 // Utils
 import * as TalentTreeUtils from '@system/utils/talent-tree';
@@ -24,19 +27,22 @@ import { HandlebarsApplicationComponent } from '@system/applications/component-s
 import { DragDropComponentMixin } from '@system/applications/mixins/drag-drop';
 
 // Canvas
-import { PIXICanvasApplication, Viewport } from '@system/applications/canvas';
-import {
-    GridViewport,
-    TalentTreeWorld,
-    CanvasElements,
+import type { Viewport } from '@system/applications/canvas';
+import { PIXICanvasApplication } from '@system/applications/canvas';
+import type {
     MoveNodeEvent,
     ClickNodeEvent,
     RightClickNodeEvent,
     MouseOverNodeEvent,
-    MouseOutNodeEvent,
     CreateConnectionEvent,
     ClickConnectionEvent,
     RightClickConnectionEvent,
+    MouseOutNodeEvent,
+} from './canvas';
+import {
+    GridViewport,
+    TalentTreeWorld,
+    CanvasElements,
 } from './canvas';
 
 // Constants

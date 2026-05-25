@@ -1,5 +1,6 @@
-import { HandlerType, Event } from '@system/types/item/event-system';
-import { Expertise } from '@system/data/actor/common';
+import type { Event } from '@system/types/item/event-system';
+import { HandlerType } from '@system/types/item/event-system';
+import type { Expertise } from '@system/data/actor/common';
 
 // Fields
 import { ExpertisesField } from '@system/data/actor/fields/expertises-field';

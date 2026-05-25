@@ -1,8 +1,8 @@
 // Types
 import { SYSTEM_ID, SYSTEM_NAME } from '@system/constants';
-import { Migration } from '@system/types/migration';
+import type { Migration } from '@system/types/migration';
 import { CosmereHooks } from '@system/types/hooks';
-import { GlobalUI } from '@system/types/utils';
+import type { GlobalUI } from '@system/types/utils';
 
 // Migrations
 import MIGRATE_0_2__0_3 from './migrations/0.2-0.3';

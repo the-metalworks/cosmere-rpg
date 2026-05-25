@@ -1,7 +1,7 @@
 import { AdversaryRole, TurnSpeed } from '@system/types/cosmere';
 
 // Documents
-import { CosmereActor } from './actor';
+import type { CosmereActor } from './actor';
 
 // Constants
 import { SYSTEM_ID } from '@system/constants';

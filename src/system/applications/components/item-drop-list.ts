@@ -1,9 +1,9 @@
 // Types
-import { ItemType } from '@system/types/cosmere';
-import { ConstructorOf } from '@system/types/utils';
+import type { ItemType } from '@system/types/cosmere';
+import type { ConstructorOf } from '@system/types/utils';
 
 // Documents
-import { CosmereItem } from '@system/documents/item';
+import type { CosmereItem } from '@system/documents/item';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';

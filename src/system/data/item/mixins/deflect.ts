@@ -1,4 +1,4 @@
-import { DamageType } from '@system/types/cosmere';
+import type { DamageType } from '@system/types/cosmere';
 import { CosmereItem } from '@system/documents';
 
 const DAMAGE_TYPE_SCHEMA = (type: DamageType) => ({

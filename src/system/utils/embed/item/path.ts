@@ -1,8 +1,8 @@
 // Documents
-import { PathItem, TalentTreeItem } from '@system/documents/item';
+import type { PathItem, TalentTreeItem } from '@system/documents/item';
 
 // Types
-import { AnyMutableObject } from '@system/types/utils';
+import type { AnyMutableObject } from '@system/types/utils';
 
 // Talent tree embed
 import {

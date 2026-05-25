@@ -1,42 +1,52 @@
 import { EquipType, ArmorTraitId, DamageType } from '@system/types/cosmere';
 import { CosmereItem } from '@src/system/documents';
-import { EmptyObject } from '@system/types/utils';
+import type { EmptyObject } from '@system/types/utils';
 
 // Mixins
 import { DataModelMixin } from '../mixins';
-import { IdItemMixin, IdItemDataSchema } from './mixins/id';
+import type { IdItemDataSchema } from './mixins/id';
+import { IdItemMixin } from './mixins/id';
+import type {
+    DescriptionItemDataSchema} from './mixins/description';
 import {
-    DescriptionItemMixin,
-    DescriptionItemDataSchema,
+    DescriptionItemMixin
 } from './mixins/description';
 import { ResourcesItemMixin } from './mixins/resources';
+import type {
+    EquippableItemDataSchema} from './mixins/equippable';
 import {
-    EquippableItemMixin,
-    EquippableItemDataSchema,
+    EquippableItemMixin
 } from './mixins/equippable';
+import type {
+    ExpertiseItemDataSchema} from './mixins/expertise';
 import {
-    ExpertiseItemMixin,
-    ExpertiseItemDataSchema,
+    ExpertiseItemMixin
 } from './mixins/expertise';
-import {
-    TraitsItemMixin,
+import type {
     TraitsItemDataSchema,
-    TraitsItemDerivedData,
+    TraitsItemDerivedData} from './mixins/traits';
+import {
+    TraitsItemMixin
 } from './mixins/traits';
-import { DeflectItemMixin, DeflectItemDataSchema } from './mixins/deflect';
-import {
-    PhysicalItemMixin,
+import type { DeflectItemDataSchema } from './mixins/deflect';
+import { DeflectItemMixin } from './mixins/deflect';
+import type {
     PhysicalItemDataSchema,
-    PhysicalItemDerivedData,
+    PhysicalItemDerivedData} from './mixins/physical';
+import {
+    PhysicalItemMixin
 } from './mixins/physical';
-import { EventsItemMixin, EventsItemDataSchema } from './mixins/events';
+import type { EventsItemDataSchema } from './mixins/events';
+import { EventsItemMixin } from './mixins/events';
+import type {
+    LinkedSkillsItemDataSchema} from './mixins/linked-skills';
 import {
-    LinkedSkillsMixin,
-    LinkedSkillsItemDataSchema,
+    LinkedSkillsMixin
 } from './mixins/linked-skills';
+import type {
+    RelationshipsItemDataSchema} from './mixins/relationships';
 import {
-    RelationshipsMixin,
-    RelationshipsItemDataSchema,
+    RelationshipsMixin
 } from './mixins/relationships';
 
 export type ArmorItemDataSchema = IdItemDataSchema &

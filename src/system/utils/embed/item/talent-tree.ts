@@ -1,7 +1,7 @@
-import { AnyObject } from '@system/types/utils';
+import type { AnyObject } from '@system/types/utils';
 
 // Documents
-import { TalentTreeItem, CosmereItem } from '@system/documents/item';
+import type { TalentTreeItem, CosmereItem } from '@system/documents/item';
 
 // Application
 import { TalentTreeEmbed } from '@system/applications/item/embeds/talent-tree-embed';

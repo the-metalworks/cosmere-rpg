@@ -1,12 +1,13 @@
-import {
+import type {
     Event,
     HandlerType,
     HandlerExecutor,
     HandlerCls,
 } from '@system/types/item/event-system';
-import { AnyObject } from '@system/types/utils';
+import type { AnyObject } from '@system/types/utils';
 
-import { BASE_SCHEMA, HandlerBaseSchema } from '@system/data/item/event-system/handler';
+import type { HandlerBaseSchema } from '@system/data/item/event-system/handler';
+import { BASE_SCHEMA } from '@system/data/item/event-system/handler';
 
 export function constructHandlerClass<
     TSchema extends foundry.data.fields.DataSchema

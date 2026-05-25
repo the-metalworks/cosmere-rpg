@@ -1,4 +1,4 @@
-import { AnyMutableObject, CosmereDocument } from '@system/types/utils';
+import type { AnyMutableObject, CosmereDocument } from '@system/types/utils';
 
 export function activateListeners() {
     const body = $('body');

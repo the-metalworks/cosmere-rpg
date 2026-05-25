@@ -1,5 +1,5 @@
 import { Resource } from '@system/types/cosmere';
-import { ConstructorOf } from '@system/types/utils';
+import type { ConstructorOf } from '@system/types/utils';
 import { Derived } from '@system/data/fields';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
@@ -9,7 +9,8 @@ import { ConfigureResourceDialog } from '../dialogs/configure-resource';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
-import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
+import type { BaseActorSheetRenderContext } from '../base';
+import { BaseActorSheet } from '../base';
 
 // NOTE: Must use a type instead of an interface to match `AnyObject` type
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions

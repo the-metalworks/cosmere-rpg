@@ -1,6 +1,6 @@
 import { SYSTEM_ID } from '../constants';
-import { Theme } from '../types/cosmere';
-import { AnyObject } from '@system/types/utils';
+import type { Theme } from '../types/cosmere';
+import type { AnyObject } from '@system/types/utils';
 
 /**
  * Index of identifiers for system templates.

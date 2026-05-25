@@ -1,10 +1,12 @@
-import { Attribute } from '@system/types/cosmere';
+import type { Attribute } from '@system/types/cosmere';
 import { AdvantageMode } from '@system/types/roll';
 import { CosmereHooks } from '@system/types/hooks';
 
 import './modifiers';
-import { D20Roll, D20RollOptions, D20RollData } from './d20-roll';
-import { DamageRoll, DamageRollOptions, DamageRollData } from './damage-roll';
+import type { D20RollOptions, D20RollData } from './d20-roll';
+import { D20Roll } from './d20-roll';
+import type { DamageRollOptions, DamageRollData } from './damage-roll';
+import { DamageRoll } from './damage-roll';
 
 // Utils
 import {

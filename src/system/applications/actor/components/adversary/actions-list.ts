@@ -4,16 +4,17 @@ import {
     ActivationType,
     ActionCostType,
 } from '@system/types/cosmere';
-import { ItemListSection } from '@system/types/application/actor/components/item-list';
+import type { ItemListSection } from '@system/types/application/actor/components/item-list';
 
 // Documents
 import { CosmereItem, type ActionItem } from '@system/documents/item';
 import { CosmereActor } from '@system/documents/actor';
 
 // Components
+import type {
+    ActorActionsListComponentRenderContext} from '../actions-list';
 import {
-    ActorActionsListComponent,
-    ActorActionsListComponentRenderContext,
+    ActorActionsListComponent
 } from '../actions-list';
 import { SortMode } from '../search-bar';
 

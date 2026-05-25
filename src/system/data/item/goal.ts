@@ -2,15 +2,19 @@ import { CosmereItem } from '@system/documents';
 
 // Mixins
 import { DataModelMixin } from '../mixins';
-import { IdItemMixin, IdItemDataSchema } from './mixins/id';
+import type { IdItemDataSchema } from './mixins/id';
+import { IdItemMixin } from './mixins/id';
+import type {
+    DescriptionItemDataSchema} from './mixins/description';
 import {
-    DescriptionItemMixin,
-    DescriptionItemDataSchema,
+    DescriptionItemMixin
 } from './mixins/description';
-import { EventsItemMixin, EventsItemDataSchema } from './mixins/events';
+import type { EventsItemDataSchema } from './mixins/events';
+import { EventsItemMixin } from './mixins/events';
+import type {
+    RelationshipsItemDataSchema} from './mixins/relationships';
 import {
-    RelationshipsMixin,
-    RelationshipsItemDataSchema,
+    RelationshipsMixin
 } from './mixins/relationships';
 
 const SCHEMA = () => ({

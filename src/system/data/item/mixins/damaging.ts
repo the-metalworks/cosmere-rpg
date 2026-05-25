@@ -1,5 +1,5 @@
 import { CosmereItem } from '@system/documents';
-import { Skill, Attribute, DamageType } from '@system/types/cosmere';
+import type { Skill, Attribute, DamageType } from '@system/types/cosmere';
 
 const SCHEMA = () => ({
     damage: new foundry.data.fields.SchemaField({

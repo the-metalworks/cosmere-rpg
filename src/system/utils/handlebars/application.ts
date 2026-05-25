@@ -1,4 +1,4 @@
-import { AnyObject } from '@system/types/utils';
+import type { AnyObject } from '@system/types/utils';
 
 Handlebars.registerHelper(
     'component',

@@ -1,6 +1,6 @@
-import { CosmereActor, InjuryItem } from '@system/documents';
-import { InjuryType, RestType } from '@system/types/cosmere';
-import { HOOKS } from '@system/constants/hooks';
+import type { CosmereActor, InjuryItem } from '@system/documents';
+import type { InjuryType, RestType } from '@system/types/cosmere';
+import type { HOOKS } from '@system/constants/hooks';
 
 /**
  * --- Damage application hooks ---

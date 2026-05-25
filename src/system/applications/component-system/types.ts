@@ -1,4 +1,4 @@
-import { AnyObject } from '@system/types/utils';
+import type { AnyObject } from '@system/types/utils';
 
 export type ComponentActionHandler =
     | foundry.applications.api.ApplicationV2.ClickAction

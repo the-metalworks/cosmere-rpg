@@ -1,5 +1,5 @@
 import { CosmereItem } from '@system/documents';
-import { Merge } from '@system/types/utils';
+import type { Merge } from '@system/types/utils';
 
 import { localize } from '@system/utils/i18n';
 

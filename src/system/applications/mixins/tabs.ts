@@ -1,7 +1,7 @@
-import { AnyObject, ConstructorOf } from '@system/types/utils';
+import type { AnyObject, ConstructorOf } from '@system/types/utils';
 
 // TEMP
-import { ComponentHandlebarsApplication } from '../component-system/mixin';
+import type { ComponentHandlebarsApplication } from '../component-system/mixin';
 
 // Constants
 const PRIMARY_TAB_GROUP = 'primary';

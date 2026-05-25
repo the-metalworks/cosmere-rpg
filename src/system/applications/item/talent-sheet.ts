@@ -1,6 +1,6 @@
 import { Talent } from '@system/types/item';
-import { TalentItem } from '@system/documents/item';
-import { DeepPartial } from '@system/types/utils';
+import type { TalentItem } from '@system/documents/item';
+import type { DeepPartial } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 

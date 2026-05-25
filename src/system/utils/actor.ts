@@ -1,6 +1,8 @@
-import { CreatureType, ExpertiseType } from '@system/types/cosmere';
-import { CommonActorData, Expertise } from '@system/data/actor/common';
-import { CosmereActor } from '../documents';
+import type { ExpertiseType } from '@system/types/cosmere';
+import { CreatureType } from '@system/types/cosmere';
+import type { CommonActorData} from '@system/data/actor/common';
+import { Expertise } from '@system/data/actor/common';
+import type { CosmereActor } from '../documents';
 
 export function getTypeLabel(type: CommonActorData['type']): string {
     // Check if type is a custom type

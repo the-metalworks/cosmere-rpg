@@ -1,4 +1,4 @@
-import {
+import type {
     AnyObject,
     AnyMutableObject,
     RawActorData,
@@ -9,10 +9,10 @@ import {
     getPossiblyInvalidDocument,
     getRawDocumentSources,
 } from '../../data';
-import { CosmereActor, CosmereItem } from '@src/system/documents';
+import type { CosmereActor, CosmereItem } from '@src/system/documents';
 import { handleDocumentMigrationError } from '../utils';
 // import { ItemConsumeData } from '@src/system/data/item/mixins/activatable';
-import { ItemConsumeType } from '@src/system/types/cosmere';
+import type { ItemConsumeType } from '@src/system/types/cosmere';
 
 export default {
     from: '0.3',

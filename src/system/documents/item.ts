@@ -1,23 +1,26 @@
-import { CosmereActor, CosmereActorRollData } from './actor';
+import type { CosmereActorRollData } from './actor';
+import { CosmereActor } from './actor';
 import { MESSAGE_TYPES } from './chat-message';
-import {
-    ItemType,
+import type {
     Skill,
     Attribute,
-    ItemConsumeType,
-    ActivationType,
     WeaponTraitId,
     ArmorTraitId,
-    ActionCostType,
-    ItemResource,
+    ItemResource} from '@system/types/cosmere';
+import {
+    ItemType,
+    ItemConsumeType,
+    ActivationType,
+    ActionCostType
 } from '@system/types/cosmere';
 import { CosmereHooks } from '@system/types/hooks';
-import { AnyObject, EmptyObject, DeepPartial } from '@system/types/utils';
+import type { AnyObject, EmptyObject} from '@system/types/utils';
+import type { DeepPartial } from '@system/types/utils';
 
 import type { EmbeddedDocumentsConfig } from './embed-config/types';
 
 // Data model
-import {
+import type {
     WeaponItemDataModel,
     ArmorItemDataModel,
     AncestryItemDataModel,
@@ -35,57 +38,59 @@ import {
     TalentTreeItemDataModel,
 } from '@system/data/item';
 
-import { AttackingItemDataSchema } from '@system/data/item/mixins/attacking';
-import { DamagingItemDataSchema } from '@system/data/item/mixins/damaging';
-import {
+import type { AttackingItemDataSchema } from '@system/data/item/mixins/attacking';
+import type { DamagingItemDataSchema } from '@system/data/item/mixins/damaging';
+import type {
     PhysicalItemDataSchema,
     PhysicalItemDerivedData,
 } from '@system/data/item/mixins/physical';
-import {
+import type {
     TypedItemDataSchema,
     TypedItemDerivedData,
 } from '@system/data/item/mixins/typed';
-import {
+import type {
     TraitsItemDataSchema,
     TraitsItemDerivedData,
 } from '@system/data/item/mixins/traits';
-import { EquippableItemDataSchema } from '@system/data/item/mixins/equippable';
-import { DescriptionItemDataSchema } from '@system/data/item/mixins/description';
-import { IdItemDataSchema } from '@system/data/item/mixins/id';
-import { ModalityItemDataSchema } from '@system/data/item/mixins/modality';
-import {
+import type { EquippableItemDataSchema } from '@system/data/item/mixins/equippable';
+import type { DescriptionItemDataSchema } from '@system/data/item/mixins/description';
+import type { IdItemDataSchema } from '@system/data/item/mixins/id';
+import type { ModalityItemDataSchema } from '@system/data/item/mixins/modality';
+import type {
     TalentsProviderDataSchema,
     TalentsProviderDerivedData,
 } from '@system/data/item/mixins/talents-provider';
-import { EventsItemDataSchema } from '@system/data/item/mixins/events';
-import {
+import type { EventsItemDataSchema } from '@system/data/item/mixins/events';
+import type {
     DeflectItemDataSchema,
     DeflectItemDerivedData,
 } from '@system/data/item/mixins/deflect';
-import { LinkedSkillsItemDataSchema } from '@system/data/item/mixins/linked-skills';
-import {
+import type { LinkedSkillsItemDataSchema } from '@system/data/item/mixins/linked-skills';
+import type {
     RelationshipsItemDataSchema,
     ItemRelationship,
 } from '@system/data/item/mixins/relationships';
-import { ResourcesItemMixin } from '@system/data/item/mixins/resources';
+import type { ResourcesItemMixin } from '@system/data/item/mixins/resources';
 
 // Sheet
-import { BaseItemSheet } from '@system/applications/item/base';
+import type { BaseItemSheet } from '@system/applications/item/base';
 
 // Rolls
-import {
-    d20Roll,
-    D20RollOptions,
-    damageRoll,
+import type {
     D20Roll,
     D20RollData,
     DamageRoll,
     DamageRollData,
     D20RollConfigration,
     DamageRollConfiguration,
+    D20RollOptions,
+} from '@system/dice';
+import {
+    d20Roll,
+    damageRoll
 } from '@system/dice';
 import { AdvantageMode } from '@system/types/roll';
-import { RollMode } from '@system/dice/types';
+import type { RollMode } from '@system/dice/types';
 
 // Utils
 import {
@@ -95,24 +100,26 @@ import {
     resolveSkill,
     resolveAttribute,
 } from '@system/utils/generic';
-import { EnricherData } from '../utils/enrichers';
+import type { EnricherData } from '../utils/enrichers';
 import { renderSystemTemplate, TEMPLATES } from '@system/utils/templates';
 import { getEmbedHelpers } from '@system/utils/embed';
-import ItemRelationshipUtils, {
+import type {
     RemoveRelationshipOptions,
 } from '@src/system/utils/item/relationship';
+import ItemRelationshipUtils from '@src/system/utils/item/relationship';
 
 // Dialogs
 import { AttackConfigurationDialog } from '@system/applications/dialogs/attack-configuration';
+import type {
+    ItemConsumeDialogOptions} from '@system/applications/item/dialogs/item-consume';
 import {
-    ItemConsumeDialog,
-    ItemConsumeDialogOptions,
+    ItemConsumeDialog
 } from '@system/applications/item/dialogs/item-consume';
 
 // Constants
 import { SYSTEM_ID } from '@system/constants';
 import { HOOKS } from '@system/constants/hooks';
-import { ItemOrigin } from '../types/item';
+import type { ItemOrigin } from '../types/item';
 
 interface ShowConsumeDialogOptions {
     /**

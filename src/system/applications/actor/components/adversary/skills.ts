@@ -1,13 +1,14 @@
-import { Skill } from '@system/types/cosmere';
-import { AnyObject, ConstructorOf } from '@system/types/utils';
+import type { Skill } from '@system/types/cosmere';
+import type { AnyObject, ConstructorOf} from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
+import type {
+    AdversarySheetRenderContext} from '../../adversary-sheet';
 import {
-    AdversarySheet,
-    AdversarySheetRenderContext,
+    AdversarySheet
 } from '../../adversary-sheet';
 import { ConfigureSkillsDialog } from '../../dialogs/configure-skills';
 

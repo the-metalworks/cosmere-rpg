@@ -1,4 +1,4 @@
-import { EmptyObject } from '@system/types/utils';
+import type { EmptyObject } from '@system/types/utils';
 import { CosmereItem } from '@system/documents';
 
 interface TypedItemMixinOptions<Type extends string = string> {

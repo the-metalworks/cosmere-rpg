@@ -17,8 +17,8 @@ import './immunities';
 import './character';
 import './adversary';
 
-export {
+export { SortMode } from './search-bar';
+export type {
     SearchBarInputEvent,
     SearchBarInputEventDetail,
-    SortMode,
 } from './search-bar';

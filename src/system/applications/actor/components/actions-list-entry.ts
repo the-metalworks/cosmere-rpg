@@ -1,8 +1,8 @@
-import { ActionItem } from '@system/documents/item';
+import type { ActionItem } from '@system/documents/item';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
-import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
+import type { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
 
 // Utils
 import AppUtils from '@system/applications/utils';

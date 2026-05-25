@@ -1,5 +1,5 @@
-import { Expertise } from '@src/system/data/actor/common';
-import { AttributeGroup, ExpertiseType, Skill } from '@src/system/types/cosmere';
+import type { Expertise } from '@src/system/data/actor/common';
+import type { AttributeGroup, ExpertiseType, Skill } from '@src/system/types/cosmere';
 
 export interface EruditionConfig {
     skills: {

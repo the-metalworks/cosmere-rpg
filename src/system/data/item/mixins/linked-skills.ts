@@ -1,5 +1,5 @@
 import { CosmereItem } from '@system/documents';
-import { Skill } from '@system/types/cosmere';
+import type { Skill } from '@system/types/cosmere';
 
 const SCHEMA = () => ({
     linkedSkills: new foundry.data.fields.ArrayField(

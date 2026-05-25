@@ -1,5 +1,5 @@
-import { PathItem } from '@system/documents/item';
-import { DeepPartial } from '@system/types/utils';
+import type { PathItem } from '@system/documents/item';
+import type { DeepPartial } from '@system/types/utils';
 import { Talent } from '@system/types/item';
 
 // Base

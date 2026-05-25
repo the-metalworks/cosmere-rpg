@@ -1,5 +1,5 @@
-import { CosmereItem } from '@system/documents/item';
-import { CosmereActor } from '@system/documents/actor';
+import type { CosmereItem } from '@system/documents/item';
+import type { CosmereActor } from '@system/documents/actor';
 
 export interface ItemListSection {
     /**

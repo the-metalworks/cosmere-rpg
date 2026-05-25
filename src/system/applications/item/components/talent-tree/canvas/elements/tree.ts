@@ -1,9 +1,10 @@
-import { TalentTreeItem } from '@system/documents/item';
+import type { TalentTreeItem } from '@system/documents/item';
 import { TalentTree } from '@system/types/item';
 
 // Canvas
-import { PIXICanvasApplication, Drawable } from '@system/applications/canvas';
-import { TalentTreeWorld } from '../world';
+import type { PIXICanvasApplication} from '@system/applications/canvas';
+import { Drawable } from '@system/applications/canvas';
+import type { TalentTreeWorld } from '../world';
 
 // Canvas elements
 import { TalentTreeNode } from './nodes';

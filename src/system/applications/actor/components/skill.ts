@@ -1,13 +1,16 @@
-import { ActorType, Skill } from '@system/types/cosmere';
-import { ConstructorOf, MouseButton } from '@system/types/utils';
+import type { Skill } from '@system/types/cosmere';
+import { ActorType } from '@system/types/cosmere';
+import { MouseButton } from '@system/types/utils';
+import type { ConstructorOf } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
-import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
+import type { BaseActorSheetRenderContext } from '../base';
+import { BaseActorSheet } from '../base';
 import { getSystemSetting, SETTINGS } from '@src/system/settings';
-import { CharacterActor } from '@src/system/documents';
+import type { CharacterActor } from '@src/system/documents';
 
 // NOTE: Must use a type instead of an interface to match `AnyObject` type
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions

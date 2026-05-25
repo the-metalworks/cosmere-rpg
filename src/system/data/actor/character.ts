@@ -1,11 +1,12 @@
 // Types
 import { Resource } from '@system/types/cosmere';
-import { DeepPartial, AnyObject, EmptyObject } from '@system/types/utils';
+import type { DeepPartial, AnyObject, EmptyObject } from '@system/types/utils';
 
-import {
-    CommonActorDataModel,
+import type {
     CommonActorDataSchema,
-    AttributeData,
+    AttributeData} from './common';
+import {
+    CommonActorDataModel
 } from './common';
 
 // Utils

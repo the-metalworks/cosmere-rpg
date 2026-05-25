@@ -1,8 +1,8 @@
-import { Skill } from '@system/types/cosmere';
-import { SkillConfig } from '@system/types/config';
-import { CommonRegistrationData } from './types';
+import type { Skill } from '@system/types/cosmere';
+import type { SkillConfig } from '@system/types/config';
+import type { CommonRegistrationData } from './types';
 import { RegistrationHelper } from './helper';
-import { RollDataConfig } from '../types/config';
+import type { RollDataConfig } from '../types/config';
 
 interface SkillConfigData
     extends Omit<SkillConfig, 'key'>,

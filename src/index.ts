@@ -1,5 +1,6 @@
-import { ActorType, Status, ItemType } from './system/types/cosmere';
-import { AnyMutableObject } from './system/types/utils';
+import type { Status} from './system/types/cosmere';
+import { ActorType, ItemType } from './system/types/cosmere';
+import type { AnyMutableObject } from './system/types/utils';
 import { SYSTEM_ID } from './system/constants';
 import { TEMPLATES } from './system/utils/templates';
 import COSMERE from './system/config';
@@ -31,6 +32,8 @@ import Editor from './system/ui/editor';
 
 import CosmereAPI from './system/api';
 import CosmereUtils from './system/utils/global';
+
+import CharacterHeader from './system/ui/character/CharacterHeader.svelte';
 
 declare global {
     namespace CONFIG {

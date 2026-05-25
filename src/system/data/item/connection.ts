@@ -2,14 +2,18 @@ import { CosmereItem } from '@src/system/documents';
 
 // Mixins
 import { DataModelMixin } from '../mixins';
+import type {
+    DescriptionItemDataSchema} from './mixins/description';
 import {
-    DescriptionItemMixin,
-    DescriptionItemDataSchema,
+    DescriptionItemMixin
 } from './mixins/description';
-import { EventsItemMixin, EventsItemDataSchema } from './mixins/events';
-import {
-    RelationshipsMixin,
+import type { EventsItemDataSchema } from './mixins/events';
+import { EventsItemMixin } from './mixins/events';
+import type {
     RelationshipsItemDataSchema
+} from './mixins/relationships';
+import {
+    RelationshipsMixin
 } from './mixins/relationships';
 
 export type ConnectionItemDataSchema = 

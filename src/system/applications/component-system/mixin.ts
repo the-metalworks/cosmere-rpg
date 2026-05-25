@@ -1,13 +1,13 @@
-import { DeepPartial, AnyObject } from '@system/types/utils';
+import type { DeepPartial, AnyObject } from '@system/types/utils';
 
 // Component System
 import ComponentSystem from './system';
 
 // Component
-import { HandlebarsApplicationComponent } from './component';
+import type { HandlebarsApplicationComponent } from './component';
 
 // Types
-import { ComponentState, PartState } from './types';
+import type { ComponentState, PartState } from './types';
 
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 

@@ -1,8 +1,8 @@
 import { CreatureType } from '@system/types/cosmere';
-import { CosmereActor } from '@system/documents';
-import { AnyObject } from '@system/types/utils';
+import type { CosmereActor } from '@system/documents';
+import type { AnyObject } from '@system/types/utils';
 
-import { CommonActorData } from '@system/data/actor/common';
+import type { CommonActorData } from '@system/data/actor/common';
 import { TEMPLATES } from '@src/system/utils/templates';
 import { SYSTEM_ID } from '@src/system/constants';
 

@@ -1,9 +1,11 @@
-import { CosmereActor, CosmereActorRollData } from '@system/documents/actor';
+import type { CosmereActorRollData } from '@system/documents/actor';
+import { CosmereActor } from '@system/documents/actor';
 import { CosmereItem } from '@system/documents/item';
-import { AttributeConfig, SkillConfig } from '../types/config';
-import { Attribute, AttributeGroup, DamageType, Skill } from '../types/cosmere';
+import type { AttributeConfig, SkillConfig } from '../types/config';
+import type { Attribute, AttributeGroup, Skill } from '../types/cosmere';
+import { DamageType } from '../types/cosmere';
 import { getActor } from './actor';
-import { TargetDescriptor } from './generic';
+import type { TargetDescriptor } from './generic';
 
 // Constants
 import { SYSTEM_ID } from '@system/constants';

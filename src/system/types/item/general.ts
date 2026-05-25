@@ -1,4 +1,4 @@
-import { ItemType } from '@system/types/cosmere';
+import type { ItemType } from '@system/types/cosmere';
 
 export interface ItemOrigin {
     /**

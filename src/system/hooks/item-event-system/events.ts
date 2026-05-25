@@ -1,10 +1,10 @@
-import { CosmereItem } from '@system/documents/item';
+import type { CosmereItem } from '@system/documents/item';
 import { CosmereActor } from '@system/documents/actor';
-import { ItemEventTypeConfig } from '@system/types/config';
+import type { ItemEventTypeConfig } from '@system/types/config';
 import { RestType } from '@system/types/cosmere';
 import { Event } from '@system/types/item/event-system';
 
-import { DeepPartial } from '@system/types/utils';
+import type { DeepPartial } from '@system/types/utils';
 
 // Constants
 import { HOOKS } from '@system/constants/hooks';

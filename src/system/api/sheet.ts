@@ -2,7 +2,7 @@ import type {
     ItemListSection,
     DynamicItemListSectionGenerator,
 } from '@system/types/application/actor/components/item-list';
-import { CommonRegistrationData } from './types';
+import type { CommonRegistrationData } from './types';
 import { RegistrationHelper } from './helper';
 
 /**

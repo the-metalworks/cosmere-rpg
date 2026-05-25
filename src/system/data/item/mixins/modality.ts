@@ -1,5 +1,5 @@
 import { CosmereItem } from '@system/documents';
-import { IdItemData } from './id';
+import type { IdItemData } from './id';
 
 const SCHEMA = () => ({
     modality: new foundry.data.fields.StringField({

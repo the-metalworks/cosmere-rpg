@@ -1,11 +1,12 @@
 import { CosmereItem } from '@system/documents';
 import { TalentTree } from '@system/types/item';
-import { AnyObject } from '@system/types/utils';
+import type { AnyObject } from '@system/types/utils';
 
+import type {
+    CollectionFieldOptions} from '@system/data/fields';
 import {
     CollectionField,
-    RecordCollection,
-    CollectionFieldOptions,
+    RecordCollection
 } from '@system/data/fields';
 
 export class TalentTreeNodeCollectionField extends CollectionField<

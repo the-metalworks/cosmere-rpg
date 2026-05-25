@@ -1,6 +1,6 @@
-import { DamageType, Skill, Attribute } from '@system/types/cosmere';
-import { CosmereItem } from '@system/documents/item';
-import { CosmereActor, CosmereActorRollData } from '@system/documents/actor';
+import type { DamageType, Skill, Attribute } from '@system/types/cosmere';
+import type { CosmereItem } from '@system/documents/item';
+import type { CosmereActor, CosmereActorRollData } from '@system/documents/actor';
 import { AdvantageMode } from '@system/types/roll';
 
 export type DamageRollData<

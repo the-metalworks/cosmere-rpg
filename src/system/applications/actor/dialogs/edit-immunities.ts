@@ -1,6 +1,7 @@
-import { Status, DamageType, ImmunityType } from '@system/types/cosmere';
-import { CosmereActor } from '@system/documents';
-import { AnyObject } from '@system/types/utils';
+import type { Status, DamageType} from '@system/types/cosmere';
+import { ImmunityType } from '@system/types/cosmere';
+import type { CosmereActor } from '@system/documents';
+import type { AnyObject } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 

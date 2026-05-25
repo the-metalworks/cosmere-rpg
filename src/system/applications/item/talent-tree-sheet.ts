@@ -1,8 +1,9 @@
-import { TalentTree } from '@system/types/item';
+import type { TalentTree } from '@system/types/item';
 
-import { TalentTreeItem } from '@system/documents/item';
-import { CosmereActor } from '@system/documents/actor';
-import { AnyObject, DeepPartial, MouseButton } from '@system/types/utils';
+import type { TalentTreeItem } from '@system/documents/item';
+import type { CosmereActor } from '@system/documents/actor';
+import type { AnyObject, DeepPartial} from '@system/types/utils';
+import { MouseButton } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 
 // Mixins

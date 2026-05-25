@@ -1,4 +1,4 @@
-import { ConstructorOf } from '@system/types/utils';
+import type { ConstructorOf } from '@system/types/utils';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
@@ -13,7 +13,7 @@ export interface SearchBarInputEventDetail {
 
 export type SearchBarInputEvent = CustomEvent<SearchBarInputEventDetail>;
 
-export const enum SortMode {
+export enum SortMode {
     Manual = 'manual',
     Alphabetic = 'alphabetic',
 }

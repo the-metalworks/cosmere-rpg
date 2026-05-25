@@ -1,9 +1,9 @@
 // Types
-import { CosmereActor } from '@src/system/documents/actor';
-import { EruditionConfig, EruditionSelections, PickedExpertise } from './types';
-import { Expertise } from '@src/system/data/actor/common';
-import { ExpertiseType, Skill } from '@src/system/types/cosmere';
-import { AnyObject } from '@league-of-foundry-developers/foundry-vtt-types/utils';
+import type { CosmereActor } from '@src/system/documents/actor';
+import type { EruditionConfig, EruditionSelections, PickedExpertise } from './types';
+import type { Expertise } from '@src/system/data/actor/common';
+import type { ExpertiseType, Skill } from '@src/system/types/cosmere';
+import type { AnyObject } from '@league-of-foundry-developers/foundry-vtt-types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 
 const { HandlebarsApplicationMixin } = foundry.applications.api;

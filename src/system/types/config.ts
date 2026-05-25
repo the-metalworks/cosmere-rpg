@@ -1,4 +1,4 @@
-import {
+import type {
     Size,
     CreatureType,
     Status,
@@ -32,22 +32,23 @@ import {
     PowerType,
     Theme,
     MovementType,
-    ImmunityType,
+    ImmunityType} from './cosmere';
+import {
     ActorType,
 } from './cosmere';
-import { AdvantageMode } from './roll';
+import type { AdvantageMode } from './roll';
 
-import { Talent, TalentTree, EventSystem as ItemEventSystem } from './item';
+import type { Talent, TalentTree, EventSystem as ItemEventSystem } from './item';
 
-import { AnyObject } from './utils';
+import type { AnyObject } from './utils';
 
-import {
+import type {
     ItemListSection,
     DynamicItemListSectionGenerator,
 } from './application/actor/components/item-list';
 
-import { CosmereItem } from '@system/documents/item';
-import { CosmereActor } from '../documents';
+import type { CosmereItem } from '@system/documents/item';
+import type { CosmereActor } from '../documents';
 
 export interface SizeConfig {
     label: string;

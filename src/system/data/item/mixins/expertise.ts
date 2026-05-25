@@ -1,5 +1,5 @@
 import { CosmereItem } from '@system/documents/item';
-import { IdItemDataSchema } from './id';
+import type { IdItemDataSchema } from './id';
 
 const SCHEMA = () => ({
     expertise: new foundry.data.fields.BooleanField({

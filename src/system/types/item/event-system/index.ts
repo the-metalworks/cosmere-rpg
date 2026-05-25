@@ -1,8 +1,9 @@
 import { Event } from './event';
-import { HandlerConfig } from './handler';
+import type { HandlerConfig } from './handler';
 
 export { Event } from './event';
-export { HandlerType, HandlerExecutor, IHandler, HandlerCls } from './handler';
+export { HandlerType } from './handler';
+export type { HandlerExecutor, IHandler, HandlerCls } from './handler';
 
 export interface Rule {
     id: string;

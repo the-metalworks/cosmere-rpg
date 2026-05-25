@@ -1,15 +1,16 @@
-import { Attribute } from '@system/types/cosmere';
-import { RollMode } from '@system/dice/types';
+import type { Attribute } from '@system/types/cosmere';
+import type { RollMode } from '@system/dice/types';
 import { AdvantageMode } from '@system/types/roll';
-import { AnyObject, NONE, Nullable } from '@system/types/utils';
+import type { AnyObject, Nullable } from '@system/types/utils';
+import { NONE } from '@system/types/utils';
 import {
     toggleAdvantageMode,
     getFormulaDisplayString,
     getNullableFromFormInput,
 } from '@src/system/utils/generic';
 
-import { D20RollData } from '@system/dice/d20-roll';
-import { DamageRollData } from '@system/dice/damage-roll';
+import type { D20RollData } from '@system/dice/d20-roll';
+import type { DamageRollData } from '@system/dice/damage-roll';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 

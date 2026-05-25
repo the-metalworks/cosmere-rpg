@@ -1,5 +1,5 @@
-import { CosmereActor } from '@system/documents/actor';
-import {
+import type { CosmereActor } from '@system/documents/actor';
+import type {
     CosmereItem,
     TalentsProviderItem,
     TalentItem,
@@ -7,9 +7,10 @@ import {
 import { ItemRelationship } from '@system/data/item/mixins/relationships';
 
 // Types
-import { Resource } from '@system/types/cosmere';
+import type { Resource } from '@system/types/cosmere';
 import { CosmereHooks } from '@system/types/hooks';
-import { DeepPartial, AnyMutableObject } from '@system/types/utils';
+import type { AnyMutableObject } from '@system/types/utils';
+import type { DeepPartial } from '@system/types/utils';
 
 // Constants
 import { SYSTEM_ID } from '@system/constants';

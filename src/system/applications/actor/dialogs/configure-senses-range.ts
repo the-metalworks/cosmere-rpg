@@ -1,9 +1,9 @@
-import { CosmereActor } from '@system/documents';
-import { AnyObject } from '@system/types/utils';
+import type { CosmereActor } from '@system/documents';
+import type { AnyObject } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
-import { CommonActorData } from '@system/data/actor/common';
+import type { CommonActorData } from '@system/data/actor/common';
 import { Derived } from '@system/data/fields';
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;

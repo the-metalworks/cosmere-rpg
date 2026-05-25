@@ -1,6 +1,6 @@
 import { DamageRoll } from '@system/dice';
 import { MESSAGE_TYPES } from '@system/documents/chat-message';
-import { Attribute, DamageType, Skill } from '@system/types/cosmere';
+import type { Attribute, DamageType, Skill } from '@system/types/cosmere';
 import { CosmereHooks } from '@system/types/hooks';
 
 // Utils

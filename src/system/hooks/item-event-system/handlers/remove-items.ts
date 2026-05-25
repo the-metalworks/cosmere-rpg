@@ -1,5 +1,6 @@
-import { CosmereItem } from '@system/documents/item';
-import { HandlerType, Event } from '@system/types/item/event-system';
+import type { CosmereItem } from '@system/documents/item';
+import type { Event } from '@system/types/item/event-system';
+import { HandlerType } from '@system/types/item/event-system';
 
 // Constants
 import { SYSTEM_ID } from '@system/constants';

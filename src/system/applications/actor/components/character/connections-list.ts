@@ -1,13 +1,14 @@
 import { ItemType } from '@system/types/cosmere';
-import { CosmereItem } from '@system/documents';
-import { ConnectionItemDataModel } from '@system/data/item';
-import { AnyObject, ConstructorOf } from '@system/types/utils';
+import type { CosmereItem } from '@system/documents';
+import type { ConnectionItemDataModel } from '@system/data/item';
+import type { AnyObject, ConstructorOf } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
-import { BaseActorSheet, BaseActorSheetRenderContext } from '../../base';
+import type { BaseActorSheetRenderContext } from '../../base';
+import { BaseActorSheet } from '../../base';
 
 // Utils
 import { AppContextMenu } from '@system/applications/utils/context-menu';

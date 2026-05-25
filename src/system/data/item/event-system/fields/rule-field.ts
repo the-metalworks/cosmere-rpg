@@ -1,4 +1,5 @@
-import { Rule, RuleDataSchema } from '../index';
+import type { RuleDataSchema } from '../index';
+import { Rule } from '../index';
 
 type PersistedRule = foundry.data.fields.SchemaField.Internal.PersistedType<RuleDataSchema>;
 type RuleFieldOptions = foundry.data.fields.SchemaField.DefaultOptions;

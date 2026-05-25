@@ -1,5 +1,5 @@
-import { Attribute, Skill } from '../cosmere';
-import { TalentItem, TalentTreeItem } from '@system/documents/item';
+import type { Attribute, Skill } from '../cosmere';
+import type { TalentItem, TalentTreeItem } from '@system/documents/item';
 
 export namespace Node {
     export const enum Type {

@@ -1,4 +1,4 @@
-import { HOOKS } from '@system/constants/hooks';
+import type { HOOKS } from '@system/constants/hooks';
 
 /**
  * Enricher Hooks

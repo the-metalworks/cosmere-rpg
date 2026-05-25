@@ -1,4 +1,4 @@
-import {
+import type {
     ConstructorOf,
     AnyObject,
     DeepPartial,
@@ -8,10 +8,8 @@ import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
 // Component imports
-import {
-    ComponentHandlebarsRenderOptions,
-    HandlebarsApplicationComponent,
-} from '@system/applications/component-system';
+import { HandlebarsApplicationComponent } from '@system/applications/component-system';
+import type { ComponentHandlebarsRenderOptions } from '@system/applications/component-system';
 
 // NOTE: Must use type here instead of interface as an interface doesn't match AnyObject type
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions

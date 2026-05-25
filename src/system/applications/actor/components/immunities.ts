@@ -1,4 +1,5 @@
-import { AnyObject, ConstructorOf } from '@system/types/utils';
+import type { AnyObject} from '@system/types/utils';
+import type { ConstructorOf } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
@@ -7,8 +8,9 @@ import { EditImmunitiesDialog } from '../dialogs/edit-immunities';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
-import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
-import { DamageType, Status } from '@src/system/types/cosmere';
+import type { BaseActorSheetRenderContext } from '../base';
+import { BaseActorSheet } from '../base';
+import type { DamageType, Status } from '@src/system/types/cosmere';
 
 export class ActorImmunitiesComponent extends HandlebarsApplicationComponent<// typeof BaseActorSheet
 // TODO: Resolve typing issues

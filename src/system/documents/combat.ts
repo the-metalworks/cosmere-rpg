@@ -1,6 +1,6 @@
 import { TurnSpeed } from '@system/types/cosmere';
 
-import { CosmereCombatant } from './combatant';
+import type { CosmereCombatant } from './combatant';
 
 // Constants
 import { SYSTEM_ID } from '@system/constants';

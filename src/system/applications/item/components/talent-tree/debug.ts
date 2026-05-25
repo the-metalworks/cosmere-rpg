@@ -1,4 +1,4 @@
-import { Ray } from '@system/math';
+import type { Ray } from '@system/math';
 
 interface DrawRayConfig {
     origin: PIXI.IPointData;

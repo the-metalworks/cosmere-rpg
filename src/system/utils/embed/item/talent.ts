@@ -1,8 +1,8 @@
 import { TalentTree } from '@system/types/item';
-import { AnyObject } from '@system/types/utils';
+import type { AnyObject } from '@system/types/utils';
 
 // Documents
-import { TalentItem, TalentTreeItem } from '@system/documents/item';
+import type { TalentItem, TalentTreeItem } from '@system/documents/item';
 
 // Generics
 import { createInlineEmbed, getLinkDataStr } from './generic';

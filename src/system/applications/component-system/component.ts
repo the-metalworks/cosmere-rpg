@@ -1,16 +1,17 @@
-import { AnyObject, DeepPartial, AnyConcreteApplicationV2Constructor, ConcreteApplicationV2Constructor } from '@system/types/utils';
+import type { AnyObject, DeepPartial} from '@system/types/utils';
+import type { AnyConcreteApplicationV2Constructor, ConcreteApplicationV2Constructor } from '@system/types/utils';
 
 // Component system
 import ComponentSystem from './system';
 
 // Component application
-import {
+import type {
     ComponentHandlebarsApplication,
     ComponentHandlebarsRenderOptions,
 } from './mixin';
 
 // Types
-import { ComponentEvent } from './types';
+import type { ComponentEvent } from './types';
 
 export class HandlebarsApplicationComponent<
     BaseClass extends foundry.applications.api.ApplicationV2.AnyConstructor = foundry.applications.api.ApplicationV2.AnyConstructor,

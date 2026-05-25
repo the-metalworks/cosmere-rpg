@@ -4,14 +4,14 @@ import {
     ActivationType,
     ActionCostType,
 } from '@system/types/cosmere';
-import {
+import type {
     ItemListSection,
     DynamicItemListSectionGenerator,
 } from '@system/types/application/actor/components/item-list';
 
 // Documents
 import { CosmereItem } from '@system/documents/item';
-import { CosmereActor } from '@system/documents/actor';
+import type { CosmereActor } from '@system/documents/actor';
 import { ItemRelationship } from '@system/data/item/mixins/relationships';
 
 // Utils
@@ -20,7 +20,7 @@ import { AppContextMenu } from '@system/applications/utils/context-menu';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
-import { BaseActorSheetRenderContext } from '../../base';
+import type { BaseActorSheetRenderContext } from '../../base';
 import { SortMode } from '../search-bar';
 
 // Constants

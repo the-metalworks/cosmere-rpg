@@ -1,8 +1,9 @@
-import { CosmereItem, EventsItem } from '@src/system/documents';
-import { Rule } from '@system/data/item/event-system';
-import { EventsItemData } from '@system/data/item/mixins/events';
+import type { EventsItem } from '@src/system/documents';
+import { CosmereItem } from '@src/system/documents';
+import type { Rule } from '@system/data/item/event-system';
+import type { EventsItemData } from '@system/data/item/mixins/events';
 
-import { AnyMutableObject, AnyObject } from '@system/types/utils';
+import type { AnyMutableObject, AnyObject } from '@system/types/utils';
 
 // Component imports
 import { ComponentHandlebarsApplicationMixin } from '@system/applications/component-system';

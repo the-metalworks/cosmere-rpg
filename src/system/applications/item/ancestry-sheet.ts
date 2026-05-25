@@ -1,5 +1,5 @@
-import { AncestryItem } from '@system/documents/item';
-import { DeepPartial } from '@system/types/utils';
+import type { AncestryItem } from '@system/documents/item';
+import type { DeepPartial } from '@system/types/utils';
 import { Talent } from '@system/types/item';
 
 // Base

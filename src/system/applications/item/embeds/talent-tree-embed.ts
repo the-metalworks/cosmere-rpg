@@ -1,7 +1,7 @@
-import { DeepPartial, AnyObject } from '@system/types/utils';
+import type { DeepPartial, AnyObject } from '@system/types/utils';
 
 // Documents
-import { CosmereItem, TalentTreeItem } from '@system/documents/item';
+import type { CosmereItem, TalentTreeItem } from '@system/documents/item';
 
 // Mixins
 import { ComponentHandlebarsApplicationMixin } from '@system/applications/component-system';
@@ -13,7 +13,7 @@ const { ApplicationV2 } = foundry.applications.api;
 import { TalentTreeViewComponent } from '@system/applications/item/components/talent-tree/talent-tree-view';
 
 // Canvas
-import { Viewport } from '@system/applications/canvas';
+import type { Viewport } from '@system/applications/canvas';
 
 // Utils
 import { getLinkDataStr } from '@system/utils/embed/item/generic';

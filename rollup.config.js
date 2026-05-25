@@ -10,6 +10,10 @@ import copy from 'rollup-plugin-copy';
 import commonjs from '@rollup/plugin-commonjs';
 import scss from 'rollup-plugin-scss';
 
+import svelte from 'rollup-plugin-svelte';
+import resolve from '@rollup/plugin-node-resolve';
+import sveltePreprocess from 'svelte-preprocess';
+
 export default {
     input: './src/index.ts',
     output: {
@@ -27,6 +31,18 @@ export default {
 
         // CSS
         scss(),
+
+        //Svelte
+        svelte({
+            preprocess: sveltePreprocess(),
+            compilerOptions: {
+                dev: true
+            }
+        }),
+        resolve({
+            browser: true,
+            dedupe: ['svelte']
+        }),
 
         // Typescript
         nodeResolve({ preferBuiltins: true }),

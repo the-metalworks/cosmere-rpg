@@ -1,5 +1,6 @@
 import { AdversaryRole } from '@system/types/cosmere';
-import { CommonActorDataModel, CommonActorDataSchema } from './common';
+import type { CommonActorDataSchema } from './common';
+import { CommonActorDataModel } from './common';
 
 const SCHEMA = () => ({
     role: new foundry.data.fields.StringField({

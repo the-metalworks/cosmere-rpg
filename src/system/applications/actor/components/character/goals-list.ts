@@ -1,12 +1,12 @@
 import { ItemType } from '@system/types/cosmere';
-import { GoalItem } from '@system/documents/item';
+import type { GoalItem } from '@system/documents/item';
 import { MouseButton } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
-import { BaseActorSheetRenderContext } from '../../base';
+import type { BaseActorSheetRenderContext } from '../../base';
 
 // Utils
 import { AppContextMenu } from '@system/applications/utils/context-menu';

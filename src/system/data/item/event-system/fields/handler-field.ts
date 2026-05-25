@@ -1,7 +1,7 @@
-import { IHandler } from '@system/types/item/event-system';
+import type { IHandler } from '@system/types/item/event-system';
 import { constructHandlerClass } from '@system/utils/item/event-system';
-import { HandlerBaseSchema } from '../handler';
-import { AnyObject, AnyMutableObject, DeepPartial } from '@system/types/utils';
+import type { HandlerBaseSchema } from '../handler';
+import type { AnyObject, AnyMutableObject, DeepPartial } from '@system/types/utils';
 
 // Constants
 const NONE_HANDLER_CLASS = constructHandlerClass('none', () => {}, {

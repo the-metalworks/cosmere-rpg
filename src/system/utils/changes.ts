@@ -1,5 +1,5 @@
-import { ChangeData } from '@system/data/item/misc/change';
-import { AnyObject } from '@system/types/utils';
+import type { ChangeData } from '@system/data/item/misc/change';
+import type { AnyObject } from '@system/types/utils';
 
 interface IRollable {
     getRollData(): object;

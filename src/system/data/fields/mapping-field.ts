@@ -1,5 +1,5 @@
-import { AnyObject } from '@system/types/utils';
-import { InferAssignmentType, InferInitializedType } from '../types';
+import type { AnyObject } from '@system/types/utils';
+import type { InferAssignmentType, InferInitializedType } from '../types';
 
 export class MappingField<
     const ElementField extends foundry.data.fields.DataField.Any,

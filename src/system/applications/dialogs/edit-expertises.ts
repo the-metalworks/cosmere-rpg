@@ -1,6 +1,6 @@
-import { ExpertiseType } from '@system/types/cosmere';
+import type { ExpertiseType } from '@system/types/cosmere';
 import { CosmereActor } from '@system/documents';
-import { AnyObject, CosmereDocument } from '@system/types/utils';
+import type { AnyObject, CosmereDocument } from '@system/types/utils';
 
 import {
     Expertise,

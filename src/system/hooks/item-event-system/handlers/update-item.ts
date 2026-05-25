@@ -1,7 +1,9 @@
 import { CosmereItem } from '@system/documents/item';
-import { HandlerType, Event } from '@system/types/item/event-system';
+import type { Event } from '@system/types/item/event-system';
+import { HandlerType } from '@system/types/item/event-system';
 
-import { ChangeData, ChangeDataModel } from '@system/data/item/misc/change';
+import { ChangeDataModel } from '@system/data/item/misc/change';
+import type { ChangeData } from '@system/data/item/misc/change';
 
 // Utils
 import { ItemTarget, MatchMode, matchItems } from './utils';

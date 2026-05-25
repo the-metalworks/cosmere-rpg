@@ -1,4 +1,4 @@
-import { ConstructorOf, AnyObject } from '@system/types/utils';
+import type { AnyObject, ConstructorOf } from '@system/types/utils';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';

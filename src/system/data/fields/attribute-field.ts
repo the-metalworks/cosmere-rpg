@@ -1,4 +1,4 @@
-import { Attribute } from '@system/types/cosmere';
+import type { Attribute } from '@system/types/cosmere';
 
 export class AttributeField<
     const Options extends

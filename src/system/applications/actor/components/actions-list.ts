@@ -6,16 +6,17 @@ import {
     ItemConsumeType,
     Resource,
 } from '@system/types/cosmere';
-import { ConstructorOf } from '@system/types/utils';
+import type { ConstructorOf } from '@system/types/utils';
 import { Talent } from '@system/types/item';
-import {
+import type {
     ItemListSection,
     DynamicItemListSectionGenerator,
 } from '@system/types/application/actor/components/item-list';
 
 // Documents
-import { CosmereItem, ActionItem } from '@system/documents/item';
-import { CosmereActor } from '@system/documents/actor';
+import type { ActionItem } from '@system/documents/item';
+import { CosmereItem } from '@system/documents/item';
+import type { CosmereActor } from '@system/documents/actor';
 import { ItemRelationship } from '@system/data/item/mixins/relationships';
 
 // Utils
@@ -24,7 +25,8 @@ import { AppContextMenu } from '@system/applications/utils/context-menu';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
-import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
+import type { BaseActorSheetRenderContext } from '../base';
+import { BaseActorSheet } from '../base';
 import { SortMode } from './search-bar';
 
 // Constants

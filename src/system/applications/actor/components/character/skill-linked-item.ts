@@ -1,9 +1,9 @@
-import { CosmereItem } from '@system/documents/item';
-import { ConstructorOf } from '@system/types/utils';
+import type { CosmereItem } from '@system/documents/item';
+import type { ConstructorOf } from '@system/types/utils';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
-import { BaseActorSheetRenderContext } from '../../base';
+import type { BaseActorSheetRenderContext } from '../../base';
 import { CharacterSheet } from '../../character-sheet';
 
 // Constants

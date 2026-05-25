@@ -1,5 +1,6 @@
-import { TalentTree } from '@system/types/item';
-import { PIXICanvasApplication, Drawable } from '@system/applications/canvas';
+import type { TalentTree } from '@system/types/item';
+import type { PIXICanvasApplication} from '@system/applications/canvas';
+import { Drawable } from '@system/applications/canvas';
 
 // Constants
 import { GRID_SIZE } from '../../../constants';

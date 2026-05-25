@@ -1,32 +1,38 @@
 import { EquipmentType } from '@system/types/cosmere';
 import { CosmereItem } from '@src/system/documents';
-import { EmptyObject } from '@system/types/utils';
+import type { EmptyObject } from '@system/types/utils';
 
 // Mixins
 import { DataModelMixin } from '../mixins';
-import {
-    TypedItemMixin,
+import type {
     TypedItemDataSchema,
-    TypedItemDerivedData,
-} from './mixins/typed';
+    TypedItemDerivedData} from './mixins/typed';
 import {
-    DescriptionItemMixin,
-    DescriptionItemDataSchema,
+    TypedItemMixin
+} from './mixins/typed';
+import type {
+    DescriptionItemDataSchema} from './mixins/description';
+import {
+    DescriptionItemMixin
 } from './mixins/description';
 import { ResourcesItemMixin } from './mixins/resources';
-import {
-    PhysicalItemMixin,
+import type {
     PhysicalItemDataSchema,
-    PhysicalItemDerivedData,
+    PhysicalItemDerivedData} from './mixins/physical';
+import {
+    PhysicalItemMixin
 } from './mixins/physical';
-import { EventsItemMixin, EventsItemDataSchema } from './mixins/events';
+import type { EventsItemDataSchema } from './mixins/events';
+import { EventsItemMixin } from './mixins/events';
+import type {
+    RelationshipsItemDataSchema} from './mixins/relationships';
 import {
-    RelationshipsMixin,
-    RelationshipsItemDataSchema,
+    RelationshipsMixin
 } from './mixins/relationships';
+import type {
+    EquippableItemDataSchema} from './mixins/equippable';
 import {
-    EquippableItemMixin,
-    EquippableItemDataSchema,
+    EquippableItemMixin
 } from './mixins/equippable';
 
 export type EquipmentItemDataSchema = TypedItemDataSchema<EquipmentType> &

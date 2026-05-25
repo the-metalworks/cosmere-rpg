@@ -1,5 +1,5 @@
-import { Theme } from '@system/types/cosmere';
-import { CommonRegistrationData } from './types';
+import type { Theme } from '@system/types/cosmere';
+import type { CommonRegistrationData } from './types';
 import { RegistrationHelper } from './helper';
 
 interface ThemeConfigData extends CommonRegistrationData {

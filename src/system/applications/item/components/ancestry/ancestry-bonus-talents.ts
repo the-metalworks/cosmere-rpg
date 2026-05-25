@@ -1,8 +1,8 @@
-import { AnyObject, ConstructorOf } from '@system/types/utils';
+import type { AnyObject, ConstructorOf } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
-import { AncestryItem } from '@system/documents/item';
+import type { AncestryItem } from '@system/documents/item';
 
 // Dialogs
 import { EditBonusTalentsRuleDialog } from '../../dialogs/talent/edit-bonus-talents-rule';

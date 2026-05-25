@@ -1,4 +1,4 @@
-import { ConstructorOf } from '@system/types/utils';
+import type { ConstructorOf } from '@system/types/utils';
 import { CosmereItem } from '@system/documents';
 import { AppContextMenu } from '@system/applications/utils/context-menu';
 import { SYSTEM_ID } from '@src/system/constants';
@@ -6,7 +6,8 @@ import { TEMPLATES } from '@src/system/utils/templates';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
-import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
+import type { BaseActorSheetRenderContext } from '../base';
+import { BaseActorSheet } from '../base';
 import { SortMode } from './search-bar';
 
 type EffectListType = 'inactive' | 'passive' | 'temporary';

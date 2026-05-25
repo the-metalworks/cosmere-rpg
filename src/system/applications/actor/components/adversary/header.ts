@@ -1,4 +1,4 @@
-import { ConstructorOf } from '@system/types/utils';
+import type { ConstructorOf } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
@@ -10,9 +10,10 @@ import { getTypeLabel } from '@src/system/utils/actor';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
+import type {
+    AdversarySheetRenderContext} from '../../adversary-sheet';
 import {
-    AdversarySheet,
-    AdversarySheetRenderContext,
+    AdversarySheet
 } from '../../adversary-sheet';
 
 export class AdversaryHeaderComponent extends HandlebarsApplicationComponent<// typeof AdversarySheet

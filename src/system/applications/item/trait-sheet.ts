@@ -1,5 +1,5 @@
-import { TraitItem } from '@system/documents/item';
-import { DeepPartial } from '@system/types/utils';
+import type { TraitItem } from '@system/documents/item';
+import type { DeepPartial } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 

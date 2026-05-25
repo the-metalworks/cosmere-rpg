@@ -32,4 +32,5 @@ export function RelationshipsMixin<TParent extends foundry.abstract.Document.Any
     };
 }
 
-export { ItemRelationship, ItemRelationshipData, ItemRelationshipCreateData } from './data-model';
+export { ItemRelationship } from './data-model'
+export type { ItemRelationshipData, ItemRelationshipCreateData } from './data-model';

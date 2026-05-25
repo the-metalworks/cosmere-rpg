@@ -1,11 +1,12 @@
 import { ItemType } from '@system/types/cosmere';
-import {
-    CosmereItem,
+import type {
     TalentItem,
-    TalentTreeItem,
+    TalentTreeItem} from '@system/documents/item';
+import {
+    CosmereItem
 } from '@system/documents/item';
 import { TalentTree, Talent } from '@system/types/item';
-import { AnyObject } from '@system/types/utils';
+import type { AnyObject } from '@system/types/utils';
 
 import { TalentTreeNodeCollectionField } from './fields/talent-tree-node-collection';
 

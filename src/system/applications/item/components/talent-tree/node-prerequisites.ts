@@ -1,6 +1,6 @@
 import { Attribute } from '@system/types/cosmere';
-import { CosmereItem } from '@system/documents/item';
-import { ConstructorOf } from '@system/types/utils';
+import type { CosmereItem } from '@system/documents/item';
+import type { ConstructorOf } from '@system/types/utils';
 
 import { TalentTree } from '@system/types/item';
 
@@ -13,7 +13,7 @@ import { EditNodePrerequisiteDialog } from '../../dialogs/talent-tree/edit-node-
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
 import { TalentTreeItemSheet } from '../../talent-tree-sheet';
-import { BaseItemSheetRenderContext } from '../../base';
+import type { BaseItemSheetRenderContext } from '../../base';
 
 // NOTE: Must use a type instead of an interface to match `AnyObject` type
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions

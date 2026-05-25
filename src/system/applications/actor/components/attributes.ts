@@ -1,5 +1,5 @@
-import { AttributeGroup, Attribute } from '@system/types/cosmere';
-import { AnyObject, ConstructorOf } from '@system/types/utils';
+import type { AttributeGroup, Attribute } from '@system/types/cosmere';
+import type { AnyObject, ConstructorOf} from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
@@ -8,7 +8,8 @@ import { ConfigureDefenseDialog } from '@system/applications/actor/dialogs/confi
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
-import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
+import type { BaseActorSheetRenderContext } from '../base';
+import { BaseActorSheet } from '../base';
 
 export class ActorAttributesComponent extends HandlebarsApplicationComponent<// typeof BaseActorSheet
 // TODO: Resolve typing issues

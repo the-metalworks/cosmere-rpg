@@ -1,7 +1,8 @@
-import { RelationshipsItem } from '@system/documents/item';
+import type { RelationshipsItem } from '@system/documents/item';
+import type {
+    ItemRelationshipCreateData} from '@system/data/item/mixins/relationships';
 import {
-    ItemRelationship,
-    ItemRelationshipCreateData,
+    ItemRelationship
 } from '@system/data/item/mixins/relationships';
 
 // Constants

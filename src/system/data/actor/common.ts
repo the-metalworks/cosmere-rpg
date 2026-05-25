@@ -1,28 +1,30 @@
-import {
-    Size,
-    CreatureType,
-    MovementType,
+import type {
     Attribute,
     Resource,
     AttributeGroup,
     Skill,
+    DamageType,
+    Status} from '@system/types/cosmere';
+import {
+    Size,
+    CreatureType,
+    MovementType,
     DeflectSource,
     ItemType,
-    DamageType,
-    Status,
     ActorType,
 } from '@system/types/cosmere';
-import { CosmereActor } from '@system/documents/actor';
-import { ArmorItem, LootItem } from '@system/documents';
+import type { CosmereActor } from '@system/documents/actor';
+import type { ArmorItem, LootItem } from '@system/documents';
 
-import {
-    CosmereDocument,
+import type {
     AnyObject,
     EmptyObject,
-    Merge,
+    Merge} from '@system/types/utils';
+import type {
+    CosmereDocument,
     RemoveIndexSignatures,
 } from '@system/types/utils';
-import { InferSchema } from '../types';
+import type { InferSchema } from '../types';
 
 // Fields
 import { DerivedValueField, Derived } from '../fields/derived-value-field';

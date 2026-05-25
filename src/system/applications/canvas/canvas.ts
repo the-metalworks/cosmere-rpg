@@ -1,4 +1,4 @@
-import { DeepReadonly } from '@system/types/utils';
+import type { DeepReadonly } from '@system/types/utils';
 
 import { Viewport } from './viewport';
 import { World } from './world';

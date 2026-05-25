@@ -1,4 +1,4 @@
-import { ConstructorOf, AnyObject } from '@system/types/utils';
+import type { AnyObject, ConstructorOf } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 

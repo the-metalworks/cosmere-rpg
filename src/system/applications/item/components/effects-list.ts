@@ -1,10 +1,11 @@
-import { ConstructorOf } from '@system/types/utils';
+import type { ConstructorOf } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
-import { BaseItemSheet, BaseItemSheetRenderContext } from '../base';
+import type { BaseItemSheetRenderContext } from '../base';
+import { BaseItemSheet } from '../base';
 
 type EffectListType = 'inactive' | 'passive' | 'temporary';
 

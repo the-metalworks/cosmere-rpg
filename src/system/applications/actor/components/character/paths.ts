@@ -1,12 +1,12 @@
 import { ItemType } from '@system/types/cosmere';
 import { ItemRelationship } from '@system/data/item/mixins/relationships';
-import { ConstructorOf } from '@system/types/utils';
+import type { ConstructorOf } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
-import { BaseActorSheetRenderContext } from '../../base';
+import type { BaseActorSheetRenderContext } from '../../base';
 import { CharacterSheet } from '../../character-sheet';
 
 export class CharacterPathsComponent extends HandlebarsApplicationComponent<// typeof CharacterSheet

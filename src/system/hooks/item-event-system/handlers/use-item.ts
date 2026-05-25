@@ -1,5 +1,6 @@
 import { CosmereItem } from '@system/documents/item';
-import { HandlerType, Event } from '@system/types/item/event-system';
+import type { Event } from '@system/types/item/event-system';
+import { HandlerType } from '@system/types/item/event-system';
 import { AdvantageMode } from '@system/types/roll';
 
 // Utils

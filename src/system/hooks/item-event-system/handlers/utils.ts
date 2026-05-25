@@ -1,6 +1,7 @@
 import { EquipHand, HoldType } from '@system/types/cosmere';
 
-import { CosmereItem, WeaponItem, ArmorItem } from '@system/documents/item';
+import type { CosmereItem, WeaponItem} from '@system/documents/item';
+import type { ArmorItem } from '@system/documents/item';
 
 export const enum ItemTarget {
     Self = 'self',

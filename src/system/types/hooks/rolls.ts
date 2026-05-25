@@ -1,5 +1,5 @@
-import { CosmereDocument } from '@system/types/utils';
-import { HOOKS } from '@system/constants/hooks';
+import type { CosmereDocument } from '@system/types/utils';
+import type { HOOKS } from '@system/constants/hooks';
 
 export type PreRoll = (
     roll: globalThis.Roll,

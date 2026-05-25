@@ -1,8 +1,8 @@
 import { WeaponTraitId, ArmorTraitId } from '@system/types/cosmere';
-import { EmptyObject } from '@system/types/utils';
+import type { EmptyObject } from '@system/types/utils';
 
 import { CosmereItem } from '@system/documents';
-import { ExpertiseItemDataSchema } from './expertise';
+import type { ExpertiseItemDataSchema } from './expertise';
 
 import { MappingField } from '@system/data/fields';
 

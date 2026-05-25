@@ -1,4 +1,4 @@
-import { PIXICanvasApplication } from './canvas';
+import type { PIXICanvasApplication } from './canvas';
 
 export abstract class Drawable extends PIXI.Graphics {
     private _dirty = true;

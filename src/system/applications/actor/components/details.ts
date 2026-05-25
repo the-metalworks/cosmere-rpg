@@ -1,6 +1,7 @@
-import { ActorType, DamageType, MovementType } from '@system/types/cosmere';
-import { MovementTypeConfig } from '@system/types/config';
-import { ConstructorOf } from '@system/types/utils';
+import type { DamageType, MovementType } from '@system/types/cosmere';
+import { ActorType } from '@system/types/cosmere';
+import type { MovementTypeConfig } from '@system/types/config';
+import type { ConstructorOf } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
@@ -15,7 +16,8 @@ import { ConfigureDeflectDialog } from '@system/applications/actor/dialogs/confi
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
-import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
+import type { BaseActorSheetRenderContext } from '../base';
+import { BaseActorSheet } from '../base';
 import { CosmereActor } from '@src/system/documents';
 
 export class ActorDetailsComponent extends HandlebarsApplicationComponent<// typeof BaseActorSheet

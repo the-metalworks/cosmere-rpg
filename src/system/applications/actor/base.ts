@@ -1,15 +1,16 @@
-import { DamageType, Resource, Status } from '@src/system/types/cosmere';
+import type { DamageType, Resource, Status } from '@src/system/types/cosmere';
 import { CosmereActor } from '@system/documents/actor';
-import { DeepPartial, AnyObject } from '@system/types/utils';
+import type { DeepPartial, AnyObject } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 
 // Utils
 import AppUtils from '@system/applications/utils';
 
 // Component System
+import type {
+    ComponentHandlebarsRenderOptions} from '@system/applications/component-system';
 import {
-    ComponentHandlebarsApplicationMixin,
-    ComponentHandlebarsRenderOptions,
+    ComponentHandlebarsApplicationMixin
 } from '@system/applications/component-system';
 
 // Mixins
@@ -21,7 +22,8 @@ import {
 } from '@system/applications/mixins';
 
 // Components
-import { SortMode, SearchBarInputEvent } from './components';
+import type { SearchBarInputEvent } from './components';
+import { SortMode } from './components/search-bar';
 import { renderSystemTemplate, TEMPLATES } from '@src/system/utils/templates';
 
 const { ActorSheetV2 } = foundry.applications.sheets;

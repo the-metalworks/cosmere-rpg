@@ -1,8 +1,8 @@
-import { ConstructorOf } from '@system/types/utils';
+import type { ConstructorOf } from '@system/types/utils';
 
 import { SYSTEM_ID } from '@system/constants';
 
-import { ComponentHandlebarsApplication } from '@system/applications/component-system';
+import type { ComponentHandlebarsApplication } from '@system/applications/component-system';
 
 export type SheetMode = 'view' | 'edit';
 

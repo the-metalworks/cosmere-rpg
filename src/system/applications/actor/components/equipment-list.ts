@@ -1,10 +1,11 @@
-import { EquipHand, ItemType } from '@system/types/cosmere';
-import { ConstructorOf } from '@system/types/utils';
-import { ItemListSection } from '@system/types/application/actor/components/item-list';
+import type { EquipHand} from '@system/types/cosmere';
+import { ItemType } from '@system/types/cosmere';
+import type { ConstructorOf } from '@system/types/utils';
+import type { ItemListSection } from '@system/types/application/actor/components/item-list';
 
 // Documents
 import { CosmereItem } from '@system/documents/item';
-import { CosmereActor } from '@system/documents/actor';
+import type { CosmereActor } from '@system/documents/actor';
 
 // Utils
 import AppUtils from '@system/applications/utils';
@@ -12,7 +13,8 @@ import { AppContextMenu } from '@system/applications/utils/context-menu';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
-import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
+import type { BaseActorSheetRenderContext } from '../base';
+import { BaseActorSheet } from '../base';
 import { SortMode } from './search-bar';
 
 // Constants

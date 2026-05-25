@@ -1,10 +1,11 @@
-import {
+import type {
     AnyObject,
     AnyMutableObject,
-    COSMERE_DOCUMENT_CLASSES,
     CosmereDocument,
     InvalidCollection,
-    RawDocumentData,
+    RawDocumentData} from '../types/utils';
+import {
+    COSMERE_DOCUMENT_CLASSES
 } from '../types/utils';
 import { RecordCollection } from '@system/data/fields/collection';
 

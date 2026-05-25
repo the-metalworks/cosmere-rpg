@@ -1,5 +1,5 @@
 // Types
-import { AnyObject } from '@system/types/utils';
+import type { AnyObject } from '@system/types/utils';
 
 // Constants
 import { SYSTEM_ID } from '@system/constants';

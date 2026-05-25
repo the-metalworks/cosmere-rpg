@@ -1,6 +1,6 @@
 // Documents
 import { CosmereActor } from '@system/documents/actor';
-import { CosmereItem, PathItem } from '@system/documents/item';
+import type { CosmereItem, PathItem } from '@system/documents/item';
 
 // Types
 import { Skill } from '@system/types/cosmere';

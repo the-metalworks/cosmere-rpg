@@ -1,6 +1,6 @@
-import { CosmereItem } from '@system/documents/item';
+import type { CosmereItem } from '@system/documents/item';
 
-import { AnyMutableObject } from '@system/types/utils';
+import type { AnyMutableObject } from '@system/types/utils';
 
 // Constants
 import { TEMPLATES, renderSystemTemplate } from '@system/utils/templates';

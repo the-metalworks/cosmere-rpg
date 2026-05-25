@@ -1,4 +1,4 @@
-import { AnyObject } from '@system/types/utils';
+import type { AnyObject } from '@system/types/utils';
 import { IMPORTED_RESOURCES, SYSTEM_ID } from '@system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 

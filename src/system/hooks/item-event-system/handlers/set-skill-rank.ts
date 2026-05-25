@@ -1,5 +1,6 @@
-import { Skill } from '@system/types/cosmere';
-import { HandlerType, Event } from '@system/types/item/event-system';
+import type { Skill } from '@system/types/cosmere';
+import type { Event } from '@system/types/item/event-system';
+import { HandlerType } from '@system/types/item/event-system';
 
 // Constants
 import { SYSTEM_ID } from '@system/constants';

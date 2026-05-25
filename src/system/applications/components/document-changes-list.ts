@@ -1,6 +1,7 @@
-import { ConstructorOf, AnyMutableObject } from '@system/types/utils';
+import type { AnyMutableObject, ConstructorOf } from '@system/types/utils';
 
-import { ChangeData, ChangeDataModel } from '@system/data/item/misc/change';
+import type { ChangeData} from '@system/data/item/misc/change';
+import { ChangeDataModel } from '@system/data/item/misc/change';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';

@@ -1,4 +1,4 @@
-import { NumberRange } from '@src/system/types/utils';
+import type { NumberRange } from '@src/system/types/utils';
 
 export interface ItemContextOptions {
     showEquippedHand?: boolean;

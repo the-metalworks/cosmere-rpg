@@ -3,11 +3,13 @@ import {
     ItemConsumeType,
     Resource,
 } from '@system/types/cosmere';
-import { ConstructorOf, NONE, AnyObject } from '@system/types/utils';
+import type { AnyObject, ConstructorOf } from '@system/types/utils';
+import { NONE } from '@system/types/utils';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
-import { BaseItemSheet, BaseItemSheetRenderContext } from '../base';
+import type { BaseItemSheetRenderContext } from '../base';
+import { BaseItemSheet } from '../base';
 
 // Constants
 import { SYSTEM_ID } from '@system/constants';

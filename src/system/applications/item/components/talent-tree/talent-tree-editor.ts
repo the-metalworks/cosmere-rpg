@@ -1,30 +1,32 @@
-import {
+import type {
     CosmereItem,
     TalentItem,
     TalentTreeItem,
 } from '@system/documents/item';
 import { TalentTree, Talent } from '@system/types/item';
-import { NodeConnection } from './types';
+import type { NodeConnection } from './types';
 
 // Components
+import type {
+    TalentTreeViewComponentParams} from './talent-tree-view';
 import {
-    TalentTreeViewComponent,
-    TalentTreeViewComponentParams,
+    TalentTreeViewComponent
 } from './talent-tree-view';
 
 // Utils
 import * as TalentTreeUtils from '@system/utils/talent-tree';
-import { AppContextMenu } from '@system/applications/utils/context-menu';
+import type { AppContextMenu } from '@system/applications/utils/context-menu';
 
 // Canvas
-import {
-    GridViewport,
-    TalentTreeWorld,
+import type {
     CanvasElements,
     ClickNodeEvent,
     RightClickNodeEvent,
     RightClickConnectionEvent,
-    ClickConnectionEvent,
+    ClickConnectionEvent} from './canvas';
+import {
+    GridViewport,
+    TalentTreeWorld
 } from './canvas';
 
 // Constants

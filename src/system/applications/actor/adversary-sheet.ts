@@ -1,11 +1,12 @@
-import { AdversaryActor } from '@system/documents';
+import type { AdversaryActor } from '@system/documents';
 import { SYSTEM_ID } from '@src/system/constants';
 
 // Components
-import { SearchBarInputEvent } from './components';
+import type { SearchBarInputEvent } from './components';
 
 // Base
-import { BaseActorSheet, BaseActorSheetRenderContext } from './base';
+import type { BaseActorSheetRenderContext } from './base';
+import { BaseActorSheet } from './base';
 import { TEMPLATES } from '@src/system/utils/templates';
 
 export type AdversarySheetRenderContext = Omit<

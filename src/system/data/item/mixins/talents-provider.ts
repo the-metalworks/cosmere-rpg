@@ -1,9 +1,10 @@
-import {
+import type {
     CosmereItem,
-    TalentItem,
+    TalentItem} from '@system/documents/item';
+import type {
     TalentTreeItem,
 } from '@system/documents/item';
-import { MustBeValidUuid } from '@system/types/utils';
+import type { MustBeValidUuid } from '@system/types/utils';
 
 const SCHEMA = () => ({
     talentTree: new foundry.data.fields.DocumentUUIDField<

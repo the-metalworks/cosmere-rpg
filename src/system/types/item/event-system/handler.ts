@@ -1,7 +1,7 @@
-import { Event } from './event';
-import { ConstructorOf, AnyObject, Concrete } from '@system/types/utils';
+import type { Event } from './event';
+import type { ConstructorOf, AnyObject, Concrete } from '@system/types/utils';
 
-import { HandlerBaseSchema } from '@system/data/item/event-system/handler';
+import type { HandlerBaseSchema } from '@system/data/item/event-system/handler';
 
 /**
  * Enum representing the type of handler for an event.

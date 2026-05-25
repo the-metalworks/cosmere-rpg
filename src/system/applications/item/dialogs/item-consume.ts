@@ -1,10 +1,11 @@
 import { SYSTEM_ID } from '@src/system/constants';
 
-import { ActionItemDataModel } from '@system/data/item';
+import type { ActionItemDataModel } from '@system/data/item';
 
 // import { ItemConsumeData } from '@src/system/data/item/mixins/activatable';
-import { CosmereItem } from '@src/system/documents';
-import { ItemConsumeType, Resource } from '@src/system/types/cosmere';
+import type { CosmereItem } from '@src/system/documents';
+import type { Resource } from '@src/system/types/cosmere';
+import { ItemConsumeType } from '@src/system/types/cosmere';
 import type { NumberRange, AnyObject } from '@src/system/types/utils';
 import { TEMPLATES } from '@src/system/utils/templates';
 

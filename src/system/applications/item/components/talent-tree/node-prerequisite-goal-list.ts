@@ -1,6 +1,6 @@
-import { TalentTree } from '@system/types/item';
-import { CosmereItem, GoalItem } from '@system/documents/item';
-import { ConstructorOf } from '@system/types/utils';
+import type { TalentTree } from '@system/types/item';
+import type { CosmereItem, GoalItem } from '@system/documents/item';
+import type { ConstructorOf } from '@system/types/utils';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';

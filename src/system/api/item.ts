@@ -1,5 +1,5 @@
 // Types
-import {
+import type {
     ItemResource,
     EquipmentType,
     WeaponId,
@@ -11,7 +11,7 @@ import {
     WeaponTraitId,
     ArmorTraitId,
 } from '@system/types/cosmere';
-import {
+import type {
     ItemResourceConfig,
     PowerTypeConfig,
     ActionTypeConfig,
@@ -27,8 +27,8 @@ import {
     TraitConfig,
 } from '@system/types/config';
 import { EventSystem as ItemEventSystem } from '@system/types/item';
-import { AnyObject } from '@system/types/utils';
-import { CommonRegistrationData } from './types';
+import type { AnyObject } from '@system/types/utils';
+import type { CommonRegistrationData } from './types';
 
 // Utils
 import * as EventSystemUtils from '@system/utils/item/event-system';

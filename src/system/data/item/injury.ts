@@ -1,18 +1,22 @@
 import { InjuryType } from '@system/types/cosmere';
 import { CosmereItem } from '@system/documents';
-import { EmptyObject } from '@system/types/utils';
+import type { EmptyObject } from '@system/types/utils';
 
 // Mixins
 import { DataModelMixin } from '../mixins';
-import { TypedItemMixin, TypedItemDataSchema, TypedItemDerivedData } from './mixins/typed';
+import type { TypedItemDataSchema, TypedItemDerivedData } from './mixins/typed';
+import { TypedItemMixin } from './mixins/typed';
+import type {
+    DescriptionItemDataSchema} from './mixins/description';
 import {
-    DescriptionItemMixin,
-    DescriptionItemDataSchema,
+    DescriptionItemMixin
 } from './mixins/description';
-import { EventsItemMixin, EventsItemDataSchema } from './mixins/events';
+import type { EventsItemDataSchema } from './mixins/events';
+import { EventsItemMixin } from './mixins/events';
+import type {
+    RelationshipsItemDataSchema} from './mixins/relationships';
 import {
-    RelationshipsMixin,
-    RelationshipsItemDataSchema,
+    RelationshipsMixin
 } from './mixins/relationships';
 
 const SCHEMA = () => ({

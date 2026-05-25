@@ -1,7 +1,7 @@
-import { Attribute, Skill } from '@system/types/cosmere';
-import { TalentTreeItem, CosmereItem } from '@system/documents/item';
+import type { Attribute, Skill } from '@system/types/cosmere';
+import type { TalentTreeItem, CosmereItem } from '@system/documents/item';
 import { TalentTree } from '@system/types/item';
-import { AnyObject } from '@system/types/utils';
+import type { AnyObject } from '@system/types/utils';
 
 import { RecordCollection } from '@system/data/fields/collection';
 

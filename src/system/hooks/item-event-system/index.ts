@@ -1,9 +1,10 @@
-import { CosmereItem } from '@system/documents/item';
-import { CosmereActor } from '@system/documents/actor';
+import type { CosmereItem } from '@system/documents/item';
+import type { CosmereActor } from '@system/documents/actor';
 
-import { Event, IHandler } from '@system/types/item/event-system';
-import { ItemEventTypeConfig } from '@system/types/config';
-import { AnyObject } from '@system/types/utils';
+import type { IHandler } from '@system/types/item/event-system';
+import { Event } from '@system/types/item/event-system';
+import type { ItemEventTypeConfig } from '@system/types/config';
+import type { AnyObject } from '@system/types/utils';
 
 import { registerEventTypes } from './events';
 import { registerHandlers } from './handlers';

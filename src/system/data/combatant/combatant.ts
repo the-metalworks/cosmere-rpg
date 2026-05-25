@@ -1,5 +1,5 @@
 import { TurnSpeed } from '@system/types/cosmere';
-import { CosmereCombatant } from '@system/documents/combatant';
+import type { CosmereCombatant } from '@system/documents/combatant';
 
 const SCHEMA = () => ({
     /**

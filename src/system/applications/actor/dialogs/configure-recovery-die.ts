@@ -1,10 +1,11 @@
-import { CharacterActor } from '@system/documents';
-import { AnyObject } from '@system/types/utils';
+import type { CharacterActor } from '@system/documents';
+import type { AnyObject } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
+import type {
+    CharacterActorData} from '@system/data/actor/character';
 import {
-    CharacterActorData,
     RECOVERY_DICE,
 } from '@system/data/actor/character';
 import { Derived } from '@system/data/fields';

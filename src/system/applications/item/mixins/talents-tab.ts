@@ -1,15 +1,15 @@
-import { TalentTreeItem } from '@system/documents/item';
-import { ConstructorOf, DeepPartial, AnyObject } from '@system/types/utils';
+import type { TalentTreeItem } from '@system/documents/item';
+import type { ConstructorOf, DeepPartial, AnyObject } from '@system/types/utils';
 import { Talent } from '@system/types/item';
 
 // Components
 import { TalentTreeViewComponent } from '../components/talent-tree/talent-tree-view';
 
 // Base sheet
-import { BaseItemSheet } from '../base';
+import type { BaseItemSheet } from '../base';
 
 // Mixins
-import { ApplicationTab } from '../../mixins/tabs';
+import type { ApplicationTab } from '../../mixins/tabs';
 
 export function TalentsTabMixin<
     T extends ConstructorOf<BaseItemSheet> & {

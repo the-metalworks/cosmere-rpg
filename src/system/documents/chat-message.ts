@@ -7,8 +7,8 @@ import {
 import { D20Roll } from '@system/dice/d20-roll';
 import { DamageRoll } from '@system/dice/damage-roll';
 
-import { CosmereActor } from './actor';
-import { CosmereItem, InjuryItem } from './item';
+import type { CosmereActor } from './actor';
+import type { CosmereItem, InjuryItem } from './item';
 
 import { AdvantageMode } from '@system/types/roll';
 import { CosmereHooks } from '@system/types/hooks';
@@ -17,11 +17,12 @@ import { CosmereHooks } from '@system/types/hooks';
 import { getSystemSetting, KEYBINDINGS, SETTINGS } from '@system/settings';
 
 // Utils
+import type {
+    TargetDescriptor} from '@system/utils/generic';
 import {
     areKeysPressed,
     getApplyTargets,
-    getConstantFromRoll,
-    TargetDescriptor,
+    getConstantFromRoll
 } from '@system/utils/generic';
 import { renderSystemTemplate, TEMPLATES } from '@system/utils/templates';
 

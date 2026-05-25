@@ -1,7 +1,7 @@
 import type { DamageType, Skill, Attribute } from '@system/types/cosmere';
 import { NONE } from '@system/types/utils';
 
-import { ActionItemDataModel } from '../index';
+import type { ActionItemDataModel } from '../index';
 
 // Fields
 import { SkillField } from '@system/data/fields/skill-field';

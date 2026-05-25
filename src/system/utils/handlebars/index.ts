@@ -1,31 +1,32 @@
 import './application';
 
-import {
+import type {
     ArmorTraitId,
     WeaponTraitId,
     Skill,
     Attribute,
+    DamageType} from '@system/types/cosmere';
+import {
     ItemConsumeType,
     ActionCostType,
-    DamageType,
     HoldType,
     AttackType,
     TurnSpeed,
     ItemResourceRechargeType,
 } from '@system/types/cosmere';
 
-import { CosmereActor } from '@system/documents/actor';
-import { CosmereItem } from '@system/documents/item';
-import { AttributeData } from '@system/data/actor';
-import { Derived } from '@system/data/fields';
+import type { CosmereActor } from '@system/documents/actor';
+import type { CosmereItem } from '@system/documents/item';
+import type { AttributeData } from '@system/data/actor';
+import type { Derived } from '@system/data/fields';
 
-import { AnyObject, NumberRange } from '@system/types/utils';
-import { CosmereTurnContext } from '@system/applications/combat';
+import type { AnyObject, NumberRange } from '@system/types/utils';
+import type { CosmereTurnContext } from '@system/applications/combat';
 
-import { ItemContext, ItemContextOptions } from './types';
+import type { ItemContext, ItemContextOptions } from './types';
 import { TEMPLATES } from '../templates';
 import { SYSTEM_ID } from '@system/constants';
-import { ActionItemDataModel } from '@system/data/item/action';
+import type { ActionItemDataModel } from '@system/data/item/action';
 
 Handlebars.registerHelper('add', (a: number, b: number) => a + b);
 Handlebars.registerHelper('sub', (a: number, b: number) => a - b);

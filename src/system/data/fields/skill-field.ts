@@ -1,4 +1,4 @@
-import { Skill } from '@system/types/cosmere';
+import type { Skill } from '@system/types/cosmere';
 
 export class SkillField<
     const Options extends SkillField.Options = SkillField.DefaultOptions,

@@ -1,6 +1,6 @@
 import { InjuryType, ItemType } from '@system/types/cosmere';
-import { ConstructorOf } from '@system/types/utils';
-import { CosmereItem } from '@system/documents';
+import type { ConstructorOf } from '@system/types/utils';
+import type { CosmereItem } from '@system/documents';
 import { InjuryItemDataModel } from '@system/data/item';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
@@ -11,7 +11,8 @@ import { AppContextMenu } from '@system/applications/utils/context-menu';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
-import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
+import type { BaseActorSheetRenderContext } from '../base';
+import { BaseActorSheet } from '../base';
 
 export class ActorInjuriesListComponent extends HandlebarsApplicationComponent<// typeof BaseActorSheet
 // TODO: Resolve typing issues

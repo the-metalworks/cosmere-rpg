@@ -1,23 +1,24 @@
 // Import spark-md5 for hashing (used for component ids)
 import md5 from 'spark-md5';
 
-import {
+import type {
     AnyObject,
-    DeepPartial,
+    DeepPartial} from '@system/types/utils';
+import type {
     AnyConcreteApplicationV2Constructor,
 } from '@system/types/utils';
 
 // Component
-import { HandlebarsApplicationComponent } from './component';
+import type { HandlebarsApplicationComponent } from './component';
 
 // Mixin
-import {
+import type {
     ComponentHandlebarsApplication,
     ComponentHandlebarsRenderOptions,
 } from './mixin';
 
 // Types
-import { ComponentActionHandler, ComponentState } from './types';
+import type { ComponentActionHandler, ComponentState } from './types';
 
 const componentClsRegistry: Record<
     string,

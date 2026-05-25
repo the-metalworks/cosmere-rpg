@@ -1,4 +1,4 @@
-import { AdvancementRuleConfig } from '@system/types/config';
+import type { AdvancementRuleConfig } from '@system/types/config';
 
 import { CosmereItem } from '@system/documents/item';
 

@@ -1,4 +1,4 @@
-import { CosmereItem } from '@system/documents/item';
+import type { CosmereItem } from '@system/documents/item';
 
 // Embed helpers
 import getItemEmbedHelpers from './item';

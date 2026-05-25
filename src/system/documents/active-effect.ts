@@ -1,6 +1,6 @@
-import { CosmereActor } from '@system/documents/actor';
+import type { CosmereActor } from '@system/documents/actor';
 
-import { Status } from '@system/types/cosmere';
+import type { Status } from '@system/types/cosmere';
 
 // Utils
 import { tryApplyRollData } from '@system/utils/changes';

@@ -1,12 +1,13 @@
 // Documents
-import {
+import type {
     AncestryItem,
-    TalentTreeItem,
+    TalentTreeItem} from '@system/documents/item';
+import {
     CosmereItem,
 } from '@system/documents/item';
 
 // Types
-import { AnyMutableObject } from '@system/types/utils';
+import type { AnyMutableObject } from '@system/types/utils';
 
 // Talent tree embed
 import {

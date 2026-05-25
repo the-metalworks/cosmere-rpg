@@ -1,5 +1,5 @@
-import { CosmereActor } from '@system/documents';
-import { AnyObject, DeepPartial } from '@system/types/utils';
+import type { CosmereActor } from '@system/documents';
+import type { AnyObject, DeepPartial} from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 

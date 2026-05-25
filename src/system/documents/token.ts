@@ -1,4 +1,4 @@
-import { Derived } from '@system/data/fields';
+import type { Derived } from '@system/data/fields';
 
 export class CosmereTokenDocument extends TokenDocument {
     public override getBarAttribute(

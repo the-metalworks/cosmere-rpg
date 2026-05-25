@@ -1,21 +1,22 @@
-import {
+import type {
     Skill,
+    Status,
+    ExpertiseType,
+    Size,
+    AttributeGroup} from '@system/types/cosmere';
+import {
     Attribute,
     ActorType,
-    Status,
     ItemType,
-    ExpertiseType,
     DamageType,
     Resource,
     InjuryType,
-    Size,
     RestType,
-    ImmunityType,
-    AttributeGroup,
+    ImmunityType
 } from '@system/types/cosmere';
-import { Talent, TalentTree } from '@system/types/item';
-import {
-    CosmereItem,
+import type { TalentTree } from '@system/types/item';
+import { Talent } from '@system/types/item';
+import type {
     AncestryItem,
     CultureItem,
     PathItem,
@@ -23,25 +24,29 @@ import {
     GoalItem,
     PowerItem,
     TalentTreeItem,
-    ActionItem,
-} from '@system/documents/item';
-import { CosmereActiveEffect } from '@system/documents/active-effect';
-
+    ActionItem} from '@system/documents/item';
 import {
+    CosmereItem
+} from '@system/documents/item';
+import type { CosmereActiveEffect } from '@system/documents/active-effect';
+
+import type {
+    Expertise} from '@system/data/actor/common';
+import type {
     CommonActorData,
-    CommonActorDataModel,
-    Expertise,
+    CommonActorDataModel
 } from '@system/data/actor/common';
 import { CharacterActorDataModel } from '@system/data/actor/character';
 import { AdversaryActorDataModel } from '@system/data/actor/adversary';
-import { PowerItemCreateData } from '@system/data/item';
+import type { PowerItemCreateData } from '@system/data/item';
 
-import { Derived } from '@system/data/fields';
+import type { Derived } from '@system/data/fields';
 
-import { d20Roll, D20Roll, D20RollData, DamageRoll } from '@system/dice';
+import type { D20Roll, D20RollData, DamageRoll } from '@system/dice';
+import { d20Roll } from '@system/dice';
 
-import { AttributeScale } from '@system/types/config';
-import { CosmereHooks } from '@system/types/hooks';
+import type { AttributeScale } from '@system/types/config';
+import type { CosmereHooks } from '@system/types/hooks';
 
 // Dialogs
 import { ShortRestDialog } from '@system/applications/actor/dialogs/short-rest';
@@ -49,15 +54,15 @@ import { MESSAGE_TYPES } from './chat-message';
 
 // Utils
 import { getTargetDescriptors } from '../utils/generic';
-import { EnricherData } from '../utils/enrichers';
+import type { EnricherData } from '../utils/enrichers';
 import { characterMeetsTalentPrerequisites } from '@system/utils/talent-tree';
 import { containsExpertise } from '@system/utils/actor';
 
 // Constants
 import { SYSTEM_ID } from '@system/constants';
 import { HOOKS } from '@system/constants/hooks';
-import { AnyObject } from '@league-of-foundry-developers/foundry-vtt-types/utils';
-import { FLAGS } from '@system/utils/macros/talents/erudition';
+import type { AnyObject } from '@league-of-foundry-developers/foundry-vtt-types/utils';
+import type { FLAGS } from '@system/utils/macros/talents/erudition';
 
 export type CharacterActor = CosmereActor<ActorType.Character>;
 export type AdversaryActor = CosmereActor<ActorType.Adversary>;

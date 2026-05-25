@@ -3,9 +3,10 @@ import { Expertise } from '@src/system/data/actor/common';
 import { EruditionDialog } from './dialog';
 
 // Types
-import { EruditionConfig, EruditionSelections, PickedExpertise } from './types';
-import { CosmereActor } from '@src/system/documents';
-import {
+import type { EruditionConfig, EruditionSelections} from './types';
+import type { PickedExpertise } from './types';
+import type { CosmereActor } from '@src/system/documents';
+import type {
     AttributeGroup,
     ExpertiseType,
     Skill,

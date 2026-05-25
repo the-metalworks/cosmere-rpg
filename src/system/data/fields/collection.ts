@@ -1,9 +1,9 @@
-import {
+import type {
     InferAssignmentType,
     InferInitializedType,
     InferPersistedType,
 } from '../types';
-import { AnyObject, AnyMutableObject } from '@system/types/utils';
+import type { AnyObject, AnyMutableObject } from '@system/types/utils';
 
 export interface CollectionFieldOptions<T = AnyObject>
     extends foundry.data.fields.DataField.Options<AnyObject> {

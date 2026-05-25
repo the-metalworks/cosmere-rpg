@@ -1,4 +1,5 @@
-import { EquipType, HoldType, EquipHand } from '@system/types/cosmere';
+import type { HoldType, EquipHand } from '@system/types/cosmere';
+import { EquipType } from '@system/types/cosmere';
 import { CosmereItem } from '@system/documents';
 
 interface EquippableMixinOptions {

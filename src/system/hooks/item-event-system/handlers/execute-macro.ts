@@ -1,6 +1,7 @@
-import { HandlerType, Event } from '@system/types/item/event-system';
+import type { Event } from '@system/types/item/event-system';
+import { HandlerType } from '@system/types/item/event-system';
 
-import { ConstructorOf } from '@system/types/utils';
+import type { ConstructorOf } from '@system/types/utils';
 
 // Constants
 import { SYSTEM_ID } from '@system/constants';

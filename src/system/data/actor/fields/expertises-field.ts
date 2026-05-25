@@ -1,7 +1,8 @@
-import { ExpertiseType } from '@system/types/cosmere';
+import type { ExpertiseType } from '@system/types/cosmere';
+import type {
+    CollectionFieldOptions} from '../../fields/collection';
 import {
-    CollectionField,
-    CollectionFieldOptions,
+    CollectionField
 } from '../../fields/collection';
 
 const SCHEMA = () => ({

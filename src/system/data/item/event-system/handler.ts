@@ -1,4 +1,4 @@
-import {
+import type {
     HandlerType,
 } from '@system/types/item/event-system';
 

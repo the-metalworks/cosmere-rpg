@@ -1,8 +1,8 @@
-import { BonusTalentsRule } from '@system/data/item/ancestry';
-import { AnyObject } from '@system/types/utils';
+import type { BonusTalentsRule } from '@system/data/item/ancestry';
+import type { AnyObject } from '@system/types/utils';
 
 // TEMP: Workaround
-import { ComponentHandlebarsApplication } from '@system/applications/component-system/mixin';
+import type { ComponentHandlebarsApplication } from '@system/applications/component-system/mixin';
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 

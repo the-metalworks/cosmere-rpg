@@ -1,16 +1,16 @@
-import { Attribute, Skill } from '@system/types/cosmere';
-import { CosmereItem } from '@system/documents/item';
-import { CosmereActor, CosmereActorRollData } from '@system/documents/actor';
+import type { Attribute, Skill } from '@system/types/cosmere';
+import type { CosmereItem } from '@system/documents/item';
+import type { CosmereActor, CosmereActorRollData } from '@system/documents/actor';
 import { AdvantageMode } from '@system/types/roll';
 
 // Dialogs
 import { RollConfigurationDialog } from '@system/applications/dialogs/roll-configuration';
 
 import { PlotDie } from './plot-die';
-import { RollMode } from './types';
+import type { RollMode } from './types';
 import { hasKey } from '../utils/generic';
 import { renderSystemTemplate, TEMPLATES } from '../utils/templates';
-import { Nullable } from '../types/utils';
+import type { Nullable } from '../types/utils';
 
 // Constants
 const CONFIGURATION_DIALOG_TEMPLATE =

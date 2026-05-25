@@ -1,11 +1,11 @@
-import { CultureItem } from '@system/documents/item';
-import { ConstructorOf } from '@system/types/utils';
+import type { CultureItem } from '@system/documents/item';
+import type { ConstructorOf } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
-import { BaseActorSheetRenderContext } from '../../base';
+import type { BaseActorSheetRenderContext } from '../../base';
 import { CharacterSheet } from '../../character-sheet';
 
 // NOTE: Must use type here instead of interface as an interface doesn't match AnyObject type

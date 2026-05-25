@@ -1,11 +1,11 @@
 import { ItemType } from '@system/types/cosmere';
 
 // Documents
-import { CosmereItem } from '@system/documents/item';
+import type { CosmereItem } from '@system/documents/item';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
-import { BaseItemSheet, BaseItemSheetRenderContext } from '../base';
+import type { BaseItemSheet, BaseItemSheetRenderContext } from '../base';
 
 // Constants
 import { SYSTEM_ID } from '@src/system/constants';

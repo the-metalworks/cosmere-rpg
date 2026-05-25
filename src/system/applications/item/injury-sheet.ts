@@ -1,6 +1,6 @@
 import { InjuryType } from '@system/types/cosmere';
-import { InjuryItem } from '@system/documents/item';
-import { DeepPartial } from '@system/types/utils';
+import type { InjuryItem } from '@system/documents/item';
+import type { DeepPartial } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 

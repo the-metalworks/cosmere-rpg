@@ -1,4 +1,5 @@
-import { ItemRelationship, ItemRelationshipDataSchema } from './data-model';
+import type { ItemRelationshipDataSchema } from './data-model';
+import { ItemRelationship } from './data-model';
 
 type PersistedItemRelationship = foundry.data.fields.SchemaField.Internal.PersistedType<ItemRelationshipDataSchema>;
 

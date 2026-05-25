@@ -1,6 +1,6 @@
 import type { Skill, Attribute } from '@system/types/cosmere';
 
-import { CosmereItem } from '@system/documents/item';
+import type { CosmereItem } from '@system/documents/item';
 import {
     getSystemKeybinding,
     getSystemSetting,

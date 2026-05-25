@@ -1,6 +1,7 @@
-import { CosmereItem, PhysicialItem } from '@system/documents/item';
-import { HandlerType, Event } from '@system/types/item/event-system';
-import { AnyObject } from '@system/types/utils';
+import type { CosmereItem, PhysicialItem } from '@system/documents/item';
+import type { Event } from '@system/types/item/event-system';
+import { HandlerType } from '@system/types/item/event-system';
+import type { AnyObject } from '@system/types/utils';
 import { ItemRelationship } from '@system/data/item/mixins/relationships';
 
 // Dialogs

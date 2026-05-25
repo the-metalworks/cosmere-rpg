@@ -1,5 +1,5 @@
-import { CosmereActor } from '@system/documents/actor';
-import { CosmereItem } from '@system/documents/item';
+import type { CosmereActor } from '@system/documents/actor';
+import type { CosmereItem } from '@system/documents/item';
 
 export function getItemIdFromEvent(event: Event): string | undefined {
     if (!event.target && !event.currentTarget) return;

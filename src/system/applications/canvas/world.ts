@@ -1,4 +1,4 @@
-import { PIXICanvasApplication } from './canvas';
+import type { PIXICanvasApplication } from './canvas';
 import { Drawable } from './drawable';
 
 export class World extends Drawable {

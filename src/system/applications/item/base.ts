@@ -1,30 +1,33 @@
-import {
+import type {
     ArmorTraitId,
+    WeaponTraitId} from '@system/types/cosmere';
+import {
     ItemConsumeType,
     Resource,
-    Skill,
-    WeaponTraitId,
+    Skill
 } from '@system/types/cosmere';
-import { CosmereItem } from '@system/documents/item';
-import {
+import type { CosmereItem } from '@system/documents/item';
+import type {
     DeepPartial,
     AnyObject,
-    NONE,
     AnyMutableObject,
-    NumberRange,
+    NumberRange} from '@system/types/utils';
+import {
+    NONE
 } from '@system/types/utils';
 import { renderSystemTemplate, TEMPLATES } from '@src/system/utils/templates';
 
 // Data
-import { ActionItemDataModel } from '@system/data/item';
+import type { ActionItemDataModel } from '@system/data/item';
 
 // Mixins
 import { ComponentHandlebarsApplicationMixin } from '@system/applications/component-system';
+import type {
+    TabApplicationRenderOptions} from '@system/applications/mixins';
 import {
-    TabsApplicationMixin,
-    TabApplicationRenderOptions,
+    TabsApplicationMixin
 } from '@system/applications/mixins';
-import { DescriptionItemData } from '@src/system/data/item/mixins/description';
+import type { DescriptionItemData } from '@src/system/data/item/mixins/description';
 import { SYSTEM_ID } from '@src/system/constants';
 
 const { ItemSheetV2 } = foundry.applications.sheets;

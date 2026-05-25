@@ -1,11 +1,12 @@
 // Documents
-import { CharacterActor } from '@system/documents/actor';
+import type { CharacterActor } from '@system/documents/actor';
 
 // Canvas
-import { PIXICanvasApplication, World } from '@system/applications/canvas';
+import type { PIXICanvasApplication} from '@system/applications/canvas';
+import { World } from '@system/applications/canvas';
 
 // Types
-import { TalentTree } from '@system/types/item';
+import type { TalentTree } from '@system/types/item';
 
 // Elements
 import * as CanvasElements from './elements';

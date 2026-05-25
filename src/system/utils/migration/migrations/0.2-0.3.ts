@@ -1,5 +1,5 @@
 import { ActorType, ItemType } from '@system/types/cosmere';
-import { CosmereItem } from '@system/documents/item';
+import type { CosmereItem } from '@system/documents/item';
 import { TalentTree } from '@system/types/item';
 
 // Utils
@@ -11,13 +11,13 @@ import {
 import { handleDocumentMigrationError } from '../utils';
 
 // Types
-import { Migration } from '@system/types/migration';
-import { CosmereActor } from '@src/system/documents';
-import { CharacterActorDataModel } from '@src/system/data/actor/character';
+import type { Migration } from '@system/types/migration';
+import type { CosmereActor } from '@src/system/documents';
+import type { CharacterActorDataModel } from '@src/system/data/actor/character';
 
 // Constants
 import COSMERE from '@src/system/config';
-import {
+import type {
     AnyMutableObject,
     RawDocumentData,
     AnyObject,

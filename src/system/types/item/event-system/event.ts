@@ -1,5 +1,5 @@
-import { CosmereItem } from '@system/documents/item';
-import { AnyMutableObject, AnyObject } from '@system/types/utils';
+import type { CosmereItem } from '@system/documents/item';
+import type { AnyMutableObject, AnyObject } from '@system/types/utils';
 
 export type Event<
     EventData = AnyMutableObject,

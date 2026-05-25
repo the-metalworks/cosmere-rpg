@@ -1,5 +1,5 @@
-import { CharacterActor } from '@system/documents/actor';
-import {
+import type { CharacterActor } from '@system/documents/actor';
+import type {
     CosmereItem,
     TalentTreeItem,
     TalentItem,

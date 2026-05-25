@@ -1,11 +1,12 @@
-import { Expertise } from '@system/data/actor/fields/expertises-field';
+import type { Expertise } from '@system/data/actor/fields/expertises-field';
 
 // Dialog
 import { EditExpertisesDialog } from '@system/applications/dialogs/edit-expertises';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
-import { BaseActorSheet, BaseActorSheetRenderContext } from '../actor/base';
+import type { BaseActorSheetRenderContext } from '../actor/base';
+import { BaseActorSheet } from '../actor/base';
 
 // Constants
 import { SYSTEM_ID } from '@system/constants';

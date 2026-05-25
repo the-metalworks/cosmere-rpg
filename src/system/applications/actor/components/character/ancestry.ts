@@ -1,12 +1,13 @@
 import { ItemType } from '@system/types/cosmere';
-import { ConstructorOf } from '@system/types/utils';
+import type { ConstructorOf } from '@system/types/utils';
 
 // Documents
-import { AncestryItem } from '@system/documents/item';
+import type { AncestryItem } from '@system/documents/item';
 
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
-import { BaseActorSheet, BaseActorSheetRenderContext } from '../../base';
+import type { BaseActorSheetRenderContext } from '../../base';
+import { BaseActorSheet } from '../../base';
 
 // Constants
 import { SYSTEM_ID } from '@src/system/constants';

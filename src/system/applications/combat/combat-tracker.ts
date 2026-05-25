@@ -1,8 +1,8 @@
 import { ActorType, TurnSpeed } from '@system/types/cosmere';
-import { DeepPartial } from '@system/types/utils';
+import type { DeepPartial } from '@system/types/utils';
 
 // Documents
-import { CosmereCombatant } from '@system/documents/combatant';
+import type { CosmereCombatant } from '@system/documents/combatant';
 
 // Constants
 import { SYSTEM_ID } from '@system/constants';

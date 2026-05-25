@@ -1,7 +1,7 @@
 import SparkMD5, { hash } from 'spark-md5';
 
 // Types
-import { CommonRegistrationData } from './types';
+import type { CommonRegistrationData } from './types';
 
 // Constants
 import { SYSTEM_ID } from '@system/constants';

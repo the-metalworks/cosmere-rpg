@@ -1,6 +1,7 @@
-import { AnyObject, ConstructorOf, AnyConcreteApplicationV2Constructor } from '@system/types/utils';
+import type { AnyObject, ConstructorOf} from '@system/types/utils';
+import type { AnyConcreteApplicationV2Constructor } from '@system/types/utils';
 
-import { HandlebarsApplicationComponent, ComponentHandlebarsApplication } from '@system/applications/component-system';
+import type { HandlebarsApplicationComponent, ComponentHandlebarsApplication } from '@system/applications/component-system';
 
 interface DragDropApplicationConfiguration {
     dragDrop: Omit<foundry.applications.ux.DragDrop.Configuration, 'permissions' | 'callbacks'>[];
