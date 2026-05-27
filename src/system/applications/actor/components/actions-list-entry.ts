@@ -10,17 +10,13 @@ import AppUtils from '@system/applications/utils';
 // Constants
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
+import { ActorItemListComponent } from './item-list';
 
 interface ActionsListEntryComponentParams {
     item: ActionItem;
 }
 
-export class ActionsListEntryComponent extends HandlebarsApplicationComponent<
-    // TODO: Resolve typing issues
-    //@ts-expect-error Workaround for foundry-vtt-types issues
-    BaseActorSheet,
-    ActionsListEntryComponentParams
-> {
+export class ActionsListEntryComponent extends ActorItemListComponent {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_ACTIONS_LIST_ENTRY}`;
 
     /**
@@ -34,52 +30,13 @@ export class ActionsListEntryComponent extends HandlebarsApplicationComponent<
     };
     /* eslint-enable @typescript-eslint/unbound-method */
 
-    protected expanded = false;
-
-    /* --- Actions --- */
-
-    public static onToggleActionDetails(
-        this: ActionsListEntryComponent,
-        event: Event,
-    ) {
-        // Update the state
-        this.expanded = !this.expanded;
-
-        const liElement = $(this.element!).find('li.item');
-
-        // Set classes
-        liElement.toggleClass('expanded', this.expanded);
-
-        liElement
-            .find('a[data-action="toggle-action-details"')
-            .empty()
-            .append(
-                this.expanded
-                    ? '<i class="fa-solid fa-compress"></i>'
-                    : '<i class="fa-solid fa-expand"></i>',
-            );
-    }
-
-    public static onUseItem(this: ActionsListEntryComponent, event: Event) {
-        if (!this.item) return;
-
-        // Use the item
-        void this.application.actor.useItem(this.item);
-    }
-
-    /* --- Accessors --- */
-
-    public get item() {
-        return this.params?.item;
-    }
-
     /* --- Context --- */
 
     public async _prepareContext(
-        params: ActionsListEntryComponentParams,
+        params: unknown,
         context: BaseActorSheetRenderContext,
     ) {
-        const item = params.item;
+        const item = (params as ActionsListEntryComponentParams).item;
 
         const descriptionHTML =
             await foundry.applications.ux.TextEditor.implementation.enrichHTML(
@@ -93,7 +50,7 @@ export class ActionsListEntryComponent extends HandlebarsApplicationComponent<
             ...context,
             item,
             descriptionHTML,
-            expanded: this.expanded,
+            itemState: this.itemState,
         };
     }
 }

@@ -6,12 +6,14 @@ import {
     ItemConsumeType,
     Resource,
 } from '@system/types/cosmere';
-import { ConstructorOf } from '@system/types/utils';
-import { Talent } from '@system/types/item';
 import {
     ItemListSection,
     DynamicItemListSectionGenerator,
 } from '@system/types/application/actor/components/item-list';
+import {
+    ActorItemListComponent,
+    AdditionalItemData,
+} from '@system/applications/actor/components/item-list';
 
 // Documents
 import { CosmereItem, ActionItem } from '@system/documents/item';
@@ -23,21 +25,12 @@ import AppUtils from '@system/applications/utils';
 import { AppContextMenu } from '@system/applications/utils/context-menu';
 
 // Component imports
-import { HandlebarsApplicationComponent } from '@system/applications/component-system';
 import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
 import { SortMode } from './search-bar';
 
 // Constants
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
-
-interface ActionItemState {
-    expanded?: boolean;
-}
-
-interface AdditionalItemData {
-    descriptionHTML?: string;
-}
 
 interface ActionListSectionData extends ItemListSection {
     items: (ActionItem | [CosmereItem, ActionItem[]])[]; // Either an action item, or a parent item with its actions
@@ -257,11 +250,7 @@ const MISC_SECTION: ItemListSection = {
     filter: () => false, // Filter function is not used for this section
 };
 
-export class ActorActionsListComponent extends HandlebarsApplicationComponent<// typeof BaseActorSheet
-// TODO: Resolve typing issues
-// NOTE: Use any as workaround for foundry-vtt-types issues
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-any> {
+export class ActorActionsListComponent extends ActorItemListComponent {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_ACTIONS_LIST}`;
 
     /**
@@ -270,39 +259,10 @@ any> {
      */
     /* eslint-disable @typescript-eslint/unbound-method */
     static readonly ACTIONS = {
+        'toggle-section-collapsed': this.onToggleSectionCollapsed,
         'new-item': this.onNewItem,
     };
     /* eslint-enable @typescript-eslint/unbound-method */
-
-    protected sections: ItemListSection[] = [];
-
-    /**
-     * Map of id to state
-     */
-    protected itemState: Record<string, ActionItemState> = {};
-
-    /* --- Actions --- */
-
-    private static async onNewItem(
-        this: ActorActionsListComponent,
-        event: Event,
-    ) {
-        // Get section element
-        const sectionElement = $(event.target!).closest('[data-section-id]');
-
-        // Get section id
-        const sectionId = sectionElement.data('section-id') as string;
-
-        // Get section
-        const section = this.sections.find((s) => s.id === sectionId);
-        if (!section) return;
-
-        // Create a new item
-        const item = await section.new?.(this.application.actor);
-
-        // Render the item sheet
-        void item?.sheet?.render(true);
-    }
 
     /* --- Context --- */
 
@@ -334,6 +294,9 @@ any> {
         // Prepare sections
         this.sections = this.prepareSections();
 
+        // Set section expanded defaults
+        this.setSectionExpandedDefaults();
+
         // Prepare sections data
         const sectionsData = await this.prepareSectionsData(
             this.sections,
@@ -350,7 +313,7 @@ any> {
                     section.items.length > 0 ||
                     (this.application.mode === 'edit' && section.default),
             ),
-
+            sectionState: this.sectionState,
             itemState: this.itemState,
         };
     }
@@ -393,6 +356,13 @@ any> {
             },
             {} as Record<string, CosmereItem[]>,
         );
+
+        // Prepare "Is section empty" data
+        this.sections.forEach((section) => {
+            this.sectionState[section.id].hasItems =
+                itemsBySectionId[section.id] &&
+                itemsBySectionId[section.id].length > 0;
+        });
 
         // Prepare sections
         return await Promise.all(

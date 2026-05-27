@@ -415,18 +415,9 @@ export class BaseActorSheet<
         $(this.element)
             .find('#mode-toggle')
             .on('dblclick', (event) => this.onDoubleClickModeToggle(event));
-
-        $(this.element)
-            .find('.collapsible .header')
-            .on('click', (event) => this.onClickCollapsible(event));
     }
 
     /* --- Event handlers --- */
-
-    protected onClickCollapsible(event: JQuery.ClickEvent) {
-        const target = event.currentTarget as HTMLElement;
-        target?.parentElement?.classList.toggle('expanded');
-    }
 
     protected onDoubleClickModeToggle(event: JQuery.DoubleClickEvent) {
         event.preventDefault();
@@ -477,7 +468,10 @@ export class BaseActorSheet<
     protected onCurrencyChange(event: CustomEvent) {
         void this.render({
             parts: [],
-            components: ['app-actor-currency-list'],
+            components: [
+                'app-actor-currency-list',
+                'app-actor-encumbrance-list',
+            ],
         });
     }
 

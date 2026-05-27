@@ -7,13 +7,14 @@ import {
 import { ItemRelationship } from '@system/data/item/mixins/relationships';
 
 // Types
-import { Resource } from '@system/types/cosmere';
+import { Resource, Size } from '@system/types/cosmere';
 import { CosmereHooks } from '@system/types/hooks';
 import { DeepPartial, AnyMutableObject } from '@system/types/utils';
 
 // Constants
 import { SYSTEM_ID } from '@system/constants';
 import { HOOKS } from '@system/constants/hooks';
+import { CosmereTokenDocument } from '../documents';
 
 /* --- Resource Max --- */
 
@@ -193,6 +194,91 @@ Hooks.on('updateActor', (actor: CosmereActor, changed: Actor.UpdateData) => {
         }
     }
 });
+
+/* --- Token changes --- */
+
+Hooks.on('preUpdateActor', (actor: CosmereActor, changed: Actor.UpdateData) => {
+    // Prototype token settings
+    const prototypeTokenChanges = {};
+
+    // Size changes
+    if (
+        actor.getFlag(SYSTEM_ID, 'automation.token.size') &&
+        foundry.utils.hasProperty(changed, `system.size`)
+    ) {
+        // Size in grid spaces
+        const prototypeTokenSize =
+            CONFIG.COSMERE.sizes[changed.system.size!].tokenDimensions;
+
+        foundry.utils.mergeObject(prototypeTokenChanges, {
+            width: prototypeTokenSize,
+            height: prototypeTokenSize,
+        });
+    }
+
+    // Send prototype token changes
+    if (Object.keys(prototypeTokenChanges).length > 0) {
+        void actor.prototypeToken.update(prototypeTokenChanges);
+
+        // Send active token changes
+        for (const token of actor.getActiveTokens(false, true)) {
+            const activeTokenChanges = foundry.utils.deepClone(
+                prototypeTokenChanges,
+            );
+            void (token as TokenDocument).update(activeTokenChanges);
+        }
+    }
+});
+
+Hooks.on(
+    'updateActor',
+    (
+        actor: CosmereActor,
+        changed: Actor.UpdateData,
+        options: Actor.Database.PreUpdateOptions,
+        userId: string,
+    ) => {
+        // If this is firing for any other user besides the user who updated the actor, return
+        if (game.user.id !== userId) {
+            return;
+        }
+
+        // Prototype token settings
+        const prototypeTokenChanges = {};
+
+        if (
+            actor.getFlag(SYSTEM_ID, `automation.token.vision`) &&
+            actor.system.senses.range.value != actor.prototypeToken.sight.range
+        ) {
+            // Senses changes
+            const sensesData = actor.system.senses;
+
+            const affectedByObscuredSenses =
+                sensesData?.obscuredAffected ?? true;
+            foundry.utils.mergeObject(prototypeTokenChanges, {
+                sight: {
+                    range: affectedByObscuredSenses
+                        ? sensesData.range?.value
+                        : null,
+                    visionMode: 'sense',
+                },
+            });
+
+            // Send prototype token changes
+            if (Object.keys(prototypeTokenChanges).length > 0) {
+                void actor.prototypeToken.update(prototypeTokenChanges);
+
+                // Send active token changes
+                for (const token of actor.getActiveTokens(false, true)) {
+                    const activeTokenChanges = foundry.utils.deepClone(
+                        prototypeTokenChanges,
+                    );
+                    void (token as TokenDocument).update(activeTokenChanges);
+                }
+            }
+        }
+    },
+);
 
 Hooks.on(
     'createItem',

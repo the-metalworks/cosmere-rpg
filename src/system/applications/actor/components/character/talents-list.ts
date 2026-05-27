@@ -26,19 +26,11 @@ import { SortMode } from '../search-bar';
 // Constants
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
-
-interface TalentItemState {
-    expanded?: boolean;
-}
-
-interface AdditionalItemData {
-    descriptionHTML?: string;
-}
-
-interface ItemListSectionData extends ItemListSection {
-    items: CosmereItem[];
-    itemData: Record<string, AdditionalItemData>;
-}
+import {
+    ActorItemListComponent,
+    AdditionalItemData,
+    ItemListSectionData,
+} from '../item-list';
 
 export interface ActorTalentsListComponentRenderContext
     extends BaseActorSheetRenderContext {
@@ -132,11 +124,7 @@ const MISC_SECTION: ItemListSection = {
     filter: () => false, // Filter function is not used for this section
 };
 
-export class ActorTalentsListComponent extends HandlebarsApplicationComponent<// typeof BaseActorSheet
-// TODO: Resolve typing issues
-// NOTE: Use any as workaround for foundry-vtt-types issues
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-any> {
+export class ActorTalentsListComponent extends ActorItemListComponent {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_TALENTS_LIST}`;
 
     /**
@@ -145,76 +133,11 @@ any> {
      */
     /* eslint-disable @typescript-eslint/unbound-method */
     static readonly ACTIONS = {
-        'toggle-talent-details': this.onToggleTalentDetails,
+        'toggle-section-collapsed': this.onToggleSectionCollapsed,
         'use-item': this.onUseItem,
         'new-item': this.onNewItem,
     };
     /* eslint-enable @typescript-eslint/unbound-method */
-
-    protected sections: ItemListSection[] = [];
-
-    /**
-     * Map of id to state
-     */
-    protected itemState: Record<string, TalentItemState> = {};
-
-    /* --- Talents --- */
-
-    public static onToggleTalentDetails(
-        this: ActorTalentsListComponent,
-        event: Event,
-    ) {
-        // Get item element
-        const itemElement = $(event.target!).closest('.item[data-item-id]');
-
-        // Get item id
-        const itemId = itemElement.data('item-id') as string;
-
-        // Update the state
-        this.itemState[itemId].expanded = !this.itemState[itemId].expanded;
-
-        // Set classes
-        itemElement.toggleClass('expanded', this.itemState[itemId].expanded);
-
-        itemElement
-            .find('a[data-action="toggle-talent-details"')
-            .empty()
-            .append(
-                this.itemState[itemId].expanded
-                    ? '<i class="fa-solid fa-compress"></i>'
-                    : '<i class="fa-solid fa-expand"></i>',
-            );
-    }
-
-    public static onUseItem(this: ActorTalentsListComponent, event: Event) {
-        // Get item
-        const item = AppUtils.getItemFromEvent(event, this.application.actor);
-        if (!item) return;
-
-        // Use the item
-        void this.application.actor.useItem(item);
-    }
-
-    private static async onNewItem(
-        this: ActorTalentsListComponent,
-        event: Event,
-    ) {
-        // Get section element
-        const sectionElement = $(event.target!).closest('[data-section-id]');
-
-        // Get section id
-        const sectionId = sectionElement.data('section-id') as string;
-
-        // Get section
-        const section = this.sections.find((s) => s.id === sectionId);
-        if (!section) return;
-
-        // Create a new item
-        const item = await section.new?.(this.application.actor);
-
-        // Render the item sheet
-        void item?.sheet?.render(true);
-    }
 
     /* --- Context --- */
 
@@ -222,13 +145,13 @@ any> {
         params: unknown,
         context: ActorTalentsListComponentRenderContext,
     ) {
-        // Get all activatable items (talents & items with an associated action)
-        const activatableItems = this.application.actor.items.filter((item) =>
+        // Get all talent items
+        const talentItems = this.application.actor.items.filter((item) =>
             item.isTalent(),
         );
 
         // Ensure all items have an expand state record
-        activatableItems.forEach((item) => {
+        talentItems.forEach((item) => {
             if (!(item.id! in this.itemState)) {
                 this.itemState[item.id!] = {
                     expanded: false,
@@ -245,10 +168,13 @@ any> {
         // Prepare sections data
         const sectionsData = await this.prepareSectionsData(
             this.sections,
-            activatableItems,
+            talentItems,
             searchText,
             sortMode,
         );
+
+        // Set section expanded defaults
+        this.setSectionExpandedDefaults();
 
         return {
             ...context,
@@ -258,7 +184,7 @@ any> {
                     section.items.length > 0 ||
                     (this.application.mode === 'edit' && section.default),
             ),
-
+            sectionState: this.sectionState,
             itemState: this.itemState,
         };
     }
@@ -298,6 +224,13 @@ any> {
             },
             {} as Record<string, CosmereItem[]>,
         );
+
+        // Prepare "Is section empty" data
+        this.sections.forEach((section) => {
+            this.sectionState[section.id].hasItems =
+                itemsBySectionId[section.id] &&
+                itemsBySectionId[section.id].length > 0;
+        });
 
         // Prepare sections
         return await Promise.all(
@@ -397,7 +330,7 @@ any> {
                         },
                     ].filter((i) => !!i);
                 },
-                selectors: ['a[data-action="toggle-talents-controls"]'],
+                selectors: ['a[data-action="toggle-actions-controls"]'],
                 anchor: 'right',
             });
         }

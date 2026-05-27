@@ -1,7 +1,14 @@
 {{#each sections as |section|}}
-<ul class="item-list" data-section-id="{{section.id}}">
+{{#with (lookup @root.sectionState section.id) as |sectionState|}}
+<ul class="item-list
+    {{#if sectionState.hasItems}}
+        collapsible
+        {{#if sectionState.expanded}}expanded{{/if}}
+    {{else}}
+        empty
+    {{/if}}" data-section-id="{{section.id}}">
     <li class="item header">
-        <section class="details">
+        <section class="details" data-action="toggle-section-collapsed">
             <span class="title">{{localize section.label}}</span>
             <span class="subtitle">
                 {{localize "COSMERE.Actor.Sheet.Actions.Activation"}}
@@ -27,53 +34,58 @@
             </div>
         </section>
     </li>
+    <section class="collapsible-content">
+        <div class="wrapper">
 
-    {{#each section.items as |item|}}
-        {{#if (isArray item)}}
-            {{#with item.[0] as |parent|}}
-            {{#with item.[1] as |children|}}
+        {{#each section.items as |item|}}
+            {{#if (isArray item)}}
+                {{#with item.[0] as |parent|}}
+                {{#with item.[1] as |children|}}
 
-                <li class="item parent" data-item-id="{{parent.id}}"
-                    {{#if @root.editable}}data-drag="true"{{/if}}
-                >
-                    <section class="details">
-                        {{!-- Image --}}
-                        <div class="img"
-                            data-action="use-item"
-                            data-tooltip="COSMERE.Actor.Sheet.Actions.Use"
-                        >
-                            <img class="roll-icon" src="systems/cosmere-rpg/assets/icons/svg/dice/d20_white.svg">
-                            <img src="{{parent.img}}">
-                        </div>
+                    <li class="item parent" data-item-id="{{parent.id}}"
+                        {{#if @root.editable}}data-drag="true"{{/if}}
+                    >
+                        <section class="details" data-action="toggle-section-collapsed">
+                            {{!-- Image --}}
+                            <div class="img"
+                                data-action="use-item"
+                                data-tooltip="COSMERE.Actor.Sheet.Actions.Use"
+                            >
+                                <img class="roll-icon" src="systems/cosmere-rpg/assets/icons/svg/dice/d20_white.svg">
+                                <img src="{{parent.img}}">
+                            </div>
 
-                        {{!-- Name --}}
-                        <span class="name" data-action="toggle-action-details">
-                            {{parent.name}}
-                        </span>
+                            {{!-- Name --}}
+                            <span class="name" data-action="toggle-action-details">
+                                {{parent.name}}
+                            </span>
 
-                        {{!-- Activation --}}
-                        <div class="detail action"></div>
+                            {{!-- Activation --}}
+                            <div class="detail action"></div>
 
-                        {{!-- Consume --}}
-                        <div class="detail wide"></div>
+                            {{!-- Consume --}}
+                            <div class="detail wide"></div>
 
-                        {{!-- Uses --}}
-                        <div class="detail"></div>
+                            {{!-- Uses --}}
+                            <div class="detail"></div>
 
-                        {{!-- Controls --}}
-                        <div class="controls"></div>
-                    </section>
-                </li>
+                            {{!-- Controls --}}
+                            <div class="controls"></div>
+                        </section>
+                    </li>
 
-                {{#each children as |child|}}
-                    {{app-actor-actions-list-entry class="indent" item=child}}
-                {{/each}}
+                    {{#each children as |child|}}
+                        {{app-actor-actions-list-entry class="indent" item=child}}
+                    {{/each}}
 
-            {{/with}}
-            {{/with}}
-        {{else}}
-            {{app-actor-actions-list-entry item=item}}
-        {{/if}}
-    {{/each}}
+                {{/with}}
+                {{/with}}
+            {{else}}
+                {{app-actor-actions-list-entry item=item}}
+            {{/if}}
+        {{/each}}
+        </div>
+    </section>
 </ul>
+{{/with}}
 {{/each}}
