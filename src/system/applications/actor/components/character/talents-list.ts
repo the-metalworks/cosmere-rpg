@@ -165,6 +165,9 @@ export class ActorTalentsListComponent extends ActorItemListComponent {
         // Prepare sections
         this.sections = this.prepareSections();
 
+        // Set section expanded defaults
+        this.setSectionExpandedDefaults();
+
         // Prepare sections data
         const sectionsData = await this.prepareSectionsData(
             this.sections,
@@ -172,9 +175,6 @@ export class ActorTalentsListComponent extends ActorItemListComponent {
             searchText,
             sortMode,
         );
-
-        // Set section expanded defaults
-        this.setSectionExpandedDefaults();
 
         return {
             ...context,
