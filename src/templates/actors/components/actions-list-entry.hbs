@@ -1,6 +1,5 @@
 {{#with (itemContext item) as |ctx|}}
-{{#with (lookup @root.itemState item.id) as |state|}}
-<li class="item usable collapsible {{#if state.expanded}}expanded{{/if}} {{params.class}}"
+<li class="item usable collapsible {{#if expanded}}expanded{{/if}} {{params.class}}"
     data-item-id="{{@root.item.id}}"
     data-item-uuid="{{@root.item.uuid}}"
     {{#if @root.editable}}data-drag="true"{{/if}}
@@ -120,5 +119,4 @@
     </section>
 </li>
 
-{{/with}}
 {{/with}}

@@ -38,6 +38,12 @@ export class ActionsListEntryComponent extends ActorItemListComponent {
     ) {
         const item = (params as ActionsListEntryComponentParams).item;
 
+        if (!(item.id! in this.itemState)) {
+            this.itemState[item.id!] = {
+                expanded: false,
+            };
+        }
+
         const descriptionHTML =
             await foundry.applications.ux.TextEditor.implementation.enrichHTML(
                 item.system.description.value,
@@ -50,7 +56,7 @@ export class ActionsListEntryComponent extends ActorItemListComponent {
             ...context,
             item,
             descriptionHTML,
-            itemState: this.itemState,
+            expanded: this.itemState[item.id!].expanded,
         };
     }
 }
