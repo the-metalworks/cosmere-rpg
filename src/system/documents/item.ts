@@ -12,6 +12,7 @@ import {
     ItemResource,
     WeaponType,
     DamageType,
+    ActionVisibilityFilterType,
 } from '@system/types/cosmere';
 import { CosmereHooks } from '@system/types/hooks';
 import { AnyObject, EmptyObject, DeepPartial } from '@system/types/utils';
@@ -437,6 +438,18 @@ export class CosmereItem<
             !!this.parent &&
             !!(this.parent instanceof CosmereItem)
         );
+    }
+
+    public get activeFilters(): ActionVisibilityFilterType[] {
+        if (!this.isAction() || !this.isActionEmbedded) {
+            return [];
+        }
+        return Object.keys(this.system.visibilityFilters).filter(
+            (filter) =>
+                this.system.visibilityFilters[
+                    filter as ActionVisibilityFilterType
+                ].active,
+        ) as ActionVisibilityFilterType[];
     }
 
     /**
