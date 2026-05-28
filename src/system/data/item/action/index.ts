@@ -25,6 +25,15 @@ import {
     RelationshipsMixin,
     RelationshipsItemDataSchema,
 } from '../mixins/relationships';
+import { ActionVisibilityFilterType } from '@src/system/types/cosmere';
+
+const FILTER_TYPE_SCHEMA = (type: ActionVisibilityFilterType) => ({
+    active: new foundry.data.fields.BooleanField({
+        required: true,
+        nullable: false,
+        initial: CONFIG.COSMERE.action.visibility[type].initial ?? false,
+    }),
+});
 
 const SCHEMA = () => ({
     activation: new ActivationField({
@@ -33,6 +42,22 @@ const SCHEMA = () => ({
     }),
     damage: new DamageField(),
     skillTest: new SkillTestField(),
+    visibilityFilters: new foundry.data.fields.SchemaField(
+        Object.keys(CONFIG.COSMERE.action.visibility).reduce(
+            (schemas, key) => ({
+                ...schemas,
+                [key]: new foundry.data.fields.SchemaField(
+                    FILTER_TYPE_SCHEMA(key as ActionVisibilityFilterType),
+                ),
+            }),
+            {} as Record<
+                ActionVisibilityFilterType,
+                foundry.data.fields.SchemaField<
+                    ReturnType<typeof FILTER_TYPE_SCHEMA>
+                >
+            >,
+        ),
+    ),
 });
 
 export class ActionItemDataModel extends DataModelMixin<ActionItemDataModel.Schema>(
