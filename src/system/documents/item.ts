@@ -432,6 +432,12 @@ export class CosmereItem<
         return this.items.filter((item) => item.isAction());
     }
 
+    public get visibleActions(): readonly ActionItem[] {
+        return this.actions.filter(
+            (action) => action.shouldActionDisplay as boolean,
+        );
+    }
+
     public get isActionEmbedded() {
         return (
             !!this.isAction() &&
