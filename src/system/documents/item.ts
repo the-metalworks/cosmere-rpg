@@ -203,7 +203,7 @@ export class CosmereItem<
 
     /* --- ItemType type guards --- */
 
-    public isWeapon(): this is CosmereItem<WeaponItemDataModel> {
+    public isWeapon(): this is WeaponItem {
         return this.type === ItemType.Weapon;
     }
 
@@ -431,18 +431,23 @@ export class CosmereItem<
         return this.items.filter((item) => item.isAction());
     }
 
+    public get isActionEmbedded() {
+        return (
+            !!this.isAction() &&
+            !!this.parent &&
+            !!(this.parent instanceof CosmereItem)
+        );
+    }
+
     /**
      * Whether or not this action is the default activation for its parent item.
      * Only available for action items that are embedded in other items.
      */
     public get isDefaultActivation(): boolean {
-        if (
-            !this.isAction() ||
-            !this.parent ||
-            !(this.parent instanceof CosmereItem)
-        )
+        if (!this.isActionEmbedded) {
             return false;
-        return this.parent.actions.at(0)?.id === this.id;
+        }
+        return this.parent!.actions.at(0)?.id === this.id;
     }
 
     /**
