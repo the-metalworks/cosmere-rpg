@@ -276,7 +276,7 @@ export class ActorActionsListComponent extends ActorItemListComponent {
         ).filter((item) => item.isAction() || item.hasActions);
 
         const actions = activatableItems.flatMap((item) =>
-            item.isAction() ? [item] : item.actions,
+            item.isAction() ? [item] : item.visibleActions,
         );
 
         // Ensure all actions have an expand state record
@@ -381,9 +381,9 @@ export class ActorActionsListComponent extends ActorItemListComponent {
                 const sectionActions = sectionItems.map((item) =>
                     item.isAction()
                         ? item
-                        : item.actions.length === 1
-                          ? item.actions[0]
-                          : ([item, item.actions] as [
+                        : item.visibleActions.length === 1
+                          ? item.visibleActions[0]
+                          : ([item, item.visibleActions] as [
                                 CosmereItem,
                                 ActionItem[],
                             ]),
