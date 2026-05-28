@@ -387,6 +387,15 @@ export class CosmereItem<
 
     /* --- Accessors --- */
 
+    public get isEquipped() {
+        if (!this.isEquippable()) {
+            return false;
+        }
+        // typescript hates your mixins
+        const equippable = this as EquippableItem;
+        return equippable.system.equipped;
+    }
+
     public get isSpecialWeapon(): boolean {
         if (!this.isWeapon()) {
             return false;
