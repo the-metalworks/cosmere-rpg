@@ -453,6 +453,30 @@ export class CosmereItem<
     }
 
     /**
+     * Whether or not this action should display in the actions tab.
+     * Always returns true if the item is not an embedded action.
+     */
+    public get shouldActionDisplay() {
+        if (!this.isActionEmbedded) {
+            return true;
+        }
+
+        const filters = this.activeFilters;
+        const override = filters.find(
+            (filter) =>
+                CONFIG.COSMERE.action.visibility[filter].overridesOtherFilters,
+        );
+
+        if (override) {
+            return CONFIG.COSMERE.action.visibility[override].filter(this);
+        }
+
+        return filters.every((filter) =>
+            CONFIG.COSMERE.action.visibility[filter].filter(this),
+        );
+    }
+
+    /**
      * Whether or not this action is the default activation for its parent item.
      * Only available for action items that are embedded in other items.
      */
