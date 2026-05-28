@@ -134,6 +134,7 @@ export class ActorTalentsListComponent extends ActorItemListComponent {
     /* eslint-disable @typescript-eslint/unbound-method */
     static readonly ACTIONS = {
         'toggle-section-collapsed': this.onToggleSectionCollapsed,
+        'toggle-action-details': this.onToggleActionDetails,
         'use-item': this.onUseItem,
         'new-item': this.onNewItem,
     };
