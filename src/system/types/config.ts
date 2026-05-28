@@ -34,6 +34,7 @@ import {
     MovementType,
     ImmunityType,
     ActorType,
+    ActionVisibilityFilterType,
 } from './cosmere';
 import { AdvantageMode } from './roll';
 
@@ -46,7 +47,7 @@ import {
     DynamicItemListSectionGenerator,
 } from './application/actor/components/item-list';
 
-import { CosmereItem } from '@system/documents/item';
+import { ActionItem, CosmereItem } from '@system/documents/item';
 import { CosmereActor } from '../documents';
 
 export interface SizeConfig {
@@ -219,6 +220,14 @@ export interface ActionTypeConfig {
 export interface ActionCostConfig {
     label: string;
     icon?: string;
+}
+
+export interface ActionVisibilityFilterConfig {
+    label: string;
+    shortLabel: string;
+    initial?: boolean;
+    overridesOtherFilters?: boolean;
+    filter: (action: ActionItem) => boolean | Promise<boolean>;
 }
 
 export interface AttackTypeConfig {
@@ -502,6 +511,10 @@ export interface CosmereRPGConfig {
     action: {
         types: Record<ActionType, ActionTypeConfig>;
         costs: Record<ActionCostType, ActionCostConfig>;
+        visibility: Record<
+            ActionVisibilityFilterType,
+            ActionVisibilityFilterConfig
+        >;
     };
 
     attack: {

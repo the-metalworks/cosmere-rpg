@@ -35,10 +35,12 @@ import {
     Theme,
     MovementType,
     ImmunityType,
+    ActionVisibilityFilterType,
 } from './types/cosmere';
 import { AdvantageMode } from './types/roll';
 
 import { Talent, TalentTree } from './types/item';
+import { CosmereItem } from './documents';
 
 const COSMERE: CosmereRPGConfig = {
     sizes: {
@@ -1075,6 +1077,34 @@ const COSMERE: CosmereRPGConfig = {
             },
             [ActionCostType.Special]: {
                 label: 'COSMERE.Actor.ActionCosts.Special',
+            },
+        },
+        visibility: {
+            [ActionVisibilityFilterType.Always]: {
+                label: `Cosmere.Item.Sheet.ActionVisibility.Always.label`,
+                shortLabel: `Cosmere.Item.Sheet.ActionVisibility.Always.label_short`,
+                initial: true,
+                overridesOtherFilters: true,
+                filter: () => true,
+            },
+            [ActionVisibilityFilterType.Never]: {
+                label: `Cosmere.Item.Sheet.ActionVisibility.Never.label`,
+                shortLabel: `Cosmere.Item.Sheet.ActionVisibility.Never.label_short`,
+                overridesOtherFilters: true,
+                filter: () => false,
+            },
+            [ActionVisibilityFilterType.Equipped]: {
+                label: `Cosmere.Item.Sheet.ActionVisibility.Equipped.label`,
+                shortLabel: `Cosmere.Item.Sheet.ActionVisibility.Equipped.label_short`,
+                filter: (action) => {
+                    if (!action.isActionEmbedded) {
+                        return false;
+                    }
+
+                    const parent = action.parent! as CosmereItem;
+
+                    return parent.isEquipped;
+                },
             },
         },
     },

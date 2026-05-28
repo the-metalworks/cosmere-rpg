@@ -253,6 +253,12 @@ export const enum ActionCostType {
     Special = 'spe',
 }
 
+export enum ActionVisibilityFilterType {
+    Never = 'neverVisible',
+    Always = 'alwaysVisible',
+    Equipped = 'parentEquipped',
+}
+
 export const enum AttackType {
     Melee = 'melee',
     Ranged = 'ranged',
