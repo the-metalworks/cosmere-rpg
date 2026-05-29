@@ -30,6 +30,8 @@ import Editor from './system/ui/editor';
 import CosmereAPI from './system/api';
 import CosmereUtils from './system/utils/global';
 
+const { Actors, Items } = foundry.documents.collections;
+
 declare global {
     namespace CONFIG {
         namespace Canvas {

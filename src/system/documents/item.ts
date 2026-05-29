@@ -31,6 +31,7 @@ import {
     GoalItemDataModel,
     PowerItemDataModel,
     TalentTreeItemDataModel,
+    EffectsContainerItemDataModel,
 } from '@system/data/item';
 
 import {
@@ -207,6 +208,10 @@ export class CosmereItem<
         return this.type === ItemType.Power;
     }
 
+    public isEffectsContainer(): this is CosmereItem<EffectsContainerItemDataModel> {
+        return this.type === ItemType.EffectsContainer;
+    }
+
     public isTalentTree(): this is CosmereItem<TalentTreeItemDataModel> {
         return this.type === ItemType.TalentTree;
     }
@@ -347,6 +352,13 @@ export class CosmereItem<
 
         // Check if the actor has the mode active
         return activeMode === this.system.id;
+    }
+
+    /**
+     * Returns true if effects list is not empty
+     */
+    public get hasEffects(): boolean {
+        return !!this.effects.contents.length;
     }
 
     /**
@@ -1700,6 +1712,7 @@ export type ActionItem = CosmereItem<ActionItemDataModel>;
 export type TalentItem = CosmereItem<TalentItemDataModel>;
 export type EquipmentItem = CosmereItem<EquipmentItemDataModel>;
 export type WeaponItem = CosmereItem<WeaponItemDataModel>;
+export type EffectsContainerItem = CosmereItem<EffectsContainerItemDataModel>;
 export type GoalItem = CosmereItem<GoalItemDataModel>;
 export type PowerItem = CosmereItem<PowerItemDataModel>;
 export type TalentTreeItem = CosmereItem<TalentTreeItemDataModel>;

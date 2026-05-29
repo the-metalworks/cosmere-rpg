@@ -22,6 +22,7 @@ import {
     GoalItem,
     PowerItem,
     TalentTreeItem,
+    EffectsContainerItem,
 } from '@system/documents/item';
 import { CosmereActiveEffect } from '@system/documents/active-effect';
 
@@ -216,6 +217,10 @@ export class CosmereActor<
 
     public get talents(): TalentItem[] {
         return this.items.filter((i) => i.isTalent());
+    }
+
+    public get effectsContainers(): EffectsContainerItem[] {
+        return this.items.filter((i) => i.isEffectsContainer());
     }
 
     public get skillLinkedItems(): CosmereItem[] {

@@ -300,6 +300,7 @@ export const enum ItemType {
 
     Power = 'power',
 
+    EffectsContainer = 'effects_container',
     TalentTree = 'talent_tree',
 }
 
