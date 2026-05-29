@@ -141,3 +141,7 @@ export interface NumberRange {
     max: number;
     actual?: number;
 }
+
+export type itemFilterFunction = (
+    item: CosmereItem,
+) => boolean | Promise<boolean>;

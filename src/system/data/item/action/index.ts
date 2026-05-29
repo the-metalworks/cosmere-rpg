@@ -31,7 +31,7 @@ const FILTER_TYPE_SCHEMA = (type: ActionVisibilityFilterType) => ({
     active: new foundry.data.fields.BooleanField({
         required: true,
         nullable: false,
-        initial: CONFIG.COSMERE.action.visibility[type].initial ?? false,
+        initial: CONFIG.COSMERE.action.visibility[type].defaultEnabled ?? false,
     }),
 });
 

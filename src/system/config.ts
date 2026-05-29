@@ -1084,7 +1084,7 @@ const COSMERE: CosmereRPGConfig = {
                 label: `Cosmere.Item.Sheet.ActionVisibility.Always.label`,
                 shortLabel: `Cosmere.Item.Sheet.ActionVisibility.Always.label_short`,
                 hint: `Cosmere.Item.Sheet.ActionVisibility.Always.hint`,
-                initial: true,
+                defaultEnabled: true,
                 overridesOtherFilters: true,
                 filter: () => true,
             },

@@ -40,7 +40,7 @@ import { AdvantageMode } from './roll';
 
 import { Talent, TalentTree, EventSystem as ItemEventSystem } from './item';
 
-import { AnyObject } from './utils';
+import { AnyObject, itemFilterFunction } from './utils';
 
 import {
     ItemListSection,
@@ -357,7 +357,7 @@ export interface ActionVisibilityFilterConfig {
     /**
      * This determines if the filter is enabled by default when an item is created.
      */
-    initial?: boolean;
+    defaultEnabled?: boolean;
 
     /**
      * When true, only this filter will matter when determining visibility
@@ -369,7 +369,7 @@ export interface ActionVisibilityFilterConfig {
     /**
      * A filter function to determine if this action should display in the actor's tab.
      */
-    filter: (action: ActionItem) => boolean | Promise<boolean>;
+    filter: itemFilterFunction;
 }
 
 export interface ItemEventTypeConfig {
@@ -381,7 +381,7 @@ export interface ItemEventTypeConfig {
     /**
      * A filter function to determine if this event should be available for a given item.
      */
-    filter?: (item: CosmereItem) => boolean | Promise<boolean>;
+    filter?: itemFilterFunction;
 
     // NOTE: Allow any type as conditions should be able to freely match hook signatures
     /* eslint-disable @typescript-eslint/no-explicit-any */
