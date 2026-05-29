@@ -42,11 +42,10 @@ export class CharacterSheet extends BaseActorSheet {
         foundry.utils.deepClone(super.PARTS),
         {
             header: {
-                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_HEADER}`,
+                template: `${TEMPLATES.DIRECTORY}${TEMPLATES.ACTOR_CHARACTER_HEADER}`,
             },
             content: {
-                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_CONTENT}`,
-                scrollable: ['.sheet-content>.col-main>.scroll-container'],
+                template: `${TEMPLATES.DIRECTORY}${TEMPLATES.ACTOR_CHARACTER_CONTENT}`,
             },
         },
     );

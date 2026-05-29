@@ -56,7 +56,7 @@ export function register() {
                     },
                 ),
             },
-            template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.IES_HANDLER_UPDATE_ACTOR}`,
+            template: `${TEMPLATES.DIRECTORY}${TEMPLATES.IES_HANDLER_UPDATE_ACTOR}`,
         },
         executor: async function (
             this: UpdateActorHandlerConfigData,

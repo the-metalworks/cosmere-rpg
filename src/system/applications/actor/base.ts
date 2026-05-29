@@ -76,7 +76,7 @@ export class BaseActorSheet<
 
     static PARTS = foundry.utils.mergeObject(super.PARTS, {
         navigation: {
-            template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_NAVIGATION}`,
+            template: `${TEMPLATES.DIRECTORY}${TEMPLATES.ACTOR_BASE_NAVIGATION}`,
         },
     });
 

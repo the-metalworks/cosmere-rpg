@@ -45,7 +45,7 @@ export class ItemEditEventRuleDialog extends ComponentHandlebarsApplicationMixin
         foundry.utils.deepClone(super.PARTS),
         {
             form: {
-                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ITEM_EDIT_EVENT_RULE}`,
+                template: `${TEMPLATES.DIRECTORY}${TEMPLATES.DIALOG_ITEM_EDIT_EVENT_RULE}`,
                 forms: {
                     form: {
                         handler: this.onFormEvent,

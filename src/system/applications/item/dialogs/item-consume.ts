@@ -6,7 +6,7 @@ import { NumberRange } from '@src/system/types/utils';
 import { TEMPLATES } from '@src/system/utils/templates';
 
 // Constants
-const TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ITEM_CONSUME}`;
+const TEMPLATE = `${TEMPLATES.DIRECTORY}${TEMPLATES.DIALOG_ITEM_CONSUME}`;
 
 export interface ItemConsumeDialogOptions {
     /**

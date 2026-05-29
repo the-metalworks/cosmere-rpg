@@ -39,7 +39,7 @@ export class EditCreatureTypeDialog extends HandlebarsApplicationMixin(
         foundry.utils.deepClone(super.PARTS),
         {
             form: {
-                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ADVERSARY_EDIT_CREATURE_TYPE}`,
+                template: `${TEMPLATES.DIRECTORY}${TEMPLATES.DIALOG_ADVERSARY_EDIT_CREATURE_TYPE}`,
                 forms: {
                     form: {
                         handler: this.onFormEvent,

@@ -32,7 +32,7 @@ interface RenderContext extends BaseActorSheetRenderContext {
 }
 
 export class ActorEquipmentListComponent extends ActorItemListComponent {
-    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_EQUIPMENT_LIST}`;
+    static TEMPLATE = `${TEMPLATES.DIRECTORY}${TEMPLATES.ACTOR_BASE_EQUIPMENT_LIST}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions

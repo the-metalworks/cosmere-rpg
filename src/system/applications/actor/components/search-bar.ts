@@ -32,7 +32,7 @@ export class ActorSearchBarComponent extends HandlebarsApplicationComponent<
     any,
     Params
 > {
-    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_SEARCH_BAR}`;
+    static TEMPLATE = `${TEMPLATES.DIRECTORY}${TEMPLATES.ACTOR_BASE_SEARCH_BAR}`;
 
     /**
      * The amount of time to wait after a user's keypress before the name search filter is applied, in milliseconds.

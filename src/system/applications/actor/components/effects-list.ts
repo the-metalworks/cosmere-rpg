@@ -42,7 +42,7 @@ export class ActorEffectsListComponent extends HandlebarsApplicationComponent<
     any,
     Params
 > {
-    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_EFFECTS_LIST}`;
+    static TEMPLATE = `${TEMPLATES.DIRECTORY}${TEMPLATES.ACTOR_BASE_EFFECTS_LIST}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions

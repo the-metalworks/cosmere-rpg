@@ -302,7 +302,7 @@ const MISC_SECTION: ItemListSection = {
 };
 
 export class ActorActionsListComponent extends ActorItemListComponent {
-    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_ACTIONS_LIST}`;
+    static TEMPLATE = `${TEMPLATES.DIRECTORY}${TEMPLATES.ACTOR_BASE_ACTIONS_LIST}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions

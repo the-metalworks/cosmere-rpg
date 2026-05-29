@@ -6,6 +6,7 @@ import { AnyObject } from '@system/types/utils';
  * Index of identifiers for system templates.
  */
 export const TEMPLATES = {
+    DIRECTORY: `systems/${SYSTEM_ID}/templates/`,
     GENERAL_TABS: 'general/tabs.hbs',
     GENERAL_SHEET_CORNERS: 'general/sheet-corners.hbs',
     GENERAL_SHEET_BACKGROUND: 'general/sheet-background.hbs',
@@ -222,7 +223,7 @@ export function renderSystemTemplate(
     data: AnyObject,
 ): Promise<string> {
     return foundry.applications.handlebars.renderTemplate(
-        `systems/${SYSTEM_ID}/templates/${template}`,
+        `${TEMPLATES.DIRECTORY}${template}`,
         data,
     );
 }

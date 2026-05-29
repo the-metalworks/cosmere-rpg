@@ -89,7 +89,7 @@ Hooks.once('init', async () => {
         documents.CosmereActiveEffect as typeof ActiveEffect as any;
     CONFIG.ActiveEffect.legacyTransferral = false;
 
-    Roll.TOOLTIP_TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.CHAT_ROLL_TOOLTIP}`;
+    Roll.TOOLTIP_TEMPLATE = `${TEMPLATES.DIRECTORY}${TEMPLATES.CHAT_ROLL_TOOLTIP}`;
 
     // Add fonts
     configureFonts();
