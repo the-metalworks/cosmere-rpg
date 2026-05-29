@@ -14,4 +14,5 @@ export * from './equipment-sheet';
 export * from './weapon-sheet';
 export * from './goal-sheet';
 export * from './power-sheet';
+export * from './effects-container-sheet';
 export * from './talent-tree-sheet';
