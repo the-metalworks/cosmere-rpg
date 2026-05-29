@@ -73,6 +73,7 @@ import {
 
 // Sheet
 import { BaseItemSheet } from '@system/applications/item/base';
+import { CosmereActiveEffect } from '.';
 
 // Rolls
 import {
@@ -359,6 +360,37 @@ export class CosmereItem<
      */
     public get hasEffects(): boolean {
         return !!this.effects.contents.length;
+    }
+
+    /**
+     * Returns a list of all non-temporary effects which are active
+     */
+    public get passiveEffects(): CosmereActiveEffect[] {
+        return this.hasEffects
+            ? this.effects.contents.filter(
+                  (effect) => effect.active && !effect.isTemporary,
+              )
+            : [];
+    }
+
+    /**
+     * Returns a list of all temporary effects which are active
+     */
+    public get temporaryEffects(): CosmereActiveEffect[] {
+        return this.hasEffects
+            ? this.effects.contents.filter(
+                  (effect) => effect.active && effect.isTemporary,
+              )
+            : [];
+    }
+
+    /**
+     * Returns a list of all effects which are not active
+     */
+    public get disabledEffects(): CosmereActiveEffect[] {
+        return this.hasEffects
+            ? this.effects.contents.filter((effect) => !effect.active)
+            : [];
     }
 
     /**
