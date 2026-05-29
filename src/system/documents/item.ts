@@ -374,6 +374,15 @@ export class CosmereItem<
     }
 
     /**
+     * Returns a list of all effects which are not active
+     */
+    public get disabledEffects(): CosmereActiveEffect[] {
+        return this.hasEffects
+            ? this.effects.contents.filter((effect) => !effect.active)
+            : [];
+    }
+
+    /**
      * Returns a list of all temporary effects which are active
      */
     public get temporaryEffects(): CosmereActiveEffect[] {
@@ -385,12 +394,24 @@ export class CosmereItem<
     }
 
     /**
-     * Returns a list of all effects which are not active
+     * Returns true if even a single passive effect exists on the item
      */
-    public get disabledEffects(): CosmereActiveEffect[] {
-        return this.hasEffects
-            ? this.effects.contents.filter((effect) => !effect.active)
-            : [];
+    public get hasPassiveEffect(): boolean {
+        return !!this.passiveEffects.length;
+    }
+
+    /**
+     * Returns true if even a single disabled effect exists on the item
+     */
+    public get hasDisabledEffect(): boolean {
+        return !!this.disabledEffects.length;
+    }
+
+    /**
+     * Returns true if even a single temporary effect exists on the item
+     */
+    public get hasTemporaryEffect(): boolean {
+        return !!this.temporaryEffects.length;
     }
 
     /**
