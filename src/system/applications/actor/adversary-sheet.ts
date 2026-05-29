@@ -37,6 +37,7 @@ export class AdversarySheet extends BaseActorSheet<AdversarySheetRenderContext> 
         {
             content: {
                 template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_ADVERSARY_CONTENT}`,
+                scrollable: ['.sheet-content>.col-main>.scroll-container'],
             },
         },
     );
