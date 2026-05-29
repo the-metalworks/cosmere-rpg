@@ -1,5 +1,9 @@
 import { ConstructorOf } from '@system/types/utils';
-import { CosmereActiveEffect, CosmereItem } from '@system/documents';
+import {
+    CosmereActiveEffect,
+    CosmereItem,
+    EffectsContainerItem,
+} from '@system/documents';
 import { AppContextMenu } from '@system/applications/utils/context-menu';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
@@ -56,7 +60,7 @@ export class ActorEffectsListComponent extends HandlebarsApplicationComponent<
         this: ActorEffectsListComponent,
         event: Event,
     ) {
-        const effect = this.getEffectFromEvent(event);
+        const effect = this.getEffectFromEvent(event) as CosmereActiveEffect;
         if (!effect) return;
 
         // Toggle active
@@ -68,35 +72,39 @@ export class ActorEffectsListComponent extends HandlebarsApplicationComponent<
     /* --- Context --- */
 
     public _prepareContext(params: Params, context: RenderContext) {
-        // Get effects
-        let effects = this.application.actor.applicableEffects
-            .filter((effect) => !effect.id!.startsWith('cond'))
-            .filter((effect) =>
-                effect.name.toLowerCase().includes(context.effectsSearch.text),
-            );
+        const items = Array.from(this.application.actor.items)
+            .filter((item) => item.hasEffects || item.isEffectsContainer())
+            .sort((a, b) => a.name.compare(b.name));
 
-        if (context.effectsSearch.sort === SortMode.Alphabetic) {
-            effects = effects.sort((a, b) => a.name.compare(b.name));
-        }
-
-        // Filter effects down to the correct type
-        if (params.type === 'inactive') {
-            effects = effects.filter((effect) => !effect.active);
-        } else if (params.type === 'passive') {
-            effects = effects.filter(
-                (effect) => effect.active && !effect.isTemporary,
-            );
-        } else if (params.type === 'temporary') {
-            effects = effects.filter(
-                (effect) => effect.active && effect.isTemporary,
-            );
-        }
+        const effects = items.map((item) => {
+            let effects: CosmereActiveEffect[] = [];
+            switch (params.type) {
+                case EffectListType.Inactive: {
+                    effects = item.inactiveEffects;
+                    break;
+                }
+                case EffectListType.Passive: {
+                    effects = item.passiveEffects;
+                    break;
+                }
+                case EffectListType.Temporary: {
+                    effects = item.temporaryEffects;
+                    break;
+                }
+            }
+            effects = effects
+                .filter((effect) =>
+                    effect.name.includes(context.effectsSearch.text),
+                )
+                .sort((a, b) => a.name.compare(b.name));
+            return effects.length === 1 ? effects[0] : [item, effects];
+        });
 
         // Set context
         return Promise.resolve({
             ...context,
             effectsTitle: TITLE_MAP[params.type],
-            effects,
+            effects: effects,
         });
     }
 
@@ -109,9 +117,19 @@ export class ActorEffectsListComponent extends HandlebarsApplicationComponent<
                 parent: this as AppContextMenu.Parent,
                 items: [
                     {
+                        name: 'GENERIC.Button.Source',
+                        icon: 'fa-solid fa-angles-up',
+                        callback: (element) => {
+                            const effect = this.getEffectFromElement(element);
+                            if (!effect) return;
+
+                            void effect.parent?.sheet?.render(true);
+                        },
+                    },
+                    {
                         name: 'GENERIC.Button.Edit',
                         icon: 'fa-solid fa-pen-to-square',
-                        callback: (element) => {
+                        callback: (element: HTMLElement) => {
                             const effect = this.getEffectFromElement(element);
                             if (!effect) return;
 
@@ -121,7 +139,7 @@ export class ActorEffectsListComponent extends HandlebarsApplicationComponent<
                     {
                         name: 'GENERIC.Button.Remove',
                         icon: 'fa-solid fa-trash',
-                        callback: (element) => {
+                        callback: (element: HTMLElement) => {
                             const effect = this.getEffectFromElement(element);
                             if (!effect) return;
 
@@ -137,28 +155,9 @@ export class ActorEffectsListComponent extends HandlebarsApplicationComponent<
 
     /* --- Helpers --- */
 
-    private getEffectsByState(
-        state: EffectListType,
-        effects: CosmereActiveEffect[],
-    ): CosmereActiveEffect[] {
-        switch (state) {
-            case EffectListType.Inactive: {
-                return effects.filter((effect) => !effect.active);
-            }
-            case EffectListType.Passive: {
-                return effects.filter(
-                    (effect) => effect.active && !effect.isTemporary,
-                );
-            }
-            case EffectListType.Temporary: {
-                return effects.filter(
-                    (effect) => effect.active && effect.isTemporary,
-                );
-            }
-        }
-    }
-
-    private getEffectFromEvent(event: Event): CosmereActiveEffect | undefined {
+    private getEffectFromEvent(
+        event: Event,
+    ): CosmereActiveEffect | EffectsContainerItem | undefined {
         if (!event.target && !event.currentTarget) return;
 
         return this.getEffectFromElement(
@@ -168,7 +167,7 @@ export class ActorEffectsListComponent extends HandlebarsApplicationComponent<
 
     private getEffectFromElement(
         element: HTMLElement,
-    ): CosmereActiveEffect | undefined {
+    ): CosmereActiveEffect | EffectsContainerItem | undefined {
         const effectElement = $(element).closest('.effect[data-id]');
 
         // Get the id
@@ -184,12 +183,19 @@ export class ActorEffectsListComponent extends HandlebarsApplicationComponent<
     private getEffect(
         effectId: string,
         parentId?: string,
-    ): CosmereActiveEffect | undefined {
+    ): CosmereActiveEffect | EffectsContainerItem | undefined {
         if (!parentId)
-            return this.application.actor.getEmbeddedDocument(
-                'ActiveEffect',
-                effectId,
-                {},
+            return (
+                this.application.actor.getEmbeddedDocument(
+                    'ActiveEffect',
+                    effectId,
+                    {},
+                ) ??
+                (this.application.actor.getEmbeddedDocument(
+                    'Item',
+                    effectId,
+                    {},
+                ) as EffectsContainerItem)
             );
         else {
             // Get item

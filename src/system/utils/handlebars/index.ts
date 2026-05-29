@@ -78,6 +78,8 @@ Handlebars.registerHelper('typeof', (value: unknown) => {
     return typeof value;
 });
 
+Handlebars.registerHelper('isArray', (value: unknown) => Array.isArray(value));
+
 Handlebars.registerHelper(
     'perc',
     (value: number, max: number, floor = true) => {
