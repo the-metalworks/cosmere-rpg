@@ -80,6 +80,10 @@ export class BaseActorSheet<
         },
     });
 
+    static get scrollableContent() {
+        return ['.sheet-content>.col-main>.scroll-container'];
+    }
+
     static TABS = foundry.utils.mergeObject(super.TABS, {
         [BaseSheetTab.Actions]: {
             label: 'COSMERE.Actor.Sheet.Tabs.Actions',

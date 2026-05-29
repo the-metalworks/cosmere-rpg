@@ -46,6 +46,7 @@ export class CharacterSheet extends BaseActorSheet {
             },
             content: {
                 template: `${TEMPLATES.DIRECTORY}${TEMPLATES.ACTOR_CHARACTER_CONTENT}`,
+                scrollable: this.scrollableContent,
             },
         },
     );
