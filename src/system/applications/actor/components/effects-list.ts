@@ -1,5 +1,5 @@
 import { ConstructorOf } from '@system/types/utils';
-import { CosmereItem } from '@system/documents';
+import { CosmereActiveEffect, CosmereItem } from '@system/documents';
 import { AppContextMenu } from '@system/applications/utils/context-menu';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
@@ -137,7 +137,28 @@ export class ActorEffectsListComponent extends HandlebarsApplicationComponent<
 
     /* --- Helpers --- */
 
-    private getEffectFromEvent(event: Event): ActiveEffect | undefined {
+    private getEffectsByState(
+        state: EffectListType,
+        effects: CosmereActiveEffect[],
+    ): CosmereActiveEffect[] {
+        switch (state) {
+            case EffectListType.Inactive: {
+                return effects.filter((effect) => !effect.active);
+            }
+            case EffectListType.Passive: {
+                return effects.filter(
+                    (effect) => effect.active && !effect.isTemporary,
+                );
+            }
+            case EffectListType.Temporary: {
+                return effects.filter(
+                    (effect) => effect.active && effect.isTemporary,
+                );
+            }
+        }
+    }
+
+    private getEffectFromEvent(event: Event): CosmereActiveEffect | undefined {
         if (!event.target && !event.currentTarget) return;
 
         return this.getEffectFromElement(
@@ -147,7 +168,7 @@ export class ActorEffectsListComponent extends HandlebarsApplicationComponent<
 
     private getEffectFromElement(
         element: HTMLElement,
-    ): ActiveEffect | undefined {
+    ): CosmereActiveEffect | undefined {
         const effectElement = $(element).closest('.effect[data-id]');
 
         // Get the id
@@ -163,7 +184,7 @@ export class ActorEffectsListComponent extends HandlebarsApplicationComponent<
     private getEffect(
         effectId: string,
         parentId?: string,
-    ): ActiveEffect | undefined {
+    ): CosmereActiveEffect | undefined {
         if (!parentId)
             return this.application.actor.getEmbeddedDocument(
                 'ActiveEffect',
