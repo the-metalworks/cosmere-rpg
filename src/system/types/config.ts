@@ -347,6 +347,7 @@ export interface MovementTypeConfig {
 
 export interface ActionVisibilityFilterConfig {
     label: string;
+    hint: string;
 
     /**
      * Shorthand label used for situations where full display is infeasible.

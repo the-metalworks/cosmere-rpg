@@ -1083,6 +1083,7 @@ const COSMERE: CosmereRPGConfig = {
             [ActionVisibilityFilterType.Always]: {
                 label: `Cosmere.Item.Sheet.ActionVisibility.Always.label`,
                 shortLabel: `Cosmere.Item.Sheet.ActionVisibility.Always.label_short`,
+                hint: `Cosmere.Item.Sheet.ActionVisibility.Always.hint`,
                 initial: true,
                 overridesOtherFilters: true,
                 filter: () => true,
@@ -1090,12 +1091,14 @@ const COSMERE: CosmereRPGConfig = {
             [ActionVisibilityFilterType.Never]: {
                 label: `Cosmere.Item.Sheet.ActionVisibility.Never.label`,
                 shortLabel: `Cosmere.Item.Sheet.ActionVisibility.Never.label_short`,
+                hint: `Cosmere.Item.Sheet.ActionVisibility.Never.hint`,
                 overridesOtherFilters: true,
                 filter: () => false,
             },
             [ActionVisibilityFilterType.Equipped]: {
                 label: `Cosmere.Item.Sheet.ActionVisibility.Equipped.label`,
                 shortLabel: `Cosmere.Item.Sheet.ActionVisibility.Equipped.label_short`,
+                hint: `Cosmere.Item.Sheet.ActionVisibility.Equipped.hint`,
                 filter: (action) => {
                     if (!action.isActionEmbedded) {
                         return false;
