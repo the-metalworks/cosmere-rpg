@@ -222,14 +222,6 @@ export interface ActionCostConfig {
     icon?: string;
 }
 
-export interface ActionVisibilityFilterConfig {
-    label: string;
-    shortLabel: string;
-    initial?: boolean;
-    overridesOtherFilters?: boolean;
-    filter: (action: ActionItem) => boolean | Promise<boolean>;
-}
-
 export interface AttackTypeConfig {
     label: string;
 }
@@ -351,6 +343,32 @@ export type AttributeScale<T extends string = string> = {
 
 export interface MovementTypeConfig {
     label: string;
+}
+
+export interface ActionVisibilityFilterConfig {
+    label: string;
+
+    /**
+     * Shorthand label used for situations where full display is infeasible.
+     */
+    shortLabel: string;
+
+    /**
+     * This determines if the filter is enabled by default when an item is created.
+     */
+    initial?: boolean;
+
+    /**
+     * When true, only this filter will matter when determining visibility
+     * for an action it's enabled on. The first filter with this set to true
+     * will be used in the case of multiple.
+     */
+    overridesOtherFilters?: boolean;
+
+    /**
+     * A filter function to determine if this action should display in the actor's tab.
+     */
+    filter: (action: ActionItem) => boolean | Promise<boolean>;
 }
 
 export interface ItemEventTypeConfig {
