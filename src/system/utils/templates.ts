@@ -57,7 +57,6 @@ export const TEMPLATES = {
         'actors/character/partials/char-effects-tab.hbs',
     ACTOR_CHARACTER_ANCESTRY: 'actors/character/components/ancestry.hbs',
     ACTOR_CHARACTER_CULTURE: 'actors/character/components/culture.hbs',
-    ACTOR_CHARACTER_FAVORITES: 'actors/character/components/favorites.hbs',
     ACTOR_CHARACTER_PATHS: 'actors/character/components/paths.hbs',
     ACTOR_CHARACTER_CONNECTIONS_LIST:
         'actors/character/components/connections-list.hbs',
