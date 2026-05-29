@@ -8,8 +8,7 @@ import { TEMPLATES } from '@src/system/utils/templates';
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
 import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
 import { SortMode } from './search-bar';
-
-type EffectListType = 'inactive' | 'passive' | 'temporary';
+import { EffectListType } from '@src/system/types/cosmere';
 
 // NOTE: Must use type here instead of interface as an interface doesn't match AnyObject type
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
@@ -26,9 +25,9 @@ interface RenderContext extends BaseActorSheetRenderContext {
 
 // Constants
 const TITLE_MAP: Record<EffectListType, string> = {
-    inactive: 'COSMERE.Sheet.Effects.Inactive',
-    passive: 'COSMERE.Sheet.Effects.Passive',
-    temporary: 'COSMERE.Sheet.Effects.Temporary',
+    [EffectListType.Inactive]: 'COSMERE.Sheet.Effects.Inactive',
+    [EffectListType.Passive]: 'COSMERE.Sheet.Effects.Passive',
+    [EffectListType.Temporary]: 'COSMERE.Sheet.Effects.Temporary',
 };
 
 export class ActorEffectsListComponent extends HandlebarsApplicationComponent<
