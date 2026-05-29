@@ -323,6 +323,7 @@ export declare class ComponentHandlebarsApplication {
     ): void;
 
     protected _renderFrame(...args: any[]): Promise<HTMLElement>;
+    protected _canRender(...args: any[]): false | void;
     protected _onRender(...args: any[]): Promise<void>;
     public _prepareContext(...args: any[]): Promise<AnyObject>;
     protected _onFirstRender(...args: any[]): Promise<void>;

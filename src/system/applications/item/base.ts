@@ -285,6 +285,52 @@ export class BaseItemSheet extends TabsApplicationMixin(
         void this.item.update(formData.object);
     }
 
+    /* --- Rendering --- */
+
+    /**
+     * Suppress automatic re-renders while a ProseMirror editor on the sheet
+     * still holds unsaved content.
+     *
+     * Foundry rebuilds the whole form on every (non-forced) re-render. When
+     * that happens while the user is editing a `<prose-mirror>` field, the live
+     * editor is destroyed and recreated: the in-progress text is lost, and -
+     * because the new element re-seeds its committed value from the `value`
+     * attribute - the rebuilt editor can no longer persist on the next save (its
+     * internal `value === _value` guard short-circuits the `change` event that
+     * drives `onFormEvent`). Guarding the render mirrors Foundry core's own
+     * `JournalEntryPageProseMirrorSheet` behaviour. Forced renders (our explicit
+     * edit/save toggles) are always allowed.
+     */
+    protected _canRender(
+        options: DeepPartial<foundry.applications.api.ApplicationV2.RenderOptions>,
+    ): false | void {
+        const result = super._canRender(options);
+        if (result === false) return false;
+
+        if (!options.force && this.hasUnsavedProseMirror()) return false;
+
+        return result;
+    }
+
+    /**
+     * Whether the sheet currently hosts a ProseMirror editor with unsaved edits.
+     */
+    private hasUnsavedProseMirror(): boolean {
+        const pm = this.element?.querySelector('prose-mirror');
+        if (
+            !(pm instanceof foundry.applications.elements.HTMLProseMirrorElement)
+        )
+            return false;
+
+        // `isDirty()` is exposed by the runtime element (it delegates to the
+        // ProseMirror dirty plugin) but is not present in foundry-vtt-types yet;
+        // treat an unavailable check as "not dirty" so rendering is unaffected.
+        const editor = pm as foundry.applications.elements.HTMLProseMirrorElement & {
+            isDirty?: () => boolean;
+        };
+        return editor.isDirty?.() ?? false;
+    }
+
     protected async _renderFrame(
         options: Partial<foundry.applications.api.ApplicationV2.RenderOptions>,
     ): Promise<HTMLElement> {
@@ -311,18 +357,6 @@ export class BaseItemSheet extends TabsApplicationMixin(
     public async _prepareContext(
         options: DeepPartial<foundry.applications.api.ApplicationV2.RenderOptions>,
     ) {
-        if (this.isUpdatingDescription && this.element) {
-            const pm = this.element.querySelector(
-                `prose-mirror[name="${this.proseDescName}"]`,
-            );
-            if (
-                pm instanceof
-                foundry.applications.elements.HTMLProseMirrorElement
-            ) {
-                this.proseDescHtml = pm.value;
-            }
-        }
-
         let enrichedDescValue = undefined;
         let enrichedShortDescValue = undefined;
         let enrichedChatDescValue = undefined;
