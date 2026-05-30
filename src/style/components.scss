@@ -147,6 +147,7 @@ app-item-resource-consumption-list {
             background-color: var(--cosmere-color-base-3);
             padding: 0.375rem;
             border-radius: 6px;
+            font-size: .9em;
 
             .content {
                 flex: 1;
@@ -179,6 +180,7 @@ app-match-document-inputs {
 app-match-document-target {
     display: flex;
     gap: .35ch;
+    align-items: center;
 
     a.content-link {
         display: flex;
