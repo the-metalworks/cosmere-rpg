@@ -1,4 +1,5 @@
 import { CosmereItem, WeaponItem, ArmorItem } from '@system/documents/item';
+import { AnyEmbeddedCollection } from '../documents/system-embedded-collections/types/general';
 
 export const DocumentTarget = {
     Self: 'self', // Match the document itself
@@ -195,7 +196,9 @@ function resolveCandidateDocuments(
     if (target === 'sibling') {
         if (!relativeTo.parent) return [];
 
-        return Object.values(relativeTo.parent.collections)
+        return Object.values<AnyEmbeddedCollection>(
+            relativeTo.parent.collections,
+        )
             .flatMap((collection) => Array.from(collection))
             .filter((doc) => doc !== relativeTo);
     } else if (target === 'ancestor') {
@@ -241,8 +244,8 @@ function getDescendants(
 function getChildren(
     doc: foundry.abstract.Document.Any,
 ): foundry.abstract.Document.Any[] {
-    return Object.values(doc.collections).flatMap((collection) =>
-        Array.from(collection),
+    return Object.values<AnyEmbeddedCollection>(doc.collections).flatMap(
+        (collection) => Array.from(collection),
     );
 }
 
