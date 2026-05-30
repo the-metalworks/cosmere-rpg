@@ -1,7 +1,14 @@
 {{#each sections as |section|}}
-<ul class="item-list" data-section-id="{{section.id}}">
+{{#with (lookup @root.sectionState section.id) as |sectionState|}}
+<ul class="item-list
+    {{#if sectionState.hasItems}}
+        collapsible
+        {{#if sectionState.expanded}}expanded{{/if}}
+    {{else}}
+        empty
+    {{/if}}" data-section-id="{{section.id}}">
     <li class="item header">
-        <section class="details">
+        <section class="details" data-action="toggle-section-collapsed">
             <span class="title">{{localize section.label}}</span>
             <span class="subtitle wide">
                 {{localize "COSMERE.Actor.Sheet.Equipment.Quantity"}}
@@ -25,6 +32,8 @@
             </div>
         </section>
     </li>
+    <section class="collapsible-content">
+    <div class="wrapper">
 
     {{#each section.items as |item|}}
     {{#with (lookup @root.itemState item.id) as |state|}}
@@ -173,5 +182,8 @@
     {{/with}}
     {{/with}}
     {{/each}}
+    </div>
+    </section>
 </ul>
+{{/with}}
 {{/each}}

@@ -55,6 +55,7 @@ import {
     RelationshipsMixin,
     RelationshipsItemDataSchema,
 } from './mixins/relationships';
+import { StrikingItemDataSchema, StrikingItemMixin } from './mixins/striking';
 
 export type WeaponItemDataSchema = IdItemDataSchema &
     TypedItemDataSchema<WeaponType> &
@@ -64,6 +65,7 @@ export type WeaponItemDataSchema = IdItemDataSchema &
         equipType: { initial: EquipType.Hold; choices: [EquipType.Hold] };
     }> &
     AttackingItemDataSchema &
+    StrikingItemDataSchema &
     ExpertiseItemDataSchema &
     TraitsItemDataSchema &
     PhysicalItemDataSchema &
@@ -124,6 +126,7 @@ export class WeaponItemDataModel extends DataModelMixin<
     //     },
     // }),
     AttackingItemMixin(),
+    StrikingItemMixin(),
     ExpertiseItemMixin(),
     TraitsItemMixin(),
     PhysicalItemMixin(),

@@ -37,6 +37,12 @@ const SCHEMA = () => ({
         }),
         label: 'COSMERE.Item.EventSystem.Event.Rule.Event.Label',
     }),
+    disabled: new foundry.data.fields.BooleanField({
+        required: true,
+        nullable: false,
+        blank: false,
+        initial: false,
+    }),
     handler: new HandlerField({
         required: true,
         nullable: false,
@@ -44,9 +50,13 @@ const SCHEMA = () => ({
 });
 
 export type RuleDataSchema = ReturnType<typeof SCHEMA>;
-export type RuleData = foundry.data.fields.SchemaField.InitializedData<RuleDataSchema>;
+export type RuleData =
+    foundry.data.fields.SchemaField.InitializedData<RuleDataSchema>;
 
-export class Rule extends foundry.abstract.DataModel<RuleDataSchema, foundry.abstract.DataModel.Any> {
+export class Rule extends foundry.abstract.DataModel<
+    RuleDataSchema,
+    foundry.abstract.DataModel.Any
+> {
     static defineSchema() {
         return SCHEMA();
     }

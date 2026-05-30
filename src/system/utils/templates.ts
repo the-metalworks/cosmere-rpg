@@ -37,6 +37,7 @@ export const TEMPLATES = {
     ACTOR_BASE_EQUIPMENT_LIST: 'actors/components/equipment-list.hbs',
     ACTOR_BASE_INJURIES_LIST: 'actors/components/injuries-list.hbs',
     ACTOR_BASE_CURRENCY_LIST: 'actors/components/currency-list.hbs',
+    ACTOR_BASE_ENCUMBRANCE_LIST: 'actors/components/encumbrance-list.hbs',
     ACTOR_BASE_ATTRIBUTES: 'actors/components/attributes.hbs',
     ACTOR_BASE_IMMUNITIES: 'actors/components/immunities.hbs',
     ACTOR_BASE_CONDITIONS: 'actors/components/conditions.hbs',
@@ -127,6 +128,7 @@ export const TEMPLATES = {
     ITEM_DETAILS_ID: 'item/components/details-id.hbs',
     ITEM_DETAILS_ACTIVATION: 'item/components/details-activation.hbs',
     ITEM_DETAILS_ATTACK: 'item/components/details-attack.hbs',
+    ITEM_DETAILS_STRIKE: 'item/components/details-strike.hbs',
     ITEM_DETAILS_DAMAGE: 'item/components/details-damage.hbs',
     ITEM_DETAILS_EQUIP: 'item/components/details-equip.hbs',
     ITEM_DETAILS_DEFLECT: 'item/components/details-deflect.hbs',
@@ -189,6 +191,9 @@ export const TEMPLATES = {
     DIALOG_ACTOR_CONFIGURE_MOVEMENT:
         'actors/dialogs/configure-movement-rate.hbs',
     DIALOG_ACTOR_CONFIGURE_SENSES: 'actors/dialogs/configure-senses-range.hbs',
+    DIALOG_ACTOR_CONFIGURE_CARRY: 'actors/dialogs/configure-carry-capacity.hbs',
+    DIALOG_ACTOR_CONFIGURE_LIFT:
+        'actors/dialogs/configure-lifting-capacity.hbs',
 
     DIALOG_CHARACTER_SHORT_REST: 'actors/character/dialogs/short-rest.hbs',
     DIALOG_ADVERSARY_CONFIGURE_SKILLS:
