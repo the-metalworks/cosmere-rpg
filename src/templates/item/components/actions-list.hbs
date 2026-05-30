@@ -8,7 +8,7 @@
             <span class="subtitle wide">{{localize "COSMERE.Item.Sheet.ActionsList.Uses"}}</span>
             <div class="controls icon active">
                 {{#if editable}}
-                <a data-action="create-action" 
+                <a data-action="create-action"
                     data-tooltip="COSMERE.Item.Sheet.ActionsList.Create"
                 >
                     <i class="fa-solid fa-plus"></i>
@@ -102,16 +102,18 @@
                 {{!-- Controls --}}
                 <div class="controls icon faded">
                     {{#if @root.editable}}
-                    <a data-action="edit-action" 
+                    {{#unless action.isStrikeAction}}
+                    <a data-action="edit-action"
                         data-tooltip="COSMERE.Item.Sheet.ActionsList.Edit"
                     >
                         <i class="fa-solid fa-pen-to-square"></i>
                     </a>
-                    <a data-action="delete-action" 
+                    <a data-action="delete-action"
                         data-tooltip="COSMERE.Item.Sheet.ActionsList.Delete"
                     >
                         <i class="fa-solid fa-trash"></i>
                     </a>
+                    {{/unless}}
                     {{/if}}
                 </div>
             </section>

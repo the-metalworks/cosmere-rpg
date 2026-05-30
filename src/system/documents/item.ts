@@ -10,9 +10,12 @@ import {
     ArmorTraitId,
     ActionCostType,
     ItemResource,
+    WeaponType,
+    DamageType,
 } from '@system/types/cosmere';
 import { CosmereHooks } from '@system/types/hooks';
 import { AnyObject, EmptyObject, DeepPartial } from '@system/types/utils';
+import { Rule } from '@system/types/item/event-system';
 
 import type { EmbeddedDocumentsConfig } from './embed-config/types';
 
@@ -36,6 +39,7 @@ import {
 } from '@system/data/item';
 
 import { AttackingItemDataSchema } from '@system/data/item/mixins/attacking';
+import { StrikingItemDataSchema } from '../data/item/mixins/striking';
 import { DamagingItemDataSchema } from '@system/data/item/mixins/damaging';
 import {
     PhysicalItemDataSchema,
@@ -95,12 +99,13 @@ import {
     resolveSkill,
     resolveAttribute,
 } from '@system/utils/generic';
-import { EnricherData } from '../utils/enrichers';
+import { EnricherData } from '@system/utils/enrichers';
 import { renderSystemTemplate, TEMPLATES } from '@system/utils/templates';
 import { getEmbedHelpers } from '@system/utils/embed';
 import ItemRelationshipUtils, {
     RemoveRelationshipOptions,
-} from '@src/system/utils/item/relationship';
+} from '@system/utils/item/relationship';
+import { EventToggleOptions } from '@system/utils/item/event-system';
 
 // Dialogs
 import { AttackConfigurationDialog } from '@system/applications/dialogs/attack-configuration';
@@ -112,7 +117,7 @@ import {
 // Constants
 import { SYSTEM_ID } from '@system/constants';
 import { HOOKS } from '@system/constants/hooks';
-import { ItemOrigin } from '../types/item';
+import { ItemOrigin } from '@system/types/item';
 
 interface ShowConsumeDialogOptions {
     /**
@@ -268,6 +273,13 @@ export class CosmereItem<
     }
 
     /**
+     * Does this item have a strike?
+     */
+    public hasStrike(): this is StrikingItem {
+        return 'strike' in this.system;
+    }
+
+    /**
      * Does this item deal damage?
      */
     public hasDamage(): this is DamagingItem {
@@ -375,6 +387,17 @@ export class CosmereItem<
 
     /* --- Accessors --- */
 
+    public get isSpecialWeapon(): boolean {
+        if (!this.isWeapon()) {
+            return false;
+        }
+        return this.system.type === WeaponType.Special;
+    }
+
+    public get isStrikeAction(): boolean {
+        return this.isAction() && !!this.getFlag(SYSTEM_ID, 'isStrike');
+    }
+
     public get isActivatable(): boolean {
         if (this.type !== ItemType.Action) return true;
 
@@ -437,6 +460,22 @@ export class CosmereItem<
         return activeMode === this.system.id;
     }
 
+    /**
+     * Returns a list of all event rules which are currently disabled on this item.
+     */
+    public get disabledEvents(): Rule[] {
+        if (!this.hasEvents()) return [];
+        return this.system.events.filter((event) => event.disabled) as Rule[];
+    }
+
+    /**
+     * Returns a list of all event rules which are currently enabled on this item.
+     */
+    public get enabledEvents(): Rule[] {
+        if (!this.hasEvents()) return [];
+        return this.system.events.filter((event) => !event.disabled) as Rule[];
+    }
+
     /* --- Lifecycle --- */
 
     public override async _onClickDocumentLink(event: MouseEvent) {
@@ -484,6 +523,69 @@ export class CosmereItem<
             embedHelpers.createFigureEmbed?.(this, content, config, options) ??
             super._createFigureEmbed(content, config, options)
         );
+    }
+
+    protected _onCreate(
+        data: Item.CreateData,
+        options: Item.Database.OnCreateOperation,
+        userId: string,
+    ): void {
+        if (this.isWeapon()) {
+            void this.prepareWeaponStrikes();
+        }
+
+        super._onCreate(data, options, userId);
+    }
+
+    protected _onUpdate(
+        changed: Item.UpdateData,
+        options: Item.Database.OnUpdateOperation,
+        userId: string,
+    ): void {
+        super._onUpdate(changed, options, userId);
+
+        if (this.isWeapon()) {
+            const changes = changed as Partial<WeaponItem>;
+            if (
+                changes.name ||
+                changes.img ||
+                changes.system?.id ||
+                changes.system?.description ||
+                changes.system?.type ||
+                changes.system?.strike
+            ) {
+                void this.prepareWeaponStrikes();
+            }
+        }
+    }
+
+    protected _preUpdate(
+        changed: Item.UpdateData,
+        options: Item.Database.PreUpdateOptions,
+        user: User.Implementation,
+    ): Promise<boolean | void> {
+        if (this.isWeapon() && this.hasStrike()) {
+            const changes = changed as Partial<WeaponItem>;
+            const weaponType = changes.system?.type ?? this.system.type;
+            if (
+                (changes.system?.strike?.skillLocked ||
+                    this.system.strike.skillLocked) &&
+                weaponType !== WeaponType.Special &&
+                !!changes.system
+            ) {
+                const strike = foundry.utils.mergeObject(
+                    changes.system.strike,
+                    { skill: this.weaponTypeToSkill(weaponType) },
+                );
+                console.log(strike);
+                changes.system.strike = foundry.utils.mergeObject(
+                    this.system.strike,
+                    strike,
+                );
+            }
+        }
+
+        return super._preUpdate(changed, options, user);
     }
 
     /* --- Roll & Usage utilities --- */
@@ -1405,6 +1507,59 @@ export class CosmereItem<
         return ItemRelationshipUtils.removeRelationship(this, item, options);
     }
 
+    public async disableEvents(
+        this: CosmereItem,
+        options?: EventToggleOptions,
+    ): Promise<void> {
+        if (!this.hasEvents()) return undefined;
+
+        const events = this.system.events;
+        for (const event of events) {
+            if (
+                event.disabled ||
+                (options?.filter && !options.filter(event as Rule))
+            )
+                continue;
+            event.disabled = true;
+        }
+        await this.update({ system: { events } });
+    }
+
+    public async enableEvents(
+        this: CosmereItem,
+        options?: EventToggleOptions,
+    ): Promise<void> {
+        if (!this.hasEvents()) return undefined;
+
+        const events = this.system.events;
+        for (const event of events) {
+            if (
+                !event.disabled ||
+                (options?.filter && !options.filter(event as Rule))
+            )
+                continue;
+            event.disabled = false;
+        }
+        await this.update({ system: { events } });
+    }
+
+    public async setEventsToggleState(
+        this: CosmereItem,
+        options?: EventToggleOptions,
+    ) {
+        if (!this.hasEvents()) return;
+        const events = this.system.events;
+        const forceDisable = options?.disable;
+        for (const event of events) {
+            if (options?.filter && !options.filter(event as Rule)) continue;
+
+            if (forceDisable && !event.disabled) event.disabled = true;
+            else event.disabled = !event.disabled;
+        }
+
+        await this.update({ system: { events } });
+    }
+
     /* --- Helpers --- */
 
     protected async getDescriptionHTML(): Promise<string | undefined> {
@@ -1578,6 +1733,95 @@ export class CosmereItem<
             },
             target: targets.length > 0 ? targets[0] : undefined,
         } as const satisfies EnricherData;
+    }
+
+    protected async prepareWeaponStrikes(this: WeaponItem) {
+        const strikeAction = await this.getWeaponStrikeAction();
+
+        await strikeAction.update(this.weaponStrikeData());
+    }
+
+    protected async getWeaponStrikeAction(
+        this: WeaponItem,
+    ): Promise<ActionItem> {
+        let action;
+        if (this.hasActions) {
+            action = this.actions.find((action) =>
+                action.system.id.includes('strike-'),
+            );
+        }
+
+        if (!action) {
+            action = await this.createWeaponStrike();
+        }
+        return action;
+    }
+
+    protected async createWeaponStrike(this: WeaponItem): Promise<ActionItem> {
+        const newStrikeAction = (await Item.create(
+            {
+                type: ItemType.Action,
+                ...this.weaponStrikeData(),
+                flags: {
+                    [SYSTEM_ID]: {
+                        isStrike: true,
+                    },
+                },
+            },
+            // @ts-expect-error foundry-vtt-types doesn't correctly resolve the Item.Parent type for the operation's parent property
+            { parent: this },
+        )) as ActionItem;
+
+        return newStrikeAction;
+    }
+
+    public weaponStrikeData(this: WeaponItem) {
+        return {
+            name: `Strike: ${this.name}`,
+            img: this.img,
+            system: {
+                id: `strike-${this.system.id}`,
+                activation: {
+                    cost: {
+                        value: 1,
+                        type: ActionCostType.Action,
+                    },
+                    type: ActivationType.SkillTest,
+                },
+                skillTest: {
+                    attribute: 'default',
+                    skill: this.system.strike.skill,
+                },
+                damage: {
+                    formula: this.strikeDieToFormula(),
+                    type: this.strikeDamageType(),
+                },
+                description: this.system.description,
+            },
+        };
+    }
+
+    public weaponTypeToSkill(this: WeaponItem, weaponType?: WeaponType): Skill {
+        weaponType ??= this.system.type;
+        return weaponType === WeaponType.Heavy
+            ? Skill.HeavyWeapons
+            : Skill.LightWeapons;
+    }
+
+    public strikeDieToFormula(this: CosmereItem): string {
+        if (!this.hasStrike()) {
+            return '';
+        }
+        const strike = this.system.strike;
+        return `${strike.die.count}${strike.die.size}`;
+    }
+
+    public strikeDamageType(this: CosmereItem): DamageType {
+        if (!this.hasStrike()) {
+            return DamageType.Keen;
+        }
+        const strike = this.system.strike;
+        return strike.damageType;
     }
 }
 
@@ -1764,6 +2008,7 @@ export type CosmereItemFromSchema<
     >
 >;
 
+export type StrikingItem = CosmereItemFromSchema<StrikingItemDataSchema>;
 export type AttackingItem = CosmereItemFromSchema<AttackingItemDataSchema>;
 export type DamagingItem = CosmereItemFromSchema<DamagingItemDataSchema>;
 export type DescriptionItem = CosmereItemFromSchema<DescriptionItemDataSchema>;
@@ -1831,6 +2076,7 @@ declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
                 'meta.origin': ItemOrigin;
                 previousLevel?: number;
                 isStartingPath?: boolean;
+                isStrike?: boolean;
             };
         };
     }

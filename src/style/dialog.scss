@@ -170,6 +170,8 @@
     &.configure-movement-rate,
     &.configure-recovery-die,
     &.configure-senses-range,
+    &.configure-carry-capacity,
+    &.configure-lifting-capacity,
     &.edit-bonus-talents-rule,
     &.pick-dice-result,
     &.roll-configuration,
@@ -214,6 +216,7 @@
             align-items: center;
             gap: 10px;
             margin: 0;
+            min-height: 32px;
 
             > .form-fields {
                 display: flex;
@@ -271,6 +274,12 @@
             > button {
                 flex: 1;
             }
+        }
+
+        fieldset.scroll-container {
+            width: 100%;
+            max-height: 250px;
+            padding-right: 0.5rem;
         }
     }
 
