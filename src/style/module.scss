@@ -71,6 +71,10 @@
         border-radius: 0;
         outline: none;
         box-shadow: none;
+
+        > option {
+            background-color: var(--cosmere-color-base-4);
+        }
     }
 
     input[type="checkbox"] {
