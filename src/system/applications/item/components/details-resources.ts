@@ -12,8 +12,8 @@ import { BaseItemSheet, BaseItemSheetRenderContext } from '../base';
 import { SYSTEM_ID } from '@system/constants';
 import { TEMPLATES } from '@system/utils/templates';
 
-//@ts-expect-error Workaround for foundry-vtt-types issues
 export class DetailsResourcesComponent extends HandlebarsApplicationComponent<
+    //@ts-expect-error Workaround for foundry-vtt-types issues
     typeof BaseItemSheet
 > {
     static readonly TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_DETAILS_RESOURCES}`;
