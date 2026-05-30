@@ -53,7 +53,7 @@ export namespace MatchDocumentDataModel {
                     .reduce(
                         (acc, key) => ({
                             ...acc,
-                            [key]: `COSMERE.Utils.MatchDocument.Target.Type.${key}`,
+                            [key]: `COSMERE.Utils.MatchDocument.Target.Type.${key}.Label`,
                         }),
                         {} as Record<ItemTarget, string>,
                     ),

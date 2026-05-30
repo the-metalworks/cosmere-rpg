@@ -1449,15 +1449,42 @@
                 "Target": {
                     "Label": "Target",
                     "Type": {
-                        "self": "Self",
-                        "sibling": "Sibling",
-                        "ancestor": "Ancestor",
-                        "descendant": "Descendant",
-                        "parent": "Parent",
-                        "child": "Child",
-                        "global": "Global",
-                        "equipped-weapon": "Equipped Weapon",
-                        "equipped-armor": "Equipped Armor"
+                        "self": {
+                            "Label": "Self",
+                            "Hint": "Will match itself."
+                        },
+                        "sibling": {
+                            "Label": "Sibling",
+                            "Hint": "Will match an item on its parent (Actor / Item)."
+                        },
+                        "ancestor": {
+                            "Label": "Ancestor",
+                            "Hint": "Will match an item among its parent, grandparent, etc."
+                        },
+                        "descendant": {
+                            "Label": "Descendant",
+                            "Hint": "Will match an item among its children, grandchildren, etc."
+                        },
+                        "parent": {
+                            "Label": "Parent",
+                            "Hint": "Will match its parent."
+                        },
+                        "child": {
+                            "Label": "Child",
+                            "Hint": "Will match an item among its children."
+                        },
+                        "global": {
+                            "Label": "Global",
+                            "Hint": "Will match a global item."
+                        },
+                        "equipped-weapon": {
+                            "Label": "Equipped Weapon",
+                            "Hint": "Will match an equipped weapon on the actor this item belongs to."
+                        },
+                        "equipped-armor": {
+                            "Label": "Equipped Armor",
+                            "Hint": "Will match the equipped armor on the actor this item belongs to."
+                        }
                     }
                 },
                 "MatchBy": {

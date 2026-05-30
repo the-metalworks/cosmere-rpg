@@ -1,10 +1,32 @@
+<div class="form-group">
+    <label>{{localize data.schema.fields.target.label}}</label>
+
+    <div class="form-fields">
+        <select
+            name="matchDocument.target"
+            {{#unless editable}}disabled{{/unless}}
+        >
+            {{#each data.schema.fields.target.choices as |label value|}}
+                <option 
+                    value={{value}} 
+                    {{#if (eq value ../data.target)}}selected{{/if}}
+                    title="{{localize (concat "COSMERE.Utils.MatchDocument.Target.Type." value ".Hint")}}"
+                >
+                    {{localize label}}
+                </option>
+            {{/each}}
+        </select>
+    </div>
+</div>
+
+{{!-- 
 {{formGroup data.schema.fields.target
     name="matchDocument.target"
     value=data.target
     localize=true
     disabled=(not editable)
     hint=false
-}}
+}} --}}
 
 {{!-- Don't show match by field if: --}}
 {{!-- 1. Target is global (since it only supports match by UUID) --}}
