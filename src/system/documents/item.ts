@@ -1052,6 +1052,8 @@ export class CosmereItem<
     public async use(
         options: CosmereItem.UseOptions = {},
     ): Promise<D20Roll | [D20Roll, ...DamageRoll[]] | null> {
+        console.log('USE', options);
+
         if (!this.isAction()) return null;
 
         // Set up post roll actions

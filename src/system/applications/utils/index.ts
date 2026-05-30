@@ -12,6 +12,17 @@ export function getItemIdFromEvent(event: Event): string | undefined {
     return element.data('item-id') as string;
 }
 
+export function getItemUuidFromEvent(event: Event): string | undefined {
+    if (!event.target && !event.currentTarget) return;
+
+    const element = $(event.target ?? event.currentTarget!).closest(
+        '.item[data-item-uuid]',
+    );
+    if (element.length === 0) return;
+
+    return element.data('item-uuid') as string;
+}
+
 export function getItemFromEvent(
     event: Event,
     actor: CosmereActor,
@@ -38,6 +49,7 @@ export function getItemFromElement(
 
 export default {
     getItemIdFromEvent,
+    getItemUuidFromEvent,
     getItemFromEvent,
     getItemFromElement,
 };
