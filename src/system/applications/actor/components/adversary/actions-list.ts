@@ -1,14 +1,8 @@
-import {
-    ItemType,
-    ActionType,
-    ActivationType,
-    ActionCostType,
-} from '@system/types/cosmere';
+import { ItemType } from '@system/types/cosmere';
 import { ItemListSection } from '@system/types/application/actor/components/item-list';
 
 // Documents
 import { CosmereItem, type ActionItem } from '@system/documents/item';
-import { CosmereActor } from '@system/documents/actor';
 
 // Components
 import {
@@ -26,13 +20,13 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
         params: unknown,
         context: ActorActionsListComponentRenderContext,
     ) {
-        // Get all activatable items (actions and items with actions)
-        const activatableItems = Array.from(
-            this.application.actor.items,
-        ).filter((item) => item.isAction() || item.hasActions);
+        // Get all candidate items (actions, items with actions, and traits)
+        const candidateItems = Array.from(this.application.actor.items).filter(
+            (item) => item.isAction() || item.hasActions || item.isTrait(),
+        );
 
         // Get all actions
-        const actions = activatableItems.flatMap((item) =>
+        const actions = candidateItems.flatMap((item) =>
             item.isAction() ? [item] : item.actions,
         );
 
@@ -62,21 +56,25 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
             ...context,
 
             sections: [
+                // Traits
                 await this.prepareSectionData(
                     this.sections[0],
-                    actions,
+                    candidateItems,
                     searchText,
                     sortMode,
+                    true,
                 ),
+                // Weapons
                 await this.prepareSectionData(
                     this.sections[1],
-                    actions,
+                    candidateItems,
                     searchText,
                     sortMode,
                 ),
+                // Actions
                 await this.prepareSectionData(
                     this.sections[2],
-                    actions,
+                    candidateItems,
                     searchText,
                     sortMode,
                 ),
@@ -106,9 +104,10 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
 
     private async prepareSectionData(
         section: ItemListSection,
-        items: ActionItem[],
+        items: CosmereItem[],
         searchText: string,
         sort: SortMode,
+        allowNonActions = false,
     ) {
         // Get items for section, filter by search text, and sort
         let sectionItems = items
@@ -124,11 +123,24 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
             );
         }
 
+        const sectionActions = sectionItems.map((item) =>
+            item.isAction() || (allowNonActions && item.actions.length === 0)
+                ? item
+                : item.actions.length === 1
+                  ? item.actions[0]
+                  : ([item, item.actions] as [CosmereItem, ActionItem[]]),
+        );
+
         return {
             ...section,
             canAddNewItems: !!section.new,
-            items: sectionItems,
-            itemData: await this.prepareItemData(sectionItems),
+            items: sectionActions,
+            itemData: await this.prepareItemData(
+                sectionActions
+                    .flat()
+                    .flat()
+                    .filter((item) => item.isAction()),
+            ),
         };
     }
 }
