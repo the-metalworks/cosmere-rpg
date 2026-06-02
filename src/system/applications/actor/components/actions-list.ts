@@ -308,14 +308,10 @@ export class ActorActionsListComponent extends ActorItemListComponent {
      * NOTE: Unbound methods is the standard for defining actions
      * within ApplicationV2
      */
-    /* eslint-disable @typescript-eslint/unbound-method */
+
     static readonly ACTIONS = {
-        'toggle-section-collapsed': this.onToggleSectionCollapsed,
-        'toggle-action-details': this.onToggleActionDetails,
-        'use-item': this.onUseItem,
-        'new-item': this.onNewItem,
+        ...super.ACTIONS,
     };
-    /* eslint-enable @typescript-eslint/unbound-method */
 
     /* --- Context --- */
 
