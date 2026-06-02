@@ -103,7 +103,9 @@ export class ActorEffectsListComponent extends ActorItemListComponent {
                         item.isEffectsContainer() &&
                         item.name.includes(context.effectsSearch.text)),
             )
-            .sort((a, b) => a.name.compare(b.name));
+            .sort((a, b) =>
+                a.name.toLocaleLowerCase().compare(b.name.toLocaleLowerCase()),
+            );
 
         // Set context
         return {
@@ -146,7 +148,11 @@ export class ActorEffectsListComponent extends ActorItemListComponent {
                     .filter((effect) =>
                         effect.name.includes(context.effectsSearch.text),
                     )
-                    .sort((a, b) => a.name.compare(b.name));
+                    .sort((a, b) =>
+                        a.name
+                            .toLocaleLowerCase()
+                            .compare(b.name.toLocaleLowerCase()),
+                    );
                 return effects.length === 1 ? effects[0] : [item, effects];
             }),
         );
