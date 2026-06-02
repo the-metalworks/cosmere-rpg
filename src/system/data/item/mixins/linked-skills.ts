@@ -1,5 +1,6 @@
 import { CosmereItem } from '@system/documents';
 import { Skill } from '@system/types/cosmere';
+import { DataSchema } from '../../types';
 
 const SCHEMA = () => ({
     linkedSkills: new foundry.data.fields.ArrayField(
@@ -28,15 +29,23 @@ const SCHEMA = () => ({
     ),
 });
 
-export type LinkedSkillsItemDataSchema = ReturnType<typeof SCHEMA>;
+export type LinkedSkillsItemDataSchema = DataSchema<typeof SCHEMA>;
 
-export function LinkedSkillsMixin<TParent extends foundry.abstract.Document.Any>() {
+export function LinkedSkillsMixin<
+    TParent extends foundry.abstract.Document.Any,
+>() {
     return (
-        base: typeof foundry.abstract.TypeDataModel<LinkedSkillsItemDataSchema, TParent>,
+        base: typeof foundry.abstract.TypeDataModel<
+            LinkedSkillsItemDataSchema,
+            TParent
+        >,
     ) => {
         return class extends base {
             static defineSchema() {
-                return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());
+                return foundry.utils.mergeObject(
+                    super.defineSchema(),
+                    SCHEMA(),
+                );
             }
         };
     };

@@ -6,7 +6,7 @@ export const config = {
 
 export * from './combatant';
 
-declare module "@league-of-foundry-developers/foundry-vtt-types/configuration" {
+declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
     interface DataModelConfig {
         Combatant: typeof config;
     }

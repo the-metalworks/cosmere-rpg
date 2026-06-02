@@ -1,4 +1,5 @@
 // Fields
+import { DataSchema } from '../../types';
 import { HandlerField } from './fields/handler-field';
 
 const SCHEMA = () => ({
@@ -49,7 +50,7 @@ const SCHEMA = () => ({
     }),
 });
 
-export type RuleDataSchema = ReturnType<typeof SCHEMA>;
+export type RuleDataSchema = DataSchema<typeof SCHEMA>;
 export type RuleData =
     foundry.data.fields.SchemaField.InitializedData<RuleDataSchema>;
 

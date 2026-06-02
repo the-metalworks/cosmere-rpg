@@ -1505,7 +1505,7 @@ export class CosmereActor<
 
 declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
     interface ConfiguredActor<SubType extends Actor.SubType> {
-        document: CosmereActor;
+        document: CosmereActor<SubType>;
     }
 
     interface FlagConfig {
