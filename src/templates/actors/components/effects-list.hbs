@@ -26,12 +26,12 @@
                 {{#with (lookup @root.itemData parent.id) as |data|}}
 
                 <li class="item effect parent collapsible {{#if state.expanded}}expanded{{/if}}"
-                    data-item-id="{{parent.id}}" data-action="toggle-action-details">
+                    data-item-id="{{parent.id}}">
                     <section class="details">
                         <div class="img">
                             <img src="{{parent.img}}">
                         </div>
-                        <div class="name">
+                        <div class="name" data-action="toggle-action-details">
                             <span>{{parent.name}}</span>
                         </div>
                         <div class="detail wide source">
