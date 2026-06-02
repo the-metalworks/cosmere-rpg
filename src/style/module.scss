@@ -315,7 +315,12 @@
             margin: 0;
             list-style-type: none;
 
+            &.indent {
+                padding-left: 1rem;
+            }
+
             &:not(.favorite) {
+
                 &:not(:last-child) {
                     border-bottom: 1px dotted var(--cosmere-color-faded);
                 }
@@ -324,10 +329,6 @@
                     border-radius: 0 0 6px 6px;
                 }
             }
-        }
-
-        &>li.indent {
-            padding-left: 1rem;
         }
 
         .item {

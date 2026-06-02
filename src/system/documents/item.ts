@@ -9,6 +9,7 @@ import {
     WeaponTraitId,
     ArmorTraitId,
     ActionCostType,
+    EffectListType,
 } from '@system/types/cosmere';
 import { CosmereHooks } from '@system/types/hooks';
 import { AnyObject, EmptyObject, DeepPartial } from '@system/types/utils';
@@ -363,6 +364,22 @@ export class CosmereItem<
     }
 
     /**
+     * Returns a list of all effects which match the supplied type
+     */
+    public getEffectsOfType(type: EffectListType): CosmereActiveEffect[] {
+        switch (type) {
+            case EffectListType.Inactive:
+                return this.inactiveEffects;
+            case EffectListType.Passive:
+                return this.passiveEffects;
+            case EffectListType.Temporary:
+                return this.temporaryEffects;
+            default:
+                return [];
+        }
+    }
+
+    /**
      * Returns a list of all non-temporary effects which are active
      */
     public get passiveEffects(): CosmereActiveEffect[] {
@@ -391,6 +408,22 @@ export class CosmereItem<
                   (effect) => effect.active && effect.isTemporary,
               )
             : [];
+    }
+
+    /**
+     * Returns true if even a single passive effect exists on the item
+     */
+    public hasEffectOfType(type: EffectListType): boolean {
+        switch (type) {
+            case EffectListType.Inactive:
+                return this.hasInactiveEffect;
+            case EffectListType.Passive:
+                return this.hasPassiveEffect;
+            case EffectListType.Temporary:
+                return this.hasTemporaryEffect;
+            default:
+                return false;
+        }
     }
 
     /**

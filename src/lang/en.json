@@ -1574,7 +1574,7 @@
         "Talent": "Talent",
         "Goal": "Goal",
         "Button": {
-            "Source": "View Source",
+            "Source": "Edit Source",
             "Roll": "Roll",
             "Continue": "Continue",
             "Remove": "Remove",
@@ -1656,6 +1656,7 @@
             "equipment": "Equipment",
             "weapon": "Weapon",
             "power": "Power",
+            "effects_container": "Effects Container",
             "talent_tree": "Talent Tree"
         }
     },
