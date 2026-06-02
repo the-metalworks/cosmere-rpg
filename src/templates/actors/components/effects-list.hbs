@@ -39,6 +39,20 @@
                         <div class="detail thin action">
                         </div>
                         <div class="controls icon faded">
+                            <a role="button"
+                                data-action="toggle-action-details"
+                                {{#if state.expanded}}
+                                data-tooltip="GENERIC.HideDetails"
+                                {{else}}
+                                data-tooltip="GENERIC.ViewDetails"
+                                {{/if}}
+                            >
+                                {{#if state.expanded}}
+                                    <i class="fa-solid fa-compress"></i>
+                                {{else}}
+                                    <i class="fa-solid fa-expand"></i>
+                                {{/if}}
+                            </a>
                             {{#if @root.editable}}
                             <a role="button"
                                 data-action="toggle-effect-controls"
