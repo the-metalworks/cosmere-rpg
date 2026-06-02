@@ -24,10 +24,10 @@ Hooks.once('diceSoNiceReady', (dice3d: Dice3D) => {
     });
 });
 
-declare module "@league-of-foundry-developers/foundry-vtt-types/configuration" {
+declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
     namespace Hooks {
         interface HookConfig {
-            "diceSoNiceReady": (dice3d: Dice3D) => void;
+            diceSoNiceReady: (dice3d: Dice3D) => void;
         }
     }
 }
