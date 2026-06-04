@@ -46,6 +46,11 @@ export class ItemActionsListComponent extends HandlebarsApplicationComponent<
                     'COSMERE.Item.Sheet.ActionsList.NewAction.Name',
                 ),
                 img: this.item.img,
+                system: {
+                    visibilityFilters: this.item.getDefaultVisibilityFilters(
+                        ItemType.Action,
+                    ),
+                },
             },
             // @ts-expect-error foundry-vtt-types doesn't correctly resolve the Item.Parent type for the operation's parent property
             { parent: this.item },

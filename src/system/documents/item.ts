@@ -1876,6 +1876,7 @@ export class CosmereItem<
                 skillTest: {
                     attribute: 'default',
                     skill: this.system.strike.skill,
+                    visibilityFilters: [ListVisibilityType.Equipped],
                 },
                 damage: {
                     formula: this.strikeDieToFormula(),
