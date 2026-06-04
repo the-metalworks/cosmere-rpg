@@ -656,17 +656,13 @@ export class CosmereItem<
                 (changes.system?.strike?.skillLocked ||
                     this.system.strike.skillLocked) &&
                 weaponType !== WeaponType.Special &&
-                !!changes.system
+                !!changes.system?.strike
             ) {
-                const strike = foundry.utils.mergeObject(
-                    changes.system.strike,
-                    { skill: this.weaponTypeToSkill(weaponType) },
-                );
-                console.log(strike);
-                changes.system.strike = foundry.utils.mergeObject(
-                    this.system.strike,
-                    strike,
-                );
+                changes.system.strike = {
+                    ...this.system.strike,
+                    ...changes.system.strike,
+                    ...{ skill: this.weaponTypeToSkill(weaponType) },
+                };
             }
         }
 
