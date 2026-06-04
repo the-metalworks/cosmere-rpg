@@ -306,6 +306,8 @@ export const enum ActorType {
     Adversary = 'adversary',
 }
 
+export type AnyCosmereItem = foundry.abstract.Document.SubTypesOf<'Item'>;
+
 export const enum ItemType {
     Weapon = 'weapon',
     Armor = 'armor',

@@ -35,6 +35,7 @@ import {
     ImmunityType,
     ActorType,
     ActionVisibilityFilterType,
+    AnyCosmereItem,
 } from './cosmere';
 import { AdvantageMode } from './roll';
 
@@ -355,22 +356,42 @@ export interface ActionVisibilityFilterConfig {
     shortLabel: string;
 
     /**
-     * This determines if the filter is enabled by default when an item is created.
+     * Determine filter defaults based on the type of the child item and its parent.
      */
-    defaultEnabled?: boolean;
+    defaults?: ListVisibilityDefaultsConfig;
 
     /**
-     * When true, only this filter will matter when determining visibility
-     * for an action it's enabled on. The first filter with this set to true
-     * will be used in the case of multiple.
+     * When true, only this filter will override the results of any other filters of lower priority
      */
-    overridesOtherFilters?: boolean;
+    override?: boolean;
 
     /**
-     * A filter function to determine if this action should display in the actor's tab.
+     * Only applies to filters with override set to true, highest priority override will be the final result
+     */
+    priority?: number;
+
+    /**
+     * A filter function to determine if this item should display in the actor's relevant item list.
      */
     filter: itemFilterFunction;
 }
+
+type ListVisibilityDefaultsConfig = {
+    /**
+     * Which type of item it applies to
+     */
+    [key in AnyCosmereItem]?: {
+        /**
+         * Only applies the filter by default when the parent item type is in this list
+         */
+        with?: ItemType[];
+
+        /**
+         * Won't apply the filter by default when the parent item type is in this list
+         */
+        without?: ItemType[];
+    };
+};
 
 export interface ItemEventTypeConfig {
     label: string;

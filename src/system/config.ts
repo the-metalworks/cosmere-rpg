@@ -1084,21 +1084,41 @@ const COSMERE: CosmereRPGConfig = {
                 label: `Cosmere.Item.Sheet.ActionVisibility.Always.label`,
                 shortLabel: `Cosmere.Item.Sheet.ActionVisibility.Always.label_short`,
                 hint: `Cosmere.Item.Sheet.ActionVisibility.Always.hint`,
-                defaultEnabled: true,
-                overridesOtherFilters: true,
+                defaults: {
+                    ['base']: {},
+                    [ItemType.Action]: {
+                        without: [
+                            ItemType.Armor,
+                            ItemType.Equipment,
+                            ItemType.Weapon,
+                        ],
+                    },
+                },
+                override: true,
+                priority: 500,
                 filter: () => true,
             },
             [ActionVisibilityFilterType.Never]: {
                 label: `Cosmere.Item.Sheet.ActionVisibility.Never.label`,
                 shortLabel: `Cosmere.Item.Sheet.ActionVisibility.Never.label_short`,
                 hint: `Cosmere.Item.Sheet.ActionVisibility.Never.hint`,
-                overridesOtherFilters: true,
+                override: true,
+                priority: 450,
                 filter: () => false,
             },
             [ActionVisibilityFilterType.Equipped]: {
                 label: `Cosmere.Item.Sheet.ActionVisibility.Equipped.label`,
                 shortLabel: `Cosmere.Item.Sheet.ActionVisibility.Equipped.label_short`,
                 hint: `Cosmere.Item.Sheet.ActionVisibility.Equipped.hint`,
+                defaults: {
+                    [ItemType.Action]: {
+                        with: [
+                            ItemType.Armor,
+                            ItemType.Equipment,
+                            ItemType.Weapon,
+                        ],
+                    },
+                },
                 filter: (action) => {
                     if (!action.isActionEmbedded) {
                         return false;
