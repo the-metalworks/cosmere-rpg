@@ -253,7 +253,7 @@ export const enum ActionCostType {
     Special = 'spe',
 }
 
-export enum ActionVisibilityFilterType {
+export const enum ListVisibilityType {
     Never = 'neverVisible',
     Always = 'alwaysVisible',
     Equipped = 'parentEquipped',

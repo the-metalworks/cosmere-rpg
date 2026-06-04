@@ -12,7 +12,7 @@ import {
     ItemResource,
     WeaponType,
     DamageType,
-    ActionVisibilityFilterType,
+    ListVisibilityType,
 } from '@system/types/cosmere';
 import { CosmereHooks } from '@system/types/hooks';
 import { AnyObject, EmptyObject, DeepPartial } from '@system/types/utils';
@@ -55,6 +55,10 @@ import {
     TraitsItemDerivedData,
 } from '@system/data/item/mixins/traits';
 import { EquippableItemDataSchema } from '@system/data/item/mixins/equippable';
+import {
+    ListVisibilityItemDataSchema,
+    getVisibilityFilter,
+} from '../data/item/mixins/list-visibility';
 import { DescriptionItemDataSchema } from '@system/data/item/mixins/description';
 import { IdItemDataSchema } from '@system/data/item/mixins/id';
 import { ModalityItemDataSchema } from '@system/data/item/mixins/modality';
@@ -331,6 +335,13 @@ export class CosmereItem<
     }
 
     /**
+     * Does this item have list visibility filters?
+     */
+    public hasListVisibility(): this is ListVisibilityItem {
+        return 'visibilityFilters' in this.system;
+    }
+
+    /**
      * Does this item have a description?
      */
     public hasDescription(): this is DescriptionItem {
@@ -388,6 +399,10 @@ export class CosmereItem<
 
     /* --- Accessors --- */
 
+    public get isEmbedded() {
+        return !!this.parent && !!(this.parent instanceof CosmereItem);
+    }
+
     public get isEquipped() {
         if (!this.isEquippable()) {
             return false;
@@ -424,6 +439,10 @@ export class CosmereItem<
         return actionConfig !== false;
     }
 
+    public get isActionEmbedded() {
+        return !!this.isAction() && this.isEmbedded;
+    }
+
     public get hasActions(): boolean {
         return this.actions.length > 0;
     }
@@ -434,51 +453,60 @@ export class CosmereItem<
 
     public get visibleActions(): readonly ActionItem[] {
         return this.actions.filter(
-            (action) => action.shouldActionDisplay as boolean,
+            (action) => action.shouldItemDisplay as boolean,
         );
     }
 
-    public get isActionEmbedded() {
-        return (
-            !!this.isAction() &&
-            !!this.parent &&
-            !!(this.parent instanceof CosmereItem)
+    public getDefaultVisibilityFilters(type: ItemType) {
+        return Object.entries(CONFIG.COSMERE.visibilityFilters).reduce(
+            (defaults, [key, value]) => {
+                const filter = key as ListVisibilityType;
+                const config = value.defaults ?? {};
+                const withParent = [
+                    ...(config.base?.with ?? []),
+                    ...(config[type]?.with ?? []),
+                ];
+                const withoutParent = [
+                    ...(config.base?.without ?? []),
+                    ...(config[type]?.without ?? []),
+                ];
+                if (
+                    withParent.includes(this.type) &&
+                    !withoutParent.includes(this.type)
+                ) {
+                    defaults.push(filter);
+                }
+                return defaults;
+            },
+            [] as ListVisibilityType[],
         );
-    }
-
-    public get activeFilters(): ActionVisibilityFilterType[] {
-        if (!this.isAction() || !this.isActionEmbedded) {
-            return [];
-        }
-        return Object.keys(this.system.visibilityFilters).filter(
-            (filter) =>
-                this.system.visibilityFilters[
-                    filter as ActionVisibilityFilterType
-                ].active,
-        ) as ActionVisibilityFilterType[];
     }
 
     /**
-     * Whether or not this action should display in the actions tab.
-     * Always returns true if the item is not an embedded action.
+     * Whether or not this item should display in an item list.
+     * Always returns true if the item is not embedded in another item.
      */
-    public get shouldActionDisplay() {
-        if (!this.isActionEmbedded) {
+    public get shouldItemDisplay() {
+        if (!this.hasListVisibility() || !this.isEmbedded) {
             return true;
         }
 
-        const filters = this.activeFilters;
-        const override = filters.find(
-            (filter) =>
-                CONFIG.COSMERE.action.visibility[filter].overridesOtherFilters,
-        );
+        const filters = (this as ListVisibilityItem).system
+            .visibilityFilters as ListVisibilityType[];
+        const override = filters
+            .sort((a, b) => {
+                const priorityA = getVisibilityFilter(a).priority ?? 0;
+                const priorityB = getVisibilityFilter(b).priority ?? 0;
+                return priorityB - priorityA;
+            })
+            .find((filter) => getVisibilityFilter(filter).override);
 
         if (override) {
-            return CONFIG.COSMERE.action.visibility[override].filter(this);
+            return getVisibilityFilter(override).filter(this);
         }
 
         return filters.every((filter) =>
-            CONFIG.COSMERE.action.visibility[filter].filter(this),
+            getVisibilityFilter(filter).filter(this),
         );
     }
 
@@ -2069,6 +2097,8 @@ export type StrikingItem = CosmereItemFromSchema<StrikingItemDataSchema>;
 export type AttackingItem = CosmereItemFromSchema<AttackingItemDataSchema>;
 export type DamagingItem = CosmereItemFromSchema<DamagingItemDataSchema>;
 export type DescriptionItem = CosmereItemFromSchema<DescriptionItemDataSchema>;
+export type ListVisibilityItem =
+    CosmereItemFromSchema<ListVisibilityItemDataSchema>;
 export type PhysicialItem = CosmereItemFromSchema<
     PhysicalItemDataSchema,
     EmptyObject,

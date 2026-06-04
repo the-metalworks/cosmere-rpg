@@ -34,7 +34,7 @@ import {
     MovementType,
     ImmunityType,
     ActorType,
-    ActionVisibilityFilterType,
+    ListVisibilityType,
     AnyCosmereItem,
 } from './cosmere';
 import { AdvantageMode } from './roll';
@@ -346,7 +346,7 @@ export interface MovementTypeConfig {
     label: string;
 }
 
-export interface ActionVisibilityFilterConfig {
+export interface ListVisibilityConfig {
     label: string;
     hint: string;
 
@@ -551,11 +551,9 @@ export interface CosmereRPGConfig {
     action: {
         types: Record<ActionType, ActionTypeConfig>;
         costs: Record<ActionCostType, ActionCostConfig>;
-        visibility: Record<
-            ActionVisibilityFilterType,
-            ActionVisibilityFilterConfig
-        >;
     };
+
+    visibilityFilters: Record<ListVisibilityType, ListVisibilityConfig>;
 
     attack: {
         types: Record<AttackType, AttackTypeConfig>;

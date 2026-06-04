@@ -35,7 +35,7 @@ import {
     Theme,
     MovementType,
     ImmunityType,
-    ActionVisibilityFilterType,
+    ListVisibilityType,
 } from './types/cosmere';
 import { AdvantageMode } from './types/roll';
 
@@ -1079,55 +1079,52 @@ const COSMERE: CosmereRPGConfig = {
                 label: 'COSMERE.Actor.ActionCosts.Special',
             },
         },
-        visibility: {
-            [ActionVisibilityFilterType.Always]: {
-                label: `Cosmere.Item.Sheet.ActionVisibility.Always.label`,
-                shortLabel: `Cosmere.Item.Sheet.ActionVisibility.Always.label_short`,
-                hint: `Cosmere.Item.Sheet.ActionVisibility.Always.hint`,
-                defaults: {
-                    ['base']: {},
-                    [ItemType.Action]: {
-                        without: [
-                            ItemType.Armor,
-                            ItemType.Equipment,
-                            ItemType.Weapon,
-                        ],
-                    },
-                },
-                override: true,
-                priority: 500,
-                filter: () => true,
-            },
-            [ActionVisibilityFilterType.Never]: {
-                label: `Cosmere.Item.Sheet.ActionVisibility.Never.label`,
-                shortLabel: `Cosmere.Item.Sheet.ActionVisibility.Never.label_short`,
-                hint: `Cosmere.Item.Sheet.ActionVisibility.Never.hint`,
-                override: true,
-                priority: 450,
-                filter: () => false,
-            },
-            [ActionVisibilityFilterType.Equipped]: {
-                label: `Cosmere.Item.Sheet.ActionVisibility.Equipped.label`,
-                shortLabel: `Cosmere.Item.Sheet.ActionVisibility.Equipped.label_short`,
-                hint: `Cosmere.Item.Sheet.ActionVisibility.Equipped.hint`,
-                defaults: {
-                    [ItemType.Action]: {
-                        with: [
-                            ItemType.Armor,
-                            ItemType.Equipment,
-                            ItemType.Weapon,
-                        ],
-                    },
-                },
-                filter: (action) => {
-                    if (!action.isActionEmbedded) {
-                        return false;
-                    }
+    },
 
-                    const parent = action.parent! as CosmereItem;
-
-                    return parent.isEquipped;
+    visibilityFilters: {
+        [ListVisibilityType.Always]: {
+            label: `Cosmere.Item.Sheet.ActionVisibility.Always.label`,
+            shortLabel: `Cosmere.Item.Sheet.ActionVisibility.Always.label_short`,
+            hint: `Cosmere.Item.Sheet.ActionVisibility.Always.hint`,
+            defaults: {
+                ['base']: {},
+                [ItemType.Action]: {
+                    without: [
+                        ItemType.Armor,
+                        ItemType.Equipment,
+                        ItemType.Weapon,
+                    ],
                 },
+            },
+            override: true,
+            priority: 500,
+            filter: () => true,
+        },
+        [ListVisibilityType.Never]: {
+            label: `Cosmere.Item.Sheet.ActionVisibility.Never.label`,
+            shortLabel: `Cosmere.Item.Sheet.ActionVisibility.Never.label_short`,
+            hint: `Cosmere.Item.Sheet.ActionVisibility.Never.hint`,
+            override: true,
+            priority: 450,
+            filter: () => false,
+        },
+        [ListVisibilityType.Equipped]: {
+            label: `Cosmere.Item.Sheet.ActionVisibility.Equipped.label`,
+            shortLabel: `Cosmere.Item.Sheet.ActionVisibility.Equipped.label_short`,
+            hint: `Cosmere.Item.Sheet.ActionVisibility.Equipped.hint`,
+            defaults: {
+                [ItemType.Action]: {
+                    with: [ItemType.Armor, ItemType.Equipment, ItemType.Weapon],
+                },
+            },
+            filter: (item) => {
+                if (!item.isEmbedded) {
+                    return false;
+                }
+
+                const parent = item.parent! as CosmereItem;
+
+                return parent.isEquipped;
             },
         },
     },
