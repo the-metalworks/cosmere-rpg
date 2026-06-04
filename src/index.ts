@@ -4,6 +4,7 @@ import { SYSTEM_ID } from './system/constants';
 import { TEMPLATES } from './system/utils/templates';
 import COSMERE from './system/config';
 
+// @ts-expect-error scss side-effects can't possibly matter just shush
 import './style.scss';
 import './system/mixins';
 import './system/documents/system-embedded-collections/inject';
