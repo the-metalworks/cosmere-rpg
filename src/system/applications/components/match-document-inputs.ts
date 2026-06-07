@@ -21,14 +21,16 @@ export class MatchDocumentInputsComponent extends HandlebarsApplicationComponent
     public _prepareContext(params: MatchDocumentInputsComponent.Params) {
         return Promise.resolve({
             ...params,
+            name: params.name ?? '',
+            editable: params.editable ?? true,
         });
     }
 }
 
 export namespace MatchDocumentInputsComponent {
     export interface Params {
-        document: foundry.abstract.Document.Any;
         data: MatchDocumentDataModel;
+        name?: string;
         editable?: boolean;
     }
 }
