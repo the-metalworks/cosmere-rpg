@@ -19,6 +19,8 @@ import {
 // Types
 import { ComponentActionHandler, ComponentState } from './types';
 
+const KNOWN_STATIC_HASH_PROPS = ['id'] as const;
+
 const componentClsRegistry: Record<
     string,
     typeof HandlebarsApplicationComponent
@@ -77,19 +79,24 @@ export function registerComponent(
             `${application.id}-`,
             '',
         );
+
         const parentRef = (
             (options.data!.root.__componentRef as string) ??
             `${application.id}:${partId}`
         ).split(':');
         const index = getFullIndexRecursive(options.data);
 
-        const componentHashData = Object.values(options.hash ?? {}).join('.');
+        const componentHashData = KNOWN_STATIC_HASH_PROPS.filter(
+            (prop) => prop in options.hash,
+        )
+            .map((prop) => `${prop}=${options.hash[prop]}`)
+            .join('.');
 
         const componentLocData = `${options.loc.start.line}.${index}.${options.loc.start.column}_${options.loc.end.line}.${options.loc.end.column}`;
 
         // Generate id
         const componentId = md5.hash(
-            `${selector}-${componentHashData ? componentHashData + '-' : ''}${componentLocData}`,
+            `${selector}-${componentHashData}${componentLocData}`,
         );
 
         // Append to ref
