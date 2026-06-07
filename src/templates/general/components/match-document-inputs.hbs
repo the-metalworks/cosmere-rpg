@@ -3,7 +3,7 @@
 
     <div class="form-fields">
         <select
-            name="matchDocument.target"
+            name={{concat name ".target"}}
             {{#unless editable}}disabled{{/unless}}
         >
             {{#each data.schema.fields.target.choices as |label value|}}
@@ -19,21 +19,12 @@
     </div>
 </div>
 
-{{!-- 
-{{formGroup data.schema.fields.target
-    name="matchDocument.target"
-    value=data.target
-    localize=true
-    disabled=(not editable)
-    hint=false
-}} --}}
-
 {{!-- Don't show match by field if: --}}
 {{!-- 1. Target is global (since it only supports match by UUID) --}}
 {{!-- 2. Target is self --}}
 {{#if (and (not (eq data.target "global")) (not (eq data.target "self")))}}
     {{formGroup data.schema.fields.matchBy
-        name="matchDocument.matchBy"
+        name=(concat name ".matchBy")
         value=data.matchBy
         localize=true
         disabled=(not editable)
@@ -47,7 +38,7 @@
 {{!-- 3. There is more than one document type choice --}}
 {{#if (and (and (eq data.matchBy "document-type") (not data.reference)) (gt (len (keys data.schema.fields.documentType.choices)) 1))}}
     {{formGroup data.schema.fields.documentType
-        name="matchDocument.documentType"
+        name=(concat name ".documentType")
         value=data.documentType
         localize=true
         disabled=(not editable)
@@ -66,7 +57,7 @@
 
         <div class="form-fields">
             {{app-document-reference-input
-                name="matchDocument.reference"
+                name=(concat name ".reference")
                 value=data.reference
                 type=data.schema.fields.reference.options.type
                 readonly=(not editable)
@@ -92,7 +83,7 @@
 
         <div class="form-fields">
             {{formInput data.schema.fields.matchAll
-                name="matchDocument.matchAll"
+                name=(concat name ".matchAll")
                 value=data.matchAll
                 localize=true
                 disabled=(not editable)

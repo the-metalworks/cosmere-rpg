@@ -4,7 +4,7 @@ import { ItemEventTypeConfig } from '@system/types/config';
 import { RestType } from '@system/types/cosmere';
 import { Event } from '@system/types/item/event-system';
 
-import { DeepPartial } from '@system/types/utils';
+import { DeepPartial, AnyObject } from '@system/types/utils';
 
 // Constants
 import { HOOKS } from '@system/constants/hooks';
@@ -20,6 +20,62 @@ const EVENTS: EventDefinition[] = [
     { type: 'create', hook: 'createItem' },
     { type: 'update', hook: 'updateItem' },
     { type: 'delete', hook: 'deleteItem' },
+
+    // Item <-> Item events
+    {
+        type: 'add-to-item',
+        hook: 'createItem',
+        condition: (
+            _: CosmereItem,
+            options: { parent: CosmereActor | CosmereItem | null },
+        ) => !!options.parent && options.parent instanceof CosmereItem,
+        filter: (item: CosmereItem) => item.isAction(),
+    },
+    {
+        type: 'remove-from-item',
+        hook: 'deleteItem',
+        condition: (
+            _: CosmereItem,
+            options: { parent: CosmereActor | CosmereItem | null },
+        ) => !!options.parent && options.parent instanceof CosmereItem,
+        filter: (item: CosmereItem) => item.isAction(),
+    },
+    {
+        type: 'add-child-action',
+        hook: 'createItem',
+        condition: (
+            item: CosmereItem,
+            options: { parent: CosmereActor | CosmereItem | null },
+        ) =>
+            item.isAction() &&
+            !!options.parent &&
+            options.parent instanceof CosmereItem,
+        filter: (item: CosmereItem) => item.isActivatable,
+        transform: (item: CosmereItem, options: AnyObject) => ({
+            document: item.parent!,
+            options: foundry.utils.mergeObject(options, {
+                child: item,
+            }),
+        }),
+    },
+    {
+        type: 'remove-child-action',
+        hook: 'deleteItem',
+        condition: (
+            item: CosmereItem,
+            options: { parent: CosmereActor | CosmereItem | null },
+        ) =>
+            item.isAction() &&
+            !!options.parent &&
+            options.parent instanceof CosmereItem,
+        filter: (item: CosmereItem) => item.isActivatable,
+        transform: (item: CosmereItem, options: AnyObject) => ({
+            document: item.parent!,
+            options: foundry.utils.mergeObject(options, {
+                child: item,
+            }),
+        }),
+    },
 
     // Item <-> Actor events
     {
@@ -59,11 +115,6 @@ const EVENTS: EventDefinition[] = [
         },
     },
     {
-        type: 'use',
-        hook: HOOKS.USE_ITEM,
-        filter: (item: CosmereItem) => item.isActivatable,
-    },
-    {
         type: 'mode-activate',
         hook: HOOKS.MODE_ACTIVATE_ITEM,
         filter: (item: CosmereItem) => item.hasModality(),
@@ -82,6 +133,20 @@ const EVENTS: EventDefinition[] = [
         type: 'goal-progress',
         hook: HOOKS.PROGRESS_GOAL,
         filter: (item: CosmereItem) => item.isGoal(),
+    },
+
+    // Item usage
+    {
+        type: 'use', // Triggered when this action is used
+        hook: HOOKS.USE_ITEM,
+        filter: (item: CosmereItem) => item.isAction(),
+    },
+    {
+        type: 'use-action', // Triggered when any of this item's actions are used (embedded actions)
+        hook: HOOKS.USE_ITEM,
+        filter: (item: CosmereItem) => item.isActivatable && !item.isAction(),
+        transform: (item: CosmereItem) => ({ document: item.root }),
+        condition: (item: CosmereItem) => item.isAction(),
     },
 
     // General Actor events

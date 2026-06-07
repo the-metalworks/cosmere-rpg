@@ -10,6 +10,8 @@ import { register as registerUseItemHandler } from './use-item';
 import { register as registerUpdateItemHandler } from './update-item';
 import { register as registerUpdateActorHandler } from './update-actor';
 import { register as registerExecuteMacroHandler } from './execute-macro';
+import { register as registerAddActionsHandler } from './add-actions';
+import { register as registerRemoveActionsHandler } from './remove-actions';
 
 export function registerHandlers() {
     registerGrantItemsHandler();
@@ -24,4 +26,6 @@ export function registerHandlers() {
     registerUpdateItemHandler();
     registerUpdateActorHandler();
     registerExecuteMacroHandler();
+    registerAddActionsHandler();
+    registerRemoveActionsHandler();
 }
