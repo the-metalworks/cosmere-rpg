@@ -1,3 +1,6 @@
+# developer-specific credentials, etc.
+.env
+
 node_modules/
 build/
 
