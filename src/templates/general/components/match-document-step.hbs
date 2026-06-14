@@ -66,30 +66,27 @@
     </div>
 {{/if}}
 
-{{!-- Don't show match all field if: --}}
+{{!-- Don't show match mode field if: --}}
 {{!-- 1. Target is "self" --}}
 {{!-- 2. Target is "global" --}}
 {{!-- 3. Target is "parent" --}}
-{{!-- 4. Target is "equipped-weapon" --}}
-{{!-- 5. Target is "equipped-armor" --}}
-{{!-- {{#if (not (or (eq value.target "self") (eq value.target "global") (eq value.target "parent") (eq value.target "equipped-weapon") (eq value.target "equipped-armor")))}}
+{{#if (not (or (eq value.target "self") (eq value.target "global") (eq value.target "parent")))}}
     <div class="form-group">
         <label>
-            {{localize value.schema.fields.matchAll.label}}
+            {{localize value.schema.fields.matchMode.label}}
             <i class="info fa-regular fa-circle-question"
-                data-tooltip="{{localize value.schema.fields.matchAll.hint}}">
+                data-tooltip="{{localize value.schema.fields.matchMode.hint}}">
             </i>
         </label>
 
         <div class="form-fields">
-            {{formInput value.schema.fields.matchAll
-                name=(name ".matchAll")
-                value=value.matchAll
+            {{formInput value.schema.fields.matchMode
+                name=(concat name ".matchMode")
+                value=value.matchMode
                 localize=true
                 disabled=(not editable)
                 hint=false
             }}
-
         </div>
     </div>
-{{/if}} --}}
+{{/if}}

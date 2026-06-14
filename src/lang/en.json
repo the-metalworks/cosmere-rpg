@@ -1530,7 +1530,7 @@
                     "Type": {
                         "first": "First",
                         "last": "Last",
-                        "All": "All"
+                        "all": "All"
                     }
                 },
                 "DocumentType": {
