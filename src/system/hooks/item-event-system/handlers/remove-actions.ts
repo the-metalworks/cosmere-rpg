@@ -15,6 +15,7 @@ const SCHEMA = {
     matchDocument: new MatchDocumentField({
         type: 'Item',
         required: true,
+        label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.RemoveActions}.Target.Label`,
     }),
     uuids: new foundry.data.fields.ArrayField(
         new foundry.data.fields.DocumentUUIDField({

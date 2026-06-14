@@ -66,9 +66,13 @@ export class ResourceConsumptionListComponent extends HandlebarsApplicationCompo
                             },
                             resource: Resource.Focus,
                             matchDocument: {
-                                target: DocumentTarget.Ancestor,
-                                documentType: 'Actor',
-                                matchBy: MatchBy.DocumentType,
+                                steps: [
+                                    {
+                                        target: DocumentTarget.Ancestor,
+                                        documentType: 'Actor',
+                                        matchBy: MatchBy.DocumentType,
+                                    },
+                                ],
                             },
                         },
                     ],

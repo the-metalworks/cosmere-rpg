@@ -632,6 +632,19 @@
         }
     }
 
+    a.content-link.document-link {
+        display: flex;
+        align-items: center;
+        gap: .25ch;
+        padding: 2px 4px;
+
+        > img {
+            width: 20px;
+            height: 20px;
+            border: 1px solid var(--content-link-border-color);
+        }
+    }
+
     app-actor-skills-group,
     app-adversary-skills-group {
         position: relative;

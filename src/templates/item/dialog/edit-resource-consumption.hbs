@@ -34,16 +34,18 @@
                 disabled=(not editable)
             }}
         {{/if}}
-    </fieldset>
 
-    <fieldset>
-        <legend>{{localize "DIALOG.EditResourceConsumption.Target"}}</legend>
+        {{!-- Target --}}
+        <div class="form-group">
+            <label>{{localize "DIALOG.EditResourceConsumption.Target"}}</label>
 
-        {{app-match-document-inputs
-            name="matchDocument"
-            document=item
-            data=consume.matchDocument
-            editable=editable
-        }}
+            {{app-match-document-target
+                value=consume.matchDocument
+                name="matchDocument"
+                relativeTo=item
+                editable=editable
+                type=expectedDocumentType
+            }}
+        </div>
     </fieldset>
 </form>

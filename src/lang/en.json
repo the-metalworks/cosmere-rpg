@@ -1058,6 +1058,9 @@
                             "add-actions": {
                                 "Title": "Add Actions",
                                 "Description": "Adds actions to an item.",
+                                "Target": {
+                                    "Label": "Target"
+                                },
                                 "Uuids": {
                                     "Label": "Actions",
                                     "Placeholder": "Drag and drop action items here"
@@ -1074,6 +1077,9 @@
                             "remove-actions": {
                                 "Title": "Remove Actions",
                                 "Description": "Removes actions from an item.",
+                                "Target": {
+                                    "Label": "Target"
+                                },
                                 "Uuids": {
                                     "Label": "Actions",
                                     "Placeholder": "Drag and drop action items here"
@@ -1090,8 +1096,10 @@
                                 "Choices": {
                                     "self": "Self",
                                     "sibling": "Other on same Actor",
+                                    "equipped-item": "Equipped Item",
                                     "equipped-weapon": "Equipped Weapon",
                                     "equipped-armor": "Equipped Armor",
+                                    "equipped-equipment": "Equipped Equipment",
                                     "global": "Global"
                                 }
                             },
@@ -1507,7 +1515,7 @@
         "Utils": {
             "MatchDocument": {
                 "Target": {
-                    "Label": "Target",
+                    "Label": "Relation",
                     "Type": {
                         "self": {
                             "Label": "Self",
@@ -1537,6 +1545,10 @@
                             "Label": "Global",
                             "Hint": "Will match a global item."
                         },
+                        "equipped-item": {
+                            "Label": "Equipped Item",
+                            "Hint": "Will match an equipped item on the actor this item belongs to."
+                        },
                         "equipped-weapon": {
                             "Label": "Equipped Weapon",
                             "Hint": "Will match an equipped weapon on the actor this item belongs to."
@@ -1544,6 +1556,10 @@
                         "equipped-armor": {
                             "Label": "Equipped Armor",
                             "Hint": "Will match the equipped armor on the actor this item belongs to."
+                        },
+                        "equipped-equipment": {
+                            "Label": "Equipped Equipment",
+                            "Hint": "Will match the equipped equipment item on the actor this item belongs to."
                         }
                     }
                 },
@@ -1554,6 +1570,21 @@
                         "identifier": "Identifier",
                         "uuid": "UUID",
                         "document-type": "Document Type"
+                    },
+                    "Explain": {
+                        "identifier": "like",
+                        "name": "named",
+                        "uuid": "=",
+                        "document-type": "of type"
+                    }
+                },
+                "MatchMode": {
+                    "Label": "Match Mode",
+                    "Hint": "Whether to match the first, last, or all documents that meet the criteria",
+                    "Type": {
+                        "first": "First",
+                        "last": "Last",
+                        "all": "All"
                     }
                 },
                 "DocumentType": {
@@ -1561,10 +1592,6 @@
                 },
                 "Reference": {
                     "Label": "Reference Document"
-                },
-                "MatchAll": {
-                    "Label": "Match All",
-                    "Hint": "Whether to match all documents that meet the criteria or just the first one encountered."
                 }
             }
         },
@@ -1712,6 +1739,10 @@
             "Title": "Edit Resource Consumption",
             "Consumption": "Consumption",
             "Target": "Target"
+        },
+        "MatchDocumentConfig": {
+            "Title": "Configure",
+            "TypeMismatchWarning": "Expected type {expected} but found {actual}"
         }
     },
     "COMPONENT": {

@@ -171,29 +171,16 @@ app-item-resource-consumption-list {
     }
 }
 
-app-match-document-inputs {
-    display: inherit;
-    flex-direction: inherit;
-    gap: inherit;
+app-match-document-step {
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
 }
 
 app-match-document-target {
     display: flex;
     gap: .35ch;
     align-items: center;
-
-    a.content-link {
-        display: flex;
-        align-items: center;
-        gap: .25ch;
-        padding: 2px 4px;
-
-        > img {
-            width: 20px;
-            height: 20px;
-            border: 1px solid var(--content-link-border-color);
-        }
-    }
 
     span.target, span.type {
         font-weight: bold;

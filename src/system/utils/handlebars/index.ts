@@ -619,6 +619,18 @@ Handlebars.registerHelper('len', (value: unknown) => {
     return 0;
 });
 
+Handlebars.registerHelper('first', (value: unknown) => {
+    if (!Array.isArray(value)) return;
+    if (value.length === 0) return;
+    return value[0];
+});
+
+Handlebars.registerHelper('last', (value: unknown) => {
+    if (!Array.isArray(value)) return;
+    if (value.length === 0) return;
+    return value[value.length - 1];
+});
+
 Handlebars.registerHelper('filterSelectOptions', ((
     selectOptions: Record<string, string> | (() => Record<string, string>),
     ...args: [...string[], Handlebars.HelperOptions]

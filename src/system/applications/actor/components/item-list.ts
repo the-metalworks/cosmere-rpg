@@ -125,11 +125,15 @@ any> {
             );
     }
 
-    public static onUseItem(this: ActorItemListComponent, event: Event) {
+    public static async onUseItem(this: ActorItemListComponent, event: Event) {
         event.preventDefault();
         event.stopPropagation();
+
         // Get item
-        const item = AppUtils.getItemFromEvent(event, this.application.actor);
+        const uuid = AppUtils.getItemUuidFromEvent(event);
+        if (!uuid) return;
+
+        const item = await fromUuid<CosmereItem>(uuid);
         if (!item) return;
 
         // Use the item
