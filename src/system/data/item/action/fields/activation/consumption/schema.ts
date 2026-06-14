@@ -30,31 +30,34 @@ function defineBaseSchema() {
             initial: ItemConsumeType.Resource,
             label: 'COSMERE.Item.Activation.ResourceConsumption.Type.Label',
         }),
-        value: new foundry.data.fields.SchemaField({
-            min: new foundry.data.fields.NumberField({
-                required: true,
-                nullable: false,
-                min: 0,
-                integer: true,
-                initial: 0,
-            }),
-            max: new foundry.data.fields.NumberField({
-                required: true,
-                nullable: false,
-                min: -1,
-                integer: true,
-                initial: 0,
-            }),
-            actual: new foundry.data.fields.NumberField({
-                required: false,
-                nullable: false,
-                min: 0,
-                integer: true,
-                initial: 0,
-            }),
-        }, {
-            label: 'COSMERE.Item.Activation.ResourceConsumption.Value.Label',
-        }),
+        value: new foundry.data.fields.SchemaField(
+            {
+                min: new foundry.data.fields.NumberField({
+                    required: true,
+                    nullable: false,
+                    min: 0,
+                    integer: true,
+                    initial: 0,
+                }),
+                max: new foundry.data.fields.NumberField({
+                    required: true,
+                    nullable: false,
+                    min: -1,
+                    integer: true,
+                    initial: 0,
+                }),
+                actual: new foundry.data.fields.NumberField({
+                    required: false,
+                    nullable: false,
+                    min: 0,
+                    integer: true,
+                    initial: 0,
+                }),
+            },
+            {
+                label: 'COSMERE.Item.Activation.ResourceConsumption.Value.Label',
+            },
+        ),
     };
 }
 
@@ -79,7 +82,10 @@ export function defineConsumeActorResourceSchema() {
             required: true,
             documentType: 'Actor',
             initial: {
-                target: DocumentTarget.Parent,
+                steps: [
+                    //@ts-expect-error foundry-vtt-types resolves this to MatchDocumentStepDataModel, even though MatchDocumentStepField.AssignmentType is valid
+                    { target: DocumentTarget.Parent },
+                ],
             },
         }),
     };
@@ -106,7 +112,10 @@ export function defineConsumeItemResourceSchema() {
             required: true,
             documentType: 'Item',
             initial: {
-                target: DocumentTarget.Self,
+                steps: [
+                    //@ts-expect-error foundry-vtt-types resolves this to MatchDocumentStepDataModel, even though MatchDocumentStepField.AssignmentType is valid
+                    { target: DocumentTarget.Self },
+                ],
             },
         }),
     };

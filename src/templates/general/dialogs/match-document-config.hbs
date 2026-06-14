@@ -1,0 +1,91 @@
+<form>
+    <div class="fields">
+        <div class="relative-to">
+            <span>Origin</span>
+            <a class="content-link document-link" data-link 
+                data-uuid="{{relativeTo.uuid}}" 
+                data-id="{{relativeTo.id}}" 
+                data-type="{{relativeTo.documentName}}" 
+                data-tooltip="{{localize (concat "DOCUMENT." relativeTo.documentName)}}"
+            >
+                {{#if relativeTo.img}}
+                    <img src="{{relativeTo.img}}" alt="{{relativeTo.name}}">
+                {{/if}}
+
+                <label>{{relativeTo.name}}</label>
+            </a>
+        </div>
+
+        {{#each data.steps as |step|}}
+            <i class="fa-solid fa-arrow-down arrow"></i>
+
+            <div class="step" data-index="{{@index}}">
+                {{app-match-document-step
+                    value=step
+                    name=(concat "steps." @index)
+                    editable=true
+                }}
+
+                <div class="footer">
+                    <div class="resolves-to">
+                        {{#with (lookup @root.matchesPerStep @index) as |matches|}}
+                            {{#if (gt matches.length 0)}}
+                                {{#with matches.[0] as |resolvesTo|}}
+                                        <span>Resolves to</span>
+                                        <a class="content-link document-link" data-link 
+                                            data-uuid="{{resolvesTo.uuid}}" 
+                                            data-id="{{resolvesTo.id}}" 
+                                            data-type="{{resolvesTo.documentName}}" 
+                                            data-tooltip="{{localize (concat "DOCUMENT." resolvesTo.documentName)}}"
+                                        >
+                                            {{#if resolvesTo.img}}
+                                                <img src="{{resolvesTo.img}}" alt="{{resolvesTo.name}}">
+                                            {{/if}}
+
+                                            <label>{{resolvesTo.name}}</label>
+                                        </a>
+                                {{/with}}
+                            {{/if}}
+                        {{/with}}
+                    </div>
+
+                    {{#unless @first}}
+                        <div class="controls icon faded">
+                            <a data-action="remove-step"
+                                data-tooltip="Remove step"
+                            >
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
+                        </div>
+                    {{/unless}}
+                </div>
+
+                {{#if (and @last @root.hasTypeMismatch)}}
+                    <div class="warn">
+                        <span>
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            {{localize "DIALOG.MatchDocumentConfig.TypeMismatchWarning" 
+                                expected=(localize (concat "DOCUMENT." @root.expectedDocumentType))
+                                actual=(localize (concat "DOCUMENT." @root.lastStepType))
+                            }}
+                        </span>
+                    </div>
+                {{/if}}
+            </div>
+        {{/each}}
+
+        <div class="form-group add">
+            <button type="submit" data-action="add-step"
+                data-tooltip="Add step"
+            >
+                <i class="fa-solid fa-plus"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="form-group submit">
+        <button type="submit" data-action="submit">
+            {{localize "GENERIC.Button.Update"}}
+        </button>
+    </div>  
+</form>

@@ -2,7 +2,7 @@
     {{#each consumption as |consume|}}
         <div class="form-group" data-index="{{@index}}">
             {{app-match-document-target
-                match=consume.matchDocument
+                value=consume.matchDocument
                 relativeTo=@root.item
             }}
 

@@ -1,6 +1,6 @@
 {{#if resolvedDocument}}
 
-    <a class="content-link" data-link 
+    <a class="content-link document-link" data-link 
         data-uuid="{{resolvedDocument.uuid}}" 
         data-id="{{resolvedDocument.id}}" 
         data-type="{{resolvedDocument.documentName}}" 
@@ -13,37 +13,41 @@
         <label>{{resolvedDocument.name}}</label>
     </a>
 
-{{else}}
+{{else if (gt value.steps.length 0)}}
+    {{#with (last value.steps) as |step|}}
+    <span class="target">{{localize (concat "COSMERE.Utils.MatchDocument.Target.Type." step.target ".Label")}}</span>
 
-    <span class="target">{{localize (concat "COSMERE.Utils.MatchDocument.Target.Type." match.target ".Label")}}</span>
+    <span class="match-by">
+        {{localize (concat "COSMERE.Utils.MatchDocument.MatchBy.Explain." step.matchBy)}}
+    </span>
 
-    {{!-- TODO: Localize --}}
-    {{#if (eq match.matchBy "identifier")}}
-        <span class="match-by">like</span>
-    {{else if (eq match.matchBy "name")}}
-        <span class="match-by">named</span>
-    {{else if (eq match.matchBy "uuid")}}
-        <span class="match-by">=</span>
-    {{else if (eq match.matchBy "document-type")}}
-        <span class="match-by">of type</span>
-    {{/if}}
-
-    {{#if (and (eq match.matchBy "document-type") match.documentType)}}
-        <span class="type">{{localize (concat "DOCUMENT." match.documentType)}}</span>
-    {{else if resolvedReference}}
-        <a class="content-link" data-link 
-            data-uuid="{{resolvedReference.uuid}}" 
-            data-id="{{resolvedReference.id}}" 
-            data-type="{{resolvedReference.documentName}}" 
-            data-tooltip="{{localize (concat "DOCUMENT." resolvedReference.documentName)}}"
+    {{#if (and (eq step.matchBy "document-type") step.documentType)}}
+        <span class="type">{{localize (concat "DOCUMENT." step.documentType)}}</span>
+    {{else if @root.resolvedReference}}
+        <a class="content-link document-link" data-link 
+            data-uuid="{{@root.resolvedReference.uuid}}" 
+            data-id="{{@root.resolvedReference.id}}" 
+            data-type="{{@root.resolvedReference.documentName}}" 
+            data-tooltip="{{localize (concat "DOCUMENT." @root.resolvedReference.documentName)}}"
         >
-            {{#if resolvedReference.img}}
-                <img src="{{resolvedReference.img}}" alt="{{resolvedReference.name}}">
+            {{#if @root.resolvedReference.img}}
+                <img src="{{@root.resolvedReference.img}}" alt="{{@root.resolvedReference.name}}">
             {{/if}}
 
-            <label>{{resolvedReference.name}}</label>
+            <label>{{@root.resolvedReference.name}}</label>
         </a>
     {{else}}
         <span>UNKNOWN</span>
     {{/if}}
+    {{/with}}
+{{/if}}
+
+{{#if editable}}
+    <div class="controls">
+        <a data-action="configure" 
+            data-tooltip="COSMERE.Utils.MatchDocument.Target.Configure"
+        >
+            <i class="fa-solid fa-gear"></i>
+        </a>
+    </div>
 {{/if}}

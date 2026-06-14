@@ -1,4 +1,4 @@
-import { CosmereItem, WeaponItem, ArmorItem } from '@system/documents/item';
+import { CosmereItem } from '@system/documents/item';
 import { AnyEmbeddedCollection } from '../documents/system-embedded-collections/types/general';
 
 export const DocumentTarget = {
@@ -10,15 +10,15 @@ export const DocumentTarget = {
     Child: 'child', // Match direct child documents
     Global: 'global', // Match any document in the world, must match by UUID
 } as const;
-
 export type DocumentTarget =
     (typeof DocumentTarget)[keyof typeof DocumentTarget];
 
 export const ItemOnlyTarget = {
+    EquippedItem: 'equipped-item', // Match equipped items of any type
     EquippedWeapon: 'equipped-weapon', // Match equipped weapon items
     EquippedArmor: 'equipped-armor', // Match equipped armor items
+    EquippedEquipment: 'equipped-equipment', // Match equipped equipment items
 } as const;
-
 export type ItemOnlyTarget =
     (typeof ItemOnlyTarget)[keyof typeof ItemOnlyTarget];
 
@@ -26,8 +26,13 @@ export const ItemTarget = {
     ...DocumentTarget,
     ...ItemOnlyTarget,
 } as const;
-
 export type ItemTarget = (typeof ItemTarget)[keyof typeof ItemTarget];
+
+export const MatchTarget = {
+    ...DocumentTarget,
+    ...ItemOnlyTarget,
+} as const;
+export type MatchTarget = (typeof MatchTarget)[keyof typeof MatchTarget];
 
 export const MatchBy = {
     Identifier: 'identifier', // Match by the document's identifier (only applicable to items)
@@ -35,29 +40,32 @@ export const MatchBy = {
     UUID: 'uuid', // Match by the document's UUID
     DocumentType: 'document-type', // Match by the document's type (e.g. Item, Actor, etc.)
 } as const;
-
 export type MatchBy = (typeof MatchBy)[keyof typeof MatchBy];
+
+export const MatchMode = {
+    First: 'first',
+    Last: 'last',
+    All: 'all',
+} as const;
+export type MatchMode = (typeof MatchMode)[keyof typeof MatchMode];
 
 export const SINGLE_MATCH_TARGETS = [
     DocumentTarget.Self,
     DocumentTarget.Global,
     DocumentTarget.Parent,
-    ItemTarget.EquippedWeapon,
-    ItemTarget.EquippedArmor,
-] as ItemTarget[];
+] as MatchTarget[];
 
-interface MatchDocumentParams {
+interface MatchDocumentStepParams {
     /**
-     * The document from which to start the search.
-     * This is used to determine the scope of the search (e.g. siblings, ancestors, descendants)
-     * and is also used as the document to match if the target is 'self'.
+     * The document relative to which this matching step
+     * will be performed.
      */
     relativeTo: foundry.abstract.Document.Any;
 
     /**
      * The target type to match.
      */
-    target: ItemTarget;
+    target: MatchTarget;
 
     /**
      * By which operation to match the target document(s).
@@ -68,7 +76,7 @@ interface MatchDocumentParams {
      * The type of document to match. Only applicable when matching by document type.
      * Ignored if reference is provided.
      */
-    documentType?: foundry.abstract.Document.Type;
+    documentType?: foundry.abstract.Document.Type | null;
 
     /**
      * The reference document (or UUID of the reference document) to match against.
@@ -76,41 +84,93 @@ interface MatchDocumentParams {
     reference?: foundry.abstract.Document.Any | string | null;
 
     /**
-     * Whether to match all documents that meet the criteria, or just the first one found.
+     * Whether to match the first, last, or all documents that meet the matching criteria.
+     *
+     * @default MatchMode.First
      */
-    matchAll?: boolean;
+    matchMode?: MatchMode;
 }
 
-interface MatchItemParams
-    extends Omit<MatchDocumentParams, 'target' | 'reference'> {
-    target: ItemTarget;
-    reference?: CosmereItem | string | null;
+interface BaseMatchDocumentParams {
+    /**
+     * The document from which to start the search.
+     * This is used to determine the scope of the search (e.g. siblings, ancestors, descendants)
+     * and is also used as the document to match if the target is 'self'.
+     */
+    relativeTo: foundry.abstract.Document.Any;
 }
+
+interface MatchDocumentBasicParams
+    extends BaseMatchDocumentParams,
+        Omit<MatchDocumentStepParams, 'relativeTo'> {}
+
+interface MatchDocumentWithStepsParams extends BaseMatchDocumentParams {
+    /**
+     * The steps to perform in this search
+     */
+    steps: Omit<MatchDocumentStepParams, 'relativeTo'>[];
+}
+
+type MatchDocumentParams =
+    | MatchDocumentBasicParams
+    | MatchDocumentWithStepsParams;
 
 export function matchDocuments(
     params: MatchDocumentParams,
-): Promise<foundry.abstract.Document.Any[]>;
-export function matchDocuments(params: MatchItemParams): Promise<CosmereItem[]>;
-export async function matchDocuments({
+): Promise<foundry.abstract.Document.Any[]> {
+    return _matchDocuments(
+        'steps' in params
+            ? params
+            : {
+                  relativeTo: params.relativeTo,
+                  steps: [
+                      {
+                          ...params,
+                      },
+                  ],
+              },
+    );
+}
+
+async function _matchDocuments(
+    params: MatchDocumentWithStepsParams,
+): Promise<foundry.abstract.Document.Any[]> {
+    let contextDocuments = [params.relativeTo];
+    for (const step of params.steps) {
+        contextDocuments = (
+            await Promise.all(
+                contextDocuments.map((relativeTo) =>
+                    matchStep({
+                        ...step,
+                        relativeTo,
+                    }),
+                ),
+            )
+        ).flat();
+    }
+
+    return contextDocuments;
+}
+
+async function matchStep({
     relativeTo,
     target,
     matchBy,
     documentType,
     reference = null,
-    matchAll = false,
-}: MatchDocumentParams | MatchItemParams): Promise<
-    foundry.abstract.Document.Any[]
-> {
+    matchMode = MatchMode.First,
+}: MatchDocumentStepParams): Promise<foundry.abstract.Document.Any[]> {
     if (!reference && documentType && matchBy === 'document-type') {
         reference = getEphemeralReferenceDocument(documentType);
     }
 
-    if (target !== 'self' && !reference)
+    if (target !== 'self' && target !== 'parent' && !reference)
         throw new Error(
-            'Reference document must be provided when target is not "self"',
+            'Reference document must be provided when target is not "self" or "parent"',
         );
 
     if (target === 'self') return [relativeTo];
+    if (target === 'parent') return [relativeTo.parent].filter((v) => !!v);
 
     // Resolve reference document if a UUID string was provided
     const referenceDoc: foundry.abstract.Document.Any | null =
@@ -132,7 +192,17 @@ export async function matchDocuments({
         target as Exclude<DocumentTarget, 'self' | 'global'>,
     );
 
-    return matchAll ? candidates.filter(matcher) : [candidates.find(matcher)!];
+    const matchedDocuments = candidates.filter(matcher);
+
+    if (matchMode === MatchMode.First) {
+        return [matchedDocuments.find(() => true)].filter((v) => !!v);
+    } else if (matchMode === MatchMode.Last) {
+        return [matchedDocuments.reverse().find(() => true)].filter((v) => !!v);
+    } else if (matchMode === MatchMode.All) {
+        return matchedDocuments;
+    } else {
+        throw new Error(`Unknown match mode: "${matchMode as string}"`);
+    }
 }
 
 /* --- Matchers --- */
@@ -209,16 +279,31 @@ function resolveCandidateDocuments(
         return relativeTo.parent ? [relativeTo.parent] : [];
     } else if (target === 'child') {
         return getChildren(relativeTo);
-    } else if (target === 'equipped-weapon' || target === 'equipped-armor') {
+    } else if (
+        target === 'equipped-item' ||
+        target === 'equipped-weapon' ||
+        target === 'equipped-armor' ||
+        target === 'equipped-equipment'
+    ) {
         const ancestralActor = getAncestors(relativeTo).find(
             (doc) => doc instanceof Actor,
         );
         if (!ancestralActor) return [];
 
-        return ancestralActor.items.filter((item) =>
-            target === 'equipped-weapon'
-                ? item.isWeapon() && item.system.equipped
-                : item.isArmor() && item.system.equipped,
+        const equippedItems = ancestralActor.items.filter(
+            (item) => item.isEquippable() && item.system.equipped,
+        );
+
+        return equippedItems.filter((item) =>
+            target === 'equipped-item'
+                ? true
+                : target === 'equipped-weapon'
+                  ? item.isWeapon()
+                  : target === 'equipped-armor'
+                    ? item.isArmor()
+                    : target === 'equipped-equipment'
+                      ? item.isEquipment()
+                      : false,
         );
     }
 

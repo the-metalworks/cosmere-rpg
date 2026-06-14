@@ -1,3 +1,4 @@
+import { ItemConsumeType } from '@system/types/cosmere';
 import {
     type AnyObject,
     type AnyMutableObject,
@@ -90,7 +91,7 @@ export class EditResourceConsumptionDialog extends ComponentHandlebarsApplicatio
 
         event.preventDefault();
 
-        const formDataObject = formData.object;
+        const formDataObject = structuredClone(formData.object);
         if (
             event.target instanceof HTMLInputElement &&
             event.target.name === 'value'
@@ -103,6 +104,7 @@ export class EditResourceConsumptionDialog extends ComponentHandlebarsApplicatio
         }
 
         this.consumption.updateSource(formDataObject);
+
         await this.item.update({
             system: {
                 activation: {
@@ -128,12 +130,18 @@ export class EditResourceConsumptionDialog extends ComponentHandlebarsApplicatio
     public _prepareContext() {
         const consumption = this.consumption;
 
-        console.log('CONSUMPTION', consumption);
+        const expectedDocumentType =
+            consumption.type === ItemConsumeType.Resource
+                ? Actor.documentName
+                : consumption.type === ItemConsumeType.ItemResource
+                  ? Item.documentName
+                  : undefined;
 
         return Promise.resolve({
             editable: true,
             item: this.item,
             consume: consumption,
+            expectedDocumentType,
         });
     }
 

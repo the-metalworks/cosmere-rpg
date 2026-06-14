@@ -22,8 +22,7 @@ export const TEMPLATES = {
     COMPONENT_EXPERTISES_LIST: 'general/components/expertises-list.hbs',
     COMPONENT_DOCUMENT_CHANGES_LIST:
         'general/components/document-changes-list.hbs',
-    COMPONENT_MATCH_DOCUMENT_INPUTS:
-        'general/components/match-document-inputs.hbs',
+    COMPONENT_MATCH_DOCUMENT_STEP: 'general/components/match-document-step.hbs',
     COMPONENT_MATCH_DOCUMENT_TARGET:
         'general/components/match-document-target.hbs',
 
@@ -213,6 +212,8 @@ export const TEMPLATES = {
 
     DIALOG_EDIT_EXPERTISES: 'general/dialogs/edit-expertises.hbs',
     DIALOG_PICK: 'general/dialogs/pick.hbs',
+
+    DIALOG_MATCH_DOCUMENT_CONFIG: 'general/dialogs/match-document-config.hbs',
 
     // ITEM EVENT SYSTEM HANDLERS
     IES_HANDLER_EXECUTE_MACRO: 'item/event-system/handlers/execute-macro.hbs',
