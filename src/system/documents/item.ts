@@ -566,7 +566,11 @@ export class CosmereItem<
         options: Item.Database.PreUpdateOptions,
         user: User.Implementation,
     ): Promise<boolean | void> {
-        if (this.isWeapon() && this.hasStrike()) {
+        if (
+            this.isWeapon() &&
+            this.hasStrike() &&
+            foundry.utils.hasProperty(changed, 'system.strike.skill')
+        ) {
             const changes = changed as Partial<WeaponItem>;
             const weaponType = changes.system?.type ?? this.system.type;
             if (
