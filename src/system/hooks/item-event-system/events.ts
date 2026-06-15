@@ -110,12 +110,12 @@ const EVENTS: EventDefinition[] = [
     // Combat events
     {
         type: 'combat-encounter-start',
-        hook: HOOKS.COMBAT_START,
+        hook: 'combatStart',
         transform: (combat: Combat) => ({ document: combat }),
     },
     {
         type: 'combat-encounter-end',
-        hook: HOOKS.COMBAT_END,
+        hook: 'deleteCombat',
         transform: (combat: Combat) => ({ document: combat }),
     },
     {
