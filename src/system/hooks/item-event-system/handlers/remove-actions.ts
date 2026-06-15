@@ -24,15 +24,15 @@ const SCHEMA = {
         {
             required: true,
             initial: [],
-            label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.AddActions}.Uuids.Label`,
-            placeholder: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.AddActions}.Uuids.Placeholder`,
+            label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.RemoveActions}.Uuids.Label`,
+            placeholder: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.RemoveActions}.Uuids.Placeholder`,
         },
     ),
     notify: new foundry.data.fields.BooleanField({
         required: false,
         initial: true,
-        label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.AddActions}.Notify.Label`,
-        hint: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.AddActions}.Notify.Hint`,
+        label: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.RemoveActions}.Notify.Label`,
+        hint: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.RemoveActions}.Notify.Hint`,
     }),
 } as const;
 
