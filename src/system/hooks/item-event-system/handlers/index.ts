@@ -16,16 +16,16 @@ import { register as registerRemoveActionsHandler } from './remove-actions';
 export function registerHandlers() {
     registerGrantItemsHandler();
     registerRemoveItemsHandler();
+    registerAddActionsHandler();
+    registerRemoveActionsHandler();
+    registerUseItemHandler();
+    registerUpdateItemHandler();
     registerModifyAttributeHandler();
     registerSetAttributeHandler();
     registerModifySkillRankHandler();
     registerSetSkillRankHandler();
     registerGrantExpertisesHandler();
     registerRemoveExpertisesHandler();
-    registerUseItemHandler();
-    registerUpdateItemHandler();
     registerUpdateActorHandler();
     registerExecuteMacroHandler();
-    registerAddActionsHandler();
-    registerRemoveActionsHandler();
 }
