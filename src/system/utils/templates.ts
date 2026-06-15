@@ -169,6 +169,8 @@ export const TEMPLATES = {
     CHAT_OVERLAY_CRIT: 'chat/overlay-crit.hbs',
 
     //DIALOGS
+    DIALOG_DIRECTORY_ENTRY_RENAME: 'general/dialogs/rename-directory-entry.hbs',
+
     DIALOG_ACTOR_EDIT_EXPERTISES: 'actors/dialogs/edit-expertises.hbs',
     DIALOG_ACTOR_EDIT_IMMUNITIES: 'actors/dialogs/edit-immunities.hbs',
     DIALOG_ACTOR_CONFIGURE_RESOURCE: 'actors/dialogs/configure-resource.hbs',

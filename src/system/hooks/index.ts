@@ -9,3 +9,4 @@ import './hotbar';
 
 export { register as registerItemEventSystem } from './item-event-system';
 export { register as registerStarterRulesConfig } from './starter-rules';
+export { registerContextMenus } from './context-menus';
