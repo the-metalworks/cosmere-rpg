@@ -4,6 +4,7 @@ import {
     TalentTreeItem,
 } from '@system/documents/item';
 import { MustBeValidUuid } from '@system/types/utils';
+import { DataSchema } from '../../types';
 
 const SCHEMA = () => ({
     talentTree: new foundry.data.fields.DocumentUUIDField<
@@ -21,7 +22,7 @@ const SCHEMA = () => ({
     }),
 });
 
-export type TalentsProviderDataSchema = ReturnType<typeof SCHEMA>;
+export type TalentsProviderDataSchema = DataSchema<typeof SCHEMA>;
 export type TalentsProviderData =
     foundry.data.fields.SchemaField.InitializedData<TalentsProviderDataSchema>;
 

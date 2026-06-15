@@ -69,7 +69,7 @@ export function register() {
         description: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UpdateItem}.Description`,
         config: {
             schema: SCHEMA,
-            template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.IES_HANDLER_UPDATE_ITEM}`,
+            template: `${TEMPLATES.DIRECTORY}${TEMPLATES.IES_HANDLER_UPDATE_ITEM}`,
         },
         executor: async function (
             this: UpdateItemHandlerConfigData,

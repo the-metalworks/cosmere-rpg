@@ -12,7 +12,7 @@ export class DetailsDamageComponent extends HandlebarsApplicationComponent<// ty
 // NOTE: Use any as workaround for foundry-vtt-types issues
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 any> {
-    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_DETAILS_DAMAGE}`;
+    static TEMPLATE = `${TEMPLATES.DIRECTORY}${TEMPLATES.ITEM_DETAILS_DAMAGE}`;
 
     /* eslint-disable @typescript-eslint/unbound-method */
     static ACTIONS = {

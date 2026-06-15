@@ -46,7 +46,7 @@
         "typescript-eslint": "^8.2.0"
     },
     "engines": {
-        "node": "^20"
+        "node": ">=20.18 <24"
     },
     "dependencies": {
         "@pixi-essentials/svg": "^3.0.0",

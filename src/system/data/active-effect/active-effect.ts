@@ -1,3 +1,5 @@
+import { DataSchema } from '../types';
+
 const SCHEMA = () => ({
     isStackable: new foundry.data.fields.BooleanField({
         required: true,
@@ -10,7 +12,7 @@ const SCHEMA = () => ({
     }),
 });
 
-export type ActiveEffectDataSchema = ReturnType<typeof SCHEMA>;
+export type ActiveEffectDataSchema = DataSchema<typeof SCHEMA>;
 
 export class ActiveEffectDataModel extends foundry.abstract.TypeDataModel<
     ActiveEffectDataSchema,

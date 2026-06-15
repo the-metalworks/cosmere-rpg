@@ -20,6 +20,7 @@ import { GoalItemDataModel } from './goal';
 
 import { PowerItemDataModel } from './power';
 
+import { EffectsContainerItemDataModel } from './effects-container';
 import { TalentTreeItemDataModel } from './talent-tree';
 
 export const config = {
@@ -42,6 +43,7 @@ export const config = {
 
     [ItemType.Power]: PowerItemDataModel,
 
+    [ItemType.EffectsContainer]: EffectsContainerItemDataModel,
     [ItemType.TalentTree]: TalentTreeItemDataModel,
 };
 
@@ -59,31 +61,33 @@ export * from './connection';
 export * from './trait';
 export * from './goal';
 export * from './power';
+export * from './effects-container';
 export * from './talent-tree';
 
-declare module "@league-of-foundry-developers/foundry-vtt-types/configuration" {
+declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
     interface DataModelConfig {
         Item: {
-            [ItemType.Weapon]: typeof WeaponItemDataModel,
-            [ItemType.Armor]: typeof ArmorItemDataModel
-            [ItemType.Equipment]: typeof EquipmentItemDataModel
-            [ItemType.Loot]: typeof LootItemDataModel
+            [ItemType.Weapon]: typeof WeaponItemDataModel;
+            [ItemType.Armor]: typeof ArmorItemDataModel;
+            [ItemType.Equipment]: typeof EquipmentItemDataModel;
+            [ItemType.Loot]: typeof LootItemDataModel;
 
-            [ItemType.Ancestry]: typeof AncestryItemDataModel
-            [ItemType.Culture]: typeof CultureItemDataModel
-            [ItemType.Path]: typeof PathItemDataModel
-            [ItemType.Talent]: typeof TalentItemDataModel
-            [ItemType.Trait]: typeof TraitItemDataModel
+            [ItemType.Ancestry]: typeof AncestryItemDataModel;
+            [ItemType.Culture]: typeof CultureItemDataModel;
+            [ItemType.Path]: typeof PathItemDataModel;
+            [ItemType.Talent]: typeof TalentItemDataModel;
+            [ItemType.Trait]: typeof TraitItemDataModel;
 
-            [ItemType.Action]: typeof ActionItemDataModel
+            [ItemType.Action]: typeof ActionItemDataModel;
 
-            [ItemType.Injury]: typeof InjuryItemDataModel
-            [ItemType.Connection]: typeof ConnectionItemDataModel
-            [ItemType.Goal]: typeof GoalItemDataModel
+            [ItemType.Injury]: typeof InjuryItemDataModel;
+            [ItemType.Connection]: typeof ConnectionItemDataModel;
+            [ItemType.Goal]: typeof GoalItemDataModel;
 
-            [ItemType.Power]: typeof PowerItemDataModel
+            [ItemType.Power]: typeof PowerItemDataModel;
 
-            [ItemType.TalentTree]: typeof TalentTreeItemDataModel
-        }
+            [ItemType.EffectsContainer]: typeof EffectsContainerItemDataModel;
+            [ItemType.TalentTree]: typeof TalentTreeItemDataModel;
+        };
     }
 }

@@ -9,6 +9,7 @@ import {
     WeaponTraitId,
     ArmorTraitId,
     ActionCostType,
+    EffectListType,
 } from '@system/types/cosmere';
 import { CosmereHooks } from '@system/types/hooks';
 import { AnyObject, EmptyObject, DeepPartial } from '@system/types/utils';
@@ -31,6 +32,7 @@ import {
     GoalItemDataModel,
     PowerItemDataModel,
     TalentTreeItemDataModel,
+    EffectsContainerItemDataModel,
 } from '@system/data/item';
 
 import {
@@ -72,6 +74,7 @@ import {
 
 // Sheet
 import { BaseItemSheet } from '@system/applications/item/base';
+import { CosmereActiveEffect } from '.';
 
 // Rolls
 import {
@@ -205,6 +208,10 @@ export class CosmereItem<
 
     public isPower(): this is PowerItem {
         return this.type === ItemType.Power;
+    }
+
+    public isEffectsContainer(): this is CosmereItem<EffectsContainerItemDataModel> {
+        return this.type === ItemType.EffectsContainer;
     }
 
     public isTalentTree(): this is CosmereItem<TalentTreeItemDataModel> {
@@ -347,6 +354,97 @@ export class CosmereItem<
 
         // Check if the actor has the mode active
         return activeMode === this.system.id;
+    }
+
+    /**
+     * Returns true if effects list is not empty
+     */
+    public get hasEffects(): boolean {
+        return !!this.effects.contents.length;
+    }
+
+    /**
+     * Returns a list of all effects which match the supplied type
+     */
+    public getEffectsOfType(type: EffectListType): CosmereActiveEffect[] {
+        switch (type) {
+            case EffectListType.Inactive:
+                return this.inactiveEffects;
+            case EffectListType.Passive:
+                return this.passiveEffects;
+            case EffectListType.Temporary:
+                return this.temporaryEffects;
+            default:
+                return [];
+        }
+    }
+
+    /**
+     * Returns a list of all non-temporary effects which are active
+     */
+    public get passiveEffects(): CosmereActiveEffect[] {
+        return this.hasEffects
+            ? this.effects.contents.filter(
+                  (effect) => effect.active && !effect.isTemporary,
+              )
+            : [];
+    }
+
+    /**
+     * Returns a list of all effects which are inactive
+     */
+    public get inactiveEffects(): CosmereActiveEffect[] {
+        return this.hasEffects
+            ? this.effects.contents.filter((effect) => !effect.active)
+            : [];
+    }
+
+    /**
+     * Returns a list of all temporary effects which are active
+     */
+    public get temporaryEffects(): CosmereActiveEffect[] {
+        return this.hasEffects
+            ? this.effects.contents.filter(
+                  (effect) => effect.active && effect.isTemporary,
+              )
+            : [];
+    }
+
+    /**
+     * Returns true if even a single passive effect exists on the item
+     */
+    public hasEffectOfType(type: EffectListType): boolean {
+        switch (type) {
+            case EffectListType.Inactive:
+                return this.hasInactiveEffect;
+            case EffectListType.Passive:
+                return this.hasPassiveEffect;
+            case EffectListType.Temporary:
+                return this.hasTemporaryEffect;
+            default:
+                return false;
+        }
+    }
+
+    /**
+     * Returns true if even a single passive effect exists on the item
+     */
+    public get hasPassiveEffect(): boolean {
+        return !!this.passiveEffects.length;
+    }
+
+    /**
+     * Returns true if even a single inactive effect exists on the item
+     */
+    public get hasInactiveEffect(): boolean {
+        return !!this.inactiveEffects.length;
+    }
+
+    /**
+     * Returns true if even a single temporary effect exists on the item
+     */
+    public get hasTemporaryEffect(): boolean {
+        return !!this.temporaryEffects.length;
     }
 
     /**
@@ -1700,6 +1798,7 @@ export type ActionItem = CosmereItem<ActionItemDataModel>;
 export type TalentItem = CosmereItem<TalentItemDataModel>;
 export type EquipmentItem = CosmereItem<EquipmentItemDataModel>;
 export type WeaponItem = CosmereItem<WeaponItemDataModel>;
+export type EffectsContainerItem = CosmereItem<EffectsContainerItemDataModel>;
 export type GoalItem = CosmereItem<GoalItemDataModel>;
 export type PowerItem = CosmereItem<PowerItemDataModel>;
 export type TalentTreeItem = CosmereItem<TalentTreeItemDataModel>;

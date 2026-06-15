@@ -17,6 +17,7 @@ import {
 
 // Mixins
 import { DataModelMixin } from '../mixins';
+import { DataSchema } from '../types';
 
 // Constants
 const VALID_NODE_TYPES = [
@@ -130,11 +131,9 @@ const SCHEMA = () => ({
     }),
 });
 
-export type TalentTreeItemDataSchema = ReturnType<typeof SCHEMA>;
+export type TalentTreeItemDataSchema = DataSchema<typeof SCHEMA>;
 
-export class TalentTreeItemDataModel extends DataModelMixin<
-    TalentTreeItemDataSchema
->() {
+export class TalentTreeItemDataModel extends DataModelMixin<TalentTreeItemDataSchema>() {
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());
     }

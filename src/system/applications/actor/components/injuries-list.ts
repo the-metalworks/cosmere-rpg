@@ -18,7 +18,7 @@ export class ActorInjuriesListComponent extends HandlebarsApplicationComponent</
 // NOTE: Use any as workaround for foundry-vtt-types issues
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 any> {
-    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_INJURIES_LIST}`;
+    static TEMPLATE = `${TEMPLATES.DIRECTORY}${TEMPLATES.ACTOR_BASE_INJURIES_LIST}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions
@@ -80,7 +80,9 @@ any> {
         this: ActorInjuriesListComponent,
         element: HTMLElement,
     ) {
-        const injuryId = element.closest('[data-item-id]')?.getAttribute('data-item-id');
+        const injuryId = element
+            .closest('[data-item-id]')
+            ?.getAttribute('data-item-id');
         if (!injuryId) return;
 
         // Get the injury
@@ -95,7 +97,9 @@ any> {
         this: ActorInjuriesListComponent,
         element: HTMLElement,
     ) {
-        const injuryId = element.closest('[data-item-id]')?.getAttribute('data-item-id');
+        const injuryId = element
+            .closest('[data-item-id]')
+            ?.getAttribute('data-item-id');
         if (!injuryId) return;
 
         // Get the injury
