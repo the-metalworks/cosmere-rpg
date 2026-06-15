@@ -222,8 +222,6 @@
                 "Subtype": "Subtype",
                 "Edit": "Edit",
                 "View": "View",
-                "Favorites": "Favorites",
-                "DropFavorite": "Drop Favorite",
                 "AncestryPlaceholder": "Add Ancestry",
                 "CulturePlaceholder": "Add Culture",
                 "PathPlaceholder": "Add Path",
@@ -408,6 +406,11 @@
                     "label_plural": "Powers",
                     "desc_placeholder": "Edit this to describe the power.",
                     "New": "New {type}"
+                },
+                "EffectsContainer": {
+                    "label": "Effects Container",
+                    "label_plural": "Effects Containers",
+                    "desc_placeholder": "Edit this to describe the effects contained within and why they are grouped."
                 },
                 "TalentTree": {
                     "label": "Talent Tree",
@@ -1571,6 +1574,7 @@
         "Talent": "Talent",
         "Goal": "Goal",
         "Button": {
+            "Source": "Edit Source",
             "Roll": "Roll",
             "Continue": "Continue",
             "Remove": "Remove",
@@ -1578,8 +1582,6 @@
             "Save": "Save",
             "Cancel": "Cancel",
             "Update": "Update",
-            "RemoveFavorite": "Remove Favorite",
-            "Favorite": "Favorite",
             "Confirm": "Confirm"
         },
         "Notification": {
@@ -1654,6 +1656,7 @@
             "equipment": "Equipment",
             "weapon": "Weapon",
             "power": "Power",
+            "effects_container": "Effects Container",
             "talent_tree": "Talent Tree"
         }
     },

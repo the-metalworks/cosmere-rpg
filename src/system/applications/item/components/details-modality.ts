@@ -11,7 +11,7 @@ export class DetailsModalityComponent extends HandlebarsApplicationComponent<// 
 // NOTE: Use any as workaround for foundry-vtt-types issues
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 any> {
-    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_DETAILS_MODALITY}`;
+    static TEMPLATE = `${TEMPLATES.DIRECTORY}${TEMPLATES.ITEM_DETAILS_MODALITY}`;
 
     /* --- Context --- */
 

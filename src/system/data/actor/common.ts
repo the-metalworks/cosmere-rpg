@@ -22,7 +22,7 @@ import {
     Merge,
     RemoveIndexSignatures,
 } from '@system/types/utils';
-import { InferSchema } from '../types';
+import { DataSchema, InferSchema } from '../types';
 
 // Fields
 import { DerivedValueField, Derived } from '../fields/derived-value-field';
@@ -531,7 +531,7 @@ function getMovementSchema() {
     );
 }
 
-export type CommonActorDataSchema = ReturnType<typeof SCHEMA>;
+export type CommonActorDataSchema = DataSchema<typeof SCHEMA>;
 export type CommonActorData =
     foundry.data.fields.SchemaField.InitializedData<CommonActorDataSchema>;
 

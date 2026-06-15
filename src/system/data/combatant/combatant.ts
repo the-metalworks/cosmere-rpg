@@ -1,5 +1,6 @@
 import { TurnSpeed } from '@system/types/cosmere';
 import { CosmereCombatant } from '@system/documents/combatant';
+import { DataSchema } from '../types';
 
 const SCHEMA = () => ({
     /**
@@ -29,7 +30,7 @@ const SCHEMA = () => ({
     }),
 });
 
-export type CombatantDataSchema = ReturnType<typeof SCHEMA>;
+export type CombatantDataSchema = DataSchema<typeof SCHEMA>;
 
 export class CombatantDataModel extends foundry.abstract.TypeDataModel<
     CombatantDataSchema,

@@ -35,7 +35,7 @@ export class GoalItemSheet extends BaseItemSheet {
         foundry.utils.deepClone(super.PARTS),
         {
             content: {
-                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_GOAL_CONTENT}`,
+                template: `${TEMPLATES.DIRECTORY}${TEMPLATES.ITEM_GOAL_CONTENT}`,
             },
         },
     );

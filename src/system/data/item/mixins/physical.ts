@@ -2,6 +2,7 @@ import { CosmereItem } from '@system/documents';
 import { Merge } from '@system/types/utils';
 
 import { localize } from '@system/utils/i18n';
+import { DataSchema } from '../../types';
 
 // export interface PhysicalItemData {
 //     quantity: number;
@@ -116,7 +117,7 @@ const SCHEMA = () => ({
     }),
 });
 
-export type PhysicalItemDataSchema = ReturnType<typeof SCHEMA>;
+export type PhysicalItemDataSchema = DataSchema<typeof SCHEMA>;
 export type PhysicalItemData =
     foundry.data.fields.SchemaField.InitializedData<PhysicalItemDataSchema>;
 export type PhysicalItemDerivedData = Merge<

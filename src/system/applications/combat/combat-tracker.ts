@@ -46,7 +46,7 @@ export class CosmereCombatTracker extends foundry.applications.sidebar.tabs
         foundry.utils.deepClone(super.PARTS),
         {
             tracker: {
-                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.COMBAT_TRACKER}`,
+                template: `${TEMPLATES.DIRECTORY}${TEMPLATES.COMBAT_TRACKER}`,
             },
         },
     );

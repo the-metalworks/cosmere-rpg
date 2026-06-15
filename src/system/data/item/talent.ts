@@ -5,7 +5,11 @@ import { EmptyObject } from '@system/types/utils';
 // Mixins
 import { DataModelMixin } from '../mixins';
 import { IdItemMixin, IdItemDataSchema } from './mixins/id';
-import { TypedItemMixin, TypedItemDataSchema, TypedItemDerivedData } from './mixins/typed';
+import {
+    TypedItemMixin,
+    TypedItemDataSchema,
+    TypedItemDerivedData,
+} from './mixins/typed';
 import {
     DescriptionItemMixin,
     DescriptionItemDataSchema,
@@ -21,6 +25,10 @@ import {
     RelationshipsMixin,
     RelationshipsItemDataSchema,
 } from './mixins/relationships';
+import {
+    LinkedSkillsMixin,
+    LinkedSkillsItemDataSchema,
+} from './mixins/linked-skills';
 
 const SCHEMA = () => ({
     path: new foundry.data.fields.StringField({
@@ -42,22 +50,22 @@ const SCHEMA = () => ({
     }),
 });
 
-export type TalentItemDataSchema =
-    & ReturnType<typeof SCHEMA>
-    & IdItemDataSchema
-    & TypedItemDataSchema<Talent.Type>
-    & DescriptionItemDataSchema
-    & ActivatableItemDataSchema
-    & DamagingItemDataSchema
-    & ModalityItemDataSchema
-    & EventsItemDataSchema
-    & RelationshipsItemDataSchema;
+export type TalentItemDataSchema = ReturnType<typeof SCHEMA> &
+    IdItemDataSchema &
+    TypedItemDataSchema<Talent.Type> &
+    DescriptionItemDataSchema &
+    ActivatableItemDataSchema &
+    DamagingItemDataSchema &
+    ModalityItemDataSchema &
+    EventsItemDataSchema &
+    LinkedSkillsItemDataSchema &
+    RelationshipsItemDataSchema;
 
 export type TalentItemDerivedData = TypedItemDerivedData & {
     hasPath: boolean;
     hasAncestry: boolean;
     hasPower: boolean;
-}
+};
 
 export class TalentItemDataModel extends DataModelMixin<
     TalentItemDataSchema,
@@ -86,6 +94,7 @@ export class TalentItemDataModel extends DataModelMixin<
     DamagingItemMixin(),
     ModalityItemMixin(),
     EventsItemMixin(),
+    LinkedSkillsMixin(),
     RelationshipsMixin(),
 ) {
     static defineSchema() {

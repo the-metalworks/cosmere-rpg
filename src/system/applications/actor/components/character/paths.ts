@@ -14,7 +14,7 @@ export class CharacterPathsComponent extends HandlebarsApplicationComponent<// t
 // NOTE: Use any as workaround for foundry-vtt-types issues
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 any> {
-    static readonly TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_PATHS}`;
+    static readonly TEMPLATE = `${TEMPLATES.DIRECTORY}${TEMPLATES.ACTOR_CHARACTER_PATHS}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions

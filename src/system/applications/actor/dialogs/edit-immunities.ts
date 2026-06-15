@@ -27,7 +27,7 @@ export class EditImmunitiesDialog extends HandlebarsApplicationMixin(
         foundry.utils.deepClone(super.PARTS),
         {
             form: {
-                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ACTOR_EDIT_IMMUNITIES}`,
+                template: `${TEMPLATES.DIRECTORY}${TEMPLATES.DIALOG_ACTOR_EDIT_IMMUNITIES}`,
                 // See note above
                 /* eslint-disable @typescript-eslint/unbound-method */
                 forms: {

@@ -1,7 +1,6 @@
-import { CosmereItem } from '@src/system/documents';
-
 // Mixins
 import { DataModelMixin } from '../mixins';
+import { IdItemMixin, IdItemDataSchema } from './mixins/id';
 import {
     DescriptionItemMixin,
     DescriptionItemDataSchema,
@@ -11,21 +10,20 @@ import {
     RelationshipsMixin,
     RelationshipsItemDataSchema,
 } from './mixins/relationships';
-import {
-    LinkedSkillsMixin,
-    LinkedSkillsItemDataSchema,
-} from './mixins/linked-skills';
 
-export type ConnectionItemDataSchema = DescriptionItemDataSchema &
+export type EffectsContainerItemDataSchema = IdItemDataSchema &
+    DescriptionItemDataSchema &
     EventsItemDataSchema &
-    LinkedSkillsItemDataSchema &
     RelationshipsItemDataSchema;
 
-export class ConnectionItemDataModel extends DataModelMixin<ConnectionItemDataSchema>(
+export class EffectsContainerItemDataModel extends DataModelMixin<EffectsContainerItemDataSchema>(
+    IdItemMixin({
+        initial: 'none',
+        choices: () => ['none', ...Object.keys(CONFIG.COSMERE.cultures)],
+    }),
     DescriptionItemMixin({
-        value: 'COSMERE.Item.Type.Connection.desc_placeholder',
+        value: 'COSMERE.Item.Type.EffectsContainer.desc_placeholder',
     }),
     EventsItemMixin(),
-    LinkedSkillsMixin(),
     RelationshipsMixin(),
 ) {}

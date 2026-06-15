@@ -9,15 +9,29 @@ import {
     DescriptionItemMixin,
     DescriptionItemDataSchema,
 } from './mixins/description';
-import { EquippableItemMixin, EquippableItemDataSchema } from './mixins/equippable';
+import {
+    EquippableItemMixin,
+    EquippableItemDataSchema,
+} from './mixins/equippable';
 import {
     ActivatableItemMixin,
     ActivatableItemDataSchema,
 } from './mixins/activatable';
-import { ExpertiseItemMixin, ExpertiseItemDataSchema } from './mixins/expertise';
-import { TraitsItemMixin, TraitsItemDataSchema, TraitsItemDerivedData } from './mixins/traits';
+import {
+    ExpertiseItemMixin,
+    ExpertiseItemDataSchema,
+} from './mixins/expertise';
+import {
+    TraitsItemMixin,
+    TraitsItemDataSchema,
+    TraitsItemDerivedData,
+} from './mixins/traits';
 import { DeflectItemMixin, DeflectItemDataSchema } from './mixins/deflect';
-import { PhysicalItemMixin, PhysicalItemDataSchema, PhysicalItemDerivedData } from './mixins/physical';
+import {
+    PhysicalItemMixin,
+    PhysicalItemDataSchema,
+    PhysicalItemDerivedData,
+} from './mixins/physical';
 import { EventsItemMixin, EventsItemDataSchema } from './mixins/events';
 import {
     LinkedSkillsMixin,
@@ -28,20 +42,22 @@ import {
     RelationshipsItemDataSchema,
 } from './mixins/relationships';
 
-export type ArmorItemDataSchema = 
-    & IdItemDataSchema
-    & DescriptionItemDataSchema
-    & EquippableItemDataSchema<{ equipType: { initial: EquipType.Wear, choices: [EquipType.Wear] } }>
-    & ActivatableItemDataSchema
-    & ExpertiseItemDataSchema
-    & TraitsItemDataSchema
-    & DeflectItemDataSchema
-    & PhysicalItemDataSchema
-    & EventsItemDataSchema
-    & LinkedSkillsItemDataSchema
-    & RelationshipsItemDataSchema;
+export type ArmorItemDataSchema = IdItemDataSchema &
+    DescriptionItemDataSchema &
+    EquippableItemDataSchema<{
+        equipType: { initial: EquipType.Wear; choices: [EquipType.Wear] };
+    }> &
+    ActivatableItemDataSchema &
+    ExpertiseItemDataSchema &
+    TraitsItemDataSchema &
+    DeflectItemDataSchema &
+    PhysicalItemDataSchema &
+    EventsItemDataSchema &
+    LinkedSkillsItemDataSchema &
+    RelationshipsItemDataSchema;
 
-export type ArmorItemDerivedData = PhysicalItemDerivedData & TraitsItemDerivedData;
+export type ArmorItemDerivedData = PhysicalItemDerivedData &
+    TraitsItemDerivedData;
 
 export class ArmorItemDataModel extends DataModelMixin<
     ArmorItemDataSchema,

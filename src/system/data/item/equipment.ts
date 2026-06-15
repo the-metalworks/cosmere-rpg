@@ -4,12 +4,20 @@ import { EmptyObject } from '@system/types/utils';
 
 // Mixins
 import { DataModelMixin } from '../mixins';
-import { TypedItemMixin, TypedItemDataSchema, TypedItemDerivedData } from './mixins/typed';
+import {
+    TypedItemMixin,
+    TypedItemDataSchema,
+    TypedItemDerivedData,
+} from './mixins/typed';
 import {
     DescriptionItemMixin,
     DescriptionItemDataSchema,
 } from './mixins/description';
-import { PhysicalItemMixin, PhysicalItemDataSchema, PhysicalItemDerivedData } from './mixins/physical';
+import {
+    PhysicalItemMixin,
+    PhysicalItemDataSchema,
+    PhysicalItemDerivedData,
+} from './mixins/physical';
 import {
     ActivatableItemMixin,
     ActivatableItemDataSchema,
@@ -20,19 +28,22 @@ import {
     RelationshipsMixin,
     RelationshipsItemDataSchema,
 } from './mixins/relationships';
+import {
+    LinkedSkillsMixin,
+    LinkedSkillsItemDataSchema,
+} from './mixins/linked-skills';
 
-export type EquipmentItemDataSchema = 
-    & TypedItemDataSchema<EquipmentType>
-    & DescriptionItemDataSchema
-    & PhysicalItemDataSchema
-    & ActivatableItemDataSchema
-    & DamagingItemDataSchema
-    & EventsItemDataSchema
-    & RelationshipsItemDataSchema;
+export type EquipmentItemDataSchema = TypedItemDataSchema<EquipmentType> &
+    DescriptionItemDataSchema &
+    PhysicalItemDataSchema &
+    ActivatableItemDataSchema &
+    DamagingItemDataSchema &
+    EventsItemDataSchema &
+    LinkedSkillsItemDataSchema &
+    RelationshipsItemDataSchema;
 
-export type EquipmentItemDerivedData = 
-    & TypedItemDerivedData 
-    & PhysicalItemDerivedData;
+export type EquipmentItemDerivedData = TypedItemDerivedData &
+    PhysicalItemDerivedData;
 
 export class EquipmentItemDataModel extends DataModelMixin<
     EquipmentItemDataSchema,
@@ -58,5 +69,6 @@ export class EquipmentItemDataModel extends DataModelMixin<
     ActivatableItemMixin(),
     DamagingItemMixin(),
     EventsItemMixin(),
+    LinkedSkillsMixin(),
     RelationshipsMixin(),
 ) {}
