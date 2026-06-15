@@ -3,14 +3,12 @@ import { CosmereCombat } from '../documents';
 
 export type CombatRoundStart = (
     combat: CosmereCombat,
-    previousRound: number,
-    startedRound: number,
+    options: { previousRound: number; newRound: number },
 ) => void;
 
 export type CombatRoundEnd = (
     combat: CosmereCombat,
-    endedRound: number,
-    startedRound: number,
+    options: { previousRound: number; newRound: number },
 ) => void;
 
 declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {

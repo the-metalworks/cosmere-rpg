@@ -121,19 +121,23 @@ const EVENTS: EventDefinition[] = [
     {
         type: 'combat-round-start',
         hook: HOOKS.COMBAT_ROUND_START,
-        transform: (combat: Combat, updateData: { round: number }) => ({
+        transform: (
+            combat: Combat,
+            options: { previousRound: number; newRound: number },
+        ) => ({
             document: combat,
-            previousRound: combat.round,
-            newRound: updateData.round,
+            options,
         }),
     },
     {
         type: 'combat-round-end',
         hook: HOOKS.COMBAT_ROUND_END,
-        transform: (combat: Combat, updateData: { round: number }) => ({
+        transform: (
+            combat: Combat,
+            options: { previousRound: number; newRound: number },
+        ) => ({
             document: combat,
-            previousRound: updateData.round,
-            newRound: combat.round,
+            options,
         }),
     },
 ];

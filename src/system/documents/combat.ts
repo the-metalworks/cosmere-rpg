@@ -27,9 +27,15 @@ export class CosmereCombat extends Combat {
         const combat = await super.nextRound();
         const newRound = this.round;
 
-        Hooks.callAll(HOOKS.COMBAT_ROUND_END, this, previousRound, newRound);
+        Hooks.callAll(HOOKS.COMBAT_ROUND_END, this, {
+            previousRound,
+            newRound,
+        });
 
-        Hooks.callAll(HOOKS.COMBAT_ROUND_START, this, previousRound, newRound);
+        Hooks.callAll(HOOKS.COMBAT_ROUND_START, this, {
+            previousRound,
+            newRound,
+        });
         return combat;
     }
 
