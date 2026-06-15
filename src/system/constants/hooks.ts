@@ -16,8 +16,6 @@ export const HOOKS = {
 
     /* ----- Encounter Hooks ----- */
     /* -- Combat Hooks -- */
-    COMBAT_START: `combatStart`,
-    COMBAT_END: `deleteCombat`,
     COMBAT_ROUND_START: `${SYSTEM_ID}.combatRoundStart`,
     COMBAT_ROUND_END: `${SYSTEM_ID}.combatRoundEnd`,
 
