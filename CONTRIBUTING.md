@@ -4,6 +4,11 @@ Thank you for your interest in contributing to the Foundry VTT Cosmere RPG syste
 
 If you encounter any bugs or have ideas for new features, please create an [Issue](https://github.com/the-metalworks/cosmere-rpg/issues) to let us know. We encourage you to participate in discussions and contribute your ideas.
 
+> [!IMPORTANT]
+> Brotherwise Games has adopted a no-AI policy for the Cosmere RPG. To remain aligned with that policy, we do not accept contributions that have been created, in whole or in part, using generative AI tools.
+>  
+> If your pull request contains any content that was created with the assistance of generative AI, we will be unable to accept it.
+
 ## How can I help?
 
 To start contributing, [fork the repository](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) to create a copy of the project under your GitHub account. This will allow you to make changes without affecting the original project. After forking, clone your fork to your local machine to begin working on it.
