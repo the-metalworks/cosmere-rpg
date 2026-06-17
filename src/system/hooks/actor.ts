@@ -297,9 +297,7 @@ Hooks.on(
                 for (const otherItem of item.actor.items) {
                     if (
                         otherItem.isTalentsProvider() &&
-                        ((await otherItem.system.providesTalent(item)) ||
-                            (otherItem.isPath() &&
-                                otherItem.system.id == item.system.path))
+                        (await otherItem.system.providesTalent(item))
                     ) {
                         parentItem = otherItem;
                         break;
