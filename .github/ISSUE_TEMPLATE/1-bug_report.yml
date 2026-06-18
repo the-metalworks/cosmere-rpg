@@ -84,9 +84,17 @@ body:
   validations:
     required: true
 - type: input
-  id: version-info
+  id: foundry-version
   attributes:
-    label: Version Info
+    label: Version Info - Foundry VTT
+    description: Please indicate the Foundry VTT version you are using (including build).
+    placeholder: ex. 13.351
+  validations:
+    required: true
+- type: input
+  id: cosmere-version
+  attributes:
+    label: Version Info - Cosmere RPG
     description: Please indicate the system release version you are using.
     placeholder: ex. 2.0.1
   validations:
