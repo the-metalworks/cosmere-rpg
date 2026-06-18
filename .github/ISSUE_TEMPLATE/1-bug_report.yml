@@ -87,7 +87,7 @@ body:
   id: foundry-version
   attributes:
     label: Version Info - Foundry VTT
-    description: Please indicate the Foundry VTT version you are using (including build).
+    description: "Please indicate the Foundry VTT version you are using (including build). *Note: This can be found in-game on Foundry in the settings tab."
     placeholder: ex. 13.351
   validations:
     required: true
@@ -95,7 +95,7 @@ body:
   id: cosmere-version
   attributes:
     label: Version Info - Cosmere RPG
-    description: Please indicate the system release version you are using.
+    description: "Please indicate the system release version you are using. *Note: This can be found in-game on Foundry in the settings tab."
     placeholder: ex. 2.0.1
   validations:
     required: true
