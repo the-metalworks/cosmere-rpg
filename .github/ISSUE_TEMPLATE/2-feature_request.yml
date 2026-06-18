@@ -32,10 +32,10 @@ body:
   validations:
     required: false
 - type: input
-  id: version-info
+  id: cosmere-version
   attributes:
-    label: Version Info
-    description: Please indicate the system release version you are using.
+    label: Version Info - Cosmere RPG
+    description: "Please indicate the system release version you are using. *Note: This can be found in-game on Foundry in the settings tab."
     placeholder: ex. 2.0.1
   validations:
     required: true
