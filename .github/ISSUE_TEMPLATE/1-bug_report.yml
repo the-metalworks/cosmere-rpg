@@ -83,17 +83,14 @@ body:
       - Other
   validations:
     required: true
-- type: textarea
+- type: input
   id: version-info
   attributes:
     label: Version Info
-    description: Please fill out the version field on the table, adding a new row for each Stormlight module this report applies to by copy-pasting the system row and filling in the info for each.
-    value: |
-      |**Name**|**Version**|
-      |---|---|
-      |**System**|_ex. 2.0.4_|
+    description: Please indicate the system release version you are using.
+    placeholder: ex. 2.0.1
   validations:
-    required: false
+    required: true
 - type: textarea
   id: extra-context
   attributes:

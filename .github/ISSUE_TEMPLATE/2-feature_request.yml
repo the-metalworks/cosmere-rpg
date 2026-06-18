@@ -31,6 +31,14 @@ body:
     description: A clear and concise description of any alternative solutions or features you've considered.
   validations:
     required: false
+- type: input
+  id: version-info
+  attributes:
+    label: Version Info
+    description: Please indicate the system release version you are using.
+    placeholder: ex. 2.0.1
+  validations:
+    required: true
 - type: textarea
   id: extra-context
   attributes:
