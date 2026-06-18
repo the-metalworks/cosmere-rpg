@@ -1,7 +1,6 @@
 name: Feature Request
 description: Please use this form to request new features that are specific to the system, not any modules.
 labels: type | feature request
-type: Feature
 body:
 - type: checkboxes
   id: existing-issue

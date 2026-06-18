@@ -1,7 +1,6 @@
 name: Bug Report
 description: Please use this form to report any bugs you encounter that are specific to the system, not any modules.
 labels: type | bug
-type: Bug
 body:
 - type: checkboxes
   id: existing-issue

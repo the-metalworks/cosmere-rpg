@@ -1,7 +1,6 @@
 name: Documentation
 description: A task that provides extra documentation for system-specific content and functionality.
 labels: type | documentation
-type: Task
 body:
 - type: checkboxes
   id: existing-issue
