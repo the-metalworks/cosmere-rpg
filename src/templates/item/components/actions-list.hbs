@@ -60,12 +60,12 @@
                         {{#if (eq ctx.consume.length 1)}}
                             {{#with ctx.consume.[0] as |consume|}}
                             {{#if consume.consumesResource}}
-                            <span>{{resourceCostLabel consume}}</span>
+                                <span>{{resourceCostLabel consume}}</span>
                             {{/if}}
 
                             {{!-- TODO: Item consume --}}
                             {{#if consume.consumesItem}}
-                            <span>—</span>
+                                <span>—</span>
                             {{/if}}
                             {{/with}}
                         {{/if}}

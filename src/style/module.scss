@@ -71,6 +71,10 @@
         border-radius: 0;
         outline: none;
         box-shadow: none;
+
+        > option {
+            background-color: var(--cosmere-color-base-4);
+        }
     }
 
     input[type="checkbox"] {
@@ -625,6 +629,19 @@
                 line-height: 10px;
                 opacity: 0.8;
             }
+        }
+    }
+
+    a.content-link.document-link {
+        display: flex;
+        align-items: center;
+        gap: .25ch;
+        padding: 2px 4px;
+
+        > img {
+            width: 20px;
+            height: 20px;
+            border: 1px solid var(--content-link-border-color);
         }
     }
 

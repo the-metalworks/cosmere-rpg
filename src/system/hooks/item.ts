@@ -1,3 +1,9 @@
+import {
+    ItemType,
+    ActivationType,
+    ActionCostType,
+} from '@system/types/cosmere';
+
 import { CosmereItem, RelationshipsItem } from '@system/documents/item';
 import { CosmereHooks } from '@system/types/hooks';
 import { DeepPartial, DeepMutable } from '@system/types/utils';
@@ -13,6 +19,8 @@ import ItemRelationshipUtils from '@system/utils/item/relationship';
 // Constants
 import { SYSTEM_ID } from '@system/constants';
 import { HOOKS } from '@system/constants/hooks';
+
+/* --- Progress Goal Hooks --- */
 
 Hooks.on('preUpdateItem', (item: CosmereItem, update: Item.UpdateData) => {
     if (item.isGoal()) {

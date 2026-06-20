@@ -105,14 +105,12 @@ import { getEmbedHelpers } from '@system/utils/embed';
 import ItemRelationshipUtils, {
     RemoveRelationshipOptions,
 } from '@system/utils/item/relationship';
+import { matchDocuments } from '@system/utils/match-document';
 import { EventToggleOptions } from '@system/utils/item/event-system';
 
 // Dialogs
 import { AttackConfigurationDialog } from '@system/applications/dialogs/attack-configuration';
-import {
-    ItemConsumeDialog,
-    ItemConsumeDialogOptions,
-} from '@system/applications/item/dialogs/item-consume';
+import { ItemConsumeDialog } from '@src/system/applications/item/dialogs/item-consume';
 
 // Constants
 import { SYSTEM_ID } from '@system/constants';
@@ -1102,7 +1100,7 @@ export class CosmereItem<
         // Determine if we should handle resource consumption
         let consumeResponse: ActionItemDataModel.ConsumeData[] | null = null;
         if (consumptionAvailable && !options.shouldConsume) {
-            consumeResponse = await this.showConsumeDialog();
+            consumeResponse = await ItemConsumeDialog.show(this);
 
             // If the dialog was closed, exit out of use action
             if (consumeResponse === null) return null;
@@ -1112,53 +1110,82 @@ export class CosmereItem<
         if (!!consumeResponse && consumeResponse.length > 0) {
             // Process each included resource consumption
             for (const consumption of consumeResponse) {
-                // Get the current amount
-                let currentAmount: number;
-                switch (consumption.type) {
-                    case ItemConsumeType.Resource:
-                        currentAmount =
-                            options.actor.system.resources[consumption.resource]
-                                .value;
-                        break;
-                    // case ItemConsumeType.Item:
-                    // TODO
-                    default:
-                        currentAmount = 0;
-                }
+                const targets =
+                    consumption.type === ItemConsumeType.Resource ||
+                    consumption.type === ItemConsumeType.ItemResource
+                        ? await matchDocuments({
+                              ...consumption.matchDocument,
+                              relativeTo: this,
+                          })
+                        : null;
 
-                // Validate that there's enough resource to consume
-                const newAmount = currentAmount - consumption.value.actual;
-                if (newAmount < 0) {
+                if (!targets) {
                     ui.notifications.warn(
                         game.i18n.localize('GENERIC.Warning.NotEnoughResource'),
                     );
                     return null;
                 }
 
-                // Add post roll action to consume the resource
-                postRoll.push(() => {
-                    if (consumption.type === ItemConsumeType.Resource) {
-                        // Handle actor resource consumption
-                        void options.actor!.update({
-                            system: {
-                                resources: {
-                                    [consumption.resource]: {
-                                        value: newAmount,
+                for (const target of targets) {
+                    // Get the current amount
+                    let currentAmount = 0;
+
+                    if (
+                        consumption.type === ItemConsumeType.Resource &&
+                        CosmereActor.isInstance(target)
+                    ) {
+                        currentAmount =
+                            target.system.resources[consumption.resource].value;
+                    } else if (
+                        consumption.type === ItemConsumeType.ItemResource &&
+                        target instanceof CosmereItem &&
+                        target.hasResources() &&
+                        target.system.resources[consumption.resource]
+                    ) {
+                        currentAmount =
+                            target.system.resources[consumption.resource].value;
+                    }
+
+                    // Validate that there's enough resource to consume
+                    const newAmount = currentAmount - consumption.value.actual;
+                    if (newAmount < 0) {
+                        ui.notifications.warn(
+                            game.i18n.localize(
+                                'GENERIC.Warning.NotEnoughResource',
+                            ),
+                        );
+                        return null;
+                    }
+
+                    // Add post roll action to consume the resource
+                    postRoll.push(() => {
+                        if (
+                            consumption.type === ItemConsumeType.Resource ||
+                            consumption.type === ItemConsumeType.ItemResource
+                        ) {
+                            // Handle actor resource consumption
+                            void (target as CosmereActor | CosmereItem).update({
+                                system: {
+                                    resources: {
+                                        [consumption.resource]: {
+                                            value: newAmount,
+                                        },
                                     },
                                 },
-                            },
-                        });
-                    } else if (consumption.type === ItemConsumeType.Item) {
-                        // Handle item consumption
-                        // TODO: Figure out how to handle item consumption
+                            });
+                        }
+                        // } else if (consumption.type === ItemConsumeType.Item) {
+                        //     // Handle item consumption
+                        //     // TODO: Figure out how to handle item consumption
 
-                        ui.notifications.warn(
-                            game.i18n
-                                .localize('GENERIC.Warning.NotImplemented')
-                                .replace('[action]', 'Item consumption'),
-                        );
-                    }
-                });
+                        //     ui.notifications.warn(
+                        //         game.i18n
+                        //             .localize('GENERIC.Warning.NotImplemented')
+                        //             .replace('[action]', 'Item consumption'),
+                        //     );
+                        // }
+                    });
+                }
             }
         }
 
@@ -1350,48 +1377,6 @@ export class CosmereItem<
 
             return null;
         }
-    }
-
-    protected async showConsumeDialog(
-        options: ShowConsumeDialogOptions = {},
-    ): Promise<ActionItemDataModel.ConsumeData[] | null> {
-        if (!this.isAction()) return null;
-        if (!this.system.activation!.consumption) return null;
-
-        const consumeOptions = this.system.activation!.consumption.map(
-            (consumptionData, i) => {
-                const consumeType = options.consumeType ?? consumptionData.type;
-                // Only automatically check first option, or anything overridden.
-                const shouldConsume = options.shouldConsume ?? i === 0;
-                const amount = consumptionData.value;
-
-                const label =
-                    consumeType === ItemConsumeType.Resource
-                        ? game.i18n.localize(
-                              CONFIG.COSMERE.resources[consumptionData.resource]
-                                  .label,
-                          )
-                        : consumeType === ItemConsumeType.Item
-                          ? '[TODO ITEM]'
-                          : game.i18n.localize('GENERIC.Unknown');
-
-                return {
-                    type: consumeType,
-                    resource: label,
-                    resourceId: consumptionData.resource ?? 'unknown',
-                    amount,
-                    shouldConsume,
-                };
-            },
-        );
-
-        // Show the dialog if required
-        const result = await ItemConsumeDialog.show(
-            this,
-            consumeOptions as ItemConsumeDialogOptions[],
-        );
-
-        return result?.consumption ?? null;
     }
 
     /* --- Functions --- */

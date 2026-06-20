@@ -1,11 +1,9 @@
-import {
-    ActivationType,
-    ActionCostType,
-    ItemConsumeType,
-    Resource,
-} from '@system/types/cosmere';
+import { ActivationType, ActionCostType } from '@system/types/cosmere';
 
 import { NONE } from '@system/types/utils';
+
+// Fields
+import { ActivationConsumptionField } from './consumption';
 
 export class ActivationField extends foundry.data.fields.SchemaField<
     ActivationField.Schema,
@@ -68,68 +66,10 @@ export class ActivationField extends foundry.data.fields.SchemaField<
                 },
             ),
             consumption: new foundry.data.fields.ArrayField(
-                new foundry.data.fields.SchemaField(
-                    {
-                        type: new foundry.data.fields.StringField({
-                            required: true,
-                            nullable: false,
-                            choices: {
-                                [NONE]: 'GENERIC.None',
-                                ...Object.entries(
-                                    CONFIG.COSMERE.item.activation.consumption
-                                        .types,
-                                ).reduce(
-                                    (acc, [key, config]) => ({
-                                        ...acc,
-                                        [key]: config.label,
-                                    }),
-                                    {} as Record<ItemConsumeType, string>,
-                                ),
-                            },
-                            initial: ItemConsumeType.Resource,
-                        }),
-                        value: new foundry.data.fields.SchemaField({
-                            min: new foundry.data.fields.NumberField({
-                                required: true,
-                                nullable: false,
-                                min: 0,
-                                integer: true,
-                                initial: 0,
-                            }),
-                            max: new foundry.data.fields.NumberField({
-                                required: true,
-                                nullable: false,
-                                min: -1,
-                                integer: true,
-                                initial: 0,
-                            }),
-                            actual: new foundry.data.fields.NumberField({
-                                required: false,
-                                nullable: false,
-                                min: 0,
-                                integer: true,
-                                initial: 0,
-                            }),
-                        }),
-                        resource: new foundry.data.fields.StringField({
-                            blank: false,
-                            choices: Object.entries(
-                                CONFIG.COSMERE.resources,
-                            ).reduce(
-                                (acc, [key, config]) => ({
-                                    ...acc,
-                                    [key]: config.label,
-                                }),
-                                {} as Record<Resource, string>,
-                            ),
-                            initial: Resource.Focus,
-                        }),
-                    },
-                    {
-                        required: true,
-                        nullable: false,
-                    },
-                ),
+                new ActivationConsumptionField({
+                    required: true,
+                    nullable: false,
+                }),
                 {
                     label: 'COSMERE.Item.Sheet.Activation.Consume',
                 },

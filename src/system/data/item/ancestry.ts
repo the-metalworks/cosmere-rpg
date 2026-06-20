@@ -16,6 +16,7 @@ import {
     LinkedSkillsMixin,
     LinkedSkillsItemDataSchema,
 } from './mixins/linked-skills';
+import { ResourcesItemMixin } from './mixins/resources';
 import {
     RelationshipsMixin,
     RelationshipsItemDataSchema,
@@ -97,6 +98,7 @@ type AncestryItemDataSchema =
     & ReturnType<typeof SCHEMA>
     & IdItemDataSchema
     & DescriptionItemDataSchema
+    & ResourcesItemMixin.Schema
     & TalentsProviderDataSchema
     & EventsItemDataSchema
     & LinkedSkillsItemDataSchema
@@ -114,6 +116,7 @@ export class AncestryItemDataModel extends DataModelMixin<
     DescriptionItemMixin({
         value: 'COSMERE.Item.Type.Ancestry.desc_placeholder',
     }),
+    ResourcesItemMixin(),
     TalentsProviderMixin(),
     EventsItemMixin(),
     LinkedSkillsMixin(),

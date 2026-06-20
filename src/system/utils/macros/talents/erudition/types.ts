@@ -1,5 +1,9 @@
 import { Expertise } from '@src/system/data/actor/common';
-import { AttributeGroup, ExpertiseType, Skill } from '@src/system/types/cosmere';
+import {
+    AttributeGroup,
+    ExpertiseType,
+    Skill,
+} from '@src/system/types/cosmere';
 
 export interface EruditionConfig {
     skills: {
@@ -10,7 +14,7 @@ export interface EruditionConfig {
         count: number;
         types: ExpertiseType[];
     };
-};
+}
 
 export interface EruditionSelections {
     skills: Skill[];

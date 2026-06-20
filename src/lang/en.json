@@ -655,16 +655,6 @@
                     }
                 },
                 "Uses": {
-                    "Types": {
-                        "Charge": {
-                            "Singular": "Charge",
-                            "Plural": "Charges"
-                        },
-                        "Use": {
-                            "Singular": "Use",
-                            "Plural": "Uses"
-                        }
-                    },
                     "Recharge": {
                         "Label": "Recharge",
                         "PerScene": "Per scene"
@@ -672,7 +662,25 @@
                     "Per": "Per"
                 },
                 "Opportunity": "Opportunity Threshold",
-                "Complication": "Complication Threshold"
+                "Complication": "Complication Threshold",
+                "ResourceConsumption": {
+                    "Type": {
+                        "Label": "Type",
+                        "ActorResource": {
+                            "Resource": {
+                                "Label": "Resource"
+                            }
+                        },
+                        "ItemResource": {
+                            "Resource": {
+                                "Label": "Resource"
+                            }
+                        }
+                    },
+                    "Value": {
+                        "Label": "Value"
+                    }
+                }
             },
             "Injuries": {
                 "Name": {
@@ -1034,8 +1042,10 @@
                                 "Choices": {
                                     "self": "Self",
                                     "sibling": "Other on same Actor",
+                                    "equipped-item": "Equipped Item",
                                     "equipped-weapon": "Equipped Weapon",
                                     "equipped-armor": "Equipped Armor",
+                                    "equipped-equipment": "Equipped Equipment",
                                     "global": "Global"
                                 }
                             },
@@ -1138,7 +1148,12 @@
                     "Uses": "Limited Uses",
                     "Recharge": "Recharge",
                     "AdditionalFormula": "Roll Formula Extension",
-                    "AdditionalFormulaDescription": "Input any extra modifiers you wish to add to this item's d20 Skill Roll. This input will be treated as a dice formula, but any die you add won't be available for advantage/disadvantage currently. Paramters you can use: @mod, @attribute & @skill.rank refer to the values of the skills selected here, but the whole list of skills and attributes can be accessed - ask on the discord for help!"
+                    "AdditionalFormulaDescription": "Input any extra modifiers you wish to add to this item's d20 Skill Roll. This input will be treated as a dice formula, but any die you add won't be available for advantage/disadvantage currently. Paramters you can use: @mod, @attribute & @skill.rank refer to the values of the skills selected here, but the whole list of skills and attributes can be accessed - ask on the discord for help!",
+                    "ResourceConsumption": {
+                        "Add": "Add Resource Consumption",
+                        "Edit": "Edit",
+                        "Delete": "Remove"
+                    }
                 },
                 "Attack": {
                     "Title": "Attack",
@@ -1240,6 +1255,11 @@
                     "NewAction": {
                         "Name": "New Action"
                     }
+                },
+                "Resources": {
+                    "Title": "Resources",
+                    "Add": "Add Resource",
+                    "Delete": "Remove Resource"
                 }
             },
             "General": {
@@ -1247,6 +1267,33 @@
                     "Label": "Linked Skills",
                     "Hint": "These skills are displayed alongside the {type} in the character sheet."
                 }
+            },
+            "Resource": {
+                "Types": {
+                    "Uses": {
+                        "Singular": "Use",
+                        "Plural": "Uses"
+                    },
+                    "Charges": {
+                        "Singular": "Charge",
+                        "Plural": "Charges"
+                    }
+                },
+                "Key": {
+                    "Label": "Resource"
+                },
+                "Value": {
+                    "Label": "Value"
+                },
+                "Max": {
+                    "Label": "Max"
+                },
+                "Recharge": {
+                    "Label": "Recharge"
+                }
+            },
+            "PrimaryResource": {
+                "Label": "Primary Resource"
             }
         },
         "Attack": {
@@ -1411,6 +1458,89 @@
         "Migration": {
             "DocumentMigrationFailed": "Failed to migrate {type} \"{name}\". {error}"
         },
+        "Utils": {
+            "MatchDocument": {
+                "Target": {
+                    "Label": "Relation",
+                    "Type": {
+                        "self": {
+                            "Label": "Self",
+                            "Hint": "Will match itself."
+                        },
+                        "sibling": {
+                            "Label": "Sibling",
+                            "Hint": "Will match an item on its parent (Actor / Item)."
+                        },
+                        "ancestor": {
+                            "Label": "Ancestor",
+                            "Hint": "Will match an item among its parent, grandparent, etc."
+                        },
+                        "descendant": {
+                            "Label": "Descendant",
+                            "Hint": "Will match an item among its children, grandchildren, etc."
+                        },
+                        "parent": {
+                            "Label": "Parent",
+                            "Hint": "Will match its parent."
+                        },
+                        "child": {
+                            "Label": "Child",
+                            "Hint": "Will match an item among its children."
+                        },
+                        "global": {
+                            "Label": "Global",
+                            "Hint": "Will match a global item."
+                        },
+                        "equipped-item": {
+                            "Label": "Equipped Item",
+                            "Hint": "Will match an equipped item on the actor this item belongs to."
+                        },
+                        "equipped-weapon": {
+                            "Label": "Equipped Weapon",
+                            "Hint": "Will match an equipped weapon on the actor this item belongs to."
+                        },
+                        "equipped-armor": {
+                            "Label": "Equipped Armor",
+                            "Hint": "Will match the equipped armor on the actor this item belongs to."
+                        },
+                        "equipped-equipment": {
+                            "Label": "Equipped Equipment",
+                            "Hint": "Will match the equipped equipment item on the actor this item belongs to."
+                        }
+                    }
+                },
+                "MatchBy": {
+                    "Label": "Match By",
+                    "Type": {
+                        "name": "Name",
+                        "identifier": "Identifier",
+                        "uuid": "UUID",
+                        "document-type": "Document Type"
+                    },
+                    "Explain": {
+                        "identifier": "like",
+                        "name": "named",
+                        "uuid": "=",
+                        "document-type": "of type"
+                    }
+                },
+                "MatchMode": {
+                    "Label": "Match Mode",
+                    "Hint": "Whether to match the first, last, or all documents that meet the criteria",
+                    "Type": {
+                        "first": "First",
+                        "last": "Last",
+                        "all": "All"
+                    }
+                },
+                "DocumentType": {
+                    "Label": "Document Type"
+                },
+                "Reference": {
+                    "Label": "Reference Document"
+                }
+            }
+        },
         "Macro": {
             "Talents": {
                 "Erudition": {
@@ -1550,6 +1680,15 @@
         },
         "EditEventRule": {
             "Title": "Edit Event Rule"
+        },
+        "EditResourceConsumption": {
+            "Title": "Edit Resource Consumption",
+            "Consumption": "Consumption",
+            "Target": "Target"
+        },
+        "MatchDocumentConfig": {
+            "Title": "Configure",
+            "TypeMismatchWarning": "Expected type {expected} but found {actual}"
         }
     },
     "COMPONENT": {

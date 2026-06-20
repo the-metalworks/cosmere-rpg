@@ -15,8 +15,7 @@ import {
 } from '@system/types/utils';
 import { renderSystemTemplate, TEMPLATES } from '@src/system/utils/templates';
 
-// Data
-import { ActionItemDataModel } from '@system/data/item';
+
 
 // Mixins
 import { ComponentHandlebarsApplicationMixin } from '@system/applications/component-system';
@@ -138,14 +137,6 @@ export class BaseItemSheet extends TabsApplicationMixin(
                 formData.object['system.activation.uses.type'] === NONE
             )
                 formData.set('system.activation.uses', null);
-
-            // Handle consumption
-            const consumption = this.getUpdatedConsumption(formData);
-            if (consumption.length === 0) {
-                formData.set('system.activation.consumption', null);
-            } else {
-                formData.set('system.activation.consumption', consumption);
-            }
         }
 
         if (this.item.hasDamage()) {
@@ -414,111 +405,5 @@ export class BaseItemSheet extends TabsApplicationMixin(
         await this.render(true);
     }
 
-    /**
-     * Helper to manage activation consumption changes
-     */
-    private getUpdatedConsumption(
-        formData: FormDataExtended,
-    ): ActionItemDataModel.ConsumeData[] {
-        const consumeData = new Map<number, AnyMutableObject>();
 
-        const consumeFormKeys = Object.keys(formData.object).filter((k) =>
-            k.startsWith('system.activation.consumption'),
-        );
-
-        // Track removed options, to ensure a later key doesn't recreate
-        // one that has already been intentionally untracked
-        const removedOptions: number[] = [];
-        consumeFormKeys.forEach((formKey) => {
-            // Index can be empty, assuming there isn't an existing
-            // consumption configured.
-            const parts = /\[(\d*)\]\.(\w+)$/.exec(formKey);
-
-            if (!parts || parts.length < 2) {
-                console.error(`[${SYSTEM_ID}] Bad form key: ${formKey}`);
-                return;
-            }
-
-            // Invalid or missing indices will always be sorted to the front,
-            // without overwriting existing data.
-            let i = parseInt(parts[1]);
-            if (isNaN(i)) i = -1;
-
-            // Ignore form keys for options which have already been deleted
-            if (removedOptions.includes(i)) {
-                delete formData.object[formKey];
-                return;
-            }
-
-            const existingConsumeData = consumeData.get(i) ?? {
-                type: ItemConsumeType.Resource,
-                value: 0,
-                resource: Resource.Focus,
-            };
-
-            const dataKey = parts[2];
-
-            // Parse actual value range from input text
-            if (dataKey === 'value') {
-                const newConsumeData: NumberRange = {
-                    min: 0,
-                    max: 0,
-                };
-
-                const valueInput = formData.get(formKey)?.toString() ?? '0';
-                const valueParts = valueInput.split('-');
-
-                if (valueParts.length === 1) {
-                    const value = valueParts[0];
-                    const isRange = value.endsWith('+');
-
-                    const parsed = parseInt(value);
-                    if (!isNaN(parsed)) {
-                        newConsumeData.min = parsed;
-
-                        newConsumeData.max = isRange ? -1 : parsed;
-                    }
-                } else {
-                    const base = parseInt(valueParts[0]);
-                    const cap = parseInt(valueParts[1]);
-
-                    if (!isNaN(base)) {
-                        newConsumeData.min = base;
-                    }
-
-                    if (!isNaN(cap)) {
-                        newConsumeData.max = cap;
-                    } else {
-                        newConsumeData.max = newConsumeData.min;
-                    }
-                }
-
-                existingConsumeData[dataKey] = newConsumeData;
-            } else {
-                existingConsumeData[dataKey] = formData.get(formKey);
-            }
-
-            // Use "None" to remove entries,
-            // otherwise we have a (theoretically) valid type, so use it.
-            if (
-                existingConsumeData.type === NONE ||
-                (existingConsumeData.type === ItemConsumeType.Resource &&
-                    existingConsumeData.resource === NONE)
-            ) {
-                consumeData.delete(i);
-                removedOptions.push(i);
-            } else {
-                consumeData.set(i, existingConsumeData);
-            }
-
-            // Clean up form data to remove the old keys
-            delete formData.object[formKey];
-        });
-
-        return [...consumeData.entries()]
-            .sort(([a], [b]) => {
-                return a - b;
-            })
-            .map(([_, v]) => v as unknown as ActionItemDataModel.ConsumeData);
-    }
 }
