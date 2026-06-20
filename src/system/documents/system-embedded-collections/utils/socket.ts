@@ -123,6 +123,8 @@ function transformGetRequest(
 async function transformCRUDRequest(
     inRequest: DocumentSocketRequest<DatabaseCRUDAction>,
 ): Promise<DocumentSocketRequest> {
+    if (isCreateRequest(inRequest)) assignIdsCreateRequest(inRequest);
+
     const targets = await getCRUDRequestTargets(inRequest);
     if (targets.length === 0) return inRequest;
 
@@ -184,6 +186,20 @@ async function transformCRUDRequest(
             outRequest,
         ) as DocumentSocketRequest<'update'>;
     }
+}
+
+function assignIdsCreateRequest(request: DocumentSocketRequest<'create'>) {
+    request.operation.data = request.operation.data.map((data) => {
+        if (data) {
+            if (data instanceof foundry.abstract.Document) {
+                data = data.toObject();
+            }
+
+            foundry.utils.setProperty(data, '_id', foundry.utils.randomID());
+        }
+
+        return data;
+    });
 }
 
 async function getCRUDRequestTargets(

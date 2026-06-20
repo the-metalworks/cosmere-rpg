@@ -124,6 +124,8 @@ export function EmbedConfigMixin<
                         }
                     }
                 }
+
+                return true;
             });
 
             // Perform create
