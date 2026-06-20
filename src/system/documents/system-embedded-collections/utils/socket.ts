@@ -398,11 +398,13 @@ export function transformResponse(inResponse: SocketResponse): SocketResponse {
 function transformGetReponse(inResponse: SocketResponse) {
     const inRequest = inResponse.operation.sourceRequest!;
 
-    if (!inResponse.result || inResponse.result.length !== 1) return inResponse;
-    const result = inResponse.result[0] as AnyMutableObject;
+    const result = inResponse.result?.map((r) => {
+        if (typeof r === 'string') return r;
+        return toClientViewObject(r, inRequest.type);
+    });
 
     return foundry.utils.mergeObject(inResponse, {
-        result: [toClientViewObject(result, inRequest.type)],
+        result,
     }) as SocketResponse;
 }
 
