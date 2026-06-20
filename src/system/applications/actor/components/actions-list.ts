@@ -489,24 +489,7 @@ export class ActorActionsListComponent extends ActorItemListComponent {
                                 name: 'GENERIC.Button.Remove',
                                 icon: 'fa-solid fa-trash',
                                 callback: () => {
-                                    // Check if the Item's parent is not the actor
-                                    const parent = item.parent;
-                                    if (
-                                        parent &&
-                                        parent.documentName === 'Item'
-                                    ) {
-                                        // Remove the item from parent Item
-                                        void parent.deleteEmbeddedDocuments(
-                                            'Item',
-                                            [item.id!],
-                                        );
-                                    } else {
-                                        // If Item's parent is an Actor, remove the item from the Actor
-                                        void this.application.actor.deleteEmbeddedDocuments(
-                                            'Item',
-                                            [item.id!],
-                                        );
-                                    }
+                                    void item.delete();
                                 },
                             },
                         );
