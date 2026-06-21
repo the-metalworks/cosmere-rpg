@@ -134,6 +134,16 @@ const EVENTS: EventDefinition[] = [
             options,
         }),
     },
+    {
+        type: 'combat-round-previous',
+        hook: 'combatRound',
+        condition: (_, __, updateOptions: { direction: number }) =>
+            updateOptions.direction === -1,
+        transform: (combat: Combat, updateOptions: { direction: number }) => ({
+            document: combat,
+            options: updateOptions,
+        }),
+    },
 ];
 
 export function registerEventTypes() {

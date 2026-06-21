@@ -808,6 +808,10 @@
                         "combat-round-end": {
                             "Label": "Combat Round Ended",
                             "Description": "Triggered before Round Start when a new Round in Combat starts"
+                        },
+                        "combat-round-previous": {
+                            "Label": "Combat Previous Round",
+                            "Description": "Triggers when going to the previous round"
                         }
                     },
                     "Rule": {
