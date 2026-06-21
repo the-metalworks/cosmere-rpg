@@ -33,6 +33,13 @@ const SCHEMA = () => ({
     }),
     damage: new DamageField(),
     skillTest: new SkillTestField(),
+    ancestry: new foundry.data.fields.StringField({
+        required: false,
+        nullable: true,
+        initial: null,
+        label: 'COSMERE.Item.Action.Ancestry.Label',
+        hint: 'COSMERE.Item.Action.Ancestry.Hint',
+    }),
 });
 
 export class ActionItemDataModel extends DataModelMixin<ActionItemDataModel.Schema>(
