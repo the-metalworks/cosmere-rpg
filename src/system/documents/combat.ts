@@ -24,16 +24,16 @@ export class CosmereCombat extends Combat {
         this.resetActivations();
 
         const previousRound = this.round;
-        const combat = await super.nextRound();
-        const newRound = this.round;
 
         Hooks.callAll(HOOKS.COMBAT_ROUND_END, this, {
             previousRound,
-            newRound,
         });
 
+        const combat = await super.nextRound();
+
+        const newRound = this.round;
+
         Hooks.callAll(HOOKS.COMBAT_ROUND_START, this, {
-            previousRound,
             newRound,
         });
         return combat;
