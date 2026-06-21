@@ -17,7 +17,14 @@ export class CosmereCombat extends Combat {
 
     override async startCombat(): Promise<this> {
         this.resetActivations();
-        return super.startCombat();
+        const combat = super.startCombat();
+
+        const newRound = this.round;
+
+        Hooks.callAll(HOOKS.COMBAT_ROUND_START, this, {
+            newRound,
+        });
+        return combat;
     }
 
     override async nextRound(): Promise<this> {
