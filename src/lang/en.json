@@ -803,15 +803,15 @@
                         },
                         "combat-round-start": {
                             "Label": "Combat Round Started",
-                            "Description": "Triggered after Round End when a new Round in Combat starts."
+                            "Description": "Triggered at the start of a new round"
                         },
                         "combat-round-end": {
                             "Label": "Combat Round Ended",
-                            "Description": "Triggered before Round Start when a new Round in Combat starts"
+                            "Description": "Triggered before the start of a new round"
                         },
                         "combat-round-previous": {
-                            "Label": "Combat Previous Round",
-                            "Description": "Triggers when going to the previous round"
+                            "Label": "Combat Round Previous",
+                            "Description": "Triggered when going to the previous round"
                         }
                     },
                     "Rule": {
