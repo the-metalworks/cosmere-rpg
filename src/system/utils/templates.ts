@@ -157,10 +157,6 @@ export const TEMPLATES = {
     ITEM_ANCESTRY_EMBED: 'item/ancestry/embed.hbs',
     ITEM_GENERIC_EMBED: 'item/generic/embed.hbs',
 
-    // ITEM PARTIALS
-    ITEM_ACTION_PARTIAL_RESOURCE_CONSUMPTION_TARGET:
-        'item/action/partials/resource-consumption-target.hbs',
-
     //CHAT
     CHAT_CARD_HEADER: 'chat/card-header.hbs',
     CHAT_CARD_CONTENT: 'chat/card-content.hbs',
