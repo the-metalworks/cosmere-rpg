@@ -11,7 +11,7 @@ import { DataModelMixin } from '../../mixins';
 import { IdItemMixin, IdItemDataSchema } from '../mixins/id';
 import {
     TypedItemMixin,
-    //    TypedItemDataSchema,
+    TypedItemDataSchema,
     //    TypedItemDerivedData,
 } from '../mixins/typed';
 import {
@@ -76,7 +76,7 @@ export class ActionItemDataModel extends DataModelMixin<ActionItemDataModel.Sche
 export namespace ActionItemDataModel {
     export type Schema = ReturnType<typeof SCHEMA> &
         IdItemDataSchema &
-        // & TypedItemDataSchema<ActionType>
+        TypedItemDataSchema<ActionType> &
         DescriptionItemDataSchema &
         ResourcesItemMixin.Schema &
         ModalityItemDataSchema &
@@ -86,7 +86,7 @@ export namespace ActionItemDataModel {
     export type InitializedData =
         foundry.data.fields.SchemaField.InitializedData<Schema>;
 
-    // export type DerivedData = TypedItemDerivedData;
+    //    export type DerivedData = TypedItemDerivedData;
 
     export type ConsumeData =
         ActivationField.InitializedData['consumption'][number];
