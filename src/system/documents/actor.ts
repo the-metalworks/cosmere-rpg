@@ -622,8 +622,8 @@ export class CosmereActor<
      * @param itemUuid The UUID of the item you want to get
      * @returns An Item or null if no item could be found.
      */
-    public getNestedEmbeddedItem(itemUuid: string): Item | null {
-        for (const document of this.traverseEmbeddedDocuments()) {
+    public getNestedEmbeddedItemFromUuid(itemUuid: string): Item | null {
+        for (const [, document] of this.traverseEmbeddedDocuments()) {
             if (document instanceof Item && document.uuid === itemUuid) {
                 return document;
             }
