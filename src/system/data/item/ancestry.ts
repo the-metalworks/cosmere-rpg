@@ -16,6 +16,7 @@ import {
     LinkedSkillsMixin,
     LinkedSkillsItemDataSchema,
 } from './mixins/linked-skills';
+import { ResourcesItemMixin } from './mixins/resources';
 import {
     RelationshipsMixin,
     RelationshipsItemDataSchema,
@@ -91,13 +92,15 @@ const SCHEMA = () => ({
     }),
 });
 
-type AncestryItemDataSchema = ReturnType<typeof SCHEMA> &
-    IdItemDataSchema &
-    DescriptionItemDataSchema &
-    TalentsProviderDataSchema &
-    EventsItemDataSchema &
-    LinkedSkillsItemDataSchema &
-    RelationshipsItemDataSchema;
+type AncestryItemDataSchema = 
+    & ReturnType<typeof SCHEMA>
+    & IdItemDataSchema
+    & DescriptionItemDataSchema
+    & ResourcesItemMixin.Schema
+    & TalentsProviderDataSchema
+    & EventsItemDataSchema
+    & LinkedSkillsItemDataSchema
+    & RelationshipsItemDataSchema;
 
 export type AncestryItemData =
     foundry.data.fields.SchemaField.InitializedData<AncestryItemDataSchema>;
@@ -111,6 +114,7 @@ export class AncestryItemDataModel extends DataModelMixin<AncestryItemDataSchema
     DescriptionItemMixin({
         value: 'COSMERE.Item.Type.Ancestry.desc_placeholder',
     }),
+    ResourcesItemMixin(),
     TalentsProviderMixin(),
     EventsItemMixin(),
     LinkedSkillsMixin(),

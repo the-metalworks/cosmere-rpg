@@ -1,19 +1,20 @@
 {{#with (lookup tabsMap "details") as |tab|}}
 
-    <div class="tab tab-content {{tab.cssClass}}" data-tab="details" data-group="primary">
-        <fieldset>
-            <legend>{{localize "COSMERE.Item.Sheet.Basics"}}</legend>
-            {{app-item-details-id}}
-            {{app-item-details-type}}
-            {{app-item-details-linked-skills}}
-        </fieldset>
-        {{app-item-details-strike}}
-        {{app-item-details-equip}}
-        {{app-item-details-activation}}
-        {{app-item-details-attack}}
-        {{app-item-details-damage}}
-        {{app-item-details-modality}}
-        {{app-item-details-talents-provider}}
-    </div>
+<div class="tab tab-content {{tab.cssClass}}" data-tab="details" data-group="primary">
+    <fieldset>
+        <legend>{{localize "COSMERE.Item.Sheet.Basics"}}</legend>
+        {{app-item-details-id}}
+        {{app-item-details-type}}
+        {{app-item-details-linked-skills}}
+    </fieldset>
+    {{app-item-details-strike}}
+    {{app-item-details-equip}}
+    {{app-item-details-activation}}
+    {{app-item-details-attack}}
+    {{app-item-details-resources}}
+    {{app-item-details-damage}}
+    {{app-item-details-modality}}
+    {{app-item-details-talents-provider}}
+</div>
 
 {{/with}}

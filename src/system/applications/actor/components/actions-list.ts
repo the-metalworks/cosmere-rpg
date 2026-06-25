@@ -33,7 +33,7 @@ import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
 interface ActionListSectionData extends ItemListSection {
-    items: (ActionItem | [CosmereItem, ActionItem[]])[]; // Either an action item, or a parent item with its actions
+    items: (CosmereItem | [CosmereItem, ActionItem[]])[]; // Either an action item, or a parent item with its actions
     itemData: Record<string, AdditionalItemData>;
 }
 
@@ -489,11 +489,7 @@ export class ActorActionsListComponent extends ActorItemListComponent {
                                 name: 'GENERIC.Button.Remove',
                                 icon: 'fa-solid fa-trash',
                                 callback: () => {
-                                    // Remove the item
-                                    void this.application.actor.deleteEmbeddedDocuments(
-                                        'Item',
-                                        [item.id!],
-                                    );
+                                    void item.delete();
                                 },
                             },
                         );

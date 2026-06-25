@@ -37,20 +37,21 @@ any> {
         // Get the activation data
         const { activation } = this.application.item.system;
 
-        activation!.consumption?.push({
-            type: ItemConsumeType.Resource,
-            value: {
-                min: 0,
-                max: 0,
-                actual: 0,
-            },
-            resource: Resource.Focus,
-        });
-
         void this.application.item.update({
             system: {
                 activation: {
-                    consumption: activation!.consumption,
+                    consumption: [
+                        ...activation!.consumption,
+                        {
+                            type: ItemConsumeType.Resource,
+                            value: {
+                                min: 0,
+                                max: 0,
+                                actual: 0,
+                            },
+                            resource: Resource.Focus,
+                        },
+                    ],
                 },
             },
         });
@@ -79,29 +80,6 @@ any> {
             consume: activation.consumption,
             hasUses: !!this.application.item.system.resources.uses,
             hasSkill: !!this.application.item.system.skillTest?.resolvedSkill,
-
-            usesTypeSelectOptions: {
-                [NONE]: 'GENERIC.None',
-                ...((
-                    (
-                        this.application.item
-                            .system as unknown as foundry.abstract.DataModel.Any
-                    ).schema.getField(
-                        'resources.uses.type',
-                    ) as foundry.data.fields.StringField
-                )?.options.choices as unknown as AnyObject), // TEMP: Workaround
-            },
-            consumeTypeSelectOptions: {
-                '': 'GENERIC.None',
-                ...((
-                    (
-                        this.application.item
-                            .system as unknown as foundry.abstract.DataModel.Any
-                    ).schema.getField(
-                        'activation.consumption.element.type',
-                    ) as foundry.data.fields.StringField
-                ).options.choices as unknown as AnyObject), // TEMP: Workaround
-            },
         };
     }
 }

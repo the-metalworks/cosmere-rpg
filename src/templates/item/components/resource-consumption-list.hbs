@@ -1,0 +1,58 @@
+{{#if isAction}}
+
+<div class="entries">
+    <ul>
+        {{#each item.system.activation.consumption as |consume|}}
+            <li class="entry" data-index="{{@index}}">
+                <div class="content">
+                    <span class="value">{{resourceCostInput consume.value}}</span>
+
+                    <span class="resource">
+                        {{!-- Actor resource --}}
+                        {{#if (or (eq consume.type "resource") (eq consume.type "item_resource"))}}
+                            {{localize (lookup consume.schema.fields.resource.choices consume.resource)}}
+                        {{else if (eq consume.type "item")}}
+                            -
+                        {{/if}}
+                    </span>
+
+                    <span>from</span>
+                    
+                    <div class="target">
+                        {{app-match-document-target
+                            value=consume.matchDocument
+                            relativeTo=@root.item
+                        }}
+                    </div>
+                </div>
+
+                <div class="controls">
+                    {{#if (not disabled)}}
+                        <a data-action="edit-consumption" 
+                            data-tooltip="COSMERE.Item.Sheet.Activation.ResourceConsumption.Edit"
+                        >
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                        <a data-action="delete-consumption" 
+                            data-tooltip="COSMERE.Item.Sheet.Activation.ResourceConsumption.Delete"
+                        >
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                    {{else}}
+                        <div></div>
+                        <div></div>
+                    {{/if}}
+                </div>
+            </li>
+        {{/each}}
+    </ul>
+</div>
+<div class="controls">
+    <a data-action="add-consumption" 
+        data-tooltip="COSMERE.Item.Sheet.Activation.ResourceConsumption.Add"
+    >
+        <i class="fa-solid fa-plus"></i>
+    </a>
+</div>
+
+{{/if}}

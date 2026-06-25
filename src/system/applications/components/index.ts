@@ -7,3 +7,5 @@ import './expertises-list';
 import './document-changes-list';
 import './item-drop-list';
 import './advancement-overrides-list';
+import './match-document-step';
+import './match-document-target';

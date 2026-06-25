@@ -24,6 +24,9 @@ export const TEMPLATES = {
         'general/components/document-changes-list.hbs',
     COMPONENT_ADVANCEMENT_OVERRIDES_LIST:
         'general/components/advancement-overrides-list.hbs',
+    COMPONENT_MATCH_DOCUMENT_STEP: 'general/components/match-document-step.hbs',
+    COMPONENT_MATCH_DOCUMENT_TARGET:
+        'general/components/match-document-target.hbs',
 
     // ACTOR BASE
     ACTOR_BASE_NAVIGATION: 'actors/parts/navigation.hbs',
@@ -135,6 +138,7 @@ export const TEMPLATES = {
     ITEM_DETAILS_TALENTS_PROVIDER:
         'item/components/details-talents-provider.hbs',
     ITEM_DETAILS_LINKED_SKILLS: 'item/components/details-linked-skills.hbs',
+    ITEM_DETAILS_RESOURCES: 'item/components/details-resources.hbs',
 
     ITEM_EFFECTS_LIST: 'item/components/effects-list.hbs',
     ITEM_EVENT_RULES_LIST: 'item/components/event-rules-list.hbs',
@@ -144,6 +148,9 @@ export const TEMPLATES = {
         'item/ancestry/components/advancement-talent-list.hbs',
     ITEM_ANCESTRY_BONUS_TALENTS: 'item/ancestry/components/bonus-talents.hbs',
 
+    ITEM_RESOURCE_CONSUMPTION_LIST:
+        'item/components/resource-consumption-list.hbs',
+
     // ITEM EMBEDDINGS
     ITEM_TALENT_EMBED: 'item/talent/embed.hbs',
     ITEM_TALENT_TREE_EMBED: 'item/talent-tree/embed.hbs',
@@ -151,6 +158,10 @@ export const TEMPLATES = {
     ITEM_PATH_EMBED: 'item/path/embed.hbs',
     ITEM_ANCESTRY_EMBED: 'item/ancestry/embed.hbs',
     ITEM_GENERIC_EMBED: 'item/generic/embed.hbs',
+
+    // ITEM PARTIALS
+    ITEM_ACTION_PARTIAL_RESOURCE_CONSUMPTION_TARGET:
+        'item/action/partials/resource-consumption-target.hbs',
 
     //CHAT
     CHAT_CARD_HEADER: 'chat/card-header.hbs',
@@ -193,6 +204,8 @@ export const TEMPLATES = {
 
     DIALOG_ITEM_CONSUME: 'item/dialog/item-consume.hbs',
     DIALOG_ITEM_EDIT_EVENT_RULE: 'item/dialog/edit-event-rule.hbs',
+    DIALOG_ITEM_EDIT_RESOURCE_CONSUMPTION:
+        'item/dialog/edit-resource-consumption.hbs',
 
     DIALOG_CHAT_MODIFY_DAMAGE: 'chat/dialogs/damage-modifier.hbs',
 
@@ -201,6 +214,8 @@ export const TEMPLATES = {
 
     DIALOG_EDIT_EXPERTISES: 'general/dialogs/edit-expertises.hbs',
     DIALOG_PICK: 'general/dialogs/pick.hbs',
+
+    DIALOG_MATCH_DOCUMENT_CONFIG: 'general/dialogs/match-document-config.hbs',
 
     // ITEM EVENT SYSTEM HANDLERS
     IES_HANDLER_EXECUTE_MACRO: 'item/event-system/handlers/execute-macro.hbs',
