@@ -152,9 +152,6 @@ const SCHEMA = () => ({
     expertises: new ExpertisesField({
         required: true,
     }),
-    languages: new foundry.data.fields.ArrayField(
-        new foundry.data.fields.StringField(),
-    ),
 
     /**
      * HTML Fields
