@@ -22,6 +22,12 @@
                             "type": "cultural",
                             "label": "Unkalaki",
                             "locked": false
+                        },
+                        "language:lang_unkalaki": {
+                            "id": "lang_unkalaki",
+                            "type": "language",
+                            "label": "Unkalaki",
+                            "locked": false
                         }
                     }
                 }
@@ -36,6 +42,12 @@
                         "cultural:unkalaki": {
                             "id": "unkalaki",
                             "type": "cultural",
+                            "label": "Unkalaki",
+                            "locked": false
+                        },
+                        "language:lang_unkalaki": {
+                            "id": "lang_unkalaki",
+                            "type": "language",
                             "label": "Unkalaki",
                             "locked": false
                         }

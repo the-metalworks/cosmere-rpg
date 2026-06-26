@@ -22,6 +22,12 @@
                             "type": "cultural",
                             "label": "Thaylen",
                             "locked": false
+                        },
+                        "language:lang_thaylen": {
+                            "id": "lang_thaylen",
+                            "type": "language",
+                            "label": "Thaylen",
+                            "locked": false
                         }
                     }
                 }
@@ -36,6 +42,12 @@
                         "cultural:thaylen": {
                             "id": "thaylen",
                             "type": "cultural",
+                            "label": "Thaylen",
+                            "locked": false
+                        },
+                        "language:lang_thaylen": {
+                            "id": "lang_thaylen",
+                            "type": "language",
                             "label": "Thaylen",
                             "locked": false
                         }

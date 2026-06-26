@@ -914,7 +914,8 @@ const COSMERE: CosmereRPGConfig = {
         },
         [ExpertiseType.Language]: {
             label: 'COSMERE.Actor.Character.Expertise.Language',
-            icon: 'fas fa-comment',
+            configRegistryKey: 'languages',
+            icon: 'fas fa-comment-dots',
         },
         [ExpertiseType.Specialist]: {
             label: 'COSMERE.Actor.Character.Expertise.Specialist',
@@ -1120,6 +1121,7 @@ const COSMERE: CosmereRPGConfig = {
     },
 
     cultures: {},
+    languages: {},
     ancestries: {},
 
     units: {

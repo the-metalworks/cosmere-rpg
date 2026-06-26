@@ -22,6 +22,12 @@
                             "type": "cultural",
                             "label": "Herdazian",
                             "locked": false
+                        },
+                        "language:lang_herdazian": {
+                            "id": "lang_herdazian",
+                            "type": "language",
+                            "label": "Herdazian",
+                            "locked": false
                         }
                     }
                 }
@@ -36,6 +42,12 @@
                         "cultural:herdazian": {
                             "id": "herdazian",
                             "type": "cultural",
+                            "label": "Herdazian",
+                            "locked": false
+                        },
+                        "language:lang_herdazian": {
+                            "id": "lang_herdazian",
+                            "type": "language",
                             "label": "Herdazian",
                             "locked": false
                         }

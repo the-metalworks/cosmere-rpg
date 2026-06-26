@@ -20,6 +20,7 @@ import {
     CultureConfig,
     AncestryConfig,
     ItemEventHandlerTypeConfig,
+    LanguageConfig,
 } from '@system/types/config';
 import { EventSystem as ItemEventSystem } from '@system/types/item';
 import { AnyObject } from '@system/types/utils';
@@ -372,6 +373,45 @@ export function registerCulture(data: CultureConfigData) {
         CONFIG.COSMERE.cultures[data.id] = {
             label: data.label,
             reference: data.reference,
+        };
+
+        return true;
+    };
+
+    return RegistrationHelper.tryRegisterConfig({
+        key,
+        data,
+        register,
+    });
+}
+
+interface LanguageConfigData extends LanguageConfig, CommonRegistrationData {
+    /**
+     * Unique id for the language
+     */
+    id: string;
+}
+
+export function registerLanguage(data: LanguageConfigData) {
+    if (!CONFIG.COSMERE) {
+        throw new Error(
+            'Cannot access API until after the system is initialized',
+        );
+    }
+    data = {
+        id: data.id,
+        label: data.label,
+        reference: data.reference,
+        source: data.source,
+        priority: data.priority,
+        strict: data.strict,
+    };
+
+    const key = `languages.${data.id}`;
+
+    const register = () => {
+        CONFIG.COSMERE.languages[data.id] = {
+            label: data.label,
         };
 
         return true;

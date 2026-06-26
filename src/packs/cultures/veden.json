@@ -22,6 +22,12 @@
                             "type": "cultural",
                             "label": "Veden",
                             "locked": false
+                        },
+                        "language:lang_veden": {
+                            "id": "lang_veden",
+                            "type": "language",
+                            "label": "Veden",
+                            "locked": false
                         }
                     }
                 }
@@ -36,6 +42,12 @@
                         "cultural:veden": {
                             "id": "veden",
                             "type": "cultural",
+                            "label": "Veden",
+                            "locked": false
+                        },
+                        "language:lang_veden": {
+                            "id": "lang_veden",
+                            "type": "language",
                             "label": "Veden",
                             "locked": false
                         }

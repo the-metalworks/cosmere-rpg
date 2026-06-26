@@ -258,6 +258,11 @@ export interface CultureConfig {
     reference?: string;
 }
 
+export interface LanguageConfig {
+    label: string;
+    reference?: string;
+}
+
 export interface AncestryConfig {
     label: string;
     reference?: string;
@@ -502,6 +507,7 @@ export interface CosmereRPGConfig {
     immunityTypes: Record<ImmunityType, ImmunityTypeConfig>;
 
     cultures: Record<string, CultureConfig>;
+    languages: Record<string, LanguageConfig>;
     ancestries: Record<string, AncestryConfig>;
 
     units: {

@@ -22,6 +22,12 @@
                             "type": "cultural",
                             "label": "Azish",
                             "locked": false
+                        },
+                        "language:lang_azish": {
+                            "id": "lang_azish",
+                            "type": "language",
+                            "label": "Azish",
+                            "locked": false
                         }
                     }
                 }
@@ -36,6 +42,12 @@
                         "cultural:azish": {
                             "id": "azish",
                             "type": "cultural",
+                            "label": "Azish",
+                            "locked": false
+                        },
+                        "language:lang_azish": {
+                            "id": "lang_azish",
+                            "type": "language",
                             "label": "Azish",
                             "locked": false
                         }

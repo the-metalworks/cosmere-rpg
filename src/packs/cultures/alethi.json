@@ -22,6 +22,12 @@
                             "type": "cultural",
                             "label": "Alethi",
                             "locked": false
+                        },
+                        "language:lang_alethi": {
+                            "id": "lang_alethi",
+                            "type": "language",
+                            "label": "Alethi",
+                            "locked": false
                         }
                     }
                 }
@@ -36,6 +42,12 @@
                         "cultural:alethi": {
                             "id": "alethi",
                             "type": "cultural",
+                            "label": "Alethi",
+                            "locked": false
+                        },
+                        "language:lang_alethi": {
+                            "id": "lang_alethi",
+                            "type": "language",
                             "label": "Alethi",
                             "locked": false
                         }
