@@ -1239,16 +1239,14 @@ export class CosmereItem<
             });
         }
 
-        // Check if the item has an attack
-        const hasAttack = this.hasAttack();
+        const hasSkillTest =
+            this.system.activation!.type === ActivationType.SkillTest;
 
         // Check if the item has damage
         const hasDamage = this.hasDamage() && this.system.damage.formula;
 
         // Check if a roll is required
-        const rollRequired =
-            this.system.activation!.type === ActivationType.SkillTest ||
-            hasDamage;
+        const rollRequired = hasSkillTest || hasDamage;
 
         const messageConfig = {
             user: game.user.id,
@@ -1289,7 +1287,7 @@ export class CosmereItem<
             const rolls: foundry.dice.Roll[] = [];
             let flavor = this.system.activation!.flavor;
 
-            if (hasAttack && hasDamage) {
+            if (hasSkillTest && hasDamage) {
                 const attackResult = await this.rollAttack({
                     ...options,
                     skillTest: {

@@ -489,11 +489,7 @@ export class ActorActionsListComponent extends ActorItemListComponent {
                                 name: 'GENERIC.Button.Remove',
                                 icon: 'fa-solid fa-trash',
                                 callback: () => {
-                                    // Remove the item
-                                    void this.application.actor.deleteEmbeddedDocuments(
-                                        'Item',
-                                        [item.id!],
-                                    );
+                                    void item.delete();
                                 },
                             },
                         );
