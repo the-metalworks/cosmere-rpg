@@ -1,12 +1,12 @@
 import { RawDocumentData } from '@system/types/utils';
-import { SYSTEM_ID } from '@system/constants';
+import { Logger } from '@system/utils/logger';
 
 export function handleDocumentMigrationError(
     error: unknown,
     documentType: string,
     document: RawDocumentData<unknown>,
 ): void {
-    console.log(document);
+    Logger.debug('Migration', { document });
 
     ui.notifications.warn(
         game.i18n.format('COSMERE.Migration.DocumentMigrationFailed', {
@@ -20,5 +20,5 @@ export function handleDocumentMigrationError(
         }),
     );
 
-    console.warn(`[${SYSTEM_ID}] Failed to migrate document`, error, document);
+    Logger.warn('Migration', `Failed to migrate document`, error, document);
 }
