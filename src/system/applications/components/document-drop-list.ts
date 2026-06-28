@@ -185,10 +185,9 @@ export class DocumentDropListComponent extends DragDropComponentMixin(
             // Get document
             const doc = (await fromUuid(data.uuid)) as unknown as {
                 type: string;
-                data: { type: string };
             };
 
-            if (doc.data.type !== this.params!.subtype) {
+            if (doc.type !== this.params!.subtype) {
                 return ui.notifications.warn(
                     game.i18n.format(
                         'COMPONENT.DocumentDropListComponent.Warning.WrongSubtype',
