@@ -120,6 +120,7 @@ export interface RawDocumentData<T = AnyObject> {
     _id: string;
     type: string;
     name: string;
+    img: string;
     flags: Record<string, unknown>;
     folder: string | null;
     sort: number;

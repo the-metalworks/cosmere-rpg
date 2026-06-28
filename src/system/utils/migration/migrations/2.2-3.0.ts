@@ -305,6 +305,7 @@ async function migrateActivatableItem(
         await Item.create(
             {
                 name: data.name,
+                img: data.img,
                 type: ItemType.Action,
                 system: actionData.toObject(),
             },
