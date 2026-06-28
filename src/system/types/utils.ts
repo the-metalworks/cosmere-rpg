@@ -21,6 +21,55 @@ import type {
     AnyObject,
     AnyConstructor,
 } from '@league-of-foundry-developers/foundry-vtt-types/utils';
+import type { Document } from '@system/types/foundry/document';
+
+type NativeEmbeddedTypesOf<
+    DocumentType extends foundry.abstract.Document.Type,
+> =
+    KnownKeys<
+        foundry.abstract.Document.MetadataFor<DocumentType>['embedded']
+    > extends foundry.abstract.Document.EmbeddedType
+        ? KnownKeys<
+              foundry.abstract.Document.MetadataFor<DocumentType>['embedded']
+          >
+        : never;
+
+type SystemEmbeddedTypesOf<
+    DocumentType extends foundry.abstract.Document.Type,
+> = DocumentType extends keyof ConfiguredSystemEmbeddedCollections
+    ? keyof ConfiguredSystemEmbeddedCollections[DocumentType]
+    : never;
+
+export type EmbeddedTypesOf<
+    DocumentType extends foundry.abstract.Document.Type,
+> = NativeEmbeddedTypesOf<DocumentType> | SystemEmbeddedTypesOf<DocumentType>;
+
+export type DocumentTypeOf<
+    DocumentClass extends Document.Constructable.SystemConstructor,
+> = DocumentClass['metadata']['name'];
+
+export type DocumentOfType<
+    DocumentName extends foundry.abstract.Document.WithSubTypes,
+    SubType extends
+        foundry.abstract.Document.SubTypesOf<DocumentName> = foundry.abstract.Document.SubTypesOf<DocumentName>,
+> = foundry.abstract.Document.OfType<DocumentName, SubType>;
+
+export type TypedCreateDataForName<
+    DocumentName extends foundry.abstract.Document.Type,
+> = foundry.abstract.Document.CreateDataForName<DocumentName> & {
+    type: foundry.abstract.Document.SubTypesOf<DocumentName>;
+};
+
+export declare class AnyEmbeddedCollection extends foundry.abstract
+    .EmbeddedCollection<
+    foundry.abstract.Document.Any,
+    foundry.abstract.Document.Any
+> {
+    public _initializeDocument(
+        data: foundry.abstract.Document.Any['_source'],
+        options: foundry.abstract.Document.ConstructionContext<foundry.abstract.Document.Any>,
+    ): foundry.abstract.Document.Any | null;
+}
 
 // Constant to improve UI consistency
 export const NONE = 'none';

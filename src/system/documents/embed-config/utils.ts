@@ -2,7 +2,6 @@ import type {
     EmbedLimit,
     AmountLimitConfig,
     BooleanLimitConfig,
-    TypedCreateDataForName,
 } from './types';
 
 export function isEmbedLimit(config: unknown): config is EmbedLimit {

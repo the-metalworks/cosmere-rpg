@@ -1,11 +1,12 @@
 import type { Document } from '@system/types/foundry/document';
 
+import type { EmbeddedDocumentsConfig } from './types';
 import type {
-    EmbeddedDocumentsConfig,
     EmbeddedTypesOf,
     DocumentTypeOf,
     TypedCreateDataForName,
-} from './types';
+} from '@system/types/utils';
+
 import { isAmountLimit, isBooleanLimit, isEmbedLimit } from './utils';
 
 export function EmbedConfigMixin<

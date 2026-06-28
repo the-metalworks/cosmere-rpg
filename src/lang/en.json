@@ -1306,6 +1306,7 @@
                     "Create": "Add Action",
                     "Edit": "Edit",
                     "Delete": "Remove",
+                    "View": "View",
                     "NewAction": {
                         "Name": "New Action"
                     }

@@ -2,11 +2,14 @@
 import { hasSystemEmbeddedCollections } from './general';
 
 // Types
-import type { AnyObject, AnyMutableObject } from '@system/types/utils';
+import type {
+    AnyObject,
+    AnyMutableObject,
+    AnyEmbeddedCollection,
+} from '@system/types/utils';
 import type { Document } from '@system/types/foundry/document';
 
 import type {
-    AnyEmbeddedCollection,
     AnyDocumentData,
     SystemEmbeddedCollectionsDocument,
 } from '../types/general';

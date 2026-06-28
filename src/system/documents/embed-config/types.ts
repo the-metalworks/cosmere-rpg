@@ -1,29 +1,4 @@
-import type { Document } from '@system/types/foundry/document';
-import type { KnownKeys } from '@system/types/utils';
-
-type NativeEmbeddedTypesOf<
-    DocumentType extends foundry.abstract.Document.Type,
-> = KnownKeys<foundry.abstract.Document.MetadataFor<DocumentType>['embedded']>;
-
-type SystemEmbeddedTypesOf<
-    DocumentType extends foundry.abstract.Document.Type,
-> = DocumentType extends keyof ConfiguredSystemEmbeddedCollections
-    ? keyof ConfiguredSystemEmbeddedCollections[DocumentType]
-    : never;
-
-export type EmbeddedTypesOf<
-    DocumentType extends foundry.abstract.Document.Type,
-> = NativeEmbeddedTypesOf<DocumentType> | SystemEmbeddedTypesOf<DocumentType>;
-
-export type DocumentTypeOf<
-    DocumentClass extends Document.Constructable.SystemConstructor,
-> = DocumentClass['metadata']['name'];
-
-export type TypedCreateDataForName<
-    DocumentName extends foundry.abstract.Document.Type,
-> = foundry.abstract.Document.CreateDataForName<DocumentName> & {
-    type: foundry.abstract.Document.SubTypesOf<DocumentName>;
-};
+import type { EmbeddedTypesOf } from '@system/types/utils';
 
 /**
  * The behavior to apply when an embed limit is exceeded.

@@ -15,8 +15,6 @@ import {
 } from '@system/types/utils';
 import { renderSystemTemplate, TEMPLATES } from '@src/system/utils/templates';
 
-
-
 // Mixins
 import { ComponentHandlebarsApplicationMixin } from '@system/applications/component-system';
 import {
@@ -288,7 +286,9 @@ export class BaseItemSheet extends TabsApplicationMixin(
     /* --- Context --- */
 
     public async _prepareContext(
-        options: DeepPartial<foundry.applications.api.ApplicationV2.RenderOptions>,
+        options: DeepPartial<foundry.applications.api.ApplicationV2.RenderOptions> & {
+            editable?: boolean;
+        },
     ) {
         let enrichedDescValue = undefined;
         let enrichedShortDescValue = undefined;
@@ -312,7 +312,7 @@ export class BaseItemSheet extends TabsApplicationMixin(
             item: this.item,
             systemFields: this.item.system.schema
                 .fields as foundry.data.fields.DataSchema,
-            editable: this.isEditable,
+            editable: options.editable ?? this.isEditable,
             isUpdatingDescription: this.isUpdatingDescription,
             descHtml: enrichedDescValue,
             shortDescHtml: enrichedShortDescValue,
@@ -404,6 +404,4 @@ export class BaseItemSheet extends TabsApplicationMixin(
         this.updatingDescription = false;
         await this.render(true);
     }
-
-
 }
