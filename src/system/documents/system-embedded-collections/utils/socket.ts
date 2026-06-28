@@ -540,6 +540,8 @@ function transformCRUDResponseCommon(
             pack: inRequest.operation.pack,
             parentUuid: inRequest.operation.parentUuid,
             render: inRequest.operation.render,
+            diff: false,
+            recursive: false,
             renderSheet: foundry.utils.getProperty(
                 inRequest.operation,
                 'renderSheet',

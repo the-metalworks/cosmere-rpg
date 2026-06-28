@@ -197,9 +197,9 @@ export class MatchDocumentConfigDialog extends ComponentHandlebarsApplicationMix
 
         if (this.data.steps.length > 0) {
             const lastStep = this.data.steps[this.data.steps.length - 1];
-            const lastStepMatch = matchesPerStep[
-                this.data.steps.length - 1
-            ].find(() => true);
+            const lastStepMatch = this.relativeTo
+                ? matchesPerStep[this.data.steps.length - 1].find(() => true)
+                : undefined;
 
             // Best guess step resolved document type
             lastStepType =

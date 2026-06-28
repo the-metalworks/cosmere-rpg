@@ -443,6 +443,11 @@
         display: flex;
         flex-direction: column;
         gap: 0.25rem;
+        
+        p {
+            flex: 1;
+            min-height: 32px;
+        }
 
         .drop-area {
             margin: 0;

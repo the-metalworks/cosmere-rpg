@@ -10,18 +10,22 @@ import { register as registerUseItemHandler } from './use-item';
 import { register as registerUpdateItemHandler } from './update-item';
 import { register as registerUpdateActorHandler } from './update-actor';
 import { register as registerExecuteMacroHandler } from './execute-macro';
+import { register as registerAddActionsHandler } from './add-actions';
+import { register as registerRemoveActionsHandler } from './remove-actions';
 
 export function registerHandlers() {
     registerGrantItemsHandler();
     registerRemoveItemsHandler();
+    registerAddActionsHandler();
+    registerRemoveActionsHandler();
+    registerUseItemHandler();
+    registerUpdateItemHandler();
     registerModifyAttributeHandler();
     registerSetAttributeHandler();
     registerModifySkillRankHandler();
     registerSetSkillRankHandler();
     registerGrantExpertisesHandler();
     registerRemoveExpertisesHandler();
-    registerUseItemHandler();
-    registerUpdateItemHandler();
     registerUpdateActorHandler();
     registerExecuteMacroHandler();
 }
