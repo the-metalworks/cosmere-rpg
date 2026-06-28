@@ -27,6 +27,7 @@ _Add screenshots or GIFs that help illustrate the changes, especially if they af
 - [ ] I have commented on my code, particularly in hard-to-understand areas.
 - [ ] My changes do not introduce any new warnings or errors.
 - [ ] My PR does not contain any copyrighted works that I do not have permission to use.
+- [ ] No part of this PR was created using generative AI tools.
 - [ ] I have tested my changes on Foundry VTT version: [insert version here].
 
 **Additional context**  
