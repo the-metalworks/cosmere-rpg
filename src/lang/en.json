@@ -792,6 +792,26 @@
                         "long-rest-actor": {
                             "Label": "Actor Long Rested",
                             "Description": "Triggered when this item's parent actor takes a long rest."
+                        },
+                        "combat-encounter-start": {
+                            "Label": "Combat Started",
+                            "Description": "Triggered only when a combat encounter starts and the associated actor is a participant in the combat."
+                        },
+                        "combat-encounter-end": {
+                            "Label": "Combat Ended",
+                            "Description": "Triggered when a combat encounter ends."
+                        },
+                        "combat-round-start": {
+                            "Label": "Combat Round Started",
+                            "Description": "Triggered at the start of a new round"
+                        },
+                        "combat-round-end": {
+                            "Label": "Combat Round Ended",
+                            "Description": "Triggered before the start of a new round"
+                        },
+                        "combat-round-previous": {
+                            "Label": "Combat Round Previous",
+                            "Description": "Triggered when going to the previous round"
                         }
                     },
                     "Rule": {
