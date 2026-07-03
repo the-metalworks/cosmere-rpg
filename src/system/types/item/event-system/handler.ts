@@ -11,6 +11,9 @@ export const enum HandlerType {
     GrantItems = 'grant-items',
     RemoveItems = 'remove-items',
 
+    AddActions = 'add-actions',
+    RemoveActions = 'remove-actions',
+
     // Utility handlers (technically covered by UpdateItem & UpdateActor, but provide a nice shorthand)
     ModifyAttribute = 'modify-attribute',
     SetAttribute = 'set-attribute',

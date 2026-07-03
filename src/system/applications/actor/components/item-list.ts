@@ -9,6 +9,8 @@ import AppUtils from '@system/applications/utils';
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
 import { getSystemSetting, SETTINGS } from '@src/system/settings';
+import { ItemRelationship } from '@src/system/data/item/mixins/relationships';
+import { ItemType } from '@src/system/types/cosmere';
 
 export interface ItemState {
     expanded?: boolean;
@@ -159,6 +161,19 @@ any> {
         // Create a new item
         const item = await section.new?.(this.application.actor);
         if (!item) return;
+
+        if (item.type == ItemType.Talent) {
+            if (!item.actor) return;
+            for (const otherItem of item.actor.items) {
+                if (otherItem.isPath() && otherItem.system.id == sectionId) {
+                    await item.addRelationship(
+                        otherItem,
+                        ItemRelationship.Type.Parent,
+                    );
+                    break;
+                }
+            }
+        }
 
         // Render the item sheet
         void item?.sheet?.render(true);

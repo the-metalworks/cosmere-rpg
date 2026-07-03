@@ -143,7 +143,7 @@ export class MatchDocumentTargetComponent extends HandlebarsApplicationComponent
             ...params,
             resolvedDocument,
             resolvedReference,
-            editable: params.editable && params.name,
+            editable: params.editable !== false && params.name,
         });
     }
 }
