@@ -138,48 +138,22 @@ export class ActorEffectsListComponent extends HandlebarsApplicationComponent<
 
     /* --- Helpers --- */
 
-    private getEffectFromEvent(event: Event): ActiveEffect | undefined {
-        if (!event.target && !event.currentTarget) return;
+    private getEffectFromEvent(event: Event): ActiveEffect | null {
+        if (!event.target && !event.currentTarget) return null;
 
         return this.getEffectFromElement(
             (event.target ?? event.currentTarget) as HTMLElement,
         );
     }
 
-    private getEffectFromElement(
-        element: HTMLElement,
-    ): ActiveEffect | undefined {
-        const effectElement = $(element).closest('.effect[data-id]');
+    private getEffectFromElement(element: HTMLElement): ActiveEffect | null {
+        const effectElement = $(element).closest('.effect[data-uuid]');
 
-        // Get the id
-        const id = effectElement.data('id') as string;
+        // Get the uuid
+        const uuid = effectElement.data('uuid') as string;
 
-        // Get the parent id (if it exists)
-        const parentId = effectElement.data('parent-id') as string | undefined;
-
-        // Get the effect
-        return this.getEffect(id, parentId);
-    }
-
-    private getEffect(
-        effectId: string,
-        parentId?: string,
-    ): ActiveEffect | undefined {
-        if (!parentId)
-            return this.application.actor.getEmbeddedDocument(
-                'ActiveEffect',
-                effectId,
-                {},
-            );
-        else {
-            // Get item
-            const item = this.application.actor.getEmbeddedDocument(
-                'Item',
-                parentId,
-                {},
-            );
-            return item?.getEmbeddedDocument('ActiveEffect', effectId, {});
-        }
+        const effect = fromUuidSync(uuid) as ActiveEffect.Implementation | null;
+        return effect;
     }
 }
 
