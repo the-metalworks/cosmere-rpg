@@ -478,6 +478,12 @@ export class CosmereItem<
         return this.system.events.filter((event) => !event.disabled) as Rule[];
     }
 
+    public get nestedEffects(): ActiveEffect.Implementation[] {
+        return this.items
+            .map((item) => [...item.effects, ...item.nestedEffects])
+            .flat();
+    }
+
     /* --- Lifecycle --- */
 
     public override async _onClickDocumentLink(event: MouseEvent) {
