@@ -1,0 +1,63 @@
+# Dockerfile.pipeline
+# ─── Base: pre-baked Foundry install ───
+ARG FOUNDRY_VERSION=13.351
+ARG RUN_QUENCH_AND_EXIT=false
+FROM metalworks-fsbzd7hfaxgzc7gk.azurecr.io/foundryvtt:${FOUNDRY_VERSION} AS base
+
+# ─── Stage 1: Setup automatic module enabling ───
+FROM base AS with-enable-modules
+USER root
+# Install the enable-modules tooling
+COPY scripts/enable-modules.mjs /opt/enable-modules/
+RUN npm install --prefix /opt/enable-modules level
+USER node
+
+# ─── Stage 2: Install Playwright ───
+FROM with-enable-modules AS with-playwright
+USER root
+RUN cd /opt && npm init -y && npm install playwright && \
+    npx playwright install --with-deps chromium
+USER node
+
+# ─── Stage 3: Install the Quench module ───
+FROM with-playwright AS with-quench
+ARG QUENCH_MODULE_URL
+RUN --mount=type=tmpfs,target=/tmp \
+    mkdir -p /data/Data/modules/quench && \
+    curl -sSfL -o /tmp/quench.zip "$QUENCH_MODULE_URL" && \
+    unzip -qo /tmp/quench.zip -d /tmp/quench-extract/ && \
+    cp -a /tmp/quench-extract/dist/* /data/Data/modules/quench/ && \
+    chown -R node:node /data/Data/modules/quench
+
+# ─── Stage 4: Setup the world seed ───
+FROM with-quench AS with-world-seed
+# Pre-seed the "dockerworld" world data
+USER root
+COPY world-seed/ /data/Data/worlds/dockerworld/
+
+# Ensure the node user owns all data files
+RUN chown -R node:node /data
+
+USER node
+
+# ─── Stage 5: Copy in system code under test ───
+FROM with-world-seed AS with-system
+USER root
+COPY --chown=node:node build/ /data/Data/systems/
+RUN chown -R node:node /data/Data/
+
+FROM with-system AS with-license
+# Bake the pre-signed license into the image via a build secret
+# (secret mounts are never persisted in image layers)
+RUN --mount=type=secret,id=foundry_license,required=true \
+    if [ -f /secrets/foundry_license ]; then \
+      mkdir -p /data/Config && \
+      cp /secrets/foundry_license /data/Config/license.json && \
+      chown -R node:node /data/Config; \
+    fi
+
+# ─── Run Foundry server ───
+FROM with-license AS final
+USER node
+ENTRYPOINT []
+CMD ["node", "resources/app/main.mjs", "--port=30000", "--headless", "--noupdate", "--dataPath=/data"]
