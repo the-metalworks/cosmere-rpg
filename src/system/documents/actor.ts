@@ -1346,13 +1346,17 @@ export class CosmereActor<
     }
 
     public *allApplicableEffects() {
-        for (const effect of super.allApplicableEffects()) {
+        for (const effect of this.effects) {
             yield effect;
+        }
+        if (CONFIG.ActiveEffect.legacyTransferral) return;
+        for (const item of this.items) {
+            for (const effect of item.effects) {
+                if (effect.transfer) yield effect;
+            }
 
-            if (effect.parent instanceof CosmereItem) {
-                for (const nestedEffect of effect.parent.nestedEffects) {
-                    if (nestedEffect.transfer) yield nestedEffect;
-                }
+            for (const effect of item.nestedEffects) {
+                if (effect.transfer) yield effect;
             }
         }
     }
