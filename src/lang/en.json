@@ -752,6 +752,22 @@
                             "Label": "Deleted",
                             "Description": "Triggered when this item is deleted."
                         },
+                        "add-to-item": {
+                            "Label": "Added to Item",
+                            "Description": "Triggered when this item is added to another item."
+                        },
+                        "remove-from-item": {
+                            "Label": "Removed from Item",
+                            "Description": "Triggered when this item is removed from its parent item."
+                        },
+                        "add-child-action": {
+                            "Label": "Action Added",
+                            "Description": "Triggered when an action is added to this item."
+                        },
+                        "remove-child-action": {
+                            "Label": "Action Removed",
+                            "Description": "Triggered when an action is removed from this item."
+                        },
                         "add-to-actor": {
                             "Label": "Added to Actor",
                             "Description": "Triggered when this item is added to an actor."
@@ -770,7 +786,11 @@
                         },
                         "use": {
                             "Label": "Used",
-                            "Description": "Triggered when this item is used/rolled."
+                            "Description": "Triggered when this action is used/rolled."
+                        },
+                        "use-action": {
+                            "Label": "Action Used",
+                            "Description": "Triggered when any of this item's actions are used/rolled."
                         },
                         "mode-activate": {
                             "Label": "Activated Modality",
@@ -1033,6 +1053,40 @@
                                 },
                                 "UUID": {
                                     "Label": "Macro"
+                                }
+                            },
+                            "add-actions": {
+                                "Title": "Add Actions",
+                                "Description": "Adds actions to an item.",
+                                "Target": {
+                                    "Label": "Target"
+                                },
+                                "Uuids": {
+                                    "Label": "Actions",
+                                    "Placeholder": "Drag and drop action items here"
+                                },
+                                "AllowDuplicates": {
+                                    "Label": "Allow Duplicates",
+                                    "Hint": "Whether to add actions to the item even if they are already present on the item."
+                                },
+                                "Notify": {
+                                    "Label": "Notify User",
+                                    "Hint": "Whether to send a notification to the user for each action added."
+                                }
+                            },
+                            "remove-actions": {
+                                "Title": "Remove Actions",
+                                "Description": "Removes actions from an item.",
+                                "Target": {
+                                    "Label": "Target"
+                                },
+                                "Uuids": {
+                                    "Label": "Actions",
+                                    "Placeholder": "Drag and drop action items here"
+                                },
+                                "Notify": {
+                                    "Label": "Notify User",
+                                    "Hint": "Whether to send a notification to the user for each action removed."
                                 }
                             }
                         },
@@ -1774,6 +1828,8 @@
         "Notification": {
             "GrazeFocusSpent": "Reduced focus by 1",
             "AddedItem": "Added {item}{quantity} to {actor}",
+            "AddedActionToItem": "Added action {action} to {item}",
+            "RemovedActionFromItem": "Removed action {action} from {item}",
             "IncreasedSkillRank": "Increased {actor}'s {skill} rank by {amount}",
             "TalentObtained": "Added talent {talent} to {actor}",
             "TalentRemoved": "Removed talent {talent} from {actor}",

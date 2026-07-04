@@ -56,21 +56,15 @@ export class ItemActionsListComponent extends HandlebarsApplicationComponent<
     }
 
     private static onEditAction(this: ItemActionsListComponent, event: Event) {
-        console.log('onEditAction', event);
-
         // Get id
         const id = $(event.target!).closest('.action[data-id]').data('id') as
             | string
             | undefined;
         if (!id) return;
 
-        console.log('Action id:', id);
-
         // Get action
         const action = this.item.items.get(id);
         if (!action) return;
-
-        console.log('Action:', action);
 
         void action.sheet?.render(true);
     }

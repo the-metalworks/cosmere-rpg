@@ -28,6 +28,8 @@ export interface SocketResponse
         modifiedTime: number;
         render?: boolean;
         renderSheet?: boolean;
+        diff?: boolean;
+        recursive?: boolean;
         isSystemEmbeddedCollectionOperation?: boolean;
         sourceRequest?: DocumentSocketRequest;
         targets?: { id: string; uuid: string }[];

@@ -157,10 +157,6 @@ export const TEMPLATES = {
     ITEM_ANCESTRY_EMBED: 'item/ancestry/embed.hbs',
     ITEM_GENERIC_EMBED: 'item/generic/embed.hbs',
 
-    // ITEM PARTIALS
-    ITEM_ACTION_PARTIAL_RESOURCE_CONSUMPTION_TARGET:
-        'item/action/partials/resource-consumption-target.hbs',
-
     //CHAT
     CHAT_CARD_HEADER: 'chat/card-header.hbs',
     CHAT_CARD_CONTENT: 'chat/card-content.hbs',
@@ -232,6 +228,8 @@ export const TEMPLATES = {
     IES_HANDLER_USE_ITEM: 'item/event-system/handlers/use-item.hbs',
     IES_HANDLER_UPDATE_ITEM: 'item/event-system/handlers/update-item.hbs',
     IES_HANDLER_UPDATE_ACTOR: 'item/event-system/handlers/update-actor.hbs',
+    IES_HANDLER_ADD_ACTIONS: 'item/event-system/handlers/add-actions.hbs',
+    IES_HANDLER_REMOVE_ACTIONS: 'item/event-system/handlers/remove-actions.hbs',
 } as const;
 
 /**

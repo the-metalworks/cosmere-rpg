@@ -454,9 +454,13 @@ export class ActorActionsListComponent extends ActorItemListComponent {
                         .closest('.item[data-item-uuid]')
                         .data('item-uuid') as string;
 
-                    // Get item
-                    const item = fromUuidSync(itemUuid) as CosmereItem;
-                    if (!item) return [];
+                    // Get item from loaded actor sheet
+                    const item =
+                        this.application.actor.getNestedEmbeddedItemFromUuid(
+                            itemUuid,
+                        );
+
+                    if (!(item instanceof CosmereItem)) return [];
 
                     const menuItems = [];
 
@@ -489,11 +493,7 @@ export class ActorActionsListComponent extends ActorItemListComponent {
                                 name: 'GENERIC.Button.Remove',
                                 icon: 'fa-solid fa-trash',
                                 callback: () => {
-                                    // Remove the item
-                                    void this.application.actor.deleteEmbeddedDocuments(
-                                        'Item',
-                                        [item.id!],
-                                    );
+                                    void item.delete();
                                 },
                             },
                         );

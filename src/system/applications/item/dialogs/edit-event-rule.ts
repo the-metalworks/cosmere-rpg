@@ -112,7 +112,7 @@ export class ItemEditEventRuleDialog extends ComponentHandlebarsApplicationMixin
         if (event instanceof SubmitEvent) return;
 
         // Prepare changes
-        const changes = Object.entries(formData.object).reduce(
+        const changes = Object.entries(structuredClone(formData.object)).reduce(
             (changes, [key, value]) => {
                 if (foundry.utils.getType(value) === 'Object') {
                     changes[key] = getObjectChanges(
