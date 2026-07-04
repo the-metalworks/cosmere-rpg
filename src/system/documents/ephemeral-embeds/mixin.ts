@@ -72,7 +72,15 @@ export function EphemeralEmbeddedDocumentsMixin<
                     const ephemeralDocuments = generatorFn.call(
                         this as unknown as DocumentOfType<DocumentType>,
                     );
-                    const concreteDocuments = Array.from(collection);
+                    const concreteDocuments = (
+                        Array.from(collection) as DocumentOfType<DocumentType>[]
+                    ).filter(
+                        (doc) =>
+                            !foundry.utils.getProperty(
+                                doc,
+                                `flags.${SYSTEM_ID}.meta.isEphemeral`,
+                            ),
+                    );
 
                     changes[field] = [
                         ...ephemeralDocuments.map((doc) =>
@@ -86,15 +94,7 @@ export function EphemeralEmbeddedDocumentsMixin<
                                 },
                             }),
                         ),
-                        ...concreteDocuments
-                            .map((doc) => doc.toObject())
-                            .filter(
-                                (doc) =>
-                                    !foundry.utils.getProperty(
-                                        doc,
-                                        `flags.${SYSTEM_ID}.meta.isEphemeral`,
-                                    ),
-                            ),
+                        ...concreteDocuments.map((doc) => doc.toObject()),
                     ];
                 } catch (err) {
                     Logger.error(

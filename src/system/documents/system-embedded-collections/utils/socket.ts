@@ -21,6 +21,7 @@ import type {
 
 // Constants
 import { SYSTEM_EMBEDDED_COLLECTIONS_KEY } from '../constants';
+import { SYSTEM_ID } from '@system/constants';
 
 const DOCUMENT_REQUEST_TIMEOUT_WINDOW = 100;
 const documentsRequestTimeoutMap = new Map<string, number>();
@@ -297,6 +298,13 @@ function resolveUpdatedCollectionData(
 
     return [
         ...collection
+            .filter(
+                (doc) =>
+                    !foundry.utils.getProperty(
+                        doc,
+                        `flags.${SYSTEM_ID}.meta.isEphemeral`,
+                    ),
+            )
             .map((doc) =>
                 foundry.utils.mergeObject(
                     doc.toObject(),
@@ -361,12 +369,20 @@ function resolveUpdate(
             );
 
             return (
-                parentCollection?.map((doc) =>
-                    foundry.utils.mergeObject(
-                        doc.toObject() as AnyDocumentData,
-                        doc.id === curr.id ? update : {},
-                    ),
-                ) ?? ([update] as AnyDocumentData[])
+                parentCollection
+                    ?.filter(
+                        (doc) =>
+                            !foundry.utils.getProperty(
+                                doc,
+                                `flags.${SYSTEM_ID}.meta.isEphemeral`,
+                            ),
+                    )
+                    ?.map((doc) =>
+                        foundry.utils.mergeObject(
+                            doc.toObject() as AnyDocumentData,
+                            doc.id === curr.id ? update : {},
+                        ),
+                    ) ?? ([update] as AnyDocumentData[])
             );
         }, updatedCollectionData)[0];
 }
@@ -634,9 +650,20 @@ export function toServerViewObject(
                             return {
                                 ...acc,
                                 [collectionName]:
-                                    collectionData?.map((doc) =>
-                                        toServerViewObject(doc, embeddedName),
-                                    ) ?? [],
+                                    collectionData
+                                        ?.filter(
+                                            (doc) =>
+                                                !foundry.utils.getProperty(
+                                                    doc,
+                                                    `flags.${SYSTEM_ID}.meta.isEphemeral`,
+                                                ),
+                                        )
+                                        ?.map((doc) =>
+                                            toServerViewObject(
+                                                doc,
+                                                embeddedName,
+                                            ),
+                                        ) ?? [],
                             };
                         },
                         {} as Record<string, AnyObject[]>,
@@ -670,12 +697,20 @@ export function toServerViewObject(
             foundry.utils.setProperty(
                 obj,
                 collectionName,
-                collectionData.map((doc) =>
-                    toServerViewObject(
-                        doc,
-                        embeddedName as foundry.abstract.Document.Type,
+                collectionData
+                    .filter(
+                        (doc) =>
+                            !foundry.utils.getProperty(
+                                doc,
+                                `flags.${SYSTEM_ID}.meta.isEphemeral`,
+                            ),
+                    )
+                    .map((doc) =>
+                        toServerViewObject(
+                            doc,
+                            embeddedName as foundry.abstract.Document.Type,
+                        ),
                     ),
-                ),
             );
         },
     );
