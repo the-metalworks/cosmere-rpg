@@ -1,4 +1,4 @@
-// import { ActionType } from '@system/types/cosmere';
+import { ActionType } from '@system/types/cosmere';
 // import { EmptyObject } from '@system/types/utils';
 
 // Fields
@@ -9,11 +9,11 @@ import { SkillTestField } from './fields/skill-test';
 // Mixins
 import { DataModelMixin } from '../../mixins';
 import { IdItemMixin, IdItemDataSchema } from '../mixins/id';
-// import {
-//     TypedItemMixin,
-//     TypedItemDataSchema,
-//     TypedItemDerivedData,
-// } from '../mixins/typed';
+import {
+    TypedItemMixin,
+    TypedItemDataSchema,
+    //    TypedItemDerivedData,
+} from '../mixins/typed';
 import {
     DescriptionItemMixin,
     DescriptionItemDataSchema,
@@ -42,17 +42,17 @@ export class ActionItemDataModel extends DataModelMixin<ActionItemDataModel.Sche
     IdItemMixin({
         initialFromName: true,
     }),
-    // TypedItemMixin({
-    //     initial: ActionType.Basic,
-    //     choices: () =>
-    //         Object.entries(CONFIG.COSMERE.action.types).reduce(
-    //             (acc, [key, config]) => ({
-    //                 ...acc,
-    //                 [key]: config.label,
-    //             }),
-    //             {} as Record<ActionType, string>,
-    //         ),
-    // }),
+    TypedItemMixin({
+        initial: ActionType.Basic,
+        choices: () =>
+            Object.entries(CONFIG.COSMERE.action.types).reduce(
+                (acc, [key, config]) => ({
+                    ...acc,
+                    [key]: config.label,
+                }),
+                {} as Record<ActionType, string>,
+            ),
+    }),
     DescriptionItemMixin({
         value: 'COSMERE.Item.Type.Action.desc_placeholder',
     }),
@@ -69,7 +69,7 @@ export class ActionItemDataModel extends DataModelMixin<ActionItemDataModel.Sche
 export namespace ActionItemDataModel {
     export type Schema = ReturnType<typeof SCHEMA> &
         IdItemDataSchema &
-        // & TypedItemDataSchema<ActionType>
+        TypedItemDataSchema<ActionType> &
         DescriptionItemDataSchema &
         ResourcesItemMixin.Schema &
         ModalityItemDataSchema &
@@ -79,7 +79,7 @@ export namespace ActionItemDataModel {
     export type InitializedData =
         foundry.data.fields.SchemaField.InitializedData<Schema>;
 
-    // export type DerivedData = TypedItemDerivedData;
+    //    export type DerivedData = TypedItemDerivedData;
 
     export type ConsumeData =
         ActivationField.InitializedData['consumption'][number];

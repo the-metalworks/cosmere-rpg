@@ -22,7 +22,11 @@
 
     {{#each actions as |action|}}
     {{#with (itemContext action) as |ctx|}}
-        <li class="item action" data-id="{{action.id}}">
+        <li class="item action" 
+            data-id="{{action.id}}" 
+            data-item-uuid="{{action.uuid}}"
+            {{#if @root.editable}}data-drag="true"{{/if}}
+        >
             <section class="details">
                 {{!-- Image --}}
                 <div class="img">

@@ -617,6 +617,21 @@ export class CosmereActor<
 
     /* --- Functions --- */
 
+    /** Returns an embedded item in an actor regardless of how deeply nested it is, if it exists.
+     *
+     * @param itemUuid The UUID of the item you want to get
+     * @returns An Item or null if no item could be found.
+     */
+    public getNestedEmbeddedItemFromUuid(itemUuid: string): Item | null {
+        for (const [, document] of this.traverseEmbeddedDocuments()) {
+            if (document instanceof Item && document.uuid === itemUuid) {
+                return document;
+            }
+        }
+
+        return null;
+    }
+
     public async setMode(modality: string, mode: string) {
         await this.setFlag(SYSTEM_ID, `mode.${modality}`, mode);
 

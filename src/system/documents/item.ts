@@ -570,10 +570,10 @@ export class CosmereItem<
             const changes = changed as Partial<WeaponItem>;
             const weaponType = changes.system?.type ?? this.system.type;
             if (
-                (changes.system?.strike?.skillLocked ||
-                    this.system.strike.skillLocked) &&
+                !!changes.system?.strike &&
                 weaponType !== WeaponType.Special &&
-                !!changes.system
+                (changes.system.strike.skillLocked ||
+                    this.system.strike.skillLocked)
             ) {
                 const strike = foundry.utils.mergeObject(
                     changes.system.strike,

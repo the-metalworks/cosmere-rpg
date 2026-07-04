@@ -126,6 +126,8 @@ function transformGetRequest(
 async function transformCRUDRequest(
     inRequest: DocumentSocketRequest<DatabaseCRUDAction>,
 ): Promise<DocumentSocketRequest> {
+    if (isCreateRequest(inRequest)) assignIdsCreateRequest(inRequest);
+
     const targets = await getCRUDRequestTargets(inRequest);
     if (targets.length === 0) return inRequest;
 
@@ -187,6 +189,20 @@ async function transformCRUDRequest(
             outRequest,
         ) as DocumentSocketRequest<'update'>;
     }
+}
+
+function assignIdsCreateRequest(request: DocumentSocketRequest<'create'>) {
+    request.operation.data = request.operation.data.map((data) => {
+        if (data) {
+            if (data instanceof foundry.abstract.Document) {
+                data = data.toObject();
+            }
+
+            foundry.utils.setProperty(data, '_id', foundry.utils.randomID());
+        }
+
+        return data;
+    });
 }
 
 async function getCRUDRequestTargets(
@@ -601,11 +617,19 @@ export function toServerViewObject(
                 [`system.${SYSTEM_EMBEDDED_COLLECTIONS_KEY}`]:
                     systemEmbeddedConfig.reduce(
                         (acc, [embeddedName, collectionName]) => {
-                            const collectionData = foundry.utils.getProperty(
+                            let collectionData = foundry.utils.getProperty(
                                 obj,
                                 collectionName,
                             ) as AnyObject[] | undefined;
                             if (!collectionData) return acc;
+
+                            collectionData = ensureArray(collectionData);
+                            if (!collectionData) {
+                                console.warn(
+                                    `Found non-iterable collection data for ${collectionName}. Skipping transformation for this collection.`,
+                                );
+                                return acc;
+                            }
 
                             return {
                                 ...acc,
@@ -629,11 +653,19 @@ export function toServerViewObject(
     // Handle native embedded collections
     Object.entries(cls.metadata.embedded).forEach(
         ([embeddedName, collectionName]) => {
-            const collectionData = foundry.utils.getProperty(
+            let collectionData = foundry.utils.getProperty(
                 obj,
                 collectionName,
             ) as AnyObject[] | undefined;
             if (!collectionData) return;
+
+            collectionData = ensureArray(collectionData);
+            if (!collectionData) {
+                console.warn(
+                    `Found non-iterable collection data for ${collectionName}. Skipping transformation for this collection.`,
+                );
+                return;
+            }
 
             foundry.utils.setProperty(
                 obj,
@@ -674,11 +706,19 @@ export function toClientViewObject(
     if (hasSystemEmbeddedCollections(cls)) {
         Object.entries(cls.metadata.systemEmbedded).forEach(
             ([embeddedName, collectionName]) => {
-                const collectionData = foundry.utils.getProperty(
+                let collectionData = foundry.utils.getProperty(
                     data,
                     `system.${SYSTEM_EMBEDDED_COLLECTIONS_KEY}.${collectionName}`,
                 ) as AnyObject[] | undefined;
                 if (!collectionData) return;
+
+                collectionData = ensureArray(collectionData);
+                if (!collectionData) {
+                    console.warn(
+                        `Found non-iterable collection data for ${collectionName}. Skipping transformation for this collection.`,
+                    );
+                    return;
+                }
 
                 foundry.utils.setProperty(
                     data,
@@ -718,24 +758,12 @@ export function toClientViewObject(
             );
             if (!collectionData) return;
 
-            const collectionDataType = foundry.utils.getType(collectionData);
-            if (collectionDataType !== 'Array') {
-                const isIterable =
-                    typeof collectionData === 'object' &&
-                    Symbol.iterator in collectionData &&
-                    typeof collectionData[Symbol.iterator] === 'function';
-
-                if (!isIterable) {
-                    console.warn(
-                        `Expected collection data for ${collectionName} to be an array or iterable, but got ${collectionDataType}. Skipping transformation for this collection.`,
-                        collectionData,
-                    );
-                    return;
-                }
-
-                collectionData = Array.from(
-                    collectionData as Iterable<AnyObject>,
+            collectionData = ensureArray(collectionData);
+            if (!collectionData) {
+                console.warn(
+                    `Found non-iterable collection data for ${collectionName}. Skipping transformation for this collection.`,
                 );
+                return;
             }
 
             foundry.utils.setProperty(
@@ -750,6 +778,21 @@ export function toClientViewObject(
     return toDocument
         ? new (cls as Document.Constructable.AnyConstructor)(data, { parent })
         : data;
+}
+
+function ensureArray<T extends unknown[]>(collectionData: T): T;
+function ensureArray(collectionData: unknown): unknown[] | null;
+function ensureArray(collectionData: unknown): unknown[] | null {
+    const collectionDataType = foundry.utils.getType(collectionData);
+    if (collectionDataType === 'Array') return collectionData as unknown[];
+
+    const isIterable =
+        typeof collectionData === 'object' &&
+        collectionData !== null &&
+        Symbol.iterator in collectionData &&
+        typeof collectionData[Symbol.iterator] === 'function';
+
+    return isIterable ? Array.from(collectionData as Iterable<unknown>) : null;
 }
 
 class DocumentHierarchy<
