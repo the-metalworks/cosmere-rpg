@@ -385,7 +385,7 @@ export function transformResponse(inResponse: SocketResponse): SocketResponse {
     const inRequest = inResponse.operation.sourceRequest;
 
     if (isGetRequest(inRequest)) {
-        return transformGetReponse(inResponse);
+        return transformGetResponse(inResponse);
     } else if (isCreateRequest(inRequest) || isUpdateRequest(inRequest)) {
         return transformCreateUpdateResponse(inResponse);
     } else if (isDeleteRequest(inRequest)) {
@@ -395,7 +395,7 @@ export function transformResponse(inResponse: SocketResponse): SocketResponse {
     return inResponse;
 }
 
-function transformGetReponse(inResponse: SocketResponse) {
+function transformGetResponse(inResponse: SocketResponse) {
     const inRequest = inResponse.operation.sourceRequest!;
 
     const result = inResponse.result?.map((r) => {
