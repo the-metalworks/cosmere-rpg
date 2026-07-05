@@ -15,7 +15,7 @@ export const test = base.extend<MyFixtures>({
         await use(page);
 
         // Wait for the game world to fully load
-        console.log('Waiting for game world to load...');
+        // console.log('Waiting for game world to load...');
         await page.waitForFunction(
             () => typeof game !== 'undefined' && game.ready === true,
             { timeout: 120_000 },
