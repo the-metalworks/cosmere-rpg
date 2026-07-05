@@ -33,7 +33,7 @@ function defineStepSchema() {
             hint: `COSMERE.Utils.MatchDocument.Target.Hint`,
         }),
         documentType: new foundry.data.fields.StringField({
-            required: true,
+            required: false,
             nullable: true,
             initial: null,
             choices: VALID_DOCUMENT_TYPES.reduce(
@@ -154,7 +154,11 @@ export class MatchDocumentStepField<
                     value.target,
                 )
             ) {
-                if (doc.documentName !== 'Item')
+                // If this doc is inside a compendium which hasn't been loaded, we need to get the document type from the compendium
+                const docNameToCheck =
+                    (doc.documentName as string | undefined) ??
+                    game.packs.get(doc.pack as string)?.documentName;
+                if (docNameToCheck !== 'Item')
                     throw new Error(
                         `Target type "${value.target}" can only be used to match Items`,
                     );
