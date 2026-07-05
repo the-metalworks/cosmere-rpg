@@ -17,6 +17,7 @@
     {{#each effects as |effect|}}
     <li class="item effect {{#if effect.active}}active{{/if}}" 
         data-id="{{effect.id}}"
+        data-uuid="{{effect.uuid}}"
         {{#if (not (eq effect.parent @root.actor))}}
         data-parent-id="{{effect.parent.id}}"
         {{/if}}

@@ -1345,17 +1345,21 @@ export class CosmereActor<
         } as const satisfies EnricherData<SubType>;
     }
 
-    // public *allApplicableEffects() {
-    //     for (const effect of super.allApplicableEffects()) {
-    //         if (
-    //             !(effect.parent instanceof CosmereItem) ||
-    //             !effect.parent.isEquippable() ||
-    //             effect.parent.system.equipped
-    //         ) {
-    //             yield effect;
-    //         }
-    //     }
-    // }
+    public *allApplicableEffects() {
+        for (const effect of this.effects) {
+            yield effect;
+        }
+        if (CONFIG.ActiveEffect.legacyTransferral) return;
+        for (const item of this.items) {
+            for (const effect of item.effects) {
+                if (effect.transfer) yield effect;
+            }
+
+            for (const effect of item.nestedEffects) {
+                if (effect.transfer) yield effect;
+            }
+        }
+    }
 
     /**
      * Utility Function to determine a formula value based on a scalar plot of an attribute value

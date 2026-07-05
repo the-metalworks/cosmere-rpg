@@ -508,6 +508,12 @@ export class CosmereItem<
         return strike;
     }
 
+    public get nestedEffects(): ActiveEffect.Implementation[] {
+        return this.items
+            .map((item) => [...item.effects, ...item.nestedEffects])
+            .flat();
+    }
+
     /* --- Lifecycle --- */
 
     public override async _onClickDocumentLink(event: MouseEvent) {
@@ -1129,6 +1135,8 @@ export class CosmereItem<
 
         // Handle resource consumption
         if (!!consumeResponse && consumeResponse.length > 0) {
+            // Add consumption data to the options for hook usage
+            options.consumeResponse = consumeResponse;
             // Process each included resource consumption
             for (const consumption of consumeResponse) {
                 const targets =
@@ -1932,6 +1940,12 @@ export namespace CosmereItem {
          * Only used if the item has consumption configured.
          */
         shouldConsume?: boolean;
+
+        /**
+         * Any consumption results will be included here.
+         * Only used if the item use has consumption configured.
+         */
+        consumeResponse?: ActionItemDataModel.ConsumeData[];
 
         /**
          * What advantage modifier to apply to the damage roll.
