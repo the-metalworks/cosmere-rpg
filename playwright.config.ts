@@ -28,6 +28,7 @@ export default defineConfig({
         /* Base URL to use in actions like `await page.goto('')`. */
         baseURL: 'http://localhost:30000',
         storageState: './playwright/.auth/state.json',
+        viewport: { width: 1920, height: 1080 },
 
         /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
         trace: 'on-first-retry',
