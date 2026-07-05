@@ -33,6 +33,7 @@ export default defineConfig({
         trace: 'on-first-retry',
     },
     globalSetup: './src/system/tests/playwright/global-setup.ts',
+    globalTeardown: './src/system/tests/playwright/global-teardown.ts',
 
     /* Configure projects for major browsers */
     projects: [

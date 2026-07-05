@@ -1,6 +1,12 @@
+import { execSync } from 'child_process';
 import { chromium, type FullConfig } from '@playwright/test';
 
 async function globalSetup(config: FullConfig) {
+    // Shutdown Docker container if one is already running
+    execSync('npm run docker:down', { stdio: 'inherit' });
+    // Start Docker container and wait for healthcheck to pass
+    execSync('npm run docker:up -- --wait', { stdio: 'inherit' });
+
     const browser = await chromium.launch();
     const page = await browser.newPage();
 
