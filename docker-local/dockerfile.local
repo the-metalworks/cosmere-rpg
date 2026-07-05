@@ -46,11 +46,9 @@ FROM with-system AS with-license
 # Bake the pre-signed license into the image via a build secret
 # (secret mounts are never persisted in image layers)
 RUN --mount=type=secret,id=foundry_license,required=true \
-    if [ -f /secrets/foundry_license ]; then \
-      mkdir -p /data/Config && \
-      cp /secrets/foundry_license /data/Config/license.json && \
-      chown -R node:node /data/Config; \
-    fi
+    mkdir -p /data/Config && \
+    cp /run/secrets/foundry_license /data/Config/license.json && \
+    chown -R node:node /data/Config; \
 
 # ─── Run Foundry server ───
 FROM with-license AS final
