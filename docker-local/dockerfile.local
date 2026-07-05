@@ -8,7 +8,7 @@ FROM metalworks-fsbzd7hfaxgzc7gk.azurecr.io/foundryvtt:${FOUNDRY_VERSION} AS bas
 FROM base AS with-enable-modules
 USER root
 # Install the enable-modules tooling
-COPY scripts/enable-modules.mjs /opt/enable-modules/
+COPY .github/scripts/enable-modules.mjs /opt/enable-modules/
 RUN npm install --prefix /opt/enable-modules level
 USER node
 
@@ -31,20 +31,16 @@ RUN --mount=type=tmpfs,target=/tmp \
 
 # ─── Stage 4: Setup the world seed ───
 FROM with-quench AS with-world-seed
-# Pre-seed the "dockerworld" world data
+# Pre-seed the "dockerworld" world data (uses additional build context)
 USER root
-COPY world-seed/ /data/Data/worlds/dockerworld/
-
-# Ensure the node user owns all data files
-RUN chown -R node:node /data
-
+COPY --from=world-seed . /data/Data/worlds/dockerworld/
+RUN chown -R node:node /data/Data/worlds
 USER node
 
-# ─── Stage 5: Copy in system code under test ───
+# ─── Stage 5: System code under test ───
 FROM with-world-seed AS with-system
 USER root
-COPY --chown=node:node build/ /data/Data/systems/
-RUN chown -R node:node /data/Data/
+RUN mkdir -p /data/Data/systems/cosmere-rpg && chown -R node:node /data/Data/systems
 
 FROM with-system AS with-license
 # Bake the pre-signed license into the image via a build secret

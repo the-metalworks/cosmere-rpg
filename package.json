@@ -15,7 +15,9 @@
         "prettier:write": "prettier --write .",
         "link": "node ./scripts/link-foundry",
         "pack": "node ./scripts/pack",
-        "zip": "node ./scripts/zip"
+        "zip": "node ./scripts/zip",
+        "docker:up": "node ./scripts/docker-up.js up --build -d",
+        "docker:down": "node ./scripts/docker-up.js down"
     },
     "devDependencies": {
         "@eslint/js": "^9.9.0",
