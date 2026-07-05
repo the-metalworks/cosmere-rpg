@@ -195,7 +195,15 @@ function assignIdsCreateRequest(request: DocumentSocketRequest<'create'>) {
                 data = data.toObject();
             }
 
-            foundry.utils.setProperty(data, '_id', foundry.utils.randomID());
+            if (
+                !request.operation.keepId ||
+                !foundry.utils.hasProperty(data, '_id')
+            )
+                foundry.utils.setProperty(
+                    data,
+                    '_id',
+                    foundry.utils.randomID(),
+                );
         }
 
         return data;
