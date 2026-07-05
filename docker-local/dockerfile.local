@@ -48,10 +48,10 @@ FROM with-system AS with-license
 RUN --mount=type=secret,id=foundry_license,required=true \
     mkdir -p /data/Config && \
     cp /run/secrets/foundry_license /data/Config/license.json && \
-    chown -R node:node /data/Config; \
+    chown -R node:node /data/Config;
 
 # ─── Run Foundry server ───
 FROM with-license AS final
 USER node
 ENTRYPOINT []
-CMD ["node", "resources/app/main.mjs", "--port=30000", "--headless", "--noupdate", "--dataPath=/data"]
+CMD ["node", "resources/app/main.mjs", "--port=30000", "--headless", "--noupdate", "--dataPath=/data", "--world=dockerworld"]
