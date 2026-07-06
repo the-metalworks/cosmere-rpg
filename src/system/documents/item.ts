@@ -1429,9 +1429,11 @@ export class CosmereItem<
             resourceOrResources ??
             (Object.keys(this.system.resources) as ItemResource[]);
 
-        const resourcesToRecharge = Array.isArray(resourceOrResources)
-            ? resourceOrResources
-            : [resourceOrResources];
+        const resourcesToRecharge = (
+            Array.isArray(resourceOrResources)
+                ? resourceOrResources
+                : [resourceOrResources]
+        ).filter((resource) => this.system.resources[resource]);
 
         // Recharge resource
         await this.update({

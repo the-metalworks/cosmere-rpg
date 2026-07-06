@@ -199,7 +199,15 @@ function assignIdsCreateRequest(request: DocumentSocketRequest<'create'>) {
                 data = data.toObject();
             }
 
-            foundry.utils.setProperty(data, '_id', foundry.utils.randomID());
+            if (
+                !request.operation.keepId ||
+                !foundry.utils.hasProperty(data, '_id')
+            )
+                foundry.utils.setProperty(
+                    data,
+                    '_id',
+                    foundry.utils.randomID(),
+                );
         }
 
         return data;
@@ -420,7 +428,7 @@ export function transformResponse(inResponse: SocketResponse): SocketResponse {
     const inRequest = inResponse.operation.sourceRequest;
 
     if (isGetRequest(inRequest)) {
-        return transformGetReponse(inResponse);
+        return transformGetResponse(inResponse);
     } else if (isCreateRequest(inRequest) || isUpdateRequest(inRequest)) {
         return transformCreateUpdateResponse(inResponse);
     } else if (isDeleteRequest(inRequest)) {
@@ -430,14 +438,16 @@ export function transformResponse(inResponse: SocketResponse): SocketResponse {
     return inResponse;
 }
 
-function transformGetReponse(inResponse: SocketResponse) {
+function transformGetResponse(inResponse: SocketResponse) {
     const inRequest = inResponse.operation.sourceRequest!;
 
-    if (!inResponse.result || inResponse.result.length !== 1) return inResponse;
-    const result = inResponse.result[0] as AnyMutableObject;
+    const result = inResponse.result?.map((r) => {
+        if (typeof r === 'string') return r;
+        return toClientViewObject(r, inRequest.type);
+    });
 
     return foundry.utils.mergeObject(inResponse, {
-        result: [toClientViewObject(result, inRequest.type)],
+        result,
     }) as SocketResponse;
 }
 
