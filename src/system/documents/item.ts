@@ -549,18 +549,17 @@ export class CosmereItem<
 
         const formula = options.overrideFormula ?? this.system.damage.formula;
         // Perform the roll
-        const roll = await damageRoll(
-            foundry.utils.mergeObject(options, {
-                formula:
-                    rollData.mod !== undefined
-                        ? `${formula} + ${rollData.mod}`
-                        : formula,
-                damageType: this.system.damage.type,
-                mod: rollData.mod,
-                data: rollData,
-                source: this.name,
-            }) as DamageRollConfiguration,
-        );
+        const roll = await damageRoll({
+            ...options,
+            formula:
+                rollData.mod !== undefined
+                    ? `${formula} + ${rollData.mod}`
+                    : formula,
+            damageType: this.system.damage.type,
+            mod: rollData.mod,
+            data: rollData,
+            source: this.name,
+        } as DamageRollConfiguration);
 
         // Gather the formula options for graze rolls
         const unmoddedRoll = roll.clone();
@@ -606,13 +605,12 @@ export class CosmereItem<
 
         const usesBaseDamage = grazeFormula.includes('@damage');
 
-        const grazeRoll = await damageRoll(
-            foundry.utils.mergeObject(options, {
-                formula: grazeFormula,
-                damageType: this.system.damage.type,
-                data: rollData,
-            }) as DamageRollConfiguration,
-        );
+        const grazeRoll = await damageRoll({
+            ...options,
+            formula: grazeFormula,
+            damageType: this.system.damage.type,
+            data: rollData,
+        } as DamageRollConfiguration);
 
         // update with results from the basic roll if needed and store for display
         if (usesBaseDamage) grazeRoll.replaceDieResults(roll.dice);
