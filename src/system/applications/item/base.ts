@@ -15,12 +15,14 @@ import {
 } from '@system/types/utils';
 import { renderSystemTemplate, TEMPLATES } from '@src/system/utils/templates';
 
-
+// Utils
+import AppUtils from '@system/applications/utils';
 
 // Mixins
 import { ComponentHandlebarsApplicationMixin } from '@system/applications/component-system';
 import {
     TabsApplicationMixin,
+    DragDropApplicationMixin,
     TabApplicationRenderOptions,
 } from '@system/applications/mixins';
 import { DescriptionItemData } from '@src/system/data/item/mixins/description';
@@ -38,7 +40,7 @@ export type BaseItemSheetConfiguration =
 export type BaseItemSheetRenderOptions = TabApplicationRenderOptions;
 
 export class BaseItemSheet extends TabsApplicationMixin(
-    ComponentHandlebarsApplicationMixin(ItemSheetV2),
+    DragDropApplicationMixin(ComponentHandlebarsApplicationMixin(ItemSheetV2)),
 ) {
     declare item: CosmereItem;
 
@@ -56,6 +58,12 @@ export class BaseItemSheet extends TabsApplicationMixin(
             'edit-description': this.editDescription,
             save: this.onSave,
         },
+        dragDrop: [
+            {
+                dragSelector: '[data-drag]',
+                dropSelector: '*',
+            },
+        ],
     } as foundry.applications.api.ApplicationV2.DefaultOptions;
     /* eslint-enable @typescript-eslint/unbound-method */
 
@@ -288,7 +296,9 @@ export class BaseItemSheet extends TabsApplicationMixin(
     /* --- Context --- */
 
     public async _prepareContext(
-        options: DeepPartial<foundry.applications.api.ApplicationV2.RenderOptions>,
+        options: DeepPartial<foundry.applications.api.ApplicationV2.RenderOptions> & {
+            editable?: boolean;
+        },
     ) {
         let enrichedDescValue = undefined;
         let enrichedShortDescValue = undefined;
@@ -312,7 +322,7 @@ export class BaseItemSheet extends TabsApplicationMixin(
             item: this.item,
             systemFields: this.item.system.schema
                 .fields as foundry.data.fields.DataSchema,
-            editable: this.isEditable,
+            editable: options.editable ?? this.isEditable,
             isUpdatingDescription: this.isUpdatingDescription,
             descHtml: enrichedDescValue,
             shortDescHtml: enrichedShortDescValue,
@@ -377,6 +387,57 @@ export class BaseItemSheet extends TabsApplicationMixin(
         await this.saveDescription();
     }
 
+    /* --- Drag drop --- */
+
+    protected override _canDragStart(): boolean {
+        return this.isEditable;
+    }
+
+    protected override _canDragDrop(): boolean {
+        return this.isEditable;
+    }
+
+    protected override _onDragStart(event: DragEvent) {
+        // Get dragged item
+        const itemUuid = AppUtils.getItemUuidFromEvent(event);
+        const item = fromUuidSync(itemUuid);
+        if (!item) return;
+
+        const dragData = {
+            type: 'Item',
+            uuid: item.uuid,
+        };
+
+        // Set data transfer
+        event.dataTransfer!.setData('text/plain', JSON.stringify(dragData));
+        event.dataTransfer!.setData('document/item', ''); // Mark the type
+    }
+
+    protected override async _onDrop(event: DragEvent) {
+        const data =
+            foundry.applications.ux.TextEditor.implementation.getDragEventData(
+                event,
+            ) as {
+                type: foundry.abstract.Document.Type;
+                uuid: string;
+            };
+
+        // Ensure document type can be embedded on item
+        if (!(data.type in Item.implementation.metadata.embedded)) return;
+
+        const document = await fromUuid(data.uuid);
+        if (!document) return;
+
+        if (document.parent === this.item) return;
+
+        void this.item.createEmbeddedDocuments(
+            data.type as Item.Embedded.Name,
+            [
+                document.toObject() as foundry.abstract.Document.CreateDataForName<Item.Embedded.Name>,
+            ],
+        );
+    }
+
     /* --- Lifecycle --- */
 
     protected async _onRender(context: AnyObject, options: AnyObject) {
@@ -404,6 +465,4 @@ export class BaseItemSheet extends TabsApplicationMixin(
         this.updatingDescription = false;
         await this.render(true);
     }
-
-
 }

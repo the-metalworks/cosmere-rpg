@@ -18,6 +18,7 @@ import { AnyObject, EmptyObject, DeepPartial } from '@system/types/utils';
 import { Rule } from '@system/types/item/event-system';
 
 import type { EmbeddedDocumentsConfig } from './embed-config/types';
+import type { EphemeralEmbeddedDocumentsConfig } from './ephemeral-embeds/types';
 
 // Data model
 import {
@@ -139,6 +140,7 @@ class _Item<
 > extends Item<'base'> {
     declare static metadata: foundry.abstract.Document.MetadataFor<'Item'> & {
         embeddedConfig: EmbeddedDocumentsConfig<'Item'>;
+        ephemeralEmbedded: EphemeralEmbeddedDocumentsConfig<'Item'>;
     };
 
     // @ts-expect-error Explicitly declare to get proper typing
@@ -194,6 +196,14 @@ export class CosmereItem<
                         Item: false, // Disable embedding of items in talent tree items
                     },
                 } as EmbeddedDocumentsConfig<'Item'>,
+                // Note: Cannot bind due to static context. Calls are bound safely by mixin.
+                /* eslint-disable @typescript-eslint/unbound-method */
+                ephemeralEmbedded: {
+                    weapon: {
+                        Item: CosmereItem.prepareEphemeralItems,
+                    },
+                },
+                /* eslint-enable @typescript-eslint/unbound-method */
             },
             { inplace: false },
         ),
@@ -201,7 +211,7 @@ export class CosmereItem<
 
     /* --- ItemType type guards --- */
 
-    public isWeapon(): this is CosmereItem<WeaponItemDataModel> {
+    public isWeapon(): this is WeaponItem {
         return this.type === ItemType.Weapon;
     }
 
@@ -397,7 +407,9 @@ export class CosmereItem<
     }
 
     public get isStrikeAction(): boolean {
-        return this.isAction() && !!this.getFlag(SYSTEM_ID, 'isStrike');
+        return (
+            this.isDefaultActivation && !!this.getFlag(SYSTEM_ID, 'isStrike')
+        );
     }
 
     public get isActivatable(): boolean {
@@ -478,6 +490,30 @@ export class CosmereItem<
         return this.system.events.filter((event) => !event.disabled) as Rule[];
     }
 
+    public get strikeAction(): ActionItem | null {
+        if (!this.isWeapon()) return null;
+
+        const strike = this.actions.find(
+            (action) =>
+                action.system.id === `strike-${this.system.id}` &&
+                action.isStrikeAction,
+        );
+
+        // Strike action is ephemeral and should always exist
+        if (!strike)
+            throw new Error(
+                'Invalid Item state. Unable to find strike action.',
+            );
+
+        return strike;
+    }
+
+    public get nestedEffects(): ActiveEffect.Implementation[] {
+        return this.items
+            .map((item) => [...item.effects, ...item.nestedEffects])
+            .flat();
+    }
+
     /* --- Lifecycle --- */
 
     public override async _onClickDocumentLink(event: MouseEvent) {
@@ -527,40 +563,6 @@ export class CosmereItem<
         );
     }
 
-    protected _onCreate(
-        data: Item.CreateData,
-        options: Item.Database.OnCreateOperation,
-        userId: string,
-    ): void {
-        if (this.isWeapon()) {
-            void this.prepareWeaponStrikes();
-        }
-
-        super._onCreate(data, options, userId);
-    }
-
-    protected _onUpdate(
-        changed: Item.UpdateData,
-        options: Item.Database.OnUpdateOperation,
-        userId: string,
-    ): void {
-        super._onUpdate(changed, options, userId);
-
-        if (this.isWeapon()) {
-            const changes = changed as Partial<WeaponItem>;
-            if (
-                changes.name ||
-                changes.img ||
-                changes.system?.id ||
-                changes.system?.description ||
-                changes.system?.type ||
-                changes.system?.strike
-            ) {
-                void this.prepareWeaponStrikes();
-            }
-        }
-    }
-
     protected _preUpdate(
         changed: Item.UpdateData,
         options: Item.Database.PreUpdateOptions,
@@ -574,16 +576,16 @@ export class CosmereItem<
             const changes = changed as Partial<WeaponItem>;
             const weaponType = changes.system?.type ?? this.system.type;
             if (
-                (changes.system?.strike?.skillLocked ||
-                    this.system.strike.skillLocked) &&
+                !!changes.system?.strike &&
                 weaponType !== WeaponType.Special &&
-                !!changes.system
+                (changes.system.strike.skillLocked ||
+                    this.system.strike.skillLocked)
             ) {
                 const strike = foundry.utils.mergeObject(
                     changes.system.strike,
                     { skill: this.weaponTypeToSkill(weaponType) },
                 );
-                console.log(strike);
+
                 changes.system.strike = foundry.utils.mergeObject(
                     this.system.strike,
                     strike,
@@ -592,6 +594,23 @@ export class CosmereItem<
         }
 
         return super._preUpdate(changed, options, user);
+    }
+
+    protected static prepareEphemeralItems(this: CosmereItem): CosmereItem[] {
+        if (!this.isWeapon()) return [];
+
+        return [
+            // Weapon strike
+            new CosmereItem({
+                type: ItemType.Action,
+                ...this.weaponStrikeData(),
+                flags: {
+                    [SYSTEM_ID]: {
+                        isStrike: true,
+                    },
+                },
+            }),
+        ];
     }
 
     /* --- Roll & Usage utilities --- */
@@ -1116,6 +1135,8 @@ export class CosmereItem<
 
         // Handle resource consumption
         if (!!consumeResponse && consumeResponse.length > 0) {
+            // Add consumption data to the options for hook usage
+            options.consumeResponse = consumeResponse;
             // Process each included resource consumption
             for (const consumption of consumeResponse) {
                 const targets =
@@ -1408,9 +1429,11 @@ export class CosmereItem<
             resourceOrResources ??
             (Object.keys(this.system.resources) as ItemResource[]);
 
-        const resourcesToRecharge = Array.isArray(resourceOrResources)
-            ? resourceOrResources
-            : [resourceOrResources];
+        const resourcesToRecharge = (
+            Array.isArray(resourceOrResources)
+                ? resourceOrResources
+                : [resourceOrResources]
+        ).filter((resource) => this.system.resources[resource]);
 
         // Recharge resource
         await this.update({
@@ -1726,47 +1749,9 @@ export class CosmereItem<
         } as const satisfies EnricherData;
     }
 
-    protected async prepareWeaponStrikes(this: WeaponItem) {
-        const strikeAction = await this.getWeaponStrikeAction();
-
-        await strikeAction.update(this.weaponStrikeData());
-    }
-
-    protected async getWeaponStrikeAction(
-        this: WeaponItem,
-    ): Promise<ActionItem> {
-        let action;
-        if (this.hasActions) {
-            action = this.actions.find((action) =>
-                action.system.id.includes('strike-'),
-            );
-        }
-
-        if (!action) {
-            action = await this.createWeaponStrike();
-        }
-        return action;
-    }
-
-    protected async createWeaponStrike(this: WeaponItem): Promise<ActionItem> {
-        const newStrikeAction = (await Item.create(
-            {
-                type: ItemType.Action,
-                ...this.weaponStrikeData(),
-                flags: {
-                    [SYSTEM_ID]: {
-                        isStrike: true,
-                    },
-                },
-            },
-            // @ts-expect-error foundry-vtt-types doesn't correctly resolve the Item.Parent type for the operation's parent property
-            { parent: this },
-        )) as ActionItem;
-
-        return newStrikeAction;
-    }
-
     public weaponStrikeData(this: WeaponItem) {
+        if (!this.isWeapon()) throw new Error();
+
         return {
             name: `Strike: ${this.name}`,
             img: this.img,
@@ -1957,6 +1942,12 @@ export namespace CosmereItem {
          * Only used if the item has consumption configured.
          */
         shouldConsume?: boolean;
+
+        /**
+         * Any consumption results will be included here.
+         * Only used if the item use has consumption configured.
+         */
+        consumeResponse?: ActionItemDataModel.ConsumeData[];
 
         /**
          * What advantage modifier to apply to the damage roll.

@@ -8,6 +8,7 @@ import './style.scss';
 import './system/mixins';
 import './system/documents/system-embedded-collections/inject';
 import './system/documents/embed-config/inject';
+import './system/documents/ephemeral-embeds/inject';
 
 import {
     registerItemEventSystem,

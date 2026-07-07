@@ -175,9 +175,9 @@ export const DYNAMIC_SECTIONS: Record<string, DynamicItemListSectionGenerator> =
                 new: (parent: CosmereActor) =>
                     CosmereItem.create(
                         {
-                            type: ItemType.Talent,
+                            type: ItemType.Action,
                             name: game.i18n.localize(
-                                'COSMERE.Item.Type.Talent.New',
+                                'COSMERE.Item.Type.Action.New',
                             ),
                             system: {
                                 path: path.system.id,
@@ -454,9 +454,13 @@ export class ActorActionsListComponent extends ActorItemListComponent {
                         .closest('.item[data-item-uuid]')
                         .data('item-uuid') as string;
 
-                    // Get item
-                    const item = fromUuidSync(itemUuid) as CosmereItem;
-                    if (!item) return [];
+                    // Get item from loaded actor sheet
+                    const item =
+                        this.application.actor.getNestedEmbeddedItemFromUuid(
+                            itemUuid,
+                        );
+
+                    if (!(item instanceof CosmereItem)) return [];
 
                     const menuItems = [];
 

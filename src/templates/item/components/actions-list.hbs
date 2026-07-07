@@ -22,7 +22,11 @@
 
     {{#each actions as |action|}}
     {{#with (itemContext action) as |ctx|}}
-        <li class="item action" data-id="{{action.id}}">
+        <li class="item action" 
+            data-id="{{action.id}}" 
+            data-item-uuid="{{action.uuid}}"
+            {{#if @root.editable}}data-drag="true"{{/if}}
+        >
             <section class="details">
                 {{!-- Image --}}
                 <div class="img">
@@ -101,19 +105,23 @@
 
                 {{!-- Controls --}}
                 <div class="controls icon faded">
-                    {{#if @root.editable}}
-                    {{#unless action.isStrikeAction}}
-                    <a data-action="edit-action"
-                        data-tooltip="COSMERE.Item.Sheet.ActionsList.Edit"
-                    >
-                        <i class="fa-solid fa-pen-to-square"></i>
-                    </a>
-                    <a data-action="delete-action"
-                        data-tooltip="COSMERE.Item.Sheet.ActionsList.Delete"
-                    >
-                        <i class="fa-solid fa-trash"></i>
-                    </a>
-                    {{/unless}}
+                    {{#if (and @root.editable (not action.isStrikeAction))}}
+                        <a data-action="edit-action"
+                            data-tooltip="COSMERE.Item.Sheet.ActionsList.Edit"
+                        >
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                        <a data-action="delete-action"
+                            data-tooltip="COSMERE.Item.Sheet.ActionsList.Delete"
+                        >
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                    {{else}}
+                        <a data-action="view-action"
+                            data-tooltip="COSMERE.Item.Sheet.ActionsList.View"
+                        >
+                            <i class="fa-solid fa-eye"></i>
+                        </a>
                     {{/if}}
                 </div>
             </section>
