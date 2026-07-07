@@ -392,7 +392,7 @@ export class EditExpertisesDialog extends HandlebarsApplicationMixin(
         const el = $(`
             <li id="temp-custom" class="form-group custom temp">                
                 <i class="bullet fade icon faded fa-solid fa-diamond"></i>
-                <input type="text" placeholder="${game.i18n.localize('DIALOG.EditExpertise.AddPlaceholder')}">
+                <input type="text" name="temp" placeholder="${game.i18n.localize('DIALOG.EditExpertise.AddPlaceholder')}">
                 <a><i class="fa-solid fa-trash"></i></a>
             </li>
         `).get(0)!;
@@ -484,7 +484,7 @@ export class EditExpertisesDialog extends HandlebarsApplicationMixin(
         event.preventDefault();
 
         const expertisesKeys = Object.keys(formData.object).filter(
-            (key) => !!formData.object[key],
+            (key) => key !== 'temp' && !!formData.object[key],
         );
 
         // Determine added expertises
