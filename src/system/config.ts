@@ -122,12 +122,24 @@ const COSMERE: CosmereRPGConfig = {
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/burrowing.svg',
             condition: false,
         },
+        [Status.Depleted]: {
+            label: 'COSMERE.Status.Depleted',
+            icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/depleted.svg',
+            // TODO: Add reference to starter rules
+            condition: true,
+        },
         [Status.Determined]: {
             label: 'COSMERE.Status.Determined',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/determined.svg',
             reference: {
                 value: 'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#determined',
             },
+            condition: true,
+        },
+        [Status.Diminished]: {
+            label: 'COSMERE.Status.Diminished',
+            icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/diminished.svg',
+            // TODO: Add reference to starter rules
             condition: true,
         },
         [Status.Disoriented]: {
