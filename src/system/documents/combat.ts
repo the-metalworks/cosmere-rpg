@@ -4,6 +4,7 @@ import { CosmereCombatant } from './combatant';
 
 // Constants
 import { SYSTEM_ID } from '@system/constants';
+import { HOOKS } from '@system/constants/hooks';
 
 export class CosmereCombat extends Combat {
     /**
@@ -16,12 +17,33 @@ export class CosmereCombat extends Combat {
 
     override async startCombat(): Promise<this> {
         this.resetActivations();
-        return super.startCombat();
+        const combat = super.startCombat();
+
+        const newRound = this.round;
+
+        Hooks.callAll(HOOKS.COMBAT_ROUND_START, this, {
+            newRound,
+        });
+        return combat;
     }
 
     override async nextRound(): Promise<this> {
         this.resetActivations();
-        return super.nextRound();
+
+        const previousRound = this.round;
+
+        Hooks.callAll(HOOKS.COMBAT_ROUND_END, this, {
+            previousRound,
+        });
+
+        const combat = await super.nextRound();
+
+        const newRound = this.round;
+
+        Hooks.callAll(HOOKS.COMBAT_ROUND_START, this, {
+            newRound,
+        });
+        return combat;
     }
 
     override setupTurns(): CosmereCombatant[] {

@@ -295,6 +295,12 @@ export const enum ImmunityType {
     Condition = 'condition',
 }
 
+export const enum EffectListType {
+    Inactive = 'inactive',
+    Passive = 'passive',
+    Temporary = 'temporary',
+}
+
 /* --- System --- */
 
 export const enum ActorType {
@@ -322,6 +328,7 @@ export const enum ItemType {
 
     Power = 'power',
 
+    EffectsContainer = 'effects_container',
     TalentTree = 'talent_tree',
 }
 

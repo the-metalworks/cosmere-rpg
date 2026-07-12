@@ -18,7 +18,7 @@ export class AdvancementTalentListComponent extends DragDropComponentMixin(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     HandlebarsApplicationComponent<any>,
 ) {
-    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_ANCESTRY_TALENT_LIST}`;
+    static TEMPLATE = `${TEMPLATES.DIRECTORY}${TEMPLATES.ITEM_ANCESTRY_TALENT_LIST}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions

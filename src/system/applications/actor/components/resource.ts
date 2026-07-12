@@ -25,7 +25,7 @@ export class ActorResourceComponent extends HandlebarsApplicationComponent<
     any,
     Params
 > {
-    static readonly TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_RESOURCE}`;
+    static readonly TEMPLATE = `${TEMPLATES.DIRECTORY}${TEMPLATES.ACTOR_BASE_RESOURCE}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions

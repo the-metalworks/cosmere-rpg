@@ -87,15 +87,6 @@ any> {
             'expanded',
             this.sectionState[sectionId].expanded,
         );
-
-        sectionElement
-            .find('a[data-action="toggle-section-collapsed"')
-            .empty()
-            .append(
-                this.sectionState[sectionId].expanded
-                    ? '<i class="fa-solid fa-compress"></i>'
-                    : '<i class="fa-solid fa-expand"></i>',
-            );
     }
 
     public static onToggleActionDetails(

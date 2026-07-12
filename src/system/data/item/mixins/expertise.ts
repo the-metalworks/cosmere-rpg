@@ -1,5 +1,6 @@
 import { CosmereItem } from '@system/documents/item';
 import { IdItemDataSchema } from './id';
+import { DataSchema } from '../../types';
 
 const SCHEMA = () => ({
     expertise: new foundry.data.fields.BooleanField({
@@ -10,13 +11,16 @@ const SCHEMA = () => ({
     }),
 });
 
-export type ExpertiseItemDataSchema = ReturnType<typeof SCHEMA>;
+export type ExpertiseItemDataSchema = DataSchema<typeof SCHEMA>;
 
-export function ExpertiseItemMixin<TParent extends foundry.abstract.Document.Any>() {
-    return (
-        base: typeof foundry.abstract.TypeDataModel,
-    ) => {
-        return class extends base<ExpertiseItemDataSchema & IdItemDataSchema, TParent> {
+export function ExpertiseItemMixin<
+    TParent extends foundry.abstract.Document.Any,
+>() {
+    return (base: typeof foundry.abstract.TypeDataModel) => {
+        return class extends base<
+            ExpertiseItemDataSchema & IdItemDataSchema,
+            TParent
+        > {
             static defineSchema() {
                 const superSchema = super.defineSchema();
 
@@ -27,7 +31,10 @@ export function ExpertiseItemMixin<TParent extends foundry.abstract.Document.Any
                     );
                 }
 
-                return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());
+                return foundry.utils.mergeObject(
+                    super.defineSchema(),
+                    SCHEMA(),
+                );
             }
 
             public prepareDerivedData(): void {

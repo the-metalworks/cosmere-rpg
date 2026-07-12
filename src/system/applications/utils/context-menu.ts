@@ -63,7 +63,7 @@ type Positioning = {
 } & ({ right: number } | { left: number });
 
 // Constants
-const TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.GENERAL_CONTEXT_MENU}`;
+const TEMPLATE = `${TEMPLATES.DIRECTORY}${TEMPLATES.GENERAL_CONTEXT_MENU}`;
 
 const applicationContextMenus = new WeakMap<
     foundry.applications.api.ApplicationV2,

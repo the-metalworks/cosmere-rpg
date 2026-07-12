@@ -9,7 +9,7 @@
         .title {
             padding-left: 1.25rem;
 
-            .details {                
+            .details {
                 color: var(--cosmere-color-text-accent);
             }
         }
@@ -22,12 +22,12 @@
                 .background {
                     mask: var(--mask-level-svg) no-repeat center;
                 }
-    
+
                 .border {
                     mask: var(--border-level-svg) no-repeat center;
                 }
 
-                .value {                        
+                .value {
                     font-size: var(--font-size-28);
                     line-height: 62px;
                 }
@@ -101,37 +101,6 @@
 
     /* --- Components --- */
 
-    app-character-favorites {
-        display: flex;
-        flex-direction: column;
-        margin-top: 0.5rem;
-
-        .icon-header {
-            color: var(--cosmere-color-faded);
-        }
-
-        .favorite-list {
-            margin-top: 0.675rem;
-
-            & > li {
-                margin-bottom: 0.375rem;
-            }
-
-            .item {
-                padding: 0;
-                background-color: transparent;
-
-                .detail {
-                    width: auto;
-                }
-
-                .controls {
-                    width: auto;
-                }
-            }
-        }
-    }
-
     app-character-ancestry,
     app-character-culture {
         .border-box {
@@ -154,25 +123,25 @@
     app-character-paths-list .path {
         .border-box {
             background-color: var(--cosmere-color-base-2);
-        }        
+        }
     }
 
     app-character-ancestry,
     app-character-culture,
     app-character-paths-list .path,
     app-character-skill-linked-item {
-        position: relative;        
+        position: relative;
 
         .border-box {
             mask: radial-gradient(8px at 8px 8px, transparent 98%, black) -8px -8px;
         }
 
-        .wrapper {            
+        .wrapper {
             border: 2px solid var(--cosmere-color-accent);
             border-radius: 0;
             z-index: 1;
             position: relative;
-        }   
+        }
 
         .details {
             display: flex;
@@ -206,7 +175,7 @@
                 color: var(--cosmere-color-text-sub);
             }
 
-            .item-type {                
+            .item-type {
                 font-family: var(--cosmere-font-normal);
                 font-size: var(--font-size-10);
                 font-weight: bold;
@@ -242,7 +211,7 @@
                     opacity: 0.5;
                 }
 
-                .value {                        
+                .value {
                     font-size: var(--font-size-20);
                     line-height: 48px;
                 }

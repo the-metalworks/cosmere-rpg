@@ -155,7 +155,7 @@ export class EditExpertisesDialog extends HandlebarsApplicationMixin(
         foundry.utils.deepClone(super.PARTS),
         {
             form: {
-                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_EDIT_EXPERTISES}`,
+                template: `${TEMPLATES.DIRECTORY}${TEMPLATES.DIALOG_EDIT_EXPERTISES}`,
                 scrollable: [''],
                 // See note above
                 /* eslint-disable @typescript-eslint/unbound-method */
@@ -390,7 +390,7 @@ export class EditExpertisesDialog extends HandlebarsApplicationMixin(
 
         // Generate element
         const el = $(`
-            <li id="temp-custom" class="form-group custom temp">                
+            <li id="temp-custom" class="form-group custom temp">
                 <i class="bullet fade icon faded fa-solid fa-diamond"></i>
                 <input type="text" placeholder="${game.i18n.localize('DIALOG.EditExpertise.AddPlaceholder')}">
                 <a><i class="fa-solid fa-trash"></i></a>

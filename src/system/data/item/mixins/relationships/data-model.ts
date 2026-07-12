@@ -1,7 +1,5 @@
-import {
-    ItemRelationshipType,
-    ItemRelationshipRemovalPolicy,
-} from './types';
+import { DataSchema } from '@src/system/data/types';
+import { ItemRelationshipType, ItemRelationshipRemovalPolicy } from './types';
 
 const SCHEMA = () => ({
     id: new foundry.data.fields.StringField({
@@ -12,10 +10,7 @@ const SCHEMA = () => ({
     type: new foundry.data.fields.StringField({
         required: true,
         blank: false,
-        choices: [
-            ItemRelationshipType.Parent,
-            ItemRelationshipType.Child,
-        ],
+        choices: [ItemRelationshipType.Parent, ItemRelationshipType.Child],
     }),
     uuid: new foundry.data.fields.DocumentUUIDField({
         required: true,
@@ -38,11 +33,16 @@ const SCHEMA = () => ({
     }),
 });
 
-export type ItemRelationshipDataSchema = ReturnType<typeof SCHEMA>;
-export type ItemRelationshipCreateData = foundry.data.fields.SchemaField.CreateData<ItemRelationshipDataSchema>;
-export type ItemRelationshipData = foundry.data.fields.SchemaField.InitializedData<ItemRelationshipDataSchema>;
+export type ItemRelationshipDataSchema = DataSchema<typeof SCHEMA>;
+export type ItemRelationshipCreateData =
+    foundry.data.fields.SchemaField.CreateData<ItemRelationshipDataSchema>;
+export type ItemRelationshipData =
+    foundry.data.fields.SchemaField.InitializedData<ItemRelationshipDataSchema>;
 
-export class ItemRelationship extends foundry.abstract.DataModel<ItemRelationshipDataSchema, Item> {
+export class ItemRelationship extends foundry.abstract.DataModel<
+    ItemRelationshipDataSchema,
+    Item
+> {
     static defineSchema() {
         return SCHEMA();
     }

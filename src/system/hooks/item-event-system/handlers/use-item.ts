@@ -94,7 +94,7 @@ export function register() {
                     hint: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.UseItem}.TemporaryDamageModifiers.Hint`,
                 }),
             },
-            template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.IES_HANDLER_USE_ITEM}`,
+            template: `${TEMPLATES.DIRECTORY}${TEMPLATES.IES_HANDLER_USE_ITEM}`,
         },
         executor: async function (
             this: UseItemHandlerConfigData,

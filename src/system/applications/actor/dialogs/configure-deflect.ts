@@ -36,7 +36,7 @@ export class ConfigureDeflectDialog extends HandlebarsApplicationMixin(
         foundry.utils.deepClone(super.PARTS),
         {
             form: {
-                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ACTOR_CONFIGURE_DEFLECT}`,
+                template: `${TEMPLATES.DIRECTORY}${TEMPLATES.DIALOG_ACTOR_CONFIGURE_DEFLECT}`,
                 forms: {
                     form: {
                         handler: this.onFormEvent,

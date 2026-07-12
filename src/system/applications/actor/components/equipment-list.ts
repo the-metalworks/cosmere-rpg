@@ -32,7 +32,7 @@ interface RenderContext extends BaseActorSheetRenderContext {
 }
 
 export class ActorEquipmentListComponent extends ActorItemListComponent {
-    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_EQUIPMENT_LIST}`;
+    static TEMPLATE = `${TEMPLATES.DIRECTORY}${TEMPLATES.ACTOR_BASE_EQUIPMENT_LIST}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions
@@ -40,10 +40,7 @@ export class ActorEquipmentListComponent extends ActorItemListComponent {
      */
     /* eslint-disable @typescript-eslint/unbound-method */
     static readonly ACTIONS = {
-        'toggle-section-collapsed': this.onToggleSectionCollapsed,
-        'toggle-action-details': this.onToggleActionDetails,
-        'use-item': this.onUseItem,
-        'new-item': this.onNewItem,
+        ...super.ACTIONS,
         'toggle-equip': this.onToggleEquip,
         'cycle-equip': this.onCycleEquip,
         'decrease-quantity': this.onDecreaseQuantity,

@@ -28,6 +28,10 @@ import {
     EquippableItemMixin,
     EquippableItemDataSchema,
 } from './mixins/equippable';
+import {
+    LinkedSkillsMixin,
+    LinkedSkillsItemDataSchema,
+} from './mixins/linked-skills';
 
 export type EquipmentItemDataSchema = TypedItemDataSchema<EquipmentType> &
     DescriptionItemDataSchema &
@@ -35,6 +39,7 @@ export type EquipmentItemDataSchema = TypedItemDataSchema<EquipmentType> &
     PhysicalItemDataSchema &
     EventsItemDataSchema &
     RelationshipsItemDataSchema &
+    LinkedSkillsItemDataSchema &
     EquippableItemDataSchema;
 
 export type EquipmentItemDerivedData = TypedItemDerivedData &
@@ -63,6 +68,7 @@ export class EquipmentItemDataModel extends DataModelMixin<
     ResourcesItemMixin(),
     PhysicalItemMixin(),
     EventsItemMixin(),
+    LinkedSkillsMixin(),
     RelationshipsMixin(),
     EquippableItemMixin(),
 ) {}

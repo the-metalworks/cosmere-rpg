@@ -21,6 +21,10 @@ import {
     RelationshipsMixin,
     RelationshipsItemDataSchema,
 } from './mixins/relationships';
+import {
+    LinkedSkillsMixin,
+    LinkedSkillsItemDataSchema,
+} from './mixins/linked-skills';
 
 const SCHEMA = () => ({
     path: new foundry.data.fields.StringField({
@@ -49,6 +53,7 @@ export type TalentItemDataSchema = ReturnType<typeof SCHEMA> &
     ResourcesItemMixin.Schema &
     ModalityItemDataSchema &
     EventsItemDataSchema &
+    LinkedSkillsItemDataSchema &
     RelationshipsItemDataSchema;
 
 export type TalentItemDerivedData = TypedItemDerivedData & {
@@ -83,6 +88,7 @@ export class TalentItemDataModel extends DataModelMixin<
     ResourcesItemMixin(),
     ModalityItemMixin(),
     EventsItemMixin(),
+    LinkedSkillsMixin(),
     RelationshipsMixin(),
 ) {
     static defineSchema() {

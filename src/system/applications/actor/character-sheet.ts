@@ -33,8 +33,17 @@ export class CharacterSheet extends BaseActorSheet {
         //By default, we want our ideal sheet size with our max height/width
         // BUT we need to be within the viewport no matter what. Otherwise users can't use certain functions
         position: {
-            width: Math.min(window.innerWidth - CharacterSheet.MIN_MARGIN, CharacterSheet.MIN_WIDTH),
-            height: Math.min(Math.max(CharacterSheet.MIN_HEIGHT, window.innerHeight - CharacterSheet.MIN_MARGIN), CharacterSheet.DEFAULT_HEIGHT),
+            width: Math.min(
+                window.innerWidth - CharacterSheet.MIN_MARGIN,
+                CharacterSheet.MIN_WIDTH,
+            ),
+            height: Math.min(
+                Math.max(
+                    CharacterSheet.MIN_HEIGHT,
+                    window.innerHeight - CharacterSheet.MIN_MARGIN,
+                ),
+                CharacterSheet.DEFAULT_HEIGHT,
+            ),
         },
     };
 
@@ -42,10 +51,11 @@ export class CharacterSheet extends BaseActorSheet {
         foundry.utils.deepClone(super.PARTS),
         {
             header: {
-                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_HEADER}`,
+                template: `${TEMPLATES.DIRECTORY}${TEMPLATES.ACTOR_CHARACTER_HEADER}`,
             },
             content: {
-                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_CONTENT}`,
+                template: `${TEMPLATES.DIRECTORY}${TEMPLATES.ACTOR_CHARACTER_CONTENT}`,
+                scrollable: this.scrollableContent,
             },
         },
     );
@@ -117,8 +127,14 @@ export class CharacterSheet extends BaseActorSheet {
         const curMaxWidth = window.innerWidth - CharacterSheet.MIN_MARGIN;
         const curMaxHeight = window.innerHeight - CharacterSheet.MIN_MARGIN;
 
-        const clampedWidth = Math.max(Math.min(width, curMaxWidth), CharacterSheet.MIN_WIDTH);
-        const clampedHeight = Math.max(Math.min(height, curMaxHeight), CharacterSheet.MIN_HEIGHT);
+        const clampedWidth = Math.max(
+            Math.min(width, curMaxWidth),
+            CharacterSheet.MIN_WIDTH,
+        );
+        const clampedHeight = Math.max(
+            Math.min(height, curMaxHeight),
+            CharacterSheet.MIN_HEIGHT,
+        );
 
         if (width === clampedWidth && height === clampedHeight) return;
 

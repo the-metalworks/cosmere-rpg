@@ -12,7 +12,7 @@ export class DetailsEquipComponent extends HandlebarsApplicationComponent<// typ
 // NOTE: Use any as workaround for foundry-vtt-types issues
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 any> {
-    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_DETAILS_EQUIP}`;
+    static TEMPLATE = `${TEMPLATES.DIRECTORY}${TEMPLATES.ITEM_DETAILS_EQUIP}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions and forms

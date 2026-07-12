@@ -660,7 +660,7 @@ export async function preloadHandlebarsTemplates() {
     const templates = Object.values(TEMPLATES).reduce(
         (partials, path) => {
             partials[path.split('/').pop()!.replace('.hbs', '')] =
-                `systems/${SYSTEM_ID}/templates/${path}`;
+                `${TEMPLATES.DIRECTORY}${path}`;
             return partials;
         },
         {} as Record<string, string>,

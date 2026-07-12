@@ -175,6 +175,44 @@ const EVENTS: EventDefinition[] = [
             duration === RestType.Long,
         transform: (actor: CosmereActor) => ({ document: actor }),
     },
+
+    // Combat events
+    {
+        type: 'combat-encounter-start',
+        hook: 'combatStart',
+        transform: (combat: Combat) => ({ document: combat }),
+    },
+    {
+        type: 'combat-encounter-end',
+        hook: 'deleteCombat',
+        transform: (combat: Combat) => ({ document: combat }),
+    },
+    {
+        type: 'combat-round-start',
+        hook: HOOKS.COMBAT_ROUND_START,
+        transform: (combat: Combat, options: { newRound: number }) => ({
+            document: combat,
+            options,
+        }),
+    },
+    {
+        type: 'combat-round-end',
+        hook: HOOKS.COMBAT_ROUND_END,
+        transform: (combat: Combat, options: { previousRound: number }) => ({
+            document: combat,
+            options,
+        }),
+    },
+    {
+        type: 'combat-round-previous',
+        hook: 'combatRound',
+        condition: (_, __, updateOptions: { direction: number }) =>
+            updateOptions.direction === -1,
+        transform: (combat: Combat, updateOptions: { direction: number }) => ({
+            document: combat,
+            options: updateOptions,
+        }),
+    },
 ];
 
 export function registerEventTypes() {

@@ -1,5 +1,6 @@
 import { DamageType } from '@system/types/cosmere';
 import { CosmereItem } from '@system/documents';
+import { DataSchema } from '../../types';
 
 const DAMAGE_TYPE_SCHEMA = (type: DamageType) => ({
     active: new foundry.data.fields.BooleanField({
@@ -35,7 +36,7 @@ const SCHEMA = () => ({
     ),
 });
 
-export type DeflectItemDataSchema = ReturnType<typeof SCHEMA>;
+export type DeflectItemDataSchema = DataSchema<typeof SCHEMA>;
 export type DeflectItemData =
     foundry.data.fields.SchemaField.InitializedData<DeflectItemDataSchema>;
 

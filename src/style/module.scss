@@ -7,8 +7,7 @@
 @import './release-notes.scss';
 @import './starter-rules/journal.scss';
 
-.application.sheet:not(
-    .scene-config,
+.application.sheet:not(.scene-config,
     .active-effect-config,
     .journal-sheet,
     .roll-table-sheet,
@@ -25,18 +24,18 @@
         border: 1px solid var(--cosmere-color-accent);
         border-radius: 6px;
 
-        > .window-corners {
+        >.window-corners {
             display: none;
         }
 
-        > .window-background {
+        >.window-background {
             display: none;
         }
 
-        > .window-header {
+        >.window-header {
             padding: 0 0.5rem;
 
-            > button {
+            >button {
                 &:not([data-action="close"]) {
                     display: none;
                 }
@@ -45,7 +44,7 @@
     }
 
     &:not(.minimized) {
-        > .window-header {
+        >.window-header {
             padding: 0 1.875rem;
 
             #mode-toggle {
@@ -97,7 +96,7 @@
         border: 1px solid var(--cosmere-color-faded);
         margin: 0;
 
-        > legend {
+        >legend {
             font-family: var(--cosmere-font-header);
             font-size: var(--font-size-11);
             text-transform: uppercase;
@@ -128,7 +127,7 @@
         }
     }
 
-    > .window-header {
+    >.window-header {
         background: transparent;
         position: relative;
         z-index: 1;
@@ -163,7 +162,7 @@
         }
     }
 
-    > .window-content {
+    >.window-content {
         backdrop-filter: blur(0rem);
         overflow: visible;
         min-height: 0;
@@ -215,22 +214,22 @@
         gap: 0.25rem;
 
         .pip {
-            > div {
+            >div {
                 width: 10px;
                 height: 10px;
                 border: 1px solid var(--cosmere-color-base-5);
                 border-radius: 50%;
             }
 
-            &.active > div  {
+            &.active>div {
                 background-color: var(--cosmere-color-text-main);
             }
 
-            &.locked > div  {
+            &.locked>div {
                 opacity: 0.35;
             }
 
-            &:not(.active) > div {
+            &:not(.active)>div {
                 background-color: var(--cosmere-color-base-1);
             }
         }
@@ -323,7 +322,8 @@
             list-style-type: none;
         }
 
-        &:not(.expanded), &.empty {
+        &:not(.expanded),
+        &.empty {
             >li.item.header {
                 border-radius: 6px;
             }
@@ -334,7 +334,12 @@
             margin: 0;
             list-style-type: none;
 
+            &.indent {
+                padding-left: 1rem;
+            }
+
             &:not(.favorite) {
+
                 &:not(:last-child) {
                     border-bottom: 1px dotted var(--cosmere-color-faded);
                 }
@@ -599,7 +604,8 @@
     }
 
     .pills-list {
-        &.collapsible-content > .wrapper,
+
+        &.collapsible-content>.wrapper,
         &:not(.collapsible-content) {
             display: flex;
             flex-direction: row;
@@ -625,7 +631,7 @@
             flex-direction: row;
             gap: 0.125rem;
 
-            > .separator {
+            >.separator {
                 line-height: 10px;
                 opacity: 0.8;
             }
