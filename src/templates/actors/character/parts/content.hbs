@@ -1,11 +1,11 @@
 <section class="sheet-content flexrow">
     <section class="col-left">
         {{app-actor-details}}
-        {{#each @root.resources as |resourceId|}}
-        {{app-actor-resource resource=resourceId}}
-        {{/each}}
         <div class="scroll-container">
             <div class="scroll-body">
+                {{#each @root.resources as |resourceId|}}
+                {{app-actor-resource resource=resourceId}}
+                {{/each}}
                 {{app-expertises-list}}
                 {{app-actor-immunities}}
            </div>
