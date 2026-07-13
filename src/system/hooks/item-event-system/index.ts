@@ -181,11 +181,11 @@ Hooks.once('ready', () => {
                         if (!actor) continue;
 
                         // Handle the hook for all items
-                        await actor.items.reduce(async (prev, item) => {
-                            // Wait for the previous item to finish
-                            await prev;
-
-                            // Handle the hook
+                        for (const [
+                            ,
+                            item,
+                        ] of actor.traverseEmbeddedDocuments()) {
+                            if (!(item instanceof CosmereItem)) continue;
                             await handleEventHook(
                                 item,
                                 type,
@@ -194,7 +194,7 @@ Hooks.once('ready', () => {
                                 options,
                                 sourceUserId,
                             );
-                        }, Promise.resolve());
+                        }
                     }
                 } else {
                     throw new InvalidHookError(
