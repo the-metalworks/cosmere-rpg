@@ -45,6 +45,7 @@ export class ActorEffectsListComponent extends ActorItemListComponent {
     /* eslint-disable @typescript-eslint/unbound-method */
     static readonly ACTIONS = {
         ...super.ACTIONS,
+        'toggle-action-details': this.onToggleActionDetails,
         'toggle-section-collapsed': this.onToggleSectionCollapsed,
         'toggle-effect-active': this.onToggleEffectActive,
     };
