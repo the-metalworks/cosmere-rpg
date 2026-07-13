@@ -482,10 +482,10 @@ export class CosmereItem<
     }
 
     /**
-     * Returns true if effects list is not empty
+     * Returns true if effects list is not empty, or if there are nested effects
      */
     public get hasEffects(): boolean {
-        return !!this.effects.contents.length;
+        return !!this.allEffects.length;
     }
 
     /**
@@ -509,7 +509,7 @@ export class CosmereItem<
      */
     public get passiveEffects(): CosmereActiveEffect[] {
         return this.hasEffects
-            ? this.effects.contents.filter(
+            ? this.allEffects.filter(
                   (effect) => effect.active && !effect.isTemporary,
               )
             : [];
@@ -520,7 +520,7 @@ export class CosmereItem<
      */
     public get inactiveEffects(): CosmereActiveEffect[] {
         return this.hasEffects
-            ? this.effects.contents.filter((effect) => !effect.active)
+            ? this.allEffects.filter((effect) => !effect.active)
             : [];
     }
 
@@ -529,7 +529,7 @@ export class CosmereItem<
      */
     public get temporaryEffects(): CosmereActiveEffect[] {
         return this.hasEffects
-            ? this.effects.contents.filter(
+            ? this.allEffects.filter(
                   (effect) => effect.active && effect.isTemporary,
               )
             : [];
@@ -610,6 +610,10 @@ export class CosmereItem<
         return this.items
             .map((item) => [...item.effects, ...item.nestedEffects])
             .flat();
+    }
+
+    public get allEffects(): ActiveEffect.Implementation[] {
+        return [...this.effects.contents, ...this.nestedEffects];
     }
 
     /* --- Lifecycle --- */
