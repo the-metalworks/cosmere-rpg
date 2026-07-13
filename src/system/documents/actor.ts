@@ -624,12 +624,18 @@ export class CosmereActor<
 
     /** Returns an embedded item in an actor regardless of how deeply nested it is, if it exists.
      *
-     * @param itemUuid The UUID of the item you want to get
+     * @param itemUuid The UUID of the item you want to get, either the whole UUID or partial. Also works with just the item ID.
      * @returns An Item or null if no item could be found.
      */
     public getNestedEmbeddedItemFromUuid(itemUuid: string): Item | null {
+        const parsedUuid = foundry.utils.parseUuid(itemUuid);
+        let itemId = parsedUuid?.id;
+        if (!itemId) itemId = itemUuid;
         for (const [, document] of this.traverseEmbeddedDocuments()) {
-            if (document instanceof Item && document.uuid === itemUuid) {
+            if (
+                document instanceof Item &&
+                (document.uuid === itemUuid || document.id == itemId)
+            ) {
                 return document;
             }
         }
