@@ -34,6 +34,19 @@ export class ActorItemListComponent extends HandlebarsApplicationComponent<// ty
 // NOTE: Use any as workaround for foundry-vtt-types issues
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 any> {
+    /**
+     * NOTE: Unbound methods is the standard for defining actions
+     * within ApplicationV2
+     */
+    /* eslint-disable @typescript-eslint/unbound-method */
+    static readonly ACTIONS = {
+        'toggle-section-collapsed': this.onToggleSectionCollapsed,
+        'toggle-action-details': this.onToggleActionDetails,
+        'use-item': this.onUseItem,
+        'new-item': this.onNewItem,
+    };
+    /* eslint-enable */
+
     protected sections: ItemListSection[] = [];
 
     /**
