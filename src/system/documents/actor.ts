@@ -637,6 +637,27 @@ export class CosmereActor<
         return null;
     }
 
+    /** Returns an embedded effect in an actor regardless of how deeply nested it is, if it exists.
+     *
+     * @param effectUuid The UUID of the effect you want to get, either the whole UUID or partial. Also works with just the effects ID.
+     * @returns A CosmereActiveEffect or null if no effect could be found.
+     */
+    public getNestedEmbeddedEffectFromUuid(
+        effectUuid: string,
+    ): CosmereActiveEffect | null {
+        const parsedUuid = foundry.utils.parseUuid(effectUuid);
+        const effectId = parsedUuid?.id ?? effectUuid;
+        for (const [, document] of this.traverseEmbeddedDocuments()) {
+            if (
+                document instanceof CosmereActiveEffect &&
+                (document.uuid == effectUuid || document.id == effectId)
+            ) {
+                return document;
+            }
+        }
+        return null;
+    }
+
     public async setMode(modality: string, mode: string) {
         await this.setFlag(SYSTEM_ID, `mode.${modality}`, mode);
 
