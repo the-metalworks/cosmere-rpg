@@ -45,8 +45,8 @@ export function EphemeralEmbeddedDocumentsMixin<
             const metadata = constructor.metadata;
 
             const configForSubType =
-                metadata.ephemeralEmbedded[this.type] ??
-                metadata.ephemeralEmbedded.base;
+                metadata.ephemeralEmbedded?.[this.type] ??
+                metadata.ephemeralEmbedded?.base;
             if (!configForSubType) return;
 
             const embedded = Object.entries(metadata.embedded) as [
