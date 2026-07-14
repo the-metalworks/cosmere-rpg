@@ -1872,7 +1872,7 @@ export class CosmereItem<
         if (!this.isWeapon()) throw new Error();
 
         const loadedTrait = this.getTrait(WeaponTraitId.Loaded);
-        const hasLoadedTrait = !!loadedTrait;
+        const hasLoadedTrait = !!loadedTrait && loadedTrait.active;
 
         const usesResource = this.getResource(ItemResource.Uses);
         const hasUsesResource = !!usesResource && usesResource.max > 0;
