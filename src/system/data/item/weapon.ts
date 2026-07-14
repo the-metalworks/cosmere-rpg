@@ -6,6 +6,7 @@ import {
     WeaponType,
     EquipType,
     ActivationType,
+    ItemResource,
 } from '@system/types/cosmere';
 import { EmptyObject } from '@system/types/utils';
 
@@ -151,6 +152,23 @@ export class WeaponItemDataModel extends DataModelMixin<
         } else {
             this.equip.hold = HoldType.OneHanded;
             this.equip.hand ??= EquipHand.Main;
+        }
+
+        // Automate "uses" resource when loaded trait is set
+        const loadedTrait = this.traits[WeaponTraitId.Loaded];
+        if (
+            loadedTrait?.active &&
+            loadedTrait?.value &&
+            loadedTrait.value > 0
+        ) {
+            this.resources[ItemResource.Uses] = {
+                key: ItemResource.Uses,
+                max: loadedTrait.value,
+                value:
+                    this.resources[ItemResource.Uses]?.value ??
+                    loadedTrait.value,
+                recharge: null,
+            };
         }
     }
 }

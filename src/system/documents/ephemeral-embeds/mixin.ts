@@ -31,10 +31,11 @@ export function EphemeralEmbeddedDocumentsMixin<
             ephemeralEmbedded: EphemeralEmbeddedDocumentsConfig<DocumentType>;
         };
 
-        override _initialize(
-            options?: foundry.abstract.Document.InitializeOptions,
-        ) {
-            super._initialize(options);
+        public prepareData() {
+            /* eslint-disable @typescript-eslint/no-unsafe-call */
+            //@ts-expect-error foundry-vtt-types doesn't define the prepareData function on the Document base class (only client document)
+            super.prepareData();
+            /* eslint-enable @typescript-eslint/no-unsafe-call */
 
             if (!this.ephemeralUpdate) this.injectEphemeralDocuments();
         }
