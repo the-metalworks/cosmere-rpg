@@ -622,41 +622,22 @@ export class CosmereActor<
 
     /* --- Functions --- */
 
-    /** Returns an embedded item in an actor regardless of how deeply nested it is, if it exists.
+    /** Returns an embedded document in an actor regardless of how deeply nested it is, if it exists.
      *
-     * @param itemUuid The UUID of the item you want to get, either the whole UUID or partial. Also works with just the item ID.
-     * @returns An Item or null if no item could be found.
+     * @param documentType the type of document you are getting. In this instance thats either {@link CosmereActiveEffect} or {@link CosmereItem}
+     * @param uuid The UUID of the document you want to get, either the whole UUID or partial. Also works with just the document ID.
+     * @returns A {@link CosmereActiveEffect}, {@link CosmereItem} or null if no effect could be found.
      */
-    public getNestedEmbeddedItemFromUuid(itemUuid: string): Item | null {
-        const parsedUuid = foundry.utils.parseUuid(itemUuid);
-        let itemId = parsedUuid?.id;
-        if (!itemId) itemId = itemUuid;
+    public getEmbeddedDocumentFromUuid(
+        documentType: typeof CosmereActiveEffect | typeof CosmereItem,
+        uuid: string,
+    ): CosmereActiveEffect | CosmereItem | null {
+        const parsedUuid = foundry.utils.parseUuid(uuid);
+        const documentId = parsedUuid?.id ?? uuid;
         for (const [, document] of this.traverseEmbeddedDocuments()) {
             if (
-                document instanceof Item &&
-                (document.uuid === itemUuid || document.id == itemId)
-            ) {
-                return document;
-            }
-        }
-
-        return null;
-    }
-
-    /** Returns an embedded effect in an actor regardless of how deeply nested it is, if it exists.
-     *
-     * @param effectUuid The UUID of the effect you want to get, either the whole UUID or partial. Also works with just the effects ID.
-     * @returns A CosmereActiveEffect or null if no effect could be found.
-     */
-    public getNestedEmbeddedEffectFromUuid(
-        effectUuid: string,
-    ): CosmereActiveEffect | null {
-        const parsedUuid = foundry.utils.parseUuid(effectUuid);
-        const effectId = parsedUuid?.id ?? effectUuid;
-        for (const [, document] of this.traverseEmbeddedDocuments()) {
-            if (
-                document instanceof CosmereActiveEffect &&
-                (document.uuid == effectUuid || document.id == effectId)
+                document instanceof documentType &&
+                (document.uuid == uuid || document.id == documentId)
             ) {
                 return document;
             }
