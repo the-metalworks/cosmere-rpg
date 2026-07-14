@@ -624,9 +624,9 @@ export class CosmereActor<
 
     /** Returns an embedded document in an actor regardless of how deeply nested it is, if it exists.
      *
-     * @param documentType the type of document you are getting. In this instance thats either {@link CosmereActiveEffect} or {@link CosmereItem}
+     * @param documentType The type of document you are getting. In this instance thats either {@link CosmereActiveEffect} or {@link CosmereItem}
      * @param uuid The UUID of the document you want to get, either the whole UUID or partial. Also works with just the document ID.
-     * @returns A {@link CosmereActiveEffect}, {@link CosmereItem} or null if no effect could be found.
+     * @returns A {@link CosmereActiveEffect}, {@link CosmereItem} or null if no document could be found.
      */
     public getEmbeddedDocumentFromUuid(
         documentType: typeof CosmereActiveEffect | typeof CosmereItem,
