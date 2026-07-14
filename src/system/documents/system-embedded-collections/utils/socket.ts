@@ -502,10 +502,15 @@ export function transformResponse(inResponse: SocketResponse): SocketResponse {
 
     if (isGetRequest(inRequest)) {
         if (inRequest.type === 'Adventure')
-            return transformAdventureGetResponse(inResponse);
+            return transformAdventureResponse(inResponse);
 
         return transformGetResponse(inResponse);
-    } else if (isCreateRequest(inRequest) || isUpdateRequest(inRequest)) {
+    } else if (isCreateRequest(inRequest)) {
+        return transformCreateUpdateResponse(inResponse);
+    } else if (isUpdateRequest(inRequest)) {
+        if (inRequest.type === 'Adventure')
+            return transformAdventureResponse(inResponse);
+
         return transformCreateUpdateResponse(inResponse);
     } else if (isDeleteRequest(inRequest)) {
         return transformDeleteResponse(inResponse);
@@ -673,7 +678,7 @@ function transformCRUDResponseCommon(
     };
 }
 
-function transformAdventureGetResponse(
+function transformAdventureResponse(
     inResponse: SocketResponse,
 ): SocketResponse {
     const embeddedDataFields = Object.entries(Adventure.schema.fields).filter(
