@@ -2,8 +2,8 @@
     --border-tier-svg: url('assets/icons/svg/sheet/border_tier.svg');
     --mask-tier-svg: url('assets/icons/svg/sheet/mask_tier.svg');
 
-    max-width: 800px;
-    max-height: 800px;
+    min-width: 800px;
+    min-height: 675px;
 
     .sheet-header {
         .title {

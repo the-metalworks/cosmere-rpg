@@ -2,11 +2,14 @@
 import { hasSystemEmbeddedCollections } from './general';
 
 // Types
-import type { AnyObject, AnyMutableObject } from '@system/types/utils';
+import type {
+    AnyObject,
+    AnyMutableObject,
+    AnyEmbeddedCollection,
+} from '@system/types/utils';
 import type { Document } from '@system/types/foundry/document';
 
 import type {
-    AnyEmbeddedCollection,
     AnyDocumentData,
     SystemEmbeddedCollectionsDocument,
 } from '../types/general';
@@ -18,6 +21,7 @@ import type {
 
 // Constants
 import { SYSTEM_EMBEDDED_COLLECTIONS_KEY } from '../constants';
+import { SYSTEM_ID } from '@system/constants';
 
 const DOCUMENT_REQUEST_TIMEOUT_WINDOW = 100;
 const documentsRequestTimeoutMap = new Map<string, number>();
@@ -101,6 +105,14 @@ export function transformRequest(
 export async function transformRequest(
     inRequest: DocumentSocketRequest,
 ): Promise<DocumentSocketRequest> {
+    if (inRequest.type === 'Adventure') {
+        if (isGetRequest(inRequest)) {
+            return transformAdventureGetRequest(inRequest);
+        } else if (isUpdateRequest(inRequest)) {
+            return transformAdventureUpdateRequest(inRequest);
+        }
+    }
+
     if (isGetRequest(inRequest)) {
         return transformGetRequest(inRequest);
     } else if (isCRUDRequest(inRequest)) {
@@ -131,20 +143,41 @@ async function transformCRUDRequest(
     const hierarchy = new DocumentHierarchy(targets[0]);
 
     if (!hierarchy.includesSystemEmbedding || !hierarchy.host) {
-        if (!isCreateRequest(inRequest)) return inRequest;
-
-        return foundry.utils.mergeObject(transformRequestCommon(inRequest), {
-            operation: {
-                data: inRequest.operation.data.map((data) =>
-                    data
-                        ? toServerViewObject(
-                              data as AnyDocumentData,
-                              inRequest.type,
-                          )
-                        : data,
-                ),
-            },
-        });
+        if (isCreateRequest(inRequest)) {
+            return foundry.utils.mergeObject(
+                transformRequestCommon(inRequest),
+                {
+                    operation: {
+                        data: inRequest.operation.data.map((data) =>
+                            data
+                                ? toServerViewObject(
+                                      data as AnyDocumentData,
+                                      inRequest.type,
+                                  )
+                                : data,
+                        ),
+                    },
+                },
+            );
+        } else if (isUpdateRequest(inRequest)) {
+            return foundry.utils.mergeObject(
+                transformRequestCommon(inRequest),
+                {
+                    operation: {
+                        updates: inRequest.operation.updates.map((data) =>
+                            data
+                                ? toServerViewObject(
+                                      data as AnyDocumentData,
+                                      inRequest.type,
+                                  )
+                                : data,
+                        ),
+                    },
+                },
+            );
+        } else {
+            return inRequest;
+        }
     } else {
         await queueRequestFor(hierarchy.host.uuid);
 
@@ -302,6 +335,13 @@ function resolveUpdatedCollectionData(
 
     return [
         ...collection
+            .filter(
+                (doc) =>
+                    !foundry.utils.getProperty(
+                        doc,
+                        `flags.${SYSTEM_ID}.meta.isEphemeral`,
+                    ),
+            )
             .map((doc) =>
                 foundry.utils.mergeObject(
                     doc.toObject(),
@@ -366,14 +406,66 @@ function resolveUpdate(
             );
 
             return (
-                parentCollection?.map((doc) =>
-                    foundry.utils.mergeObject(
-                        doc.toObject() as AnyDocumentData,
-                        doc.id === curr.id ? update : {},
-                    ),
-                ) ?? ([update] as AnyDocumentData[])
+                parentCollection
+                    ?.filter(
+                        (doc) =>
+                            !foundry.utils.getProperty(
+                                doc,
+                                `flags.${SYSTEM_ID}.meta.isEphemeral`,
+                            ),
+                    )
+                    ?.map((doc) =>
+                        foundry.utils.mergeObject(
+                            doc.toObject() as AnyDocumentData,
+                            doc.id === curr.id ? update : {},
+                        ),
+                    ) ?? ([update] as AnyDocumentData[])
             );
         }, updatedCollectionData)[0];
+}
+
+function transformAdventureGetRequest(
+    inRequest: DocumentSocketRequest<'get'>,
+): DocumentSocketRequest<'get'> {
+    return transformRequestCommon(inRequest);
+}
+
+function transformAdventureUpdateRequest(
+    inRequest: DocumentSocketRequest<'update'>,
+): DocumentSocketRequest {
+    const embeddedDataFields = Object.entries(Adventure.schema.fields).filter(
+        ([key, field]) =>
+            field instanceof foundry.data.fields.SetField &&
+            field.element instanceof foundry.data.fields.EmbeddedDataField,
+    );
+
+    const outRequest = transformRequestCommon(inRequest);
+
+    outRequest.operation.updates = inRequest.operation.updates.map((update) => {
+        if (!update) return update;
+
+        embeddedDataFields.forEach(([key, field]) => {
+            if (!foundry.utils.hasProperty(update, key)) return;
+
+            const documentName = (
+                (field as foundry.data.fields.SetField.Any)
+                    .element as foundry.data.fields.EmbeddedDataField<
+                    typeof foundry.abstract.Document
+                >
+            ).model.documentName;
+            const data = foundry.utils.getProperty(update, key) as AnyObject[];
+
+            foundry.utils.setProperty(
+                update,
+                key,
+                data.map((data) => toServerViewObject(data, documentName)),
+            );
+        });
+
+        return update;
+    });
+
+    return outRequest;
 }
 
 /**
@@ -409,8 +501,16 @@ export function transformResponse(inResponse: SocketResponse): SocketResponse {
     const inRequest = inResponse.operation.sourceRequest;
 
     if (isGetRequest(inRequest)) {
+        if (inRequest.type === 'Adventure')
+            return transformAdventureResponse(inResponse);
+
         return transformGetResponse(inResponse);
-    } else if (isCreateRequest(inRequest) || isUpdateRequest(inRequest)) {
+    } else if (isCreateRequest(inRequest)) {
+        return transformCreateUpdateResponse(inResponse);
+    } else if (isUpdateRequest(inRequest)) {
+        if (inRequest.type === 'Adventure')
+            return transformAdventureResponse(inResponse);
+
         return transformCreateUpdateResponse(inResponse);
     } else if (isDeleteRequest(inRequest)) {
         return transformDeleteResponse(inResponse);
@@ -578,6 +678,44 @@ function transformCRUDResponseCommon(
     };
 }
 
+function transformAdventureResponse(
+    inResponse: SocketResponse,
+): SocketResponse {
+    const embeddedDataFields = Object.entries(Adventure.schema.fields).filter(
+        ([key, field]) =>
+            field instanceof foundry.data.fields.SetField &&
+            field.element instanceof foundry.data.fields.EmbeddedDataField,
+    );
+
+    const result = inResponse.result?.map((r) => {
+        if (typeof r === 'string') return r;
+
+        embeddedDataFields.forEach(([key, field]) => {
+            if (!foundry.utils.hasProperty(r, key)) return;
+
+            const documentName = (
+                (field as foundry.data.fields.SetField.Any)
+                    .element as foundry.data.fields.EmbeddedDataField<
+                    typeof foundry.abstract.Document
+                >
+            ).model.documentName;
+            const data = foundry.utils.getProperty(r, key) as AnyObject[];
+
+            foundry.utils.setProperty(
+                resolveUpdate,
+                key,
+                data.map((data) => toClientViewObject(data, documentName)),
+            );
+        });
+
+        return r;
+    });
+
+    return foundry.utils.mergeObject(inResponse, {
+        result,
+    }) as SocketResponse;
+}
+
 /* --- Helpers --- */
 
 export function toServerViewObject(
@@ -641,9 +779,20 @@ export function toServerViewObject(
                             return {
                                 ...acc,
                                 [collectionName]:
-                                    collectionData?.map((doc) =>
-                                        toServerViewObject(doc, embeddedName),
-                                    ) ?? [],
+                                    collectionData
+                                        ?.filter(
+                                            (doc) =>
+                                                !foundry.utils.getProperty(
+                                                    doc,
+                                                    `flags.${SYSTEM_ID}.meta.isEphemeral`,
+                                                ),
+                                        )
+                                        ?.map((doc) =>
+                                            toServerViewObject(
+                                                doc,
+                                                embeddedName,
+                                            ),
+                                        ) ?? [],
                             };
                         },
                         {} as Record<string, AnyObject[]>,
@@ -677,12 +826,20 @@ export function toServerViewObject(
             foundry.utils.setProperty(
                 obj,
                 collectionName,
-                collectionData.map((doc) =>
-                    toServerViewObject(
-                        doc,
-                        embeddedName as foundry.abstract.Document.Type,
+                collectionData
+                    .filter(
+                        (doc) =>
+                            !foundry.utils.getProperty(
+                                doc,
+                                `flags.${SYSTEM_ID}.meta.isEphemeral`,
+                            ),
+                    )
+                    .map((doc) =>
+                        toServerViewObject(
+                            doc,
+                            embeddedName as foundry.abstract.Document.Type,
+                        ),
                     ),
-                ),
             );
         },
     );

@@ -3,6 +3,8 @@ import {
     ItemType,
     ActivationType,
     ActionCostType,
+    ItemConsumeType,
+    Resource,
 } from '@system/types/cosmere';
 import {
     ItemListSection,
@@ -42,6 +44,58 @@ export interface ActorTalentsListComponentRenderContext
 
 export const DYNAMIC_SECTIONS: Record<string, DynamicItemListSectionGenerator> =
     {
+        powers: (actor: CosmereActor) => {
+            // Get powers
+            const powers = actor.powers;
+
+            // Get list of unique power types
+            const powerTypes = [...new Set(powers.map((p) => p.system.type))];
+
+            return powerTypes.map((type) => {
+                // Get config
+                const config = CONFIG.COSMERE.power.types[type];
+
+                return {
+                    id: type,
+                    sortOrder: 100,
+                    label: game.i18n.localize(config.plural),
+                    itemTypeLabel: game.i18n.localize(config.label),
+                    default: false,
+                    filter: (item: CosmereItem) =>
+                        item.isPower() && item.system.type === type,
+                    new: (parent: CosmereActor) =>
+                        CosmereItem.create(
+                            {
+                                type: ItemType.Power,
+                                name: game.i18n.format(
+                                    'COSMERE.Item.Type.Power.New',
+                                    {
+                                        type: game.i18n.localize(config.label),
+                                    },
+                                ),
+                                system: {
+                                    type,
+                                    activation: {
+                                        type: ActivationType.Utility,
+                                        cost: {
+                                            type: ActionCostType.Action,
+                                            value: 1,
+                                        },
+                                        consume: {
+                                            type: ItemConsumeType.Resource,
+                                            resource: Resource.Investiture,
+                                            value: {
+                                                actual: 1,
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                            { parent },
+                        ) as Promise<CosmereItem>,
+                } as ItemListSection;
+            });
+        },
         paths: (actor: CosmereActor) => {
             // Get paths
             const paths = actor.paths;
@@ -148,7 +202,7 @@ export class ActorTalentsListComponent extends ActorItemListComponent {
     ) {
         // Get all talent items
         const talentItems = this.application.actor.items.filter((item) =>
-            item.isTalent(),
+            item.isTalent() || item.isPower(),
         );
 
         // Ensure all items have an expand state record

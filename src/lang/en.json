@@ -229,8 +229,6 @@
                 "Subtype": "Subtype",
                 "Edit": "Edit",
                 "View": "View",
-                "Favorites": "Favorites",
-                "DropFavorite": "Drop Favorite",
                 "AncestryPlaceholder": "Add Ancestry",
                 "CulturePlaceholder": "Add Culture",
                 "PathPlaceholder": "Add Path",
@@ -409,6 +407,11 @@
                     "desc_placeholder": "Edit this to describe the power.",
                     "New": "New {type}"
                 },
+                "EffectsContainer": {
+                    "label": "Effects Container",
+                    "label_plural": "Effects Containers",
+                    "desc_placeholder": "Edit this to describe the effects contained within and why they are grouped."
+                },
                 "TalentTree": {
                     "label": "Talent Tree",
                     "label_plural": "Talent Trees"
@@ -442,6 +445,7 @@
                     "Reach": "Reach"
                 },
                 "Strike": "Strike",
+                "Reload": "Reload",
                 "Improvised": "Improvised Weapon",
                 "Unarmed": "Unarmed Strike"
             },
@@ -827,6 +831,26 @@
                         "long-rest-actor": {
                             "Label": "Actor Long Rested",
                             "Description": "Triggered when this item's parent actor takes a long rest."
+                        },
+                        "combat-encounter-start": {
+                            "Label": "Combat Started",
+                            "Description": "Triggered only when a combat encounter starts and the associated actor is a participant in the combat."
+                        },
+                        "combat-encounter-end": {
+                            "Label": "Combat Ended",
+                            "Description": "Triggered when a combat encounter ends."
+                        },
+                        "combat-round-start": {
+                            "Label": "Combat Round Started",
+                            "Description": "Triggered at the start of a new round"
+                        },
+                        "combat-round-end": {
+                            "Label": "Combat Round Ended",
+                            "Description": "Triggered before the start of a new round"
+                        },
+                        "combat-round-previous": {
+                            "Label": "Combat Round Previous",
+                            "Description": "Triggered when going to the previous round"
                         }
                     },
                     "Rule": {
@@ -1306,6 +1330,7 @@
                     "Create": "Add Action",
                     "Edit": "Edit",
                     "Delete": "Remove",
+                    "View": "View",
                     "NewAction": {
                         "Name": "New Action"
                     }
@@ -1385,7 +1410,9 @@
             "Afflicted": "Afflicted",
             "Blind": "Senseblind",
             "Burrowing": "Burrowing",
+            "Depleted": "Depleted",
             "Determined": "Determined",
+            "Diminished": "Diminished",
             "Disoriented": "Disoriented",
             "Empowered": "Empowered",
             "Enhanced": "Enhanced",
@@ -1812,6 +1839,7 @@
         "Talent": "Talent",
         "Goal": "Goal",
         "Button": {
+            "Source": "Edit Source",
             "Roll": "Roll",
             "Continue": "Continue",
             "Remove": "Remove",
@@ -1819,8 +1847,6 @@
             "Save": "Save",
             "Cancel": "Cancel",
             "Update": "Update",
-            "RemoveFavorite": "Remove Favorite",
-            "Favorite": "Favorite",
             "Confirm": "Confirm",
             "Lock": "Lock",
             "Unlock": "Unlock"
@@ -1899,6 +1925,7 @@
             "equipment": "Equipment",
             "weapon": "Weapon",
             "power": "Power",
+            "effects_container": "Effects Container",
             "talent_tree": "Talent Tree"
         }
     },

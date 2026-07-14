@@ -401,6 +401,7 @@
     app-actor-details {
         display: flex;
         flex-direction: column;
+        margin-bottom: 0.25rem;
 
         .portrait-info {
             display: flex;
@@ -495,24 +496,19 @@
         }
 
         .derived-stat {
-            margin-bottom: 1.75rem;
-
-            &.recovery {
-                transform: translateY(0.875rem);
-            }
-
-
+            margin-top: 0.25rem;
+            margin-bottom: 0.25rem;
 
             .container {
-                width: 58px;
+                width: 78px;
                 height: 30px;
 
                 .background {
-                    mask: var(--mask-stat-svg) no-repeat center;
+                    mask: var(--mask-stat-long-svg) no-repeat center;
                 }
 
                 .border {
-                    mask: var(--border-stat-svg) no-repeat center;
+                    mask: var(--border-stat-long-svg) no-repeat center;
 
                 }
 
@@ -531,23 +527,8 @@
                 }
 
 
+
             }
-
-            &.carry, &.lift{
-                .container {
-                    width: 78px;
-
-                    .background {
-                        mask: var(--mask-stat-long-svg) no-repeat center;
-                    }
-
-                    .border {
-                        mask: var(--border-stat-long-svg) no-repeat center;
-                    }
-                }
-            }
-
-
 
             .label {
                 margin-top: 0.25rem;
@@ -702,8 +683,10 @@
 
             .attributes {
                 align-items: flex-start;
-
+                justify-content: center;
+                gap: 7px;
                 .attribute {
+                    flex: 0 0 auto;
                     .container {
                         width: 58px;
                         height: 50px;
@@ -761,6 +744,7 @@
                 }
 
                 .defense {
+                    flex: 0 0 auto;
                     .label {
                         font-family: var(--cosmere-font-normal);
                         font-size: var(--font-size-11);

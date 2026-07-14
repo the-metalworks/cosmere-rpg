@@ -122,12 +122,24 @@ const COSMERE: CosmereRPGConfig = {
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/burrowing.svg',
             condition: false,
         },
+        [Status.Depleted]: {
+            label: 'COSMERE.Status.Depleted',
+            icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/depleted.svg',
+            // TODO: Add reference to starter rules
+            condition: true,
+        },
         [Status.Determined]: {
             label: 'COSMERE.Status.Determined',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/determined.svg',
             reference: {
                 value: 'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#determined',
             },
+            condition: true,
+        },
+        [Status.Diminished]: {
+            label: 'COSMERE.Status.Diminished',
+            icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/diminished.svg',
+            // TODO: Add reference to starter rules
             condition: true,
         },
         [Status.Disoriented]: {
@@ -794,6 +806,12 @@ const COSMERE: CosmereRPGConfig = {
                 label: 'COSMERE.Item.Type.Power.label',
                 labelPlural: 'COSMERE.Item.Type.Power.label_plural',
                 desc_placeholder: 'COSMERE.Item.Type.Power.desc_placeholder',
+            },
+            [ItemType.EffectsContainer]: {
+                label: 'COSMERE.Item.Type.EffectsContainer.label',
+                labelPlural: 'COSMERE.Item.Type.EffectsContainer.label_plural',
+                desc_placeholder:
+                    'COSMERE.Item.Type.EffectsContainer.desc_placeholder',
             },
             [ItemType.TalentTree]: {
                 label: 'COSMERE.Item.Type.TalentTree.label',

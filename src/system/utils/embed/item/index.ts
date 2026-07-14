@@ -29,6 +29,7 @@ const EMBEDDERS: Record<ItemType, EmbedHelpers | null> = {
 
     [ItemType.Power]: null,
 
+    [ItemType.EffectsContainer]: null,
     [ItemType.TalentTree]: talentTreeEmbed,
 };
 

@@ -1,6 +1,6 @@
 import { CosmereActor } from '@system/documents/actor';
 
-import { Status } from '@system/types/cosmere';
+import { ItemType, Status } from '@system/types/cosmere';
 
 // Utils
 import { tryApplyRollData } from '@system/utils/changes';
@@ -42,6 +42,13 @@ export class CosmereActiveEffect<
      */
     public get isStackable() {
         return this.system.isStackable;
+    }
+
+    /**
+     * Whether this effect is in an effects container item.
+     */
+    public get isInContainer() {
+        return this.parent!.type === ItemType.EffectsContainer;
     }
 
     /* --- Lifecylce --- */

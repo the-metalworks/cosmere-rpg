@@ -105,19 +105,23 @@
 
                 {{!-- Controls --}}
                 <div class="controls icon faded">
-                    {{#if @root.editable}}
-                    {{#unless action.isStrikeAction}}
-                    <a data-action="edit-action"
-                        data-tooltip="COSMERE.Item.Sheet.ActionsList.Edit"
-                    >
-                        <i class="fa-solid fa-pen-to-square"></i>
-                    </a>
-                    <a data-action="delete-action"
-                        data-tooltip="COSMERE.Item.Sheet.ActionsList.Delete"
-                    >
-                        <i class="fa-solid fa-trash"></i>
-                    </a>
-                    {{/unless}}
+                    {{#if (and @root.editable (not action.isEphemeral))}}
+                        <a data-action="edit-action"
+                            data-tooltip="COSMERE.Item.Sheet.ActionsList.Edit"
+                        >
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                        <a data-action="delete-action"
+                            data-tooltip="COSMERE.Item.Sheet.ActionsList.Delete"
+                        >
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                    {{else}}
+                        <a data-action="view-action"
+                            data-tooltip="COSMERE.Item.Sheet.ActionsList.View"
+                        >
+                            <i class="fa-solid fa-eye"></i>
+                        </a>
                     {{/if}}
                 </div>
             </section>

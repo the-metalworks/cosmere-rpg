@@ -1,4 +1,7 @@
-import type { AnyMutableObject } from '@system/types/utils';
+import type {
+    AnyMutableObject,
+    AnyEmbeddedCollection,
+} from '@system/types/utils';
 
 export type SystemEmbeddedCollectionsConfig = {
     [K in foundry.abstract.Document.Type]?: string;
@@ -26,17 +29,6 @@ export interface SystemEmbeddedCollectionsDocument
     getEmbeddedCollection(
         embeddedName: foundry.abstract.Document.Type,
     ): AnyEmbeddedCollection | null;
-}
-
-export declare class AnyEmbeddedCollection extends foundry.abstract
-    .EmbeddedCollection<
-    foundry.abstract.Document.Any,
-    foundry.abstract.Document.Any
-> {
-    public _initializeDocument(
-        data: foundry.abstract.Document.Any['_source'],
-        options: foundry.abstract.Document.ConstructionContext<foundry.abstract.Document.Any>,
-    ): foundry.abstract.Document.Any | null;
 }
 
 export type AnyDocumentData = AnyMutableObject & {

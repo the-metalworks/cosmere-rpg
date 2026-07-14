@@ -49,7 +49,7 @@ export interface DamageValues {
     dealt?: number; // Actual damage dealt to actor
 }
 
-declare module "@league-of-foundry-developers/foundry-vtt-types/configuration" {
+declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
     namespace Hooks {
         interface HookConfig {
             [HOOKS.PRE_APPLY_INJURY]: PreApplyInjury;

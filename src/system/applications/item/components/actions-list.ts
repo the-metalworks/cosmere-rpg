@@ -27,6 +27,7 @@ export class ItemActionsListComponent extends HandlebarsApplicationComponent<
         'create-action': this.onCreateAction,
         'edit-action': this.onEditAction,
         'delete-action': this.onDeleteAction,
+        'view-action': this.onViewAction,
     };
     /* eslint-enable @typescript-eslint/unbound-method */
 
@@ -84,6 +85,20 @@ export class ItemActionsListComponent extends HandlebarsApplicationComponent<
         if (!action) return;
 
         void action.deleteDialog();
+    }
+
+    private static onViewAction(this: ItemActionsListComponent, event: Event) {
+        // Get id
+        const id = $(event.target!).closest('.action[data-id]').data('id') as
+            | string
+            | undefined;
+        if (!id) return;
+
+        // Get action
+        const action = this.item.items.get(id);
+        if (!action) return;
+
+        void action.sheet?.render({ force: true, editable: false });
     }
 
     /* --- Context --- */

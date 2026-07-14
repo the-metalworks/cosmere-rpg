@@ -1,5 +1,5 @@
 import { CosmereItem } from '@system/documents/item';
-import { AnyEmbeddedCollection } from '../documents/system-embedded-collections/types/general';
+import type { AnyEmbeddedCollection } from '@system/types/utils';
 
 export const DocumentTarget = {
     Self: 'self', // Match the document itself

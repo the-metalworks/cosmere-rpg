@@ -20,6 +20,7 @@ import { GoalItemDataModel } from './goal';
 
 import { PowerItemDataModel } from './power';
 
+import { EffectsContainerItemDataModel } from './effects-container';
 import { TalentTreeItemDataModel } from './talent-tree';
 
 export const config = {
@@ -42,6 +43,7 @@ export const config = {
 
     [ItemType.Power]: PowerItemDataModel,
 
+    [ItemType.EffectsContainer]: EffectsContainerItemDataModel,
     [ItemType.TalentTree]: TalentTreeItemDataModel,
 };
 
@@ -59,6 +61,7 @@ export * from './connection';
 export * from './trait';
 export * from './goal';
 export * from './power';
+export * from './effects-container';
 export * from './talent-tree';
 
 declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
@@ -83,6 +86,7 @@ declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
 
             [ItemType.Power]: typeof foundry.abstract.TypeDataModel;
 
+            [ItemType.EffectsContainer]: typeof foundry.abstract.TypeDataModel;
             [ItemType.TalentTree]: typeof foundry.abstract.TypeDataModel;
         };
     }

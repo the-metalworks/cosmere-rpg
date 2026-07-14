@@ -1,5 +1,6 @@
 import { CosmereItem } from '@system/documents/item';
 import { CosmereActor } from '@system/documents/actor';
+import { CosmereCombat } from '@src/system/documents';
 
 import { Event, IHandler } from '@system/types/item/event-system';
 import { ItemEventTypeConfig } from '@system/types/config';
@@ -17,6 +18,7 @@ import { SYSTEM_ID } from '@system/constants';
 const VALID_DOCUMENT_TYPES = [
     (CONFIG.Item.documentClass as unknown as typeof Item).metadata.name,
     (CONFIG.Actor.documentClass as unknown as typeof Actor).metadata.name,
+    (CONFIG.Combat.documentClass as unknown as typeof Combat).metadata.name,
 ];
 
 /**
@@ -165,6 +167,35 @@ Hooks.once('ready', () => {
                         options,
                         sourceUserId,
                     );
+                } else if (
+                    document.documentName ===
+                    (CONFIG.Combat.documentClass as unknown as typeof Combat)
+                        .metadata.name
+                ) {
+                    // Document is combat
+                    const combat = document as CosmereCombat;
+
+                    // Get each involved actor of the combat
+                    for (const combatant of combat.combatants) {
+                        const actor = combatant.actor as CosmereActor | null;
+                        if (!actor) continue;
+
+                        // Handle the hook for all items
+                        for (const [
+                            ,
+                            item,
+                        ] of actor.traverseEmbeddedDocuments()) {
+                            if (!(item instanceof CosmereItem)) continue;
+                            await handleEventHook(
+                                item,
+                                type,
+                                trace,
+                                config,
+                                options,
+                                sourceUserId,
+                            );
+                        }
+                    }
                 } else {
                     throw new InvalidHookError(
                         type,

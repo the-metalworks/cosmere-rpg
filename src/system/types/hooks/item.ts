@@ -73,7 +73,7 @@ export type CompleteGoal = (item: CosmereItem) => void;
  */
 export type PreCompleteGoal = (item: CosmereItem) => boolean;
 
-declare module "@league-of-foundry-developers/foundry-vtt-types/configuration" {
+declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
     namespace Hooks {
         interface HookConfig {
             [HOOKS.PRE_USE_ITEM]: PreUseItem;

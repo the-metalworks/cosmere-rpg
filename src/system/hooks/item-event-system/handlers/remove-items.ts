@@ -59,7 +59,7 @@ export function register() {
                     },
                 ),
             },
-            template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.IES_HANDLER_REMOVE_ITEMS}`,
+            template: `${TEMPLATES.DIRECTORY}${TEMPLATES.IES_HANDLER_REMOVE_ITEMS}`,
         },
         executor: async function (
             this: RemoveItemsHandlerConfigData,
