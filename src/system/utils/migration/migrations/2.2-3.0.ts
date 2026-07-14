@@ -236,8 +236,10 @@ async function migrateActivatableItem(
                             ? [
                                   {
                                       type: ItemConsumeType.ItemResource,
-                                      resource: activation.uses
-                                          .type as ItemResource,
+                                      resource:
+                                          activation.uses.type === 'use'
+                                              ? ItemResource.Uses
+                                              : ItemResource.Charges,
                                       value: {
                                           min: 1,
                                           max: 1,
@@ -286,7 +288,7 @@ async function migrateActivatableItem(
                 ...(activation.uses
                     ? {
                           resources: {
-                              [activation.uses.type === 'uses'
+                              [activation.uses.type === 'use'
                                   ? 'uses'
                                   : 'charges']: {
                                   value: activation.uses.value,
