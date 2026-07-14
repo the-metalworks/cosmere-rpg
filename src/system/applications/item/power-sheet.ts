@@ -15,7 +15,7 @@ export class PowerItemSheet extends TalentsTabMixin(BaseItemSheet) {
     static DEFAULT_OPTIONS = {
         classes: [SYSTEM_ID, 'sheet', 'item', 'power'],
         position: {
-            width: 550,
+            width: 625,
         },
         window: {
             resizable: false,

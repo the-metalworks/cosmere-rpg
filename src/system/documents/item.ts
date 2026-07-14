@@ -39,6 +39,7 @@ import {
     PowerItemDataModel,
     TalentTreeItemDataModel,
     EffectsContainerItemDataModel,
+    TraitItemDataSchema,
 } from '@system/data/item';
 
 import { AttackingItemDataSchema } from '@system/data/item/mixins/attacking';
@@ -109,7 +110,7 @@ import { getEmbedHelpers } from '@system/utils/embed';
 import ItemRelationshipUtils, {
     RemoveRelationshipOptions,
 } from '@system/utils/item/relationship';
-import { matchDocuments } from '@system/utils/match-document';
+import { matchDocuments, DocumentTarget } from '@system/utils/match-document';
 import { EventToggleOptions } from '@system/utils/item/event-system';
 
 // Dialogs
@@ -419,6 +420,10 @@ export class CosmereItem<
         );
     }
 
+    public get isEphemeral(): boolean {
+        return this.getFlag(SYSTEM_ID, 'meta.isEphemeral');
+    }
+
     public get isActivatable(): boolean {
         if (this.type === ItemType.Action) return true;
 
@@ -702,16 +707,7 @@ export class CosmereItem<
         if (!this.isWeapon()) return [];
 
         return [
-            // Weapon strike
-            new CosmereItem({
-                type: ItemType.Action,
-                ...this.weaponStrikeData(),
-                flags: {
-                    [SYSTEM_ID]: {
-                        isStrike: true,
-                    },
-                },
-            }),
+            ...this.getWeaponStrikeData().map((data) => new CosmereItem(data)),
         ];
     }
 
@@ -1552,6 +1548,27 @@ export class CosmereItem<
         });
     }
 
+    public getTrait(
+        traitId: WeaponTraitId | ArmorTraitId,
+    ): TraitsItem['system']['traits'][string] | null {
+        if (!this.hasTraits()) return null;
+        if (!(traitId in this.system.traits)) return null;
+        return this.system.traits[traitId];
+    }
+
+    public isTraitActive(traitId: WeaponTraitId | ArmorTraitId): boolean {
+        const trait = this.getTrait(traitId);
+        if (!trait) return false;
+        return trait.active;
+    }
+
+    public getResource(
+        resourceId: ItemResource,
+    ): ResourcesItem['system']['resources'][ItemResource] | null {
+        if (!this.hasResources()) return null;
+        return this.system.resources[resourceId] ?? null;
+    }
+
     public isRelatedTo(
         item: CosmereItem,
         relType?: ItemRelationship.Type,
@@ -1851,32 +1868,106 @@ export class CosmereItem<
         } as const satisfies EnricherData;
     }
 
-    public weaponStrikeData(this: WeaponItem) {
+    public getWeaponStrikeData(this: WeaponItem) {
         if (!this.isWeapon()) throw new Error();
 
-        return {
-            name: `Strike: ${this.name}`,
-            img: this.img,
-            system: {
-                id: `strike-${this.system.id}`,
-                activation: {
-                    cost: {
-                        value: 1,
-                        type: ActionCostType.Action,
+        const loadedTrait = this.getTrait(WeaponTraitId.Loaded);
+        const hasLoadedTrait = !!loadedTrait && loadedTrait.active;
+
+        const usesResource = this.getResource(ItemResource.Uses);
+        const hasUsesResource = !!usesResource && usesResource.max > 0;
+
+        const actions: Item.CreateData[] = [
+            {
+                type: ItemType.Action,
+                name: `${game.i18n.localize('COSMERE.Item.Weapon.Strike')}: ${this.name}`,
+                img: this.img,
+                system: {
+                    id: `strike-${this.system.id}`,
+                    activation: {
+                        cost: {
+                            value: 1,
+                            type: ActionCostType.Action,
+                        },
+                        type: ActivationType.SkillTest,
+                        consumption:
+                            hasLoadedTrait && hasUsesResource
+                                ? [
+                                      {
+                                          type: ItemConsumeType.ItemResource,
+                                          resource: ItemResource.Uses,
+                                          matchDocument: {
+                                              steps: [
+                                                  {
+                                                      target: DocumentTarget.Parent,
+                                                  },
+                                              ],
+                                          },
+                                          value: {
+                                              min: 1,
+                                              max: 1,
+                                          },
+                                      },
+                                  ]
+                                : undefined,
                     },
-                    type: ActivationType.SkillTest,
+                    skillTest: {
+                        attribute: 'default',
+                        skill: this.system.strike.skill,
+                    },
+                    damage: {
+                        formula: this.strikeDieToFormula(),
+                        type: this.strikeDamageType(),
+                    },
+                    description: this.system.description,
                 },
-                skillTest: {
-                    attribute: 'default',
-                    skill: this.system.strike.skill,
+                flags: {
+                    [SYSTEM_ID]: {
+                        isStrike: true,
+                    },
                 },
-                damage: {
-                    formula: this.strikeDieToFormula(),
-                    type: this.strikeDamageType(),
-                },
-                description: this.system.description,
             },
-        };
+        ];
+
+        if (hasLoadedTrait && hasUsesResource) {
+            const eventId = foundry.utils.randomID();
+
+            actions.push({
+                type: ItemType.Action,
+                name: `${game.i18n.localize('COSMERE.Item.Weapon.Reload')}: ${this.name}`,
+                img: this.img,
+                system: {
+                    id: `reload-${this.system.id}`,
+                    activation: {
+                        cost: {
+                            value: 1,
+                            type: ActionCostType.Action,
+                        },
+                        type: ActivationType.Utility,
+                    },
+                    events: {
+                        [eventId]: {
+                            id: eventId,
+                            description: 'Reload',
+                            event: 'use',
+                            handler: {
+                                type: 'execute-macro',
+                                inline: true,
+                                macro: {
+                                    type: 'script',
+                                    command: `event.item.parent.update({
+                                        "system.resources.uses.value": event.item.parent.system.resources.uses.max
+                                    })`,
+                                },
+                            },
+                        },
+                    },
+                    description: this.system.description,
+                },
+            });
+        }
+
+        return actions;
     }
 
     public weaponTypeToSkill(this: WeaponItem, weaponType?: WeaponType): Skill {
@@ -2157,8 +2248,10 @@ declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
                 'sheet.mode': 'edit' | 'view';
                 meta: {
                     origin: ItemOrigin;
+                    isEphemeral: boolean;
                 };
                 'meta.origin': ItemOrigin;
+                'meta.isEphemeral': boolean;
                 previousLevel?: number;
                 isStartingPath?: boolean;
                 isStrike?: boolean;

@@ -657,14 +657,16 @@ Handlebars.registerHelper('getProperty', (obj: AnyObject, path: string) => {
 });
 
 export async function preloadHandlebarsTemplates() {
-    const templates = Object.values(TEMPLATES).reduce(
-        (partials, path) => {
-            partials[path.split('/').pop()!.replace('.hbs', '')] =
-                `${TEMPLATES.DIRECTORY}${path}`;
-            return partials;
-        },
-        {} as Record<string, string>,
-    );
+    const templates = Object.values(TEMPLATES)
+        .filter((path) => path.endsWith('.hbs'))
+        .reduce(
+            (partials, path) => {
+                partials[path.split('/').pop()!.replace('.hbs', '')] =
+                    `${TEMPLATES.DIRECTORY}${path}`;
+                return partials;
+            },
+            {} as Record<string, string>,
+        );
 
     return await loadTemplates(templates);
 }
