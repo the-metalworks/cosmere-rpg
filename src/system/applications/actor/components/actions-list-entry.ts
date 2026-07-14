@@ -25,7 +25,7 @@ export class ActionsListEntryComponent extends ActorItemListComponent {
      */
     /* eslint-disable @typescript-eslint/unbound-method */
     static readonly ACTIONS = {
-        'toggle-action-details': this.onToggleActionDetails,
+        ...super.ACTIONS,
         'use-item': this.onUseItem,
     };
     /* eslint-enable @typescript-eslint/unbound-method */
