@@ -15,7 +15,7 @@ export class PowerItemSheet extends TalentsTabMixin(BaseItemSheet) {
     static DEFAULT_OPTIONS = {
         classes: [SYSTEM_ID, 'sheet', 'item', 'power'],
         position: {
-            width: 550,
+            width: 625,
         },
         window: {
             resizable: false,
@@ -43,7 +43,7 @@ export class PowerItemSheet extends TalentsTabMixin(BaseItemSheet) {
         foundry.utils.deepClone(super.PARTS),
         {
             content: {
-                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_POWER_CONTENT}`,
+                template: `${TEMPLATES.DIRECTORY}${TEMPLATES.ITEM_POWER_CONTENT}`,
             },
         },
     );

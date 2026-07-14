@@ -5,6 +5,11 @@ export type InferOptions<TField extends foundry.data.fields.DataField.Any> =
         ? TOptions
         : never;
 
+export type SchemaFunction = (...args: any) => any;
+
+export type DataSchema<Schema extends SchemaFunction> = ReturnType<Schema> &
+    Record<string, foundry.data.fields.DataField.Any>;
+
 export type InferAssignmentType<
     TField extends foundry.data.fields.DataField.Any,
 > =

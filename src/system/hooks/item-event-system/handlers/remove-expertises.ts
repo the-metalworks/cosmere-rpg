@@ -27,7 +27,7 @@ export function register() {
                     required: true,
                 }),
             },
-            template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.IES_HANDLER_REMOVE_EXPERTISES}`,
+            template: `${TEMPLATES.DIRECTORY}${TEMPLATES.IES_HANDLER_REMOVE_EXPERTISES}`,
         },
         executor: async function (
             this: RemoveExpertiseHandlerConfigData,
@@ -55,7 +55,7 @@ export function register() {
                             }),
                             {},
                         ),
-                    }
+                    },
                 },
                 event.op,
             );

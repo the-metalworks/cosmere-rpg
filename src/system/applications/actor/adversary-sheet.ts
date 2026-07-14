@@ -18,11 +18,35 @@ export type AdversarySheetRenderContext = Omit<
 export class AdversarySheet extends BaseActorSheet<AdversarySheetRenderContext> {
     declare actor: AdversaryActor;
 
+    private static readonly MIN_MARGIN = 40;
+    private static readonly MIN_WIDTH = 800;
+    private static readonly DEFAULT_WIDTH = 850;
+    private static readonly MIN_HEIGHT = 675;
+    private static readonly DEFAULT_HEIGHT = 850;
+
+    private isApplyingPositionConstraint = false;
+
     static DEFAULT_OPTIONS = {
         classes: [SYSTEM_ID, 'sheet', 'actor', 'adversary'],
+        window: {
+            positioned: true,
+            resizable: true,
+        },
         position: {
-            width: 850,
-            height: 850,
+            width: Math.min(
+                Math.max(
+                    AdversarySheet.MIN_WIDTH,
+                    window.innerWidth - AdversarySheet.MIN_MARGIN,
+                ),
+                AdversarySheet.DEFAULT_WIDTH,
+            ),
+            height: Math.min(
+                Math.max(
+                    AdversarySheet.MIN_HEIGHT,
+                    window.innerHeight - AdversarySheet.MIN_MARGIN,
+                ),
+                AdversarySheet.DEFAULT_HEIGHT,
+            ),
         },
         dragDrop: [
             {
@@ -36,7 +60,8 @@ export class AdversarySheet extends BaseActorSheet<AdversarySheetRenderContext> 
         foundry.utils.deepClone(super.PARTS),
         {
             content: {
-                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_ADVERSARY_CONTENT}`,
+                template: `${TEMPLATES.DIRECTORY}${TEMPLATES.ACTOR_ADVERSARY_CONTENT}`,
+                scrollable: this.scrollableContent,
             },
         },
     );
@@ -72,5 +97,38 @@ export class AdversarySheet extends BaseActorSheet<AdversarySheetRenderContext> 
             skillsCollapsed: this.areSkillsCollapsed,
             hideUnrankedSkills: this.hideUnrankedSkills,
         };
+    }
+
+    /* --- Lifecycle --- */
+
+    protected override _onPosition(options: unknown): void {
+        super._onPosition(options);
+
+        if (this.isApplyingPositionConstraint) return;
+
+        const width = this.position.width as number;
+        const height = this.position.height as number;
+
+        const curMaxWidth = window.innerWidth - AdversarySheet.MIN_MARGIN;
+        const curMaxHeight = window.innerHeight - AdversarySheet.MIN_MARGIN;
+
+        const clampedWidth = Math.max(
+            Math.min(width, curMaxWidth),
+            AdversarySheet.MIN_WIDTH,
+        );
+        const clampedHeight = Math.max(
+            Math.min(height, curMaxHeight),
+            AdversarySheet.MIN_HEIGHT,
+        );
+
+        if (width === clampedWidth && height === clampedHeight) return;
+
+        // Since we are setting the position, this will set off the _onPosition event. We ensure this code wont loop forever.
+        this.isApplyingPositionConstraint = true;
+        this.setPosition({
+            width: clampedWidth,
+            height: clampedHeight,
+        });
+        this.isApplyingPositionConstraint = false;
     }
 }

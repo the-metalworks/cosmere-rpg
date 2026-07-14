@@ -1,3 +1,11 @@
+### Release 2.2.0
+
+#### 🛠️ Full Changelog
+
+##### 📝 Features
+
+* Events now include triggers for Combat Start/End ([#651](https://github.com/the-metalworks/cosmere-rpg/issues/651)) & Round Start/End ([#652](https://github.com/the-metalworks/cosmere-rpg/issues/652))
+
 ### Release 2.1.0 ✨
 <sup>15th May 2026</sup>
 

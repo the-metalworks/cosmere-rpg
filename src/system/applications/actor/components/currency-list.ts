@@ -11,7 +11,7 @@ export class ActorCurrencyListComponent extends HandlebarsApplicationComponent</
 // NOTE: Use any as workaround for foundry-vtt-types issues
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 any> {
-    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_CURRENCY_LIST}`;
+    static TEMPLATE = `${TEMPLATES.DIRECTORY}${TEMPLATES.ACTOR_BASE_CURRENCY_LIST}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions and forms

@@ -59,7 +59,7 @@ export class TalentTreeEmbed extends ComponentHandlebarsApplicationMixin(
         foundry.utils.deepClone(super.PARTS),
         {
             content: {
-                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_TALENT_TREE_EMBED}`,
+                template: `${TEMPLATES.DIRECTORY}${TEMPLATES.ITEM_TALENT_TREE_EMBED}`,
             },
         },
     );

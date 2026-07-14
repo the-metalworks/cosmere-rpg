@@ -4,7 +4,7 @@ import { CharacterActor, CosmereActor } from '@system/documents';
 import { AnyObject } from '@system/types/utils';
 
 // Constants
-const TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_CHARACTER_SHORT_REST}`;
+const TEMPLATE = `${TEMPLATES.DIRECTORY}${TEMPLATES.DIALOG_CHARACTER_SHORT_REST}`;
 
 interface ShortRestDialogOptions {
     /**
