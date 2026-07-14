@@ -110,23 +110,30 @@ async function migrateGlobalItems(
     items: RawDocumentData[],
     compendium?: CompendiumCollection.Any,
 ) {
+    const actionItems = items.filter((i) => i.type === 'action');
+
+    for (const item of actionItems) {
+        const document = await getPossiblyInvalidDocument<Item.Implementation>(
+            'Item',
+            item._id,
+            compendium,
+        );
+
+        await migrateAction(item, document);
+    }
+
     const activatableItems = items.filter((i) =>
         ACTIVATABLE_ITEM_TYPES.includes(i.type),
     ) as RawDocumentData<ActivationData>[];
 
     for (const item of activatableItems) {
-        try {
-            const document =
-                await getPossiblyInvalidDocument<Item.Implementation>(
-                    'Item',
-                    item._id,
-                    compendium,
-                );
+        const document = await getPossiblyInvalidDocument<Item.Implementation>(
+            'Item',
+            item._id,
+            compendium,
+        );
 
-            await migrateActivatableItem(item, document);
-        } catch (err: unknown) {
-            handleDocumentMigrationError(err, 'Item', item);
-        }
+        await migrateActivatableItem(item, document);
     }
 }
 
@@ -145,21 +152,28 @@ async function migrateGlobalActors(
                     compendium,
                 );
 
+            const actionItems = data.items.filter((i) => i.type === 'action');
+
+            for (const item of actionItems) {
+                const document = actor.items.get(item._id, {
+                    invalid: true,
+                    strict: true,
+                }) as Item.Implementation;
+
+                await migrateAction(item, document);
+            }
+
             const activatableItems = data.items.filter((i) =>
                 ACTIVATABLE_ITEM_TYPES.includes(i.type),
             ) as RawDocumentData<ActivationData>[];
 
             for (const item of activatableItems) {
-                try {
-                    const document = actor.items.get(item._id, {
-                        invalid: true,
-                        strict: true,
-                    }) as Item.Implementation;
+                const document = actor.items.get(item._id, {
+                    invalid: true,
+                    strict: true,
+                }) as Item.Implementation;
 
-                    await migrateActivatableItem(item, document);
-                } catch (err: unknown) {
-                    handleDocumentMigrationError(err, 'Item', item);
-                }
+                await migrateActivatableItem(item, document);
             }
         } catch (err: unknown) {
             handleDocumentMigrationError(err, 'Actor', data);
@@ -171,152 +185,174 @@ async function migrateActivatableItem(
     data: RawDocumentData<ActivationData>,
     document: Item.Implementation,
 ) {
-    logger.debug('Migrating item', { raw: data });
+    try {
+        logger.debug('Migrating item', { raw: data });
 
-    const activation = data.system.activation;
-    if (!activation) return;
-
-    if (data.type === 'weapon') {
-        await document.update({
-            system: {
-                strike: {
-                    die: damageFormulaToDieSizeAndCount(
-                        data.system.damage?.formula,
-                    ),
-                    damageType: data.system.damage?.type ?? DamageType.Keen,
-                    skill: data.system.damage?.skill ?? Skill.LightWeapons,
-                },
-            },
-        });
-    } else {
-        if (document.actions.length > 0) return;
-
-        const id =
-            data.system.id ??
-            data.name
-                .toLowerCase()
-                .replace(/[^a-z0-9-_\s]/g, '')
-                .replace(/\s+/g, ' ')
-                .trim()
-                .split(' ')
-                .join('-');
-
-        const actionData = new ActionItemDataModel(
-            {
-                id: id,
-                description: data.system.description,
-                activation: {
-                    type: activation.type as ActivationType,
-                    cost: {
-                        value: activation.cost.value,
-                        type: activation.cost.type as ActionCostType,
+        if (data.type === 'weapon') {
+            await document.update({
+                system: {
+                    strike: {
+                        die: damageFormulaToDieSizeAndCount(
+                            data.system.damage?.formula,
+                        ),
+                        damageType: data.system.damage?.type ?? DamageType.Keen,
+                        skill: data.system.damage?.skill ?? Skill.LightWeapons,
                     },
-                    flavor: activation.flavor,
-                    consumption: [
-                        ...(activation.consume?.map((c) => ({
-                            type: c.type as ItemConsumeType,
-                            resource: c.resource as Resource,
-                            value: c.value,
-                            matchDocument:
-                                c.type === 'resource'
-                                    ? {
-                                          steps: [
-                                              {
-                                                  target: 'ancestor',
-                                                  matchBy: 'document-type',
-                                                  documentType: 'Actor',
-                                                  matchMode: 'first',
-                                              },
-                                          ],
-                                      }
-                                    : undefined,
-                        })) ?? []),
-
-                        ...(activation.uses
-                            ? [
-                                  {
-                                      type: ItemConsumeType.ItemResource,
-                                      resource:
-                                          activation.uses.type === 'use'
-                                              ? ItemResource.Uses
-                                              : ItemResource.Charges,
-                                      value: {
-                                          min: 1,
-                                          max: 1,
-                                          actual: 1,
-                                      },
-                                      matchDocument: {
-                                          steps: [
-                                              {
-                                                  target: 'self' as const,
-                                              },
-                                          ],
-                                      },
-                                  },
-                              ]
-                            : []),
-                    ],
                 },
+            });
+        } else {
+            if (document.actions.length > 0) return;
 
-                ...(activation.type === 'skill_test'
-                    ? {
-                          skillTest: {
-                              skill: activation.skill as Skill,
-                              attribute: activation.attribute as Attribute,
-                              modifierFormula: activation.modifierFormula,
-                              plotDie: activation.plotDie ?? null,
-                              opportunity: activation.opportunity,
-                              complication: activation.complication,
-                          },
-                      }
-                    : {}),
+            const actionData = migrateActionData(data);
+            if (!actionData) return;
 
-                ...(data.system.damage
-                    ? {
-                          damage: {
-                              type: data.system.damage.type as DamageType,
-                              skill: data.system.damage.skill as Skill,
-                              attribute: data.system.damage
-                                  .attribute as Attribute,
-                              formula: data.system.damage.formula,
-                              grazeOverrideFormula:
-                                  data.system.damage.grazeOverrideFormula,
-                          },
-                      }
-                    : {}),
+            await Item.create(
+                {
+                    name: data.name,
+                    img: data.img,
+                    type: ItemType.Action,
+                    system: actionData.toObject(),
+                },
+                {
+                    //@ts-expect-error foundry-vtt-types does not properly resolve Item.Parent override here
+                    parent: document,
+                },
+            );
+        }
+    } catch (err: unknown) {
+        handleDocumentMigrationError(err, 'Item', data);
+    }
+}
 
-                ...(activation.uses
-                    ? {
-                          resources: {
-                              [activation.uses.type === 'use'
-                                  ? 'uses'
-                                  : 'charges']: {
+async function migrateAction(
+    data: RawDocumentData<ActivationData>,
+    document: Item.Implementation,
+) {
+    try {
+        await document.update({
+            system: migrateActionData(data),
+        });
+    } catch (err: unknown) {
+        handleDocumentMigrationError(err, 'Item', data);
+    }
+}
+
+function migrateActionData(
+    data: RawDocumentData<ActivationData>,
+): ActionItemDataModel | null {
+    const activation = data.system.activation;
+    if (!activation) return null;
+
+    const id =
+        data.system.id ??
+        data.name
+            .toLowerCase()
+            .replace(/[^a-z0-9-_\s]/g, '')
+            .replace(/\s+/g, ' ')
+            .trim()
+            .split(' ')
+            .join('-');
+
+    return new ActionItemDataModel(
+        {
+            id: id,
+            description: data.system.description,
+            activation: {
+                type: activation.type as ActivationType,
+                cost: {
+                    value: activation.cost.value,
+                    type: activation.cost.type as ActionCostType,
+                },
+                flavor: activation.flavor,
+                consumption: [
+                    ...(activation.consume?.map((c) => ({
+                        type: c.type as ItemConsumeType,
+                        resource: c.resource as Resource,
+                        value: c.value,
+                        matchDocument:
+                            c.type === 'resource'
+                                ? {
+                                      steps: [
+                                          {
+                                              target: 'ancestor',
+                                              matchBy: 'document-type',
+                                              documentType: 'Actor',
+                                              matchMode: 'first',
+                                          },
+                                      ],
+                                  }
+                                : undefined,
+                    })) ?? []),
+
+                    ...(activation.uses
+                        ? [
+                              {
+                                  type: ItemConsumeType.ItemResource,
+                                  resource:
+                                      activation.uses.type === 'use'
+                                          ? ItemResource.Uses
+                                          : ItemResource.Charges,
+                                  value: {
+                                      min: 1,
+                                      max: 1,
+                                      actual: 1,
+                                  },
+                                  matchDocument: {
+                                      steps: [
+                                          {
+                                              target: 'self' as const,
+                                          },
+                                      ],
+                                  },
+                              },
+                          ]
+                        : []),
+                ],
+            },
+
+            ...(activation.type === 'skill_test'
+                ? {
+                      skillTest: {
+                          skill: activation.skill as Skill,
+                          attribute: activation.attribute as Attribute,
+                          modifierFormula: activation.modifierFormula,
+                          plotDie: activation.plotDie ?? null,
+                          opportunity: activation.opportunity,
+                          complication: activation.complication,
+                      },
+                  }
+                : {}),
+
+            ...(data.system.damage
+                ? {
+                      damage: {
+                          type: data.system.damage.type as DamageType,
+                          skill: data.system.damage.skill as Skill,
+                          attribute: data.system.damage.attribute as Attribute,
+                          formula: data.system.damage.formula,
+                          grazeOverrideFormula:
+                              data.system.damage.grazeOverrideFormula,
+                      },
+                  }
+                : {}),
+
+            ...(activation.uses
+                ? {
+                      resources: {
+                          [activation.uses.type === 'use' ? 'uses' : 'charges']:
+                              {
                                   value: activation.uses.value,
                                   max: activation.uses.max,
                                   recharge: activation.uses.recharge,
                               },
-                          },
-                      }
-                    : {}),
-            },
-            {
-                fallback: true,
-            },
-        );
-
-        await Item.create(
-            {
-                name: data.name,
-                img: data.img,
-                type: ItemType.Action,
-                system: actionData.toObject(),
-            },
-            {
-                //@ts-expect-error foundry-vtt-types does not properly resolve Item.Parent override here
-                parent: document,
-            },
-        );
-    }
+                      },
+                  }
+                : {}),
+        },
+        {
+            fallback: true,
+        },
+    );
 }
 
 /* --- Helpers --- */
