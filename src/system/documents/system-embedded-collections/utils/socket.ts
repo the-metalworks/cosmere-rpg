@@ -144,37 +144,30 @@ async function transformCRUDRequest(
 
     if (!hierarchy.includesSystemEmbedding || !hierarchy.host) {
         if (isCreateRequest(inRequest)) {
-            return foundry.utils.mergeObject(
-                transformRequestCommon(inRequest),
-                {
-                    operation: {
-                        data: inRequest.operation.data.map((data) =>
-                            data
-                                ? toServerViewObject(
-                                      data as AnyDocumentData,
-                                      inRequest.type,
-                                  )
-                                : data,
-                        ),
-                    },
-                },
+            const outRequest = transformRequestCommon(inRequest);
+            outRequest.operation.data = inRequest.operation.data.map((data) =>
+                data
+                    ? toServerViewObject(
+                          data as AnyDocumentData,
+                          inRequest.type,
+                      )
+                    : data,
             );
+
+            return outRequest;
         } else if (isUpdateRequest(inRequest)) {
-            return foundry.utils.mergeObject(
-                transformRequestCommon(inRequest),
-                {
-                    operation: {
-                        updates: inRequest.operation.updates.map((data) =>
-                            data
-                                ? toServerViewObject(
-                                      data as AnyDocumentData,
-                                      inRequest.type,
-                                  )
-                                : data,
-                        ),
-                    },
-                },
+            const outRequest = transformRequestCommon(inRequest);
+            outRequest.operation.updates = inRequest.operation.updates.map(
+                (data) =>
+                    data
+                        ? toServerViewObject(
+                              data as AnyDocumentData,
+                              inRequest.type,
+                          )
+                        : data,
             );
+
+            return outRequest;
         } else {
             return inRequest;
         }
@@ -635,9 +628,10 @@ function transformCreateUpdateResponse(
             );
     }
 
-    return foundry.utils.mergeObject(transformCRUDResponseCommon(inResponse), {
-        result,
-    });
+    const outResponse = transformCRUDResponseCommon(inResponse);
+    outResponse.result = result;
+
+    return outResponse;
 }
 
 function transformDeleteResponse(inResponse: SocketResponse): SocketResponse {
