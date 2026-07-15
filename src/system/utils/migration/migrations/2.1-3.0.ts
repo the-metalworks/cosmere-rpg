@@ -84,7 +84,7 @@ interface ActivationData {
 let logger: Logger;
 
 export default {
-    from: '2.2',
+    from: '2.1',
     to: '3.0',
     execute: async (packId?: string) => {
         logger ??= new Logger('migration');

@@ -7,7 +7,7 @@ import { GlobalUI } from '@system/types/utils';
 // Migrations
 import MIGRATE_0_2__0_3 from './migrations/0.2-0.3';
 import MIGRATE_0_3__1_0 from './migrations/0.3-1.0';
-import MIGRATE_2_2__3_0 from './migrations/2.2-3.0';
+import MIGRATE_2_1__3_0 from './migrations/2.1-3.0';
 
 // Utils
 import { Logger } from '@system/utils/logger';
@@ -21,7 +21,7 @@ import { HOOKS } from '@system/constants/hooks';
 const MIGRATIONS: Migration[] = [
     MIGRATE_0_2__0_3,
     MIGRATE_0_3__1_0,
-    MIGRATE_2_2__3_0,
+    MIGRATE_2_1__3_0,
 ];
 const logger = new Logger('migration');
 
