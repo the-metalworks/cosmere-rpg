@@ -397,6 +397,7 @@ function resolveUpdate(
                               [collection.name]: acc,
                           }),
                 } as AnyObject,
+                { performDeletions: false },
             );
 
             return (
@@ -662,8 +663,8 @@ function transformCRUDResponseCommon(
             parentUuid: inRequest.operation.parentUuid,
             render: inRequest.operation.render,
             diff: false,
-            recursive: inRequest.operation.isHierarchical
-                ? true
+            recursive: inResponse.operation.isHierarchical
+                ? false
                 : inRequest.operation.recursive,
             renderSheet: foundry.utils.getProperty(
                 inRequest.operation,
@@ -795,7 +796,7 @@ export function toServerViewObject(
                         {} as Record<string, AnyObject[]>,
                     ),
             },
-            { inplace: false },
+            { inplace: false, performDeletions: false },
         );
 
         systemEmbeddedConfig.forEach(([_, collectionName]) => {
