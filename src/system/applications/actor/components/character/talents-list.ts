@@ -181,19 +181,6 @@ const MISC_SECTION: ItemListSection = {
 export class ActorTalentsListComponent extends ActorItemListComponent {
     static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_TALENTS_LIST}`;
 
-    /**
-     * NOTE: Unbound methods is the standard for defining actions
-     * within ApplicationV2
-     */
-    /* eslint-disable @typescript-eslint/unbound-method */
-    static readonly ACTIONS = {
-        'toggle-section-collapsed': this.onToggleSectionCollapsed,
-        'toggle-action-details': this.onToggleActionDetails,
-        'use-item': this.onUseItem,
-        'new-item': this.onNewItem,
-    };
-    /* eslint-enable @typescript-eslint/unbound-method */
-
     /* --- Context --- */
 
     public async _prepareContext(
@@ -201,8 +188,8 @@ export class ActorTalentsListComponent extends ActorItemListComponent {
         context: ActorTalentsListComponentRenderContext,
     ) {
         // Get all talent items
-        const talentItems = this.application.actor.items.filter((item) =>
-            item.isTalent() || item.isPower(),
+        const talentItems = this.application.actor.items.filter(
+            (item) => item.isTalent() || item.isPower(),
         );
 
         // Ensure all items have an expand state record

@@ -42,7 +42,6 @@ any> {
     static readonly ACTIONS = {
         'toggle-section-collapsed': this.onToggleSectionCollapsed,
         'toggle-action-details': this.onToggleActionDetails,
-        'use-item': this.onUseItem,
         'new-item': this.onNewItem,
     };
     /* eslint-enable */
