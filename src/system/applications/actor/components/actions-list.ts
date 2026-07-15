@@ -253,15 +253,6 @@ const MISC_SECTION: ItemListSection = {
 export class ActorActionsListComponent extends ActorItemListComponent {
     static TEMPLATE = `${TEMPLATES.DIRECTORY}${TEMPLATES.ACTOR_BASE_ACTIONS_LIST}`;
 
-    /**
-     * NOTE: Unbound methods is the standard for defining actions
-     * within ApplicationV2
-     */
-
-    static readonly ACTIONS = {
-        ...super.ACTIONS,
-    };
-
     /* --- Context --- */
 
     public async _prepareContext(
