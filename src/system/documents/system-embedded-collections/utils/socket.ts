@@ -211,6 +211,7 @@ async function transformCRUDRequest(
                         id: doc.id,
                     })),
                 queue: true,
+                isHierarchical: true,
             },
         };
 
@@ -667,7 +668,9 @@ function transformCRUDResponseCommon(
             parentUuid: inRequest.operation.parentUuid,
             render: inRequest.operation.render,
             diff: false,
-            recursive: false,
+            recursive: inRequest.operation.isHierarchical
+                ? true
+                : inRequest.operation.recursive,
             renderSheet: foundry.utils.getProperty(
                 inRequest.operation,
                 'renderSheet',
