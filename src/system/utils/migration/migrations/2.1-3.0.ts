@@ -189,12 +189,13 @@ async function migrateActivatableItem(
         logger.debug('Migrating item', { raw: data });
 
         if (data.system.activation) {
-            // Apply charges to document directly
-            if (data.system.activation.uses?.type === 'charge') {
+            if (data.system.activation.uses) {
                 await document.update({
                     system: {
                         resources: {
-                            [ItemResource.Charges]: {
+                            [data.system.activation.uses.type === 'use'
+                                ? ItemResource.Uses
+                                : ItemResource.Charges]: {
                                 value: data.system.activation.uses.value,
                                 max: data.system.activation.uses.max,
                                 recharge: data.system.activation.uses.recharge,
@@ -220,7 +221,7 @@ async function migrateActivatableItem(
         } else {
             if (document.actions.length > 0) return;
 
-            const actionData = migrateActionData(data);
+            const actionData = migrateActionData(data, true);
             if (!actionData) return;
 
             await Item.create(
@@ -247,7 +248,7 @@ async function migrateAction(
 ) {
     try {
         await document.update({
-            system: migrateActionData(data),
+            system: migrateActionData(data, false),
         });
     } catch (err: unknown) {
         handleDocumentMigrationError(err, 'Item', data);
@@ -256,6 +257,7 @@ async function migrateAction(
 
 function migrateActionData(
     data: RawDocumentData<ActivationData>,
+    embedded: boolean,
 ): ActionItemDataModel | null {
     const activation = data.system.activation;
     if (!activation) return null;
@@ -317,10 +319,9 @@ function migrateActionData(
                                   matchDocument: {
                                       steps: [
                                           {
-                                              target:
-                                                  activation.uses.type === 'use'
-                                                      ? ('self' as const)
-                                                      : ('parent' as const),
+                                              target: embedded
+                                                  ? ('parent' as const)
+                                                  : ('self' as const),
                                           },
                                       ],
                                   },
@@ -356,10 +357,12 @@ function migrateActionData(
                   }
                 : {}),
 
-            ...(activation.uses?.type === 'use'
+            ...(activation.uses && embedded
                 ? {
                       resources: {
-                          [ItemResource.Uses as ItemResource]: {
+                          [activation.uses.type === 'use'
+                              ? ItemResource.Uses
+                              : ItemResource.Charges]: {
                               value: activation.uses.value,
                               max: activation.uses.max,
                               recharge: activation.uses.recharge,
