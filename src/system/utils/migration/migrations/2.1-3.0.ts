@@ -357,7 +357,7 @@ function migrateActionData(
                   }
                 : {}),
 
-            ...(activation.uses && embedded
+            ...(activation.uses && !embedded
                 ? {
                       resources: {
                           [activation.uses.type === 'use'
