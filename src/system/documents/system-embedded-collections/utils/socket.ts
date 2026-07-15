@@ -105,14 +105,6 @@ export function transformRequest(
 export async function transformRequest(
     inRequest: DocumentSocketRequest,
 ): Promise<DocumentSocketRequest> {
-    if (inRequest.type === 'Adventure') {
-        if (isGetRequest(inRequest)) {
-            return transformAdventureGetRequest(inRequest);
-        } else if (isUpdateRequest(inRequest)) {
-            return transformAdventureUpdateRequest(inRequest);
-        }
-    }
-
     if (isGetRequest(inRequest)) {
         return transformGetRequest(inRequest);
     } else if (isCRUDRequest(inRequest)) {
@@ -143,41 +135,20 @@ async function transformCRUDRequest(
     const hierarchy = new DocumentHierarchy(targets[0]);
 
     if (!hierarchy.includesSystemEmbedding || !hierarchy.host) {
-        if (isCreateRequest(inRequest)) {
-            return foundry.utils.mergeObject(
-                transformRequestCommon(inRequest),
-                {
-                    operation: {
-                        data: inRequest.operation.data.map((data) =>
-                            data
-                                ? toServerViewObject(
-                                      data as AnyDocumentData,
-                                      inRequest.type,
-                                  )
-                                : data,
-                        ),
-                    },
-                },
-            );
-        } else if (isUpdateRequest(inRequest)) {
-            return foundry.utils.mergeObject(
-                transformRequestCommon(inRequest),
-                {
-                    operation: {
-                        updates: inRequest.operation.updates.map((data) =>
-                            data
-                                ? toServerViewObject(
-                                      data as AnyDocumentData,
-                                      inRequest.type,
-                                  )
-                                : data,
-                        ),
-                    },
-                },
-            );
-        } else {
-            return inRequest;
-        }
+        if (!isCreateRequest(inRequest)) return inRequest;
+
+        return foundry.utils.mergeObject(transformRequestCommon(inRequest), {
+            operation: {
+                data: inRequest.operation.data.map((data) =>
+                    data
+                        ? toServerViewObject(
+                              data as AnyDocumentData,
+                              inRequest.type,
+                          )
+                        : data,
+                ),
+            },
+        });
     } else {
         await queueRequestFor(hierarchy.host.uuid);
 
@@ -424,50 +395,6 @@ function resolveUpdate(
         }, updatedCollectionData)[0];
 }
 
-function transformAdventureGetRequest(
-    inRequest: DocumentSocketRequest<'get'>,
-): DocumentSocketRequest<'get'> {
-    return transformRequestCommon(inRequest);
-}
-
-function transformAdventureUpdateRequest(
-    inRequest: DocumentSocketRequest<'update'>,
-): DocumentSocketRequest {
-    const embeddedDataFields = Object.entries(Adventure.schema.fields).filter(
-        ([key, field]) =>
-            field instanceof foundry.data.fields.SetField &&
-            field.element instanceof foundry.data.fields.EmbeddedDataField,
-    );
-
-    const outRequest = transformRequestCommon(inRequest);
-
-    outRequest.operation.updates = inRequest.operation.updates.map((update) => {
-        if (!update) return update;
-
-        embeddedDataFields.forEach(([key, field]) => {
-            if (!foundry.utils.hasProperty(update, key)) return;
-
-            const documentName = (
-                (field as foundry.data.fields.SetField.Any)
-                    .element as foundry.data.fields.EmbeddedDataField<
-                    typeof foundry.abstract.Document
-                >
-            ).model.documentName;
-            const data = foundry.utils.getProperty(update, key) as AnyObject[];
-
-            foundry.utils.setProperty(
-                update,
-                key,
-                data.map((data) => toServerViewObject(data, documentName)),
-            );
-        });
-
-        return update;
-    });
-
-    return outRequest;
-}
-
 /**
  * Utility function to inject common metadata into transformed requests
  */
@@ -501,16 +428,8 @@ export function transformResponse(inResponse: SocketResponse): SocketResponse {
     const inRequest = inResponse.operation.sourceRequest;
 
     if (isGetRequest(inRequest)) {
-        if (inRequest.type === 'Adventure')
-            return transformAdventureResponse(inResponse);
-
         return transformGetResponse(inResponse);
-    } else if (isCreateRequest(inRequest)) {
-        return transformCreateUpdateResponse(inResponse);
-    } else if (isUpdateRequest(inRequest)) {
-        if (inRequest.type === 'Adventure')
-            return transformAdventureResponse(inResponse);
-
+    } else if (isCreateRequest(inRequest) || isUpdateRequest(inRequest)) {
         return transformCreateUpdateResponse(inResponse);
     } else if (isDeleteRequest(inRequest)) {
         return transformDeleteResponse(inResponse);
@@ -676,44 +595,6 @@ function transformCRUDResponseCommon(
         type: inRequest.type,
         result: [],
     };
-}
-
-function transformAdventureResponse(
-    inResponse: SocketResponse,
-): SocketResponse {
-    const embeddedDataFields = Object.entries(Adventure.schema.fields).filter(
-        ([key, field]) =>
-            field instanceof foundry.data.fields.SetField &&
-            field.element instanceof foundry.data.fields.EmbeddedDataField,
-    );
-
-    const result = inResponse.result?.map((r) => {
-        if (typeof r === 'string') return r;
-
-        embeddedDataFields.forEach(([key, field]) => {
-            if (!foundry.utils.hasProperty(r, key)) return;
-
-            const documentName = (
-                (field as foundry.data.fields.SetField.Any)
-                    .element as foundry.data.fields.EmbeddedDataField<
-                    typeof foundry.abstract.Document
-                >
-            ).model.documentName;
-            const data = foundry.utils.getProperty(r, key) as AnyObject[];
-
-            foundry.utils.setProperty(
-                resolveUpdate,
-                key,
-                data.map((data) => toClientViewObject(data, documentName)),
-            );
-        });
-
-        return r;
-    });
-
-    return foundry.utils.mergeObject(inResponse, {
-        result,
-    }) as SocketResponse;
 }
 
 /* --- Helpers --- */
