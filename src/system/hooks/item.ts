@@ -90,8 +90,9 @@ Hooks.on('updateItem', (item: CosmereItem, update: Item.UpdateData) => {
     if (item.isGoal()) {
         const previousLevel = item.getFlag(SYSTEM_ID, 'previousLevel') ?? 0;
         const newLevel = item.system.level;
+        const isLevelUpdate = foundry.utils.hasProperty(update, 'system.level');
 
-        if (newLevel !== previousLevel) {
+        if (isLevelUpdate && newLevel !== previousLevel) {
             /**
              * Hook: updateProgressGoal
              */
