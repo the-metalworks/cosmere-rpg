@@ -622,18 +622,26 @@ export class CosmereActor<
 
     /* --- Functions --- */
 
-    /** Returns an embedded item in an actor regardless of how deeply nested it is, if it exists.
+    /** Returns an embedded document in an actor regardless of how deeply nested it is, if it exists.
      *
-     * @param itemUuid The UUID of the item you want to get
-     * @returns An Item or null if no item could be found.
+     * @param uuid The UUID of the document you want to get, either the whole UUID or partial. Also works with just the document ID.
+     * @returns A {@link CosmereActiveEffect}, {@link CosmereItem} or null if no document could be found.
      */
-    public getNestedEmbeddedItemFromUuid(itemUuid: string): Item | null {
+    public getEmbeddedDocumentFromUuid(
+        uuid: string,
+    ): CosmereActiveEffect | CosmereItem | null {
+        const parsedUuid = foundry.utils.parseUuid(uuid);
+        const documentId = parsedUuid?.id ?? uuid;
         for (const [, document] of this.traverseEmbeddedDocuments()) {
-            if (document instanceof Item && document.uuid === itemUuid) {
+            if (document.uuid != uuid && document.id != documentId) continue;
+
+            if (
+                document instanceof CosmereActiveEffect ||
+                document instanceof CosmereItem
+            ) {
                 return document;
             }
         }
-
         return null;
     }
 
