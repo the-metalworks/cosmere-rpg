@@ -188,6 +188,23 @@ async function migrateActivatableItem(
     try {
         logger.debug('Migrating item', { raw: data });
 
+        if (data.system.activation) {
+            // Apply charges to document directly
+            if (data.system.activation.uses?.type === 'charge') {
+                await document.update({
+                    system: {
+                        resources: {
+                            [ItemResource.Charges]: {
+                                value: data.system.activation.uses.value,
+                                max: data.system.activation.uses.max,
+                                recharge: data.system.activation.uses.recharge,
+                            },
+                        },
+                    },
+                });
+            }
+        }
+
         if (data.type === 'weapon') {
             await document.update({
                 system: {
@@ -300,7 +317,10 @@ function migrateActionData(
                                   matchDocument: {
                                       steps: [
                                           {
-                                              target: 'self' as const,
+                                              target:
+                                                  activation.uses.type === 'use'
+                                                      ? ('self' as const)
+                                                      : ('parent' as const),
                                           },
                                       ],
                                   },
@@ -336,15 +356,14 @@ function migrateActionData(
                   }
                 : {}),
 
-            ...(activation.uses
+            ...(activation.uses?.type === 'use'
                 ? {
                       resources: {
-                          [activation.uses.type === 'use' ? 'uses' : 'charges']:
-                              {
-                                  value: activation.uses.value,
-                                  max: activation.uses.max,
-                                  recharge: activation.uses.recharge,
-                              },
+                          [ItemResource.Uses as ItemResource]: {
+                              value: activation.uses.value,
+                              max: activation.uses.max,
+                              recharge: activation.uses.recharge,
+                          },
                       },
                   }
                 : {}),
