@@ -224,7 +224,9 @@ export class ActorEffectsListComponent extends ActorItemListComponent {
         // Get the uuid
         const uuid = effectElement.data('uuid') as string;
 
-        const effect = fromUuidSync(uuid) as
+        const actor = this.application.actor;
+
+        const effect = actor.getEmbeddedDocumentFromUuid(uuid) as
             | CosmereActiveEffect
             | EffectsContainerItem
             | null;
