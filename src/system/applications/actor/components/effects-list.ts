@@ -227,10 +227,10 @@ export class ActorEffectsListComponent extends ActorItemListComponent {
 
         const actor = this.application.actor;
 
-        const effect = actor.getEmbeddedDocumentFromUuid(
-            CosmereActiveEffect,
-            uuid,
-        ) as CosmereActiveEffect | EffectsContainerItem | null;
+        const effect = actor.getEmbeddedDocumentFromUuid(uuid) as
+            | CosmereActiveEffect
+            | EffectsContainerItem
+            | null;
         return effect;
     }
 }

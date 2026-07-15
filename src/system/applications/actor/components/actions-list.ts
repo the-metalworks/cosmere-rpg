@@ -455,7 +455,6 @@ export class ActorActionsListComponent extends ActorItemListComponent {
                     // Get item from loaded actor sheet
                     const item =
                         this.application.actor.getEmbeddedDocumentFromUuid(
-                            CosmereItem,
                             itemUuid,
                         );
 
