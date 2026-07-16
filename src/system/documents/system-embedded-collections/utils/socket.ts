@@ -655,7 +655,7 @@ function transformCRUDResponseCommon(
         action: inRequest.action,
         broadcast: inResponse.broadcast,
         userId: inResponse.userId,
-        operation: {
+        operation: foundry.utils.mergeObject(inResponse.operation, {
             id: inRequest.operation.id,
             action: inRequest.action,
             modifiedTime: inRequest.operation.modifiedTime,
@@ -670,7 +670,7 @@ function transformCRUDResponseCommon(
                 inRequest.operation,
                 'renderSheet',
             ) as boolean,
-        },
+        }),
         type: inRequest.type,
         result: [],
     };
