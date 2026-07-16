@@ -1537,7 +1537,9 @@
             "IgnoreDeflect": "Ignore Deflect"
         },
         "Migration": {
-            "DocumentMigrationFailed": "Failed to migrate {type} \"{name}\". {error}"
+            "DocumentMigrationFailed": "Failed to migrate {type} \"{name}\". {error}",
+            "MigrationError": "Migration {from} → {to} failed. See console for details.",
+            "MigrationErrorPack": "Migration {from} → {to} failed for compendium {pack}. See console for details."
         },
         "Utils": {
             "MatchDocument": {
