@@ -1,6 +1,6 @@
 <div class="mod">
     <span class="operator">+</span>
-    <span class="val">{{derived skill.mod }}</span>
+    <span class="{{#if (gte skill.rank 5)}}modified{{else}}val{{/if}} ">{{derived skill.mod }}</span>
 </div>
 <a class="name" data-action="roll-skill">
     <span>{{ localize skill.label }}</span>
