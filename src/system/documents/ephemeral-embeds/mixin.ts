@@ -23,8 +23,6 @@ export function EphemeralEmbeddedDocumentsMixin<
         DocumentOfType<DocumentType> = DocumentOfType<DocumentType>,
 >(cls: DocumentClass) {
     return class EphemeralEmbeddedDocumentsDocument extends cls {
-        private ephemeralUpdate = false;
-
         declare type: foundry.abstract.Document.SubTypesOf<DocumentType>;
 
         declare static metadata: foundry.abstract.Document.MetadataFor<DocumentType> & {
@@ -37,7 +35,7 @@ export function EphemeralEmbeddedDocumentsMixin<
             super.prepareData();
             /* eslint-enable @typescript-eslint/no-unsafe-call */
 
-            if (!this.ephemeralUpdate) this.injectEphemeralDocuments();
+            this.injectEphemeralDocuments();
         }
 
         protected injectEphemeralDocuments(): void {
@@ -54,7 +52,6 @@ export function EphemeralEmbeddedDocumentsMixin<
                 EmbeddedTypesOf<DocumentType>,
                 string,
             ][];
-            const changes: AnyMutableObject = {};
 
             embedded.forEach(([embeddedName, field]) => {
                 try {
@@ -74,29 +71,34 @@ export function EphemeralEmbeddedDocumentsMixin<
                         this as unknown as DocumentOfType<DocumentType>,
                     );
                     const concreteDocuments = (
-                        Array.from(collection) as DocumentOfType<DocumentType>[]
+                        Array.from(collection) as object[]
                     ).filter(
                         (doc) =>
                             !foundry.utils.getProperty(
                                 doc,
                                 `flags.${SYSTEM_ID}.meta.isEphemeral`,
                             ),
-                    );
+                    ) as DocumentOfType<EmbeddedTypesOf<DocumentType>>[];
 
-                    changes[field] = [
-                        ...ephemeralDocuments.map((doc) =>
-                            foundry.utils.mergeObject(doc.toObject(), {
-                                flags: {
-                                    [SYSTEM_ID]: {
-                                        meta: {
-                                            isEphemeral: true,
-                                        },
+                    collection.clear();
+                    ephemeralDocuments.forEach((doc) => {
+                        //@ts-expect-error foundry-vtt-types resolves the parameter type to `undefined`
+                        doc.updateSource({
+                            flags: {
+                                [SYSTEM_ID]: {
+                                    meta: {
+                                        isEphemeral: true,
                                     },
                                 },
-                            }),
-                        ),
-                        ...concreteDocuments.map((doc) => doc.toObject()),
-                    ];
+                            },
+                        });
+
+                        collection.set(doc.id!, doc);
+                    });
+
+                    concreteDocuments.forEach((doc) =>
+                        collection.set(doc.id!, doc),
+                    );
                 } catch (err) {
                     Logger.error(
                         'ephemeralEmbeddedDocuments',
@@ -105,27 +107,6 @@ export function EphemeralEmbeddedDocumentsMixin<
                     );
                 }
             });
-
-            if (Object.keys(changes).length === 0) return;
-
-            this.ephemeralUpdate = true;
-
-            // Call updateSource and set each collection to an empty array to prevent ephemeral documents from being ordered after concrete documents
-            this.updateSource(
-                Object.keys(changes).reduce(
-                    (acc, field) => ({
-                        ...acc,
-                        [field]: [],
-                    }),
-                    {} as AnyObject,
-                ),
-                { recursive: false },
-            );
-
-            // Call updateSource with actual data to set collections to correct state
-            this.updateSource(changes, { recursive: false });
-
-            this.ephemeralUpdate = false;
         }
     };
 }
