@@ -286,7 +286,7 @@ function getSkillsSchema() {
                 nullable: false,
                 integer: true,
                 min: 0,
-                max: 5,
+                max: 40,
                 initial: 0,
             }),
             mod: new DerivedValueField(
