@@ -16,7 +16,12 @@
             <span class="subtitle">
                 {{localize "COSMERE.Actor.Sheet.Equipment.Weight"}}
             </span>
-            <div class="subtitle"></div>
+            <span class="subtitle slim">
+                {{localize "COSMERE.Actor.Sheet.Equipment.Equip"}}
+            </span>
+            <span class="subtitle">
+                {{localize "COSMERE.Actor.Sheet.Equipment.Resources"}}
+            </span>
             <div class="controls icon active">
                 {{#if @root.editable}}
                     {{#if section.canAddNewItems}}
@@ -98,7 +103,7 @@
             </div>
 
             {{!-- Equipped --}}
-            <div class="detail equip">
+            <div class="detail slim equip">
             {{#if ctx.isEquippable}}
                 {{#if (eq ctx.equip.type 'hold')}}
                 {{!-- Items equipped by holding them --}}
@@ -143,6 +148,19 @@
                     </a>
                 {{/if}}
             {{/if}}
+            </div>
+
+
+            {{!-- Resources --}}
+            <div class="detail resource">
+                {{#if ctx.hasResource}}
+                    <span class="val">{{ctx.resource.value}}</span>
+                    <span>/</span>
+                    <span class="val">{{ctx.resource.max}}</span>
+                    <span>{{localize ctx.resource.label}}</span>
+                {{else}}
+                    <span class="val none">—</span>
+                {{/if}}
             </div>
 
             {{!-- Controls --}}

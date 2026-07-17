@@ -192,7 +192,9 @@
                     "Quantity": "Quantity",
                     "Weight": "Weight",
                     "IncreaseQuantity": "Increase quantity",
-                    "DecreaseQuantity": "Decrease quantity"
+                    "DecreaseQuantity": "Decrease quantity",
+                    "Equip": "Equip",
+                    "Resources": "Resources"
                 },
                 "Inventory": {
                     "label": "Inventory",
