@@ -24,7 +24,7 @@
                     data-type="{{@root.resolvedReference.documentName}}"
                     data-tooltip="{{localize (concat "COSMERE.Utils.MatchDocument.Target.Type." step.target ".Label")}} {{localize (concat "COSMERE.Utils.MatchDocument.MatchBy.Explain." step.matchBy)}} {{@root.resolvedReference.name}} (NOT FOUND)"
                 >
-                    <span class="complication-color">!</span>
+                    <i class="complication-color fa-solid fa-exclamation-circle"></i>
                     {{#if @root.resolvedReference.img}}
                         <img src="{{@root.resolvedReference.img}}" alt="{{@root.resolvedReference.name}}">
                     {{/if}}
