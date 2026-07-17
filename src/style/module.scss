@@ -484,6 +484,10 @@
                     width: 76px;
                 }
 
+                &.extrawide {
+                    width: 114px;
+                }
+
                 &.thin {
                     width: 16px;
                 }
@@ -504,6 +508,7 @@
                 font-size: var(--font-size-10);
                 font-weight: 600;
                 font-variant: lining-nums;
+                vertical-align: middle;
 
                 .target {
                     display: inline-block;
