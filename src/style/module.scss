@@ -476,6 +476,10 @@
                 color: var(--cosmere-color-text-sub);
                 text-transform: uppercase;
 
+                &.nowrap{
+                    white-space:nowrap;
+                }
+
                 &.wide {
                     width: 76px;
                 }
@@ -500,6 +504,11 @@
                 font-size: var(--font-size-10);
                 font-weight: 600;
                 font-variant: lining-nums;
+
+                .target {
+                    display: inline-block;
+                    vertical-align: middle;
+                }
             }
 
             .action,
