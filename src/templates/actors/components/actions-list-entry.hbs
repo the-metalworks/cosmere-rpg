@@ -48,7 +48,19 @@
                     {{#if consume.consumesResource}}
                     <span>{{resourceCostLabel consume}}</span>
                     {{/if}}
+                    {{#if consume.consumesItemResource}}
 
+                    <span>{{resourceCostLabel consume}}</span>
+
+                    <span>from</span>
+                    <div class="target">
+                        {{app-match-document-target
+                            value=consume.matchDocument
+                            relativeTo=consume.relativeTo
+                            short=true
+                        }}
+                    </div>
+                    {{/if}}
                     {{!-- TODO: Item consume --}}
                     {{#if consume.consumesItem}}
                     <span>—</span>

@@ -369,6 +369,8 @@ Handlebars.registerHelper(
                         .consumption) {
                         const consumesResource =
                             consumable.type === ItemConsumeType.Resource;
+                        const consumesItemResource =
+                            consumable.type === ItemConsumeType.ItemResource;
                         // const consumesItem =
                         //     consumable.type === ItemConsumeType.Item;
                         const consumesItem = false;
@@ -378,6 +380,7 @@ Handlebars.registerHelper(
                             type: consumable.type,
                             value: consumable.value,
                             consumesResource,
+                            consumesItemResource,
                             consumesItem,
 
                             ...(consumable.type === ItemConsumeType.Resource
@@ -387,6 +390,18 @@ Handlebars.registerHelper(
                                           CONFIG.COSMERE.resources[
                                               consumable.resource
                                           ].label,
+                                  }
+                                : {}),
+
+                            ...(consumable.type === ItemConsumeType.ItemResource
+                                ? {
+                                      resource: consumable.resource,
+                                      resourceLabel:
+                                          CONFIG.COSMERE.item.resource.types[
+                                              consumable.resource
+                                          ].label,
+                                      relativeTo: item,
+                                      matchDocument: consumable.matchDocument,
                                   }
                                 : {}),
                         });
@@ -530,62 +545,127 @@ Handlebars.registerHelper(
     'resourceCostLabel',
     (consume: ActionItemDataModel.ConsumeData) => {
         const { value } = consume;
-        const resource = game.i18n.localize(
-            consume.type === ItemConsumeType.Resource
-                ? CONFIG.COSMERE.resources[consume.resource].label
-                : consume.type === ItemConsumeType.ItemResource
-                  ? CONFIG.COSMERE.item.resource.types[consume.resource].label
-                  : 'GENERIC.Unknown',
-        );
-
-        let label = '';
-
-        // Get adjusted minimum value, to account for optional formatting
-        const adjustedMin = Math.max(value.min, 1);
-
-        // Static range
-        if (adjustedMin === value.max) {
-            label = game.i18n.format(
-                'COSMERE.Actor.Sheet.Actions.Consume.Static',
-                {
-                    amount: adjustedMin.toFixed(),
-                    resource,
-                },
+        if (consume.type === ItemConsumeType.Resource) {
+            const resource = game.i18n.localize(
+                CONFIG.COSMERE.resources[consume.resource].label ??
+                    'GENERIC.Unknown',
             );
-        }
-        // Uncapped range
-        else if (value.max === -1) {
-            label = game.i18n.format(
-                'COSMERE.Actor.Sheet.Actions.Consume.RangeUncapped',
-                {
-                    amount: adjustedMin.toFixed(),
-                    resource,
-                },
-            );
-        }
-        // Capped range
-        else {
-            label = game.i18n.format(
-                'COSMERE.Actor.Sheet.Actions.Consume.RangeCapped',
-                {
-                    min: adjustedMin.toFixed(),
-                    max: value.max.toFixed(),
-                    resource,
-                },
-            );
-        }
 
-        // Treat actual minimum value of 0 as an "optional" cost
-        if (value.min === 0) {
-            label = game.i18n.format(
-                'COSMERE.Actor.Sheet.Actions.Consume.Optional',
-                {
-                    label,
-                },
-            );
-        }
+            let label = '';
 
-        return label;
+            // Get adjusted minimum value, to account for optional formatting
+            const adjustedMin = Math.max(value.min, 1);
+
+            // Static range
+            if (adjustedMin === value.max) {
+                label = game.i18n.format(
+                    'COSMERE.Actor.Sheet.Actions.Consume.Static',
+                    {
+                        amount: adjustedMin.toFixed(),
+                        resource,
+                    },
+                );
+            }
+            // Uncapped range
+            else if (value.max === -1) {
+                label = game.i18n.format(
+                    'COSMERE.Actor.Sheet.Actions.Consume.RangeUncapped',
+                    {
+                        amount: adjustedMin.toFixed(),
+                        resource,
+                    },
+                );
+            }
+            // Capped range
+            else {
+                label = game.i18n.format(
+                    'COSMERE.Actor.Sheet.Actions.Consume.RangeCapped',
+                    {
+                        min: adjustedMin.toFixed(),
+                        max: value.max.toFixed(),
+                        resource,
+                    },
+                );
+            }
+
+            // Treat actual minimum value of 0 as an "optional" cost
+            if (value.min === 0) {
+                label = game.i18n.format(
+                    'COSMERE.Actor.Sheet.Actions.Consume.Optional',
+                    {
+                        label,
+                    },
+                );
+            }
+
+            return label;
+        } else if (consume.type === ItemConsumeType.ItemResource) {
+            const singular = value.min == 1 && value.max == 1;
+            let resource = '';
+            if (singular) {
+                resource = game.i18n.localize(
+                    CONFIG.COSMERE.item.resource.types[consume.resource]
+                        .label ?? 'GENERIC.Unknown',
+                );
+            } else {
+                resource = game.i18n.localize(
+                    CONFIG.COSMERE.item.resource.types[consume.resource]
+                        .labelPlural ?? 'GENERIC.Unknown',
+                );
+            }
+
+            let label = '';
+
+            // Get adjusted minimum value, to account for optional formatting
+            const adjustedMin = Math.max(value.min, 1);
+
+            // Static range
+            if (adjustedMin === value.max) {
+                label = game.i18n.format(
+                    'COSMERE.Actor.Sheet.Actions.Consume.Static',
+                    {
+                        amount: adjustedMin.toFixed(),
+                        resource,
+                    },
+                );
+            }
+            // Uncapped range
+            else if (value.max === -1) {
+                label = game.i18n.format(
+                    'COSMERE.Actor.Sheet.Actions.Consume.RangeUncapped',
+                    {
+                        amount: adjustedMin.toFixed(),
+                        resource,
+                    },
+                );
+            }
+            // Capped range
+            else {
+                label = game.i18n.format(
+                    'COSMERE.Actor.Sheet.Actions.Consume.RangeCapped',
+                    {
+                        min: adjustedMin.toFixed(),
+                        max: value.max.toFixed(),
+                        resource,
+                    },
+                );
+            }
+
+            // Treat actual minimum value of 0 as an "optional" cost
+            if (value.min === 0) {
+                label = game.i18n.format(
+                    'COSMERE.Actor.Sheet.Actions.Consume.Optional',
+                    {
+                        label,
+                    },
+                );
+            }
+
+            return label;
+        }
+        // else if (consume.type === ItemConsumeType.Item){
+
+        // }
     },
 );
 

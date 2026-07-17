@@ -67,6 +67,7 @@ export interface ItemContext {
         type: string;
         value: NumberRange;
         consumesResource: boolean;
+        consumesItemResource: boolean;
         consumesItem: boolean;
         resource: string;
     }>[];
