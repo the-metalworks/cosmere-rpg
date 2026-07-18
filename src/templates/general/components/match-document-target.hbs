@@ -17,6 +17,7 @@
     {{#with (last value.steps) as |step|}}
         {{#if (not (or (eq step.target "self") (eq step.target "parent")))}}
             {{#if (and (eq step.matchBy "document-type") step.documentType)}}
+                <span class="type">{{localize (concat "DOCUMENT." step.documentType)}}</span>
             {{else if @root.resolvedReference}}
                 <a class="content-link document-link" data-link
                     data-uuid="{{@root.resolvedReference.uuid}}"
