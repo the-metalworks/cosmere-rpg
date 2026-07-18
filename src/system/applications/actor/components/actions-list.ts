@@ -370,7 +370,12 @@ export class ActorActionsListComponent extends ActorItemListComponent {
                 const sectionActions = sectionItems.map((item) =>
                     item.isAction()
                         ? item
-                        : ([item, item.actions] as [CosmereItem, ActionItem[]]),
+                        : item.actions.length === 1
+                          ? item.actions[0]
+                          : ([item, item.actions] as [
+                                CosmereItem,
+                                ActionItem[],
+                            ]),
                 );
 
                 sectionActions.forEach((item) => {
