@@ -289,6 +289,9 @@ Handlebars.registerHelper(
             if (item.hasResources() && item.system.primaryResource !== 'none') {
                 context.hasResource = true;
                 const resourceType: ItemResource = item.system.primaryResource;
+                //     const recharge = item.system.activation.uses.recharge;
+
+                //     const hasRecharge = recharge != null;
 
                 context.resource = {};
                 context.resource.value =
@@ -300,6 +303,15 @@ Handlebars.registerHelper(
                     CONFIG.COSMERE.item.resource.types[
                         resourceType
                     ].labelPlural;
+                const recharge =
+                    item.system.resources[resourceType].recharge ?? undefined;
+                if (recharge && recharge !== 'none') {
+                    context.resource.hasRecharge = true;
+                    context.resource.rechargeLabel =
+                        CONFIG.COSMERE.item.resource.recharge.types[
+                            recharge
+                        ].label;
+                }
                 context.resource.addTooltip = game.i18n.format(
                     'COSMERE.Actor.Sheet.Equipment.IncreaseResource',
                     {

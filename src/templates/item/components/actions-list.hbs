@@ -100,6 +100,9 @@
                             <span>/</span>
                             <span class="val">{{ctx.resource.max}}</span>
                             <i class="{{ctx.resource.icon}}" data-tooltip={{ctx.resource.label}}></i>
+                            {{#if ctx.resource.hasRecharge}}
+                                <span>{{localize ctx.resource.rechargeLabel}}</span>
+                            {{/if}}
                         </div>
                     {{else}}
                         <span class="val none">—</span>
