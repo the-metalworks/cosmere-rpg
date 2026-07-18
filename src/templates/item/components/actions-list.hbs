@@ -5,7 +5,7 @@
             <span class="title">{{localize "COSMERE.Item.Sheet.ActionsList.Description"}}</span>
             <span class="subtitle wide">{{localize "COSMERE.Item.Sheet.ActionsList.Action"}}</span>
             <span class="subtitle extrawide">{{localize "COSMERE.Item.Sheet.ActionsList.Cost"}}</span>
-            <span class="subtitle wide">{{localize "COSMERE.Item.Sheet.ActionsList.Uses"}}</span>
+            <span class="subtitle wide">{{localize "COSMERE.Item.Sheet.ActionsList.Resources"}}</span>
             <div class="controls icon active">
                 {{#if editable}}
                 <a data-action="create-action"
@@ -90,27 +90,36 @@
                     {{/if}}
                 </div>
 
-                {{!-- Uses --}}
-                <div class="detail wide">
-                    {{#if ctx.hasUses}}
 
-                    {{#if (or (gt ctx.uses.max 1) (not ctx.uses.hasRecharge))}}
-                    <span>
-                        {{ ctx.uses.value }} / {{ctx.uses.max}}
-                        {{#if ctx.uses.hasRecharge}}
-                        {{localize ctx.uses.rechargeLabel }}
-                        {{/if}}
-                    </span>
-                    {{else}}
-                    <span {{#if (eq ctx.uses.value 0)}}class="inactive"{{/if}}>
-                        {{#if ctx.uses.hasRecharge}}
-                        {{localize ctx.uses.rechargeLabel }}
-                        {{/if}}
-                    </span>
-                    {{/if}}
 
+                {{!-- Resources --}}
+                <div class="detail wide resource">
+                    {{#if ctx.hasResource}}
+                        {{#if @root.editable}}
+                        <a role="button"
+                            data-action="decrease-resource"
+                            data-tooltip="{{ctx.resource.removeTooltip}}"
+                        >
+                            <i class="fa-solid fa-minus"></i>
+                        </a>
+                        {{/if}}
+                        <div>
+                            <span class="val">{{ctx.resource.value}}</span>
+                            <span>/</span>
+                            <span class="val">{{ctx.resource.max}}</span>
+                            <i class="{{ctx.resource.icon}}" data-tooltip={{ctx.resource.label}}></i>
+                        </div>
+
+                        {{#if @root.editable}}
+                        <a role="button"
+                            data-action="increase-resource"
+                            data-tooltip="{{ctx.resource.addTooltip}}"
+                        >
+                            <i class="fa-solid fa-plus"></i>
+                        </a>
+                        {{/if}}
                     {{else}}
-                    <span>—</span>
+                        <span class="val none">—</span>
                     {{/if}}
                 </div>
 
