@@ -67,9 +67,33 @@ export function EphemeralEmbeddedDocumentsMixin<
                         InstanceType
                     >;
 
-                    const ephemeralDocuments = generatorFn.call(
-                        this as unknown as DocumentOfType<DocumentType>,
-                    );
+                    const ephemeralDocuments = generatorFn
+                        .call(this as unknown as DocumentOfType<DocumentType>)
+                        .map((doc) => {
+                            const newDoc = new (doc.constructor as new (
+                                ...args: unknown[]
+                            ) => DocumentOfType<EmbeddedTypesOf<DocumentType>>)(
+                                foundry.utils.mergeObject(doc.toObject(), {
+                                    _id: doc.id ?? foundry.utils.randomID(),
+                                    flags: {
+                                        [SYSTEM_ID]: {
+                                            meta: {
+                                                isEphemeral: true,
+                                            },
+                                        },
+                                    },
+                                }),
+                                {
+                                    parent: this,
+                                },
+                            );
+
+                            Object.entries(doc.apps).forEach(
+                                ([id, app]) => (newDoc.apps[id] = app),
+                            );
+
+                            return newDoc;
+                        });
                     const concreteDocuments = (
                         Array.from(collection) as object[]
                     ).filter(
@@ -82,22 +106,10 @@ export function EphemeralEmbeddedDocumentsMixin<
 
                     collection.clear();
                     ephemeralDocuments.forEach((doc) => {
-                        //@ts-expect-error foundry-vtt-types resolves the parameter type to `undefined`
-                        doc.updateSource({
-                            flags: {
-                                [SYSTEM_ID]: {
-                                    meta: {
-                                        isEphemeral: true,
-                                    },
-                                },
-                            },
-                        });
-
-                        collection.set(doc.id!, doc);
+                        collection.set(doc.id!, doc, { modifySource: false });
                     });
-
                     concreteDocuments.forEach((doc) =>
-                        collection.set(doc.id!, doc),
+                        collection.set(doc.id!, doc, { modifySource: false }),
                     );
                 } catch (err) {
                     Logger.error(
