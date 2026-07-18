@@ -698,7 +698,7 @@
             font-size: var(--font-size-12);
             font-weight: 600;
             padding-top: 0.25rem;
-            width: 24px;
+            width: 27px;
             text-align: center;
 
             .operator {
@@ -707,6 +707,10 @@
 
             .val {
                 color: var(--cosmere-color-text-main);
+            }
+
+            .modified {
+                color: var(--cosmere-color-highlight)
             }
         }
 
