@@ -723,6 +723,12 @@ const COSMERE: CosmereRPGConfig = {
                     labelPlural: 'COSMERE.Item.Resource.Types.Charges.Plural',
                     icon: 'fa-solid fa-bolt',
                 },
+                [ItemResource.Ammo]: {
+                    key: ItemResource.Ammo,
+                    label: 'COSMERE.Item.Resource.Types.Ammo.Singular',
+                    labelPlural: 'COSMERE.Item.Resource.Types.Ammo.Plural',
+                    icon: 'fa-solid fa-burst',
+                },
             },
 
             recharge: {
