@@ -126,9 +126,7 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
         const sectionActions = sectionItems.map((item) =>
             item.isAction() || (allowNonActions && item.actions.length === 0)
                 ? item
-                : item.actions.length === 1
-                  ? item.actions[0]
-                  : ([item, item.actions] as [CosmereItem, ActionItem[]]),
+                : ([item, item.actions] as [CosmereItem, ActionItem[]]),
         );
 
         return {
