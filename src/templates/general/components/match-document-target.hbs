@@ -1,9 +1,50 @@
+{{!-- Short-form --}}
+{{#if short}}
 {{#if resolvedDocument}}
 
-    <a class="content-link document-link" data-link 
-        data-uuid="{{resolvedDocument.uuid}}" 
-        data-id="{{resolvedDocument.id}}" 
-        data-type="{{resolvedDocument.documentName}}" 
+    <a class="content-link document-link" data-link
+        data-uuid="{{resolvedDocument.uuid}}"
+        data-id="{{resolvedDocument.id}}"
+        data-type="{{resolvedDocument.documentName}}"
+        data-tooltip="{{resolvedDocument.name}}"
+    >
+        {{#if resolvedDocument.img}}
+            <img src="{{resolvedDocument.img}}" alt="{{resolvedDocument.name}}">
+        {{/if}}
+    </a>
+
+{{else if (gt value.steps.length 0)}}
+    {{#with (last value.steps) as |step|}}
+        {{#if (not (or (eq step.target "self") (eq step.target "parent")))}}
+            {{#if (and (eq step.matchBy "document-type") step.documentType)}}
+                <span class="type">{{localize (concat "DOCUMENT." step.documentType)}}</span>
+            {{else if @root.resolvedReference}}
+                <a class="content-link document-link" data-link
+                    data-uuid="{{@root.resolvedReference.uuid}}"
+                    data-id="{{@root.resolvedReference.id}}"
+                    data-type="{{@root.resolvedReference.documentName}}"
+                    data-tooltip="{{localize (concat "COSMERE.Utils.MatchDocument.Target.Type." step.target ".Label")}} {{localize (concat "COSMERE.Utils.MatchDocument.MatchBy.Explain." step.matchBy)}} {{@root.resolvedReference.name}} (NOT FOUND)"
+                >
+                    <i class="complication-color fa-solid fa-exclamation-circle"></i>
+                    {{#if @root.resolvedReference.img}}
+                        <img src="{{@root.resolvedReference.img}}" alt="{{@root.resolvedReference.name}}">
+                    {{/if}}
+                </a>
+            {{else}}
+                <span>UNKNOWN</span>
+            {{/if}}
+        {{/if}}
+    {{/with}}
+{{/if}}
+
+{{!-- Long-form --}}
+{{else}}
+{{#if resolvedDocument}}
+
+    <a class="content-link document-link" data-link
+        data-uuid="{{resolvedDocument.uuid}}"
+        data-id="{{resolvedDocument.id}}"
+        data-type="{{resolvedDocument.documentName}}"
         data-tooltip="{{localize (concat "DOCUMENT." resolvedDocument.documentName)}}"
     >
         {{#if resolvedDocument.img}}
@@ -25,10 +66,10 @@
             {{#if (and (eq step.matchBy "document-type") step.documentType)}}
                 <span class="type">{{localize (concat "DOCUMENT." step.documentType)}}</span>
             {{else if @root.resolvedReference}}
-                <a class="content-link document-link" data-link 
-                    data-uuid="{{@root.resolvedReference.uuid}}" 
-                    data-id="{{@root.resolvedReference.id}}" 
-                    data-type="{{@root.resolvedReference.documentName}}" 
+                <a class="content-link document-link" data-link
+                    data-uuid="{{@root.resolvedReference.uuid}}"
+                    data-id="{{@root.resolvedReference.id}}"
+                    data-type="{{@root.resolvedReference.documentName}}"
                     data-tooltip="{{localize (concat "DOCUMENT." @root.resolvedReference.documentName)}}"
                 >
                     {{#if @root.resolvedReference.img}}
@@ -46,10 +87,11 @@
 
 {{#if editable}}
     <div class="controls">
-        <a data-action="configure" 
+        <a data-action="configure"
             data-tooltip="COSMERE.Utils.MatchDocument.Target.Configure"
         >
             <i class="fa-solid fa-gear"></i>
         </a>
     </div>
+{{/if}}
 {{/if}}

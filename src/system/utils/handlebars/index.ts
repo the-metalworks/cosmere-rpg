@@ -12,6 +12,7 @@ import {
     AttackType,
     TurnSpeed,
     ItemResourceRechargeType,
+    ItemResource,
 } from '@system/types/cosmere';
 
 import { CosmereActor } from '@system/documents/actor';
@@ -285,6 +286,40 @@ Handlebars.registerHelper(
                 }
             }
 
+            if (item.hasResources() && item.system.primaryResource !== 'none') {
+                context.hasResource = true;
+                const resourceType: ItemResource = item.system.primaryResource;
+
+                context.resource = {};
+                context.resource.value =
+                    item.system.resources[resourceType]?.value;
+                context.resource.max = item.system.resources[resourceType]?.max;
+                context.resource.icon =
+                    CONFIG.COSMERE.item.resource.types[resourceType].icon;
+                context.resource.label =
+                    CONFIG.COSMERE.item.resource.types[
+                        resourceType
+                    ].labelPlural;
+                context.resource.addTooltip = game.i18n.format(
+                    'COSMERE.Actor.Sheet.Equipment.IncreaseResource',
+                    {
+                        resource: game.i18n.localize(
+                            CONFIG.COSMERE.item.resource.types[resourceType]
+                                .label,
+                        ),
+                    },
+                );
+                context.resource.removeTooltip = game.i18n.format(
+                    'COSMERE.Actor.Sheet.Equipment.DecreaseResource',
+                    {
+                        resource: game.i18n.localize(
+                            CONFIG.COSMERE.item.resource.types[resourceType]
+                                .label,
+                        ),
+                    },
+                );
+            }
+
             if (item.hasTraits()) {
                 subtitle.push(
                     ...item.system.traitsArray
@@ -369,6 +404,8 @@ Handlebars.registerHelper(
                         .consumption) {
                         const consumesResource =
                             consumable.type === ItemConsumeType.Resource;
+                        const consumesItemResource =
+                            consumable.type === ItemConsumeType.ItemResource;
                         // const consumesItem =
                         //     consumable.type === ItemConsumeType.Item;
                         const consumesItem = false;
@@ -378,6 +415,7 @@ Handlebars.registerHelper(
                             type: consumable.type,
                             value: consumable.value,
                             consumesResource,
+                            consumesItemResource,
                             consumesItem,
 
                             ...(consumable.type === ItemConsumeType.Resource
@@ -387,6 +425,18 @@ Handlebars.registerHelper(
                                           CONFIG.COSMERE.resources[
                                               consumable.resource
                                           ].label,
+                                  }
+                                : {}),
+
+                            ...(consumable.type === ItemConsumeType.ItemResource
+                                ? {
+                                      resource: consumable.resource,
+                                      resourceLabel:
+                                          CONFIG.COSMERE.item.resource.types[
+                                              consumable.resource
+                                          ].label,
+                                      relativeTo: item,
+                                      matchDocument: consumable.matchDocument,
                                   }
                                 : {}),
                         });
@@ -530,13 +580,29 @@ Handlebars.registerHelper(
     'resourceCostLabel',
     (consume: ActionItemDataModel.ConsumeData) => {
         const { value } = consume;
-        const resource = game.i18n.localize(
-            consume.type === ItemConsumeType.Resource
-                ? CONFIG.COSMERE.resources[consume.resource].label
-                : consume.type === ItemConsumeType.ItemResource
-                  ? CONFIG.COSMERE.item.resource.types[consume.resource].label
-                  : 'GENERIC.Unknown',
-        );
+        let resource = '';
+        if (consume.type === ItemConsumeType.Resource) {
+            resource = game.i18n.localize(
+                CONFIG.COSMERE.resources[consume.resource].label ??
+                    'GENERIC.Unknown',
+            );
+        } else if (consume.type === ItemConsumeType.ItemResource) {
+            const singular = value.min == 1 && value.max == 1;
+            if (singular) {
+                resource = game.i18n.localize(
+                    CONFIG.COSMERE.item.resource.types[consume.resource]
+                        .label ?? 'GENERIC.Unknown',
+                );
+            } else {
+                resource = game.i18n.localize(
+                    CONFIG.COSMERE.item.resource.types[consume.resource]
+                        .labelPlural ?? 'GENERIC.Unknown',
+                );
+            }
+        }
+        // else if (consume.type === ItemConsumeType.Item){
+
+        // }
 
         let label = '';
 

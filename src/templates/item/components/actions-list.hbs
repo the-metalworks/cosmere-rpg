@@ -22,8 +22,8 @@
 
     {{#each actions as |action|}}
     {{#with (itemContext action) as |ctx|}}
-        <li class="item action" 
-            data-id="{{action.id}}" 
+        <li class="item action"
+            data-id="{{action.id}}"
             data-item-uuid="{{action.uuid}}"
             {{#if @root.editable}}data-drag="true"{{/if}}
         >
@@ -56,7 +56,7 @@
                 </div>
 
                 {{!-- Cost --}}
-                <div class="detail wide">
+                <div class="detail wide nowrap">
                     {{#if ctx.hasConsume}}
                         {{#if (gt ctx.consume.length 1)}}
                             <span>{{localize "COSMERE.Actor.Sheet.Actions.Consume.Multiple"}}</span>
@@ -66,7 +66,18 @@
                             {{#if consume.consumesResource}}
                                 <span>{{resourceCostLabel consume}}</span>
                             {{/if}}
+                            {{#if consume.consumesItemResource}}
+                                <span>{{resourceCostLabel consume}}</span>
 
+                                <span>{{localize "GENERIC.From"}}</span>
+                                <div class="target">
+                                    {{app-match-document-target
+                                        value=consume.matchDocument
+                                        relativeTo=consume.relativeTo
+                                        short=true
+                                    }}
+                                </div>
+                            {{/if}}
                             {{!-- TODO: Item consume --}}
                             {{#if consume.consumesItem}}
                                 <span>—</span>
