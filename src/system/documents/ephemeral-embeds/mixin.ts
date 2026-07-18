@@ -70,11 +70,15 @@ export function EphemeralEmbeddedDocumentsMixin<
                     const ephemeralDocuments = generatorFn
                         .call(this as unknown as DocumentOfType<DocumentType>)
                         .map((doc) => {
-                            const newDoc = new (doc.constructor as new (
+                            // Get document constructor
+                            const cls = doc.constructor as new (
                                 ...args: unknown[]
-                            ) => DocumentOfType<EmbeddedTypesOf<DocumentType>>)(
-                                foundry.utils.mergeObject(doc.toObject(), {
-                                    _id: doc.id ?? foundry.utils.randomID(),
+                            ) => DocumentOfType<EmbeddedTypesOf<DocumentType>>;
+
+                            const data = foundry.utils.mergeObject(
+                                doc.toObject(),
+                                {
+                                    _id: doc.id ?? foundry.utils.randomID(), // Ensure id is set
                                     flags: {
                                         [SYSTEM_ID]: {
                                             meta: {
@@ -82,17 +86,11 @@ export function EphemeralEmbeddedDocumentsMixin<
                                             },
                                         },
                                     },
-                                }),
-                                {
-                                    parent: this,
                                 },
                             );
 
-                            Object.entries(doc.apps).forEach(
-                                ([id, app]) => (newDoc.apps[id] = app),
-                            );
-
-                            return newDoc;
+                            // Create new instance of document so we can assign the parent
+                            return new cls(data, { parent: this });
                         });
                     const concreteDocuments = (
                         Array.from(collection) as object[]
