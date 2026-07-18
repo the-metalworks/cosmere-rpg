@@ -1844,6 +1844,7 @@
         "Description": "Description",
         "Talent": "Talent",
         "Goal": "Goal",
+        "From": "from",
         "Button": {
             "Source": "Edit Source",
             "Roll": "Roll",

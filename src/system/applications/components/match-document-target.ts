@@ -144,6 +144,7 @@ export class MatchDocumentTargetComponent extends HandlebarsApplicationComponent
             resolvedDocument,
             resolvedReference,
             editable: params.editable !== false && params.name,
+            short: params.short,
         });
     }
 }
@@ -155,6 +156,7 @@ export namespace MatchDocumentTargetComponent {
         type?: foundry.abstract.Document.Type;
         name?: string;
         editable?: boolean;
+        short?: boolean;
     }
 }
 
