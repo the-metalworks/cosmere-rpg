@@ -12,6 +12,7 @@ import {
     AttackType,
     TurnSpeed,
     ItemResourceRechargeType,
+    ItemResource,
 } from '@system/types/cosmere';
 
 import { CosmereActor } from '@system/documents/actor';
@@ -283,6 +284,40 @@ Handlebars.registerHelper(
                         });
                     }
                 }
+            }
+
+            if (item.hasResources() && item.system.primaryResource !== 'none') {
+                context.hasResource = true;
+                const resourceType: ItemResource = item.system.primaryResource;
+
+                context.resource = {};
+                context.resource.value =
+                    item.system.resources[resourceType]?.value;
+                context.resource.max = item.system.resources[resourceType]?.max;
+                context.resource.icon =
+                    CONFIG.COSMERE.item.resource.types[resourceType].icon;
+                context.resource.label =
+                    CONFIG.COSMERE.item.resource.types[
+                        resourceType
+                    ].labelPlural;
+                context.resource.addTooltip = game.i18n.format(
+                    'COSMERE.Actor.Sheet.Equipment.IncreaseResource',
+                    {
+                        resource: game.i18n.localize(
+                            CONFIG.COSMERE.item.resource.types[resourceType]
+                                .label,
+                        ),
+                    },
+                );
+                context.resource.removeTooltip = game.i18n.format(
+                    'COSMERE.Actor.Sheet.Equipment.DecreaseResource',
+                    {
+                        resource: game.i18n.localize(
+                            CONFIG.COSMERE.item.resource.types[resourceType]
+                                .label,
+                        ),
+                    },
+                );
             }
 
             if (item.hasTraits()) {

@@ -45,6 +45,8 @@ export class ActorEquipmentListComponent extends ActorItemListComponent {
         'cycle-equip': this.onCycleEquip,
         'decrease-quantity': this.onDecreaseQuantity,
         'increase-quantity': this.onIncreaseQuantity,
+        'decrease-resource': this.onDecreaseResource,
+        'increase-resource': this.onIncreaseResource,
     };
     /* eslint-enable @typescript-eslint/unbound-method */
 
@@ -119,6 +121,20 @@ export class ActorEquipmentListComponent extends ActorItemListComponent {
         await this.triggerQuantityChange(event, true);
     }
 
+    public static async onDecreaseResource(
+        this: ActorEquipmentListComponent,
+        event: Event,
+    ) {
+        await this.triggerResourceChange(event, false);
+    }
+
+    public static async onIncreaseResource(
+        this: ActorEquipmentListComponent,
+        event: Event,
+    ) {
+        await this.triggerResourceChange(event, true);
+    }
+
     /* --- Event handlers --- */
     private triggerCurrencyChange() {
         const event = new CustomEvent('currency', {});
@@ -157,6 +173,51 @@ export class ActorEquipmentListComponent extends ActorItemListComponent {
         await this.render();
 
         this.triggerCurrencyChange();
+    }
+
+    private async triggerResourceChange(
+        this: ActorEquipmentListComponent,
+        event: Event,
+        increase = true,
+    ) {
+        // Get item
+        const item = AppUtils.getItemFromEvent(event, this.application.actor);
+        if (!item) return;
+        if (!item.hasResources()) return;
+        const primaryResource = item.system.primaryResource;
+        if (primaryResource === 'none') return;
+
+        let modifier = increase ? 1 : -1;
+
+        if (areKeysPressed(KEYBINDINGS.CHANGE_QUANTITY_BY_5)) {
+            modifier *= 5;
+        } else if (areKeysPressed(KEYBINDINGS.CHANGE_QUANTITY_BY_10)) {
+            modifier *= 10;
+        } else if (areKeysPressed(KEYBINDINGS.CHANGE_QUANTITY_BY_50)) {
+            modifier *= 50;
+        }
+
+        const resource = item.getResource(primaryResource);
+        if (!resource) return;
+
+        const newResourceValue =
+            resource.value + modifier < resource.max
+                ? resource.value + modifier
+                : resource.max;
+
+        await item.update(
+            {
+                system: {
+                    resources: {
+                        [primaryResource]: {
+                            value: newResourceValue,
+                        },
+                    },
+                },
+            },
+            { render: false },
+        );
+        await this.render();
     }
 
     /* --- Context --- */
