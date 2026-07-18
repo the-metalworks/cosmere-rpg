@@ -97,9 +97,6 @@
                         <section class="description collapsible-content">
                             <div class="wrapper">
                                 {{#with (lookup section.itemData parent.id) as |parentData|}}
-                                    {{log "section:" section}}
-                                    {{log "section itemData:" section.itemData}}
-                                    {{log "parentData:" parentData}}
                                     {{{default parentData.descriptionHTML '<p>—</p>'}}}
                                 {{/with}}
                             </div>
