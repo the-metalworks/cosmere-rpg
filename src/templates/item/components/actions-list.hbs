@@ -4,7 +4,7 @@
             <div class="img"></div>
             <span class="title">{{localize "COSMERE.Item.Sheet.ActionsList.Description"}}</span>
             <span class="subtitle wide">{{localize "COSMERE.Item.Sheet.ActionsList.Action"}}</span>
-            <span class="subtitle wide">{{localize "COSMERE.Item.Sheet.ActionsList.Cost"}}</span>
+            <span class="subtitle extrawide">{{localize "COSMERE.Item.Sheet.ActionsList.Cost"}}</span>
             <span class="subtitle wide">{{localize "COSMERE.Item.Sheet.ActionsList.Uses"}}</span>
             <div class="controls icon active">
                 {{#if editable}}
@@ -56,7 +56,7 @@
                 </div>
 
                 {{!-- Cost --}}
-                <div class="detail wide nowrap">
+                <div class="detail extrawide nowrap">
                     {{#if ctx.hasConsume}}
                         {{#if (gt ctx.consume.length 1)}}
                             <span>{{localize "COSMERE.Actor.Sheet.Actions.Consume.Multiple"}}</span>
