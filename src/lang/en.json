@@ -194,7 +194,9 @@
                     "IncreaseQuantity": "Increase quantity",
                     "DecreaseQuantity": "Decrease quantity",
                     "Equip": "Equip",
-                    "Resources": "Resources"
+                    "Resources": "Resources",
+                    "DecreaseResource": "Remove {resource}",
+                    "IncreaseResource": "Add {resource}"
                 },
                 "Inventory": {
                     "label": "Inventory",

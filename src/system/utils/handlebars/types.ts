@@ -24,6 +24,9 @@ export interface ItemContext {
         value: number;
         max: number;
         label: string;
+        addTooltip: string;
+        removeTooltip: string;
+        icon: string;
     }>;
     price: Partial<{
         value: number;

@@ -19,7 +19,7 @@
             <span class="subtitle slim">
                 {{localize "COSMERE.Actor.Sheet.Equipment.Equip"}}
             </span>
-            <span class="subtitle">
+            <span class="subtitle wide">
                 {{localize "COSMERE.Actor.Sheet.Equipment.Resources"}}
             </span>
             <div class="controls icon active">
@@ -150,14 +150,33 @@
             {{/if}}
             </div>
 
-
             {{!-- Resources --}}
-            <div class="detail resource">
+            <div class="detail wide resource">
                 {{#if ctx.hasResource}}
-                    <span class="val">{{ctx.resource.value}}</span>
-                    <span>/</span>
-                    <span class="val">{{ctx.resource.max}}</span>
-                    <span>{{localize ctx.resource.label}}</span>
+                    {{#if @root.editable}}
+                    <a role="button"
+                        data-action="decrease-resource"
+                        data-tooltip="{{ctx.resource.removeTooltip}}"
+                    >
+                        <i class="fa-solid fa-minus"></i>
+                    </a>
+                    {{log ctx.resource.removeTooltip}}
+                    {{/if}}
+                    <div>
+                        <span class="val">{{ctx.resource.value}}</span>
+                        <span>/</span>
+                        <span class="val">{{ctx.resource.max}}</span>
+                        <i class="{{ctx.resource.icon}}" data-tooltip={{ctx.resource.label}}></i>
+                    </div>
+
+                    {{#if @root.editable}}
+                    <a role="button"
+                        data-action="increase-resource"
+                        data-tooltip="{{ctx.resource.addTooltip}}"
+                    >
+                        <i class="fa-solid fa-plus"></i>
+                    </a>
+                    {{/if}}
                 {{else}}
                     <span class="val none">—</span>
                 {{/if}}
