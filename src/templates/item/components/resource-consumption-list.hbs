@@ -16,8 +16,8 @@
                         {{/if}}
                     </span>
 
-                    <span>from</span>
-                    
+                    <span>{{localize "COSMERE.Generic.From"}}</span>
+
                     <div class="target">
                         {{app-match-document-target
                             value=consume.matchDocument
@@ -28,12 +28,12 @@
 
                 <div class="controls">
                     {{#if (not disabled)}}
-                        <a data-action="edit-consumption" 
+                        <a data-action="edit-consumption"
                             data-tooltip="COSMERE.Item.Sheet.Activation.ResourceConsumption.Edit"
                         >
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>
-                        <a data-action="delete-consumption" 
+                        <a data-action="delete-consumption"
                             data-tooltip="COSMERE.Item.Sheet.Activation.ResourceConsumption.Delete"
                         >
                             <i class="fa-solid fa-trash"></i>
@@ -48,7 +48,7 @@
     </ul>
 </div>
 <div class="controls">
-    <a data-action="add-consumption" 
+    <a data-action="add-consumption"
         data-tooltip="COSMERE.Item.Sheet.Activation.ResourceConsumption.Add"
     >
         <i class="fa-solid fa-plus"></i>
