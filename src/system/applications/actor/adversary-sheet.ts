@@ -104,6 +104,7 @@ export class AdversarySheet extends BaseActorSheet<AdversarySheetRenderContext> 
     protected override _onPosition(options: unknown): void {
         super._onPosition(options);
 
+        if (this.minimized) { return; }
         if (this.isApplyingPositionConstraint) return;
 
         const width = this.position.width as number;
