@@ -412,6 +412,18 @@ export class ActorActionsListComponent extends ActorItemListComponent {
                             ]),
                 );
 
+                sectionActions.forEach((item) => {
+                    if (!Array.isArray(item)) return;
+
+                    if (item[0].id) {
+                        if (!(item[0].id in this.itemState)) {
+                            this.itemState[item[0].id] = {
+                                expanded: false,
+                            };
+                        }
+                    }
+                });
+
                 return {
                     ...section,
                     canAddNewItems: !!section.new,
@@ -430,17 +442,14 @@ export class ActorActionsListComponent extends ActorItemListComponent {
                           ),
                     items: sectionActions,
                     itemData: await this.prepareItemData(
-                        sectionActions
-                            .flat()
-                            .flat()
-                            .filter((item) => item.isAction()),
+                        sectionActions.flat().flat(),
                     ),
                 };
             }),
         );
     }
 
-    protected async prepareItemData(items: ActionItem[]) {
+    protected async prepareItemData(items: CosmereItem[]) {
         return await items.reduce(
             async (prev, item) => ({
                 ...(await prev),
@@ -450,8 +459,7 @@ export class ActorActionsListComponent extends ActorItemListComponent {
                               descriptionHTML: await TextEditor.enrichHTML(
                                   item.system.description.value,
                                   {
-                                      relativeTo: (item as ActionItem).system
-                                          .parent,
+                                      relativeTo: item.system.parent,
                                   },
                               ),
                           }
