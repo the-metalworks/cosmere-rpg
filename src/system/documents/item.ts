@@ -449,14 +449,9 @@ export class CosmereItem<
      * Currently checks equipped state for equippable items.
      */
     public get hasUsableActions(): boolean {
-        if (!this.hasActions) return false;
-        if (this.isEquippable()) {
-            if (this.system.equipped) {
-                return this.hasActions;
-            } else return false;
-        } else {
-            return this.hasActions;
-        }
+        return !this.isEquippable() || this.system.equipped 
+            ? this.hasActions
+            : false
     }
 
     public get actions(): readonly ActionItem[] {
