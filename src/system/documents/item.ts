@@ -1933,6 +1933,8 @@ export class CosmereItem<
                     damage: {
                         formula: this.strikeDieToFormula(),
                         type: this.strikeDamageType(),
+                        skill: null,
+                        attribute: null,
                     },
                     description: this.system.description,
                 },
