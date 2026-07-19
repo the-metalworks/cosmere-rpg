@@ -17,6 +17,8 @@ import DataModelUtils from '@system/utils/data-model';
 // Constants
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
+import { ItemResource } from '@src/system/types/cosmere';
+import { CosmereItem } from '@src/system/documents';
 
 export class MatchDocumentTargetComponent extends HandlebarsApplicationComponent<
     foundry.applications.api.ApplicationV2.AnyConstructor,
@@ -138,10 +140,25 @@ export class MatchDocumentTargetComponent extends HandlebarsApplicationComponent
             typeof lastStep.reference === 'string'
                 ? await fromUuid(lastStep.reference)
                 : lastStep.reference;
+        let resolvedDocumentResourceValue;
+        let resolvedDocumentResourceMax;
+        if (
+            resolvedDocument &&
+            params.resourceId &&
+            (resolvedDocument as CosmereItem).hasResources()
+        ) {
+            const resource = (resolvedDocument as CosmereItem).getResource(
+                params.resourceId,
+            );
+            resolvedDocumentResourceValue = resource?.value;
+            resolvedDocumentResourceMax = resource?.max;
+        }
 
         return Promise.resolve({
             ...params,
             resolvedDocument,
+            resolvedDocumentResourceValue,
+            resolvedDocumentResourceMax,
             resolvedReference,
             editable: params.editable !== false && params.name,
             short: params.short,
@@ -157,6 +174,7 @@ export namespace MatchDocumentTargetComponent {
         name?: string;
         editable?: boolean;
         short?: boolean;
+        resourceId?: ItemResource;
     }
 }
 
