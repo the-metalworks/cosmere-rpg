@@ -135,38 +135,6 @@ export const DYNAMIC_SECTIONS: Record<string, DynamicItemListSectionGenerator> =
                             !item.hasRelationshipOfType(
                                 ItemRelationship.Type.Child,
                             ),
-                        new: (parent: CosmereActor) =>
-                            CosmereItem.create(
-                                {
-                                    type: ItemType.Power,
-                                    name: game.i18n.format(
-                                        'COSMERE.Item.Type.Power.New',
-                                        {
-                                            type: game.i18n.localize(
-                                                config.label,
-                                            ),
-                                        },
-                                    ),
-                                    system: {
-                                        type,
-                                        activation: {
-                                            type: ActivationType.Utility,
-                                            cost: {
-                                                type: ActionCostType.Action,
-                                                value: 1,
-                                            },
-                                            consume: {
-                                                type: ItemConsumeType.Resource,
-                                                resource: Resource.Investiture,
-                                                value: {
-                                                    actual: 1,
-                                                },
-                                            },
-                                        },
-                                    },
-                                },
-                                { parent },
-                            ) as Promise<CosmereItem>,
                     } as ItemListSection;
                 }),
                 ...powersWithChildren.map((power) => ({
