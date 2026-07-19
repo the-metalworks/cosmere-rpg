@@ -136,7 +136,7 @@ Hooks.on('preCreateItem', (item: CosmereItem) => {
         (otherItem) =>
             otherItem.hasRelationships() &&
             otherItem.hasId() &&
-            otherItem.id === origin.id &&
+            (otherItem.system.id === origin.id || otherItem.id === origin.id) &&
             otherItem.type === origin.type,
     );
     if (!parentItem) return;

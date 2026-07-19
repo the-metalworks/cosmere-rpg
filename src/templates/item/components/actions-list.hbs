@@ -4,8 +4,8 @@
             <div class="img"></div>
             <span class="title">{{localize "COSMERE.Item.Sheet.ActionsList.Description"}}</span>
             <span class="subtitle wide">{{localize "COSMERE.Item.Sheet.ActionsList.Action"}}</span>
-            <span class="subtitle wide">{{localize "COSMERE.Item.Sheet.ActionsList.Cost"}}</span>
-            <span class="subtitle wide">{{localize "COSMERE.Item.Sheet.ActionsList.Uses"}}</span>
+            <span class="subtitle extrawide">{{localize "COSMERE.Item.Sheet.ActionsList.Cost"}}</span>
+            <span class="subtitle wide">{{localize "COSMERE.Item.Sheet.ActionsList.Resources"}}</span>
             <div class="controls icon active">
                 {{#if editable}}
                 <a data-action="create-action"
@@ -56,7 +56,7 @@
                 </div>
 
                 {{!-- Cost --}}
-                <div class="detail wide nowrap">
+                <div class="detail extrawide nowrap">
                     {{#if ctx.hasConsume}}
                         {{#if (gt ctx.consume.length 1)}}
                             <span>{{localize "COSMERE.Actor.Sheet.Actions.Consume.Multiple"}}</span>
@@ -91,27 +91,22 @@
                     {{/if}}
                 </div>
 
-                {{!-- Uses --}}
-                <div class="detail wide">
-                    {{#if ctx.hasUses}}
 
-                    {{#if (or (gt ctx.uses.max 1) (not ctx.uses.hasRecharge))}}
-                    <span>
-                        {{ ctx.uses.value }} / {{ctx.uses.max}}
-                        {{#if ctx.uses.hasRecharge}}
-                        {{localize ctx.uses.rechargeLabel }}
-                        {{/if}}
-                    </span>
-                    {{else}}
-                    <span {{#if (eq ctx.uses.value 0)}}class="inactive"{{/if}}>
-                        {{#if ctx.uses.hasRecharge}}
-                        {{localize ctx.uses.rechargeLabel }}
-                        {{/if}}
-                    </span>
-                    {{/if}}
 
+                {{!-- Resources --}}
+                <div class="detail wide resource">
+                    {{#if ctx.hasResource}}
+                        <div>
+                            <span class="val">{{ctx.resource.value}}</span>
+                            <span>/</span>
+                            <span class="val">{{ctx.resource.max}}</span>
+                            <i class="{{ctx.resource.icon}}" data-tooltip={{ctx.resource.label}}></i>
+                            {{#if ctx.resource.hasRecharge}}
+                                <span>{{localize ctx.resource.rechargeLabel}}</span>
+                            {{/if}}
+                        </div>
                     {{else}}
-                    <span>—</span>
+                        <span class="val none">—</span>
                     {{/if}}
                 </div>
 

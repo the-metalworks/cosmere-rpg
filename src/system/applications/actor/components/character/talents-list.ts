@@ -48,44 +48,96 @@ export const DYNAMIC_SECTIONS: Record<string, DynamicItemListSectionGenerator> =
             // Get powers
             const powers = actor.powers;
 
+            const powersWithoutChildren = powers.filter(
+                (p) => !p.hasRelationshipOfType(ItemRelationship.Type.Child),
+            );
+            const powersWithChildren = powers.filter((p) =>
+                p.hasRelationshipOfType(ItemRelationship.Type.Child),
+            );
+
             // Get list of unique power types
-            const powerTypes = [...new Set(powers.map((p) => p.system.type))];
+            const powerTypes = [
+                ...new Set(powersWithoutChildren.map((p) => p.system.type)),
+            ];
 
-            return powerTypes.map((type) => {
-                // Get config
-                const config = CONFIG.COSMERE.power.types[type];
+            return [
+                ...powerTypes.map((type) => {
+                    // Get config
+                    const config = CONFIG.COSMERE.power.types[type];
 
-                return {
-                    id: type,
-                    sortOrder: 100,
-                    label: game.i18n.localize(config.plural),
-                    itemTypeLabel: game.i18n.localize(config.label),
-                    default: false,
+                    return {
+                        id: type,
+                        sortOrder: 100,
+                        label: game.i18n.localize(config.plural),
+                        itemTypeLabel: game.i18n.localize(config.label),
+                        default: false,
+                        filter: (item: CosmereItem) =>
+                            item.isPower() &&
+                            item.system.type === type &&
+                            !item.hasRelationshipOfType(
+                                ItemRelationship.Type.Child,
+                            ),
+                        new: (parent: CosmereActor) =>
+                            CosmereItem.create(
+                                {
+                                    type: ItemType.Power,
+                                    name: game.i18n.format(
+                                        'COSMERE.Item.Type.Power.New',
+                                        {
+                                            type: game.i18n.localize(
+                                                config.label,
+                                            ),
+                                        },
+                                    ),
+                                    system: {
+                                        type,
+                                        activation: {
+                                            type: ActivationType.Utility,
+                                            cost: {
+                                                type: ActionCostType.Action,
+                                                value: 1,
+                                            },
+                                            consume: {
+                                                type: ItemConsumeType.Resource,
+                                                resource: Resource.Investiture,
+                                                value: {
+                                                    actual: 1,
+                                                },
+                                            },
+                                        },
+                                    },
+                                },
+                                { parent },
+                            ) as Promise<CosmereItem>,
+                    } as ItemListSection;
+                }),
+                ...powersWithChildren.map((power) => ({
+                    id: power.system.id,
+                    sortOrder: 150,
+                    label: power.name,
+                    itemTypeLabel: `${power.name} ${game.i18n?.localize('COSMERE.Item.Type.Talent.label')}`,
+                    default: true,
                     filter: (item: CosmereItem) =>
-                        item.isPower() && item.system.type === type,
+                        (item.isPower() &&
+                            item.system.id === power.system.id) ||
+                        (item.hasRelationships() &&
+                            item.isRelatedTo(
+                                power,
+                                ItemRelationship.Type.Parent,
+                            )),
                     new: (parent: CosmereActor) =>
                         CosmereItem.create(
                             {
-                                type: ItemType.Power,
-                                name: game.i18n.format(
-                                    'COSMERE.Item.Type.Power.New',
-                                    {
-                                        type: game.i18n.localize(config.label),
-                                    },
+                                type: ItemType.Talent,
+                                name: game.i18n.localize(
+                                    'COSMERE.Item.Type.Talent.New',
                                 ),
-                                system: {
-                                    type,
-                                    activation: {
-                                        type: ActivationType.Utility,
-                                        cost: {
-                                            type: ActionCostType.Action,
-                                            value: 1,
-                                        },
-                                        consume: {
-                                            type: ItemConsumeType.Resource,
-                                            resource: Resource.Investiture,
-                                            value: {
-                                                actual: 1,
+                                flags: {
+                                    [SYSTEM_ID]: {
+                                        meta: {
+                                            origin: {
+                                                type: ItemType.Power,
+                                                id: power.system.id,
                                             },
                                         },
                                     },
@@ -93,8 +145,8 @@ export const DYNAMIC_SECTIONS: Record<string, DynamicItemListSectionGenerator> =
                             },
                             { parent },
                         ) as Promise<CosmereItem>,
-                } as ItemListSection;
-            });
+                })),
+            ];
         },
         paths: (actor: CosmereActor) => {
             // Get paths

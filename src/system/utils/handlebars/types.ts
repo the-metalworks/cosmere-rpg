@@ -27,6 +27,8 @@ export interface ItemContext {
         addTooltip: string;
         removeTooltip: string;
         icon: string;
+        hasRecharge: boolean;
+        rechargeLabel: string;
     }>;
     price: Partial<{
         value: number;

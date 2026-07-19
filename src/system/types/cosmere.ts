@@ -216,6 +216,7 @@ export const enum ItemConsumeType {
 export const enum ItemResource {
     Uses = 'uses',
     Charges = 'charges',
+    Ammo = 'ammo',
 }
 
 export const enum ItemResourceRechargeType {

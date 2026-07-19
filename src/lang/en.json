@@ -175,6 +175,7 @@
                         "Optional": "{label} (Optional)"
                     },
                     "Uses": "Uses",
+                    "Resources": "Resources",
                     "Use": "Use Action",
                     "Strike": "Strike",
                     "BaseSectionName": "{type} Actions",
@@ -1335,6 +1336,7 @@
                     "Edit": "Edit",
                     "Delete": "Remove",
                     "View": "View",
+                    "Resources": "Resources",
                     "NewAction": {
                         "Name": "New Action"
                     }
@@ -1360,6 +1362,10 @@
                     "Charges": {
                         "Singular": "Charge",
                         "Plural": "Charges"
+                    },
+                    "Ammo": {
+                        "Singular": "Ammo",
+                        "Plural": "Ammo"
                     }
                 },
                 "Key": {

@@ -172,7 +172,7 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
 
                     const menuItems = [];
 
-                    if (item.hasResources()) {
+                    if (item.hasResources() && item.hasRecharge) {
                         menuItems.push(
                             /**
                              * NOTE: This is a TEMPORARY context menu option
@@ -188,7 +188,7 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
                         );
                     }
 
-                    if (!item.isStrikeAction) {
+                    if (!item.isEphemeral) {
                         menuItems.push(
                             {
                                 name: 'GENERIC.Button.Edit',
@@ -205,6 +205,14 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
                                 },
                             },
                         );
+                    } else {
+                        menuItems.push({
+                            name: 'COSMERE.Item.Sheet.ActionsList.View',
+                            icon: 'fa-solid fa-eye',
+                            callback: () => {
+                                void item.sheet?.render(true);
+                            },
+                        });
                     }
 
                     return menuItems.filter((i) => !!i);

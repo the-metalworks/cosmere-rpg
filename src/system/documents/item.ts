@@ -487,6 +487,21 @@ export class CosmereItem<
     }
 
     /**
+     * Returns true if any resource on the item has a recharge configured
+     */
+    public get hasRecharge(): boolean {
+        if (!this.hasResources()) return false;
+        let hasRecharge = false;
+        for (const resource of Object.values(this.system.resources)) {
+            if (!!resource?.recharge && resource.recharge !== 'none') {
+                hasRecharge = true;
+                break;
+            }
+        }
+        return hasRecharge;
+    }
+
+    /**
      * Returns true if effects list is not empty, or if there are nested effects
      */
     public get hasEffects(): boolean {
@@ -1874,8 +1889,8 @@ export class CosmereItem<
         const loadedTrait = this.getTrait(WeaponTraitId.Loaded);
         const hasLoadedTrait = !!loadedTrait && loadedTrait.active;
 
-        const usesResource = this.getResource(ItemResource.Uses);
-        const hasUsesResource = !!usesResource && usesResource.max > 0;
+        const ammoResource = this.getResource(ItemResource.Ammo);
+        const hasAmmoResource = !!ammoResource && ammoResource.max > 0;
 
         const actions: Item.CreateData[] = [
             {
@@ -1891,11 +1906,11 @@ export class CosmereItem<
                         },
                         type: ActivationType.SkillTest,
                         consumption:
-                            hasLoadedTrait && hasUsesResource
+                            hasLoadedTrait && hasAmmoResource
                                 ? [
                                       {
                                           type: ItemConsumeType.ItemResource,
-                                          resource: ItemResource.Uses,
+                                          resource: ItemResource.Ammo,
                                           matchDocument: {
                                               steps: [
                                                   {
@@ -1929,7 +1944,7 @@ export class CosmereItem<
             },
         ];
 
-        if (hasLoadedTrait && hasUsesResource) {
+        if (hasLoadedTrait && hasAmmoResource) {
             const eventId = foundry.utils.randomID();
 
             actions.push({
@@ -1956,7 +1971,7 @@ export class CosmereItem<
                                 macro: {
                                     type: 'script',
                                     command: `event.item.parent.update({
-                                        "system.resources.uses.value": event.item.parent.system.resources.uses.max
+                                        "system.resources.ammo.value": event.item.parent.system.resources.ammo.max
                                     })`,
                                 },
                             },
@@ -2248,7 +2263,7 @@ declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
                 'sheet.mode': 'edit' | 'view';
                 meta: {
                     origin: ItemOrigin;
-                    isEphemeral: boolean;
+                    isEphemeral?: boolean;
                 };
                 'meta.origin': ItemOrigin;
                 'meta.isEphemeral': boolean;
