@@ -188,7 +188,7 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
                         );
                     }
 
-                    if (!item.isStrikeAction) {
+                    if (!item.isEphemeral) {
                         menuItems.push(
                             {
                                 name: 'GENERIC.Button.Edit',

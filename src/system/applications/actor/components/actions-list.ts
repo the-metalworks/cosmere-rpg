@@ -550,7 +550,7 @@ export class ActorActionsListComponent extends ActorItemListComponent {
                         );
                     }
 
-                    if (!item.isStrikeAction) {
+                    if (!item.isEphemeral) {
                         menuItems.push(
                             {
                                 name: 'GENERIC.Button.Edit',
