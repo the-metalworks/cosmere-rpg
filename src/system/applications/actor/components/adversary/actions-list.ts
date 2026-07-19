@@ -23,7 +23,8 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
     ) {
         // Get all candidate items (actions, items with actions, and traits)
         const candidateItems = Array.from(this.application.actor.items).filter(
-            (item) => item.isAction() || item.hasActions || item.isTrait(),
+            (item) =>
+                item.isAction() || item.hasUsableActions || item.isTrait(),
         );
 
         // Get all actions
