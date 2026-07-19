@@ -199,6 +199,7 @@ export interface ItemResourceConfig {
     key: ItemResource;
     label: string;
     labelPlural: string;
+    icon: string;
 }
 
 export interface ItemConsumeTypeConfig {

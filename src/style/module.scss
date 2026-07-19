@@ -476,8 +476,16 @@
                 color: var(--cosmere-color-text-sub);
                 text-transform: uppercase;
 
+                &.nowrap{
+                    white-space:nowrap;
+                }
+
                 &.wide {
                     width: 76px;
+                }
+
+                &.extrawide {
+                    width: 114px;
                 }
 
                 &.thin {
@@ -500,6 +508,13 @@
                 font-size: var(--font-size-10);
                 font-weight: 600;
                 font-variant: lining-nums;
+                vertical-align: middle;
+
+                .target {
+                    display: inline-block;
+                    vertical-align: middle;
+                    font-size: var(--font-size-14);
+                }
             }
 
             .action,
@@ -509,6 +524,7 @@
             }
 
             .quantity,
+            .resource,
             .duration {
                 display: flex;
                 justify-content: space-evenly;
@@ -697,7 +713,7 @@
             font-size: var(--font-size-12);
             font-weight: 600;
             padding-top: 0.25rem;
-            width: 24px;
+            width: 27px;
             text-align: center;
 
             .operator {
@@ -706,6 +722,10 @@
 
             .val {
                 color: var(--cosmere-color-text-main);
+            }
+
+            .modified {
+                color: var(--cosmere-color-highlight)
             }
         }
 
