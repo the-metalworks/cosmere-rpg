@@ -31,6 +31,8 @@ import { SortMode } from './search-bar';
 // Constants
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
+import { areKeysPressed } from '@src/system/utils/generic';
+import { KEYBINDINGS } from '@src/system/settings';
 
 interface ActionListSectionData extends ItemListSection {
     items: (CosmereItem | [CosmereItem, ActionItem[]])[]; // Either an action item, or a parent item with its actions
@@ -287,6 +289,77 @@ const MISC_SECTION: ItemListSection = {
 export class ActorActionsListComponent extends ActorItemListComponent {
     static TEMPLATE = `${TEMPLATES.DIRECTORY}${TEMPLATES.ACTOR_BASE_ACTIONS_LIST}`;
 
+    /**
+     * NOTE: Unbound methods is the standard for defining actions
+     * within ApplicationV2
+     */
+    /* eslint-disable @typescript-eslint/unbound-method */
+    static readonly ACTIONS = {
+        ...super.ACTIONS,
+        'decrease-resource': this.onDecreaseResource,
+        'increase-resource': this.onIncreaseResource,
+    };
+    /* eslint-enable @typescript-eslint/unbound-method */
+
+    public static async onDecreaseResource(
+        this: ActorActionsListComponent,
+        event: Event,
+    ) {
+        await this.triggerResourceChange(event, false);
+    }
+
+    public static async onIncreaseResource(
+        this: ActorActionsListComponent,
+        event: Event,
+    ) {
+        await this.triggerResourceChange(event, true);
+    }
+
+    private async triggerResourceChange(
+        this: ActorActionsListComponent,
+        event: Event,
+        increase = true,
+    ) {
+        // Get item
+        const item = AppUtils.getItemFromEvent(event, this.application.actor);
+        if (!item) return;
+        if (!item.hasResources()) return;
+        const primaryResource = item.system.primaryResource;
+        if (primaryResource === 'none') return;
+
+        let modifier = increase ? 1 : -1;
+
+        if (areKeysPressed(KEYBINDINGS.CHANGE_QUANTITY_BY_5)) {
+            modifier *= 5;
+        } else if (areKeysPressed(KEYBINDINGS.CHANGE_QUANTITY_BY_10)) {
+            modifier *= 10;
+        } else if (areKeysPressed(KEYBINDINGS.CHANGE_QUANTITY_BY_50)) {
+            modifier *= 50;
+        }
+
+        const resource = item.getResource(primaryResource);
+        if (!resource) return;
+
+        const newResourceValue =
+            resource.value + modifier < resource.max
+                ? resource.value + modifier
+                : resource.max;
+
+        await item.update(
+            {
+                system: {
+                    resources: {
+                        [primaryResource]: {
+                            value: newResourceValue,
+                        },
+                    },
+                },
+            },
+            { render: false },
+        );
+        await this.render();
+    }
+
     /* --- Context --- */
 
     public async _prepareContext(
@@ -495,7 +568,7 @@ export class ActorActionsListComponent extends ActorItemListComponent {
 
                     const menuItems = [];
 
-                    if (item.hasResources()) {
+                    if (item.hasResources() && item.hasRecharge) {
                         menuItems.push(
                             /**
                              * NOTE: This is a TEMPORARY context menu option
@@ -511,7 +584,7 @@ export class ActorActionsListComponent extends ActorItemListComponent {
                         );
                     }
 
-                    if (!item.isStrikeAction) {
+                    if (!item.isEphemeral) {
                         menuItems.push(
                             {
                                 name: 'GENERIC.Button.Edit',
@@ -528,6 +601,14 @@ export class ActorActionsListComponent extends ActorItemListComponent {
                                 },
                             },
                         );
+                    } else {
+                        menuItems.push({
+                            name: 'COSMERE.Item.Sheet.ActionsList.View',
+                            icon: 'fa-solid fa-eye',
+                            callback: () => {
+                                void item.sheet?.render(true);
+                            },
+                        });
                     }
 
                     return menuItems.filter((i) => !!i);

@@ -487,6 +487,21 @@ export class CosmereItem<
     }
 
     /**
+     * Returns true if any resource on the item has a recharge configured
+     */
+    public get hasRecharge(): boolean {
+        if (!this.hasResources()) return false;
+        let hasRecharge = false;
+        for (const resource of Object.values(this.system.resources)) {
+            if (!!resource?.recharge && resource.recharge !== 'none') {
+                hasRecharge = true;
+                break;
+            }
+        }
+        return hasRecharge;
+    }
+
+    /**
      * Returns true if effects list is not empty, or if there are nested effects
      */
     public get hasEffects(): boolean {
