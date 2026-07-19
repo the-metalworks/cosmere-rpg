@@ -567,6 +567,14 @@ export class ActorActionsListComponent extends ActorItemListComponent {
                                 },
                             },
                         );
+                    } else {
+                        menuItems.push({
+                            name: 'COSMERE.Item.Sheet.ActionsList.View',
+                            icon: 'fa-solid fa-eye',
+                            callback: () => {
+                                void item.sheet?.render(true);
+                            },
+                        });
                     }
 
                     return menuItems.filter((i) => !!i);
