@@ -390,6 +390,24 @@ function configureFonts() {
                 },
             ],
         },
+        'Penumbra Sans Std': {
+            editor: true,
+            // TODO: convert to woff?
+            fonts: [
+                {
+                    urls: [
+                        `systems/${SYSTEM_ID}/assets/fonts/penumbra-sans-std/PenumbraSansStd-Semibold.otf`,
+                    ],
+                    weight: 600,
+                },
+                {
+                    urls: [
+                        `systems/${SYSTEM_ID}/assets/fonts/penumbra-sans-std/PenumbraSansStd-Bold.otf`,
+                    ],
+                    weight: 'bold',
+                },
+            ],
+        },
         'Cosmere Dingbats': {
             editor: true,
             fonts: [
