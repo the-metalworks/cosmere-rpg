@@ -68,6 +68,7 @@
             flex: 1;
 
             .document-name {
+                width: 100%;
                 font-family: var(--cosmere-font-header-sc);
                 font-weight: 600;
                 font-size: var(--font-size-48);
@@ -82,6 +83,7 @@
             }
 
             .details {
+                width: 100%;
                 font-family: var(--cosmere-font-normal);
                 font-size: var(--font-size-15);
                 font-weight: bold;
@@ -104,6 +106,7 @@
             flex: unset;
             display: flex;
             align-items: center;
+            padding-left: .5rem;
 
             .level {
                 .container {

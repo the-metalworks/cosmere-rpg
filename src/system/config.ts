@@ -715,11 +715,19 @@ const COSMERE: CosmereRPGConfig = {
                     key: ItemResource.Uses,
                     label: 'COSMERE.Item.Resource.Types.Uses.Singular',
                     labelPlural: 'COSMERE.Item.Resource.Types.Uses.Plural',
+                    icon: 'fa-regular fa-circle-check',
                 },
                 [ItemResource.Charges]: {
                     key: ItemResource.Charges,
                     label: 'COSMERE.Item.Resource.Types.Charges.Singular',
                     labelPlural: 'COSMERE.Item.Resource.Types.Charges.Plural',
+                    icon: 'fa-solid fa-bolt',
+                },
+                [ItemResource.Ammo]: {
+                    key: ItemResource.Ammo,
+                    label: 'COSMERE.Item.Resource.Types.Ammo.Singular',
+                    labelPlural: 'COSMERE.Item.Resource.Types.Ammo.Plural',
+                    icon: 'fa-solid fa-burst',
                 },
             },
 

@@ -175,6 +175,7 @@
                         "Optional": "{label} (Optional)"
                     },
                     "Uses": "Uses",
+                    "Resources": "Resources",
                     "Use": "Use Action",
                     "Strike": "Strike",
                     "BaseSectionName": "{type} Actions",
@@ -192,7 +193,11 @@
                     "Quantity": "Quantity",
                     "Weight": "Weight",
                     "IncreaseQuantity": "Increase quantity",
-                    "DecreaseQuantity": "Decrease quantity"
+                    "DecreaseQuantity": "Decrease quantity",
+                    "Equip": "Equip",
+                    "Resources": "Resources",
+                    "DecreaseResource": "Remove {resource}",
+                    "IncreaseResource": "Add {resource}"
                 },
                 "Inventory": {
                     "label": "Inventory",
@@ -1331,6 +1336,7 @@
                     "Edit": "Edit",
                     "Delete": "Remove",
                     "View": "View",
+                    "Resources": "Resources",
                     "NewAction": {
                         "Name": "New Action"
                     }
@@ -1356,6 +1362,10 @@
                     "Charges": {
                         "Singular": "Charge",
                         "Plural": "Charges"
+                    },
+                    "Ammo": {
+                        "Singular": "Ammo",
+                        "Plural": "Ammo"
                     }
                 },
                 "Key": {
@@ -1840,6 +1850,7 @@
         "Description": "Description",
         "Talent": "Talent",
         "Goal": "Goal",
+        "From": "from",
         "Button": {
             "Source": "Edit Source",
             "Roll": "Roll",

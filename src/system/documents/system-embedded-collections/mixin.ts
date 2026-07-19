@@ -138,52 +138,6 @@ export function SystemEmbeddedCollectionsMixin<
     };
 }
 
-export function adventureMixin(
-    cls: typeof Adventure,
-    fields: Record<string, foundry.abstract.Document.AnyConstructor>,
-) {
-    return class extends cls {
-        declare static __schema: foundry.data.fields.SchemaField<Adventure.Schema>;
-
-        public static defineSchema() {
-            const baseSchema = super.defineSchema();
-
-            return {
-                ...baseSchema,
-                ...Object.entries(fields).reduce(
-                    (acc, [key, cls]) => ({
-                        [key]: new foundry.data.fields.SetField(
-                            new foundry.data.fields.EmbeddedDataField(cls),
-                        ),
-                    }),
-                    {},
-                ),
-            } as unknown as typeof baseSchema;
-        }
-
-        public static get schema(): foundry.data.fields.SchemaField<Adventure.Schema> {
-            if (this.__schema) return this.__schema;
-
-            const base = this.baseDocument;
-            if (!base.hasOwnProperty('__schema')) {
-                const schema = new foundry.data.fields.SchemaField(
-                    this.defineSchema(),
-                );
-                Object.defineProperty(base, '__schema', {
-                    value: schema,
-                    writable: false,
-                });
-            }
-            Object.defineProperty(this, '__schema', {
-                value: (base as unknown as { __schema: unknown }).__schema,
-                writable: false,
-            });
-
-            return this.__schema;
-        }
-    };
-}
-
 class PseudoEmbeddedCollectionField<
     const ElementFieldType extends foundry.abstract.Document.AnyConstructor,
     const ParentDataModel extends foundry.abstract.Document.Any,

@@ -10,6 +10,7 @@ import {
     ActorActionsListComponentRenderContext,
 } from '../actions-list';
 import { SortMode } from '../search-bar';
+import { AppContextMenu } from '@src/system/applications/utils/context-menu';
 
 // Constants
 
@@ -126,22 +127,100 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
         const sectionActions = sectionItems.map((item) =>
             item.isAction() || (allowNonActions && item.actions.length === 0)
                 ? item
-                : item.actions.length === 1
-                  ? item.actions[0]
-                  : ([item, item.actions] as [CosmereItem, ActionItem[]]),
+                : ([item, item.actions] as [CosmereItem, ActionItem[]]),
         );
+
+        sectionActions.forEach((item) => {
+            if (!Array.isArray(item)) return;
+
+            if (item[0].id) {
+                if (!(item[0].id in this.itemState)) {
+                    this.itemState[item[0].id] = {
+                        expanded: false,
+                    };
+                }
+            }
+        });
 
         return {
             ...section,
             canAddNewItems: !!section.new,
             items: sectionActions,
-            itemData: await this.prepareItemData(
-                sectionActions
-                    .flat()
-                    .flat()
-                    .filter((item) => item.isAction()),
-            ),
+            itemData: await this.prepareItemData(sectionActions.flat().flat()),
         };
+    }
+    public _onInitialize(): void {
+        if (this.application.isEditable) {
+            // Create context menu
+            AppContextMenu.create({
+                parent: this as AppContextMenu.Parent,
+                items: (element) => {
+                    console.log('AppContextMenu items callback', { element });
+
+                    // Get item uuid
+                    const itemUuid = $(element)
+                        .closest('.item[data-item-uuid]')
+                        .data('item-uuid') as string;
+
+                    // Get item from loaded actor sheet
+                    const item =
+                        this.application.actor.getEmbeddedDocumentFromUuid(
+                            itemUuid,
+                        );
+
+                    if (!(item instanceof CosmereItem)) return [];
+
+                    const menuItems = [];
+
+                    if (item.hasResources() && item.hasRecharge) {
+                        menuItems.push(
+                            /**
+                             * NOTE: This is a TEMPORARY context menu option
+                             * until we can handle recharging properly.
+                             */
+                            {
+                                name: 'COSMERE.Item.Activation.Uses.Recharge.Label',
+                                icon: 'fa-solid fa-rotate-left',
+                                callback: () => {
+                                    void item.recharge();
+                                },
+                            },
+                        );
+                    }
+
+                    if (!item.isEphemeral) {
+                        menuItems.push(
+                            {
+                                name: 'GENERIC.Button.Edit',
+                                icon: 'fa-solid fa-pen-to-square',
+                                callback: () => {
+                                    void item.sheet?.render(true);
+                                },
+                            },
+                            {
+                                name: 'GENERIC.Button.Remove',
+                                icon: 'fa-solid fa-trash',
+                                callback: () => {
+                                    void item.delete();
+                                },
+                            },
+                        );
+                    } else {
+                        menuItems.push({
+                            name: 'COSMERE.Item.Sheet.ActionsList.View',
+                            icon: 'fa-solid fa-eye',
+                            callback: () => {
+                                void item.sheet?.render(true);
+                            },
+                        });
+                    }
+
+                    return menuItems.filter((i) => !!i);
+                },
+                selectors: ['a[data-action="toggle-actions-controls"]'],
+                anchor: 'right',
+            });
+        }
     }
 }
 

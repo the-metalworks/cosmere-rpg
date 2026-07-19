@@ -1,6 +1,6 @@
 <div class="mod">
     <span class="operator">+</span>
-    <span class="val">{{derived skill.mod }}</span>
+    <span class="{{#if (gte skill.rank 5)}}modified{{else}}val{{/if}} ">{{derived skill.mod }}</span>
 </div>
 <a class="name" data-action="roll-skill">
     <span>{{ localize skill.label }}</span>
@@ -21,16 +21,24 @@
             <div>
         {{/if}}
         <ul class="pip-list">
-            {{#each (numberRange skill.rank)}}
-                <li class="pip active">
-                    <div {{#if ../editable}}data-action="adjust-skill-rank" data-index='{{@index}}'{{/if}}></div>
-                </li>
-            {{/each}}
-            {{#each (numberRange (sub 5 skill.rank))}}
-                <li class="pip{{#if (gt (add (add @index 1) ../skill.rank) ../maxSkillRank)}} locked{{/if}}">
-                    <div {{#if ../editable}}data-action="adjust-skill-rank" data-index='{{add @index ../skill.rank}}'{{/if}}></div>
-                </li>
-            {{/each}}
+            {{#if (gte skill.rank 5)}}
+                {{#each (numberRange 5)}}
+                    <li class="pip active">
+                        <div {{#if ../editable}}data-action="adjust-skill-rank" data-index='{{@index}}'{{/if}}></div>
+                    </li>
+                {{/each}}
+            {{else}}
+                {{#each (numberRange skill.rank)}}
+                    <li class="pip active">
+                        <div {{#if ../editable}}data-action="adjust-skill-rank" data-index='{{@index}}'{{/if}}></div>
+                    </li>
+                {{/each}}
+                {{#each (numberRange (sub 5 skill.rank))}}
+                    <li class="pip{{#if (gt (add (add @index 1) ../skill.rank) ../maxSkillRank)}} locked{{/if}}">
+                        <div {{#if ../editable}}data-action="adjust-skill-rank" data-index='{{add @index ../skill.rank}}'{{/if}}></div>
+                    </li>
+                {{/each}}
+            {{/if}}
         </ul>
         {{#if editable}}
             </a>

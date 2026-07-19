@@ -308,6 +308,7 @@ export declare class ComponentHandlebarsApplication {
     // public get item(): T extends 'Item' ? Item.Implementation : never;
 
     public readonly components: Record<string, HandlebarsApplicationComponent>;
+    public readonly minimized: boolean;
 
     public id: string;
     public document: foundry.abstract.Document.Any;

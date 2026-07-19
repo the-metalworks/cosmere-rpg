@@ -55,6 +55,7 @@ export function registerItemResource(data: ItemResourceConfigData) {
         id: data.id as ItemResource,
         label: data.label,
         labelPlural: data.labelPlural,
+        icon: data.icon,
         source: data.source,
         priority: data.priority,
         strict: data.strict,
@@ -67,6 +68,7 @@ export function registerItemResource(data: ItemResourceConfigData) {
             key: cleaned.id,
             label: cleaned.label,
             labelPlural: cleaned.labelPlural,
+            icon: cleaned.icon,
         };
 
         return true;
