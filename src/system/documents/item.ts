@@ -1889,8 +1889,8 @@ export class CosmereItem<
         const loadedTrait = this.getTrait(WeaponTraitId.Loaded);
         const hasLoadedTrait = !!loadedTrait && loadedTrait.active;
 
-        const usesResource = this.getResource(ItemResource.Uses);
-        const hasUsesResource = !!usesResource && usesResource.max > 0;
+        const ammoResource = this.getResource(ItemResource.Ammo);
+        const hasAmmoResource = !!ammoResource && ammoResource.max > 0;
 
         const actions: Item.CreateData[] = [
             {
@@ -1906,11 +1906,11 @@ export class CosmereItem<
                         },
                         type: ActivationType.SkillTest,
                         consumption:
-                            hasLoadedTrait && hasUsesResource
+                            hasLoadedTrait && hasAmmoResource
                                 ? [
                                       {
                                           type: ItemConsumeType.ItemResource,
-                                          resource: ItemResource.Uses,
+                                          resource: ItemResource.Ammo,
                                           matchDocument: {
                                               steps: [
                                                   {
@@ -1944,7 +1944,7 @@ export class CosmereItem<
             },
         ];
 
-        if (hasLoadedTrait && hasUsesResource) {
+        if (hasLoadedTrait && hasAmmoResource) {
             const eventId = foundry.utils.randomID();
 
             actions.push({
@@ -1971,7 +1971,7 @@ export class CosmereItem<
                                 macro: {
                                     type: 'script',
                                     command: `event.item.parent.update({
-                                        "system.resources.uses.value": event.item.parent.system.resources.uses.max
+                                        "system.resources.ammo.value": event.item.parent.system.resources.ammo.max
                                     })`,
                                 },
                             },

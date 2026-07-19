@@ -1362,6 +1362,10 @@
                     "Charges": {
                         "Singular": "Charge",
                         "Plural": "Charges"
+                    },
+                    "Ammo": {
+                        "Singular": "Ammo",
+                        "Plural": "Ammo"
                     }
                 },
                 "Key": {
