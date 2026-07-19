@@ -2248,7 +2248,7 @@ declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
                 'sheet.mode': 'edit' | 'view';
                 meta: {
                     origin: ItemOrigin;
-                    isEphemeral: boolean;
+                    isEphemeral?: boolean;
                 };
                 'meta.origin': ItemOrigin;
                 'meta.isEphemeral': boolean;
