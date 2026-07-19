@@ -534,7 +534,7 @@ export class ActorActionsListComponent extends ActorItemListComponent {
 
                     const menuItems = [];
 
-                    if (item.hasResources()) {
+                    if (item.hasResources() && item.hasRecharge) {
                         menuItems.push(
                             /**
                              * NOTE: This is a TEMPORARY context menu option
