@@ -700,7 +700,7 @@ function transformAdventureResponse(
             const data = foundry.utils.getProperty(r, key) as AnyObject[];
 
             foundry.utils.setProperty(
-                resolveUpdate,
+                r,
                 key,
                 data.map((data) => toClientViewObject(data, documentName)),
             );
