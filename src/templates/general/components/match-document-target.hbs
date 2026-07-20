@@ -8,9 +8,6 @@
         data-type="{{resolvedDocument.documentName}}"
         data-tooltip="{{resolvedDocument.name}}"
     >
-        {{#if (and resolvedDocumentResourceValue resolvedDocumentResourceMax)}}
-            <span>({{resolvedDocumentResourceValue}}/{{resolvedDocumentResourceMax}}) </span>
-        {{/if}}
         {{#if resolvedDocument.img}}
             <img src="{{resolvedDocument.img}}" alt="{{resolvedDocument.name}}">
         {{/if}}
@@ -28,7 +25,7 @@
                     data-type="{{@root.resolvedReference.documentName}}"
                     data-tooltip="{{localize (concat "COSMERE.Utils.MatchDocument.Target.Type." step.target ".Label")}} {{localize (concat "COSMERE.Utils.MatchDocument.MatchBy.Explain." step.matchBy)}} {{@root.resolvedReference.name}} (NOT FOUND)"
                 >
-                    <i class="complication-color fa-solid fa-exclamation-circle" style="font-size: var(--font-size-14)"></i>
+                    <i class="complication-color fa-solid fa-exclamation-circle"></i>
                     {{#if @root.resolvedReference.img}}
                         <img src="{{@root.resolvedReference.img}}" alt="{{@root.resolvedReference.name}}">
                     {{/if}}
