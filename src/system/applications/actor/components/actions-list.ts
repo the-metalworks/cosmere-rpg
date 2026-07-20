@@ -369,7 +369,7 @@ export class ActorActionsListComponent extends ActorItemListComponent {
         // Get all activatable items (actions and items with actions)
         const activatableItems = Array.from(
             this.application.actor.items,
-        ).filter((item) => item.isAction() || item.hasActions);
+        ).filter((item) => item.isAction() || item.hasUsableActions);
 
         const actions = activatableItems.flatMap((item) =>
             item.isAction() ? [item] : item.actions,

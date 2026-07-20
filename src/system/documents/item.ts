@@ -444,6 +444,16 @@ export class CosmereItem<
         return this.actions.length > 0;
     }
 
+    /**
+     * Whether or not this item has actions that are currently usable for the character.
+     * Currently checks equipped state for equippable items.
+     */
+    public get hasUsableActions(): boolean {
+        return !this.isEquippable() || this.system.equipped 
+            ? this.hasActions
+            : false
+    }
+
     public get actions(): readonly ActionItem[] {
         return this.items.filter((item) => item.isAction());
     }
