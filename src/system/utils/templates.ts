@@ -27,6 +27,8 @@ export const TEMPLATES = {
     COMPONENT_MATCH_DOCUMENT_TARGET:
         'general/components/match-document-target.hbs',
     COMPONENT_ITEM_LIST_RESOURCE: 'general/components/item-list-resource.hbs',
+    COMPONENT_MATCH_DOCUMENT_RESOURCE_TARGET:
+        'general/components/match-document-resource-target.hbs',
 
     // ACTOR BASE
     ACTOR_BASE_NAVIGATION: 'actors/parts/navigation.hbs',

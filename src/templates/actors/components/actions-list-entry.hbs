@@ -54,9 +54,10 @@
 
                     <span>{{localize "GENERIC.From"}}</span>
                     <div class="target">
-                        {{app-match-document-target
+                        {{app-match-document-resource-target
                             value=consume.matchDocument
                             relativeTo=consume.relativeTo
+                            resourceId=consume.resource
                             short=true
                         }}
                     </div>
