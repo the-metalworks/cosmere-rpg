@@ -40,18 +40,11 @@ USER node
 # ─── Stage 5: System code under test ───
 FROM with-world-seed AS with-system
 USER root
-RUN mkdir -p /data/Data/systems/cosmere-rpg && chown -R node:node /data/Data/systems
-
-FROM with-system AS with-license
-# Bake the pre-signed license into the image via a build secret
-# (secret mounts are never persisted in image layers)
-RUN --mount=type=secret,id=foundry_license,required=true \
-    mkdir -p /data/Config && \
-    cp /run/secrets/foundry_license /data/Config/license.json && \
-    chown -R node:node /data/Config;
+RUN mkdir -p /data/Config /data/Data/systems/cosmere-rpg && \
+    chown -R node:node /data/Config /data/Data/systems
 
 # ─── Run Foundry server ───
-FROM with-license AS final
+FROM with-system AS final
 USER node
 ENTRYPOINT []
 CMD ["node", "resources/app/main.mjs", "--port=30000", "--headless", "--noupdate", "--dataPath=/data", "--world=dockerworld"]
