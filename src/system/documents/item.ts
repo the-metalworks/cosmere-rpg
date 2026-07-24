@@ -1200,7 +1200,7 @@ export class CosmereItem<
     public async use(
         options: CosmereItem.UseOptions = {},
     ): Promise<D20Roll | [D20Roll, ...DamageRoll[]] | null> {
-        if (!this.isAction() && !this.isTalent()) return null;
+        if (!this.isAction() && !this.hasDescription()) return null;
 
         // Set up post roll actions
         const postRoll: (() => void)[] = [];
