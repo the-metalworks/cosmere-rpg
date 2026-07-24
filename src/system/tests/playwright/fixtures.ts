@@ -8,20 +8,24 @@ interface MyFixtures {
 
 export const test = base.extend<MyFixtures>({
     authenticatedPage: async ({ page }, use) => {
-        // Setup: log in
         await page.goto('/game');
-
-        // Provide the fixture to the test
-        await use(page);
-
-        // Wait for the game world to fully load
-        // console.log('Waiting for game world to load...');
         await page.waitForFunction(
             () => typeof game !== 'undefined' && game.ready === true,
             { timeout: 120_000 },
         );
 
-        // Teardown (optional): clean up after the test
+        const hardwareAccelerationWarning = page
+            .locator('.notification.warning.permanent')
+            .filter({
+                hasText:
+                    /Hardware Acceleration Disabled|does not have hardware acceleration enabled/i,
+            });
+
+        if (await hardwareAccelerationWarning.isVisible()) {
+            await hardwareAccelerationWarning.click();
+        }
+
+        await use(page);
     },
 });
 

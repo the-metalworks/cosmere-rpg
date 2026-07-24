@@ -43,9 +43,9 @@ export default defineConfig({
             name: 'chromium',
             use: {
                 ...devices['Desktop Chrome'],
-                launchOptions: {
-                    args: ['--use-gl=angle', '--use-angle=gl'],
-                },
+                // launchOptions: {
+                //     args: ['--use-gl=angle', '--use-angle=gl'],
+                // },
                 viewport: { width: 1920, height: 1080 },
             },
         },
