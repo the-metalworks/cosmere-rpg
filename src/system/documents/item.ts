@@ -449,9 +449,9 @@ export class CosmereItem<
      * Currently checks equipped state for equippable items.
      */
     public get hasUsableActions(): boolean {
-        return !this.isEquippable() || this.system.equipped 
+        return !this.isEquippable() || this.system.equipped
             ? this.hasActions
-            : false
+            : false;
     }
 
     public get actions(): readonly ActionItem[] {
@@ -1200,7 +1200,7 @@ export class CosmereItem<
     public async use(
         options: CosmereItem.UseOptions = {},
     ): Promise<D20Roll | [D20Roll, ...DamageRoll[]] | null> {
-        if (!this.isAction()) return null;
+        if (!this.isAction() && !this.isTalent()) return null;
 
         // Set up post roll actions
         const postRoll: (() => void)[] = [];
@@ -1240,6 +1240,57 @@ export class CosmereItem<
             ) === false
         )
             return null;
+
+        if (!this.isAction()) {
+            const messageConfig = {
+                user: game.user.id,
+                speaker:
+                    options.speaker ??
+                    ChatMessage.getSpeaker({ actor: options.actor }),
+                rolls: [] as foundry.dice.Roll[],
+                flags: {} as Record<string, unknown>,
+            };
+
+            messageConfig.flags[SYSTEM_ID] = {
+                message: {
+                    type: MESSAGE_TYPES.ACTION,
+                    description: await this.getDescriptionHTML(),
+                    targets: getTargetDescriptors(),
+                    item: this.id,
+                },
+            };
+
+            // Add hook call to post roll actions
+            postRoll.push(() => {
+                /**
+                 * Hook: useItem
+                 */
+                Hooks.callAll(
+                    HOOKS.USE_ITEM,
+                    this, // Source
+                    {
+                        ...options,
+                        configurable: !fastForward,
+                        advantageMode,
+                        plotDie,
+                    },
+                );
+            });
+
+            // NOTE: Use boolean or operator (`||`) here instead of nullish coalescing (`??`),
+            // as flavor can also be an empty string, which we'd like to replace with the default flavor too
+            const flavor = undefined;
+
+            // Create chat message
+            const message = (await ChatMessage.create(messageConfig, {
+                rollMode: options.rollMode,
+            })) as ChatMessage;
+
+            // Perform post roll actions
+            postRoll.forEach((action) => action());
+
+            return null;
+        }
 
         // Determine whether or not resource consumption is available
         const consumptionAvailable =
