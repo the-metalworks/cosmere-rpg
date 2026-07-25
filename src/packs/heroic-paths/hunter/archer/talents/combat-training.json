@@ -52,7 +52,81 @@
             "formula": null,
             "type": null
         },
-        "modality": null
+        "modality": null,
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "power": null,
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Combat Training",
+                    "img": "icons/skills/melee/maneuver-sword-katana-yellow.webp",
+                    "_id": "y0I0cYx9IcGziQnd",
+                    "system": {
+                        "id": "combat-training",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><em>You’ve been trained in the basics of weaponry and elementary battle tactics.</em></p><p>Once per round, when you miss on a weapon attack, you can graze one target without spending focus.</p><p>Additionally, when you acquire this talent, gain a weapon expertise and an armor expertise of your choice, and gain a cultural expertise in Military Life.</p>",
+                            "chat": "<p>Gain expertise in a weapon, an armor, and Military Life. Once per round, graze without spending focus.</p>",
+                            "short": "<p>Once per round, when you miss on a weapon attack, you can graze one target without spending focus.</p><p>Additionally, when you acquire this talent, gain a weapon expertise and an armor expertise of your choice, and gain a cultural expertise in Military Life.</p>"
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "type": "spe"
+                            },
+                            "consumption": [],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
     },
     "effects": [],
     "sort": 200000,
@@ -60,5 +134,16 @@
         "default": 0
     },
     "flags": {},
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784938734894,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+    },
     "_key": "!items!Sl4bFpOhQ3NQWELp"
 }

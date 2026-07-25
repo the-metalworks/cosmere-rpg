@@ -8,9 +8,9 @@
         "id": "cheap-shot",
         "type": "path",
         "description": {
-            "value": "<p><strong>Activation:</strong> <span style=\"font-family: 'Cosmere Dingbats'\">1</span></p><p><em>You know exactly where to strike to leave your foe reeling in pain. Some might not view it as sporting, but it certainly works.</em></p><p>Spend 1 focus to make an unarmed attack using <strong>Thievery</strong> against the Cognitive defense of an enemy of your size or smaller, raising the stakes when you do. On a hit, the target also becomes <strong>Stunned</strong> until the end of their next turn. On a hit or graze, you can also spend <span class=\"cosmere-icon\" style=\"color: #98a4f5;\" data-tooltip=\"Opportunity\" aria-label=\"Opportunity\">O</span> to steal one item on the target’s person that they aren’t holding or wielding. The exact item you can steal is up to the GM’s discretion.</p>",
-            "chat": "<p><strong>Activation:</strong> <span style=\"font-family: 'Cosmere Dingbats'\">1</span></p><p>Spend 1 focus to make an unarmed attack with <strong>Thievery</strong> vs. Cognitive, raising the stakes. On a hit, the target is <strong>Stunned</strong>.</p>",
-            "short": "<p><strong>Activation:</strong> <span style=\"font-family: 'Cosmere Dingbats'\">1</span></p><p>Spend 1 focus to make an unarmed attack using <strong>Thievery</strong> against the Cognitive defense of an enemy of your size or smaller, raising the stakes when you do. On a hit, the target also becomes <strong>Stunned</strong> until the end of their next turn. On a hit or graze, you can also spend <span class=\"cosmere-icon\" style=\"color: #98a4f5;\" data-tooltip=\"Opportunity\" aria-label=\"Opportunity\">O</span> to steal one item on the target’s person that they aren’t holding or wielding. The exact item you can steal is up to the GM’s discretion.</p>"
+            "value": "<p><strong>Activation:</strong> <span style=\"font-family: &#x27;Cosmere Dingbats&#x27;\">1</span></p><p><em>You know exactly where to strike to leave your foe reeling in pain. Some might not view it as sporting, but it certainly works.</em></p><p>Spend 1 focus to make an unarmed attack using <strong>Thievery</strong> against the Cognitive defense of an enemy of your size or smaller, raising the stakes when you do. On a hit, the target also becomes <strong>Stunned</strong> until the end of their next turn. On a hit or graze, you can also spend <span class=\"cosmere-icon\" style=\"color: #98a4f5;\" data-tooltip=\"Opportunity\" aria-label=\"Opportunity\">O</span> to steal one item on the target’s person that they aren’t holding or wielding. The exact item you can steal is up to the GM’s discretion.</p>",
+            "chat": "<p><strong>Activation:</strong> <span style=\"font-family: &#x27;Cosmere Dingbats&#x27;\">1</span></p><p>Spend 1 focus to make an unarmed attack with <strong>Thievery</strong> vs. Cognitive, raising the stakes. On a hit, the target is <strong>Stunned</strong>.</p>",
+            "short": "<p><strong>Activation:</strong> <span style=\"font-family: &#x27;Cosmere Dingbats&#x27;\">1</span></p><p>Spend 1 focus to make an unarmed attack using <strong>Thievery</strong> against the Cognitive defense of an enemy of your size or smaller, raising the stakes when you do. On a hit, the target also becomes <strong>Stunned</strong> until the end of their next turn. On a hit or graze, you can also spend <span class=\"cosmere-icon\" style=\"color: #98a4f5;\" data-tooltip=\"Opportunity\" aria-label=\"Opportunity\">O</span> to steal one item on the target’s person that they aren’t holding or wielding. The exact item you can steal is up to the GM’s discretion.</p>"
         },
         "activation": {
             "type": "skill_test",
@@ -65,7 +65,121 @@
             "skill": "thv",
             "attribute": null
         },
-        "modality": null
+        "modality": null,
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "power": null,
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Cheap Shot",
+                    "img": "icons/skills/melee/strike-sword-stabbed-brown.webp",
+                    "_id": "I8fka6OD63Y6vbyK",
+                    "system": {
+                        "id": "cheap-shot",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><em>You know exactly where to strike to leave your foe reeling in pain. Some might not view it as sporting, but it certainly works.</em></p><p>Spend 1 focus to make an unarmed attack using <strong>Thievery</strong> against the Cognitive defense of an enemy of your size or smaller, raising the stakes when you do. On a hit, the target also becomes <strong>Stunned</strong> until the end of their next turn. On a hit or graze, you can also spend <span class=\"cosmere-icon\" style=\"color: #98a4f5;\" data-tooltip=\"Opportunity\" aria-label=\"Opportunity\">O</span> to steal one item on the target’s person that they aren’t holding or wielding. The exact item you can steal is up to the GM’s discretion.</p>",
+                            "chat": "<p>Spend 1 focus to make an unarmed attack with <strong>Thievery</strong> vs. Cognitive, raising the stakes. On a hit, the target is <strong>Stunned</strong>.</p>",
+                            "short": "<p>Spend 1 focus to make an unarmed attack using <strong>Thievery</strong> against the Cognitive defense of an enemy of your size or smaller, raising the stakes when you do. On a hit, the target also becomes <strong>Stunned</strong> until the end of their next turn. On a hit or graze, you can also spend <span class=\"cosmere-icon\" style=\"color: #98a4f5;\" data-tooltip=\"Opportunity\" aria-label=\"Opportunity\">O</span> to steal one item on the target’s person that they aren’t holding or wielding. The exact item you can steal is up to the GM’s discretion.</p>"
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {
+                            "RvfNXxW9OhBz7iem": {
+                                "id": "RvfNXxW9OhBz7iem",
+                                "description": "Use Unarmed Attack",
+                                "event": "use",
+                                "handler": {
+                                    "type": "use-item",
+                                    "target": "global",
+                                    "uuid": "Compendium.cosmere-rpg.actions.Item.KEygxvPSgznZ5smA",
+                                    "matchMode": "identifier",
+                                    "matchAll": false,
+                                    "plotDie": false,
+                                    "temporaryModifiers": "",
+                                    "temporaryDamageModifiers": ""
+                                },
+                                "order": 0,
+                                "disabled": false
+                            }
+                        },
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "value": 1,
+                                "type": "act"
+                            },
+                            "consumption": [
+                                {
+                                    "type": "resource",
+                                    "value": {
+                                        "min": 1,
+                                        "max": 1,
+                                        "actual": 1
+                                    },
+                                    "resource": "foc",
+                                    "matchDocument": {
+                                        "steps": [
+                                            {
+                                                "target": "ancestor",
+                                                "documentType": "Actor",
+                                                "matchBy": "document-type",
+                                                "reference": null,
+                                                "matchMode": "first"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
     },
     "effects": [],
     "sort": 100000,
@@ -73,5 +187,16 @@
         "default": 0
     },
     "flags": {},
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784937508337,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+    },
     "_key": "!items!RJe0IHplvdkRGgM5"
 }

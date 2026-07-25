@@ -60,7 +60,82 @@
             "formula": null,
             "type": null
         },
-        "modality": null
+        "modality": null,
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "power": null,
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Startling Blow",
+                    "img": "icons/skills/wounds/injury-face-impact-orange.webp",
+                    "_id": "nkbN74IYbAEEJCie",
+                    "system": {
+                        "id": "startling-blow",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><em>You unexpectedly strike at your target’s weak point, dizzying your target and creating an opening for your next attack.</em></p><p>Make an unarmed or improvised weapon attack against the Cognitive defense of a target of your size or smaller. On a hit or graze, the target also becomes <strong>Surprised</strong> until the end of your next turn.</p>",
+                            "chat": "<p>Make an unarmed or improvised weapon attack vs. Cognitive. On a hit or graze, the target is <strong>Surprised</strong>.</p>",
+                            "short": "<p>Make an unarmed or improvised weapon attack against the Cognitive defense of a target of your size or smaller. On a hit or graze, the target also becomes <strong>Surprised</strong> until the end of your next turn.</p>"
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "value": 1,
+                                "type": "act"
+                            },
+                            "consumption": [],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
     },
     "effects": [],
     "sort": 362500,
@@ -68,5 +143,16 @@
         "default": 0
     },
     "flags": {},
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784939804579,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+    },
     "_key": "!items!orjdjBzRBbUUc7rQ"
 }
