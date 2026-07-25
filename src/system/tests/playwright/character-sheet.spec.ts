@@ -16,9 +16,9 @@ import {
 
 test('Character Details Tab Interactions', async ({
     authenticatedPage: page,
+    createActor,
 }) => {
-    const testCharacter = await createNewActor(
-        page,
+    const testCharacter = await createActor(
         'Test Character',
         ActorType.Character,
     );

@@ -46,6 +46,12 @@ async function waitForNewActor(
     return paramsFromHook(page, 'createActor');
 }
 
+export async function deleteActor(page: Page, sheetRef: ActorSheetRef) {
+    await page.evaluate(async (id) => {
+        await game.actors?.get(id)?.delete();
+    }, sheetRef.id);
+}
+
 export async function getActorSheet(page: Page, sheetRef: ActorSheetRef) {
     const actorSheet = page.locator(`#CharacterSheet-Actor-${sheetRef.id}`);
     await expect(actorSheet).toHaveCount(1);
