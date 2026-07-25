@@ -8,7 +8,8 @@
         "type": "basic",
         "description": {
             "value": "<p><strong>Price</strong> 20 mk; <strong>Weight</strong> 3 lb.;</p><p>This satchel contains enough bandages, salves, splints, and other medical supplies to be used 10 times. When you make a <strong>Medicine</strong> test to treat a wounded character (or to similarly use these medical supplies), you can expend one of these uses to gain an advantage on the test.</p>",
-            "chat": ""
+            "chat": "",
+            "short": ""
         },
         "quantity": 1,
         "weight": {
@@ -42,6 +43,117 @@
         "damage": {
             "formula": null,
             "type": null
+        },
+        "primaryResource": "uses",
+        "resources": {
+            "uses": {
+                "value": 10,
+                "max": 10,
+                "recharge": "none",
+                "key": "uses"
+            },
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "alwaysEquippable": false,
+        "equippableEnabled": false,
+        "equipped": false,
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "wear"
+        },
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Surgical Supplies",
+                    "img": "systems/cosmere-rpg/assets/icons/stormlight/items/foundry_items/ICON_Surgery_Kit.webp",
+                    "_id": "0pfA7zmT7KKnKDvl",
+                    "system": {
+                        "id": "surgical-supplies",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p>This satchel contains enough bandages, salves, splints, and other medical supplies to be used 10 times. When you make a <strong>Medicine</strong> test to treat a wounded character (or to similarly use these medical supplies), you can expend one of these uses to gain an advantage on the test.</p>",
+                            "chat": "",
+                            "short": ""
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "skill_test",
+                            "cost": {
+                                "value": 1,
+                                "type": "act"
+                            },
+                            "consumption": [
+                                {
+                                    "type": "item_resource",
+                                    "value": {
+                                        "min": 1,
+                                        "max": 1,
+                                        "actual": 1
+                                    },
+                                    "resource": "uses",
+                                    "matchDocument": {
+                                        "steps": [
+                                            {
+                                                "target": "parent",
+                                                "documentType": "Actor",
+                                                "reference": null,
+                                                "matchBy": "document-type",
+                                                "matchMode": "first"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": null,
+                            "attribute": null,
+                            "formula": null,
+                            "grazeOverrideFormula": "",
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "med",
+                            "attribute": "default",
+                            "plotDie": false,
+                            "modifierFormula": "",
+                            "opportunity": null,
+                            "complication": null
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
         }
     },
     "effects": [],
@@ -50,5 +162,16 @@
         "default": 0
     },
     "flags": {},
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784936725258,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+    },
     "_key": "!items!iTRQRGVW3ikGLsZa"
 }
