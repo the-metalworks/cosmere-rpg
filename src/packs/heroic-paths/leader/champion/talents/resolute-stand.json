@@ -60,7 +60,102 @@
             }
         },
         "prerequisitesMet": false,
-        "modality": null
+        "modality": null,
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "power": null,
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Resolute Stand",
+                    "img": "icons/magic/control/silhouette-hold-beam-blue.webp",
+                    "_id": "RqPLEnp8pAvVjQEI",
+                    "system": {
+                        "id": "resolute-stand",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><em>You project resolve, and even powerful groups of opponents find it hard to focus their attention elsewhere.</em></p><p>When you use your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.yFWkmaGMs359A7DB]{Valiant Intervention}, you can spend focus up to your ranks in <strong>Leadership</strong> to target that many additional characters.</p><p>Additionally, after you affect a target with Valiant Intervention, they can’t make @UUID[Compendium.cosmere-rpg.actions.Item.QpFIxaoCBezzt6yw]{Reactive Strikes} against your allies until the end of that target’s next turn.</p>",
+                            "chat": "<p>@UUID[Compendium.cosmere-rpg.heroic-paths.Item.yFWkmaGMs359A7DB]{Valiant Intervention} prevents @UUID[Compendium.cosmere-rpg.actions.Item.QpFIxaoCBezzt6yw]{Reactive Strikes}. Spend focus up to your ranks in <strong>Leadership</strong> to add that many targets for Valiant Intervention.</p>",
+                            "short": "<p>When you use your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.yFWkmaGMs359A7DB]{Valiant Intervention}, you can spend focus up to your ranks in <strong>Leadership</strong> to target that many additional characters.</p><p>Additionally, after you affect a target with Valiant Intervention, they can’t make @UUID[Compendium.cosmere-rpg.actions.Item.QpFIxaoCBezzt6yw]{Reactive Strikes} against your allies until the end of that target’s next turn.</p>"
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "type": "spe"
+                            },
+                            "consumption": [
+                                {
+                                    "type": "resource",
+                                    "value": {
+                                        "min": 1,
+                                        "max": -1,
+                                        "actual": 1
+                                    },
+                                    "resource": "foc",
+                                    "matchDocument": {
+                                        "steps": [
+                                            {
+                                                "target": "ancestor",
+                                                "documentType": "Actor",
+                                                "matchBy": "document-type",
+                                                "reference": null,
+                                                "matchMode": "first"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
     },
     "effects": [],
     "sort": 475000,
@@ -68,5 +163,16 @@
         "default": 0
     },
     "flags": {},
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784940353983,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+    },
     "_key": "!items!PWyeAbWBKCg17CsO"
 }

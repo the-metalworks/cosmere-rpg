@@ -60,7 +60,82 @@
             "formula": null,
             "type": null
         },
-        "modality": null
+        "modality": null,
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "power": null,
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Steady Aim",
+                    "img": "icons/skills/ranged/person-archery-bow-attack-orange.webp",
+                    "_id": "5ns7WHXgnN5uBJCP",
+                    "system": {
+                        "id": "steady-aim",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><em>Your shot finds its mark even across dizzying distances.</em></p><p>Until the end of your turn, both the short and long ranges of your ranged weapons increase by half, and when you hit with a ranged weapon attack, you deal extra damage equal to your ranks in <strong>Perception</strong>.</p>",
+                            "chat": "<p>Increase your weapon range by half and deal extra damage equal to your ranks in <strong>Perception</strong>.</p>",
+                            "short": "<p>Until the end of your turn, both the short and long ranges of your ranged weapons increase by half, and when you hit with a ranged weapon attack, you deal extra damage equal to your ranks in <strong>Perception</strong>.</p>"
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "value": 1,
+                                "type": "act"
+                            },
+                            "consumption": [],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
     },
     "effects": [],
     "sort": 600000,
@@ -68,5 +143,16 @@
         "default": 0
     },
     "flags": {},
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784938910231,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+    },
     "_key": "!items!x81dx7J7uDEnrj5K"
 }

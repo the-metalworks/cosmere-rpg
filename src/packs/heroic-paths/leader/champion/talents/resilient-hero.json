@@ -65,7 +65,81 @@
             }
         },
         "prerequisitesMet": false,
-        "modality": null
+        "modality": null,
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "power": null,
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Resilient Hero",
+                    "img": "icons/magic/defensive/shield-barrier-glowing-blue.webp",
+                    "_id": "reNhzj18L2b0e2m4",
+                    "system": {
+                        "id": "resilient-hero",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><em>You summon your last reserves and press forward despite grievous wounds.</em></p><p>Once per scene, before you are reduced to 0 health, you can use this reaction to instead change your health to equal your <strong>Athletics</strong> modifier.</p>",
+                            "chat": "<p>Before your health drops to 0, it instead becomes equal to your <strong>Athletics</strong> modifier.</p>",
+                            "short": "<p>Once per scene, before you are reduced to 0 health, you can use this reaction to instead change your health to equal your <strong>Athletics</strong> modifier.</p>"
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "type": "rea"
+                            },
+                            "consumption": [],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": "@skills.ath.mod",
+                            "type": "heal"
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
     },
     "effects": [],
     "sort": 450000,
@@ -73,5 +147,16 @@
         "default": 0
     },
     "flags": {},
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784940302972,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+    },
     "_key": "!items!2KdDpZvqSlabwO8i"
 }

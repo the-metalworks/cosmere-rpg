@@ -35,7 +35,81 @@
             "formula": null,
             "type": null
         },
-        "modality": null
+        "modality": null,
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "power": null,
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Opportunist",
+                    "img": "icons/magic/unholy/silhouette-robe-evil-power.webp",
+                    "_id": "PleO9udGyCcENY4y",
+                    "system": {
+                        "id": "opportunist",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><em>You instinctively sense moments of consequence. In these moments where the scale teeters between disaster and glory, you can push yourself—and your luck—to tip the outcome in your favor.</em></p><p>Once per round, when you roll a plot die, you can reroll that result. The original roll has no effect and you must use the new result.</p>",
+                            "chat": "<p>Once per round, you can reroll your plot die.</p>",
+                            "short": "<p>Once per round, when you roll a plot die, you can reroll that result. The original roll has no effect and you must use the new result.</p>"
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "type": "spe"
+                            },
+                            "consumption": [],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
     },
     "effects": [],
     "flags": {},
@@ -44,6 +118,17 @@
     "sort": 200000,
     "ownership": {
         "default": 0
+    },
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784937897906,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
     },
     "_key": "!items!ScqSKbkewDAfSizP"
 }

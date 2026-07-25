@@ -71,7 +71,103 @@
                 "rank": 1
             }
         },
-        "prerequisitesMet": false
+        "prerequisitesMet": false,
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "power": null,
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Feinting Strike",
+                    "img": "icons/skills/melee/sword-twirl-orange.webp",
+                    "_id": "PzRf2Un4CY8VhN2E",
+                    "system": {
+                        "id": "feinting-strike",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><em>You intimidatingly press your opponent’s defenses— and their nerves—hoping to expose a fatal gap.</em></p><p>Spend 2 focus to make a melee weapon attack against a target’s Cognitive defense. On a hit, your target also loses one <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">r</span> and loses focus equal to your ranks in <strong>Intimidation</strong>. On a graze, they lose half as much focus (rounded up) and don’t lose <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">r</span>.</p><p>You can spend <span class=\"cosmere-icon\" style=\"color:#98a4f5\" data-tooltip=\"Opportunity\" aria-label=\"Opportunity\">O</span> from this test to gain <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">2</span>, which you can use only to @UUID[Compendium.cosmere-rpg.actions.Item.Da4Xj4WnVbtHMH7k]{Strike} or activate a stance.</p>",
+                            "chat": "<p>Spend 2 focus to make a melee weapon attack vs. Cognitive. On a hit, your target loses <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">r</span> and loses focus equal to your ranks in <strong>Intimidation</strong>. On a graze, they lose half as much focus.</p>",
+                            "short": "<p>Spend 2 focus to make a melee weapon attack against a target’s Cognitive defense. On a hit, your target also loses one <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">r</span> and loses focus equal to your ranks in <strong>Intimidation</strong>. On a graze, they lose half as much focus (rounded up) and don’t lose <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">r</span>.</p><p>You can spend <span class=\"cosmere-icon\" style=\"color:#98a4f5\" data-tooltip=\"Opportunity\" aria-label=\"Opportunity\">O</span> from this test to gain <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">2</span>, which you can use only to @UUID[Compendium.cosmere-rpg.actions.Item.Da4Xj4WnVbtHMH7k]{Strike} or activate a stance.</p>"
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "value": 1,
+                                "type": "act"
+                            },
+                            "consumption": [
+                                {
+                                    "type": "resource",
+                                    "value": {
+                                        "min": 2,
+                                        "max": 2,
+                                        "actual": 1
+                                    },
+                                    "resource": "foc",
+                                    "matchDocument": {
+                                        "steps": [
+                                            {
+                                                "target": "ancestor",
+                                                "documentType": "Actor",
+                                                "matchBy": "document-type",
+                                                "reference": null,
+                                                "matchMode": "first"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
     },
     "effects": [],
     "sort": 0,
@@ -79,5 +175,16 @@
         "default": 0
     },
     "flags": {},
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784941686161,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+    },
     "_key": "!items!MK52rooQSyK0eqvi"
 }

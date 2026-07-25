@@ -62,7 +62,81 @@
             "formula": null,
             "type": null
         },
-        "modality": null
+        "modality": null,
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "power": null,
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Inspired Zeal",
+                    "img": "icons/magic/fire/flame-burning-fist-strike.webp",
+                    "_id": "feiHj2hcBAQp01Xo",
+                    "system": {
+                        "id": "inspired-zeal",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><em>When an ally achieves new heights, your proclamations of their success inspire those around you.</em></p><p>After an ally you can sense uses their <strong>Determined</strong> condition to add an Opportunity to a test, you can choose a number of other allies you can influence up to your ranks in <strong>Discipline</strong>. Each target recovers 1 focus (no action required).</p>",
+                            "chat": "<p>When an ally uses Determined, choose other allies to recover 1 focus, up to your ranks in <strong>Discipline</strong>.</p>",
+                            "short": "<p>After an ally you can sense uses their <strong>Determined</strong> condition to add an Opportunity to a test, you can choose a number of other allies you can influence up to your ranks in <strong>Discipline</strong>. Each target recovers 1 focus (no action required).</p>"
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "type": "spe"
+                            },
+                            "consumption": [],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
     },
     "effects": [],
     "sort": 600000,
@@ -70,5 +144,16 @@
         "default": 0
     },
     "flags": {},
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784938453132,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+    },
     "_key": "!items!xCI4k8HNGxdInzes"
 }
