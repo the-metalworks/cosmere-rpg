@@ -1,18 +1,17 @@
+import { ItemType } from '@src/system/types/cosmere';
 import { test, expect } from '../fixtures';
+import { getItemSheet } from '../helpers/item';
 
 test('Create talent with embedded action', async ({
     authenticatedPage: page,
+    createItem,
 }) => {
     await expect(page).toHaveTitle('Foundry Virtual Tabletop');
-    await page.getByRole('tab', { name: 'Items' }).click();
-    await page.getByRole('button', { name: ' Create Item' }).click();
-    await page.getByRole('combobox').selectOption('talent');
-    await page.getByRole('textbox', { name: 'Talent' }).click();
-    await page.getByRole('textbox', { name: 'Talent' }).fill('Test Talent');
-    await page.getByRole('heading', { name: 'Create Item' }).click();
-    await page.getByRole('button', { name: ' Create Item' }).click();
-    await expect(page.locator('.item-header')).toBeVisible();
-    await expect(page.locator('app-item-header')).toMatchAriaSnapshot(`
+    const testTalent = await createItem('Test Talent', ItemType.Talent);
+    const testTalentSheet = await getItemSheet(page, testTalent);
+    await expect(testTalentSheet.locator('.item-header')).toBeVisible();
+    await expect(testTalentSheet.locator('app-item-header'))
+        .toMatchAriaSnapshot(`
       - img
       - textbox: Test Talent
       `);
