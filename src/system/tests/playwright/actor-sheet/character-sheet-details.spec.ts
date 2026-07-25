@@ -3,7 +3,7 @@ import {
     Attribute,
     AttributeGroup,
 } from '@src/system/types/cosmere';
-import { test, expect } from './fixtures';
+import { test, expect } from '../fixtures';
 import {
     checkActorAttribute,
     checkActorDefense,
@@ -12,10 +12,10 @@ import {
     getActorSheet,
     updateActorAttribute,
     updateActorResource,
-} from './helpers/actor';
-import { html5DragAndDrop } from './helpers/drag-drop';
+} from '../helpers/actor';
+import { html5DragAndDrop } from '../helpers/drag-drop';
 
-test('Character Details Tab Interactions', async ({
+test('Resources/Attribute/Defenses', async ({
     authenticatedPage: page,
     createActor,
 }) => {
@@ -64,7 +64,7 @@ test('Character Details Tab Interactions', async ({
     await checkActorResource(testCharacterSheet, 'Health', 11, 11);
 });
 
-test('Character Ancestry/Culture/Path Drag and Drop', async ({
+test('Ancestry/Culture/Path Drag and Drop', async ({
     authenticatedPage: page,
     createActor,
 }) => {
@@ -114,6 +114,8 @@ test('Character Ancestry/Culture/Path Drag and Drop', async ({
         .locator('#compendium-cosmere-rpg_cultures')
         .getByRole('button', { name: 'Close Window' })
         .click();
+
+    // Add Agent path
 
     await page.locator('a').filter({ hasText: 'Heroic Paths' }).click();
     await page.locator('span').filter({ hasText: 'Agent' }).click();
