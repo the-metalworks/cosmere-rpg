@@ -1,6 +1,10 @@
 import { ItemType } from '@src/system/types/cosmere';
 import { test, expect } from '../fixtures';
-import { getItemSheet } from '../helpers/item';
+import {
+    getItemSheet,
+    newItemPromiseToSheetRef,
+    waitForNewItem,
+} from '../helpers/item';
 
 test('Create talent with embedded action', async ({
     authenticatedPage: page,
@@ -15,8 +19,39 @@ test('Create talent with embedded action', async ({
       - img
       - textbox: Test Talent
       `);
+    await testTalentSheet.getByText('Actions').click();
+    const embeddedActionPromise = waitForNewItem(page);
+    await testTalentSheet.locator('.controls > a').first().click();
+    const embeddedAction = await newItemPromiseToSheetRef(
+        embeddedActionPromise,
+        { expectedType: ItemType.Action },
+    );
+    const embeddedActionSheet = await getItemSheet(page, embeddedAction);
 
-    // await expect(page.getByRole('listitem').filter({ hasText: 'New Action — —' })).toBeVisible();
+    await expect(
+        testTalentSheet.getByRole('listitem').filter({ hasText: 'New Action' }),
+    ).toBeVisible();
+    await embeddedActionSheet.getByText('Details').click();
+    await expect(
+        testTalentSheet
+            .getByRole('listitem')
+            .filter({ hasText: 'New Action — —' }),
+    ).toBeVisible();
+    await embeddedActionSheet
+        .locator('select[name="system.activation.type"]')
+        .selectOption('utility');
+    await embeddedActionSheet
+        .locator('select[name="system.activation.cost.type"]')
+        .selectOption('act');
+    await embeddedActionSheet.getByRole('spinbutton').click();
+    await embeddedActionSheet.getByRole('spinbutton').fill('2');
+    await embeddedActionSheet.getByText('Details').click();
+    await expect(
+        testTalentSheet.locator('app-item-actions-list'),
+    ).toContainText('2');
+    await embeddedActionSheet
+        .locator('app-item-resource-consumption-list > .controls > a')
+        .click();
     // await expect(page.locator('#ActionItemSheet-Item-8w0YaDPHZvXhNMD7-Item-lfB0vzRMZQx1HQ6F > .window-content > .sheet-content > app-item-header > .sheet-header > .item-header')).toBeVisible();
     // await page.locator('select[name="system.activation.type"]').selectOption('utility');
     // await page.locator('select[name="system.activation.cost.type"]').selectOption('act');

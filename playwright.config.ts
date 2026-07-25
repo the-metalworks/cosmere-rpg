@@ -26,7 +26,6 @@ export default defineConfig({
     /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
     use: {
         /* Base URL to use in actions like `await page.goto('')`. */
-        headless: true,
         baseURL: 'http://localhost:30000',
         storageState: './playwright/.auth/state.json',
         viewport: { width: 1920, height: 1080 },

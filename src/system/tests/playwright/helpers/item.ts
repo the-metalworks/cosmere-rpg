@@ -12,8 +12,9 @@ export interface ItemSheetRef {
 }
 
 export async function getItemSheet(page: Page, sheetRef: ItemSheetRef) {
+    const sheetUuidString = sheetRef.uuid.replaceAll('.', '-');
     const itemSheet = page.locator(
-        `#${sheetRef.typeLabel}ItemSheet-Item-${sheetRef.id}`,
+        `#${sheetRef.typeLabel}ItemSheet-${sheetUuidString}`,
     );
     await expect(itemSheet).toHaveCount(1);
     return itemSheet;
@@ -33,9 +34,23 @@ export async function createNewItem(
     await page.getByRole('heading', { name: 'Create Item' }).click();
     const newItemPromise = waitForNewItem(page);
     await page.getByRole('button', { name: ' Create Item' }).click();
+    return newItemPromiseToSheetRef(newItemPromise, {
+        expectedName: name,
+        expectedType: type,
+    });
+}
+
+export async function newItemPromiseToSheetRef(
+    newItemPromise: Promise<Hooks.HookParameters<'createItem'>>,
+    expectedVals?: { expectedName?: string; expectedType: ItemType },
+) {
     const [createdItem, createOptions, id] = await newItemPromise;
-    expect(createdItem.name == name);
-    expect(createdItem.type == type);
+    if (expectedVals?.expectedName) {
+        expect(createdItem.name == expectedVals.expectedName);
+    }
+    if (expectedVals?.expectedType) {
+        expect(createdItem.type == expectedVals.expectedType);
+    }
     expect(createdItem.id);
     expect(createdItem.uuid);
     const typeLabel =
@@ -50,7 +65,7 @@ export async function createNewItem(
     return itemSheetRef;
 }
 
-async function waitForNewItem(
+export async function waitForNewItem(
     page: Page,
 ): Promise<Hooks.HookParameters<'createItem'>> {
     return paramsFromHook(page, 'createItem');
