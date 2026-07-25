@@ -90,3 +90,31 @@ export async function checkActorDefense(
     await expect(defenseDisplay).toHaveCount(1);
     await expect(defenseDisplay).toContainText(`${expectedVal}`);
 }
+
+export async function updateActorAttribute(
+    actorSheet: Locator,
+    attribute: Attribute,
+    newVal: number,
+) {
+    await actorSheet
+        .locator(`input[name="system.attributes.${attribute}.value"]`)
+        .click();
+    await actorSheet
+        .locator(`input[name="system.attributes.${attribute}.value"]`)
+        .fill(`${newVal}`);
+    await actorSheet.getByRole('banner').click();
+}
+
+export async function updateActorResource(
+    actorSheet: Locator,
+    resourceLabel: string,
+    newVal: number,
+) {
+    const resourceBar = actorSheet
+        .locator('app-actor-resource')
+        .filter({ hasText: resourceLabel });
+    await resourceBar.click();
+    const resourceBarInput = resourceBar.locator(`input`);
+    await resourceBarInput.fill(`${newVal}`);
+    await actorSheet.getByRole('banner').click();
+}

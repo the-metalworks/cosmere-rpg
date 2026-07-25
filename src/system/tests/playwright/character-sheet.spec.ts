@@ -10,9 +10,11 @@ import {
     checkActorResource,
     createNewActor,
     getActorSheet,
+    updateActorAttribute,
+    updateActorResource,
 } from './helpers/actor';
 
-test('Create character, check default values', async ({
+test('Character Details Tab Interactions', async ({
     authenticatedPage: page,
 }) => {
     const testCharacter = await createNewActor(
@@ -33,14 +35,30 @@ test('Create character, check default values', async ({
     await checkActorDefense(testCharacterSheet, AttributeGroup.Physical, 10);
     await checkActorDefense(testCharacterSheet, AttributeGroup.Cognitive, 10);
     await checkActorDefense(testCharacterSheet, AttributeGroup.Spiritual, 10);
-    // await page.locator('input[name="system.attributes.str.value"]').click();
-    // await page.locator('input[name="system.attributes.str.value"]').fill('1');
-    // await page.getByText('3 Ancestry Level 0 Deflect 20').click();
-    // await expect(page.locator('#CharacterSheet-Actor-PBmg7GSlecAP9tVW')).toContainText('1 / 11');
-    // await page.getByText('/ 2').click();
-    // await expect(page.locator('#CharacterSheet-Actor-PBmg7GSlecAP9tVW')).toContainText('0 / 2');
-    // await page.locator('input[name="system.attributes.wil.value"]').click();
-    // await page.locator('input[name="system.attributes.wil.value"]').fill('2');
-    // await page.getByText('3 Ancestry Level 0 Deflect 20').click();
-    // await expect(page.locator('#CharacterSheet-Actor-PBmg7GSlecAP9tVW')).toContainText('2 / 4');
+
+    // Update strength, check new values
+    await updateActorAttribute(testCharacterSheet, Attribute.Strength, 1);
+    await checkActorResource(testCharacterSheet, 'Health', 1, 11);
+    await checkActorResource(testCharacterSheet, 'Focus', 0, 2);
+    await checkActorAttribute(testCharacterSheet, Attribute.Strength, 1);
+    await checkActorAttribute(testCharacterSheet, Attribute.Speed, 0);
+    await checkActorDefense(testCharacterSheet, AttributeGroup.Physical, 11);
+    await checkActorDefense(testCharacterSheet, AttributeGroup.Cognitive, 10);
+
+    // Update speed, check new values
+    await updateActorAttribute(testCharacterSheet, Attribute.Speed, 2);
+    await checkActorResource(testCharacterSheet, 'Health', 1, 11);
+    await checkActorResource(testCharacterSheet, 'Focus', 0, 2);
+    await checkActorAttribute(testCharacterSheet, Attribute.Strength, 1);
+    await checkActorAttribute(testCharacterSheet, Attribute.Speed, 2);
+    await checkActorDefense(testCharacterSheet, AttributeGroup.Physical, 13);
+    await checkActorDefense(testCharacterSheet, AttributeGroup.Cognitive, 10);
+
+    // Update health to less than max
+    await updateActorResource(testCharacterSheet, 'Health', 5);
+    await checkActorResource(testCharacterSheet, 'Health', 5, 11);
+
+    // Update health to more than max
+    await updateActorResource(testCharacterSheet, 'Health', 100);
+    await checkActorResource(testCharacterSheet, 'Health', 11, 11);
 });
