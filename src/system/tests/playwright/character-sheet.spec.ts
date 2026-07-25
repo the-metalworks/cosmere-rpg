@@ -1,24 +1,38 @@
-import { ActorType } from '@src/system/types/cosmere';
+import {
+    ActorType,
+    Attribute,
+    AttributeGroup,
+} from '@src/system/types/cosmere';
 import { test, expect } from './fixtures';
 import {
-    ActorSheetRef,
+    checkActorAttribute,
+    checkActorDefense,
+    checkActorResource,
     createNewActor,
     getActorSheet,
-    validateActor,
 } from './helpers/actor';
 
-test('Create character and open sheet', async ({ authenticatedPage: page }) => {
+test('Create character, check default values', async ({
+    authenticatedPage: page,
+}) => {
     const testCharacter = await createNewActor(
         page,
         'Test Character',
         ActorType.Character,
     );
-    const testCharacterSheet = getActorSheet(page, testCharacter);
-    await page.locator('input[name="system.attributes.str.value"]').click();
-    await validateActor(page, testCharacter);
-    // await expect(page.locator('#CharacterSheet-Actor-PBmg7GSlecAP9tVW')).toContainText('Ancestry');
-    // await page.locator('input[name="name"]').click();
-    // await expect(page.locator('#CharacterSheet-Actor-PBmg7GSlecAP9tVW')).toContainText('0 / 10');
+    const testCharacterSheet = await getActorSheet(page, testCharacter);
+    await checkActorResource(testCharacterSheet, 'Health', 0, 10);
+    await checkActorResource(testCharacterSheet, 'Focus', 0, 2);
+    await checkActorResource(testCharacterSheet, 'Investiture', 0, 0);
+    await checkActorAttribute(testCharacterSheet, Attribute.Strength, 0);
+    await checkActorAttribute(testCharacterSheet, Attribute.Speed, 0);
+    await checkActorAttribute(testCharacterSheet, Attribute.Intellect, 0);
+    await checkActorAttribute(testCharacterSheet, Attribute.Willpower, 0);
+    await checkActorAttribute(testCharacterSheet, Attribute.Awareness, 0);
+    await checkActorAttribute(testCharacterSheet, Attribute.Presence, 0);
+    await checkActorDefense(testCharacterSheet, AttributeGroup.Physical, 10);
+    await checkActorDefense(testCharacterSheet, AttributeGroup.Cognitive, 10);
+    await checkActorDefense(testCharacterSheet, AttributeGroup.Spiritual, 10);
     // await page.locator('input[name="system.attributes.str.value"]').click();
     // await page.locator('input[name="system.attributes.str.value"]').fill('1');
     // await page.getByText('3 Ancestry Level 0 Deflect 20').click();
