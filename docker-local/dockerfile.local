@@ -2,7 +2,7 @@
 # ─── Base: pre-baked Foundry install ───
 ARG FOUNDRY_VERSION=13.351
 ARG RUN_QUENCH_AND_EXIT=false
-FROM metalworks-fsbzd7hfaxgzc7gk.azurecr.io/foundryvtt:${FOUNDRY_VERSION} AS base
+FROM ghcr.io/the-metalworks/baked-foundry:${FOUNDRY_VERSION} AS base
 
 # ─── Stage 1: Setup automatic module enabling ───
 FROM base AS with-enable-modules
