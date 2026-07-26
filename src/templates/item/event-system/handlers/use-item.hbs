@@ -1,73 +1,16 @@
 {{!-- Target --}}
-{{#unless (eq event "use")}}
-    {{formGroup handler.schema.fields.target
-        name="handler.target"
-        value=handler.target
-        localize=true
-    }}
-{{else}}
-    {{formGroup handler.schema.fields.target
-        name="handler.target"
-        value=handler.target
-        localize=true
-        choices=(filterSelectOptions handler.schema.fields.target.choices "self")
-    }}
-{{/unless}}
-
-{{!-- UUID --}}
-{{#if (or (eq handler.target "sibling") (eq handler.target "global"))}}
-    <div class="form-group">
-        <label>
-            {{localize handler.schema.fields.uuid.label}}
-        </label>
-        <div class="form-fields">
-            {{app-document-reference-input 
-                name="handler.uuid"
-                value=handler.uuid
-                type="Item"
-                placeholder="Drag and drop item here"
-            }}
-        </div>
+<div class="form-group">
+    <label >
+        {{localize handler.schema.fields.matchDocument.label}}
+    </label>
+    <div class="form-fields">
+        {{app-match-document-target
+            value=handler.matchDocument
+            name="handler.matchDocument"
+            relativeTo=item
+        }}
     </div>
-{{/if}}
-
-{{!-- Match Mode --}}
-{{#if (eq handler.target "sibling")}}
-    <div class="form-group">
-        <label>
-            {{localize handler.schema.fields.matchMode.label}}
-            <i class="info fa-regular fa-circle-question" 
-                data-tooltip="{{localize handler.schema.fields.matchMode.hint}}"
-            ></i>
-        </label>
-        <div class="form-fields">
-            {{formInput handler.schema.fields.matchMode
-                name="handler.matchMode"
-                value=handler.matchMode
-                localize=true
-            }}
-        </div>
-    </div>
-{{/if}}
-
-{{!-- Match All --}}
-{{#if (or (and (eq handler.target "sibling") (not (eq handler.matchMode "uuid"))) (eq handler.target "equipped-weapon") (eq handler.target "equipped-armor"))}}
-    <div class="form-group">
-        <label>
-            {{localize handler.schema.fields.matchAll.label}}
-            <i class="info fa-regular fa-circle-question" 
-                data-tooltip="{{localize handler.schema.fields.matchAll.hint}}"
-            ></i>
-        </label>
-        <div class="form-fields">
-            {{formInput handler.schema.fields.matchAll
-                name="handler.matchAll"
-                value=handler.matchAll
-                localize=true
-            }}
-        </div>
-    </div>
-{{/if}}
+</div>
 
 {{#unless (eq event "use")}}
     {{!-- Fast forward --}}

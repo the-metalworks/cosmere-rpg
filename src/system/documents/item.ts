@@ -415,9 +415,7 @@ export class CosmereItem<
     }
 
     public get isStrikeAction(): boolean {
-        return (
-            this.isDefaultActivation && !!this.getFlag(SYSTEM_ID, 'isStrike')
-        );
+        return this.isDefaultAction && !!this.getFlag(SYSTEM_ID, 'isStrike');
     }
 
     public get isEphemeral(): boolean {
@@ -449,27 +447,31 @@ export class CosmereItem<
      * Currently checks equipped state for equippable items.
      */
     public get hasUsableActions(): boolean {
-        return !this.isEquippable() || this.system.equipped 
+        return !this.isEquippable() || this.system.equipped
             ? this.hasActions
-            : false
+            : false;
     }
 
     public get actions(): readonly ActionItem[] {
         return this.items.filter((item) => item.isAction());
     }
 
+    public get defaultAction(): ActionItem | null {
+        return this.actions.at(0) ?? null;
+    }
+
     /**
-     * Whether or not this action is the default activation for its parent item.
+     * Whether or not this action is the default for its parent item.
      * Only available for action items that are embedded in other items.
      */
-    public get isDefaultActivation(): boolean {
+    public get isDefaultAction(): boolean {
         if (
             !this.isAction() ||
             !this.parent ||
             !(this.parent instanceof CosmereItem)
         )
             return false;
-        return this.parent.actions.at(0)?.id === this.id;
+        return this.defaultAction?.id === this.id;
     }
 
     /**

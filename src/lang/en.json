@@ -998,15 +998,7 @@
                             },
                             "use-item": {
                                 "Title": "Use item",
-                                "Description": "Uses an item by rolling it.",
-                                "Target": {
-                                    "Label": "Target",
-                                    "Choices": {
-                                        "self": "Self",
-                                        "sibling": "Other on same Actor",
-                                        "global": "Global"
-                                    }
-                                },
+                                "Description": "Uses an item by rolling it. If the selected item is not an action, that item's default action is used instead.",
                                 "UUID": {
                                     "Label": "Item"
                                 },

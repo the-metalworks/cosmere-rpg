@@ -69,7 +69,7 @@ export function EphemeralEmbeddedDocumentsMixin<
 
                     const ephemeralDocuments = generatorFn
                         .call(this as unknown as DocumentOfType<DocumentType>)
-                        .map((doc) => {
+                        .map((doc, i) => {
                             // Get document constructor
                             const cls = doc.constructor as new (
                                 ...args: unknown[]
@@ -78,7 +78,7 @@ export function EphemeralEmbeddedDocumentsMixin<
                             const data = foundry.utils.mergeObject(
                                 doc.toObject(),
                                 {
-                                    _id: doc.id ?? foundry.utils.randomID(), // Ensure id is set
+                                    _id: `ephdoc${i.toFixed().padStart(10, '0')}`, // Assign deterministic id
                                     flags: {
                                         [SYSTEM_ID]: {
                                             meta: {
