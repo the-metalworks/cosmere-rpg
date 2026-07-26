@@ -607,22 +607,16 @@ function transformCreateUpdateResponse(
                         ),
                 );
         } else {
-            const documentCls = CONFIG[inRequest.type]?.documentClass as
-                | Document.Constructable.AnyConstructor
-                | undefined;
-
-            if (documentCls && hasSystemEmbeddedCollections(documentCls)) {
-                result = result.map((doc) =>
-                    toClientViewObject(doc as AnyObject, inRequest.type),
-                );
-            }
+            result = result.map((doc) =>
+                toClientViewObject(doc as AnyObject, inRequest.type),
+            );
         }
 
         const targetIds = inResponse.operation.targets?.map(
             (target) => target.id,
         );
         if (targetIds)
-            result = (result as AnyObject[]).filter((doc) =>
+            result = result.filter((doc) =>
                 targetIds.includes(
                     foundry.utils.getProperty(doc, '_id') as string,
                 ),
