@@ -21,7 +21,7 @@
     </li>
 
     {{#each injuries as |injury|}}
-    <li class="item injury {{#if injury.isPermanent}}permanent{{/if}}" data-item-id="{{injury.id}}">
+    <li class="item injury {{#if injury.isPermanent}}permanent{{/if}}" data-item-id="{{injury.id}}" data-item-uuid="{{injury.uuid}}">
         <section class="details">
             <div class="img">
                 <img src="{{injury.img}}">

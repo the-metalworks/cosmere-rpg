@@ -152,9 +152,9 @@ export class BaseActorSheet<
         return this.isEditable;
     }
 
-    protected override _onDragStart(event: DragEvent) {
+    protected override async _onDragStart(event: DragEvent) {
         // Get dragged item
-        const item = AppUtils.getItemFromEvent(event, this.actor);
+        const item = await AppUtils.getItemFromEvent(event, this.actor);
         if (!item) return;
 
         const dragData = {
