@@ -3,9 +3,9 @@ services:
     hostname: foundry-ci
     build:
       context: ..
-      dockerfile: docker-local/dockerfile.local
+      dockerfile: ./docker/dockerfile
       additional_contexts:
-        world-seed: ./world-seed
+        world-seed: ../world-seed
       secrets:
         - foundry_license
       args:
@@ -15,7 +15,6 @@ services:
       - "30000:30000"
     volumes:
       - ../build:/data/Data/systems/cosmere-rpg
-      - ../secrets/license.json:/data/Config/license.json:ro
 
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:30000"]

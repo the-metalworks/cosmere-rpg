@@ -21,4 +21,4 @@ console.log(`Using Foundry version: ${env.FOUNDRY_VERSION}`);
 console.log(`Using Quench module URL: ${env.QUENCH_MODULE_URL}`);
 
 const args = process.argv.slice(2);
-execSync(`docker compose -f docker-local/docker-compose.yml ${args.join(' ')}`, { env, stdio: 'inherit' });
+execSync(`docker compose -f docker/docker-compose.yml ${args.join(' ')}`, { env, stdio: 'inherit' });
