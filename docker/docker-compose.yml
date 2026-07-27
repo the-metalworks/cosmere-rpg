@@ -16,6 +16,10 @@ services:
     volumes:
       - ../build:/data/Data/systems/cosmere-rpg
 
+    secrets:
+      - source: foundry_license
+        target: /data/Config/license.json
+
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:30000"]
       interval: 5s
