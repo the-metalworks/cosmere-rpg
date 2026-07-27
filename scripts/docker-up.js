@@ -1,24 +1,23 @@
-import { readFileSync } from 'fs';
+import { existsSync } from 'fs';
 import { execSync } from 'child_process';
+import { getDockerConfig } from './docker-utils.js';
 
-const CONFIG_FILE = 'docker-config.json';
+const LICENSE_FILE = 'secrets/license.json';
 
-let config;
-try {
-    config = JSON.parse(readFileSync(CONFIG_FILE, 'utf-8'));
-} catch {
-    console.error(`Error: ${CONFIG_FILE} not found or invalid`);
+const args = process.argv.slice(2);
+
+// Bringing the container up requires a signed license file.
+if (args.includes('up') && !existsSync(LICENSE_FILE)) {
+    console.error(
+        `Error: ${LICENSE_FILE} not found.\n` +
+            `Run "npm run docker:signlicense" to generate a signed license file.`,
+    );
     process.exit(1);
 }
 
-const env = {
-    ...process.env,
-    FOUNDRY_VERSION: config.foundryVersion,
-    QUENCH_MODULE_URL: config.quenchModuleUrl,
-};
+const env = getDockerConfig();
 
-console.log(`Using Foundry version: ${env.FOUNDRY_VERSION}`);
-console.log(`Using Quench module URL: ${env.QUENCH_MODULE_URL}`);
-
-const args = process.argv.slice(2);
-execSync(`docker compose -f docker/docker-compose.yml ${args.join(' ')}`, { env, stdio: 'inherit' });
+execSync(`docker compose -f docker/docker-compose.yml ${args.join(' ')}`, {
+    env,
+    stdio: 'inherit',
+});

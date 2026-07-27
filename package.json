@@ -17,7 +17,8 @@
         "pack": "node ./scripts/pack",
         "zip": "node ./scripts/zip",
         "docker:up": "node ./scripts/docker-up.js up --build -d",
-        "docker:down": "node ./scripts/docker-up.js down"
+        "docker:down": "node ./scripts/docker-up.js down",
+        "docker:signlicense": "node ./scripts/docker-sign-license.js"
     },
     "devDependencies": {
         "@eslint/js": "^9.9.0",
