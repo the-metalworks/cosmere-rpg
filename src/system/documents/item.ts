@@ -1531,6 +1531,39 @@ export class CosmereItem<
 
     /* --- Functions --- */
 
+    public async sendAsChatMessage(
+        options: CosmereItem.UseOptions = {},
+    ): Promise<null> {
+        const messageConfig = {
+            user: game.user.id,
+            speaker:
+                options.speaker ??
+                ChatMessage.getSpeaker({ actor: options.actor }),
+            rolls: [] as foundry.dice.Roll[],
+            flags: {} as Record<string, unknown>,
+        };
+
+        messageConfig.flags[SYSTEM_ID] = {
+            message: {
+                type: MESSAGE_TYPES.ACTION,
+                description: await this.getDescriptionHTML(),
+                targets: getTargetDescriptors(),
+                item: this.id,
+            },
+        };
+
+        // NOTE: Use boolean or operator (`||`) here instead of nullish coalescing (`??`),
+        // as flavor can also be an empty string, which we'd like to replace with the default flavor too
+        const flavor = undefined;
+
+        // Create chat message
+        const message = (await ChatMessage.create(messageConfig, {
+            rollMode: options.rollMode,
+        })) as ChatMessage;
+
+        return null;
+    }
+
     /**
      * Recharge the item, restoring specified resource(s) to their maximum value.
      * If no specific resource(s) are provided, all resources will be recharged.
