@@ -60,7 +60,101 @@
             }
         },
         "prerequisitesMet": false,
-        "modality": null
+        "modality": null,
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "power": null,
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Swift Healer",
+                    "img": "icons/magic/life/cross-beam-green.webp",
+                    "_id": "Mi7d8GRE5zVWux8u",
+                    "system": {
+                        "id": "swift-healer",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><em>Your practiced hands quickly dress wounds, even as the tides of battle ebb and flow around you.</em></p><p>You can use your Field Medicine as <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">0</span>.</p><p>Additionally, when you acquire this talent, you become more skilled in healing. When you use an ability that restores health to another character, they recover additional health equal to your ranks in <strong>Medicine</strong>.</p>",
+                            "chat": "<p>Use @UUID[Compendium.cosmere-rpg.heroic-paths.Item.Aanofomkj7Z5WO9E]{Field Medicine} as <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">0</span>. Your healing abilities restore additional health equal to your ranks in <strong>Medicine</strong>.</p>",
+                            "short": "<p>You can use your Field Medicine as <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">0</span>.</p><p>Additionally, when you acquire this talent, you become more skilled in healing. When you use an ability that restores health to another character, they recover additional health equal to your ranks in <strong>Medicine</strong>.</p>"
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {
+                            "4zzb0VkPVpKoKBFp": {
+                                "id": "4zzb0VkPVpKoKBFp",
+                                "description": "Use Field Medicine",
+                                "event": "use",
+                                "handler": {
+                                    "type": "use-item",
+                                    "target": "sibling",
+                                    "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.Aanofomkj7Z5WO9E",
+                                    "matchMode": "identifier",
+                                    "matchAll": false,
+                                    "plotDie": false,
+                                    "temporaryModifiers": "",
+                                    "temporaryDamageModifiers": "",
+                                    "fastForward": true,
+                                    "advantageMode": "none"
+                                },
+                                "order": 0,
+                                "disabled": false
+                            }
+                        },
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "type": "fre"
+                            },
+                            "consumption": [],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
     },
     "effects": [],
     "sort": 800000,
@@ -68,5 +162,16 @@
         "default": 0
     },
     "flags": {},
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784941466549,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+    },
     "_key": "!items!qyc7DlzuPBh5lsWz"
 }

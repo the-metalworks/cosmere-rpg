@@ -57,7 +57,82 @@
             "formula": null,
             "type": null
         },
-        "modality": null
+        "modality": null,
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "power": null,
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Subtle Takedown",
+                    "img": "icons/magic/unholy/strike-hand-glow-pink.webp",
+                    "_id": "an05bs6wk2YLzY7z",
+                    "system": {
+                        "id": "subtle-takedown",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><em>You swiftly strike at your target’s throat, knees, or another vulnerable area. Before the target can cry out, they are silenced.</em></p><p>Make an unarmed attack using Insight against the Cognitive defense of a character who is <strong>Surprised</strong>, does not sense you, or doesn't view you as a threat (such as if you are disguised). The target must be your size or smaller. <span>Raise the stakes</span> on this attack test. On a hit, the target also can’t communicate until the end of their next turn. Also on a hit, you can spend an Opportunity to @UUID[Compendium.cosmere-rpg.actions.Item.EVPgpHL6Y4jrumwI]{Grapple} them as <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">0,</span> automatically succeeding on your test; while <strong>Restrained</strong> by this grapple, they are also <strong>Prone</strong>.</p>",
+                            "chat": "<p>Make an unarmed attack with Insight vs. an unsuspecting target’s Cognitive, raising the stakes. On a hit, they can’t communicate.</p>",
+                            "short": "<p>Make an unarmed attack using Insight against the Cognitive defense of a character who is <strong>Surprised</strong>, does not sense you, or doesn't view you as a threat (such as if you are disguised). The target must be your size or smaller. <span>Raise the stakes</span> on this attack test. On a hit, the target also can’t communicate until the end of their next turn. Also on a hit, you can spend an Opportunity to @UUID[Compendium.cosmere-rpg.actions.Item.EVPgpHL6Y4jrumwI]{Grapple} them as <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">0,</span> automatically succeeding on your test; while <strong>Restrained</strong> by this grapple, they are also <strong>Prone</strong>.</p>"
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "value": 2,
+                                "type": "act"
+                            },
+                            "consumption": [],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
     },
     "effects": [],
     "flags": {},
@@ -66,6 +141,17 @@
     "sort": 700000,
     "ownership": {
         "default": 0
+    },
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784937105966,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
     },
     "_key": "!items!K7xoqesNtEPWEUKk"
 }

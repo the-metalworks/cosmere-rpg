@@ -61,7 +61,82 @@
                 "rank": 1
             }
         },
-        "prerequisitesMet": false
+        "prerequisitesMet": false,
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "power": null,
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Vinestance",
+                    "img": "icons/magic/nature/plant-undersea-glow-green.webp",
+                    "_id": "JZfGScYbs1Qhasyd",
+                    "system": {
+                        "id": "vinestance",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><em>You assume a flexible stance, allowing you to quickly switch between inexorable advances and rapid reactions to wear down your foe.</em></p><p>Your Physical and Cognitive defenses increase by 1. Additionally, after you’re hit or grazed by a melee attack, you can use <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">r</span> to make an <strong>Athletics</strong> test against your attacker’s Cognitive defense. On a success, your target loses [[/r 1d4]] focus, and you can push them horizontally up to 5 feet × your ranks in <strong>Athletics</strong>.</p>",
+                            "chat": "<p>Enter Vinestance: Your Physical and Cognitive defenses increase by 1. After you’re hit or grazed in melee, spend <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">r</span> to test <strong>Athletics</strong> vs. Cognitive to make attacker lose [[/r 1d4]] focus and be pushed.</p>",
+                            "short": "<p>Your Physical and Cognitive defenses increase by 1. Additionally, after you’re hit or grazed by a melee attack, you can use <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">r</span> to make an <strong>Athletics</strong> test against your attacker’s Cognitive defense. On a success, your target loses [[/r 1d4]] focus, and you can push them horizontally up to 5 feet × your ranks in <strong>Athletics</strong>.</p>"
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": "stance",
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "value": 1,
+                                "type": "act"
+                            },
+                            "consumption": [],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
     },
     "effects": [
         {
@@ -79,7 +154,9 @@
             },
             "_id": "m5k0JuU1iq69P7CJ",
             "type": "base",
-            "system": {},
+            "system": {
+                "isStackable": false
+            },
             "changes": [
                 {
                     "key": "system.defenses.phy.bonus",
@@ -102,14 +179,15 @@
             "sort": 0,
             "flags": {},
             "_stats": {
-                "coreVersion": "12.343",
+                "coreVersion": "13.351",
                 "systemId": null,
                 "systemVersion": null,
                 "createdTime": null,
                 "modifiedTime": null,
                 "lastModifiedBy": null,
                 "compendiumSource": null,
-                "duplicateSource": null
+                "duplicateSource": null,
+                "exportSource": null
             },
             "_key": "!items.effects!PuV9TAGsWqSdmf9y.m5k0JuU1iq69P7CJ"
         }
@@ -119,5 +197,16 @@
         "default": 0
     },
     "flags": {},
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784941982660,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+    },
     "_key": "!items!PuV9TAGsWqSdmf9y"
 }

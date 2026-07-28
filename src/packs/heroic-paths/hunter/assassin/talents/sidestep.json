@@ -60,7 +60,81 @@
             }
         },
         "prerequisitesMet": false,
-        "modality": null
+        "modality": null,
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "power": null,
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Sidestep",
+                    "img": "icons/skills/movement/feet-winged-boots-brown.webp",
+                    "_id": "AP5Zie5sqWK0xZFB",
+                    "system": {
+                        "id": "sidestep",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><em>Sliding like a shadow, you flit past your foes’ strikes and evade blows that seem certain to connect.</em></p><p>Gain an additional <span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">r</span> at the start of combat and at the start of each of your turns, which you can use only to @UUID[Compendium.cosmere-rpg.actions.Item.6Vm9QIbIjDOeSCwq]{Dodge}. You can’t benefit from this talent while wearing armor with a deflect value of 2 or higher.</p>",
+                            "chat": "<p>Gain an additional <span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">r</span> to @UUID[Compendium.cosmere-rpg.actions.Item.6Vm9QIbIjDOeSCwq]{Dodge} when you’re not wearing armor with deflect of 2 or higher.</p>",
+                            "short": "<p>Gain an additional <span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">r</span> at the start of combat and at the start of each of your turns, which you can use only to @UUID[Compendium.cosmere-rpg.actions.Item.6Vm9QIbIjDOeSCwq]{Dodge}. You can’t benefit from this talent while wearing armor with a deflect value of 2 or higher.</p>"
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "type": "spe"
+                            },
+                            "consumption": [],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
     },
     "effects": [],
     "sort": 375000,
@@ -68,5 +142,16 @@
         "default": 0
     },
     "flags": {},
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784939753836,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+    },
     "_key": "!items!BDvznUmzKXAll0rm"
 }

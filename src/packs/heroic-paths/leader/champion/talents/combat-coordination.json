@@ -60,7 +60,101 @@
             }
         },
         "prerequisitesMet": false,
-        "modality": null
+        "modality": null,
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "power": null,
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Combat Coordination",
+                    "img": "icons/skills/targeting/target-glowing-yellow.webp",
+                    "_id": "h6MkKWmPiOkaWdUp",
+                    "system": {
+                        "id": "combat-coordination",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><em>You lead through action, bolstering your allies with the momentum of your blows.</em></p><p>After you use the @UUID[Compendium.cosmere-rpg.actions.Item.Da4Xj4WnVbtHMH7k]{Strike} action, use @UUID[Compendium.cosmere-rpg.heroic-paths.Item.UEaOm4P2UFcrP1Z8]{Decisive Command} as <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">0</span>. If your Strike didn’t hit, you also don’t have to spend the usual focus for Decisive Command.</p>",
+                            "chat": "<p>After you @UUID[Compendium.cosmere-rpg.actions.Item.Da4Xj4WnVbtHMH7k]{Strike}, use @UUID[Compendium.cosmere-rpg.heroic-paths.Item.UEaOm4P2UFcrP1Z8]{Decisive Command} without spending <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">1</span>. If your Strike didn’t hit, you also don’t spend focus.</p>",
+                            "short": "<p>After you use the @UUID[Compendium.cosmere-rpg.actions.Item.Da4Xj4WnVbtHMH7k]{Strike} action, use Decisive Command as <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">0</span>. If your Strike didn’t hit, you also don’t have to spend the usual focus for Decisive Command.</p>"
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {
+                            "2iUACCFVexq3jJc6": {
+                                "id": "2iUACCFVexq3jJc6",
+                                "description": "Use Decisive Command",
+                                "event": "use",
+                                "handler": {
+                                    "type": "use-item",
+                                    "target": "sibling",
+                                    "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.UEaOm4P2UFcrP1Z8",
+                                    "matchMode": "identifier",
+                                    "matchAll": false,
+                                    "fastForward": true,
+                                    "advantageMode": "none",
+                                    "plotDie": false,
+                                    "temporaryModifiers": "",
+                                    "temporaryDamageModifiers": ""
+                                },
+                                "order": 0,
+                                "disabled": false
+                            }
+                        },
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "type": "fre"
+                            },
+                            "consumption": [],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
     },
     "effects": [],
     "sort": 100000,
@@ -68,5 +162,16 @@
         "default": 0
     },
     "flags": {},
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784940105623,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+    },
     "_key": "!items!7kWqpGcFPLVeR1JT"
 }

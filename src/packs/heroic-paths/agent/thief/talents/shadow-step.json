@@ -9,7 +9,7 @@
         "type": "path",
         "description": {
             "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">0</span></p><p><em>You know every con artist’s trick for avoiding comeuppance, and you can slip from sight with ease.</em></p><p>After you Disengage, you can spend 2 focus to make a <strong>Thievery</strong> test and compare the result against the Cognitive defense of each enemy who can sense you. You gain an advantage on this test if you’re in cover or an area where your target’s primary sense is obscured (such as darkness).</p><p>If you succeed against an enemy, you’re hidden as if you’d succeeded on a <strong>Stealth</strong> test to hide from them.</p>",
-            "chat": "<p><strong>Activation:</strong> <span style=\"font-family: 'Cosmere Dingbats'\">0</span></p><p>After you @UUID[Compendium.cosmere-rpg.actions.Item.wC4Z0mdGwRxLDpMC]{Disengage}, spend 2 focus to test <strong>Thievery</strong> vs. each enemy’s Cognitive to hide from them. You gain an advantage if in cover or obscured.</p>",
+            "chat": "<p><strong>Activation:</strong> <span style=\"font-family: &#x27;Cosmere Dingbats&#x27;\">0</span></p><p>After you @UUID[Compendium.cosmere-rpg.actions.Item.wC4Z0mdGwRxLDpMC]{Disengage}, spend 2 focus to test <strong>Thievery</strong> vs. each enemy’s Cognitive to hide from them. You gain an advantage if in cover or obscured.</p>",
             "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">0</span></p><p>After you Disengage, you can spend 2 focus to make a <strong>Thievery</strong> test and compare the result against the Cognitive defense of each enemy who can sense you. You gain an advantage on this test if you’re in cover or an area where your target’s primary sense is obscured (such as darkness).</p><p>If you succeed against an enemy, you’re hidden as if you’d succeeded on a <strong>Stealth</strong> test to hide from them.</p>"
         },
         "activation": {
@@ -73,7 +73,106 @@
             "skill": null,
             "attribute": null
         },
-        "modality": null
+        "modality": null,
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "power": null,
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Shadow Step",
+                    "img": "icons/magic/unholy/silhouette-robe-evil-glow.webp",
+                    "_id": "D3xwHdubrmFELQNv",
+                    "system": {
+                        "id": "shadow-step",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><em>You know every con artist’s trick for avoiding comeuppance, and you can slip from sight with ease.</em></p><p>After you Disengage, you can spend 2 focus to make a <strong>Thievery</strong> test and compare the result against the Cognitive defense of each enemy who can sense you. You gain an advantage on this test if you’re in cover or an area where your target’s primary sense is obscured (such as darkness).</p><p>If you succeed against an enemy, you’re hidden as if you’d succeeded on a <strong>Stealth</strong> test to hide from them.</p>",
+                            "chat": "<p>After you @UUID[Compendium.cosmere-rpg.actions.Item.wC4Z0mdGwRxLDpMC]{Disengage}, spend 2 focus to test <strong>Thievery</strong> vs. each enemy’s Cognitive to hide from them. You gain an advantage if in cover or obscured.</p>",
+                            "short": "<p>After you Disengage, you can spend 2 focus to make a <strong>Thievery</strong> test and compare the result against the Cognitive defense of each enemy who can sense you. You gain an advantage on this test if you’re in cover or an area where your target’s primary sense is obscured (such as darkness).</p><p>If you succeed against an enemy, you’re hidden as if you’d succeeded on a <strong>Stealth</strong> test to hide from them.</p>"
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "skill_test",
+                            "cost": {
+                                "type": "fre"
+                            },
+                            "consumption": [
+                                {
+                                    "type": "resource",
+                                    "value": {
+                                        "min": 2,
+                                        "max": 2,
+                                        "actual": 1
+                                    },
+                                    "resource": "foc",
+                                    "matchDocument": {
+                                        "steps": [
+                                            {
+                                                "target": "ancestor",
+                                                "documentType": "Actor",
+                                                "matchBy": "document-type",
+                                                "reference": null,
+                                                "matchMode": "first"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": null,
+                            "attribute": null,
+                            "formula": null,
+                            "grazeOverrideFormula": "",
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "thv",
+                            "attribute": "default",
+                            "plotDie": false,
+                            "modifierFormula": "",
+                            "opportunity": null,
+                            "complication": null
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
     },
     "effects": [],
     "sort": -300000,
@@ -81,5 +180,16 @@
         "default": 0
     },
     "flags": {},
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784937757236,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+    },
     "_key": "!items!nQ5kkW2WCXohy6Pb"
 }

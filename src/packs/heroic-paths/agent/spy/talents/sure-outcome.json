@@ -68,7 +68,102 @@
             "formula": null,
             "type": null
         },
-        "modality": null
+        "modality": null,
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "power": null,
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Sure Outcome",
+                    "img": "icons/magic/control/mouth-smile-deception-purple.webp",
+                    "_id": "L1VKcU6SuIVtacfT",
+                    "system": {
+                        "id": "sure-outcome",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><em>The best gamble is one that secretly isn’t a gamble at all. Your insight sometimes reveals that seemingly random events are actually part of someone’s plan.</em></p><p>When you use your Opportunist, instead of rerolling the plot die, you can spend 2 focus to flip it to a specific result. If the die was showing <span class=\"cosmere-icon\" style=\"color: #98a4f5;\" data-tooltip=\"Opportunity\" aria-label=\"Opportunity\">O</span>, flip it to <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\" style=\"color:rgb(173,19,19)\">c</span><span style=\"color:rgb(173,19,19)\">4</span>. If it was showing any <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\" style=\"color:rgb(173,19,19)\">c</span>, flip it to <span class=\"cosmere-icon\" style=\"color: #98a4f5;\" data-tooltip=\"Opportunity\" aria-label=\"Opportunity\">O</span>.</p>",
+                            "chat": "<p>When you use Opportunist, spend 2 focus to change <span class=\"cosmere-icon\" style=\"color: #98a4f5;\" data-tooltip=\"Opportunity\" aria-label=\"Opportunity\">O</span> to <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\" style=\"color:rgb(173,19,19)\">c</span><span style=\"color:rgb(173,19,19)\">4</span>, or change any <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\" style=\"color:rgb(173,19,19)\">c</span> to <span class=\"cosmere-icon\" style=\"color: #98a4f5;\" data-tooltip=\"Opportunity\" aria-label=\"Opportunity\">O</span>.</p>",
+                            "short": "<p>When you use your Opportunist, instead of rerolling the plot die, you can spend 2 focus to flip it to a specific result. If the die was showing <span class=\"cosmere-icon\" style=\"color: #98a4f5;\" data-tooltip=\"Opportunity\" aria-label=\"Opportunity\">O</span>, flip it to <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\" style=\"color:rgb(173,19,19)\">c</span><span style=\"color:rgb(173,19,19)\">4</span>. If it was showing any <span class=\"cosmere-icon\" data-tooltip=\"Always Active\" aria-label=\"Always Active\" style=\"color:rgb(173,19,19)\">c</span>, flip it to <span class=\"cosmere-icon\" style=\"color: #98a4f5;\" data-tooltip=\"Opportunity\" aria-label=\"Opportunity\">O</span>.</p>"
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "type": "spe"
+                            },
+                            "consumption": [
+                                {
+                                    "type": "resource",
+                                    "value": {
+                                        "min": 2,
+                                        "max": 2,
+                                        "actual": 1
+                                    },
+                                    "resource": "foc",
+                                    "matchDocument": {
+                                        "steps": [
+                                            {
+                                                "target": "ancestor",
+                                                "documentType": "Actor",
+                                                "matchBy": "document-type",
+                                                "reference": null,
+                                                "matchMode": "first"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
     },
     "effects": [],
     "flags": {},
@@ -77,6 +172,17 @@
     "sort": 800000,
     "ownership": {
         "default": 0
+    },
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784937164627,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
     },
     "_key": "!items!Vv9KSpLqxaUd8u6K"
 }
