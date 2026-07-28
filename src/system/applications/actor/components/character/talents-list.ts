@@ -242,6 +242,7 @@ export class ActorTalentsListComponent extends ActorItemListComponent {
         ...super.ACTIONS,
         'use-item': this.onUseItem,
     };
+    /* eslint-enable @typescript-eslint/unbound-method */
 
     /* --- Context --- */
 
