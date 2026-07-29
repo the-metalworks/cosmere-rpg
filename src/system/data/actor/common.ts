@@ -734,6 +734,14 @@ export class CommonActorDataModel<
         (Object.keys(this.resources) as Resource[]).forEach((key) => {
             // Get the resource
             const resource = this.resources[key];
+            if (!(key in CONFIG.COSMERE.resources)) {
+                console.warn(
+                    "The resource key: '" +
+                        key +
+                        "' does not exist in CONFIG.COSMERE.resources",
+                );
+                return;
+            }
 
             // Get max
             const max = resource.max.value;

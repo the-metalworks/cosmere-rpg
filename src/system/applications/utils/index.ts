@@ -23,28 +23,29 @@ export function getItemUuidFromEvent(event: Event): string | undefined {
     return element.data('item-uuid') as string;
 }
 
-export function getItemFromEvent(
+export async function getItemFromEvent(
     event: Event,
     actor: CosmereActor,
-): CosmereItem | undefined {
-    // Get id
-    const itemId = getItemIdFromEvent(event);
+): Promise<CosmereItem | null> {
+    // Get uuid
+    const uuid = getItemUuidFromEvent(event);
+    if (!uuid) return null;
 
     // Find the item
-    return actor.items.find((i) => i.id === itemId);
+    return foundry.utils.fromUuid<CosmereItem>(uuid);
 }
 
-export function getItemFromElement(
+export async function getItemFromElement(
     element: HTMLElement,
     actor: CosmereActor,
-): CosmereItem | undefined {
-    // Get the id
-    const itemId = $(element)
-        .closest('.item[data-item-id]')
-        .data('item-id') as string;
+): Promise<CosmereItem | null> {
+    // Get the uuid
+    const uuid = $(element)
+        .closest('.item[data-item-uuid]')
+        .data('item-uuid') as string;
 
     // Find the item
-    return actor.items.find((i) => i.id === itemId);
+    return foundry.utils.fromUuid<CosmereItem>(uuid);
 }
 
 export default {
