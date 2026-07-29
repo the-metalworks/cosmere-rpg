@@ -419,7 +419,7 @@ export class CosmereItem<
     }
 
     public get isEphemeral(): boolean {
-        return this.getFlag(SYSTEM_ID, 'meta.isEphemeral');
+        return !foundry.utils.getProperty(this, '_stats.createdTime');
     }
 
     public get isActivatable(): boolean {
@@ -1542,6 +1542,37 @@ export class CosmereItem<
 
     /* --- Functions --- */
 
+    public async toChatMessage(
+        options: CosmereItem.UseOptions = {},
+    ): Promise<ChatMessage> {
+        const messageConfig = {
+            user: game.user.id,
+            speaker:
+                options.speaker ??
+                ChatMessage.getSpeaker({ actor: options.actor }),
+            rolls: [] as foundry.dice.Roll[],
+            flags: {} as Record<string, unknown>,
+        };
+
+        messageConfig.flags[SYSTEM_ID] = {
+            message: {
+                type: MESSAGE_TYPES.ACTION,
+                description: await this.getDescriptionHTML(),
+                targets: getTargetDescriptors(),
+                item: this.id,
+            },
+        };
+
+        // Create chat message
+        const message = new ChatMessage(messageConfig);
+
+        if (options.rollMode) {
+            message.applyRollMode(options.rollMode);
+        }
+
+        return message;
+    }
+
     /**
      * Recharge the item, restoring specified resource(s) to their maximum value.
      * If no specific resource(s) are provided, all resources will be recharged.
@@ -2286,10 +2317,8 @@ declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
                 'sheet.mode': 'edit' | 'view';
                 meta: {
                     origin: ItemOrigin;
-                    isEphemeral?: boolean;
                 };
                 'meta.origin': ItemOrigin;
-                'meta.isEphemeral': boolean;
                 previousLevel?: number;
                 isStartingPath?: boolean;
                 isStrike?: boolean;

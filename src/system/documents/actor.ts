@@ -1111,7 +1111,19 @@ export class CosmereActor<
     ): Promise<D20Roll | [D20Roll, ...DamageRoll[]] | null> {
         // Checks for relevant Active Effects triggers/manual toggles will go here
         // E.g. permanent/conditional: attack bonuses, damage riders, auto opportunity/complications, etc.
-        return item.use({ ...options, actor: this });
+        if (item.isAction()) {
+            return item.use({ ...options, actor: this });
+        }
+        if (item.hasDescription()) {
+            await ChatMessage.create(
+                await item.toChatMessage({ ...options, actor: this }),
+            );
+            return null;
+        }
+        console.warn(
+            item.name + ' does not do anything when used. Is this intentional?',
+        );
+        return null;
     }
 
     /**

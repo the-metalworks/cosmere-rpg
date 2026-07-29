@@ -34,12 +34,12 @@ any> {
 
     /* --- Actions --- */
 
-    public static onDecreaseInjuryDuration(
+    public static async onDecreaseInjuryDuration(
         this: ActorInjuriesListComponent,
         event: Event,
     ) {
         // Get injury item
-        const injuryItem = AppUtils.getItemFromEvent(
+        const injuryItem = await AppUtils.getItemFromEvent(
             event,
             this.application.actor,
         );
@@ -55,12 +55,12 @@ any> {
         });
     }
 
-    public static onIncreaseInjuryDuration(
+    public static async onIncreaseInjuryDuration(
         this: ActorInjuriesListComponent,
         event: Event,
     ) {
         // Get injury item
-        const injuryItem = AppUtils.getItemFromEvent(
+        const injuryItem = await AppUtils.getItemFromEvent(
             event,
             this.application.actor,
         );
@@ -147,6 +147,7 @@ any> {
                     return {
                         ...item,
                         id: item.id,
+                        uuid: item.uuid,
                         type,
                         typeLabel: CONFIG.COSMERE.injury.types[type].label,
                         duration: item.system.duration,
