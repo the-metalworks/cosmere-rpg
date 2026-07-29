@@ -242,6 +242,13 @@ export class CosmereActor<
         return this.items.filter((i) => i.isEffectsContainer());
     }
 
+    public get allItems(): CosmereItem[] {
+        return Array.from(this.items).flatMap((item) => [
+            item,
+            ...item.allEmbeddedItems,
+        ]);
+    }
+
     public get skillLinkedItems(): CosmereItem[] {
         return this.items
             .filter(

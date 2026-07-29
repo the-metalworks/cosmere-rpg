@@ -136,7 +136,7 @@ Hooks.once('ready', () => {
                     const actor = document as CosmereActor;
 
                     // Handle the hook for all items
-                    await actor.items.reduce(async (prev, item) => {
+                    await actor.allItems.reduce(async (prev, item) => {
                         // Wait for the previous item to finish
                         await prev;
 
