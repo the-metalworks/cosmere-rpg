@@ -267,6 +267,10 @@ async function getCRUDRequestTargets(
                     doc.updateSource({ _id: foundry.utils.randomID() });
                 }
 
+                doc.updateSource({
+                    '_stats.createdTime': Date.now(),
+                });
+
                 return doc;
             });
     } else if (isUpdateRequest(request)) {

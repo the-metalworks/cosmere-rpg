@@ -86,7 +86,16 @@ export function EphemeralEmbeddedDocumentsMixin<
                             return new cls(data, { parent: this });
                         });
 
-                    const concreteDocuments = Array.from(collection);
+                    const concreteDocuments = (
+                        Array.from(collection) as object[]
+                    ).filter(
+                        // Documents without _stats.createdTime are considered ephemeral
+                        (doc) =>
+                            !!foundry.utils.getProperty(
+                                doc,
+                                '_stats.createdTime',
+                            ),
+                    ) as DocumentOfType<EmbeddedTypesOf<DocumentType>>[];
 
                     collection.clear();
                     ephemeralDocuments.forEach((doc) => {
