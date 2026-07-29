@@ -1108,7 +1108,10 @@ export class CosmereActor<
             return item.use({ ...options, actor: this });
         }
         if (item.hasDescription()) {
-            return item.sendAsChatMessage({ ...options, actor: this });
+            await ChatMessage.create(
+                await item.toChatMessage({ ...options, actor: this }),
+            );
+            return null;
         }
         console.warn(
             item.name + ' does not do anything when used. Is this intentional?',
