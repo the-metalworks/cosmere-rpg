@@ -321,7 +321,10 @@ export class ActorActionsListComponent extends ActorItemListComponent {
         increase = true,
     ) {
         // Get item
-        const item = AppUtils.getItemFromEvent(event, this.application.actor);
+        const item = await AppUtils.getItemFromEvent(
+            event,
+            this.application.actor,
+        );
         if (!item) return;
         if (!item.hasResources()) return;
         const primaryResource = item.system.primaryResource;

@@ -47,6 +47,7 @@
 
     <li class="item {{#if ctx.hasActivation}}usable{{/if}} collapsible {{#if state.expanded}}expanded{{/if}}"
         data-item-id="{{item.id}}"
+        data-item-uuid="{{item.uuid}}"
         {{#if @root.editable}}data-drag="true"{{/if}}
     >
         <section class="details">
