@@ -421,7 +421,7 @@ export class CosmereItem<
     }
 
     public get isEphemeral(): boolean {
-        return this.getFlag(SYSTEM_ID, 'meta.isEphemeral');
+        return !foundry.utils.getProperty(this, '_stats.createdTime');
     }
 
     public get isActivatable(): boolean {
@@ -2284,10 +2284,8 @@ declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
                 'sheet.mode': 'edit' | 'view';
                 meta: {
                     origin: ItemOrigin;
-                    isEphemeral?: boolean;
                 };
                 'meta.origin': ItemOrigin;
-                'meta.isEphemeral': boolean;
                 previousLevel?: number;
                 isStartingPath?: boolean;
                 isStrike?: boolean;

@@ -79,28 +79,14 @@ export function EphemeralEmbeddedDocumentsMixin<
                                 doc.toObject(),
                                 {
                                     _id: doc.id ?? foundry.utils.randomID(), // Ensure id is set
-                                    flags: {
-                                        [SYSTEM_ID]: {
-                                            meta: {
-                                                isEphemeral: true,
-                                            },
-                                        },
-                                    },
                                 },
                             );
 
                             // Create new instance of document so we can assign the parent
                             return new cls(data, { parent: this });
                         });
-                    const concreteDocuments = (
-                        Array.from(collection) as object[]
-                    ).filter(
-                        (doc) =>
-                            !foundry.utils.getProperty(
-                                doc,
-                                `flags.${SYSTEM_ID}.meta.isEphemeral`,
-                            ),
-                    ) as DocumentOfType<EmbeddedTypesOf<DocumentType>>[];
+
+                    const concreteDocuments = Array.from(collection);
 
                     collection.clear();
                     ephemeralDocuments.forEach((doc) => {
