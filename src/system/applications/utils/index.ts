@@ -31,7 +31,7 @@ export function getItemFromEvent(
     const itemId = getItemIdFromEvent(event);
 
     // Find the item
-    return actor.items.find((i) => i.id === itemId);
+    return actor.allItems.find((i) => i.id === itemId);
 }
 
 export function getItemFromElement(

@@ -449,13 +449,22 @@ export class CosmereItem<
      * Currently checks equipped state for equippable items.
      */
     public get hasUsableActions(): boolean {
-        return !this.isEquippable() || this.system.equipped 
+        return !this.isEquippable() || this.system.equipped
             ? this.hasActions
-            : false
+            : false;
     }
 
     public get actions(): readonly ActionItem[] {
         return this.items.filter((item) => item.isAction());
+    }
+
+    public get allEmbeddedItems(): readonly CosmereItem[] {
+        if (this.items) {
+            return Array.from(this.items).flatMap((item) => [
+                item,
+                ...item.allEmbeddedItems,
+            ]);
+        } else return [];
     }
 
     /**
