@@ -26,11 +26,41 @@
                 "recharge": "per_scene",
                 "value": 1,
                 "max": 1
-            }
+            },
+            "consumption": [
+                {
+                    "type": "item_resource",
+                    "value": {
+                        "min": 1,
+                        "max": 1,
+                        "actual": 1
+                    },
+                    "resource": "uses",
+                    "matchDocument": {
+                        "steps": [
+                            {
+                                "target": "self",
+                                "documentType": "Actor",
+                                "reference": null,
+                                "matchBy": "document-type",
+                                "matchMode": "first"
+                            }
+                        ]
+                    }
+                }
+            ]
         },
         "damage": {
-            "formula": null,
-            "type": null
+            "formula": "@recovery.die.derived",
+            "type": "heal"
+        },
+        "primaryResource": "uses",
+        "resources": {
+            "uses": {
+                "value": 1,
+                "max": 1,
+                "recharge": "per_scene"
+            }
         }
     },
     "effects": [],
@@ -39,5 +69,16 @@
         "default": 0
     },
     "flags": {},
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784942489160,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+    },
     "_key": "!items!Y9lzSbkmwGg7mN61"
 }

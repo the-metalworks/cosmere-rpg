@@ -460,6 +460,15 @@ export class CosmereItem<
         return this.actions.at(0) ?? null;
     }
 
+    public get allEmbeddedItems(): readonly CosmereItem[] {
+        if (this.items) {
+            return Array.from(this.items).flatMap((item) => [
+                item,
+                ...item.allEmbeddedItems,
+            ]);
+        } else return [];
+    }
+
     /**
      * Whether or not this action is the default for its parent item.
      * Only available for action items that are embedded in other items.

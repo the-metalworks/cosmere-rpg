@@ -157,8 +157,9 @@ async function migrateGlobalActors(
     compendium?: CompendiumCollection.Any,
 ) {
     for (const data of actors) {
+        logger.debug('Migrating actor', { raw: data });
         try {
-            if (data.items.length === 0) return;
+            if (data.items.length === 0) continue;
 
             const actor =
                 await getPossiblyInvalidDocument<Actor.Implementation>(
@@ -314,6 +315,7 @@ function migrateActionData(
 ): ActionItemDataModel | null {
     const activation = data.system.activation;
     if (!activation) return null;
+    if (activation.type == ActivationType.None) return null;
 
     const id =
         data.system.id ??

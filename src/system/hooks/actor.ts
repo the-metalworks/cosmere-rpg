@@ -161,7 +161,7 @@ Hooks.on('updateActor', (actor: CosmereActor, changed: Actor.UpdateData) => {
             );
 
             // Get modality item for the current mode
-            const currentModalityItem = actor.items.find(
+            const currentModalityItem = actor.allItems.find(
                 (item) =>
                     item.hasId() &&
                     item.hasModality() &&
@@ -177,7 +177,7 @@ Hooks.on('updateActor', (actor: CosmereActor, changed: Actor.UpdateData) => {
             }
 
             // Get modality item for the new mode
-            const newModalityItem = actor.items.find(
+            const newModalityItem = actor.allItems.find(
                 (item) =>
                     item.hasId() &&
                     item.hasModality() &&
