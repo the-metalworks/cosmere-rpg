@@ -1531,9 +1531,9 @@ export class CosmereItem<
 
     /* --- Functions --- */
 
-    public async sendAsChatMessage(
+    public async toChatMessage(
         options: CosmereItem.UseOptions = {},
-    ): Promise<null> {
+    ): Promise<ChatMessage> {
         const messageConfig = {
             user: game.user.id,
             speaker:
@@ -1553,11 +1553,13 @@ export class CosmereItem<
         };
 
         // Create chat message
-        const message = (await ChatMessage.create(messageConfig, {
-            rollMode: options.rollMode,
-        })) as ChatMessage;
+        const message = new ChatMessage(messageConfig);
 
-        return null;
+        if (options.rollMode) {
+            message.applyRollMode(options.rollMode);
+        }
+
+        return message;
     }
 
     /**
