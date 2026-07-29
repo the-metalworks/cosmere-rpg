@@ -50,14 +50,17 @@ export class ActorEquipmentListComponent extends ActorItemListComponent {
     };
     /* eslint-enable @typescript-eslint/unbound-method */
 
-    public static onToggleEquip(
+    public static async onToggleEquip(
         this: ActorEquipmentListComponent,
         event: Event,
     ) {
         if (!this.application.isEditable) return;
 
         // Get item
-        const item = AppUtils.getItemFromEvent(event, this.application.actor);
+        const item = await AppUtils.getItemFromEvent(
+            event,
+            this.application.actor,
+        );
         if (!item) return;
         if (!item.isEquippable()) return;
 
@@ -68,14 +71,17 @@ export class ActorEquipmentListComponent extends ActorItemListComponent {
         });
     }
 
-    public static onCycleEquip(
+    public static async onCycleEquip(
         this: ActorEquipmentListComponent,
         event: Event,
     ) {
         if (!this.application.isEditable) return;
 
         // Get item
-        const item = AppUtils.getItemFromEvent(event, this.application.actor);
+        const item = await AppUtils.getItemFromEvent(
+            event,
+            this.application.actor,
+        );
         if (!item) return;
         if (!item.isEquippable()) return;
 
@@ -148,7 +154,10 @@ export class ActorEquipmentListComponent extends ActorItemListComponent {
         increase = true,
     ) {
         // Get item
-        const item = AppUtils.getItemFromEvent(event, this.application.actor);
+        const item = await AppUtils.getItemFromEvent(
+            event,
+            this.application.actor,
+        );
         if (!item) return;
         if (!item.isPhysical()) return;
 
@@ -181,7 +190,10 @@ export class ActorEquipmentListComponent extends ActorItemListComponent {
         increase = true,
     ) {
         // Get item
-        const item = AppUtils.getItemFromEvent(event, this.application.actor);
+        const item = await AppUtils.getItemFromEvent(
+            event,
+            this.application.actor,
+        );
         if (!item) return;
         if (!item.hasResources()) return;
         const primaryResource = item.system.primaryResource;

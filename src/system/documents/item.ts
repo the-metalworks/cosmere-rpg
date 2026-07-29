@@ -458,6 +458,15 @@ export class CosmereItem<
         return this.items.filter((item) => item.isAction());
     }
 
+    public get allEmbeddedItems(): readonly CosmereItem[] {
+        if (this.items) {
+            return Array.from(this.items).flatMap((item) => [
+                item,
+                ...item.allEmbeddedItems,
+            ]);
+        } else return [];
+    }
+
     /**
      * Whether or not this action is the default activation for its parent item.
      * Only available for action items that are embedded in other items.

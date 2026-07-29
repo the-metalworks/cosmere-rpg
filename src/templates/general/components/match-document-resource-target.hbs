@@ -11,7 +11,7 @@
         {{/if}}
         {{#if hasResource}}
             {{#with (itemContext resolvedDocument) as |ctx|}}
-            {{> item-list-resource ctx=ctx showButtons=false}}
+            {{> item-list-resource ctx=ctx showButtons=false hideRecharge=true}}
             {{/with}}
         {{/if}}
     </a>
