@@ -101,7 +101,7 @@ interface UserItemEventHandler {
     type: 'use-item';
     target: string;
     uuid?: string;
-    matchMode?: 'identifier' | 'name' | 'uuid';
+    matchMode?: 'identifier' | 'name' | 'uuid' | 'document-type';
     matchAll?: boolean;
 }
 
@@ -273,9 +273,9 @@ async function migrateEventsItem(
                         steps: [
                             {
                                 target: rule.handler.target,
-                                documentType: 'Item',
                                 reference: rule.handler.uuid,
-                                matchBy: rule.handler.matchMode,
+                                matchBy: 'document-type',
+                                documentType: 'Item',
                                 matchMode: rule.handler.matchAll
                                     ? 'all'
                                     : 'first',
