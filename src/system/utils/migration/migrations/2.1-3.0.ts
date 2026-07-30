@@ -268,21 +268,45 @@ async function migrateEventsItem(
 
             if (hasUseItemHandler(rule)) {
                 eventsChanges[rule.id] ??= {};
-                eventsChanges[rule.id].handler = {
-                    matchDocument: {
-                        steps: [
-                            {
-                                target: rule.handler.target,
-                                reference: rule.handler.uuid,
-                                matchBy: 'document-type',
-                                documentType: 'Item',
-                                matchMode: rule.handler.matchAll
-                                    ? 'all'
-                                    : 'first',
+                switch (rule.handler.target) {
+                    case 'sibling':
+                    case 'global':
+                        eventsChanges[rule.id].handler = {
+                            matchDocument: {
+                                steps: [
+                                    {
+                                        target: rule.handler.target,
+                                        reference: rule.handler.uuid,
+                                        matchBy: rule.handler.matchMode,
+                                        documentType: 'Item',
+                                        matchMode: rule.handler.matchAll
+                                            ? 'all'
+                                            : 'first',
+                                    },
+                                ],
                             },
-                        ],
-                    },
-                };
+                        };
+                        break;
+
+                    case 'equipped-weapon':
+                    case 'equipped-armor':
+                        eventsChanges[rule.id].handler = {
+                            matchDocument: {
+                                steps: [
+                                    {
+                                        target: rule.handler.target,
+                                        reference: rule.handler.uuid,
+                                        matchBy: 'document-type',
+                                        documentType: 'Item',
+                                        matchMode: rule.handler.matchAll
+                                            ? 'all'
+                                            : 'first',
+                                    },
+                                ],
+                            },
+                        };
+                        break;
+                }
             }
         });
 
