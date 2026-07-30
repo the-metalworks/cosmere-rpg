@@ -36,7 +36,7 @@ export class ConfigureResourceDialog extends HandlebarsApplicationMixin(
         foundry.utils.deepClone(super.PARTS),
         {
             form: {
-                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ACTOR_CONFIGURE_RESOURCE}`,
+                template: `${TEMPLATES.DIRECTORY}${TEMPLATES.DIALOG_ACTOR_CONFIGURE_RESOURCE}`,
                 forms: {
                     form: {
                         handler: this.onFormEvent,

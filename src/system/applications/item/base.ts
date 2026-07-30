@@ -15,14 +15,17 @@ import {
 } from '@system/types/utils';
 import { renderSystemTemplate, TEMPLATES } from '@src/system/utils/templates';
 
+// Utils
+import AppUtils from '@system/applications/utils';
+
 // Mixins
 import { ComponentHandlebarsApplicationMixin } from '@system/applications/component-system';
 import {
     TabsApplicationMixin,
+    DragDropApplicationMixin,
     TabApplicationRenderOptions,
 } from '@system/applications/mixins';
 import { DescriptionItemData } from '@src/system/data/item/mixins/description';
-import { ItemConsumeData } from '@src/system/data/item/mixins/activatable';
 import { SYSTEM_ID } from '@src/system/constants';
 
 const { ItemSheetV2 } = foundry.applications.sheets;
@@ -37,7 +40,7 @@ export type BaseItemSheetConfiguration =
 export type BaseItemSheetRenderOptions = TabApplicationRenderOptions;
 
 export class BaseItemSheet extends TabsApplicationMixin(
-    ComponentHandlebarsApplicationMixin(ItemSheetV2),
+    DragDropApplicationMixin(ComponentHandlebarsApplicationMixin(ItemSheetV2)),
 ) {
     declare item: CosmereItem;
 
@@ -55,6 +58,12 @@ export class BaseItemSheet extends TabsApplicationMixin(
             'edit-description': this.editDescription,
             save: this.onSave,
         },
+        dragDrop: [
+            {
+                dragSelector: '[data-drag]',
+                dropSelector: '*',
+            },
+        ],
     } as foundry.applications.api.ApplicationV2.DefaultOptions;
     /* eslint-enable @typescript-eslint/unbound-method */
 
@@ -129,20 +138,13 @@ export class BaseItemSheet extends TabsApplicationMixin(
             }
         }
 
-        if (this.item.hasActivation()) {
+        if (this.item.isAction()) {
+            // TODO: Refactor to use new resources
             if (
                 'system.activation.uses.type' in formData.object &&
                 formData.object['system.activation.uses.type'] === NONE
             )
                 formData.set('system.activation.uses', null);
-
-            // Handle consumption
-            const consumption = this.getUpdatedConsumption(formData);
-            if (consumption.length === 0) {
-                formData.set('system.activation.consume', null);
-            } else {
-                formData.set('system.activation.consume', consumption);
-            }
         }
 
         if (this.item.hasDamage()) {
@@ -294,7 +296,9 @@ export class BaseItemSheet extends TabsApplicationMixin(
     /* --- Context --- */
 
     public async _prepareContext(
-        options: DeepPartial<foundry.applications.api.ApplicationV2.RenderOptions>,
+        options: DeepPartial<foundry.applications.api.ApplicationV2.RenderOptions> & {
+            editable?: boolean;
+        },
     ) {
         let enrichedDescValue = undefined;
         let enrichedShortDescValue = undefined;
@@ -318,7 +322,7 @@ export class BaseItemSheet extends TabsApplicationMixin(
             item: this.item,
             systemFields: this.item.system.schema
                 .fields as foundry.data.fields.DataSchema,
-            editable: this.isEditable,
+            editable: options.editable ?? this.isEditable,
             isUpdatingDescription: this.isUpdatingDescription,
             descHtml: enrichedDescValue,
             shortDescHtml: enrichedShortDescValue,
@@ -383,6 +387,57 @@ export class BaseItemSheet extends TabsApplicationMixin(
         await this.saveDescription();
     }
 
+    /* --- Drag drop --- */
+
+    protected override _canDragStart(): boolean {
+        return this.isEditable;
+    }
+
+    protected override _canDragDrop(): boolean {
+        return this.isEditable;
+    }
+
+    protected override _onDragStart(event: DragEvent) {
+        // Get dragged item
+        const itemUuid = AppUtils.getItemUuidFromEvent(event);
+        const item = fromUuidSync(itemUuid);
+        if (!item) return;
+
+        const dragData = {
+            type: 'Item',
+            uuid: item.uuid,
+        };
+
+        // Set data transfer
+        event.dataTransfer!.setData('text/plain', JSON.stringify(dragData));
+        event.dataTransfer!.setData('document/item', ''); // Mark the type
+    }
+
+    protected override async _onDrop(event: DragEvent) {
+        const data =
+            foundry.applications.ux.TextEditor.implementation.getDragEventData(
+                event,
+            ) as {
+                type: foundry.abstract.Document.Type;
+                uuid: string;
+            };
+
+        // Ensure document type can be embedded on item
+        if (!(data.type in Item.implementation.metadata.embedded)) return;
+
+        const document = await fromUuid(data.uuid);
+        if (!document) return;
+
+        if (document.parent === this.item) return;
+
+        void this.item.createEmbeddedDocuments(
+            data.type as Item.Embedded.Name,
+            [
+                document.toObject() as foundry.abstract.Document.CreateDataForName<Item.Embedded.Name>,
+            ],
+        );
+    }
+
     /* --- Lifecycle --- */
 
     protected async _onRender(context: AnyObject, options: AnyObject) {
@@ -409,113 +464,5 @@ export class BaseItemSheet extends TabsApplicationMixin(
         // Switches back from prose mirror
         this.updatingDescription = false;
         await this.render(true);
-    }
-
-    /**
-     * Helper to manage activation consumption changes
-     */
-    private getUpdatedConsumption(
-        formData: FormDataExtended,
-    ): ItemConsumeData[] {
-        const consumeData = new Map<number, AnyMutableObject>();
-
-        const consumeFormKeys = Object.keys(formData.object).filter((k) =>
-            k.startsWith('system.activation.consume'),
-        );
-
-        // Track removed options, to ensure a later key doesn't recreate
-        // one that has already been intentionally untracked
-        const removedOptions: number[] = [];
-        consumeFormKeys.forEach((formKey) => {
-            // Index can be empty, assuming there isn't an existing
-            // consumption configured.
-            const parts = /\[(\d*)\]\.(\w+)$/.exec(formKey);
-
-            if (!parts || parts.length < 2) {
-                console.error(`[${SYSTEM_ID}] Bad form key: ${formKey}`);
-                return;
-            }
-
-            // Invalid or missing indices will always be sorted to the front,
-            // without overwriting existing data.
-            let i = parseInt(parts[1]);
-            if (isNaN(i)) i = -1;
-
-            // Ignore form keys for options which have already been deleted
-            if (removedOptions.includes(i)) {
-                delete formData.object[formKey];
-                return;
-            }
-
-            const existingConsumeData = consumeData.get(i) ?? {
-                type: ItemConsumeType.Resource,
-                value: 0,
-                resource: Resource.Focus,
-            };
-
-            const dataKey = parts[2];
-
-            // Parse actual value range from input text
-            if (dataKey === 'value') {
-                const newConsumeData: NumberRange = {
-                    min: 0,
-                    max: 0,
-                };
-
-                const valueInput = formData.get(formKey)?.toString() ?? '0';
-                const valueParts = valueInput.split('-');
-
-                if (valueParts.length === 1) {
-                    const value = valueParts[0];
-                    const isRange = value.endsWith('+');
-
-                    const parsed = parseInt(value);
-                    if (!isNaN(parsed)) {
-                        newConsumeData.min = parsed;
-
-                        newConsumeData.max = isRange ? -1 : parsed;
-                    }
-                } else {
-                    const base = parseInt(valueParts[0]);
-                    const cap = parseInt(valueParts[1]);
-
-                    if (!isNaN(base)) {
-                        newConsumeData.min = base;
-                    }
-
-                    if (!isNaN(cap)) {
-                        newConsumeData.max = cap;
-                    } else {
-                        newConsumeData.max = newConsumeData.min;
-                    }
-                }
-
-                existingConsumeData[dataKey] = newConsumeData;
-            } else {
-                existingConsumeData[dataKey] = formData.get(formKey);
-            }
-
-            // Use "None" to remove entries,
-            // otherwise we have a (theoretically) valid type, so use it.
-            if (
-                existingConsumeData.type === NONE ||
-                (existingConsumeData.type === ItemConsumeType.Resource &&
-                    existingConsumeData.resource === NONE)
-            ) {
-                consumeData.delete(i);
-                removedOptions.push(i);
-            } else {
-                consumeData.set(i, existingConsumeData);
-            }
-
-            // Clean up form data to remove the old keys
-            delete formData.object[formKey];
-        });
-
-        return [...consumeData.entries()]
-            .sort(([a], [b]) => {
-                return a - b;
-            })
-            .map(([_, v]) => v as unknown as ItemConsumeData);
     }
 }

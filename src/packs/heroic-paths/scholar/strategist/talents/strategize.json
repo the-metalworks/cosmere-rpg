@@ -74,7 +74,102 @@
             }
         },
         "prerequisitesMet": false,
-        "modality": null
+        "modality": null,
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "power": null,
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Strategize",
+                    "img": "icons/skills/trades/academics-investigation-study-blue.webp",
+                    "_id": "8jHbGBDJhK8q4k5W",
+                    "system": {
+                        "id": "strategize",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><em>You carefully observe and assess your problem from novel angles, creating a cunning plan to remove an obstacle, gain the edge, or counter a foe’s next move.</em></p><p>After you succeed on a test to @UUID[Compendium.cosmere-rpg.actions.Item.8yQ5MMIrywehKyTS]{Gain Advantage} using a skill gained from your Erudition, you can choose an ally you can influence. That ally gains the benefits of your Gain Advantage action instead of you. When you use this talent, you can also spend 2 focus to prevent the target of your Gain Advantage from using reactions against the ally you chose until the end of your next turn.</p>",
+                            "chat": "<p>After you @UUID[Compendium.cosmere-rpg.actions.Item.8yQ5MMIrywehKyTS]{Gain Advantage} using an @UUID[Compendium.cosmere-rpg.heroic-paths.Item.8FYBJZC8PBjneOim]{Erudition} skill, grant that advantage to an ally instead. You can spend 2 focus to also prevent the target from using reactions against that ally.</p>",
+                            "short": "<p>After you succeed on a test to @UUID[Compendium.cosmere-rpg.actions.Item.8yQ5MMIrywehKyTS]{Gain Advantage} using a skill gained from your Erudition, you can choose an ally you can influence. That ally gains the benefits of your Gain Advantage action instead of you. When you use this talent, you can also spend 2 focus to prevent the target of your Gain Advantage from using reactions against the ally you chose until the end of your next turn.</p>"
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "type": "spe"
+                            },
+                            "consumption": [
+                                {
+                                    "type": "resource",
+                                    "value": {
+                                        "min": 2,
+                                        "max": 2,
+                                        "actual": 1
+                                    },
+                                    "resource": "foc",
+                                    "matchDocument": {
+                                        "steps": [
+                                            {
+                                                "target": "ancestor",
+                                                "documentType": "Actor",
+                                                "matchBy": "document-type",
+                                                "reference": null,
+                                                "matchMode": "first"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
     },
     "effects": [],
     "sort": 700000,
@@ -82,5 +177,16 @@
         "default": 0
     },
     "flags": {},
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784941078657,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+    },
     "_key": "!items!WblebxdyBUoN2SUj"
 }

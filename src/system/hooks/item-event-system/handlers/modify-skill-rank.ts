@@ -49,7 +49,7 @@ export function register() {
                     hint: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.ModifySkillRank}.Amount.Hint`,
                 }),
             },
-            template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.IES_HANDLER_MODIFY_SKILL_RANK}`,
+            template: `${TEMPLATES.DIRECTORY}${TEMPLATES.IES_HANDLER_MODIFY_SKILL_RANK}`,
         },
         executor: async function (
             this: ModifySkillRankHandlerConfigData,

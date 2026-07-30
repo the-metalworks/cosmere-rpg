@@ -12,7 +12,7 @@ export class DetailsDamageComponent extends HandlebarsApplicationComponent<// ty
 // NOTE: Use any as workaround for foundry-vtt-types issues
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 any> {
-    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_DETAILS_DAMAGE}`;
+    static TEMPLATE = `${TEMPLATES.DIRECTORY}${TEMPLATES.ITEM_DETAILS_DAMAGE}`;
 
     /* eslint-disable @typescript-eslint/unbound-method */
     static ACTIONS = {
@@ -41,13 +41,13 @@ any> {
         if (!this.application.item.hasDamage()) return {};
 
         const hasSkillTest =
-            this.application.item.hasActivation() &&
-            this.application.item.system.activation.type ===
+            this.application.item.isAction() &&
+            this.application.item.system.activation!.type ===
                 ActivationType.SkillTest;
         const hasSkill =
-            this.application.item.hasActivation() &&
+            this.application.item.isAction() &&
             hasSkillTest &&
-            this.application.item.system.activation.resolvedSkill;
+            !!this.application.item.system.skillTest?.resolvedSkill;
 
         this.grazeOverrideCollapsed = this.application.item.system.damage
             .grazeOverrideFormula

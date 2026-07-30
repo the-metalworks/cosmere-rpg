@@ -7,12 +7,20 @@ import {
     DescriptionItemMixin,
     DescriptionItemDataSchema,
 } from './mixins/description';
-import { PhysicalItemMixin, PhysicalItemDataSchema, PhysicalItemDerivedData } from './mixins/physical';
+import {
+    PhysicalItemMixin,
+    PhysicalItemDataSchema,
+    PhysicalItemDerivedData,
+} from './mixins/physical';
 import { EventsItemMixin, EventsItemDataSchema } from './mixins/events';
 import {
     RelationshipsMixin,
     RelationshipsItemDataSchema,
 } from './mixins/relationships';
+import {
+    LinkedSkillsMixin,
+    LinkedSkillsItemDataSchema,
+} from './mixins/linked-skills';
 
 const SCHEMA = () => ({
     isMoney: new foundry.data.fields.BooleanField({
@@ -23,12 +31,12 @@ const SCHEMA = () => ({
     }),
 });
 
-export type LootItemDataSchema = 
-    & ReturnType<typeof SCHEMA>
-    & DescriptionItemDataSchema
-    & PhysicalItemDataSchema
-    & EventsItemDataSchema
-    & RelationshipsItemDataSchema;
+export type LootItemDataSchema = ReturnType<typeof SCHEMA> &
+    DescriptionItemDataSchema &
+    PhysicalItemDataSchema &
+    EventsItemDataSchema &
+    LinkedSkillsItemDataSchema &
+    RelationshipsItemDataSchema;
 
 export type LootItemDerivedData = PhysicalItemDerivedData;
 
@@ -43,6 +51,7 @@ export class LootItemDataModel extends DataModelMixin<
     }),
     PhysicalItemMixin(),
     EventsItemMixin(),
+    LinkedSkillsMixin(),
     RelationshipsMixin(),
 ) {
     static defineSchema() {

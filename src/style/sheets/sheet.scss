@@ -117,7 +117,6 @@
     }
 
     .collapsible {
-
         > .item.header {
             > .details::before {
                 content: "\f078";
@@ -134,6 +133,7 @@
 
             & > .wrapper {
                 overflow: hidden;
+                overflow-wrap: anywhere;
             }
         }
 
@@ -196,6 +196,7 @@
                 position: unset;
                 min-height: 300px;
                 padding: 0.25rem 0.5rem;
+                overflow-wrap: anywhere;
             }
         }
 

@@ -7,11 +7,23 @@ import { GlobalUI } from '@system/types/utils';
 // Migrations
 import MIGRATE_0_2__0_3 from './migrations/0.2-0.3';
 import MIGRATE_0_3__1_0 from './migrations/0.3-1.0';
+import MIGRATE_2_1__3_0 from './migrations/2.1-3.0';
+
+// Utils
+import { Logger } from '@system/utils/logger';
+
+// Events
+import { EventSystem } from '@system/hooks/item-event-system';
 
 // Constants
 import { HOOKS } from '@system/constants/hooks';
-import { EventSystem } from '@src/system/hooks/item-event-system';
-const MIGRATIONS: Migration[] = [MIGRATE_0_2__0_3, MIGRATE_0_3__1_0];
+
+const MIGRATIONS: Migration[] = [
+    MIGRATE_0_2__0_3,
+    MIGRATE_0_3__1_0,
+    MIGRATE_2_1__3_0,
+];
+const logger = new Logger('migration');
 
 /**
  * Check if the world requires migration between the two version
@@ -56,9 +68,7 @@ export async function migrate(from: string, to: string, packID?: string) {
     });
 
     if (migrations.length === 0) {
-        console.log(
-            `[${SYSTEM_ID}] Migration is not required for this version.`,
-        );
+        logger.log(`Migration is not required for this version.`);
         return;
     }
 
@@ -72,26 +82,31 @@ export async function migrate(from: string, to: string, packID?: string) {
         const packName = packID ? ` (${packID})` : '';
 
         try {
-            console.log(
-                `[${SYSTEM_ID}] Migration ${migration.from} -> ${migration.to}: Running${packName}`,
+            logger.log(
+                `${migration.from} -> ${migration.to}: Running${packName}`,
             );
 
-            if (packID) {
-                await migration.execute(packID);
-            } else {
-                await migration.execute();
-            }
+            await migration.execute(packID);
 
-            console.log(
-                `[${SYSTEM_ID}] Migration ${migration.from} -> ${migration.to}: Succeeded${packName}`,
+            logger.log(
+                `${migration.from} -> ${migration.to}: Succeeded${packName}`,
             );
         } catch (err) {
-            console.error(
-                `[${SYSTEM_ID}] Error running data migration${packName}:`,
-                err,
+            ui.notifications.error(
+                game.i18n.format(
+                    `COSMERE.Migration.${packID ? 'MigrationErrorPack' : 'MigrationError'}`,
+                    {
+                        from: migration.from,
+                        to: migration.to,
+
+                        ...(packID ? { pack: packID } : {}),
+                    },
+                ),
             );
-            console.log(
-                `[${SYSTEM_ID}] Migration ${migration.from} -> ${migration.to}: Failed${packName}, exiting`,
+
+            logger.error(`Error running data migration${packName}:`, err);
+            logger.log(
+                `${migration.from} -> ${migration.to}: Failed${packName}, exiting`,
             );
             return;
         }
@@ -103,9 +118,7 @@ export async function migrate(from: string, to: string, packID?: string) {
     }
 
     // Re-render sidebar to include re-validated documents
-    console.log(
-        `[${SYSTEM_ID}] Successfully migrated data! Refreshing sidebar...`,
-    );
+    logger.log(`Successfully migrated data! Refreshing sidebar...`);
     await (globalThis as unknown as GlobalUI).ui.sidebar.render();
 
     /**

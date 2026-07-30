@@ -35,7 +35,7 @@ export class LootItemSheet extends BaseItemSheet {
         foundry.utils.deepClone(super.PARTS),
         {
             content: {
-                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_LOOT_CONTENT}`,
+                template: `${TEMPLATES.DIRECTORY}${TEMPLATES.ITEM_LOOT_CONTENT}`,
             },
         },
     );

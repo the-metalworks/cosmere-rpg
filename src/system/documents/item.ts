@@ -9,10 +9,17 @@ import {
     WeaponTraitId,
     ArmorTraitId,
     ActionCostType,
+    EffectListType,
+    ItemResource,
+    WeaponType,
+    DamageType,
 } from '@system/types/cosmere';
 import { CosmereHooks } from '@system/types/hooks';
 import { AnyObject, EmptyObject, DeepPartial } from '@system/types/utils';
 import { Rule } from '@system/types/item/event-system';
+
+import type { EmbeddedDocumentsConfig } from './embed-config/types';
+import type { EphemeralEmbeddedDocumentsConfig } from './ephemeral-embeds/types';
 
 // Data model
 import {
@@ -31,13 +38,12 @@ import {
     GoalItemDataModel,
     PowerItemDataModel,
     TalentTreeItemDataModel,
+    EffectsContainerItemDataModel,
+    TraitItemDataSchema,
 } from '@system/data/item';
 
-import {
-    ActivatableItemDataSchema,
-    ItemConsumeData,
-} from '@system/data/item/mixins/activatable';
 import { AttackingItemDataSchema } from '@system/data/item/mixins/attacking';
+import { StrikingItemDataSchema } from '../data/item/mixins/striking';
 import { DamagingItemDataSchema } from '@system/data/item/mixins/damaging';
 import {
     PhysicalItemDataSchema,
@@ -69,9 +75,11 @@ import {
     RelationshipsItemDataSchema,
     ItemRelationship,
 } from '@system/data/item/mixins/relationships';
+import { ResourcesItemMixin } from '@system/data/item/mixins/resources';
 
 // Sheet
 import { BaseItemSheet } from '@system/applications/item/base';
+import { CosmereActiveEffect } from '.';
 
 // Rolls
 import {
@@ -93,6 +101,8 @@ import {
     determineConfigurationMode,
     getApplyTargets,
     getTargetDescriptors,
+    resolveSkill,
+    resolveAttribute,
 } from '@system/utils/generic';
 import { EnricherData } from '@system/utils/enrichers';
 import { renderSystemTemplate, TEMPLATES } from '@system/utils/templates';
@@ -100,14 +110,12 @@ import { getEmbedHelpers } from '@system/utils/embed';
 import ItemRelationshipUtils, {
     RemoveRelationshipOptions,
 } from '@system/utils/item/relationship';
+import { matchDocuments, DocumentTarget } from '@system/utils/match-document';
 import { EventToggleOptions } from '@system/utils/item/event-system';
 
 // Dialogs
 import { AttackConfigurationDialog } from '@system/applications/dialogs/attack-configuration';
-import {
-    ItemConsumeDialog,
-    ItemConsumeDialogOptions,
-} from '@system/applications/item/dialogs/item-consume';
+import { ItemConsumeDialog } from '@src/system/applications/item/dialogs/item-consume';
 
 // Constants
 import { SYSTEM_ID } from '@system/constants';
@@ -131,31 +139,83 @@ interface ShowConsumeDialogOptions {
     consumeType?: ItemConsumeType;
 }
 
-// export interface CosmereItemData<
-//     T extends foundry.abstract.DataSchema = foundry.abstract.DataSchema,
-// > {
-//     name: string;
-//     type: ItemType;
-//     system?: T;
-// }
+class _Item<
+    const TSystem extends foundry.abstract.TypeDataModel.Any,
+> extends Item<'base'> {
+    declare static metadata: foundry.abstract.Document.MetadataFor<'Item'> & {
+        embeddedConfig: EmbeddedDocumentsConfig<'Item'>;
+        ephemeralEmbedded: EphemeralEmbeddedDocumentsConfig<'Item'>;
+    };
 
-class _Item<TSystem extends foundry.abstract.TypeDataModel.Any> extends Item {
+    // @ts-expect-error Explicitly declare to get proper typing
     declare type: ItemType;
     // @ts-expect-error Explicitly declare to get proper typing
     declare system: TSystem;
     // @ts-expect-error Explicitly declare to get proper typing
-    declare actor: CosmereActor | null;
-    // @ts-expect-error Explicitly declare to get proper typing
     declare sheet: BaseItemSheet | null;
+
+    declare items: foundry.abstract.EmbeddedCollection<CosmereItem, this>;
+
+    public get actor(): CosmereActor | null {
+        return this.parent instanceof CosmereActor
+            ? this.parent
+            : this.parent instanceof CosmereItem
+              ? this.parent.actor
+              : null;
+    }
 }
 
 export class CosmereItem<
-    T extends
+    const T extends
         foundry.abstract.TypeDataModel.Any = foundry.abstract.TypeDataModel.Any,
 > extends _Item<T> {
+    static metadata = Object.freeze(
+        foundry.utils.mergeObject(
+            super.metadata,
+            {
+                embeddedConfig: {
+                    base: {
+                        Item: {
+                            // Allow actions to be embedded in items by default, but disallow all other item types
+                            base: false,
+                            action: true,
+                        },
+                    },
+                    action: {
+                        Item: false, // Disable embedding of items in action items
+                    },
+                    connection: {
+                        Item: false, // Disable embedding of items in connection items
+                    },
+                    goal: {
+                        Item: false, // Disable embedding of items in goal items
+                    },
+                    injury: {
+                        Item: false, // Disable embedding of items in injury items
+                    },
+                    loot: {
+                        Item: false, // Disable embedding of items in loot items
+                    },
+                    talent_tree: {
+                        Item: false, // Disable embedding of items in talent tree items
+                    },
+                } as EmbeddedDocumentsConfig<'Item'>,
+                // Note: Cannot bind due to static context. Calls are bound safely by mixin.
+                /* eslint-disable @typescript-eslint/unbound-method */
+                ephemeralEmbedded: {
+                    weapon: {
+                        Item: CosmereItem.prepareEphemeralItems,
+                    },
+                },
+                /* eslint-enable @typescript-eslint/unbound-method */
+            },
+            { inplace: false },
+        ),
+    );
+
     /* --- ItemType type guards --- */
 
-    public isWeapon(): this is CosmereItem<WeaponItemDataModel> {
+    public isWeapon(): this is WeaponItem {
         return this.type === ItemType.Weapon;
     }
 
@@ -187,7 +247,7 @@ export class CosmereItem<
         return this.type === ItemType.Injury;
     }
 
-    public isAction(): this is CosmereItem<ActionItemDataModel> {
+    public isAction(): this is ActionItem {
         return this.type === ItemType.Action;
     }
 
@@ -207,6 +267,10 @@ export class CosmereItem<
         return this.type === ItemType.Power;
     }
 
+    public isEffectsContainer(): this is CosmereItem<EffectsContainerItemDataModel> {
+        return this.type === ItemType.EffectsContainer;
+    }
+
     public isTalentTree(): this is CosmereItem<TalentTreeItemDataModel> {
         return this.type === ItemType.TalentTree;
     }
@@ -218,17 +282,17 @@ export class CosmereItem<
     /* --- Mixin type guards --- */
 
     /**
-     * Can this item be activated?
-     */
-    public hasActivation(): this is ActivatableItem {
-        return 'activation' in this.system;
-    }
-
-    /**
      * Does this item have an attack?
      */
     public hasAttack(): this is AttackingItem {
         return 'attack' in this.system;
+    }
+
+    /**
+     * Does this item have a strike?
+     */
+    public hasStrike(): this is StrikingItem {
+        return 'strike' in this.system;
     }
 
     /**
@@ -268,10 +332,17 @@ export class CosmereItem<
     }
 
     /**
+     * Does this item have equippable data?
+     */
+    public isEquippableItem(): this is EquippableItem {
+        return 'equipped' in this.system;
+    }
+
+    /**
      * Can this item be equipped?
      */
     public isEquippable(): this is EquippableItem {
-        return 'equipped' in this.system;
+        return this.isEquippableItem() && this.system.equippableEnabled;
     }
 
     /**
@@ -323,7 +394,94 @@ export class CosmereItem<
         return 'relationships' in this.system;
     }
 
+    /**
+     * Whether or not this item has resources that can be consumed.
+     */
+    public hasResources(): this is ResourcesItem {
+        return 'resources' in this.system;
+    }
+
     /* --- Accessors --- */
+
+    public get root(): CosmereItem {
+        return this.parent instanceof CosmereItem ? this.parent.root : this;
+    }
+
+    public get isSpecialWeapon(): boolean {
+        if (!this.isWeapon()) {
+            return false;
+        }
+        return this.system.type === WeaponType.Special;
+    }
+
+    public get isStrikeAction(): boolean {
+        return this.isDefaultAction && !!this.getFlag(SYSTEM_ID, 'isStrike');
+    }
+
+    public get isEphemeral(): boolean {
+        return !foundry.utils.getProperty(this, '_stats.createdTime');
+    }
+
+    public get isActivatable(): boolean {
+        if (this.type === ItemType.Action) return true;
+
+        const embeddedConfig = (this.constructor as typeof CosmereItem).metadata
+            .embeddedConfig;
+        const configForType =
+            embeddedConfig[this.type] ?? embeddedConfig.base ?? {};
+
+        if (configForType.Item === false) return false;
+
+        const actionConfig =
+            configForType.Item!.action ?? configForType.Item!.base ?? true;
+
+        return actionConfig !== false;
+    }
+
+    public get hasActions(): boolean {
+        return this.actions.length > 0;
+    }
+
+    /**
+     * Whether or not this item has actions that are currently usable for the character.
+     * Currently checks equipped state for equippable items.
+     */
+    public get hasUsableActions(): boolean {
+        return !this.isEquippable() || this.system.equipped
+            ? this.hasActions
+            : false;
+    }
+
+    public get actions(): readonly ActionItem[] {
+        return this.items.filter((item) => item.isAction());
+    }
+
+    public get defaultAction(): ActionItem | null {
+        return this.actions.at(0) ?? null;
+    }
+
+    public get allEmbeddedItems(): readonly CosmereItem[] {
+        if (this.items) {
+            return Array.from(this.items).flatMap((item) => [
+                item,
+                ...item.allEmbeddedItems,
+            ]);
+        } else return [];
+    }
+
+    /**
+     * Whether or not this action is the default for its parent item.
+     * Only available for action items that are embedded in other items.
+     */
+    public get isDefaultAction(): boolean {
+        if (
+            !this.isAction() ||
+            !this.parent ||
+            !(this.parent instanceof CosmereItem)
+        )
+            return false;
+        return this.defaultAction?.id === this.id;
+    }
 
     /**
      * Checks if the talent item mode is active.
@@ -350,6 +508,112 @@ export class CosmereItem<
     }
 
     /**
+     * Returns true if any resource on the item has a recharge configured
+     */
+    public get hasRecharge(): boolean {
+        if (!this.hasResources()) return false;
+        let hasRecharge = false;
+        for (const resource of Object.values(this.system.resources)) {
+            if (!!resource?.recharge && resource.recharge !== 'none') {
+                hasRecharge = true;
+                break;
+            }
+        }
+        return hasRecharge;
+    }
+
+    /**
+     * Returns true if effects list is not empty, or if there are nested effects
+     */
+    public get hasEffects(): boolean {
+        return !!this.allEffects.length;
+    }
+
+    /**
+     * Returns a list of all effects which match the supplied type
+     */
+    public getEffectsOfType(type: EffectListType): CosmereActiveEffect[] {
+        switch (type) {
+            case EffectListType.Inactive:
+                return this.inactiveEffects;
+            case EffectListType.Passive:
+                return this.passiveEffects;
+            case EffectListType.Temporary:
+                return this.temporaryEffects;
+            default:
+                return [];
+        }
+    }
+
+    /**
+     * Returns a list of all non-temporary effects which are active
+     */
+    public get passiveEffects(): CosmereActiveEffect[] {
+        return this.hasEffects
+            ? this.allEffects.filter(
+                  (effect) => effect.active && !effect.isTemporary,
+              )
+            : [];
+    }
+
+    /**
+     * Returns a list of all effects which are inactive
+     */
+    public get inactiveEffects(): CosmereActiveEffect[] {
+        return this.hasEffects
+            ? this.allEffects.filter((effect) => !effect.active)
+            : [];
+    }
+
+    /**
+     * Returns a list of all temporary effects which are active
+     */
+    public get temporaryEffects(): CosmereActiveEffect[] {
+        return this.hasEffects
+            ? this.allEffects.filter(
+                  (effect) => effect.active && effect.isTemporary,
+              )
+            : [];
+    }
+
+    /**
+     * Returns true if even a single passive effect exists on the item
+     */
+    public hasEffectOfType(type: EffectListType): boolean {
+        switch (type) {
+            case EffectListType.Inactive:
+                return this.hasInactiveEffect;
+            case EffectListType.Passive:
+                return this.hasPassiveEffect;
+            case EffectListType.Temporary:
+                return this.hasTemporaryEffect;
+            default:
+                return false;
+        }
+    }
+
+    /**
+     * Returns true if even a single passive effect exists on the item
+     */
+    public get hasPassiveEffect(): boolean {
+        return !!this.passiveEffects.length;
+    }
+
+    /**
+     * Returns true if even a single inactive effect exists on the item
+     */
+    public get hasInactiveEffect(): boolean {
+        return !!this.inactiveEffects.length;
+    }
+
+    /**
+     * Returns true if even a single temporary effect exists on the item
+     */
+    public get hasTemporaryEffect(): boolean {
+        return !!this.temporaryEffects.length;
+    }
+
+    /**
      * Returns a list of all event rules which are currently disabled on this item.
      */
     public get disabledEvents(): Rule[] {
@@ -363,6 +627,34 @@ export class CosmereItem<
     public get enabledEvents(): Rule[] {
         if (!this.hasEvents()) return [];
         return this.system.events.filter((event) => !event.disabled) as Rule[];
+    }
+
+    public get strikeAction(): ActionItem | null {
+        if (!this.isWeapon()) return null;
+
+        const strike = this.actions.find(
+            (action) =>
+                action.system.id === `strike-${this.system.id}` &&
+                action.isStrikeAction,
+        );
+
+        // Strike action is ephemeral and should always exist
+        if (!strike)
+            throw new Error(
+                'Invalid Item state. Unable to find strike action.',
+            );
+
+        return strike;
+    }
+
+    public get nestedEffects(): ActiveEffect.Implementation[] {
+        return this.items
+            .map((item) => [...item.effects, ...item.nestedEffects])
+            .flat();
+    }
+
+    public get allEffects(): ActiveEffect.Implementation[] {
+        return [...this.effects.contents, ...this.nestedEffects];
     }
 
     /* --- Lifecycle --- */
@@ -414,6 +706,47 @@ export class CosmereItem<
         );
     }
 
+    protected _preUpdate(
+        changed: Item.UpdateData,
+        options: Item.Database.PreUpdateOptions,
+        user: User.Implementation,
+    ): Promise<boolean | void> {
+        if (
+            this.isWeapon() &&
+            this.hasStrike() &&
+            foundry.utils.hasProperty(changed, 'system.strike.skill')
+        ) {
+            const changes = changed as Partial<WeaponItem>;
+            const weaponType = changes.system?.type ?? this.system.type;
+            if (
+                !!changes.system?.strike &&
+                weaponType !== WeaponType.Special &&
+                (changes.system.strike.skillLocked ||
+                    this.system.strike.skillLocked)
+            ) {
+                const strike = foundry.utils.mergeObject(
+                    changes.system.strike,
+                    { skill: this.weaponTypeToSkill(weaponType) },
+                );
+
+                changes.system.strike = foundry.utils.mergeObject(
+                    this.system.strike,
+                    strike,
+                );
+            }
+        }
+
+        return super._preUpdate(changed, options, user);
+    }
+
+    protected static prepareEphemeralItems(this: CosmereItem): CosmereItem[] {
+        if (!this.isWeapon()) return [];
+
+        return [
+            ...this.getWeaponStrikeData().map((data) => new CosmereItem(data)),
+        ];
+    }
+
     /* --- Roll & Usage utilities --- */
 
     /**
@@ -424,7 +757,8 @@ export class CosmereItem<
     public async roll(
         options: CosmereItem.RollOptions = {},
     ): Promise<D20Roll | null> {
-        if (!this.hasActivation()) return null;
+        if (!this.isAction() || !this.system || !this.system.skillTest)
+            return null;
 
         // Get the actor to roll for (either assigned through option, the parent of this item, or the first controlled actor)
         const actor =
@@ -443,7 +777,8 @@ export class CosmereItem<
         }
 
         // Get skill to use
-        const skillId = options.skill ?? this.system.activation.resolvedSkill;
+        const skillId =
+            options.skill ?? this.system.skillTest.resolvedSkill ?? null;
 
         const skill = skillId
             ? actor.system.skills[skillId]
@@ -451,7 +786,9 @@ export class CosmereItem<
 
         // Get the attribute id
         const attributeId =
-            options.attribute ?? this.system.activation.resolvedAttribute;
+            options.attribute ??
+            this.system.skillTest.resolvedAttribute ??
+            null;
 
         // Set up actor data
         const data: D20RollData = this.getSkillTestRollData(
@@ -478,11 +815,11 @@ export class CosmereItem<
                 })`,
                 defaultAttribute: skill.attribute ? skill.attribute : undefined,
                 parts: parts,
-                plotDie: options.plotDie ?? this.system.activation.plotDie,
+                plotDie: options.plotDie ?? this.system.skillTest.plotDie,
                 opportunity:
-                    options.opportunity ?? this.system.activation.opportunity,
+                    options.opportunity ?? this.system.skillTest.opportunity,
                 complication:
-                    options.complication ?? this.system.activation.complication,
+                    options.complication ?? this.system.skillTest.complication,
             }) as D20RollConfigration,
         );
 
@@ -525,12 +862,12 @@ export class CosmereItem<
             return null;
         }
 
-        const activatable = this.hasActivation();
+        const activatable = this.isAction();
 
         // Get the skill id
         const skillId =
             options.skill ??
-            (activatable ? this.system.activation.resolvedSkill : null);
+            (activatable ? this.system.damage.resolvedSkill : null);
 
         // Get the skill
         const skill = skillId ? actor.system.skills[skillId] : undefined;
@@ -538,7 +875,7 @@ export class CosmereItem<
         // Get the attribute id
         const attributeId =
             options.attribute ??
-            (activatable ? this.system.activation.resolvedAttribute : null);
+            (activatable ? this.system.damage.resolvedAttribute : null);
 
         // Set up data
         const rollData: DamageRollData = this.getDamageRollData(
@@ -641,7 +978,7 @@ export class CosmereItem<
     public async rollAttack(
         options: CosmereItem.RollAttackOptions = {},
     ): Promise<[D20Roll, DamageRoll[]] | null> {
-        if (!this.hasActivation()) return null;
+        if (!this.isAction()) return null;
         if (!this.hasDamage() || !this.system.damage.formula) return null;
 
         // Get the actor to roll for (either assigned through option, the parent of this item, or the first controlled actor)
@@ -662,7 +999,7 @@ export class CosmereItem<
 
         // Get the skill to use during the skill test
         const skillTestSkillId =
-            options.skillTest?.skill ?? this.system.activation.resolvedSkill;
+            options.skillTest?.skill ?? this.system.skillTest.resolvedSkill;
 
         // Get the skill to use during the damage roll
         const damageSkillId =
@@ -673,7 +1010,7 @@ export class CosmereItem<
         // Get the attribute to use during the skill test
         let skillTestAttributeId =
             options.skillTest?.attribute ??
-            this.system.activation.resolvedAttribute;
+            this.system.skillTest.resolvedAttribute;
 
         // Get the attribute to use during the damage roll
         const damageAttributeId =
@@ -685,8 +1022,8 @@ export class CosmereItem<
 
         options.rollMode ??= game.settings.get('core', 'rollMode');
         options.skillTest ??= {};
-        options.skillTest.parts ??= this.system.activation.modifierFormula
-            ? [this.system.activation.modifierFormula]
+        options.skillTest.parts ??= this.system.skillTest.modifierFormula
+            ? [this.system.skillTest.modifierFormula]
             : [];
         options.damage ??= {};
 
@@ -742,8 +1079,7 @@ export class CosmereItem<
                 defaultAttribute: skillTestAttributeId,
                 defaultRollMode: options.rollMode,
                 raiseStakes:
-                    options.skillTest?.plotDie ??
-                    this.system.activation.plotDie,
+                    options.skillTest?.plotDie ?? this.system.skillTest.plotDie,
                 skillTest: {
                     ...options.skillTest,
                     parts,
@@ -875,7 +1211,7 @@ export class CosmereItem<
     public async use(
         options: CosmereItem.UseOptions = {},
     ): Promise<D20Roll | [D20Roll, ...DamageRoll[]] | null> {
-        if (!this.hasActivation()) return null;
+        if (!this.isAction()) return null;
 
         // Set up post roll actions
         const postRoll: (() => void)[] = [];
@@ -919,13 +1255,13 @@ export class CosmereItem<
         // Determine whether or not resource consumption is available
         const consumptionAvailable =
             options.shouldConsume !== false &&
-            !!this.system.activation.consume &&
-            this.system.activation.consume.length > 0;
+            !!this.system.activation!.consumption &&
+            this.system.activation!.consumption.length > 0;
 
         // Determine if we should handle resource consumption
-        let consumeResponse: ItemConsumeData[] | null = null;
+        let consumeResponse: ActionItemDataModel.ConsumeData[] | null = null;
         if (consumptionAvailable && !options.shouldConsume) {
-            consumeResponse = await this.showConsumeDialog();
+            consumeResponse = await ItemConsumeDialog.show(this);
 
             // If the dialog was closed, exit out of use action
             if (consumeResponse === null) return null;
@@ -933,62 +1269,93 @@ export class CosmereItem<
 
         // Handle resource consumption
         if (!!consumeResponse && consumeResponse.length > 0) {
+            // Add consumption data to the options for hook usage
+            options.consumeResponse = consumeResponse;
             // Process each included resource consumption
             for (const consumption of consumeResponse) {
-                // Get the current amount
-                let currentAmount: number;
-                switch (consumption.type) {
-                    case ItemConsumeType.Resource:
-                        currentAmount =
-                            options.actor.system.resources[consumption.resource]
-                                .value;
-                        break;
-                    // case ItemConsumeType.Item:
-                    // TODO
-                    default:
-                        currentAmount = 0;
-                }
+                const targets =
+                    consumption.type === ItemConsumeType.Resource ||
+                    consumption.type === ItemConsumeType.ItemResource
+                        ? await matchDocuments({
+                              ...consumption.matchDocument,
+                              relativeTo: this,
+                          })
+                        : null;
 
-                // Validate that there's enough resource to consume
-                const newAmount = currentAmount - consumption.value.actual;
-                if (newAmount < 0) {
+                if (!targets) {
                     ui.notifications.warn(
                         game.i18n.localize('GENERIC.Warning.NotEnoughResource'),
                     );
                     return null;
                 }
 
-                // Add post roll action to consume the resource
-                postRoll.push(() => {
-                    if (consumption.type === ItemConsumeType.Resource) {
-                        // Handle actor resource consumption
-                        void options.actor!.update({
-                            system: {
-                                resources: {
-                                    [consumption.resource]: {
-                                        value: newAmount,
+                for (const target of targets) {
+                    // Get the current amount
+                    let currentAmount = 0;
+
+                    if (
+                        consumption.type === ItemConsumeType.Resource &&
+                        CosmereActor.isInstance(target)
+                    ) {
+                        currentAmount =
+                            target.system.resources[consumption.resource].value;
+                    } else if (
+                        consumption.type === ItemConsumeType.ItemResource &&
+                        target instanceof CosmereItem &&
+                        target.hasResources() &&
+                        target.system.resources[consumption.resource]
+                    ) {
+                        currentAmount =
+                            target.system.resources[consumption.resource].value;
+                    }
+
+                    // Validate that there's enough resource to consume
+                    const newAmount = currentAmount - consumption.value.actual;
+                    if (newAmount < 0) {
+                        ui.notifications.warn(
+                            game.i18n.localize(
+                                'GENERIC.Warning.NotEnoughResource',
+                            ),
+                        );
+                        return null;
+                    }
+
+                    // Add post roll action to consume the resource
+                    postRoll.push(() => {
+                        if (
+                            consumption.type === ItemConsumeType.Resource ||
+                            consumption.type === ItemConsumeType.ItemResource
+                        ) {
+                            // Handle actor resource consumption
+                            void (target as CosmereActor | CosmereItem).update({
+                                system: {
+                                    resources: {
+                                        [consumption.resource]: {
+                                            value: newAmount,
+                                        },
                                     },
                                 },
-                            },
-                        });
-                    } else if (consumption.type === ItemConsumeType.Item) {
-                        // Handle item consumption
-                        // TODO: Figure out how to handle item consumption
+                            });
+                        }
+                        // } else if (consumption.type === ItemConsumeType.Item) {
+                        //     // Handle item consumption
+                        //     // TODO: Figure out how to handle item consumption
 
-                        ui.notifications.warn(
-                            game.i18n
-                                .localize('GENERIC.Warning.NotImplemented')
-                                .replace('[action]', 'Item consumption'),
-                        );
-                    }
-                });
+                        //     ui.notifications.warn(
+                        //         game.i18n
+                        //             .localize('GENERIC.Warning.NotImplemented')
+                        //             .replace('[action]', 'Item consumption'),
+                        //     );
+                        // }
+                    });
+                }
             }
         }
 
         // Handle item uses
-        if (this.system.activation.uses) {
+        if (this.system.resources.uses) {
             // Get the current uses
-            const currentUses = this.system.activation.uses.value;
+            const currentUses = this.system.resources.uses.value;
 
             // Validate we can use the item
             if (currentUses < 1) {
@@ -1001,9 +1368,9 @@ export class CosmereItem<
             // Add post roll action to consume a use
             postRoll.push(() => {
                 // Handle use consumption
-                void (this as ActivatableItem).update({
+                void this.update({
                     system: {
-                        activation: {
+                        resources: {
                             uses: {
                                 value: currentUses - 1,
                             },
@@ -1027,16 +1394,14 @@ export class CosmereItem<
             });
         }
 
-        // Check if the item has an attack
-        const hasAttack = this.hasAttack();
+        const hasSkillTest =
+            this.system.activation!.type === ActivationType.SkillTest;
 
         // Check if the item has damage
         const hasDamage = this.hasDamage() && this.system.damage.formula;
 
         // Check if a roll is required
-        const rollRequired =
-            this.system.activation.type === ActivationType.SkillTest ||
-            hasDamage;
+        const rollRequired = hasSkillTest || hasDamage;
 
         const messageConfig = {
             user: game.user.id,
@@ -1075,9 +1440,9 @@ export class CosmereItem<
 
         if (rollRequired) {
             const rolls: foundry.dice.Roll[] = [];
-            let flavor = this.system.activation.flavor;
+            let flavor = this.system.activation!.flavor;
 
-            if (hasAttack && hasDamage) {
+            if (hasSkillTest && hasDamage) {
                 const attackResult = await this.rollAttack({
                     ...options,
                     skillTest: {
@@ -1120,10 +1485,10 @@ export class CosmereItem<
                     rolls.push(...(damageRolls as unknown as Roll[]));
                 }
 
-                options.parts ??= this.system.activation.modifierFormula
-                    ? [this.system.activation.modifierFormula]
+                options.parts ??= this.system.skillTest.modifierFormula
+                    ? [this.system.skillTest.modifierFormula]
                     : [];
-                if (this.system.activation.type === ActivationType.SkillTest) {
+                if (this.system.activation!.type === ActivationType.SkillTest) {
                     const roll = await this.roll({
                         ...options,
                         chatMessage: false,
@@ -1161,7 +1526,7 @@ export class CosmereItem<
         } else {
             // NOTE: Use boolean or operator (`||`) here instead of nullish coalescing (`??`),
             // as flavor can also be an empty string, which we'd like to replace with the default flavor too
-            const flavor = this.system.activation.flavor || undefined;
+            const flavor = this.system.activation!.flavor || undefined;
 
             // Create chat message
             const message = (await ChatMessage.create(messageConfig, {
@@ -1175,63 +1540,100 @@ export class CosmereItem<
         }
     }
 
-    protected async showConsumeDialog(
-        options: ShowConsumeDialogOptions = {},
-    ): Promise<ItemConsumeData[] | null> {
-        if (!this.hasActivation()) return null;
-        if (!this.system.activation.consume) return null;
-
-        const consumeOptions = this.system.activation.consume.map(
-            (consumptionData, i) => {
-                const consumeType = options.consumeType ?? consumptionData.type;
-                // Only automatically check first option, or anything overridden.
-                const shouldConsume = options.shouldConsume ?? i === 0;
-                const amount = consumptionData.value;
-
-                const label =
-                    consumeType === ItemConsumeType.Resource
-                        ? game.i18n.localize(
-                              CONFIG.COSMERE.resources[consumptionData.resource]
-                                  .label,
-                          )
-                        : consumeType === ItemConsumeType.Item
-                          ? '[TODO ITEM]'
-                          : game.i18n.localize('GENERIC.Unknown');
-
-                return {
-                    type: consumeType,
-                    resource: label,
-                    resourceId: consumptionData.resource ?? 'unknown',
-                    amount,
-                    shouldConsume,
-                };
-            },
-        );
-
-        // Show the dialog if required
-        const result = await ItemConsumeDialog.show(
-            this,
-            consumeOptions as ItemConsumeDialogOptions[],
-        );
-
-        return result?.consumption ?? null;
-    }
-
     /* --- Functions --- */
 
-    public async recharge() {
-        if (!this.hasActivation() || !this.system.activation.uses) return;
+    public async toChatMessage(
+        options: CosmereItem.UseOptions = {},
+    ): Promise<ChatMessage> {
+        const messageConfig = {
+            user: game.user.id,
+            speaker:
+                options.speaker ??
+                ChatMessage.getSpeaker({ actor: options.actor }),
+            rolls: [] as foundry.dice.Roll[],
+            flags: {} as Record<string, unknown>,
+        };
+
+        messageConfig.flags[SYSTEM_ID] = {
+            message: {
+                type: MESSAGE_TYPES.ACTION,
+                description: await this.getDescriptionHTML(),
+                targets: getTargetDescriptors(),
+                item: this.id,
+            },
+        };
+
+        // Create chat message
+        const message = new ChatMessage(messageConfig);
+
+        if (options.rollMode) {
+            message.applyRollMode(options.rollMode);
+        }
+
+        return message;
+    }
+
+    /**
+     * Recharge the item, restoring specified resource(s) to their maximum value.
+     * If no specific resource(s) are provided, all resources will be recharged.
+     */
+    public async recharge(resource?: ItemResource): Promise<void>;
+
+    /**
+     * Recharge the item, restoring specified resource(s) to their maximum value.
+     * If no specific resource(s) are provided, all resources will be recharged.
+     */
+    public async recharge(resources?: ItemResource[]): Promise<void>;
+    public async recharge(
+        resourceOrResources?: ItemResource | ItemResource[],
+    ): Promise<void> {
+        if (!this.hasResources()) return;
+
+        // Default to recharging all resources if no specific resource(s) were provided
+        resourceOrResources =
+            resourceOrResources ??
+            (Object.keys(this.system.resources) as ItemResource[]);
+
+        const resourcesToRecharge = (
+            Array.isArray(resourceOrResources)
+                ? resourceOrResources
+                : [resourceOrResources]
+        ).filter((resource) => this.system.resources[resource]);
 
         // Recharge resource
         await this.update({
             system: {
-                activation: {
-                    uses: {
-                        value: this.system.activation.uses.max,
-                    },
-                },
+                resources: Object.fromEntries(
+                    resourcesToRecharge.map((resource) => [
+                        resource,
+                        {
+                            value: this.system.resources[resource].max,
+                        },
+                    ]),
+                ),
             },
         });
+    }
+
+    public getTrait(
+        traitId: WeaponTraitId | ArmorTraitId,
+    ): TraitsItem['system']['traits'][string] | null {
+        if (!this.hasTraits()) return null;
+        if (!(traitId in this.system.traits)) return null;
+        return this.system.traits[traitId];
+    }
+
+    public isTraitActive(traitId: WeaponTraitId | ArmorTraitId): boolean {
+        const trait = this.getTrait(traitId);
+        if (!trait) return false;
+        return trait.active;
+    }
+
+    public getResource(
+        resourceId: ItemResource,
+    ): ResourcesItem['system']['resources'][ItemResource] | null {
+        if (!this.hasResources()) return null;
+        return this.system.resources[resourceId] ?? null;
     }
 
     public isRelatedTo(
@@ -1399,10 +1801,10 @@ export class CosmereItem<
         }
 
         let action;
-        if (this.hasActivation() && this.system.activation.cost.value) {
-            switch (this.system.activation.cost.type) {
+        if (this.isAction() && this.system.activation!.cost.value) {
+            switch (this.system.activation!.cost.type) {
                 case ActionCostType.Action:
-                    action = `action${Math.min(3, this.system.activation.cost.value)}`;
+                    action = `action${Math.min(3, this.system.activation!.cost.value)}`;
                     break;
                 case ActionCostType.Reaction:
                     action = 'reaction';
@@ -1518,19 +1920,146 @@ export class CosmereItem<
             actor,
             item: {
                 name: this.name,
-                charges: this.hasActivation()
+                charges: this.hasResources()
                     ? {
                           value:
-                              (this as unknown as ActivatableItem).system
-                                  .activation.uses?.value ?? 0,
+                              (this as unknown as ResourcesItem).system
+                                  .resources.charges?.value ?? 0,
                           max:
-                              (this as unknown as ActivatableItem).system
-                                  .activation.uses?.max ?? 0,
+                              (this as unknown as ResourcesItem).system
+                                  .resources.charges?.max ?? 0,
                       }
                     : undefined,
             },
             target: targets.length > 0 ? targets[0] : undefined,
         } as const satisfies EnricherData;
+    }
+
+    public getWeaponStrikeData(this: WeaponItem) {
+        if (!this.isWeapon()) throw new Error();
+
+        const loadedTrait = this.getTrait(WeaponTraitId.Loaded);
+        const hasLoadedTrait = !!loadedTrait && loadedTrait.active;
+
+        const ammoResource = this.getResource(ItemResource.Ammo);
+        const hasAmmoResource = !!ammoResource && ammoResource.max > 0;
+
+        const actions: Item.CreateData[] = [
+            {
+                type: ItemType.Action,
+                name: `${game.i18n.localize('COSMERE.Item.Weapon.Strike')}: ${this.name}`,
+                img: this.img,
+                system: {
+                    id: `strike-${this.system.id}`,
+                    activation: {
+                        cost: {
+                            value: 1,
+                            type: ActionCostType.Action,
+                        },
+                        type: ActivationType.SkillTest,
+                        consumption:
+                            hasLoadedTrait && hasAmmoResource
+                                ? [
+                                      {
+                                          type: ItemConsumeType.ItemResource,
+                                          resource: ItemResource.Ammo,
+                                          matchDocument: {
+                                              steps: [
+                                                  {
+                                                      target: DocumentTarget.Parent,
+                                                  },
+                                              ],
+                                          },
+                                          value: {
+                                              min: 1,
+                                              max: 1,
+                                          },
+                                      },
+                                  ]
+                                : undefined,
+                    },
+                    skillTest: {
+                        attribute: 'default',
+                        skill: this.system.strike.skill,
+                    },
+                    damage: {
+                        formula: this.strikeDieToFormula(),
+                        type: this.strikeDamageType(),
+                        skill: null,
+                        attribute: null,
+                    },
+                    description: this.system.description,
+                },
+                flags: {
+                    [SYSTEM_ID]: {
+                        isStrike: true,
+                    },
+                },
+            },
+        ];
+
+        if (hasLoadedTrait && hasAmmoResource) {
+            const eventId = foundry.utils.randomID();
+
+            actions.push({
+                type: ItemType.Action,
+                name: `${game.i18n.localize('COSMERE.Item.Weapon.Reload')}: ${this.name}`,
+                img: this.img,
+                system: {
+                    id: `reload-${this.system.id}`,
+                    activation: {
+                        cost: {
+                            value: 1,
+                            type: ActionCostType.Action,
+                        },
+                        type: ActivationType.Utility,
+                    },
+                    events: {
+                        [eventId]: {
+                            id: eventId,
+                            description: 'Reload',
+                            event: 'use',
+                            handler: {
+                                type: 'execute-macro',
+                                inline: true,
+                                macro: {
+                                    type: 'script',
+                                    command: `event.item.parent.update({
+                                        "system.resources.ammo.value": event.item.parent.system.resources.ammo.max
+                                    })`,
+                                },
+                            },
+                        },
+                    },
+                    description: this.system.description,
+                },
+            });
+        }
+
+        return actions;
+    }
+
+    public weaponTypeToSkill(this: WeaponItem, weaponType?: WeaponType): Skill {
+        weaponType ??= this.system.type;
+        return weaponType === WeaponType.Heavy
+            ? Skill.HeavyWeapons
+            : Skill.LightWeapons;
+    }
+
+    public strikeDieToFormula(this: CosmereItem): string {
+        if (!this.hasStrike()) {
+            return '';
+        }
+        const strike = this.system.strike;
+        return `${strike.die.count}${strike.die.size}`;
+    }
+
+    public strikeDamageType(this: CosmereItem): DamageType {
+        if (!this.hasStrike()) {
+            return DamageType.Keen;
+        }
+        const strike = this.system.strike;
+        return strike.damageType;
     }
 }
 
@@ -1677,6 +2206,12 @@ export namespace CosmereItem {
         shouldConsume?: boolean;
 
         /**
+         * Any consumption results will be included here.
+         * Only used if the item use has consumption configured.
+         */
+        consumeResponse?: ActionItemDataModel.ConsumeData[];
+
+        /**
          * What advantage modifier to apply to the damage roll.
          * Only used if the item has damage configured.
          */
@@ -1700,6 +2235,7 @@ export type ActionItem = CosmereItem<ActionItemDataModel>;
 export type TalentItem = CosmereItem<TalentItemDataModel>;
 export type EquipmentItem = CosmereItem<EquipmentItemDataModel>;
 export type WeaponItem = CosmereItem<WeaponItemDataModel>;
+export type EffectsContainerItem = CosmereItem<EffectsContainerItemDataModel>;
 export type GoalItem = CosmereItem<GoalItemDataModel>;
 export type PowerItem = CosmereItem<PowerItemDataModel>;
 export type TalentTreeItem = CosmereItem<TalentTreeItemDataModel>;
@@ -1717,7 +2253,7 @@ export type CosmereItemFromSchema<
     >
 >;
 
-export type ActivatableItem = CosmereItemFromSchema<ActivatableItemDataSchema>;
+export type StrikingItem = CosmereItemFromSchema<StrikingItemDataSchema>;
 export type AttackingItem = CosmereItemFromSchema<AttackingItemDataSchema>;
 export type DamagingItem = CosmereItemFromSchema<DamagingItemDataSchema>;
 export type DescriptionItem = CosmereItemFromSchema<DescriptionItemDataSchema>;
@@ -1755,10 +2291,22 @@ export type LinkedSkillsItem =
 export type RelationshipsItem =
     CosmereItemFromSchema<RelationshipsItemDataSchema>;
 
+export type ResourcesItem = CosmereItemFromSchema<ResourcesItemMixin.Schema>;
+
 declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
+    interface DocumentClassConfig {
+        Item: typeof CosmereItem;
+    }
+
     interface ConfiguredItem<SubType extends Item.SubType> {
         document: CosmereItem;
     }
+
+    // interface ConfiguredMetadata {
+    //     Item: Item.Metadata & {
+    //         'test': string;
+    //     }
+    // }
 
     interface FlagConfig {
         Item: {
@@ -1773,6 +2321,7 @@ declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
                 'meta.origin': ItemOrigin;
                 previousLevel?: number;
                 isStartingPath?: boolean;
+                isStrike?: boolean;
             };
         };
     }

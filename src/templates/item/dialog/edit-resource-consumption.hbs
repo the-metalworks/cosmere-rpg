@@ -1,0 +1,51 @@
+<form>
+    <fieldset>
+        <legend>{{localize "DIALOG.EditResourceConsumption.Consumption"}}</legend>
+
+        {{!-- Type --}}
+        {{formGroup consume.schema.fields.type
+            name="type"
+            value=consume.type
+            localize=true
+            disabled=(not editable)
+        }}
+
+        {{!-- Value --}}
+        <div class="form-group">
+            <label>{{localize consume.schema.fields.value.label}}</label>
+
+            <div class="form-fields">
+                <input name="value"
+                    type="text"
+                    value={{resourceCostInput consume.value}}
+                    {{#if (not editable)}}
+                        readonly
+                    {{/if}}
+                >
+            </div>
+        </div>
+
+        {{!-- Resource --}}
+        {{#if (or (eq consume.type "resource") (eq consume.type "item_resource"))}}
+            {{formGroup consume.schema.fields.resource
+                name="resource"
+                value=consume.resource
+                localize=true
+                disabled=(not editable)
+            }}
+        {{/if}}
+
+        {{!-- Target --}}
+        <div class="form-group">
+            <label>{{localize "DIALOG.EditResourceConsumption.Target"}}</label>
+
+            {{app-match-document-target
+                value=consume.matchDocument
+                name="matchDocument"
+                relativeTo=item
+                editable=editable
+                type=expectedDocumentType
+            }}
+        </div>
+    </fieldset>
+</form>

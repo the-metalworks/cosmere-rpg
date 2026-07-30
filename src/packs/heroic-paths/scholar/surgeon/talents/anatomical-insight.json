@@ -62,7 +62,100 @@
             }
         },
         "prerequisitesMet": false,
-        "modality": null
+        "modality": null,
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "power": null,
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Anatomical Insight",
+                    "img": "icons/skills/wounds/anatomy-organ-heart-red.webp",
+                    "_id": "xMZ2Uei9h7esdmMH",
+                    "system": {
+                        "id": "anatomical-insight",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><em>Your knowledge of anatomy aids you in striking vital points to incapacitate your enemies while minimizing permanent harm.</em></p><p>When you hit a target of your size or smaller with an unarmed attack, you can spend 1 focus or <span class=\"cosmere-icon\" style=\"color:#98a4f5\" data-tooltip=\"Opportunity\" aria-label=\"Opportunity\">O</span> to apply the <strong>Exhausted</strong> condition to your target. The penalty applied by this condition equals half your ranks in <strong>Medicine</strong>, rounded up.</p>",
+                            "chat": "<p>When you hit with an unarmed attack, spend 1 focus or <span class=\"cosmere-icon\" style=\"color:#98a4f5\" data-tooltip=\"Opportunity\" aria-label=\"Opportunity\">O</span> to make the target <strong>Exhausted</strong> [− half your ranks in <strong>Medicine</strong>]</p>",
+                            "short": "<p>When you hit a target of your size or smaller with an unarmed attack, you can spend 1 focus or <span class=\"cosmere-icon\" style=\"color:#98a4f5\" data-tooltip=\"Opportunity\" aria-label=\"Opportunity\">O</span> to apply the <strong>Exhausted</strong> condition to your target. The penalty applied by this condition equals half your ranks in <strong>Medicine</strong>, rounded up.</p>"
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "type": "spe"
+                            },
+                            "consumption": [
+                                {
+                                    "type": "resource",
+                                    "value": {
+                                        "min": 1,
+                                        "max": 1,
+                                        "actual": 1
+                                    },
+                                    "resource": "foc",
+                                    "matchDocument": {
+                                        "steps": [
+                                            {
+                                                "target": "ancestor",
+                                                "documentType": "Actor",
+                                                "matchBy": "document-type"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
     },
     "effects": [],
     "sort": 100000,
@@ -70,5 +163,16 @@
         "default": 0
     },
     "flags": {},
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784941231235,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+    },
     "_key": "!items!QK47QQJLUvv3dSOL"
 }

@@ -38,6 +38,7 @@ export namespace Node {
             Ancestry = 'ancestry',
             Culture = 'culture',
             Goal = 'goal',
+            Power = 'power',
         }
 
         export const enum Mode {
@@ -120,6 +121,11 @@ export namespace Node {
         culture: Prerequisite.ItemRef;
     }
 
+    export interface PowerPrerequisite
+        extends BasePrerequisite<Prerequisite.Type.Power> {
+        power: Prerequisite.ItemRef;
+    }
+
     export type Prerequisite =
         | ConnectionPrerequisite
         | AttributePrerequisite
@@ -128,7 +134,8 @@ export namespace Node {
         | LevelPrerequisite
         | AncestryPrerequisite
         | CulturePrerequisite
-        | GoalPrerequisite;
+        | GoalPrerequisite
+        | PowerPrerequisite;
 }
 
 export interface BaseNode<Type extends Node.Type = Node.Type> {

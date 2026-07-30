@@ -62,7 +62,102 @@
                 "rank": 1
             }
         },
-        "prerequisitesMet": false
+        "prerequisitesMet": false,
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "power": null,
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Practiced Kata",
+                    "img": "icons/skills/melee/maneuver-daggers-paired-orange.webp",
+                    "_id": "a4ixogvlEKyTTFAd",
+                    "system": {
+                        "id": "practiced-kata",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><em>Your study of martial kata and other forms has taught you that your stance in conversation is as important as in battle. With practiced poise, you project the exact attitude you want through body language and positioning.</em></p><p>When you acquire this talent, you can use fighting stances in conversation and endeavor scenes, in addition to combat. Activating or changing a stance during a conversation or endeavor costs 1 focus and counts as your contribution for the round.</p><p>Additionally, if you aren’t <strong>Surprised</strong> when a combat, conversation, or endeavor scene begins, you can enter Vigilant Stance at the beginning of that scene (no action required).</p>",
+                            "chat": "<p>You can now use stances in conversations and endeavors, and unless <strong>Surprised</strong>, you can start each scene in @UUID[Compendium.cosmere-rpg.heroic-paths.Item.8mJC2HnsN3OQ2J20]{Vigilant Stance}. Spend 1 focus to enter a stance mid-conversation or mid-endeavor.</p>",
+                            "short": "<p>When you acquire this talent, you can use fighting stances in conversation and endeavor scenes, in addition to combat. Activating or changing a stance during a conversation or endeavor costs 1 focus and counts as your contribution for the round.</p><p>Additionally, if you aren’t <strong>Surprised</strong> when a combat, conversation, or endeavor scene begins, you can enter @UUID[Compendium.cosmere-rpg.heroic-paths.Item.8mJC2HnsN3OQ2J20]{Vigilant Stance} at the beginning of that scene (no action required).</p>"
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "type": "spe"
+                            },
+                            "consumption": [
+                                {
+                                    "type": "resource",
+                                    "value": {
+                                        "min": 1,
+                                        "max": 1,
+                                        "actual": 1
+                                    },
+                                    "resource": "foc",
+                                    "matchDocument": {
+                                        "steps": [
+                                            {
+                                                "target": "ancestor",
+                                                "documentType": "Actor",
+                                                "matchBy": "document-type",
+                                                "reference": null,
+                                                "matchMode": "first"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
     },
     "effects": [],
     "sort": 0,
@@ -70,5 +165,16 @@
         "default": 0
     },
     "flags": {},
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784941833733,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+    },
     "_key": "!items!8fBzOnrcWhqUUqnj"
 }

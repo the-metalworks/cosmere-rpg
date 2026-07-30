@@ -48,6 +48,10 @@
                         <i class="fa-solid fa-globe"></i>
                         <span>{{prereq.culture.label}}</span>
                         <span>{{localize "COSMERE.Item.Talent.Prerequisite.Type.culture"}}</span>
+                    {{else if (eq prereq.type "power")}}
+                        <i class="fa-solid fa-bolt"></i>
+                        <span>{{prereq.power.label}}</span>
+                        <span>{{localize "COSMERE.Item.Talent.Prerequisite.Type.power"}}</span>
                     {{/if}}
                 </div>
             {{/each}}

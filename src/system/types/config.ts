@@ -22,8 +22,8 @@ import {
     AttackType,
     DamageType,
     ItemType,
-    ItemRechargeType,
-    ItemUseType,
+    ItemResourceRechargeType,
+    ItemResource,
     EquipType,
     HoldType,
     EquipHand,
@@ -195,16 +195,18 @@ export interface ActivationTypeConfig {
     label: string;
 }
 
-export interface ItemUseTypeConfig {
+export interface ItemResourceConfig {
+    key: ItemResource;
     label: string;
     labelPlural: string;
+    icon: string;
 }
 
 export interface ItemConsumeTypeConfig {
     label: string;
 }
 
-export interface ItemRechargeConfig {
+export interface ItemResourceRechargeConfig {
     label: string;
 }
 
@@ -426,16 +428,29 @@ export interface CosmereRPGConfig {
         types: Record<PathType, PathTypeConfig>;
     };
 
-    items: {
-        types: Record<ItemType, ItemTypeConfig>;
+    item: {
         activation: {
             types: Record<ActivationType, ActivationTypeConfig>;
-            consumeTypes: Record<ItemConsumeType, ItemConsumeTypeConfig>;
-            uses: {
-                types: Record<ItemUseType, ItemUseTypeConfig>;
-                recharge: Record<ItemRechargeType, ItemRechargeConfig>;
+
+            consumption: {
+                types: Record<ItemConsumeType, ItemConsumeTypeConfig>;
             };
         };
+
+        resource: {
+            types: Record<ItemResource, ItemResourceConfig>;
+            recharge: {
+                types: Record<
+                    ItemResourceRechargeType,
+                    ItemResourceRechargeConfig
+                >;
+            };
+        };
+    };
+
+    items: {
+        types: Record<ItemType, ItemTypeConfig>;
+
         equip: {
             types: Record<EquipType, EquipTypeConfig>;
             hold: Record<HoldType, HoldTypeConfig>;
@@ -535,6 +550,16 @@ export interface CosmereRPGConfig {
         actor: {
             components: {
                 actions: {
+                    sections: {
+                        static: Record<string, ItemListSection>;
+                        dynamic: Record<
+                            string,
+                            DynamicItemListSectionGenerator
+                        >;
+                    };
+                };
+
+                talents: {
                     sections: {
                         static: Record<string, ItemListSection>;
                         dynamic: Record<

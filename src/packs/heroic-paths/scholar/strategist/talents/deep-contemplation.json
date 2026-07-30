@@ -60,7 +60,99 @@
             }
         },
         "prerequisitesMet": false,
-        "modality": null
+        "modality": null,
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "power": null,
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Deep Contemplation",
+                    "img": "icons/magic/holy/meditation-chi-focus-blue.webp",
+                    "_id": "68pBEnnXVBw3JpUj",
+                    "system": {
+                        "id": "deep-contemplation",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><em>You methodically search your mental archives for facts and information to help resolve your current situation.</em></p><p>Reassign up to 2 of the skills and expertises gained from your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.8FYBJZC8PBjneOim]{Erudition}.</p>",
+                            "chat": "<p>Reassign up to 2 skills and expertises from @UUID[Compendium.cosmere-rpg.heroic-paths.Item.8FYBJZC8PBjneOim]{Erudition}.</p>",
+                            "short": "<p>Reassign up to 2 of the skills and expertises gained from your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.8FYBJZC8PBjneOim]{Erudition}.</p>"
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {
+                            "IEuhVP1565m8BGzM": {
+                                "id": "IEuhVP1565m8BGzM",
+                                "description": "Execute Erudition Macro",
+                                "event": "use",
+                                "handler": {
+                                    "type": "execute-macro",
+                                    "inline": true,
+                                    "uuid": null,
+                                    "macro": {
+                                        "type": "script",
+                                        "command": "cosmereRPG.utils.macros.talents.erudition.choose(actor)"
+                                    }
+                                },
+                                "order": 0,
+                                "disabled": false
+                            }
+                        },
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "value": 2,
+                                "type": "act"
+                            },
+                            "consumption": [],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
     },
     "effects": [],
     "sort": 300000,
@@ -68,5 +160,16 @@
         "default": 0
     },
     "flags": {},
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784941008212,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+    },
     "_key": "!items!XLXWGfcXAnhtH4xP"
 }

@@ -64,7 +64,102 @@
             "formula": null,
             "type": null
         },
-        "modality": null
+        "modality": null,
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "power": null,
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Devoted Presence",
+                    "img": "icons/magic/control/sihouette-hold-beam-green.webp",
+                    "_id": "V4rhqV7SkS2LeKV1",
+                    "system": {
+                        "id": "devoted-presence",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><em>Your words fill your compatriots with purpose, helping them shrug off discomfort or surprise.</em></p><p>When you use your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.l4wRQT2MH0SsxmRQ]{Rousing Presence} on one or more allies, you can spend 1 focus per target to remove any number of the following conditions from them: <strong>Prone</strong>, <strong>Slowed</strong>, <strong>Stunned</strong>, and <strong>Surprised</strong>.</p>",
+                            "chat": "<p>When you use @UUID[Compendium.cosmere-rpg.heroic-paths.Item.l4wRQT2MH0SsxmRQ]{Rousing Presence}, spend 1 focus to remove <strong>Prone</strong>, <strong>Slowed</strong>, <strong>Stunned</strong>, and <strong>Surprised</strong> from your target.</p>",
+                            "short": "<p>When you use your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.l4wRQT2MH0SsxmRQ]{Rousing Presence} on one or more allies, you can spend 1 focus per target to remove any number of the following conditions from them: <strong>Prone</strong>, <strong>Slowed</strong>, <strong>Stunned</strong>, and <strong>Surprised</strong>.</p>"
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "type": "spe"
+                            },
+                            "consumption": [
+                                {
+                                    "type": "resource",
+                                    "value": {
+                                        "min": 1,
+                                        "max": 1,
+                                        "actual": 1
+                                    },
+                                    "resource": "foc",
+                                    "matchDocument": {
+                                        "steps": [
+                                            {
+                                                "target": "ancestor",
+                                                "documentType": "Actor",
+                                                "matchBy": "document-type",
+                                                "reference": null,
+                                                "matchMode": "first"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
     },
     "effects": [],
     "sort": 400000,
@@ -72,5 +167,16 @@
         "default": 0
     },
     "flags": {},
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784938352985,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+    },
     "_key": "!items!ESKKSdPMUOEQnIaZ"
 }

@@ -1,5 +1,6 @@
 import { AttackType } from '@system/types/cosmere';
 import { CosmereItem } from '@system/documents';
+import { DataSchema } from '../../types';
 
 const SCHEMA = () => ({
     attack: new foundry.data.fields.SchemaField({
@@ -7,9 +8,7 @@ const SCHEMA = () => ({
             required: true,
             nullable: false,
             initial: AttackType.Melee,
-            choices: Object.entries(
-                CONFIG.COSMERE.attack.types,
-            ).reduce(
+            choices: Object.entries(CONFIG.COSMERE.attack.types).reduce(
                 (acc, [key, config]) => ({
                     ...acc,
                     [key]: config.label,
@@ -32,15 +31,18 @@ const SCHEMA = () => ({
     }),
 });
 
-export type AttackingItemDataSchema =  ReturnType<typeof SCHEMA>;
+export type AttackingItemDataSchema = DataSchema<typeof SCHEMA>;
 
-export function AttackingItemMixin<TParent extends foundry.abstract.Document.Any>() {
-    return (
-        base: typeof foundry.abstract.TypeDataModel,
-    ) => {
+export function AttackingItemMixin<
+    TParent extends foundry.abstract.Document.Any,
+>() {
+    return (base: typeof foundry.abstract.TypeDataModel) => {
         return class extends base<AttackingItemDataSchema, TParent> {
             static defineSchema() {
-                return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());
+                return foundry.utils.mergeObject(
+                    super.defineSchema(),
+                    SCHEMA(),
+                );
             }
         };
     };

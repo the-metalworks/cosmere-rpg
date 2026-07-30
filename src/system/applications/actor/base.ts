@@ -76,9 +76,13 @@ export class BaseActorSheet<
 
     static PARTS = foundry.utils.mergeObject(super.PARTS, {
         navigation: {
-            template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_NAVIGATION}`,
+            template: `${TEMPLATES.DIRECTORY}${TEMPLATES.ACTOR_BASE_NAVIGATION}`,
         },
     });
+
+    static get scrollableContent() {
+        return ['.sheet-content>.col-main>.scroll-container'];
+    }
 
     static TABS = foundry.utils.mergeObject(super.TABS, {
         [BaseSheetTab.Actions]: {
@@ -110,6 +114,9 @@ export class BaseActorSheet<
 
     protected actionsSearchText = '';
     protected actionsSearchSort: SortMode = SortMode.Alphabetic;
+
+    protected talentsSearchText = '';
+    protected talentsSearchSort: SortMode = SortMode.Alphabetic;
 
     protected equipmentSearchText = '';
     protected equipmentSearchSort: SortMode = SortMode.Alphabetic;
@@ -145,9 +152,9 @@ export class BaseActorSheet<
         return this.isEditable;
     }
 
-    protected override _onDragStart(event: DragEvent) {
+    protected override async _onDragStart(event: DragEvent) {
         // Get dragged item
-        const item = AppUtils.getItemFromEvent(event, this.actor);
+        const item = await AppUtils.getItemFromEvent(event, this.actor);
         if (!item) return;
 
         const dragData = {
@@ -380,6 +387,12 @@ export class BaseActorSheet<
                     'search',
                     this.onActionsSearchChange.bind(this) as EventListener,
                 );
+            this.element
+                .querySelector('#talents-search')
+                ?.addEventListener(
+                    'search',
+                    this.onTalentsSearchChange.bind(this) as EventListener,
+                );
 
             this.element
                 .querySelector('#equipment-search')
@@ -423,6 +436,16 @@ export class BaseActorSheet<
         void this.render({
             parts: [],
             components: ['app-actor-actions-list'],
+        });
+    }
+
+    protected onTalentsSearchChange(event: SearchBarInputEvent) {
+        this.talentsSearchText = event.detail.text;
+        this.talentsSearchSort = event.detail.sort;
+
+        void this.render({
+            parts: [],
+            components: ['app-character-talents-list'],
         });
     }
 
@@ -522,6 +545,10 @@ export class BaseActorSheet<
             actionsSearch: {
                 text: this.actionsSearchText,
                 sort: this.actionsSearchSort,
+            },
+            talentsSearch: {
+                text: this.talentsSearchText,
+                sort: this.talentsSearchSort,
             },
             equipmentSearch: {
                 text: this.equipmentSearchText,

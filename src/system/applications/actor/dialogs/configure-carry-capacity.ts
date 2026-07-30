@@ -35,7 +35,7 @@ export class ConfigureCarryCapacityDialog extends HandlebarsApplicationMixin(
         foundry.utils.deepClone(super.PARTS),
         {
             form: {
-                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ACTOR_CONFIGURE_CARRY}`,
+                template: `${TEMPLATES.DIRECTORY}${TEMPLATES.DIALOG_ACTOR_CONFIGURE_CARRY}`,
                 forms: {
                     form: {
                         handler: this.onFormEvent,

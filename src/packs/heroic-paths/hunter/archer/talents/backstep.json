@@ -70,7 +70,122 @@
             "formula": null,
             "type": null
         },
-        "modality": null
+        "modality": null,
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "power": null,
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Backstep",
+                    "img": "icons/skills/movement/feet-winged-boots-blue.webp",
+                    "_id": "eNOd8slbqBIGF2Lb",
+                    "system": {
+                        "id": "backstep",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><em>You’ve learned to fire then fade into Roshar’s harsh battlefields, keeping a safe distance from heavily armed enemies who might force hand-to-hand combat.</em></p><p>After you make a ranged attack, spend 2 focus to @UUID[Compendium.cosmere-rpg.actions.Item.wC4Z0mdGwRxLDpMC]{Disengage} as <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">0</span>. If you then end your turn in cover or an area where your enemy’s senses are obscured, you gain the benefit of the @UUID[Compendium.cosmere-rpg.actions.Item.I1CQjZicYdeG9NCN]{Brace} action.</p>",
+                            "chat": "<p>After making a ranged attack, spend 2 focus to @UUID[Compendium.cosmere-rpg.actions.Item.wC4Z0mdGwRxLDpMC]{Disengage} without spending <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">1</span>, and @UUID[Compendium.cosmere-rpg.actions.Item.I1CQjZicYdeG9NCN]{Brace} if you enter cover or obscured area.</p>",
+                            "short": "<p>After you make a ranged attack, spend 2 focus to @UUID[Compendium.cosmere-rpg.actions.Item.wC4Z0mdGwRxLDpMC]{Disengage} as <span class=\"cosmere-icon\" data-tooltip=\"Free Action\" aria-label=\"Free Action\">0</span>. If you then end your turn in cover or an area where your enemy’s senses are obscured, you gain the benefit of the @UUID[Compendium.cosmere-rpg.actions.Item.I1CQjZicYdeG9NCN]{Brace} action.</p>"
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {
+                            "x1jcaT6LrXYU0PR3": {
+                                "id": "x1jcaT6LrXYU0PR3",
+                                "description": "Use Disengage",
+                                "event": "use",
+                                "handler": {
+                                    "type": "use-item",
+                                    "target": "global",
+                                    "uuid": "Compendium.cosmere-rpg.actions.Item.wC4Z0mdGwRxLDpMC",
+                                    "matchMode": "identifier",
+                                    "matchAll": false,
+                                    "plotDie": false,
+                                    "temporaryModifiers": "",
+                                    "temporaryDamageModifiers": "",
+                                    "fastForward": true,
+                                    "advantageMode": "none"
+                                },
+                                "order": 0,
+                                "disabled": false
+                            }
+                        },
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "type": "fre"
+                            },
+                            "consumption": [
+                                {
+                                    "type": "resource",
+                                    "value": {
+                                        "min": 2,
+                                        "max": 2,
+                                        "actual": 1
+                                    },
+                                    "resource": "foc",
+                                    "matchDocument": {
+                                        "steps": [
+                                            {
+                                                "target": "ancestor",
+                                                "documentType": "Actor",
+                                                "matchBy": "document-type",
+                                                "reference": null,
+                                                "matchMode": "first"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
     },
     "effects": [],
     "sort": 100000,
@@ -78,5 +193,16 @@
         "default": 0
     },
     "flags": {},
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784938674338,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+    },
     "_key": "!items!eM6FDADNFM0qbrfY"
 }

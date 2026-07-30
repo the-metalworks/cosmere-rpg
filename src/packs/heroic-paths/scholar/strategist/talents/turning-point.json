@@ -77,7 +77,107 @@
             }
         },
         "prerequisitesMet": false,
-        "modality": null
+        "modality": null,
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "power": null,
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Turning Point",
+                    "img": "icons/magic/movement/pinwheel-turning-blue.webp",
+                    "_id": "hZqxTzWXDHXXmuUM",
+                    "system": {
+                        "id": "turning-point",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><em>Battles often pivot on a single crucial moment. Through studying the history of warfare, you learn to identify such opportunities and gain the upper hand.</em></p><p>Once per scene, you can spend 2 focus to find a weakness in an opposing group’s strategy. Make a <strong>Deduction</strong> test against the Cognitive defense of the top-ranking enemy leader in this scene; to target this leader, you must be able to sense them. If you took a slow turn, you gain an advantage on this test. On a success, you and your allies you can influence gain an additional <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span> on your next turns.</p>",
+                            "chat": "<p>Spend 2 focus to test <strong>Deduction</strong> vs. Cognitive of the enemy leader, gaining an advantage if you took a slow turn. On success, you and your allies gain <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span> on your next turns.</p>",
+                            "short": "<p>Once per scene, you can spend 2 focus to find a weakness in an opposing group’s strategy. Make a <strong>Deduction</strong> test against the Cognitive defense of the top-ranking enemy leader in this scene; to target this leader, you must be able to sense them. If you took a slow turn, you gain an advantage on this test. On a success, you and your allies you can influence gain an additional <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">1</span> on your next turns.</p>"
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "skill_test",
+                            "cost": {
+                                "value": 2,
+                                "type": "act"
+                            },
+                            "consumption": [
+                                {
+                                    "type": "resource",
+                                    "value": {
+                                        "min": 2,
+                                        "max": 2,
+                                        "actual": 1
+                                    },
+                                    "resource": "foc",
+                                    "matchDocument": {
+                                        "steps": [
+                                            {
+                                                "target": "ancestor",
+                                                "documentType": "Actor",
+                                                "matchBy": "document-type",
+                                                "reference": null,
+                                                "matchMode": "first"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": null,
+                            "attribute": null,
+                            "formula": null,
+                            "grazeOverrideFormula": "",
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "ded",
+                            "attribute": "default",
+                            "plotDie": false,
+                            "modifierFormula": "",
+                            "opportunity": null,
+                            "complication": null
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
     },
     "effects": [],
     "sort": 550000,
@@ -85,5 +185,16 @@
         "default": 0
     },
     "flags": {},
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784941171480,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+    },
     "_key": "!items!dRY889BGydkl0TcT"
 }

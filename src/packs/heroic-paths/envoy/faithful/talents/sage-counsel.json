@@ -67,7 +67,102 @@
             "formula": null,
             "type": null
         },
-        "modality": null
+        "modality": null,
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "power": null,
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Sage Counsel",
+                    "img": "icons/skills/trades/academics-study-reading-book.webp",
+                    "_id": "DEleEysh9Vm5UwWL",
+                    "system": {
+                        "id": "sage-counsel",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><em>You offer reassuring guidance alongside physical assistance, making your allies confident of your approval.</em></p><p>After you use the @UUID[Compendium.cosmere-rpg.actions.Item.K2QgKOSezyeYnnxl]{Aid} reaction on an ally, spend 1 focus to grant that ally the benefits of your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.l4wRQT2MH0SsxmRQ]{Rousing Presence} (no action required).</p>",
+                            "chat": "<p>When you @UUID[Compendium.cosmere-rpg.actions.Item.K2QgKOSezyeYnnxl]{Aid} a character, spend 1 focus to grant them @UUID[Compendium.cosmere-rpg.heroic-paths.Item.l4wRQT2MH0SsxmRQ]{Rousing Presence}.</p>",
+                            "short": "<p>After you use the @UUID[Compendium.cosmere-rpg.actions.Item.K2QgKOSezyeYnnxl]{Aid} reaction on an ally, spend 1 focus to grant that ally the benefits of your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.l4wRQT2MH0SsxmRQ]{Rousing Presence} (no action required).</p>"
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "type": "spe"
+                            },
+                            "consumption": [
+                                {
+                                    "type": "resource",
+                                    "value": {
+                                        "min": 1,
+                                        "max": 1,
+                                        "actual": 1
+                                    },
+                                    "resource": "foc",
+                                    "matchDocument": {
+                                        "steps": [
+                                            {
+                                                "target": "ancestor",
+                                                "documentType": "Actor",
+                                                "matchBy": "document-type",
+                                                "reference": null,
+                                                "matchMode": "first"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
     },
     "effects": [],
     "sort": 700000,
@@ -75,5 +170,16 @@
         "default": 0
     },
     "flags": {},
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784938494885,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+    },
     "_key": "!items!6x9Sl6OUTqqbZ0wR"
 }

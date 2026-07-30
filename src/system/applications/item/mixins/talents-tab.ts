@@ -58,7 +58,7 @@ export function TalentsTabMixin<
                 // Set position
                 this.setPosition({
                     width: talentTree.system.display.width
-                        ? Math.max(talentTree.system.display.width + 41, 550)
+                        ? Math.max(talentTree.system.display.width + 41, 625)
                         : this.position.width,
                     height: talentTree.system.display.height
                         ? talentTree.system.display.height + 170
@@ -75,7 +75,7 @@ export function TalentsTabMixin<
             } else {
                 // Set position
                 this.setPosition({
-                    width: 550,
+                    width: 625,
                     height: 'auto',
                 });
             }

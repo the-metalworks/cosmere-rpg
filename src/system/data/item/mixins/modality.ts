@@ -1,5 +1,6 @@
 import { CosmereItem } from '@system/documents';
 import { IdItemData } from './id';
+import { DataSchema } from '../../types';
 
 const SCHEMA = () => ({
     modality: new foundry.data.fields.StringField({
@@ -11,13 +12,14 @@ const SCHEMA = () => ({
     }),
 });
 
-export type ModalityItemDataSchema = ReturnType<typeof SCHEMA>;
-export type ModalityItemData = foundry.data.fields.SchemaField.InitializedData<ModalityItemDataSchema>;
+export type ModalityItemDataSchema = DataSchema<typeof SCHEMA>;
+export type ModalityItemData =
+    foundry.data.fields.SchemaField.InitializedData<ModalityItemDataSchema>;
 
-export function ModalityItemMixin<TParent extends foundry.abstract.Document.Any>() {
-    return (
-        base: typeof foundry.abstract.TypeDataModel,
-    ) => {
+export function ModalityItemMixin<
+    TParent extends foundry.abstract.Document.Any,
+>() {
+    return (base: typeof foundry.abstract.TypeDataModel) => {
         return class extends base<ModalityItemDataSchema, TParent> {
             static defineSchema() {
                 const superSchema = super.defineSchema();
@@ -29,7 +31,10 @@ export function ModalityItemMixin<TParent extends foundry.abstract.Document.Any>
                     );
                 }
 
-                return foundry.utils.mergeObject(super.defineSchema(), SCHEMA());
+                return foundry.utils.mergeObject(
+                    super.defineSchema(),
+                    SCHEMA(),
+                );
             }
         };
     };

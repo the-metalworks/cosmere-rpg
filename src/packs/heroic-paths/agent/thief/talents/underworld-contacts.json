@@ -9,7 +9,7 @@
         "type": "path",
         "description": {
             "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Special Action\" aria-label=\"Special Action\">*</span></p><p><em>When you travel in circles of ill repute, your patron or follower’s name carries remarkable weight.</em></p><p>Before you make a test to interact socially with criminal individuals or groups, you can spend 2 focus to add an Opportunity to the result.</p><p>Additionally, when you acquire this talent, gain a utility expertise in Criminal Groups.</p>",
-            "chat": "<p><strong>Activation:</strong> <span style=\"font-family: 'Cosmere Dingbats'\">*</span></p><p>Gain Criminal Groups expertise. Spend 2 focus to add <span class=\"cosmere-icon\" style=\"color:#98a4f5\" data-tooltip=\"Opportunity\" aria-label=\"Opportunity\">O</span> to a social test against criminals.</p>",
+            "chat": "<p><strong>Activation:</strong> <span style=\"font-family: &#x27;Cosmere Dingbats&#x27;\">*</span></p><p>Gain Criminal Groups expertise. Spend 2 focus to add <span class=\"cosmere-icon\" style=\"color:#98a4f5\" data-tooltip=\"Opportunity\" aria-label=\"Opportunity\">O</span> to a social test against criminals.</p>",
             "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Special Action\" aria-label=\"Special Action\">*</span></p><p>Before you make a test to interact socially with criminal individuals or groups, you can spend 2 focus to add an Opportunity to the result.</p><p>Additionally, when you acquire this talent, gain a utility expertise in Criminal Groups.</p>"
         },
         "activation": {
@@ -69,7 +69,102 @@
             "formula": null,
             "type": null
         },
-        "modality": null
+        "modality": null,
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "power": null,
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Underworld Contacts",
+                    "img": "icons/skills/social/diplomacy-handshake.webp",
+                    "_id": "8uRE0U1TVFDZzEAd",
+                    "system": {
+                        "id": "underworld-contacts",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><em>When you travel in circles of ill repute, your patron or follower’s name carries remarkable weight.</em></p><p>Before you make a test to interact socially with criminal individuals or groups, you can spend 2 focus to add an Opportunity to the result.</p><p>Additionally, when you acquire this talent, gain a utility expertise in Criminal Groups.</p>",
+                            "chat": "<p>Gain Criminal Groups expertise. Spend 2 focus to add <span class=\"cosmere-icon\" style=\"color:#98a4f5\" data-tooltip=\"Opportunity\" aria-label=\"Opportunity\">O</span> to a social test against criminals.</p>",
+                            "short": "<p>Before you make a test to interact socially with criminal individuals or groups, you can spend 2 focus to add an Opportunity to the result.</p><p>Additionally, when you acquire this talent, gain a utility expertise in Criminal Groups.</p>"
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "type": "spe"
+                            },
+                            "consumption": [
+                                {
+                                    "type": "resource",
+                                    "value": {
+                                        "min": 2,
+                                        "max": 2,
+                                        "actual": 1
+                                    },
+                                    "resource": "foc",
+                                    "matchDocument": {
+                                        "steps": [
+                                            {
+                                                "target": "ancestor",
+                                                "documentType": "Actor",
+                                                "matchBy": "document-type",
+                                                "reference": null,
+                                                "matchMode": "first"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
     },
     "effects": [],
     "sort": -600000,
@@ -77,5 +172,16 @@
         "default": 0
     },
     "flags": {},
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784937861556,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+    },
     "_key": "!items!slUvFNZv0PiJMSpU"
 }

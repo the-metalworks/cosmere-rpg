@@ -25,7 +25,7 @@ export class ActorResourceComponent extends HandlebarsApplicationComponent<
     any,
     Params
 > {
-    static readonly TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_RESOURCE}`;
+    static readonly TEMPLATE = `${TEMPLATES.DIRECTORY}${TEMPLATES.ACTOR_BASE_RESOURCE}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions
@@ -98,6 +98,17 @@ export class ActorResourceComponent extends HandlebarsApplicationComponent<
     ) {
         // Get resource
         const resource = context.actor.system.resources[params.resource];
+        if (!(params.resource in CONFIG.COSMERE.resources)) {
+            console.warn(
+                "The resource key: '" +
+                    params.resource +
+                    "' does not exist in CONFIG.COSMERE.resources",
+            );
+            return Promise.resolve({
+                ...context,
+                resource: null,
+            });
+        }
 
         // Get resource config
         const config = CONFIG.COSMERE.resources[params.resource];

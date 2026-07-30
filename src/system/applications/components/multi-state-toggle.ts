@@ -23,7 +23,7 @@ export class MultiStateToggleComponent extends HandlebarsApplicationComponent<
     foundry.applications.api.ApplicationV2.AnyConstructor,
     Params
 > {
-    static readonly TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.COMPONENT_MULTI_STATE_TOGGLE}`;
+    static readonly TEMPLATE = `${TEMPLATES.DIRECTORY}${TEMPLATES.COMPONENT_MULTI_STATE_TOGGLE}`;
 
     protected get states(): Record<string, StateConfig> {
         if (Array.isArray(this.params!.states)) {

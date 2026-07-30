@@ -1,0 +1,99 @@
+{{#if hasResources}}
+
+<fieldset>
+    <legend>{{localize "COSMERE.Item.Sheet.Resources.Title"}}</legend>
+
+    {{#if (gt (len resources) 0)}}
+        {{formGroup systemFields.primaryResource
+            name="system.primaryResource"
+            value=item.system.primaryResource
+            localize=true
+            disabled=(not editable)
+            choices=primaryResourceSelectOptions
+        }}
+    {{else}}
+        {{formGroup systemFields.primaryResource
+            name="system.primaryResource"
+            value="none"
+            localize=true
+            disabled=true
+        }}
+    {{/if}}
+
+    <ul class="item-list">
+        <li class="item header">
+            <section class="details">
+                <span class="title">{{localize systemFields.resources.fields.uses.fields.key.label}}</span>
+                <span class="subtitle wide">{{localize systemFields.resources.fields.uses.fields.value.label}}</span>
+                <span class="subtitle wide">{{localize systemFields.resources.fields.uses.fields.max.label}}</span>
+                <span class="subtitle wide">{{localize systemFields.resources.fields.uses.fields.recharge.label}}</span>
+                <div class="controls"></div>
+            </section>
+        </li>
+
+        {{log systemFields}}
+
+        {{#each resources as |resource|}}
+        {{#with (getProperty @root.systemFields.resources.fields (lookup (concat resource.key ".fields") "string")) as |resourceFields|}}
+
+            <li class="item" data-id="{{resource.key}}">
+                <section class="details">
+                    <span class="title">{{{localize resource.label}}}</span>
+
+                    <div class="subtitle wide">
+                        {{formInput resourceFields.value
+                            name=(concat "system.resources." resource.key ".value")
+                            value=resource.value
+                            localize=true
+                            disabled=(not @root.editable)
+                        }}
+                    </div>
+
+                    <span class="subtitle wide">
+                        {{formInput resourceFields.max
+                            name=(concat "system.resources." resource.key ".max")
+                            value=resource.max
+                            localize=true
+                            disabled=(not @root.editable)
+                        }}
+                    </span>
+
+                    <span class="subtitle wide">
+                        {{formInput resourceFields.recharge
+                            name=(concat "system.resources." resource.key ".recharge")
+                            value=resource.recharge
+                            localize=true
+                            disabled=(not @root.editable)
+                        }}
+                    </span>
+
+                    <div class="controls">
+                        {{#if @root.editable}}
+                            <a data-action="delete-resource" 
+                                data-id="{{resource.key}}"
+                                data-tooltip="COSMERE.Item.Sheet.Resources.Delete"
+                            >
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
+                        {{else}}
+                            <div></div>
+                        {{/if}}
+                    </div>
+                </section>
+            </li>
+
+        {{/with}}
+        {{/each}}
+
+        {{#if (gt (len (keys availableResources)) 0)}}
+            <li class="item">
+                <select name="new-resource">
+                    <option value="" disabled selected>{{localize "COSMERE.Item.Sheet.Resources.Add"}}</option>
+                    {{selectOptions availableResources localize=true}}
+                </select>
+            </li>
+        {{/if}}
+    </ul>
+</fieldset>
+
+{{/if}}

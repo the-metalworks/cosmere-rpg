@@ -1,4 +1,4 @@
-import {
+import type {
     ItemListSection,
     DynamicItemListSectionGenerator,
 } from '@system/types/application/actor/components/item-list';
@@ -95,6 +95,91 @@ export function registerActionListDynamicSectionGenerator(
 
     const register = () => {
         CONFIG.COSMERE.sheet.actor.components.actions.sections.dynamic[
+            data.id
+        ] = data.generator;
+
+        return true;
+    };
+
+    return RegistrationHelper.tryRegisterConfig({
+        key,
+        data,
+        register,
+    });
+}
+
+/**
+ * Registers a new static section for the actor's talents list.
+ */
+export function registerTalentListSection(
+    data: ItemListSection & CommonRegistrationData,
+) {
+    if (!CONFIG.COSMERE) {
+        throw new Error(
+            'Cannot access API until after the system is initialized.',
+        );
+    }
+
+    // Clean data, remove fields that are not part of the config
+    data = {
+        id: data.id,
+        label: data.label,
+        sortOrder: data.sortOrder,
+        default: data.default,
+        itemTypeLabel: data.itemTypeLabel,
+        createItemTooltip: data.createItemTooltip,
+        filter: data.filter,
+        new: data.new,
+        source: data.source,
+        priority: data.priority,
+        strict: data.strict,
+    };
+
+    const key = `sheet.actor.components.talents.sections.static.${data.id}`;
+
+    const register = () => {
+        CONFIG.COSMERE.sheet.actor.components.talents.sections.static[data.id] =
+            data;
+
+        return true;
+    };
+
+    return RegistrationHelper.tryRegisterConfig({
+        key,
+        data,
+        register,
+    });
+}
+
+interface TalentListDynamicSectionData extends CommonRegistrationData {
+    /**
+     * Unique id for the type of dynamic section.
+     */
+    id: string;
+
+    /**
+     * The generator function for this type of dynamic section.
+     */
+    generator: DynamicItemListSectionGenerator;
+}
+
+/**
+ * Registers a new dynamic section generator for the actor's talents list.
+ * Dynamic section generators are used to create sections based on the actor's state, such as powers or paths.
+ */
+export function registerTalentListDynamicSectionGenerator(
+    data: TalentListDynamicSectionData,
+) {
+    if (!CONFIG.COSMERE) {
+        throw new Error(
+            'Cannot access API until after the system is initialized.',
+        );
+    }
+
+    const key = `sheet.actor.components.talents.sections.dynamic.${data.id}`;
+
+    const register = () => {
+        CONFIG.COSMERE.sheet.actor.components.talents.sections.dynamic[
             data.id
         ] = data.generator;
 

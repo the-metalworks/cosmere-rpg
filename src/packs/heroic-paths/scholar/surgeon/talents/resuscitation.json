@@ -70,7 +70,102 @@
             }
         },
         "prerequisitesMet": false,
-        "modality": null
+        "modality": null,
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "power": null,
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Resuscitation",
+                    "img": "icons/magic/life/heart-area-circle-red-green.webp",
+                    "_id": "xcU1q23F7O9GSGEx",
+                    "system": {
+                        "id": "resuscitation",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><em>You quickly and efficiently treat a mortally wounded creature, seeking to pull them back from the brink by applying a tourniquet, administering an antidote, or even restarting failed organs.</em></p><p>You can use your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.Aanofomkj7Z5WO9E]{Field Medicine} talent to attempt to resuscitate a fallen character. When you do, spend 3 focus (instead of 1) to target a character within your reach who is <strong>Unconscious</strong> or who died within a number of rounds equal to your ranks in <strong>Medicine</strong>.</p><p>That talent’s test DC increases by 5 for each injury the target has beyond the first. On a failure, the target doesn’t regain health. On a success, the target recovers health as usual for that talent, and if they were dead, they return to life. If they were <strong>Unconscious</strong>, they can choose to remove that condition if they wish.</p>",
+                            "chat": "<p>Spend 3 focus when using @UUID[Compendium.cosmere-rpg.heroic-paths.Item.Aanofomkj7Z5WO9E]{Field Medicine} to revive an <strong>Unconscious</strong> character or one who died recently.</p>",
+                            "short": "<p>You can use your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.Aanofomkj7Z5WO9E]{Field Medicine} talent to attempt to resuscitate a fallen character. When you do, spend 3 focus (instead of 1) to target a character within your reach who is <strong>Unconscious</strong> or who died within a number of rounds equal to your ranks in <strong>Medicine</strong>.</p><p>That talent’s test DC increases by 5 for each injury the target has beyond the first. On a failure, the target doesn’t regain health. On a success, the target recovers health as usual for that talent, and if they were dead, they return to life. If they were <strong>Unconscious</strong>, they can choose to remove that condition if they wish.</p>"
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "type": "spe"
+                            },
+                            "consumption": [
+                                {
+                                    "type": "resource",
+                                    "value": {
+                                        "min": 3,
+                                        "max": 3,
+                                        "actual": 1
+                                    },
+                                    "resource": "foc",
+                                    "matchDocument": {
+                                        "steps": [
+                                            {
+                                                "target": "ancestor",
+                                                "documentType": "Actor",
+                                                "matchBy": "document-type",
+                                                "reference": null,
+                                                "matchMode": "first"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
     },
     "effects": [],
     "sort": 700000,
@@ -78,5 +173,16 @@
         "default": 0
     },
     "flags": {},
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784941404386,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+    },
     "_key": "!items!6SEpc8Q7UTNQvthy"
 }

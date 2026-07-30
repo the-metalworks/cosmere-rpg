@@ -161,7 +161,7 @@ export class AttackConfigurationDialog extends ComponentHandlebarsApplicationMix
         foundry.utils.deepClone(super.PARTS),
         {
             form: {
-                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ROLL_CONFIGURATION}`,
+                template: `${TEMPLATES.DIRECTORY}${TEMPLATES.DIALOG_ROLL_CONFIGURATION}`,
                 forms: {
                     form: {
                         handler: this.onFormEvent,

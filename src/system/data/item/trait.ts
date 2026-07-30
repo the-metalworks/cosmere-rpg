@@ -6,33 +6,27 @@ import {
     DescriptionItemMixin,
     DescriptionItemDataSchema,
 } from './mixins/description';
-import {
-    ActivatableItemMixin,
-    ActivatableItemDataSchema,
-} from './mixins/activatable';
+import { ResourcesItemMixin } from './mixins/resources';
 import { EventsItemMixin, EventsItemDataSchema } from './mixins/events';
 import {
     RelationshipsMixin,
     RelationshipsItemDataSchema,
 } from './mixins/relationships';
 
-export type TraitItemDataSchema =
-    & DescriptionItemDataSchema
-    & ActivatableItemDataSchema
-    & EventsItemDataSchema
-    & RelationshipsItemDataSchema;
+export type TraitItemDataSchema = DescriptionItemDataSchema &
+    ResourcesItemMixin.Schema &
+    EventsItemDataSchema &
+    RelationshipsItemDataSchema;
 
 /**
  * Item data model that represents adversary traits.
  * Not to be confused with weapon & armor traits
  */
-export class TraitItemDataModel extends DataModelMixin<
-    TraitItemDataSchema
->(
+export class TraitItemDataModel extends DataModelMixin<TraitItemDataSchema>(
     DescriptionItemMixin({
         value: 'COSMERE.Item.Type.Trait.desc_placeholder',
     }),
-    ActivatableItemMixin(),
+    ResourcesItemMixin(),
     EventsItemMixin(),
     RelationshipsMixin(),
 ) {}

@@ -64,7 +64,102 @@
             "formula": null,
             "type": null
         },
-        "modality": null
+        "modality": null,
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "power": null,
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Stalwart Presence",
+                    "img": "icons/magic/defensive/shield-barrier-glowing-blue.webp",
+                    "_id": "qR30iwZUkyhXL30C",
+                    "system": {
+                        "id": "stalwart-presence",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><em>Your words carry the certainty of your beliefs, bolstering the endurance of even those who don’t share your faith.</em></p><p>When you use your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.l4wRQT2MH0SsxmRQ]{Rousing Presence}, you can spend 1 focus to increase one of the target’s defenses (your choice) by 2 until the end of the next round.</p>",
+                            "chat": "<p>When you use @UUID[Compendium.cosmere-rpg.heroic-paths.Item.l4wRQT2MH0SsxmRQ]{Rousing Presence}, spend 1 focus to increase one of the target’s defenses by 2.</p>",
+                            "short": "<p>When you use your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.l4wRQT2MH0SsxmRQ]{Rousing Presence}, you can spend 1 focus to increase one of the target’s defenses (your choice) by 2 until the end of the next round.</p>"
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "type": "spe"
+                            },
+                            "consumption": [
+                                {
+                                    "type": "resource",
+                                    "value": {
+                                        "min": 1,
+                                        "max": 1,
+                                        "actual": 1
+                                    },
+                                    "resource": "foc",
+                                    "matchDocument": {
+                                        "steps": [
+                                            {
+                                                "target": "ancestor",
+                                                "documentType": "Actor",
+                                                "matchBy": "document-type",
+                                                "reference": null,
+                                                "matchMode": "first"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
     },
     "effects": [],
     "sort": 650000,
@@ -72,5 +167,16 @@
         "default": 0
     },
     "flags": {},
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784938543497,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+    },
     "_key": "!items!dMYQ161k4zraNd1x"
 }

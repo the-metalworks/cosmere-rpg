@@ -15,6 +15,7 @@ import {
     TalentsProviderDataSchema,
 } from './mixins/talents-provider';
 import { EventsItemMixin, EventsItemDataSchema } from './mixins/events';
+import { ResourcesItemMixin } from './mixins/resources';
 import {
     LinkedSkillsMixin,
     LinkedSkillsItemDataSchema,
@@ -30,6 +31,7 @@ export type PathItemDataSchema =
     & DescriptionItemDataSchema
     & TalentsProviderDataSchema
     & EventsItemDataSchema
+    & ResourcesItemMixin.Schema
     & LinkedSkillsItemDataSchema
     & RelationshipsItemDataSchema;
 
@@ -59,6 +61,7 @@ export class PathItemDataModel extends DataModelMixin<
     }),
     TalentsProviderMixin(),
     EventsItemMixin(),
+    ResourcesItemMixin(),
     LinkedSkillsMixin(),
     RelationshipsMixin(),
 ) {

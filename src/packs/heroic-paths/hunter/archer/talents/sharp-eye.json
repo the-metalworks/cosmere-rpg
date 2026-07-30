@@ -52,7 +52,85 @@
             "formula": null,
             "type": null
         },
-        "modality": null
+        "modality": null,
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "power": null,
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Sharp Eye",
+                    "img": "icons/magic/perception/eye-ringed-glow-angry-red.webp",
+                    "_id": "RQs8Vc7aT9B7wErk",
+                    "system": {
+                        "id": "sharp-eye",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><em>Your practiced eye discerns the strengths and vulnerabilities of your foes—especially your chosen quarry.</em></p><p>After you observe your quarry for <span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">1</span>, or after you observe another character for at least 1 minute, make a <strong>Perception</strong> test against their Cognitive defense.</p><p>On a success, you learn one of the following of your choice:</p><ul><li><p>The target’s lowest attribute score.</p></li><li><p>The target’s lowest defense.</p></li><li><p>Whether the target has lost more than half of their maximum health, focus, or Investiture (choose one).</p></li></ul>",
+                            "chat": "<p>Observe a target then test Perception vs. Cognitive to learn their lowest attribute, lowest defense, or if their health, focus, or Investiture are below half.</p>",
+                            "short": "<p>After you observe your quarry for <span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">1</span>, or after you observe another character for at least 1 minute, make a <strong>Perception</strong> test against their Cognitive defense.</p><p>On a success, you learn one of the following of your choice:</p><ul><li><p>The target’s lowest attribute score.</p></li><li><p>The target’s lowest defense.</p></li><li><p>Whether the target has lost more than half of their maximum health, focus, or Investiture (choose one).</p></li></ul>"
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "skill_test",
+                            "cost": {
+                                "type": "spe"
+                            },
+                            "consumption": [],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": null,
+                            "attribute": null,
+                            "formula": null,
+                            "grazeOverrideFormula": "",
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "prc",
+                            "attribute": "default",
+                            "plotDie": false,
+                            "modifierFormula": "",
+                            "opportunity": null,
+                            "complication": null
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
     },
     "effects": [],
     "sort": 500000,
@@ -60,5 +138,16 @@
         "default": 0
     },
     "flags": {},
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784938865442,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+    },
     "_key": "!items!NnQLfQgZnkm978xA"
 }

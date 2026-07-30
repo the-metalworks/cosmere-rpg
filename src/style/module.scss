@@ -7,8 +7,7 @@
 @import './release-notes.scss';
 @import './starter-rules/journal.scss';
 
-.application.sheet:not(
-    .scene-config,
+.application.sheet:not(.scene-config,
     .active-effect-config,
     .journal-sheet,
     .roll-table-sheet,
@@ -25,18 +24,18 @@
         border: 1px solid var(--cosmere-color-accent);
         border-radius: 6px;
 
-        > .window-corners {
+        >.window-corners {
             display: none;
         }
 
-        > .window-background {
+        >.window-background {
             display: none;
         }
 
-        > .window-header {
+        >.window-header {
             padding: 0 0.5rem;
 
-            > button {
+            >button {
                 &:not([data-action="close"]) {
                     display: none;
                 }
@@ -45,7 +44,7 @@
     }
 
     &:not(.minimized) {
-        > .window-header {
+        >.window-header {
             padding: 0 1.875rem;
 
             #mode-toggle {
@@ -71,6 +70,10 @@
         border-radius: 0;
         outline: none;
         box-shadow: none;
+
+        > option {
+            background-color: var(--cosmere-color-base-4);
+        }
     }
 
     input[type="checkbox"] {
@@ -93,7 +96,7 @@
         border: 1px solid var(--cosmere-color-faded);
         margin: 0;
 
-        > legend {
+        >legend {
             font-family: var(--cosmere-font-header);
             font-size: var(--font-size-11);
             text-transform: uppercase;
@@ -124,7 +127,7 @@
         }
     }
 
-    > .window-header {
+    >.window-header {
         background: transparent;
         position: relative;
         z-index: 1;
@@ -159,7 +162,7 @@
         }
     }
 
-    > .window-content {
+    >.window-content {
         backdrop-filter: blur(0rem);
         overflow: visible;
         min-height: 0;
@@ -186,6 +189,16 @@
         }
     }
 
+    .lock {
+        font-size: var(--font-size-11);
+        color: var(--cosmere-color-faded);
+        margin-left: 0.125rem;
+
+        &:hover {
+            text-shadow: 0 0 6px var(--color-shadow-primary);
+        }
+    }
+
     .skills-column {
         display: flex;
         flex-direction: column;
@@ -201,22 +214,22 @@
         gap: 0.25rem;
 
         .pip {
-            > div {
+            >div {
                 width: 10px;
                 height: 10px;
                 border: 1px solid var(--cosmere-color-base-5);
                 border-radius: 50%;
             }
 
-            &.active > div  {
+            &.active>div {
                 background-color: var(--cosmere-color-text-main);
             }
 
-            &.locked > div  {
+            &.locked>div {
                 opacity: 0.35;
             }
 
-            &:not(.active) > div {
+            &:not(.active)>div {
                 background-color: var(--cosmere-color-base-1);
             }
         }
@@ -300,22 +313,33 @@
         margin: 0;
         padding: 0;
 
+        &>[data-component-id] {
+            display: block;
+        }
+
         &>li.item.header {
             margin: 0;
             list-style-type: none;
         }
 
-        &:not(.expanded), &.empty {
+        &:not(.expanded),
+        &.empty {
             >li.item.header {
                 border-radius: 6px;
             }
         }
 
-        &>section.collapsible-content>div.wrapper>li {
+        &>section.collapsible-content>div.wrapper>li, &>[data-component-id] {
+            overflow: hidden;
             margin: 0;
             list-style-type: none;
 
+            &.indent {
+                padding-left: 1rem;
+            }
+
             &:not(.favorite) {
+
                 &:not(:last-child) {
                     border-bottom: 1px dotted var(--cosmere-color-faded);
                 }
@@ -324,6 +348,11 @@
                     border-radius: 0 0 6px 6px;
                 }
             }
+        }
+
+        &>section.collapsible-content>div.wrapper>li.indent,
+        &>section.collapsible-content>div.wrapper>[data-component-id].indent>li {
+            padding-left: 1rem;
         }
 
         .item {
@@ -447,8 +476,16 @@
                 color: var(--cosmere-color-text-sub);
                 text-transform: uppercase;
 
+                &.nowrap{
+                    white-space:nowrap;
+                }
+
                 &.wide {
                     width: 76px;
+                }
+
+                &.extrawide {
+                    width: 114px;
                 }
 
                 &.thin {
@@ -471,6 +508,12 @@
                 font-size: var(--font-size-10);
                 font-weight: 600;
                 font-variant: lining-nums;
+                vertical-align: middle;
+
+                .target {
+                    display: inline-block;
+                    vertical-align: middle;
+                }
             }
 
             .action,
@@ -480,6 +523,7 @@
             }
 
             .quantity,
+            .resource,
             .duration {
                 display: flex;
                 justify-content: space-evenly;
@@ -567,11 +611,16 @@
             &.basic {
                 background-color: var(--cosmere-color-dark-1);
             }
+
+            &.item .img {
+                border: none;
+            }
         }
     }
 
     .pills-list {
-        &.collapsible-content > .wrapper,
+
+        &.collapsible-content>.wrapper,
         &:not(.collapsible-content) {
             display: flex;
             flex-direction: row;
@@ -597,10 +646,23 @@
             flex-direction: row;
             gap: 0.125rem;
 
-            > .separator {
+            >.separator {
                 line-height: 10px;
                 opacity: 0.8;
             }
+        }
+    }
+
+    a.content-link.document-link {
+        display: flex;
+        align-items: center;
+        gap: .25ch;
+        padding: 2px 4px;
+
+        > img {
+            width: 20px;
+            height: 20px;
+            border: 1px solid var(--content-link-border-color);
         }
     }
 
@@ -650,7 +712,7 @@
             font-size: var(--font-size-12);
             font-weight: 600;
             padding-top: 0.25rem;
-            width: 24px;
+            width: 27px;
             text-align: center;
 
             .operator {
@@ -659,6 +721,10 @@
 
             .val {
                 color: var(--cosmere-color-text-main);
+            }
+
+            .modified {
+                color: var(--cosmere-color-highlight)
             }
         }
 

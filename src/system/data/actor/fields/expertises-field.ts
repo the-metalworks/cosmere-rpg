@@ -1,4 +1,5 @@
 import { ExpertiseType } from '@system/types/cosmere';
+import { DataSchema } from '@system/data/types';
 import {
     CollectionField,
     CollectionFieldOptions,
@@ -33,7 +34,7 @@ const SCHEMA = () => ({
     locked: new foundry.data.fields.BooleanField(),
 });
 
-type ExpertiseDataSchema = ReturnType<typeof SCHEMA>;
+type ExpertiseDataSchema = DataSchema<typeof SCHEMA>;
 type ExpertiseData =
     foundry.data.fields.SchemaField.InitializedData<ExpertiseDataSchema>;
 

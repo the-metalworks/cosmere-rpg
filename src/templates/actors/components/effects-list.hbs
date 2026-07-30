@@ -1,5 +1,7 @@
-<ul class="item-list effect-list {{#if editable}}editable{{/if}}">
-    <li class="item header">
+<ul class="item-list effect-list collapsible
+    {{#if expanded}}expanded{{/if}}
+    {{#if editable}}editable{{/if}}">
+    <li class="item header" data-action="toggle-section-collapsed">
         <section class="details">
             <span class="title">{{localize effectsTitle}}</span>
             <span class="subtitle wide">
@@ -8,56 +10,152 @@
             <div class="subtitle thin"></div>
             <div class="controls icon active">
                 {{#if @root.editable}}
-                <div></div>
+                    <div></div>
                 {{/if}}
             </div>
-        </section>        
+        </section>
     </li>
+    <section class="collapsible-content">
+        <div class="wrapper">
 
-    {{#each effects as |effect|}}
-    <li class="item effect {{#if effect.active}}active{{/if}}" 
-        data-id="{{effect.id}}"
-        {{#if (not (eq effect.parent @root.actor))}}
-        data-parent-id="{{effect.parent.id}}"
-        {{/if}}
-    >
-        <section class="details">
-            <div class="img">
-                <img src="{{effect.img}}">
-            </div>
-            <div class="name">
-                <span>{{effect.name}}</span>
-            </div>
-            <div class="detail wide source">
-                <span>{{effect.sourceName}}</span>
-            </div>
-            <div class="detail thin action">
-                {{#if effect.active}}
-                <a class="icon active"
-                    data-action="toggle-effect-active"
-                    data-tooltip="COSMERE.Sheet.Effects.Disable"
-                >
-                    <i class="fa-solid fa-toggle-on"></i>
-                </a>
-                {{else}}
-                <a class="icon faded"
-                    data-action="toggle-effect-active"
-                    data-tooltip="COSMERE.Sheet.Effects.Enable"
-                >
-                    <i class="fa-solid fa-toggle-off"></i>
-                </a>
-                {{/if}}
-            </div>
-            <div class="controls icon faded">
-                {{#if @root.editable}}
-                <a data-action="toggle-effect-controls" 
-                    data-tooltip="APPLICATION.TOOLS.ToggleControls"
-                >
-                    <i class="fa-solid fa-ellipsis-vertical"></i>
-                </a>
-                {{/if}}
-            </div>
-        </section>        
-    </li>
-    {{/each}}
+        {{#each effects as |effect|}}
+            {{#if (isArray effect)}}
+
+                {{#with effect.[0] as |parent|}}
+                {{#with (lookup @root.itemState parent.id) as |state|}}
+                {{#with (lookup @root.itemData parent.id) as |data|}}
+
+                <li class="item effect parent collapsible {{#if state.expanded}}expanded{{/if}}"
+                    data-item-id="{{parent.id}}"
+                    data-uuid="{{parent.uuid}}">
+                    <section class="details">
+                        <div class="img">
+                            <img src="{{parent.img}}">
+                        </div>
+                        <div class="name" data-action="toggle-action-details">
+                            <span>{{parent.name}}</span>
+                        </div>
+                        <div class="detail wide source">
+                        </div>
+                        <div class="detail thin action">
+                        </div>
+                        <div class="controls icon faded">
+                            <a role="button"
+                                data-action="toggle-action-details"
+                                {{#if state.expanded}}
+                                data-tooltip="GENERIC.HideDetails"
+                                {{else}}
+                                data-tooltip="GENERIC.ViewDetails"
+                                {{/if}}
+                            >
+                                {{#if state.expanded}}
+                                    <i class="fa-solid fa-compress"></i>
+                                {{else}}
+                                    <i class="fa-solid fa-expand"></i>
+                                {{/if}}
+                            </a>
+                            {{#if @root.editable}}
+                            <a role="button"
+                                data-action="toggle-effect-controls"
+                                data-tooltip="APPLICATION.TOOLS.ToggleControls"
+                            >
+                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                            </a>
+                            {{/if}}
+                        </div>
+                    </section>
+
+                    <section class="description collapsible-content">
+                        <div class="wrapper">
+                            {{{default data.descriptionHTML '<p>—</p>'}}}
+                        </div>
+                    </section>
+                </li>
+
+                {{#with effect.[1] as |children|}}
+                {{#each children as |child|}}
+                    <li class="item effect {{#if child.active}}active{{/if}} indent" data-item-id="{{child.id}}"
+                        {{#if (not (eq child.parent @root.actor))}} data-parent-id="{{child.parent.id}}" {{/if}}
+                        data-uuid="{{child.uuid}}">
+                        <section class="details">
+                            <div class="img">
+                                <img src="{{child.img}}">
+                            </div>
+                            <div class="name">
+                                <span>{{child.name}}</span>
+                            </div>
+                            <div class="detail wide source">
+                            </div>
+                            <div class="detail thin action">
+                                {{#if child.active}}
+                                    <a class="icon active" data-action="toggle-effect-active"
+                                        data-tooltip="COSMERE.Sheet.Effects.Disable">
+                                        <i class="fa-solid fa-toggle-on"></i>
+                                    </a>
+                                {{else}}
+                                    <a class="icon faded" data-action="toggle-effect-active"
+                                        data-tooltip="COSMERE.Sheet.Effects.Enable">
+                                        <i class="fa-solid fa-toggle-off"></i>
+                                    </a>
+                                {{/if}}
+                            </div>
+                            <div class="controls icon faded">
+                                {{#if @root.editable}}
+                                    <a data-action="toggle-effect-controls"
+                                        data-tooltip="APPLICATION.TOOLS.ToggleControls">
+                                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                                    </a>
+                                {{/if}}
+                            </div>
+                        </section>
+                    </li>
+                {{/each}}
+                {{/with}}
+
+                {{/with}}
+                {{/with}}
+                {{/with}}
+
+            {{else}}
+
+                <li class="item effect {{#if effect.active}}active{{/if}}" data-item-id="{{effect.id}}"
+                    {{#if (not (eq effect.parent @root.actor))}} data-parent-id="{{effect.parent.id}}" {{/if}}
+                    data-uuid="{{effect.uuid}}">
+                    <section class="details">
+                        <div class="img">
+                            <img src="{{effect.img}}">
+                        </div>
+                        <div class="name">
+                            <span>{{effect.name}}</span>
+                        </div>
+                        <div class="detail wide source">
+                            <span>{{effect.parent.name}}</span>
+                        </div>
+                        <div class="detail thin action">
+                            {{#if effect.active}}
+                                <a class="icon active" data-action="toggle-effect-active"
+                                    data-tooltip="COSMERE.Sheet.Effects.Disable">
+                                    <i class="fa-solid fa-toggle-on"></i>
+                                </a>
+                            {{else}}
+                                <a class="icon faded" data-action="toggle-effect-active"
+                                    data-tooltip="COSMERE.Sheet.Effects.Enable">
+                                    <i class="fa-solid fa-toggle-off"></i>
+                                </a>
+                            {{/if}}
+                        </div>
+                        <div class="controls icon faded">
+                            {{#if @root.editable}}
+                                <a data-action="toggle-effect-controls" data-tooltip="APPLICATION.TOOLS.ToggleControls">
+                                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                                </a>
+                            {{/if}}
+                        </div>
+                    </section>
+                </li>
+
+            {{/if}}
+        {{/each}}
+        </div>
+    </section>
 </ul>
