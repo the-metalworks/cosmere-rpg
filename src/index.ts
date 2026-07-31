@@ -4,6 +4,7 @@ import { SYSTEM_ID } from './system/constants';
 import { TEMPLATES } from './system/utils/templates';
 import COSMERE from './system/config';
 
+// @ts-expect-error style.scss does not need type definitions...
 import './style.scss';
 import './system/mixins';
 import './system/documents/system-embedded-collections/inject';
