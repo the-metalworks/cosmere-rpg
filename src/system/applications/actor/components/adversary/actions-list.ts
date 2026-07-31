@@ -102,6 +102,14 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
         const section = {
             id: type,
             label: CONFIG.COSMERE.items.types[type].labelPlural,
+            createItemTooltip: game.i18n.format(
+                'COSMERE.Actor.Sheet.Actions.NewItem',
+                {
+                    type: game.i18n.localize(
+                        CONFIG.COSMERE.items.types[type].label,
+                    ),
+                },
+            ),
             default: true,
             filter: (item: CosmereItem) =>
                 // the item itself needs to be checked now, not its parent
