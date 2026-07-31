@@ -1,4 +1,9 @@
-import { ItemType } from '@system/types/cosmere';
+import {
+    ActionCostType,
+    ActionType,
+    ActivationType,
+    ItemType,
+} from '@system/types/cosmere';
 import { ItemListSection } from '@system/types/application/actor/components/item-list';
 
 // Documents
@@ -11,6 +16,7 @@ import {
 } from '../actions-list';
 import { SortMode } from '../search-bar';
 import { AppContextMenu } from '@src/system/applications/utils/context-menu';
+import { CosmereActor } from '@src/system/documents';
 
 // Constants
 
@@ -93,15 +99,69 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
     /* --- Helpers --- */
 
     private prepareSection(type: ItemType): ItemListSection {
-        return {
+        const section = {
             id: type,
             label: CONFIG.COSMERE.items.types[type].labelPlural,
+            createItemTooltip: game.i18n.format(
+                'COSMERE.Actor.Sheet.Actions.NewItem',
+                {
+                    type: game.i18n.localize(
+                        CONFIG.COSMERE.items.types[type].label,
+                    ),
+                },
+            ),
             default: true,
             filter: (item: CosmereItem) =>
                 // the item itself needs to be checked now, not its parent
                 // and it seems the type is directly on the item rather than in its system
                 item.type === type,
         };
+
+        let creation = {};
+
+        switch (type) {
+            case ItemType.Action: {
+                creation = {
+                    new: (parent: CosmereActor) =>
+                        CosmereItem.create(
+                            {
+                                type: ItemType.Action,
+                                name: game.i18n.localize(
+                                    'COSMERE.Item.Type.Action.New',
+                                ),
+                                system: {
+                                    type: ActionType.Adversary,
+                                    activation: {
+                                        type: ActivationType.Utility,
+                                        cost: {
+                                            type: ActionCostType.Action,
+                                            value: 1,
+                                        },
+                                    },
+                                },
+                            },
+                            { parent },
+                        ) as Promise<CosmereItem>,
+                };
+                break;
+            }
+            case ItemType.Trait: {
+                creation = {
+                    new: (parent: CosmereActor) =>
+                        CosmereItem.create(
+                            {
+                                type: ItemType.Trait,
+                                name: game.i18n.localize(
+                                    'COSMERE.Item.Type.Trait.New',
+                                ),
+                            },
+                            { parent },
+                        ) as Promise<CosmereItem>,
+                };
+                break;
+            }
+        }
+        return { ...section, ...creation };
     }
 
     private async prepareSectionData(
@@ -150,6 +210,7 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
             itemData: await this.prepareItemData(sectionActions.flat().flat()),
         };
     }
+
     public _onInitialize(): void {
         if (this.application.isEditable) {
             // Create context menu
