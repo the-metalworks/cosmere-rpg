@@ -400,12 +400,11 @@ export class BaseItemSheet extends TabsApplicationMixin(
     protected override _onDragStart(event: DragEvent) {
         // Get dragged item
         const itemUuid = AppUtils.getItemUuidFromEvent(event);
-        const item = fromUuidSync(itemUuid);
-        if (!item) return;
+        if (!itemUuid) return;
 
         const dragData = {
             type: 'Item',
-            uuid: item.uuid,
+            uuid: itemUuid,
         };
 
         // Set data transfer
