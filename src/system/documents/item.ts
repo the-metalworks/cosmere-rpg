@@ -813,7 +813,9 @@ export class CosmereItem<
                           )
                         : `${game.i18n.localize('GENERIC.Custom')} ${game.i18n.localize('GENERIC.Skill')}`
                 })`,
-                defaultAttribute: skill.attribute ? skill.attribute : undefined,
+                defaultAttribute: data.skill.attribute
+                    ? data.skill.attribute
+                    : undefined,
                 parts: parts,
                 plotDie: options.plotDie ?? this.system.skillTest.plotDie,
                 opportunity:
