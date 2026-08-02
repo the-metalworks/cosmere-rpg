@@ -1868,33 +1868,22 @@ export class CosmereItem<
     }
 
     protected getDamageRollData(
-        skillId: Skill | null | undefined,
-        attributeId: Attribute | null | undefined,
+        skillId: Skill | null,
+        attributeId: Attribute | null,
         actor: CosmereActor,
     ): DamageRollData {
-        const skill = skillId ? actor.system.skills[skillId] : undefined;
+        const skill = skillId
+            ? actor.system.skills[skillId]
+            : {
+                  attribute: attributeId ?? Attribute.Strength,
+                  rank: 0,
+                  mod: { bonus: 0 },
+              };
         const attribute = attributeId
-            ? attributeId
-                ? actor.system.attributes[attributeId]
-                : { value: 0, bonus: 0 }
-            : undefined;
-        let mod;
-        if (skill === undefined || attribute === undefined) {
-            ui.notifications.warn(
-                "Skill: '" +
-                    skillId +
-                    "' or Attribute: '" +
-                    attributeId +
-                    "' is undefined.",
-            );
-            mod = 0;
-        } else {
-            mod =
-                skill.rank +
-                skill.mod.bonus +
-                attribute.value +
-                attribute.bonus;
-        }
+            ? actor.system.attributes[attributeId]
+            : { value: 0, bonus: 0 };
+        const mod =
+            skill.rank + skill.mod.bonus + attribute.value + attribute.bonus;
 
         return {
             ...actor.getRollData(),
