@@ -1843,11 +1843,12 @@ export class CosmereItem<
     ): D20RollData {
         const skill = skillId
             ? actor.system.skills[skillId]
-            : { attribute: null, rank: 0, mod: 0 };
+            : { attribute: null, rank: 0, mod: { value: 0, bonus: 0 } };
         const attribute = attributeId
             ? actor.system.attributes[attributeId]
             : { value: 0, bonus: 0 };
-        const mod = skill.rank + attribute.value + attribute.bonus;
+        const mod =
+            skill.rank + skill.mod.bonus + attribute.value + attribute.bonus;
 
         return {
             ...actor.getRollData(),
@@ -1981,6 +1982,7 @@ export class CosmereItem<
                     skillTest: {
                         attribute: 'default',
                         skill: this.system.strike.skill,
+                        modifierFormula: this.system.strike.skillTestBonus,
                     },
                     damage: {
                         formula: this.strikeDieToFormula(),
@@ -2051,7 +2053,9 @@ export class CosmereItem<
             return '';
         }
         const strike = this.system.strike;
-        return `${strike.die.count}${strike.die.size}`;
+        return [`${strike.die.count}${strike.die.size}`, strike.damageBonus]
+            .filter((v) => !!v)
+            .join(' + ');
     }
 
     public strikeDamageType(this: CosmereItem): DamageType {

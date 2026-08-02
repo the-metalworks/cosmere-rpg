@@ -35,6 +35,20 @@ const SCHEMA = () => ({
             nullable: true,
             initial: true,
         }),
+        skillTestBonus: new foundry.data.fields.StringField({
+            required: true,
+            nullable: true,
+            blank: true,
+            label: 'COSMERE.Item.Sheet.Strike.SkillTestBonus.Label',
+            hint: 'COSMERE.Item.Sheet.Strike.SkillTestBonus.Hint',
+        }),
+        damageBonus: new foundry.data.fields.StringField({
+            required: true,
+            nullable: true,
+            blank: true,
+            label: 'COSMERE.Item.Sheet.Strike.DamageBonus.Label',
+            hint: 'COSMERE.Item.Sheet.Strike.DamageBonus.Hint',
+        }),
     }),
 });
 
