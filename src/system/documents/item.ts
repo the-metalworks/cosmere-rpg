@@ -476,7 +476,12 @@ export class CosmereItem<
      */
     public getEmbeddedItemFromUuid(uuid: string): CosmereItem | null {
         const parsedUuid = foundry.utils.parseUuid(uuid);
-        if (!parsedUuid || parsedUuid.primaryId !== this.id) {
+        if (!parsedUuid) {
+            console.warn(`UUID "${uuid}" could not be parsed`);
+            return null;
+        }
+
+        if (parsedUuid.primaryId !== this.id) {
             console.warn(`UUID "${uuid}" does not belong to "${this.name}"`);
             return null;
         }
