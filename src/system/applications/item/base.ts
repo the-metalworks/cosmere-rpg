@@ -402,6 +402,9 @@ export class BaseItemSheet extends TabsApplicationMixin(
         const itemUuid = AppUtils.getItemUuidFromEvent(event);
         if (!itemUuid) return;
 
+        const eventItem = this.item.getEmbeddedItemFromUuid(itemUuid);
+        if (!eventItem) return;
+
         const dragData = {
             type: 'Item',
             uuid: itemUuid,

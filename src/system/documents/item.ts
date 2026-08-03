@@ -469,6 +469,37 @@ export class CosmereItem<
         } else return [];
     }
 
+    /** Returns an embedded item found in this item if it exists.
+     *
+     * @param uuid The UUID of the embedded item you want to get.
+     * @returns A {@link CosmereItem} or null if no document could be found.
+     */
+    public getEmbeddedItemFromUuid(uuid: string): CosmereItem | null {
+        const parsedUuid = foundry.utils.parseUuid(uuid);
+        if (!parsedUuid || parsedUuid.primaryId !== this.id) {
+            console.warn(`UUID "${uuid}" does not belong to "${this.name}"`);
+            return null;
+        }
+
+        if (parsedUuid.type !== 'Item') {
+            console.warn(`UUID "${uuid}" is not an Item`);
+            return null;
+        }
+
+        const item = this.allEmbeddedItems.find(
+            (item) => item.id === parsedUuid.id,
+        );
+
+        if (!item) {
+            console.warn(
+                `"${this.name}" does not contain an embedded item with ID "${parsedUuid.id}"`,
+            );
+            return null;
+        }
+
+        return item;
+    }
+
     /**
      * Whether or not this action is the default for its parent item.
      * Only available for action items that are embedded in other items.
