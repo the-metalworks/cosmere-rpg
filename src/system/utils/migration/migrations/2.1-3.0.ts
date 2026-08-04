@@ -81,6 +81,30 @@ interface ActivationData {
     };
 }
 
+interface EventsItemData {
+    events: Record<string, EventRuleData>;
+}
+
+interface EventRuleData<THandler extends EventHandler = UnknownHandler> {
+    id: string;
+    event: string;
+    handler: THandler;
+}
+
+type EventHandler = UnknownHandler | UserItemEventHandler;
+
+interface UnknownHandler {
+    type: string;
+}
+
+interface UserItemEventHandler {
+    type: 'use-item';
+    target: string;
+    uuid?: string;
+    matchMode?: 'identifier' | 'name' | 'uuid' | 'document-type';
+    matchAll?: boolean;
+}
+
 let logger: Logger;
 
 export default {
@@ -110,30 +134,21 @@ async function migrateGlobalItems(
     items: RawDocumentData[],
     compendium?: CompendiumCollection.Any,
 ) {
-    const actionItems = items.filter((i) => i.type === 'action');
-
-    for (const item of actionItems) {
+    for (const item of items) {
         const document = await getPossiblyInvalidDocument<Item.Implementation>(
             'Item',
             item._id,
             compendium,
         );
 
-        await migrateAction(item, document);
-    }
+        if (item.type === 'action') await migrateAction(item, document);
+        else if (isActivatableItemData(item)) {
+            await migrateActivatableItem(item, document);
+        }
 
-    const activatableItems = items.filter((i) =>
-        ACTIVATABLE_ITEM_TYPES.includes(i.type),
-    ) as RawDocumentData<ActivationData>[];
-
-    for (const item of activatableItems) {
-        const document = await getPossiblyInvalidDocument<Item.Implementation>(
-            'Item',
-            item._id,
-            compendium,
-        );
-
-        await migrateActivatableItem(item, document);
+        if (isEventsItemData(item)) {
+            await migrateEventsItem(item, document);
+        }
     }
 }
 
@@ -153,28 +168,21 @@ async function migrateGlobalActors(
                     compendium,
                 );
 
-            const actionItems = data.items.filter((i) => i.type === 'action');
-
-            for (const item of actionItems) {
-                const document = actor.items.get(item._id, {
+            for (const itemData of data.items) {
+                const item = actor.items.get(itemData._id, {
                     invalid: true,
                     strict: true,
                 }) as Item.Implementation;
 
-                await migrateAction(item, document);
-            }
+                if (itemData.type === 'action') {
+                    await migrateAction(itemData, item);
+                } else if (isActivatableItemData(itemData)) {
+                    await migrateActivatableItem(itemData, item);
+                }
 
-            const activatableItems = data.items.filter((i) =>
-                ACTIVATABLE_ITEM_TYPES.includes(i.type),
-            ) as RawDocumentData<ActivationData>[];
-
-            for (const item of activatableItems) {
-                const document = actor.items.get(item._id, {
-                    invalid: true,
-                    strict: true,
-                }) as Item.Implementation;
-
-                await migrateActivatableItem(item, document);
+                if (isEventsItemData(itemData)) {
+                    await migrateEventsItem(itemData, item);
+                }
             }
         } catch (err: unknown) {
             handleDocumentMigrationError(err, 'Actor', data);
@@ -238,6 +246,75 @@ async function migrateActivatableItem(
                 },
             );
         }
+    } catch (err: unknown) {
+        handleDocumentMigrationError(err, 'Item', data);
+    }
+}
+
+async function migrateEventsItem(
+    data: RawDocumentData<EventsItemData>,
+    document: Item.Implementation,
+) {
+    try {
+        logger.debug('Migrating events for item', { raw: data });
+
+        const eventsChanges: Record<string, AnyMutableObject> = {};
+        Object.values(data.system.events).forEach((rule) => {
+            // 'use' event is only available on actions in 3.0
+            if (rule.event === 'use' && data.type !== 'action') {
+                eventsChanges[rule.id] ??= {};
+                eventsChanges[rule.id].event = 'use-action';
+            }
+
+            if (hasUseItemHandler(rule)) {
+                eventsChanges[rule.id] ??= {};
+                switch (rule.handler.target) {
+                    case 'sibling':
+                    case 'global':
+                        eventsChanges[rule.id].handler = {
+                            matchDocument: {
+                                steps: [
+                                    {
+                                        target: rule.handler.target,
+                                        reference: rule.handler.uuid,
+                                        matchBy: rule.handler.matchMode,
+                                        documentType: 'Item',
+                                        matchMode: rule.handler.matchAll
+                                            ? 'all'
+                                            : 'first',
+                                    },
+                                ],
+                            },
+                        };
+                        break;
+
+                    case 'equipped-weapon':
+                    case 'equipped-armor':
+                        eventsChanges[rule.id].handler = {
+                            matchDocument: {
+                                steps: [
+                                    {
+                                        target: rule.handler.target,
+                                        reference: rule.handler.uuid,
+                                        matchBy: 'document-type',
+                                        documentType: 'Item',
+                                        matchMode: rule.handler.matchAll
+                                            ? 'all'
+                                            : 'first',
+                                    },
+                                ],
+                            },
+                        };
+                        break;
+                }
+            }
+        });
+
+        await document.update({
+            system: {
+                events: eventsChanges,
+            },
+        });
     } catch (err: unknown) {
         handleDocumentMigrationError(err, 'Item', data);
     }
@@ -380,6 +457,24 @@ function migrateActionData(
 }
 
 /* --- Helpers --- */
+
+function isActivatableItemData(
+    data: RawDocumentData<object>,
+): data is RawDocumentData<ActivationData> {
+    return ACTIVATABLE_ITEM_TYPES.includes(data.type);
+}
+
+function isEventsItemData(
+    data: RawDocumentData<object>,
+): data is RawDocumentData<EventsItemData> {
+    return 'events' in data.system;
+}
+
+function hasUseItemHandler(
+    data: EventRuleData,
+): data is EventRuleData<UserItemEventHandler> {
+    return data.handler.type === 'use-item';
+}
 
 function damageFormulaToDieSizeAndCount(
     formula?: string,

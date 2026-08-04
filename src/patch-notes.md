@@ -1,3 +1,24 @@
+### Patch 3.0.1
+<sup>2026-07-30</sup>
+
+Just a quick patch for some issues in 3.0.0 we noticed after release.
+
+#### 🛠️ Full Changelog
+
+📝 **Features**
+
+* Set 'Adversary Action' action type to roll Athletics on skill tests when 'Default' is selected
+* Added expandable description to all effects displayed in the effects tab, rather than just effects with a listed parent
+
+🐛 **Bug Fixes**
+
+* Fixed an issue where Adversary sheets were missing the plus button to add an action or feature to their respective section
+* Fixed an issue where weapon strikes were reset to default weapon values in the starter rules compendium, rather than their intended modifiers/damage
+
+<br>
+
+----
+
 ### Patch 2.0.5
 <sup>2026-02-26</sup>
 

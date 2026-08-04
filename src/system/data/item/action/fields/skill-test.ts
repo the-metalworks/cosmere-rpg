@@ -1,4 +1,4 @@
-import type { Skill, Attribute } from '@system/types/cosmere';
+import { type Attribute, ActionType, Skill } from '@system/types/cosmere';
 import { NONE } from '@system/types/utils';
 
 // Documents
@@ -65,15 +65,23 @@ export class SkillTestDataModel extends foundry.abstract.DataModel<
         const action = this.item;
 
         if (this.skill === 'default') {
-            if (
-                !action?.parent ||
-                !(action.parent instanceof CosmereItem) ||
-                !action.parent.isWeapon()
-            )
+            if (!action || !action.isAction() || !action.parent) {
                 return null;
+            }
 
-            const weaponType = action.parent.system.type;
-            const skill = CONFIG.COSMERE.items.weapon.types[weaponType]?.skill;
+            let skill;
+
+            if (action.system.type === ActionType.Adversary) {
+                skill = Skill.Athletics;
+            }
+            // not else if because we want weapon to take priority
+            if (
+                action.parent instanceof CosmereItem &&
+                action.parent.isWeapon()
+            ) {
+                const weaponType = action.parent.system.type;
+                skill = CONFIG.COSMERE.items.weapon.types[weaponType]?.skill;
+            }
 
             return skill ?? null;
         } else {

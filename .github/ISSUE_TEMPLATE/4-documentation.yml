@@ -1,0 +1,29 @@
+name: Documentation
+description: A task that provides extra documentation for system-specific content and functionality.
+labels: type | documentation
+body:
+- type: checkboxes
+  id: existing-issue
+  attributes:
+    label: Is there an existing issue for this?
+    description: Please search to see if an issue already exists for the documentation you're requesting.
+    options:
+    - label: I have searched the existing issues to ensure this documentation has not yet been requested
+      required: true
+- type: textarea
+  id: task-reason
+  attributes:
+    label: What needs changing?
+    description: "A clear and concise description of what the task is. Ex. We need to provide [info] on [module feature], We should update [module] documentation, It would be nice if [...]"
+  validations:
+    required: true
+- type: textarea
+  id: extra-context
+  attributes:
+    label: Screenshots and Additional Context
+    description: |
+      Add screenshots and any other context about the request here. Links to third party modules, specific APIs, etc.
+
+      Tip: You can attach images or other files by clicking this area to highlight it and then dragging files in.
+  validations:
+    required: false

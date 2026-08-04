@@ -415,13 +415,11 @@ export class CosmereItem<
     }
 
     public get isStrikeAction(): boolean {
-        return (
-            this.isDefaultActivation && !!this.getFlag(SYSTEM_ID, 'isStrike')
-        );
+        return this.isDefaultAction && !!this.getFlag(SYSTEM_ID, 'isStrike');
     }
 
     public get isEphemeral(): boolean {
-        return this.getFlag(SYSTEM_ID, 'meta.isEphemeral');
+        return !foundry.utils.getProperty(this, '_stats.createdTime');
     }
 
     public get isActivatable(): boolean {
@@ -458,6 +456,10 @@ export class CosmereItem<
         return this.items.filter((item) => item.isAction());
     }
 
+    public get defaultAction(): ActionItem | null {
+        return this.actions.at(0) ?? null;
+    }
+
     public get allEmbeddedItems(): readonly CosmereItem[] {
         if (this.items) {
             return Array.from(this.items).flatMap((item) => [
@@ -468,17 +470,17 @@ export class CosmereItem<
     }
 
     /**
-     * Whether or not this action is the default activation for its parent item.
+     * Whether or not this action is the default for its parent item.
      * Only available for action items that are embedded in other items.
      */
-    public get isDefaultActivation(): boolean {
+    public get isDefaultAction(): boolean {
         if (
             !this.isAction() ||
             !this.parent ||
             !(this.parent instanceof CosmereItem)
         )
             return false;
-        return this.parent.actions.at(0)?.id === this.id;
+        return this.defaultAction?.id === this.id;
     }
 
     /**
@@ -1540,6 +1542,37 @@ export class CosmereItem<
 
     /* --- Functions --- */
 
+    public async toChatMessage(
+        options: CosmereItem.UseOptions = {},
+    ): Promise<ChatMessage> {
+        const messageConfig = {
+            user: game.user.id,
+            speaker:
+                options.speaker ??
+                ChatMessage.getSpeaker({ actor: options.actor }),
+            rolls: [] as foundry.dice.Roll[],
+            flags: {} as Record<string, unknown>,
+        };
+
+        messageConfig.flags[SYSTEM_ID] = {
+            message: {
+                type: MESSAGE_TYPES.ACTION,
+                description: await this.getDescriptionHTML(),
+                targets: getTargetDescriptors(),
+                item: this.id,
+            },
+        };
+
+        // Create chat message
+        const message = new ChatMessage(messageConfig);
+
+        if (options.rollMode) {
+            message.applyRollMode(options.rollMode);
+        }
+
+        return message;
+    }
+
     /**
      * Recharge the item, restoring specified resource(s) to their maximum value.
      * If no specific resource(s) are provided, all resources will be recharged.
@@ -2284,10 +2317,8 @@ declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
                 'sheet.mode': 'edit' | 'view';
                 meta: {
                     origin: ItemOrigin;
-                    isEphemeral?: boolean;
                 };
                 'meta.origin': ItemOrigin;
-                'meta.isEphemeral': boolean;
                 previousLevel?: number;
                 isStartingPath?: boolean;
                 isStrike?: boolean;

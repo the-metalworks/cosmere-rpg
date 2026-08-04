@@ -153,6 +153,21 @@ export class ActorEffectsListComponent extends ActorItemListComponent {
                             .toLocaleLowerCase()
                             .compare(b.name.toLocaleLowerCase()),
                     );
+
+                for (const effect of effects) {
+                    this.itemState[effect.id!] = { expanded: false };
+                    this.itemData[effect.id!] = {
+                        descriptionHTML:
+                            await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+                                effect.description,
+                                {
+                                    relativeTo:
+                                        item as foundry.abstract.Document.Any,
+                                },
+                            ),
+                        isEffectsContainer: false,
+                    };
+                }
                 return effects.length === 1 ? effects[0] : [item, effects];
             }),
         );

@@ -1,8 +1,12 @@
 # Foundry VTT - Cosmere Roleplaying Game System
 Welcome to the Foundry VTT Cosmere Roleplaying Game System! This community project provides the core system for running 
-the (currently in Beta) Cosmere Roleplaying Game within Foundry VTT.
+the Cosmere Roleplaying Game within Foundry VTT.
 
 ## Installation Instructions
+The latest stable release of the system can be installed from the system browser in Foundry VTT by searching for "Cosmere Roleplaying Game".  
+Alternatively, you can install it manually by following these instructions:
+
+**Manual installation**
 1. In Foundry VTT, go to **Game Systems** > **Install System**.
 2. Paste the following URL in the **Manifest URL** field:  
    `https://raw.githubusercontent.com/the-metalworks/cosmere-rpg/main/src/system.json`
@@ -14,6 +18,11 @@ For guidelines on how to create Issues, please see [CONTRIBUTING.md](./CONTRIBUT
 
 ## Contributing
 Wish to contribute? Check out [CONTRIBUTING.md](./CONTRIBUTING.md).
+
+> [!IMPORTANT]
+> Brotherwise Games has adopted a no-AI policy for the Cosmere RPG. To remain aligned with that policy, we do not accept contributions that have been created, in whole or in part, using generative AI tools.
+>  
+> If your pull request contains any content that was created with the assistance of generative AI, we will be unable to accept it.
 
 ## License
 The code and original assets in this project are licensed under the [MIT License](./LICENSE).

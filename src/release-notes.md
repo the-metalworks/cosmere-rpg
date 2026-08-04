@@ -1,30 +1,34 @@
-### Release 2.2.0
+### Release 3.0.0
+<sup>30th July 2026</sup>
+
+Radiants and Worldhoppers, we have a new major release for you; 3.0 introduces several major reworks to prepare the system for the upcoming **Mistborn** release.
+
+#### Embedded Actions
+We've reworked how actions and activations are represented throughout the system. Prior to 3.0, weapons, talents, powers, and other items could each be configured with an activation, specifying how they could be used. However, this approach had several limitations, particularly for features that grant multiple actions. **Activations** have been replaced with **Embedded Actions**. Like events and effects, most items now have an "Actions" tab where their actions are managed. All **Activation**-related data now lives solely on **Actions**, and an item can have any number of actions embedded on it. The "Actions" tab on the character sheet displays a list of all actions available to the character, whether they come directly from the character or from one of their items.
+
+#### Item resources & consumption
+Like actors, items now support a list of resources, which are dynamically configurable through the system API (so custom item resources can be added by modules). Previously, items could only have uses or charges. Items can now track any number of supported resource types simultaneously. Resource consumption has been updated to match the new item resources system and includes improvements for selecting *where* resources are consumed from. There have also been a number of quality-of-life improvements around item resources, such as a new **Ammo** resource for ranged weapons.
+
+#### Sheet Updates
+The character sheet has received a substantial update to support the new Embedded Actions model. The most notable changes are the addition of a dedicated "Talents" tab and that the "Actions" tab no longer shows passive talents or other non-action entries.
 
 #### 🛠️ Full Changelog
 
 ##### 📝 Features
-
-* Events now include triggers for Combat Start/End ([#651](https://github.com/the-metalworks/cosmere-rpg/issues/651)) & Round Start/End ([#652](https://github.com/the-metalworks/cosmere-rpg/issues/652))
-
-### Release 2.1.0 ✨
-<sup>15th May 2026</sup>
-
-Minor release which includes a few new features and some non-breaking changes to existing ones. Most notably we have added some very limited resizing ability to player character sheets and the ability to collapse various sections of the list tabs (such as actions and equipment). Yep, at long last, some of you with smaller screens can see your whole sheet. Further work on enhancing sheets to allow more dynamic font sizes and scalings is in the works, but still a bit away. Hopefully this helps people in the meantime!
-
-#### 🛠️ Full Changelog
-
-##### 📝 Features
-
-* Token Configuration defaults are now set by system ([#278](https://github.com/the-metalworks/cosmere-rpg/issues/278))
-* Actor action and equipment tab sections can now collapse for easier sheet navigation ([#541](https://github.com/the-metalworks/cosmere-rpg/issues/541) & ([#715](https://github.com/the-metalworks/cosmere-rpg/issues/715)))
-* Encumbrance is now tracked on the character sheet (([#648](https://github.com/the-metalworks/cosmere-rpg/issues/648)))
-* Events can now be toggled on/off to better control their activation ([#661](https://github.com/the-metalworks/cosmere-rpg/issues/661))
-* The actor sheet for player characters can now be resized within certain bounds ([#636](https://github.com/the-metalworks/cosmere-rpg/issues/636))
+- Added **Embedded Actions**, allowing items to own and manage their own actions.
+- Added item resource support, including resource consumption, uses, charges, and the new **Ammo** resource type.
+- Added automation for Weapon Strike actions and the Loaded trait.
+- Added a dedicated **Talent** tab to the Character Sheet.
+- Added support for Powers providing talents and Power prerequisites.
+- Added current resource/charge display to actions.
+- Added support for the latest conditions.
+- Added migration support for existing worlds to the new Embedded Actions system.
+- Added new combat-related triggers to the Event System.
+- Updated Starter Rules to use the new Embedded Actions model.
 
 ##### 🐛 Bug Fixes
-
-* Derived values no longer become NaN upon stats exceeding 10 using active effects ([#684](https://github.com/the-metalworks/cosmere-rpg/issues/684))
-* Weapon range fields now appear as expected when selecting attack type ([#705](https://github.com/the-metalworks/cosmere-rpg/issues/705))
-* Grant Items handler on event rules can now scroll when necessary ([#713](https://github.com/the-metalworks/cosmere-rpg/issues/713))
+- Increased the maximum skill rank from **5** to **40** (sheet still only goes to 5).
+- Fixed damage rolls for skill-test actions with configured damage.
+- Fixed Recover correctly rolling Healing damage.
 
 — **Team Metalworks**

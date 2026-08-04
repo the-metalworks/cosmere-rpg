@@ -69,7 +69,7 @@ export function EphemeralEmbeddedDocumentsMixin<
 
                     const ephemeralDocuments = generatorFn
                         .call(this as unknown as DocumentOfType<DocumentType>)
-                        .map((doc) => {
+                        .map((doc, i) => {
                             // Get document constructor
                             const cls = doc.constructor as new (
                                 ...args: unknown[]
@@ -78,27 +78,22 @@ export function EphemeralEmbeddedDocumentsMixin<
                             const data = foundry.utils.mergeObject(
                                 doc.toObject(),
                                 {
-                                    _id: doc.id ?? foundry.utils.randomID(), // Ensure id is set
-                                    flags: {
-                                        [SYSTEM_ID]: {
-                                            meta: {
-                                                isEphemeral: true,
-                                            },
-                                        },
-                                    },
+                                    _id: `ephdoc${i.toFixed().padStart(10, '0')}`, // Assign deterministic id
                                 },
                             );
 
                             // Create new instance of document so we can assign the parent
                             return new cls(data, { parent: this });
                         });
+
                     const concreteDocuments = (
                         Array.from(collection) as object[]
                     ).filter(
+                        // Documents without _stats.createdTime are considered ephemeral
                         (doc) =>
-                            !foundry.utils.getProperty(
+                            !!foundry.utils.getProperty(
                                 doc,
-                                `flags.${SYSTEM_ID}.meta.isEphemeral`,
+                                '_stats.createdTime',
                             ),
                     ) as DocumentOfType<EmbeddedTypesOf<DocumentType>>[];
 
