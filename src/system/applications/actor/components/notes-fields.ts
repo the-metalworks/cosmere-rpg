@@ -23,7 +23,7 @@ interface NotesSection {
     editLabel: string;
 
     /**
-     * htmlField
+     * variable name for the htmlField.
      */
     htmlField: string;
 }
