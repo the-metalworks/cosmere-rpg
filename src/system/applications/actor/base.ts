@@ -244,10 +244,10 @@ export class BaseActorSheet<
         event.stopPropagation();
 
         // Get html field element
-        const fieldElement = $(event.target!).closest('[field-type]');
+        const fieldElement = $(event.target!).closest('[data-field-type]');
 
         // Get field type
-        const proseFieldType = fieldElement.attr('field-type')!;
+        const proseFieldType = fieldElement.data('field-type')! as string;
 
         // Gets the field to display based on the type found
         if (proseFieldType === 'biography') {
