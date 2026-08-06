@@ -813,7 +813,9 @@ export class CosmereItem<
                           )
                         : `${game.i18n.localize('GENERIC.Custom')} ${game.i18n.localize('GENERIC.Skill')}`
                 })`,
-                defaultAttribute: skill.attribute ? skill.attribute : undefined,
+                defaultAttribute: data.skill.attribute
+                    ? data.skill.attribute
+                    : undefined,
                 parts: parts,
                 plotDie: options.plotDie ?? this.system.skillTest.plotDie,
                 opportunity:
@@ -1843,11 +1845,12 @@ export class CosmereItem<
     ): D20RollData {
         const skill = skillId
             ? actor.system.skills[skillId]
-            : { attribute: null, rank: 0, mod: 0 };
+            : { attribute: null, rank: 0, mod: { bonus: 0 } };
         const attribute = attributeId
             ? actor.system.attributes[attributeId]
             : { value: 0, bonus: 0 };
-        const mod = skill.rank + attribute.value + attribute.bonus;
+        const mod =
+            skill.rank + skill.mod.bonus + attribute.value + attribute.bonus;
 
         return {
             ...actor.getRollData(),
@@ -1855,8 +1858,7 @@ export class CosmereItem<
             skill: {
                 id: skillId ?? null,
                 rank: skill.rank,
-                mod:
-                    typeof skill.mod === 'number' ? skill.mod : skill.mod.value,
+                mod,
                 attribute: attributeId ? attributeId : skill.attribute,
             },
             attribute: attribute.value,
@@ -1868,22 +1870,22 @@ export class CosmereItem<
     }
 
     protected getDamageRollData(
-        skillId: Skill | null | undefined,
-        attributeId: Attribute | null | undefined,
+        skillId: Skill | null,
+        attributeId: Attribute | null,
         actor: CosmereActor,
     ): DamageRollData {
-        const skill = skillId ? actor.system.skills[skillId] : undefined;
+        const skill = skillId
+            ? actor.system.skills[skillId]
+            : {
+                  attribute: attributeId ?? Attribute.Strength,
+                  rank: 0,
+                  mod: { bonus: 0 },
+              };
         const attribute = attributeId
-            ? attributeId
-                ? actor.system.attributes[attributeId]
-                : { value: 0, bonus: 0 }
-            : undefined;
+            ? actor.system.attributes[attributeId]
+            : { value: 0, bonus: 0 };
         const mod =
-            skill !== undefined || attribute !== undefined
-                ? (skill?.rank ?? 0) +
-                  (attribute?.value ?? 0) +
-                  (attribute?.bonus ?? 0)
-                : undefined;
+            skill.rank + skill.mod.bonus + attribute.value + attribute.bonus;
 
         return {
             ...actor.getRollData(),
@@ -1892,7 +1894,7 @@ export class CosmereItem<
                 ? {
                       id: skillId!,
                       rank: skill.rank,
-                      mod: skill.mod.value,
+                      mod,
                       attribute: attributeId! ? attributeId : skill.attribute,
                   }
                 : undefined,
