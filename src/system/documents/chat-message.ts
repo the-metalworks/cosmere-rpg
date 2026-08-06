@@ -696,7 +696,7 @@ export class CosmereChatMessage<
         if (constant === 0) return;
 
         const sign = constant < 0 ? '-' : '+';
-        const newTotal = Number(html.find('.value').text()) + constant;
+        const newTotal = Number(html.find('.value').text());
 
         if (roll.hasDice) html.find('.value').text(newTotal);
 
