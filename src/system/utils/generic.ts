@@ -177,29 +177,16 @@ export function isFastForward() {
  * @returns The total constant value.
  */
 export function getConstantFromRoll(roll: Roll) {
-    let previous: unknown;
-    let constant = 0;
-
-    for (const term of roll.terms) {
-        if (term instanceof foundry.dice.terms.NumericTerm) {
-            if (
-                previous instanceof foundry.dice.terms.OperatorTerm &&
-                previous.operator === '-'
-            ) {
-                constant -= term.number;
-            } else {
-                constant += term.number;
-            }
-        } else if (term instanceof foundry.dice.terms.FunctionTerm) {
-            if (typeof term.total === 'number') {
-                constant += term.total;
-            }
+    const dieResult = roll.dice.reduce((sum, die) => {
+        if (die.total) {
+            return sum + die.total;
+        } else {
+            return sum;
         }
+    }, 0);
+    const total = roll.total ? roll.total : 0;
 
-        previous = term;
-    }
-
-    return constant;
+    return total - dieResult;
 }
 
 /**
