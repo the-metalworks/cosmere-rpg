@@ -4,15 +4,6 @@ import {
     AttributeGroup,
 } from '@src/system/types/cosmere';
 import { test, expect } from '../fixtures';
-import {
-    checkActorAttribute,
-    checkActorDefense,
-    checkActorResource,
-    createNewActor,
-    getActorSheet,
-    updateActorAttribute,
-    updateActorResource,
-} from '../helpers/actor';
 import { html5DragAndDrop } from '../helpers/drag-drop';
 
 test('Resources/Attribute/Defenses', async ({
@@ -23,45 +14,44 @@ test('Resources/Attribute/Defenses', async ({
         'Test Character',
         ActorType.Character,
     );
-    const testCharacterSheet = await getActorSheet(page, testCharacter);
-    await checkActorResource(testCharacterSheet, 'Health', 0, 10);
-    await checkActorResource(testCharacterSheet, 'Focus', 0, 2);
-    await checkActorResource(testCharacterSheet, 'Investiture', 0, 0);
-    await checkActorAttribute(testCharacterSheet, Attribute.Strength, 0);
-    await checkActorAttribute(testCharacterSheet, Attribute.Speed, 0);
-    await checkActorAttribute(testCharacterSheet, Attribute.Intellect, 0);
-    await checkActorAttribute(testCharacterSheet, Attribute.Willpower, 0);
-    await checkActorAttribute(testCharacterSheet, Attribute.Awareness, 0);
-    await checkActorAttribute(testCharacterSheet, Attribute.Presence, 0);
-    await checkActorDefense(testCharacterSheet, AttributeGroup.Physical, 10);
-    await checkActorDefense(testCharacterSheet, AttributeGroup.Cognitive, 10);
-    await checkActorDefense(testCharacterSheet, AttributeGroup.Spiritual, 10);
+    await testCharacter.checkResource('Health', 0, 10);
+    await testCharacter.checkResource('Focus', 0, 2);
+    await testCharacter.checkResource('Investiture', 0, 0);
+    await testCharacter.checkAttribute(Attribute.Strength, 0);
+    await testCharacter.checkAttribute(Attribute.Speed, 0);
+    await testCharacter.checkAttribute(Attribute.Intellect, 0);
+    await testCharacter.checkAttribute(Attribute.Willpower, 0);
+    await testCharacter.checkAttribute(Attribute.Awareness, 0);
+    await testCharacter.checkAttribute(Attribute.Presence, 0);
+    await testCharacter.checkDefense(AttributeGroup.Physical, 10);
+    await testCharacter.checkDefense(AttributeGroup.Cognitive, 10);
+    await testCharacter.checkDefense(AttributeGroup.Spiritual, 10);
 
     // Update strength, check new values
-    await updateActorAttribute(testCharacterSheet, Attribute.Strength, 1);
-    await checkActorResource(testCharacterSheet, 'Health', 1, 11);
-    await checkActorResource(testCharacterSheet, 'Focus', 0, 2);
-    await checkActorAttribute(testCharacterSheet, Attribute.Strength, 1);
-    await checkActorAttribute(testCharacterSheet, Attribute.Speed, 0);
-    await checkActorDefense(testCharacterSheet, AttributeGroup.Physical, 11);
-    await checkActorDefense(testCharacterSheet, AttributeGroup.Cognitive, 10);
+    await testCharacter.updateAttribute(Attribute.Strength, 1);
+    await testCharacter.checkResource('Health', 1, 11);
+    await testCharacter.checkResource('Focus', 0, 2);
+    await testCharacter.checkAttribute(Attribute.Strength, 1);
+    await testCharacter.checkAttribute(Attribute.Speed, 0);
+    await testCharacter.checkDefense(AttributeGroup.Physical, 11);
+    await testCharacter.checkDefense(AttributeGroup.Cognitive, 10);
 
     // Update speed, check new values
-    await updateActorAttribute(testCharacterSheet, Attribute.Speed, 2);
-    await checkActorResource(testCharacterSheet, 'Health', 1, 11);
-    await checkActorResource(testCharacterSheet, 'Focus', 0, 2);
-    await checkActorAttribute(testCharacterSheet, Attribute.Strength, 1);
-    await checkActorAttribute(testCharacterSheet, Attribute.Speed, 2);
-    await checkActorDefense(testCharacterSheet, AttributeGroup.Physical, 13);
-    await checkActorDefense(testCharacterSheet, AttributeGroup.Cognitive, 10);
+    await testCharacter.updateAttribute(Attribute.Speed, 2);
+    await testCharacter.checkResource('Health', 1, 11);
+    await testCharacter.checkResource('Focus', 0, 2);
+    await testCharacter.checkAttribute(Attribute.Strength, 1);
+    await testCharacter.checkAttribute(Attribute.Speed, 2);
+    await testCharacter.checkDefense(AttributeGroup.Physical, 13);
+    await testCharacter.checkDefense(AttributeGroup.Cognitive, 10);
 
     // Update health to less than max
-    await updateActorResource(testCharacterSheet, 'Health', 5);
-    await checkActorResource(testCharacterSheet, 'Health', 5, 11);
+    await testCharacter.updateResource('Health', 5);
+    await testCharacter.checkResource('Health', 5, 11);
 
     // Update health to more than max
-    await updateActorResource(testCharacterSheet, 'Health', 100);
-    await checkActorResource(testCharacterSheet, 'Health', 11, 11);
+    await testCharacter.updateResource('Health', 100);
+    await testCharacter.checkResource('Health', 11, 11);
 });
 
 test('Ancestry/Culture/Path Drag and Drop', async ({
@@ -72,19 +62,19 @@ test('Ancestry/Culture/Path Drag and Drop', async ({
         'Test Character',
         ActorType.Character,
     );
-    const testCharacterSheet = await getActorSheet(page, testCharacter);
-    await checkActorResource(testCharacterSheet, 'Health', 0, 10);
-    await checkActorResource(testCharacterSheet, 'Focus', 0, 2);
-    await checkActorResource(testCharacterSheet, 'Investiture', 0, 0);
-    await checkActorAttribute(testCharacterSheet, Attribute.Strength, 0);
-    await checkActorAttribute(testCharacterSheet, Attribute.Speed, 0);
-    await checkActorAttribute(testCharacterSheet, Attribute.Intellect, 0);
-    await checkActorAttribute(testCharacterSheet, Attribute.Willpower, 0);
-    await checkActorAttribute(testCharacterSheet, Attribute.Awareness, 0);
-    await checkActorAttribute(testCharacterSheet, Attribute.Presence, 0);
-    await checkActorDefense(testCharacterSheet, AttributeGroup.Physical, 10);
-    await checkActorDefense(testCharacterSheet, AttributeGroup.Cognitive, 10);
-    await checkActorDefense(testCharacterSheet, AttributeGroup.Spiritual, 10);
+    const testCharacterSheet = testCharacter.locator;
+    await testCharacter.checkResource('Health', 0, 10);
+    await testCharacter.checkResource('Focus', 0, 2);
+    await testCharacter.checkResource('Investiture', 0, 0);
+    await testCharacter.checkAttribute(Attribute.Strength, 0);
+    await testCharacter.checkAttribute(Attribute.Speed, 0);
+    await testCharacter.checkAttribute(Attribute.Intellect, 0);
+    await testCharacter.checkAttribute(Attribute.Willpower, 0);
+    await testCharacter.checkAttribute(Attribute.Awareness, 0);
+    await testCharacter.checkAttribute(Attribute.Presence, 0);
+    await testCharacter.checkDefense(AttributeGroup.Physical, 10);
+    await testCharacter.checkDefense(AttributeGroup.Cognitive, 10);
+    await testCharacter.checkDefense(AttributeGroup.Spiritual, 10);
     await page.getByRole('tab', { name: 'Compendium Packs' }).click();
     await page
         .locator('span')

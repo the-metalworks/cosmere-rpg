@@ -4,15 +4,6 @@ import {
     AttributeGroup,
 } from '@src/system/types/cosmere';
 import { test, expect } from '../fixtures';
-import {
-    checkActorAttribute,
-    checkActorDefense,
-    checkActorResource,
-    createNewActor,
-    getActorSheet,
-    updateActorAttribute,
-    updateActorResource,
-} from '../helpers/actor';
 import { html5DragAndDrop } from '../helpers/drag-drop';
 
 test('Add all basic actions, use them all', async ({
@@ -23,7 +14,7 @@ test('Add all basic actions, use them all', async ({
         'Test Character',
         ActorType.Character,
     );
-    const testCharacterSheet = await getActorSheet(page, testCharacter);
+    const testCharacterSheet = testCharacter.locator;
     await page.getByRole('tab', { name: 'Compendium Packs' }).click();
     await page
         .locator('span')
@@ -127,11 +118,11 @@ test('Add all basic actions, use them all', async ({
     ).toBeVisible();
 
     // Update focus to max and test using the "Aid" action
-    // await updateActorResource(testCharacterSheet, 'Focus', 2);
-    // await checkActorResource(testCharacterSheet, 'Focus', 2, 2);
+    // await testCharacter.updateResource('Focus', 2);
+    // await testCharacter.checkResource('Focus', 2, 2);
     // await testCharacterSheet.locator('app-actor-actions-list-entry:nth-child(1) > .item > .details > .img > .roll-icon').click();
     // await expect(page.getByRole('heading', { name: 'Consume Resource' })).toBeVisible();
     // await expect(page.getByText('Test Character Consume 1')).toBeVisible();
     // await page.getByRole('button', { name: 'Continue' }).click();
-    // await checkActorResource(testCharacterSheet, 'Focus', 1, 2);
+    // await testCharacter.checkResource('Focus', 1, 2);
 });
