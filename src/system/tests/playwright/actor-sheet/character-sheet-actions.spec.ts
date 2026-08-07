@@ -62,6 +62,32 @@ test('Add all basic actions, use them all', async ({
     await expect(page.getByText('Test Character Consume 1')).toBeVisible();
     await page.getByRole('button', { name: 'Continue' }).click();
     await testCharacter.checkResource('Focus', 1, 2);
+    //TODO: Check for chat popup
 
+    const avoidDangerLocator =
+        await testCharacter.actionLocator('Avoid Danger');
+    await avoidDangerLocator.locator('.img').click();
+    await expect(
+        page.getByRole('heading', { name: 'Avoid Danger (Custom Skill)' }),
+    ).toBeVisible();
+    await page.getByRole('button', { name: 'Roll', exact: true }).click();
+
+    const banterLocator = await testCharacter.actionLocator('Banter');
+    await banterLocator.locator('.img').click();
+
+    const braceLocator = await testCharacter.actionLocator('Brace');
+    await braceLocator.locator('.img').click();
+
+    const disengageLocator = await testCharacter.actionLocator('Disengage');
+    await disengageLocator.locator('.img').click();
+
+    const dodgeLocator = await testCharacter.actionLocator('Dodge');
+    await dodgeLocator.locator('.img').click();
+    await expect(
+        page.getByRole('heading', { name: 'Consume Resource' }),
+    ).toBeVisible();
+    await expect(page.getByText('Test Character Consume 1')).toBeVisible();
+    await page.getByRole('button', { name: 'Continue' }).click();
+    await testCharacter.checkResource('Focus', 0, 2);
     await page.pause();
 });
