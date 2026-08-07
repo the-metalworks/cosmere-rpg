@@ -5,6 +5,7 @@ import {
 } from '@src/system/types/cosmere';
 import { test, expect } from '../fixtures';
 import { html5DragAndDrop } from '../helpers/drag-drop';
+import { clearNotifications } from '../helpers/notifications';
 
 test('Add all basic actions, use them all', async ({
     authenticatedPage: page,
@@ -48,13 +49,19 @@ test('Add all basic actions, use them all', async ({
     await testCharacter.checkHasAction('Strike', '1', '—', '—');
     await testCharacter.checkHasAction('Unarmed Attack', '1', '—', '—');
     await testCharacter.checkHasAction('Use A Skill', '1', '—', '—');
+    await clearNotifications(page);
 
     // Update focus to max and test using the "Aid" action
-    // await testCharacter.updateResource('Focus', 2);
-    // await testCharacter.checkResource('Focus', 2, 2);
-    // await testCharacterSheet.locator('app-actor-actions-list-entry:nth-child(1) > .item > .details > .img > .roll-icon').click();
-    // await expect(page.getByRole('heading', { name: 'Consume Resource' })).toBeVisible();
-    // await expect(page.getByText('Test Character Consume 1')).toBeVisible();
-    // await page.getByRole('button', { name: 'Continue' }).click();
-    // await testCharacter.checkResource('Focus', 1, 2);
+    await testCharacter.updateResource('Focus', 2);
+    await testCharacter.checkResource('Focus', 2, 2);
+    const aidLocator = await testCharacter.actionLocator('Aid');
+    await aidLocator.locator('.img').click();
+    await expect(
+        page.getByRole('heading', { name: 'Consume Resource' }),
+    ).toBeVisible();
+    await expect(page.getByText('Test Character Consume 1')).toBeVisible();
+    await page.getByRole('button', { name: 'Continue' }).click();
+    await testCharacter.checkResource('Focus', 1, 2);
+
+    await page.pause();
 });

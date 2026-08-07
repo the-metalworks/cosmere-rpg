@@ -135,4 +135,12 @@ export class ActorSheetRef {
                 .getByText(`${name} ${cost} ${consume} ${resources}`),
         ).toBeVisible();
     }
+
+    public async actionLocator(name: string) {
+        const actionLocator = this.locator
+            .locator('app-actor-actions-list li')
+            .filter({ has: this.page.locator('span.name', { hasText: name }) });
+        await expect(actionLocator).toHaveCount(1);
+        return actionLocator;
+    }
 }
