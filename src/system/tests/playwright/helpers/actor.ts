@@ -126,8 +126,8 @@ export class ActorSheetRef {
     public async checkHasAction(
         name: string,
         cost: string,
-        consume: string,
-        resources: string,
+        consume = '—',
+        resources = '—',
     ) {
         await expect(
             this.locator

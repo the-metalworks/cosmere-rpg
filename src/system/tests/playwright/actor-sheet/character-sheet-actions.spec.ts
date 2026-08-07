@@ -31,24 +31,24 @@ test('Add all basic actions, use them all', async ({
     await testCharacter.switchToActionsTab();
 
     // Expect all basic actions to appear on character sheet
-    await testCharacter.checkHasAction('Aid', 'r', '1 Focus', '—');
-    await testCharacter.checkHasAction('Avoid Danger', 'r', '—', '—');
-    await testCharacter.checkHasAction('Banter', '0', '—', '—');
-    await testCharacter.checkHasAction('Brace', '1', '—', '—');
-    await testCharacter.checkHasAction('Disengage', '1', '—', '—');
-    await testCharacter.checkHasAction('Dodge', 'r', '1 Focus', '—');
-    await testCharacter.checkHasAction('Drop', '0', '—', '—');
-    await testCharacter.checkHasAction('Gain Advantage', '1', '—', '—');
-    await testCharacter.checkHasAction('Grapple', '2', '—', '—');
-    await testCharacter.checkHasAction('Interact', '1', '—', '—');
-    await testCharacter.checkHasAction('Move', '1', '—', '—');
-    await testCharacter.checkHasAction('Reactive Strike', 'r', '1 Focus', '—');
-    await testCharacter.checkHasAction('Ready', '1', '—', '—');
+    await testCharacter.checkHasAction('Aid', 'r', '1 Focus');
+    await testCharacter.checkHasAction('Avoid Danger', 'r');
+    await testCharacter.checkHasAction('Banter', '0');
+    await testCharacter.checkHasAction('Brace', '1');
+    await testCharacter.checkHasAction('Disengage', '1');
+    await testCharacter.checkHasAction('Dodge', 'r', '1 Focus');
+    await testCharacter.checkHasAction('Drop', '0');
+    await testCharacter.checkHasAction('Gain Advantage', '1');
+    await testCharacter.checkHasAction('Grapple', '2');
+    await testCharacter.checkHasAction('Interact', '1');
+    await testCharacter.checkHasAction('Move', '1');
+    await testCharacter.checkHasAction('Reactive Strike', 'r', '1 Focus');
+    await testCharacter.checkHasAction('Ready', '1');
     // await testCharacter.checkHasAction("Recover", "2", "—", "—");
-    await testCharacter.checkHasAction('Shove', '2', '—', '—');
-    await testCharacter.checkHasAction('Strike', '1', '—', '—');
-    await testCharacter.checkHasAction('Unarmed Attack', '1', '—', '—');
-    await testCharacter.checkHasAction('Use A Skill', '1', '—', '—');
+    await testCharacter.checkHasAction('Shove', '2');
+    await testCharacter.checkHasAction('Strike', '1');
+    await testCharacter.checkHasAction('Unarmed Attack', '1');
+    await testCharacter.checkHasAction('Use A Skill', '1');
     await clearNotifications(page);
 
     // Update focus to max and test using the "Aid" action
