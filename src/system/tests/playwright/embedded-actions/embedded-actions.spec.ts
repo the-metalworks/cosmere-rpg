@@ -1,10 +1,5 @@
 import { ItemType } from '@src/system/types/cosmere';
 import { test, expect } from '../fixtures';
-import {
-    getItemSheet,
-    newItemPromiseToSheetRef,
-    waitForNewItem,
-} from '../helpers/item';
 
 test('Create talent with embedded action', async ({
     authenticatedPage: page,
@@ -12,7 +7,7 @@ test('Create talent with embedded action', async ({
 }) => {
     await expect(page).toHaveTitle('Foundry Virtual Tabletop');
     const testTalent = await createItem('Test Talent', ItemType.Talent);
-    const testTalentSheet = await getItemSheet(page, testTalent);
+    const testTalentSheet = testTalent.locator;
     await expect(testTalentSheet.locator('.item-header')).toBeVisible();
     await expect(testTalentSheet.locator('app-item-header'))
         .toMatchAriaSnapshot(`
@@ -20,13 +15,8 @@ test('Create talent with embedded action', async ({
       - textbox: Test Talent
       `);
     await testTalentSheet.getByText('Actions').click();
-    const embeddedActionPromise = waitForNewItem(page);
-    await testTalentSheet.locator('.controls > a').first().click();
-    const embeddedAction = await newItemPromiseToSheetRef(
-        embeddedActionPromise,
-        { expectedType: ItemType.Action },
-    );
-    const embeddedActionSheet = await getItemSheet(page, embeddedAction);
+    const embeddedAction = await testTalent.createEmbeddedItem();
+    const embeddedActionSheet = embeddedAction.locator;
 
     await expect(
         testTalentSheet.getByRole('listitem').filter({ hasText: 'New Action' }),

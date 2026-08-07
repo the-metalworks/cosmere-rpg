@@ -3,7 +3,7 @@ import { expect, Locator, Page } from '@playwright/test';
 import { ItemType } from '@src/system/types/cosmere';
 import { paramsFromHook } from './hooks';
 
-export interface ItemSheetRef {
+interface ItemSheetRefData {
     id: string;
     uuid: string;
     name: string;
@@ -11,36 +11,65 @@ export interface ItemSheetRef {
     typeLabel: string;
 }
 
-export async function getItemSheet(page: Page, sheetRef: ItemSheetRef) {
-    const sheetUuidString = sheetRef.uuid.replaceAll('.', '-');
-    const itemSheet = page.locator(
-        `#${sheetRef.typeLabel}ItemSheet-${sheetUuidString}`,
-    );
-    await expect(itemSheet).toHaveCount(1);
-    return itemSheet;
+export class ItemSheetRef {
+    public readonly locator: Locator;
+    public readonly id: string;
+    public readonly uuid: string;
+    public readonly name: string;
+    public readonly type: ItemType;
+
+    constructor(
+        private readonly page: Page,
+        sheetRefData: ItemSheetRefData,
+    ) {
+        this.id = sheetRefData.id;
+        this.uuid = sheetRefData.uuid;
+        this.name = sheetRefData.name;
+        this.type = sheetRefData.type;
+        const sheetUuidString = sheetRefData.uuid.replaceAll('.', '-');
+        this.locator = page.locator(
+            `#${sheetRefData.typeLabel}ItemSheet-${sheetUuidString}`,
+        );
+    }
+
+    public static async create(
+        page: Page,
+        name: string,
+        type: ItemType,
+    ): Promise<ItemSheetRefData> {
+        await page.getByRole('tab', { name: 'Items' }).click();
+        await page.getByRole('button', { name: ' Create Item' }).click();
+        await page.getByRole('combobox').selectOption(type);
+
+        await page.locator(`input[name="name"]`).click();
+        await page.locator(`input[name="name"]`).fill(name);
+        await page.getByRole('heading', { name: 'Create Item' }).click();
+        const newItemPromise = paramsFromHook(page, 'createItem');
+        await page.getByRole('button', { name: ' Create Item' }).click();
+        return newItemPromiseToSheetRef(newItemPromise, {
+            expectedName: name,
+            expectedType: type,
+        });
+    }
+
+    public async delete() {
+        await this.page.evaluate(async (id) => {
+            await game.items?.get(id)?.delete();
+        }, this.id);
+    }
+
+    public async createEmbeddedItem() {
+        const embeddedActionPromise = paramsFromHook(this.page, 'createItem');
+        await this.locator.locator('.controls > a').first().click();
+        const embeddedAction = await newItemPromiseToSheetRef(
+            embeddedActionPromise,
+            { expectedType: ItemType.Action },
+        );
+        return new ItemSheetRef(this.page, embeddedAction);
+    }
 }
 
-export async function createNewItem(
-    page: Page,
-    name: string,
-    type: ItemType,
-): Promise<ItemSheetRef> {
-    await page.getByRole('tab', { name: 'Items' }).click();
-    await page.getByRole('button', { name: ' Create Item' }).click();
-    await page.getByRole('combobox').selectOption(type);
-
-    await page.locator(`input[name="name"]`).click();
-    await page.locator(`input[name="name"]`).fill(name);
-    await page.getByRole('heading', { name: 'Create Item' }).click();
-    const newItemPromise = waitForNewItem(page);
-    await page.getByRole('button', { name: ' Create Item' }).click();
-    return newItemPromiseToSheetRef(newItemPromise, {
-        expectedName: name,
-        expectedType: type,
-    });
-}
-
-export async function newItemPromiseToSheetRef(
+async function newItemPromiseToSheetRef(
     newItemPromise: Promise<Hooks.HookParameters<'createItem'>>,
     expectedVals?: { expectedName?: string; expectedType: ItemType },
 ) {
@@ -55,24 +84,12 @@ export async function newItemPromiseToSheetRef(
     expect(createdItem.uuid);
     const typeLabel =
         createdItem.type.charAt(0).toUpperCase() + createdItem.type.slice(1);
-    const itemSheetRef = {
+    const itemSheetRefData = {
         id: createdItem.id!,
         uuid: createdItem.uuid,
         name: createdItem.name,
         type: createdItem.type,
         typeLabel,
     };
-    return itemSheetRef;
-}
-
-export async function waitForNewItem(
-    page: Page,
-): Promise<Hooks.HookParameters<'createItem'>> {
-    return paramsFromHook(page, 'createItem');
-}
-
-export async function deleteItem(page: Page, sheetRef: ItemSheetRef) {
-    await page.evaluate(async (id) => {
-        await game.items?.get(id)?.delete();
-    }, sheetRef.id);
+    return itemSheetRefData;
 }

@@ -1,7 +1,7 @@
 import { test as base, expect } from '@playwright/test';
 import { Page } from '@playwright/test';
 import { ActorType, ItemType } from '@src/system/types/cosmere';
-import { createNewItem, deleteItem, ItemSheetRef } from './helpers/item';
+import { ItemSheetRef } from './helpers/item';
 import { ActorSheetRef } from './helpers/actor';
 
 // Declare the types for your custom fixtures
@@ -35,15 +35,20 @@ export const test = base.extend<MyFixtures>({
     createItem: async ({ authenticatedPage: page }, use) => {
         const createdItems: ItemSheetRef[] = [];
         const factory = async (name: string, type: ItemType) => {
-            const item = await createNewItem(page, name, type);
-            createdItems.push(item);
-            return item;
+            const itemSheetRefData = await ItemSheetRef.create(
+                page,
+                name,
+                type,
+            );
+            const itemSheetRef = new ItemSheetRef(page, itemSheetRefData);
+            createdItems.push(itemSheetRef);
+            return itemSheetRef;
         };
 
         await use(factory);
 
-        for (const actor of createdItems) {
-            await deleteItem(page, actor);
+        for (const item of createdItems) {
+            await item.delete();
         }
     },
     createActor: async ({ authenticatedPage: page }, use) => {
