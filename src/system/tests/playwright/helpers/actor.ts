@@ -118,4 +118,21 @@ export class ActorSheetRef {
         await resourceBarInput.fill(`${newVal}`);
         await this.locator.getByRole('banner').click();
     }
+
+    public async switchToActionsTab() {
+        await this.locator.locator('a').filter({ hasText: '3' }).click();
+    }
+
+    public async checkHasAction(
+        name: string,
+        cost: string,
+        consume: string,
+        resources: string,
+    ) {
+        await expect(
+            this.locator
+                .locator('app-actor-actions-list')
+                .getByText(`${name} ${cost} ${consume} ${resources}`),
+        ).toBeVisible();
+    }
 }

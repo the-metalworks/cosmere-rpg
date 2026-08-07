@@ -27,95 +27,27 @@ test('Add all basic actions, use them all', async ({
         testCharacterSheet,
     );
 
-    await testCharacterSheet.locator('a').filter({ hasText: '3' }).click();
+    await testCharacter.switchToActionsTab();
 
     // Expect all basic actions to appear on character sheet
-    await expect(
-        testCharacterSheet
-            .locator('app-actor-actions-list')
-            .getByText('Aid r 1 Focus —'),
-    ).toBeVisible();
-    await expect(
-        testCharacterSheet
-            .locator('app-actor-actions-list')
-            .getByText('Avoid Danger r — —'),
-    ).toBeVisible();
-    await expect(
-        testCharacterSheet
-            .locator('app-actor-actions-list')
-            .getByText('Banter 0 — —'),
-    ).toBeVisible();
-    await expect(
-        testCharacterSheet
-            .locator('app-actor-actions-list')
-            .getByText('Brace 1 — —'),
-    ).toBeVisible();
-    await expect(
-        testCharacterSheet
-            .locator('app-actor-actions-list')
-            .getByText('Disengage 1 — —'),
-    ).toBeVisible();
-    await expect(
-        testCharacterSheet
-            .locator('app-actor-actions-list')
-            .getByText('Dodge r 1 Focus —'),
-    ).toBeVisible();
-    await expect(
-        testCharacterSheet
-            .locator('app-actor-actions-list')
-            .getByText('Drop 0 — —'),
-    ).toBeVisible();
-    await expect(
-        testCharacterSheet
-            .locator('app-actor-actions-list')
-            .getByText('Gain Advantage 1 — —'),
-    ).toBeVisible();
-    await expect(
-        testCharacterSheet
-            .locator('app-actor-actions-list')
-            .getByText('Grapple 2 — —'),
-    ).toBeVisible();
-    await expect(
-        testCharacterSheet
-            .locator('app-actor-actions-list')
-            .getByText('Interact 1 — —'),
-    ).toBeVisible();
-    await expect(
-        testCharacterSheet
-            .locator('app-actor-actions-list')
-            .getByText('Move 1 — —'),
-    ).toBeVisible();
-    await expect(
-        testCharacterSheet
-            .locator('app-actor-actions-list')
-            .getByText('Reactive Strike r 1 Focus —'),
-    ).toBeVisible();
-    await expect(
-        testCharacterSheet
-            .locator('app-actor-actions-list')
-            .getByText('Ready 1 — —'),
-    ).toBeVisible();
-    // await expect(testCharacterSheet.locator('app-actor-actions-list').getByText('Recover 2 — —')).toBeVisible();
-    await expect(
-        testCharacterSheet
-            .locator('app-actor-actions-list')
-            .getByText('Shove 2 — —'),
-    ).toBeVisible();
-    await expect(
-        testCharacterSheet
-            .locator('app-actor-actions-list')
-            .getByText('Strike 1 — —'),
-    ).toBeVisible();
-    await expect(
-        testCharacterSheet
-            .locator('app-actor-actions-list')
-            .getByText('Unarmed Attack 1 — —'),
-    ).toBeVisible();
-    await expect(
-        testCharacterSheet
-            .locator('app-actor-actions-list')
-            .getByText('Use A Skill 1 — —'),
-    ).toBeVisible();
+    await testCharacter.checkHasAction('Aid', 'r', '1 Focus', '—');
+    await testCharacter.checkHasAction('Avoid Danger', 'r', '—', '—');
+    await testCharacter.checkHasAction('Banter', '0', '—', '—');
+    await testCharacter.checkHasAction('Brace', '1', '—', '—');
+    await testCharacter.checkHasAction('Disengage', '1', '—', '—');
+    await testCharacter.checkHasAction('Dodge', 'r', '1 Focus', '—');
+    await testCharacter.checkHasAction('Drop', '0', '—', '—');
+    await testCharacter.checkHasAction('Gain Advantage', '1', '—', '—');
+    await testCharacter.checkHasAction('Grapple', '2', '—', '—');
+    await testCharacter.checkHasAction('Interact', '1', '—', '—');
+    await testCharacter.checkHasAction('Move', '1', '—', '—');
+    await testCharacter.checkHasAction('Reactive Strike', 'r', '1 Focus', '—');
+    await testCharacter.checkHasAction('Ready', '1', '—', '—');
+    // await testCharacter.checkHasAction("Recover", "2", "—", "—");
+    await testCharacter.checkHasAction('Shove', '2', '—', '—');
+    await testCharacter.checkHasAction('Strike', '1', '—', '—');
+    await testCharacter.checkHasAction('Unarmed Attack', '1', '—', '—');
+    await testCharacter.checkHasAction('Use A Skill', '1', '—', '—');
 
     // Update focus to max and test using the "Aid" action
     // await testCharacter.updateResource('Focus', 2);
