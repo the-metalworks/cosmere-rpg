@@ -157,6 +157,4 @@ test('Add all basic actions, use them all', async ({
 
     const useASkillLocator = await testCharacter.actionLocator('Use A Skill');
     await useASkillLocator.locator('.img').click();
-
-    await page.pause();
 });
