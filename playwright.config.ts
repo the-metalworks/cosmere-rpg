@@ -36,6 +36,12 @@ export default defineConfig({
     globalSetup: './src/system/tests/playwright/global-setup.ts',
     globalTeardown: './src/system/tests/playwright/global-teardown.ts',
 
+    // Timeout config
+    timeout: 60_000, // Full test timeout: 60 seconds
+    expect: {
+        timeout: 10_000, // Assertions: 10 seconds
+    },
+
     /* Configure projects for major browsers */
     projects: [
         {
