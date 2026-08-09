@@ -7,6 +7,7 @@ import { test, expect } from '../fixtures';
 import { mostRecentChatMessage } from '../helpers/chat';
 import { html5DragAndDrop } from '../helpers/drag-drop';
 import { clearNotifications } from '../helpers/notifications';
+import { getElementForNextWindowToOpen } from '../helpers/hooks';
 
 test('Add all basic actions, use them all', async ({
     authenticatedPage: page,
@@ -218,12 +219,68 @@ test('Add weapon, validate strike action details', async ({
     await expect(
         testCharacterSheet.getByRole('button', { name: ' View' }),
     ).toBeVisible();
+    const axeStrikeActionSheetPromise = getElementForNextWindowToOpen(page);
     await testCharacterSheet.getByRole('button', { name: ' View' }).click();
-    await page.getByText('Details').click();
+    const axeStrikeActionSheet = await axeStrikeActionSheetPromise;
     await expect(
-        page
+        axeStrikeActionSheet
             .locator('section')
             .filter({ hasText: 'Action Description Details' })
             .first(),
     ).toBeVisible();
+    await axeStrikeActionSheet
+        .getByRole('button', { name: 'Close Window' })
+        .click();
+
+    // Test the Loaded automations
+    await testCharacterSheet
+        .locator('.sheet-navigation > a:nth-child(4)')
+        .click();
+    await testCharacterSheet
+        .locator('div:nth-child(7) > a:nth-child(2)')
+        .click();
+    const axeSheetPromise = getElementForNextWindowToOpen(page);
+    await testCharacterSheet.getByRole('button', { name: ' Edit' }).click();
+    const axeSheet = await axeSheetPromise;
+    await axeSheet.getByText('Details', { exact: true }).click();
+    await axeSheet.getByText('Traits Thrown', { exact: true }).click();
+    await axeSheet
+        .locator('input[name="system.traits.loaded.defaultActive"]')
+        .check();
+    await axeSheet
+        .locator('input[name="system.traits.loaded.defaultValue"]')
+        .click();
+    await axeSheet
+        .locator('input[name="system.traits.loaded.defaultValue"]')
+        .fill('3');
+    await axeSheet.getByText('Traits Loaded, Thrown').click();
+    await expect(axeSheet.locator('app-item-details-resources')).toContainText(
+        'Primary ResourceAmmo',
+    );
+    await axeSheet.getByText('Actions', { exact: true }).click();
+    await expect(axeSheet.locator('app-item-actions-list')).toContainText(
+        'Strike: Axe 1 1 Ammo from —',
+    );
+    await expect(axeSheet.locator('app-item-actions-list')).toContainText(
+        'Reload: Axe 1 — —',
+    );
+    await axeSheet.getByRole('button', { name: 'Close Window' }).click();
+    await expect(
+        testCharacterSheet.locator('app-actor-equipment-list'),
+    ).toContainText('Axe Melee, One Handed, Loaded [3], Thrown 1 2 3 / 3');
+    await testCharacterSheet
+        .locator('a')
+        .filter({ hasText: '3' })
+        .first()
+        .click();
+    await expect(
+        testCharacterSheet.locator('app-actor-actions-list'),
+    ).toContainText('Axe 3 / 3');
+    await testCharacterSheet.getByText('Strike: Axe 1 1 Ammo from 3').click();
+    await expect(
+        testCharacterSheet.locator('app-actor-actions-list'),
+    ).toContainText('Strike: Axe 1 1 Ammo from 3 / 3 —');
+    await expect(
+        testCharacterSheet.locator('app-actor-actions-list'),
+    ).toContainText('Reload: Axe 1 — —');
 });

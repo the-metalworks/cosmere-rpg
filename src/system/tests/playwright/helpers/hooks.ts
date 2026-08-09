@@ -70,3 +70,16 @@ export async function paramsFromHook<K extends Hooks.HookName>(
         { hookName, timeout },
     );
 }
+
+export async function getElementForNextWindowToOpen(
+    page: Page,
+    timeout = 3000,
+) {
+    const [application] = await paramsFromHook(
+        page,
+        'renderApplicationV2',
+        timeout,
+    );
+
+    return page.locator(`#${application.id}`);
+}
