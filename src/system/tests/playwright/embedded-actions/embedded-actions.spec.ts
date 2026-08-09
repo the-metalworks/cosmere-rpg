@@ -42,9 +42,46 @@ test('Create talent with embedded action', async ({
     await embeddedActionSheet
         .locator('app-item-resource-consumption-list > .controls > a')
         .click();
-    // await expect(page.locator('#ActionItemSheet-Item-8w0YaDPHZvXhNMD7-Item-lfB0vzRMZQx1HQ6F > .window-content > .sheet-content > app-item-header > .sheet-header > .item-header')).toBeVisible();
-    // await page.locator('select[name="system.activation.type"]').selectOption('utility');
-    // await page.locator('select[name="system.activation.cost.type"]').selectOption('act');
-    // await page.getByRole('spinbutton').fill('2');
-    // await expect(page.locator('app-item-actions-list')).toContainText('2');
+    await expect(
+        embeddedActionSheet.locator('app-item-resource-consumption-list'),
+    ).toContainText('1 Focus from Ancestor of type Actor');
+    await expect(
+        testTalentSheet.locator('app-item-actions-list'),
+    ).toContainText('New Action 2 1 Focus —');
+
+    await page.locator('select[name="resource"]').selectOption('inv');
+    await expect(
+        embeddedActionSheet.locator('app-item-resource-consumption-list'),
+    ).toContainText('1 Investiture from Ancestor of type Actor');
+    await expect(
+        testTalentSheet.locator('app-item-actions-list'),
+    ).toContainText('New Action 2 1 Investiture —');
+
+    await page.locator('input[name="value"]').fill('1+');
+    await page.locator('#board').click({
+        position: {
+            x: 0,
+            y: 0,
+        },
+    });
+    await expect(
+        embeddedActionSheet.locator('app-item-resource-consumption-list'),
+    ).toContainText('1+ Investiture from Ancestor of type Actor');
+    await expect(
+        testTalentSheet.locator('app-item-actions-list'),
+    ).toContainText('New Action 2 1+ Investiture —');
+
+    await page.locator('input[name="value"]').fill('0-2');
+    await page.locator('#board').click({
+        position: {
+            x: 0,
+            y: 0,
+        },
+    });
+    await expect(
+        embeddedActionSheet.locator('app-item-resource-consumption-list'),
+    ).toContainText('0-2 Investiture from Ancestor of type Actor');
+    await expect(
+        testTalentSheet.locator('app-item-actions-list'),
+    ).toContainText('New Action 2 1 - 2 Investiture (Optional) —');
 });
