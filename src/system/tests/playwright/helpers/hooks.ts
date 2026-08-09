@@ -71,7 +71,7 @@ export async function paramsFromHook<K extends Hooks.HookName>(
     );
 }
 
-export async function getElementForNextWindowToOpen(
+export async function getLocatorForNextWindowToOpen(
     page: Page,
     timeout = 3000,
 ) {

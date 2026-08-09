@@ -7,7 +7,7 @@ import { test, expect } from '../fixtures';
 import { mostRecentChatMessage } from '../helpers/chat';
 import { html5DragAndDrop } from '../helpers/drag-drop';
 import { clearNotifications } from '../helpers/notifications';
-import { getElementForNextWindowToOpen } from '../helpers/hooks';
+import { getLocatorForNextWindowToOpen } from '../helpers/hooks';
 
 test('Add all basic actions, use them all', async ({
     authenticatedPage: page,
@@ -219,7 +219,7 @@ test('Add weapon, validate strike action details', async ({
     await expect(
         testCharacterSheet.getByRole('button', { name: ' View' }),
     ).toBeVisible();
-    const axeStrikeActionSheetPromise = getElementForNextWindowToOpen(page);
+    const axeStrikeActionSheetPromise = getLocatorForNextWindowToOpen(page);
     await testCharacterSheet.getByRole('button', { name: ' View' }).click();
     const axeStrikeActionSheet = await axeStrikeActionSheetPromise;
     await expect(
@@ -239,7 +239,7 @@ test('Add weapon, validate strike action details', async ({
     await testCharacterSheet
         .locator('div:nth-child(7) > a:nth-child(2)')
         .click();
-    const axeSheetPromise = getElementForNextWindowToOpen(page);
+    const axeSheetPromise = getLocatorForNextWindowToOpen(page);
     await testCharacterSheet.getByRole('button', { name: ' Edit' }).click();
     const axeSheet = await axeSheetPromise;
     await axeSheet.getByText('Details', { exact: true }).click();
