@@ -175,3 +175,55 @@ test('Add all basic actions, use them all', async ({
     await useASkillLocator.locator('.img').click();
     await expect(mostRecentChatMessage(page)).toContainText('Use A Skill');
 });
+
+test('Add weapon, validate strike action details', async ({
+    authenticatedPage: page,
+    createActor,
+}) => {
+    const testCharacter = await createActor(
+        'Test Character',
+        ActorType.Character,
+    );
+    const testCharacterSheet = testCharacter.locator;
+    await page.getByRole('tab', { name: 'Compendium Packs' }).click();
+    await page
+        .locator('span')
+        .filter({ hasText: 'Stormlight Starter Rules' })
+        .click();
+    await page.locator('a').filter({ hasText: 'Items' }).click();
+    await page
+        .locator('#compendium-cosmere-rpg_items')
+        .getByText('Weapons')
+        .click();
+    await html5DragAndDrop(page, page.getByText('Axe'), testCharacterSheet);
+    await testCharacterSheet.locator('a').filter({ hasText: '3' }).click();
+    await testCharacterSheet
+        .locator('.sheet-navigation > a:nth-child(4)')
+        .click();
+    await testCharacterSheet.locator('div.detail.slim.equip > a').click();
+    await testCharacterSheet.locator('a').filter({ hasText: '3' }).click();
+    await expect(
+        testCharacterSheet.getByText('Strike: Axe 1 — —'),
+    ).toBeVisible();
+    await testCharacterSheet.getByText('Strike: Axe').click();
+    await expect(
+        testCharacterSheet.locator('app-actor-actions-list-entry'),
+    ).toContainText(
+        'Damage 1d6 keen; Range Melee; Traits Thrown [20/60]; Expert Traits Offhand;Type Heavy Weapon; Weapons Skill Heavy; Price 20 mk; Weight 2 lb.;',
+    );
+    await testCharacterSheet
+        .locator('.controls.icon > a:nth-child(2)')
+        .first()
+        .click();
+    await expect(
+        testCharacterSheet.getByRole('button', { name: ' View' }),
+    ).toBeVisible();
+    await testCharacterSheet.getByRole('button', { name: ' View' }).click();
+    await page.getByText('Details').click();
+    await expect(
+        page
+            .locator('section')
+            .filter({ hasText: 'Action Description Details' })
+            .first(),
+    ).toBeVisible();
+});
