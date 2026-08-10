@@ -284,3 +284,62 @@ test('Add weapon, validate strike action details', async ({
         testCharacterSheet.locator('app-actor-actions-list'),
     ).toContainText('Reload: Axe 1 — —');
 });
+
+test('Edit mode', async ({ authenticatedPage: page, createActor }) => {
+    const testCharacter = await createActor(
+        'Test Character',
+        ActorType.Character,
+    );
+    const testCharacterSheet = testCharacter.locator;
+    await testCharacter.switchToActionsTab();
+
+    await page.getByRole('tab', { name: 'Compendium Packs' }).click();
+    await page
+        .locator('span')
+        .filter({ hasText: 'Stormlight Starter Rules' })
+        .click();
+    await page.locator('a').filter({ hasText: 'Heroic Paths' }).click();
+    await page.locator('span').filter({ hasText: 'Envoy' }).click();
+    const envoyPathElement = page.locator('a').filter({ hasText: /^Envoy$/ });
+    await html5DragAndDrop(page, envoyPathElement, testCharacterSheet);
+    await clearNotifications(page);
+    await expect(
+        page
+            .getByRole('listitem')
+            .filter({ hasText: 'Envoy Actions Action Cost' }),
+    ).toBeVisible();
+    await expect(
+        page
+            .getByRole('listitem')
+            .filter({ hasText: 'Basic Actions Action Cost' }),
+    ).toBeVisible();
+    await expect(
+        page.locator(
+            'app-actor-actions-list > .item-list.collapsible > .item.header > .details > .controls > a',
+        ),
+    ).toBeVisible();
+    await expect(
+        page
+            .locator('.item-list.empty > .item > .details > .controls > a')
+            .first(),
+    ).toBeVisible();
+
+    // Toggle edit mode off
+    await page.locator('.fa-solid.fa-pen').click();
+    await expect(
+        page
+            .getByRole('listitem')
+            .filter({ hasText: 'Envoy Actions Action Cost' }),
+    ).toBeVisible();
+    await expect(
+        page.locator(
+            'app-actor-actions-list > .item-list.collapsible > .item.header > .details > .controls > a',
+        ),
+    ).toBeVisible();
+    await expect(page.getByText('Rousing Presence 1 — —')).toBeVisible();
+    await expect(
+        page
+            .getByRole('listitem')
+            .filter({ hasText: 'Basic Actions Action Cost' }),
+    ).not.toBeVisible();
+});

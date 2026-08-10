@@ -125,3 +125,140 @@ test('Ancestry/Culture/Path Drag and Drop', async ({
         'Opportunist',
     );
 });
+
+test('Edit mode', async ({ authenticatedPage: page, createActor }) => {
+    const testCharacter = await createActor(
+        'Test Character',
+        ActorType.Character,
+    );
+    const testCharacterSheet = testCharacter.locator;
+
+    await expect(
+        testCharacterSheet.locator(
+            'div:nth-child(1) > .attributes > .sheet-stack.defense > .container > .config-icon',
+        ),
+    ).toBeVisible();
+    await expect(
+        testCharacterSheet.locator(
+            'div:nth-child(2) > .attributes > .sheet-stack.defense > .container > .config-icon',
+        ),
+    ).toBeVisible();
+    await expect(
+        testCharacterSheet.locator(
+            'div:nth-child(3) > .attributes > .sheet-stack.defense > .container > .config-icon',
+        ),
+    ).toBeVisible();
+    await expect(
+        testCharacterSheet.locator('.label > a').first(),
+    ).toBeVisible();
+    await expect(
+        testCharacterSheet.locator(
+            '.sheet-stack.derived-stat.movement > .label > a',
+        ),
+    ).toBeVisible();
+    await expect(
+        testCharacterSheet.locator(
+            '.sheet-stack.derived-stat.recovery > .label > a',
+        ),
+    ).toBeVisible();
+    await expect(
+        testCharacterSheet.locator(
+            '.sheet-stack.derived-stat.senses > .label > a',
+        ),
+    ).toBeVisible();
+    await expect(
+        testCharacterSheet.locator(
+            '.sheet-stack.derived-stat.lift > .label > a',
+        ),
+    ).toBeVisible();
+    await expect(
+        testCharacterSheet.locator('.controls > a:nth-child(2)').first(),
+    ).toBeVisible();
+    await expect(
+        testCharacterSheet.locator(
+            '.resource.foc > .sidebar-header > .controls > a',
+        ),
+    ).toBeVisible();
+    await expect(
+        testCharacterSheet.locator(
+            '.resource.inv > .sidebar-header > .controls > a',
+        ),
+    ).toBeVisible();
+    await expect(
+        testCharacterSheet
+            .locator('div')
+            .filter({ hasText: 'Expertises' })
+            .nth(3),
+    ).toBeVisible();
+    await expect(
+        testCharacterSheet
+            .locator('div')
+            .filter({ hasText: 'Immunities' })
+            .nth(3),
+    ).toBeVisible();
+    // Toggle edit mode off
+    await testCharacterSheet.locator('.slider').click();
+    await expect(
+        testCharacterSheet.locator(
+            'div:nth-child(1) > .attributes > .sheet-stack.defense > .container > .config-icon',
+        ),
+    ).not.toBeVisible();
+    await expect(
+        testCharacterSheet.locator(
+            'div:nth-child(2) > .attributes > .sheet-stack.defense > .container > .config-icon',
+        ),
+    ).not.toBeVisible();
+    await expect(
+        testCharacterSheet.locator(
+            'div:nth-child(3) > .attributes > .sheet-stack.defense > .container > .config-icon',
+        ),
+    ).not.toBeVisible();
+    await expect(
+        testCharacterSheet.locator('.label > a').first(),
+    ).not.toBeVisible();
+    await expect(
+        testCharacterSheet.locator(
+            '.sheet-stack.derived-stat.movement > .label > a',
+        ),
+    ).not.toBeVisible();
+    await expect(
+        testCharacterSheet.locator(
+            '.sheet-stack.derived-stat.recovery > .label > a',
+        ),
+    ).not.toBeVisible();
+    await expect(
+        testCharacterSheet.locator(
+            '.sheet-stack.derived-stat.senses > .label > a',
+        ),
+    ).not.toBeVisible();
+    await expect(
+        testCharacterSheet.locator(
+            '.sheet-stack.derived-stat.lift > .label > a',
+        ),
+    ).not.toBeVisible();
+    await expect(
+        testCharacterSheet.locator('.controls > a:nth-child(2)').first(),
+    ).not.toBeVisible();
+    await expect(
+        testCharacterSheet.locator(
+            '.resource.foc > .sidebar-header > .controls > a',
+        ),
+    ).not.toBeVisible();
+    await expect(
+        testCharacterSheet.locator(
+            '.resource.inv > .sidebar-header > .controls > a',
+        ),
+    ).not.toBeVisible();
+    await expect(
+        testCharacterSheet
+            .locator('div')
+            .filter({ hasText: 'Expertises' })
+            .nth(3),
+    ).not.toBeVisible();
+    await expect(
+        testCharacterSheet
+            .locator('div')
+            .filter({ hasText: 'Immunities' })
+            .nth(3),
+    ).not.toBeVisible();
+});
