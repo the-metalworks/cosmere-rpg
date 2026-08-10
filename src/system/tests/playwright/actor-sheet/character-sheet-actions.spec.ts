@@ -198,10 +198,18 @@ test('Add weapon, validate strike action details', async ({
         .click();
     await html5DragAndDrop(page, page.getByText('Axe'), testCharacterSheet);
     await testCharacterSheet.locator('a').filter({ hasText: '3' }).click();
+    // Validate that since the Axe isn't equipped, the "Strike" action is not visible
+    await expect(
+        testCharacterSheet.getByText('Strike: Axe 1 — —'),
+    ).not.toBeVisible();
+
+    // Equip the axe
     await testCharacterSheet
         .locator('.sheet-navigation > a:nth-child(4)')
         .click();
     await testCharacterSheet.locator('div.detail.slim.equip > a').click();
+
+    //Validate that the Axe strike action is now visible
     await testCharacterSheet.locator('a').filter({ hasText: '3' }).click();
     await expect(
         testCharacterSheet.getByText('Strike: Axe 1 — —'),
@@ -304,22 +312,22 @@ test('Edit mode', async ({ authenticatedPage: page, createActor }) => {
     await html5DragAndDrop(page, envoyPathElement, testCharacterSheet);
     await clearNotifications(page);
     await expect(
-        page
+        testCharacterSheet
             .getByRole('listitem')
             .filter({ hasText: 'Envoy Actions Action Cost' }),
     ).toBeVisible();
     await expect(
-        page
+        testCharacterSheet
             .getByRole('listitem')
             .filter({ hasText: 'Basic Actions Action Cost' }),
     ).toBeVisible();
     await expect(
-        page.locator(
+        testCharacterSheet.locator(
             'app-actor-actions-list > .item-list.collapsible > .item.header > .details > .controls > a',
         ),
     ).toBeVisible();
     await expect(
-        page
+        testCharacterSheet
             .locator('.item-list.empty > .item > .details > .controls > a')
             .first(),
     ).toBeVisible();
@@ -327,18 +335,20 @@ test('Edit mode', async ({ authenticatedPage: page, createActor }) => {
     // Toggle edit mode off
     await page.locator('.fa-solid.fa-pen').click();
     await expect(
-        page
+        testCharacterSheet
             .getByRole('listitem')
             .filter({ hasText: 'Envoy Actions Action Cost' }),
     ).toBeVisible();
     await expect(
-        page.locator(
+        testCharacterSheet.locator(
             'app-actor-actions-list > .item-list.collapsible > .item.header > .details > .controls > a',
         ),
     ).toBeVisible();
-    await expect(page.getByText('Rousing Presence 1 — —')).toBeVisible();
     await expect(
-        page
+        testCharacterSheet.getByText('Rousing Presence 1 — —'),
+    ).toBeVisible();
+    await expect(
+        testCharacterSheet
             .getByRole('listitem')
             .filter({ hasText: 'Basic Actions Action Cost' }),
     ).not.toBeVisible();
