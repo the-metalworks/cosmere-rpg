@@ -1242,13 +1242,9 @@
                     "Skill": "Skill",
                     "Damage": "Damage",
                     "Hint": "Skill selection is locked by default unless weapon type is set to Special. Use the lock button to toggle this behavior.",
-                    "SkillTestBonus": {
-                        "Label": "Skill Test Bonus",
-                        "Hint": "Additional formula that is applied to the strike's skill test."
-                    },
-                    "DamageBonus": {
-                        "Label": "Damage Bonus",
-                        "Hint": "Additional formula that is applied to the strike's damage."
+                    "RollBonus": {
+                        "Label": "{type} Bonus",
+                        "Hint": "Additional formula that is applied to the strike's {type}"
                     }
                 },
                 "Damage": {

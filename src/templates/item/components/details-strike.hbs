@@ -23,6 +23,25 @@
 			</div>
 		</div>
 
+		{{!-- Skill Test Bonus --}}
+		<div class="form-group">
+			<label>
+				{{localize systemFields.strike.fields.skillTestBonus.label type=(localize "GENERIC.SkillTest")}}
+				<i class="info fa-regular fa-circle-question"
+					data-tooltip="{{localize systemFields.strike.fields.skillTestBonus.hint type=(lower (localize "GENERIC.SkillTest"))}}"
+				></i>
+			</label>
+			<div class="form-fields">
+				{{formInput systemFields.strike.fields.skillTestBonus
+					name="system.strike.skillTestBonus"
+					value=item.system.strike.skillTestBonus
+					localize=true
+					disabled=(not editable)
+					placeholder="-"
+				}}
+			</div>
+		</div>
+
 		{{!-- Die setup --}}
 		<div class="form-group">
 			<label>{{localize "COSMERE.Item.Sheet.Strike.Damage"}}</label>
@@ -38,30 +57,12 @@
 			</div>
 		</div>
 
-		{{!-- Skill Test Bonus --}}
-		<div class="form-group">
-			<label>
-				{{localize systemFields.strike.fields.skillTestBonus.label}}
-				<i class="info fa-regular fa-circle-question"
-					data-tooltip="{{systemFields.strike.fields.skillTestBonus.hint}}"
-				></i>
-			</label>
-			<div class="form-fields">
-				{{formInput systemFields.strike.fields.skillTestBonus
-					name="system.strike.skillTestBonus"
-					value=item.system.strike.skillTestBonus
-					localize=true
-					disabled=(not editable)
-				}}
-			</div>
-		</div>
-
 		{{!-- Damage Bonus --}}
 		<div class="form-group">
 			<label>
-				{{localize systemFields.strike.fields.damageBonus.label}}
+				{{localize systemFields.strike.fields.damageBonus.label type=(localize "GENERIC.Damage")}}
 				<i class="info fa-regular fa-circle-question"
-					data-tooltip="{{systemFields.strike.fields.damageBonus.hint}}"
+					data-tooltip="{{localize systemFields.strike.fields.damageBonus.hint type=(lower (localize "GENERIC.Damage"))}}"
 				></i>
 			</label>
 			<div class="form-fields">
@@ -70,6 +71,7 @@
 					value=item.system.strike.damageBonus
 					localize=true
 					disabled=(not editable)
+					placeholder="-"
 				}}
 			</div>
 		</div>
