@@ -28,7 +28,11 @@ export class ActorSheetRef {
         this.uuid = sheetRefData.uuid;
         this.name = sheetRefData.name;
         this.type = sheetRefData.type;
-        this.locator = page.locator(`#CharacterSheet-Actor-${this.id}`);
+        if (this.type == ActorType.Character) {
+            this.locator = page.locator(`#CharacterSheet-Actor-${this.id}`);
+        } else {
+            this.locator = page.locator(`#AdversarySheet-Actor-${this.id}`);
+        }
     }
 
     public static async create(
@@ -54,9 +58,14 @@ export class ActorSheetRef {
             name: createdActor.name,
             type: createdActor.type as ActorType,
         };
-        await expect(
-            page.locator(`#CharacterSheet-Actor-${createdActor.id}`),
-        ).toHaveCount(1);
+        let locString;
+
+        if (createdActor.type == ActorType.Character) {
+            locString = `#CharacterSheet-Actor-${createdActor.id}`;
+        } else {
+            locString = `#AdversarySheet-Actor-${createdActor.id}`;
+        }
+        await expect(page.locator(locString)).toHaveCount(1);
         return actorSheetRef;
     }
 
