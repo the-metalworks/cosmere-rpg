@@ -2054,6 +2054,8 @@ export class CosmereItem<
             return '';
         }
         const strike = this.system.strike;
+
+        // Use array with filter to strip out optional / empty modifier
         return [`${strike.die.count}${strike.die.size}`, strike.damageBonus]
             .filter((v) => !!v)
             .join(' + ');
