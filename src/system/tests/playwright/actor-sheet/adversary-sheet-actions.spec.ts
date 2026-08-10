@@ -64,92 +64,114 @@ test('Edit mode', async ({ authenticatedPage: page, createActor }) => {
     const testAdversarySheet = testAdversary.locator;
 
     await expect(
-        page
+        testAdversarySheet
             .getByRole('listitem')
             .filter({ hasText: 'Features Action Cost Resources' }),
     ).toBeVisible();
     await expect(
-        page
+        testAdversarySheet
             .getByRole('listitem')
             .filter({ hasText: 'Weapons Action Cost Resources' }),
     ).toBeVisible();
     await expect(
-        page
+        testAdversarySheet
             .getByRole('listitem')
             .filter({ hasText: 'Actions Action Cost Resources' }),
     ).toBeVisible();
     await expect(
-        page
+        testAdversarySheet
             .locator('ul:nth-child(1) > .item > .details > .controls > a')
             .first(),
     ).toBeVisible();
     await expect(
-        page
+        testAdversarySheet
             .locator('ul:nth-child(2) > .item > .details > .controls > a')
             .first(),
     ).not.toBeVisible();
     await expect(
-        page
+        testAdversarySheet
             .locator('ul:nth-child(3) > .item > .details > .controls > a')
             .first(),
     ).toBeVisible();
-    await expect(page.locator('select[name="system.role"]')).toBeVisible();
-    await expect(page.locator('select[name="system.size"]')).toBeVisible();
-    await expect(page.locator('.type > a')).toBeVisible();
     await expect(
-        page.locator('div').filter({ hasText: 'Skills' }).nth(3),
+        testAdversarySheet.locator('select[name="system.role"]'),
     ).toBeVisible();
     await expect(
-        page.locator('div').filter({ hasText: 'Expertises' }).nth(3),
+        testAdversarySheet.locator('select[name="system.size"]'),
+    ).toBeVisible();
+    await expect(testAdversarySheet.locator('.type > a')).toBeVisible();
+    await expect(
+        testAdversarySheet.locator('div').filter({ hasText: 'Skills' }).nth(3),
     ).toBeVisible();
     await expect(
-        page.locator('div').filter({ hasText: 'Immunities' }).nth(3),
+        testAdversarySheet
+            .locator('div')
+            .filter({ hasText: 'Expertises' })
+            .nth(3),
+    ).toBeVisible();
+    await expect(
+        testAdversarySheet
+            .locator('div')
+            .filter({ hasText: 'Immunities' })
+            .nth(3),
     ).toBeVisible();
 
     // Toggle edit mode off
-    await page.locator('.fa-solid.fa-pen').click();
-    await expect(page.getByText('Minion o Medium Humanoid')).toBeVisible();
+    await testAdversarySheet.locator('.fa-solid.fa-pen').click();
+    await expect(
+        testAdversarySheet.getByText('Minion o Medium Humanoid'),
+    ).toBeVisible();
 
     await expect(
-        page
+        testAdversarySheet
             .getByRole('listitem')
             .filter({ hasText: 'Features Action Cost Resources' }),
     ).not.toBeVisible();
     await expect(
-        page
+        testAdversarySheet
             .getByRole('listitem')
             .filter({ hasText: 'Weapons Action Cost Resources' }),
     ).not.toBeVisible();
     await expect(
-        page
+        testAdversarySheet
             .getByRole('listitem')
             .filter({ hasText: 'Actions Action Cost Resources' }),
     ).not.toBeVisible();
     await expect(
-        page
+        testAdversarySheet
             .locator('ul:nth-child(1) > .item > .details > .controls > a')
             .first(),
     ).not.toBeVisible();
     await expect(
-        page
+        testAdversarySheet
             .locator('ul:nth-child(2) > .item > .details > .controls > a')
             .first(),
     ).not.toBeVisible();
     await expect(
-        page
+        testAdversarySheet
             .locator('ul:nth-child(3) > .item > .details > .controls > a')
             .first(),
     ).not.toBeVisible();
-    await expect(page.locator('select[name="system.role"]')).not.toBeVisible();
-    await expect(page.locator('select[name="system.size"]')).not.toBeVisible();
-    await expect(page.locator('.type > a')).not.toBeVisible();
     await expect(
-        page.locator('div').filter({ hasText: 'Skills' }).nth(3),
+        testAdversarySheet.locator('select[name="system.role"]'),
     ).not.toBeVisible();
     await expect(
-        page.locator('div').filter({ hasText: 'Expertises' }).nth(3),
+        testAdversarySheet.locator('select[name="system.size"]'),
+    ).not.toBeVisible();
+    await expect(testAdversarySheet.locator('.type > a')).not.toBeVisible();
+    await expect(
+        testAdversarySheet.locator('div').filter({ hasText: 'Skills' }).nth(3),
     ).not.toBeVisible();
     await expect(
-        page.locator('div').filter({ hasText: 'Immunities' }).nth(3),
+        testAdversarySheet
+            .locator('div')
+            .filter({ hasText: 'Expertises' })
+            .nth(3),
+    ).not.toBeVisible();
+    await expect(
+        testAdversarySheet
+            .locator('div')
+            .filter({ hasText: 'Immunities' })
+            .nth(3),
     ).not.toBeVisible();
 });
