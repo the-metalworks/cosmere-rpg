@@ -15,12 +15,18 @@
         "prettier:write": "prettier --write .",
         "link": "node ./scripts/link-foundry",
         "pack": "node ./scripts/pack",
-        "zip": "node ./scripts/zip"
+        "zip": "node ./scripts/zip",
+        "link-world-seed": "node ./scripts/link-world-seed",
+        "docker:up": "node ./world-seed/scripts/docker-up.js up -d",
+        "docker:down": "node ./world-seed/scripts/docker-up.js down",
+        "docker:signlicense": "node ./world-seed/scripts/docker-sign-license.js"
     },
     "devDependencies": {
         "@eslint/js": "^9.9.0",
+        "@ethaks/fvtt-quench": "^0.10.0",
         "@foundryvtt/foundryvtt-cli": "^1.0.3",
         "@league-of-foundry-developers/foundry-vtt-types": "^13.346.0-beta.20250908011144",
+        "@playwright/test": "^1.61.1",
         "@rollup/plugin-commonjs": "^26.0.1",
         "@rollup/plugin-json": "^6.1.0",
         "@rollup/plugin-node-resolve": "^15.2.3",
