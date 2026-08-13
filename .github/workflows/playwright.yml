@@ -1,4 +1,5 @@
-name: "Playwright Tests for PR #${{ github.event.pull_request.number }}"
+name: "Playwright system tests"
+run-name: "Playwright Tests for PR #${{ github.event.pull_request.number }}"
 on:
   pull_request:
     types: [opened, synchronize, reopened]
