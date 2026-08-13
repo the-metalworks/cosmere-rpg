@@ -24,7 +24,7 @@ jobs:
       run: npm run build:pack
 
     - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
+      run: npx playwright install --with-deps chromium
 
     - name: Checkout world seed
       uses: actions/checkout@v4
