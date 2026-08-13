@@ -20,6 +20,9 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
+    - name: Build system
+      run: npm run build:pack
+
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
 
@@ -29,6 +32,9 @@ jobs:
         repository: the-metalworks/docker-world-seed
         token: ${{ secrets.WORLD_SEED_REPO_PAT }}
         path: ./world-seed
+
+    - name: Install world-seed dependencies
+      run: cd world-seed && npm ci && cd ..
 
     - name: Run Playwright tests
       env:
