@@ -1,53 +1,23 @@
 <div class="html-field-list">
-    <div class="html-field collapsible {{#if @root.biographyHtml}}expanded{{/if}}" field-type="biography">
-        <h2 class="header">
-            <span class="title">{{localize "COSMERE.Actor.Sheet.Details.Biography.Label"}}</span>
-            {{#if @root.editable}}
-            <a role="button" data-action="edit-html-field" data-tooltip="COSMERE.Actor.Sheet.Details.Biography.Edit">
-                <i class="edit-img fa-solid fa-feather"></i>
-            </a>
-            {{else}}
-            <a><i class="fa-solid fa-lock"></i></a>
-            {{/if}}
-        </h2>
-        <div class="collapsible-content">
-            <div class="wrapper">
-                {{{@root.biographyHtml}}}
+    {{#each @root.sections as |section|}}
+    {{#with (lookup @root.sectionState section.id) as |sectionState|}}
+        <div class="html-field collapsible {{#if sectionState.expanded}}expanded{{/if}}" data-field-type="{{section.id}}">
+            <h2 class="header">
+                <span class="title">{{localize section.label}}</span>
+                {{#if @root.editable}}
+                <a role="button" data-action="edit-html-field" data-tooltip="{{localize section.editLabel}}">
+                    <i class="edit-img fa-solid fa-feather"></i>
+                </a>
+                {{else}}
+                <a><i class="fa-solid fa-lock"></i></a>
+                {{/if}}
+            </h2>
+            <div class="collapsible-content">
+                <div class="wrapper">
+                    {{{lookup @root section.htmlField}}}
+                </div>
             </div>
         </div>
-    </div>
-    <div class="html-field collapsible {{#if @root.appearanceHtml}}expanded{{/if}}" field-type="appearance">
-        <h2 class="header">
-            <span class="title">{{localize "COSMERE.Actor.Sheet.Details.Appearance.Label"}}</span>
-            {{#if @root.editable}}
-            <a role="button" data-action="edit-html-field" data-tooltip="COSMERE.Actor.Sheet.Details.Appearance.Edit">
-                <i class="edit-img fa-solid fa-feather"></i>
-            </a>
-            {{else}}
-            <a><i class="fa-solid fa-lock"></i></a>
-            {{/if}}
-        </h2>
-        <div class="collapsible-content">
-            <div class="wrapper">
-                {{{@root.appearanceHtml}}}
-            </div>
-        </div>
-    </div>
-    <div class="html-field collapsible" field-type="notes">
-        <h2 class="header">
-            <span class="title">{{localize "COSMERE.Actor.Sheet.Details.Notes.Label"}}</span>
-            {{#if @root.editable}}
-            <a role="button" data-action="edit-html-field" data-tooltip="COSMERE.Actor.Sheet.Details.Notes.Edit">
-                <i class="edit-img fa-solid fa-feather"></i>
-            </a>
-            {{else}}
-            <a><i class="fa-solid fa-lock"></i></a>
-            {{/if}}
-        </h2>
-        <div class="collapsible-content">
-            <div class="wrapper">
-                {{{@root.notesHtml}}}
-            </div>
-        </div>
-    </div>
+    {{/with}}
+    {{/each}}
 </div>
