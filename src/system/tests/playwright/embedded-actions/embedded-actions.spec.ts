@@ -58,12 +58,7 @@ test('Create talent with embedded action', async ({
     ).toContainText('New Action 2 1 Investiture —');
 
     await page.locator('input[name="value"]').fill('1+');
-    await page.locator('#board').click({
-        position: {
-            x: 0,
-            y: 0,
-        },
-    });
+    await page.getByText('Latency').click();
     await expect(
         embeddedActionSheet.locator('app-item-resource-consumption-list'),
     ).toContainText('1+ Investiture from Ancestor of type Actor');
@@ -72,12 +67,7 @@ test('Create talent with embedded action', async ({
     ).toContainText('New Action 2 1+ Investiture —');
 
     await page.locator('input[name="value"]').fill('0-2');
-    await page.locator('#board').click({
-        position: {
-            x: 0,
-            y: 0,
-        },
-    });
+    await page.getByText('Latency').click();
     await expect(
         embeddedActionSheet.locator('app-item-resource-consumption-list'),
     ).toContainText('0-2 Investiture from Ancestor of type Actor');

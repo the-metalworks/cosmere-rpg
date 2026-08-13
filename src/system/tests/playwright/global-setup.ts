@@ -16,6 +16,15 @@ async function globalSetup(config: FullConfig) {
     await page.selectOption('select[name="userid"]', { label: 'Gamemaster' });
     await page.click('button[name="join"]');
 
+    await page.waitForFunction(
+        () => typeof game !== 'undefined' && game.ready === true,
+        { timeout: 30_000 },
+    );
+
+    await page.evaluate(async () => {
+        await game.settings.set('core', 'noCanvas', true);
+    });
+
     // Save signed-in state so tests can reuse it
     await page
         .context()
