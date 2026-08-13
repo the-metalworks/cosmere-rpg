@@ -20,7 +20,7 @@ import { getSystemSetting, KEYBINDINGS, SETTINGS } from '@system/settings';
 import {
     areKeysPressed,
     getApplyTargets,
-    getConstantFromRoll,
+    getValuesFromRoll,
     TargetDescriptor,
 } from '@system/utils/generic';
 import { renderSystemTemplate, TEMPLATES } from '@system/utils/templates';
@@ -237,7 +237,23 @@ export class CosmereChatMessage<
 
         const section = $(sectionHTML as unknown as HTMLElement);
         const tooltip = section.find('.dice-tooltip');
-        this.enrichD20Tooltip(d20Roll as unknown as Roll, tooltip[0]); // TEMP: Workaround
+
+        // Overwrite die roll results to include multiplied/divided bonuses
+        const dieRolls = tooltip.find('.dice').toArray();
+        const bonuses = getValuesFromRoll(d20Roll as unknown as Roll);
+        for (const [index, dieRoll] of dieRolls.entries()) {
+            const dieRollValue = dieRoll.querySelector('.value');
+            if (dieRollValue)
+                dieRollValue.textContent = bonuses[index].result.toString();
+            const dieRolls = dieRoll.querySelector('.dice-rolls');
+            if (dieRolls) {
+                const constant = document.createElement('li');
+                constant.classList.add('constant');
+                constant.textContent = bonuses[index].math;
+                dieRolls.append(constant);
+            }
+        }
+        this.enrichD20Tooltip(bonuses[bonuses.length - 1].result, tooltip[0]); // TEMP: Workaround
         tooltip.prepend(section.find('.dice-formula'));
 
         html.find('.chat-card').append(section);
@@ -458,7 +474,16 @@ export class CosmereChatMessage<
 
         const section = $(sectionHTML as unknown as HTMLElement);
         const tooltip = section.find('.dice-tooltip');
-        this.enrichD20Tooltip(injuryRoll as unknown as Roll, tooltip[0]); // TEMP: Workaround
+
+        // Overwrite die roll results to include multiplied/divided bonuses
+        const dieRolls = tooltip.find('.dice').toArray();
+        const bonuses = getValuesFromRoll(injuryRoll as unknown as Roll);
+        for (const [index, dieRoll] of dieRolls.entries()) {
+            const dieRollValue = dieRoll.querySelector('.value');
+            if (dieRollValue)
+                dieRollValue.textContent = bonuses[index].result.toString();
+        }
+        this.enrichD20Tooltip(bonuses[bonuses.length - 1].result, tooltip[0]); // TEMP: Workaround
         tooltip.prepend(section.find('.dice-formula'));
 
         if (game.user.isGM || this.isAuthor) {
@@ -692,7 +717,8 @@ export class CosmereChatMessage<
         html.find('.label').text(type);
         html.find('.label').parent().prepend(icon);
 
-        const constant = getConstantFromRoll(roll as unknown as Roll); // TEMP: Workaround
+        const values = getValuesFromRoll(roll as unknown as Roll); // TEMP: Workaround
+        const constant = values[values.length - 1].result;
         if (constant === 0) return;
 
         const sign = constant < 0 ? '-' : '+';
@@ -717,8 +743,7 @@ export class CosmereChatMessage<
      * @param roll The roll instance.
      * @param html The roll tooltip markup.
      */
-    protected enrichD20Tooltip(roll: Roll, html: HTMLElement) {
-        const constant = getConstantFromRoll(roll as unknown as Roll); // TEMP: Workaround
+    protected enrichD20Tooltip(constant: number, html: HTMLElement) {
         if (constant === 0) return;
 
         const sign = constant < 0 ? '-' : '+';

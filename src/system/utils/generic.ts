@@ -172,21 +172,114 @@ export function isFastForward() {
 }
 
 /**
- * Computes the constant value of a roll (i.e. total of numeric terms).
- * @param roll The roll to calculate the constant total from.
- * @returns The total constant value.
+ * Separates bonuses and returns an array containing the final number and the math sorted by first die roll + additional die rolls + ... + loose bonus numbers.
+ * @param roll The roll to calculate the values from.
+ * @returns An array of objects containing the value of a roll or constant and their respective math equations
  */
-export function getConstantFromRoll(roll: Roll) {
-    const dieResult = roll.dice.reduce((sum, die) => {
-        if (die.total) {
-            return sum + die.total;
+export function getValuesFromRoll(roll: Roll) {
+    // Separate die rolls and their multiplications / divisions from other terms
+    const groups: foundry.dice.terms.RollTerm[][] = [];
+    let currentGroup: foundry.dice.terms.RollTerm[] = [];
+    for (const term of roll.terms) {
+        // If it encounters + or -, push to groups and clear, UNLESS group.length is 0.
+        if (
+            term instanceof foundry.dice.terms.OperatorTerm &&
+            (term.operator === '+' || term.operator === '-')
+        ) {
+            // If currentGroup is empty, then operator decides whether this initially starts negative or positive.
+            if (currentGroup.length === 0) {
+                currentGroup.push(term);
+            } else {
+                // Otherwise, push the group and empty it then add the new term operator to cleared currentGroup.
+                groups.push(currentGroup);
+                currentGroup = [];
+                currentGroup.push(term);
+            }
         } else {
-            return sum;
+            currentGroup.push(term);
         }
-    }, 0);
-    const total = roll.total ? roll.total : 0;
+    }
+    groups.push(currentGroup);
 
-    return total - dieResult;
+    console.log(groups);
+
+    // multiply and divide roll results and add to final bonus. Its important to keep the die rolls in order of how they will appear
+    const finalNumbers: { result: number; math: string }[] = [];
+    let finalBonus = 0;
+
+    for (const group of groups) {
+        let groupResult = 0;
+        let sign = 1;
+        let operator = '*';
+        let hasDie = false;
+
+        let math = '';
+        // All terms in one group should only consist of die rolls except the first, numbers and * or /. Thus, we can perform all operations on the bonus variable
+        for (const [index, term] of group.entries()) {
+            // Handle Operators
+            if (term instanceof foundry.dice.terms.OperatorTerm) {
+                // A + or - at the start determines the sign of the whole group
+                if (index === 0) {
+                    if (term.operator === '-') sign = -1;
+                    continue;
+                }
+
+                if (term.operator === '*' || term.operator === '/') {
+                    operator = term.operator;
+                }
+
+                continue;
+            }
+
+            // Get the value of a die or number
+            let value: number | undefined;
+            if (term instanceof foundry.dice.terms.DiceTerm) {
+                hasDie = true;
+                value = term.total;
+            } else if (term instanceof foundry.dice.terms.NumericTerm) {
+                value = term.total;
+            }
+
+            if (value === undefined) continue;
+
+            // If its the first number, add it to groupResult
+            if (groupResult === 0) {
+                groupResult = value;
+                continue;
+            }
+
+            // If its the second number, apply number with stored operator
+            if (operator === '*') {
+                groupResult *= value;
+                math += `* ${value}`;
+            } else if (operator === '/') {
+                groupResult /= value;
+                math += `/ ${value}`;
+            }
+        }
+
+        // Apply original sign (either 1 or -1)
+        groupResult *= sign;
+
+        // Add result to finalNumbers or to finalBonus depending on
+        // whether or not this bonus was tied to a die roll.
+        if (hasDie) {
+            finalNumbers.push({
+                result: groupResult,
+                math,
+            });
+        } else {
+            finalBonus += groupResult;
+        }
+    }
+
+    // Add the finalBonus to the array at the end
+    finalNumbers.push({
+        result: finalBonus,
+        math: finalBonus >= 0 ? `+${finalBonus}` : `${finalBonus}`,
+    });
+
+    return finalNumbers;
 }
 
 /**
