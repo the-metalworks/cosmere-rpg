@@ -23,6 +23,9 @@ jobs:
     - name: Build system
       run: npm run build:pack
 
+    - name: Fix compendium permissions
+      run: chmod -R a+rwX build
+
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps chromium
 
