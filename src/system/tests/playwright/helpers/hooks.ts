@@ -3,7 +3,7 @@ import { Page } from '@playwright/test';
 export async function paramsFromHook<K extends Hooks.HookName>(
     page: Page,
     hookName: K,
-    timeout = 3000,
+    timeout = 10000,
 ) {
     // Create a promise which will resolve to the args of whatever hook we're waiting on
     return await page.evaluate(

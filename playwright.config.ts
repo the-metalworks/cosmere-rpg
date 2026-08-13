@@ -18,7 +18,7 @@ export default defineConfig({
     /* Fail the build on CI if you accidentally left test.only in the source code. */
     forbidOnly: !!process.env.CI,
     /* Retry on CI only */
-    retries: process.env.CI ? 2 : 0,
+    retries: process.env.CI ? 1 : 0,
     /* For Foundry safety to start, disable all parallelism. */
     workers: 1,
     /* Reporter to use. See https://playwright.dev/docs/test-reporters */
@@ -37,9 +37,9 @@ export default defineConfig({
     globalTeardown: './src/system/tests/playwright/global-teardown.ts',
 
     // Timeout config
-    timeout: 60_000, // Full test timeout: 60 seconds
+    timeout: process.env.CI ? 180_000 : 60_000, // Full test timeout: 3 min on CI, 60 seconds locally
     expect: {
-        timeout: 10_000, // Assertions: 10 seconds
+        timeout: process.env.CI ? 30_000 : 10_000, // Assertions: 30 seconds on CI, 10 seconds locally
     },
 
     /* Configure projects for major browsers */
