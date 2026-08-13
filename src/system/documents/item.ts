@@ -2019,6 +2019,7 @@ export class CosmereItem<
                     skillTest: {
                         attribute: 'default',
                         skill: this.system.strike.skill,
+                        modifierFormula: this.system.strike.skillTestBonus,
                     },
                     damage: {
                         formula: this.strikeDieToFormula(),
@@ -2089,7 +2090,11 @@ export class CosmereItem<
             return '';
         }
         const strike = this.system.strike;
-        return `${strike.die.count}${strike.die.size}`;
+
+        // Use array with filter to strip out optional / empty modifier
+        return [`${strike.die.count}${strike.die.size}`, strike.damageBonus]
+            .filter((v) => !!v)
+            .join(' + ');
     }
 
     public strikeDamageType(this: CosmereItem): DamageType {
