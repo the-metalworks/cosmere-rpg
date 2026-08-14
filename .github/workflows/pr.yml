@@ -31,5 +31,7 @@ jobs:
   system_test:
     needs: build
     uses: $/.github/workflows/system-test.yml
+    with:
+      system-artifact: system-build
     secrets: inherit
 

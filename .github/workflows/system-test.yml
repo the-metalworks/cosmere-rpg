@@ -1,7 +1,15 @@
 name: "Playwright System Tests"
-run-name: "Playwright Tests for PR #${{ github.event.pull_request.number }}"
 on:
   workflow_call:
+    inputs:
+      system-artifact:
+        required: true
+        type: string
+    secrets:
+      WORLD_SEED_REPO_PAT:
+        required: true
+      FOUNDRY_LICENSE_JSON:
+        required: true
 jobs:
   system_test:
     runs-on: ubuntu-latest
@@ -22,7 +30,7 @@ jobs:
     - name: Download build output
       uses: actions/download-artifact@v4
       with:
-        name: system-build
+        name: ${{ inputs.system-artifact }}
         path: build/
 
     - name: Fix compendium permissions
