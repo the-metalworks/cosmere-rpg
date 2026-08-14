@@ -1,9 +1,6 @@
 name: "PR validation"
 run-name: "Validation for PR #${{ github.event.pull_request.number }}"
-on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-  workflow_dispatch:
+on: [pull_request, workflow_dispatch]
 jobs:
   lint:
     name: Execute ESLint
