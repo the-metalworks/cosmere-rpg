@@ -3,8 +3,26 @@ run-name: "Validation for PR #${{ github.event.pull_request.number }}"
 on:
   pull_request:
     types: [opened, synchronize, reopened]
+  workflow_dispatch:
 jobs:
+  lint:
+    name: Execute ESLint
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v4
+        - name: Use Node 20
+          uses: actions/setup-node@v4
+          with:
+              node-version: '20'
+
+        - name: NPM install
+          run: |
+              npm ci
+
+        - name: Lint
+          run: npx eslint
   build:
+    name: Build System
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -29,6 +47,7 @@ jobs:
         path: build/
 
   system_test:
+    name: System Playwright Tests
     needs: build
     uses: $/.github/workflows/system-test.yml
     with:
