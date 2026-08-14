@@ -9,6 +9,13 @@ import { Derived } from '@system/data/fields';
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
+function isHealthResourceData(
+    resourceId: Resource,
+    resourceData: CommonActorData['resources'][keyof CommonActorData['resources']],
+): resourceData is CommonActorData['resources'][Resource.Health] {
+    return resourceId === Resource.Health;
+}
+
 export class ConfigureResourceDialog extends HandlebarsApplicationMixin(
     ApplicationV2<AnyObject>,
 ) {
@@ -99,6 +106,21 @@ export class ConfigureResourceDialog extends HandlebarsApplicationMixin(
                 },
             },
         });
+        if (isHealthResourceData(this.resourceId, this.resourceData)) {
+            void this.actor.update({
+                [`system.resources.${this.resourceId}`]: {
+                    max: {
+                        range: {
+                            minRange: this.resourceData.max.range.minRange,
+                            maxRange: this.resourceData.max.range.maxRange,
+                            average: this.resourceData.max.range.average,
+                            value: this.resourceData.max.range.value,
+                        },
+                        useRange: this.resourceData.max.useRange,
+                    },
+                },
+            });
+        }
         void this.close();
     }
 
@@ -125,8 +147,53 @@ export class ConfigureResourceDialog extends HandlebarsApplicationMixin(
         if (this.mode === Derived.Mode.Override && target.name === 'max')
             this.resourceData.max.override = formData.object.max as number;
 
+        if (
+            isHealthResourceData(this.resourceId, this.resourceData) &&
+            this.mode === 'range'
+        ) {
+            if (target.name === 'maxRange')
+                this.resourceData.max.range.maxRange = formData.object
+                    .maxRange as number;
+            if (target.name === 'minRange')
+                this.resourceData.max.range.minRange = formData.object
+                    .minRange as number;
+
+            if (target.name === 'maxHealth')
+                this.resourceData.max.range.value = formData.object
+                    .maxHealth as number;
+            else this.resourceData.max.range.value = this.calculateAverage();
+
+            const maxElement = target
+                .closest('form')
+                ?.querySelector('[name="max"]');
+            const maxValue = this.resourceData.max.range.value;
+            if (maxValue && maxElement) {
+                maxElement.textContent = maxValue.toString();
+            }
+        }
+
         // Render
         void this.render(true);
+    }
+
+    /* --- Functions --- */
+
+    private calculateAverage(): number {
+        if (!isHealthResourceData(this.resourceId, this.resourceData)) return 0;
+        const range = this.resourceData.max.range;
+
+        // Get ranges, if they dont exist set them as 0.
+        range.minRange = range.minRange ?? 0;
+        range.maxRange = range.maxRange ?? 0;
+
+        // Constrain max range min to minRange
+        if (range.maxRange < range.minRange) range.maxRange = range.minRange;
+
+        // Calculate average
+        range.average = Math.ceil((range.minRange + range.maxRange) * 0.5);
+
+        // Return average
+        return range.average;
     }
 
     /* --- Lifecycle --- */
@@ -135,6 +202,35 @@ export class ConfigureResourceDialog extends HandlebarsApplicationMixin(
         await super._onRender(context, options);
 
         $(this.element).prop('open', true);
+
+        const slider = this.element.querySelector<HTMLInputElement>(
+            'input[name="maxHealth"]',
+        );
+
+        const valueDisplay =
+            this.element.querySelector<HTMLInputElement>('.range-value');
+
+        const updateSliderDisplay = () => {
+            if (!slider || !valueDisplay) return;
+
+            const value = Number(slider.value);
+            const min = Number(slider.min);
+            const max = Number(slider.max);
+
+            const percentage = (value - min) / (max - min);
+
+            const knobWidth = 12;
+            const usableWidth = slider.clientWidth - knobWidth;
+
+            const position = knobWidth / 2 + percentage * usableWidth;
+
+            valueDisplay.textContent = slider.value;
+            valueDisplay.style.left = `${position}px`;
+        };
+
+        slider?.addEventListener('input', updateSliderDisplay);
+
+        requestAnimationFrame(updateSliderDisplay);
     }
 
     /* --- Context --- */
@@ -143,10 +239,32 @@ export class ConfigureResourceDialog extends HandlebarsApplicationMixin(
         // Get config
         const config = CONFIG.COSMERE.resources[this.resourceId];
 
+        type CharacterModes = typeof Derived.Modes;
+        type AdversaryModes = Omit<
+            typeof Derived.Modes,
+            Derived.Mode.Derived
+        > & {
+            range?: string;
+        };
+
+        let modes: CharacterModes | AdversaryModes = Derived.Modes;
+
+        // Set the available modes for adversaries
+        if (this.actor.isAdversary()) {
+            const { derived, ...adversaryModes } = Derived.Modes;
+
+            modes = {
+                ...(this.resourceId === Resource.Health
+                    ? { range: 'GENERIC.DerivedValue.Mode.Range' }
+                    : {}),
+                ...adversaryModes,
+            };
+        }
+
         return Promise.resolve({
             actor: this.actor,
             mode: this.mode,
-            modes: Derived.Modes,
+            modes,
             ...this.resourceData,
             formula: config.formula,
         });

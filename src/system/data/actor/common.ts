@@ -239,8 +239,59 @@ function getDefensesSchema() {
 function getResourcesSchema() {
     const resources = CONFIG.COSMERE.resources;
 
-    const constructResourceSchema = () =>
-        new foundry.data.fields.SchemaField({
+    const constructResourceBaseSchema = () => ({
+        value: new foundry.data.fields.NumberField({
+            required: true,
+            nullable: false,
+            integer: true,
+            min: 0,
+            initial: 0,
+        }),
+        max: new DerivedValueField(
+            new foundry.data.fields.NumberField({
+                required: true,
+                nullable: false,
+                integer: true,
+                min: 0,
+                initial: 0,
+            }),
+        ),
+        bonus: new foundry.data.fields.NumberField({
+            required: true,
+            nullable: false,
+            integer: true,
+            initial: 0,
+        }),
+    });
+
+    const additionalHealthResourceFields = {
+        useRange: new foundry.data.fields.BooleanField({
+            required: true,
+            nullable: false,
+            initial: true,
+        }),
+        range: new foundry.data.fields.SchemaField({
+            minRange: new foundry.data.fields.NumberField({
+                required: true,
+                nullable: false,
+                integer: true,
+                min: 0,
+                initial: 0,
+            }),
+            maxRange: new foundry.data.fields.NumberField({
+                required: true,
+                nullable: false,
+                integer: true,
+                min: 0,
+                initial: 0,
+            }),
+            average: new foundry.data.fields.NumberField({
+                required: true,
+                nullable: false,
+                integer: true,
+                min: 0,
+                initial: 0,
+            }),
             value: new foundry.data.fields.NumberField({
                 required: true,
                 nullable: false,
@@ -248,32 +299,39 @@ function getResourcesSchema() {
                 min: 0,
                 initial: 0,
             }),
-            max: new DerivedValueField(
-                new foundry.data.fields.NumberField({
-                    required: true,
-                    nullable: false,
-                    integer: true,
-                    min: 0,
-                    initial: 0,
-                }),
-            ),
-            bonus: new foundry.data.fields.NumberField({
+        }),
+    };
+
+    const constructHealthResourceSchema = () => ({
+        ...constructResourceBaseSchema(),
+        max: new DerivedValueField(
+            new foundry.data.fields.NumberField({
                 required: true,
                 nullable: false,
                 integer: true,
+                min: 0,
                 initial: 0,
             }),
-        });
-
-    return new foundry.data.fields.SchemaField(
-        Object.keys(resources).reduce(
-            (schemas, key) => ({
-                ...schemas,
-                [key]: constructResourceSchema(),
-            }),
-            {} as Record<Resource, ReturnType<typeof constructResourceSchema>>,
+            {
+                // This needs to be a constant in order to keep typing of the fields. Not entirely sure why.
+                additionalFields: additionalHealthResourceFields,
+            },
         ),
-    );
+    });
+
+    const fields = {
+        [Resource.Health]: new foundry.data.fields.SchemaField(
+            constructHealthResourceSchema(),
+        ),
+        [Resource.Focus]: new foundry.data.fields.SchemaField(
+            constructResourceBaseSchema(),
+        ),
+        [Resource.Investiture]: new foundry.data.fields.SchemaField(
+            constructResourceBaseSchema(),
+        ),
+    };
+
+    return new foundry.data.fields.SchemaField(fields);
 }
 
 function getSkillsSchema() {

@@ -247,6 +247,51 @@
                     }
                 }
 
+                
+                > .slider-group {
+                    position: relative;
+                    width: 100%;
+                
+                    input[type='range']{
+                        width: 100%;
+                    }
+                
+                    .range-value {
+                        border-radius: 6px;
+                        background-color: var(--cosmere-color-sheet);
+                        border: 1px solid var(--cosmere-color-faded);
+                        padding: 0.25rem 0.5rem;
+                        position: absolute;
+                        top: 0;
+                        transform: translate(-50%, -1.5rem);
+                        pointer-events: none;
+
+                        opacity: 0;
+                        transition: opacity 0.1s ease;
+                    }
+                
+                    .range-limits {
+                        display: flex;
+                        justify-content: space-between;
+                        transform: translateY(-30%);
+                    
+                        input {
+                            border-radius: 6px;
+                            background-color: var(--cosmere-color-base-4);
+                            flex: 0 0 3rem;
+                            width: 3rem;
+                            height: 1.5rem;
+                            padding: 0 0.25rem;
+                            text-align: center;
+                        }
+                    }
+                }
+                
+                .slider-group:has(input[type='range']:hover) .range-value,
+                .slider-group:has(input[type='range']:active) .range-value {
+                    opacity: 1;
+                }
+
                 > select {
                     background-color: var(--cosmere-color-base-4);
                     border-radius: 6px;
