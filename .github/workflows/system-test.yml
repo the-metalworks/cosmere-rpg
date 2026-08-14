@@ -4,9 +4,7 @@ on:
   workflow_call:
 jobs:
   system_test:
-
     runs-on: ubuntu-latest
-    needs: build
     steps:
 
     - name: Download build output
