@@ -11,7 +11,7 @@ on:
       FOUNDRY_LICENSE_JSON:
         required: true
 jobs:
-  system_test:
+  playwright:
     runs-on: ubuntu-latest
     steps:
 

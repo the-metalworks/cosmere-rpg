@@ -47,9 +47,9 @@ jobs:
         path: build/
 
   system_test:
-    name: System Playwright Tests
+    name: System Tests
     needs: build
-    uses: $/.github/workflows/system-test.yml
+    uses: $/.github/workflows/system-playwright-test.yml
     with:
       system-artifact: system-build
     secrets: inherit
