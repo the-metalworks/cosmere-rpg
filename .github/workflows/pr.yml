@@ -1,0 +1,33 @@
+name: "PR validation"
+run-name: "Validation for PR #${{ github.event.pull_request.number }}"
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: npm
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build system
+      run: npm run build:pack
+
+    - name: Upload build output
+      uses: actions/upload-artifact@v4
+      with:
+        name: system-build
+        path: build/
+
+  System_Test:
+    uses: $/.github/workflows/system-test.yml
+
