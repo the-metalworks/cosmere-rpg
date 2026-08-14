@@ -35,7 +35,7 @@ Handlebars.registerHelper('divide', (a: number, b: number) => a / b);
 Handlebars.registerHelper('mod', (a: number, b: number) => a % b);
 
 Handlebars.registerHelper('default', (v: unknown, defaultVal: unknown) => {
-    return v ? v : defaultVal;
+    return v ?? defaultVal;
 });
 
 Handlebars.registerHelper('hasKey', (obj: AnyObject, path: string) => {
