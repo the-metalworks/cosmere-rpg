@@ -28,6 +28,7 @@ jobs:
         name: system-build
         path: build/
 
-  System_Test:
+  system_test:
     uses: $/.github/workflows/system-test.yml
+    secrets: inherit
 
