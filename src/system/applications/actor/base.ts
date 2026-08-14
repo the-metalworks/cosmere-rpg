@@ -244,10 +244,10 @@ export class BaseActorSheet<
         event.stopPropagation();
 
         // Get html field element
-        const fieldElement = $(event.target!).closest('[field-type]');
+        const fieldElement = $(event.target!).closest('[data-field-type]');
 
         // Get field type
-        const proseFieldType = fieldElement.attr('field-type')!;
+        const proseFieldType = fieldElement.data('field-type')! as string;
 
         // Gets the field to display based on the type found
         if (proseFieldType === 'biography') {
@@ -489,22 +489,25 @@ export class BaseActorSheet<
         let enrichedAppearanceValue = undefined;
         let enrichedNotesValue = undefined;
         if (this.actor.system.biography) {
-            enrichedBiographyValue = await TextEditor.enrichHTML(
-                this.actor.system.biography,
-                { relativeTo: this.document },
-            );
+            enrichedBiographyValue =
+                await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+                    this.actor.system.biography,
+                    { relativeTo: this.document },
+                );
         }
         if (this.actor.system.appearance) {
-            enrichedAppearanceValue = await TextEditor.enrichHTML(
-                this.actor.system.appearance,
-                { relativeTo: this.document },
-            );
+            enrichedAppearanceValue =
+                await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+                    this.actor.system.appearance,
+                    { relativeTo: this.document },
+                );
         }
         if (this.actor.system.notes) {
-            enrichedNotesValue = await TextEditor.enrichHTML(
-                this.actor.system.notes,
-                { relativeTo: this.document },
-            );
+            enrichedNotesValue =
+                await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+                    this.actor.system.notes,
+                    { relativeTo: this.document },
+                );
         }
 
         // separating this as most times one or both can be shortcutted
