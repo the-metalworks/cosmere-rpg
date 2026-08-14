@@ -33,8 +33,8 @@ export default defineConfig({
         /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
         trace: 'on-first-retry',
     },
-    globalSetup: './src/system/tests/playwright/global-setup.ts',
-    globalTeardown: './src/system/tests/playwright/global-teardown.ts',
+    globalSetup: './playwright/global-setup.ts',
+    globalTeardown: './playwright/global-teardown.ts',
 
     // Timeout config
     timeout: process.env.CI ? 180_000 : 60_000, // Full test timeout: 3 min on CI, 60 seconds locally
