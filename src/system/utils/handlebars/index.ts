@@ -39,7 +39,7 @@ Handlebars.registerHelper('distanceUnit', () => getUnitLabel('distance'));
 Handlebars.registerHelper('weightUnit', () => getUnitLabel('weight'));
 
 Handlebars.registerHelper('default', (v: unknown, defaultVal: unknown) => {
-    return v ? v : defaultVal;
+    return v ?? defaultVal;
 });
 
 Handlebars.registerHelper('hasKey', (obj: AnyObject, path: string) => {
