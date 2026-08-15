@@ -33,6 +33,8 @@ test('Add all basic actions, use them all', async ({
     await testCharacter.switchToActionsTab();
 
     // Expect all basic actions to appear on character sheet
+    const basicActionsList =
+        await testCharacter.itemListSectionLocator('Basic Actions');
     await testCharacter.checkHasAction('Aid', 'r', '1 Focus');
     await testCharacter.checkHasAction('Avoid Danger', 'r');
     await testCharacter.checkHasAction('Banter', '0');
@@ -51,6 +53,7 @@ test('Add all basic actions, use them all', async ({
         '2',
         '1 Use from 1 / 1',
         '1 / 1 Per scene',
+        basicActionsList,
     );
     await testCharacter.checkHasAction('Shove', '2');
     await testCharacter.checkHasAction('Strike', '1');
