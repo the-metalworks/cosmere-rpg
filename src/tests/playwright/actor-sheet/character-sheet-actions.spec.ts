@@ -6,7 +6,7 @@ import {
 import { test, expect } from '../fixtures';
 import { mostRecentChatMessage } from '../helpers/chat';
 import { html5DragAndDrop } from '../helpers/drag-drop';
-import { clearNotifications } from '../helpers/notifications';
+import { clearNotifications } from '../helpers/utils';
 import { getLocatorForNextWindowToOpen } from '../helpers/hooks';
 
 test('Add all basic actions, use them all', async ({
