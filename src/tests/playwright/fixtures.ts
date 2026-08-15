@@ -3,7 +3,7 @@ import { Page } from '@playwright/test';
 import { ActorType, ItemType } from '@src/system/types/cosmere';
 import { ItemSheetRef } from './helpers/item';
 import { ActorSheetRef } from './helpers/actor';
-import { clearNotifications } from './helpers/notifications';
+import { clearNotifications } from './helpers/utils';
 
 // Declare the types for your custom fixtures
 interface MyFixtures {
