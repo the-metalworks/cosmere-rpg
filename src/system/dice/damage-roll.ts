@@ -134,15 +134,8 @@ export class DamageRoll extends foundry.dice.Roll<DamageRollData> {
             const diceRolls = $(tooltip).find('.roll.die');
             const firstPart = $(tooltip).find('.tooltip-part').first();
 
-            let total = 0;
-            $(tooltip)
-                .find('.value')
-                .each((_index, value) => {
-                    total += Number($(value).text());
-                });
-
             firstPart.find('.dice-rolls').empty().append(diceRolls);
-            firstPart.find('.value').text(total);
+            firstPart.find('.value').text(String(this.total));
 
             const tooltipFinal = $(tooltip)
                 .find('.dice-tooltip')
