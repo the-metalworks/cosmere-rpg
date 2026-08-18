@@ -16,7 +16,6 @@ Small bug fixes and minor improvements/changes, mostly regarding UI interactions
 * Fixed an issue causing certain items to be impossible to edit or remove
 * Fixed an issue causing changes to certain input fields on actor sheets to close expanded notes sections
 * Fixed an issue causing embedded actions in a compendium to be impossible to drag and drop anywhere
-* Fixed an issue causing roll tooltip display and actual result values to be mismatched
 
 <br>
 
