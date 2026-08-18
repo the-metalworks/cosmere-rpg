@@ -911,7 +911,9 @@ export class CosmereItem<
 
         // Get the attribute id
         const attributeId =
-            options.attribute ??
+            (options.attribute && actor.system.attributes[options.attribute]
+                ? options.attribute
+                : null) ??
             (activatable ? this.system.damage.resolvedAttribute : null);
 
         // Set up data
