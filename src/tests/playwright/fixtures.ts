@@ -3,6 +3,7 @@ import { Page } from '@playwright/test';
 import { ActorType, ItemType } from '@src/system/types/cosmere';
 import { ItemSheetRef } from './helpers/item';
 import { ActorSheetRef } from './helpers/actor';
+import { clearNotifications } from './helpers/utils';
 
 // Declare the types for your custom fixtures
 interface MyFixtures {
@@ -16,19 +17,13 @@ export const test = base.extend<MyFixtures>({
         await page.goto('/game');
         await page.waitForFunction(
             () => typeof game !== 'undefined' && game.ready === true,
-            { timeout: 120_000 },
+            { timeout: 30_000 },
         );
 
-        const hardwareAccelerationWarning = page
-            .locator('.notification.warning.permanent')
-            .filter({
-                hasText:
-                    /Hardware Acceleration Disabled|does not have hardware acceleration enabled/i,
-            });
-
-        if (await hardwareAccelerationWarning.isVisible()) {
-            await hardwareAccelerationWarning.click();
-        }
+        await clearNotifications(page);
+        await page.evaluate(() => {
+            game.audio.locked = false;
+        });
 
         await use(page);
     },

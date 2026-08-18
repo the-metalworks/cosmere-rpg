@@ -19,7 +19,8 @@
         "link-world-seed": "node ./scripts/link-world-seed",
         "docker:up": "node ./world-seed/scripts/docker-up.js up -d",
         "docker:down": "node ./world-seed/scripts/docker-up.js down",
-        "docker:signlicense": "node ./world-seed/scripts/docker-sign-license.js"
+        "docker:signlicense": "node ./world-seed/scripts/docker-sign-license.js",
+        "test": "npx playwright test -c src/tests/playwright.config.ts"
     },
     "devDependencies": {
         "@eslint/js": "^9.9.0",

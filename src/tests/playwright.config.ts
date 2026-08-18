@@ -12,17 +12,17 @@ import { defineConfig, devices } from '@playwright/test';
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-    testDir: './src/system/tests/playwright',
+    testDir: './playwright',
     /* Run tests in files in parallel */
     fullyParallel: false,
     /* Fail the build on CI if you accidentally left test.only in the source code. */
     forbidOnly: !!process.env.CI,
     /* Retry on CI only */
-    retries: process.env.CI ? 2 : 0,
+    retries: process.env.CI ? 1 : 0,
     /* For Foundry safety to start, disable all parallelism. */
     workers: 1,
     /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-    reporter: 'html',
+    reporter: process.env.CI ? [['line'], ['html'], ['github']] : 'html',
     /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
     use: {
         /* Base URL to use in actions like `await page.goto('')`. */
@@ -33,13 +33,13 @@ export default defineConfig({
         /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
         trace: 'on-first-retry',
     },
-    globalSetup: './src/system/tests/playwright/global-setup.ts',
-    globalTeardown: './src/system/tests/playwright/global-teardown.ts',
+    globalSetup: './playwright/global-setup.ts',
+    globalTeardown: './playwright/global-teardown.ts',
 
     // Timeout config
-    timeout: 60_000, // Full test timeout: 60 seconds
+    timeout: process.env.CI ? 180_000 : 60_000, // Full test timeout: 3 min on CI, 60 seconds locally
     expect: {
-        timeout: 10_000, // Assertions: 10 seconds
+        timeout: process.env.CI ? 30_000 : 10_000, // Assertions: 30 seconds on CI, 10 seconds locally
     },
 
     /* Configure projects for major browsers */

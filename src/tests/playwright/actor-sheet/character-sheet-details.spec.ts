@@ -14,36 +14,42 @@ test('Resources/Attribute/Defenses', async ({
         'Test Character',
         ActorType.Character,
     );
-    await testCharacter.checkResource('Health', 0, 10);
-    await testCharacter.checkResource('Focus', 0, 2);
-    await testCharacter.checkResource('Investiture', 0, 0);
-    await testCharacter.checkAttribute(Attribute.Strength, 0);
-    await testCharacter.checkAttribute(Attribute.Speed, 0);
-    await testCharacter.checkAttribute(Attribute.Intellect, 0);
-    await testCharacter.checkAttribute(Attribute.Willpower, 0);
-    await testCharacter.checkAttribute(Attribute.Awareness, 0);
-    await testCharacter.checkAttribute(Attribute.Presence, 0);
-    await testCharacter.checkDefense(AttributeGroup.Physical, 10);
-    await testCharacter.checkDefense(AttributeGroup.Cognitive, 10);
-    await testCharacter.checkDefense(AttributeGroup.Spiritual, 10);
+    await testCharacter.checkAllStats({});
 
     // Update strength, check new values
     await testCharacter.updateAttribute(Attribute.Strength, 1);
-    await testCharacter.checkResource('Health', 1, 11);
-    await testCharacter.checkResource('Focus', 0, 2);
-    await testCharacter.checkAttribute(Attribute.Strength, 1);
-    await testCharacter.checkAttribute(Attribute.Speed, 0);
-    await testCharacter.checkDefense(AttributeGroup.Physical, 11);
-    await testCharacter.checkDefense(AttributeGroup.Cognitive, 10);
+    await testCharacter.checkAllStats({
+        resources: {
+            Health: {
+                value: 1,
+                max: 11,
+            },
+        },
+        attributes: {
+            [Attribute.Strength]: 1,
+        },
+        defenses: {
+            [AttributeGroup.Physical]: 11,
+        },
+    });
 
     // Update speed, check new values
     await testCharacter.updateAttribute(Attribute.Speed, 2);
-    await testCharacter.checkResource('Health', 1, 11);
-    await testCharacter.checkResource('Focus', 0, 2);
-    await testCharacter.checkAttribute(Attribute.Strength, 1);
-    await testCharacter.checkAttribute(Attribute.Speed, 2);
-    await testCharacter.checkDefense(AttributeGroup.Physical, 13);
-    await testCharacter.checkDefense(AttributeGroup.Cognitive, 10);
+    await testCharacter.checkAllStats({
+        resources: {
+            Health: {
+                value: 1,
+                max: 11,
+            },
+        },
+        attributes: {
+            [Attribute.Strength]: 1,
+            [Attribute.Speed]: 2,
+        },
+        defenses: {
+            [AttributeGroup.Physical]: 13,
+        },
+    });
 
     // Update health to less than max
     await testCharacter.updateResource('Health', 5);
@@ -63,18 +69,7 @@ test('Ancestry/Culture/Path Drag and Drop', async ({
         ActorType.Character,
     );
     const testCharacterSheet = testCharacter.locator;
-    await testCharacter.checkResource('Health', 0, 10);
-    await testCharacter.checkResource('Focus', 0, 2);
-    await testCharacter.checkResource('Investiture', 0, 0);
-    await testCharacter.checkAttribute(Attribute.Strength, 0);
-    await testCharacter.checkAttribute(Attribute.Speed, 0);
-    await testCharacter.checkAttribute(Attribute.Intellect, 0);
-    await testCharacter.checkAttribute(Attribute.Willpower, 0);
-    await testCharacter.checkAttribute(Attribute.Awareness, 0);
-    await testCharacter.checkAttribute(Attribute.Presence, 0);
-    await testCharacter.checkDefense(AttributeGroup.Physical, 10);
-    await testCharacter.checkDefense(AttributeGroup.Cognitive, 10);
-    await testCharacter.checkDefense(AttributeGroup.Spiritual, 10);
+    await testCharacter.checkAllStats({});
     await page.getByRole('tab', { name: 'Compendium Packs' }).click();
     await page
         .locator('span')
