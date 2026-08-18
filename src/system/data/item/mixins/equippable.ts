@@ -2,12 +2,17 @@ import { EquipType, HoldType, EquipHand } from '@system/types/cosmere';
 import { CosmereItem } from '@system/documents';
 
 interface EquippableMixinOptions {
+    // If true, the item type we're adding this mixin to will always be
+    // categorized as equippable, and will not display a checkbox to
+    // enable/disable the possibility of equipping it
+    alwaysEquippable?: boolean;
+
     equipType?: {
         initial?: EquipType | (() => EquipType);
         choices?:
-        | EquipType[]
-        | Record<EquipType, string>
-        | (() => EquipType[] | Record<EquipType, string>);
+            | EquipType[]
+            | Record<EquipType, string>
+            | (() => EquipType[] | Record<EquipType, string>);
     };
 }
 
@@ -21,9 +26,21 @@ function SCHEMA<TOptions extends EquippableMixinOptions>(options: TOptions) {
         typeof options.equipType?.choices === 'function'
             ? options.equipType.choices()
             : (options.equipType?.choices ??
-                Object.keys(CONFIG.COSMERE.items.equip.types) as EquipType[]);
+              (Object.keys(CONFIG.COSMERE.items.equip.types) as EquipType[]));
 
     return {
+        // If true, don't allow changes to "equippableEnabled"
+        alwaysEquippable: new foundry.data.fields.BooleanField({
+            required: true,
+            nullable: false,
+            initial: options.alwaysEquippable ?? false,
+        }),
+        // Whether this item is currently marked in GUI as "Equippable"
+        equippableEnabled: new foundry.data.fields.BooleanField({
+            required: true,
+            nullable: false,
+            initial: options.alwaysEquippable ?? false,
+        }),
         equipped: new foundry.data.fields.BooleanField({
             required: true,
             nullable: false,
@@ -53,23 +70,29 @@ function SCHEMA<TOptions extends EquippableMixinOptions>(options: TOptions) {
                 ) as EquipHand[],
             }),
         }),
-    }
-};
+    };
+}
 
-export type EquippableItemDataSchema<TOptions extends EquippableMixinOptions = EquippableMixinOptions> = ReturnType<typeof SCHEMA<TOptions>>;
+export type EquippableItemDataSchema<
+    TOptions extends EquippableMixinOptions = EquippableMixinOptions,
+> = ReturnType<typeof SCHEMA<TOptions>>;
 
 export function EquippableItemMixin<
     TParent extends foundry.abstract.Document.Any,
     TOptions extends EquippableMixinOptions = EquippableMixinOptions,
->(
-    options: TOptions = {} as TOptions,
-) {
+>(options: TOptions = {} as TOptions) {
     return (
-        base: typeof foundry.abstract.TypeDataModel<EquippableItemDataSchema<TOptions>, TParent>,
+        base: typeof foundry.abstract.TypeDataModel<
+            EquippableItemDataSchema<TOptions>,
+            TParent
+        >,
     ) => {
         return class mixin extends base {
             static defineSchema() {
-                return foundry.utils.mergeObject(super.defineSchema(), SCHEMA(options));
+                return foundry.utils.mergeObject(
+                    super.defineSchema(),
+                    SCHEMA(options),
+                );
             }
 
             public prepareDerivedData() {

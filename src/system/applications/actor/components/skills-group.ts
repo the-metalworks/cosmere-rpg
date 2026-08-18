@@ -37,7 +37,7 @@ export class ActorSkillsGroupComponent extends HandlebarsApplicationComponent<
     any,
     Params
 > {
-    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_SKILLS_GROUP}`;
+    static TEMPLATE = `${TEMPLATES.DIRECTORY}${TEMPLATES.ACTOR_BASE_SKILLS_GROUP}`;
 
     /* --- Accessors --- */
 

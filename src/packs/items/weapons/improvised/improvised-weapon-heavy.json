@@ -97,6 +97,19 @@
             },
             "reach": {
                 "defaultActive": false
+            },
+            "single_use": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                }
+            },
+            "blast": {
+                "defaultActive": false,
+                "defaultValue": 0,
+                "expertise": {
+                    "toggleActive": false
+                }
             }
         },
         "quantity": 1,
@@ -112,7 +125,11 @@
                 "secondary": "none"
             },
             "unit": "none"
-        }
+        },
+        "strike": {
+            "skill": "hwp"
+        },
+        "__embedded": {}
     },
     "effects": [],
     "sort": 0,
@@ -120,5 +137,16 @@
         "default": 0
     },
     "flags": {},
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1785429220145,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+    },
     "_key": "!items!sV3aKGbE4z2hIp7A"
 }

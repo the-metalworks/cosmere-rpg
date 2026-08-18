@@ -2,7 +2,7 @@ import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 
 // Constants
-const TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_CHAT_MODIFY_DAMAGE}`;
+const TEMPLATE = `${TEMPLATES.DIRECTORY}${TEMPLATES.DIALOG_CHAT_MODIFY_DAMAGE}`;
 
 interface DamageModifierDialogOptions {
     /**

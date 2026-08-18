@@ -60,7 +60,82 @@
             "formula": null,
             "type": null
         },
-        "modality": null
+        "modality": null,
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "power": null,
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Tagging Shot",
+                    "img": "icons/skills/ranged/target-bullseye-archer-orange.webp",
+                    "_id": "vZWLE1Ka7PHDm700",
+                    "system": {
+                        "id": "tagging-shot",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><em>Your careful shot wounds your target, causing them to leave behind a trail of blood, staggering footprints, or other marks of passage.</em></p><p>Move up to 5 feet and make a ranged weapon attack against the Physical defense of a target. On a hit or a graze, you also make the target your quarry for your Seek Quarry talent.</p>",
+                            "chat": "<p>Move 5 feet and make a ranged attack. On a hit or a graze, the target becomes your quarry.</p>",
+                            "short": "<p>Move up to 5 feet and make a ranged weapon attack against the Physical defense of a target. On a hit or a graze, you also make the target your quarry for your Seek Quarry talent.</p>"
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "value": 3,
+                                "type": "act"
+                            },
+                            "consumption": [],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
     },
     "effects": [],
     "sort": 700000,
@@ -68,5 +143,16 @@
         "default": 0
     },
     "flags": {},
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784938945698,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+    },
     "_key": "!items!A0zpyAQP3R7rxECp"
 }

@@ -1,6 +1,6 @@
 {
     "folder": "pwWHkALsVebbEfk3",
-    "name": "Erudition*",
+    "name": "Erudition",
     "type": "talent",
     "_id": "8FYBJZC8PBjneOim",
     "img": "icons/skills/trades/academics-book-study-purple.webp",
@@ -8,7 +8,7 @@
         "id": "erudition",
         "type": "path",
         "description": {
-            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p><em>You’ve conditioned your mind to quickly assimilate, archive, and recall information. After brief but intensive study, you can navigate your newest areas of focus with impressive proficiency.</em></p><p>When you acquire this talent, you become adroit at mental organization. Choose one cultural or utility expertise you don’t already have, and choose two different cognitive skills that aren’t surge skills.</p><p>When you make a test, you count as having the chosen expertise, and you count as having one additional rank of each of the chosen skills.</p><p>You can use this talent to gain skill ranks even if they exceed your usual maximum for skill ranks. This talent’s expertise and skill ranks are temporary and don’t count toward prerequisites.</p><p>After a long rest during which you had access to a library, you can reassign any expertises and skill ranks granted by this talent. Follow the same rules to choose them as you did when you gained this talent.</p><p></p><p><strong>*Foundry note:</strong> If the <em>Stormlight Handbook</em> module is active, using this action will bring up a dialog where you can make your selections. Otherwise, you must set these manually.</p>",
+            "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p><em>You’ve conditioned your mind to quickly assimilate, archive, and recall information. After brief but intensive study, you can navigate your newest areas of focus with impressive proficiency.</em></p><p>When you acquire this talent, you become adroit at mental organization. Choose one cultural or utility expertise you don’t already have, and choose two different cognitive skills that aren’t surge skills.</p><p>When you make a test, you count as having the chosen expertise, and you count as having one additional rank of each of the chosen skills.</p><p>You can use this talent to gain skill ranks even if they exceed your usual maximum for skill ranks. This talent’s expertise and skill ranks are temporary and don’t count toward prerequisites.</p><p>After a long rest during which you had access to a library, you can reassign any expertises and skill ranks granted by this talent. Follow the same rules to choose them as you did when you gained this talent.</p>",
             "chat": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p>Temporarily gain a cultural or utility expertise and a rank in two non-surge cognitive skills. Reassign these after a long rest with library access.</p>",
             "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">*</span></p><p>When you acquire this talent, you become adroit at mental organization. Choose one cultural or utility expertise you don’t already have, and choose two different cognitive skills that aren’t surge skills.</p><p>When you make a test, you count as having the chosen expertise, and you count as having one additional rank of each of the chosen skills.</p><p>You can use this talent to gain skill ranks even if they exceed your usual maximum for skill ranks. This talent’s expertise and skill ranks are temporary and don’t count toward prerequisites.</p><p>After a long rest during which you had access to a library, you can reassign any expertises and skill ranks granted by this talent. Follow the same rules to choose them as you did when you gained this talent.</p>"
         },
@@ -39,21 +39,6 @@
         "prerequisitesMet": false,
         "modality": null,
         "events": {
-            "Z4BlHclMmiqelHtZ": {
-                "id": "Z4BlHclMmiqelHtZ",
-                "description": "Choose Skills and Expertises",
-                "event": "use",
-                "handler": {
-                    "type": "execute-macro",
-                    "inline": true,
-                    "uuid": null,
-                    "macro": {
-                        "type": "script",
-                        "command": "try {\nawait stormlightHandbook.macros.talents.erudition.choose(actor)\n} catch (err) {}"
-                    }
-                },
-                "order": 0
-            },
             "yXZeEpI1cRncDVMh": {
                 "id": "yXZeEpI1cRncDVMh",
                 "description": "Clear Selection",
@@ -67,8 +52,99 @@
                         "command": "try {await stormlightHandbook.macros.talents.erudition.clear()} catch (err) {}"
                     }
                 },
-                "order": 0
+                "order": 0,
+                "disabled": false
             }
+        },
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "linkedSkills": [],
+        "relationships": {},
+        "power": null,
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Erudition",
+                    "img": "icons/skills/trades/academics-book-study-purple.webp",
+                    "_id": "o73eqQnIVUlyvAfS",
+                    "system": {
+                        "id": "erudition",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><em>You’ve conditioned your mind to quickly assimilate, archive, and recall information. After brief but intensive study, you can navigate your newest areas of focus with impressive proficiency.</em></p><p>When you acquire this talent, you become adroit at mental organization. Choose one cultural or utility expertise you don’t already have, and choose two different cognitive skills that aren’t surge skills.</p><p>When you make a test, you count as having the chosen expertise, and you count as having one additional rank of each of the chosen skills.</p><p>You can use this talent to gain skill ranks even if they exceed your usual maximum for skill ranks. This talent’s expertise and skill ranks are temporary and don’t count toward prerequisites.</p><p>After a long rest during which you had access to a library, you can reassign any expertises and skill ranks granted by this talent. Follow the same rules to choose them as you did when you gained this talent.</p><p></p>",
+                            "chat": "<p>Temporarily gain a cultural or utility expertise and a rank in two non-surge cognitive skills. Reassign these after a long rest with library access.</p>",
+                            "short": "<p>When you acquire this talent, you become adroit at mental organization. Choose one cultural or utility expertise you don’t already have, and choose two different cognitive skills that aren’t surge skills.</p><p>When you make a test, you count as having the chosen expertise, and you count as having one additional rank of each of the chosen skills.</p><p>You can use this talent to gain skill ranks even if they exceed your usual maximum for skill ranks. This talent’s expertise and skill ranks are temporary and don’t count toward prerequisites.</p><p>After a long rest during which you had access to a library, you can reassign any expertises and skill ranks granted by this talent. Follow the same rules to choose them as you did when you gained this talent.</p>"
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {
+                            "py9zPCjBVrKkmFph": {
+                                "id": "py9zPCjBVrKkmFph",
+                                "description": "Choose Skills and Expertises",
+                                "event": "use",
+                                "handler": {
+                                    "type": "execute-macro",
+                                    "inline": true,
+                                    "uuid": null,
+                                    "macro": {
+                                        "type": "script",
+                                        "command": "cosmereRPG.utils.macros.talents.erudition.choose(actor)"
+                                    }
+                                },
+                                "order": 0,
+                                "disabled": false
+                            }
+                        },
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "type": "spe"
+                            },
+                            "consumption": [],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
         }
     },
     "effects": [],
@@ -77,5 +153,16 @@
         "default": 0
     },
     "flags": {},
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784941620999,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+    },
     "_key": "!items!8FYBJZC8PBjneOim"
 }

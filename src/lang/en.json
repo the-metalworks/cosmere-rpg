@@ -175,17 +175,29 @@
                         "Optional": "{label} (Optional)"
                     },
                     "Uses": "Uses",
+                    "Resources": "Resources",
                     "Use": "Use Action",
                     "Strike": "Strike",
                     "BaseSectionName": "{type} Actions",
                     "MiscSectionName": "Miscellaneous Actions",
                     "NewItem": "Add {type}"
                 },
+                "Talents": {
+                    "label": "Talents",
+                    "Use": "Use Talent",
+                    "BaseSectionName": "{type} Talents",
+                    "MiscSectionName": "Miscellaneous Talents",
+                    "NewItem": "Add {type}"
+                },
                 "Equipment": {
                     "Quantity": "Quantity",
                     "Weight": "Weight",
                     "IncreaseQuantity": "Increase quantity",
-                    "DecreaseQuantity": "Decrease quantity"
+                    "DecreaseQuantity": "Decrease quantity",
+                    "Equip": "Equip",
+                    "Resources": "Resources",
+                    "DecreaseResource": "Remove {resource}",
+                    "IncreaseResource": "Add {resource}"
                 },
                 "Inventory": {
                     "label": "Inventory",
@@ -222,8 +234,6 @@
                 "Subtype": "Subtype",
                 "Edit": "Edit",
                 "View": "View",
-                "Favorites": "Favorites",
-                "DropFavorite": "Drop Favorite",
                 "AncestryPlaceholder": "Add Ancestry",
                 "CulturePlaceholder": "Add Culture",
                 "PathPlaceholder": "Add Path",
@@ -241,6 +251,7 @@
                 "ImmuneTo": "Immune to {condition}",
                 "Tabs": {
                     "Details": "Details",
+                    "Talents": "Talents",
                     "Actions": "Actions",
                     "Equipment": "Equipment",
                     "Goals": "Goals",
@@ -248,15 +259,7 @@
                     "Effects": "Effects & Conditions"
                 },
                 "Search": {
-                    "Item": {
-                        "Placeholder": "Search actions"
-                    },
-                    "Equipment": {
-                        "Placeholder": "Search items"
-                    },
-                    "Effects": {
-                        "Placeholder": "Search effects"
-                    },
+                    "Placeholder": "Search {type}",
                     "Clear": "Clear Filters",
                     "Filter": "Filter By",
                     "SortManually": "Sort Manually",
@@ -409,6 +412,11 @@
                     "desc_placeholder": "Edit this to describe the power.",
                     "New": "New {type}"
                 },
+                "EffectsContainer": {
+                    "label": "Effects Container",
+                    "label_plural": "Effects Containers",
+                    "desc_placeholder": "Edit this to describe the effects contained within and why they are grouped."
+                },
                 "TalentTree": {
                     "label": "Talent Tree",
                     "label_plural": "Talent Trees"
@@ -442,6 +450,7 @@
                     "Reach": "Reach"
                 },
                 "Strike": "Strike",
+                "Reload": "Reload",
                 "Improvised": "Improvised Weapon",
                 "Unarmed": "Unarmed Strike"
             },
@@ -518,7 +527,8 @@
                         "level": "Level",
                         "ancestry": "Ancestry",
                         "culture": "Culture",
-                        "goal": "Goal"
+                        "goal": "Goal",
+                        "power": "Power"
                     },
                     "Mode": {
                         "AnyOf": "Any of",
@@ -532,6 +542,9 @@
                     },
                     "Culture": {
                         "Label": "Culture"
+                    },
+                    "Power": {
+                        "Label": "Power"
                     }
                 },
                 "GrantRule": {
@@ -645,19 +658,12 @@
                     },
                     "Item": {
                         "Label": "Item"
+                    },
+                    "ItemResource": {
+                        "Label": "Item Resource"
                     }
                 },
                 "Uses": {
-                    "Types": {
-                        "Charge": {
-                            "Singular": "Charge",
-                            "Plural": "Charges"
-                        },
-                        "Use": {
-                            "Singular": "Use",
-                            "Plural": "Uses"
-                        }
-                    },
                     "Recharge": {
                         "Label": "Recharge",
                         "PerScene": "Per scene"
@@ -665,7 +671,25 @@
                     "Per": "Per"
                 },
                 "Opportunity": "Opportunity Threshold",
-                "Complication": "Complication Threshold"
+                "Complication": "Complication Threshold",
+                "ResourceConsumption": {
+                    "Type": {
+                        "Label": "Type",
+                        "ActorResource": {
+                            "Resource": {
+                                "Label": "Resource"
+                            }
+                        },
+                        "ItemResource": {
+                            "Resource": {
+                                "Label": "Resource"
+                            }
+                        }
+                    },
+                    "Value": {
+                        "Label": "Value"
+                    }
+                }
             },
             "Injuries": {
                 "Name": {
@@ -686,6 +710,9 @@
                     },
                     "Hold": {
                         "Label": "Held"
+                    },
+                    "Equip": {
+                        "Label": "Equipped"
                     }
                 },
                 "Hold": {
@@ -734,6 +761,22 @@
                             "Label": "Deleted",
                             "Description": "Triggered when this item is deleted."
                         },
+                        "add-to-item": {
+                            "Label": "Added to Item",
+                            "Description": "Triggered when this item is added to another item."
+                        },
+                        "remove-from-item": {
+                            "Label": "Removed from Item",
+                            "Description": "Triggered when this item is removed from its parent item."
+                        },
+                        "add-child-action": {
+                            "Label": "Action Added",
+                            "Description": "Triggered when an action is added to this item."
+                        },
+                        "remove-child-action": {
+                            "Label": "Action Removed",
+                            "Description": "Triggered when an action is removed from this item."
+                        },
                         "add-to-actor": {
                             "Label": "Added to Actor",
                             "Description": "Triggered when this item is added to an actor."
@@ -752,7 +795,11 @@
                         },
                         "use": {
                             "Label": "Used",
-                            "Description": "Triggered when this item is used/rolled."
+                            "Description": "Triggered when this action is used/rolled."
+                        },
+                        "use-action": {
+                            "Label": "Action Used",
+                            "Description": "Triggered when any of this item's actions are used/rolled."
                         },
                         "mode-activate": {
                             "Label": "Activated Modality",
@@ -789,6 +836,26 @@
                         "long-rest-actor": {
                             "Label": "Actor Long Rested",
                             "Description": "Triggered when this item's parent actor takes a long rest."
+                        },
+                        "combat-encounter-start": {
+                            "Label": "Combat Started",
+                            "Description": "Triggered only when a combat encounter starts and the associated actor is a participant in the combat."
+                        },
+                        "combat-encounter-end": {
+                            "Label": "Combat Ended",
+                            "Description": "Triggered when a combat encounter ends."
+                        },
+                        "combat-round-start": {
+                            "Label": "Combat Round Started",
+                            "Description": "Triggered at the start of a new round"
+                        },
+                        "combat-round-end": {
+                            "Label": "Combat Round Ended",
+                            "Description": "Triggered before the start of a new round"
+                        },
+                        "combat-round-previous": {
+                            "Label": "Combat Round Previous",
+                            "Description": "Triggered when going to the previous round"
                         }
                     },
                     "Rule": {
@@ -931,15 +998,7 @@
                             },
                             "use-item": {
                                 "Title": "Use item",
-                                "Description": "Uses an item by rolling it.",
-                                "Target": {
-                                    "Label": "Target",
-                                    "Choices": {
-                                        "self": "Self",
-                                        "sibling": "Other on same Actor",
-                                        "global": "Global"
-                                    }
-                                },
+                                "Description": "Uses an item by rolling it. If the selected item is not an action, that item's default action is used instead.",
                                 "UUID": {
                                     "Label": "Item"
                                 },
@@ -1016,6 +1075,40 @@
                                 "UUID": {
                                     "Label": "Macro"
                                 }
+                            },
+                            "add-actions": {
+                                "Title": "Add Actions",
+                                "Description": "Adds actions to an item.",
+                                "Target": {
+                                    "Label": "Target"
+                                },
+                                "Uuids": {
+                                    "Label": "Actions",
+                                    "Placeholder": "Drag and drop action items here"
+                                },
+                                "AllowDuplicates": {
+                                    "Label": "Allow Duplicates",
+                                    "Hint": "Whether to add actions to the item even if they are already present on the item."
+                                },
+                                "Notify": {
+                                    "Label": "Notify User",
+                                    "Hint": "Whether to send a notification to the user for each action added."
+                                }
+                            },
+                            "remove-actions": {
+                                "Title": "Remove Actions",
+                                "Description": "Removes actions from an item.",
+                                "Target": {
+                                    "Label": "Target"
+                                },
+                                "Uuids": {
+                                    "Label": "Actions",
+                                    "Placeholder": "Drag and drop action items here"
+                                },
+                                "Notify": {
+                                    "Label": "Notify User",
+                                    "Hint": "Whether to send a notification to the user for each action removed."
+                                }
                             }
                         },
                         "General": {
@@ -1024,8 +1117,10 @@
                                 "Choices": {
                                     "self": "Self",
                                     "sibling": "Other on same Actor",
+                                    "equipped-item": "Equipped Item",
                                     "equipped-weapon": "Equipped Weapon",
                                     "equipped-armor": "Equipped Armor",
+                                    "equipped-equipment": "Equipped Equipment",
                                     "global": "Global"
                                 }
                             },
@@ -1057,7 +1152,8 @@
                     "Effects": "Effects",
                     "Details": "Details",
                     "Talents": "Talents",
-                    "Events": "Events"
+                    "Events": "Events",
+                    "Actions": "Actions"
                 },
                 "Identifier": {
                     "Label": "Identifier",
@@ -1105,6 +1201,8 @@
                 },
                 "Equip": {
                     "Title": "Equipment Details",
+                    "IsEquippable": "Is Equippable",
+                    "EquipType": "Equip Type",
                     "AlwaysEquipped": "Always Equipped",
                     "Traits": "Traits",
                     "ExpertTraits": "Expert Traits",
@@ -1125,7 +1223,12 @@
                     "Uses": "Limited Uses",
                     "Recharge": "Recharge",
                     "AdditionalFormula": "Roll Formula Extension",
-                    "AdditionalFormulaDescription": "Input any extra modifiers you wish to add to this item's d20 Skill Roll. This input will be treated as a dice formula, but any die you add won't be available for advantage/disadvantage currently. Paramters you can use: @mod, @attribute & @skill.rank refer to the values of the skills selected here, but the whole list of skills and attributes can be accessed - ask on the discord for help!"
+                    "AdditionalFormulaDescription": "Input any extra modifiers you wish to add to this item's d20 Skill Roll. This input will be treated as a dice formula, but any die you add won't be available for advantage/disadvantage currently. Paramters you can use: @mod, @attribute & @skill.rank refer to the values of the skills selected here, but the whole list of skills and attributes can be accessed - ask on the discord for help!",
+                    "ResourceConsumption": {
+                        "Add": "Add Resource Consumption",
+                        "Edit": "Edit",
+                        "Delete": "Remove"
+                    }
                 },
                 "Attack": {
                     "Title": "Attack",
@@ -1133,6 +1236,12 @@
                     "Range": "Range",
                     "RangeShort": "Short",
                     "RangeLong": "Long"
+                },
+                "Strike": {
+                    "Title": "Strike",
+                    "Skill": "Skill",
+                    "Damage": "Damage",
+                    "Hint": "Skill selection is locked by default unless weapon type is set to Special. Use the lock button to toggle this behavior."
                 },
                 "Damage": {
                     "Title": "Damage",
@@ -1203,12 +1312,31 @@
                     "Trigger": "Trigger",
                     "Handler": "Handler",
                     "Create": "Add event rule",
+                    "Edit": "Edit",
+                    "Delete": "Remove",
                     "Toggle": {
                         "Active": "Disable",
                         "Inactive": "Enable"
-                    },
+                    }
+                },
+                "ActionsList": {
+                    "Description": "Description",
+                    "Action": "Action",
+                    "Cost": "Cost",
+                    "Uses": "Uses",
+                    "Create": "Add Action",
                     "Edit": "Edit",
-                    "Delete": "Delete"
+                    "Delete": "Remove",
+                    "View": "View",
+                    "Resources": "Resources",
+                    "NewAction": {
+                        "Name": "New Action"
+                    }
+                },
+                "Resources": {
+                    "Title": "Resources",
+                    "Add": "Add Resource",
+                    "Delete": "Remove Resource"
                 }
             },
             "General": {
@@ -1216,6 +1344,37 @@
                     "Label": "Linked Skills",
                     "Hint": "These skills are displayed alongside the {type} in the character sheet."
                 }
+            },
+            "Resource": {
+                "Types": {
+                    "Uses": {
+                        "Singular": "Use",
+                        "Plural": "Uses"
+                    },
+                    "Charges": {
+                        "Singular": "Charge",
+                        "Plural": "Charges"
+                    },
+                    "Ammo": {
+                        "Singular": "Ammo",
+                        "Plural": "Ammo"
+                    }
+                },
+                "Key": {
+                    "Label": "Resource"
+                },
+                "Value": {
+                    "Label": "Value"
+                },
+                "Max": {
+                    "Label": "Max"
+                },
+                "Recharge": {
+                    "Label": "Recharge"
+                }
+            },
+            "PrimaryResource": {
+                "Label": "Primary Resource"
             }
         },
         "Attack": {
@@ -1253,7 +1412,9 @@
             "Afflicted": "Afflicted",
             "Blind": "Senseblind",
             "Burrowing": "Burrowing",
+            "Depleted": "Depleted",
             "Determined": "Determined",
+            "Diminished": "Diminished",
             "Disoriented": "Disoriented",
             "Empowered": "Empowered",
             "Enhanced": "Enhanced",
@@ -1378,7 +1539,92 @@
             "IgnoreDeflect": "Ignore Deflect"
         },
         "Migration": {
-            "DocumentMigrationFailed": "Failed to migrate {type} \"{name}\". {error}"
+            "DocumentMigrationFailed": "Failed to migrate {type} \"{name}\". {error}",
+            "MigrationError": "Migration {from} → {to} failed. See console for details.",
+            "MigrationErrorPack": "Migration {from} → {to} failed for compendium {pack}. See console for details."
+        },
+        "Utils": {
+            "MatchDocument": {
+                "Target": {
+                    "Label": "Relation",
+                    "Type": {
+                        "self": {
+                            "Label": "Self",
+                            "Hint": "Will match itself."
+                        },
+                        "sibling": {
+                            "Label": "Sibling",
+                            "Hint": "Will match an item on its parent (Actor / Item)."
+                        },
+                        "ancestor": {
+                            "Label": "Ancestor",
+                            "Hint": "Will match an item among its parent, grandparent, etc."
+                        },
+                        "descendant": {
+                            "Label": "Descendant",
+                            "Hint": "Will match an item among its children, grandchildren, etc."
+                        },
+                        "parent": {
+                            "Label": "Parent",
+                            "Hint": "Will match its parent."
+                        },
+                        "child": {
+                            "Label": "Child",
+                            "Hint": "Will match an item among its children."
+                        },
+                        "global": {
+                            "Label": "Global",
+                            "Hint": "Will match a global item."
+                        },
+                        "equipped-item": {
+                            "Label": "Equipped Item",
+                            "Hint": "Will match an equipped item on the actor this item belongs to."
+                        },
+                        "equipped-weapon": {
+                            "Label": "Equipped Weapon",
+                            "Hint": "Will match an equipped weapon on the actor this item belongs to."
+                        },
+                        "equipped-armor": {
+                            "Label": "Equipped Armor",
+                            "Hint": "Will match the equipped armor on the actor this item belongs to."
+                        },
+                        "equipped-equipment": {
+                            "Label": "Equipped Equipment",
+                            "Hint": "Will match the equipped equipment item on the actor this item belongs to."
+                        }
+                    }
+                },
+                "MatchBy": {
+                    "Label": "Match By",
+                    "Type": {
+                        "name": "Name",
+                        "identifier": "Identifier",
+                        "uuid": "UUID",
+                        "document-type": "Document Type"
+                    },
+                    "Explain": {
+                        "identifier": "like",
+                        "name": "named",
+                        "uuid": "=",
+                        "document-type": "of type"
+                    }
+                },
+                "MatchMode": {
+                    "Label": "Match Mode",
+                    "Hint": "Whether to match the first, last, or all documents that meet the criteria",
+                    "Type": {
+                        "first": "First",
+                        "last": "Last",
+                        "all": "All"
+                    }
+                },
+                "DocumentType": {
+                    "Label": "Document Type"
+                },
+                "Reference": {
+                    "Label": "Reference Document"
+                }
+            }
         },
         "Objects": {
             "Generic": {
@@ -1437,6 +1683,19 @@
                         "Set": "Set starting path {path} for {actor}. Set starting skill: {skill}.",
                         "Replaced": "Replaced starting path {oldPath} with {newPath} for {actor}. Set starting skill: {skill}.",
                         "Unset": "Cleared starting path for {actor}. Removed starting skill: {skill}."
+                    },
+                    "Erudition": {
+                        "Dialog": {
+                            "Title": "{actor}: Erudition",
+                            "Skills": "Skills",
+                            "Expertises": "Expertises",
+                            "Expertise": "Expertise",
+                            "Warn": {
+                                "UniqueSkills": "Cannot select the same skill multiple times.",
+                                "UniqueExpertises": "Cannot select the same expertise multiple times."
+                            },
+                            "Confirm": "Confirm"
+                        }
                     }
                 }
             }
@@ -1563,6 +1822,15 @@
         },
         "EditEventRule": {
             "Title": "Edit Event Rule"
+        },
+        "EditResourceConsumption": {
+            "Title": "Edit Resource Consumption",
+            "Consumption": "Consumption",
+            "Target": "Target"
+        },
+        "MatchDocumentConfig": {
+            "Title": "Configure",
+            "TypeMismatchWarning": "Expected type {expected} but found {actual}"
         }
     },
     "COMPONENT": {
@@ -1635,7 +1903,9 @@
         "Description": "Description",
         "Talent": "Talent",
         "Goal": "Goal",
+        "From": "from",
         "Button": {
+            "Source": "Edit Source",
             "Roll": "Roll",
             "Continue": "Continue",
             "Remove": "Remove",
@@ -1643,13 +1913,15 @@
             "Save": "Save",
             "Cancel": "Cancel",
             "Update": "Update",
-            "RemoveFavorite": "Remove Favorite",
-            "Favorite": "Favorite",
-            "Confirm": "Confirm"
+            "Confirm": "Confirm",
+            "Lock": "Lock",
+            "Unlock": "Unlock"
         },
         "Notification": {
             "GrazeFocusSpent": "Reduced focus by 1",
             "AddedItem": "Added {item}{quantity} to {actor}",
+            "AddedActionToItem": "Added action {action} to {item}",
+            "RemovedActionFromItem": "Removed action {action} from {item}",
             "IncreasedSkillRank": "Increased {actor}'s {skill} rank by {amount}",
             "TalentObtained": "Added talent {talent} to {actor}",
             "TalentRemoved": "Removed talent {talent} from {actor}",
@@ -1719,6 +1991,7 @@
             "equipment": "Equipment",
             "weapon": "Weapon",
             "power": "Power",
+            "effects_container": "Effects Container",
             "talent_tree": "Talent Tree"
         }
     },

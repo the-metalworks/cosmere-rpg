@@ -9,7 +9,7 @@
         "type": "path",
         "description": {
             "value": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Reaction\" aria-label=\"Reaction\">r</span></p><p><em>You unflinchingly face even the most violent of attacks.</em></p><p>Before a character you can sense targets you with an attack test, you can use your Steadfast Challenge as <span class=\"cosmere-icon\" data-tooltip=\"Reaction\" aria-label=\"Reaction\">r</span>. When you do, also increase your deflect value against this attack by your ranks in <strong>Discipline</strong>.</p>",
-            "chat": "<p><strong>Activation:</strong> <span style=\"font-family: 'Cosmere Dingbats'\">r</span></p><p>Use your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.4DGwBZ4uDLTaKql2]{Steadfast Challenge} before an attack and increase your deflect against the attack by your ranks in <strong>Discipline</strong>.</p>",
+            "chat": "<p><strong>Activation:</strong> <span style=\"font-family: &#x27;Cosmere Dingbats&#x27;\">r</span></p><p>Use your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.4DGwBZ4uDLTaKql2]{Steadfast Challenge} before an attack and increase your deflect against the attack by your ranks in <strong>Discipline</strong>.</p>",
             "short": "<p><strong>Activation:</strong> <span class=\"cosmere-icon\" data-tooltip=\"Reaction\" aria-label=\"Reaction\">r</span></p><p>Before a character you can sense targets you with an attack test, you can use your Steadfast Challenge as <span class=\"cosmere-icon\" data-tooltip=\"Reaction\" aria-label=\"Reaction\">r</span>. When you do, also increase your deflect value against this attack by your ranks in <strong>Discipline</strong>.</p>"
         },
         "activation": {
@@ -60,7 +60,99 @@
             "type": null
         },
         "modality": null,
-        "grantRules": {}
+        "grantRules": {},
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "power": null,
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Withering Retort",
+                    "img": "icons/magic/control/silhouette-hold-beam-blue.webp",
+                    "_id": "WhIA02wOUsQ0yvzQ",
+                    "system": {
+                        "id": "withering-retort",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><em>You unflinchingly face even the most violent of attacks.</em></p><p>Before a character you can sense targets you with an attack test, you can use your Steadfast Challenge as <span class=\"cosmere-icon\" data-tooltip=\"Reaction\" aria-label=\"Reaction\">r</span>. When you do, also increase your deflect value against this attack by your ranks in <strong>Discipline</strong>.</p>",
+                            "chat": "<p>Use your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.4DGwBZ4uDLTaKql2]{Steadfast Challenge} before an attack and increase your deflect against the attack by your ranks in <strong>Discipline</strong>.</p>",
+                            "short": "<p>Before a character you can sense targets you with an attack test, you can use your Steadfast Challenge as <span class=\"cosmere-icon\" data-tooltip=\"Reaction\" aria-label=\"Reaction\">r</span>. When you do, also increase your deflect value against this attack by your ranks in <strong>Discipline</strong>.</p>"
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {
+                            "RpxQACisE06nkrBK": {
+                                "id": "RpxQACisE06nkrBK",
+                                "description": "Use Steadfast Challenge",
+                                "event": "use",
+                                "handler": {
+                                    "type": "use-item",
+                                    "target": "sibling",
+                                    "uuid": "Compendium.cosmere-rpg.heroic-paths.Item.4DGwBZ4uDLTaKql2",
+                                    "matchMode": "identifier",
+                                    "matchAll": false,
+                                    "plotDie": false,
+                                    "temporaryModifiers": "",
+                                    "temporaryDamageModifiers": ""
+                                },
+                                "order": 0,
+                                "disabled": false
+                            }
+                        },
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "type": "rea"
+                            },
+                            "consumption": [],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
     },
     "effects": [
         {
@@ -78,7 +170,9 @@
             },
             "_id": "hn7RI79gVSkRQFtd",
             "type": "base",
-            "system": {},
+            "system": {
+                "isStackable": false
+            },
             "changes": [
                 {
                     "key": "system.deflect.bonus",
@@ -97,12 +191,13 @@
             "_stats": {
                 "compendiumSource": null,
                 "duplicateSource": null,
-                "coreVersion": "12.343",
+                "coreVersion": "13.351",
                 "systemId": "cosmere-rpg",
                 "systemVersion": "0.3.0",
                 "createdTime": 1740054918012,
                 "modifiedTime": 1740447817915,
-                "lastModifiedBy": "7Oytl88JDvVeIDlD"
+                "lastModifiedBy": "7Oytl88JDvVeIDlD",
+                "exportSource": null
             },
             "_key": "!items.effects!bbHjsLZOmr22Gyc4.hn7RI79gVSkRQFtd"
         }
@@ -112,5 +207,16 @@
         "default": 0
     },
     "flags": {},
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784938279770,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+    },
     "_key": "!items!bbHjsLZOmr22Gyc4"
 }

@@ -6,6 +6,7 @@ import {
     WeaponType,
     EquipType,
     ActivationType,
+    ItemResource,
 } from '@system/types/cosmere';
 import { EmptyObject } from '@system/types/utils';
 
@@ -14,21 +15,38 @@ import { CosmereItem } from '@src/system/documents';
 // Mixins
 import { DataModelMixin } from '../mixins';
 import { IdItemMixin, IdItemDataSchema } from './mixins/id';
-import { TypedItemMixin, TypedItemDataSchema, TypedItemDerivedData } from './mixins/typed';
+import {
+    TypedItemMixin,
+    TypedItemDataSchema,
+    TypedItemDerivedData,
+} from './mixins/typed';
 import {
     DescriptionItemMixin,
     DescriptionItemDataSchema,
 } from './mixins/description';
-import { EquippableItemMixin, EquippableItemDataSchema } from './mixins/equippable';
+import { ResourcesItemMixin } from './mixins/resources';
 import {
-    ActivatableItemMixin,
-    ActivatableItemDataSchema,
-} from './mixins/activatable';
-import { AttackingItemMixin, AttackingItemDataSchema } from './mixins/attacking';
-import { DamagingItemMixin, DamagingItemDataSchema } from './mixins/damaging';
-import { TraitsItemMixin, TraitsItemDataSchema, TraitsItemDerivedData } from './mixins/traits';
-import { PhysicalItemMixin, PhysicalItemDataSchema, PhysicalItemDerivedData } from './mixins/physical';
-import { ExpertiseItemMixin, ExpertiseItemDataSchema } from './mixins/expertise';
+    EquippableItemMixin,
+    EquippableItemDataSchema,
+} from './mixins/equippable';
+import {
+    AttackingItemMixin,
+    AttackingItemDataSchema,
+} from './mixins/attacking';
+import {
+    TraitsItemMixin,
+    TraitsItemDataSchema,
+    TraitsItemDerivedData,
+} from './mixins/traits';
+import {
+    PhysicalItemMixin,
+    PhysicalItemDataSchema,
+    PhysicalItemDerivedData,
+} from './mixins/physical';
+import {
+    ExpertiseItemMixin,
+    ExpertiseItemDataSchema,
+} from './mixins/expertise';
 import { EventsItemMixin, EventsItemDataSchema } from './mixins/events';
 import {
     LinkedSkillsMixin,
@@ -38,28 +56,30 @@ import {
     RelationshipsMixin,
     RelationshipsItemDataSchema,
 } from './mixins/relationships';
+import { StrikingItemDataSchema, StrikingItemMixin } from './mixins/striking';
 
-export type WeaponItemDataSchema = 
-    & IdItemDataSchema
-    & TypedItemDataSchema<WeaponType>
-    & DescriptionItemDataSchema
-    & EquippableItemDataSchema<{ equipType: { initial: EquipType.Hold, choices: [EquipType.Hold] } }>
-    & ActivatableItemDataSchema
-    & AttackingItemDataSchema
-    & DamagingItemDataSchema
-    & ExpertiseItemDataSchema
-    & TraitsItemDataSchema
-    & PhysicalItemDataSchema
-    & EventsItemDataSchema
-    & LinkedSkillsItemDataSchema
-    & RelationshipsItemDataSchema;
+export type WeaponItemDataSchema = IdItemDataSchema &
+    TypedItemDataSchema<WeaponType> &
+    DescriptionItemDataSchema &
+    ResourcesItemMixin.Schema &
+    EquippableItemDataSchema<{
+        equipType: { initial: EquipType.Hold; choices: [EquipType.Hold] };
+    }> &
+    AttackingItemDataSchema &
+    StrikingItemDataSchema &
+    ExpertiseItemDataSchema &
+    TraitsItemDataSchema &
+    PhysicalItemDataSchema &
+    EventsItemDataSchema &
+    LinkedSkillsItemDataSchema &
+    RelationshipsItemDataSchema;
 
-export type WeaponItemDerivedData = 
-    & TypedItemDerivedData
-    & PhysicalItemDerivedData 
-    & TraitsItemDerivedData;
+export type WeaponItemDerivedData = TypedItemDerivedData &
+    PhysicalItemDerivedData &
+    TraitsItemDerivedData;
 
-type WeaponItemData = foundry.data.fields.SchemaField.InitializedData<WeaponItemDataSchema>;
+type WeaponItemData =
+    foundry.data.fields.SchemaField.InitializedData<WeaponItemDataSchema>;
 
 export class WeaponItemDataModel extends DataModelMixin<
     WeaponItemDataSchema,
@@ -84,28 +104,30 @@ export class WeaponItemDataModel extends DataModelMixin<
     DescriptionItemMixin({
         value: 'COSMERE.Item.Type.Weapon.desc_placeholder',
     }),
+    ResourcesItemMixin(),
     EquippableItemMixin({
+        alwaysEquippable: true,
         equipType: {
             initial: EquipType.Hold,
             choices: [EquipType.Hold],
         },
     }),
-    ActivatableItemMixin({
-        type: {
-            initial: ActivationType.SkillTest,
-        },
-        skill: {
-            allowDefault: true,
-            defaultResolver: function (this: WeaponItemData) {
-                return (
-                    CONFIG.COSMERE.items.weapon.types[this.type].skill ?? null
-                );
-            },
-            initial: 'default',
-        },
-    }),
+    // ActivatableItemMixin({
+    //     type: {
+    //         initial: ActivationType.SkillTest,
+    //     },
+    //     skill: {
+    //         allowDefault: true,
+    //         defaultResolver: function (this: WeaponItemData) {
+    //             return (
+    //                 CONFIG.COSMERE.items.weapon.types[this.type].skill ?? null
+    //             );
+    //         },
+    //         initial: 'default',
+    //     },
+    // }),
     AttackingItemMixin(),
-    DamagingItemMixin(),
+    StrikingItemMixin(),
     ExpertiseItemMixin(),
     TraitsItemMixin(),
     PhysicalItemMixin(),
@@ -130,6 +152,33 @@ export class WeaponItemDataModel extends DataModelMixin<
         } else {
             this.equip.hold = HoldType.OneHanded;
             this.equip.hand ??= EquipHand.Main;
+        }
+
+        // Automate "ammo" resource when loaded trait is set
+        const loadedTrait = this.traits[WeaponTraitId.Loaded];
+        if (
+            loadedTrait?.active &&
+            loadedTrait?.value &&
+            loadedTrait.value > 0
+        ) {
+            this.resources[ItemResource.Ammo] = {
+                key: ItemResource.Ammo,
+                max: loadedTrait.value,
+                value:
+                    this.resources[ItemResource.Ammo]?.value ??
+                    loadedTrait.value,
+                recharge: null,
+            };
+            // If this item has no other resources, and no primary resource already set, set ammunition to be the primary resource
+            if (
+                !(
+                    this.resources.charges ||
+                    this.resources.uses ||
+                    this.primaryResource !== 'none'
+                )
+            ) {
+                this.primaryResource = ItemResource.Ammo;
+            }
         }
     }
 }

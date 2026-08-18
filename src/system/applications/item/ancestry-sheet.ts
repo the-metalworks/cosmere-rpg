@@ -34,6 +34,11 @@ export class AncestrySheet extends TalentsTabMixin(BaseItemSheet) {
                 icon: '<i class="fa-solid fa-circle-info"></i>',
                 sortIndex: 15,
             },
+            actions: {
+                label: 'COSMERE.Item.Sheet.Tabs.Actions',
+                icon: '<i class="cosmere-icon">3</i>',
+                sortIndex: 19,
+            },
         },
     );
 
@@ -41,7 +46,7 @@ export class AncestrySheet extends TalentsTabMixin(BaseItemSheet) {
         foundry.utils.deepClone(super.PARTS),
         {
             content: {
-                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_ANCESTRY_CONTENT}`,
+                template: `${TEMPLATES.DIRECTORY}${TEMPLATES.ITEM_ANCESTRY_CONTENT}`,
             },
         },
     );

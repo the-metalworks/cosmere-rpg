@@ -16,7 +16,7 @@ type TriggerEnricher = (
 export type TriggerTestEnricher = TriggerEnricher;
 export type TriggerDamageEnricher = TriggerEnricher;
 
-declare module "@league-of-foundry-developers/foundry-vtt-types/configuration" {
+declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
     namespace Hooks {
         interface HookConfig {
             [HOOKS.TRIGGER_TEST_ENRICHER]: TriggerTestEnricher;

@@ -61,7 +61,7 @@ export function register() {
                     hint: `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.SetAttribute}.Bonus.Hint`,
                 }),
             },
-            template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.IES_HANDLER_SET_ATTRIBUTE}`,
+            template: `${TEMPLATES.DIRECTORY}${TEMPLATES.IES_HANDLER_SET_ATTRIBUTE}`,
         },
         executor: async function (
             this: SetAttributeHandlerConfigData,

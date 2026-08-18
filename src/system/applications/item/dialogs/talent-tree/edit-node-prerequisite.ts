@@ -248,6 +248,20 @@ export class EditNodePrerequisiteDialog extends ComponentHandlebarsApplicationMi
                     label: culture.name,
                 };
             }
+        } else if (
+            this.data.type === TalentTree.Node.Prerequisite.Type.Power &&
+            formData.has('power')
+        ) {
+            const powerUuid = formData.get('power') as string;
+            const power = (await fromUuid(powerUuid)) as unknown as CosmereItem;
+
+            if (power?.isPower()) {
+                this.data.power = {
+                    uuid: power.uuid,
+                    id: power.system.id,
+                    label: power.name,
+                };
+            }
         }
 
         // Render

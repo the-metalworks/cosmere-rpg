@@ -125,6 +125,17 @@
         }}
     {{/if}}
 
+    {{!-- Power --}}
+    {{#if (eq type "power")}}
+        {{app-document-reference-input
+            name="power"
+            label=(localize schema.fields.power.label)
+            value=power.uuid
+            type="Item"
+            subtype="power"
+        }}
+    {{/if}}
+
     {{!-- Submit --}}
     <br>
     <div class="form-group">

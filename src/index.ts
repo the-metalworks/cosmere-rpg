@@ -4,8 +4,12 @@ import { SYSTEM_ID } from './system/constants';
 import { TEMPLATES } from './system/utils/templates';
 import COSMERE from './system/config';
 
+// @ts-expect-error style.scss does not need type definitions...
 import './style.scss';
 import './system/mixins';
+import './system/documents/system-embedded-collections/inject';
+import './system/documents/embed-config/inject';
+import './system/documents/ephemeral-embeds/inject';
 
 import {
     registerItemEventSystem,
@@ -29,6 +33,8 @@ import Editor from './system/ui/editor';
 
 import CosmereAPI from './system/api';
 import CosmereUtils from './system/utils/global';
+
+const { Actors, Items } = foundry.documents.collections;
 
 declare global {
     namespace CONFIG {
@@ -87,7 +93,7 @@ Hooks.once('init', async () => {
         documents.CosmereActiveEffect as typeof ActiveEffect as any;
     CONFIG.ActiveEffect.legacyTransferral = false;
 
-    Roll.TOOLTIP_TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.CHAT_ROLL_TOOLTIP}`;
+    Roll.TOOLTIP_TEMPLATE = `${TEMPLATES.DIRECTORY}${TEMPLATES.CHAT_ROLL_TOOLTIP}`;
 
     // Add fonts
     configureFonts();
@@ -98,7 +104,7 @@ Hooks.once('init', async () => {
     // Configure the starter rules
     registerStarterRulesConfig();
 
-    Actors.unregisterSheet('core', ActorSheet);
+    Actors.unregisterSheet('core', foundry.appv1.sheets.ActorSheet);
     registerActorSheet(
         ActorType.Character,
         applications.actor.CharacterSheet as any,
@@ -108,7 +114,7 @@ Hooks.once('init', async () => {
         applications.actor.AdversarySheet as any,
     );
 
-    Items.unregisterSheet('core', ItemSheet);
+    Items.unregisterSheet('core', foundry.appv1.sheets.ItemSheet);
     registerItemSheet(
         ItemType.Culture,
         applications.item.CultureItemSheet as any,
@@ -147,6 +153,10 @@ Hooks.once('init', async () => {
     );
     registerItemSheet(ItemType.Goal, applications.item.GoalItemSheet as any);
     registerItemSheet(ItemType.Power, applications.item.PowerItemSheet as any);
+    registerItemSheet(
+        ItemType.EffectsContainer,
+        applications.item.EffectsContainerItemSheet as any,
+    );
     registerItemSheet(
         ItemType.TalentTree,
         applications.item.TalentTreeItemSheet as any,
@@ -270,7 +280,7 @@ function registerItemSheet(
     type: ItemType,
     sheet: typeof foundry.applications.api.ApplicationV2,
 ) {
-    foundry.documents.collections.Items.registerSheet(SYSTEM_ID, sheet as any, {
+    Items.registerSheet(SYSTEM_ID, sheet as any, {
         types: [type],
         makeDefault: true,
         label: `TYPES.Item.${type}`,
@@ -378,6 +388,24 @@ function configureFonts() {
                         `systems/${SYSTEM_ID}/assets/fonts/penumbra-serif-std/PenumbraSerifStd-SemiboldCaps.woff2`,
                     ],
                     weight: 600,
+                },
+            ],
+        },
+        'Penumbra Sans Std': {
+            editor: true,
+            // TODO: convert to woff?
+            fonts: [
+                {
+                    urls: [
+                        `systems/${SYSTEM_ID}/assets/fonts/penumbra-sans-std/PenumbraSansStd-Semibold.otf`,
+                    ],
+                    weight: 600,
+                },
+                {
+                    urls: [
+                        `systems/${SYSTEM_ID}/assets/fonts/penumbra-sans-std/PenumbraSansStd-Bold.otf`,
+                    ],
+                    weight: 'bold',
                 },
             ],
         },

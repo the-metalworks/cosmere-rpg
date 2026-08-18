@@ -1,0 +1,58 @@
+<form class="dialog-content standard-form">
+    <fieldset>
+        <legend>{{localize "COSMERE.Macro.Talents.Erudition.Dialog.Skills"}}</legend>
+
+        {{#times config.skills.count as |index|}}
+            <div class="form-group" data-index="{{index}}">
+                <label>{{localize "GENERIC.Skill"}} {{add index 1}}</label>
+                <div class="form-fields">
+                    <select name="skills.{{index}}">
+                        {{selectOptions @root.skillSelectOptions selected=(lookup @root.selections.skills index) localize=true}}
+                    </select>
+                </div>
+            </div>
+        {{/times}}
+    </fieldset>
+
+    <fieldset>
+        <legend>{{localize "COSMERE.Macro.Talents.Erudition.Dialog.Expertises"}}</legend>
+
+        {{#times config.expertises.count as |index|}}
+            {{#with (default (lookup @root.selections.expertises index) @root.defaultExpertise) as |expertise|}}
+                <div class="form-group" data-index="{{index}}">
+                    <label>{{localize "COSMERE.Macro.Talents.Erudition.Dialog.Expertise"}} {{add index 1}}</label>
+                    <div class="form-fields">
+                        <select name="expertises.{{index}}.type">
+                            {{selectOptions @root.expertiseTypeSelectOptions selected=expertise.type localize=true}}
+                        </select>
+
+                        <select name="expertises.{{index}}.id">
+                            {{selectOptions (lookup @root.expertiseIdSelectOptionsByType expertise.type) selected=expertise.id localize=true}}
+                        </select>
+
+                        {{log expertise}}
+
+                        {{#unless expertise.custom}}
+                            <input type="text" 
+                                value="—"
+                                readonly
+                            />
+                        {{else}}
+                            <input type="text" 
+                                name="expertises.{{index}}.label" 
+                                placeholder="{{localize "COSMERE.Macro.Talents.Erudition.Dialog.Expertise"}}" 
+                                value="{{expertise.label}}"
+                            />
+                        {{/unless}}
+                    </div>
+                </div>
+            {{/with}}
+        {{/times}}
+    </fieldset>
+
+    <div class="form-group submit">
+        <button type="submit">
+            {{localize "COSMERE.Macro.Talents.Erudition.Dialog.Confirm"}}
+        </button>
+    </div>
+</form>

@@ -126,3 +126,67 @@ app-item-drop-list {
         margin: 0;
     }
 }
+
+app-item-resource-consumption-list {
+    flex: 2;
+    display: flex;
+    align-items: center;
+
+    .entries {
+        flex: 1;
+
+        ul {
+            padding: 0;
+            margin: 0;
+        }
+
+        .entry {
+            display: flex;
+            align-items: center;
+
+            background-color: var(--cosmere-color-base-3);
+            padding: 0.375rem;
+            border-radius: 6px;
+            font-size: .9em;
+
+            .content {
+                flex: 1;
+                display: flex;
+                gap: .35ch;
+                align-items: center;
+            }
+
+            span:not(.value, .resource, .target) {
+                opacity: 0.8;
+            }
+
+            .resource {
+                font-weight: bold;
+            }
+        }
+    }
+
+    >.controls {
+        margin-left: 0.5rem;
+    }
+}
+
+app-match-document-step {
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+}
+
+app-match-document-target {
+    display: flex;
+    gap: .35ch;
+    align-items: center;
+
+    span.target, span.type {
+        font-weight: bold;
+    }
+}
+
+.form-fields>app-document-reference-input {
+    flex: 1;
+}

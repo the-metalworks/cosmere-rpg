@@ -6,6 +6,7 @@ import { AnyObject } from '@system/types/utils';
  * Index of identifiers for system templates.
  */
 export const TEMPLATES = {
+    DIRECTORY: `systems/${SYSTEM_ID}/templates/`,
     GENERAL_TABS: 'general/tabs.hbs',
     GENERAL_SHEET_CORNERS: 'general/sheet-corners.hbs',
     GENERAL_SHEET_BACKGROUND: 'general/sheet-background.hbs',
@@ -22,12 +23,19 @@ export const TEMPLATES = {
     COMPONENT_EXPERTISES_LIST: 'general/components/expertises-list.hbs',
     COMPONENT_DOCUMENT_CHANGES_LIST:
         'general/components/document-changes-list.hbs',
+    COMPONENT_MATCH_DOCUMENT_STEP: 'general/components/match-document-step.hbs',
+    COMPONENT_MATCH_DOCUMENT_TARGET:
+        'general/components/match-document-target.hbs',
+    COMPONENT_ITEM_LIST_RESOURCE: 'general/components/item-list-resource.hbs',
+    COMPONENT_MATCH_DOCUMENT_RESOURCE_TARGET:
+        'general/components/match-document-resource-target.hbs',
 
     // ACTOR BASE
     ACTOR_BASE_NAVIGATION: 'actors/parts/navigation.hbs',
     ACTOR_BASE_BOX_CORNERS: 'actors/parts/box-corners.hbs',
     ACTOR_BASE_SEARCH_BAR: 'actors/components/search-bar.hbs',
     ACTOR_BASE_ACTIONS_LIST: 'actors/components/actions-list.hbs',
+    ACTOR_BASE_ACTIONS_LIST_ENTRY: 'actors/components/actions-list-entry.hbs',
     ACTOR_BASE_EFFECTS_LIST: 'actors/components/effects-list.hbs',
     ACTOR_BASE_EQUIPMENT_LIST: 'actors/components/equipment-list.hbs',
     ACTOR_BASE_INJURIES_LIST: 'actors/components/injuries-list.hbs',
@@ -49,6 +57,8 @@ export const TEMPLATES = {
         'actors/character/partials/char-details-tab.hbs',
     ACTOR_CHARACTER_ACTIONS_TAB:
         'actors/character/partials/char-actions-tab.hbs',
+    ACTOR_CHARACTER_TALENTS_TAB:
+        'actors/character/partials/char-talents-tab.hbs',
     ACTOR_CHARACTER_EQUIPMENT_TAB:
         'actors/character/partials/char-equipment-tab.hbs',
     ACTOR_CHARACTER_GOALS_TAB: 'actors/character/partials/char-goals-tab.hbs',
@@ -57,11 +67,12 @@ export const TEMPLATES = {
         'actors/character/partials/char-effects-tab.hbs',
     ACTOR_CHARACTER_ANCESTRY: 'actors/character/components/ancestry.hbs',
     ACTOR_CHARACTER_CULTURE: 'actors/character/components/culture.hbs',
-    ACTOR_CHARACTER_FAVORITES: 'actors/character/components/favorites.hbs',
     ACTOR_CHARACTER_PATHS: 'actors/character/components/paths.hbs',
     ACTOR_CHARACTER_CONNECTIONS_LIST:
         'actors/character/components/connections-list.hbs',
     ACTOR_CHARACTER_GOALS_LIST: 'actors/character/components/goals-list.hbs',
+    ACTOR_CHARACTER_TALENTS_LIST:
+        'actors/character/components/talents-list.hbs',
     ACTOR_CHARACTER_SKILL_LINKED_ITEM:
         'actors/character/components/skill-linked-item.hbs',
 
@@ -97,6 +108,7 @@ export const TEMPLATES = {
     ITEM_EFFECTS_TAB: 'item/partials/item-effects-tab.hbs',
     ITEM_DETAILS_TAB: 'item/partials/item-details-tab.hbs',
     ITEM_EVENTS_TAB: 'item/partials/item-events-tab.hbs',
+    ITEM_ACTIONS_TAB: 'item/partials/item-actions-tab.hbs',
 
     ITEM_INJURY_DETAILS_TAB: 'item/injury/partials/injury-details-tab.hbs',
     ITEM_TALENTS_TAB: 'item/partials/item-talents-tab.hbs',
@@ -118,6 +130,7 @@ export const TEMPLATES = {
     ITEM_DETAILS_ID: 'item/components/details-id.hbs',
     ITEM_DETAILS_ACTIVATION: 'item/components/details-activation.hbs',
     ITEM_DETAILS_ATTACK: 'item/components/details-attack.hbs',
+    ITEM_DETAILS_STRIKE: 'item/components/details-strike.hbs',
     ITEM_DETAILS_DAMAGE: 'item/components/details-damage.hbs',
     ITEM_DETAILS_EQUIP: 'item/components/details-equip.hbs',
     ITEM_DETAILS_DEFLECT: 'item/components/details-deflect.hbs',
@@ -126,13 +139,18 @@ export const TEMPLATES = {
     ITEM_DETAILS_TALENTS_PROVIDER:
         'item/components/details-talents-provider.hbs',
     ITEM_DETAILS_LINKED_SKILLS: 'item/components/details-linked-skills.hbs',
+    ITEM_DETAILS_RESOURCES: 'item/components/details-resources.hbs',
 
     ITEM_EFFECTS_LIST: 'item/components/effects-list.hbs',
     ITEM_EVENT_RULES_LIST: 'item/components/event-rules-list.hbs',
+    ITEM_ACTIONS_LIST: 'item/components/actions-list.hbs',
 
     ITEM_ANCESTRY_TALENT_LIST:
         'item/ancestry/components/advancement-talent-list.hbs',
     ITEM_ANCESTRY_BONUS_TALENTS: 'item/ancestry/components/bonus-talents.hbs',
+
+    ITEM_RESOURCE_CONSUMPTION_LIST:
+        'item/components/resource-consumption-list.hbs',
 
     // ITEM EMBEDDINGS
     ITEM_TALENT_EMBED: 'item/talent/embed.hbs',
@@ -183,6 +201,8 @@ export const TEMPLATES = {
 
     DIALOG_ITEM_CONSUME: 'item/dialog/item-consume.hbs',
     DIALOG_ITEM_EDIT_EVENT_RULE: 'item/dialog/edit-event-rule.hbs',
+    DIALOG_ITEM_EDIT_RESOURCE_CONSUMPTION:
+        'item/dialog/edit-resource-consumption.hbs',
 
     DIALOG_CHAT_MODIFY_DAMAGE: 'chat/dialogs/damage-modifier.hbs',
 
@@ -191,6 +211,8 @@ export const TEMPLATES = {
 
     DIALOG_EDIT_EXPERTISES: 'general/dialogs/edit-expertises.hbs',
     DIALOG_PICK: 'general/dialogs/pick.hbs',
+
+    DIALOG_MATCH_DOCUMENT_CONFIG: 'general/dialogs/match-document-config.hbs',
 
     // ITEM EVENT SYSTEM HANDLERS
     IES_HANDLER_EXECUTE_MACRO: 'item/event-system/handlers/execute-macro.hbs',
@@ -209,6 +231,8 @@ export const TEMPLATES = {
     IES_HANDLER_USE_ITEM: 'item/event-system/handlers/use-item.hbs',
     IES_HANDLER_UPDATE_ITEM: 'item/event-system/handlers/update-item.hbs',
     IES_HANDLER_UPDATE_ACTOR: 'item/event-system/handlers/update-actor.hbs',
+    IES_HANDLER_ADD_ACTIONS: 'item/event-system/handlers/add-actions.hbs',
+    IES_HANDLER_REMOVE_ACTIONS: 'item/event-system/handlers/remove-actions.hbs',
 } as const;
 
 /**
@@ -223,7 +247,7 @@ export function renderSystemTemplate(
     data: AnyObject,
 ): Promise<string> {
     return foundry.applications.handlebars.renderTemplate(
-        `systems/${SYSTEM_ID}/templates/${template}`,
+        `${TEMPLATES.DIRECTORY}${template}`,
         data,
     );
 }

@@ -5,22 +5,26 @@ import { EmptyObject } from '@system/types/utils';
 // Mixins
 import { DataModelMixin } from '../mixins';
 import { IdItemMixin, IdItemDataSchema } from './mixins/id';
-import { TypedItemMixin, TypedItemDataSchema, TypedItemDerivedData } from './mixins/typed';
+import {
+    TypedItemMixin,
+    TypedItemDataSchema,
+    TypedItemDerivedData,
+} from './mixins/typed';
 import {
     DescriptionItemMixin,
     DescriptionItemDataSchema,
 } from './mixins/description';
-import {
-    ActivatableItemMixin,
-    ActivatableItemDataSchema,
-} from './mixins/activatable';
-import { DamagingItemMixin, DamagingItemDataSchema } from './mixins/damaging';
+import { ResourcesItemMixin } from './mixins/resources';
 import { ModalityItemMixin, ModalityItemDataSchema } from './mixins/modality';
 import { EventsItemMixin, EventsItemDataSchema } from './mixins/events';
 import {
     RelationshipsMixin,
     RelationshipsItemDataSchema,
 } from './mixins/relationships';
+import {
+    LinkedSkillsMixin,
+    LinkedSkillsItemDataSchema,
+} from './mixins/linked-skills';
 
 const SCHEMA = () => ({
     path: new foundry.data.fields.StringField({
@@ -42,22 +46,21 @@ const SCHEMA = () => ({
     }),
 });
 
-export type TalentItemDataSchema =
-    & ReturnType<typeof SCHEMA>
-    & IdItemDataSchema
-    & TypedItemDataSchema<Talent.Type>
-    & DescriptionItemDataSchema
-    & ActivatableItemDataSchema
-    & DamagingItemDataSchema
-    & ModalityItemDataSchema
-    & EventsItemDataSchema
-    & RelationshipsItemDataSchema;
+export type TalentItemDataSchema = ReturnType<typeof SCHEMA> &
+    IdItemDataSchema &
+    TypedItemDataSchema<Talent.Type> &
+    DescriptionItemDataSchema &
+    ResourcesItemMixin.Schema &
+    ModalityItemDataSchema &
+    EventsItemDataSchema &
+    LinkedSkillsItemDataSchema &
+    RelationshipsItemDataSchema;
 
 export type TalentItemDerivedData = TypedItemDerivedData & {
     hasPath: boolean;
     hasAncestry: boolean;
     hasPower: boolean;
-}
+};
 
 export class TalentItemDataModel extends DataModelMixin<
     TalentItemDataSchema,
@@ -82,10 +85,10 @@ export class TalentItemDataModel extends DataModelMixin<
     DescriptionItemMixin({
         value: 'COSMERE.Item.Type.Talent.desc_placeholder',
     }),
-    ActivatableItemMixin(),
-    DamagingItemMixin(),
+    ResourcesItemMixin(),
     ModalityItemMixin(),
     EventsItemMixin(),
+    LinkedSkillsMixin(),
     RelationshipsMixin(),
 ) {
     static defineSchema() {

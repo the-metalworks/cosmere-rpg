@@ -60,7 +60,82 @@
                 "rank": 1
             }
         },
-        "prerequisitesMet": false
+        "prerequisitesMet": false,
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "power": null,
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Ironstance",
+                    "img": "icons/skills/melee/strike-axe-energy-pink.webp",
+                    "_id": "UjEgWtZDOu3vRPNI",
+                    "system": {
+                        "id": "ironstance",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><em>You hold your weapon high, prepared to deliver a crushing blow downward when your opponent shows weakness.</em></p><p>While in this stance, you gain an advantage on <strong>Insight</strong> tests. Additionally, when a character within your reach misses you or grazes you with an attack, you can use @UUID[Compendium.cosmere-rpg.actions.Item.QpFIxaoCBezzt6yw]{Reactive Strike} against them as if they had voluntarily left your reach.</p>",
+                            "chat": "<p>Enter Ironstance: You gain an advantage on <strong>Insight</strong>, and when you’re grazed or missed, you can make a @UUID[Compendium.cosmere-rpg.actions.Item.QpFIxaoCBezzt6yw]{Reactive Strike} against your attacker.</p>",
+                            "short": "<p>While in this stance, you gain an advantage on <strong>Insight</strong> tests. Additionally, when a character within your reach misses you or grazes you with an attack, you can use @UUID[Compendium.cosmere-rpg.actions.Item.QpFIxaoCBezzt6yw]{Reactive Strike} against them as if they had voluntarily left your reach.</p>"
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": "stance",
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "value": null,
+                                "type": "act"
+                            },
+                            "consumption": [],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
     },
     "effects": [],
     "sort": 0,
@@ -68,5 +143,16 @@
         "default": 0
     },
     "flags": {},
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784941778185,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+    },
     "_key": "!items!rVjTILXp0zNpR4zF"
 }

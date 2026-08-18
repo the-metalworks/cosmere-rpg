@@ -1,0 +1,31 @@
+
+{{#if ctx.hasResource}}
+    {{#if showButtons}}
+    <a role="button"
+        data-action="decrease-resource"
+        data-tooltip="{{ctx.resource.removeTooltip}}"
+    >
+        <i class="fa-solid fa-minus"></i>
+    </a>
+    {{/if}}
+    <div>
+        <span class="val">{{ctx.resource.value}}</span>
+        <span>/</span>
+        <span class="val">{{ctx.resource.max}}</span>
+        <i class="{{ctx.resource.icon}}" data-tooltip={{ctx.resource.label}}></i>
+        {{#if (and ctx.resource.hasRecharge (not hideRecharge))}}
+            <span>{{localize ctx.resource.rechargeLabel}}</span>
+        {{/if}}
+    </div>
+
+    {{#if showButtons}}
+    <a role="button"
+        data-action="increase-resource"
+        data-tooltip="{{ctx.resource.addTooltip}}"
+    >
+        <i class="fa-solid fa-plus"></i>
+    </a>
+    {{/if}}
+{{else}}
+    <span class="val none">—</span>
+{{/if}}

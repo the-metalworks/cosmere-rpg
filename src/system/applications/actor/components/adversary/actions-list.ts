@@ -1,14 +1,13 @@
 import {
-    ItemType,
+    ActionCostType,
     ActionType,
     ActivationType,
-    ActionCostType,
+    ItemType,
 } from '@system/types/cosmere';
 import { ItemListSection } from '@system/types/application/actor/components/item-list';
 
 // Documents
-import { CosmereItem } from '@system/documents/item';
-import { CosmereActor } from '@system/documents/actor';
+import { CosmereItem, type ActionItem } from '@system/documents/item';
 
 // Components
 import {
@@ -16,6 +15,8 @@ import {
     ActorActionsListComponentRenderContext,
 } from '../actions-list';
 import { SortMode } from '../search-bar';
+import { AppContextMenu } from '@src/system/applications/utils/context-menu';
+import { CosmereActor } from '@src/system/documents';
 
 // Constants
 
@@ -26,18 +27,19 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
         params: unknown,
         context: ActorActionsListComponentRenderContext,
     ) {
-        // Get all activatable items (actions & items with an associated action)
-        const activatableItems = this.application.actor.items
-            .filter((item) => item.hasActivation())
-            .filter(
-                (item) =>
-                    !item.isEquippable() ||
-                    item.system.equipped ||
-                    item.system.alwaysEquipped,
-            );
+        // Get all candidate items (actions, items with actions, and traits)
+        const candidateItems = Array.from(this.application.actor.items).filter(
+            (item) =>
+                item.isAction() || item.hasUsableActions || item.isTrait(),
+        );
+
+        // Get all actions
+        const actions = candidateItems.flatMap((item) =>
+            item.isAction() ? [item] : item.actions,
+        );
 
         // Ensure all items have an expand state record
-        activatableItems.forEach((item) => {
+        actions.forEach((item) => {
             if (!(item.id! in this.itemState)) {
                 this.itemState[item.id!] = {
                     expanded: false,
@@ -62,21 +64,25 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
             ...context,
 
             sections: [
+                // Traits
                 await this.prepareSectionData(
                     this.sections[0],
-                    activatableItems,
+                    candidateItems,
                     searchText,
                     sortMode,
+                    true,
                 ),
+                // Weapons
                 await this.prepareSectionData(
                     this.sections[1],
-                    activatableItems,
+                    candidateItems,
                     searchText,
                     sortMode,
                 ),
+                // Actions
                 await this.prepareSectionData(
                     this.sections[2],
-                    activatableItems,
+                    candidateItems,
                     searchText,
                     sortMode,
                 ),
@@ -93,37 +99,69 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
     /* --- Helpers --- */
 
     private prepareSection(type: ItemType): ItemListSection {
-        return {
+        const section = {
             id: type,
             label: CONFIG.COSMERE.items.types[type].labelPlural,
+            createItemTooltip: game.i18n.format(
+                'COSMERE.Actor.Sheet.Actions.NewItem',
+                {
+                    type: game.i18n.localize(
+                        CONFIG.COSMERE.items.types[type].label,
+                    ),
+                },
+            ),
             default: true,
-            filter: (item: CosmereItem) => item.type === type,
-            new: (parent: CosmereActor) =>
-                CosmereItem.create(
-                    {
-                        type,
-                        name: game.i18n.localize(
-                            `COSMERE.Item.Type.${type.capitalize()}.New`,
-                        ),
-                        system: {
-                            activation: {
-                                type: ActivationType.Utility,
-                                cost: {
-                                    type: ActionCostType.Action,
-                                    value: 1,
+            filter: (item: CosmereItem) =>
+                // the item itself needs to be checked now, not its parent
+                // and it seems the type is directly on the item rather than in its system
+                item.type === type,
+        };
+
+        let creation = {};
+
+        switch (type) {
+            case ItemType.Action: {
+                creation = {
+                    new: (parent: CosmereActor) =>
+                        CosmereItem.create(
+                            {
+                                type: ItemType.Action,
+                                name: game.i18n.localize(
+                                    'COSMERE.Item.Type.Action.New',
+                                ),
+                                system: {
+                                    type: ActionType.Adversary,
+                                    activation: {
+                                        type: ActivationType.Utility,
+                                        cost: {
+                                            type: ActionCostType.Action,
+                                            value: 1,
+                                        },
+                                    },
                                 },
                             },
-
-                            ...(type === ItemType.Weapon
-                                ? {
-                                      equipped: true,
-                                  }
-                                : {}),
-                        },
-                    },
-                    { parent },
-                ) as Promise<CosmereItem>,
-        };
+                            { parent },
+                        ) as Promise<CosmereItem>,
+                };
+                break;
+            }
+            case ItemType.Trait: {
+                creation = {
+                    new: (parent: CosmereActor) =>
+                        CosmereItem.create(
+                            {
+                                type: ItemType.Trait,
+                                name: game.i18n.localize(
+                                    'COSMERE.Item.Type.Trait.New',
+                                ),
+                            },
+                            { parent },
+                        ) as Promise<CosmereItem>,
+                };
+                break;
+            }
+        }
+        return { ...section, ...creation };
     }
 
     private async prepareSectionData(
@@ -131,6 +169,7 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
         items: CosmereItem[],
         searchText: string,
         sort: SortMode,
+        allowNonActions = false,
     ) {
         // Get items for section, filter by search text, and sort
         let sectionItems = items
@@ -146,12 +185,104 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
             );
         }
 
+        const sectionActions = sectionItems.map((item) =>
+            item.isAction() || (allowNonActions && item.actions.length === 0)
+                ? item
+                : ([item, item.actions] as [CosmereItem, ActionItem[]]),
+        );
+
+        sectionActions.forEach((item) => {
+            if (!Array.isArray(item)) return;
+
+            if (item[0].id) {
+                if (!(item[0].id in this.itemState)) {
+                    this.itemState[item[0].id] = {
+                        expanded: false,
+                    };
+                }
+            }
+        });
+
         return {
             ...section,
             canAddNewItems: !!section.new,
-            items: sectionItems,
-            itemData: await this.prepareItemData(sectionItems),
+            items: sectionActions,
+            itemData: await this.prepareItemData(sectionActions.flat().flat()),
         };
+    }
+
+    public _onInitialize(): void {
+        if (this.application.isEditable) {
+            // Create context menu
+            AppContextMenu.create({
+                parent: this as AppContextMenu.Parent,
+                items: (element) => {
+                    console.log('AppContextMenu items callback', { element });
+
+                    // Get item uuid
+                    const itemUuid = $(element)
+                        .closest('.item[data-item-uuid]')
+                        .data('item-uuid') as string;
+
+                    // Get item from loaded actor sheet
+                    const item =
+                        this.application.actor.getEmbeddedDocumentFromUuid(
+                            itemUuid,
+                        );
+
+                    if (!(item instanceof CosmereItem)) return [];
+
+                    const menuItems = [];
+
+                    if (item.hasResources() && item.hasRecharge) {
+                        menuItems.push(
+                            /**
+                             * NOTE: This is a TEMPORARY context menu option
+                             * until we can handle recharging properly.
+                             */
+                            {
+                                name: 'COSMERE.Item.Activation.Uses.Recharge.Label',
+                                icon: 'fa-solid fa-rotate-left',
+                                callback: () => {
+                                    void item.recharge();
+                                },
+                            },
+                        );
+                    }
+
+                    if (!item.isEphemeral) {
+                        menuItems.push(
+                            {
+                                name: 'GENERIC.Button.Edit',
+                                icon: 'fa-solid fa-pen-to-square',
+                                callback: () => {
+                                    void item.sheet?.render(true);
+                                },
+                            },
+                            {
+                                name: 'GENERIC.Button.Remove',
+                                icon: 'fa-solid fa-trash',
+                                callback: () => {
+                                    void item.delete();
+                                },
+                            },
+                        );
+                    } else {
+                        menuItems.push({
+                            name: 'COSMERE.Item.Sheet.ActionsList.View',
+                            icon: 'fa-solid fa-eye',
+                            callback: () => {
+                                void item.sheet?.render(true);
+                            },
+                        });
+                    }
+
+                    return menuItems.filter((i) => !!i);
+                },
+                selectors: ['a[data-action="toggle-actions-controls"]'],
+                anchor: 'right',
+            });
+        }
     }
 }
 

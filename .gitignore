@@ -3,3 +3,17 @@ build/
 
 .vscode/
 .idea/
+
+# Docker
+.docker-context/
+world-seed
+
+# Playwright
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+playwright/.auth/
+
+# Secrets
+secrets/

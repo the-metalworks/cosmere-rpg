@@ -108,7 +108,7 @@ export function register() {
                     },
                 ),
             },
-            template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.IES_HANDLER_GRANT_ITEMS}`,
+            template: `${TEMPLATES.DIRECTORY}${TEMPLATES.IES_HANDLER_GRANT_ITEMS}`,
         },
         executor: async function (
             this: GrantItemsHandlerConfigData,

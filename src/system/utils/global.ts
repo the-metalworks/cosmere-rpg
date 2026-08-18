@@ -1,4 +1,5 @@
 import { invokeMigration } from './migration';
+import { getObjectChanges } from './data';
 import * as macros from './macros';
 
 /**
@@ -9,4 +10,5 @@ import * as macros from './macros';
 export default {
     invokeMigration,
     macros,
+    getObjectChanges,
 };

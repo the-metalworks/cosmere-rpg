@@ -176,7 +176,10 @@
     &.pick-dice-result,
     &.roll-configuration,
     &.edit-event-rule,
-    &.edit-creature-type {
+    &.edit-creature-type,
+    &.edit-resource-consumption,
+    &.item-consume,
+    &.match-document-config {
         form,
         #consumables {
             display: flex;
@@ -486,6 +489,86 @@
                     font-variant: lining-nums;
                     font-weight: 600;
                     field-sizing: content;
+                }
+            }
+        }
+    }
+
+    &.item-consume {
+        .form-group {
+            height: 1.65rem;
+
+            > .form-fields {
+                align-items: center;
+
+                > div {
+                    flex: 1;
+                }
+            }
+        }
+    }
+
+    &.match-document-config {
+        .fields {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            gap: .3rem;
+
+            .form-group.add {
+                width: 100%;
+
+                button {
+                    width: 100%;
+
+                    background: var(--cosmere-color-base-3);
+                    border-color: var(--cosmere-color-base-5);
+                    opacity: .6;
+                }
+            }
+        }
+
+        i.arrow {
+            opacity: .6;
+        }
+
+        .relative-to, .resolves-to {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            span {
+                margin-right: .5rem;
+                opacity: .6;
+            }
+        }
+
+        .step {
+            border: 1px solid var(--cosmere-color-base-5);
+            border-radius: 6px;
+            padding: .5rem;
+            background: var(--cosmere-color-base-3);
+            width: 100%;
+
+            .footer {
+                display: flex;
+                margin-top: .3em;
+                align-items: center;
+
+                .resolves-to {
+                    flex: 1;
+                }
+            }
+
+            .warn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-top: .2em;
+
+                > span {
+                    color: var(--color-level-warning);
+                    font-size: .9em;
                 }
             }
         }

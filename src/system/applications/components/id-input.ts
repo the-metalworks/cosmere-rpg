@@ -21,7 +21,7 @@ export class IdInputComponent extends HandlebarsApplicationComponent<
     foundry.applications.api.ApplicationV2.AnyConstructor,
     Params
 > {
-    static readonly TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.COMPONENT_ID_INPUT}`;
+    static readonly TEMPLATE = `${TEMPLATES.DIRECTORY}${TEMPLATES.COMPONENT_ID_INPUT}`;
 
     /* --- Lifecyle --- */
 

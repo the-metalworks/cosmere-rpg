@@ -46,7 +46,7 @@ export type ItemRollConfiguration = RollConfiguration;
 export type PreAttackRollConfiguration = PreRollConfiguration;
 export type AttackRollConfiguration = RollConfiguration;
 
-declare module "@league-of-foundry-developers/foundry-vtt-types/configuration" {
+declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
     namespace Hooks {
         interface HookConfig {
             [HOOKS.PRE_INJURY_TYPE_ROLL]: PreInjuryTypeRoll;
@@ -61,9 +61,12 @@ declare module "@league-of-foundry-developers/foundry-vtt-types/configuration" {
             [HOOKS.DAMAGE_ROLL]: DamageRoll;
             [key: ReturnType<typeof HOOKS.PRE_ROLL>]: PreRoll;
             [key: ReturnType<typeof HOOKS.ROLL>]: Roll;
-            [key: ReturnType<typeof HOOKS.PRE_ROLL_CONFIGURATION>]: PreRollConfiguration;
-            [key: ReturnType<typeof HOOKS.ROLL_CONFIGURATION>]: RollConfiguration;
-            
+            [
+                key: ReturnType<typeof HOOKS.PRE_ROLL_CONFIGURATION>
+            ]: PreRollConfiguration;
+            [
+                key: ReturnType<typeof HOOKS.ROLL_CONFIGURATION>
+            ]: RollConfiguration;
         }
     }
 }

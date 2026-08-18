@@ -28,6 +28,11 @@ export class ArmorItemSheet extends BaseItemSheet {
                 icon: '<i class="fa-solid fa-circle-info"></i>',
                 sortIndex: 15,
             },
+            actions: {
+                label: 'COSMERE.Item.Sheet.Tabs.Actions',
+                icon: '<i class="cosmere-icon">3</i>',
+                sortIndex: 19,
+            },
         },
     );
 
@@ -35,7 +40,7 @@ export class ArmorItemSheet extends BaseItemSheet {
         foundry.utils.deepClone(super.PARTS),
         {
             content: {
-                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_ARMOR_CONTENT}`,
+                template: `${TEMPLATES.DIRECTORY}${TEMPLATES.ITEM_ARMOR_CONTENT}`,
             },
         },
     );

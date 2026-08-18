@@ -60,7 +60,82 @@
             "formula": "4d4",
             "type": null
         },
-        "modality": null
+        "modality": null,
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "power": null,
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Fatal Thrust",
+                    "img": "icons/skills/melee/strike-dagger-white-orange.webp",
+                    "_id": "OFYnNLHJOMO9VIeJ",
+                    "system": {
+                        "id": "fatal-thrust",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><em>You aim for your foe’s vitals with callous finesse, hoping to bring the fight to an end before it begins.</em></p><p>Using a light weapon, make a melee attack against the Cognitive defense of a target who is <strong>Surprised</strong>, doesn’t sense you, or doesn’t view you as a threat (such as if you’re disguised). If this weapon has the <strong>Discreet</strong> trait, you gain two advantages on the test.</p><p>When you roll damage for this attack, add an extra [[/r 4d4]] damage, then count the number of your damage dice that rolled their maximum value (including your weapon’s usual damage plus the extra damage). For each die that rolled its maximum, your target must subtract 2 from any injury roll they make for that attack. For example, if you roll 1d6 plus 4d4, and two dice roll their maximum value—a 6 on your weapon’s d6 and a 4 on an extra d4—your target subtracts 4 from their injury roll.</p><hr><p>This talent becomes more powerful as your tier increases: at tier 3, you roll an extra [[/r 6d4]] damage (instead of 4d4); at tier 4, you instead roll an extra [[/r 8d4]] damage; and at tier 5, you instead roll an extra [[/r 10d4]] damage.</p>",
+                            "chat": "<p>Attack an unsuspecting target with a light melee weapon vs. Cognitive. Add [[/r 4d4]] damage, and gain two advantages if the weapon is <strong>Discreet</strong>. Max damage rolls add a penalty to the injury roll.</p>",
+                            "short": "<p>Using a light weapon, make a melee attack against the Cognitive defense of a target who is <strong>Surprised</strong>, doesn’t sense you, or doesn’t view you as a threat (such as if you’re disguised). If this weapon has the <strong>Discreet</strong> trait, you gain two advantages on the test.</p><p>When you roll damage for this attack, add an extra [[/r 4d4]] damage, then count the number of your damage dice that rolled their maximum value (including your weapon’s usual damage plus the extra damage). For each die that rolled its maximum, your target must subtract 2 from any injury roll they make for that attack. For example, if you roll 1d6 plus 4d4, and two dice roll their maximum value—a 6 on your weapon’s d6 and a 4 on an extra d4—your target subtracts 4 from their injury roll.</p><hr><p>This talent becomes more powerful as your tier increases: at tier 3, you roll an extra [[/r 6d4]] damage (instead of 4d4); at tier 4, you instead roll an extra [[/r 8d4]] damage; and at tier 5, you instead roll an extra [[/r 10d4]] damage.</p>"
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "value": 2,
+                                "type": "act"
+                            },
+                            "consumption": [],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": "(max(4, (@tier * 2)))d4",
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
     },
     "effects": [],
     "sort": 200000,
@@ -68,5 +143,16 @@
         "default": 0
     },
     "flags": {},
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784939425760,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+    },
     "_key": "!items!4JLLsyYfrUi57vDb"
 }

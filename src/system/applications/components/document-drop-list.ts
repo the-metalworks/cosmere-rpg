@@ -49,7 +49,7 @@ export class DocumentDropListComponent extends DragDropComponentMixin(
 ) {
     static FORM_ASSOCIATED = true;
 
-    static readonly TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.COMPONENT_DOCUMENT_DROP_LIST}`;
+    static readonly TEMPLATE = `${TEMPLATES.DIRECTORY}${TEMPLATES.COMPONENT_DOCUMENT_DROP_LIST}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions
@@ -185,10 +185,9 @@ export class DocumentDropListComponent extends DragDropComponentMixin(
             // Get document
             const doc = (await fromUuid(data.uuid)) as unknown as {
                 type: string;
-                data: { type: string };
             };
 
-            if (doc.data.type !== this.params!.subtype) {
+            if (doc.type !== this.params!.subtype) {
                 return ui.notifications.warn(
                     game.i18n.format(
                         'COMPONENT.DocumentDropListComponent.Warning.WrongSubtype',

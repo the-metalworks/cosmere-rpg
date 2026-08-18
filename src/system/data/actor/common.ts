@@ -24,7 +24,7 @@ import {
     Merge,
     RemoveIndexSignatures,
 } from '@system/types/utils';
-import { InferSchema } from '../types';
+import { DataSchema, InferSchema } from '../types';
 
 // Fields
 import { DerivedValueField, Derived } from '../fields/derived-value-field';
@@ -288,7 +288,7 @@ function getSkillsSchema() {
                 nullable: false,
                 integer: true,
                 min: 0,
-                max: 5,
+                max: 40,
                 initial: 0,
             }),
             mod: new DerivedValueField(
@@ -533,7 +533,7 @@ function getMovementSchema() {
     );
 }
 
-export type CommonActorDataSchema = ReturnType<typeof SCHEMA>;
+export type CommonActorDataSchema = DataSchema<typeof SCHEMA>;
 export type CommonActorData =
     foundry.data.fields.SchemaField.InitializedData<CommonActorDataSchema>;
 
@@ -736,6 +736,14 @@ export class CommonActorDataModel<
         (Object.keys(this.resources) as Resource[]).forEach((key) => {
             // Get the resource
             const resource = this.resources[key];
+            if (!(key in CONFIG.COSMERE.resources)) {
+                console.warn(
+                    "The resource key: '" +
+                        key +
+                        "' does not exist in CONFIG.COSMERE.resources",
+                );
+                return;
+            }
 
             // Get max
             const max = resource.max.value;

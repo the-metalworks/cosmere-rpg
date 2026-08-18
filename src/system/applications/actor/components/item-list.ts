@@ -9,8 +9,9 @@ import AppUtils from '@system/applications/utils';
 // Component imports
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
 import { getSystemSetting, SETTINGS } from '@src/system/settings';
+import { ItemRelationship } from '@src/system/data/item/mixins/relationships';
 
-interface ItemState {
+export interface ItemState {
     expanded?: boolean;
 }
 
@@ -41,9 +42,10 @@ any> {
     static readonly ACTIONS = {
         'toggle-section-collapsed': this.onToggleSectionCollapsed,
         'toggle-action-details': this.onToggleActionDetails,
-        'use-item': this.onUseItem,
         'new-item': this.onNewItem,
     };
+    /* eslint-enable */
+
     protected sections: ItemListSection[] = [];
 
     /**
@@ -97,15 +99,6 @@ any> {
             'expanded',
             this.sectionState[sectionId].expanded,
         );
-
-        sectionElement
-            .find('a[data-action="toggle-section-collapsed"')
-            .empty()
-            .append(
-                this.sectionState[sectionId].expanded
-                    ? '<i class="fa-solid fa-compress"></i>'
-                    : '<i class="fa-solid fa-expand"></i>',
-            );
     }
 
     public static onToggleActionDetails(
@@ -136,11 +129,15 @@ any> {
             );
     }
 
-    public static onUseItem(this: ActorItemListComponent, event: Event) {
+    public static async onUseItem(this: ActorItemListComponent, event: Event) {
         event.preventDefault();
         event.stopPropagation();
+
         // Get item
-        const item = AppUtils.getItemFromEvent(event, this.application.actor);
+        const uuid = AppUtils.getItemUuidFromEvent(event);
+        if (!uuid) return;
+
+        const item = await fromUuid<CosmereItem>(uuid);
         if (!item) return;
 
         // Use the item
@@ -166,6 +163,19 @@ any> {
         // Create a new item
         const item = await section.new?.(this.application.actor);
         if (!item) return;
+
+        // Checks if the item belongs to a path and creates a relationship.
+        if (item.actor) {
+            for (const otherItem of item.actor.items) {
+                if (otherItem.isPath() && otherItem.system.id == sectionId) {
+                    await item.addRelationship(
+                        otherItem,
+                        ItemRelationship.Type.Parent,
+                    );
+                    break;
+                }
+            }
+        }
 
         // Render the item sheet
         void item?.sheet?.render(true);

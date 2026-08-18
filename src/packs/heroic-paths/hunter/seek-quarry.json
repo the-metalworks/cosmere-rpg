@@ -37,7 +37,81 @@
             "formula": null,
             "type": null
         },
-        "modality": null
+        "modality": null,
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "power": null,
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Seek Quarry",
+                    "img": "icons/tools/navigation/map-marked-red.webp",
+                    "_id": "VZUmZpABD8Pr9hpY",
+                    "system": {
+                        "id": "seek-quarry",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><em>Once you’ve found your prey’s trail, you unrelentingly pursue them and study their movements across the harshest of terrain.</em></p><p>After spending 1 minute mentally preparing, you choose a character who you can sense or who you’ve previously encountered. That character becomes your quarry until you choose to end this effect (<span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">0</span>) or select a new quarry.</p><p>Additionally, you gain an advantage on tests made to find, attack, or study your quarry (such as the @UUID[Compendium.cosmere-rpg.actions.Item.8yQ5MMIrywehKyTS]{Gain Advantage} action).</p>",
+                            "chat": "<p>Choose a character to be your quarry, gaining an advantage on tests to find, attack, and study them.</p>",
+                            "short": "<p>After spending 1 minute mentally preparing, you choose a character who you can sense or who you’ve previously encountered. That character becomes your quarry until you choose to end this effect (<span class=\"cosmere-icon\" data-tooltip=\"Special Activation\" aria-label=\"Special Activation\">0</span>) or select a new quarry.</p><p>Additionally, you gain an advantage on tests made to find, attack, or study your quarry (such as the @UUID[Compendium.cosmere-rpg.actions.Item.8yQ5MMIrywehKyTS]{Gain Advantage} action).</p>"
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "type": "spe"
+                            },
+                            "consumption": [],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
     },
     "effects": [],
     "sort": 0,
@@ -45,5 +119,16 @@
         "default": 0
     },
     "flags": {},
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784939981310,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+    },
     "_key": "!items!3nfGn0BOeLq5qgEr"
 }

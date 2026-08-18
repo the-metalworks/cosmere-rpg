@@ -35,7 +35,7 @@ export class ConfigureLiftingCapacityDialog extends HandlebarsApplicationMixin(
         foundry.utils.deepClone(super.PARTS),
         {
             form: {
-                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ACTOR_CONFIGURE_LIFT}`,
+                template: `${TEMPLATES.DIRECTORY}${TEMPLATES.DIALOG_ACTOR_CONFIGURE_LIFT}`,
                 forms: {
                     form: {
                         handler: this.onFormEvent,

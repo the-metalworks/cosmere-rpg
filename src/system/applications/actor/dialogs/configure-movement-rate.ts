@@ -36,7 +36,7 @@ export class ConfigureMovementRateDialog extends HandlebarsApplicationMixin(
         foundry.utils.deepClone(super.PARTS),
         {
             form: {
-                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ACTOR_CONFIGURE_MOVEMENT}`,
+                template: `${TEMPLATES.DIRECTORY}${TEMPLATES.DIALOG_ACTOR_CONFIGURE_MOVEMENT}`,
                 forms: {
                     form: {
                         handler: this.onFormEvent,

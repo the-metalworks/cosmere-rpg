@@ -54,7 +54,7 @@ export class PickDiceResultDialog extends ComponentHandlebarsApplicationMixin(
         foundry.utils.deepClone(super.PARTS),
         {
             form: {
-                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ROLL_PICK_DICE_RESULT}`,
+                template: `${TEMPLATES.DIRECTORY}${TEMPLATES.DIALOG_ROLL_PICK_DICE_RESULT}`,
             },
         },
     );

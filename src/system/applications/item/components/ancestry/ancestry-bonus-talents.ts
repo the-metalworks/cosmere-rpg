@@ -16,7 +16,7 @@ export class AncestryBonusTalentsComponent extends HandlebarsApplicationComponen
 // NOTE: Use any as workaround for foundry-vtt-types issues
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 any> {
-    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_ANCESTRY_BONUS_TALENTS}`;
+    static TEMPLATE = `${TEMPLATES.DIRECTORY}${TEMPLATES.ITEM_ANCESTRY_BONUS_TALENTS}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions

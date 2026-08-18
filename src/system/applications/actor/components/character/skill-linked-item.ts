@@ -24,7 +24,7 @@ export class CharacterSkillLinkedItemComponent extends HandlebarsApplicationComp
     any,
     Params
 > {
-    static readonly TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_SKILL_LINKED_ITEM}`;
+    static readonly TEMPLATE = `${TEMPLATES.DIRECTORY}${TEMPLATES.ACTOR_CHARACTER_SKILL_LINKED_ITEM}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions

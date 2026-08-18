@@ -49,7 +49,7 @@ export class DocumentReferenceInputComponent extends DragDropComponentMixin(
 ) {
     static FORM_ASSOCIATED = true;
 
-    static readonly TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.COMPONENT_DOCUMENT_REFERENCE}`;
+    static readonly TEMPLATE = `${TEMPLATES.DIRECTORY}${TEMPLATES.COMPONENT_DOCUMENT_REFERENCE}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions

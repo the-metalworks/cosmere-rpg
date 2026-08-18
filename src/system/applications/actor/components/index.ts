@@ -1,4 +1,5 @@
 import './actions-list';
+import './actions-list-entry';
 import './attributes';
 import './conditions';
 import './details';

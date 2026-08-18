@@ -37,7 +37,9 @@ This is likely to be the most commonly used data type for casual users, as these
             energy, impact, keen, spirit, vital, heal: boolean,
         },
         condition: {
+            depleted,
             determined,
+            diminished,
             disoriented,
             empowered,
             exhausted,
