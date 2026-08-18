@@ -904,11 +904,10 @@ export class CosmereItem<
 
         // Get the skill id
         const skillId =
-            options.skill ??
+            (options.skill && actor.system.skills[options.skill]
+                ? options.skill
+                : null) ??
             (activatable ? this.system.damage.resolvedSkill : null);
-
-        // Get the skill
-        const skill = skillId ? actor.system.skills[skillId] : undefined;
 
         // Get the attribute id
         const attributeId =
