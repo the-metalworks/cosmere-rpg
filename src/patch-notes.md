@@ -1,3 +1,27 @@
+### Patch 3.0.2
+<sup>2026-08-18</sup>
+
+Small bug fixes and minor improvements/changes, mostly regarding UI interactions and roll calculations.
+
+#### 🛠️ Full Changelog
+
+📝 **Features**
+
+* Added roll bonus fields to skill and damage sections of weapons
+
+🐛 **Bug Fixes**
+
+* Fixed an issue causing skill tests with a manually-set attribute to display/use the wrong modifier
+* Fixed an issue causing skill tests to ignore effects which modify their bonus
+* Fixed an issue causing certain items to be impossible to edit or remove
+* Fixed an issue causing changes to certain input fields on actor sheets to close expanded notes sections
+* Fixed an issue causing embedded actions in a compendium to be impossible to drag and drop anywhere
+* Fixed an issue causing roll tooltip display and actual result values to be mismatched
+
+<br>
+
+----
+
 ### Patch 3.0.1
 <sup>2026-07-30</sup>
 
