@@ -3,6 +3,7 @@ import { MovementTypeConfig } from '@system/types/config';
 import { ConstructorOf } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
+import { getUnitLabel } from '@system/settings';
 
 // Fields
 import { Derived } from '@system/data/fields';
@@ -170,7 +171,7 @@ any> {
                 ({ rate, label }) => `
                 <div>
                     <span><b>${label}:</b></span>
-                    <span>${rate} ft.</span>
+                    <span>${rate} ${getUnitLabel('distance')}</span>
                 </div>
             `,
             );

@@ -341,3 +341,11 @@ export const enum TurnSpeed {
 export const enum Theme {
     Default = 'default',
 }
+
+/**
+ * The unit system used to display distances and weights throughout the system.
+ */
+export const enum UnitSystem {
+    Imperial = 'imperial',
+    Metric = 'metric',
+}

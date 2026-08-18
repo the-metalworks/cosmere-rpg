@@ -27,12 +27,16 @@ import { ItemContext, ItemContextOptions } from './types';
 import { TEMPLATES } from '../templates';
 import { SYSTEM_ID } from '@system/constants';
 import { ActionItemDataModel } from '@system/data/item/action';
+import { getUnitLabel } from '@system/settings';
 
 Handlebars.registerHelper('add', (a: number, b: number) => a + b);
 Handlebars.registerHelper('sub', (a: number, b: number) => a - b);
 Handlebars.registerHelper('multi', (a: number, b: number) => a * b);
 Handlebars.registerHelper('divide', (a: number, b: number) => a / b);
 Handlebars.registerHelper('mod', (a: number, b: number) => a % b);
+
+Handlebars.registerHelper('distanceUnit', () => getUnitLabel('distance'));
+Handlebars.registerHelper('weightUnit', () => getUnitLabel('weight'));
 
 Handlebars.registerHelper('default', (v: unknown, defaultVal: unknown) => {
     return v ? v : defaultVal;

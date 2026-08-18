@@ -1630,19 +1630,76 @@
                 }
             }
         },
-        "Macro": {
-            "Talents": {
-                "Erudition": {
-                    "Dialog": {
-                        "Title": "{actor}: Erudition",
-                        "Skills": "Skills",
-                        "Expertises": "Expertises",
-                        "Expertise": "Expertise",
-                        "Warn": {
-                            "UniqueSkills": "Cannot select the same skill multiple times.",
-                            "UniqueExpertises": "Cannot select the same expertise multiple times."
-                        },
-                        "Confirm": "Confirm"
+        "Objects": {
+            "Generic": {
+                "Ancestry": {
+                    "Human": "Human"
+                }
+            },
+            "Stormlight": {
+                "Weapon": {
+                    "Axe": "Axe",
+                    "Hammer": "Hammer",
+                    "Knife": "Knife",
+                    "Longsword": "Longsword",
+                    "Longspear": "Longspear",
+                    "Mace": "Mace",
+                    "Shield": "Shield",
+                    "Shortbow": "Shortbow",
+                    "Shortspear": "Shortspear",
+                    "Sidesword": "Sidesword",
+                    "Staff": "Staff"
+                },
+                "Armor": {
+                    "Breastplate": "Breastplate",
+                    "Chain": "Chain",
+                    "FullPlate": "Full Plate",
+                    "HalfPlate": "Half Plate",
+                    "Leather": "Leather",
+                    "Uniform": "Uniform"
+                },
+                "Culture": {
+                    "Alethi": "Alethi",
+                    "Azish": "Azish",
+                    "Herdazian": "Herdazian",
+                    "Thaylen": "Thaylen",
+                    "Unkalaki": "Unkalaki",
+                    "Veden": "Veden"
+                },
+                "Currency": {
+                    "Spheres": "Spheres",
+                    "Mark": "Mark",
+                    "Chip": "Chip",
+                    "Broam": "Broam",
+                    "Diamond": "Diamond",
+                    "Garnet": "Garnet",
+                    "Heliodor": "Heliodor",
+                    "Topaz": "Topaz",
+                    "Ruby": "Ruby",
+                    "Smokestone": "Smokestone",
+                    "Zircon": "Zircon",
+                    "Amethyst": "Amethyst",
+                    "Sapphire": "Sapphire",
+                    "Emerald": "Emerald"
+                },
+                "Macro": {
+                    "StartingPath": {
+                        "Set": "Set starting path {path} for {actor}. Set starting skill: {skill}.",
+                        "Replaced": "Replaced starting path {oldPath} with {newPath} for {actor}. Set starting skill: {skill}.",
+                        "Unset": "Cleared starting path for {actor}. Removed starting skill: {skill}."
+                    },
+                    "Erudition": {
+                        "Dialog": {
+                            "Title": "{actor}: Erudition",
+                            "Skills": "Skills",
+                            "Expertises": "Expertises",
+                            "Expertise": "Expertise",
+                            "Warn": {
+                                "UniqueSkills": "Cannot select the same skill multiple times.",
+                                "UniqueExpertises": "Cannot select the same expertise multiple times."
+                            },
+                            "Confirm": "Confirm"
+                        }
                     }
                 }
             }
@@ -1831,6 +1888,10 @@
         "Cost": "Cost",
         "Configure": "Configure",
         "DistanceUnit": "ft.",
+        "WeightUnit": {
+            "Imperial": "lbs",
+            "Metric": "kg"
+        },
         "ViewDetails": "View Details",
         "HideDetails": "Hide Details",
         "Bonus": "Bonus",
@@ -2010,6 +2071,14 @@
         "systemTheme": {
             "name": "Preferred System Theme",
             "hint": "Specify the themed set of colours to use for system documents and interface elements. The selected theme will respect the preferred Dark/Light mode selected in the core settings."
+        },
+        "measurementUnitSystem": {
+            "name": "Unit System",
+            "hint": "Determines whether distances and weights are displayed in Imperial (ft, lbs) or Metric (m, kg) units throughout the system.",
+            "choices": {
+                "Imperial": "Imperial (ft, lbs)",
+                "Metric": "Metric (m, kg)"
+            }
         }
     },
     "KEYBINDINGS": {
@@ -2020,17 +2089,5 @@
         "changeQuantity5": "Increase/Decrease Quantity by 5",
         "changeQuantity10": "Increase/Decrease Quantity by 10",
         "changeQuantity50": "Increase/Decrease Quantity by 50"
-    },
-    "STORMLIGHT": {
-        "Currency": {
-            "Spheres": "Spheres"
-        },
-        "Macro": {
-            "StartingPath": {
-                "Set": "Set starting path {path} for {actor}. Set starting skill: {skill}.",
-                "Replaced": "Replaced starting path {oldPath} with {newPath} for {actor}. Set starting skill: {skill}.",
-                "Unset": "Cleared starting path for {actor}. Removed starting skill: {skill}."
-            }
-        }
     }
 }
