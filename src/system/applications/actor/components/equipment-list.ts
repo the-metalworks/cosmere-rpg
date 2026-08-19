@@ -1,6 +1,10 @@
 import { EquipHand, ItemType } from '@system/types/cosmere';
 import { ConstructorOf } from '@system/types/utils';
 import { ItemListSection } from '@system/types/application/actor/components/item-list';
+import {
+    ActorItemListComponent,
+    AdditionalItemData,
+} from '@system/applications/actor/components/item-list';
 
 // Documents
 import { CosmereItem } from '@system/documents/item';
@@ -11,7 +15,6 @@ import AppUtils from '@system/applications/utils';
 import { AppContextMenu } from '@system/applications/utils/context-menu';
 
 // Component imports
-import { HandlebarsApplicationComponent } from '@system/applications/component-system';
 import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
 import { SortMode } from './search-bar';
 
@@ -19,20 +22,7 @@ import { SortMode } from './search-bar';
 import { SYSTEM_ID } from '@src/system/constants';
 import { TEMPLATES } from '@src/system/utils/templates';
 import { areKeysPressed } from '@src/system/utils/generic';
-import { KEYBINDINGS } from '@src/system/settings';
-
-interface EquipmentItemState {
-    expanded?: boolean;
-}
-
-interface AdditionalItemData {
-    descriptionHTML?: string;
-}
-
-interface ListSectionData extends ItemListSection {
-    items: CosmereItem[];
-    itemData: Record<string, AdditionalItemData>;
-}
+import { getSystemSetting, KEYBINDINGS, SETTINGS } from '@src/system/settings';
 
 interface RenderContext extends BaseActorSheetRenderContext {
     equipmentSearch: {
@@ -41,12 +31,8 @@ interface RenderContext extends BaseActorSheetRenderContext {
     };
 }
 
-export class ActorEquipmentListComponent extends HandlebarsApplicationComponent<// typeof BaseActorSheet
-// TODO: Resolve typing issues
-// NOTE: Use any as workaround for foundry-vtt-types issues
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-any> {
-    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_EQUIPMENT_LIST}`;
+export class ActorEquipmentListComponent extends ActorItemListComponent {
+    static TEMPLATE = `${TEMPLATES.DIRECTORY}${TEMPLATES.ACTOR_BASE_EQUIPMENT_LIST}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions
@@ -54,22 +40,17 @@ any> {
      */
     /* eslint-disable @typescript-eslint/unbound-method */
     static readonly ACTIONS = {
-        'toggle-action-details': this.onToggleActionDetails,
-        'use-item': this.onUseItem,
-        'new-item': this.onNewItem,
+        ...super.ACTIONS,
         'toggle-equip': this.onToggleEquip,
         'cycle-equip': this.onCycleEquip,
         'decrease-quantity': this.onDecreaseQuantity,
         'increase-quantity': this.onIncreaseQuantity,
+        'decrease-resource': this.onDecreaseResource,
+        'increase-resource': this.onIncreaseResource,
     };
     /* eslint-enable @typescript-eslint/unbound-method */
 
     protected sections: ItemListSection[] = [];
-
-    /**
-     * Map of id to state
-     */
-    private itemState: Record<string, EquipmentItemState> = {};
 
     /* --- Actions --- */
 
@@ -99,45 +80,32 @@ any> {
             );
     }
 
-    public static onUseItem(this: ActorEquipmentListComponent, event: Event) {
+    public static async onUseItem(
+        this: ActorEquipmentListComponent,
+        event: Event,
+    ) {
         // Get item
-        const item = AppUtils.getItemFromEvent(event, this.application.actor);
+        const item = await AppUtils.getItemFromEvent(
+            event,
+            this.application.actor,
+        );
         if (!item) return;
 
         // Use the item
         void this.application.actor.rollItem(item);
     }
 
-    private static async onNewItem(
-        this: ActorEquipmentListComponent,
-        event: Event,
-    ) {
-        // Get section element
-        const sectionElement = $(event.target!).closest('[data-section-id]');
-
-        // Get section id
-        const sectionId = sectionElement.data('section-id') as string;
-
-        // Get section
-        const section = this.sections.find((s) => s.id === sectionId);
-        if (!section) return;
-
-        // Create new item
-        const item = await section.new?.(this.application.actor);
-        if (!item) return;
-
-        // Render the item sheet
-        void item.sheet?.render(true);
-    }
-
-    public static onToggleEquip(
+    public static async onToggleEquip(
         this: ActorEquipmentListComponent,
         event: Event,
     ) {
         if (!this.application.isEditable) return;
 
         // Get item
-        const item = AppUtils.getItemFromEvent(event, this.application.actor);
+        const item = await AppUtils.getItemFromEvent(
+            event,
+            this.application.actor,
+        );
         if (!item) return;
         if (!item.isEquippable()) return;
 
@@ -148,14 +116,17 @@ any> {
         });
     }
 
-    public static onCycleEquip(
+    public static async onCycleEquip(
         this: ActorEquipmentListComponent,
         event: Event,
     ) {
         if (!this.application.isEditable) return;
 
         // Get item
-        const item = AppUtils.getItemFromEvent(event, this.application.actor);
+        const item = await AppUtils.getItemFromEvent(
+            event,
+            this.application.actor,
+        );
         if (!item) return;
         if (!item.isEquippable()) return;
 
@@ -201,6 +172,20 @@ any> {
         await this.triggerQuantityChange(event, true);
     }
 
+    public static async onDecreaseResource(
+        this: ActorEquipmentListComponent,
+        event: Event,
+    ) {
+        await this.triggerResourceChange(event, false);
+    }
+
+    public static async onIncreaseResource(
+        this: ActorEquipmentListComponent,
+        event: Event,
+    ) {
+        await this.triggerResourceChange(event, true);
+    }
+
     /* --- Event handlers --- */
     private triggerCurrencyChange() {
         const event = new CustomEvent('currency', {});
@@ -214,7 +199,10 @@ any> {
         increase = true,
     ) {
         // Get item
-        const item = AppUtils.getItemFromEvent(event, this.application.actor);
+        const item = await AppUtils.getItemFromEvent(
+            event,
+            this.application.actor,
+        );
         if (!item) return;
         if (!item.isPhysical()) return;
 
@@ -239,6 +227,54 @@ any> {
         await this.render();
 
         this.triggerCurrencyChange();
+    }
+
+    private async triggerResourceChange(
+        this: ActorEquipmentListComponent,
+        event: Event,
+        increase = true,
+    ) {
+        // Get item
+        const item = await AppUtils.getItemFromEvent(
+            event,
+            this.application.actor,
+        );
+        if (!item) return;
+        if (!item.hasResources()) return;
+        const primaryResource = item.system.primaryResource;
+        if (primaryResource === 'none') return;
+
+        let modifier = increase ? 1 : -1;
+
+        if (areKeysPressed(KEYBINDINGS.CHANGE_QUANTITY_BY_5)) {
+            modifier *= 5;
+        } else if (areKeysPressed(KEYBINDINGS.CHANGE_QUANTITY_BY_10)) {
+            modifier *= 10;
+        } else if (areKeysPressed(KEYBINDINGS.CHANGE_QUANTITY_BY_50)) {
+            modifier *= 50;
+        }
+
+        const resource = item.getResource(primaryResource);
+        if (!resource) return;
+
+        const newResourceValue =
+            resource.value + modifier < resource.max
+                ? resource.value + modifier
+                : resource.max;
+
+        await item.update(
+            {
+                system: {
+                    resources: {
+                        [primaryResource]: {
+                            value: newResourceValue,
+                        },
+                    },
+                },
+            },
+            { render: false },
+        );
+        await this.render();
     }
 
     /* --- Context --- */
@@ -266,6 +302,9 @@ any> {
             this.prepareSection(ItemType.Loot),
         ];
 
+        // Set section expanded defaults
+        this.setSectionExpandedDefaults();
+
         return {
             ...context,
 
@@ -279,7 +318,7 @@ any> {
                     ),
                 ),
             ),
-
+            sectionState: this.sectionState,
             itemState: this.itemState,
         };
     }
@@ -317,6 +356,9 @@ any> {
         if (sort === SortMode.Alphabetic) {
             sectionItems = sectionItems.sort((a, b) => a.name.compare(b.name));
         }
+
+        // Prepare "Is section empty" data
+        this.sectionState[section.id].hasItems = sectionItems.length > 0;
 
         return {
             ...section,

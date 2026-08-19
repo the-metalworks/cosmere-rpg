@@ -5,7 +5,11 @@ import { EmptyObject } from '@system/types/utils';
 // Mixins
 import { DataModelMixin } from '../mixins';
 import { IdItemMixin, IdItemDataSchema } from './mixins/id';
-import { TypedItemMixin, TypedItemDataSchema, TypedItemDerivedData } from './mixins/typed';
+import {
+    TypedItemMixin,
+    TypedItemDataSchema,
+    TypedItemDerivedData,
+} from './mixins/typed';
 import {
     DescriptionItemMixin,
     DescriptionItemDataSchema,
@@ -15,6 +19,7 @@ import {
     TalentsProviderDataSchema,
 } from './mixins/talents-provider';
 import { EventsItemMixin, EventsItemDataSchema } from './mixins/events';
+import { ResourcesItemMixin } from './mixins/resources';
 import {
     LinkedSkillsMixin,
     LinkedSkillsItemDataSchema,
@@ -24,14 +29,14 @@ import {
     RelationshipsItemDataSchema,
 } from './mixins/relationships';
 
-export type PathItemDataSchema =
-    & IdItemDataSchema
-    & TypedItemDataSchema<PathType>
-    & DescriptionItemDataSchema
-    & TalentsProviderDataSchema
-    & EventsItemDataSchema
-    & LinkedSkillsItemDataSchema
-    & RelationshipsItemDataSchema;
+export type PathItemDataSchema = IdItemDataSchema &
+    TypedItemDataSchema<PathType> &
+    DescriptionItemDataSchema &
+    TalentsProviderDataSchema &
+    EventsItemDataSchema &
+    ResourcesItemMixin.Schema &
+    LinkedSkillsItemDataSchema &
+    RelationshipsItemDataSchema;
 
 export type PathItemDerivedData = TypedItemDerivedData;
 
@@ -59,6 +64,7 @@ export class PathItemDataModel extends DataModelMixin<
     }),
     TalentsProviderMixin(),
     EventsItemMixin(),
+    ResourcesItemMixin(),
     LinkedSkillsMixin(),
     RelationshipsMixin(),
 ) {

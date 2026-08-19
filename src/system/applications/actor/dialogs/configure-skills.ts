@@ -28,7 +28,7 @@ export class ConfigureSkillsDialog extends ComponentHandlebarsApplicationMixin(
         foundry.utils.deepClone(super.PARTS),
         {
             form: {
-                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ADVERSARY_CONFIGURE_SKILLS}`,
+                template: `${TEMPLATES.DIRECTORY}${TEMPLATES.DIALOG_ADVERSARY_CONFIGURE_SKILLS}`,
             },
         },
     );

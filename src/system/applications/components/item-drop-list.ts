@@ -54,7 +54,7 @@ export class ItemDropListComponent extends DragDropComponentMixin(
 ) {
     static FORM_ASSOCIATED = true;
 
-    static readonly TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.COMPONENT_ITEM_DROP_LIST}`;
+    static readonly TEMPLATE = `${TEMPLATES.DIRECTORY}${TEMPLATES.COMPONENT_ITEM_DROP_LIST}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions

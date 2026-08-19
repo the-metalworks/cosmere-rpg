@@ -36,7 +36,10 @@ export function TalentsTabMixin<
 
         /* --- Lifecycle --- */
 
-        protected async _onFirstRender(context: AnyObject, options: unknown): Promise<void> {
+        protected async _onFirstRender(
+            context: AnyObject,
+            options: unknown,
+        ): Promise<void> {
             await super._onFirstRender(context, options);
 
             // Invoke on tab change
@@ -58,7 +61,7 @@ export function TalentsTabMixin<
                 // Set position
                 this.setPosition({
                     width: talentTree.system.display.width
-                        ? Math.max(talentTree.system.display.width + 41, 550)
+                        ? Math.max(talentTree.system.display.width + 41, 625)
                         : this.position.width,
                     height: talentTree.system.display.height
                         ? talentTree.system.display.height + 170
@@ -75,7 +78,7 @@ export function TalentsTabMixin<
             } else {
                 // Set position
                 this.setPosition({
-                    width: 550,
+                    width: 625,
                     height: 'auto',
                 });
             }
@@ -85,7 +88,7 @@ export function TalentsTabMixin<
 
         public async _prepareContext(
             options: DeepPartial<foundry.applications.api.ApplicationV2.RenderOptions>,
-        ) {            
+        ) {
             // Get context actor
             const contextActor = this.item.actor?.isCharacter()
                 ? this.item.actor

@@ -5,6 +5,7 @@
         <legend>{{localize "COSMERE.Item.Sheet.Basics"}}</legend>
         {{app-item-details-id}}
         {{app-item-details-type}}
+        {{app-item-details-linked-skills}}
         <div class="item-details-form">
             {{!-- Path talent fields --}}
             {{#if @root.isPathTalent}}
@@ -58,7 +59,7 @@
         </div>
     </fieldset>
     
-    {{app-item-details-activation}}
+    {{app-item-details-resources}}
     {{app-item-details-damage}}
     {{app-item-details-modality}}
 </div>

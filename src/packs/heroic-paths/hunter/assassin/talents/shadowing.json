@@ -70,7 +70,102 @@
             }
         },
         "prerequisitesMet": false,
-        "modality": null
+        "modality": null,
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "power": null,
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Shadowing",
+                    "img": "icons/magic/unholy/silhouette-robe-evil-glow.webp",
+                    "_id": "K9VpL8K1MV4NKGEy",
+                    "system": {
+                        "id": "shadowing",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><em>You silently skulk toward your target, using cover, crowds, or other camouflage to remain unseen until it’s too late.</em></p><p>You gain an advantage on tests to avoid being sensed by your quarry, and your quarry gains a disadvantage on tests to sense you.</p><p>Additionally, when you succeed on a test against an enemy’s Spiritual defense while you’re in cover or an area where your target’s senses are obscured, you can spend 3 focus to designate that target as your quarry for your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.3nfGn0BOeLq5qgEr]{Seek Quarry} talent.</p>",
+                            "chat": "<p>Your quarry gains a disadvantage to sense you, and you gain an advantage to avoid their notice. When you succeed vs. Spiritual while in cover or obscured, spend 3 focus to designate that target as your quarry.</p>",
+                            "short": "<p>You gain an advantage on tests to avoid being sensed by your quarry, and your quarry gains a disadvantage on tests to sense you.</p><p>Additionally, when you succeed on a test against an enemy’s Spiritual defense while you’re in cover or an area where your target’s senses are obscured, you can spend 3 focus to designate that target as your quarry for your @UUID[Compendium.cosmere-rpg.heroic-paths.Item.3nfGn0BOeLq5qgEr]{Seek Quarry} talent.</p>"
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "type": "spe"
+                            },
+                            "consumption": [
+                                {
+                                    "type": "resource",
+                                    "value": {
+                                        "min": 3,
+                                        "max": 3,
+                                        "actual": 1
+                                    },
+                                    "resource": "foc",
+                                    "matchDocument": {
+                                        "steps": [
+                                            {
+                                                "target": "ancestor",
+                                                "documentType": "Actor",
+                                                "matchBy": "document-type",
+                                                "reference": null,
+                                                "matchMode": "first"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
     },
     "effects": [],
     "sort": 350000,
@@ -78,5 +173,16 @@
         "default": 0
     },
     "flags": {},
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784939512151,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+    },
     "_key": "!items!pyzg1mMZKWhEnaDX"
 }

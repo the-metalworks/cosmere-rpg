@@ -4,11 +4,11 @@
             <div class="img"></div>
             <span class="title">{{localize "COSMERE.Item.Sheet.ActionsList.Description"}}</span>
             <span class="subtitle wide">{{localize "COSMERE.Item.Sheet.ActionsList.Action"}}</span>
-            <span class="subtitle wide">{{localize "COSMERE.Item.Sheet.ActionsList.Cost"}}</span>
-            <span class="subtitle wide">{{localize "COSMERE.Item.Sheet.ActionsList.Uses"}}</span>
+            <span class="subtitle extrawide">{{localize "COSMERE.Item.Sheet.ActionsList.Cost"}}</span>
+            <span class="subtitle wide">{{localize "COSMERE.Item.Sheet.ActionsList.Resources"}}</span>
             <div class="controls icon active">
                 {{#if editable}}
-                <a data-action="create-action" 
+                <a data-action="create-action"
                     data-tooltip="COSMERE.Item.Sheet.ActionsList.Create"
                 >
                     <i class="fa-solid fa-plus"></i>
@@ -22,7 +22,11 @@
 
     {{#each actions as |action|}}
     {{#with (itemContext action) as |ctx|}}
-        <li class="item action" data-id="{{action.id}}">
+        <li class="item action"
+            data-id="{{action.id}}"
+            data-item-uuid="{{action.uuid}}"
+            {{#if @root.editable}}data-drag="true"{{/if}}
+        >
             <section class="details">
                 {{!-- Image --}}
                 <div class="img">
@@ -52,7 +56,7 @@
                 </div>
 
                 {{!-- Cost --}}
-                <div class="detail wide">
+                <div class="detail extrawide nowrap">
                     {{#if ctx.hasConsume}}
                         {{#if (gt ctx.consume.length 1)}}
                             <span>{{localize "COSMERE.Actor.Sheet.Actions.Consume.Multiple"}}</span>
@@ -60,12 +64,23 @@
                         {{#if (eq ctx.consume.length 1)}}
                             {{#with ctx.consume.[0] as |consume|}}
                             {{#if consume.consumesResource}}
-                            <span>{{resourceCostLabel consume}}</span>
+                                <span>{{resourceCostLabel consume}}</span>
                             {{/if}}
+                            {{#if consume.consumesItemResource}}
+                                <span>{{resourceCostLabel consume}}</span>
 
+                                <span>{{localize "GENERIC.From"}}</span>
+                                <div class="target">
+                                    {{app-match-document-target
+                                        value=consume.matchDocument
+                                        relativeTo=consume.relativeTo
+                                        short=true
+                                    }}
+                                </div>
+                            {{/if}}
                             {{!-- TODO: Item consume --}}
                             {{#if consume.consumesItem}}
-                            <span>—</span>
+                                <span>—</span>
                             {{/if}}
                             {{/with}}
                         {{/if}}
@@ -75,43 +90,44 @@
                     {{/if}}
                 </div>
 
-                {{!-- Uses --}}
-                <div class="detail wide">
-                    {{#if ctx.hasUses}}
 
-                    {{#if (or (gt ctx.uses.max 1) (not ctx.uses.hasRecharge))}}
-                    <span>
-                        {{ ctx.uses.value }} / {{ctx.uses.max}}
-                        {{#if ctx.uses.hasRecharge}}
-                        {{localize ctx.uses.rechargeLabel }}
-                        {{/if}}
-                    </span>
-                    {{else}}
-                    <span {{#if (eq ctx.uses.value 0)}}class="inactive"{{/if}}>
-                        {{#if ctx.uses.hasRecharge}}
-                        {{localize ctx.uses.rechargeLabel }}
-                        {{/if}}
-                    </span>
-                    {{/if}}
 
+                {{!-- Resources --}}
+                <div class="detail wide resource">
+                    {{#if ctx.hasResource}}
+                        <div>
+                            <span class="val">{{ctx.resource.value}}</span>
+                            <span>/</span>
+                            <span class="val">{{ctx.resource.max}}</span>
+                            <i class="{{ctx.resource.icon}}" data-tooltip={{ctx.resource.label}}></i>
+                            {{#if ctx.resource.hasRecharge}}
+                                <span>{{localize ctx.resource.rechargeLabel}}</span>
+                            {{/if}}
+                        </div>
                     {{else}}
-                    <span>—</span>
+                        <span class="val none">—</span>
                     {{/if}}
                 </div>
 
                 {{!-- Controls --}}
                 <div class="controls icon faded">
-                    {{#if @root.editable}}
-                    <a data-action="edit-action" 
-                        data-tooltip="COSMERE.Item.Sheet.ActionsList.Edit"
-                    >
-                        <i class="fa-solid fa-pen-to-square"></i>
-                    </a>
-                    <a data-action="delete-action" 
-                        data-tooltip="COSMERE.Item.Sheet.ActionsList.Delete"
-                    >
-                        <i class="fa-solid fa-trash"></i>
-                    </a>
+                    {{#if (and @root.editable (not action.isEphemeral))}}
+                        <a data-action="edit-action"
+                            data-tooltip="COSMERE.Item.Sheet.ActionsList.Edit"
+                        >
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                        <a data-action="delete-action"
+                            data-tooltip="COSMERE.Item.Sheet.ActionsList.Delete"
+                        >
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                    {{else}}
+                        <a data-action="view-action"
+                            data-tooltip="COSMERE.Item.Sheet.ActionsList.View"
+                        >
+                            <i class="fa-solid fa-eye"></i>
+                        </a>
                     {{/if}}
                 </div>
             </section>

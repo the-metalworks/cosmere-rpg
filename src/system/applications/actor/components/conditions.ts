@@ -16,7 +16,7 @@ export class ActorConditionsComponent extends HandlebarsApplicationComponent<// 
 // NOTE: Use any as workaround for foundry-vtt-types issues
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 any> {
-    static readonly TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_BASE_CONDITIONS}`;
+    static readonly TEMPLATE = `${TEMPLATES.DIRECTORY}${TEMPLATES.ACTOR_BASE_CONDITIONS}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions

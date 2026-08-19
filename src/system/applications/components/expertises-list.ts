@@ -26,7 +26,7 @@ export class ExpertisesListComponent extends HandlebarsApplicationComponent<
 > {
     static FORM_ASSOCIATED = true;
 
-    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.COMPONENT_EXPERTISES_LIST}`;
+    static TEMPLATE = `${TEMPLATES.DIRECTORY}${TEMPLATES.COMPONENT_EXPERTISES_LIST}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions
@@ -92,7 +92,8 @@ export class ExpertisesListComponent extends HandlebarsApplicationComponent<
 
     public get expertises(): Collection<Expertise> {
         return this.application instanceof BaseActorSheet
-            ? this.application.actor.system.expertises as unknown as Collection<Expertise> // TEMP: Workaround
+            ? (this.application.actor.system
+                  .expertises as unknown as Collection<Expertise>) // TEMP: Workaround
             : this._value;
     }
 
@@ -168,7 +169,11 @@ export class ExpertisesListComponent extends HandlebarsApplicationComponent<
         if (this.application instanceof BaseActorSheet) {
             if (!this.application.isEditable) return;
 
-            void this.application.actor.setFlag('cosmere-rpg', 'sheet.expertisesCollapsed', this._collapsed);
+            void this.application.actor.setFlag(
+                'cosmere-rpg',
+                'sheet.expertisesCollapsed',
+                this._collapsed,
+            );
         }
     }
 

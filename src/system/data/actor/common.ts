@@ -22,7 +22,7 @@ import {
     Merge,
     RemoveIndexSignatures,
 } from '@system/types/utils';
-import { InferSchema } from '../types';
+import { DataSchema, InferSchema } from '../types';
 
 // Fields
 import { DerivedValueField, Derived } from '../fields/derived-value-field';
@@ -286,7 +286,7 @@ function getSkillsSchema() {
                 nullable: false,
                 integer: true,
                 min: 0,
-                max: 5,
+                max: 40,
                 initial: 0,
             }),
             mod: new DerivedValueField(
@@ -531,7 +531,7 @@ function getMovementSchema() {
     );
 }
 
-export type CommonActorDataSchema = ReturnType<typeof SCHEMA>;
+export type CommonActorDataSchema = DataSchema<typeof SCHEMA>;
 export type CommonActorData =
     foundry.data.fields.SchemaField.InitializedData<CommonActorDataSchema>;
 
@@ -734,6 +734,14 @@ export class CommonActorDataModel<
         (Object.keys(this.resources) as Resource[]).forEach((key) => {
             // Get the resource
             const resource = this.resources[key];
+            if (!(key in CONFIG.COSMERE.resources)) {
+                console.warn(
+                    "The resource key: '" +
+                        key +
+                        "' does not exist in CONFIG.COSMERE.resources",
+                );
+                return;
+            }
 
             // Get max
             const max = resource.max.value;
@@ -744,11 +752,11 @@ export class CommonActorDataModel<
     }
 }
 
-const SENSES_RANGES = [5, 10, 20, 50, 100, Number.MAX_VALUE];
+const SENSES_RANGES = [5, 10, 20, 50, 100, Number.MAX_SAFE_INTEGER];
 function awarenessToSensesRange(attr: AttributeData) {
     const awareness = attr.value + attr.bonus;
     return SENSES_RANGES[
-        Math.min(Math.ceil(awareness / 2), SENSES_RANGES.length)
+        Math.min(Math.ceil(awareness / 2), SENSES_RANGES.length - 1)
     ];
 }
 
@@ -756,7 +764,7 @@ const MOVEMENT_RATES = [20, 25, 30, 40, 60, 80];
 function speedToMovementRate(attr: AttributeData) {
     const speed = attr.value + attr.bonus;
     return MOVEMENT_RATES[
-        Math.min(Math.ceil(speed / 2), MOVEMENT_RATES.length)
+        Math.min(Math.ceil(speed / 2), MOVEMENT_RATES.length - 1)
     ];
 }
 
@@ -764,7 +772,7 @@ const LIFTING_CAPACITIES = [100, 200, 500, 1000, 5000, 10000];
 function strengthToLiftingCapacity(attr: AttributeData) {
     const strength = attr.value + attr.bonus;
     return LIFTING_CAPACITIES[
-        Math.min(Math.ceil(strength / 2), LIFTING_CAPACITIES.length)
+        Math.min(Math.ceil(strength / 2), LIFTING_CAPACITIES.length - 1)
     ];
 }
 
@@ -772,6 +780,6 @@ const CARRYING_CAPACITIES = [50, 100, 250, 500, 2500, 5000];
 function strengthToCarryingCapacity(attr: AttributeData) {
     const strength = attr.value + attr.bonus;
     return CARRYING_CAPACITIES[
-        Math.min(Math.ceil(strength / 2), CARRYING_CAPACITIES.length)
+        Math.min(Math.ceil(strength / 2), CARRYING_CAPACITIES.length - 1)
     ];
 }

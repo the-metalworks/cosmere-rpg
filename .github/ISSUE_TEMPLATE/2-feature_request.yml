@@ -1,0 +1,51 @@
+name: Feature Request
+description: Please use this form to request new features that are specific to the system, not any modules.
+labels: type | feature request
+body:
+- type: checkboxes
+  id: existing-issue
+  attributes:
+    label: Is there an existing issue for this?
+    description: Please search to see if an issue already exists for the feature you're requesting.
+    options:
+    - label: I have searched the existing issues to ensure this feature has not already been requested
+      required: true
+- type: textarea
+  id: feature-reason
+  attributes:
+    label: Is your feature request related to a problem? Please describe.
+    description: "A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]"
+  validations:
+    required: true
+- type: textarea
+  id: feature-description
+  attributes:
+    label: Describe the solution you'd like.
+    description: "A clear and concise description of what you want to happen."
+  validations:
+    required: true
+- type: textarea
+  id: feature-alternatives
+  attributes:
+    label: Describe alternatives you've considered
+    description: A clear and concise description of any alternative solutions or features you've considered.
+  validations:
+    required: false
+- type: input
+  id: cosmere-version
+  attributes:
+    label: Version Info - Cosmere RPG
+    description: "Please indicate the system release version you are using. *Note: This can be found in-game on Foundry in the settings tab."
+    placeholder: ex. 2.0.1
+  validations:
+    required: true
+- type: textarea
+  id: extra-context
+  attributes:
+    label: Screenshots and Additional Context
+    description: |
+      Add screenshots and any other context about the request here. Links to third party modules, specific APIs, etc.
+
+      Tip: You can attach images or other files by clicking this area to highlight it and then dragging files in.
+  validations:
+    required: false

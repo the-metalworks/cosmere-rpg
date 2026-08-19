@@ -1,0 +1,92 @@
+<div class="form-group">
+    <label>{{localize value.schema.fields.target.label}}</label>
+
+    <div class="form-fields">
+        <select
+            name="{{concat name ".target"}}"
+            {{#unless editable}}disabled{{/unless}}
+        >
+            {{#each value.schema.fields.target.choices as |label value|}}
+                <option 
+                    value={{value}} 
+                    {{#if (eq value ../value.target)}}selected{{/if}}
+                    title="{{localize (concat "COSMERE.Utils.MatchDocument.Target.Type." value ".Hint")}}"
+                >
+                    {{localize label}}
+                </option>
+            {{/each}}
+        </select>
+    </div>
+</div>
+
+{{!-- Don't show match by field if: --}}
+{{!-- 1. Target is global (since it only supports match by UUID) --}}
+{{!-- 2. Target is self --}}
+{{!-- 3. Target is parent --}}
+{{#if (and (not (eq value.target "global")) (not (eq value.target "self")) (not (eq value.target "parent")))}}
+    {{formGroup value.schema.fields.matchBy
+        name=(concat name ".matchBy")
+        value=value.matchBy
+        localize=true
+        disabled=(not editable)
+        hint=false
+    }}
+{{/if}}
+
+{{!-- Only show document type field if: --}}
+{{!-- 1. Match by document type --}}
+{{!-- 2. No reference is set --}}
+{{!-- 3. There is more than one document type choice --}}
+{{#if (and (and (eq value.matchBy "document-type") (not value.reference)) (gt (len (keys value.schema.fields.documentType.choices)) 1))}}
+    {{formGroup value.schema.fields.documentType
+        name=(concat name ".documentType")
+        value=value.documentType
+        localize=true
+        disabled=(not editable)
+        hint=false
+    }}
+{{/if}}
+
+{{!-- Don't show reference field if: --}}
+{{!-- 1. Target is "self" --}}
+{{!-- 2. Target is "parent" --}}
+{{!-- 3. Match by document type --}}
+{{#if (not (or (eq value.target "self") (eq value.target "parent") (eq value.matchBy "document-type")))}}
+    <div class="form-group">
+        <label>{{localize value.schema.fields.reference.label}}</label>
+
+        <div class="form-fields">
+            {{app-document-reference-input
+                name=(concat name ".reference")
+                value=value.reference
+                type=value.schema.fields.reference.options.type
+                readonly=(not editable)
+            }}
+        </div>
+    </div>
+{{/if}}
+
+{{!-- Don't show match mode field if: --}}
+{{!-- 1. Target is "self" --}}
+{{!-- 2. Target is "global" --}}
+{{!-- 3. Target is "parent" --}}
+{{#if (not (or (eq value.target "self") (eq value.target "global") (eq value.target "parent")))}}
+    <div class="form-group">
+        <label>
+            {{localize value.schema.fields.matchMode.label}}
+            <i class="info fa-regular fa-circle-question"
+                data-tooltip="{{localize value.schema.fields.matchMode.hint}}">
+            </i>
+        </label>
+
+        <div class="form-fields">
+            {{formInput value.schema.fields.matchMode
+                name=(concat name ".matchMode")
+                value=value.matchMode
+                localize=true
+                disabled=(not editable)
+                hint=false
+            }}
+        </div>
+    </div>
+{{/if}}

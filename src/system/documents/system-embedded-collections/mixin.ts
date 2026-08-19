@@ -16,6 +16,10 @@ export function SystemEmbeddedCollectionsMixin<
         public readonly hasSystemEmbeddedCollections = true as const;
 
         declare static __schema: foundry.data.fields.SchemaField<foundry.data.fields.DataSchema>;
+        declare static __hierarchy: Record<
+            string,
+            foundry.data.fields.DataField.Any
+        >;
 
         static metadata = Object.freeze(
             foundry.utils.mergeObject(
@@ -71,6 +75,28 @@ export function SystemEmbeddedCollectionsMixin<
             return this.__schema;
         }
 
+        public static get hierarchy(): Record<
+            string,
+            foundry.data.fields.DataField.Any
+        > {
+            if (this.__hierarchy) return this.__hierarchy;
+
+            const hierarchy: Record<string, foundry.data.fields.DataField.Any> =
+                {};
+            for (const [fieldName, field] of this.schema.entries()) {
+                if (
+                    (field.constructor as typeof foundry.data.fields.DataField)
+                        .hierarchical
+                )
+                    hierarchy[fieldName] = field;
+            }
+            Object.defineProperty(this, '__hierarchy', {
+                value: Object.freeze(hierarchy),
+                writable: false,
+            });
+            return hierarchy;
+        }
+
         public static isNativeEmbedding(embeddedName: string): boolean {
             const collectionName = this.getCollectionName(
                 embeddedName as never,
@@ -108,6 +134,52 @@ export function SystemEmbeddedCollectionsMixin<
                 this
                     .constructor as unknown as SystemEmbeddedCollectionsDocumentConstructor
             ).getCollectionName(embeddedName as never);
+        }
+    };
+}
+
+export function adventureMixin(
+    cls: typeof Adventure,
+    fields: Record<string, foundry.abstract.Document.AnyConstructor>,
+) {
+    return class extends cls {
+        declare static __schema: foundry.data.fields.SchemaField<Adventure.Schema>;
+
+        public static defineSchema() {
+            const baseSchema = super.defineSchema();
+
+            return {
+                ...baseSchema,
+                ...Object.entries(fields).reduce(
+                    (acc, [key, cls]) => ({
+                        [key]: new foundry.data.fields.SetField(
+                            new foundry.data.fields.EmbeddedDataField(cls),
+                        ),
+                    }),
+                    {},
+                ),
+            } as unknown as typeof baseSchema;
+        }
+
+        public static get schema(): foundry.data.fields.SchemaField<Adventure.Schema> {
+            if (this.__schema) return this.__schema;
+
+            const base = this.baseDocument;
+            if (!base.hasOwnProperty('__schema')) {
+                const schema = new foundry.data.fields.SchemaField(
+                    this.defineSchema(),
+                );
+                Object.defineProperty(base, '__schema', {
+                    value: schema,
+                    writable: false,
+                });
+            }
+            Object.defineProperty(this, '__schema', {
+                value: (base as unknown as { __schema: unknown }).__schema,
+                writable: false,
+            });
+
+            return this.__schema;
         }
     };
 }

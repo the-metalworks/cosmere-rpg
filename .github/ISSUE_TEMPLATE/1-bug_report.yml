@@ -1,0 +1,111 @@
+name: Bug Report
+description: Please use this form to report any bugs you encounter that are specific to the system, not any modules.
+labels: type | bug
+body:
+- type: checkboxes
+  id: existing-issue
+  attributes:
+    label: Is there an existing issue for this?
+    description: Please search to see if an issue already exists for the bug you encountered.
+    options:
+    - label: I have searched the existing issues to ensure this bug has not already been reported
+      required: true
+- type: textarea
+  id: bug-description
+  attributes:
+    label: Describe the bug
+    description: A clear and concise description of what the bug is.
+  validations:
+    required: true
+- type: textarea
+  id: expected-behavior
+  attributes:
+    label: Expected Behavior
+    description: A clear and concise description of what you expected to happen.
+  validations:
+    required: false
+- type: textarea
+  id: reproduction-steps
+  attributes:
+    label: Steps To Reproduce
+    description: Steps to reproduce the behavior.
+    placeholder: |
+      1. Go to '...'
+      1. Click on '...'
+      1. Scroll down to '...'
+      1. See error
+  validations:
+    required: false
+- type: dropdown
+  id: operating-system
+  attributes:
+    label: Operating System
+    description: "Which operating system are you using? *Note: if yours isn't listed, select 'Other' and provide details at the bottom of the form.*"
+    multiple: false
+    default: 0
+    options:
+      - Windows 10
+      - Windows 11
+      - MacOS
+      - Ubuntu
+      - Debian
+      - Other
+  validations:
+    required: true
+- type: dropdown
+  id: web-browser
+  attributes:
+    label: Web Browser(s)
+    description: "Which web browser(s) are you using to connect to foundry? *Note: if yours isn't listed, select 'Other' and provide details at the bottom of the form."
+    multiple: true
+    default: 0
+    options:
+      - Foundry Executable
+      - Chrome
+      - Firefox
+      - Safari
+      - Opera
+      - Edge
+      - Other
+  validations:
+    required: true
+- type: dropdown
+  id: host-method
+  attributes:
+    label: Hosting Method
+    description: "How are you hosting the foundry instance?"
+    multiple: false
+    default: 0
+    options:
+      - Localhost/same PC
+      - Dedicated server/vps
+      - The Forge
+      - Other
+  validations:
+    required: true
+- type: input
+  id: foundry-version
+  attributes:
+    label: Version Info - Foundry VTT
+    description: "Please indicate the Foundry VTT version you are using (including build). *Note: This can be found in-game on Foundry in the settings tab."
+    placeholder: ex. 13.351
+  validations:
+    required: true
+- type: input
+  id: cosmere-version
+  attributes:
+    label: Version Info - Cosmere RPG
+    description: "Please indicate the system release version you are using. *Note: This can be found in-game on Foundry in the settings tab."
+    placeholder: ex. 2.0.1
+  validations:
+    required: true
+- type: textarea
+  id: extra-context
+  attributes:
+    label: Screenshots and Additional Context
+    description: |
+      Add screenshots and any other context about the problem here. Logs, list of loaded modules, etc.
+
+      Tip: You can attach images or log files by clicking this area to highlight it and then dragging files in.
+  validations:
+    required: false

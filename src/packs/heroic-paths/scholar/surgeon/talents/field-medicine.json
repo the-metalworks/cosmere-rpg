@@ -74,7 +74,107 @@
             }
         },
         "prerequisitesMet": false,
-        "modality": null
+        "modality": null,
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "power": null,
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Field Medicine",
+                    "img": "icons/skills/trades/textiles-stitching-leather-brown.webp",
+                    "_id": "bURpdPe1XGV8hsO7",
+                    "system": {
+                        "id": "field-medicine",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><em>You treat a minor wound by bandaging a gash, applying salves, or resetting a dislocated joint.</em></p><p>Spend 1 focus to make a DC 15 <strong>Medicine</strong> test to treat a conscious willing character within your reach, and roll the target’s recovery die as part of this test. You gain a disadvantage if you’re treating yourself. On a success, your target recovers health equal to the result of their recovery die + your ranks in <strong>Medicine</strong>. On a failure, your target only recovers health equal to the result of their recovery die.</p>",
+                            "chat": "<p>Spend 1 focus and test <strong>Medicine</strong> (DC 15) to heal a conscious character. On success, add your ranks in <strong>Medicine</strong> to their recovery die.</p>",
+                            "short": "<p>Spend 1 focus to make a DC 15 <strong>Medicine</strong> test to treat a conscious willing character within your reach, and roll the target’s recovery die as part of this test. You gain a disadvantage if you’re treating yourself. On a success, your target recovers health equal to the result of their recovery die + your ranks in <strong>Medicine</strong>. On a failure, your target only recovers health equal to the result of their recovery die.</p>"
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "skill_test",
+                            "cost": {
+                                "value": 1,
+                                "type": "act"
+                            },
+                            "consumption": [
+                                {
+                                    "type": "resource",
+                                    "value": {
+                                        "min": 1,
+                                        "max": 1,
+                                        "actual": 1
+                                    },
+                                    "resource": "foc",
+                                    "matchDocument": {
+                                        "steps": [
+                                            {
+                                                "target": "ancestor",
+                                                "documentType": "Actor",
+                                                "matchBy": "document-type",
+                                                "reference": null,
+                                                "matchMode": "first"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": null,
+                            "attribute": null,
+                            "formula": null,
+                            "grazeOverrideFormula": "",
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "med",
+                            "attribute": "default",
+                            "plotDie": false,
+                            "modifierFormula": "",
+                            "opportunity": null,
+                            "complication": null
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
     },
     "effects": [],
     "sort": 500000,
@@ -82,5 +182,16 @@
         "default": 0
     },
     "flags": {},
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784941294017,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+    },
     "_key": "!items!Aanofomkj7Z5WO9E"
 }

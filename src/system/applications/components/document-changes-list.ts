@@ -23,7 +23,7 @@ export class DocumentChangesListComponent extends HandlebarsApplicationComponent
     Params
 > {
     static FORM_ASSOCIATED = true;
-    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.COMPONENT_DOCUMENT_CHANGES_LIST}`;
+    static TEMPLATE = `${TEMPLATES.DIRECTORY}${TEMPLATES.COMPONENT_DOCUMENT_CHANGES_LIST}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions

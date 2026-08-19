@@ -1,0 +1,12 @@
+# Automatically request the Developers team to review PRs on the system repo as the default
+* @the-metalworks/developers
+
+# Request specifically the Designers team for template and style changes
+templates/ @the-metalworks/designers
+style/ @the-metalworks/designers
+
+# Request specifically the Content Creators team for changes to packs
+packs/ @the-metalworks/content-creators
+
+# Specifically request someone familiar with types for review of any types changes
+types/ @stanavdb @zithith @Khunkurisu

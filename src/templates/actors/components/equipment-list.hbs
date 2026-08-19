@@ -1,7 +1,14 @@
 {{#each sections as |section|}}
-<ul class="item-list" data-section-id="{{section.id}}">
+{{#with (lookup @root.sectionState section.id) as |sectionState|}}
+<ul class="item-list
+    {{#if sectionState.hasItems}}
+        collapsible
+        {{#if sectionState.expanded}}expanded{{/if}}
+    {{else}}
+        empty
+    {{/if}}" data-section-id="{{section.id}}">
     <li class="item header">
-        <section class="details">
+        <section class="details" data-action="toggle-section-collapsed">
             <span class="title">{{localize section.label}}</span>
             <span class="subtitle wide">
                 {{localize "COSMERE.Actor.Sheet.Equipment.Quantity"}}
@@ -9,7 +16,12 @@
             <span class="subtitle">
                 {{localize "COSMERE.Actor.Sheet.Equipment.Weight"}}
             </span>
-            <div class="subtitle"></div>
+            <span class="subtitle slim">
+                {{localize "COSMERE.Actor.Sheet.Equipment.Equip"}}
+            </span>
+            <span class="subtitle wide">
+                {{localize "COSMERE.Actor.Sheet.Equipment.Resources"}}
+            </span>
             <div class="controls icon active">
                 {{#if @root.editable}}
                     {{#if section.canAddNewItems}}
@@ -23,21 +35,24 @@
                     {{/if}}
                 {{/if}}
             </div>
-        </section>        
+        </section>
     </li>
+    <section class="collapsible-content">
+    <div class="wrapper">
 
     {{#each section.items as |item|}}
     {{#with (lookup @root.itemState item.id) as |state|}}
     {{#with (itemContext item) as |ctx|}}
     {{#with (lookup section.itemData item.id) as |data|}}
 
-    <li class="item {{#if ctx.hasActivation}}usable{{/if}} collapsible {{#if state.expanded}}expanded{{/if}}" 
+    <li class="item {{#if ctx.hasActivation}}usable{{/if}} collapsible {{#if state.expanded}}expanded{{/if}}"
         data-item-id="{{item.id}}"
+        data-item-uuid="{{item.uuid}}"
         {{#if @root.editable}}data-drag="true"{{/if}}
     >
         <section class="details">
             {{!-- Image --}}
-            <div class="img" 
+            <div class="img"
                 {{#if ctx.hasActivation}}
                 data-action="use-item"
                 data-tooltip="COSMERE.Actor.Sheet.Actions.Strike"
@@ -89,7 +104,7 @@
             </div>
 
             {{!-- Equipped --}}
-            <div class="detail equip">
+            <div class="detail slim equip">
             {{#if ctx.isEquippable}}
                 {{#if (eq ctx.equip.type 'hold')}}
                 {{!-- Items equipped by holding them --}}
@@ -104,7 +119,7 @@
                         {{/if}}
                     >
                         <div class="hold-2h {{#if ctx.equipped}}equipped{{/if}}"></div>
-                    </a>                
+                    </a>
                     {{else}}
                     {{!-- One handed item --}}
                     <a role="button"
@@ -117,7 +132,7 @@
                     >
                         <div class="hold-1h main-hand {{#if ctx.equipped}}{{#if (eq ctx.equip.hand 'main_hand')}}equipped{{/if}}{{/if}}"></div>
                         <div class="hold-1h off-hand {{#if ctx.equipped}}{{#if (eq ctx.equip.hand 'off_hand')}}equipped{{/if}}{{/if}}"></div>
-                    </a>                
+                    </a>
                     {{/if}}
 
                 {{else}}
@@ -134,6 +149,11 @@
                     </a>
                 {{/if}}
             {{/if}}
+            </div>
+
+            {{!-- Resources --}}
+            <div class="detail wide resource">
+                {{> item-list-resource ctx=ctx showButtons=@root.editable}}
             </div>
 
             {{!-- Controls --}}
@@ -167,11 +187,14 @@
             <div class="wrapper">
                 {{{default data.descriptionHTML '<p>—</p>'}}}
             </div>
-        </section>        
+        </section>
     </li>
     {{/with}}
     {{/with}}
     {{/with}}
     {{/each}}
+    </div>
+    </section>
 </ul>
+{{/with}}
 {{/each}}

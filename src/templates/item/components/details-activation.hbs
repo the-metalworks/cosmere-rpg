@@ -43,54 +43,56 @@
             {{!-- Consume --}}
             <div class="form-group consume">
                 <label>{{localize systemFields.activation.fields.consumption.label}}</label>
-                <div class="form-fields-list">
+                {{app-item-resource-consumption-list
+                    item=item
+                    disabled=(not editable)
+                }}
+                {{!-- <div class="form-fields-list">
                     {{#each consume}}
-                    <div class="form-fields">
-                        <input name="system.activation.consumption[{{@index}}].value"
-                            type="text"
-                            value={{resourceCostInput this.value}}
-                            {{#if (not ../editable)}}
-                            readonly
-                            {{/if}}
-                        >
+                        <div class="form-fields">
+                            <input name="system.activation.consumption[{{@index}}].value"
+                                type="text"
+                                value={{resourceCostInput this.value}}
+                                {{#if (not ../editable)}}
+                                readonly
+                                {{/if}}
+                            >
 
-                        {{#if (eq this.type "resource")}}
-                            {{formInput @root.systemFields.activation.fields.consumption.element.fields.resource
-                                name=(concat "system.activation.consumption[" @index "].resource")
-                                value=this.resource
+                            {{#if (or (eq this.type "resource") (eq this.type "item_resource"))}}
+                                {{formInput this.schema.fields.resource
+                                    name=(concat "system.activation.consumption[" @index "].resource")
+                                    value=this.resource
+                                    localize=true
+                                    disabled=(not @root.editable)
+                                }}
+                            {{/if}}
+
+                            {{formInput this.schema.fields.type
+                                name=(concat "system.activation.consumption[" @index "].type")
+                                value=this.type
                                 localize=true
                                 disabled=(not @root.editable)
                             }}
-                        {{/if}}
-
-                        {{!-- TODO: Consume type = item --}}
-
-                        {{formInput @root.systemFields.activation.fields.consumption.element.fields.type
-                            name=(concat "system.activation.consumption[" @index "].type")
-                            value=this.type
-                            localize=true
-                            disabled=(not @root.editable)
-                        }}
-                        
-                        <div class="extra">
-                            {{#unless @last}}
-                            <span class="icon faded"><i class="fa-solid fa-bars"></i></span>
-                            {{else}}
-                            <a class="icon active" data-action="add-consumption-option"><i class="fa-solid fa-plus"></i></a>
-                            {{/unless}}
+                            
+                            <div class="extra">
+                                {{#unless @last}}
+                                <span class="icon faded"><i class="fa-solid fa-bars"></i></span>
+                                {{else}}
+                                <a class="icon active" data-action="add-consumption-option"><i class="fa-solid fa-plus"></i></a>
+                                {{/unless}}
+                            </div>
                         </div>
-                    </div>
                     {{else}}            
-                    <div class="form-fields">
-                       {{formInput systemFields.activation.fields.consumption.element.fields.type
+                        <div class="form-fields">
+                        {{formInput systemFields.activation.fields.consumption.element.baseFields.type
                             name="system.activation.consumption[].type"
                             value="none"
                             localize=true
                             disabled=(not editable)
                         }}
-                    </div>
+                        </div>
                     {{/each}}
-                </div>
+                </div> --}}
             </div>
 
             {{!-- Skill test --}}

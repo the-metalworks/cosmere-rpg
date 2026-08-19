@@ -5,6 +5,7 @@ import { CosmereItem } from '@system/documents';
 import { ExpertiseItemDataSchema } from './expertise';
 
 import { MappingField } from '@system/data/fields';
+import { DataSchema } from '../../types';
 
 const SCHEMA = () => ({
     traits: new MappingField(
@@ -44,7 +45,7 @@ const SCHEMA = () => ({
     ),
 });
 
-export type TraitsItemDataSchema = ReturnType<typeof SCHEMA>;
+export type TraitsItemDataSchema = DataSchema<typeof SCHEMA>;
 
 type TraitsItemData =
     foundry.data.fields.SchemaField.InitializedData<TraitsItemDataSchema>;

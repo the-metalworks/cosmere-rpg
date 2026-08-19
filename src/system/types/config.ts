@@ -53,6 +53,7 @@ export interface SizeConfig {
     label: string;
     size?: number;
     unit?: string;
+    tokenDimensions?: number;
 }
 
 export interface CreatureTypeConfig {
@@ -198,6 +199,7 @@ export interface ItemResourceConfig {
     key: ItemResource;
     label: string;
     labelPlural: string;
+    icon: string;
 }
 
 export interface ItemConsumeTypeConfig {
@@ -548,6 +550,16 @@ export interface CosmereRPGConfig {
         actor: {
             components: {
                 actions: {
+                    sections: {
+                        static: Record<string, ItemListSection>;
+                        dynamic: Record<
+                            string,
+                            DynamicItemListSectionGenerator
+                        >;
+                    };
+                };
+
+                talents: {
                     sections: {
                         static: Record<string, ItemListSection>;
                         dynamic: Record<

@@ -10,17 +10,40 @@ import { TEMPLATES } from '@src/system/utils/templates';
 
 const enum CharacterSheetTab {
     Details = 'details',
+    Talents = 'talents',
     Goals = 'goals',
 }
 
 export class CharacterSheet extends BaseActorSheet {
     declare actor: CharacterActor;
 
+    private static readonly MIN_MARGIN = 40;
+    private static readonly MIN_WIDTH = 800; //Min width and default width are the same currently
+    private static readonly MIN_HEIGHT = 675;
+    private static readonly DEFAULT_HEIGHT = 900;
+
+    private isApplyingPositionConstraint = false;
+
     static DEFAULT_OPTIONS = {
         classes: [SYSTEM_ID, 'sheet', 'actor', 'character'] as string[],
+        window: {
+            positioned: true,
+            resizable: true,
+        },
+        //By default, we want our ideal sheet size with our max height/width
+        // BUT we need to be within the viewport no matter what. Otherwise users can't use certain functions
         position: {
-            width: 850,
-            height: 1000,
+            width: Math.min(
+                window.innerWidth - CharacterSheet.MIN_MARGIN,
+                CharacterSheet.MIN_WIDTH,
+            ),
+            height: Math.min(
+                Math.max(
+                    CharacterSheet.MIN_HEIGHT,
+                    window.innerHeight - CharacterSheet.MIN_MARGIN,
+                ),
+                CharacterSheet.DEFAULT_HEIGHT,
+            ),
         },
     };
 
@@ -28,10 +51,11 @@ export class CharacterSheet extends BaseActorSheet {
         foundry.utils.deepClone(super.PARTS),
         {
             header: {
-                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_HEADER}`,
+                template: `${TEMPLATES.DIRECTORY}${TEMPLATES.ACTOR_CHARACTER_HEADER}`,
             },
             content: {
-                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_CONTENT}`,
+                template: `${TEMPLATES.DIRECTORY}${TEMPLATES.ACTOR_CHARACTER_CONTENT}`,
+                scrollable: this.scrollableContent,
             },
         },
     );
@@ -43,6 +67,12 @@ export class CharacterSheet extends BaseActorSheet {
                 label: 'COSMERE.Actor.Sheet.Tabs.Details',
                 icon: '<i class="fa-solid fa-feather-pointed"></i>',
                 sortIndex: 0,
+            },
+
+            [CharacterSheetTab.Talents]: {
+                label: 'COSMERE.Actor.Sheet.Tabs.Talents',
+                icon: '<i class="fa-solid fa-book"></i>',
+                sortIndex: 1,
             },
 
             [CharacterSheetTab.Goals]: {
@@ -82,5 +112,41 @@ export class CharacterSheet extends BaseActorSheet {
                 ancestryItem?.name ??
                 game.i18n?.localize('COSMERE.Item.Type.Ancestry.label'),
         };
+    }
+
+    /* --- Lifecycle --- */
+
+    protected override _onPosition(options: unknown): void {
+        super._onPosition(options);
+
+        if (this.minimized) {
+            return;
+        }
+        if (this.isApplyingPositionConstraint) return;
+
+        const width = this.position.width as number;
+        const height = this.position.height as number;
+
+        const curMaxWidth = window.innerWidth - CharacterSheet.MIN_MARGIN;
+        const curMaxHeight = window.innerHeight - CharacterSheet.MIN_MARGIN;
+
+        const clampedWidth = Math.max(
+            Math.min(width, curMaxWidth),
+            CharacterSheet.MIN_WIDTH,
+        );
+        const clampedHeight = Math.max(
+            Math.min(height, curMaxHeight),
+            CharacterSheet.MIN_HEIGHT,
+        );
+
+        if (width === clampedWidth && height === clampedHeight) return;
+
+        // Since we are setting the position, this will set off the _onPosition event. We ensure this code wont loop forever.
+        this.isApplyingPositionConstraint = true;
+        this.setPosition({
+            width: clampedWidth,
+            height: clampedHeight,
+        });
+        this.isApplyingPositionConstraint = false;
     }
 }

@@ -14,6 +14,11 @@ export const HOOKS = {
     PRE_REST: `${SYSTEM_ID}.preRest`,
     REST: `${SYSTEM_ID}.rest`,
 
+    /* ----- Encounter Hooks ----- */
+    /* -- Combat Hooks -- */
+    COMBAT_ROUND_START: `${SYSTEM_ID}.combatRoundStart`,
+    COMBAT_ROUND_END: `${SYSTEM_ID}.combatRoundEnd`,
+
     /* ----- Item Hooks ----- */
     /* -- Item Activation/Usage Hooks -- */
     USE_ITEM: `${SYSTEM_ID}.useItem`,
@@ -58,7 +63,8 @@ export const HOOKS = {
     /* ----- Roll Hooks ----- */
     PRE_ROLL: (context: string) =>
         `${SYSTEM_ID}.pre${context.toLowerCase().capitalize()}Roll` as const,
-    ROLL: (context: string) => `${SYSTEM_ID}.${context.toLowerCase()}Roll` as const,
+    ROLL: (context: string) =>
+        `${SYSTEM_ID}.${context.toLowerCase()}Roll` as const,
     PRE_SKILL_ROLL: `${SYSTEM_ID}.preSkillRoll`,
     SKILL_ROLL: `${SYSTEM_ID}.skillRoll`,
     PRE_ITEM_ROLL: `${SYSTEM_ID}.preItemRoll`,

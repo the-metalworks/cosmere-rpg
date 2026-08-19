@@ -12,6 +12,8 @@ export interface DocumentSocketRequest<
         id: string;
         action: DatabaseAction;
         queue?: boolean;
+        recursive?: boolean;
+        isHierarchical?: boolean;
     };
 }
 
@@ -28,6 +30,8 @@ export interface SocketResponse
         modifiedTime: number;
         render?: boolean;
         renderSheet?: boolean;
+        diff?: boolean;
+        recursive?: boolean;
         isSystemEmbeddedCollectionOperation?: boolean;
         sourceRequest?: DocumentSocketRequest;
         targets?: { id: string; uuid: string }[];
@@ -36,6 +40,7 @@ export interface SocketResponse
             id: string;
         }[];
         queue?: boolean;
+        isHierarchical?: boolean;
     };
     type: foundry.abstract.Document.Type;
 }

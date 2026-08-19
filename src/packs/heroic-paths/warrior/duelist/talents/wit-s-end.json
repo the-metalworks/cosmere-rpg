@@ -70,7 +70,103 @@
                 "rank": 1
             }
         },
-        "prerequisitesMet": false
+        "prerequisitesMet": false,
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "power": null,
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Wit's End",
+                    "img": "icons/skills/melee/strike-polearm-light-orange.webp",
+                    "_id": "Tf0WN4qAIIjt5ejg",
+                    "system": {
+                        "id": "wits-end",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><em>Battles are won and lost in moments of brief inattention or exhaustion. You create and exploit these opportunities, patiently waiting to vanquish your foe in a single stroke.</em></p><p>Spend 1 focus to move up to half your movement rate, then make a melee weapon attack against the Cognitive defense of a target who has 0 focus. This attack ignores your target’s deflect value and deals an extra [[/r 4d6]] damage on a hit. It can’t graze, only miss or hit.</p><p>This talent becomes more powerful as your tier increases: at tier 3, you roll an extra [[/r 6d6]] damage (instead of 4d6); at tier 4, you instead roll an extra [[/r 8d6]] damage; and at tier 5, you instead roll an extra [[/r 10d6]] damage.</p>",
+                            "chat": "<p>Spend 1 focus to move half your movement then make a melee weapon attack vs. Cognitive of a target who has 0 focus. This attack ignores deflect, deals an extra [[/r 4d6]] damage, and can’t graze.</p>",
+                            "short": "<p>Spend 1 focus to move up to half your movement rate, then make a melee weapon attack against the Cognitive defense of a target who has 0 focus. This attack ignores your target’s deflect value and deals an extra [[/r 4d6]] damage on a hit. It can’t graze, only miss or hit.</p><p>This talent becomes more powerful as your tier increases: at tier 3, you roll an extra [[/r 6d6]] damage (instead of 4d6); at tier 4, you instead roll an extra [[/r 8d6]] damage; and at tier 5, you instead roll an extra [[/r 10d6]] damage.</p>"
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "value": 2,
+                                "type": "act"
+                            },
+                            "consumption": [
+                                {
+                                    "type": "resource",
+                                    "value": {
+                                        "min": 1,
+                                        "max": 1,
+                                        "actual": 1
+                                    },
+                                    "resource": "foc",
+                                    "matchDocument": {
+                                        "steps": [
+                                            {
+                                                "target": "ancestor",
+                                                "documentType": "Actor",
+                                                "matchBy": "document-type",
+                                                "reference": null,
+                                                "matchMode": "first"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": "(max(4, (@tier * 2)))d4",
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
     },
     "effects": [],
     "sort": 0,
@@ -78,5 +174,16 @@
         "default": 0
     },
     "flags": {},
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784942030051,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+    },
     "_key": "!items!YcFyiFWAXwRwZR3o"
 }

@@ -60,7 +60,82 @@
                 "rank": 1
             }
         },
-        "prerequisitesMet": false
+        "prerequisitesMet": false,
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "power": null,
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Cautious Advance",
+                    "img": "icons/skills/movement/feet-winged-sandals-tan.webp",
+                    "_id": "HNyuWVz7ZvPUwuGv",
+                    "system": {
+                        "id": "cautious-advance",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><em>You understand the hazards in your environment and the flow of battle, helping you find the safest path across the battlefield.</em></p><p>Move up to half your movement rate, ignoring difficult terrain, then gain <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">2</span> that can be spent only on the @UUID[Compendium.cosmere-rpg.actions.Item.I1CQjZicYdeG9NCN]{Brace} or @UUID[Compendium.cosmere-rpg.actions.Item.8yQ5MMIrywehKyTS]{Gain Advantage} actions.</p>",
+                            "chat": "<p>Move up to half your movement, ignoring difficult terrain, then gain <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">2</span> to @UUID[Compendium.cosmere-rpg.actions.Item.I1CQjZicYdeG9NCN]{Brace} or @UUID[Compendium.cosmere-rpg.actions.Item.8yQ5MMIrywehKyTS]{Gain Advantage}.</p>",
+                            "short": "<p>Move up to half your movement rate, ignoring difficult terrain, then gain <span class=\"cosmere-icon\" data-tooltip=\"Two Actions\" aria-label=\"Two Actions\">2</span> that can be spent only on the @UUID[Compendium.cosmere-rpg.actions.Item.I1CQjZicYdeG9NCN]{Brace} or @UUID[Compendium.cosmere-rpg.actions.Item.8yQ5MMIrywehKyTS]{Gain Advantage} actions.</p>"
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "value": 2,
+                                "type": "act"
+                            },
+                            "consumption": [],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
     },
     "effects": [],
     "sort": 0,
@@ -68,5 +143,16 @@
         "default": 0
     },
     "flags": {},
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784942094856,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+    },
     "_key": "!items!Cqx0B3rp0Difwr3n"
 }

@@ -1,3 +1,9 @@
+import {
+    ItemType,
+    ActivationType,
+    ActionCostType,
+} from '@system/types/cosmere';
+
 import { CosmereItem, RelationshipsItem } from '@system/documents/item';
 import { CosmereHooks } from '@system/types/hooks';
 import { DeepPartial, DeepMutable } from '@system/types/utils';
@@ -13,6 +19,8 @@ import ItemRelationshipUtils from '@system/utils/item/relationship';
 // Constants
 import { SYSTEM_ID } from '@system/constants';
 import { HOOKS } from '@system/constants/hooks';
+
+/* --- Progress Goal Hooks --- */
 
 Hooks.on('preUpdateItem', (item: CosmereItem, update: Item.UpdateData) => {
     if (item.isGoal()) {
@@ -82,8 +90,9 @@ Hooks.on('updateItem', (item: CosmereItem, update: Item.UpdateData) => {
     if (item.isGoal()) {
         const previousLevel = item.getFlag(SYSTEM_ID, 'previousLevel') ?? 0;
         const newLevel = item.system.level;
+        const isLevelUpdate = foundry.utils.hasProperty(update, 'system.level');
 
-        if (newLevel !== previousLevel) {
+        if (isLevelUpdate && newLevel !== previousLevel) {
             /**
              * Hook: updateProgressGoal
              */
@@ -127,7 +136,7 @@ Hooks.on('preCreateItem', (item: CosmereItem) => {
         (otherItem) =>
             otherItem.hasRelationships() &&
             otherItem.hasId() &&
-            otherItem.id === origin.id &&
+            (otherItem.system.id === origin.id || otherItem.id === origin.id) &&
             otherItem.type === origin.type,
     );
     if (!parentItem) return;

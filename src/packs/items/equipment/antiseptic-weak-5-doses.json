@@ -6,8 +6,9 @@
     "system": {
         "type": "basic",
         "description": {
-            "value": "<p><strong>Price</strong> 25 mk; <strong>Weight</strong> 1 lb.;</p><p> A dose of weak antiseptic, such as that made from larmic mucus, can be applied to a character after a short rest to restore  [[/r 1d6]] health.</p>",
-            "chat": ""
+            "value": "<p><strong>Price</strong> 25 mk; <strong>Weight</strong> 1 lb.;</p><p>A dose of weak antiseptic, such as that made from larmic mucus, can be applied to a character after a short rest to restore [[/r 1d6]] health.</p>",
+            "chat": "",
+            "short": ""
         },
         "quantity": 1,
         "weight": {
@@ -41,6 +42,112 @@
         "damage": {
             "formula": "1d6",
             "type": "heal"
+        },
+        "primaryResource": "uses",
+        "resources": {
+            "uses": {
+                "value": 5,
+                "max": 5,
+                "recharge": "none",
+                "key": "uses"
+            },
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "alwaysEquippable": false,
+        "equippableEnabled": false,
+        "equipped": false,
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "wear"
+        },
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Antiseptic (weak)",
+                    "img": "icons/consumables/potions/potion-bottle-labeled-medicine-capped-red-black.webp",
+                    "_id": "9noPxXS7zkVHvA9M",
+                    "system": {
+                        "id": "antiseptic-weak",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p>A dose of weak antiseptic, such as that made from larmic mucus, can be applied to a character after a short rest to restore [[/r 1d6]] health.</p>",
+                            "chat": "",
+                            "short": ""
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "type": "spe"
+                            },
+                            "consumption": [
+                                {
+                                    "type": "item_resource",
+                                    "value": {
+                                        "min": 1,
+                                        "max": 1,
+                                        "actual": 1
+                                    },
+                                    "resource": "uses",
+                                    "matchDocument": {
+                                        "steps": [
+                                            {
+                                                "target": "parent",
+                                                "documentType": "Actor",
+                                                "reference": null,
+                                                "matchBy": "document-type",
+                                                "matchMode": "first"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": "1d6",
+                            "type": "heal"
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
         }
     },
     "effects": [],
@@ -49,6 +156,17 @@
     "sort": 3200000,
     "ownership": {
         "default": 0
+    },
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784936193260,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
     },
     "_key": "!items!hWD3H4XLoyjwkwnd"
 }

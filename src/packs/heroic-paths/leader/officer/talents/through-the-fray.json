@@ -60,7 +60,82 @@
             }
         },
         "prerequisitesMet": false,
-        "modality": null
+        "modality": null,
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "power": null,
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Through the Fray",
+                    "img": "icons/magic/movement/abstract-ribbons-red-orange.webp",
+                    "_id": "7P7whii0XrxxSwxo",
+                    "system": {
+                        "id": "through-the-fray",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><em>You skillfully spot opportunities to gain the upper hand, coordinating with your allies as they spring into action.</em></p><p>Choose an ally you can influence within 20 feet of you. Before the end of your turn, they can use the @UUID[Compendium.cosmere-rpg.actions.Item.wC4Z0mdGwRxLDpMC]{Disengage} or @UUID[Compendium.cosmere-rpg.actions.Item.8yQ5MMIrywehKyTS]{Gain Advantage} action as <span class=\"cosmere-icon\" data-tooltip=\"Reaction\" aria-label=\"Reaction\">r</span> .</p>",
+                            "chat": "<p>An ally within 20 feet can @UUID[Compendium.cosmere-rpg.actions.Item.wC4Z0mdGwRxLDpMC]{Disengage} or @UUID[Compendium.cosmere-rpg.actions.Item.8yQ5MMIrywehKyTS]{Gain Advantage} as <span class=\"cosmere-icon\" data-tooltip=\"One Action\" aria-label=\"One Action\">r</span>.</p>",
+                            "short": "<p>Choose an ally you can influence within 20 feet of you. Before the end of your turn, they can use the @UUID[Compendium.cosmere-rpg.actions.Item.wC4Z0mdGwRxLDpMC]{Disengage} or @UUID[Compendium.cosmere-rpg.actions.Item.8yQ5MMIrywehKyTS]{Gain Advantage} action as <span class=\"cosmere-icon\" data-tooltip=\"Reaction\" aria-label=\"Reaction\">r</span> .</p>"
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "value": 1,
+                                "type": "act"
+                            },
+                            "consumption": [],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
     },
     "effects": [],
     "sort": 700000,
@@ -68,5 +143,16 @@
         "default": 0
     },
     "flags": {},
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784940768828,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+    },
     "_key": "!items!kgdZIGU9Zs9spuu2"
 }

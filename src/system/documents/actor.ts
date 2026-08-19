@@ -11,6 +11,7 @@ import {
     RestType,
     ImmunityType,
     Size,
+    AttributeGroup,
 } from '@system/types/cosmere';
 import { TalentTree } from '@system/types/item';
 import {
@@ -23,10 +24,19 @@ import {
     PowerItem,
     TalentTreeItem,
     ActionItem,
+    EffectsContainerItem,
 } from '@system/documents/item';
 import { CosmereActiveEffect } from '@system/documents/active-effect';
 
-import { Expertise } from '@system/data/actor/common';
+import { getSystemSetting, SETTINGS } from '@system/settings';
+
+import {
+    CommonActorData,
+    CommonActorDataModel,
+    Expertise,
+} from '@system/data/actor/common';
+import { CharacterActorDataModel } from '@system/data/actor/character';
+import { AdversaryActorDataModel } from '@system/data/actor/adversary';
 import { PowerItemCreateData } from '@system/data/item';
 
 import { Derived } from '@system/data/fields';
@@ -65,6 +75,7 @@ import { containsExpertise } from '@system/utils/actor';
 // Constants
 import { SYSTEM_ID } from '@system/constants';
 import { HOOKS } from '@system/constants/hooks';
+import { FLAGS } from '@system/utils/macros/talents/erudition';
 
 export type CharacterActor = CosmereActor<ActorType.Character>;
 export type AdversaryActor = CosmereActor<ActorType.Adversary>;
@@ -113,6 +124,8 @@ const SINGLETON_ITEM_TYPES = [ItemType.Ancestry];
 abstract class _Actor<
     out SubType extends Actor.SubType,
 > extends Actor<SubType> {
+    declare system: Actor.SystemOfType<SubType>;
+
     declare items: foundry.abstract.EmbeddedCollection<
         CosmereItem,
         CosmereActor
@@ -122,6 +135,14 @@ abstract class _Actor<
 export class CosmereActor<
     out SubType extends Actor.SubType = Actor.SubType,
 > extends _Actor<SubType> {
+    /* --- Statics --- */
+
+    public static isInstance(
+        document: foundry.abstract.Document.Any,
+    ): document is CosmereActor {
+        return document instanceof CosmereActor;
+    }
+
     /* --- Accessors --- */
 
     public get conditions(): Set<Status> {
@@ -170,6 +191,17 @@ export class CosmereActor<
 
     public get talents(): TalentItem[] {
         return this.items.filter((i) => i.isTalent());
+    }
+
+    public get effectsContainers(): EffectsContainerItem[] {
+        return this.items.filter((i) => i.isEffectsContainer());
+    }
+
+    public get allItems(): CosmereItem[] {
+        return Array.from(this.items).flatMap((item) => [
+            item,
+            ...item.allEmbeddedItems,
+        ]);
     }
 
     public get skillLinkedItems(): CosmereItem[] {
@@ -246,7 +278,8 @@ export class CosmereActor<
     public prepareDerivedData() {
         super.prepareDerivedData();
         this.applyActiveEffects();
-        this.system.prepareSecondaryDerivedData();
+
+        if (this.type !== 'base') this.system.prepareSecondaryDerivedData();
     }
 
     public override async _preCreate(
@@ -270,7 +303,101 @@ export class CosmereActor<
             });
         }
 
-        this.updateSource({ prototypeToken });
+        // Configure default actor flags
+        const flags = {
+            [SYSTEM_ID]: {
+                sheet: {
+                    hideUnranked: true,
+                },
+            },
+        };
+
+        if (getSystemSetting(SETTINGS.AUTOMATION_TOKEN_FLAGS_BARS)) {
+            // If no value is passed in for default bar viewing states, set to "hovered by owner"
+            if (
+                !foundry.utils.hasProperty(data, `prototypeToken.displayBars`)
+            ) {
+                foundry.utils.mergeObject(prototypeToken, {
+                    displayBars: CONST.TOKEN_DISPLAY_MODES.OWNER_HOVER,
+                });
+            }
+
+            // If no value is passed in for bars, set bars to default to settings values
+            if (!foundry.utils.hasProperty(data, `prototypeToken.bar1`)) {
+                foundry.utils.mergeObject(prototypeToken, {
+                    bar1: {
+                        attribute: getSystemSetting(
+                            SETTINGS.TOKEN_DEFAULT_BAR_1_VAL,
+                        ),
+                    },
+                });
+            }
+            if (!foundry.utils.hasProperty(data, `prototypeToken.bar2`)) {
+                foundry.utils.mergeObject(prototypeToken, {
+                    bar2: {
+                        attribute: getSystemSetting(
+                            SETTINGS.TOKEN_DEFAULT_BAR_2_VAL,
+                        ),
+                    },
+                });
+            }
+        }
+
+        if (getSystemSetting(SETTINGS.AUTOMATION_TOKEN_FLAGS_SIZE)) {
+            // Size in grid spaces
+            const prototypeTokenSize =
+                CONFIG.COSMERE.sizes[this.system.size].tokenDimensions ?? 1;
+
+            // If values are not passed in for token size, set token size from actor size
+            if (!foundry.utils.hasProperty(data, `prototypeToken.width`)) {
+                foundry.utils.mergeObject(prototypeToken, {
+                    width: prototypeTokenSize,
+                });
+            }
+            if (!foundry.utils.hasProperty(data, `prototypeToken.height`)) {
+                foundry.utils.mergeObject(prototypeToken, {
+                    height: prototypeTokenSize,
+                });
+            }
+
+            foundry.utils.mergeObject(flags, {
+                [SYSTEM_ID]: {
+                    automation: {
+                        token: {
+                            size: true,
+                        },
+                    },
+                },
+            });
+        }
+
+        if (getSystemSetting(SETTINGS.AUTOMATION_TOKEN_FLAGS_SIGHT)) {
+            // Senses changes
+            const sensesData = this.system.senses;
+
+            const affectedByObscuredSenses =
+                sensesData?.obscuredAffected ?? true;
+            foundry.utils.mergeObject(prototypeToken, {
+                sight: {
+                    range: affectedByObscuredSenses
+                        ? sensesData.range?.value
+                        : null,
+                    visionMode: 'sense',
+                },
+            });
+
+            foundry.utils.mergeObject(flags, {
+                [SYSTEM_ID]: {
+                    automation: {
+                        token: {
+                            vision: true,
+                        },
+                    },
+                },
+            });
+        }
+
+        this.updateSource({ prototypeToken, flags });
     }
 
     public override async createEmbeddedDocuments<
@@ -456,6 +583,29 @@ export class CosmereActor<
     }
 
     /* --- Functions --- */
+
+    /** Returns an embedded document in an actor regardless of how deeply nested it is, if it exists.
+     *
+     * @param uuid The UUID of the document you want to get, either the whole UUID or partial. Also works with just the document ID.
+     * @returns A {@link CosmereActiveEffect}, {@link CosmereItem} or null if no document could be found.
+     */
+    public getEmbeddedDocumentFromUuid(
+        uuid: string,
+    ): CosmereActiveEffect | CosmereItem | null {
+        const parsedUuid = foundry.utils.parseUuid(uuid);
+        const documentId = parsedUuid?.id ?? uuid;
+        for (const [, document] of this.traverseEmbeddedDocuments()) {
+            if (document.uuid != uuid && document.id != documentId) continue;
+
+            if (
+                document instanceof CosmereActiveEffect ||
+                document instanceof CosmereItem
+            ) {
+                return document;
+            }
+        }
+        return null;
+    }
 
     public async setMode(modality: string, mode: string) {
         await this.setFlag(SYSTEM_ID, `mode.${modality}`, mode);
@@ -1322,17 +1472,21 @@ export class CosmereActor<
         } as const satisfies EnricherData<SubType>;
     }
 
-    // public *allApplicableEffects() {
-    //     for (const effect of super.allApplicableEffects()) {
-    //         if (
-    //             !(effect.parent instanceof CosmereItem) ||
-    //             !effect.parent.isEquippable() ||
-    //             effect.parent.system.equipped
-    //         ) {
-    //             yield effect;
-    //         }
-    //     }
-    // }
+    public *allApplicableEffects() {
+        for (const effect of this.effects) {
+            yield effect;
+        }
+        if (CONFIG.ActiveEffect.legacyTransferral) return;
+        for (const item of this.items) {
+            for (const effect of item.effects) {
+                if (effect.transfer) yield effect;
+            }
+
+            for (const effect of item.nestedEffects) {
+                if (effect.transfer) yield effect;
+            }
+        }
+    }
 
     /**
      * Utility Function to determine a formula value based on a scalar plot of an attribute value
@@ -1487,22 +1641,43 @@ declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
     }
 
     interface ConfiguredActor<SubType extends Actor.SubType> {
-        document: CosmereActor;
+        document: CosmereActor<SubType>;
     }
 
     interface FlagConfig {
         Actor: {
             'cosmere-rpg': {
+                automation: object;
+                'automation.token': object;
+                'automation.token.vision': boolean;
+                'automation.token.size': boolean;
                 sheet: object;
                 'sheet.mode': 'edit' | 'view';
                 'sheet.expertisesCollapsed': boolean;
                 'sheet.immunitiesCollapsed': boolean;
                 'sheet.skillsCollapsed': boolean;
                 'sheet.hideUnranked': boolean;
+                'sheet.autosetPrototypeTokenValues': boolean;
                 goals: object;
                 'goals.hide-completed': boolean;
                 [key: `meta.update.mode.${string}`]: string;
                 [key: `mode.${string}`]: string;
+
+                /**
+                 * The following keys belong to the Erudition macro
+                 * they were ported over from the Stormlight Handbook as is.
+                 * Declaring them in erudition/index.ts was not allowing the Actor
+                 * definition to be merged and a proper way to merge them will need
+                 * to be researched to make this cleaner
+                 */
+                [FLAGS.SKILLS_COUNT]: number;
+                [FLAGS.SKILLS_GROUPS]: AttributeGroup[];
+                [FLAGS.SKILLS_INCREASE]: number;
+                [FLAGS.SKILLS_SELECTED]: Skill[];
+                [FLAGS.EXPERTISES_COUNT]: number;
+                [FLAGS.EXPERTISES_TYPES]: ExpertiseType[];
+                [FLAGS.EXPERTISES_SELECTED]: Expertise[];
+                [key: `skills.${string}.temporaryRanks`]: number;
             };
         };
 

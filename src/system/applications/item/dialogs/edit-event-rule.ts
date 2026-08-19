@@ -45,7 +45,7 @@ export class ItemEditEventRuleDialog extends ComponentHandlebarsApplicationMixin
         foundry.utils.deepClone(super.PARTS),
         {
             form: {
-                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ITEM_EDIT_EVENT_RULE}`,
+                template: `${TEMPLATES.DIRECTORY}${TEMPLATES.DIALOG_ITEM_EDIT_EVENT_RULE}`,
                 forms: {
                     form: {
                         handler: this.onFormEvent,
@@ -112,7 +112,7 @@ export class ItemEditEventRuleDialog extends ComponentHandlebarsApplicationMixin
         if (event instanceof SubmitEvent) return;
 
         // Prepare changes
-        const changes = Object.entries(formData.object).reduce(
+        const changes = Object.entries(structuredClone(formData.object)).reduce(
             (changes, [key, value]) => {
                 if (foundry.utils.getType(value) === 'Object') {
                     changes[key] = getObjectChanges(

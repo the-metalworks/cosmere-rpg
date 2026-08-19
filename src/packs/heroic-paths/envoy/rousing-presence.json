@@ -37,7 +37,82 @@
             "formula": null,
             "type": null
         },
-        "modality": null
+        "modality": null,
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "power": null,
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Rousing Presence",
+                    "img": "icons/skills/social/intimidation-impressing.webp",
+                    "_id": "P8xIBjR4j31oIAuF",
+                    "system": {
+                        "id": "rousing-presence",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><em>With a gesture, a facial expression, or a few scant words, you inspire others to excel.</em></p><p>Choose an ally you can influence. They become <strong>Determined</strong> until they benefit from that condition or until the scene ends.</p>",
+                            "chat": "<p>An ally becomes <strong>Determined</strong> until end of scene.</p>",
+                            "short": "<p>Choose an ally you can influence. They become <strong>Determined</strong> until they benefit from that condition or until the scene ends.</p>"
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "value": 1,
+                                "type": "act"
+                            },
+                            "consumption": [],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
     },
     "effects": [],
     "sort": 0,
@@ -45,5 +120,16 @@
         "default": 0
     },
     "flags": {},
+    "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "cosmere-rpg",
+        "systemVersion": "3.0.0",
+        "createdTime": null,
+        "modifiedTime": 1784938584108,
+        "lastModifiedBy": "IU6D3nXFOOMkkx7E",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+    },
     "_key": "!items!l4wRQT2MH0SsxmRQ"
 }

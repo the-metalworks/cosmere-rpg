@@ -12,6 +12,7 @@ import {
     AttackType,
     TurnSpeed,
     ItemResourceRechargeType,
+    ItemResource,
 } from '@system/types/cosmere';
 
 import { CosmereActor } from '@system/documents/actor';
@@ -108,8 +109,8 @@ Handlebars.registerHelper(
 );
 
 Handlebars.registerHelper(
-    'isNumMax',
-    (value: number) => value === Number.MAX_VALUE,
+    'isNumMaxSafeInt',
+    (value: number) => value === Number.MAX_SAFE_INTEGER,
 );
 
 Handlebars.registerHelper('cosmereDingbat', (type: ActionCostType) => {
@@ -285,6 +286,52 @@ Handlebars.registerHelper(
                 }
             }
 
+            if (item.hasResources() && item.system.primaryResource !== 'none') {
+                context.hasResource = true;
+                const resourceType: ItemResource = item.system.primaryResource;
+                //     const recharge = item.system.activation.uses.recharge;
+
+                //     const hasRecharge = recharge != null;
+
+                context.resource = {};
+                context.resource.value =
+                    item.system.resources[resourceType]?.value;
+                context.resource.max = item.system.resources[resourceType]?.max;
+                context.resource.icon =
+                    CONFIG.COSMERE.item.resource.types[resourceType].icon;
+                context.resource.label =
+                    CONFIG.COSMERE.item.resource.types[
+                        resourceType
+                    ].labelPlural;
+                const recharge =
+                    item.system.resources[resourceType].recharge ?? undefined;
+                if (recharge && recharge !== 'none') {
+                    context.resource.hasRecharge = true;
+                    context.resource.rechargeLabel =
+                        CONFIG.COSMERE.item.resource.recharge.types[
+                            recharge
+                        ].label;
+                }
+                context.resource.addTooltip = game.i18n.format(
+                    'COSMERE.Actor.Sheet.Equipment.IncreaseResource',
+                    {
+                        resource: game.i18n.localize(
+                            CONFIG.COSMERE.item.resource.types[resourceType]
+                                .label,
+                        ),
+                    },
+                );
+                context.resource.removeTooltip = game.i18n.format(
+                    'COSMERE.Actor.Sheet.Equipment.DecreaseResource',
+                    {
+                        resource: game.i18n.localize(
+                            CONFIG.COSMERE.item.resource.types[resourceType]
+                                .label,
+                        ),
+                    },
+                );
+            }
+
             if (item.hasTraits()) {
                 subtitle.push(
                     ...item.system.traitsArray
@@ -369,25 +416,39 @@ Handlebars.registerHelper(
                         .consumption) {
                         const consumesResource =
                             consumable.type === ItemConsumeType.Resource;
-                        const consumesItem =
-                            consumable.type === ItemConsumeType.Item;
-
-                        // Get resource
-                        const resource = consumable.resource;
+                        const consumesItemResource =
+                            consumable.type === ItemConsumeType.ItemResource;
+                        // const consumesItem =
+                        //     consumable.type === ItemConsumeType.Item;
+                        const consumesItem = false;
 
                         context.hasConsume = true;
                         context.consume.push({
                             type: consumable.type,
                             value: consumable.value,
                             consumesResource,
+                            consumesItemResource,
                             consumesItem,
 
-                            ...(resource
+                            ...(consumable.type === ItemConsumeType.Resource
                                 ? {
                                       resource: consumable.resource,
                                       resourceLabel:
-                                          CONFIG.COSMERE.resources[resource]
-                                              .label,
+                                          CONFIG.COSMERE.resources[
+                                              consumable.resource
+                                          ].label,
+                                  }
+                                : {}),
+
+                            ...(consumable.type === ItemConsumeType.ItemResource
+                                ? {
+                                      resource: consumable.resource,
+                                      resourceLabel:
+                                          CONFIG.COSMERE.item.resource.types[
+                                              consumable.resource
+                                          ].label,
+                                      relativeTo: item,
+                                      matchDocument: consumable.matchDocument,
                                   }
                                 : {}),
                         });
@@ -531,11 +592,29 @@ Handlebars.registerHelper(
     'resourceCostLabel',
     (consume: ActionItemDataModel.ConsumeData) => {
         const { value } = consume;
-        const resource = game.i18n.localize(
-            consume.resource
-                ? CONFIG.COSMERE.resources[consume.resource].label
-                : 'GENERIC.Unknown',
-        );
+        let resource = '';
+        if (consume.type === ItemConsumeType.Resource) {
+            resource = game.i18n.localize(
+                CONFIG.COSMERE.resources[consume.resource].label ??
+                    'GENERIC.Unknown',
+            );
+        } else if (consume.type === ItemConsumeType.ItemResource) {
+            const singular = value.min == 1 && value.max == 1;
+            if (singular) {
+                resource = game.i18n.localize(
+                    CONFIG.COSMERE.item.resource.types[consume.resource]
+                        .label ?? 'GENERIC.Unknown',
+                );
+            } else {
+                resource = game.i18n.localize(
+                    CONFIG.COSMERE.item.resource.types[consume.resource]
+                        .labelPlural ?? 'GENERIC.Unknown',
+                );
+            }
+        }
+        // else if (consume.type === ItemConsumeType.Item){
+
+        // }
 
         let label = '';
 
@@ -601,8 +680,33 @@ Handlebars.registerHelper('resourceCostInput', (value: NumberRange) => {
     }
 });
 
+Handlebars.registerHelper('keys', (obj: AnyObject) => Object.keys(obj));
+
+Handlebars.registerHelper('values', (obj: AnyObject) => Object.values(obj));
+
 Handlebars.registerHelper('entries', (obj: AnyObject) => {
     return Object.entries(obj).map(([key, value]) => ({ key, value }));
+});
+
+Handlebars.registerHelper('len', (value: unknown) => {
+    if (Array.isArray(value) || typeof value === 'string') {
+        return value.length;
+    } else if (value instanceof Map || value instanceof Set) {
+        return value.size;
+    }
+    return 0;
+});
+
+Handlebars.registerHelper('first', (value: unknown) => {
+    if (!Array.isArray(value)) return;
+    if (value.length === 0) return;
+    return value[0];
+});
+
+Handlebars.registerHelper('last', (value: unknown) => {
+    if (!Array.isArray(value)) return;
+    if (value.length === 0) return;
+    return value[value.length - 1];
 });
 
 Handlebars.registerHelper('filterSelectOptions', ((
@@ -626,15 +730,21 @@ Handlebars.registerHelper('filterSelectOptions', ((
         );
 }) as unknown as Handlebars.HelperDelegate);
 
+Handlebars.registerHelper('getProperty', (obj: AnyObject, path: string) => {
+    return foundry.utils.getProperty(obj, path);
+});
+
 export async function preloadHandlebarsTemplates() {
-    const templates = Object.values(TEMPLATES).reduce(
-        (partials, path) => {
-            partials[path.split('/').pop()!.replace('.hbs', '')] =
-                `systems/${SYSTEM_ID}/templates/${path}`;
-            return partials;
-        },
-        {} as Record<string, string>,
-    );
+    const templates = Object.values(TEMPLATES)
+        .filter((path) => path.endsWith('.hbs'))
+        .reduce(
+            (partials, path) => {
+                partials[path.split('/').pop()!.replace('.hbs', '')] =
+                    `${TEMPLATES.DIRECTORY}${path}`;
+                return partials;
+            },
+            {} as Record<string, string>,
+        );
 
     return await loadTemplates(templates);
 }

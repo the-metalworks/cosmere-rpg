@@ -23,7 +23,9 @@ export const enum Status {
     Afflicted = 'afflicted',
     Blind = 'blind',
     Burrowing = 'burrowing',
+    Depleted = 'depleted',
     Determined = 'determined',
+    Diminished = 'diminished',
     Disoriented = 'disoriented',
     Empowered = 'empowered',
     Enhanced = 'enhanced',
@@ -214,6 +216,7 @@ export const enum ItemConsumeType {
 export const enum ItemResource {
     Uses = 'uses',
     Charges = 'charges',
+    Ammo = 'ammo',
 }
 
 export const enum ItemResourceRechargeType {
@@ -223,6 +226,7 @@ export const enum ItemResourceRechargeType {
 export const enum EquipType {
     Hold = 'hold', // Item that you equip by holding it (either in one or two hands)
     Wear = 'wear', // Item that you equip by wearing it
+    Equip = 'equip', // Item that you equip generically
 }
 
 export const enum HoldType {
@@ -257,6 +261,16 @@ export const enum AttackType {
     Ranged = 'ranged',
 }
 
+export enum DieSize {
+    D4 = 'd4',
+    D6 = 'd6',
+    D8 = 'd8',
+    D10 = 'd10',
+    D12 = 'd12',
+    D20 = 'd20',
+    D100 = 'd100',
+}
+
 export enum DamageType {
     Energy = 'energy',
     Impact = 'impact',
@@ -280,6 +294,12 @@ export const enum RestType {
 export const enum ImmunityType {
     Damage = 'damage',
     Condition = 'condition',
+}
+
+export const enum EffectListType {
+    Inactive = 'inactive',
+    Passive = 'passive',
+    Temporary = 'temporary',
 }
 
 /* --- System --- */
@@ -309,6 +329,7 @@ export const enum ItemType {
 
     Power = 'power',
 
+    EffectsContainer = 'effects_container',
     TalentTree = 'talent_tree',
 }
 

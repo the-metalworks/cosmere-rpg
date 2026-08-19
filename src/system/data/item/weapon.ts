@@ -6,6 +6,7 @@ import {
     WeaponType,
     EquipType,
     ActivationType,
+    ItemResource,
 } from '@system/types/cosmere';
 import { EmptyObject } from '@system/types/utils';
 
@@ -55,6 +56,7 @@ import {
     RelationshipsMixin,
     RelationshipsItemDataSchema,
 } from './mixins/relationships';
+import { StrikingItemDataSchema, StrikingItemMixin } from './mixins/striking';
 
 export type WeaponItemDataSchema = IdItemDataSchema &
     TypedItemDataSchema<WeaponType> &
@@ -64,6 +66,7 @@ export type WeaponItemDataSchema = IdItemDataSchema &
         equipType: { initial: EquipType.Hold; choices: [EquipType.Hold] };
     }> &
     AttackingItemDataSchema &
+    StrikingItemDataSchema &
     ExpertiseItemDataSchema &
     TraitsItemDataSchema &
     PhysicalItemDataSchema &
@@ -103,6 +106,7 @@ export class WeaponItemDataModel extends DataModelMixin<
     }),
     ResourcesItemMixin(),
     EquippableItemMixin({
+        alwaysEquippable: true,
         equipType: {
             initial: EquipType.Hold,
             choices: [EquipType.Hold],
@@ -123,6 +127,7 @@ export class WeaponItemDataModel extends DataModelMixin<
     //     },
     // }),
     AttackingItemMixin(),
+    StrikingItemMixin(),
     ExpertiseItemMixin(),
     TraitsItemMixin(),
     PhysicalItemMixin(),
@@ -147,6 +152,33 @@ export class WeaponItemDataModel extends DataModelMixin<
         } else {
             this.equip.hold = HoldType.OneHanded;
             this.equip.hand ??= EquipHand.Main;
+        }
+
+        // Automate "ammo" resource when loaded trait is set
+        const loadedTrait = this.traits[WeaponTraitId.Loaded];
+        if (
+            loadedTrait?.active &&
+            loadedTrait?.value &&
+            loadedTrait.value > 0
+        ) {
+            this.resources[ItemResource.Ammo] = {
+                key: ItemResource.Ammo,
+                max: loadedTrait.value,
+                value:
+                    this.resources[ItemResource.Ammo]?.value ??
+                    loadedTrait.value,
+                recharge: null,
+            };
+            // If this item has no other resources, and no primary resource already set, set ammunition to be the primary resource
+            if (
+                !(
+                    this.resources.charges ||
+                    this.resources.uses ||
+                    this.primaryResource !== 'none'
+                )
+            ) {
+                this.primaryResource = ItemResource.Ammo;
+            }
         }
     }
 }

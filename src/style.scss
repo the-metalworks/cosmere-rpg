@@ -206,3 +206,15 @@ em.cosmere-icon,
 i.cosmere-icon {
     font-style: normal;
 }
+
+span.opportunity-color,
+em.opportunity-color,
+i.opportunity-color {
+    color: var(--cosmere-color-opportunity-text);
+}
+
+span.complication-color,
+em.complication-color,
+i.complication-color {
+    color: var(--cosmere-color-complication-text);
+}

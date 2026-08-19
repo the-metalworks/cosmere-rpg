@@ -1,0 +1,41 @@
+{{!-- Target --}}
+<div class="form-group">
+    <label >
+        {{localize handler.schema.fields.matchDocument.label}}
+    </label>
+    <div class="form-fields">
+        {{app-match-document-target
+            value=handler.matchDocument
+            name="handler.matchDocument"
+            relativeTo=item
+        }}
+    </div>
+</div>
+
+{{!-- Notify --}}
+<div class="form-group">
+    <label>
+        {{localize handler.schema.fields.notify.label}}
+        <i class="info fa-regular fa-circle-question" 
+            data-tooltip="{{localize handler.schema.fields.notify.hint}}"
+        ></i>
+    </label>
+    <div class="form-fields">
+        {{formInput handler.schema.fields.notify
+            name="handler.notify"
+            value=handler.notify
+        }}
+    </div>
+</div>
+
+{{!-- Items --}}
+<fieldset class="scroll-container">
+    <legend>{{localize handler.schema.fields.uuids.label}}</legend>
+    {{app-document-drop-list
+        name="handler.uuids"
+        value=handler.uuids
+        type="Item"
+        subtype="action"
+        placeholder=(localize handler.schema.fields.uuids.options.placeholder)
+    }}
+</fieldset>

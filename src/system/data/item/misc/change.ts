@@ -1,3 +1,5 @@
+import { DataSchema } from '../../types';
+
 const SCHEMA = () => ({
     key: new foundry.data.fields.StringField({
         required: true,
@@ -23,10 +25,12 @@ const SCHEMA = () => ({
     }),
 });
 
-export type ChangeDataSchema = ReturnType<typeof SCHEMA>;
-export type ChangeData = foundry.data.fields.SchemaField.InitializedData<ChangeDataSchema>;
+export type ChangeDataSchema = DataSchema<typeof SCHEMA>;
+export type ChangeData =
+    foundry.data.fields.SchemaField.InitializedData<ChangeDataSchema>;
 
-export class ChangeDataModel extends foundry.abstract.DataModel<ChangeDataSchema> {
+export class ChangeDataModel extends foundry.abstract
+    .DataModel<ChangeDataSchema> {
     static defineSchema() {
         return SCHEMA();
     }

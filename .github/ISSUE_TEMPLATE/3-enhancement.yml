@@ -1,0 +1,53 @@
+name: Enhancement
+description: A task that focuses on enhancing existing system features/content.
+labels: type | enhancement
+body:
+- type: checkboxes
+  id: existing-issue
+  attributes:
+    label: Is there an existing issue for this?
+    description: Please search to see if an issue already exists for the enhancement you're requesting.
+    options:
+    - label: I have searched the existing issues to ensure this enhancement has not already been requested
+      required: true
+- type: dropdown
+  id: modules-list
+  attributes:
+    label: Relevant Module(s)
+    description: "Which Stormlight modules are relevant to this task? (Note: you may select more than one)"
+    multiple: true
+    default: 0
+    options:
+      - All
+      - Advanced Adversaries
+      - Handbook
+      - Speak the Words
+      - Stonewalkers
+      - Stormlight Scenarios
+      - World Guide
+  validations:
+    required: true
+- type: textarea
+  id: task-reason
+  attributes:
+    label: What needs changing?
+    description: "A clear and concise description of what the task is. Ex. We need to support latest Node LTS / Foundry v##, It would be nice if [...]"
+  validations:
+    required: true
+- type: textarea
+  id: task-alternatives
+  attributes:
+    label: Describe alternatives you've considered
+    description: A clear and concise description of any alternative solutions or features you've considered.
+  validations:
+    required: false
+- type: textarea
+  id: extra-context
+  attributes:
+    label: Screenshots and Additional Context
+    description: |
+      Add screenshots and any other context about the request here. Links to third party modules, specific APIs, etc.
+
+      Tip: You can attach images or other files by clicking this area to highlight it and then dragging files in.
+  validations:
+    required: false

@@ -35,7 +35,7 @@ export class ConfigureSensesRangeDialog extends HandlebarsApplicationMixin(
         foundry.utils.deepClone(super.PARTS),
         {
             form: {
-                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_ACTOR_CONFIGURE_SENSES}`,
+                template: `${TEMPLATES.DIRECTORY}${TEMPLATES.DIALOG_ACTOR_CONFIGURE_SENSES}`,
                 forms: {
                     form: {
                         handler: this.onFormEvent,
@@ -111,7 +111,7 @@ export class ConfigureSensesRangeDialog extends HandlebarsApplicationMixin(
             target.name === 'ignoreObscure'
         ) {
             this.sensesData.range.override = formData.object.ignoreObscure
-                ? Number.MAX_VALUE
+                ? Number.MAX_SAFE_INTEGER
                 : 0;
         }
 

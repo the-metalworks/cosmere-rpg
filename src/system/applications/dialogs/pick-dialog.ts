@@ -54,7 +54,7 @@ export class PickDialog extends ComponentHandlebarsApplicationMixin(
         foundry.utils.deepClone(super.PARTS),
         {
             form: {
-                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.DIALOG_PICK}`,
+                template: `${TEMPLATES.DIRECTORY}${TEMPLATES.DIALOG_PICK}`,
                 forms: {
                     form: {
                         handler: this.onFormEvent,

@@ -3,9 +3,9 @@
     .active-effect-config,
     .journal-sheet,
     .roll-table-sheet,
-    .token-config) {    
+    .token-config) {
     --minimized-width: 250px;
-        
+
     border: 3px solid var(--cosmere-color-accent);
     border-radius: 0;
 
@@ -114,21 +114,38 @@
                 }
             }
         }
-    }    
+    }
 
     .collapsible {
-        .collapsible-content {
+        > .item.header {
+            > .details::before {
+                content: "\f078";
+                font-family: var(--font-awesome);
+                transition: all 250ms ease;
+                transform: rotate(-90deg);
+                color: var(--cosmere-color-text-sub);
+            }
+        }
+        > .collapsible-content {
             display: grid;
             grid-template-rows: 0fr;
             transition: grid-template-rows 250ms ease;
 
             & > .wrapper {
                 overflow: hidden;
+                overflow-wrap: anywhere;
             }
-        } 
-        
-        &.expanded .collapsible-content{
-            grid-template-rows: 1fr;
+        }
+
+        &.expanded {
+            > .item.header {
+                > .details::before {
+                    transform: none;
+                }
+            }
+            >.collapsible-content{
+                grid-template-rows: 1fr;
+            }
         }
     }
 
@@ -179,6 +196,7 @@
                 position: unset;
                 min-height: 300px;
                 padding: 0.25rem 0.5rem;
+                overflow-wrap: anywhere;
             }
         }
 

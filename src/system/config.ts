@@ -47,26 +47,31 @@ const COSMERE: CosmereRPGConfig = {
             label: 'COSMERE.Actor.Size.Small',
             size: 2.5,
             unit: 'feet',
+            tokenDimensions: 0.5,
         },
         [Size.Medium]: {
             label: 'COSMERE.Actor.Size.Medium',
             size: 5,
             unit: 'feet',
+            tokenDimensions: 1,
         },
         [Size.Large]: {
             label: 'COSMERE.Actor.Size.Large',
             size: 10,
             unit: 'feet',
+            tokenDimensions: 2,
         },
         [Size.Huge]: {
             label: 'COSMERE.Actor.Size.Huge',
             size: 15,
             unit: 'feet',
+            tokenDimensions: 3,
         },
         [Size.Garguantuan]: {
             label: 'COSMERE.Actor.Size.Gargantuan',
             size: 20,
             unit: 'feet',
+            tokenDimensions: 4,
         },
     },
     creatureTypes: {
@@ -118,12 +123,24 @@ const COSMERE: CosmereRPGConfig = {
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/burrowing.svg',
             condition: false,
         },
+        [Status.Depleted]: {
+            label: 'COSMERE.Status.Depleted',
+            icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/depleted.svg',
+            // TODO: Add reference to starter rules
+            condition: true,
+        },
         [Status.Determined]: {
             label: 'COSMERE.Status.Determined',
             icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/determined.svg',
             reference: {
                 value: 'Compendium.cosmere-rpg.starter-rules.JournalEntry.4BfYSQ4DinrH4dPa.JournalEntryPage.jQvh7ULoKmh49sYA#determined',
             },
+            condition: true,
+        },
+        [Status.Diminished]: {
+            label: 'COSMERE.Status.Diminished',
+            icon: 'systems/cosmere-rpg/assets/icons/svg/conditions/diminished.svg',
+            // TODO: Add reference to starter rules
             condition: true,
         },
         [Status.Disoriented]: {
@@ -350,12 +367,12 @@ const COSMERE: CosmereRPGConfig = {
             formula: '10 + @attr.str + @bonus',
         },
         [Resource.Focus]: {
-            key: Resource.Health,
+            key: Resource.Focus,
             label: 'COSMERE.Actor.Resource.Focus',
             formula: '2 + @attr.wil + @bonus',
         },
         [Resource.Investiture]: {
-            key: Resource.Health,
+            key: Resource.Investiture,
             label: 'COSMERE.Actor.Resource.Investiture',
         },
     },
@@ -699,11 +716,19 @@ const COSMERE: CosmereRPGConfig = {
                     key: ItemResource.Uses,
                     label: 'COSMERE.Item.Resource.Types.Uses.Singular',
                     labelPlural: 'COSMERE.Item.Resource.Types.Uses.Plural',
+                    icon: 'fa-regular fa-circle-check',
                 },
                 [ItemResource.Charges]: {
                     key: ItemResource.Charges,
                     label: 'COSMERE.Item.Resource.Types.Charges.Singular',
                     labelPlural: 'COSMERE.Item.Resource.Types.Charges.Plural',
+                    icon: 'fa-solid fa-bolt',
+                },
+                [ItemResource.Ammo]: {
+                    key: ItemResource.Ammo,
+                    label: 'COSMERE.Item.Resource.Types.Ammo.Singular',
+                    labelPlural: 'COSMERE.Item.Resource.Types.Ammo.Plural',
+                    icon: 'fa-solid fa-burst',
                 },
             },
 
@@ -791,6 +816,12 @@ const COSMERE: CosmereRPGConfig = {
                 labelPlural: 'COSMERE.Item.Type.Power.label_plural',
                 desc_placeholder: 'COSMERE.Item.Type.Power.desc_placeholder',
             },
+            [ItemType.EffectsContainer]: {
+                label: 'COSMERE.Item.Type.EffectsContainer.label',
+                labelPlural: 'COSMERE.Item.Type.EffectsContainer.label_plural',
+                desc_placeholder:
+                    'COSMERE.Item.Type.EffectsContainer.desc_placeholder',
+            },
             [ItemType.TalentTree]: {
                 label: 'COSMERE.Item.Type.TalentTree.label',
                 labelPlural: 'COSMERE.Item.Type.TalentTree.label_plural',
@@ -804,6 +835,9 @@ const COSMERE: CosmereRPGConfig = {
                 },
                 [EquipType.Hold]: {
                     label: 'COSMERE.Item.Equip.Types.Hold.Label',
+                },
+                [EquipType.Equip]: {
+                    label: 'COSMERE.Item.Equip.Types.Equip.Label',
                 },
             },
             hold: {
@@ -879,6 +913,8 @@ const COSMERE: CosmereRPGConfig = {
                             'COSMERE.Item.Talent.Prerequisite.Type.culture',
                         [TalentTree.Node.Prerequisite.Type.Goal]:
                             'COSMERE.Item.Talent.Prerequisite.Type.goal',
+                        [TalentTree.Node.Prerequisite.Type.Power]:
+                            'COSMERE.Item.Talent.Prerequisite.Type.power',
                     },
                 },
             },
@@ -1178,6 +1214,13 @@ const COSMERE: CosmereRPGConfig = {
         actor: {
             components: {
                 actions: {
+                    sections: {
+                        static: {},
+                        dynamic: {},
+                    },
+                },
+
+                talents: {
                     sections: {
                         static: {},
                         dynamic: {},

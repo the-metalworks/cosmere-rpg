@@ -1,10 +1,5 @@
 /* eslint-disable @typescript-eslint/class-literal-property-style */
-
-import {
-    CosmereActor,
-    CosmereChatMessage,
-    CosmereItem,
-} from '@src/system/documents';
+import { Attribute, Skill } from '@system/types/cosmere';
 import {
     AdvantageMode,
     DieModifier,
@@ -12,17 +7,34 @@ import {
     RollMode,
     RollType,
 } from '../types';
-import { CosmereDiceGroup } from '../terms/cosmere-dice-group';
-import { CosmereDie } from '../terms/cosmere-die';
-import { Attribute, Skill } from '@src/system/types/cosmere';
-import { RollConfigurationDialog } from '@src/system/applications/dialogs/roll-configuration';
-import { renderSystemTemplate, TEMPLATES } from '@src/system/utils/templates';
-import { SYSTEM_ID } from '@src/system/constants';
 import {
     FixedInstanceType,
     InexactPartial,
 } from '@league-of-foundry-developers/foundry-vtt-types/utils';
-import { TargetDescriptor } from '@src/system/utils/generic';
+
+// Documents
+import {
+    CosmereActor,
+    CosmereChatMessage,
+    CosmereItem,
+} from '@system/documents';
+
+// Data
+import { ActionItemDataModel } from '@system/data/item';
+
+// Terms
+import { CosmereDiceGroup } from '../terms/cosmere-dice-group';
+import { CosmereDie } from '../terms/cosmere-die';
+
+// Dialogs
+import { RollConfigurationDialog } from '@system/applications/dialogs/roll-configuration';
+
+// Utils
+import { renderSystemTemplate, TEMPLATES } from '@system/utils/templates';
+import { TargetDescriptor } from '@system/utils/generic';
+
+// Constants
+import { SYSTEM_ID } from '@system/constants';
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type CosmereRollData = {
@@ -86,6 +98,12 @@ export interface CosmereRollOptions extends Partial<foundry.dice.Roll.Options> {
      * @default true
      */
     consume?: boolean;
+
+    /**
+     * Any consumption results will be included here.
+     * Only used if the item use has consumption configured.
+     */
+    consumeResponse?: ActionItemDataModel.ConsumeData[];
 }
 
 export class CosmereRoll extends foundry.dice.Roll<CosmereRollData> {

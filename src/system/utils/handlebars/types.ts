@@ -13,11 +13,22 @@ export interface ItemContext {
     isPhysical: boolean;
     hasQuantity: boolean;
     hasWeight: boolean;
+    hasResource: boolean;
     quantity: number;
     weight: Partial<{
         value: number;
         unit: string;
         total: number;
+    }>;
+    resource: Partial<{
+        value: number;
+        max: number;
+        label: string;
+        addTooltip: string;
+        removeTooltip: string;
+        icon: string;
+        hasRecharge: boolean;
+        rechargeLabel: string;
     }>;
     price: Partial<{
         value: number;
@@ -26,6 +37,7 @@ export interface ItemContext {
 
     isWeapon: boolean;
 
+    isEquippableItem: boolean;
     isEquippable: boolean;
     equipped: boolean;
     equip: Partial<{
@@ -66,6 +78,7 @@ export interface ItemContext {
         type: string;
         value: NumberRange;
         consumesResource: boolean;
+        consumesItemResource: boolean;
         consumesItem: boolean;
         resource: string;
     }>[];

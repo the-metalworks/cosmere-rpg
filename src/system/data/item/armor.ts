@@ -69,6 +69,7 @@ export class ArmorItemDataModel extends DataModelMixin<
         value: 'COSMERE.Item.Type.Armor.desc_placeholder',
     }),
     EquippableItemMixin({
+        alwaysEquippable: true,
         equipType: {
             initial: EquipType.Wear,
             choices: [EquipType.Wear],

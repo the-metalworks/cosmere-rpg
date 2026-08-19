@@ -2,11 +2,14 @@
 import { hasSystemEmbeddedCollections } from './general';
 
 // Types
-import type { AnyObject, AnyMutableObject } from '@system/types/utils';
+import type {
+    AnyObject,
+    AnyMutableObject,
+    AnyEmbeddedCollection,
+} from '@system/types/utils';
 import type { Document } from '@system/types/foundry/document';
 
 import type {
-    AnyEmbeddedCollection,
     AnyDocumentData,
     SystemEmbeddedCollectionsDocument,
 } from '../types/general';
@@ -18,6 +21,7 @@ import type {
 
 // Constants
 import { SYSTEM_EMBEDDED_COLLECTIONS_KEY } from '../constants';
+import { SYSTEM_ID } from '@system/constants';
 
 const DOCUMENT_REQUEST_TIMEOUT_WINDOW = 100;
 const documentsRequestTimeoutMap = new Map<string, number>();
@@ -101,6 +105,14 @@ export function transformRequest(
 export async function transformRequest(
     inRequest: DocumentSocketRequest,
 ): Promise<DocumentSocketRequest> {
+    if (inRequest.type === 'Adventure') {
+        if (isGetRequest(inRequest)) {
+            return transformAdventureGetRequest(inRequest);
+        } else if (isUpdateRequest(inRequest)) {
+            return transformAdventureUpdateRequest(inRequest);
+        }
+    }
+
     if (isGetRequest(inRequest)) {
         return transformGetRequest(inRequest);
     } else if (isCRUDRequest(inRequest)) {
@@ -123,26 +135,42 @@ function transformGetRequest(
 async function transformCRUDRequest(
     inRequest: DocumentSocketRequest<DatabaseCRUDAction>,
 ): Promise<DocumentSocketRequest> {
+    if (isCreateRequest(inRequest)) assignIdsCreateRequest(inRequest);
+
     const targets = await getCRUDRequestTargets(inRequest);
     if (targets.length === 0) return inRequest;
 
     const hierarchy = new DocumentHierarchy(targets[0]);
 
     if (!hierarchy.includesSystemEmbedding || !hierarchy.host) {
-        if (!isCreateRequest(inRequest)) return inRequest;
+        if (isCreateRequest(inRequest)) {
+            const outRequest = transformRequestCommon(inRequest);
+            outRequest.operation.data = inRequest.operation.data.map((data) =>
+                data
+                    ? toServerViewObject(
+                          data as AnyDocumentData,
+                          inRequest.type,
+                      )
+                    : data,
+            );
 
-        return foundry.utils.mergeObject(transformRequestCommon(inRequest), {
-            operation: {
-                data: inRequest.operation.data.map((data) =>
+            return outRequest;
+        } else if (isUpdateRequest(inRequest)) {
+            const outRequest = transformRequestCommon(inRequest);
+            outRequest.operation.updates = inRequest.operation.updates.map(
+                (data) =>
                     data
                         ? toServerViewObject(
                               data as AnyDocumentData,
                               inRequest.type,
                           )
                         : data,
-                ),
-            },
-        });
+            );
+
+            return outRequest;
+        } else {
+            return inRequest;
+        }
     } else {
         await queueRequestFor(hierarchy.host.uuid);
 
@@ -176,6 +204,7 @@ async function transformCRUDRequest(
                         id: doc.id,
                     })),
                 queue: true,
+                isHierarchical: true,
             },
         };
 
@@ -184,6 +213,28 @@ async function transformCRUDRequest(
             outRequest,
         ) as DocumentSocketRequest<'update'>;
     }
+}
+
+function assignIdsCreateRequest(request: DocumentSocketRequest<'create'>) {
+    request.operation.data = request.operation.data.map((data) => {
+        if (data) {
+            if (data instanceof foundry.abstract.Document) {
+                data = data.toObject();
+            }
+
+            if (
+                !request.operation.keepId ||
+                !foundry.utils.hasProperty(data, '_id')
+            )
+                foundry.utils.setProperty(
+                    data,
+                    '_id',
+                    foundry.utils.randomID(),
+                );
+        }
+
+        return data;
+    });
 }
 
 async function getCRUDRequestTargets(
@@ -215,6 +266,10 @@ async function getCRUDRequestTargets(
                 if (!doc.id) {
                     doc.updateSource({ _id: foundry.utils.randomID() });
                 }
+
+                doc.updateSource({
+                    '_stats.createdTime': Date.now(),
+                });
 
                 return doc;
             });
@@ -278,6 +333,13 @@ function resolveUpdatedCollectionData(
 
     return [
         ...collection
+            .filter(
+                (doc) =>
+                    !foundry.utils.getProperty(
+                        doc,
+                        `flags.${SYSTEM_ID}.meta.isEphemeral`,
+                    ),
+            )
             .map((doc) =>
                 foundry.utils.mergeObject(
                     doc.toObject(),
@@ -339,17 +401,70 @@ function resolveUpdate(
                               [collection.name]: acc,
                           }),
                 } as AnyObject,
+                { performDeletions: false },
             );
 
             return (
-                parentCollection?.map((doc) =>
-                    foundry.utils.mergeObject(
-                        doc.toObject() as AnyDocumentData,
-                        doc.id === curr.id ? update : {},
-                    ),
-                ) ?? ([update] as AnyDocumentData[])
+                parentCollection
+                    ?.filter(
+                        (doc) =>
+                            !foundry.utils.getProperty(
+                                doc,
+                                `flags.${SYSTEM_ID}.meta.isEphemeral`,
+                            ),
+                    )
+                    ?.map((doc) =>
+                        foundry.utils.mergeObject(
+                            doc.toObject() as AnyDocumentData,
+                            doc.id === curr.id ? update : {},
+                        ),
+                    ) ?? ([update] as AnyDocumentData[])
             );
         }, updatedCollectionData)[0];
+}
+
+function transformAdventureGetRequest(
+    inRequest: DocumentSocketRequest<'get'>,
+): DocumentSocketRequest<'get'> {
+    return transformRequestCommon(inRequest);
+}
+
+function transformAdventureUpdateRequest(
+    inRequest: DocumentSocketRequest<'update'>,
+): DocumentSocketRequest {
+    const embeddedDataFields = Object.entries(Adventure.schema.fields).filter(
+        ([key, field]) =>
+            field instanceof foundry.data.fields.SetField &&
+            field.element instanceof foundry.data.fields.EmbeddedDataField,
+    );
+
+    const outRequest = transformRequestCommon(inRequest);
+
+    outRequest.operation.updates = inRequest.operation.updates.map((update) => {
+        if (!update) return update;
+
+        embeddedDataFields.forEach(([key, field]) => {
+            if (!foundry.utils.hasProperty(update, key)) return;
+
+            const documentName = (
+                (field as foundry.data.fields.SetField.Any)
+                    .element as foundry.data.fields.EmbeddedDataField<
+                    typeof foundry.abstract.Document
+                >
+            ).model.documentName;
+            const data = foundry.utils.getProperty(update, key) as AnyObject[];
+
+            foundry.utils.setProperty(
+                update,
+                key,
+                data.map((data) => toServerViewObject(data, documentName)),
+            );
+        });
+
+        return update;
+    });
+
+    return outRequest;
 }
 
 /**
@@ -385,8 +500,16 @@ export function transformResponse(inResponse: SocketResponse): SocketResponse {
     const inRequest = inResponse.operation.sourceRequest;
 
     if (isGetRequest(inRequest)) {
-        return transformGetReponse(inResponse);
-    } else if (isCreateRequest(inRequest) || isUpdateRequest(inRequest)) {
+        if (inRequest.type === 'Adventure')
+            return transformAdventureResponse(inResponse);
+
+        return transformGetResponse(inResponse);
+    } else if (isCreateRequest(inRequest)) {
+        return transformCreateUpdateResponse(inResponse);
+    } else if (isUpdateRequest(inRequest)) {
+        if (inRequest.type === 'Adventure')
+            return transformAdventureResponse(inResponse);
+
         return transformCreateUpdateResponse(inResponse);
     } else if (isDeleteRequest(inRequest)) {
         return transformDeleteResponse(inResponse);
@@ -395,14 +518,16 @@ export function transformResponse(inResponse: SocketResponse): SocketResponse {
     return inResponse;
 }
 
-function transformGetReponse(inResponse: SocketResponse) {
+function transformGetResponse(inResponse: SocketResponse) {
     const inRequest = inResponse.operation.sourceRequest!;
 
-    if (!inResponse.result || inResponse.result.length !== 1) return inResponse;
-    const result = inResponse.result[0] as AnyMutableObject;
+    const result = inResponse.result?.map((r) => {
+        if (typeof r === 'string') return r;
+        return toClientViewObject(r, inRequest.type);
+    });
 
     return foundry.utils.mergeObject(inResponse, {
-        result: [toClientViewObject(result, inRequest.type)],
+        result,
     }) as SocketResponse;
 }
 
@@ -486,31 +611,26 @@ function transformCreateUpdateResponse(
                         ),
                 );
         } else {
-            const documentCls = CONFIG[inRequest.type]?.documentClass as
-                | Document.Constructable.AnyConstructor
-                | undefined;
-
-            if (documentCls && hasSystemEmbeddedCollections(documentCls)) {
-                result = result.map((doc) =>
-                    toClientViewObject(doc as AnyObject, inRequest.type),
-                );
-            }
+            result = result.map((doc) =>
+                toClientViewObject(doc as AnyObject, inRequest.type),
+            );
         }
 
         const targetIds = inResponse.operation.targets?.map(
             (target) => target.id,
         );
         if (targetIds)
-            result = (result as AnyObject[]).filter((doc) =>
+            result = result.filter((doc) =>
                 targetIds.includes(
                     foundry.utils.getProperty(doc, '_id') as string,
                 ),
             );
     }
 
-    return foundry.utils.mergeObject(transformCRUDResponseCommon(inResponse), {
-        result,
-    });
+    const outResponse = transformCRUDResponseCommon(inResponse);
+    outResponse.result = result;
+
+    return outResponse;
 }
 
 function transformDeleteResponse(inResponse: SocketResponse): SocketResponse {
@@ -533,21 +653,63 @@ function transformCRUDResponseCommon(
         action: inRequest.action,
         broadcast: inResponse.broadcast,
         userId: inResponse.userId,
-        operation: {
+        operation: foundry.utils.mergeObject(inResponse.operation, {
             id: inRequest.operation.id,
             action: inRequest.action,
             modifiedTime: inRequest.operation.modifiedTime,
             pack: inRequest.operation.pack,
             parentUuid: inRequest.operation.parentUuid,
             render: inRequest.operation.render,
+            diff: false,
+            recursive: inResponse.operation.isHierarchical
+                ? false
+                : inRequest.operation.recursive,
             renderSheet: foundry.utils.getProperty(
                 inRequest.operation,
                 'renderSheet',
             ) as boolean,
-        },
+        }),
         type: inRequest.type,
         result: [],
     };
+}
+
+function transformAdventureResponse(
+    inResponse: SocketResponse,
+): SocketResponse {
+    const embeddedDataFields = Object.entries(Adventure.schema.fields).filter(
+        ([key, field]) =>
+            field instanceof foundry.data.fields.SetField &&
+            field.element instanceof foundry.data.fields.EmbeddedDataField,
+    );
+
+    const result = inResponse.result?.map((r) => {
+        if (typeof r === 'string') return r;
+
+        embeddedDataFields.forEach(([key, field]) => {
+            if (!foundry.utils.hasProperty(r, key)) return;
+
+            const documentName = (
+                (field as foundry.data.fields.SetField.Any)
+                    .element as foundry.data.fields.EmbeddedDataField<
+                    typeof foundry.abstract.Document
+                >
+            ).model.documentName;
+            const data = foundry.utils.getProperty(r, key) as AnyObject[];
+
+            foundry.utils.setProperty(
+                r,
+                key,
+                data.map((data) => toClientViewObject(data, documentName)),
+            );
+        });
+
+        return r;
+    });
+
+    return foundry.utils.mergeObject(inResponse, {
+        result,
+    }) as SocketResponse;
 }
 
 /* --- Helpers --- */
@@ -596,24 +758,43 @@ export function toServerViewObject(
                 [`system.${SYSTEM_EMBEDDED_COLLECTIONS_KEY}`]:
                     systemEmbeddedConfig.reduce(
                         (acc, [embeddedName, collectionName]) => {
-                            const collectionData = foundry.utils.getProperty(
+                            let collectionData = foundry.utils.getProperty(
                                 obj,
                                 collectionName,
                             ) as AnyObject[] | undefined;
                             if (!collectionData) return acc;
 
+                            collectionData = ensureArray(collectionData);
+                            if (!collectionData) {
+                                console.warn(
+                                    `Found non-iterable collection data for ${collectionName}. Skipping transformation for this collection.`,
+                                );
+                                return acc;
+                            }
+
                             return {
                                 ...acc,
                                 [collectionName]:
-                                    collectionData?.map((doc) =>
-                                        toServerViewObject(doc, embeddedName),
-                                    ) ?? [],
+                                    collectionData
+                                        ?.filter(
+                                            (doc) =>
+                                                !foundry.utils.getProperty(
+                                                    doc,
+                                                    `flags.${SYSTEM_ID}.meta.isEphemeral`,
+                                                ),
+                                        )
+                                        ?.map((doc) =>
+                                            toServerViewObject(
+                                                doc,
+                                                embeddedName,
+                                            ),
+                                        ) ?? [],
                             };
                         },
                         {} as Record<string, AnyObject[]>,
                     ),
             },
-            { inplace: false },
+            { inplace: false, performDeletions: false },
         );
 
         systemEmbeddedConfig.forEach(([_, collectionName]) => {
@@ -624,21 +805,37 @@ export function toServerViewObject(
     // Handle native embedded collections
     Object.entries(cls.metadata.embedded).forEach(
         ([embeddedName, collectionName]) => {
-            const collectionData = foundry.utils.getProperty(
+            let collectionData = foundry.utils.getProperty(
                 obj,
                 collectionName,
             ) as AnyObject[] | undefined;
             if (!collectionData) return;
 
+            collectionData = ensureArray(collectionData);
+            if (!collectionData) {
+                console.warn(
+                    `Found non-iterable collection data for ${collectionName}. Skipping transformation for this collection.`,
+                );
+                return;
+            }
+
             foundry.utils.setProperty(
                 obj,
                 collectionName,
-                collectionData.map((doc) =>
-                    toServerViewObject(
-                        doc,
-                        embeddedName as foundry.abstract.Document.Type,
+                collectionData
+                    .filter(
+                        (doc) =>
+                            !foundry.utils.getProperty(
+                                doc,
+                                `flags.${SYSTEM_ID}.meta.isEphemeral`,
+                            ),
+                    )
+                    .map((doc) =>
+                        toServerViewObject(
+                            doc,
+                            embeddedName as foundry.abstract.Document.Type,
+                        ),
                     ),
-                ),
             );
         },
     );
@@ -669,11 +866,19 @@ export function toClientViewObject(
     if (hasSystemEmbeddedCollections(cls)) {
         Object.entries(cls.metadata.systemEmbedded).forEach(
             ([embeddedName, collectionName]) => {
-                const collectionData = foundry.utils.getProperty(
+                let collectionData = foundry.utils.getProperty(
                     data,
                     `system.${SYSTEM_EMBEDDED_COLLECTIONS_KEY}.${collectionName}`,
                 ) as AnyObject[] | undefined;
                 if (!collectionData) return;
+
+                collectionData = ensureArray(collectionData);
+                if (!collectionData) {
+                    console.warn(
+                        `Found non-iterable collection data for ${collectionName}. Skipping transformation for this collection.`,
+                    );
+                    return;
+                }
 
                 foundry.utils.setProperty(
                     data,
@@ -713,24 +918,12 @@ export function toClientViewObject(
             );
             if (!collectionData) return;
 
-            const collectionDataType = foundry.utils.getType(collectionData);
-            if (collectionDataType !== 'Array') {
-                const isIterable =
-                    typeof collectionData === 'object' &&
-                    Symbol.iterator in collectionData &&
-                    typeof collectionData[Symbol.iterator] === 'function';
-
-                if (!isIterable) {
-                    console.warn(
-                        `Expected collection data for ${collectionName} to be an array or iterable, but got ${collectionDataType}. Skipping transformation for this collection.`,
-                        collectionData,
-                    );
-                    return;
-                }
-
-                collectionData = Array.from(
-                    collectionData as Iterable<AnyObject>,
+            collectionData = ensureArray(collectionData);
+            if (!collectionData) {
+                console.warn(
+                    `Found non-iterable collection data for ${collectionName}. Skipping transformation for this collection.`,
                 );
+                return;
             }
 
             foundry.utils.setProperty(
@@ -745,6 +938,21 @@ export function toClientViewObject(
     return toDocument
         ? new (cls as Document.Constructable.AnyConstructor)(data, { parent })
         : data;
+}
+
+function ensureArray<T extends unknown[]>(collectionData: T): T;
+function ensureArray(collectionData: unknown): unknown[] | null;
+function ensureArray(collectionData: unknown): unknown[] | null {
+    const collectionDataType = foundry.utils.getType(collectionData);
+    if (collectionDataType === 'Array') return collectionData as unknown[];
+
+    const isIterable =
+        typeof collectionData === 'object' &&
+        collectionData !== null &&
+        Symbol.iterator in collectionData &&
+        typeof collectionData[Symbol.iterator] === 'function';
+
+    return isIterable ? Array.from(collectionData as Iterable<unknown>) : null;
 }
 
 class DocumentHierarchy<

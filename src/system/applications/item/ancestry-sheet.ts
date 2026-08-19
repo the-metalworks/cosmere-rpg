@@ -46,7 +46,7 @@ export class AncestrySheet extends TalentsTabMixin(BaseItemSheet) {
         foundry.utils.deepClone(super.PARTS),
         {
             content: {
-                template: `systems/${SYSTEM_ID}/templates/${TEMPLATES.ITEM_ANCESTRY_CONTENT}`,
+                template: `${TEMPLATES.DIRECTORY}${TEMPLATES.ITEM_ANCESTRY_CONTENT}`,
             },
         },
     );

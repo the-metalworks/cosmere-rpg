@@ -8,11 +8,14 @@ import './details-equip';
 import './details-deflect';
 import './details-activation';
 import './details-attack';
+import './details-strike';
 import './details-damage';
 import './details-modality';
 import './details-talents-provider';
 import './details-linked-skills';
+import './details-resources';
 import './properties';
 
+import './action';
 import './ancestry';
 import './talent-tree';

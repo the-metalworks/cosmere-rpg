@@ -23,7 +23,7 @@
                                 {{lower (localize "GENERIC.Talent")}}{{#unless (or (not @last) @../last)}};{{/unless}}
                             </span>
                             {{#if (not @last)}}
-                                <span>or</span>  
+                                <span>or</span>
                             {{/if}}
                         {{/each}}
                     {{else if (eq prereq.type "attribute")}}
@@ -51,6 +51,9 @@
                     {{else if (eq prereq.type "culture")}}
                         <span>{{prereq.culture.label}}</span>
                         <span>{{lower (localize "COSMERE.Item.Talent.Prerequisite.Type.culture")}}{{#unless @last}};{{/unless}}</span>
+                    {{else if (eq prereq.type "power")}}
+                        <span>{{prereq.power.label}}</span>
+                        <span>{{lower (localize "COSMERE.Item.Talent.Prerequisite.Type.power")}}{{#unless @last}};{{/unless}}</span>
                     {{/if}}
                 {{/each}}
             {{/if}}

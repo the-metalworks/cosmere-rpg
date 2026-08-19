@@ -22,7 +22,7 @@ export class CharacterCultureComponent extends HandlebarsApplicationComponent<
     any,
     Params
 > {
-    static TEMPLATE = `systems/${SYSTEM_ID}/templates/${TEMPLATES.ACTOR_CHARACTER_CULTURE}`;
+    static TEMPLATE = `${TEMPLATES.DIRECTORY}${TEMPLATES.ACTOR_CHARACTER_CULTURE}`;
 
     /**
      * NOTE: Unbound methods is the standard for defining actions

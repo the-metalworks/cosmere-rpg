@@ -1,5 +1,6 @@
 import { CosmereItem } from '@system/documents/item';
 import { CosmereActor } from '@system/documents/actor';
+import { CosmereCombat } from '@src/system/documents';
 
 import { Event, IHandler } from '@system/types/item/event-system';
 import { ItemEventTypeConfig } from '@system/types/config';
@@ -17,6 +18,7 @@ import { SYSTEM_ID } from '@system/constants';
 const VALID_DOCUMENT_TYPES = [
     (CONFIG.Item.documentClass as unknown as typeof Item).metadata.name,
     (CONFIG.Actor.documentClass as unknown as typeof Actor).metadata.name,
+    (CONFIG.Combat.documentClass as unknown as typeof Combat).metadata.name,
 ];
 
 /**
@@ -78,7 +80,7 @@ export function register() {
 
 Hooks.once('ready', () => {
     // Group all item event types by their hook
-    const evenTypesByHook: Record<string, string[]> = Object.entries(
+    const eventTypesByHook: Record<string, string[]> = Object.entries(
         CONFIG.COSMERE.items.events.types,
     ).reduce(
         (acc, [type, config]) => {
@@ -92,7 +94,7 @@ Hooks.once('ready', () => {
     );
 
     // Register hooks for each event type
-    Object.entries(evenTypesByHook).forEach(([hook, eventTypes]) => {
+    Object.entries(eventTypesByHook).forEach(([hook, eventTypes]) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         Hooks.on(hook as any, async (...args: any[]) => {
             const freshTraceId = foundry.utils.randomID();
@@ -134,7 +136,7 @@ Hooks.once('ready', () => {
                     const actor = document as CosmereActor;
 
                     // Handle the hook for all items
-                    await actor.items.reduce(async (prev, item) => {
+                    await actor.allItems.reduce(async (prev, item) => {
                         // Wait for the previous item to finish
                         await prev;
 
@@ -165,6 +167,35 @@ Hooks.once('ready', () => {
                         options,
                         sourceUserId,
                     );
+                } else if (
+                    document.documentName ===
+                    (CONFIG.Combat.documentClass as unknown as typeof Combat)
+                        .metadata.name
+                ) {
+                    // Document is combat
+                    const combat = document as CosmereCombat;
+
+                    // Get each involved actor of the combat
+                    for (const combatant of combat.combatants) {
+                        const actor = combatant.actor as CosmereActor | null;
+                        if (!actor) continue;
+
+                        // Handle the hook for all items
+                        for (const [
+                            ,
+                            item,
+                        ] of actor.traverseEmbeddedDocuments()) {
+                            if (!(item instanceof CosmereItem)) continue;
+                            await handleEventHook(
+                                item,
+                                type,
+                                trace,
+                                config,
+                                options,
+                                sourceUserId,
+                            );
+                        }
+                    }
                 } else {
                     throw new InvalidHookError(
                         type,
@@ -301,17 +332,15 @@ async function fireEvent(event: Event) {
 
     // Execute any relevant rules
     await item.system.events
-        .filter((rule) => rule.event === event.type)
+        .filter((rule) => rule.event === event.type && !rule.disabled)
         .sort((a, b) => a.order - b.order)
         .reduce(async (prev, rule) => {
             if ((await prev) === false) return false;
 
             try {
                 // Execute the rule
-                // NOTE: Await is used here as the handler is potentially async
-                // eslint-disable-next-line @typescript-eslint/await-thenable
-                return ((await rule.handler) as IHandler).execute(
-                    foundry.utils.deepClone(event),
+                return await (rule.handler as IHandler).execute(
+                    foundry.utils.deepClone({ ...event, rule }),
                 );
             } catch (e) {
                 console.error(
