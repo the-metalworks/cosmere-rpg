@@ -717,8 +717,19 @@ export class CosmereActor<
             range.minRange;
 
         await this.update({
-            [`system.resources.hea.max.range.value`]: rolledValue,
-            [`system.resources.hea.value`]: rolledValue,
+            system: {
+                // @ts-expect-error Foundry typings incorrectly require all fields of hea.max for this partial update.
+                resources: {
+                    hea: {
+                        max: {
+                            range: {
+                                value: rolledValue,
+                            },
+                        },
+                        value: rolledValue,
+                    },
+                },
+            },
         });
     }
 
@@ -729,8 +740,19 @@ export class CosmereActor<
         const average = health.max.range.average;
 
         await this.update({
-            [`system.resource.hea.max.range.value`]: average,
-            [`system.resource.hea.value`]: average,
+            system: {
+                // @ts-expect-error Foundry typings incorrectly require all fields of hea.max for this partial update.
+                resources: {
+                    hea: {
+                        max: {
+                            range: {
+                                value: average,
+                            },
+                        },
+                        value: average,
+                    },
+                },
+            },
         });
     }
 
