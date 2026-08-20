@@ -16,6 +16,7 @@ Small bug fixes and minor improvements/changes, mostly regarding UI interactions
 * Fixed an issue causing certain items to be impossible to edit or remove
 * Fixed an issue causing changes to certain input fields on actor sheets to close expanded notes sections
 * Fixed an issue causing embedded actions in a compendium to be impossible to drag and drop anywhere
+* Fixed an issue where damage rolls would fail to resolve "default" as an attribute/skill
 
 <br>
 
