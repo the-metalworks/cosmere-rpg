@@ -469,6 +469,42 @@ export class CosmereItem<
         } else return [];
     }
 
+    /** Returns an embedded item found in this item if it exists.
+     *
+     * @param uuid The UUID of the embedded item you want to get.
+     * @returns A {@link CosmereItem} or null if no document could be found.
+     */
+    public getEmbeddedItemFromUuid(uuid: string): CosmereItem | null {
+        const parsedUuid = foundry.utils.parseUuid(uuid);
+        if (!parsedUuid) {
+            console.warn(`UUID "${uuid}" could not be parsed`);
+            return null;
+        }
+
+        if (parsedUuid.primaryId !== this.id) {
+            console.warn(`UUID "${uuid}" does not belong to "${this.name}"`);
+            return null;
+        }
+
+        if (parsedUuid.type !== 'Item') {
+            console.warn(`UUID "${uuid}" is not an Item`);
+            return null;
+        }
+
+        const item = this.allEmbeddedItems.find(
+            (item) => item.id === parsedUuid.id,
+        );
+
+        if (!item) {
+            console.warn(
+                `"${this.name}" does not contain an embedded item with ID "${parsedUuid.id}"`,
+            );
+            return null;
+        }
+
+        return item;
+    }
+
     /**
      * Whether or not this action is the default for its parent item.
      * Only available for action items that are embedded in other items.
@@ -813,7 +849,9 @@ export class CosmereItem<
                           )
                         : `${game.i18n.localize('GENERIC.Custom')} ${game.i18n.localize('GENERIC.Skill')}`
                 })`,
-                defaultAttribute: skill.attribute ? skill.attribute : undefined,
+                defaultAttribute: data.skill.attribute
+                    ? data.skill.attribute
+                    : undefined,
                 parts: parts,
                 plotDie: options.plotDie ?? this.system.skillTest.plotDie,
                 opportunity:
@@ -866,15 +904,16 @@ export class CosmereItem<
 
         // Get the skill id
         const skillId =
-            options.skill ??
+            (options.skill && actor.system.skills[options.skill]
+                ? options.skill
+                : null) ??
             (activatable ? this.system.damage.resolvedSkill : null);
-
-        // Get the skill
-        const skill = skillId ? actor.system.skills[skillId] : undefined;
 
         // Get the attribute id
         const attributeId =
-            options.attribute ??
+            (options.attribute && actor.system.attributes[options.attribute]
+                ? options.attribute
+                : null) ??
             (activatable ? this.system.damage.resolvedAttribute : null);
 
         // Set up data
@@ -1843,11 +1882,12 @@ export class CosmereItem<
     ): D20RollData {
         const skill = skillId
             ? actor.system.skills[skillId]
-            : { attribute: null, rank: 0, mod: 0 };
+            : { attribute: null, rank: 0, mod: { bonus: 0 } };
         const attribute = attributeId
             ? actor.system.attributes[attributeId]
             : { value: 0, bonus: 0 };
-        const mod = skill.rank + attribute.value + attribute.bonus;
+        const mod =
+            skill.rank + skill.mod.bonus + attribute.value + attribute.bonus;
 
         return {
             ...actor.getRollData(),
@@ -1855,8 +1895,7 @@ export class CosmereItem<
             skill: {
                 id: skillId ?? null,
                 rank: skill.rank,
-                mod:
-                    typeof skill.mod === 'number' ? skill.mod : skill.mod.value,
+                mod,
                 attribute: attributeId ? attributeId : skill.attribute,
             },
             attribute: attribute.value,
@@ -1868,22 +1907,24 @@ export class CosmereItem<
     }
 
     protected getDamageRollData(
-        skillId: Skill | null | undefined,
-        attributeId: Attribute | null | undefined,
+        skillId: Skill | null,
+        attributeId: Attribute | null,
         actor: CosmereActor,
     ): DamageRollData {
-        const skill = skillId ? actor.system.skills[skillId] : undefined;
-        const attribute = attributeId
-            ? attributeId
-                ? actor.system.attributes[attributeId]
-                : { value: 0, bonus: 0 }
-            : undefined;
+        // Get skill and ensure skill actually exists, if it doesnt then create an empty skill
+        const skill = (skillId ? actor.system.skills[skillId] : null) ?? {
+            attribute: attributeId ?? Attribute.Strength,
+            rank: 0,
+            mod: { bonus: 0 },
+        };
+
+        // Get attribute and ensure attribute actually exists, if it doesnt then create an empty attribute
+        const attribute = (attributeId
+            ? actor.system.attributes[attributeId]
+            : null) ?? { value: 0, bonus: 0 };
+
         const mod =
-            skill !== undefined || attribute !== undefined
-                ? (skill?.rank ?? 0) +
-                  (attribute?.value ?? 0) +
-                  (attribute?.bonus ?? 0)
-                : undefined;
+            skill.rank + skill.mod.bonus + attribute.value + attribute.bonus;
 
         return {
             ...actor.getRollData(),
@@ -1892,7 +1933,7 @@ export class CosmereItem<
                 ? {
                       id: skillId!,
                       rank: skill.rank,
-                      mod: skill.mod.value,
+                      mod,
                       attribute: attributeId! ? attributeId : skill.attribute,
                   }
                 : undefined,
@@ -1981,6 +2022,7 @@ export class CosmereItem<
                     skillTest: {
                         attribute: 'default',
                         skill: this.system.strike.skill,
+                        modifierFormula: this.system.strike.skillTestBonus,
                     },
                     damage: {
                         formula: this.strikeDieToFormula(),
@@ -2051,7 +2093,11 @@ export class CosmereItem<
             return '';
         }
         const strike = this.system.strike;
-        return `${strike.die.count}${strike.die.size}`;
+
+        // Use array with filter to strip out optional / empty modifier
+        return [`${strike.die.count}${strike.die.size}`, strike.damageBonus]
+            .filter((v) => !!v)
+            .join(' + ');
     }
 
     public strikeDamageType(this: CosmereItem): DamageType {

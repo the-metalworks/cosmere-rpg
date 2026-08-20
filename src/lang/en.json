@@ -1241,7 +1241,11 @@
                     "Title": "Strike",
                     "Skill": "Skill",
                     "Damage": "Damage",
-                    "Hint": "Skill selection is locked by default unless weapon type is set to Special. Use the lock button to toggle this behavior."
+                    "Hint": "Skill selection is locked by default unless weapon type is set to Special. Use the lock button to toggle this behavior.",
+                    "RollBonus": {
+                        "Label": "{type} Bonus",
+                        "Hint": "Additional formula that is applied to the strike's {type}"
+                    }
                 },
                 "Damage": {
                     "Title": "Damage",

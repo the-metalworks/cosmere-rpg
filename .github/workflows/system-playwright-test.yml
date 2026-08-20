@@ -1,0 +1,62 @@
+name: "Playwright System Tests"
+on:
+  workflow_call:
+    inputs:
+      system-artifact:
+        required: true
+        type: string
+    secrets:
+      WORLD_SEED_REPO_PAT:
+        required: true
+      FOUNDRY_LICENSE_JSON:
+        required: true
+jobs:
+  playwright:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: npm
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Download build output
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ inputs.system-artifact }}
+        path: build/
+
+    - name: Fix compendium permissions
+      run: chmod -R a+rwX build
+
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps chromium
+
+    - name: Checkout world seed
+      uses: actions/checkout@v4
+      with:
+        repository: the-metalworks/docker-world-seed
+        token: ${{ secrets.WORLD_SEED_REPO_PAT }}
+        path: ./world-seed
+
+    - name: Install world-seed dependencies
+      run: cd world-seed && npm ci && cd ..
+
+    - name: Run Playwright tests
+      env:
+        FOUNDRY_LICENSE_JSON: ${{ secrets.FOUNDRY_LICENSE_JSON }}
+      run: npm run test
+
+    - uses: actions/upload-artifact@v4
+      if: ${{ !cancelled() }}
+      with:
+        name: playwright-report
+        path: playwright-report/
+        retention-days: 30
