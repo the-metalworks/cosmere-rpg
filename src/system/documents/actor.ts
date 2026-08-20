@@ -708,6 +708,32 @@ export class CosmereActor<
         return this.getFlag(SYSTEM_ID, `mode.${modality}`);
     }
 
+    public async rollHealth() {
+        const health = this.system.resources.hea;
+        if (!health.max.useRange) return; // If this doesnt use range, then do not roll health
+        const range = health.max.range;
+        const rolledValue =
+            Math.floor(Math.random() * (range.maxRange - range.minRange + 1)) +
+            range.minRange;
+
+        await this.update({
+            [`system.resources.hea.max.range.value`]: rolledValue,
+            [`system.resources.hea.value`]: rolledValue,
+        });
+    }
+
+    public async clearRolledHealth() {
+        const health = this.system.resources.hea;
+        if (!health.max.useRange) return; // If this doesnt use range, then range isnt used at all
+
+        const average = health.max.range.average;
+
+        await this.update({
+            [`system.resource.hea.max.range.value`]: average,
+            [`system.resource.hea.value`]: average,
+        });
+    }
+
     public async rollInjury() {
         // Get roll table
         const table = (await fromUuid(
