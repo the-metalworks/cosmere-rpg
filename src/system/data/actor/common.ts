@@ -270,7 +270,7 @@ function getResourcesSchema() {
         useRange: new foundry.data.fields.BooleanField({
             required: true,
             nullable: false,
-            initial: true,
+            initial: false,
         }),
         range: new foundry.data.fields.SchemaField({
             minRange: new foundry.data.fields.NumberField({
@@ -332,7 +332,6 @@ function getResourcesSchema() {
             constructResourceBaseSchema(),
         ),
     };
-
     return new foundry.data.fields.SchemaField(fields);
 }
 

@@ -137,13 +137,23 @@ export class ActorResourceComponent extends HandlebarsApplicationComponent<
             resource.max.mode === Derived.Mode.Derived &&
             this.application.actor.isAdversary()
         ) {
-            await this.application.actor.update({
-                [`system.resources.${params.resource}`]: {
-                    max: {
-                        useOverride: true,
+            if (params.resource === Resource.Health) {
+                await this.application.actor.update({
+                    [`system.resources.${params.resource}`]: {
+                        max: {
+                            useRange: true,
+                        },
                     },
-                },
-            });
+                });
+            } else {
+                await this.application.actor.update({
+                    [`system.resources.${params.resource}`]: {
+                        max: {
+                            useOverride: true,
+                        },
+                    },
+                });
+            }
             resource = this.application.actor.system.resources[params.resource];
         }
 
