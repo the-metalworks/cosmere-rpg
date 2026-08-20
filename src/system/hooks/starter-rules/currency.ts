@@ -4,53 +4,53 @@ export function register() {
     const secondary = [
         {
             id: 'diamond',
-            label: 'Diamond',
+            label: 'COSMERE.Objects.Stormlight.Currency.Diamond',
             conversionRate: 1,
             base: true,
         },
         {
             id: 'garnet',
-            label: 'Garnet',
+            label: 'COSMERE.Objects.Stormlight.Currency.Garnet',
             conversionRate: 5,
         },
         {
             id: 'heliodor',
-            label: 'Heliodor',
+            label: 'COSMERE.Objects.Stormlight.Currency.Heliodor',
             conversionRate: 5,
         },
         {
             id: 'topaz',
-            label: 'Topaz',
+            label: 'COSMERE.Objects.Stormlight.Currency.Topaz',
             conversionRate: 5,
         },
         {
             id: 'ruby',
-            label: 'Ruby',
+            label: 'COSMERE.Objects.Stormlight.Currency.Ruby',
             conversionRate: 10,
         },
         {
             id: 'smokestone',
-            label: 'Smokestone',
+            label: 'COSMERE.Objects.Stormlight.Currency.Smokestone',
             conversionRate: 10,
         },
         {
             id: 'zircon',
-            label: 'Zircon',
+            label: 'COSMERE.Objects.Stormlight.Currency.Zircon',
             conversionRate: 10,
         },
         {
             id: 'amethyst',
-            label: 'Amethyst',
+            label: 'COSMERE.Objects.Stormlight.Currency.Amethyst',
             conversionRate: 25,
         },
         {
             id: 'sapphire',
-            label: 'Sapphire',
+            label: 'COSMERE.Objects.Stormlight.Currency.Sapphire',
             conversionRate: 25,
         },
         {
             id: 'emerald',
-            label: 'Emerald',
+            label: 'COSMERE.Objects.Stormlight.Currency.Emerald',
             conversionRate: 50,
         },
     ];
@@ -58,25 +58,25 @@ export function register() {
     cosmereRPG.api.registerCurrency({
         source: SYSTEM_ID,
         id: 'spheres',
-        label: 'STORMLIGHT.Currency.Spheres',
+        label: 'COSMERE.Objects.Stormlight.Currency.Spheres',
         icon: 'systems/cosmere-rpg/assets/icons/stormlight/currency/spheres_infused.webp',
         denominations: {
             primary: [
                 {
                     id: 'mark',
-                    label: 'Mark',
+                    label: 'COSMERE.Objects.Stormlight.Currency.Mark',
                     unit: 'mk ●',
                     conversionRate: 1,
                     base: true,
                 },
                 {
                     id: 'chip',
-                    label: 'Chip',
+                    label: 'COSMERE.Objects.Stormlight.Currency.Chip',
                     conversionRate: 0.2,
                 },
                 {
                     id: 'broam',
-                    label: 'Broam',
+                    label: 'COSMERE.Objects.Stormlight.Currency.Broam',
                     conversionRate: 4,
                 },
             ],
