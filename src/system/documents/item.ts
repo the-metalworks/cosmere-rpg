@@ -904,15 +904,16 @@ export class CosmereItem<
 
         // Get the skill id
         const skillId =
-            options.skill ??
+            (options.skill && actor.system.skills[options.skill]
+                ? options.skill
+                : null) ??
             (activatable ? this.system.damage.resolvedSkill : null);
-
-        // Get the skill
-        const skill = skillId ? actor.system.skills[skillId] : undefined;
 
         // Get the attribute id
         const attributeId =
-            options.attribute ??
+            (options.attribute && actor.system.attributes[options.attribute]
+                ? options.attribute
+                : null) ??
             (activatable ? this.system.damage.resolvedAttribute : null);
 
         // Set up data
@@ -1910,16 +1911,18 @@ export class CosmereItem<
         attributeId: Attribute | null,
         actor: CosmereActor,
     ): DamageRollData {
-        const skill = skillId
-            ? actor.system.skills[skillId]
-            : {
-                  attribute: attributeId ?? Attribute.Strength,
-                  rank: 0,
-                  mod: { bonus: 0 },
-              };
-        const attribute = attributeId
+        // Get skill and ensure skill actually exists, if it doesnt then create an empty skill
+        const skill = (skillId ? actor.system.skills[skillId] : null) ?? {
+            attribute: attributeId ?? Attribute.Strength,
+            rank: 0,
+            mod: { bonus: 0 },
+        };
+
+        // Get attribute and ensure attribute actually exists, if it doesnt then create an empty attribute
+        const attribute = (attributeId
             ? actor.system.attributes[attributeId]
-            : { value: 0, bonus: 0 };
+            : null) ?? { value: 0, bonus: 0 };
+
         const mod =
             skill.rank + skill.mod.bonus + attribute.value + attribute.bonus;
 
