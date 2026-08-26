@@ -237,23 +237,6 @@ export class CosmereChatMessage<
 
         const section = $(sectionHTML as unknown as HTMLElement);
         const tooltip = section.find('.dice-tooltip');
-
-        // Overwrite die roll results to include multiplied/divided bonuses
-        const dieRolls = tooltip.find('.dice').toArray();
-        const bonuses = getValuesFromRoll(d20Roll as unknown as Roll);
-        for (const [index, dieRoll] of dieRolls.entries()) {
-            const dieRollValue = dieRoll.querySelector('.value');
-            if (dieRollValue)
-                dieRollValue.textContent = bonuses[index].result.toString();
-            const dieRolls = dieRoll.querySelector('.dice-rolls');
-            if (dieRolls) {
-                const constant = document.createElement('li');
-                constant.classList.add('constant');
-                constant.textContent = bonuses[index].math;
-                dieRolls.append(constant);
-            }
-        }
-        this.enrichD20Tooltip(bonuses[bonuses.length - 1].result, tooltip[0]); // TEMP: Workaround
         tooltip.prepend(section.find('.dice-formula'));
 
         html.find('.chat-card').append(section);
@@ -423,7 +406,7 @@ export class CosmereChatMessage<
         const injury = TableResult.fromSource(
             this.getFlag(SYSTEM_ID, 'injury.details'),
         );
-        const injuryRoll = Roll.fromData(
+        const injuryRoll = D20Roll.fromData(
             this.getFlag(SYSTEM_ID, 'injury.roll'),
         );
 

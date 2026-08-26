@@ -405,6 +405,95 @@ export class D20Roll extends foundry.dice.Roll<D20RollData> {
         });
     }
 
+    public override async getTooltip(): Promise<string> {
+        const parts = await Promise.all(
+            this.splitRoll().map((group) => this.getTooltipData(group)),
+        );
+        return foundry.applications.handlebars.renderTemplate(
+            TEMPLATES.DIRECTORY + TEMPLATES.CHAT_ROLL_TOOLTIP,
+            { parts },
+        );
+    }
+
+    /**
+     * Split the roll into groups at addition and subtraction operators.
+     * Groups containing dice are kept separate while groups containing
+     * only static terms are combined into a final bonus group at the end.
+     *
+     * @returns The grouped RollTerms
+     */
+    private splitRoll(): foundry.dice.terms.RollTerm[][] {
+        const groups: foundry.dice.terms.RollTerm[][] = [];
+        let currentGroup: foundry.dice.terms.RollTerm[] = [];
+        const bonusGroup: foundry.dice.terms.RollTerm[] = [];
+        for (const term of this.terms) {
+            // If it encounters + or -, push to groups and clear, UNLESS group.length is 0.
+            if (
+                term instanceof foundry.dice.terms.OperatorTerm &&
+                (term.operator === '+' || term.operator === '-')
+            ) {
+                // If the currentGroup is empty, we add the operator term to the start.
+                if (currentGroup.length === 0) {
+                    currentGroup.push(term);
+                } else {
+                    // If it doesnt contain any dice, then add it to the bonusGroup which will be added to groups last
+                    if (
+                        !currentGroup.some(
+                            (term) =>
+                                term instanceof foundry.dice.terms.DiceTerm,
+                        )
+                    ) {
+                        bonusGroup.push(...currentGroup);
+                    } else {
+                        groups.push(currentGroup);
+                    }
+                    currentGroup = [];
+                    currentGroup.push(term);
+                }
+            } else {
+                currentGroup.push(term);
+            }
+        }
+        if (
+            !currentGroup.some(
+                (term) => term instanceof foundry.dice.terms.DiceTerm,
+            )
+        ) {
+            bonusGroup.push(...currentGroup);
+        } else {
+            groups.push(currentGroup);
+        }
+        if (bonusGroup.length !== 0) groups.push(bonusGroup);
+
+        return groups;
+    }
+
+    private getTooltipData(group: foundry.dice.terms.RollTerm[]) {
+        const roll = Roll.fromTerms(group);
+        const total = roll.total;
+        const dice = group.filter(
+            (term) => term instanceof foundry.dice.terms.DiceTerm,
+        );
+
+        return {
+            total,
+            ...(total && {
+                absoluteTotal: Math.abs(total),
+            }),
+            formula: roll.formula,
+            terms: group.map((term) => ({
+                type: term.constructor.name,
+                expression: term.expression,
+                ...(term instanceof foundry.dice.terms.DiceTerm && {
+                    rolls: term.results.map((r) => ({
+                        result: term.getResultLabel(r),
+                        classes: term.getResultCSS(r).filterJoin(' '),
+                    })),
+                }),
+            })),
+        };
+    }
+
     /**
      * Recalculates the roll total from the current (potentially modified) terms.
      * @returns {number} The new total of the roll.

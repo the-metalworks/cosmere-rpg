@@ -201,8 +201,6 @@ export function getValuesFromRoll(roll: Roll) {
     }
     groups.push(currentGroup);
 
-    console.log(groups);
-
     // multiply and divide roll results and add to final bonus. Its important to keep the die rolls in order of how they will appear
     const finalNumbers: { result: number; math: string }[] = [];
     let finalBonus = 0;

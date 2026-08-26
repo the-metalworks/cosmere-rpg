@@ -1,21 +1,43 @@
 {{#if parts.length}}
-<div class="collapsible-content">
-    <div class="dice-tooltip">
-        {{#each parts}}
-        <section class="tooltip-part">
-            <div class="dice">
-                <ol class="dice-rolls">
-                    {{#each rolls}}
-                    <li class="roll {{ classes }}">{{{ result }}}</li>
-                    {{/each}}
-                </ol>
-                <div class="total">
-                    <span class="label">{{ flavor }}</span>
-                    <span class="value">{{ total }}</span>
-                </div>
-            </div>
-        </section>
-        {{/each}}
+    <div class="collapsible-content">
+        <div class="dice-tooltip">
+            {{#each parts as |part|}}
+            {{#if (not (eq total 0))}}
+                <section class="tooltip-part">
+                    <div class="dice">
+                        <ol class="dice-rolls">
+                            {{#each part.terms as |term|}}
+                                <!-- Split what is displayed based on term type  -->
+                                {{#if (eq term.type 'Die')}}
+                                    {{#unless @first}}
+                                        <li class="constant">&#40;</li>
+                                    {{/unless}}
+                                    {{#each term.rolls as |roll|}}
+                                        <li class="roll {{ roll.classes }}">{{{ roll.result }}}</li>
+                                    {{/each}}
+                                    {{#unless @first}}
+                                        <li class="constant">&#41;</li>
+                                    {{/unless}}
+                                {{else if (or (eq term.type 'NumericTerm') (eq term.type 'OperatorTerm'))}}
+                                    <li class="constant">{{term.expression}}</li>
+                                {{/if}}
+                            {{/each}}
+                        </ol>
+                        <div class="total">
+                            <span class="label">{{ flavor }}</span>
+                            <span class="value">
+                                {{#unless @first}}
+                                    <span class="sign">
+                                        {{#if (gte total 0)}}+{{else}}-{{/if}}
+                                    </span>
+                                {{/unless}}
+                                {{absoluteTotal}}
+                            </span>
+                        </div>
+                    </div>
+                </section>
+            {{/if}}
+            {{/each}}
+        </div>
     </div>
-</div>
 {{/if}}
