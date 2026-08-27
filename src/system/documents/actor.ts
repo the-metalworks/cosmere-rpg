@@ -25,6 +25,7 @@ import {
     TalentTreeItem,
     ActionItem,
     EffectsContainerItem,
+    WeaponItem,
 } from '@system/documents/item';
 import { CosmereActiveEffect } from '@system/documents/active-effect';
 
@@ -851,9 +852,13 @@ export class CosmereActor<
                 ? CONFIG.COSMERE.damageTypes[instance.type]
                 : { ignoreDeflect: false };
 
+            const originatingItem = options.originatingItem as ActionItem;
+            const originatingItemParent = originatingItem?.parent as WeaponItem;
+
             const pierce =
-                options.originatingItem?.isWeapon() &&
-                (options.originatingItem?.system?.traits?.pierce?.active ??
+                originatingItem?.isStrikeAction &&
+                originatingItemParent?.isWeapon() &&
+                (originatingItemParent?.system?.traits?.pierce?.active ??
                     false);
 
             // Checks if damage should be deflected or not
