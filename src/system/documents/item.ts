@@ -516,7 +516,7 @@ export class CosmereItem<
             !(this.parent instanceof CosmereItem)
         )
             return false;
-        return this.defaultAction?.id === this.id;
+        return this.parent.defaultAction?.id === this.id;
     }
 
     /**
