@@ -641,7 +641,12 @@ export class CosmereActor<
         const parsedUuid = foundry.utils.parseUuid(uuid);
         const documentId = parsedUuid?.id ?? uuid;
         for (const [, document] of this.traverseEmbeddedDocuments()) {
-            if (document.uuid != uuid && document.id != documentId) continue;
+            // Go to next document if current document does not share UUID and if provided uuid is a partial id and the id does not match
+            if (
+                document.uuid != uuid &&
+                (parsedUuid?.embedded.length !== 0 || document.id != documentId)
+            )
+                continue;
 
             if (
                 document instanceof CosmereActiveEffect ||
