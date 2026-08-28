@@ -72,7 +72,11 @@ export function constructHandlerClass<
             return 'render' in config && config.render
                 ? config.render
                 : 'template' in config && config.template
-                  ? (data: AnyObject) => renderTemplate(config.template!, data)
+                  ? (data: AnyObject) =>
+                        foundry.applications.handlebars.renderTemplate(
+                            config.template!,
+                            data,
+                        )
                   : null;
         }
 

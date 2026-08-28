@@ -364,13 +364,16 @@ export async function renderComponent(
     const ComponentClass = componentClsRegistry[instance.selector];
 
     // Render
-    const content = await renderTemplate(ComponentClass.TEMPLATE, {
-        ...instance,
-        ...context,
-        __application: instance.application,
-        __componentRef: componentRef,
-        partId: instance.partId,
-    });
+    const content = await foundry.applications.handlebars.renderTemplate(
+        ComponentClass.TEMPLATE,
+        {
+            ...instance,
+            ...context,
+            __application: instance.application,
+            __componentRef: componentRef,
+            partId: instance.partId,
+        },
+    );
 
     // To HTML
     const t = document.createElement('template');
