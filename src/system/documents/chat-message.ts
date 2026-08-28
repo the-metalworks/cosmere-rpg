@@ -60,11 +60,11 @@ export class CosmereChatMessage<
     }
 
     public get itemSource(): CosmereItem | null {
-        return this.actorSource
-            ? (this.actorSource.items.get(
-                  this.getFlag(SYSTEM_ID, 'message.item'),
-              ) ?? null)
-            : null;
+        const uuid = this.getFlag(SYSTEM_ID, 'message.item');
+        if (!uuid) return null;
+        return this.actorSource?.getEmbeddedDocumentFromUuid(
+            uuid,
+        ) as CosmereItem;
     }
 
     public get d20Rolls(): D20Roll[] {

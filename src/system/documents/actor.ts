@@ -25,6 +25,7 @@ import {
     TalentTreeItem,
     ActionItem,
     EffectsContainerItem,
+    WeaponItem,
 } from '@system/documents/item';
 import { CosmereActiveEffect } from '@system/documents/active-effect';
 
@@ -640,7 +641,12 @@ export class CosmereActor<
         const parsedUuid = foundry.utils.parseUuid(uuid);
         const documentId = parsedUuid?.id ?? uuid;
         for (const [, document] of this.traverseEmbeddedDocuments()) {
-            if (document.uuid != uuid && document.id != documentId) continue;
+            // Go to next document if current document does not share UUID and if provided uuid is a partial id and the id does not match
+            if (
+                document.uuid != uuid &&
+                (parsedUuid?.embedded.length !== 0 || document.id != documentId)
+            )
+                continue;
 
             if (
                 document instanceof CosmereActiveEffect ||
@@ -851,9 +857,13 @@ export class CosmereActor<
                 ? CONFIG.COSMERE.damageTypes[instance.type]
                 : { ignoreDeflect: false };
 
+            const originatingItem = options.originatingItem as ActionItem;
+            const originatingItemParent = originatingItem?.parent as WeaponItem;
+
             const pierce =
-                options.originatingItem?.isWeapon() &&
-                (options.originatingItem?.system?.traits?.pierce?.active ??
+                originatingItem?.isStrikeAction &&
+                originatingItemParent?.isWeapon() &&
+                (originatingItemParent?.system?.traits?.pierce?.active ??
                     false);
 
             // Checks if damage should be deflected or not
