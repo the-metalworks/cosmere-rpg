@@ -91,7 +91,9 @@ export function createInlineEmbed(
     section.dataset.id = id;
     section.dataset.type = item.documentName;
 
-    if (collection instanceof CompendiumCollection)
+    if (
+        collection instanceof foundry.documents.collections.CompendiumCollection
+    )
         section.dataset.pack = collection.collection;
 
     return Promise.resolve(section);

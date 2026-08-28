@@ -26,7 +26,7 @@ export async function getActor(uuid: string) {
     const { collection, documentId, id, type } = foundry.utils.parseUuid(uuid);
 
     const document =
-        collection instanceof CompendiumCollection
+        collection instanceof foundry.documents.collections.CompendiumCollection
             ? ((await collection.getDocument(documentId!)) as CosmereActor)
             : (collection!.get(documentId!) as Scene | CosmereActor);
 

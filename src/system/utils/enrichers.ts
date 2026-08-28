@@ -85,7 +85,10 @@ export function registerCustomEnrichers() {
                 section.dataset.id = id;
                 section.dataset.type = type;
 
-                if (collection instanceof CompendiumCollection)
+                if (
+                    collection instanceof
+                    foundry.documents.collections.CompendiumCollection
+                )
                     section.dataset.pack = collection.collection;
 
                 // Return the section element
