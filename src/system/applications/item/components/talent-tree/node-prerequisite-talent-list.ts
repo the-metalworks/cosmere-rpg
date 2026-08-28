@@ -84,10 +84,13 @@ export class NodePrerequisiteTalentListComponent extends DragDropComponentMixin(
     }
 
     protected override async _onDrop(event: DragEvent) {
-        const data = TextEditor.getDragEventData(event) as unknown as {
-            type: string;
-            uuid: string;
-        };
+        const data =
+            foundry.applications.ux.TextEditor.implementation.getDragEventData(
+                event,
+            ) as unknown as {
+                type: string;
+                uuid: string;
+            };
         if (data.type !== 'Item') return;
 
         // Get document
@@ -151,7 +154,11 @@ export class NodePrerequisiteTalentListComponent extends DragDropComponentMixin(
 
         // Enrich links
         const enrichedLinks = await Promise.all(
-            contentLinks.map((link) => TextEditor.enrichHTML(link)),
+            contentLinks.map((link) =>
+                foundry.applications.ux.TextEditor.implementation.implementation.enrichHTML(
+                    link,
+                ),
+            ),
         );
 
         return {

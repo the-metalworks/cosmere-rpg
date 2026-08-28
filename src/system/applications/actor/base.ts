@@ -168,10 +168,13 @@ export class BaseActorSheet<
     }
 
     protected override async _onDrop(event: DragEvent) {
-        const data = TextEditor.getDragEventData(event) as unknown as {
-            type: string;
-            uuid: string;
-        };
+        const data =
+            foundry.applications.ux.TextEditor.implementation.getDragEventData(
+                event,
+            ) as unknown as {
+                type: string;
+                uuid: string;
+            };
 
         // Ensure document type can be embedded on actor
         if (!(data.type in CosmereActor.metadata.embedded)) return;
