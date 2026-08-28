@@ -683,7 +683,7 @@ Hooks.on('ready', async () => {
     );
 
     // Pre-load
-    await loadTemplates(templates);
+    await foundry.applications.handlebars.loadTemplates(templates);
 });
 
 /* --- Default exports --- */

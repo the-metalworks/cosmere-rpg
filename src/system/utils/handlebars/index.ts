@@ -746,5 +746,5 @@ export async function preloadHandlebarsTemplates() {
             {} as Record<string, string>,
         );
 
-    return await loadTemplates(templates);
+    return await foundry.applications.handlebars.loadTemplates(templates);
 }
