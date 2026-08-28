@@ -31,7 +31,7 @@ export async function journalEntryPageTextFromUuid(
 
     // Load the journal entry
     const journal =
-        collection instanceof CompendiumCollection
+        collection instanceof foundry.documents.collections.CompendiumCollection
             ? ((await collection.getDocument(documentId)) as JournalEntry)
             : (collection.get(documentId) as JournalEntry);
     if (!journal) return null;
