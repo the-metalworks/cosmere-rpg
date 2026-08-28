@@ -78,9 +78,11 @@ export function EphemeralEmbeddedDocumentsMixin<
                             const data = foundry.utils.mergeObject(
                                 doc.toObject(),
                                 {
+                                    // Assign random id. There is a 1 in 3.7 quadrillion chance that this
+                                    // can share an ID with another item. Which is basically zero.
                                     _id:
                                         `ephdoc` +
-                                        foundry.utils.randomID().slice(6), // Assign random id. There is a 1 in 3.7 quadrillion chance that this can share an ID with another item. Which is basically zero.
+                                        foundry.utils.randomID().slice(6),
                                 },
                             );
 
