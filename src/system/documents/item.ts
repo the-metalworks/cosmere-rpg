@@ -1809,12 +1809,14 @@ export class CosmereItem<
             this.system.description?.short ||
             this.system.description?.value;
 
-        const description = await foundry.applications.ux.TextEditor.enrichHTML(
-            descriptionData ?? '',
-            {
-                relativeTo: this.system.parent as foundry.abstract.Document.Any,
-            },
-        );
+        const description =
+            await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+                descriptionData ?? '',
+                {
+                    relativeTo: this.system
+                        .parent as foundry.abstract.Document.Any,
+                },
+            );
 
         const traitsNormal = [];
         const traitsExpert = [];

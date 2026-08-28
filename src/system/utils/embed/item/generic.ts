@@ -25,19 +25,20 @@ export async function buildEmbedHTML(
     // Enrich the description
     let description = null;
     if (item.hasDescription())
-        description = await TextEditor.enrichHTML(
-            item.system.description?.value ??
-                item.system.description?.short ??
-                '',
-            {
-                relativeTo: options?.relativeTo,
-                documents: options?.documents,
-                links: options?.links,
-                rollData: options?.rollData,
-                rolls: options?.rolls,
-                secrets: options?.secrets,
-            },
-        );
+        description =
+            await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+                item.system.description?.value ??
+                    item.system.description?.short ??
+                    '',
+                {
+                    relativeTo: options?.relativeTo,
+                    documents: options?.documents,
+                    links: options?.links,
+                    rollData: options?.rollData,
+                    rolls: options?.rolls,
+                    secrets: options?.secrets,
+                },
+            );
 
     config.heading ??= true;
     config.prependLabel = config.heading

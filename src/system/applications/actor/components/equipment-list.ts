@@ -330,13 +330,15 @@ export class ActorEquipmentListComponent extends ActorItemListComponent {
                 [item.id!]: {
                     ...(item.hasDescription() && item.system.description?.value
                         ? {
-                              descriptionHTML: await TextEditor.enrichHTML(
-                                  item.system.description.value,
-                                  {
-                                      relativeTo: (item as CosmereItem).system
-                                          .parent as foundry.abstract.Document.Any,
-                                  },
-                              ),
+                              descriptionHTML:
+                                  await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+                                      item.system.description.value,
+                                      {
+                                          relativeTo: (item as CosmereItem)
+                                              .system
+                                              .parent as foundry.abstract.Document.Any,
+                                      },
+                                  ),
                           }
                         : {}),
                 },
