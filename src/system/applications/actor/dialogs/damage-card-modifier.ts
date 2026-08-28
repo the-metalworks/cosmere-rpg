@@ -50,10 +50,13 @@ export class DamageModifierDialog extends foundry.applications.api.DialogV2 {
         },
     ): Promise<number> {
         // Render dialog inner HTML
-        const content = await renderTemplate(TEMPLATE, {
-            isHealing: options.isHealing,
-            action: options.action,
-        });
+        const content = await foundry.applications.handlebars.renderTemplate(
+            TEMPLATE,
+            {
+                isHealing: options.isHealing,
+                action: options.action,
+            },
+        );
 
         // Render dialog and wrap as promise
         return new Promise((resolve) => {
