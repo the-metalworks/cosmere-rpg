@@ -714,6 +714,54 @@ export class CosmereActor<
         return this.getFlag(SYSTEM_ID, `mode.${modality}`);
     }
 
+    public async rollHealth() {
+        const health = this.system.resources.hea;
+        if (!health.max.useRange) return; // If this doesnt use range, then do not roll health
+        const range = health.max.range;
+        const rolledValue =
+            Math.floor(Math.random() * (range.maxRange - range.minRange + 1)) +
+            range.minRange;
+
+        await this.update({
+            system: {
+                // @ts-expect-error Foundry typings incorrectly require all fields of hea.max for this partial update.
+                resources: {
+                    hea: {
+                        max: {
+                            range: {
+                                value: rolledValue,
+                            },
+                        },
+                        value: rolledValue,
+                    },
+                },
+            },
+        });
+    }
+
+    public async clearRolledHealth() {
+        const health = this.system.resources.hea;
+        if (!health.max.useRange) return; // If this doesnt use range, then range isnt used at all
+
+        const average = health.max.range.average;
+
+        await this.update({
+            system: {
+                // @ts-expect-error Foundry typings incorrectly require all fields of hea.max for this partial update.
+                resources: {
+                    hea: {
+                        max: {
+                            range: {
+                                value: average,
+                            },
+                        },
+                        value: average,
+                    },
+                },
+            },
+        });
+    }
+
     public async rollInjury() {
         // Get roll table
         const table = (await fromUuid(

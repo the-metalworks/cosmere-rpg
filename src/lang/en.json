@@ -248,6 +248,8 @@
                 "ConfigureSensesRange": "Configure Senses Range",
                 "ConfigureRecovery": "Configure Recovery Die",
                 "RollInjury": "Roll Injury",
+                "RollHealth": "Roll Health",
+                "ClearRoll": "Clear Roll",
                 "ImmuneTo": "Immune to {condition}",
                 "Tabs": {
                     "Details": "Details",
@@ -1902,6 +1904,9 @@
         "Name": "Name",
         "Image": "Image",
         "Level": "Level",
+        "Range": "Range",
+        "Minimum": "Minimum",
+        "Maximum": "Maximum",
         "Add": "Add",
         "Type": "Type",
         "Description": "Description",
@@ -1967,7 +1972,8 @@
         "DerivedValue": {
             "Mode": {
                 "Derived": "Derived",
-                "Override": "Custom"
+                "Override": "Custom",
+                "Range": "Range"
             }
         },
         "Units": {

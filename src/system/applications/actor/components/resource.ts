@@ -36,6 +36,8 @@ export class ActorResourceComponent extends HandlebarsApplicationComponent<
         'edit-value': this.onEditValue,
         'configure-resource': this.onConfigureResource,
         'roll-injury': this.onRollInjury,
+        'roll-health': this.onRollHealth,
+        'clear-roll': this.onClearHealth,
     };
     /* eslint-enable @typescript-eslint/unbound-method */
 
@@ -90,14 +92,34 @@ export class ActorResourceComponent extends HandlebarsApplicationComponent<
         void actor.rollInjury();
     }
 
+    private static onRollHealth(this: ActorResourceComponent) {
+        if (this.params!.resource !== Resource.Health) return;
+
+        // Get actor
+        const actor = this.application.actor;
+
+        // Roll health
+        void actor.rollHealth();
+    }
+
+    private static onClearHealth(this: ActorResourceComponent) {
+        if (this.params!.resource !== Resource.Health) return;
+
+        // Get actor
+        const actor = this.application.actor;
+
+        // Reset health to Average
+        void actor.clearRolledHealth();
+    }
+
     /* --- Context --- */
 
-    public _prepareContext(
+    public async _prepareContext(
         params: Params,
         context: BaseActorSheetRenderContext,
     ) {
         // Get resource
-        const resource = context.actor.system.resources[params.resource];
+        let resource = this.application.actor.system.resources[params.resource];
         if (!(params.resource in CONFIG.COSMERE.resources)) {
             console.warn(
                 "The resource key: '" +
@@ -110,12 +132,49 @@ export class ActorResourceComponent extends HandlebarsApplicationComponent<
             });
         }
 
+        // Set default mode for adversaries and update resource variable
+        if (
+            resource.max.mode === Derived.Mode.Derived &&
+            this.application.actor.isAdversary()
+        ) {
+            if (params.resource === Resource.Health) {
+                await this.application.actor.update({
+                    [`system.resources.${params.resource}`]: {
+                        max: {
+                            useRange: true,
+                        },
+                    },
+                });
+            } else {
+                await this.application.actor.update({
+                    [`system.resources.${params.resource}`]: {
+                        max: {
+                            useOverride: true,
+                        },
+                    },
+                });
+            }
+            resource = this.application.actor.system.resources[params.resource];
+        }
+
         // Get resource config
         const config = CONFIG.COSMERE.resources[params.resource];
 
         // Get value and max
         const value = resource.value;
         const max = resource.max.value;
+        const mode = resource.max.mode;
+        let additionalContext = {};
+        if ('range' in resource.max) {
+            additionalContext = {
+                range: {
+                    maxRange: resource.max.range.maxRange,
+                    minRange: resource.max.range.minRange,
+                    average: resource.max.range.average,
+                    value: resource.max.range.value,
+                },
+            };
+        }
 
         return Promise.resolve({
             ...context,
@@ -125,6 +184,8 @@ export class ActorResourceComponent extends HandlebarsApplicationComponent<
                 label: config.label,
                 value,
                 max,
+                mode,
+                additionalContext,
             },
         });
     }
