@@ -116,7 +116,8 @@
                 "Leadership": "Leadership",
                 "Perception": "Perception",
                 "Persuasion": "Persuasion",
-                "Survival": "Survival"
+                "Survival": "Survival",
+                "Allomancy": "Allomancy"
             },
             "Statistics": {
                 "Defense": "Defense",
@@ -1889,7 +1890,10 @@
         "Condition": "Condition",
         "Cost": "Cost",
         "Configure": "Configure",
-        "DistanceUnit": "ft.",
+        "DistanceUnit": {
+            "Imperial": "ft.",
+            "Metric": "m"
+        },
         "WeightUnit": {
             "Imperial": "lbs",
             "Metric": "kg"

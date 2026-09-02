@@ -1,0 +1,246 @@
+{
+    "folder": "crtvNCv572I90prN",
+    "name": "Bronze Allomancy",
+    "type": "power",
+    "img": "systems/cosmere-rpg/assets/icons/mistborn/metal-powers/icon_A_bronze.webp",
+    "system": {
+        "id": "bronze-allomancy",
+        "type": "metallic-art",
+        "description": {
+            "value": "<p>Bronze Allomancy causes you to sense rhythmic drum like pulses from nearby kinetic Investiture. On Scadrial, the most common source detected is Allomancers burning metals. Bronze Allomancers are called Seekers due to their ability to track other Allomancers with this power.</p><p>Scadrians classify Allomantic metals in three primary ways (see the earlier “@UUID[Compendium.cosmere-rpg-mistborn-handbook.handbook.JournalEntry.Wdux6AlRp01Ox3EQ.JournalEntryPage.km12jL6JCxRZEm9N]{Metals of Scadrial}” section for each metal’s classifications). These classifications were created by experienced Seekers who detected similarities in the rhythms and pulses produced by burning various metals:</p><ul><li><p>The four general categories of metal—physical, mental, temporal, and enhancement metals—have unique signature rhythms.</p></li><li><p>External metals have a faster tempo than Internal ones do.</p></li><li><p>Metals that Push or Pull cause a Seeker to feel the corresponding sensation.</p></li></ul>",
+            "chat": "",
+            "short": ""
+        },
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "relationships": {},
+        "customSkill": true,
+        "skill": "all",
+        "talentTree": null,
+        "primaryResource": "none",
+        "__embedded": {
+            "items": [
+                {
+                    "name": "Burn Bronze",
+                    "type": "action",
+                    "_id": "QJU4HTtjW1QxeN5k",
+                    "img": "systems/cosmere-rpg/assets/icons/mistborn/metal-powers/icon_A_bronze_burn.webp",
+                    "system": {
+                        "id": "burn-bronze",
+                        "description": {
+                            "value": "<p>To burn bronze, spend 1 Investiture or more, up to your Metallic Art limit; the more Investiture spent, the more effects you can Seek to learn their source. For a number of rounds equal to your ranks in <strong>Allomancy</strong>, you detect the following within your Metallic Art range:</p><ul><li><p>Each time Investiture is spent.</p></li><li><p>Ongoing effects that are fueled by Investiture, such as the Burn actions of Allomancers, even if that Investiture was spent before you used this power.</p></li></ul><p>When you detect an effect, you can sense the source’s general direction from you, and you can choose to Seek that effect (no action required). You can simultaneously Seek a number of effects up to the Investiture you spent to burn bronze.</p><p>While Seeking an effect, you learn the effect’s exact location and source, and if it’s an ongoing effect, you can track its location as it moves. Additionally, you can make a [[test dc=15 skill=all]] as <span class=\"cosmere-icon\">1</span>; on a success, you identify which power generated the effect you’re Seeking (such as what metal was burned).</p><p>Before your bronze burn ends, you can maintain it for the same duration by spending 1 Investiture or more as <span class=\"cosmere-icon\">0</span>.</p>",
+                            "chat": "",
+                            "short": ""
+                        },
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "type": "act",
+                                "value": 1
+                            },
+                            "flavor": "",
+                            "consumption": [
+                                {
+                                    "type": "resource",
+                                    "value": {
+                                        "min": 1,
+                                        "max": -1,
+                                        "actual": 1
+                                    },
+                                    "resource": "inv",
+                                    "matchDocument": {
+                                        "steps": [
+                                            {
+                                                "target": "ancestor",
+                                                "documentType": "Actor",
+                                                "matchBy": "document-type",
+                                                "reference": null,
+                                                "matchMode": "first"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        },
+                        "damage": {
+                            "formula": null,
+                            "type": null,
+                            "grazeOverrideFormula": "",
+                            "skill": null,
+                            "attribute": null
+                        },
+                        "modality": null,
+                        "events": {
+                            "R1A5kQ9YH67qqUMa": {
+                                "id": "R1A5kQ9YH67qqUMa",
+                                "description": "Enable Bronze Burn",
+                                "event": "use",
+                                "handler": {
+                                    "type": "execute-macro",
+                                    "inline": true,
+                                    "uuid": null,
+                                    "macro": {
+                                        "type": "script",
+                                        "command": "cosmereRPG.utils.macros.allomancy.enableBurnEffect(\"bronze\", event, actor);"
+                                    }
+                                },
+                                "order": 0,
+                                "disabled": false
+                            }
+                        },
+                        "relationships": {},
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "skillTest": {
+                            "skill": "all",
+                            "attribute": "default",
+                            "modifierFormula": "",
+                            "plotDie": false,
+                            "opportunity": null,
+                            "complication": null
+                        },
+                        "type": "metallic-arts",
+                        "primaryResource": "none"
+                    },
+                    "effects": [
+                        {
+                            "name": "Bronze Burn",
+                            "img": "modules/cosmere-rpg-mistborn-handbook/assets/icons/metal-powers/icon_A_bronze_burn.webp",
+                            "disabled": true,
+                            "duration": {
+                                "startTime": null,
+                                "combat": null,
+                                "seconds": null,
+                                "rounds": 2,
+                                "turns": null,
+                                "startRound": null,
+                                "startTurn": null
+                            },
+                            "_id": "ACMhCAAwSvzthPpm",
+                            "type": "base",
+                            "system": {
+                                "isStackable": false
+                            },
+                            "changes": [],
+                            "description": "",
+                            "origin": null,
+                            "tint": "#ffffff",
+                            "transfer": true,
+                            "statuses": [],
+                            "sort": 0,
+                            "flags": {},
+                            "_stats": {
+                                "coreVersion": "13.351",
+                                "systemId": "cosmere-rpg",
+                                "systemVersion": "3.0.0",
+                                "lastModifiedBy": null,
+                                "createdTime": 1787016467444,
+                                "compendiumSource": null,
+                                "duplicateSource": null,
+                                "exportSource": null
+                            }
+                        }
+                    ],
+                    "flags": {},
+                    "ownership": {
+                        "default": 0
+                    },
+                    "sort": 0,
+                    "folder": null,
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "createdTime": 1787016467444,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                },
+                {
+                    "type": "action",
+                    "name": "Identify",
+                    "img": "icons/skills/targeting/crosshair-triple-strike-orange.webp",
+                    "_id": "oqnk7aJC4IdZCNlM",
+                    "system": {
+                        "id": "bronze-identify",
+                        "description": {
+                            "value": "<p>While Seeking an effect, you learn the effect’s exact location and source, and if it’s an ongoing effect, you can track its location as it moves. Additionally, you can make a [[test dc=15 skill=all]] as <span class=\"cosmere-icon\">1</span>; on a success, you identify which power generated the effect you’re Seeking (such as what metal was burned).</p>",
+                            "chat": "",
+                            "short": ""
+                        },
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": "",
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "skill_test",
+                            "cost": {
+                                "value": 1,
+                                "type": "act"
+                            },
+                            "consumption": [],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": null,
+                            "attribute": null,
+                            "formula": null,
+                            "grazeOverrideFormula": "",
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "all",
+                            "attribute": "default",
+                            "plotDie": false,
+                            "modifierFormula": "",
+                            "opportunity": null,
+                            "complication": null
+                        },
+                        "type": "metallic-arts",
+                        "primaryResource": "none"
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "createdTime": 1787016467444,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "WiBKIp4BNIEqFOjX",
+    "sort": 100000,
+    "_key": "!items!WiBKIp4BNIEqFOjX"
+}

@@ -1,0 +1,55 @@
+{
+    "folder": "N0Rgn8Y6XWMWKpL0",
+    "name": "Grappling Hook",
+    "type": "equipment",
+    "img": "icons/tools/fasteners/chain-hook-grey.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 5 bx; <strong>Weight</strong> 4 lb.;</p><p>A grappling hook is typically attached to the end of a rope to aid in scaling or descending from walls and cliffs. A securely anchored grappling hook grants an advantage on Agility and Athletics tests made to climb using its attached rope.</p><p>You can use an Interact action to attach the grappling hook to an anchor within your reach without making a test. Alternatively, you can throw and attach it to a suitable anchor within 20 feet of you by succeeding on an [[test skill=agi]] or [[test skill=ath]] (DC set by the GM).</p>",
+            "chat": "",
+            "short": ""
+        },
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 4,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 5,
+            "currency": "boxings",
+            "denomination": {
+                "primary": "box",
+                "secondary": "none"
+            },
+            "unit": "boxings.box"
+        },
+        "events": {},
+        "relationships": {},
+        "primaryResource": "none",
+        "linkedSkills": [],
+        "alwaysEquippable": false,
+        "equippableEnabled": false,
+        "equipped": false,
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "wear"
+        },
+        "__embedded": {
+            "items": []
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "rAI0fbtkrsFjn8pf",
+    "sort": 1800000,
+    "_key": "!items!rAI0fbtkrsFjn8pf"
+}

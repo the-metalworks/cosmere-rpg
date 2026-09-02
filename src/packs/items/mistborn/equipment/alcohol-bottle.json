@@ -1,0 +1,55 @@
+{
+    "folder": "N0Rgn8Y6XWMWKpL0",
+    "name": "Alcohol (bottle)",
+    "type": "equipment",
+    "img": "icons/consumables/drinks/alcohol-jug-spirits-brown.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 0.5-300 bx; <strong>Weight</strong> 2-4 lb.;</p><p>The cultures of Scadrial have a variety of intoxicating traditions, from the most watered-down ales and beers to the finest whiskeys and wines.</p>",
+            "chat": "",
+            "short": ""
+        },
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 2,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 0.5,
+            "currency": "boxings",
+            "denomination": {
+                "primary": "box",
+                "secondary": "none"
+            },
+            "unit": "boxings.box"
+        },
+        "events": {},
+        "relationships": {},
+        "primaryResource": "none",
+        "linkedSkills": [],
+        "alwaysEquippable": false,
+        "equippableEnabled": false,
+        "equipped": false,
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "wear"
+        },
+        "__embedded": {
+            "items": []
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "Q5UnUEEk9sP5DfDD",
+    "sort": 6000000,
+    "_key": "!items!Q5UnUEEk9sP5DfDD"
+}

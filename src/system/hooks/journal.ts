@@ -5,24 +5,39 @@ import { COMPENDIUMS } from '@system/constants';
 Hooks.on('renderJournalEntrySheet', (app, html) => {
     const entry = app.document;
 
-    if (
-        entry.pack === COMPENDIUMS.STARTER_RULES ||
-        ('compendiumSource' in entry._stats &&
-            entry._stats.compendiumSource?.startsWith(
-                `Compendium.${COMPENDIUMS.STARTER_RULES}`,
-            ))
-    ) {
-        html.classList.add('sljsr');
+    const starterCompendiums = [
+        {
+            id: COMPENDIUMS.STORMLIGHT_STARTER_RULES,
+            prefix: 'sl',
+        },
+        {
+            id: COMPENDIUMS.MISTBORN_STARTER_RULES,
+            prefix: 'mb',
+        },
+    ];
 
-        const header_node = html.getElementsByClassName('journal-header')[0];
+    for (const compendium of starterCompendiums) {
+        if (
+            entry.pack === compendium.id ||
+            ('compendiumSource' in entry._stats &&
+                entry._stats.compendiumSource?.startsWith(
+                    `Compendium.${compendium.id}`,
+                ))
+        ) {
+            html.classList.add(compendium.prefix + 'jsr');
 
-        header_node.removeChild(header_node.children[0]);
-        header_node.insertAdjacentHTML(
-            'beforeend',
-            '<div class="sl-chapter-header"><div><p></p><p>' +
+            const header_node =
+                html.getElementsByClassName('journal-header')[0];
+
+            header_node.removeChild(header_node.children[0]);
+
+            const insertedHtml =
+                `<div class="${compendium.prefix}-chapter-header"><div><p></p><p>` +
                 entry.name.toUpperCase() +
-                '</p><p></p></div><div><p></p></div></div>',
-        );
+                '</p><p></p></div><div><p></p></div></div>';
+
+            header_node.insertAdjacentHTML('beforeend', insertedHtml);
+        }
     }
 });
 

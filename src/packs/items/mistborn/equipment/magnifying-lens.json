@@ -1,0 +1,55 @@
+{
+    "folder": "N0Rgn8Y6XWMWKpL0",
+    "name": "Magnifying Lens",
+    "type": "equipment",
+    "img": "icons/tools/scribal/magnifying-glass.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 200 bx; <strong>Weight</strong> 0.2 lb.;</p><p>You can use a magnifying lens to gain an advantage on any skill test you make to appraise or inspect a small or highly detailed item.</p>",
+            "chat": "",
+            "short": ""
+        },
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 0.2,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 200,
+            "currency": "boxings",
+            "denomination": {
+                "primary": "box",
+                "secondary": "none"
+            },
+            "unit": "boxings.box"
+        },
+        "events": {},
+        "relationships": {},
+        "primaryResource": "none",
+        "linkedSkills": [],
+        "alwaysEquippable": false,
+        "equippableEnabled": false,
+        "equipped": false,
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "wear"
+        },
+        "__embedded": {
+            "items": []
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "90s5S2i3gj7Sbn3r",
+    "sort": 2900000,
+    "_key": "!items!90s5S2i3gj7Sbn3r"
+}

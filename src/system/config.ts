@@ -342,7 +342,7 @@ const COSMERE: CosmereRPGConfig = {
             key: Attribute.Willpower,
             label: 'COSMERE.Actor.Attribute.Willpower.long',
             labelShort: 'COSMERE.Actor.Attribute.Willpower.short',
-            skills: [Skill.Discipline, Skill.Intimidation],
+            skills: [Skill.Discipline, Skill.Intimidation, Skill.Allomancy],
         },
         [Attribute.Awareness]: {
             key: Attribute.Awareness,
@@ -486,6 +486,12 @@ const COSMERE: CosmereRPGConfig = {
             label: 'COSMERE.Actor.Skill.Survival',
             attribute: Attribute.Awareness,
             core: true,
+        },
+
+        [Skill.Allomancy]: {
+            key: Skill.Allomancy,
+            label: 'COSMERE.Actor.Skill.Allomancy',
+            attribute: Attribute.Willpower,
         },
     },
 
@@ -678,6 +684,16 @@ const COSMERE: CosmereRPGConfig = {
                 label: 'COSMERE.Paths.Types.Heroic.Label',
             },
         },
+    },
+
+    startingSkills: {
+        agent: Skill.Insight,
+        envoy: Skill.Discipline,
+        hunter: Skill.Perception,
+        leader: Skill.Leadership,
+        scholar: Skill.Lore,
+        warrior: Skill.Athletics,
+        misting: Skill.Allomancy,
     },
 
     item: {

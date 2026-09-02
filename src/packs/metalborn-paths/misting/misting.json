@@ -1,0 +1,105 @@
+{
+    "folder": "gBu6HLIauoxoajsC",
+    "name": "Misting",
+    "type": "path",
+    "img": "systems/cosmere-rpg/assets/icons/mistborn/paths/path_misting.webp",
+    "system": {
+        "id": "misting",
+        "type": "metalborn",
+        "description": {
+            "value": "<p><em>“Not everyone is Mistborn, girl—in fact, very, very few people are. And, despite what your kind likes to think, normal Mistings can kill people too. Knowing that the man attacking you is a Thug rather than a Coinshot could very easily save your life.”</em></p><p>Mistings are by far the most common type of Metalborn across both eras. They have only one Allomantic power, which they wield in the same way as other Allomancers—by ingesting a metal then burning it to access the power of Preservation.</p><p>Each type of Misting has a colloquial name to reflect the metal they burn and the effect produced; for example, a Coinshot is a steel Misting who can propel metal objects at high speeds. The Allomancy Discovery table lists the names for each Misting type.</p><p>Because Mistings rely on a single power, they typically master it far faster than Twinborn or Mistborn. As a result, when a full Mistborn wants to learn the nuances of their many powers, Mistings almost always make the best teachers.</p><p></p><h2>Allomantic Savantism</h2><p>Most Mistings burn their metal frequently. As they have no other Invested Art to dilute this power, some Mistings experience a phenomenon called savantism. A person becomes a savant when their spiritweb is warped over time by the sheer frequency and intensity of a single Invested Art. This not only makes them a better conduit for that power, but it also fundamentally changes their physiology. Savants become much more powerful in their art but often suffer dangerous side effects.</p><p>Allomantic savantism occurs after years, or sometimes even decades, of “flaring” a metal—burning it with great intensity—and doing so frequently or for extended periods. When an Allomantic savant stops burning their metal, they experience a form of withdrawal, typically with symptoms opposite to the power’s effect. The Allomantic Savantism talent in the Misting path represents these withdrawal effects.</p><p></p><h2>Building a Misting</h2><p>The following “@UUID[Compendium.cosmere-rpg-mistborn-handbook.handbook.JournalEntry.7SWGoz46cr0lkATU.JournalEntryPage.3oPVpz3kK5FmnLMg#iconic-mistings]{Iconic Mistings}” section provides example builds for characters inspired by the novels. Also consider these general tips for building an effective Misting:</p><p><strong>Attributes.</strong> To increase your Investiture pool, invest in <strong>Awareness</strong> or <strong>Presence</strong> (your choice). Your other attributes largely depend on which Allomantic power you choose. For example, if your power often calls for <strong>Allomancy</strong> tests (like @UUID[Compendium.cosmere-rpg-mistborn-handbook.metallic-arts.Item.4ShzKEbLYKF86HVY]{Brass Allomancy}), you might prioritize <strong>Willpower</strong>; if your power lends itself to combat (like @UUID[Compendium.cosmere-rpg-mistborn-handbook.metallic-arts.Item.9GNXETPQtZBIgwlY]{Pewter Allomancy}), consider <strong>Strength</strong> or <strong>Speed</strong> to empower your weapon attacks.</p><p><strong>Heroic Paths.</strong> Most Mistings not only invest in their Metalborn path and its power, but they supplement it with heroic talents. It’s a good idea to consider the build advice from any heroic paths of interest.</p><p><strong>Skills.</strong> Most Mistings prioritize ranks in <strong>Allomancy</strong>. Also consider investing in mundane skills, such as those that are prerequisites for Metalborn talents or heroic talents you’re interested in.</p><p></p><h2>Misting Key Talent</h2><p>A Misting first discovers their powers when they Snap. In Era 1, this usually happens during a foundationshaking life event, such as a near-death experience or another traumatic situation. In Era 2, this usually occurs naturally around puberty. Choosing this talent represents your character Snapping and unlocks access to the Misting tree.</p><p><strong>Starting Skill: Allomancy.</strong> If you choose Misting as your starting path, gain a free skill rank in <strong>Allomancy</strong> (in addition to the rank gained from @UUID[Compendium.cosmere-rpg-mistborn-handbook.metalborn-paths.Item.MZ6R3eQvoY6dN0ck]{Misting Snap}).</p>",
+            "chat": "",
+            "short": "<p>Mistings are by far the most common type of Metalborn across both eras. They have only one Allomantic power, which they wield in the same way as other Allomancers—by ingesting a metal then burning it to access the power of Preservation.</p><p>Each type of Misting has a colloquial name to reflect the metal they burn and the effect produced; for example, a Coinshot is a steel Misting who can propel metal objects at high speeds. The Allomancy Discovery table lists the names for each Misting type.</p><p>Because Mistings rely on a single power, they typically master it far faster than Twinborn or Mistborn. As a result, when a full Mistborn wants to learn the nuances of their many powers, Mistings almost always make the best teachers.</p>"
+        },
+        "talentTree": "Compendium.cosmere-rpg-mistborn-handbook.metalborn-paths.Item.SD0aYy2LWmEMDjYD",
+        "events": {
+            "CKVrloxdFAydY13i": {
+                "id": "CKVrloxdFAydY13i",
+                "description": "Grant Key Talent",
+                "event": "add-to-actor",
+                "handler": {
+                    "type": "grant-items",
+                    "allowDuplicates": false,
+                    "increaseQuantity": false,
+                    "pickOne": false,
+                    "notify": true,
+                    "items": [
+                        {
+                            "uuid": "Compendium.cosmere-rpg.metalborn-paths.Item.uYmcjPLWryLWNOCQ"
+                        }
+                    ]
+                },
+                "order": 0,
+                "disabled": false
+            },
+            "G7hwRZ4hDAe17F4E": {
+                "id": "G7hwRZ4hDAe17F4E",
+                "description": "Remove Key Talent",
+                "event": "remove-from-actor",
+                "handler": {
+                    "type": "remove-items",
+                    "reduceQuantity": false,
+                    "items": [
+                        "Compendium.cosmere-rpg.metalborn-paths.Item.uYmcjPLWryLWNOCQ"
+                    ],
+                    "amount": 1
+                },
+                "order": 0,
+                "disabled": false
+            },
+            "ujI5PLz0Zl0juUQZ": {
+                "id": "ujI5PLz0Zl0juUQZ",
+                "description": "Try Set Starting Path",
+                "event": "add-to-actor",
+                "handler": {
+                    "type": "execute-macro",
+                    "inline": true,
+                    "uuid": null,
+                    "macro": {
+                        "type": "script",
+                        "command": "cosmereRPG.utils.macros.startingPath.set(event.item);"
+                    }
+                },
+                "order": 0,
+                "disabled": false
+            },
+            "HdiU1ZNkE1ncdKsL": {
+                "id": "HdiU1ZNkE1ncdKsL",
+                "description": "Try Unset Starting Path",
+                "event": "remove-from-actor",
+                "handler": {
+                    "type": "execute-macro",
+                    "inline": true,
+                    "uuid": null,
+                    "macro": {
+                        "type": "script",
+                        "command": "cosmereRPG.utils.macros.startingPath.unset(event.item);"
+                    }
+                },
+                "order": 0,
+                "disabled": false
+            }
+        },
+        "linkedSkills": [
+            "all"
+        ],
+        "relationships": {},
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "__embedded": {
+            "items": []
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "xOjLCPmrNTWL5dvf",
+    "sort": 0,
+    "_key": "!items!xOjLCPmrNTWL5dvf"
+}

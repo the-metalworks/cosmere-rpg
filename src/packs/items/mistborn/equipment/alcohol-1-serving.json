@@ -1,0 +1,60 @@
+{
+    "folder": "N0Rgn8Y6XWMWKpL0",
+    "name": "Alcohol (1 serving)",
+    "type": "equipment",
+    "img": "systems/cosmere-rpg/assets/icons/mistborn/items/icon_item_alcohol.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 0.5-50 bx; <strong>Weight</strong> 0.2 lb.;</p><p>The cultures of Scadrial have a variety of intoxicating traditions, from the most watered-down ales and beers to the finest whiskeys and wines.</p>",
+            "chat": "",
+            "short": ""
+        },
+        "resources": {
+            "uses": {
+                "value": 1,
+                "max": 1,
+                "recharge": "none",
+                "key": "uses"
+            },
+            "charges": null,
+            "ammo": null
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 0.2,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 0.1,
+            "currency": "boxings",
+            "denomination": {
+                "primary": "box",
+                "secondary": "none"
+            },
+            "unit": "boxings.box"
+        },
+        "events": {},
+        "relationships": {},
+        "primaryResource": "uses",
+        "linkedSkills": [],
+        "alwaysEquippable": false,
+        "equippableEnabled": false,
+        "equipped": false,
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "wear"
+        },
+        "__embedded": {
+            "items": []
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "oekk64mRrYrIqNwx",
+    "sort": 5800000,
+    "_key": "!items!oekk64mRrYrIqNwx"
+}

@@ -1,0 +1,236 @@
+{
+    "folder": "9BxduStfxSeUvPv2",
+    "name": "Improvised Weapon (Heavy)",
+    "type": "weapon",
+    "_id": "erS8NL6l0ONH1RaE",
+    "img": "icons/weapons/misc/whip-red-yellow.webp",
+    "system": {
+        "id": "improvised-weapon-heavy",
+        "type": "special_wpn",
+        "description": {
+            "value": "<p><strong>Damage</strong> 1d — ; <strong>Range</strong> —; <strong>Traits</strong> Fragile; <strong>Expert Traits</strong> Unique;</p><p><strong>Type</strong> Special Weapon; <strong>Weapons Skill</strong> Heavy; <strong>Price</strong> —; <strong>Weight</strong> —;</p><p><em>Edit this Improvised Weapon statblock to match the most fitting weapon from the Heavy Weapons table</em></p><p></p><p>In the heat of the moment, you might wish to attack with an object that isn’t a traditional weapon (such as hitting someone with a pot) or use a weapon in an unconventional way (such as swinging a rifle at someone like a staff). If you can pick an object up in one or both hands, you can use it as an improvised weapon!</p><p><strong>Expertise.</strong> Unlike other entries on the @UUID[Compendium.cosmere-rpg-mistborn-handbook.handbook.JournalEntry.Rn9IDL3Nvu7wvARP.JournalEntryPage.gVumLb8jC29zHuNR]{Special Weapons table}, you can choose Improvised Weapons as a weapon expertise. If you do, your improvised attacks benefit from the expert traits of the weapon most similar to it, even if you don’t have expertise in that similar weapon.</p><p><strong>Using an Improvised Weapon.</strong> When you attack with an improvised weapon, the GM decides which nonspecial light or heavy weapon it is most like. Make the attack as though with that weapon, but add the Fragile trait (see “@UUID[Compendium.cosmere-rpg-mistborn-handbook.handbook.JournalEntry.PnE3nfR1nWtAAKG3.JournalEntryPage.xKCqO2mvGvAoT3KG#weapon-traits]{Weapon Traits}”).</p>",
+            "chat": "",
+            "short": ""
+        },
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "equipped": false,
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "hold"
+        },
+        "attack": {
+            "type": "melee",
+            "range": null
+        },
+        "expertise": false,
+        "traits": {
+            "cumbersome": {
+                "defaultActive": false,
+                "defaultValue": 0,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "value": 0,
+                "active": false
+            },
+            "dangerous": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "deadly": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "defensive": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "discreet": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "indirect": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "loaded": {
+                "defaultActive": false,
+                "defaultValue": 0,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "value": 0,
+                "active": false
+            },
+            "momentum": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "offhand": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "pierce": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "quickdraw": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "thrown": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "two_handed": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "unique": {
+                "defaultActive": true,
+                "expertise": {
+                    "toggleActive": true
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": true
+            },
+            "fragile": {
+                "defaultActive": true,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": true
+            },
+            "reach": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "single_use": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "blast": {
+                "defaultActive": false,
+                "defaultValue": 0,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "value": 0,
+                "active": false
+            }
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 0,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 0,
+            "currency": "none",
+            "denomination": {
+                "primary": "none",
+                "secondary": "none"
+            },
+            "unit": "none"
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "alwaysEquippable": true,
+        "equippableEnabled": true,
+        "strike": {
+            "die": {
+                "size": "d4",
+                "count": 1
+            },
+            "damageType": "impact",
+            "skill": "hwp",
+            "skillLocked": true,
+            "skillTestBonus": "",
+            "damageBonus": ""
+        },
+        "primaryResource": "none",
+        "__embedded": {
+            "items": []
+        }
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!erS8NL6l0ONH1RaE"
+}

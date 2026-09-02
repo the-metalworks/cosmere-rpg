@@ -50,6 +50,7 @@ export const COMPENDIUMS = {
     COMPANIONS_AND_ADVERSARIES: `${SYSTEM_ID}.companions-and-adversaries`,
     HEROIC_PATHS: `${SYSTEM_ID}.heroic-paths`,
     ITEMS: `${SYSTEM_ID}.items`,
-    STARTER_RULES: `${SYSTEM_ID}.starter-rules`,
+    STORMLIGHT_STARTER_RULES: `${SYSTEM_ID}.starter-rules`,
+    MISTBORN_STARTER_RULES: `${SYSTEM_ID}.mistborn-starter-rules`,
     ROLL_TABLES: `${SYSTEM_ID}.tables`,
 };

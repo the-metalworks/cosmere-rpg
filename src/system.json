@@ -50,6 +50,7 @@
             "name": "starter-rules",
             "label": "Stormlight Starter Rules",
             "path": "packs/starter-rules",
+            "banner": "systems/cosmere-rpg/assets/art/foundry_setup_starter_rules_cover.webp",
             "type": "JournalEntry",
             "system": "cosmere-rpg",
             "ownership": {
@@ -107,6 +108,17 @@
             }
         },
         {
+            "name": "metalborn-paths",
+            "label": "Metalborn Paths",
+            "path": "packs/metalborn-paths",
+            "type": "Item",
+            "system": "cosmere-rpg",
+            "ownership": {
+                "PLAYER": "OBSERVER",
+                "ASSISTANT": "OWNER"
+            }
+        },
+        {
             "name": "actions",
             "label": "Actions",
             "path": "packs/actions",
@@ -138,11 +150,28 @@
                 "PLAYER": "OBSERVER",
                 "ASSISTANT": "OWNER"
             }
+        },
+        {
+            "name": "mistborn-starter-rules",
+            "label": "Mistborn Starter Rules",
+            "path": "packs/mistborn-starter-rules",
+            "banner": "systems/cosmere-rpg/assets/art_mistborn/foundry_mistborn_starter_rules_cover.webp",
+            "type": "JournalEntry",
+            "system": "cosmere-rpg",
+            "ownership": {
+                "PLAYER": "OBSERVER",
+                "ASSISTANT": "OWNER"
+            },
+            "flags": {
+                "cosmere-rpg": {
+                    "defaultSortingMode": "m"
+                }
+            }
         }
     ],
     "packFolders": [
         {
-            "name": "Stormlight Starter Rules",
+            "name": "Cosmere RPG Starter Rules",
             "sorting": "m",
             "color": "#141f3c",
             "packs": [
@@ -152,7 +181,8 @@
                 "companions-and-adversaries",
                 "tables",
                 "ancestries",
-                "cultures"
+                "cultures",
+                "metalborn-paths"
             ]
         }
     ],

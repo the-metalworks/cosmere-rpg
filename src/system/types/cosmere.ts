@@ -94,6 +94,8 @@ export enum Skill {
     Perception = 'prc',
     Persuasion = 'prs',
     Survival = 'sur',
+
+    Allomancy = 'all',
 }
 // export type Skill = (typeof Skills)[keyof typeof Skills];
 

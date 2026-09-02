@@ -1,0 +1,493 @@
+{
+    "folder": "yUeRcUfJaeKvLpP6",
+    "name": "test_a",
+    "type": "adversary",
+    "_id": "Vi9gTKLO5PDYToT2",
+    "img": "icons/svg/mystery-man.svg",
+    "system": {
+        "size": "medium",
+        "type": {
+            "id": "humanoid"
+        },
+        "tier": 1,
+        "senses": {
+            "range": {
+                "derived": 5,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            },
+            "obscuredAffected": true
+        },
+        "immunities": {
+            "damage": {
+                "energy": false,
+                "impact": false,
+                "keen": false,
+                "spirit": false,
+                "vital": false,
+                "heal": false
+            },
+            "condition": {
+                "afflicted": false,
+                "blind": false,
+                "burrowing": false,
+                "depleted": false,
+                "determined": false,
+                "diminished": false,
+                "disoriented": false,
+                "empowered": false,
+                "enhanced": false,
+                "exhausted": false,
+                "flying": false,
+                "focused": false,
+                "hidden": false,
+                "immobilized": false,
+                "invisible": false,
+                "prone": false,
+                "restrained": false,
+                "slowed": false,
+                "stunned": false,
+                "surprised": false,
+                "unconscious": false,
+                "dead": false
+            }
+        },
+        "attributes": {
+            "str": {
+                "value": 0,
+                "bonus": 0
+            },
+            "spd": {
+                "value": 0,
+                "bonus": 0
+            },
+            "int": {
+                "value": 0,
+                "bonus": 0
+            },
+            "wil": {
+                "value": 0,
+                "bonus": 0
+            },
+            "awa": {
+                "value": 0,
+                "bonus": 0
+            },
+            "pre": {
+                "value": 0,
+                "bonus": 0
+            }
+        },
+        "defenses": {
+            "phy": {
+                "derived": 0,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            },
+            "cog": {
+                "derived": 0,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            },
+            "spi": {
+                "derived": 0,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            }
+        },
+        "resources": {
+            "hea": {
+                "value": 0,
+                "max": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "bonus": 0
+            },
+            "foc": {
+                "value": 0,
+                "max": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "bonus": 0
+            },
+            "inv": {
+                "value": 0,
+                "max": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "bonus": 0
+            }
+        },
+        "skills": {
+            "agi": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "ath": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "hwp": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "lwp": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "stl": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "thv": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "cra": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "ded": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "dis": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "inm": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "lor": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "med": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "dec": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "ins": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "lea": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "prc": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "prs": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "sur": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            }
+        },
+        "currency": {
+            "spheres": {
+                "denominations": [],
+                "total": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            }
+        },
+        "deflect": {
+            "natural": 0,
+            "source": "armor",
+            "types": {
+                "energy": true,
+                "impact": true,
+                "keen": true,
+                "spirit": false,
+                "vital": false,
+                "heal": false
+            },
+            "derived": 0,
+            "override": null,
+            "useOverride": false,
+            "bonus": 0
+        },
+        "movement": {
+            "walk": {
+                "rate": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "swim": {
+                "rate": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "fly": {
+                "rate": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            }
+        },
+        "injuries": {
+            "derived": 0,
+            "override": null,
+            "useOverride": false,
+            "bonus": 0
+        },
+        "injuryRollBonus": 0,
+        "encumbrance": {
+            "lift": {
+                "derived": 0,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            },
+            "carry": {
+                "derived": 0,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            }
+        },
+        "expertises": {},
+        "languages": [],
+        "biography": "",
+        "appearance": "",
+        "notes": "",
+        "role": "minion"
+    },
+    "prototypeToken": {
+        "name": "test_a",
+        "displayName": 0,
+        "actorLink": false,
+        "width": 1,
+        "height": 1,
+        "texture": {
+            "src": "icons/svg/mystery-man.svg",
+            "anchorX": 0.5,
+            "anchorY": 0.5,
+            "offsetX": 0,
+            "offsetY": 0,
+            "fit": "contain",
+            "scaleX": 1,
+            "scaleY": 1,
+            "rotation": 0,
+            "tint": "#ffffff",
+            "alphaThreshold": 0.75
+        },
+        "lockRotation": false,
+        "rotation": 0,
+        "alpha": 1,
+        "disposition": -1,
+        "displayBars": 20,
+        "bar1": {
+            "attribute": "resources.hea"
+        },
+        "bar2": {
+            "attribute": "resources.foc"
+        },
+        "light": {
+            "negative": false,
+            "priority": 0,
+            "alpha": 0.5,
+            "angle": 360,
+            "bright": 0,
+            "color": null,
+            "coloration": 1,
+            "dim": 0,
+            "attenuation": 0.5,
+            "luminosity": 0.5,
+            "saturation": 0,
+            "contrast": 0,
+            "shadows": 0,
+            "animation": {
+                "type": null,
+                "speed": 5,
+                "intensity": 5,
+                "reverse": false
+            },
+            "darkness": {
+                "min": 0,
+                "max": 1
+            }
+        },
+        "sight": {
+            "enabled": false,
+            "range": 5,
+            "angle": 360,
+            "visionMode": "sense",
+            "color": null,
+            "attenuation": 0.1,
+            "brightness": 0,
+            "saturation": 0,
+            "contrast": 0
+        },
+        "detectionModes": [],
+        "occludable": {
+            "radius": 0
+        },
+        "ring": {
+            "enabled": false,
+            "colors": {
+                "ring": null,
+                "background": null
+            },
+            "effects": 1,
+            "subject": {
+                "scale": 1,
+                "texture": null
+            }
+        },
+        "turnMarker": {
+            "mode": 1,
+            "animation": null,
+            "src": null,
+            "disposition": false
+        },
+        "movementAction": null,
+        "flags": {},
+        "randomImg": false,
+        "appendNumber": false,
+        "prependAdjective": false
+    },
+    "items": [],
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {
+        "cosmere-rpg": {
+            "sheet": {
+                "hideUnranked": true
+            },
+            "automation": {
+                "token": {
+                    "size": true,
+                    "vision": true
+                }
+            }
+        }
+    },
+    "_key": "!actors!Vi9gTKLO5PDYToT2"
+}

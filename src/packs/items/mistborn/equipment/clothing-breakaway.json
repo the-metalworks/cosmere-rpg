@@ -1,0 +1,142 @@
+{
+    "folder": "N0Rgn8Y6XWMWKpL0",
+    "name": "Clothing (breakaway)",
+    "type": "equipment",
+    "img": "icons/equipment/chest/shirt-collared-grey.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 120 bx; <strong>Weight</strong> 5 lb.;</p><p>Breakaway clothes mimic the appearance of fine clothing, but they’re designed to be worn over armor and weapons to disguise them. They can be removed as <span class=\"cosmere-icon\">1</span> if a fight breaks out, tearing at predesigned seams without ruining the garment. While wearing an outfit of breakaway clothes, any armor you’re wearing gains the Presentable trait, and each weapon you’re carrying gains the Discreet trait; however, you gain a disadvantage on any attack you make, and each attack targeting you gains an advantage.</p>",
+            "chat": "",
+            "short": ""
+        },
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 5,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 120,
+            "currency": "boxings",
+            "denomination": {
+                "primary": "box",
+                "secondary": "none"
+            },
+            "unit": "boxings.box"
+        },
+        "events": {},
+        "relationships": {},
+        "primaryResource": "none",
+        "alwaysEquippable": false,
+        "equippableEnabled": true,
+        "equipped": false,
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "wear"
+        },
+        "linkedSkills": [],
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Remove Breakaway",
+                    "img": "icons/equipment/chest/shirt-collared-grey.webp",
+                    "_id": "Ve9yKUJTez9vc5Jr",
+                    "system": {
+                        "id": "clothing-breakaway",
+                        "description": {
+                            "value": "<p>Breakaway clothes mimic the appearance of fine clothing, but they’re designed to be worn over armor and weapons to disguise them. They can be removed as <span class=\"cosmere-icon\">1</span> if a fight breaks out, tearing at predesigned seams without ruining the garment.</p>",
+                            "chat": "",
+                            "short": ""
+                        },
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {
+                            "aUaiXFlCYe8Epk5K": {
+                                "id": "aUaiXFlCYe8Epk5K",
+                                "description": "Unequip Item",
+                                "event": "use",
+                                "handler": {
+                                    "type": "update-item",
+                                    "target": "sibling",
+                                    "changes": [
+                                        {
+                                            "key": "system.equipped",
+                                            "value": "false",
+                                            "mode": 5
+                                        }
+                                    ],
+                                    "uuid": "Compendium.cosmere-rpg-mistborn-handbook.items.Item.OB6uk4Jy49qCgGy5",
+                                    "matchMode": "identifier",
+                                    "matchAll": false
+                                },
+                                "order": 0,
+                                "disabled": false
+                            }
+                        },
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "value": 1,
+                                "type": "act"
+                            },
+                            "consumption": [],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        },
+                        "type": "basic",
+                        "primaryResource": "none",
+                        "__embedded": {
+                            "items": []
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.350",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "createdTime": 1788238033715,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    }
+                }
+            ]
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "kaQuIjXR4FyhAaqZ",
+    "sort": 5300000,
+    "_key": "!items!kaQuIjXR4FyhAaqZ"
+}

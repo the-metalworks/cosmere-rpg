@@ -1,0 +1,161 @@
+{
+    "folder": "qTYLKqLK29e5CTQp",
+    "name": "Antiseptic (potent, 5 doses)",
+    "type": "equipment",
+    "_id": "t0oc6ADwgqQMHI8A",
+    "img": "icons/consumables/potions/potion-bottle-labeled-medicine-capped-red-black.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 50 mk; <strong>Weight</strong> 1 lb.;</p><p>Knobweed milk, fourleaf sap, and lister’s oil can all be used to make a strong antiseptic. A dose can be applied to a character after a short rest to restore [[/r 2d6]] health.</p>",
+            "chat": "",
+            "short": ""
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 1,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 50,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            },
+            "unit": "spheres.mark"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": null,
+                "type": "spe"
+            },
+            "consume": [],
+            "flavor": "",
+            "uses": {
+                "type": "use",
+                "max": 5,
+                "value": 5,
+                "recharge": null
+            }
+        },
+        "damage": {
+            "formula": "2d6",
+            "type": "heal"
+        },
+        "primaryResource": "uses",
+        "resources": {
+            "uses": {
+                "value": 5,
+                "max": 5,
+                "recharge": "none",
+                "key": "uses"
+            },
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "alwaysEquippable": false,
+        "equippableEnabled": false,
+        "equipped": false,
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "wear"
+        },
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Antiseptic (potent)",
+                    "img": "icons/consumables/potions/potion-bottle-labeled-medicine-capped-red-black.webp",
+                    "_id": "KCJ08cRxDwxvEwu3",
+                    "system": {
+                        "id": "antiseptic-potent",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p>Knobweed milk, fourleaf sap, and lister’s oil can all be used to make a strong antiseptic. A dose can be applied to a character after a short rest to restore [[/r 2d6]] health.</p>",
+                            "chat": "",
+                            "short": ""
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "type": "spe"
+                            },
+                            "consumption": [
+                                {
+                                    "type": "item_resource",
+                                    "value": {
+                                        "min": 1,
+                                        "max": 1,
+                                        "actual": 1
+                                    },
+                                    "resource": "uses",
+                                    "matchDocument": {
+                                        "steps": [
+                                            {
+                                                "target": "parent",
+                                                "documentType": "Actor",
+                                                "reference": null,
+                                                "matchBy": "document-type",
+                                                "matchMode": "first"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": "2d6",
+                            "type": "heal"
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
+    },
+    "effects": [],
+    "sort": 2900000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!t0oc6ADwgqQMHI8A"
+}

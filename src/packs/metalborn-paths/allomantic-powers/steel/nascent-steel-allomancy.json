@@ -1,0 +1,120 @@
+{
+    "folder": "S2mdf2RgOkLIkDnp",
+    "name": "Nascent Steel Allomancy",
+    "type": "power",
+    "img": "systems/cosmere-rpg/assets/icons/mistborn/metal-powers/icon_A_steel.webp",
+    "system": {
+        "id": "nascent-steel-allomancy",
+        "type": "none",
+        "description": {
+            "value": "<p>This represents your early, unpracticed use of your power, such as through clumsily experimenting with a newly discovered well of power, subconsciously burning trace amounts of Allomantic metals.</p><p>When you use a nascent power, you don’t use that power’s full rules. Instead, you can only manifest small narrative effects related to the full power (for inspiration, see the “@UUID[Compendium.cosmere-rpg-mistborn-handbook.handbook.JournalEntry.Wdux6AlRp01Ox3EQ.JournalEntryPage.vhJwHzqHcbsIQIGi#creative-uses]{Creative Uses}” section for each power). You and the GM are encouraged to creatively integrate these small narrative effects in ways like the following:</p><p><strong>Conscious Choice.</strong> Test your power by using the @UUID[Compendium.cosmere-rpg-mistborn-handbook.actions.Item.A4fgvQ6HoxCIpxFS]{Use a Skill} action with <strong>Allomancy</strong>.</p><p><strong>Instinctive Effort.</strong> Spend <span class=\"cosmere-icon opportunity-color\">O</span> to activate a limited version of a related power.</p><p><strong>Accidental Activation.</strong> Describe a Complication as a poorly timed power that backfires in some way.</p><p><strong>Controlled Practice.</strong> During downtime, narratively describe using your power in low-risk situations.</p><p>The effects of a nascent power are always smaller than the full versions of that power, and they’re up to the GM’s discretion. The @UUID[Compendium.cosmere-rpg-mistborn-handbook.handbook.JournalEntry.Rn9IDL3Nvu7wvARP.JournalEntryPage.KbMWeZODWOgSrO9e]{Nascent Power Examples} table offers ideas for how nascent Allomantic powers might manifest in play.</p><p>At the GM’s discretion, using a nascent power might require you to spend 1 Investiture. On the flip side of that, the GM might allow you to recover 1 Investiture or more when you eat or drink something that plausibly contains trace amounts of your Allomantic metal; of course, you can also recover Investiture as usual with the @UUID[Compendium.cosmere-rpg-mistborn-handbook.actions.Item.ehYX5usckYd0wiFK]{Drink Vial} action.</p>",
+            "chat": "",
+            "short": ""
+        },
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "relationships": {},
+        "talentTree": null,
+        "customSkill": true,
+        "skill": "all",
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Nascent Steel Allomancy",
+                    "img": "systems/cosmere-rpg/assets/icons/mistborn/metal-powers/icon_A_steel_burn.webp",
+                    "_id": "BhRRhb0QYlCzNzcI",
+                    "system": {
+                        "id": "nascent-steel-allomancy",
+                        "type": "metallic-arts",
+                        "description": {
+                            "value": "<p>When you use a nascent power, you don’t use that power’s full rules. Instead, you can only manifest small narrative effects related to the full power (for inspiration, see the “@UUID[Compendium.cosmere-rpg-mistborn-handbook.handbook.JournalEntry.Wdux6AlRp01Ox3EQ.JournalEntryPage.vhJwHzqHcbsIQIGi#creative-uses]{Creative Uses}” section for each power). You and the GM are encouraged to creatively integrate these small narrative effects in ways like the following:</p><p><strong>Conscious Choice.</strong> Test your power by using the @UUID[Compendium.cosmere-rpg-mistborn-handbook.actions.Item.A4fgvQ6HoxCIpxFS]{Use a Skill} action with <strong>Allomancy</strong>.</p><p><strong>Instinctive Effort.</strong> Spend <span class=\"cosmere-icon opportunity-color\">O</span> to activate a limited version of a related power.</p><p><strong>Accidental Activation.</strong> Describe a Complication as a poorly timed power that backfires in some way.</p><p><strong>Controlled Practice.</strong> During downtime, narratively describe using your power in low-risk situations.</p><p>The effects of a nascent power are always smaller than the full versions of that power, and they’re up to the GM’s discretion. The @UUID[Compendium.cosmere-rpg-mistborn-handbook.handbook.JournalEntry.Rn9IDL3Nvu7wvARP.JournalEntryPage.KbMWeZODWOgSrO9e]{Nascent Power Examples} table offers ideas for how nascent Allomantic powers might manifest in play.</p><p>At the GM’s discretion, using a nascent power might require you to spend 1 Investiture. </p>",
+                            "chat": "",
+                            "short": ""
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "type": "spe"
+                            },
+                            "consumption": [
+                                {
+                                    "type": "resource",
+                                    "value": {
+                                        "min": 0,
+                                        "max": 1,
+                                        "actual": 1
+                                    },
+                                    "resource": "inv",
+                                    "matchDocument": {
+                                        "steps": [
+                                            {
+                                                "target": "ancestor",
+                                                "documentType": "Actor",
+                                                "matchBy": "document-type",
+                                                "reference": null,
+                                                "matchMode": "first"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "createdTime": 1787017565395,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "aufHPlJ3cGRnHcNd",
+    "sort": 0,
+    "_key": "!items!aufHPlJ3cGRnHcNd"
+}

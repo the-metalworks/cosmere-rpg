@@ -1,0 +1,942 @@
+{
+    "folder": "r39wDfpGePQJb52T",
+    "name": "Bodyguard",
+    "type": "adversary",
+    "img": "systems/cosmere-rpg/assets/tokens_mistborn/classic/alt_tokens_no_ring/bodyguard.webp",
+    "system": {
+        "size": "medium",
+        "type": {
+            "id": "humanoid"
+        },
+        "tier": 1,
+        "senses": {
+            "range": {
+                "derived": 5,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            },
+            "obscuredAffected": true
+        },
+        "immunities": {
+            "damage": {
+                "energy": false,
+                "impact": false,
+                "keen": false,
+                "spirit": false,
+                "vital": false,
+                "heal": false
+            },
+            "condition": {
+                "afflicted": false,
+                "blind": false,
+                "burrowing": false,
+                "determined": false,
+                "disoriented": false,
+                "empowered": false,
+                "enhanced": false,
+                "exhausted": false,
+                "flying": false,
+                "focused": false,
+                "hidden": false,
+                "immobilized": false,
+                "invisible": false,
+                "prone": false,
+                "restrained": false,
+                "slowed": false,
+                "stunned": false,
+                "surprised": false,
+                "unconscious": false,
+                "dead": false,
+                "depleted": false,
+                "diminished": false
+            }
+        },
+        "attributes": {
+            "str": {
+                "value": 3,
+                "bonus": 0
+            },
+            "spd": {
+                "value": 2,
+                "bonus": 0
+            },
+            "int": {
+                "value": 1,
+                "bonus": 0
+            },
+            "wil": {
+                "value": 3,
+                "bonus": 0
+            },
+            "awa": {
+                "value": 2,
+                "bonus": 0
+            },
+            "pre": {
+                "value": 1,
+                "bonus": 0
+            }
+        },
+        "defenses": {
+            "phy": {
+                "derived": 0,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            },
+            "cog": {
+                "derived": 0,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            },
+            "spi": {
+                "derived": 0,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            }
+        },
+        "resources": {
+            "hea": {
+                "value": 31,
+                "max": {
+                    "derived": 0,
+                    "override": 24,
+                    "useOverride": true,
+                    "bonus": 0
+                },
+                "bonus": 0
+            },
+            "foc": {
+                "value": 6,
+                "max": {
+                    "derived": 0,
+                    "override": 5,
+                    "useOverride": true,
+                    "bonus": 0
+                },
+                "bonus": 0
+            },
+            "inv": {
+                "value": 0,
+                "max": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "bonus": 0
+            }
+        },
+        "skills": {
+            "agi": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "ath": {
+                "rank": 2,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "hwp": {
+                "rank": 2,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "lwp": {
+                "rank": 2,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "stl": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "thv": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "cra": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "ded": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "dis": {
+                "rank": 1,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "inm": {
+                "rank": 2,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "lor": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "med": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "dec": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "ins": {
+                "rank": 1,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "lea": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "prc": {
+                "rank": 2,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "prs": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "sur": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "all": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            },
+            "fer": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            }
+        },
+        "currency": {
+            "spheres": {
+                "denominations": [],
+                "total": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "boxings": {
+                "denominations": [],
+                "total": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            }
+        },
+        "deflect": {
+            "natural": 0,
+            "source": "armor",
+            "types": {
+                "energy": true,
+                "impact": true,
+                "keen": true,
+                "spirit": false,
+                "vital": false,
+                "heal": false
+            },
+            "derived": 0,
+            "override": 1,
+            "useOverride": true,
+            "bonus": 0
+        },
+        "movement": {
+            "walk": {
+                "rate": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "swim": {
+                "rate": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "fly": {
+                "rate": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            }
+        },
+        "injuries": {
+            "derived": 0,
+            "override": null,
+            "useOverride": false,
+            "bonus": 0
+        },
+        "injuryRollBonus": 0,
+        "encumbrance": {
+            "lift": {
+                "derived": 0,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            },
+            "carry": {
+                "derived": 0,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            }
+        },
+        "expertises": {},
+        "languages": [],
+        "biography": "",
+        "appearance": "",
+        "notes": "<h5>Tactics</h5><p>A <strong>bodyguard</strong> must be decisive and fast, operating skillfully in close-range combat. They Close the Distance as swiftly as possible, then use Protective Duty to keep their charges safe. In Era 2, a bodyguard may attack with their Boot Pistol before reaching their charge, then swap to their Sidesword to continue the fight. They use their Subdue action as necessary to give their charge a chance to flee. Meanwhile, their Hold the Line feature ensures the bodyguard is di cult to take out of the fight and can stay where they need to be on the battlefield.</p>",
+        "role": "rival"
+    },
+    "prototypeToken": {
+        "name": "Bodyguard",
+        "displayName": 30,
+        "actorLink": false,
+        "width": 1,
+        "height": 1,
+        "texture": {
+            "src": "systems/cosmere-rpg/assets/tokens_mistborn/bodyguard.webp",
+            "anchorX": 0.5,
+            "anchorY": 0.5,
+            "offsetX": 0,
+            "offsetY": 0,
+            "fit": "contain",
+            "scaleX": 1.2,
+            "scaleY": 1.2,
+            "rotation": 0,
+            "tint": "#ffffff",
+            "alphaThreshold": 0.75
+        },
+        "lockRotation": false,
+        "rotation": 0,
+        "alpha": 1,
+        "disposition": -1,
+        "displayBars": 20,
+        "bar1": {
+            "attribute": "resources.hea"
+        },
+        "bar2": {
+            "attribute": "resources.foc"
+        },
+        "light": {
+            "negative": false,
+            "priority": 0,
+            "alpha": 0.5,
+            "angle": 360,
+            "bright": 0,
+            "color": null,
+            "coloration": 1,
+            "dim": 0,
+            "attenuation": 0.5,
+            "luminosity": 0.5,
+            "saturation": 0,
+            "contrast": 0,
+            "shadows": 0,
+            "animation": {
+                "type": null,
+                "speed": 5,
+                "intensity": 5,
+                "reverse": false
+            },
+            "darkness": {
+                "min": 0,
+                "max": 1
+            }
+        },
+        "sight": {
+            "enabled": false,
+            "range": 10,
+            "angle": 360,
+            "visionMode": "sense",
+            "color": null,
+            "attenuation": 0.1,
+            "brightness": 0,
+            "saturation": 0,
+            "contrast": 0
+        },
+        "detectionModes": [],
+        "occludable": {
+            "radius": 0
+        },
+        "ring": {
+            "enabled": false,
+            "colors": {
+                "ring": null,
+                "background": null
+            },
+            "effects": 0,
+            "subject": {
+                "scale": 1,
+                "texture": "systems/cosmere-rpg/assets/tokens_mistborn/alt_tokens_no_ring/bodyguard.webp"
+            }
+        },
+        "turnMarker": {
+            "mode": 1,
+            "animation": null,
+            "src": null,
+            "disposition": false
+        },
+        "movementAction": null,
+        "flags": {},
+        "randomImg": false,
+        "appendNumber": true,
+        "prependAdjective": false
+    },
+    "items": [
+        {
+            "folder": "tdxhh6BENXSrYtPE",
+            "name": "Close the Distance",
+            "type": "action",
+            "_id": "54CppBbWW7k6nLA2",
+            "img": "icons/skills/movement/figure-running-gray.webp",
+            "system": {
+                "id": "close-the-distance",
+                "description": {
+                    "value": "<p>While within 30 feet of an ally, the [[lookup @actor.name]]{Actor Name} can use the <strong>Move</strong> action as <span class=\"cosmere-icon\">0</span> once per turn.</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "resources": {
+                    "uses": null,
+                    "charges": null,
+                    "ammo": null
+                },
+                "modality": null,
+                "events": {},
+                "relationships": {},
+                "activation": {
+                    "type": "utility",
+                    "cost": {
+                        "type": "fre"
+                    },
+                    "consumption": [],
+                    "flavor": ""
+                },
+                "damage": {
+                    "skill": "default",
+                    "attribute": "default",
+                    "formula": null,
+                    "type": null
+                },
+                "skillTest": {
+                    "skill": "default",
+                    "attribute": "default",
+                    "plotDie": false
+                },
+                "type": "adversary",
+                "primaryResource": "none",
+                "__embedded": {
+                    "items": []
+                }
+            },
+            "effects": [],
+            "sort": 4800000,
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "lastModifiedBy": null
+            },
+            "ownership": {
+                "default": 0
+            },
+            "_key": "!actors.items!uIf6cxfFc7HifPFY.54CppBbWW7k6nLA2"
+        },
+        {
+            "folder": "tdxhh6BENXSrYtPE",
+            "name": "Protective Duty",
+            "type": "action",
+            "_id": "1WvjO3sz2nIop26W",
+            "img": "icons/magic/defensive/shield-barrier-glowing-blue.webp",
+            "system": {
+                "id": "protective-duty",
+                "description": {
+                    "value": "<p>Before an ally within 5 feet of the [[lookup @actor.name]]{Actor Name} is attacked, the [[lookup @actor.name]]{Actor Name} becomes the target of the attack instead, as if they were in the  ally’s space.</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "resources": {
+                    "uses": null,
+                    "charges": null,
+                    "ammo": null
+                },
+                "modality": null,
+                "events": {},
+                "relationships": {},
+                "activation": {
+                    "type": "utility",
+                    "cost": {
+                        "type": "rea"
+                    },
+                    "consumption": [
+                        {
+                            "type": "resource",
+                            "value": {
+                                "min": 1,
+                                "max": 1,
+                                "actual": 1
+                            },
+                            "resource": "foc",
+                            "matchDocument": {
+                                "steps": [
+                                    {
+                                        "target": "ancestor",
+                                        "documentType": "Actor",
+                                        "matchBy": "document-type",
+                                        "reference": null,
+                                        "matchMode": "first"
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "flavor": ""
+                },
+                "damage": {
+                    "skill": "default",
+                    "attribute": "default",
+                    "formula": null,
+                    "type": null
+                },
+                "skillTest": {
+                    "skill": "default",
+                    "attribute": "default",
+                    "plotDie": false
+                },
+                "type": "adversary",
+                "primaryResource": "none",
+                "__embedded": {
+                    "items": []
+                }
+            },
+            "effects": [],
+            "sort": 3900000,
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "lastModifiedBy": null
+            },
+            "ownership": {
+                "default": 0
+            },
+            "_key": "!actors.items!uIf6cxfFc7HifPFY.1WvjO3sz2nIop26W"
+        },
+        {
+            "folder": "tdxhh6BENXSrYtPE",
+            "name": "Subdue",
+            "type": "action",
+            "_id": "AbWsIMpESi2y0KhQ",
+            "img": "icons/magic/control/debuff-chains-shackle-movement-red.webp",
+            "system": {
+                "id": "subdue",
+                "description": {
+                    "value": "<p>The [[lookup @actor.name]]{Actor Name} targets a Large or smaller character within 5 feet of them, knocking them <strong>Prone</strong> then making an [[test skill=ath]] against their Physical defense.</p><p>On a success, the [[lookup @actor.name]]{Actor Name} can also make the target <strong>Restrained</strong> until the end of the bodyguard’s next turn.</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "resources": {
+                    "uses": null,
+                    "charges": null,
+                    "ammo": null
+                },
+                "modality": null,
+                "events": {},
+                "relationships": {},
+                "activation": {
+                    "type": "skill_test",
+                    "cost": {
+                        "type": "act",
+                        "value": 2
+                    },
+                    "consumption": [],
+                    "flavor": ""
+                },
+                "damage": {
+                    "skill": null,
+                    "attribute": null,
+                    "formula": null,
+                    "type": null,
+                    "grazeOverrideFormula": ""
+                },
+                "skillTest": {
+                    "skill": "ath",
+                    "attribute": "default",
+                    "plotDie": false,
+                    "modifierFormula": "",
+                    "opportunity": null,
+                    "complication": null
+                },
+                "type": "adversary",
+                "primaryResource": "none",
+                "__embedded": {
+                    "items": []
+                }
+            },
+            "effects": [],
+            "sort": 5300000,
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "lastModifiedBy": null
+            },
+            "ownership": {
+                "default": 0
+            },
+            "_key": "!actors.items!uIf6cxfFc7HifPFY.AbWsIMpESi2y0KhQ"
+        },
+        {
+            "folder": "eR3XFJp5ojcpiwb8",
+            "name": "Hold the Line",
+            "type": "trait",
+            "_id": "2c9XZiLLCeOF3wKY",
+            "img": "icons/skills/melee/hand-grip-staff-teal.webp",
+            "system": {
+                "description": {
+                    "value": "<p>The [[lookup @actor.name]]{Actor Name} gains an advantage on tests against being knocked <strong>Prone</strong>. Additionally, before the [[lookup @actor.name]]{Actor Name} is unwillingly moved, they reduce that movement by 5 feet.</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "resources": {
+                    "uses": null,
+                    "charges": null,
+                    "ammo": null
+                },
+                "events": {},
+                "relationships": {},
+                "primaryResource": "none",
+                "__embedded": {
+                    "items": []
+                }
+            },
+            "effects": [],
+            "sort": 0,
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "lastModifiedBy": null
+            },
+            "ownership": {
+                "default": 0
+            },
+            "_key": "!actors.items!uIf6cxfFc7HifPFY.2c9XZiLLCeOF3wKY"
+        },
+        {
+            "folder": "MaFuGaqHuCtee8gZ",
+            "name": "Strike: Boot Pistol",
+            "type": "action",
+            "_id": "5pGG7vNRjtRoIV3O",
+            "img": "icons/weapons/guns/gun-pistol-flintlock.webp",
+            "system": {
+                "id": "strike-boot-pistol",
+                "description": {
+                    "value": "<p><strong>Attack </strong>+[[lookup @actor.skills.lwp.mod]]{LWP}; <strong>Range</strong> 20/40 ft.; <strong>Targets </strong>one;</p><p><strong>Graze</strong> [[damage 1d4 Keen average]];</p><p><strong>Hit</strong> [[damage 1d4 + @skills.lwp.mod Keen average]], the target takes an extra [[damage 1d4 Keen]] if the [[lookup @actor.name]]{Actor Name} is within 5 feet of an ally.</p><p><em>Pierce:</em> This damage can’t be reduced by the target’s deflect.</p><p><em>Loaded [1]:</em> Reload this weapon to full ammunition as <span class=\"cosmere-icon\">1</span>.</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "resources": {
+                    "uses": {
+                        "value": 1,
+                        "max": 1,
+                        "recharge": "none",
+                        "key": "uses"
+                    },
+                    "charges": null,
+                    "ammo": null
+                },
+                "modality": null,
+                "events": {},
+                "relationships": {},
+                "activation": {
+                    "type": "skill_test",
+                    "cost": {
+                        "type": "act",
+                        "value": 1
+                    },
+                    "consumption": [
+                        {
+                            "type": "item_resource",
+                            "value": {
+                                "min": 1,
+                                "max": 1,
+                                "actual": 1
+                            },
+                            "resource": "uses",
+                            "matchDocument": {
+                                "steps": [
+                                    {
+                                        "target": "self",
+                                        "documentType": "Item",
+                                        "reference": null,
+                                        "matchBy": "name",
+                                        "matchMode": "first"
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "flavor": ""
+                },
+                "damage": {
+                    "skill": "lwp",
+                    "attribute": null,
+                    "formula": "1d4",
+                    "type": "keen",
+                    "grazeOverrideFormula": ""
+                },
+                "skillTest": {
+                    "skill": "lwp",
+                    "attribute": "default",
+                    "plotDie": false,
+                    "modifierFormula": "",
+                    "opportunity": null,
+                    "complication": null
+                },
+                "primaryResource": "uses",
+                "type": "adversary",
+                "__embedded": {
+                    "items": []
+                }
+            },
+            "effects": [],
+            "sort": 0,
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "lastModifiedBy": null
+            },
+            "ownership": {
+                "default": 0
+            },
+            "_key": "!actors.items!uIf6cxfFc7HifPFY.5pGG7vNRjtRoIV3O"
+        },
+        {
+            "folder": "MaFuGaqHuCtee8gZ",
+            "name": "Strike: Sidesword",
+            "type": "action",
+            "_id": "ryL0gjlEQclJr8jS",
+            "img": "icons/weapons/swords/shortsword-guard-brown.webp",
+            "system": {
+                "id": "strike-sidesword",
+                "description": {
+                    "value": "<p><strong>Attack </strong>+[[lookup @actor.skills.hwp.mod]]{HWP}; <strong>Reach</strong> 5 ft.; <strong>Targets </strong>one;</p><p><strong>Graze</strong> [[damage 1d6 Keen average]];</p><p><strong>Hit</strong> [[damage 1d6 + @skills.hwp.mod Keen average]], the target takes an extra [[damage 1d6 Keen]] if the [[lookup @actor.name]]{Actor Name} is within 5 feet of an ally.</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "resources": {
+                    "uses": null,
+                    "charges": null,
+                    "ammo": null
+                },
+                "modality": null,
+                "events": {},
+                "relationships": {},
+                "activation": {
+                    "type": "skill_test",
+                    "cost": {
+                        "type": "act",
+                        "value": 1
+                    },
+                    "consumption": [],
+                    "flavor": ""
+                },
+                "damage": {
+                    "skill": "hwp",
+                    "attribute": null,
+                    "formula": "1d6",
+                    "type": "keen",
+                    "grazeOverrideFormula": ""
+                },
+                "skillTest": {
+                    "skill": "hwp",
+                    "attribute": "default",
+                    "plotDie": false,
+                    "modifierFormula": "",
+                    "opportunity": null,
+                    "complication": null
+                },
+                "type": "adversary",
+                "primaryResource": "none",
+                "__embedded": {
+                    "items": []
+                }
+            },
+            "effects": [],
+            "sort": 0,
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "lastModifiedBy": null
+            },
+            "ownership": {
+                "default": 0
+            },
+            "_key": "!actors.items!uIf6cxfFc7HifPFY.ryL0gjlEQclJr8jS"
+        }
+    ],
+    "effects": [],
+    "flags": {
+        "cosmere-rpg": {
+            "sheet": {
+                "hideUnranked": true,
+                "mode": "view"
+            },
+            "automation": {
+                "token": {
+                    "size": true,
+                    "vision": true
+                }
+            }
+        }
+    },
+    "ownership": {
+        "default": 0
+    },
+    "_id": "uIf6cxfFc7HifPFY",
+    "sort": 0,
+    "_key": "!actors!uIf6cxfFc7HifPFY"
+}

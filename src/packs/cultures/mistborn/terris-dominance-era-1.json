@@ -1,0 +1,75 @@
+{
+    "name": "Terris Dominance (Era 1)",
+    "type": "culture",
+    "img": "systems/cosmere-rpg/assets/icons/mistborn/cultures/culture_terris-dominance.webp",
+    "system": {
+        "id": "terris-dominance",
+        "description": {
+            "value": "<p>Home to the Terris people, the Terris Dominance is a mountainous tundra at the northern edge of the Empire. From his seat in Tathingdwen, High Prelan Savrian of the Canton of Inquisition rules the province directly on behalf of the Steel Ministry. To control the Terris population and eradicate hereditary Feruchemy, the Ministry operates a brutal breeding and stewardship program. The vast majority of Terris men are indentured to nobility and leave the dominance. The survivors of these programs, mostly women, make their living mining, herding, and farming in pastoral villages. Under these hardships, the Keepers and their leaders in the Synod work secretly to preserve both their ancient traditions and their abilities with Feruchemy.</p><p>Terris indoctrination values perfectionism, patience, resilience, and scholarship.</p><p>Terris people are often tall and lithe. Men often shave their heads, while women wear braids. Traditional Terris clothing includes a robe with colorful, overlapping V shapes, along with metallic jewelry such as rings and bangles. Many Terris stretch their earlobes to accommodate large earrings.</p><p></p><h4>Terris Dominance Names </h4><p>Arawyl, Cerytith, Deneleze, Forwyn, Handal, Idreh, Kwandel, Mylindweth, Orzed, Pyndal, Razwym, Tindel, Ulwyl, Vwashek, Wanderwyl.</p><p></p><h4>Terris Dominance Expertise </h4><p>As a character with the Terris Dominance expertise, you’re aware of Terris customs and the extent of the Terris breeding and stewardship programs. Choose how proficient you are in writing Imperial. Though the Terris language is mostly lost, you may have learned a few words if you’ve had contact with Keepers.</p><p>You’ve heard rumors about some Terris “mystics” possessing fantastical abilities. However, the truth of Feruchemy and the Keepers isn’t widely known, even to those with this Terris Dominance expertise.</p>",
+            "chat": "",
+            "short": ""
+        },
+        "events": {
+            "avnPxD6JU4nT3VFI": {
+                "id": "avnPxD6JU4nT3VFI",
+                "description": "Grant Expertise",
+                "event": "add-to-actor",
+                "handler": {
+                    "type": "grant-expertises",
+                    "pick": false,
+                    "expertises": {
+                        "cultural:terris-dominance": {
+                            "id": "terris-dominance",
+                            "type": "cultural",
+                            "label": "COSMERE.Item.Culture.Type.TerrisDominance",
+                            "locked": false
+                        }
+                    },
+                    "allowReplacement": false,
+                    "pickAmount": 1,
+                    "availableTypes": []
+                },
+                "order": 0,
+                "disabled": false
+            },
+            "F92C8J1J0pIUKhXm": {
+                "id": "F92C8J1J0pIUKhXm",
+                "description": "Remove Expertise",
+                "event": "remove-from-actor",
+                "handler": {
+                    "type": "remove-expertises",
+                    "expertises": {
+                        "cultural:terris-dominance": {
+                            "id": "terris-dominance",
+                            "type": "cultural",
+                            "label": "COSMERE.Item.Culture.Type.TerrisDominance",
+                            "locked": false
+                        }
+                    }
+                },
+                "order": 0,
+                "disabled": false
+            }
+        },
+        "linkedSkills": [],
+        "relationships": {},
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "__embedded": {
+            "items": []
+        }
+    },
+    "effects": [],
+    "folder": "1dMRblYYUEWrMGXm",
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "WwZGyyHHGrVSsEbD",
+    "sort": 0,
+    "_key": "!items!WwZGyyHHGrVSsEbD"
+}

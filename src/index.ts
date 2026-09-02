@@ -380,17 +380,6 @@ function configureFonts() {
                 },
             ],
         },
-        'Penumbra Serif Std SC': {
-            editor: false,
-            fonts: [
-                {
-                    urls: [
-                        `systems/${SYSTEM_ID}/assets/fonts/penumbra-serif-std/PenumbraSerifStd-SemiboldCaps.woff2`,
-                    ],
-                    weight: 600,
-                },
-            ],
-        },
         'Penumbra Sans Std': {
             editor: true,
             // TODO: convert to woff?
@@ -406,6 +395,17 @@ function configureFonts() {
                         `systems/${SYSTEM_ID}/assets/fonts/penumbra-sans-std/PenumbraSansStd-Bold.otf`,
                     ],
                     weight: 'bold',
+                },
+            ],
+        },
+        'Penumbra Serif Std SC': {
+            editor: false,
+            fonts: [
+                {
+                    urls: [
+                        `systems/${SYSTEM_ID}/assets/fonts/penumbra-serif-std/PenumbraSerifStd-SemiboldCaps.woff2`,
+                    ],
+                    weight: 600,
                 },
             ],
         },

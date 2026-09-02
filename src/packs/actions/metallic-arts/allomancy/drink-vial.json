@@ -1,0 +1,55 @@
+{
+    "folder": "33CUUZmq30JAcOjb",
+    "name": "Drink Vial",
+    "type": "action",
+    "img": "icons/tools/laboratory/vials-blue-pink.webp",
+    "system": {
+        "id": "drink-vial",
+        "description": {
+            "value": "<p>You drink a vial of metal flakes suspended in liquid to replenish your reserves; if the vial contains metal you can burn, you recover Investiture up to your maximum.</p><p>You remove the @UUID[Compendium.cosmere-rpg-mistborn-handbook.handbook.JournalEntry.b684FTgeTTE90HLs.JournalEntryPage.vyYzxzfhwORSeTLw#depleted]{Depleted} condition for any powers that use metals in the vial, and you become @UUID[Compendium.cosmere-rpg-mistborn-handbook.handbook.JournalEntry.b684FTgeTTE90HLs.JournalEntryPage.vyYzxzfhwORSeTLw#depleted]{Depleted} of any powers that use metals not in the vial.</p>",
+            "chat": "<p>You remove the @UUID[Compendium.cosmere-rpg-mistborn-handbook.handbook.JournalEntry.b684FTgeTTE90HLs.JournalEntryPage.vyYzxzfhwORSeTLw#depleted]{Depleted} condition for any powers that use metals in the vial, and you become @UUID[Compendium.cosmere-rpg-mistborn-handbook.handbook.JournalEntry.b684FTgeTTE90HLs.JournalEntryPage.vyYzxzfhwORSeTLw#depleted]{Depleted} of any powers that use metals not in the vial.</p>",
+            "short": "<p>You drink a vial of metal flakes suspended in liquid to replenish your reserves; if the vial contains metal you can burn, you recover Investiture up to your maximum.</p><p>You remove the @UUID[Compendium.cosmere-rpg-mistborn-handbook.handbook.JournalEntry.b684FTgeTTE90HLs.JournalEntryPage.vyYzxzfhwORSeTLw#depleted]{Depleted} condition for any powers that use metals in the vial, and you become @UUID[Compendium.cosmere-rpg-mistborn-handbook.handbook.JournalEntry.b684FTgeTTE90HLs.JournalEntryPage.vyYzxzfhwORSeTLw#depleted]{Depleted} of any powers that use metals not in the vial.</p>"
+        },
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "modality": null,
+        "events": {},
+        "relationships": {},
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "type": "act",
+                "value": 1
+            },
+            "consumption": [],
+            "flavor": ""
+        },
+        "damage": {
+            "skill": "default",
+            "attribute": "default",
+            "formula": null,
+            "type": null
+        },
+        "skillTest": {
+            "skill": "default",
+            "attribute": "default",
+            "plotDie": false
+        },
+        "type": "metallic-arts",
+        "primaryResource": "none",
+        "__embedded": {
+            "items": []
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "qwl5cn97M5iyUuTM",
+    "sort": 0,
+    "_key": "!items!qwl5cn97M5iyUuTM"
+}

@@ -1,0 +1,209 @@
+{
+    "name": "Introduction",
+    "_id": "9LLcfbZ5BoLsdqZ3",
+    "pages": [
+        {
+            "sort": 100000,
+            "name": "Introduction",
+            "type": "text",
+            "_id": "L79ZcUQp20N1tNq5",
+            "system": {},
+            "title": {
+                "show": false,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<p>The Cosmere Roleplaying Game is a tabletop roleplaying game (RPG) in which you and a group of friends collaboratively tell a story of heroes in a universe of adventure and Investiture. This book provides rules for playing in the world of Scadrial—the setting for the Mistborn novels. In this game, you and your fellow players will take on the roles of characters from either era of these books, working together to determine how your stories unfold.</p><p></p><img src=\"systems/cosmere-rpg/assets/art_mistborn/p0-introduction/pg004_HB00_Vin%20Pursued_Raymond%20Swanland.webp\" class=\"centered\" width=\"400\" /><p style=\"text-align:center\"><strong>Vin soars above Luthadel in her mistcloak, glancing back at a pursuing inquisitor. - RAYMOND SWANLAND</strong></p><p></p><h2>Your Introduction to Scadrial</h2><p>This rulebook gives you a brief introduction to the rules of the Cosmere RPG—enough to play through the adventure in this box, Hope in Ashes, as well as a few sessions beyond. To continue your adventures, you can seek out the other Mistborn books in the Cosmere RPG. These include the following:</p><p><strong>Mistborn Handbook.</strong> This book contains the full rules for playing the game, such as how to create characters, roll dice, and play out scenes. You’ll use this handbook alongside either a published adventure or the <em>Mistborn World Guide</em>.</p><p><strong>Mistborn World Guide.</strong> This guide to the history and cultures of Scadrial provides lore, adversary profiles, and non­player characters (NPCs) you can use to create your own adventures. This book contains new canonical lore in the form of character biographies, timelines, and travelogues.</p><p><strong>Mistborn Legacy.</strong> The first official Mistborn adven­ture, written in close partnership with Brandon Sanderson and Dan Wells, takes players from 1st through 9th level on an adventure spanning two parties and both eras of Scadrial.</p>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788022038158,
+                "modifiedTime": 1788240859224,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!9LLcfbZ5BoLsdqZ3.L79ZcUQp20N1tNq5"
+        },
+        {
+            "sort": 200000,
+            "name": "Using This Book",
+            "type": "text",
+            "_id": "lVhjQZvFhW1HjZD0",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<p>The book is broken into several parts:</p><p><strong>@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.9LLcfbZ5BoLsdqZ3]{Introduction}.</strong> This describes roleplaying games and presents the Cosmere RPG’s dice and coremechanics.</p><p><strong>@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.FP2yf9DMS3c40Em3]{Part 1: Character Statistics}.</strong> This provides every­thing you need to know about reading your character sheet and using your character’s attributes, defenses, resources, skills, senses, and expertises.</p><p><strong>@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.IkomLnitixJvzquo]{Part 2: Mistings and Allomancy}.</strong> This describes the Misting path and four Allomantic powers wielded by the pregenerated characters in <em>Hope in Ashes</em>, as well as their talents.</p><p><strong>@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.lurg3kD0nQg7Vgy4]{Part 3: Adventuring}.</strong> This contains rules for the trials and tribulations you’ll experience during your adventures, including the conditions, damage, and injuries you’ll face, plus rules for rest, recovery, roleplay, and extended downtime.</p><p><strong>@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.taVKEEQoKINc7HLD]{Part 4: Combat}.</strong> This describes how to engage in a combat scene, including the general actions every character can use and the rules for targeting, making attacks, and moving around the battlefield.</p><p><strong>@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.XJFhJOPYbT1NUl2A]{Part 5: Conversations}.</strong> This provides the rules for tense conversation scenes in which characters attempt to influence each other’s opinions or behavior.</p><p><strong>@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.JO8bGfFrIo9mHKxW]{Part 6: Endeavors}.</strong> This presents rules for high­stakes endeavor scenes such as solving mysteries and conspiracies, exploring dangerous environments, and pursuing (or fleeing) adversaries in adrenaline­pumping chases.</p><p><strong>@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.j8TnrXaFMO9iScBX]{Part 7: Items}.</strong> This provides information on the weapons, armor, and equipment you’ll need during <em>Hope in Ashes</em>.</p><p><strong>@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.L3HuKnFDKHjLQZ4p]{Part 8: Gamemastering}.</strong> This provides additional guidance on using adversary profiles and running the game (beyond the instructions provided in the <em>Hope in Ashes</em> adventure itself).</p>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788022233617,
+                "modifiedTime": 1788022535925,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!9LLcfbZ5BoLsdqZ3.lVhjQZvFhW1HjZD0"
+        },
+        {
+            "sort": 300000,
+            "name": "What Is a Roleplaying Game?",
+            "type": "text",
+            "_id": "rfkK1nKQ8iAkXp9S",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<p>A <strong>roleplaying game</strong> is a collaborative experience of storytelling and imagination. You and your friends work together to tell the story of a group of charac­ters, describing their environment, playing out their conversations, and narrating their actions. You roll dice to determine whether those actions succeed or fail, so nobody knows the outcome ahead of time. Each character in the game has unique attributes and rules that affect these die rolls in different ways. A character can attempt anything in the game, but the rules mean some things are more likely to succeed than others.</p><p></p><h2>Players</h2><p>Each player—other than the game master—creates a character to play throughout the group’s adventure. Your character is known as a <strong>player character</strong> (PC). They’re unique to you, and it’s up to you to decide what you want their origins, ambitions, and decisions to be. Alongside the other PCs, you form a group—sometimes called an adventuring <strong>party</strong>—who’ll (hopefully) stick together during your adventures exploring Scadrial.</p><p>During the game, you describe the actions your character takes, roll the dice for their actions when prompted by the game master, and decide how and when to use your character’s abilities. How you describe your character’s actions is up to you. Some players act out each word and action of their character, while others prefer to narrate their character’s actions as if they were telling a story. Do whichever feels best to you.</p><p></p><h2>Game Master</h2><p>One player takes on the role of the <strong>game master</strong> (GM). They don’t play just one character, but instead act as the guiding storyteller for your game experience.</p><p>As detailed in part 8, the GM is the lead storyteller and referee of the game. They prepare an adventure for your group to experience, narrate the action, and play the roles of each <strong>non-player character</strong> (NPC) that PCs encounter, whether friend or foe. The GM is also responsible for adjudicating the game’s rules as the story unfolds; as such, it’s important for the GM to be familiar with all rules of the game.</p><p>After a player decides what their character attempts to do, the GM decides how those actions resolve. Players are free to make suggestions, but the GM has the final say on what ultimately happens in the story. The role of GM is infinitely flexible as they improvise in response to unexpected player choices and dice rolls.</p><p>In this game, the GM isn’t an adversary to the other players; instead, the GM serves as guide and collaborator in creating a story together. It’s true the GM is responsible for determining which dangers and enemies PCs face, but the GM’s ultimate goal is to facilitate a story the whole group finds compelling and satisfying.</p><p></p><table class=\"mb-blue\"><tbody><tr><td><p>GMs, Players, and You</p></td></tr><tr><td><p>While the GM is certainly a player—after all, you’re playing a game together—this game’s rules use the word “player” to specifically refer to participants other than the GM. Rules for players only apply to anyone who has an individual player character.</p><p>Similarly, when this game refers to “you,” it’s usually talking specifically to the players. However, some sections (including the entirety of @UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.L3HuKnFDKHjLQZ4p]{part 8}) address the GM directly.</p></td></tr></tbody></table><p></p><h2>Flow of Play</h2><p>The game itself is played out in a series of sessions where your group gathers to play (either in person or online). Many groups prefer <strong>sessions</strong> of two to four hours, but they can be any length you wish. During a session, gameplay follows this general pattern:</p><p><strong>The GM sets the scene.</strong> The GM tells you about your character’s surroundings. They describe the environment and anything going on that’s easily noticeable. Depending on the context, they may outline the stakes of the current scene or describe some options you may want to pursue.</p><p><strong>The players decide what they do.</strong> You and the other players decide what actions your characters take based on the information. You might investigate the environment or quickly enact a plan of action. Sometimes the entire group acts together (such as “we all head to the hideout”). However, your characters can also act individually, or even split up between different locations to tackle each aspect of the situation.</p><p><strong>The GM narrates the results.</strong> The GM describes the results of the actions you decided to take. Sometimes this is as simple as describing a new scene, but when your attempted actions carry some risk or chance of failure, the GM might have you roll dice to decide the outcome. Then, based on those results, the GM narrates the outcomes, starting the loop all over again.</p><p>As this cycle continues, the game feels like a casual conversation; you and the GM go back and forth, occasionally interjecting a dice roll to see how things resolve. These steps play out whether you’re gathering evidence against a duplicitous noble, bargaining with a metallurgist, or skirmishing with hazekillers in an alleyway ambush. To help each situation feel unique, the game presents special rules for three scene types: conversations, endeavors, and combat (see part 3, “@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.lurg3kD0nQg7Vgy4]{Adventuring}”).</p><p></p><h2>What You Need to Play</h2><p>Besides these rules, you need just a few things to play this game:</p><p><strong>Character Sheet.</strong> Each player needs a character sheet to track their unique rules and record what happens to their character during play. <em>Hope in Ashes</em> comes with several premade characters to choose from.</p><p><strong>Dice.</strong> The group needs at least one set of polyhedral dice, which can be found at hobby stores or online. Additionally, this game uses a unique plot die with special symbols to trigger effects during gameplay. You can buy plot dice online at <a href=\"https://cosmererpg.com/shop\">CosmereRPG.com/shop</a>, or you can designate an ordinary six­sided die to use in its place (as described in the upcoming “@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.9LLcfbZ5BoLsdqZ3.JournalEntryPage.DKxLE8medx2cXiaP#plot-die]{Plot Die}” section).</p><p><strong>Pencils and Paper.</strong> In addition to pencils for writing on your character sheet, scratch paper can be helpful for taking notes or drawing quick sketches.</p><p><strong>Safety Tools.</strong> Tabletop RPGs can include sensitive material, and safety tools help players steer the narrative away from topics that make them feel uncomfortable or unwelcome. The <em>Mistborn Handbook</em> presents a brief safety guide to help your group navigate these areas.</p><p><strong>Adventures.</strong> The GM can use <em>Hope in Ashes</em> to start your adventure. Once you complete that, you can move on to other published adventures or create your own using the <em>Mistborn World Guide</em>.</p><p><strong>Maps and Miniatures.</strong> The Cosmere RPG rules support “theater of the mind” play, but many players enjoy visual aids. Miniatures and grid maps can help track character placement during combat.</p>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788022415921,
+                "modifiedTime": 1788024270920,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!9LLcfbZ5BoLsdqZ3.rfkK1nKQ8iAkXp9S"
+        },
+        {
+            "sort": 400000,
+            "name": "Using Cosmere RPG Dice",
+            "type": "text",
+            "_id": "DKxLE8medx2cXiaP",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<p>This RPG uses a set of <strong>polyhedral dice</strong>. In these sets, each die has a different number of sides: four, six, eight, ten, twelve, and twenty. This RPG also uses one additional six-sided die known as the plot die. Your group needs at least one of each of these dice to play the game, but most players prefer to have their own set.</p><p>Throughout the rules text, these dice are referred to by the letter “d” followed by the number of sides of the die: d4, d6, d8, d10, d12, and d20. So when you’re told to roll a d20, find and roll the twenty-sided die.</p><p></p><h2>Rolling a Skill Test</h2><p>Whenever the outcomes of your character’s actions are uncertain, you make a skill test using a d20 to determine whether you succeed or fail. Tests are the core mechanic of this game, so you’ll roll them frequently! The “@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.FP2yf9DMS3c40Em3.JournalEntryPage.ptp6hlECCCzIAkbq]{Skills}” section of part 1 further details how skill tests work, but at their most basic, tests follow these steps:</p><ol><li><p><strong>Pick a skill and roll the dice.</strong> Determine which skill on your character sheet best applies to the situation, then roll one d20. (You might also need to roll other dice at the same time as the d20, as described below in “@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.9LLcfbZ5BoLsdqZ3.JournalEntryPage.DKxLE8medx2cXiaP#adding-additional-dice]{Adding Additional Dice.}”)</p></li><li><p><strong>Add your skill modifier.</strong> The number next to each skill on your character sheet is your skill modifier, reflecting how good you are at that skill. Add it to your d20 roll.</p></li><li><p><strong>Add any bonuses or penalties.</strong> Some tests gain bonuses or penalties in certain circumstances. Add any of these to your d20 roll.</p></li><li><p><strong>Compare your total to the test’s difficulty.</strong> You’re trying to reach a target number known as a difficulty class (or DC). Add up your d20 roll plus modifiers, bonuses, and penalties; if that result equals or exceeds the DC, you succeed at your task.</p></li><li><p><strong>Resolve the results.</strong> Resolve the results of the success or failure, as well as any side effects triggered by your abilities or the plot die.</p></li></ol><img src=\"systems/cosmere-rpg/assets/art_mistborn/p0-introduction/pg007_MST%20d20%20%2B%20Plot%20Die.webp\" class=\" centered\" width=\"400\" /><p style=\"text-align:center\"><strong>GORDON MCALPIN</strong></p><h3>Adding Additional Dice</h3><p>Some skill tests require adding additional dice to your d20 roll, such as the following:</p><p><strong>Plot Die.</strong> On especially important rolls, the GM might have you add the plot die to introduce Opportunities or Complications to the story.</p><p><strong>Advantage or Disadvantage Die.</strong> When circumstances make your test easier (or harder) than usual, you might roll an extra copy of one or more dice, then pick the most (or least) beneficial result. See “@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.FP2yf9DMS3c40Em3.JournalEntryPage.ptp6hlECCCzIAkbq#advantages-and-disadvantages]{Advantages and Disadvantages}” in part 1.</p><p><strong>Damage Die.</strong> When you attack an adversary, you add one or more damage dice to your test, which determines how powerful your attack is. See “@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.taVKEEQoKINc7HLD.JournalEntryPage.85J6ChO7AgtXndSv]{Attacking}” in part 4.</p><p>Unless otherwise instructed, roll any additional dice at the same time as your d20.</p><p>When an ability requires you to roll multiple dice of the same kind, this is indicated by a number before the “d” (such as “3d6”). Roll that number of dice and add together their results—or if you don’t have that many dice, you can roll the same die that many times in a row. For example, if an ability tells you to “roll 3d6,” you roll three six-sided dice (or roll the same six-sided die three times) and add their results together.</p><p></p><img src=\"systems/cosmere-rpg/assets/art_mistborn/p0-introduction/pg008_HB00_Crash_David%20Astruga.webp\" class=\" centered\" width=\"600\" /><p style=\"text-align:center\"><strong>Bold actions create dramatic opportunities! - DAVID ASTRUGA</strong></p><p></p><h2>Plot Die</h2><p>In addition to normal polyhedral dice, this game uses a custom die called the <strong>plot die</strong>. You don’t automatically roll the plot die with every skill test—it’s only used to “raise the stakes” during tense moments and tests critical to the plot. NPC tests don’t generally use the plot die.</p><p>When you roll the plot die, the result might add a bonus to your test—but it can also result in unforeseen Opportunities or Complications arising from your actions, as described in the upcoming sections.</p><p>The plot die has six sides, two of which are blank. Another two sides have an Opportunity symbol (<span class=\"cosmere-icon opportunity-color\">O</span>), and the final two sides have a Complication symbol (<span class=\"cosmere-icon complication-color\">C</span>). If you don’t own this game’s custom plot die, you can instead use a normal d6 and convert the results using the Plot Die diagram. Note that 1 and 2 are the “worst” results, though they offset the Complication by granting a bonus to that test (see “@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.9LLcfbZ5BoLsdqZ3.JournalEntryPage.DKxLE8medx2cXiaP#complication-bonus]{Complication Bonus}”).</p><p style=\"text-align:center\"><strong>Plot Die</strong></p><img src=\"systems/cosmere-rpg/assets/art_mistborn/p0-introduction/pg008_MST%20Plot%20Die-agram.webp\" class=\" centered\" width=\"400\" /><p></p><h3>Raising the Stakes</h3><p>When your character is about to make an important skill test, the GM can emphasize this by <strong>raising the stakes</strong>. When the stakes are raised, roll the plot die at the same time as you roll your d20 for the test.</p><p>The GM might raise the stakes to emphasize tests like the following:</p><ul><li><p>Tests that directly contribute to the current mission.</p></li><li><p>Tests that play directly to your character’s purpose, obstacle, or goals.</p></li><li><p>Other tests with high tension or dramatic importance, as determined by the GM.</p></li></ul><p>The stakes can only be raised once per test, and they can’t be raised after the d20 has already been rolled.</p><p></p><h3>Resolving a Plot Die Roll</h3><p>When you roll the plot die with your test, the effect depends on whether you roll an Opportunity (<span class=\"cosmere-icon opportunity-color\">O</span>), a Complication (<span class=\"cosmere-icon complication-color\">C</span>), or a blank.</p><p>If you roll a blank on the plot die, no positive or negative side effects apply to your test, and you resolve the remainder of the test as usual. If you roll an <span class=\"cosmere-icon opportunity-color\">O</span> or <span class=\"cosmere-icon complication-color\">C</span> symbol, see “@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.9LLcfbZ5BoLsdqZ3.JournalEntryPage.DKxLE8medx2cXiaP#opportunities-and-complications]{Opportunities and Complications.}”</p><p></p><h3>Raising the Stakes Yourself</h3><p>Some abilities give your character the ability to raise the stakes yourself. Even if you don’t have one of those abilities, you might think a test is worthy of raising the stakes. You can always ask the GM to raise the stakes and advocate for why you think the test warrants it, but it’s ultimately the GM’s call.</p><p></p><h2>Opportunities and Complications</h2><p>When you make a test, Opportunities and Complications represent beneficial or detrimental side effects related to what happens during the test. These narrative tools add interesting wrinkles to the story as it unfolds.</p><p>Your test can gain an Opportunity or Complication when you roll the plot die, when an ability grants it, or when you roll a 20 or 1 on your d20 (see the upcoming “@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.9LLcfbZ5BoLsdqZ3.JournalEntryPage.DKxLE8medx2cXiaP#natural-20s-and-natural-1s]{Natural 20s and Natural 1s}” section).</p><p></p><h3>Spending an Opportunity</h3><img src=\"systems/cosmere-rpg/assets/art/Cosmere%20Opportunity%20dingbat.svg\" width=\"100\" style=\"float:right\" /><p>When you gain an <strong>Opportunity</strong>, this applies a beneficial effect to the out come of your current test (regardless of whether the test succeeds or fails). You can spend this Opportunity to choose one of the following effects:</p><p><strong>Aid an Ally.</strong> Thanks to your actions, the next test made by an ally of your choice gains an advantage (see “@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.FP2yf9DMS3c40Em3.JournalEntryPage.ptp6hlECCCzIAkbq#using-skills]{Using Skills}” in part 1).</p><p><strong>Collect Yourself.</strong> You recover 1 focus (see “@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.FP2yf9DMS3c40Em3.JournalEntryPage.Ahp9RoTiIL0A0eS9#focus]{Focus}” in part 1).</p><p><strong>Critically Hit.</strong> You change a hit into a critical hit (see “@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.taVKEEQoKINc7HLD.JournalEntryPage.85J6ChO7AgtXndSv]{Attacking}” in part 4). You can only use this effect on attack tests.</p><p><strong>Influence the Narrative.</strong> Your actions result in a positive narrative effect of your choice, which the GM must approve. For example, you might be trying to rough up a Ghostblood agent; if you fail on your ultimate goal but roll an Opportunity on that test, you and your GM might decide you managed to pick the agent’s pocket while you had your hands on them.</p><p>Some abilities provide additional ways you can spend an Opportunity. If an ability says you can spend an Opportunity to trigger a special effect, but you don’t roll an Opportunity on that ability’s test, you can’t use that special effect.</p><p></p><h3>Facing a Complication</h3><img src=\"systems/cosmere-rpg/assets/art/Cosmere%20Complication%20dingbat.svg\" width=\"100\" style=\"float:right\" /><p>When you gain a <strong>Complication</strong>, this applies a negative side effect to the outcome of your current test (regardless of whether the test succeeds or fails). The GM should spend this Complication to choose one of the following effects:</p><p><strong>Hinder an Ally.</strong> Your actions have unforeseen repercussions. The next test taken by a PC gains a disadvantage (see “@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.FP2yf9DMS3c40Em3.JournalEntryPage.ptp6hlECCCzIAkbq#using-skills]{Using Skills}” in part 1).</p><p><strong>Become Distracted.</strong> You lose 1 focus (see “@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.FP2yf9DMS3c40Em3.JournalEntryPage.Ahp9RoTiIL0A0eS9#focus]{Focus}” in part 1).</p><p><strong>Influence the Narrative.</strong> Your actions result in a narrative drawback of the GM’s choice. For example, you might be trying to incite bickering in a crowd to cause a diversion; if you succeed on your ultimate goal but roll a Complication on that test, your GM might decide your provocation worked so well that the crowd packs into a tight area, blocking your path.</p><p>Some rules provide additional ways the GM can spend a Complication.</p><p></p><p></p><table class=\"mb-blue\"><tbody><tr><td><p>Action Symbols</p></td></tr><tr><td><p>In addition to the special Opportunity (<span class=\"cosmere-icon opportunity-color\">O</span>) and Complication (<span class=\"cosmere-icon complication-color\">C</span>) symbols, this game uses symbols (such as <span class=\"cosmere-icon\">1</span>, <span class=\"cosmere-icon\">0</span>, and <span class=\"cosmere-icon\">r</span>) to quickly signify various types of actions and reactions. You’ll learn about these time-limited tasks your character undertakes—usually during combat—in part 4 of this book.</p></td></tr></tbody></table><p></p><h4>Complication Bonus</h4><p>True to its name, a Complication can complicate a situation—but it can also help your test result! When you gain a Complication from rolling the plot die, it also grants you a bonus to your current d20 roll. This bonus equals the number displayed inside the Complication symbol you rolled (either +2 or +4). If you gain a Complication from another source, it tells you what bonus to add, if any.</p><p></p><h3>Natural 20s and Natural 1s</h3><p>In addition to the plot die, you can also gain Opportuni­ties and Complications from a very high or low d20 roll.</p><p>You gain an Opportunity on a test when you roll a <strong>natural 20</strong>—a roll where the die itself shows the number 20, regardless of the test result after skill modifiers, bonuses, and penalties.</p><p>Similarly, you gain a Complication on a test when you roll a <strong>natural 1</strong>—a roll where the die itself shows the number 1. However, unlike plot die Complications, this Complication doesn’t grant you a bonus to your test.</p><p>You can gain an Opportunity (or Complication) from a natural 20 (or natural 1) even when you also rolled the plot die—so sometimes you might face multiple Opportunities or Complications on the same test.</p><p></p><p></p><table class=\"mb-blue\"><tbody><tr><td><p>Choosing Opportunities and Complications</p></td></tr><tr><td><p>When someone adds an Opportunity or a Complication to their test, everyone else at the table can suggest fun ways to spend it (such as dramatic narrative outcomes in your current scene). However, the final choice is up to the player or GM who is spending it.</p><p>If you spend an Opportunity and choose to influence the narrative, the GM has the final say on if your proposed narrative effect is possible. If the GM doesn’t approve, you can work together to pick a new narrative effect, or  you can choose a different effect.</p></td></tr></tbody></table>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788023151606,
+                "modifiedTime": 1788241423115,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!9LLcfbZ5BoLsdqZ3.DKxLE8medx2cXiaP"
+        },
+        {
+            "sort": 500000,
+            "name": "Game Conventions",
+            "type": "text",
+            "_id": "HWpXmbKF7vT0EXAO",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<p>These general guidelines apply to all rules of the game.</p><p><strong>GM Has the Final Say.</strong> If there’s ever uncertainty or disagreement about how to apply the rules of the game, the GM decides.</p><p><strong>Specific Beats General.</strong> If a more specific rule contradicts a general rule, the specific rule wins. Stacking Similar Effects. In general, similar effects can stack on a target unless the effects share the same name. See “Stacking Talents and Effects” in chapter 4 of the <em>Mistborn Handbook</em> for the full rules on which effects stack in this game.</p><p><strong>Minimum of Zero.</strong> If an effect tells you to reduce a value, you can’t reduce it past 0 unless otherwise specified. For example, your health can’t drop below 0, and you can’t reduce damage to a negative number.</p><p><strong>Round Down.</strong> Whenever you need to divide a value, round down unless otherwise specified. For example, if your movement rate is 25 feet and an ability allows you to “move up to half your movement rate,” you can move up to 12 feet.</p><p></p><img src=\"systems/cosmere-rpg/assets/art_mistborn/p0-introduction/pg010_HB00_Mistborn%20vs%20Inquisitor_Carson%20Daniel.webp\" class=\"centered\" width=\"400\" /><p style=\"text-align:center\"><strong>A mistborn steelpushes coins at an inquisitor. - CARSON DANIEL</strong></p>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788024297654,
+                "modifiedTime": 1788241460104,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!9LLcfbZ5BoLsdqZ3.HWpXmbKF7vT0EXAO"
+        }
+    ],
+    "folder": null,
+    "categories": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!journal!9LLcfbZ5BoLsdqZ3"
+}

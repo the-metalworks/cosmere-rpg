@@ -120,7 +120,7 @@ export class RegistrationHelper {
 
             // If the same key is already registered, we check if the new registration has a higher priority.
             if (data.priority <= registration.priority) {
-                RegistrationHelper.logger.error(
+                RegistrationHelper.logger.warn(
                     data.source,
                     `Failed to register config: ${key}. Reason: A higher priority registration already exists.`,
                 );

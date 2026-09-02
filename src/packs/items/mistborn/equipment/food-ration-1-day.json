@@ -1,0 +1,55 @@
+{
+    "folder": "N0Rgn8Y6XWMWKpL0",
+    "name": "Food (ration, 1 day)",
+    "type": "equipment",
+    "img": "icons/consumables/grains/bread-loaf-boule-tan.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 0.1 bx; <strong>Weight</strong> 0.5 lb.;</p><p>Rations are foods created for extended travel, such as jerky and hard-baked bread. They generally lack flavor, but if kept dry, they remain edible indefinitely.</p>",
+            "chat": "",
+            "short": ""
+        },
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 0.5,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 0.1,
+            "currency": "boxings",
+            "denomination": {
+                "primary": "box",
+                "secondary": "none"
+            },
+            "unit": "boxings.box"
+        },
+        "events": {},
+        "relationships": {},
+        "primaryResource": "none",
+        "linkedSkills": [],
+        "alwaysEquippable": false,
+        "equippableEnabled": false,
+        "equipped": false,
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "wear"
+        },
+        "__embedded": {
+            "items": []
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "RErIMi2m1ohOC1Sa",
+    "sort": 1500000,
+    "_key": "!items!RErIMi2m1ohOC1Sa"
+}
