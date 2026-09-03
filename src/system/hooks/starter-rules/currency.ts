@@ -1,3 +1,8 @@
+import {
+    CurrencyConfigBuilder,
+    addCurrency,
+    registerBuiltCurrency,
+} from '@src/system/api/currency';
 import { SYSTEM_ID } from '@system/constants';
 
 export function register() {
@@ -84,4 +89,20 @@ export function register() {
         },
         priority: -1,
     });
+
+    const boxings = new CurrencyConfigBuilder(
+        'boxings',
+        'COSMERE.Currency.Boxings',
+        'systems/cosmere-rpg/assets/icons/mistborn/currency/boxing_sign.webp',
+    );
+    boxings.addPrimaryDenomination({
+        id: 'box',
+        label: 'COSMERE.Currency.Boxings.Box',
+        conversionRate: 1,
+        base: true,
+        unit: 'bx',
+    });
+    addCurrency(boxings.build());
+
+    registerBuiltCurrency();
 }
