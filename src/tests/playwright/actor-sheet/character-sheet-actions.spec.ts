@@ -195,10 +195,11 @@ test('Add weapon, validate strike action details', async ({
         .filter({ hasText: 'Stormlight Starter Rules' })
         .click();
     await page.locator('a').filter({ hasText: 'Items' }).click();
-    await page
-        .locator('#compendium-cosmere-rpg_items')
-        .getByText('Weapons')
-        .click();
+    const stormlightItemsFolderLocator = page
+        .locator('#compendium-cosmere-rpg_items li.folder')
+        .filter({ hasText: 'Stormlight' });
+    await stormlightItemsFolderLocator.click();
+    await stormlightItemsFolderLocator.getByText('Weapons').click();
     await html5DragAndDrop(page, page.getByText('Axe'), testCharacterSheet);
     await testCharacterSheet.locator('a').filter({ hasText: '3' }).click();
     // Validate that since the Axe isn't equipped, the "Strike" action is not visible
