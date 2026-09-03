@@ -1,0 +1,75 @@
+{
+    "name": "Skaa (Era 1)",
+    "type": "culture",
+    "img": "systems/cosmere-rpg/assets/icons/mistborn/cultures/culture_skaa.webp",
+    "system": {
+        "id": "skaa",
+        "description": {
+            "value": "<p>Skaa Era 1 The skaa are the largest ethnic group in the Final Empire, outnumbering the nobles by ten to one. By the Lord Ruler’s design, they’re downtrodden and oppressed by the nobility, and they suffer severe limits to their personal freedoms. Many skaa are forced to work the Empire’s factories, mines, and plantations, while others serve as guards or soldiers. Some skaa manage to make a living as tradespeople or skilled artisans, particularly in the Empire’s cities.</p><p>Skaa are often strongly community-focused, finding joy in family and friends. Most skaa understand the need to look out for one another, and camaraderie is strong between those who share workplaces or tenements. In the city, tight-knit skaa communities may be centered around shops and clubs, factory worker housing, or even thieving crews. Skaa communities, which are often superstitious, commonly bond by telling folk stories and “longtales.”</p><p>Most skaa can’t afford ostentation. They tend to wear simple, roughspun breeches, shifts, and tunics. Rarely, some skaa wear plain metal jewelry, which is passed around the community as gifts and heirlooms.</p><p></p><h4>Skaa Names </h4><p>Alder, Bolan, Criden, Fare, Hosahn, Jeller, Karalle, Lened, Nendel, Phin, Ruel, Sannson, Thess, Venn, Yelin.</p><p></p><h4>Skaa Expertise </h4><p>As a character with the Skaa expertise, you can easily locate and understand skaa community structures, identify and organize meetings with their leaders (unless deliberately obfuscated), and find a place to stay. Additionally, you know folk tales about Mistings, mistwraiths, and other local legends. Choose how proficient you are in writing Imperial; most skaa are illiterate unless they have a trade or business.</p>",
+            "chat": "",
+            "short": ""
+        },
+        "events": {
+            "kiPriOq7Cn94GUZ1": {
+                "id": "kiPriOq7Cn94GUZ1",
+                "description": "Grant Expertise",
+                "event": "add-to-actor",
+                "handler": {
+                    "type": "grant-expertises",
+                    "pick": false,
+                    "expertises": {
+                        "cultural:skaa": {
+                            "id": "skaa",
+                            "type": "cultural",
+                            "label": "COSMERE.Item.Culture.Type.Skaa",
+                            "locked": false
+                        }
+                    },
+                    "allowReplacement": false,
+                    "pickAmount": 1,
+                    "availableTypes": []
+                },
+                "order": 0,
+                "disabled": false
+            },
+            "UL9dWQMOuPWzDHjv": {
+                "id": "UL9dWQMOuPWzDHjv",
+                "description": "Remove Expertise",
+                "event": "remove-from-actor",
+                "handler": {
+                    "type": "remove-expertises",
+                    "expertises": {
+                        "cultural:skaa": {
+                            "id": "skaa",
+                            "type": "cultural",
+                            "label": "COSMERE.Item.Culture.Type.Skaa",
+                            "locked": false
+                        }
+                    }
+                },
+                "order": 0,
+                "disabled": false
+            }
+        },
+        "linkedSkills": [],
+        "relationships": {},
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "__embedded": {
+            "items": []
+        }
+    },
+    "effects": [],
+    "folder": "1dMRblYYUEWrMGXm",
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "gCz6l9BfiotKpF9M",
+    "sort": 0,
+    "_key": "!items!gCz6l9BfiotKpF9M"
+}

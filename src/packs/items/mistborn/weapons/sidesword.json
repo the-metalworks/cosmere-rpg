@@ -1,0 +1,300 @@
+{
+    "folder": "ToFdY5ecaZiOQ4Tz",
+    "name": "Sidesword",
+    "type": "weapon",
+    "img": "systems/cosmere-rpg/assets/icons/mistborn/weapons/icon_weapon_sidesword.webp",
+    "system": {
+        "id": "sidesword",
+        "type": "light_wpn",
+        "description": {
+            "value": "<p><strong>Damage</strong> 1d6 keen; <strong>Range</strong> Melee; <strong>Traits</strong> Quickdraw; <strong>Expert Traits</strong> Offhand;</p><p><strong>Type</strong> Light Weapon; <strong>Weapons Skill</strong> Light; <strong>Price</strong> 15 bx; <strong>Weight</strong> 2 lb;</p>",
+            "chat": "",
+            "short": ""
+        },
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "equipped": false,
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "hold"
+        },
+        "attack": {
+            "type": "melee",
+            "range": null
+        },
+        "expertise": false,
+        "traits": {
+            "cumbersome": {
+                "defaultActive": false,
+                "defaultValue": 0,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "value": 0,
+                "active": false
+            },
+            "dangerous": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "deadly": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "defensive": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "discreet": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "indirect": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "loaded": {
+                "defaultActive": false,
+                "defaultValue": 0,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "value": 0,
+                "active": false
+            },
+            "momentum": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "offhand": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": true
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "pierce": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "quickdraw": {
+                "defaultActive": true,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": true
+            },
+            "thrown": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "two_handed": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "unique": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "fragile": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "reach": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "single_use": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "blast": {
+                "defaultActive": false,
+                "defaultValue": 0,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "value": 0,
+                "active": false
+            }
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 2,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 15,
+            "currency": "boxings",
+            "denomination": {
+                "primary": "box",
+                "secondary": "none"
+            },
+            "unit": "boxings.box"
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "strike": {
+            "die": {
+                "size": "d6",
+                "count": 1
+            },
+            "damageType": "keen",
+            "skill": "lwp",
+            "skillLocked": true,
+            "skillTestBonus": "",
+            "damageBonus": ""
+        },
+        "alwaysEquippable": true,
+        "equippableEnabled": true,
+        "primaryResource": "none",
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Quickdraw: Sidesword",
+                    "img": "icons/svg/upgrade.svg",
+                    "_id": "d2XfH6fcr0qMWZF1",
+                    "system": {
+                        "id": "quickdraw-sidesword",
+                        "description": {
+                            "value": "<p>You can use the Interact action as <span class=\"cosmere-icon\">0</span> to draw this weapon.</p>",
+                            "chat": "",
+                            "short": ""
+                        },
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": "",
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "type": "fre"
+                            },
+                            "consumption": [],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        },
+                        "type": "basic",
+                        "primaryResource": "none",
+                        "__embedded": {
+                            "items": []
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.350",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "createdTime": 1788237873037,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    }
+                }
+            ]
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "2QlMR4ShYV5yMTDe",
+    "sort": 400000,
+    "_key": "!items!2QlMR4ShYV5yMTDe"
+}

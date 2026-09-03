@@ -1,0 +1,242 @@
+{
+    "folder": "2wbdOaulfIsGhZd2",
+    "name": "Shotgun",
+    "type": "weapon",
+    "img": "systems/cosmere-rpg/assets/icons/mistborn/weapons/icon_weapon_shotgun.webp",
+    "system": {
+        "id": "shotgun",
+        "type": "heavy_wpn",
+        "description": {
+            "value": "<p><strong>Damage</strong> 1d10 keen; <strong>Range</strong> Ranged [20/60]; <strong>Traits</strong> Dangerous, Loaded [2], Pierce, Two-Handed; <strong>Expert Traits</strong> Blast [5];</p><p><strong>Type</strong> Heavy Weapon; <strong>Weapons Skill</strong> Heavy; <strong>Price</strong> 600 bx; <strong>Weight</strong> 7 lb;</p>",
+            "chat": "",
+            "short": ""
+        },
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "equipped": false,
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "hold"
+        },
+        "attack": {
+            "type": "ranged",
+            "range": {
+                "unit": "ft",
+                "value": 20,
+                "long": 60
+            }
+        },
+        "expertise": false,
+        "traits": {
+            "cumbersome": {
+                "defaultActive": false,
+                "defaultValue": 0,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "value": 0,
+                "active": false
+            },
+            "dangerous": {
+                "defaultActive": true,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": true
+            },
+            "deadly": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "defensive": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "discreet": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "indirect": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "loaded": {
+                "defaultActive": true,
+                "defaultValue": 2,
+                "expertise": {
+                    "toggleActive": false,
+                    "value": null
+                },
+                "value": 2,
+                "active": true
+            },
+            "momentum": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "offhand": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "pierce": {
+                "defaultActive": true,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": true
+            },
+            "quickdraw": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "thrown": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "two_handed": {
+                "defaultActive": true,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": true
+            },
+            "unique": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "fragile": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "reach": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "single_use": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "blast": {
+                "defaultActive": false,
+                "defaultValue": 0,
+                "expertise": {
+                    "toggleActive": true,
+                    "value": 5
+                },
+                "value": 0,
+                "active": false
+            }
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 7,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 600,
+            "currency": "boxings",
+            "denomination": {
+                "primary": "box",
+                "secondary": "none"
+            },
+            "unit": "boxings.box"
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "alwaysEquippable": true,
+        "equippableEnabled": true,
+        "strike": {
+            "die": {
+                "size": "d10",
+                "count": 1
+            },
+            "damageType": "keen",
+            "skill": "hwp",
+            "skillLocked": true,
+            "skillTestBonus": "",
+            "damageBonus": ""
+        },
+        "primaryResource": "none",
+        "__embedded": {
+            "items": []
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "Exhh3jTAEw0Fds3u",
+    "sort": 0,
+    "_key": "!items!Exhh3jTAEw0Fds3u"
+}

@@ -1,0 +1,145 @@
+{
+    "folder": "N0Rgn8Y6XWMWKpL0",
+    "name": "Treatment (medical, 1 dose)",
+    "type": "equipment",
+    "img": "icons/tools/laboratory/bowl-herbs-green.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 5 bx; <strong>Weight</strong> 0.2 lb.;</p><p>Scadrian doctors treat ailments with a variety of remedies, generally made from botanicals such as garlic, parsley, willow, and cypress. During a short rest, you can use a dose of such a treatment to cure a character of one of the following conditions, given that its source isn’t a permanent injury: @UUID[Compendium.cosmere-rpg-mistborn-handbook.handbook.JournalEntry.b684FTgeTTE90HLs.JournalEntryPage.vyYzxzfhwORSeTLw#disoriented]{Disoriented}, @UUID[Compendium.cosmere-rpg-mistborn-handbook.handbook.JournalEntry.b684FTgeTTE90HLs.JournalEntryPage.vyYzxzfhwORSeTLw#exhausted]{Exhausted} (reduces the penalty by 1), or @UUID[Compendium.cosmere-rpg-mistborn-handbook.handbook.JournalEntry.b684FTgeTTE90HLs.JournalEntryPage.vyYzxzfhwORSeTLw#stunned]{Stunned}.</p>",
+            "chat": "",
+            "short": ""
+        },
+        "resources": {
+            "uses": {
+                "value": 1,
+                "max": 1,
+                "recharge": "none",
+                "key": "uses"
+            },
+            "charges": null,
+            "ammo": null
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 0.2,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 5,
+            "currency": "boxings",
+            "denomination": {
+                "primary": "box",
+                "secondary": "none"
+            },
+            "unit": "boxings.box"
+        },
+        "events": {},
+        "relationships": {},
+        "primaryResource": "uses",
+        "alwaysEquippable": false,
+        "equippableEnabled": false,
+        "equipped": false,
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "wear"
+        },
+        "linkedSkills": [],
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Treatment (medical)",
+                    "img": "icons/tools/laboratory/bowl-herbs-green.webp",
+                    "_id": "9PdwQgCRGMREBjRB",
+                    "system": {
+                        "id": "treatment-medical",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p>Scadrian doctors treat ailments with a variety of remedies, generally made from botanicals such as garlic, parsley, willow, and cypress. During a short rest, you can use a dose of such a treatment to cure a character of one of the following conditions, given that its source isn’t a permanent injury: @UUID[Compendium.cosmere-rpg-mistborn-handbook.handbook.JournalEntry.b684FTgeTTE90HLs.JournalEntryPage.vyYzxzfhwORSeTLw#disoriented]{Disoriented}, @UUID[Compendium.cosmere-rpg-mistborn-handbook.handbook.JournalEntry.b684FTgeTTE90HLs.JournalEntryPage.vyYzxzfhwORSeTLw#exhausted]{Exhausted} (reduces the penalty by 1), or @UUID[Compendium.cosmere-rpg-mistborn-handbook.handbook.JournalEntry.b684FTgeTTE90HLs.JournalEntryPage.vyYzxzfhwORSeTLw#stunned]{Stunned}.</p>",
+                            "chat": "",
+                            "short": ""
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "type": "spe"
+                            },
+                            "consumption": [
+                                {
+                                    "type": "item_resource",
+                                    "value": {
+                                        "min": 1,
+                                        "max": 1,
+                                        "actual": 1
+                                    },
+                                    "resource": "uses",
+                                    "matchDocument": {
+                                        "steps": [
+                                            {
+                                                "target": "parent",
+                                                "documentType": "Item",
+                                                "reference": null,
+                                                "matchBy": "name",
+                                                "matchMode": "first"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        },
+                        "__embedded": {
+                            "items": []
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "createdTime": 1788238205300,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    }
+                }
+            ]
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "okz604NcYxBkPnaM",
+    "sort": 0,
+    "_key": "!items!okz604NcYxBkPnaM"
+}

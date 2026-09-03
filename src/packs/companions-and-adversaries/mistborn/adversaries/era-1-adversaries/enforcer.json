@@ -1,0 +1,853 @@
+{
+    "folder": "nVLfOrTNKTbTEPPH",
+    "name": "Enforcer",
+    "type": "adversary",
+    "img": "systems/cosmere-rpg/assets/tokens_mistborn/classic/alt_tokens_no_ring/enforcer.webp",
+    "system": {
+        "size": "medium",
+        "type": {
+            "id": "humanoid"
+        },
+        "tier": 2,
+        "senses": {
+            "range": {
+                "derived": 5,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            },
+            "obscuredAffected": true
+        },
+        "immunities": {
+            "damage": {
+                "energy": false,
+                "impact": false,
+                "keen": false,
+                "spirit": false,
+                "vital": false,
+                "heal": false
+            },
+            "condition": {
+                "afflicted": false,
+                "blind": false,
+                "burrowing": false,
+                "determined": false,
+                "disoriented": false,
+                "empowered": false,
+                "enhanced": false,
+                "exhausted": false,
+                "flying": false,
+                "focused": false,
+                "hidden": false,
+                "immobilized": false,
+                "invisible": false,
+                "prone": false,
+                "restrained": false,
+                "slowed": false,
+                "stunned": false,
+                "surprised": false,
+                "unconscious": false,
+                "dead": false,
+                "depleted": false,
+                "diminished": false
+            }
+        },
+        "attributes": {
+            "str": {
+                "value": 5,
+                "bonus": 0
+            },
+            "spd": {
+                "value": 3,
+                "bonus": 0
+            },
+            "int": {
+                "value": 1,
+                "bonus": 0
+            },
+            "wil": {
+                "value": 3,
+                "bonus": 0
+            },
+            "awa": {
+                "value": 3,
+                "bonus": 0
+            },
+            "pre": {
+                "value": 3,
+                "bonus": 0
+            }
+        },
+        "defenses": {
+            "phy": {
+                "derived": 0,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            },
+            "cog": {
+                "derived": 0,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            },
+            "spi": {
+                "derived": 0,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            }
+        },
+        "resources": {
+            "hea": {
+                "value": 70,
+                "max": {
+                    "derived": 0,
+                    "override": 45,
+                    "useOverride": true,
+                    "bonus": 0
+                },
+                "bonus": 0
+            },
+            "foc": {
+                "value": 7,
+                "max": {
+                    "derived": 0,
+                    "override": 5,
+                    "useOverride": true,
+                    "bonus": 0
+                },
+                "bonus": 0
+            },
+            "inv": {
+                "value": 0,
+                "max": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "bonus": 0
+            }
+        },
+        "skills": {
+            "agi": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "ath": {
+                "rank": 2,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "hwp": {
+                "rank": 1,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "lwp": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "stl": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "thv": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "cra": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "ded": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "dis": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "inm": {
+                "rank": 3,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "lor": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "med": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "dec": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "ins": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "lea": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "prc": {
+                "rank": 3,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "prs": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "sur": {
+                "rank": 2,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "all": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            },
+            "fer": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            }
+        },
+        "currency": {
+            "spheres": {
+                "denominations": [],
+                "total": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "boxings": {
+                "denominations": [],
+                "total": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            }
+        },
+        "deflect": {
+            "natural": 0,
+            "source": "armor",
+            "types": {
+                "energy": true,
+                "impact": true,
+                "keen": true,
+                "spirit": false,
+                "vital": false,
+                "heal": false
+            },
+            "derived": 0,
+            "override": null,
+            "useOverride": false,
+            "bonus": 0
+        },
+        "movement": {
+            "walk": {
+                "rate": {
+                    "derived": 30,
+                    "override": 40,
+                    "useOverride": true,
+                    "bonus": 0
+                }
+            },
+            "swim": {
+                "rate": {
+                    "derived": 0,
+                    "override": 0,
+                    "useOverride": true,
+                    "bonus": 0
+                }
+            },
+            "fly": {
+                "rate": {
+                    "derived": 0,
+                    "override": 0,
+                    "useOverride": true,
+                    "bonus": 0
+                }
+            }
+        },
+        "injuries": {
+            "derived": 0,
+            "override": null,
+            "useOverride": false,
+            "bonus": 0
+        },
+        "injuryRollBonus": 0,
+        "encumbrance": {
+            "lift": {
+                "derived": 0,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            },
+            "carry": {
+                "derived": 0,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            }
+        },
+        "expertises": {},
+        "languages": [],
+        "biography": "",
+        "appearance": "",
+        "notes": "<h5>Tactics</h5><p>Fast, reckless, and effective, an <strong>enforcer</strong> never runs from a fight. They protect the weaker members of their crew, using their Bull Rush feature to move quickly through the field. If they’re stuck at a distance, an enforcer in Era 2 can use their Shotgun, but every enforcer’s priority is getting into melee to use their Unarmed Strike to restrain a foe.</p><p>Once their enemy is restrained, an enforcer uses their Breaking Bones action to devastate a single target, or they leverage their Improvising ability to wreck multiple enemies at once. An enforcer struggling to restrain a target can use Knockdown to set up their next Unarmed Strike.</p>",
+        "role": "rival"
+    },
+    "prototypeToken": {
+        "name": "Enforcer",
+        "displayName": 30,
+        "actorLink": false,
+        "width": 1,
+        "height": 1,
+        "texture": {
+            "src": "systems/cosmere-rpg/assets/tokens_mistborn/enforcer.webp",
+            "anchorX": 0.5,
+            "anchorY": 0.5,
+            "offsetX": 0,
+            "offsetY": 0,
+            "fit": "contain",
+            "scaleX": 1.2,
+            "scaleY": 1.2,
+            "rotation": 0,
+            "tint": "#ffffff",
+            "alphaThreshold": 0.75
+        },
+        "lockRotation": false,
+        "rotation": 0,
+        "alpha": 1,
+        "disposition": -1,
+        "displayBars": 20,
+        "bar1": {
+            "attribute": "resources.hea"
+        },
+        "bar2": {
+            "attribute": "resources.foc"
+        },
+        "light": {
+            "negative": false,
+            "priority": 0,
+            "alpha": 0.5,
+            "angle": 360,
+            "bright": 0,
+            "color": null,
+            "coloration": 1,
+            "dim": 0,
+            "attenuation": 0.5,
+            "luminosity": 0.5,
+            "saturation": 0,
+            "contrast": 0,
+            "shadows": 0,
+            "animation": {
+                "type": null,
+                "speed": 5,
+                "intensity": 5,
+                "reverse": false
+            },
+            "darkness": {
+                "min": 0,
+                "max": 1
+            }
+        },
+        "sight": {
+            "enabled": false,
+            "range": 20,
+            "angle": 360,
+            "visionMode": "sense",
+            "color": null,
+            "attenuation": 0.1,
+            "brightness": 0,
+            "saturation": 0,
+            "contrast": 0
+        },
+        "detectionModes": [],
+        "occludable": {
+            "radius": 0
+        },
+        "ring": {
+            "enabled": false,
+            "colors": {
+                "ring": null,
+                "background": null
+            },
+            "effects": 0,
+            "subject": {
+                "scale": 1,
+                "texture": "systems/cosmere-rpg/assets/tokens_mistborn/alt_tokens_no_ring/enforcer.webp"
+            }
+        },
+        "turnMarker": {
+            "mode": 1,
+            "animation": null,
+            "src": null,
+            "disposition": false
+        },
+        "movementAction": null,
+        "flags": {},
+        "randomImg": false,
+        "appendNumber": true,
+        "prependAdjective": false
+    },
+    "items": [
+        {
+            "folder": "eR3XFJp5ojcpiwb8",
+            "name": "Bull Rush",
+            "type": "trait",
+            "_id": "0wPKHQqSZaAeG5El",
+            "img": "icons/creatures/abilities/bull-head-horns-glowing.webp",
+            "system": {
+                "description": {
+                    "value": "<p>The [[lookup @actor.name]]{Actor Name} can move through areas occupied by enemies and isn’t <strong>Slowed</strong> by difficult terrain created by Medium or smaller objects.</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "resources": {
+                    "uses": null,
+                    "charges": null,
+                    "ammo": null
+                },
+                "events": {},
+                "relationships": {},
+                "primaryResource": "none",
+                "__embedded": {
+                    "items": []
+                }
+            },
+            "effects": [],
+            "sort": 0,
+            "ownership": {
+                "default": 0
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "lastModifiedBy": null
+            },
+            "_key": "!actors.items!d0nM0Sh3cD2z5jn7.0wPKHQqSZaAeG5El"
+        },
+        {
+            "folder": "MaFuGaqHuCtee8gZ",
+            "name": "Strike: Unarmed",
+            "type": "action",
+            "_id": "0UyFxO5UndjRIQzN",
+            "img": "icons/skills/melee/unarmed-punch-fist.webp",
+            "system": {
+                "id": "strike-unarmed",
+                "description": {
+                    "value": "<p><strong>Attack </strong>+[[lookup @actor.skills.ath.mod]]{ATH}; <strong>Reach</strong> 5 ft.; <strong>Targets </strong>one;</p><p><strong>Graze</strong> [[damage 1d8 Impact average]];</p><p><strong>Hit</strong> [[damage 1d8 + @skills.ath.mod Impact average]], if the target is Medium or smaller, the [[lookup @actor.name]]{Actor Name} can choose for them to become <strong>Restrained</strong>, but the [[lookup @actor.name]]{Actor Name} can’t attack other targets until that condition is removed. As <span class=\"cosmere-icon\">2</span>, the <strong>Restrained</strong> target can make a DC 15 <strong>Agility</strong> or <strong>Athletics</strong> test, removing the <strong>Restrained</strong> condition on a success.</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "resources": {
+                    "uses": null,
+                    "charges": null,
+                    "ammo": null
+                },
+                "modality": null,
+                "events": {},
+                "relationships": {},
+                "activation": {
+                    "type": "skill_test",
+                    "cost": {
+                        "type": "act",
+                        "value": 1
+                    },
+                    "consumption": [],
+                    "flavor": ""
+                },
+                "damage": {
+                    "skill": "ath",
+                    "attribute": null,
+                    "formula": "1d8",
+                    "type": "impact",
+                    "grazeOverrideFormula": ""
+                },
+                "skillTest": {
+                    "skill": "ath",
+                    "attribute": "default",
+                    "plotDie": false,
+                    "modifierFormula": "",
+                    "opportunity": null,
+                    "complication": null
+                },
+                "type": "adversary",
+                "primaryResource": "none",
+                "__embedded": {
+                    "items": []
+                }
+            },
+            "effects": [],
+            "sort": 0,
+            "ownership": {
+                "default": 0
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "lastModifiedBy": null
+            },
+            "_key": "!actors.items!d0nM0Sh3cD2z5jn7.0UyFxO5UndjRIQzN"
+        },
+        {
+            "folder": "tdxhh6BENXSrYtPE",
+            "name": "Breaking Bones",
+            "type": "action",
+            "_id": "TSJZJ4gFMn6xQ9lH",
+            "img": "icons/skills/wounds/bone-broken-marrow-red.webp",
+            "system": {
+                "id": "breaking-bones",
+                "description": {
+                    "value": "<p>The [[lookup @actor.name]]{Actor Name} makes an [[test skill=ath]] against the Physical defense of a target they’re restraining. On a success, the target gains one of the following conditions until the end of the [[lookup @actor.name]]{Actor Name}’s next turn: <strong>Disoriented</strong>, <strong>Exhausted</strong> [−1], or <strong>Slowed</strong>. The [[lookup @actor.name]]{Actor Name} can spend 3 focus to instead inflict an injury.</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "resources": {
+                    "uses": null,
+                    "charges": null,
+                    "ammo": null
+                },
+                "modality": null,
+                "events": {},
+                "relationships": {},
+                "activation": {
+                    "type": "skill_test",
+                    "cost": {
+                        "type": "act",
+                        "value": 2
+                    },
+                    "consumption": [],
+                    "flavor": ""
+                },
+                "damage": {
+                    "skill": null,
+                    "attribute": null,
+                    "formula": null,
+                    "type": null,
+                    "grazeOverrideFormula": ""
+                },
+                "skillTest": {
+                    "skill": "ath",
+                    "attribute": "default",
+                    "plotDie": false,
+                    "modifierFormula": "",
+                    "opportunity": null,
+                    "complication": null
+                },
+                "type": "adversary",
+                "primaryResource": "none",
+                "__embedded": {
+                    "items": []
+                }
+            },
+            "effects": [],
+            "sort": 4000000,
+            "ownership": {
+                "default": 0
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "lastModifiedBy": null
+            },
+            "_key": "!actors.items!d0nM0Sh3cD2z5jn7.TSJZJ4gFMn6xQ9lH"
+        },
+        {
+            "folder": "tdxhh6BENXSrYtPE",
+            "name": "Improvising",
+            "type": "action",
+            "_id": "403LjJH6cevXotsZ",
+            "img": "icons/magic/control/sihouette-hold-beam-green.webp",
+            "system": {
+                "id": "improvising",
+                "description": {
+                    "value": "<p>The [[lookup @actor.name]]{Actor Name} throws an enemy they’re restraining into another enemy within 20 feet of the [[lookup @actor.name]]{Actor Name}. The [[lookup @actor.name]]{Actor Name} makes a melee Athletics attack against the Physical defense of both targets, rolling [[damage 3d8 + 7 Impact]]. Hit or miss, the thrown enemy also falls <strong>Prone</strong> in the nearest unoccupied space next to the other target.</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "resources": {
+                    "uses": null,
+                    "charges": null,
+                    "ammo": null
+                },
+                "modality": null,
+                "events": {},
+                "relationships": {},
+                "activation": {
+                    "type": "skill_test",
+                    "cost": {
+                        "type": "act",
+                        "value": 2
+                    },
+                    "consumption": [],
+                    "flavor": ""
+                },
+                "damage": {
+                    "skill": null,
+                    "attribute": null,
+                    "formula": "3d8",
+                    "type": "impact",
+                    "grazeOverrideFormula": ""
+                },
+                "skillTest": {
+                    "skill": "ath",
+                    "attribute": "default",
+                    "plotDie": false,
+                    "modifierFormula": "",
+                    "opportunity": null,
+                    "complication": null
+                },
+                "type": "adversary",
+                "primaryResource": "none",
+                "__embedded": {
+                    "items": []
+                }
+            },
+            "effects": [],
+            "sort": 1900000,
+            "ownership": {
+                "default": 0
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "lastModifiedBy": null
+            },
+            "_key": "!actors.items!d0nM0Sh3cD2z5jn7.403LjJH6cevXotsZ"
+        },
+        {
+            "folder": "tdxhh6BENXSrYtPE",
+            "name": "Knockdown",
+            "type": "action",
+            "_id": "5v3Mr7S5i7n6GMix",
+            "img": "icons/skills/melee/unarmed-punch-fist-blue.webp",
+            "system": {
+                "id": "knockdown",
+                "description": {
+                    "value": "<p>After a Large or smaller enemy within 5 feet of the [[lookup @actor.name]]{Actor Name} hits them with a melee attack, the [[lookup @actor.name]]{Actor Name} knocks the attacker <strong>Prone</strong>.</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "resources": {
+                    "uses": null,
+                    "charges": null,
+                    "ammo": null
+                },
+                "modality": null,
+                "events": {},
+                "relationships": {},
+                "activation": {
+                    "type": "utility",
+                    "cost": {
+                        "type": "rea"
+                    },
+                    "consumption": [
+                        {
+                            "type": "resource",
+                            "value": {
+                                "min": 1,
+                                "max": 1,
+                                "actual": 1
+                            },
+                            "resource": "foc",
+                            "matchDocument": {
+                                "steps": [
+                                    {
+                                        "target": "ancestor",
+                                        "documentType": "Actor",
+                                        "matchBy": "document-type",
+                                        "reference": null,
+                                        "matchMode": "first"
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "flavor": ""
+                },
+                "damage": {
+                    "skill": "default",
+                    "attribute": "default",
+                    "formula": null,
+                    "type": null
+                },
+                "skillTest": {
+                    "skill": "default",
+                    "attribute": "default",
+                    "plotDie": false
+                },
+                "type": "adversary",
+                "primaryResource": "none",
+                "__embedded": {
+                    "items": []
+                }
+            },
+            "effects": [],
+            "sort": 300000,
+            "ownership": {
+                "default": 0
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "lastModifiedBy": null
+            },
+            "_key": "!actors.items!d0nM0Sh3cD2z5jn7.5v3Mr7S5i7n6GMix"
+        }
+    ],
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {
+        "cosmere-rpg": {
+            "sheet": {
+                "hideUnranked": true,
+                "mode": "view"
+            },
+            "automation": {
+                "token": {
+                    "size": true,
+                    "vision": true
+                }
+            }
+        }
+    },
+    "_id": "d0nM0Sh3cD2z5jn7",
+    "sort": 300000,
+    "_key": "!actors!d0nM0Sh3cD2z5jn7"
+}

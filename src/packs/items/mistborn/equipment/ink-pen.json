@@ -1,0 +1,55 @@
+{
+    "folder": "N0Rgn8Y6XWMWKpL0",
+    "name": "Ink Pen",
+    "type": "equipment",
+    "img": "icons/tools/scribal/pen-steel-grey-brown.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 0.05 bx; <strong>Weight</strong> 0.1 lb.;</p><p><em>This item is included for narrative purposes and does not have any specific statistics or rules.</em></p>",
+            "chat": "",
+            "short": ""
+        },
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 0.1,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 0.05,
+            "currency": "boxings",
+            "denomination": {
+                "primary": "box",
+                "secondary": "none"
+            },
+            "unit": "boxings.box"
+        },
+        "events": {},
+        "relationships": {},
+        "primaryResource": "none",
+        "linkedSkills": [],
+        "alwaysEquippable": false,
+        "equippableEnabled": false,
+        "equipped": false,
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "wear"
+        },
+        "__embedded": {
+            "items": []
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "otQ6Qj12QF6e8axR",
+    "sort": 2100000,
+    "_key": "!items!otQ6Qj12QF6e8axR"
+}

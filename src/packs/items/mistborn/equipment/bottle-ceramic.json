@@ -1,0 +1,55 @@
+{
+    "folder": "N0Rgn8Y6XWMWKpL0",
+    "name": "Bottle (ceramic)",
+    "type": "equipment",
+    "img": "icons/consumables/drinks/water-jug-clay-brown.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 4 bx; <strong>Weight</strong> 3 lb.;</p><p><em>This item is listed for roleplaying purposes and doesn’t have specific statistics or rules.</em></p>",
+            "chat": "",
+            "short": ""
+        },
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 3,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 4,
+            "currency": "boxings",
+            "denomination": {
+                "primary": "box",
+                "secondary": "none"
+            },
+            "unit": "boxings.box"
+        },
+        "events": {},
+        "relationships": {},
+        "primaryResource": "none",
+        "linkedSkills": [],
+        "alwaysEquippable": false,
+        "equippableEnabled": false,
+        "equipped": false,
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "wear"
+        },
+        "__embedded": {
+            "items": []
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "n5q3DgufaJb33DNs",
+    "sort": 4500000,
+    "_key": "!items!n5q3DgufaJb33DNs"
+}

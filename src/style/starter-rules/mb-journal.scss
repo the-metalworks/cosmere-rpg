@@ -1,0 +1,815 @@
+:root {
+    --mistborn-journal-color-text: #000000;
+    --mistborn-journal-translucent-1: oklab(87.917% 0 -0.0001 / 0.4);
+    --mistborn-journal-grey-1: oklab(45.492% 0.02942 0.00468); /* #665063 */
+    --mistborn-journal-grey-2: oklab(57.711% 0.00585 0.00176); /* #7D7878 */
+    --mistborn-journal-accent: oklab(29.439% 0.10293 0.03286); /* #560817 */
+    --mistborn-journal-table-background-1: oklab(89% -0.01 -0.01 / 0.75); /* #E3D6D2 75% */
+    --mistborn-journal-table-background-2: oklab(97.25% 0 0 / 0.75); /* #F8F9FA 75% */
+    --mistborn-journal-ra-background: oklab(86.226% 0.01797 0.01411 / 0.75); /* #E0C9C7 */
+    --mistborn-journal-me-header: var(--mistborn-journal-grey-1);
+    --mistborn-journal-me-background: oklab(91.591% 0.00416 0.00119); /* #E6E2E2 */
+    --mistborn-journal-rp-header: var(--mistborn-journal-grey-2);
+    --mistborn-journal-rp-background: oklab(90.975% 0 -0.0001); /* #E1E1E1 */
+    --mistborn-journal-tag-grey: var(--mistborn-journal-grey-1);
+    --mistborn-journal-tag-yellow: oklab(73.968% 0.00966 0.11135); /* #CBA551 */
+    --mistborn-journal-foundry-orange: oklab(52.322% 0.15236 0.10185); /* #BC2E0A */
+
+    --mistborn-journal-mb-sidebar-corner-size: 20px;
+    --mistborn-journal-mb-sidebar-border-width: 2px;
+
+    --mb-font-chapter-header: "Penumbra Sans Std", sans-serif;
+}
+
+.sheet.journal-entry.mbjsr {
+
+    border: 3px solid var(--mistborn-journal-grey-1);
+    padding: 0px 5px 5px 5px;
+    border-image-outset: 5px;
+
+    background: url("assets/journal/mistborn/window-background.webp") repeat;
+    background-size: 1000px auto, auto auto;
+
+    /* White with hills page background */
+    .journal-entry-content {
+        background: url("assets/journal/mistborn/page-background.webp");
+        background-size: 100% 100%;
+    }
+
+    /* Because of the modified header attribute, we can incidently scale the sidebar to 0px. 
+     * This enforces a min-width to keep it readable. */
+    @keyframes scaleMin {
+        from {
+            min-width: inherit;
+        }
+
+        to {
+            min-width: 15em;
+        }
+    }
+    .journal-sidebar:not(.collapsed) {
+        min-width: 15em;
+        animation-name: scaleMin;
+        animation-duration: 1s;
+    }
+
+    /* Update the scrollbar to match the journal colouring */
+    .scrollable {
+        scrollbar-color: var(--mistborn-journal-grey-1) var(--color-scrollbar-track);
+    }
+
+    /* Header for chapters
+       Utilization:
+       <div class="mb-chapter-header">
+           <div>
+               <p></p>
+               <p>introduction</p>
+               <p></p>
+           </div>
+           <div>
+               <p></p>
+           </div>
+       </div> 
+    */
+    .mb-chapter-header {
+        div:nth-child(1) {
+            /* First div is the two bookend graphics + main title text */
+            display: flex;
+            height: 3rem;
+            padding-left: 0;
+            padding-right: 0;
+
+            p:nth-child(2) {
+                /* Chapter name text */
+                align-self: center;
+                text-wrap: nowrap;
+                color: var(--mistborn-journal-accent);
+                border: 3px solid var(--mistborn-journal-accent);
+                border-radius: 24px;
+                background: oklab(100% 0 0 / 0.75);
+                margin-left: -20px;
+                margin-right: -20px;
+                padding-top: 0.5rem;
+                padding-bottom: 0.25rem;
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+                font-size: 2rem;
+                line-height: 2rem;
+                font-weight: normal;
+                font-family: var(--mb-font-chapter-header);
+            }
+
+            p:first-child {
+                /* Left side squiggle */
+                flex: 1;
+                content: "";
+                background-image: url("assets/journal/mistborn/header-left.webp");
+                background-size: auto 2rem;
+                background-repeat: no-repeat;
+                background-position: right;
+                margin: 0;
+                z-index: 1;
+            }
+
+            p:last-child {
+                /* Right side squiggle */
+                flex: 1;
+                content: "";
+                background-image: url("assets/journal/mistborn/header-right.webp");
+                background-size: auto 2rem;
+                background-repeat: no-repeat;
+                background-position: left;
+                margin: 0;
+            }
+        }
+
+        div:nth-child(2) {
+            /* This is the underline beneath the text */
+            width: 100%;
+            background-image: url("assets/journal/mistborn/header-line.webp");
+            background-size: 90% auto;
+            background-repeat: no-repeat;
+            background-position: top;
+            margin: 0px;
+
+            p {
+                margin: 0px;
+            }
+        }
+    }
+
+    /* Rest of the code should only work on the page */
+    .journal-entry-page {
+        color: var(--mistborn-journal-color-text);
+        font-family: var(--cosmere-font-normal);
+        font-weight: 600;
+        font-variant-numeric: lining-nums;
+        
+        /* This replaces the default page title formatting */
+        .journal-page-header {
+            h1 {
+                /* All-caps text with red-grey underline border */
+                color: var(--mistborn-journal-accent);
+                border-bottom-color: var(--mistborn-journal-accent);
+                border-bottom-width: 3px;
+                padding-bottom: 3px;
+                font-weight: bold;
+                font-family: var(--cosmere-font-header-sc);
+            }
+        }
+
+        /* Used to make the bolded sections of text red-grey, as they are in the handbook */
+        strong {
+            color: var(--mistborn-journal-accent);
+        }
+
+        /* All-caps text with grey underline border */
+        h2 {
+            font-family: var(--cosmere-font-header-sc);
+            font-size: 18pt;
+            color: var(--mistborn-journal-accent);
+            border-bottom-color: oklab(69.116% 0.00223 0.00061); /* #9D9B9B */
+            border-bottom-width: 3px;
+            padding-bottom: 1px;
+            font-variant-numeric: lining-nums;
+        }
+
+        /* In the book this is just a red-grey slightly larger text. Im including an underline as it works clearer with the design of foundry */
+        h3 {
+            color: var(--mistborn-journal-accent);
+            font-family: var(--cosmere-font-header-sc);
+            font-weight: bold;
+            font-size: 14pt;
+            border-bottom-width: 1px;
+            border-bottom-color: var(--mistborn-journal-accent);
+            border-bottom-style: solid;
+            font-variant-numeric: lining-nums;
+        }
+
+        /* H4 for tables */
+        h4 {
+            color: var(--mistborn-journal-accent);
+            font-family: var(--cosmere-font-normal);
+            font-weight: bold;
+            font-variant: small-caps;
+            font-size: 14pt;
+        }
+
+        /* Formatting for all links */
+        a.content-link {
+            position: relative;
+            padding: 0;
+            padding-right: 1.5ch;
+            background: none;
+            border: none;
+            text-decoration: underline;
+            color: unset;
+
+            >i {
+                position: absolute;
+                font-size: .5em;
+                top: 2px;
+                right: 0;
+                color: var(--content-link-border-color);
+
+                &::before {
+                    content: "\f0c1";
+                }
+            }
+        }
+
+        h1, h2, h3, h4, h5, h6, .mb-table {
+            a.content-link {
+                text-decoration: none;
+            }
+        }
+
+        /* Formatting for all tables */
+        .mb-table,
+        .mb-blue .mb-table,
+        .mb-red .mb-table,
+        .mb-foundry .mb-table,
+        .mb-sidebar .mb-table {
+            border-top: 0;
+            border-bottom: 0;
+            table-layout: auto;
+            border-right: 1px solid;
+            border-left: 1px solid;
+            border-bottom: 1px solid;
+            border-color: var(--mistborn-journal-grey-1);
+
+            td {
+                background-color: unset !important;
+            }
+
+            tbody tr:first-child {
+                td:first-child {
+                    padding-left: 0.5rem;
+                    clip-path: none;
+                    transform: none;
+                }
+
+                td {
+                    /* Table main header */
+                    color: var(--cosmere-color-white);
+                    font-family: var(--cosmere-font-normal);
+                    font-weight: bold;
+                    font-size: 14px;
+                    background-color: var(--mistborn-journal-grey-1) !important;
+                    font-variant-caps: small-caps;
+                    font-variant-numeric: lining-nums;
+                    padding-top: 0;
+                    padding-bottom: 0;
+                    clip-path: none;
+                    transform: none;
+
+                    strong {
+                        /* Bypass the strong color above for the header */
+                        color: inherit;
+                        font-variant-numeric: lining-nums;
+                    }
+
+                    p {
+                        /* This may need to be changed, for now this makes the text in the headers not wrap, but some headers do wrap. Likely will make two table variations? */
+                        white-space: nowrap;
+                        padding-right: 0.75rem;
+                        font-variant-numeric: lining-nums;
+                        font-size: 14px;
+                    }
+                }
+            }
+
+            tbody tr {
+                /* Make text at top of columns */
+                vertical-align: text-top;
+
+                /* Specialty padding (will make this one line later if not needed, was a remnant from experimentation) */
+                td:first-child {
+                    padding-left: 0.5rem;
+                }
+
+                td:last-child {
+                    padding-right: 0.5rem;
+                }
+
+                p {
+                    padding-right: 0.5rem;
+                }
+
+                /* Table background colors */
+                &:nth-child(even) {
+                    background-color: var(--mistborn-journal-table-background-1);
+
+                    td.inverted {
+                        background-color: var(--mistborn-journal-table-background-2) !important;
+                    }
+                }
+
+                &:nth-child(odd) {
+                    background-color: var(--mistborn-journal-table-background-2);
+                    
+                    td.inverted {
+                        background-color: var(--mistborn-journal-table-background-1) !important;
+                    }
+                }
+
+                &:last-child {
+                    td {
+                        clip-path: none;
+                        transform: none;
+                    }
+                }
+            }
+        }
+
+        .mb-blue,
+        .mb-red,
+        .mb-foundry,
+        .mb-sidebar {
+            /* Remove the default table borders */
+            border-top: 0;
+            border-bottom: 0;
+            background: transparent;
+
+            tbody {
+                position: relative;
+            }
+
+            tbody tr:first-child {
+                background-color: transparent;
+
+                td {
+                    /* Header section for the standardized grey 'tip' section */
+                    color: var(--cosmere-color-white);
+                    font-family: var(--cosmere-font-normal);
+                    font-variant-caps: small-caps;
+                    padding-left: 1rem !important;
+                    padding-top: 0;
+                    padding-bottom: 0;
+                    transform: scaleX(.998);
+
+                    p {
+                        font-weight: bold;
+                        font-size: 20px;
+                    }
+
+                    strong {
+                        /* Bypass the strong color above for the header */
+                        color: inherit;
+                    }
+                }
+            }
+
+            tbody tr:last-child {
+                background-color: transparent;
+
+                td {
+                    /* Introduce padding on the text, as the default table padding isn't enough with the custom border */
+                    padding-left: 1rem !important;
+                    padding-right: 1rem !important;
+                    position: relative;
+                    backdrop-filter: blur(5px);
+                    -webkit-backdrop-filter: blur(5px);
+                    clip-path: polygon(-2px -2px, calc(100% + .5px) -2px, calc(100% + .5px) calc(100% - var(--mistborn-journal-mb-sidebar-corner-size)), calc(100% - var(--mistborn-journal-mb-sidebar-corner-size)) 100%, 0 100%);
+
+                    p {
+                        min-height: 1.2rem;
+                    }
+                }
+
+                &::after {
+                    content: "";
+                    position: absolute;
+                    inset: 0;
+                    clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--mistborn-journal-mb-sidebar-corner-size)), calc(100% - var(--mistborn-journal-mb-sidebar-corner-size)) 100%, 0 100%, 0 0, var(--mistborn-journal-mb-sidebar-border-width) 1px, var(--mistborn-journal-mb-sidebar-border-width) calc(100% - var(--mistborn-journal-mb-sidebar-border-width)), calc(100% - var(--mistborn-journal-mb-sidebar-corner-size) - (var(--mistborn-journal-mb-sidebar-border-width) / 2) - .25px) calc(100% - var(--mistborn-journal-mb-sidebar-border-width)), calc(100% - var(--mistborn-journal-mb-sidebar-border-width)) calc(100% - var(--mistborn-journal-mb-sidebar-corner-size) - (var(--mistborn-journal-mb-sidebar-border-width) / 2) + .25px), calc(100% - var(--mistborn-journal-mb-sidebar-border-width)) var(--mistborn-journal-mb-sidebar-border-width), 3px var(--mistborn-journal-mb-sidebar-border-width));
+                }
+            }
+        }
+
+        .mb-npc-module {
+            --feature-table-grey: oklab(from var(--mistborn-journal-grey-1) l a b / 0.5);
+
+            /* Remove the default table borders */
+            border-top: 0;
+            border-bottom: 0;
+            background: var(--cosmere-color-white);
+            clip-path: polygon(-2px -2px, calc(100% + .5px) -2px, calc(100% + .5px) calc(100% - var(--mistborn-journal-mb-sidebar-corner-size)), calc(100% - var(--mistborn-journal-mb-sidebar-corner-size)) 100%, 0 100%);
+
+            tbody {
+                position: relative;
+                
+                tr {
+                    padding-left: 2rem;
+
+                    &:first-child td {
+                        width: 1rem;
+                    }
+                    
+                    th {
+                        font-family: var(--cosmere-font-normal);
+                        font-variant-caps: all-small-caps;
+                        padding-top: 0;
+                        padding-bottom: 0;
+                        border-bottom: var(--feature-table-grey) 2px solid;
+    
+                        p {
+                            font-size: 16px;
+                            margin: 0.2rem 0;
+                        }
+                        
+                        &::before {
+                            background: var(--feature-table-grey);
+                        }
+                    }
+
+                    &:last-child {
+                        td {
+                            p {
+                                min-height: 1.2rem;
+                            }
+                        }
+                    }
+            }
+                            
+            tr:last-child::after {
+                    background-color: var(--feature-table-grey);
+                    content: "";
+                    position: absolute;
+                    inset: 0;
+                    clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--mistborn-journal-mb-sidebar-corner-size)), calc(100% - var(--mistborn-journal-mb-sidebar-corner-size)) 100%, 0 100%, 0 0, var(--mistborn-journal-mb-sidebar-border-width) 1px, var(--mistborn-journal-mb-sidebar-border-width) calc(100% - var(--mistborn-journal-mb-sidebar-border-width)), calc(100% - var(--mistborn-journal-mb-sidebar-corner-size) - (var(--mistborn-journal-mb-sidebar-border-width) / 2) - .25px) calc(100% - var(--mistborn-journal-mb-sidebar-border-width)), calc(100% - var(--mistborn-journal-mb-sidebar-border-width)) calc(100% - var(--mistborn-journal-mb-sidebar-corner-size) - (var(--mistborn-journal-mb-sidebar-border-width) / 2) + .25px), calc(100% - var(--mistborn-journal-mb-sidebar-border-width)) var(--mistborn-journal-mb-sidebar-border-width), 3px var(--mistborn-journal-mb-sidebar-border-width));
+                }
+            }
+        }
+
+        .mb-rp-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .hex-img-container {
+            position: absolute;
+            top: -20px;
+            right: 4px;
+            width: 133px;
+            height: 133px;
+            z-index: 1;
+            background-color: var(--mistborn-journal-grey-2);
+            -webkit-mask-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'><polygon points='50,0 93.3,25 93.3,75 50,100 6.7,75 6.7,25'/></svg>");
+            mask-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'><polygon points='50,0 93.3,25 93.3,75 50,100 6.7,75 6.7,25'/></svg>");
+            mask-size: contain;
+            mask-repeat: no-repeat;
+            mask-position: center;
+            -webkit-mask-size: contain;
+            -webkit-mask-repeat: no-repeat;
+            -webkit-mask-position: center;
+            padding-top: 3px;
+            padding-left: 3px;
+            box-sizing: content-box;
+
+            img {
+                width: 130px;
+                height: 132px;
+                object-fit: cover;
+                background-color: white;
+                display: block;
+                -webkit-mask-image: inherit;
+                mask-image: inherit;
+                -webkit-mask-size: inherit;
+                mask-size: inherit;
+                -webkit-mask-repeat: inherit;
+                mask-repeat: inherit;
+                -webkit-mask-position: inherit;
+                mask-position: inherit;
+            }
+
+            &:has(~ .mb-gilded-img) {
+                background-color: var(--mistborn-journal-tag-yellow);
+            }
+        }
+        
+        .circle-img-container {
+            position: absolute;
+            top: -20px;
+            right: 4px;
+            width: 133px;
+            height: 133px;
+            z-index: 1;
+            background-color: var(--mistborn-journal-grey-2);
+            -webkit-mask-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'><circle cx='50' cy='50' r='45'/></svg>");
+            mask-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'><circle cx='50' cy='50' r='45'/></svg>");
+            mask-size: contain;
+            mask-repeat: no-repeat;
+            mask-position: center;
+            -webkit-mask-size: contain;
+            -webkit-mask-repeat: no-repeat;
+            -webkit-mask-position: center;
+            padding-top: 3px;
+            padding-left: 3px;
+            box-sizing: content-box;
+
+            img {
+                width: 130px;
+                height: 132px;
+                object-fit: cover;
+                background-color: white;
+                display: block;
+                -webkit-mask-image: inherit;
+                mask-image: inherit;
+                -webkit-mask-size: inherit;
+                mask-size: inherit;
+                -webkit-mask-repeat: inherit;
+                mask-repeat: inherit;
+                -webkit-mask-position: inherit;
+                mask-position: inherit;
+            }
+
+            &:has(~ .mb-gilded-img) {
+                background-color: var(--mistborn-journal-tag-yellow);
+            }
+        }
+
+        .mb-legacy-img,
+        .mb-gilded-img,
+        .mb-rp-img {
+            border-top: 0;
+            border-bottom: 0;
+            position: relative;
+            width: 100%;
+            table-layout: fixed;
+            border-collapse: collapse;
+
+            tbody tr:first-child td {
+                color: white;
+                font-family: var(--cosmere-font-normal);
+                background-color: var(--mistborn-journal-rp-header);
+                font-variant-caps: small-caps;
+                padding: 0rem 0rem 0rem 1rem;
+
+                strong {
+                    color: inherit;
+                }
+
+                p {
+                    font-weight: bold;
+                    font-size: 20px;
+                }
+            }
+
+            tbody tr:last-child td {
+                position: relative;
+                padding: 1rem;
+                padding-top: 0;
+                backdrop-filter: blur(5px);
+                -webkit-backdrop-filter: blur(5px);
+                background-color: var(--mistborn-journal-rp-background);
+                clip-path: polygon(0 0,
+                        100% 0,
+                        100% calc(100% - 40px),
+                        calc(100% - 40px) 100%,
+                        0 100%);
+
+                strong {
+                    color: var(--mistborn-journal-accent);
+                }
+            }
+
+            tbody tr:last-child td::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: var(--mistborn-journal-rp-header);
+                clip-path: polygon(0 0,
+                        100% 0,
+                        100% calc(100% - 40px),
+                        calc(100% - 40px) 100%,
+                        0 100%,
+                        0 0,
+                        3px 3px,
+                        3px calc(100% - 3px),
+                        calc(100% - 40px - 1.24px) calc(100% - 3px),
+                        calc(100% - 3px) calc(100% - 40px - 1.24px),
+                        calc(100% - 3px) 3px,
+                        3px 3px);
+                z-index: 0;
+            }
+
+            .limited {
+                padding-right: 120px;
+            }
+
+        }
+
+        .limited {
+            padding-right: 140px;
+        }
+
+        .mb-ra {
+            /* Read along box. Only supports one <p> child with text content. use <br/> for multiple lines */
+            padding: 0.5rem 0.5rem 0.5rem 0rem;
+            display: inline-block;
+            height: 100%;
+            padding-bottom: 0px;
+            width: calc(100% - 22px);
+
+            p:nth-child(odd) {
+                background-image: url("assets/journal/mistborn/ra-glyph.webp");
+                background-size: contain;
+                min-height: 50px;
+                background-repeat: no-repeat;
+                background-position: center right;
+                float: left;
+                width: 22px;
+                margin-top: 10px;
+            }
+
+            p:nth-child(even) {
+                background-color: var(--mistborn-journal-ra-background);
+                padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+                float: right;
+                width: calc(100% - 22px);
+                min-height: 3rem;
+            }
+        }
+
+        .mb-blue {
+            tbody tr:first-child td {
+                background-color: var(--mistborn-journal-me-header);
+            }
+
+            tbody tr:last-child {
+                td {
+                    background-color: var(--mistborn-journal-me-background);
+                }
+
+                &::after {
+                    background: var(--mistborn-journal-me-header);
+                }
+            }
+        }
+
+        .mb-gilded-img {
+            tbody tr:first-child td {
+                color: black;
+                background-color: var(--mistborn-journal-tag-yellow);
+            }
+
+            tbody tr:last-child {
+                td {
+                    background-color: oklab(99.128% 0.00027 0.00273); /* #FDFCFA */
+                }
+
+                &::after {
+                    background: var(--mistborn-journal-tag-yellow);
+                }
+
+                td::before {
+                    background: var(--mistborn-journal-tag-yellow);
+                }
+            }
+        }
+
+        .mb-foundry {
+            tbody tr:first-child td {
+                background-color: var(--mistborn-journal-foundry-orange);
+
+                >p {
+                    padding-left: 2.5ch;
+                }
+
+                &::before {
+                    content: "";
+                    position: absolute;
+                    display: inline-block;
+                    background-image: url(../../../icons/vtt-512.png);
+                    background-size: 30px 30px;
+                    width: 30px;
+                    height: 30px;
+                    z-index: 100;
+                    top: calc(100% - 36px);
+                    left: 3px;
+                }
+            }
+
+            tbody tr:last-child {
+                td {
+                    background-color: var(--mistborn-journal-me-background);
+                }
+
+                &::after {
+                    background: var(--mistborn-journal-foundry-orange);
+                }
+            }
+
+            ::marker {
+                font-variant-numeric: lining-nums;
+                font-weight: bold;
+                color: var(--mistborn-journal-foundry-orange);
+            }
+        }
+
+        .glyph-quote {
+            /* Quote style used for the glyphs in the handbook.*/
+            background-image: url("assets/journal/mistborn/quote-glyph.webp");
+            background-size: auto 100px;
+            background-repeat: no-repeat;
+            background-position: left 5px top 5px;
+            padding-top: 1rem;
+            padding-left: 3rem;
+            padding-right: 1rem;
+            padding-bottom: 0.5rem;
+            font-style: italic;
+            color: var(--mistborn-journal-grey-2);
+            background-color: oklab(from var(--cosmere-color-white) l a b / 0.2);
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
+            border-radius: 15px;
+            min-height: 100px;
+
+            &.center {
+                width: fit-content;
+                margin: 0 auto;
+            }
+
+            &.right {
+                width: fit-content;
+                margin-left: auto;
+            }
+
+            .source {
+                display: block;
+                margin-top: 0.5rem;
+                font-style: normal;
+                font-weight: bold;
+                text-indent: 15%;
+            }
+        }
+
+        ::marker {
+            font-variant-numeric: lining-nums;
+            font-weight: bold;
+            color: var(--mistborn-journal-grey-2);
+        }
+
+        /* Reduced version included here. Modifies the ul element to use diamonds like the book. */
+        ul, .mb-ul{  
+                list-style: none;
+                padding-left: 0;
+                margin-left: 0;
+            
+                li {
+                    position: relative;
+                    padding-left: 2px;
+                    margin-bottom: 1px;
+                }
+
+                li:not(.mistborn-success,.mistborn-failure)::before{
+                    content: "";
+                    position: absolute;
+                    left: 4px;
+                    top: 8px;
+                    width: 5px;
+                    height: 5px;
+                    background-color: var(--mistborn-journal-accent);
+                    transform: rotate(45deg);
+                }
+
+                p{
+                    margin-left:16px;
+                }
+            }
+
+        img.centered {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        table {
+            background-color: unset;
+        }
+
+
+        [class^="mb-tag"] {
+            display: inline-grid;
+            width: fit-content;
+            place-items: center;
+            color: var(--cosmere-color-white);
+            font-family: var(--cosmere-font-normal);
+            font-size: 14px;
+            line-height: .75rem;
+            vertical-align: middle;
+            padding-top: 0.2rem;
+            padding-bottom: 0.25rem;
+            padding-left: 0.15rem;
+            padding-right: 0.15rem;
+
+            &[class$="grey"] {
+                background-color: var(--mistborn-journal-tag-grey);
+            };
+
+            &[class$="yellow"] {
+                background-color: var(--mistborn-journal-tag-yellow);
+            };
+        }
+    }
+}

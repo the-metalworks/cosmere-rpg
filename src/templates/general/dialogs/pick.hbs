@@ -1,8 +1,8 @@
 <form>
-    <div class="form-group-stacked"></div>
+    <div class="form-group-stacked">
         {{#each options as |option|}}
             <div class="form-field">
-                <input type="radio" name="choice" value="{{option.id}}" id="{{option.id}}">
+                <input type="radio" name="choice" value="{{option.id}}" id="{{option.id}}" {{#if @first}}checked{{/if}}>
                 <label for="{{option.id}}">
                     {{#if @root.localize}}
                         {{localize option.label}}

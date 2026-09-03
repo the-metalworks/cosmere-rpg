@@ -1,0 +1,55 @@
+{
+    "folder": "N0Rgn8Y6XWMWKpL0",
+    "name": "Knucklebones",
+    "type": "equipment",
+    "img": "icons/weapons/fist/fist-knuckles-spiked-brown.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 5–10 bx; <strong>Weight</strong> 0.5 lb.;</p><p>Street toughs and enforcers in Scadrial’s big cities love using knucklebones. Brass knuckles are common, but when fighting Allomancers, the more expensive wooden variety is worth every coin.</p><p>You can wear knucklebones on your hand instead of wielding a weapon in that hand. When you make an unarmed attack using that hand, increase the size of each unarmed damage die by one size (see the @UUID[Compendium.cosmere-rpg-mistborn-handbook.handbook.JournalEntry.Rn9IDL3Nvu7wvARP.JournalEntryPage.HOD84joH34YPDpWb]{Unarmed Damage} table earlier in this chapter). For example, damage of 1 (no die roll) becomes 1d4, 1d8 becomes 1d10, and so on.</p>",
+            "chat": "",
+            "short": ""
+        },
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 0.5,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 5,
+            "currency": "boxings",
+            "denomination": {
+                "primary": "box",
+                "secondary": "none"
+            },
+            "unit": "boxings.box"
+        },
+        "events": {},
+        "relationships": {},
+        "primaryResource": "none",
+        "linkedSkills": [],
+        "alwaysEquippable": false,
+        "equippableEnabled": false,
+        "equipped": false,
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "wear"
+        },
+        "__embedded": {
+            "items": []
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "BRreOx68bvSVNOuY",
+    "sort": 2400000,
+    "_key": "!items!BRreOx68bvSVNOuY"
+}

@@ -278,6 +278,11 @@ export interface PowerTypeConfig {
     plural: string;
 }
 
+export interface StartingSkillConfig {
+    skill: Skill;
+    path: string;
+}
+
 export interface AdvancementRuleConfig {
     /**
      * The level at which this rule applies.
@@ -427,6 +432,8 @@ export interface CosmereRPGConfig {
     paths: {
         types: Record<PathType, PathTypeConfig>;
     };
+
+    startingSkills: Record<string, Skill>;
 
     item: {
         activation: {

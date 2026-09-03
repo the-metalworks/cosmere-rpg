@@ -1,0 +1,761 @@
+{
+    "folder": "yUeRcUfJaeKvLpP6",
+    "name": "Wolfhound",
+    "type": "adversary",
+    "img": "systems/cosmere-rpg/assets/tokens_mistborn/classic/alt_tokens_no_ring/wolfhound.webp",
+    "system": {
+        "size": "medium",
+        "type": {
+            "id": "animal",
+            "custom": null,
+            "subtype": ""
+        },
+        "tier": 1,
+        "senses": {
+            "range": {
+                "derived": 20,
+                "override": 40,
+                "useOverride": true,
+                "bonus": 0
+            },
+            "obscuredAffected": true
+        },
+        "immunities": {
+            "damage": {
+                "energy": false,
+                "impact": false,
+                "keen": false,
+                "spirit": false,
+                "vital": false,
+                "heal": false
+            },
+            "condition": {
+                "afflicted": false,
+                "blind": false,
+                "burrowing": false,
+                "determined": false,
+                "disoriented": false,
+                "empowered": false,
+                "enhanced": false,
+                "exhausted": false,
+                "flying": false,
+                "focused": false,
+                "hidden": false,
+                "immobilized": false,
+                "invisible": false,
+                "prone": false,
+                "restrained": false,
+                "slowed": false,
+                "stunned": false,
+                "surprised": false,
+                "unconscious": false,
+                "dead": false,
+                "depleted": false,
+                "diminished": false
+            }
+        },
+        "attributes": {
+            "str": {
+                "value": 3,
+                "bonus": 0
+            },
+            "spd": {
+                "value": 3,
+                "bonus": 0
+            },
+            "int": {
+                "value": 0,
+                "bonus": 0
+            },
+            "wil": {
+                "value": 1,
+                "bonus": 0
+            },
+            "awa": {
+                "value": 3,
+                "bonus": 0
+            },
+            "pre": {
+                "value": 1,
+                "bonus": 0
+            }
+        },
+        "defenses": {
+            "phy": {
+                "derived": 0,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            },
+            "cog": {
+                "derived": 0,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            },
+            "spi": {
+                "derived": 0,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            }
+        },
+        "resources": {
+            "hea": {
+                "value": 15,
+                "max": {
+                    "derived": 0,
+                    "override": 15,
+                    "useOverride": true,
+                    "bonus": 0
+                },
+                "bonus": 0
+            },
+            "foc": {
+                "value": 3,
+                "max": {
+                    "derived": 0,
+                    "override": 3,
+                    "useOverride": true,
+                    "bonus": 0
+                },
+                "bonus": 0
+            },
+            "inv": {
+                "value": 0,
+                "max": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "bonus": 0
+            }
+        },
+        "skills": {
+            "agi": {
+                "rank": 1,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "ath": {
+                "rank": 2,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "hwp": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "lwp": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "stl": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "thv": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "cra": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "ded": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "dis": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "inm": {
+                "rank": 2,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "lor": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "med": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "dec": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "ins": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "lea": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "prc": {
+                "rank": 2,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "prs": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "sur": {
+                "rank": 2,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "all": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            },
+            "fer": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            }
+        },
+        "currency": {
+            "spheres": {
+                "denominations": [],
+                "total": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "boxings": {
+                "denominations": [],
+                "total": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            }
+        },
+        "deflect": {
+            "natural": 0,
+            "source": "armor",
+            "types": {
+                "energy": true,
+                "impact": true,
+                "keen": true,
+                "spirit": false,
+                "vital": false,
+                "heal": false
+            },
+            "derived": 0,
+            "override": null,
+            "useOverride": false,
+            "bonus": 0
+        },
+        "movement": {
+            "walk": {
+                "rate": {
+                    "derived": 30,
+                    "override": 40,
+                    "useOverride": true,
+                    "bonus": 0
+                }
+            },
+            "swim": {
+                "rate": {
+                    "derived": 0,
+                    "override": 0,
+                    "useOverride": true,
+                    "bonus": 0
+                }
+            },
+            "fly": {
+                "rate": {
+                    "derived": 0,
+                    "override": 0,
+                    "useOverride": true,
+                    "bonus": 0
+                }
+            }
+        },
+        "injuries": {
+            "derived": 0,
+            "override": null,
+            "useOverride": false,
+            "bonus": 0
+        },
+        "injuryRollBonus": 0,
+        "encumbrance": {
+            "lift": {
+                "derived": 0,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            },
+            "carry": {
+                "derived": 0,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            }
+        },
+        "expertises": {},
+        "languages": [],
+        "biography": "",
+        "appearance": "",
+        "notes": "",
+        "role": "rival"
+    },
+    "prototypeToken": {
+        "name": "Wolfhound",
+        "displayName": 30,
+        "actorLink": false,
+        "width": 1,
+        "height": 1,
+        "texture": {
+            "src": "modules/cosmere-rpg-mistborn-handbook/assets/tokens/wolfhound.webp",
+            "anchorX": 0.5,
+            "anchorY": 0.5,
+            "offsetX": 0,
+            "offsetY": 0,
+            "fit": "contain",
+            "scaleX": 1.2,
+            "scaleY": 1.2,
+            "rotation": 0,
+            "tint": "#ffffff",
+            "alphaThreshold": 0.75
+        },
+        "lockRotation": false,
+        "rotation": 0,
+        "alpha": 1,
+        "disposition": -1,
+        "displayBars": 20,
+        "bar1": {
+            "attribute": "resources.hea"
+        },
+        "bar2": {
+            "attribute": "resources.foc"
+        },
+        "light": {
+            "negative": false,
+            "priority": 0,
+            "alpha": 0.5,
+            "angle": 360,
+            "bright": 0,
+            "color": null,
+            "coloration": 1,
+            "dim": 0,
+            "attenuation": 0.5,
+            "luminosity": 0.5,
+            "saturation": 0,
+            "contrast": 0,
+            "shadows": 0,
+            "animation": {
+                "type": null,
+                "speed": 5,
+                "intensity": 5,
+                "reverse": false
+            },
+            "darkness": {
+                "min": 0,
+                "max": 1
+            }
+        },
+        "sight": {
+            "enabled": false,
+            "range": 40,
+            "angle": 360,
+            "visionMode": "sense",
+            "color": null,
+            "attenuation": 0.1,
+            "brightness": 0,
+            "saturation": 0,
+            "contrast": 0
+        },
+        "detectionModes": [],
+        "occludable": {
+            "radius": 0
+        },
+        "ring": {
+            "enabled": false,
+            "colors": {
+                "ring": null,
+                "background": null
+            },
+            "effects": 0,
+            "subject": {
+                "scale": 1,
+                "texture": "modules/cosmere-rpg-mistborn-handbook/assets/tokens/alt_tokens_no_ring/wolfhound.webp"
+            }
+        },
+        "turnMarker": {
+            "mode": 1,
+            "animation": null,
+            "src": null,
+            "disposition": false
+        },
+        "movementAction": null,
+        "flags": {},
+        "randomImg": false,
+        "appendNumber": true,
+        "prependAdjective": false
+    },
+    "items": [
+        {
+            "folder": "9CbMknHHLfcr3w9m",
+            "name": "Enhanced Senses",
+            "type": "trait",
+            "_id": "lqjGoG23id51wQP0",
+            "img": "icons/magic/air/wind-stream-blue-gray.webp",
+            "system": {
+                "description": {
+                    "value": "<p>The [[lookup @actor.name]]{Actor Name} gains an advantage on non-attack tests that rely on sight.</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "resources": {
+                    "uses": null,
+                    "charges": null,
+                    "ammo": null
+                },
+                "events": {},
+                "relationships": {},
+                "primaryResource": "none",
+                "__embedded": {
+                    "items": []
+                }
+            },
+            "effects": [],
+            "sort": 600000,
+            "ownership": {
+                "default": 0
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "lastModifiedBy": null
+            },
+            "_key": "!actors.items!0JqtD0LInwmH2MHh.lqjGoG23id51wQP0"
+        },
+        {
+            "folder": "MMlmE0uQc6F419fM",
+            "name": "Strike: Bite",
+            "type": "action",
+            "_id": "eJgz7xklSIUzlURf",
+            "img": "icons/creatures/abilities/mouth-teeth-long-red.webp",
+            "system": {
+                "id": "strike-bite",
+                "description": {
+                    "value": "<p><strong>Attack </strong>+4; <strong>Reach</strong> 5 ft.; <strong>Targets </strong>one;</p><p><strong>Graze</strong> [[damage 1d4 Keen average]];</p><p><strong>Hit</strong> [[damage 1d4 + 4 Keen average]],  if the target is Large or smaller, the [[lookup @actor.name]]{Actor Name} can spend 1 focus to knock the target Prone, then move up to 10 feet while dragging the target behind them.</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "resources": {
+                    "uses": null,
+                    "charges": null,
+                    "ammo": null
+                },
+                "modality": null,
+                "events": {},
+                "relationships": {},
+                "activation": {
+                    "type": "skill_test",
+                    "cost": {
+                        "type": "act",
+                        "value": 1
+                    },
+                    "consumption": [],
+                    "flavor": ""
+                },
+                "damage": {
+                    "skill": null,
+                    "attribute": null,
+                    "formula": "1d4",
+                    "type": "keen",
+                    "grazeOverrideFormula": ""
+                },
+                "skillTest": {
+                    "skill": "default",
+                    "attribute": "default",
+                    "plotDie": false,
+                    "modifierFormula": "",
+                    "opportunity": null,
+                    "complication": null
+                },
+                "type": "adversary",
+                "primaryResource": "none",
+                "__embedded": {
+                    "items": []
+                }
+            },
+            "effects": [],
+            "sort": 0,
+            "ownership": {
+                "default": 0
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "lastModifiedBy": null
+            },
+            "_key": "!actors.items!0JqtD0LInwmH2MHh.eJgz7xklSIUzlURf"
+        },
+        {
+            "folder": "MMlmE0uQc6F419fM",
+            "name": "Pack Instincts",
+            "type": "action",
+            "_id": "FU2RMrAjjvqUW4QI",
+            "img": "icons/creatures/mammals/wolf-howl-moon-forest-blue.webp",
+            "system": {
+                "id": "pack-instincts",
+                "description": {
+                    "value": "<p>While within 5 feet of an ally, the [[lookup @actor.name]]{Actor Name} can use the Gain Advantage action as <span class=\"cosmere-icon\">0</span>.</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "resources": {
+                    "uses": null,
+                    "charges": null,
+                    "ammo": null
+                },
+                "modality": null,
+                "events": {},
+                "relationships": {},
+                "activation": {
+                    "type": "utility",
+                    "cost": {
+                        "type": "fre"
+                    },
+                    "consumption": [],
+                    "flavor": ""
+                },
+                "damage": {
+                    "skill": "default",
+                    "attribute": "default",
+                    "formula": null,
+                    "type": null
+                },
+                "skillTest": {
+                    "skill": "default",
+                    "attribute": "default",
+                    "plotDie": false
+                },
+                "type": "adversary",
+                "primaryResource": "none",
+                "__embedded": {
+                    "items": []
+                }
+            },
+            "effects": [],
+            "sort": 0,
+            "ownership": {
+                "default": 0
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "lastModifiedBy": null
+            },
+            "_key": "!actors.items!0JqtD0LInwmH2MHh.FU2RMrAjjvqUW4QI"
+        },
+        {
+            "folder": "MMlmE0uQc6F419fM",
+            "name": "On the Hunt",
+            "type": "action",
+            "_id": "buTso1b2as6vVSEc",
+            "img": "icons/creatures/abilities/paw-print-pair-purple.webp",
+            "system": {
+                "id": "on-the-hunt",
+                "description": {
+                    "value": "<p>After an enemy within 30 feet of the [[lookup @actor.name]]{Actor Name} falls @UUID[Compendium.cosmere-rpg-mistborn-handbook.handbook.JournalEntry.b684FTgeTTE90HLs.JournalEntryPage.vyYzxzfhwORSeTLw#prone]{Prone}, the [[lookup @actor.name]]{Actor Name} moves up to half their movement rate toward them.</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "resources": {
+                    "uses": null,
+                    "charges": null,
+                    "ammo": null
+                },
+                "modality": null,
+                "events": {},
+                "relationships": {},
+                "activation": {
+                    "type": "utility",
+                    "cost": {
+                        "type": "rea"
+                    },
+                    "consumption": [],
+                    "flavor": ""
+                },
+                "damage": {
+                    "skill": "default",
+                    "attribute": "default",
+                    "formula": null,
+                    "type": null
+                },
+                "skillTest": {
+                    "skill": "default",
+                    "attribute": "default",
+                    "plotDie": false
+                },
+                "type": "adversary",
+                "primaryResource": "none",
+                "__embedded": {
+                    "items": []
+                }
+            },
+            "effects": [],
+            "sort": 0,
+            "ownership": {
+                "default": 0
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "lastModifiedBy": null
+            },
+            "_key": "!actors.items!0JqtD0LInwmH2MHh.buTso1b2as6vVSEc"
+        }
+    ],
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {
+        "cosmere-rpg": {
+            "sheet": {
+                "hideUnranked": true,
+                "mode": "view"
+            },
+            "automation": {
+                "token": {
+                    "size": true,
+                    "vision": true
+                }
+            }
+        }
+    },
+    "_id": "0JqtD0LInwmH2MHh",
+    "sort": 0,
+    "_key": "!actors!0JqtD0LInwmH2MHh"
+}

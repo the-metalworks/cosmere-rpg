@@ -1,0 +1,161 @@
+{
+    "folder": "qTYLKqLK29e5CTQp",
+    "name": "Anesthetic (5 doses)",
+    "type": "equipment",
+    "_id": "Wl0TlHmr1byqb9Ls",
+    "img": "icons/consumables/drinks/tea-jug-glowing-brown-pink.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 75 mk; <strong>Weight</strong> 1.5 lb.;</p><p>Usually made from fathom bark or winterwort, you can apply a dose of anesthetic ointment to an injury after a short or long rest to reduce its recovery time by <span style=\"font-family: -apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, &#x27;Noto Sans&#x27;, Helvetica, Arial, sans-serif, &#x27;Apple Color Emoji&#x27;, &#x27;Segoe UI Emoji&#x27;\">[[/r 1d4]]</span> days. Each injury can be treated with anesthetic only once per day.</p>",
+            "chat": "",
+            "short": ""
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 1.5,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 75,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark",
+                "secondary": "none"
+            },
+            "unit": "spheres.mark"
+        },
+        "activation": {
+            "type": "utility",
+            "cost": {
+                "value": null,
+                "type": "spe"
+            },
+            "consume": [],
+            "flavor": "",
+            "uses": {
+                "type": "use",
+                "value": 5,
+                "max": 5,
+                "recharge": null
+            }
+        },
+        "damage": {
+            "formula": null,
+            "type": null
+        },
+        "primaryResource": "uses",
+        "resources": {
+            "uses": {
+                "value": 5,
+                "max": 5,
+                "recharge": "none",
+                "key": "uses"
+            },
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "alwaysEquippable": false,
+        "equippableEnabled": false,
+        "equipped": false,
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "wear"
+        },
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Anesthetic",
+                    "img": "icons/consumables/drinks/tea-jug-glowing-brown-pink.webp",
+                    "_id": "yf3Ya897paQJEEUt",
+                    "system": {
+                        "id": "anesthetic",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p>Usually made from fathom bark or winterwort, you can apply a dose of anesthetic ointment to an injury after a short or long rest to reduce its recovery time by <span style=\"font-family: -apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, &#x27;Noto Sans&#x27;, Helvetica, Arial, sans-serif, &#x27;Apple Color Emoji&#x27;, &#x27;Segoe UI Emoji&#x27;\">[[/r 1d4]]</span> days. Each injury can be treated with anesthetic only once per day.</p>",
+                            "chat": "",
+                            "short": ""
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "type": "spe"
+                            },
+                            "consumption": [
+                                {
+                                    "type": "item_resource",
+                                    "value": {
+                                        "min": 1,
+                                        "max": 1,
+                                        "actual": 1
+                                    },
+                                    "resource": "uses",
+                                    "matchDocument": {
+                                        "steps": [
+                                            {
+                                                "target": "parent",
+                                                "documentType": "Actor",
+                                                "reference": null,
+                                                "matchBy": "document-type",
+                                                "matchMode": "first"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
+    },
+    "effects": [],
+    "sort": 1600000,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!Wl0TlHmr1byqb9Ls"
+}

@@ -1,0 +1,75 @@
+{
+    "name": "Elendel (Era 2)",
+    "type": "culture",
+    "img": "systems/cosmere-rpg/assets/icons/mistborn/cultures/culture_elendel.webp",
+    "system": {
+        "id": "elendel",
+        "description": {
+            "value": "<p>The largest city on Scadrial, Elendel sits on the site of the Final Ascension and is a hub for commerce and invention. The city is administered by an elected governor plus a senate split between elected and hereditary seats. Elendel is rapidly modernizing—in technology, infrastructure, and social strides.</p><p>People from Elendel have a variety of skin tones and hair colors. Darker skin tones and greater height tend to appear more often in the Terris population. Fashion is a primary marker of status and success in the city, and wealthy residents favor well-tailored suits and dresses. Popular designs tend toward dark fabrics or single rich colors with accents. Working clothes include buttoned shirts and trousers or simple dresses, usually in muted colors.</p><p></p><h4>Elendel Names </h4><p>Allriandre, Alvery, Brill, Carmine, Collette, Daius, Ennasi, Hedwarn, Hinston, Jackstom, Juli, Karoline, Kip, Limmi, Matilda, Mase, Rian, Sindren, Windra, Xavian.</p><p></p><h4>Elendel Expertise </h4><p>As a character with the Elendel expertise, you know the names of the powerful families in the city as well as the city’s common laws and regulations. You’re familiar with constabulary operations and how to call for law enforcement or avoid it. Even if you’re not a Misting, you’re familiar with Allomancy and can recite the individual Allomantic metals and the abilities each Misting can use.</p><p>Choose a home octant. You know its businesses, public organizations, and notable landmarks. Also choose the education you’ve received as well as how proficient you are in speaking and writing skaa and High Imperial. Regardless of your religious beliefs, you’re familiar with the basic tenets of Survivorism, Sliverism, and the Path.</p>",
+            "chat": "",
+            "short": ""
+        },
+        "events": {
+            "QLtAVg2rHzWaTTbg": {
+                "id": "QLtAVg2rHzWaTTbg",
+                "description": "Grant Expertise",
+                "event": "add-to-actor",
+                "handler": {
+                    "type": "grant-expertises",
+                    "pick": false,
+                    "expertises": {
+                        "cultural:elendel": {
+                            "id": "elendel",
+                            "type": "cultural",
+                            "label": "COSMERE.Item.Culture.Type.Elendel",
+                            "locked": false
+                        }
+                    },
+                    "allowReplacement": false,
+                    "pickAmount": 1,
+                    "availableTypes": []
+                },
+                "order": 0,
+                "disabled": false
+            },
+            "ZLPlYZ2AX7nhOYjt": {
+                "id": "ZLPlYZ2AX7nhOYjt",
+                "description": "Remove Expertise",
+                "event": "remove-from-actor",
+                "handler": {
+                    "type": "remove-expertises",
+                    "expertises": {
+                        "cultural:elendel": {
+                            "id": "elendel",
+                            "type": "cultural",
+                            "label": "COSMERE.Item.Culture.Type.Elendel",
+                            "locked": false
+                        }
+                    }
+                },
+                "order": 0,
+                "disabled": false
+            }
+        },
+        "linkedSkills": [],
+        "relationships": {},
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "__embedded": {
+            "items": []
+        }
+    },
+    "effects": [],
+    "folder": "1dMRblYYUEWrMGXm",
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "wkqGX5qov98cGuX9",
+    "sort": 0,
+    "_key": "!items!wkqGX5qov98cGuX9"
+}

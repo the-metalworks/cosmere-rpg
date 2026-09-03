@@ -516,7 +516,7 @@ export class CosmereItem<
             !(this.parent instanceof CosmereItem)
         )
             return false;
-        return this.defaultAction?.id === this.id;
+        return this.parent.defaultAction?.id === this.id;
     }
 
     /**
@@ -1456,7 +1456,7 @@ export class CosmereItem<
                 type: MESSAGE_TYPES.ACTION,
                 description: await this.getDescriptionHTML(),
                 targets: getTargetDescriptors(),
-                item: this.id,
+                item: this.uuid,
             },
         };
 

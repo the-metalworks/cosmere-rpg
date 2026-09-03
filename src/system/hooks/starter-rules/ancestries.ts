@@ -3,7 +3,7 @@ import { SYSTEM_ID } from '@system/constants';
 export const ANCESTRIES = [
     {
         id: 'human',
-        label: 'Human',
+        label: 'COSMERE.Objects.Generic.Ancestry.Human',
         reference: 'Compendium.cosmere-rpg.ancestries.Item.q7t6vnxXBXDvsfhc',
     },
 ];

@@ -1,0 +1,42 @@
+{
+    "folder": "gVLHM7S3sSuwJBQ0",
+    "name": "5-Boxing Coin",
+    "type": "loot",
+    "img": "systems/cosmere-rpg/assets/icons/mistborn/currency/icon_loot_boxings.webp",
+    "system": {
+        "description": {
+            "value": "<p>Imperial coins, colloquially called boxings, are larger—about twice the size of clips—and typically made of more precious metals like gold. A single boxing is, of course, worth 1 bx. Before the Catacendre, there were 2- and 5-boxing coins, and more denominations were introduced in Era 2.</p>",
+            "chat": "",
+            "short": ""
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 0,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 5,
+            "currency": "boxings",
+            "denomination": {
+                "primary": "box",
+                "secondary": "none"
+            },
+            "unit": "boxings.box"
+        },
+        "events": {},
+        "relationships": {},
+        "isMoney": true,
+        "linkedSkills": [],
+        "__embedded": {
+            "items": []
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "phYwZwM0s9yfAEHP",
+    "sort": 700000,
+    "_key": "!items!phYwZwM0s9yfAEHP"
+}

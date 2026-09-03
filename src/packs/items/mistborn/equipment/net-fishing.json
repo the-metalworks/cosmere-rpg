@@ -1,0 +1,55 @@
+{
+    "folder": "N0Rgn8Y6XWMWKpL0",
+    "name": "Net (fishing)",
+    "type": "equipment",
+    "img": "icons/tools/fishing/net-simple-tan.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 5 bx; <strong>Weight</strong> 15 lb.;</p><p>This net of fine mesh is used to ensnare fish. You can use this net to gain an advantage on physical tests related to fishing.</p>",
+            "chat": "",
+            "short": ""
+        },
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 15,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 5,
+            "currency": "boxings",
+            "denomination": {
+                "primary": "box",
+                "secondary": "none"
+            },
+            "unit": "boxings.box"
+        },
+        "events": {},
+        "relationships": {},
+        "primaryResource": "none",
+        "linkedSkills": [],
+        "alwaysEquippable": false,
+        "equippableEnabled": false,
+        "equipped": false,
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "wear"
+        },
+        "__embedded": {
+            "items": []
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "iIZqVoiiAGerkQw2",
+    "sort": 3400000,
+    "_key": "!items!iIZqVoiiAGerkQw2"
+}

@@ -23,8 +23,8 @@ import {
     ArmorConfig,
     CultureConfig,
     AncestryConfig,
-    ItemEventHandlerTypeConfig,
     TraitConfig,
+    StartingSkillConfig,
 } from '@system/types/config';
 import { EventSystem as ItemEventSystem } from '@system/types/item';
 import { AnyObject } from '@system/types/utils';
@@ -77,6 +77,41 @@ export function registerItemResource(data: ItemResourceConfigData) {
     return RegistrationHelper.tryRegisterConfig({
         key,
         data: cleaned,
+        register,
+    });
+}
+
+interface StartingSkillConfigData
+    extends StartingSkillConfig,
+        CommonRegistrationData {}
+
+export function registerStartingSkill(data: StartingSkillConfigData) {
+    if (!CONFIG.COSMERE) {
+        throw new Error(
+            'Cannot access API until after the system is initialized.',
+        );
+    }
+
+    // Clean data, remove fields that are not part of the config
+    data = {
+        skill: data.skill,
+        path: data.path,
+        source: data.source,
+        priority: data.priority,
+        strict: data.strict,
+    };
+
+    const key = `startingSkills.${data.path}`;
+
+    const register = () => {
+        CONFIG.COSMERE.startingSkills[data.path] = data.skill;
+
+        return true;
+    };
+
+    return RegistrationHelper.tryRegisterConfig({
+        key,
+        data,
         register,
     });
 }

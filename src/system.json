@@ -2,7 +2,7 @@
     "id": "cosmere-rpg",
     "title": "Cosmere Roleplaying Game",
     "description": "A community-developed system for playing the Cosmere Roleplaying Game, by Dragonsteel Entertainment and Brotherwise Games.",
-    "version": "3.0.2",
+    "version": "3.1.0",
     "compatibility": {
         "minimum": "13.346",
         "verified": "13.351",
@@ -50,6 +50,7 @@
             "name": "starter-rules",
             "label": "Stormlight Starter Rules",
             "path": "packs/starter-rules",
+            "banner": "systems/cosmere-rpg/assets/art/foundry_setup_starter_rules_cover.webp",
             "type": "JournalEntry",
             "system": "cosmere-rpg",
             "ownership": {
@@ -107,6 +108,17 @@
             }
         },
         {
+            "name": "metalborn-paths",
+            "label": "Metalborn Paths",
+            "path": "packs/metalborn-paths",
+            "type": "Item",
+            "system": "cosmere-rpg",
+            "ownership": {
+                "PLAYER": "OBSERVER",
+                "ASSISTANT": "OWNER"
+            }
+        },
+        {
             "name": "actions",
             "label": "Actions",
             "path": "packs/actions",
@@ -138,11 +150,28 @@
                 "PLAYER": "OBSERVER",
                 "ASSISTANT": "OWNER"
             }
+        },
+        {
+            "name": "mistborn-starter-rules",
+            "label": "Mistborn Starter Rules",
+            "path": "packs/mistborn-starter-rules",
+            "banner": "systems/cosmere-rpg/assets/art_mistborn/foundry_mistborn_starter_rules_cover.webp",
+            "type": "JournalEntry",
+            "system": "cosmere-rpg",
+            "ownership": {
+                "PLAYER": "OBSERVER",
+                "ASSISTANT": "OWNER"
+            },
+            "flags": {
+                "cosmere-rpg": {
+                    "defaultSortingMode": "m"
+                }
+            }
         }
     ],
     "packFolders": [
         {
-            "name": "Stormlight Starter Rules",
+            "name": "Cosmere RPG Starter Rules",
             "sorting": "m",
             "color": "#141f3c",
             "packs": [
@@ -152,7 +181,8 @@
                 "companions-and-adversaries",
                 "tables",
                 "ancestries",
-                "cultures"
+                "cultures",
+                "metalborn-paths"
             ]
         }
     ],
@@ -171,5 +201,5 @@
     "background": "systems/cosmere-rpg/assets/art/foundry_setup_Cosmere_RPG.webp",
     "url": "https://github.com/the-metalworks/cosmere-rpg",
     "manifest": "https://raw.githubusercontent.com/the-metalworks/cosmere-rpg/main/src/system.json",
-    "download": "https://github.com/the-metalworks/cosmere-rpg/releases/download/release-3.0.2/cosmere-rpg-release-3.0.2.zip"
+    "download": "https://github.com/the-metalworks/cosmere-rpg/releases/download/release-3.1.0/cosmere-rpg-release-3.1.0.zip"
 }

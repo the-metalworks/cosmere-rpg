@@ -1,0 +1,42 @@
+{
+    "folder": "gVLHM7S3sSuwJBQ0",
+    "name": "Clip",
+    "type": "loot",
+    "img": "systems/cosmere-rpg/assets/icons/mistborn/currency/icon_loot_clips.webp",
+    "system": {
+        "description": {
+            "value": "<p>Clips are small coins made of common metals, such as iron, tin, and bronze. A single clip is worth 0.01 bx. These also come in denominations of 5-, 10-, 20-, and 50-clip coins.</p>",
+            "chat": "",
+            "short": ""
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 0,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 0.1,
+            "currency": "boxings",
+            "denomination": {
+                "primary": "box",
+                "secondary": "none"
+            },
+            "unit": "boxings.box"
+        },
+        "events": {},
+        "relationships": {},
+        "isMoney": true,
+        "linkedSkills": [],
+        "__embedded": {
+            "items": []
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "rTnmbjpt8pxDe2pz",
+    "sort": 200000,
+    "_key": "!items!rTnmbjpt8pxDe2pz"
+}

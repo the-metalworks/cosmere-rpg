@@ -1,0 +1,115 @@
+{
+    "folder": "Umzk8NqiPhujLZgH",
+    "name": "Leather",
+    "type": "armor",
+    "img": "systems/cosmere-rpg/assets/icons/mistborn/armor/icon_armor_leather.webp",
+    "system": {
+        "id": "leather",
+        "description": {
+            "value": "<p><strong>Deflect Value</strong> 1; <strong>Traits</strong> —; <strong>Expert Traits</strong> Presentable;</p><p><strong>Price</strong> 30 bx; <strong>Weight</strong> 10 lb.;</p>",
+            "chat": "",
+            "short": ""
+        },
+        "equipped": false,
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "wear"
+        },
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "expertise": false,
+        "traits": {
+            "cumbersome": {
+                "defaultActive": false,
+                "defaultValue": 0,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "value": 0,
+                "active": false
+            },
+            "dangerous": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "presentable": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": true
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "unique": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            }
+        },
+        "deflect": 1,
+        "deflects": {
+            "energy": {
+                "active": true
+            },
+            "impact": {
+                "active": true
+            },
+            "keen": {
+                "active": true
+            },
+            "spirit": {
+                "active": false
+            },
+            "vital": {
+                "active": false
+            },
+            "heal": {
+                "active": false
+            }
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 10,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 30,
+            "currency": "boxings",
+            "denomination": {
+                "primary": "box",
+                "secondary": "none"
+            },
+            "unit": "boxings.box"
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "alwaysEquippable": true,
+        "equippableEnabled": true,
+        "primaryResource": "none",
+        "__embedded": {
+            "items": []
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "TEM8DLSxh7Xbo0WV",
+    "sort": 200000,
+    "_key": "!items!TEM8DLSxh7Xbo0WV"
+}

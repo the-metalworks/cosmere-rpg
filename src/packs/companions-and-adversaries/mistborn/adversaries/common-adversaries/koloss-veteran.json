@@ -1,0 +1,937 @@
+{
+    "folder": "p0xlhFQUSkFKuMsU",
+    "name": "Koloss Veteran",
+    "type": "adversary",
+    "img": "systems/cosmere-rpg/assets/tokens_mistborn/classic/alt_tokens_no_ring/koloss_veteran.webp",
+    "system": {
+        "size": "large",
+        "type": {
+            "id": "humanoid"
+        },
+        "tier": 3,
+        "senses": {
+            "range": {
+                "derived": 5,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            },
+            "obscuredAffected": true
+        },
+        "immunities": {
+            "damage": {
+                "energy": false,
+                "impact": false,
+                "keen": false,
+                "spirit": false,
+                "vital": false,
+                "heal": false
+            },
+            "condition": {
+                "afflicted": false,
+                "blind": false,
+                "burrowing": false,
+                "determined": false,
+                "disoriented": false,
+                "empowered": false,
+                "enhanced": false,
+                "exhausted": false,
+                "flying": false,
+                "focused": false,
+                "hidden": false,
+                "immobilized": false,
+                "invisible": false,
+                "prone": false,
+                "restrained": false,
+                "slowed": false,
+                "stunned": false,
+                "surprised": false,
+                "unconscious": false,
+                "dead": false,
+                "depleted": false,
+                "diminished": false
+            }
+        },
+        "attributes": {
+            "str": {
+                "value": 7,
+                "bonus": 0
+            },
+            "spd": {
+                "value": 4,
+                "bonus": 0
+            },
+            "int": {
+                "value": 2,
+                "bonus": 0
+            },
+            "wil": {
+                "value": 4,
+                "bonus": 0
+            },
+            "awa": {
+                "value": 2,
+                "bonus": 0
+            },
+            "pre": {
+                "value": 4,
+                "bonus": 0
+            }
+        },
+        "defenses": {
+            "phy": {
+                "derived": 0,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            },
+            "cog": {
+                "derived": 0,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            },
+            "spi": {
+                "derived": 0,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            }
+        },
+        "resources": {
+            "hea": {
+                "value": 72,
+                "max": {
+                    "derived": 0,
+                    "override": 72,
+                    "useOverride": true,
+                    "bonus": 0
+                },
+                "bonus": 0
+            },
+            "foc": {
+                "value": 6,
+                "max": {
+                    "derived": 0,
+                    "override": 6,
+                    "useOverride": true,
+                    "bonus": 0
+                },
+                "bonus": 0
+            },
+            "inv": {
+                "value": 0,
+                "max": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "bonus": 0
+            }
+        },
+        "skills": {
+            "agi": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "ath": {
+                "rank": 3,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "hwp": {
+                "rank": 3,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "lwp": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "stl": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "thv": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "cra": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "ded": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "dis": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "inm": {
+                "rank": 4,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "lor": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "med": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "dec": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "ins": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "lea": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "prc": {
+                "rank": 4,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "prs": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "sur": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "all": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            },
+            "fer": {
+                "rank": 0,
+                "mod": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                },
+                "unlocked": false
+            }
+        },
+        "currency": {
+            "spheres": {
+                "denominations": [],
+                "total": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "boxings": {
+                "denominations": [],
+                "total": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            }
+        },
+        "deflect": {
+            "natural": 0,
+            "source": "armor",
+            "types": {
+                "energy": true,
+                "impact": true,
+                "keen": true,
+                "spirit": false,
+                "vital": false,
+                "heal": false
+            },
+            "derived": 0,
+            "override": 2,
+            "useOverride": true,
+            "bonus": 0
+        },
+        "movement": {
+            "walk": {
+                "rate": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "swim": {
+                "rate": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            },
+            "fly": {
+                "rate": {
+                    "derived": 0,
+                    "override": null,
+                    "useOverride": false,
+                    "bonus": 0
+                }
+            }
+        },
+        "injuries": {
+            "derived": 0,
+            "override": null,
+            "useOverride": false,
+            "bonus": 0
+        },
+        "injuryRollBonus": 0,
+        "encumbrance": {
+            "lift": {
+                "derived": 0,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            },
+            "carry": {
+                "derived": 0,
+                "override": null,
+                "useOverride": false,
+                "bonus": 0
+            }
+        },
+        "expertises": {},
+        "languages": [],
+        "biography": "",
+        "appearance": "",
+        "notes": "<h5>Tactics</h5><p>Koloss are deadly foes at any tier of play. Even a <strong>koloss neophyte</strong> can Demoralize their enemies, strike with their Koloss Blade to knock their chosen victim Prone, then Pulverize to deal heavy damage to the Prone target. A more experienced <strong>koloss veteran</strong> uses their Decimate action when surrounded, and they rely on their Consuming Rage to ensure their Koloss Blade and Pulverize actions strike true. A <strong>koloss ancient</strong> has even further command of the battlefield. With their Frenzied Charge reaction, they can close the gap to a new set of foes with devastating momentum.</p><p></p><p>@UUID[Compendium.cosmere-rpg-mistborn-worldguide.worldguide.JournalEntry.dyFd1f6iBIXYU1K7.JournalEntryPage.QfAandoOAdnQSn60]{Koloss Encounter Opportunities and Complications}</p><p>@Embed[Compendium.cosmere-rpg-mistborn-worldguide.worldguide.JournalEntry.dyFd1f6iBIXYU1K7.JournalEntryPage.QfAandoOAdnQSn60 inline]</p>",
+        "role": "rival"
+    },
+    "prototypeToken": {
+        "name": "Koloss Veteran",
+        "displayName": 30,
+        "actorLink": false,
+        "width": 2,
+        "height": 2,
+        "texture": {
+            "src": "systems/cosmere-rpg/assets/tokens_mistborn/koloss_veteran.webp",
+            "anchorX": 0.5,
+            "anchorY": 0.5,
+            "offsetX": 0,
+            "offsetY": 0,
+            "fit": "contain",
+            "scaleX": 2.6,
+            "scaleY": 2.6,
+            "rotation": 0,
+            "tint": "#ffffff",
+            "alphaThreshold": 0.75
+        },
+        "lockRotation": false,
+        "rotation": 0,
+        "alpha": 1,
+        "disposition": -1,
+        "displayBars": 20,
+        "bar1": {
+            "attribute": "resources.hea"
+        },
+        "bar2": {
+            "attribute": "resources.foc"
+        },
+        "light": {
+            "negative": false,
+            "priority": 0,
+            "alpha": 0.5,
+            "angle": 360,
+            "bright": 0,
+            "color": null,
+            "coloration": 1,
+            "dim": 0,
+            "attenuation": 0.5,
+            "luminosity": 0.5,
+            "saturation": 0,
+            "contrast": 0,
+            "shadows": 0,
+            "animation": {
+                "type": null,
+                "speed": 5,
+                "intensity": 5,
+                "reverse": false
+            },
+            "darkness": {
+                "min": 0,
+                "max": 1
+            }
+        },
+        "sight": {
+            "enabled": false,
+            "range": 10,
+            "angle": 360,
+            "visionMode": "sense",
+            "color": null,
+            "attenuation": 0.1,
+            "brightness": 0,
+            "saturation": 0,
+            "contrast": 0
+        },
+        "detectionModes": [],
+        "occludable": {
+            "radius": 0
+        },
+        "ring": {
+            "enabled": false,
+            "colors": {
+                "ring": null,
+                "background": null
+            },
+            "effects": 0,
+            "subject": {
+                "scale": 1,
+                "texture": "systems/cosmere-rpg/assets/tokens_mistborn/alt_tokens_no_ring/koloss_veteran.webp"
+            }
+        },
+        "turnMarker": {
+            "mode": 1,
+            "animation": null,
+            "src": null,
+            "disposition": false
+        },
+        "movementAction": null,
+        "flags": {},
+        "randomImg": false,
+        "appendNumber": true,
+        "prependAdjective": false
+    },
+    "items": [
+        {
+            "folder": "eR3XFJp5ojcpiwb8",
+            "name": "Malleable Will",
+            "type": "trait",
+            "_id": "EsiAfjy42dzrP4So",
+            "img": "icons/commodities/biological/organ-brain-pink.webp",
+            "system": {
+                "description": {
+                    "value": "<p>The [[lookup @actor.name]]{Actor Name} can only be affected by emotional Allomancy if the Allomancer spends 6 Investiture or more to <strong>Burn Brass</strong> or <strong>Burn Zinc</strong>. Once affected, the [[lookup @actor.name]]{Actor Name} can’t end those effects on themself.</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "resources": {
+                    "uses": null,
+                    "charges": null,
+                    "ammo": null
+                },
+                "events": {},
+                "relationships": {},
+                "primaryResource": "none",
+                "__embedded": {
+                    "items": []
+                }
+            },
+            "effects": [],
+            "sort": 0,
+            "ownership": {
+                "default": 0
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "lastModifiedBy": null
+            },
+            "_key": "!actors.items!h6Ubd07V0GFoq3HL.EsiAfjy42dzrP4So"
+        },
+        {
+            "folder": "eR3XFJp5ojcpiwb8",
+            "name": "Unyielding",
+            "type": "trait",
+            "_id": "mwMdTTmxN87RuJ5t",
+            "img": "icons/magic/earth/strike-fist-stone-gray.webp",
+            "system": {
+                "description": {
+                    "value": "<p>The [[lookup @actor.name]]{Actor Name} gains an advantage on tests to resist being moved or knocked <strong>Prone</strong>.</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "resources": {
+                    "uses": null,
+                    "charges": null,
+                    "ammo": null
+                },
+                "events": {},
+                "relationships": {},
+                "primaryResource": "none",
+                "__embedded": {
+                    "items": []
+                }
+            },
+            "effects": [],
+            "sort": 0,
+            "ownership": {
+                "default": 0
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "lastModifiedBy": null
+            },
+            "_key": "!actors.items!h6Ubd07V0GFoq3HL.mwMdTTmxN87RuJ5t"
+        },
+        {
+            "folder": "MaFuGaqHuCtee8gZ",
+            "name": "Strike: Koloss Blade",
+            "type": "action",
+            "_id": "z0tdifLMPaGu1L1K",
+            "img": "icons/weapons/swords/sword-guard-red.webp",
+            "system": {
+                "id": "strike-koloss-blade",
+                "description": {
+                    "value": "<p><strong>Attack </strong>+[[lookup @actor.skills.hwp.mod]]{HWP}; <strong>Reach</strong> 5 ft.; <strong>Targets </strong>one;</p><p><strong>Graze</strong> This attack can't graze.</p><p><strong>Hit</strong> [[damage 1d20 + @skills.hwp.mod Impact average]], if the target is Huge or smaller, the [[lookup @actor.name]]{Actor Name} can also spend 1 focus to knock them <strong>Prone</strong>.</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "resources": {
+                    "uses": null,
+                    "charges": null,
+                    "ammo": null
+                },
+                "modality": null,
+                "events": {},
+                "relationships": {},
+                "activation": {
+                    "type": "skill_test",
+                    "cost": {
+                        "type": "act",
+                        "value": 1
+                    },
+                    "consumption": [],
+                    "flavor": ""
+                },
+                "damage": {
+                    "skill": "hwp",
+                    "attribute": null,
+                    "formula": "1d20",
+                    "type": "impact",
+                    "grazeOverrideFormula": "0"
+                },
+                "skillTest": {
+                    "skill": "hwp",
+                    "attribute": "default",
+                    "plotDie": false,
+                    "modifierFormula": "",
+                    "opportunity": null,
+                    "complication": null
+                },
+                "type": "adversary",
+                "primaryResource": "none",
+                "__embedded": {
+                    "items": []
+                }
+            },
+            "effects": [],
+            "sort": 0,
+            "ownership": {
+                "default": 0
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "lastModifiedBy": null
+            },
+            "_key": "!actors.items!h6Ubd07V0GFoq3HL.z0tdifLMPaGu1L1K"
+        },
+        {
+            "folder": "tdxhh6BENXSrYtPE",
+            "name": "Pulverize",
+            "type": "action",
+            "_id": "90P2m8LCuVvlFcjp",
+            "img": "icons/skills/melee/strike-hammer-destructive-blue.webp",
+            "system": {
+                "id": "pulverize",
+                "description": {
+                    "value": "<p><strong>Attack </strong>+[[lookup @actor.skills.ath.mod]]{ATH}; <strong>Reach</strong> 5 ft.; <strong>Targets </strong>one;</p><p><strong>Graze</strong> [[damage 2d10 Impact average]];</p><p><strong>Hit</strong> [[damage 2d10 + @skills.ath.mod Impact average]], this attack deals an extra [[damage 1d10 Impact]] to a <strong>Prone</strong> target. On a hit, each character within 5 feet of the target who has a Physical defense equal to or lower than the attack result is also grazed by the attack.</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "resources": {
+                    "uses": null,
+                    "charges": null,
+                    "ammo": null
+                },
+                "modality": null,
+                "events": {},
+                "relationships": {},
+                "activation": {
+                    "type": "skill_test",
+                    "cost": {
+                        "type": "act",
+                        "value": 2
+                    },
+                    "consumption": [],
+                    "flavor": ""
+                },
+                "damage": {
+                    "skill": "ath",
+                    "attribute": null,
+                    "formula": "2d10",
+                    "type": "impact",
+                    "grazeOverrideFormula": ""
+                },
+                "skillTest": {
+                    "skill": "ath",
+                    "attribute": "default",
+                    "plotDie": false,
+                    "modifierFormula": "",
+                    "opportunity": null,
+                    "complication": null
+                },
+                "type": "adversary",
+                "primaryResource": "none",
+                "__embedded": {
+                    "items": []
+                }
+            },
+            "effects": [],
+            "sort": 2800000,
+            "ownership": {
+                "default": 0
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "lastModifiedBy": null
+            },
+            "_key": "!actors.items!h6Ubd07V0GFoq3HL.90P2m8LCuVvlFcjp"
+        },
+        {
+            "folder": "tdxhh6BENXSrYtPE",
+            "name": "Demoralize",
+            "type": "action",
+            "_id": "r3FUhXoC09dj84AD",
+            "img": "icons/magic/sonic/scream-wail-shout-teal.webp",
+            "system": {
+                "id": "demoralize",
+                "description": {
+                    "value": "<p>The [[lookup @actor.name]]{Actor Name} makes an [[test skill=inm]] against the Cognitive defense of a character they can influence within 30 feet of them. On a success, the target loses 1 focus and their deflect value becomes 0 until the end of their next turn.</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "resources": {
+                    "uses": null,
+                    "charges": null,
+                    "ammo": null
+                },
+                "modality": null,
+                "events": {},
+                "relationships": {},
+                "activation": {
+                    "type": "skill_test",
+                    "cost": {
+                        "type": "act",
+                        "value": 1
+                    },
+                    "consumption": [],
+                    "flavor": ""
+                },
+                "damage": {
+                    "skill": null,
+                    "attribute": null,
+                    "formula": null,
+                    "type": null,
+                    "grazeOverrideFormula": ""
+                },
+                "skillTest": {
+                    "skill": "inm",
+                    "attribute": "default",
+                    "plotDie": false,
+                    "modifierFormula": "",
+                    "opportunity": null,
+                    "complication": null
+                },
+                "type": "adversary",
+                "primaryResource": "none",
+                "__embedded": {
+                    "items": []
+                }
+            },
+            "effects": [],
+            "sort": 2900000,
+            "ownership": {
+                "default": 0
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "lastModifiedBy": null
+            },
+            "_key": "!actors.items!h6Ubd07V0GFoq3HL.r3FUhXoC09dj84AD"
+        },
+        {
+            "folder": "tdxhh6BENXSrYtPE",
+            "name": "Decimate",
+            "type": "action",
+            "_id": "TEVf3Au1Ub0jYi7W",
+            "img": "icons/skills/melee/strikes-sword-scimitar.webp",
+            "system": {
+                "id": "decimate",
+                "description": {
+                    "value": "<p>The [[lookup @actor.name]]{Actor Name} swings their blade wildly. Each character within 10 feet of them must make a [[test skill=agi dc=18]]. On a failure, a character takes [[damage 4d10 Impact]] and is Disoriented until the end of their next turn. On a success, a character takes [[damage 2d10 Impact]].</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "resources": {
+                    "uses": null,
+                    "charges": null,
+                    "ammo": null
+                },
+                "modality": null,
+                "events": {},
+                "relationships": {},
+                "activation": {
+                    "type": "utility",
+                    "cost": {
+                        "type": "act",
+                        "value": 3
+                    },
+                    "consumption": [],
+                    "flavor": ""
+                },
+                "damage": {
+                    "skill": "default",
+                    "attribute": "default",
+                    "formula": "4d10",
+                    "type": "impact"
+                },
+                "skillTest": {
+                    "skill": "default",
+                    "attribute": "default",
+                    "plotDie": false
+                },
+                "type": "adversary",
+                "primaryResource": "none",
+                "__embedded": {
+                    "items": []
+                }
+            },
+            "effects": [],
+            "sort": 3000000,
+            "ownership": {
+                "default": 0
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "lastModifiedBy": null
+            },
+            "_key": "!actors.items!h6Ubd07V0GFoq3HL.TEVf3Au1Ub0jYi7W"
+        },
+        {
+            "folder": "tdxhh6BENXSrYtPE",
+            "name": "Consuming Rage",
+            "type": "action",
+            "_id": "DHTVGVKoOCpLjVgW",
+            "img": "icons/skills/wounds/injury-face-impact-orange.webp",
+            "system": {
+                "id": "consuming-rage",
+                "description": {
+                    "value": "<p>The [[lookup @actor.name]]{Actor Name} gains an advantage on their next attack, but the next attack against them gains an advantage.</p>",
+                    "chat": "",
+                    "short": ""
+                },
+                "resources": {
+                    "uses": null,
+                    "charges": null,
+                    "ammo": null
+                },
+                "modality": null,
+                "events": {},
+                "relationships": {},
+                "activation": {
+                    "type": "utility",
+                    "cost": {
+                        "type": "fre"
+                    },
+                    "consumption": [],
+                    "flavor": ""
+                },
+                "damage": {
+                    "skill": "default",
+                    "attribute": "default",
+                    "formula": null,
+                    "type": null
+                },
+                "skillTest": {
+                    "skill": "default",
+                    "attribute": "default",
+                    "plotDie": false
+                },
+                "type": "adversary",
+                "primaryResource": "none",
+                "__embedded": {
+                    "items": []
+                }
+            },
+            "effects": [],
+            "sort": 3100000,
+            "ownership": {
+                "default": 0
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "lastModifiedBy": null
+            },
+            "_key": "!actors.items!h6Ubd07V0GFoq3HL.DHTVGVKoOCpLjVgW"
+        }
+    ],
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {
+        "cosmere-rpg": {
+            "sheet": {
+                "hideUnranked": true,
+                "mode": "view"
+            },
+            "automation": {
+                "token": {
+                    "size": true,
+                    "vision": true
+                }
+            }
+        }
+    },
+    "_id": "h6Ubd07V0GFoq3HL",
+    "sort": 0,
+    "_key": "!actors!h6Ubd07V0GFoq3HL"
+}

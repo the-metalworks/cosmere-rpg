@@ -1,0 +1,182 @@
+{
+    "folder": "Vbe0LTkRgjYa6lqx",
+    "name": "Zinc Allomancy",
+    "type": "power",
+    "img": "modules/cosmere-rpg-mistborn-handbook/assets/icons/metal-powers/icon_A_zinc.webp",
+    "system": {
+        "id": "zinc-allomancy",
+        "type": "metallic-art",
+        "description": {
+            "value": "<p>Zinc Allomancy subtly enflames the emotions of others nearby, encouraging them to act on those emotions while believing it’s their idea. This has earned zinc Allomancers the name of Rioters. For example, you might Riot impulsiveness at a ball so a noble commits a reputation-ruining faux pas, or Riot trust in strangers to gain their aid. With practice, you can even Riot multiple emotions at once. However, Rioters can’t sense emotions, so learning to mundanely read emotional states is essential.</p>",
+            "chat": "",
+            "short": ""
+        },
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "relationships": {},
+        "customSkill": true,
+        "skill": "all",
+        "talentTree": null,
+        "primaryResource": "none",
+        "__embedded": {
+            "items": [
+                {
+                    "name": "Burn Zinc",
+                    "type": "action",
+                    "_id": "tUw5gd67jF6mQv60",
+                    "img": "modules/cosmere-rpg-mistborn-handbook/assets/icons/metal-powers/icon_A_zinc_burn.webp",
+                    "system": {
+                        "id": "burn-zinc",
+                        "description": {
+                            "value": "<p>To burn zinc, spend 1 Investiture or more, up to your Metallic Art limit; the more Investiture spent, the harder your Rioting will be to resist. Then choose an emotion (such as anger or friendliness) to enflame, and choose a Large (10-foot) area within your Metallic Art range. Until the end of your next turn, you Riot that emotion in each character other than yourself in that area. The GM determines how each NPC acts in their altered emotional state (see the “@UUID[Compendium.cosmere-rpg-mistborn-handbook.handbook.JournalEntry.Wdux6AlRp01Ox3EQ.JournalEntryPage.HURnGlIenINWoul4#altered-emotional-states]{Altered Emotional States}” sidebar of the Brass Allomancy power).</p><p>If you want your targets to be unaware of your Rioting, also make an [[test skill=all]] against the Spiritual defense of each character you’re Rioting. On a success, the target is unaware of your influence. On a failure, the target is aware they’re being Rioted and, at the GM’s  discretion, might know you’re the source.</p><p>Before your zinc burn ends, you can maintain your Rioting on each affected character within your Metallic Art range for the same duration by spending 1 Investiture or more as (altering the strength of your Rioting according to the Investiture you spent).</p><p>A character who’s aware they’re being Rioted can resist this effect as <span class=\"cosmere-icon\">0</span>, sending focus equal to the Investiture you spent to burn zinc (instead of the usual cost to resist inﬂuence). After they do, they resist your inﬂuence and ignore their altered emotions until the start of their next turn.</p>",
+                            "chat": "",
+                            "short": ""
+                        },
+                        "activation": {
+                            "type": "skill_test",
+                            "cost": {
+                                "type": "act",
+                                "value": 2
+                            },
+                            "flavor": "",
+                            "consumption": [
+                                {
+                                    "type": "resource",
+                                    "value": {
+                                        "min": 1,
+                                        "max": -1,
+                                        "actual": 1
+                                    },
+                                    "resource": "inv",
+                                    "matchDocument": {
+                                        "steps": [
+                                            {
+                                                "target": "ancestor",
+                                                "documentType": "Actor",
+                                                "matchBy": "document-type",
+                                                "reference": null,
+                                                "matchMode": "first"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        },
+                        "damage": {
+                            "formula": null,
+                            "type": null,
+                            "grazeOverrideFormula": "",
+                            "skill": null,
+                            "attribute": null
+                        },
+                        "modality": null,
+                        "events": {
+                            "aGHBQEYljBuFABcg": {
+                                "id": "aGHBQEYljBuFABcg",
+                                "description": "Enable Zinc Burn",
+                                "event": "use",
+                                "handler": {
+                                    "type": "execute-macro",
+                                    "inline": true,
+                                    "uuid": null,
+                                    "macro": {
+                                        "type": "script",
+                                        "command": "cosmereRPG.utils.macros.allomancy.enableBurnEffect(\"zinc\", event, actor);"
+                                    }
+                                },
+                                "order": 0,
+                                "disabled": false
+                            }
+                        },
+                        "relationships": {},
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "skillTest": {
+                            "skill": "all",
+                            "attribute": "default",
+                            "modifierFormula": "",
+                            "plotDie": false,
+                            "opportunity": null,
+                            "complication": null
+                        },
+                        "type": "metallic-arts",
+                        "primaryResource": "none",
+                        "__embedded": {
+                            "items": []
+                        }
+                    },
+                    "effects": [
+                        {
+                            "name": "Zinc Burn",
+                            "img": "modules/cosmere-rpg-mistborn-handbook/assets/icons/metal-powers/icon_A_zinc_burn.webp",
+                            "disabled": true,
+                            "duration": {
+                                "startTime": null,
+                                "combat": null,
+                                "seconds": null,
+                                "rounds": 1,
+                                "turns": null,
+                                "startRound": null,
+                                "startTurn": null
+                            },
+                            "_id": "Br6pz5Lu8XWmLx55",
+                            "type": "base",
+                            "system": {
+                                "isStackable": false
+                            },
+                            "changes": [],
+                            "description": "",
+                            "origin": null,
+                            "tint": "#ffffff",
+                            "transfer": true,
+                            "statuses": [],
+                            "sort": 0,
+                            "flags": {},
+                            "_stats": {
+                                "coreVersion": "13.351",
+                                "systemId": "cosmere-rpg",
+                                "systemVersion": "3.0.0",
+                                "lastModifiedBy": null,
+                                "createdTime": 1787016339784,
+                                "compendiumSource": null,
+                                "duplicateSource": null,
+                                "exportSource": null
+                            }
+                        }
+                    ],
+                    "flags": {},
+                    "ownership": {
+                        "default": 0
+                    },
+                    "sort": 0,
+                    "folder": null,
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "createdTime": 1787016339784,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    }
+                }
+            ]
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "3xeMuLT9QrxPVJEL",
+    "sort": 0,
+    "_key": "!items!3xeMuLT9QrxPVJEL"
+}

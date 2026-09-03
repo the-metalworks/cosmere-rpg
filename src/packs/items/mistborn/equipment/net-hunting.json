@@ -1,0 +1,120 @@
+{
+    "folder": "N0Rgn8Y6XWMWKpL0",
+    "name": "Net (hunting)",
+    "type": "equipment",
+    "img": "icons/tools/fishing/net-simple-brown.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 2 bx; <strong>Weight</strong> 5 lb.;</p><p>This net of thick rope can ensnare animals or enemies. While holding this net, you can use <span class=\"cosmere-icon\">1</span> to make an [[test skill=ath]] against the Physical defense of a Large or smaller character within 15 feet of you. On a success, the character is @UUID[Compendium.cosmere-rpg-mistborn-handbook.handbook.JournalEntry.b684FTgeTTE90HLs.JournalEntryPage.vyYzxzfhwORSeTLw#restrained]{Restrained} and knocked Prone. That character or another who can reach them can use the Interact action to make a [[test dc=15 skill=ath]], freeing the trapped character on a success. If a character is @UUID[Compendium.cosmere-rpg-mistborn-handbook.handbook.JournalEntry.b684FTgeTTE90HLs.JournalEntryPage.vyYzxzfhwORSeTLw#restrained]{Restrained} by multiple nets, they must be freed from each separately.</p>",
+            "chat": "",
+            "short": ""
+        },
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 5,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 2,
+            "currency": "boxings",
+            "denomination": {
+                "primary": "box",
+                "secondary": "none"
+            },
+            "unit": "boxings.box"
+        },
+        "events": {},
+        "relationships": {},
+        "primaryResource": "none",
+        "alwaysEquippable": false,
+        "equippableEnabled": false,
+        "equipped": false,
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "wear"
+        },
+        "linkedSkills": [],
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Net (hunting)",
+                    "img": "icons/tools/fishing/net-simple-brown.webp",
+                    "_id": "Mibhlz8ccCnweNur",
+                    "system": {
+                        "id": "net-hunting",
+                        "description": {
+                            "value": "<p>This net of thick rope can ensnare animals or enemies. While holding this net, you can use <span class=\"cosmere-icon\">1</span> to make an [[test skill=ath]] against the Physical defense of a Large or smaller character within 15 feet of you. On a success, the character is @UUID[Compendium.cosmere-rpg-mistborn-handbook.handbook.JournalEntry.b684FTgeTTE90HLs.JournalEntryPage.vyYzxzfhwORSeTLw#restrained]{Restrained} and knocked Prone. That character or another who can reach them can use the Interact action to make a [[test dc=15 skill=ath]], freeing the trapped character on a success. If a character is @UUID[Compendium.cosmere-rpg-mistborn-handbook.handbook.JournalEntry.b684FTgeTTE90HLs.JournalEntryPage.vyYzxzfhwORSeTLw#restrained]{Restrained} by multiple nets, they must be freed from each separately.</p>",
+                            "chat": "",
+                            "short": ""
+                        },
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "value": 1,
+                                "type": "act"
+                            },
+                            "consumption": [],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        },
+                        "type": "basic",
+                        "primaryResource": "none",
+                        "__embedded": {
+                            "items": []
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.350",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "createdTime": 1788238126555,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    }
+                }
+            ]
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "NCTAzmAs7Jkj2PXY",
+    "sort": 3500000,
+    "_key": "!items!NCTAzmAs7Jkj2PXY"
+}

@@ -1,0 +1,55 @@
+{
+    "folder": "N0Rgn8Y6XWMWKpL0",
+    "name": "Pot (iron)",
+    "type": "equipment",
+    "img": "icons/tools/cooking/cauldron-empty.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 4 bx; <strong>Weight</strong> 10 lb.;</p><p><em>This item is included for narrative purposes and does not have any specific statistics or rules.</em></p>",
+            "chat": "",
+            "short": ""
+        },
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 10,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 4,
+            "currency": "boxings",
+            "denomination": {
+                "primary": "box",
+                "secondary": "none"
+            },
+            "unit": "boxings.box"
+        },
+        "events": {},
+        "relationships": {},
+        "primaryResource": "none",
+        "linkedSkills": [],
+        "alwaysEquippable": false,
+        "equippableEnabled": false,
+        "equipped": false,
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "wear"
+        },
+        "__embedded": {
+            "items": []
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "5FzUMUWTwEpk0uyZ",
+    "sort": 400000,
+    "_key": "!items!5FzUMUWTwEpk0uyZ"
+}

@@ -1,0 +1,55 @@
+{
+    "folder": "N0Rgn8Y6XWMWKpL0",
+    "name": "Freechair (Era 2)",
+    "type": "equipment",
+    "img": "systems/cosmere-rpg/assets/icons/mistborn/items/icon_item_freechair.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> Free or 500 bx; <strong>Weight</strong> 12 lb.;</p><p>Adapted from airship technology, a freechair is a mobility device that levitates and moves using an iron medallion and a Steelpushing primer cube. The operator of a freechair has the same movement rate as other characters (see “@UUID[Compendium.cosmere-rpg-mistborn-handbook.handbook.JournalEntry.kwz9u1ntb7EcYxTk.JournalEntryPage.GO9eVv3l8JqDfEpe#speed]{Speed}” in chapter 3), and the freechair doesn’t require an action to activate.</p><p>Though freechairs are available for purchase, disabled characters can obtain one for free. In Era 1, freechair technology is unknown, but characters can use a wheelchair with the same movement rate.</p>",
+            "chat": "",
+            "short": ""
+        },
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 12,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 500,
+            "currency": "boxings",
+            "denomination": {
+                "primary": "box",
+                "secondary": "none"
+            },
+            "unit": "boxings.box"
+        },
+        "events": {},
+        "relationships": {},
+        "primaryResource": "none",
+        "linkedSkills": [],
+        "alwaysEquippable": false,
+        "equippableEnabled": false,
+        "equipped": false,
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "wear"
+        },
+        "__embedded": {
+            "items": []
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "5xM6dCl9OfUwfeu4",
+    "sort": 1700000,
+    "_key": "!items!5xM6dCl9OfUwfeu4"
+}

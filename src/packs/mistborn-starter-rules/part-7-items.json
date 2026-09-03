@@ -1,0 +1,248 @@
+{
+    "name": "Part 7: Items",
+    "_id": "j8TnrXaFMO9iScBX",
+    "pages": [
+        {
+            "sort": 100000,
+            "name": "Items",
+            "type": "text",
+            "_id": "K3q2s6eZ9mmZFHJE",
+            "system": {},
+            "title": {
+                "show": false,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<p>Adventuring through the mist­ and intrigue­steeped world of Scadrial can be harrowing, and your party will need gear to survive and thrive. In addition to boxings (Scadrial’s currency), stocking up on weapons, armor, and equipment will aid you in journeying through the world.</p>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788094346866,
+                "modifiedTime": 1788094364499,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!j8TnrXaFMO9iScBX.K3q2s6eZ9mmZFHJE"
+        },
+        {
+            "sort": 200000,
+            "name": "Using Items",
+            "type": "text",
+            "_id": "EvqmSDfEFUhBsx8A",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<p>Most rules for using items are presented in their specific sections, but here are a few general rules that apply to multiple kinds of items.</p><p></p><h2>Expert Traits</h2><p>Unless otherwise specified, you can use the items in part 7 without any special expertise. However, some weapons and armor have <strong>expert traits</strong>, giving benefits that only apply if you have an expertise in that weapon or armor.</p><p></p><h2>Items With Statistics</h2><p>In this handbook, the names of items are usually listed without special formatting. However, when it might be helpful to know that a mentioned item has specific rules or statistics, the item name appears in bold italics. For example, “the characters find a <em><strong>lockpick</strong></em>”; this lets you know you should check the rules to find out how a lockpick works.</p>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788094368962,
+                "modifiedTime": 1788094411621,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!j8TnrXaFMO9iScBX.EvqmSDfEFUhBsx8A"
+        },
+        {
+            "sort": 300000,
+            "name": "Currency",
+            "type": "text",
+            "_id": "i2TtqLgYDaC895Bd",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<p>In Scadrial, coins serve as the primary currency in most regions. For simplicity, this book tracks money using only one type of coin, <strong>boxings</strong> (sometimes abbreviated as “bx”). Scadrians commonly use three denominations:</p><p><strong>Clip.</strong> Clips are small coins made of common metals; a single clip is worth 0.01 bx. </p><p><strong>Boxing.</strong> Imperial coins, colloquially called boxings, are larger—about twice the size of clips—and typically made of more precious metals like gold. </p><p><strong>Note.</strong> Paper notes are generally found only in noble hands. A 1­note bill is worth 10 bx. 5­, 10­, 20­, and 50­note bills are also circulated. These denominations depict the Lord Ruler and his palace, Kredik Shaw.</p>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788094418216,
+                "modifiedTime": 1788094470101,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!j8TnrXaFMO9iScBX.i2TtqLgYDaC895Bd"
+        },
+        {
+            "sort": 400000,
+            "name": "Weapons",
+            "type": "text",
+            "_id": "QuncofQdW9VtZH9z",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<p>This section outlines the weapons available in these starter rules; for more weapons, see chapter 7 of the <em>Mistborn Handbook</em>.</p><p>The Weapons tables include the following columns:</p><p><strong>Type.</strong> The general type of weapon—but feel free to creatively describe your own, as long as it uses the same statistics.</p><p><strong>Skill.</strong> The skill you test when attacking with this weapon.</p><p><strong>Damage.</strong> How much damage the weapon deals when it hits or grazes.</p><p><strong>Range.</strong> How far away the weapon can attack (see the upcoming “@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.j8TnrXaFMO9iScBX.JournalEntryPage.QuncofQdW9VtZH9z#weapon-range]{Weapon Range}” section).</p><p><strong>Traits.</strong> Special rules that apply to that weapon (see the upcoming “@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.j8TnrXaFMO9iScBX.JournalEntryPage.QuncofQdW9VtZH9z#weapon-traits]{Weapon Traits}” section).</p><p><strong>Expert Traits.</strong> Special rules that apply only if you have an expertise in that weapon. Some weapons remove an undesirable trait if you have expertise, rather than adding a desirable trait.</p><p><strong>Weight.</strong> The weapon’s weight.</p><p><strong>Price.</strong> The weapon’s standard price.</p><p>See the “@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.taVKEEQoKINc7HLD.JournalEntryPage.85J6ChO7AgtXndSv]{Attacking}” section of part 4 for the full rules about attacking using these weapons.</p><p></p><h2>Wielding Weapons</h2><p>Each weapon requires one hand to <strong>wield</strong> unless otherwise specified in its traits. While wielding a weapon, you can use it to attack or use other abilities. Rules that apply to “your weapon” only apply if you’re wielding that weapon.</p><p>If you aren’t wielding a weapon (or holding an object) in a hand, you have that <strong>hand free</strong> for other abilities that require it. If both of your hands are full but an ability doesn’t state you need a hand free, it’s up to the GM to decide whether you could reasonably use that ability in the narrative.</p><p></p><h3>Drawing Weapons</h3><p>You can use the Interact action to draw a weapon in your possession and grasp it in your hand. After you do, you’re wielding that weapon and can use it for attacks and other effects.</p><p>You can use the Drop free action to release a weapon you’re holding (for example, right before you Interact to draw a different weapon). When a scene begins and you’re not Surprised, it’s assumed you can instinctively draw your weapons before the first round (without using the Interact action).</p><p></p><h3>Offhand Weapons</h3><p>While wielding more than one weapon, you must choose which one is in your <strong>main hand</strong>. Attacks with that weapon are made as usual.</p><p>When you wield a weapon that’s not in your main hand, it’s in your offhand. Before you use the Strike action using a weapon in your <strong>offhand</strong>, you must spend 2 focus. (Attacks other than the Strike action don’t require spending that focus.)</p><p>Some characters might wield their weapons using methods other than hands. You can do this if you’re only wielding weapons that another character could with two hands. When you do, pick which weapon is considered your “main hand” and “offhand” (regardless of how you hold them), and otherwise follow the weapon rules. Unless your GM decides otherwise, you can’t wield more than two weapons (or one Two­Handed weapon) at a time, regardless of whether you use your hands to do so.</p><p></p><h2>Ammunition</h2><p>If your weapon has the Loaded or Ranged trait, you don’t need to purchase its ammunition or track it on your character sheet (unless the weapon uses special ammunition). However, the Loaded trait does limit how many shots you can make with a weapon before reloading. It’s assumed you can always obtain or improvise standard ammunition for your weapons, unless the GM decides you’re in an unusual situation where ammunition is unavailable.</p><p></p><h2>Weapon Range</h2><p>Weapons can only attack targets within a certain range. Each weapon is classified as either a melee weapon or a ranged weapon (see “@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.taVKEEQoKINc7HLD.JournalEntryPage.ldYyfwQs0jNaWLKq]{Targeting and Range}” in part 4).</p><p></p><h3>Melee Weapons</h3><p>You can use a melee weapon you’re wielding to attack a target within your reach (see “@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.taVKEEQoKINc7HLD.JournalEntryPage.ldYyfwQs0jNaWLKq#reach]{Reach}” in part 4).</p><p>When wielded, some melee weapons increase your reach for attacks made with that weapon. On the Weapons tables, if a melee weapon’s range lists a number in brackets, increase your reach by that many feet. For example, if you usually have a 5­-foot reach, a “Melee [+5]” weapon extends your reach to 10 feet.</p><p></p><h3>Ranged Weapons</h3><p>You can fire ammunition from a <strong>ranged weapon</strong> you’re wielding. The weapon’s range lists two numbers in brackets, such as “Ranged [80/320]”; the first number is the weapon’s short range in feet, and the second is the weapon’s long range in feet. As described in “@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.taVKEEQoKINc7HLD.JournalEntryPage.ldYyfwQs0jNaWLKq]{Targeting and Range}” in part 4, ranged attacks outside short range gain a disadvantage.</p><p>Additionally, as described in “@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.taVKEEQoKINc7HLD.JournalEntryPage.85J6ChO7AgtXndSv]{Attacking}” in part 4, you gain a disadvantage on ranged attacks while within an enemy’s reach. If you attack a target within 5 feet of your ally, raise the stakes; a Complication risks grazing your ally.</p><p></p><h2>Weapon Traits</h2><p>These rules apply to any weapon with that trait listed in its entry on the Weapons tables:</p><p><strong>Deadly.</strong> When you hit a target with this weapon, you can spend <span class=\"cosmere-icon opportunity-color\">O</span> to cause the target to immediately suffer an injury.</p><p><strong>Defensive.</strong> While wielding this weapon, you can use the Brace action without cover nearby.</p><p><strong>Discreet.</strong> This weapon is less obtrusive than others, and thus less likely to be confiscated in secure settings. In noncombat scenes, you gain an advantage on any test you make to disguise this weapon, to hide it on your person, or to convince others not to take it from you.</p><p><strong>Fragile.</strong> When you attack with this weapon, the GM can spend <span class=\"cosmere-icon complication-color\">C</span> to cause it to break after the attack is resolved.</p><p><strong>Indirect.</strong> This ranged weapon can arc shots over cover and obscuring terrain. If a target isn’t in your line of effect but you can sense them, you can still attack them with this weapon if there’s a reasonably open path for your projectile to indirectly arc to them. Your target can’t benefit from the Brace action against attacks made with this weapon.</p><p><strong>Loaded [X].</strong> This weapon stores ammunition equal to the number indicated in brackets. To make a ranged attack with this weapon, you must spend 1 stored ammunition. As <span class=\"cosmere-icon\">1</span>, you can reload this weapon to full ammunition. The GM can spend <span class=\"cosmere-icon complication-color\">C</span> from an attack with this weapon to reduce your stored ammunition; after they do, the weapon only has only one shot remaining.</p><p><strong>Momentum.</strong> When you attack with this weapon, if you already moved at least 10 feet in a straight line toward your target on this turn, you gain an advantage on the attack.</p><p><strong>Offhand.</strong> While wielding this weapon in your offhand, it only costs you 1 focus (instead of 2) to Strike with it.</p><p><strong>Quickdraw.</strong> You can use the Interact action as to draw this weapon.</p><p><strong>Thrown [X/Y].</strong> You can throw this weapon at a target, making a ranged attack when you do (see “@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.taVKEEQoKINc7HLD.JournalEntryPage.85J6ChO7AgtXndSv#ranged-attacks]{Ranged Attacks}” in part 4). The two numbers in brackets express the weapon’s short and long range; as with ranged weapons, you gain a disadvantage when attacking a target outside short range. Once the weapon is thrown, it is lost until you recover it from your target.</p><p><strong>Two-Handed.</strong> You must wield this weapon in two hands, not just one. When you attack with it, it uses both hands.</p><p><strong>Unique.</strong> This weapon has unique rules. These are detailed either in the weapon description or immediately following the word “Unique” in the Weapons tables (for example, “Unique: loses Two­Handed trait”).</p><p></p><h2>Improvised Weapons</h2><p>You might wish to attack with an object that isn’t a traditional weapon or use a weapon in an unconventional way (such as swinging a shortbow at someone like a staff). If you can pick an object up in one or both hands, you can use it as an improvised weapon!</p><p><strong>Expertise.</strong> Unlike other entries on the Special Weapons table, you can choose Improvised Weapons as a weapon expertise. If you do, your improvised weapon attacks benefit from the expert traits of the weapon most like it, even if you don’t have expertise in that similar weapon.</p><p><strong>Using an Improvised Weapon.</strong> When you attack with an improvised weapon, the GM decides which non­special light or heavy weapon it is most like. Make the attack as though with that weapon, but add the Fragile trait (see “@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.j8TnrXaFMO9iScBX.JournalEntryPage.QuncofQdW9VtZH9z#weapon-traits]{Weapon Traits}”).</p><p></p><h2>Unarmed Attacks</h2><p>Punches, kicks, thrown elbows, headbutts, and bites are examples of unarmed attacks. You can make an unarmed attack using Athletics.</p><p><strong>Expertise.</strong> Unlike other entries on the Special Weapons table, you can choose Unarmed Attacks as a weapon expertise.</p><p><strong>Unique Traits.</strong> Unarmed attacks add the following unique traits:</p><p><strong>Always Available.</strong> Unarmed attacks don’t count as weapon attacks, but they’re melee attacks intrinsic to each character. You don’t have to be holding a weapon to make an unarmed attack, and you can’t be disarmed of your unarmed attacks. You can make an unarmed attack even if both of your hands are holding weapons or other items, but when you do, that attack still counts as an attack using a hand of your choice. If you use the Strike action to make an unarmed attack, you might describe it as a punch, kick, or headbutt—but you must still choose which “hand” is making that attack, and you can’t make another Strike using a weapon you’re holding in that hand.</p><p><strong>Strength Training.</strong> When you make an unarmed attack, its damage die is based on your Strength score, as shown on the Unarmed Damage table.</p><h4>@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.PXKfRLQxXzAf3DzF.JournalEntryPage.m8NthU8XFyepvP85]{Unarmed Damage}</h4><p>@Embed[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.PXKfRLQxXzAf3DzF.JournalEntryPage.m8NthU8XFyepvP85 inline]</p><p></p><h4>@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.PXKfRLQxXzAf3DzF.JournalEntryPage.GR6t4tWik1r4CnPO]{Weapons: Light Weaponry}</h4><p>@Embed[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.PXKfRLQxXzAf3DzF.JournalEntryPage.GR6t4tWik1r4CnPO inline]</p><p></p><h4>@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.PXKfRLQxXzAf3DzF.JournalEntryPage.SHTbmK2tPQhxgMKu]{Weapons: Heavy Weaponry}</h4><p>@Embed[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.PXKfRLQxXzAf3DzF.JournalEntryPage.SHTbmK2tPQhxgMKu inline]</p><p></p><h4>@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.PXKfRLQxXzAf3DzF.JournalEntryPage.FEDvhP9LQUwAlb9p]{Weapons: Special Weapons}</h4><p>@Embed[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.PXKfRLQxXzAf3DzF.JournalEntryPage.FEDvhP9LQUwAlb9p inline]</p><p></p><img src=\"systems/cosmere-rpg/assets/art_mistborn/p7-items/pg062_weapons_anna_verhoog.webp\" class=\"centered\" width=\"600\" /><p style=\"text-align:center\"><strong>ANNA VERHOOG</strong></p>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788094480712,
+                "modifiedTime": 1788243017723,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!j8TnrXaFMO9iScBX.QuncofQdW9VtZH9z"
+        },
+        {
+            "sort": 500000,
+            "name": "Armor",
+            "type": "text",
+            "_id": "VHA8qlESlLeHkMl7",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<p>Across Scadrial, <strong>armor</strong> is quite uncommon among the citizenry, and it’s especially frowned on in polite society. While wearing armor, you might get turned away from banquets or markets, or gain a disadvantage on tests made to influence civilians in most non­military contexts.</p><p>This section outlines the most common types of armor found on Scadrial. You can only benefit from one type of armor at once, and you can’t put on armor or take it off while in combat or in situations where it’s hard to move. The Armor table includes the following columns:</p><p><strong>Type.</strong> The general type of armor—but feel free to creatively describe your own, as long as it uses the same statistics.</p><p><strong>Deflect Value.</strong> Reduce all incoming impact, keen, and energy damage by the deflect value of the armor you’re wearing (see “@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.FP2yf9DMS3c40Em3.JournalEntryPage.2m9hD8AvqZMoN9M0]{Deflect}” in part 1).</p><p><strong>Traits.</strong> Special rules that apply to that armor (see the upcoming “@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.j8TnrXaFMO9iScBX.JournalEntryPage.VHA8qlESlLeHkMl7#armor-traits]{Armor Traits}” section).</p><p><strong>Expert Traits.</strong> Special rules that apply only if you have an expertise in that armor. Some armors remove an undesirable trait if you have expertise, rather than adding a desirable trait.</p><p><strong>Weight.</strong> The armor’s weight.</p><p><strong>Price.</strong> The armor’s standard price.</p><p></p><h2>Armor Traits</h2><p>These rules apply to any armor with that trait listed in its entry on the Armor table.</p><p><strong>Cumbersome [X].</strong> To wear this armor easily, your Strength score must be equal to or greater than the number indicated in brackets. If your Strength is lower than that number, you’re Slowed while wearing this armor and you gain a disadvantage on all tests that use your Speed attribute.</p><p><strong>Fragile.</strong> When you’re hit by an attack, the GM can spend <span class=\"cosmere-icon opportunity-color\">O</span> to cause your armor to break after the attack is resolved.</p><p><strong>Presentable.</strong> This unobtrusive armor is presentable to wear in public in a non-martial context. You don’t suffer undue attention for wearing this armor or gain a disadvantage on tests for doing so in conversations.</p><p><strong>Unique.</strong> This armor has unique rules detailed immediately following the word “Unique” in the Armor table (for example, “Unique: loses Fragile trait”).</p><p></p><h4>@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.PXKfRLQxXzAf3DzF.JournalEntryPage.lXKhuOhcFdAZjGEe]{Armor}</h4><p>@Embed[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.PXKfRLQxXzAf3DzF.JournalEntryPage.lXKhuOhcFdAZjGEe inline]</p><p></p><img src=\"systems/cosmere-rpg/assets/art_mistborn/p7-items/pg063_armor_anna_verhoog.webp\" class=\"centered\" width=\"400\" /><p style=\"text-align:center\"><strong>ANNA VERHOOG</strong></p>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788096110120,
+                "modifiedTime": 1788243031295,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!j8TnrXaFMO9iScBX.VHA8qlESlLeHkMl7"
+        },
+        {
+            "sort": 600000,
+            "name": "Equipment",
+            "type": "text",
+            "_id": "wBKUjKyyqtawLWDi",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<p>This section presents everyday Scadrian tools and resources that are commonly applicable to your adventures. The Equipment table lists each item’s name, weight, and price, then the text that follows describes each item’s benefits.</p><p>Some items in this section list a range of prices, as many variations on that item can be found across Scadrial. The GM chooses how much an individual item costs within its range, and they might grant tangential benefits to the higher-priced varieties. For example, spending extra money on a top-shelf whiskey, rather than an alley-brewed ale, might lower your DC on a test made to influence a connoisseur.</p><p></p><table class=\"mb-blue\"><tbody><tr><td><p>Eras of Play</p></td></tr><tr><td><p>In the Mistborn setting, campaigns can be set during different eras of Scadrial’s history. When a section applies to a single era, this book denotes that with a symbol: <span class=\"mb-tag-grey\">Era 1</span> for Era 1, and <span class=\"mb-tag-yellow\">Era 2</span> for Era 2. These starter rules focus mostly on Era 1, as the introductory adventure Hope in Ashes takes place during that era.</p></td></tr></tbody></table><p></p><h4>@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.PXKfRLQxXzAf3DzF.JournalEntryPage.qlb06M8MaYga7SgT]{Equipment}</h4><p>@Embed[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.PXKfRLQxXzAf3DzF.JournalEntryPage.qlb06M8MaYga7SgT inline]</p><p></p><img src=\"systems/cosmere-rpg/assets/art_mistborn/p7-items/pg064_HB_Items_Metal%20Vials_Anna%20Verhoog.webp\" class=\" centered\" width=\"250\" /><p style=\"text-align:center\"><strong>Mistings automatically have access to vials of their basic metals. - ANNA VERHOOG</strong></p><p></p><p><strong>Alcohol.</strong> The cultures of Scadrial have a variety of intoxicating traditions, from the most watered-down ales and beers to the finest whiskeys and wines.</p><p><strong>Anesthetic.</strong> Usually made with ether, you can apply a dose of anesthetic ointment to an injury after a short or long rest to reduce its remaining recovery time by 1d4 days. Each injury can be treated with anesthetic only once per day.</p><p><strong>Antiseptic (potent).</strong> Strong antiseptics such as iodine can be extracted from seaweed ash with acid. A dose can be applied to a character after a short rest to restore 2d6 health.</p><p><strong>Antiseptic (weak).</strong> A dose of weak antiseptic, such as one made with mercury, can be applied to a character after a short rest to restore 1d6 health.</p><p><strong>Book (reference).</strong> Each reference book contains information on a particular topic, such as a historical era, engineering, biology, or architecture. When you have time to reference a book while you make a related test using the Intellect attribute, you’re considered to have an expertise in the topic (see “@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.FP2yf9DMS3c40Em3.JournalEntryPage.JlVAKo5SvLgZrHiY#expertise-benefits]{Expertise Benefits}” in part 1).</p><p><strong>Candle.</strong> While lit, the candle sheds light in a 15-foot radius. It burns for up to 6 hours before becoming unusable.</p><p><strong>Case (leather).</strong> A sealable, cylindrical case that can be used to store up to ten pages of paper or parchment and protect them from the weather.</p><p><strong>Chain (thick).</strong> This sturdy chain can be used in securing cargo, shackling prisoners, and other situations where strength is essential. This chain can be broken by succeeding on a DC 30 Athletics test or by dealing 15 damage to it.</p><p><strong>Chain (thin).</strong> This thin chain is often used in jewelry, usually made of precious metals in fine links. This chain can be broken by succeeding on a DC 20 Athletics test or by dealing 5 damage to it.</p><p><strong>Clothing (breakaway).</strong> Breakaway clothes mimic the appearance of fine clothing, but they’re designed to be worn over armor and weapons to disguise them. They can be removed as <span class=\"cosmere-icon\">1</span> if a fight breaks out, tearing at predesigned seams without ruining the garment. While wearing an outfit of breakaway clothes, any armor you’re wearing gains the Presentable trait, and each weapon you’re carrying gains the Discreet trait; however, you gain a disadvantage on any attack you make, and each attack targeting you gains an advantage.</p><p><strong>Clothing (common).</strong> Plain clothes are made of materials used by the working class and generally left undyed, helping you fit in among the commonfolk. While wearing these clothes, you gain an advantage on spiritual tests to convince others you’re from the working class.</p><p><strong>Clothing (fine).</strong> Fine clothes are made of silks or other high-quality materials, colored using expensive dyes, and often stitched with fine embroidery. Wearing fine clothes helps you to blend into high society without arousing suspicion. While wearing these clothes, you gain an advantage on spiritual tests made to convince others you’re from the upper class.</p><p><strong>Clothing (ragged).</strong> This clothing may have once been of fine or common make, but it’s now barely holding together. While wearing these clothes, you gain an advantage on spiritual tests made to convince others you’re destitute.</p><p><strong>Crowbar.</strong> You can use a crowbar to gain an advantage on Athletics tests where the crowbar’s leverage can be applied.</p><p><strong>Ear Trumpet.</strong> Distant sounds heard through an ear trumpet can be sensed as though at half the distance. At the GM’s discretion, more powerful ear trumpets may be available at higher prices.</p><p><strong>Flint and Steel.</strong> A flint and steel can be used as <span class=\"cosmere-icon\">1</span> to light abundant fuel within reach. Starting a fire under more challenging circumstances can take 1 minute or more.</p><p><strong>Food (ration).</strong> Rations are foods created for extended travel, such as jerky and hard-baked bread. They generally lack flavor, but if kept dry, they remain edible indefinitely.</p><p><strong>Food (street).</strong> In every dominance in Era 1, you can enjoy regional street confections, from common loaves of bread to root vegetable hash and farlet soup.</p><p><strong>Food (fine).</strong> Fine food can be found in high-class restaurants and on the tables of nobles’ feasts.</p><p><strong>Freechair.</strong> <span class=\"mb-tag-yellow\">Era 2</span> Adapted from airship technology, a freechair is a mobility device that levitates and moves using an iron medallion and a Steelpushing primer cube. The operator of a freechair has the same movement rate as other characters (see “Speed” in part 1), and the freechair doesn’t require an action to activate. In Era 1, freechair technology is unknown, but characters can use a wheelchair with the same movement rate.</p><p>Though freechairs are available for purchase, disabled characters can obtain one for free.</p><p><strong>Grappling Hook.</strong> A grappling hook is typically attached to the end of a rope to aid in scaling or descending from walls and cliffs. A securely anchored grappling hook grants an advantage on Agility and Athletics tests made to climb using its attached rope.</p><p>You can use an Interact action to attach the grappling hook to an anchor within reach without making a test. Alternatively, you can throw and attach it to a suitable anchor within 20 feet of you by succeeding on an Agility or Athletics test (DC set by the GM).</p><p><strong>Knucklebones.</strong> Street toughs and enforcers in Scadrial’s big cities love using knucklebones. Brass knuckles are common, but when fighting Allomancers, the more expensive wooden variety is worth every coin.</p><p>You can wear knucklebones on your hand instead of wielding a weapon in that hand. When you make an unarmed attack using that hand, increase the size of each unarmed damage die by one size (see the Unarmed Damage table earlier in this chapter). For example, if your attack deals 1 damage (no die roll), the damage becomes 1d4; 1d8 becomes 1d10; and so on.</p><p><strong>Lantern (oil).</strong> While lit, this lantern sheds light in a 30-foot radius. It burns for up to 6 hours per pint of oil.</p><p><strong>Lock and Key.</strong> This sturdy lock can be openedwith its included key or a successful DC 20 Thievery test. At the GM’s discretion, locks that require higher DCs may be available at higher prices.</p><p><strong>Lockpick.</strong> You can use a lockpick to gain an advantage on Thievery tests made to pick a lock. After this test is resolved, the GM can spend <span class=\"cosmere-icon complication-color\">C</span> to cause the lockpick to break.</p><p><strong>Magnifying Lens.</strong> You can use a magnifying lens to gain an advantage on any skill test you make to appraise or inspect a small or highly detailed item.</p><p><strong>Manacles.</strong> These metal restraints, which come with a key, can bind the wrists or ankles of a Large or smaller character. The manacles can be escaped with a successful DC 25 Agility test, broken by succeeding on a DC 25 Athletics test or by dealing 15 damage to them, or lockpicked by succeeding on a DC 20 Thievery test. At the GM’s discretion, manacles that require higher DCs may be available at higher prices.</p><p><strong>Metal Sand (pouch).</strong> You can scatter these fine flakes of scrap metal to confuse a character (such as an Iron Allomancer or Steel Allomancer) who can sense the presence of metals. You can use <span class=\"cosmere-icon\">1</span> to throw this pouch to a space within 30 feet of you, breaking the pouch and dispersing its contents. The metal sand creates a cloud in a 10-foot square that remains until the end of your next turn. This cloud obscures both sight and an Allomancer’s ability to sense metal by burning iron or steel. Additionally, Allomancy tests made for Iron Allomancy or Steel Allomancy gain a disadvantage if this cloud is in their line of effect.</p><p><strong>Musical Instrument.</strong> Instruments are often used for enjoyment, passing time, or busking for clips. When playing an instrument, you can determine the quality of your performance by making a test using a related skill (such as Agility for a stringed instrument, Athletics for drums, or Discipline for an instrument with many keys). If you have an expertise in that instrument, you gain an advantage on the test.</p><p><strong>Net (hunting).</strong> This net of thick rope can ensnare animals or enemies. While holding this net, you can use <span class=\"cosmere-icon\">1</span> to make an Athletics test against the Physical defense of a Large or smaller character within 15 feet of you. On success, the character is Restrained and knocked Prone. That character or another within reach can use the Interact action to make a DC 15 Athletics test, freeing the trapped character on a success. If a character is Restrained by multiple nets, they must be freed from each separately.</p><p><strong>Net (fishing).</strong> This net of fine mesh is used to ensnare fish. You can use this net to gain an advantage on physical tests related to fishing.</p><p><strong>Oil.</strong> Oil generally comes in a 1-pint ceramic flask. Oil is flammable and can be used to fuel oil lanterns, to create dangerous terrain in a space, or as an improvised weapon (sling). When you hit or graze a target with this improvised weapon, you coat the target in oil in addition to the normal damage. After the attack, regardless of the result, the ceramic flask breaks and any unused oil is lost.</p><p><strong>Poison.</strong> Often manufactured using gurwraith or the bark of climbing vines like birchbane, poison comes in single-dose glass vials. As <span class=\"cosmere-icon\">1</span>, you can pour it into food, liquid, or a container, or you can apply the poison to a melee weapon or a piece of ammunition you’re holding. When you do, the GM may require you to make a Stealth test to avoid discovery. When a character ingests the poison or is hit by an attack using the poisoned weapon or ammunition, the poison is expended, and the character suffers the following effects:</p><p><strong>Weak Poison.</strong> The target must succeed on a DC 12 Athletics test or take 1d6 vital damage.</p><p><strong>Effectual Poison.</strong> The target must succeed on a DC 14 Athletics test or take 2d8 vital damage and</p><p>be Stunned for 1 hour.</p><p><strong>Potent Poison.</strong> The target must succeed on a DC 16 Athletics test or take 3d10 vital damage and be Stunned for 1 hour. While Stunned in this way, the target is Immobilized.</p><p><strong>Pulley System.</strong> Most commonly used by engineers and construction workers, this system contains four pulley wheels, 30 feet of rope, and a hook. When you have time to set up a pulley apparatus while attempting to lift an object, you treat the object as being a quarter of its normal weight.</p><p><strong>Rope.</strong> Generally made of hemp fibers, rope is generally sold in 50-foot lengths that can be cut and tied to change the rope’s length as needed. It can be cut by dealing 2 damage directly to it, or it can be ripped apart with a successful DC 20 Athletics test.</p><p><strong>Scale.</strong> Most commonly used by scholars, appraisers, and gem cutters, a scale can be used to assess the exact weight of an object (to a maximum of 2 pounds).</p><p><strong>Spyglass.</strong> Distant objects viewed through a spyglass can be sensed as though at half the distance. At the GM’s discretion, spyglasses that allow distant objects to appear even closer may be available at higher prices.</p><p><strong>Surgical Supplies.</strong> This satchel contains enough bandages, salves, splints, and other medical supplies to be used 10 times. When you make a Medicine test to treat a wounded character (or to similarly use these medical supplies), you can expend one of these uses to gain an advantage on the test.</p><p><strong>Tonic.</strong> A pungent tincture formulated of secret ingredients. In Era 1, many nobles enjoy a daily spoonful of Pewterheart Tonic. (Others swear it’s just the placebo effect.) Either way, a character can consume a dose after a short rest to recover 1d4 health and 1 focus.</p><p><strong>Treatment (medical).</strong> Scadrian doctors treat ailments with a variety of remedies, generally made from botanicals such as garlic, parsley, willow, and cypress. During a short rest, you can use a dose of such a treatment to cure a character of one of the following conditions, given that its source isn’t a permanent injury: Disoriented, Exhausted (reduces the penalty by 1), or Stunned.</p><p></p><img src=\"systems/cosmere-rpg/assets/art_mistborn/p7-items/pg067_HB_Items_Poison%20Vial_Anna%20Verhoog.webp\" class=\" centered\" width=\"150\" /><p style=\"text-align:center\"><strong>A vial of poison - ANNA VERHOOG</strong></p>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788096607805,
+                "modifiedTime": 1788308670859,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!j8TnrXaFMO9iScBX.wBKUjKyyqtawLWDi"
+        }
+    ],
+    "folder": null,
+    "categories": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!journal!j8TnrXaFMO9iScBX"
+}

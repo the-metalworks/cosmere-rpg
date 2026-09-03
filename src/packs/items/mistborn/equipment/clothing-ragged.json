@@ -1,0 +1,55 @@
+{
+    "folder": "N0Rgn8Y6XWMWKpL0",
+    "name": "Clothing (ragged)",
+    "type": "equipment",
+    "img": "icons/equipment/chest/shirt-simple-grey.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 0.2 bx; <strong>Weight</strong> 1.5 lb.;</p><p>This clothing may have once been of fine or common make, but it’s now barely holding together. While wearing these clothes, you gain an advantage on spiritual tests made to convince others you’re destitute.</p>",
+            "chat": "",
+            "short": ""
+        },
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 1.5,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 0.2,
+            "currency": "none",
+            "denomination": {
+                "primary": "none",
+                "secondary": "none"
+            },
+            "unit": "none"
+        },
+        "events": {},
+        "relationships": {},
+        "equippableEnabled": true,
+        "primaryResource": "none",
+        "linkedSkills": [],
+        "alwaysEquippable": false,
+        "equipped": false,
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "wear"
+        },
+        "__embedded": {
+            "items": []
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "QhWDhSpoM3iAChat",
+    "sort": 800000,
+    "_key": "!items!QhWDhSpoM3iAChat"
+}

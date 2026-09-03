@@ -1,0 +1,44 @@
+{
+    "name": "Human",
+    "type": "ancestry",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/ancestries/human-ancestry-card.webp",
+    "system": {
+        "id": "human",
+        "description": {
+            "value": "<p>On Scadrial, the Lord Ruler enforced strict segregation of ethnic human groups. His attempts at genetic tampering and mandated breeding programs furthered the idea that the skaa, noble, and Terris peoples in the Final Empire had divergent physical characteristics (including height, hardiness, and fertility rates). Steel Ministry doctrine called this the Balance. In truth, the Lord Ruler was largely unsuccessful in creating these genetic divides, though he did inflict profound cultural harm in the process.</p><p>The main difference between ethnic groups was their potential for Metalborn abilities, which passed through bloodlines. During the Final Empire, humans could be Mistborn, Feruchemists, and Mistings.</p><p>After the Catacendre, Harmony restored any directly altered human genetics to their original state, and the ethnic segregation of the Final Empire ended, leading to more diverse and varied individuals. This also resulted in the emergence of Twinborn: rare individuals who manifested one Misting power and one Ferring power.</p><p>The rules for human ancestry apply to all Scadrian humans, including Southern Scadrians who weren’t subject to the Final Empire. Metalborn abilities are represented by the talents in chapters 5 and 6 of the <em>Mistborn Handbook</em>. Meanwhile, ethnic history can be represented through your choice of expertises; the “Culture” section in chapter 2 of the <em>Mistborn Handbook</em> discusses the regions of Scadrial and the ethnicities of people who live there.</p><p>The “Culture” section in chapter 2 of the <em>Stormlight Handbook</em> discusses the nations of Roshar and the most common ethnicities of the people who live there.</p><h4>Choosing Human Ancestry</h4><p>If you choose the <strong>human ancestry</strong>, your size is Medium, and you gain the following benefits at the specified levels:</p><p><strong>Ancestry Bonus Talents (Level 1, 6, 11, 16, and 21)</strong>. During step 5 of character creation, you gain one bonus talent. As a human, you must choose this talent from a heroic path. Whenever you reach a new tier, you again gain a bonus talent from a heroic path.</p><p>As usual, you must meet the prerequisites for these talents (see the “Advancing Through a Path” section in chapter 4 of the <em>Mistborn Handbook</em>).</p>",
+            "short": "<p>Most of Roshar is divided into human-ruled nations with majority-human populations.</p><p>Many ethnic groups are represented within the human species, some of which include distant singer ancestry. Although each ethnic group shares common physical characteristics among many of its people, these characteristics can express themselves very differently across individuals. Due to the Vorin “right of travel,” international relations, and diasporas born of conflict, most nations have some degree of ethnic diversity among citizens.</p>",
+            "chat": "<p>Most of Roshar is divided into human-ruled nations with majority-human populations.</p><p>Many ethnic groups are represented within the human species, some of which include distant singer ancestry. Although each ethnic group shares common physical characteristics among many of its people, these characteristics can express themselves very differently across individuals. Due to the Vorin “right of travel,” international relations, and diasporas born of conflict, most nations have some degree of ethnic diversity among citizens.</p>"
+        },
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "talentTree": null,
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "size": "medium",
+        "type": {
+            "id": "humanoid"
+        },
+        "advancement": {
+            "extraPath": null,
+            "extraTalents": [],
+            "bonusTalents": []
+        },
+        "__embedded": {
+            "items": []
+        }
+    },
+    "effects": [],
+    "flags": {},
+    "folder": "3aOjvZLo8GiuvROH",
+    "ownership": {
+        "default": 0
+    },
+    "_id": "oKYgU2jafFriUXlP",
+    "sort": 0,
+    "_key": "!items!oKYgU2jafFriUXlP"
+}
