@@ -119,7 +119,8 @@ export class ActorResourceComponent extends HandlebarsApplicationComponent<
         context: BaseActorSheetRenderContext,
     ) {
         // Get resource
-        let resource = this.application.actor.system.resources[params.resource];
+        const resource =
+            this.application.actor.system.resources[params.resource];
         if (!(params.resource in CONFIG.COSMERE.resources)) {
             console.warn(
                 "The resource key: '" +
@@ -130,31 +131,6 @@ export class ActorResourceComponent extends HandlebarsApplicationComponent<
                 ...context,
                 resource: null,
             });
-        }
-
-        // Set default mode for adversaries and update resource variable
-        if (
-            resource.max.mode === Derived.Mode.Derived &&
-            this.application.actor.isAdversary()
-        ) {
-            if (params.resource === Resource.Health) {
-                await this.application.actor.update({
-                    [`system.resources.${params.resource}`]: {
-                        max: {
-                            useRange: true,
-                        },
-                    },
-                });
-            } else {
-                await this.application.actor.update({
-                    [`system.resources.${params.resource}`]: {
-                        max: {
-                            useOverride: true,
-                        },
-                    },
-                });
-            }
-            resource = this.application.actor.system.resources[params.resource];
         }
 
         // Get resource config
