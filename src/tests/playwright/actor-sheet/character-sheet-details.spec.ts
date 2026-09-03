@@ -78,7 +78,13 @@ test('Ancestry/Culture/Path Drag and Drop', async ({
 
     // Add Human ancestry
     await page.locator('a').filter({ hasText: 'Ancestries' }).click();
-    const humanAncestryElement = page.getByText('Human');
+    const stormlightAncestriesFolderLocator = page
+        .locator('#compendium-cosmere-rpg_ancestries li.folder')
+        .filter({ hasText: 'Stormlight' });
+    await stormlightAncestriesFolderLocator.click();
+
+    const humanAncestryElement =
+        stormlightAncestriesFolderLocator.getByText('Human');
     await html5DragAndDrop(page, humanAncestryElement, testCharacterSheet);
     await expect(
         testCharacterSheet.locator('app-character-ancestry'),
