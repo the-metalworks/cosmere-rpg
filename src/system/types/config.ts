@@ -36,6 +36,7 @@ import {
     ActorType,
 } from './cosmere';
 import { AdvantageMode } from './roll';
+import { Derived } from '../data/fields';
 
 import { Talent, TalentTree, EventSystem as ItemEventSystem } from './item';
 
@@ -113,6 +114,11 @@ export interface SkillConfig {
     hiddenUntilAcquired?: boolean;
 }
 
+export interface ResourceModeConfig {
+    default: Derived.Mode;
+    valid: Derived.Mode[];
+}
+
 export interface ResourceConfig {
     key: string;
     label: string;
@@ -122,6 +128,7 @@ export interface ResourceConfig {
      * The formula used to derive the max value
      */
     formula?: string;
+    modes: Record<ActorType, ResourceModeConfig>;
 }
 
 export interface PathTypeConfig {
