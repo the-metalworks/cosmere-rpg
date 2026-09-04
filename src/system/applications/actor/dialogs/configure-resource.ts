@@ -1,4 +1,4 @@
-import { Resource } from '@system/types/cosmere';
+import { ActorType, Resource } from '@system/types/cosmere';
 import { CosmereActor } from '@system/documents';
 import { AnyObject } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
@@ -238,28 +238,14 @@ export class ConfigureResourceDialog extends HandlebarsApplicationMixin(
     protected _prepareContext() {
         // Get config
         const config = CONFIG.COSMERE.resources[this.resourceId];
+        const actorType = this.actor.isAdversary()
+            ? ActorType.Adversary
+            : ActorType.Character;
+        const modeConfig = config.modes[actorType];
 
-        type CharacterModes = typeof Derived.Modes;
-        type AdversaryModes = Omit<
-            typeof Derived.Modes,
-            Derived.Mode.Derived
-        > & {
-            range?: string;
-        };
-
-        let modes: CharacterModes | AdversaryModes = Derived.Modes;
-
-        // Set the available modes for adversaries
-        if (this.actor.isAdversary()) {
-            const { derived, ...adversaryModes } = Derived.Modes;
-
-            modes = {
-                ...(this.resourceId === Resource.Health
-                    ? { range: 'GENERIC.DerivedValue.Mode.Range' }
-                    : {}),
-                ...adversaryModes,
-            };
-        }
+        const modes = Object.fromEntries(
+            modeConfig.valid.map((mode) => [mode, Derived.Modes[mode]]),
+        );
 
         return Promise.resolve({
             actor: this.actor,
