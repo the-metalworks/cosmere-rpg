@@ -1,5 +1,7 @@
 import type { CosmereRPGConfig } from '@system/types/config';
 
+import { Derived } from './data/fields';
+
 // Types
 import {
     Size,
@@ -35,6 +37,7 @@ import {
     Theme,
     MovementType,
     ImmunityType,
+    ActorType,
 } from './types/cosmere';
 import { AdvantageMode } from './types/roll';
 
@@ -364,15 +367,45 @@ const COSMERE: CosmereRPGConfig = {
             label: 'COSMERE.Actor.Resource.Health',
             deflect: true,
             formula: '10 + @attr.str + @bonus',
+            modes: {
+                [ActorType.Character]: {
+                    default: Derived.Mode.Derived,
+                    valid: [Derived.Mode.Derived, Derived.Mode.Override],
+                },
+                [ActorType.Adversary]: {
+                    default: Derived.Mode.Range,
+                    valid: [Derived.Mode.Range, Derived.Mode.Override],
+                },
+            },
         },
         [Resource.Focus]: {
             key: Resource.Focus,
             label: 'COSMERE.Actor.Resource.Focus',
             formula: '2 + @attr.wil + @bonus',
+            modes: {
+                [ActorType.Character]: {
+                    default: Derived.Mode.Derived,
+                    valid: [Derived.Mode.Derived, Derived.Mode.Override],
+                },
+                [ActorType.Adversary]: {
+                    default: Derived.Mode.Override,
+                    valid: [Derived.Mode.Override],
+                },
+            },
         },
         [Resource.Investiture]: {
             key: Resource.Investiture,
             label: 'COSMERE.Actor.Resource.Investiture',
+            modes: {
+                [ActorType.Character]: {
+                    default: Derived.Mode.Override,
+                    valid: [Derived.Mode.Override],
+                },
+                [ActorType.Adversary]: {
+                    default: Derived.Mode.Override,
+                    valid: [Derived.Mode.Override],
+                },
+            },
         },
     },
 
