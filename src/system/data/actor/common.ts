@@ -679,6 +679,80 @@ export class CommonActorDataModel<
     }
 
     /**
+     * If Resource mode is not valid for that resource, set it back to the resource's default mode.
+     * This also sets the default given Derived isn't valid and not the default.
+     */
+    private sanitizeResourceModes(): void {
+        const health = this.resources[Resource.Health].max;
+        const focus = this.resources[Resource.Focus].max;
+        const investiture = this.resources[Resource.Investiture].max;
+
+        switch (this.parent.type) {
+            case 'character':
+                // Character Health
+                if (
+                    !CONFIG.COSMERE.resources.hea.modes.character.valid.includes(
+                        health.mode,
+                    )
+                ) {
+                    health.mode =
+                        CONFIG.COSMERE.resources.hea.modes.character.default;
+                }
+                // Character Focus
+                if (
+                    !CONFIG.COSMERE.resources.foc.modes.character.valid.includes(
+                        focus.mode,
+                    )
+                ) {
+                    health.mode =
+                        CONFIG.COSMERE.resources.foc.modes.character.default;
+                }
+                // Character Investiture
+                if (
+                    !CONFIG.COSMERE.resources.inv.modes.character.valid.includes(
+                        investiture.mode,
+                    )
+                ) {
+                    investiture.mode =
+                        CONFIG.COSMERE.resources.inv.modes.character.default;
+                }
+                break;
+            case 'adversary':
+                // Adversary Health
+                if (
+                    !CONFIG.COSMERE.resources.hea.modes.adversary.valid.includes(
+                        health.mode,
+                    )
+                ) {
+                    health.mode =
+                        CONFIG.COSMERE.resources.hea.modes.adversary.default;
+                }
+                // Adversary Focus
+                if (
+                    !CONFIG.COSMERE.resources.foc.modes.adversary.valid.includes(
+                        focus.mode,
+                    )
+                ) {
+                    focus.mode =
+                        CONFIG.COSMERE.resources.foc.modes.adversary.default;
+                }
+                // Adversary Investiture
+                if (
+                    !CONFIG.COSMERE.resources.inv.modes.adversary.valid.includes(
+                        investiture.mode,
+                    )
+                ) {
+                    investiture.mode =
+                        CONFIG.COSMERE.resources.inv.modes.adversary.default;
+                }
+                break;
+            default:
+                console.warn(`Unknown actor type: ${this.parent.type}`);
+                break;
+        }
+    }
+
+    /**
      * Apply secondary data derivations to this Data Model.
      * This is called after Active Effects are applied.
      */
@@ -788,6 +862,9 @@ export class CommonActorDataModel<
             // Derive deflect
             this.deflect.derived = Math.max(natural, armorDeflect);
         }
+
+        // Set resource mode to default for each resource if the current mode is invalid.
+        this.sanitizeResourceModes();
 
         // Clamp resource values to their max values
         (Object.keys(this.resources) as Resource[]).forEach((key) => {
