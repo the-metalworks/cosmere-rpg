@@ -79,7 +79,7 @@ test('Add all basic actions, use them all', async ({
         await testCharacter.actionLocator('Avoid Danger');
     await avoidDangerLocator.locator('.img').click();
     await expect(
-        page.getByRole('heading', { name: 'Avoid Danger (Custom Skill)' }),
+        page.getByRole('heading', { name: 'Avoid Danger (Agility)' }),
     ).toBeVisible();
     await page.getByRole('button', { name: 'Roll', exact: true }).click();
     await expect(mostRecentChatMessage(page)).toContainText('Avoid Danger');
@@ -118,7 +118,7 @@ test('Add all basic actions, use them all', async ({
     const grappleLocator = await testCharacter.actionLocator('Grapple');
     await grappleLocator.locator('.img').click();
     await expect(
-        page.getByRole('heading', { name: 'Grapple (Custom Skill)' }),
+        page.getByRole('heading', { name: 'Grapple (Athletics)' }),
     ).toBeVisible();
     await page.getByRole('button', { name: 'Roll', exact: true }).click();
     await expect(mostRecentChatMessage(page)).toContainText('Grapple');
@@ -158,7 +158,7 @@ test('Add all basic actions, use them all', async ({
     const shoveLocator = await testCharacter.actionLocator('Shove');
     await shoveLocator.locator('.img').click();
     await expect(
-        page.getByRole('heading', { name: 'Shove (Custom Skill)' }),
+        page.getByRole('heading', { name: 'Shove (Athletics)' }),
     ).toBeVisible();
     await page.getByRole('button', { name: 'Roll', exact: true }).click();
     await expect(mostRecentChatMessage(page)).toContainText('Shove');
