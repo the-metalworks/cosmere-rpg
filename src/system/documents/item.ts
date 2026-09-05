@@ -745,7 +745,7 @@ export class CosmereItem<
     protected _preUpdate(
         changed: Item.UpdateData,
         options: Item.Database.PreUpdateOptions,
-        user: User.Implementation,
+        user: User.Stored,
     ): Promise<boolean | void> {
         if (
             this.isWeapon() &&
@@ -802,7 +802,7 @@ export class CosmereItem<
             this.actor ??
             (game.canvas?.tokens?.controlled?.[0]?.actor as
                 | CosmereActor
-                | undefined);
+                | undefined as Actor.Stored);
 
         // Ensure an actor was found
         if (!actor) {
@@ -890,7 +890,7 @@ export class CosmereItem<
             this.actor ??
             (game.canvas?.tokens?.controlled?.[0]?.actor as
                 | CosmereActor
-                | undefined);
+                | undefined as Actor.Stored);
 
         // Ensure an actor was found
         if (!actor) {
@@ -1026,7 +1026,7 @@ export class CosmereItem<
             this.actor ??
             (game.canvas?.tokens?.controlled?.[0]?.actor as
                 | CosmereActor
-                | undefined);
+                | undefined as Actor.Stored);
 
         // Ensure an actor was found
         if (!actor) {
@@ -1446,7 +1446,9 @@ export class CosmereItem<
             user: game.user.id,
             speaker:
                 options.speaker ??
-                ChatMessage.getSpeaker({ actor: options.actor }),
+                ChatMessage.getSpeaker({
+                    actor: options.actor as Actor.Stored,
+                }),
             rolls: [] as foundry.dice.Roll[],
             flags: {} as Record<string, unknown>,
         };
@@ -1588,7 +1590,9 @@ export class CosmereItem<
             user: game.user.id,
             speaker:
                 options.speaker ??
-                ChatMessage.getSpeaker({ actor: options.actor }),
+                ChatMessage.getSpeaker({
+                    actor: options.actor as Actor.Stored,
+                }),
             rolls: [] as foundry.dice.Roll[],
             flags: {} as Record<string, unknown>,
         };

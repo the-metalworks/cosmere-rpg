@@ -56,7 +56,7 @@ export class CosmereActiveEffect<
     public override async _preCreate(
         data: ActiveEffect.CreateData,
         options: ActiveEffect.Database.PreCreateOptions,
-        user: User,
+        user: User.Stored,
     ): Promise<boolean | void> {
         if ((await super._preCreate(data, options, user)) === false)
             return false;
@@ -78,7 +78,7 @@ export class CosmereActiveEffect<
     public override async _preUpdate(
         data: ActiveEffect.UpdateData,
         options: ActiveEffect.Database.PreUpdateOptions,
-        user: User,
+        user: User.Stored,
     ): Promise<boolean | void> {
         if (
             foundry.utils.hasProperty(data, 'system.stacks') &&

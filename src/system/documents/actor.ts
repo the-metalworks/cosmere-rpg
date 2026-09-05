@@ -862,7 +862,7 @@ export class CosmereActor<
         await ChatMessage.create({
             author: game.user.id,
             speaker: ChatMessage.getSpeaker({
-                actor: this,
+                actor: this as Actor.Stored,
             }),
             flags,
             rolls,
@@ -981,7 +981,7 @@ export class CosmereActor<
             const messageConfig = {
                 author: game.user.id,
                 speaker: ChatMessage.getSpeaker({
-                    actor: this,
+                    actor: this as Actor.Stored,
                 }),
                 flags: {} as Record<string, unknown>,
             };
@@ -1081,7 +1081,7 @@ export class CosmereActor<
                     speaker:
                         options.speaker ??
                         ChatMessage.getSpeaker({
-                            actor: this,
+                            actor: this as Actor.Stored,
                         }),
                     flags: {} as Record<string, any>,
                 },

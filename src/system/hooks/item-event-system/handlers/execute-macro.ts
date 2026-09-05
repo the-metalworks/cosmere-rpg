@@ -25,7 +25,7 @@ export function register() {
     // Re-assign type field label
     macroSchema.type.label = `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.ExecuteMacro}.MacroType.Label`;
     (macroSchema.type as foundry.data.fields.StringField).choices = () =>
-        CONFIG.Macro.typeLabels!;
+        CONFIG.Macro.typeLabels;
 
     cosmereRPG.api.registerItemEventHandlerType({
         source: SYSTEM_ID,
@@ -81,7 +81,7 @@ export function register() {
 
             // Execute the macro
             await (macro as Macro).execute({
-                actor: event.item.actor,
+                actor: event.item.actor as Actor.Stored,
                 event,
             });
         },

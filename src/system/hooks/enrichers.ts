@@ -29,7 +29,7 @@ Hooks.on(
 Hooks.on(
     HOOKS.TRIGGER_DAMAGE_ENRICHER,
     async (actorId: string, source: string, data: Record<string, string>) => {
-        const actor = await getActor(actorId ?? '');
+        const actor = (await getActor(actorId ?? '')) as Actor.Stored;
         if (actor && data.formula) {
             const roll = new DamageRoll(
                 String(data.formula),
