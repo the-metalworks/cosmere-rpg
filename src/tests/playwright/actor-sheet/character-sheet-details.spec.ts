@@ -5,6 +5,10 @@ import {
 } from '@src/system/types/cosmere';
 import { test, expect } from '../fixtures';
 import { html5DragAndDrop } from '../helpers/drag-drop';
+import {
+    getLocatorForCompendiumItem,
+    openCompendium,
+} from '../helpers/compendium';
 
 test('Resources/Attribute/Defenses', async ({
     authenticatedPage: page,
@@ -70,47 +74,53 @@ test('Ancestry/Culture/Path Drag and Drop', async ({
     );
     const testCharacterSheet = testCharacter.locator;
     await testCharacter.checkAllStats({});
-    await page.getByRole('tab', { name: 'Compendium Packs' }).click();
-    await page
-        .locator('span')
-        .filter({ hasText: 'Stormlight Starter Rules' })
-        .click();
 
     // Add Human ancestry
-    await page.locator('a').filter({ hasText: 'Ancestries' }).click();
-    const stormlightAncestriesFolderLocator = page
-        .locator('#compendium-cosmere-rpg_ancestries li.folder')
-        .filter({ hasText: 'Stormlight' });
-    await stormlightAncestriesFolderLocator.click();
+    const ancestryCompendium = await openCompendium(page, 'Ancestries', [
+        'Stormlight Starter Rules',
+    ]);
+    const humanAncestryElement = await getLocatorForCompendiumItem(
+        ancestryCompendium,
+        'Human',
+        ['Stormlight'],
+    );
 
-    const humanAncestryElement =
-        stormlightAncestriesFolderLocator.getByText('Human');
     await html5DragAndDrop(page, humanAncestryElement, testCharacterSheet);
     await expect(
         testCharacterSheet.locator('app-character-ancestry'),
     ).toContainText('Human Ancestry');
-    await page
-        .locator('#compendium-cosmere-rpg_ancestries')
+    await ancestryCompendium
         .getByRole('button', { name: 'Close Window' })
         .click();
 
     // Add Herdazian Culture
-    await page.locator('a').filter({ hasText: 'Cultures' }).click();
-    const herdazianCultureElement = page.getByText('Herdazian');
+    const culturesCompendium = await openCompendium(page, 'Cultures', [
+        'Stormlight Starter Rules',
+    ]);
+    const herdazianCultureElement = await getLocatorForCompendiumItem(
+        culturesCompendium,
+        'Herdazian',
+        ['Stormlight'],
+    );
+
     await html5DragAndDrop(page, herdazianCultureElement, testCharacterSheet);
     await expect(
         testCharacterSheet.locator('app-character-culture'),
     ).toContainText('Herdazian Culture');
-    await page
-        .locator('#compendium-cosmere-rpg_cultures')
+    await culturesCompendium
         .getByRole('button', { name: 'Close Window' })
         .click();
 
     // Add Agent path
 
-    await page.locator('a').filter({ hasText: 'Heroic Paths' }).click();
-    await page.locator('span').filter({ hasText: 'Agent' }).click();
-    const agentPathElement = page.locator('a').filter({ hasText: /^Agent$/ });
+    const heroicPathsCompendium = await openCompendium(page, 'Heroic Paths', [
+        'Stormlight Starter Rules',
+    ]);
+    const agentPathElement = await getLocatorForCompendiumItem(
+        heroicPathsCompendium,
+        'Agent',
+        ['Agent'],
+    );
     await html5DragAndDrop(page, agentPathElement, testCharacterSheet);
     await expect(
         testCharacterSheet
