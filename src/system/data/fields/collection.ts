@@ -52,13 +52,13 @@ export class RecordCollection<T> implements Collection<T> {
     }
 
     public find<S extends T>(
-        condition: (e: T, index: number, collection: Collection<T>) => e is S,
+        condition: (e: T, index: number, collection: this) => e is S,
     ): S | undefined;
     public find(
-        condition: (e: T, index: number, collection: Collection<T>) => boolean,
+        condition: (e: T, index: number, collection: this) => boolean,
     ): T | undefined;
     public find(
-        condition: (e: T, index: number, collection: Collection<T>) => boolean,
+        condition: (e: T, index: number, collection: this) => boolean,
     ): T | undefined {
         return Object.entries(this).find(([key, value], index) =>
             condition(
@@ -70,13 +70,13 @@ export class RecordCollection<T> implements Collection<T> {
     }
 
     public filter<S extends T>(
-        condition: (e: T, index: number, collection: Collection<T>) => e is S,
+        condition: (e: T, index: number, collection: this) => e is S,
     ): S[];
     public filter(
-        condition: (e: T, index: number, collection: Collection<T>) => boolean,
+        condition: (e: T, index: number, collection: this) => boolean,
     ): T[];
     public filter(
-        condition: (e: T, index: number, collection: Collection<T>) => boolean,
+        condition: (e: T, index: number, collection: this) => boolean,
     ): T[] {
         return Object.entries(this)
             .filter(([key, value], index) =>
@@ -127,7 +127,7 @@ export class RecordCollection<T> implements Collection<T> {
     }
 
     public map<M>(
-        transformer: (entity: T, index: number, collection: Collection<T>) => M,
+        transformer: (entity: T, index: number, collection: this) => M,
     ): M[] {
         return Object.entries(this).map(([key, value], index) =>
             transformer(
@@ -143,7 +143,7 @@ export class RecordCollection<T> implements Collection<T> {
             accumulator: A,
             value: T,
             index: number,
-            collection: Collection<T>,
+            collection: this,
         ) => A,
         initialValue: A,
     ): A {
@@ -160,11 +160,7 @@ export class RecordCollection<T> implements Collection<T> {
     }
 
     public some(
-        condition: (
-            value: T,
-            index: number,
-            collection: Collection<T>,
-        ) => boolean,
+        condition: (value: T, index: number, collection: this) => boolean,
     ): boolean {
         return Object.entries(this).some(([key, value], index) =>
             condition(
@@ -211,6 +207,13 @@ export class RecordCollection<T> implements Collection<T> {
     }
 
     public forEach(
+        callbackfn: (value: T, index: number) => void,
+        thisArg?: any,
+    ): void {
+        Array.from(this.values()).forEach(callbackfn);
+    }
+
+    public forEachEntry(
         callbackfn: (value: T, key: string, map: this) => void,
         thisArg?: any,
     ): void {
@@ -378,30 +381,16 @@ export class CollectionField<
         return result;
     }
 
-    public override _addTypes(
-        source?: Record<string, AnyObject>,
-        changes?: Record<string, AnyMutableObject>,
-    ) {
-        if (!source || !changes) return super._addTypes(source, changes);
-
-        Object.entries(changes).forEach(([k, v]) => {
-            // @ts-expect-error foundry-vtt-types seem to be wrong here, _addTypes aren't used in a protected way within Foundry itself
-            this.model._addTypes(source[k], v);
-        });
-    }
-
     public _updateDiff(
-        source: AnyMutableObject,
         key: string,
         value: Record<string, AnyMutableObject>,
-        difference: AnyMutableObject,
-        options?: foundry.abstract.DataModel.UpdateOptions,
+        options: foundry.abstract.DataModel.UpdateOptions,
+        state: { source: AnyMutableObject; diff: AnyMutableObject },
     ) {
-        const current = source[key] as Record<string, AnyMutableObject>;
-        if (!current)
-            return super._updateDiff(source, key, value, difference, options);
+        const current = state.source[key] as Record<string, AnyMutableObject>;
+        if (!current) return super._updateDiff(key, value, options, state);
 
-        const schemaDiff: AnyMutableObject = (difference[key] = {});
+        const schemaDiff: AnyMutableObject = (state.diff[key] = {});
         Object.entries(value).forEach(([k, v]) => {
             let name = k;
             const specialKey = foundry.utils.isDeletionKey(k);
@@ -424,7 +413,10 @@ export class CollectionField<
                 return;
             }
 
-            this.model._updateDiff(current, name, v, schemaDiff, options);
+            this.model._updateDiff(name, v, options, {
+                source: current,
+                diff: schemaDiff,
+            });
         });
     }
 
@@ -462,7 +454,7 @@ export class CollectionField<
         const result = Array.from(value.entries()).reduce(
             (acc, [id, v]) => ({
                 ...acc,
-                [id]: this.model.toObject(v) as unknown,
+                [id]: this.model.toObject(v),
             }),
             {},
         );

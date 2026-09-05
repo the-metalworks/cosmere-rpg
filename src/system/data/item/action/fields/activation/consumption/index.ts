@@ -81,16 +81,6 @@ export class ActivationConsumptionField<
             : ({} as AnyObject);
     }
 
-    protected override _addTypes(
-        source?: AnyMutableObject & ActivationConsumptionField.InitializedType,
-        changes?: AnyMutableObject &
-            DeepPartial<ActivationConsumptionField.InitializedType>,
-    ) {
-        if (!source || !changes) return super._addTypes(source, changes);
-
-        changes.type ??= source.type;
-    }
-
     public _updateDiff<
         TKey extends string,
         TSource extends AnyMutableObject & {
@@ -100,23 +90,22 @@ export class ActivationConsumptionField<
             [key in TKey]: ActivationConsumptionField.InitializedType;
         },
     >(
-        source: TSource,
         key: TKey,
         value: Partial<ActivationConsumptionField.InitializedType>,
-        difference: TDifference,
-        options?: foundry.abstract.DataModel.UpdateOptions,
+        options: foundry.abstract.DataModel.UpdateOptions,
+        state: { source: TSource; diff: TDifference },
     ) {
-        const fieldSource = source[key];
+        const fieldSource = state.source[key];
         const type =
             ('type' in value ? value.type : undefined) ?? fieldSource.type;
 
         const Model = ActivationConsumptionField.getModelForType(type);
         const schema = Model.schema;
 
-        schema._updateDiff(source, key, value, difference, options);
+        schema._updateDiff(key, value, options, state);
 
-        difference[key] ??= {} as (typeof difference)[TKey];
-        difference[key].type = type;
+        state.diff[key] ??= {} as (typeof state.diff)[TKey];
+        state.diff[key].type = type;
     }
 
     public override getInitialValue(data?: unknown) {

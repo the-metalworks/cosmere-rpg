@@ -8,7 +8,7 @@ export class StringField<
         value = super._cleanType(value, options);
 
         try {
-            const validationResult = this._validateType(value, options);
+            const validationResult = this._validateType(value);
             if (
                 validationResult === false ||
                 typeof validationResult === 'object'

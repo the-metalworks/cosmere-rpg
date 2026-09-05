@@ -23,6 +23,7 @@ export type InferInitializedType<
     TField extends foundry.data.fields.DataField<
         any,
         any,
+        any,
         infer TInitializedType
     >
         ? TInitializedType
