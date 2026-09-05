@@ -75,15 +75,6 @@ export class HandlerField<
         ) as HandlerBaseAssignmentType;
     }
 
-    protected override _addTypes(
-        source?: AnyMutableObject & HandlerBaseInitializedType,
-        changes?: AnyMutableObject & DeepPartial<HandlerBaseInitializedType>,
-    ) {
-        if (!source || !changes) return super._addTypes(source, changes);
-
-        changes.type ??= source.type;
-    }
-
     public _updateDiff<
         TKey extends string,
         TSource extends AnyMutableObject & {
@@ -93,13 +84,12 @@ export class HandlerField<
             [key in TKey]: HandlerBaseInitializedType;
         },
     >(
-        source: TSource,
         key: TKey,
         value: Partial<HandlerBaseInitializedType>,
-        difference: TDifference,
-        options?: foundry.abstract.DataModel.UpdateOptions,
+        options: foundry.abstract.DataModel.UpdateOptions,
+        state: { source: TSource; diff: TDifference },
     ) {
-        const fieldSource = source[key];
+        const fieldSource = state.source[key];
         const type =
             ('type' in value ? value.type : undefined) ?? fieldSource.type;
 
@@ -107,11 +97,11 @@ export class HandlerField<
         const schema = HandlerField.getModelForType(type).schema;
 
         // Update diff for schema fields
-        schema._updateDiff(source, key, value, difference, options);
+        schema._updateDiff(key, value, options, state);
 
         // Ensure type is always included in the diff
-        difference[key] ??= {} as (typeof difference)[TKey];
-        difference[key].type = type;
+        state.diff[key] ??= {} as (typeof state.diff)[TKey];
+        state.diff[key].type = type;
     }
 
     public override getInitialValue(data: { type?: string }) {
