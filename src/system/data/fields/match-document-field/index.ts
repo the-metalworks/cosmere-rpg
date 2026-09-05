@@ -65,7 +65,9 @@ export class MatchDocumentField<
     }
 
     public override getInitialValue(data?: unknown) {
-        return MatchDocumentDataModel.schema.getInitialValue(data);
+        return MatchDocumentDataModel.schema.getInitialValue(
+            data,
+        ) as MatchDocumentDataModel;
     }
 
     public override initialize(

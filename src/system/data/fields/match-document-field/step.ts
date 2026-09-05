@@ -180,7 +180,9 @@ export class MatchDocumentStepField<
     }
 
     public override getInitialValue(data?: unknown) {
-        return MatchDocumentStepDataModel.schema.getInitialValue(data);
+        return MatchDocumentStepDataModel.schema.getInitialValue(
+            data,
+        ) as MatchDocumentStepDataModel;
     }
 
     public override initialize(

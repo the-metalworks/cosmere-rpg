@@ -31,6 +31,7 @@ export type CollectionFieldSchema<
  * while still having the convenience of a collection.
  */
 export class RecordCollection<T> implements Collection<T> {
+    declare ' __fvtt_types_internal_value': T;
     /**
      * NOTE: Must use `any` here as we need the RecordCollection
      * to be backing record object itself. This ensures its stored
@@ -163,6 +164,18 @@ export class RecordCollection<T> implements Collection<T> {
         condition: (value: T, index: number, collection: this) => boolean,
     ): boolean {
         return Object.entries(this).some(([key, value], index) =>
+            condition(
+                'id' in value ? value : { ...value, _id: key },
+                index,
+                this,
+            ),
+        );
+    }
+
+    public every(
+        condition: (value: T, index: number, collection: this) => boolean,
+    ): boolean {
+        return Object.entries(this).every(([key, value], index) =>
             condition(
                 'id' in value ? value : { ...value, _id: key },
                 index,

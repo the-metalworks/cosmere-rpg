@@ -114,7 +114,9 @@ export class ActivationConsumptionField<
                 | ItemConsumeType
                 | undefined) ?? NONE;
         const Model = ActivationConsumptionField.getModelForType(type);
-        return Model.schema.getInitialValue(data);
+        return Model.schema.getInitialValue(
+            data,
+        ) as ActivationConsumptionDataModel;
     }
 
     public override initialize(
