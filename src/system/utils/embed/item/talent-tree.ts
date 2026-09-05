@@ -52,20 +52,26 @@ async function getEmbedApp(
     config: TextEditor.DocumentHTMLEmbedConfig & AnyObject,
 ): Promise<TalentTreeEmbed> {
     const journalEntry = page.parent as unknown as JournalEntry;
+    const journalEntryUuid = journalEntry?.uuid;
+    if (!journalEntry || !journalEntryUuid || !item.id) {
+        throw new Error(
+            'Cannot embed an unpersisted talent tree item or journal page',
+        );
+    }
 
     if (!EMBEDDED_APPS[journalEntry.uuid])
         EMBEDDED_APPS[journalEntry.uuid] = {};
     if (!EMBEDDED_APPS[journalEntry.uuid][page.id!])
         EMBEDDED_APPS[journalEntry.uuid][page.id!] = {};
-    if (!EMBEDDED_APPS[journalEntry.uuid][page.id!][item.id!]) {
-        EMBEDDED_APPS[journalEntry.uuid][page.id!][item.id!] =
+    if (!EMBEDDED_APPS[journalEntry.uuid][page.id!][item.id]) {
+        EMBEDDED_APPS[journalEntry.uuid][page.id!][item.id] =
             new TalentTreeEmbed({
                 item,
                 position: { width: (config.width ?? 600) as number },
             });
     }
 
-    const app = EMBEDDED_APPS[journalEntry.uuid][page.id!][item.id!];
+    const app = EMBEDDED_APPS[journalEntry.uuid][page.id!][item.id];
 
     if (config.x || config.y || config.zoom) {
         app.view = {};
@@ -89,11 +95,12 @@ async function getEmbedApp(
 Hooks.on('renderJournalEntryPageSheet', (app, html) => {
     const page = app.document;
     const journalEntry = page.parent;
-    if (!journalEntry) return;
+    const journalEntryUuid = journalEntry?.uuid;
+    if (!journalEntry || !journalEntryUuid) return;
     if (!EMBEDDED_APPS[journalEntry.uuid]?.[page.id!]) return;
 
     // Get all embedded applications for this page
-    const embedApps = Object.values(EMBEDDED_APPS[journalEntry.uuid][page.id!]);
+    const embedApps = Object.values(EMBEDDED_APPS[journalEntryUuid][page.id!]);
 
     setTimeout(() => {
         // Render each embedded application
@@ -111,6 +118,8 @@ Hooks.on('renderJournalEntryPageSheet', (app, html) => {
 
 Hooks.on('closeJournalEntrySheet', (app) => {
     const journalEntry = app.document;
+    const journalEntryUuid = journalEntry?.uuid;
+    if (!journalEntry || !journalEntryUuid) return;
 
     if (!EMBEDDED_APPS[journalEntry.uuid]) return;
 
