@@ -168,18 +168,13 @@ export type CosmereActorRollData<
 const SINGLETON_ITEM_TYPES = [ItemType.Ancestry];
 
 abstract class _Actor<
-    out SubType extends Actor.SubType,
+    out SubType extends ActorType | 'base',
 > extends Actor<SubType> {
     declare system: Actor.SystemOfType<SubType>;
-
-    declare items: foundry.abstract.EmbeddedCollection<
-        CosmereItem,
-        CosmereActor
-    >;
 }
 
 export class CosmereActor<
-    out SubType extends Actor.SubType = Actor.SubType,
+    out SubType extends ActorType | 'base' = ActorType | 'base',
 > extends _Actor<SubType> {
     /* --- Statics --- */
 
@@ -331,7 +326,7 @@ export class CosmereActor<
     public override async _preCreate(
         data: Actor.CreateData,
         options: Actor.Database.PreCreateOptions,
-        user: User,
+        user: User.Stored,
     ): Promise<boolean | void> {
         if ((await super._preCreate(data, options, user)) === false)
             return false;
@@ -450,9 +445,7 @@ export class CosmereActor<
         EmbeddedName extends Actor.Embedded.Name,
     >(
         embeddedName: EmbeddedName,
-        data:
-            | foundry.abstract.Document.CreateDataForName<EmbeddedName>[]
-            | undefined,
+        data: foundry.abstract.Document.CreateDataForName<EmbeddedName>[],
         operation?: foundry.abstract.Document.Database.CreateOperationForName<EmbeddedName>,
     ) {
         // Pre create actions
@@ -517,7 +510,7 @@ export class CosmereActor<
     public override toggleStatusEffect(
         statusId: string,
         options?: Actor.ToggleStatusEffectOptions,
-    ): Promise<ActiveEffect.Implementation | boolean | undefined> {
+    ): Promise<ActiveEffect.Stored | boolean | undefined> {
         // Check if actor is immune to status effect
         if (
             statusId in this.system.immunities.condition &&
@@ -1628,6 +1621,13 @@ export class CosmereActor<
 }
 
 declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
+    interface SystemConfig {
+        Actor: {
+            moduleSubtype: 'ignore';
+            moduleSubType: 'ignore';
+        };
+    }
+
     interface DocumentClassConfig {
         Actor: typeof CosmereActor;
     }

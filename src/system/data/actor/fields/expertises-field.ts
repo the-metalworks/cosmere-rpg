@@ -40,7 +40,7 @@ type ExpertiseData =
 
 export class Expertise extends foundry.abstract.DataModel<
     ExpertiseDataSchema,
-    foundry.abstract.Document.Any
+    foundry.abstract.DataModel.Any
 > {
     static defineSchema() {
         return SCHEMA();
@@ -151,7 +151,7 @@ export class ExpertiseDataField extends foundry.data.fields.SchemaField<
 
     public override initialize(
         value: ExpertiseData,
-        model: foundry.abstract.Document.Any,
+        model: foundry.abstract.DataModel.Any,
         options?: object,
     ) {
         return new Expertise(foundry.utils.deepClone(value), {
