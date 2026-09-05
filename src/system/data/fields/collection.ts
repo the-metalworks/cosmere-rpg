@@ -350,7 +350,7 @@ export class CollectionField<
                 v as TElementFieldAssignment,
                 options,
             ) as foundry.data.validation.DataModelValidationFailure | null;
-            if (error) {
+            if (error?.unresolved) {
                 errors[id] = error;
             }
         });
