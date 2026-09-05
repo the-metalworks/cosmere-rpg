@@ -9,11 +9,11 @@ export interface EmbedHelpers {
         content: HTMLElement | HTMLCollection,
         config: TextEditor.DocumentHTMLEmbedConfig,
         options?: TextEditor.EnrichmentOptions,
-    ): Promise<HTMLElement | null>;
+    ): Promise<foundry.applications.elements.HTMLDocumentEmbedElement | null>;
     createFigureEmbed?(
         document: foundry.abstract.Document.Any,
         content: HTMLElement | HTMLCollection,
         config: TextEditor.DocumentHTMLEmbedConfig,
         options?: TextEditor.EnrichmentOptions,
-    ): Promise<HTMLElement | null>;
+    ): Promise<foundry.applications.elements.HTMLDocumentEmbedElement | null>;
 }

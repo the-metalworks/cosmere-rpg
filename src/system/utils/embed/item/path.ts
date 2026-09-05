@@ -47,7 +47,7 @@ export async function createInlineEmbed(
     content: HTMLElement | HTMLCollection,
     config: TextEditor.DocumentHTMLEmbedConfig & AnyMutableObject,
     options?: TextEditor.EnrichmentOptions,
-): Promise<HTMLElement | null> {
+): Promise<foundry.applications.elements.HTMLDocumentEmbedElement | null> {
     if (config.values?.includes('talents') && item.system.talentTree) {
         // Get the talent tree item
         const tree = (await fromUuid(

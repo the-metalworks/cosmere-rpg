@@ -699,12 +699,12 @@ export class CosmereItem<
         if (!this.sheet)
             return super._onClickDocumentLink(
                 event,
-            ) as Promise<foundry.applications.api.ApplicationV2.Any>;
+            ) as Promise<foundry.applications.api.DocumentSheetV2.Any>;
 
         const target = event.currentTarget as HTMLElement;
         await this.sheet.render({ force: true, tab: target.dataset.tab });
         return this
-            .sheet as unknown as foundry.applications.api.ApplicationV2.Any;
+            .sheet as unknown as foundry.applications.api.DocumentSheetV2.Any;
     }
 
     protected override _buildEmbedHTML(
@@ -722,7 +722,7 @@ export class CosmereItem<
         content: HTMLElement | HTMLCollection,
         config: TextEditor.DocumentHTMLEmbedConfig,
         options?: TextEditor.EnrichmentOptions,
-    ): Promise<HTMLElement | null> {
+    ): Promise<foundry.applications.elements.HTMLDocumentEmbedElement | null> {
         const embedHelpers = getEmbedHelpers(this);
         return (
             embedHelpers.createInlineEmbed?.(this, content, config, options) ??
@@ -734,7 +734,7 @@ export class CosmereItem<
         content: HTMLElement | HTMLCollection,
         config: TextEditor.DocumentHTMLEmbedConfig,
         options?: TextEditor.EnrichmentOptions,
-    ): Promise<HTMLElement | null> {
+    ): Promise<foundry.applications.elements.HTMLDocumentEmbedElement | null> {
         const embedHelpers = getEmbedHelpers(this);
         return (
             embedHelpers.createFigureEmbed?.(this, content, config, options) ??
