@@ -13,8 +13,9 @@ async function globalSetup(config: FullConfig) {
     // Navigate to FoundryVTT and join as Gamemaster
     await page.goto('http://localhost:30000');
     console.log('Joining as Gamemaster...');
-    await page.selectOption('select[name="userid"]', { label: 'Gamemaster' });
-    await page.click('button[name="join"]');
+    await page.getByRole('textbox', { name: 'Select User' }).click();
+    await page.getByText('Gamemaster').click();
+    await page.getByRole('button', { name: 'Join Game Session' }).click();
 
     await page.waitForFunction(
         () => typeof game !== 'undefined' && game.ready === true,
