@@ -1,19 +1,25 @@
 // NOTE: Must use explicit any here to be able to properly infer
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export type InferOptions<TField extends foundry.data.fields.DataField.Any> =
-    TField extends foundry.data.fields.DataField<infer TOptions>
-        ? TOptions
-        : never;
 
 export type SchemaFunction = (...args: any) => any;
 
 export type DataSchema<Schema extends SchemaFunction> = ReturnType<Schema> &
     Record<string, foundry.data.fields.DataField.Any>;
 
+export type InferOptions<TField extends foundry.data.fields.DataField.Any> =
+    TField extends foundry.data.fields.DataField<infer TOptions, any, any, any>
+        ? TOptions
+        : never;
+
 export type InferAssignmentType<
     TField extends foundry.data.fields.DataField.Any,
 > =
-    TField extends foundry.data.fields.DataField<any, infer TAssignmentType>
+    TField extends foundry.data.fields.DataField<
+        any,
+        infer TAssignmentType,
+        any,
+        any
+    >
         ? TAssignmentType
         : never;
 
@@ -23,8 +29,8 @@ export type InferInitializedType<
     TField extends foundry.data.fields.DataField<
         any,
         any,
-        any,
-        infer TInitializedType
+        infer TInitializedType,
+        any
     >
         ? TInitializedType
         : never;
