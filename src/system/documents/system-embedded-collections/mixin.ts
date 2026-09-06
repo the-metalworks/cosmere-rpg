@@ -59,8 +59,8 @@ export function SystemEmbeddedCollectionsMixin<
 
             const base = this.baseDocument;
             if (!base.hasOwnProperty('__schema')) {
-                const schema = new foundry.data.fields.SchemaField(
-                    this.defineSchema(),
+                const schema = new foundry.data.fields.DataModelSchemaField(
+                    this,
                 );
                 Object.defineProperty(base, '__schema', {
                     value: schema,
@@ -166,8 +166,8 @@ export function adventureMixin(
 
             const base = this.baseDocument;
             if (!base.hasOwnProperty('__schema')) {
-                const schema = new foundry.data.fields.SchemaField(
-                    this.defineSchema(),
+                const schema = new foundry.data.fields.DataModelSchemaField(
+                    this,
                 );
                 Object.defineProperty(base, '__schema', {
                     value: schema,
