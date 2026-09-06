@@ -1,27 +1,20 @@
 import { test, expect } from './fixtures';
+import { openCompendium } from './helpers/compendium';
 
 test('Foundry accessible, System loaded, Stormlight Starter Rules Present', async ({
     authenticatedPage: page,
 }) => {
     await expect(page).toHaveTitle('Foundry Virtual Tabletop');
-    await page.getByRole('tab', { name: 'Game Settings' }).click();
+    await page.getByRole('tab', { name: 'Settings' }).click();
     await expect(
         page.locator('#settings').getByText('Cosmere Roleplaying Game'),
     ).toBeVisible();
-    await page.getByRole('tab', { name: 'Compendium Packs' }).click();
-    await expect(
-        page.locator('a').filter({ hasText: 'Stormlight Starter Rules' }),
-    ).toBeVisible();
-    await page
-        .locator('a')
-        .filter({ hasText: 'Stormlight Starter Rules' })
-        .click();
-    await expect(
-        page
-            .locator('#compendium-cosmere-rpg_starter-rules')
-            .getByRole('strong'),
-    ).toBeVisible();
-    await expect(
-        page.locator('#compendium-cosmere-rpg_starter-rules'),
-    ).toContainText('Stormlight Starter Rules');
+    const starterRulesCompendium = await openCompendium(
+        page,
+        'Stormlight Starter Rules',
+    );
+    await expect(starterRulesCompendium.getByRole('strong')).toBeVisible();
+    await expect(starterRulesCompendium).toContainText(
+        'Stormlight Starter Rules',
+    );
 });
