@@ -18,7 +18,7 @@
         "unpack": "node ./scripts/unpack",
         "zip": "node ./scripts/zip",
         "link-world-seed": "node ./scripts/link-world-seed",
-        "docker:up": "node ./world-seed/scripts/docker-up.js up -d",
+        "docker:up": "node ./world-seed/scripts/docker-up.js up -d --build",
         "docker:down": "node ./world-seed/scripts/docker-up.js down",
         "docker:signlicense": "node ./world-seed/scripts/docker-sign-license.js",
         "test": "npx playwright test -c src/tests/playwright.config.ts"
