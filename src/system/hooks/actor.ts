@@ -45,7 +45,7 @@ Hooks.on(
     (
         actor: CosmereActor,
         change: Actor.UpdateData,
-        options: Actor.Database.UpdateOptions,
+        options: Actor.Database.OnUpdateOptions,
         userId: string,
     ) => {
         if (game.user.id !== userId) return;
