@@ -185,7 +185,6 @@ export function EmbedConfigMixin<
                         ? allOfType.slice(0, excess)
                         : allOfType.slice(-excess);
 
-                //@ts-expect-error - Document.Any has the delete method typed with operation as never.
                 toDelete.forEach((d) => void d.delete());
             }
 
