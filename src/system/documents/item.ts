@@ -141,15 +141,13 @@ interface ShowConsumeDialogOptions {
 
 class _Item<
     const TSystem extends foundry.abstract.TypeDataModel.Any,
-> extends Item<'base'> {
+> extends Item<ItemType> {
     declare static metadata: foundry.abstract.Document.MetadataFor<'Item'> & {
         embeddedConfig: EmbeddedDocumentsConfig<'Item'>;
         ephemeralEmbedded: EphemeralEmbeddedDocumentsConfig<'Item'>;
     };
 
-    // @ts-expect-error Explicitly declare to get proper typing
     declare type: ItemType;
-    // @ts-expect-error Explicitly declare to get proper typing
     declare system: TSystem;
     // @ts-expect-error Explicitly declare to get proper typing
     declare sheet: BaseItemSheet | null;
@@ -779,7 +777,9 @@ export class CosmereItem<
         if (!this.isWeapon()) return [];
 
         return [
-            ...this.getWeaponStrikeData().map((data) => new CosmereItem(data)),
+            ...this.getWeaponStrikeData().map(
+                (data) => new CosmereItem<ActionItemDataModel>(data),
+            ),
         ];
     }
 
@@ -1987,7 +1987,7 @@ export class CosmereItem<
         const ammoResource = this.getResource(ItemResource.Ammo);
         const hasAmmoResource = !!ammoResource && ammoResource.max > 0;
 
-        const actions: Item.CreateData[] = [
+        const actions: Item.CreateData<ItemType.Action>[] = [
             {
                 type: ItemType.Action,
                 name: `${game.i18n.localize('COSMERE.Item.Weapon.Strike')}: ${this.name}`,
