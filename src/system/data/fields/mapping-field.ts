@@ -20,14 +20,20 @@ export class MappingField<
     protected _cleanType(
         value: MappingField.InitializedType<ElementField, TOptions>,
         options?: object,
+        _state: foundry.data.fields.DataField.UpdateState = {},
     ) {
         if (!value) return value;
 
+        const source =
+            _state.source && typeof _state.source === 'object'
+                ? (_state.source as Record<string, unknown>)
+                : undefined;
+
         Object.entries(value).forEach(([key, v]) => {
-            value[key] = this.model.clean(
-                v,
-                options,
-            ) as InferInitializedType<ElementField>;
+            value[key] = this.model.clean(v, options, {
+                ..._state,
+                source: source?.[key],
+            }) as InferInitializedType<ElementField>;
         });
 
         return value;
@@ -71,7 +77,7 @@ export class MappingField<
                 v,
                 options,
             ) as foundry.data.validation.DataModelValidationFailure | null;
-            if (error) errors[key] = error;
+            if (error?.unresolved) errors[key] = error;
         });
         return errors;
     }

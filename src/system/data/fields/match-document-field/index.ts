@@ -41,10 +41,12 @@ export class MatchDocumentField<
     protected override _cleanType(
         value: MatchDocumentField.AssignmentType,
         options?: foundry.data.fields.DataField.CleanOptions,
+        _state: foundry.data.fields.DataField.UpdateState = {},
     ): MatchDocumentField.AssignmentType {
         return MatchDocumentDataModel.schema.clean(
             value,
             options,
+            _state,
         ) as MatchDocumentField.AssignmentType;
     }
 

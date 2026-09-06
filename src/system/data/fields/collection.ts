@@ -282,12 +282,20 @@ export class CollectionField<
         super(options, context);
     }
 
-    protected override _cleanType(value: TInitialized, options?: object) {
+    protected override _cleanType(
+        value: TInitialized,
+        options?: object,
+        _state: foundry.data.fields.DataField.UpdateState = {},
+    ) {
+        const source =
+            _state.source && typeof _state.source === 'object'
+                ? (_state.source as Record<string, unknown>)
+                : undefined;
         Array.from(Object.entries(value)).forEach(([key, v]) => {
-            const cleaned = this.model.clean(
-                v,
-                options,
-            ) as TElementFieldAssignment;
+            const cleaned = this.model.clean(v, options, {
+                ..._state,
+                source: source?.[key],
+            }) as TElementFieldAssignment;
 
             if (key.startsWith('-=')) {
                 (value as Record<string, TElementFieldAssignment | null>)[key] =
