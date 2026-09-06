@@ -5,6 +5,7 @@ import { CharacterActorDataModel } from './character';
 import { CommonActorDataModel } from './common';
 
 export const config = {
+    base: CommonActorDataModel,
     [ActorType.Character]: CharacterActorDataModel,
     [ActorType.Adversary]: AdversaryActorDataModel,
 } as const;
