@@ -226,10 +226,10 @@ test('Add weapon, validate strike action details', async ({
         .first()
         .click();
     await expect(
-        testCharacterSheet.getByRole('button', { name: ' View' }),
+        testCharacterSheet.getByRole('button', { name: 'View' }),
     ).toBeVisible();
     const axeStrikeActionSheetPromise = getLocatorForNextWindowToOpen(page);
-    await testCharacterSheet.getByRole('button', { name: ' View' }).click();
+    await testCharacterSheet.getByRole('button', { name: 'View' }).click();
     const axeStrikeActionSheet = await axeStrikeActionSheetPromise;
     await expect(
         axeStrikeActionSheet
@@ -249,7 +249,7 @@ test('Add weapon, validate strike action details', async ({
         .locator('div:nth-child(7) > a:nth-child(2)')
         .click();
     const axeSheetPromise = getLocatorForNextWindowToOpen(page);
-    await testCharacterSheet.getByRole('button', { name: ' Edit' }).click();
+    await testCharacterSheet.getByRole('button', { name: 'Edit' }).click();
     const axeSheet = await axeSheetPromise;
     await axeSheet.getByText('Details', { exact: true }).click();
     await axeSheet.getByText('Traits Thrown', { exact: true }).click();
