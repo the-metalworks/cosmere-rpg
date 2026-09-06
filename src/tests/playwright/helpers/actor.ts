@@ -150,7 +150,7 @@ export class ActorSheetRef {
         expect(createdActor.uuid);
         const actorSheetRef = {
             id: createdActor.id!,
-            uuid: createdActor.uuid,
+            uuid: createdActor.uuid!,
             name: createdActor.name,
             type: createdActor.type as ActorType,
         };

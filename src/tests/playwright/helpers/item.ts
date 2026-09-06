@@ -38,14 +38,18 @@ export class ItemSheetRef {
         type: ItemType,
     ): Promise<ItemSheetRefData> {
         await page.getByRole('tab', { name: 'Items' }).click();
-        await page.getByRole('button', { name: ' Create Item' }).click();
+        await page.getByRole('button', { name: 'Create Item' }).click();
         await page.getByRole('combobox').selectOption(type);
 
         await page.locator(`input[name="name"]`).click();
         await page.locator(`input[name="name"]`).fill(name);
         await page.getByRole('heading', { name: 'Create Item' }).click();
         const newItemPromise = paramsFromHook(page, 'createItem');
-        await page.getByRole('button', { name: ' Create Item' }).click();
+        await page
+            .locator('section')
+            .filter({ hasText: 'Name Type' })
+            .getByRole('button', { name: 'Create Item' })
+            .click();
         return newItemPromiseToSheetRef(newItemPromise, {
             expectedName: name,
             expectedType: type,
@@ -86,7 +90,7 @@ async function newItemPromiseToSheetRef(
         createdItem.type.charAt(0).toUpperCase() + createdItem.type.slice(1);
     const itemSheetRefData = {
         id: createdItem.id!,
-        uuid: createdItem.uuid,
+        uuid: createdItem.uuid!,
         name: createdItem.name,
         type: createdItem.type,
         typeLabel,
