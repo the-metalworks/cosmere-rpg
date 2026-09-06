@@ -172,8 +172,8 @@ export function register() {
                             `COSMERE.Item.EventSystem.Event.Handler.Types.${HandlerType.GrantItems}.PickPromptTitle.Default`,
                         ),
                     options: items.map((item) => ({
-                        id: item.uuid,
-                        label: `<span>${item.name}${item.isPhysical() ? ` <span style="font-size:.65em;opacity:.65;">x${quantities[item.uuid]}</span>` : ''}</span>`,
+                        id: item.uuid!,
+                        label: `<span>${item.name}${item.isPhysical() ? ` <span style="font-size:.65em;opacity:.65;">x${quantities[item.uuid!]}</span>` : ''}</span>`,
                     })),
                 });
 
@@ -192,7 +192,7 @@ export function register() {
 
             // Handle physical items
             physicalItems.forEach((item) => {
-                const quantity = quantities[item.uuid];
+                const quantity = quantities[item.uuid!];
 
                 // Find the existing item in the actor
                 const existingItem = actor.items.find((other) =>
@@ -257,7 +257,7 @@ export function register() {
                 actor.createEmbeddedDocuments(
                     'Item',
                     documentsToCreate,
-                    event.op,
+                    event.op as unknown as Item.Database.CreateOperation,
                 ),
             ]);
 
@@ -268,8 +268,8 @@ export function register() {
                         game.i18n.format('GENERIC.Notification.AddedItem', {
                             item: item.name,
                             quantity:
-                                item.isPhysical() && quantities[item.uuid] > 1
-                                    ? ` (x${quantities[item.uuid]})`
+                                item.isPhysical() && quantities[item.uuid!] > 1
+                                    ? ` (x${quantities[item.uuid!]})`
                                     : '',
                             actor: actor.name,
                         }),
