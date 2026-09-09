@@ -280,6 +280,19 @@ export class ActorSheetRef {
         await clickAway(this.page);
     }
 
+    public async updateResourceMax(resourceLabel: string, newVal: number) {
+        const resourceBar = this.locator
+            .locator('app-actor-resource')
+            .filter({ hasText: resourceLabel });
+        const configureButton = resourceBar.getByRole('button').last();
+        await configureButton.click();
+        await this.page.locator('select[name="mode"]').selectOption('override');
+        await this.page.locator('input[name="max"]').click();
+        await this.page.locator('input[name="max"]').fill(newVal.toString());
+        await clickAway(this.page);
+        await this.page.getByRole('button', { name: 'Update' }).click();
+    }
+
     public async switchTab() {}
     public async switchToActionsTab() {
         await this.locator.locator('a').filter({ hasText: '3' }).click();
