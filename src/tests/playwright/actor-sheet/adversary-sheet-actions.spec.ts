@@ -41,6 +41,42 @@ test('Resources/Attribute/Defenses', async ({
     });
 });
 
+test('Resource Configuration', async ({
+    authenticatedPage: page,
+    createActor,
+}) => {
+    const testAdversary = await createActor(
+        'Test Adversary',
+        ActorType.Adversary,
+    );
+
+    await testAdversary.checkAllStats({});
+
+    await testAdversary.updateResourceMax('Health', 10);
+    await testAdversary.checkAllStats({
+        resources: {
+            Health: {
+                value: 10,
+                max: 10,
+            },
+        },
+    });
+
+    await testAdversary.updateResourceMax('Focus', 3);
+    await testAdversary.checkAllStats({
+        resources: {
+            Health: {
+                value: 10,
+                max: 10,
+            },
+            Focus: {
+                value: 3,
+                max: 3,
+            },
+        },
+    });
+});
+
 test('Edit mode', async ({ authenticatedPage: page, createActor }) => {
     const testAdversary = await createActor(
         'Test Character',
