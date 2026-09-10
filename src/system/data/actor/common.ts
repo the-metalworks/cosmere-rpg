@@ -684,72 +684,24 @@ export class CommonActorDataModel<
      */
     private sanitizeResourceModes(): void {
         const health = this.resources[Resource.Health].max;
+        const healthConfig =
+            CONFIG.COSMERE.resources.hea.modes[this.parent.type as ActorType];
         const focus = this.resources[Resource.Focus].max;
+        const focusConfig =
+            CONFIG.COSMERE.resources.foc.modes[this.parent.type as ActorType];
         const investiture = this.resources[Resource.Investiture].max;
+        const investitureConfig =
+            CONFIG.COSMERE.resources.inv.modes[this.parent.type as ActorType];
 
-        switch (this.parent.type) {
-            case 'character':
-                // Character Health
-                if (
-                    !CONFIG.COSMERE.resources.hea.modes.character.valid.includes(
-                        health.mode,
-                    )
-                ) {
-                    health.mode =
-                        CONFIG.COSMERE.resources.hea.modes.character.default;
-                }
-                // Character Focus
-                if (
-                    !CONFIG.COSMERE.resources.foc.modes.character.valid.includes(
-                        focus.mode,
-                    )
-                ) {
-                    health.mode =
-                        CONFIG.COSMERE.resources.foc.modes.character.default;
-                }
-                // Character Investiture
-                if (
-                    !CONFIG.COSMERE.resources.inv.modes.character.valid.includes(
-                        investiture.mode,
-                    )
-                ) {
-                    investiture.mode =
-                        CONFIG.COSMERE.resources.inv.modes.character.default;
-                }
-                break;
-            case 'adversary':
-                // Adversary Health
-                if (
-                    !CONFIG.COSMERE.resources.hea.modes.adversary.valid.includes(
-                        health.mode,
-                    )
-                ) {
-                    health.mode =
-                        CONFIG.COSMERE.resources.hea.modes.adversary.default;
-                }
-                // Adversary Focus
-                if (
-                    !CONFIG.COSMERE.resources.foc.modes.adversary.valid.includes(
-                        focus.mode,
-                    )
-                ) {
-                    focus.mode =
-                        CONFIG.COSMERE.resources.foc.modes.adversary.default;
-                }
-                // Adversary Investiture
-                if (
-                    !CONFIG.COSMERE.resources.inv.modes.adversary.valid.includes(
-                        investiture.mode,
-                    )
-                ) {
-                    investiture.mode =
-                        CONFIG.COSMERE.resources.inv.modes.adversary.default;
-                }
-                break;
-            default:
-                console.warn(`Unknown actor type: ${this.parent.type}`);
-                break;
-        }
+        health.mode = healthConfig.valid.includes(health.mode)
+            ? health.mode
+            : healthConfig.default;
+        focus.mode = focusConfig.valid.includes(focus.mode)
+            ? focus.mode
+            : focusConfig.default;
+        investiture.mode = investitureConfig.valid.includes(investiture.mode)
+            ? investiture.mode
+            : investitureConfig.default;
     }
 
     /**
