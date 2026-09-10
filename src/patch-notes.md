@@ -1,3 +1,22 @@
+### Patch 3.1.1
+<sup>2026-09-09</sup>
+
+Fixes and changes based on feedback from early access, mostly regarding the starter rules content.
+
+#### 🛠️ Full Changelog
+
+📝 **Features**
+
+* 
+
+🐛 **Bug Fixes**
+
+* 
+
+<br>
+
+----
+
 ### Patch 3.0.2
 <sup>2026-08-18</sup>
 
