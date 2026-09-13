@@ -546,6 +546,7 @@ export interface CosmereRPGConfig {
         damage: {
             unarmed: {
                 strength: AttributeScale[];
+                improvedStrength: AttributeScale[];
             };
         };
         power: {
