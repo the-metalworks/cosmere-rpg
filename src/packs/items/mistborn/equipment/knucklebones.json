@@ -34,14 +34,84 @@
         "primaryResource": "none",
         "linkedSkills": [],
         "alwaysEquippable": false,
-        "equippableEnabled": false,
+        "equippableEnabled": true,
         "equipped": false,
         "alwaysEquipped": false,
         "equip": {
-            "type": "wear"
+            "type": "hold",
+            "hand": "off_hand"
         },
         "__embedded": {
-            "items": []
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Knucklebones Unarmed Attack",
+                    "img": "icons/weapons/fist/fist-knuckles-spiked-brown.webp",
+                    "_id": "IW0CNhN8DXQGPVIW",
+                    "system": {
+                        "id": "knucklebones-action",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p><strong>Damage</strong> Unique; <strong>Range</strong> Melee; <strong>Traits</strong> Unique; <strong>Expert Traits</strong> Momentum, Offhand;</p><p><strong>Type</strong> Special Weapons; <strong>Weapons Skill</strong> Athletics;</p><p>You can wear knucklebones on your hand instead of wielding a weapon in that hand. When you make an unarmed attack using that hand, increase the size of each unarmed damage die by one size. For example, damage of 1 (no die roll) becomes 1d4, 1d8 becomes 1d10, and so on.</p><p><strong>Expertise.</strong> Unlike other entries on the Special Weapons table, you can choose Unarmed Attacks as a weapon expertise.</p><p><strong>Unique Traits.</strong> Unarmed attacks add the following unique traits:</p><p><strong>Always Available.</strong> Unarmed attacks don’t count as weapon attacks, but they are melee attacks intrinsic to each character. You don’t have to be holding a weapon to make an unarmed attack, and you can’t be disarmed of your unarmed attacks. You can make an unarmed attack even if each of your hands is holding something, but if your second Strike on a turn is an unarmed attack, it follows the rules for an offhand attack.</p><p><strong>Strength Training.</strong> When you make an unarmed attack, its damage die is based on your Strength score, as shown on the Unarmed Damage table.</p><table><thead><tr><th><p>Strength</p></th><th><p>Unarmed Damage</p></th></tr></thead><tbody><tr><td><p>0–2</p></td><td><p>1d4 impact</p></td></tr><tr><td><p>3–4</p></td><td><p>1d6 impact</p></td></tr><tr><td><p>5–6</p></td><td><p>1d10 impact</p></td></tr><tr><td><p>7–8</p></td><td><p>2d8 impact</p></td></tr><tr><td><p>9+</p></td><td><p>2d12 impact</p></td></tr></tbody></table>",
+                            "chat": "",
+                            "short": ""
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": "",
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "skill_test",
+                            "cost": {
+                                "value": 1,
+                                "type": "act"
+                            },
+                            "consumption": [],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": null,
+                            "attribute": null,
+                            "formula": "@scalar.damage.improvedUnarmed",
+                            "type": null,
+                            "grazeOverrideFormula": ""
+                        },
+                        "skillTest": {
+                            "skill": "ath",
+                            "attribute": "default",
+                            "plotDie": false,
+                            "modifierFormula": "",
+                            "opportunity": null,
+                            "complication": null
+                        },
+                        "__embedded": {
+                            "items": []
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.1.1",
+                        "createdTime": 1789300596881,
+                        "lastModifiedBy": null,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    }
+                }
+            ]
         }
     },
     "effects": [],
@@ -49,7 +119,7 @@
         "default": 0
     },
     "flags": {},
-    "_id": "BRreOx68bvSVNOuY",
-    "sort": 2400000,
-    "_key": "!items!BRreOx68bvSVNOuY"
+    "_id": "aGDm4t84WV2IDmCJ",
+    "sort": 0,
+    "_key": "!items!aGDm4t84WV2IDmCJ"
 }
