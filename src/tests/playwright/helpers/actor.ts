@@ -4,7 +4,7 @@ import {
     Attribute,
     AttributeGroup,
 } from '@src/system/types/cosmere';
-import { paramsFromHook } from './hooks';
+import { getLocatorForNextWindowToOpen, paramsFromHook } from './hooks';
 import { DeepPartial } from '@league-of-foundry-developers/foundry-vtt-types/utils';
 import { clickAway } from './utils';
 
@@ -285,12 +285,18 @@ export class ActorSheetRef {
             .locator('app-actor-resource')
             .filter({ hasText: resourceLabel });
         const configureButton = resourceBar.getByRole('button').last();
+        const configureWindowPromise = getLocatorForNextWindowToOpen(this.page);
         await configureButton.click();
-        await this.page.locator('select[name="mode"]').selectOption('override');
-        await this.page.locator('input[name="max"]').click();
-        await this.page.locator('input[name="max"]').fill(newVal.toString());
+        const configureWindow = await configureWindowPromise;
+        await configureWindow
+            .locator('select[name="mode"]')
+            .selectOption('override');
+        await configureWindow.locator('input[name="max"]').click();
+        await configureWindow
+            .locator('input[name="max"]')
+            .fill(newVal.toString());
         await clickAway(this.page);
-        await this.page.getByRole('button', { name: 'Update' }).click();
+        await configureWindow.getByRole('button', { name: 'Update' }).click();
     }
 
     public async switchTab() {}

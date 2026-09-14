@@ -81,5 +81,5 @@ export async function getLocatorForNextWindowToOpen(
         timeout,
     );
 
-    return page.locator(`#${application.id}`);
+    return page.locator(`#${application.id.replaceAll('.', '\\.')}`);
 }
