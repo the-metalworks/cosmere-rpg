@@ -10,18 +10,43 @@ import {
     CosmereSkillRollOptions,
     DieModifier,
 } from '../dice';
-import { getSystemSetting, SETTINGS } from '../settings';
-import { ItemType } from '../types/cosmere';
-import { determineConfigurationMode, TargetDescriptor } from '../utils/generic';
-import { renderSystemTemplate, TEMPLATES } from '../utils/templates';
+import { DamageType, ItemType } from '../types/cosmere';
+import { AnyObject } from '@system/types/utils';
+
+// Documents
 import { CosmereActor } from './actor';
 import { InjuryItem } from './item';
+
+// Utils
+import { getSystemSetting, KEYBINDINGS, SETTINGS } from '../settings';
+import {
+    areKeysPressed,
+    determineConfigurationMode,
+    getApplyTargets,
+    TargetDescriptor,
+} from '../utils/generic';
+import { renderSystemTemplate, TEMPLATES } from '../utils/templates';
+
+// Dialogs
+import { DamageModifierDialog } from '@system/applications/actor/dialogs/damage-card-modifier';
+
+// Constants
 import { HOOKS } from '@system/constants/hooks';
 
 export class CosmereChatMessage<
     out SubType extends ChatMessage.SubType = ChatMessage.SubType,
 > extends ChatMessage<SubType> {
     private graze = false;
+
+    /* --- Accessors --- */
+
+    public get description(): string | undefined {
+        return (this.system as AnyObject).description as string | undefined;
+    }
+
+    public get itemUuid(): string | undefined {
+        return (this.system as AnyObject).item as string | undefined;
+    }
 
     /* --- Rendering --- */
     public override async renderHTML(
@@ -107,6 +132,12 @@ export class CosmereChatMessage<
             .find('.overlay-crit div')
             .on('click', async (event) => {
                 await this.onClickOverlayCrit(event);
+            });
+
+        $(html)
+            .find('.apply-buttons button')
+            .on('click', async (event) => {
+                await this.onClickApplyDamange(event);
             });
     }
 
@@ -377,6 +408,82 @@ export class CosmereChatMessage<
                 this,
                 this.speakerActor,
                 injuryItem,
+            );
+        }
+    }
+
+    /**
+     * Handles an apply button click event.
+     * @param {JQuery.ClickEvent} event The originating event of the button click.
+     */
+    private async onClickApplyDamange(event: JQuery.ClickEvent) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        // Handle interaction hook
+        if (this.onInteraction(event) === false) return;
+
+        const button = event.currentTarget as HTMLElement;
+        const action = button.dataset.action;
+        const multiplier = Number(button.dataset.multiplier);
+        if (!action) return;
+
+        const promptModify =
+            !getSystemSetting(SETTINGS.DIALOG_DAMAGE_MODIFIER_SKIP_DEFAULT) ||
+            areKeysPressed(KEYBINDINGS.SKIP_DIALOG_DEFAULT);
+
+        const modifier = promptModify
+            ? await DamageModifierDialog.show({
+                  isHealing: multiplier < 0,
+                  action: action,
+              })
+            : 0;
+
+        const targets = getApplyTargets();
+        if (targets.size === 0) return;
+
+        if (action === 'apply-damage' && multiplier) {
+            const section = button.closest('.chat-card-section.damage');
+            const uuid = (section as HTMLElement).dataset.uuid;
+            const roll = this.rolls.find(
+                (r) => (r as unknown as CosmereRoll).uuid === uuid,
+            );
+
+            if (!roll || !(roll instanceof CosmereDamageRoll)) return;
+
+            const item = await fromUuid<Item.Implementation>(this.itemUuid);
+            if (!item) return;
+
+            const rollDamage =
+                this.graze && roll.graze ? roll.graze.total : roll.total;
+
+            const damageToApply = {
+                amount: ((rollDamage ?? 0) + modifier) * Math.abs(multiplier),
+                type: multiplier < 0 ? DamageType.Healing : roll.damageType,
+            };
+
+            await Promise.all(
+                Array.from(targets).map((token) =>
+                    token.actor?.applyDamage(damageToApply, {
+                        originatingItem: item,
+                    }),
+                ),
+            );
+        } else if (action === 'reduce-focus') {
+            await Promise.all(
+                Array.from(targets).map((token) =>
+                    token.actor?.update({
+                        system: {
+                            resources: {
+                                foc: {
+                                    value:
+                                        token.actor.system.resources.foc.value -
+                                        (1 + modifier),
+                                },
+                            },
+                        },
+                    }),
+                ),
             );
         }
     }

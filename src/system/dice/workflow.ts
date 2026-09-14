@@ -2,9 +2,17 @@ import { RollConfigurationDialog } from '../applications/dialogs/roll-configurat
 import { CosmereRoll, CosmereRollOptions } from './rolls/cosmere-roll';
 import { RollEvaluationOptions } from './types';
 
+interface ExecuteRollOptions extends CosmereRollOptions {
+    item?: Item.Implementation;
+}
+
+interface OutputRollOptions extends CosmereRollOptions {
+    item?: Item.Implementation;
+}
+
 export async function executeRolls(
     rolls: CosmereRoll[],
-    options: CosmereRollOptions,
+    options: ExecuteRollOptions,
 ) {
     if (rolls.length === 0) return [];
 
@@ -60,7 +68,7 @@ async function evaluateRolls(
     return rolls;
 }
 
-async function outputRolls(rolls: CosmereRoll[], options: CosmereRollOptions) {
+async function outputRolls(rolls: CosmereRoll[], options: OutputRollOptions) {
     const messageData = {
         author: game.user.id,
         speaker: options.speaker,
@@ -68,6 +76,7 @@ async function outputRolls(rolls: CosmereRoll[], options: CosmereRollOptions) {
         system: {
             targets: rolls[0]?.data.targets,
             description: await rolls[0]?.data.description,
+            item: options.item?.uuid,
         },
     };
 

@@ -162,7 +162,7 @@ export const TEMPLATES = {
 
     //CHAT
     CHAT_CARD: 'chat/card.hbs',
-    CHAT_CARD_CONTENT: 'chat/card-content.hbs',
+    // CHAT_CARD_CONTENT: 'chat/card-content.hbs',
     CHAT_CARD_SECTION: 'chat/card-section.hbs',
     CHAT_CARD_DESCRIPTION: 'chat/card-description.hbs',
     CHAT_CARD_INJURY: 'chat/card-injury.hbs',

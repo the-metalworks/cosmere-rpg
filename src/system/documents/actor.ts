@@ -1049,7 +1049,10 @@ export class CosmereActor<
 
         rolls.push(...(await item.use(options)));
 
-        return await executeRolls(rolls, options);
+        return await executeRolls(rolls, {
+            ...options,
+            item,
+        });
     }
 
     public async rollInjury(

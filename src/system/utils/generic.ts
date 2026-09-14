@@ -228,7 +228,7 @@ export function getFormulaDisplayString(diceParts: string[]) {
  * Gets the current set of tokens that are selected or targeted (or both) depending on the chosen setting.
  * @returns {Set} A set of tokens that the system considers as current targets.
  */
-export function getApplyTargets() {
+export function getApplyTargets(): Set<Token.Implementation> {
     const setting = getSystemSetting<TargetingOptions>(
         SETTINGS.APPLY_BUTTONS_TO,
     );
@@ -245,7 +245,9 @@ export function getApplyTargets() {
     const selectTokens = applyToSelected
         ? canvas!.tokens!.controlled
         : ([] as Token[]);
-    const targetTokens = applyToTargeted ? game.user.targets : new Set();
+    const targetTokens = applyToTargeted
+        ? game.user.targets
+        : new Set<Token.Implementation>();
 
     if (prioritiseSelected && selectTokens.length > 0) {
         targetTokens.clear();

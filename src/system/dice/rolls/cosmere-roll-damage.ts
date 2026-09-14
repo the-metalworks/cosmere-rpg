@@ -45,6 +45,8 @@ export interface CosmereDamageRollOptions extends CosmereRollOptions {
 }
 
 export class CosmereDamageRoll extends CosmereRoll {
+    declare data: CosmereDamageRollData;
+
     public constructor(
         formula: string,
         data: CosmereDamageRollData,
@@ -91,20 +93,20 @@ export class CosmereDamageRoll extends CosmereRoll {
         };
     }
 
+    public get damageType(): DamageType | undefined {
+        return this.data.type;
+    }
+
     public get isHealing(): boolean {
-        return (this.data as CosmereDamageRollData).type === DamageType.Healing;
+        return this.damageType === DamageType.Healing;
     }
 
     /* --- Functions --- */
     public recalculateMod() {
-        const skill =
-            this.data.skills[(this.data as CosmereDamageRollData).skill];
-        const attribute =
-            this.data.attributes[
-                (this.data as CosmereDamageRollData).attribute
-            ];
+        const skill = this.data.skills[this.data.skill];
+        const attribute = this.data.attributes[this.data.attribute];
 
-        (this.data as CosmereDamageRollData).mod =
+        this.data.mod =
             attribute.value + attribute.bonus + skill.rank + skill.mod.bonus;
 
         this.terms = CosmereDamageRoll.parse(
@@ -129,9 +131,9 @@ export class CosmereDamageRoll extends CosmereRoll {
     ): FixedInstanceType<T> {
         const roll = super.fromData(data) as unknown as CosmereDamageRoll;
 
-        (roll.data as CosmereDamageRollData).skill = data.skill;
-        (roll.data as CosmereDamageRollData).attribute = data.attribute;
-        (roll.data as CosmereDamageRollData).type = data.type;
+        roll.data.skill = data.skill;
+        roll.data.attribute = data.attribute;
+        roll.data.type = data.type;
 
         return roll as FixedInstanceType<T>;
     }
@@ -139,9 +141,9 @@ export class CosmereDamageRoll extends CosmereRoll {
     public override toJSON() {
         return {
             ...super.toJSON(),
-            skill: (this.data as CosmereDamageRollData).skill,
-            attribute: (this.data as CosmereDamageRollData).attribute,
-            type: (this.data as CosmereDamageRollData).type,
+            skill: this.data.skill,
+            attribute: this.data.attribute,
+            type: this.data.type,
         };
     }
 
@@ -201,6 +203,11 @@ export class CosmereDamageRoll extends CosmereRoll {
 
         if (graze) grazeTooltips.push(await graze.getTooltipConstant());
 
+        const damageButtons = {
+            enabled: getSystemSetting(SETTINGS.CHAT_ENABLE_APPLY_BUTTONS),
+            overlay: !getSystemSetting(SETTINGS.CHAT_ALWAYS_SHOW_BUTTONS),
+        };
+
         return {
             ...(await super._prepareChatRenderContext(
                 foundry.utils.mergeObject(options ?? {}, { children: bonuses }),
@@ -221,17 +228,16 @@ export class CosmereDamageRoll extends CosmereRoll {
                 getSystemSetting(SETTINGS.CHAT_ENABLE_OVERLAY_BUTTONS) &&
                 !(this.options as CosmereDamageRollOptions).critical,
             overlayCritImg: `systems/${SYSTEM_ID}/assets/icons/svg/dice/retro_crit.svg`,
+            damageButtons,
         };
     }
 
     private _getDamageTypeData() {
-        if ((this.data as CosmereDamageRollData).type) {
+        if (this.damageType) {
             const typeLabel = game.i18n.localize(
-                CONFIG.COSMERE.damageTypes[
-                    (this.data as CosmereDamageRollData).type!
-                ].label,
+                CONFIG.COSMERE.damageTypes[this.data.type!].label,
             );
-            const typeIcon = `<img src="${CONFIG.COSMERE.damageTypes[(this.data as CosmereDamageRollData).type!].icon}">`;
+            const typeIcon = `<img src="${CONFIG.COSMERE.damageTypes[this.damageType].icon}">`;
             return { label: typeLabel, icon: typeIcon };
         } else {
             return undefined;
