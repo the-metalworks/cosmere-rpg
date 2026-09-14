@@ -8,7 +8,7 @@ import {
     SETTINGS,
     TargetingOptions,
 } from '../settings';
-import { NONE } from '../types/utils';
+import { NONE, type Noneable } from '../types/utils';
 import { AdvantageMode } from '../dice/types';
 import { CosmereRollOptions, CosmereSkillRollOptions } from '../dice';
 

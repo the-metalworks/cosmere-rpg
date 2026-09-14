@@ -4,7 +4,6 @@ import { Derived } from './data/fields';
 
 // Types
 import { AdvantageMode } from './dice';
-import { CosmereRPGConfig } from './types/config';
 import {
     Size,
     CreatureType,
