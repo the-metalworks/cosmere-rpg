@@ -49,10 +49,11 @@ test('Resource Configuration', async ({
         'Test Adversary',
         ActorType.Adversary,
     );
+    const testAdversarySheet = testAdversary.locator;
 
     await testAdversary.checkAllStats({});
 
-    await testAdversary.updateResourceMax('Health', 10);
+    await testAdversary.updateResourceMaxCustom('Health', 10);
     await testAdversary.checkAllStats({
         resources: {
             Health: {
@@ -62,7 +63,7 @@ test('Resource Configuration', async ({
         },
     });
 
-    await testAdversary.updateResourceMax('Focus', 3);
+    await testAdversary.updateResourceMaxCustom('Focus', 3);
     await testAdversary.checkAllStats({
         resources: {
             Health: {
@@ -72,6 +73,98 @@ test('Resource Configuration', async ({
             Focus: {
                 value: 3,
                 max: 3,
+            },
+        },
+    });
+
+    await testAdversary.updateResourceMaxCustom('Investiture', 2);
+    await testAdversary.checkAllStats({
+        resources: {
+            Health: {
+                value: 10,
+                max: 10,
+            },
+            Focus: {
+                value: 3,
+                max: 3,
+            },
+            Investiture: {
+                value: 2,
+                max: 2,
+            },
+        },
+    });
+
+    await testAdversary.updateResource('Focus', 1);
+    await testAdversary.checkAllStats({
+        resources: {
+            Health: {
+                value: 10,
+                max: 10,
+            },
+            Focus: {
+                value: 1,
+                max: 3,
+            },
+            Investiture: {
+                value: 2,
+                max: 2,
+            },
+        },
+    });
+
+    await testAdversary.updateResource('Health', 5);
+    await testAdversary.checkAllStats({
+        resources: {
+            Health: {
+                value: 5,
+                max: 10,
+            },
+            Focus: {
+                value: 1,
+                max: 3,
+            },
+            Investiture: {
+                value: 2,
+                max: 2,
+            },
+        },
+    });
+
+    await testAdversary.updateResourceMaxRange('Health', 5, 10);
+    await expect(testAdversarySheet.getByText('Health (5 - 10)')).toBeVisible();
+    await testAdversary.checkAllStats({
+        resources: {
+            Health: {
+                value: 5,
+                max: 8,
+            },
+            Focus: {
+                value: 1,
+                max: 3,
+            },
+            Investiture: {
+                value: 2,
+                max: 2,
+            },
+        },
+    });
+
+    await testAdversary.updateResourceMaxRange('Health', 2, 10, 4);
+    await expect(testAdversarySheet.getByText('Health (2 - 10)')).toBeVisible();
+    await testAdversary.checkAllStats({
+        resources: {
+            Health: {
+                value: 4,
+                max: 4,
+            },
+            Focus: {
+                value: 1,
+                max: 3,
+            },
+            Investiture: {
+                value: 2,
+                max: 2,
             },
         },
     });

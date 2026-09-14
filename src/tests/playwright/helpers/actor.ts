@@ -280,7 +280,10 @@ export class ActorSheetRef {
         await clickAway(this.page);
     }
 
-    public async updateResourceMax(resourceLabel: string, newVal: number) {
+    public async updateResourceMaxCustom(
+        resourceLabel: string,
+        newVal: number,
+    ) {
         const resourceBar = this.locator
             .locator('app-actor-resource')
             .filter({ hasText: resourceLabel });
@@ -296,6 +299,39 @@ export class ActorSheetRef {
             .locator('input[name="max"]')
             .fill(newVal.toString());
         await clickAway(this.page);
+        await configureWindow.getByRole('button', { name: 'Update' }).click();
+    }
+
+    public async updateResourceMaxRange(
+        resourceLabel: string,
+        minRange: number,
+        maxRange: number,
+        newVal?: number,
+    ) {
+        const resourceBar = this.locator
+            .locator('app-actor-resource')
+            .filter({ hasText: resourceLabel });
+        const configureButton = resourceBar.getByRole('button').last();
+        const configureWindowPromise = getLocatorForNextWindowToOpen(this.page);
+        await configureButton.click();
+        const configureWindow = await configureWindowPromise;
+        await configureWindow
+            .locator('select[name="mode"]')
+            .selectOption('range');
+        await configureWindow.locator('input[name="minRange"]').click();
+        await configureWindow
+            .locator('input[name="minRange"]')
+            .fill(minRange.toString());
+        await clickAway(this.page);
+        await configureWindow.locator('input[name="maxRange"]').click();
+        await configureWindow
+            .locator('input[name="maxRange"]')
+            .fill(maxRange.toString());
+        await clickAway(this.page);
+        if (newVal) {
+            await configureWindow.getByRole('slider').fill(newVal.toString());
+            await clickAway(this.page);
+        }
         await configureWindow.getByRole('button', { name: 'Update' }).click();
     }
 
