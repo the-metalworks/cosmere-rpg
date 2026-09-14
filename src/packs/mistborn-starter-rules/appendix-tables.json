@@ -1,0 +1,677 @@
+{
+    "name": "Appendix: Tables",
+    "_id": "PXKfRLQxXzAf3DzF",
+    "pages": [
+        {
+            "sort": 100000,
+            "name": "Difficulty Class Examples",
+            "type": "text",
+            "_id": "iAbD9DICNTxPD74F",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<table class=\"mb-table\"><tbody><tr><td><p>Difficulty</p></td><td><p>DC</p></td></tr><tr><td><p>Easy</p></td><td><p>10</p></td></tr><tr><td><p>Medium</p></td><td><p>15</p></td></tr><tr><td><p>Hard</p></td><td><p>20</p></td></tr><tr><td><p>Very Hard</p></td><td><p>25</p></td></tr><tr><td><p>Nearly Impossible</p></td><td><p>30</p></td></tr></tbody></table>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788026478865,
+                "modifiedTime": 1788308739838,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!PXKfRLQxXzAf3DzF.iAbD9DICNTxPD74F"
+        },
+        {
+            "sort": 200000,
+            "name": "Activating a Talent Table",
+            "type": "text",
+            "_id": "GqiYkiuLeR7ARxbU",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<table class=\"mb-table\"><tbody><tr><td><p style=\"text-align:center\">Symbol</p></td><td><p>Description</p></td></tr><tr><td><p style=\"text-align:center\"><span class=\"cosmere-icon\">1</span>, <span class=\"cosmere-icon\">2</span>, <span class=\"cosmere-icon\">3</span></p></td><td><p>Activate using the number of actions specified.</p></td></tr><tr><td><p style=\"text-align:center\"><span class=\"cosmere-icon\">0</span></p></td><td><p>Activate as a free action.</p></td></tr><tr><td><p style=\"text-align:center\"><span class=\"cosmere-icon\">r</span></p></td><td><p>Activate as a reaction.</p></td></tr><tr><td><p style=\"text-align:center\"><span class=\"cosmere-icon\">*</span></p></td><td><p>Triggered by another action you can take, as speci-fied in the talent text.</p></td></tr><tr><td><p style=\"text-align:center\"><span class=\"cosmere-icon\">8</span></p></td><td><p>An ongoing ability that’s always active.</p></td></tr></tbody></table>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788027941987,
+                "modifiedTime": 1788308748698,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!PXKfRLQxXzAf3DzF.GqiYkiuLeR7ARxbU"
+        },
+        {
+            "sort": 300000,
+            "name": "Nascent Power Examples",
+            "type": "text",
+            "_id": "I5haUXcgIyiIpASX",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<table class=\"mb-table\"><tbody><tr><td><p>Metallic Art</p></td><td><p>Example Nascent Effects</p></td></tr><tr><td><p>Bronze Allomancy</p></td><td><p>Detect Allomantic pulses within 10 feet of you for 1 round.</p></td></tr><tr><td><p>Steel Allomancy</p></td><td><p>See blue lines extending from you to nearby metal objects for 1 round.</p></td></tr><tr><td><p>Tin Allomancy</p></td><td><p>One of your senses becomes a super-natural sense for 1 round.</p></td></tr><tr><td><p>Zinc Allomancy</p></td><td><p>Enflame the emotions of a character within 10 feet of you for 1 round.</p></td></tr></tbody></table>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788028699213,
+                "modifiedTime": 1788308754859,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!PXKfRLQxXzAf3DzF.I5haUXcgIyiIpASX"
+        },
+        {
+            "sort": 400000,
+            "name": "Metallic Art Scaling",
+            "type": "text",
+            "_id": "9P37vItPHyWtlZSS",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<table class=\"mb-table\"><tbody><tr><td><p style=\"text-align:center\">Ranks</p></td><td><p style=\"text-align:center\">Limit</p></td><td><p style=\"text-align:center\">Range</p></td><td><p>Die</p></td></tr><tr><td><p style=\"text-align:center\">0</p></td><td><p style=\"text-align:center\">1</p></td><td><p style=\"text-align:center\">10 ft.</p></td><td><p>1 (no die roll)</p></td></tr><tr><td><p style=\"text-align:center\">1</p></td><td><p style=\"text-align:center\">1</p></td><td><p style=\"text-align:center\">20 ft.</p></td><td><p>d4</p></td></tr><tr><td><p style=\"text-align:center\">2</p></td><td><p style=\"text-align:center\">2</p></td><td><p style=\"text-align:center\">40 ft.</p></td><td><p>d6</p></td></tr><tr><td><p style=\"text-align:center\">3</p></td><td><p style=\"text-align:center\">3</p></td><td><p style=\"text-align:center\">80 ft.</p></td><td><p>d8</p></td></tr></tbody></table>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788028878340,
+                "modifiedTime": 1788308760814,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!PXKfRLQxXzAf3DzF.9P37vItPHyWtlZSS"
+        },
+        {
+            "sort": 500000,
+            "name": "Round Duration",
+            "type": "text",
+            "_id": "k0XvX4WkEjS19ztS",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<table class=\"mb-table\"><tbody><tr><td><p>Scene Type</p></td><td><p>Length of 1 Round</p></td></tr><tr><td><p>Combat</p></td><td><p>10 seconds</p></td></tr><tr><td><p>Conversation</p></td><td><p>1 minute</p></td></tr><tr><td><p>Endeavor</p></td><td><p>1-10 minutes (varies)</p></td></tr><tr><td><p>Outside of Scenes</p></td><td><p>10 minutes</p></td></tr></tbody></table>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788029114752,
+                "modifiedTime": 1788308766488,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!PXKfRLQxXzAf3DzF.k0XvX4WkEjS19ztS"
+        },
+        {
+            "sort": 600000,
+            "name": "Injury Duration",
+            "type": "text",
+            "_id": "mYa6ADl8jVsCfIhD",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<table class=\"mb-table\"><tbody><tr><td><p style=\"text-align:center\">Injury Roll</p></td><td><p>Duration</p></td></tr><tr><td><p style=\"text-align:center\">-6 or lower</p></td><td><p><strong>Death.</strong> You die (see “Death”).</p></td></tr><tr><td><p style=\"text-align:center\">-5 to 0</p></td><td><p><strong>Permanent Injury.</strong> You suffer a permanent injury.</p></td></tr><tr><td><p style=\"text-align:center\">1 to 5</p></td><td><p><strong>Vicious Injury.</strong> You suffer a temporary injury with a duration of 6d6 days.</p></td></tr><tr><td><p style=\"text-align:center\">6 to 15</p></td><td><p><strong>Shallow Injury.</strong> You suffer a temporary injury with a duration of 1d6 days.</p></td></tr><tr><td><p style=\"text-align:center\">16+</p></td><td><p><strong>Flesh Wound.</strong> You suffer a temporary injury until after a long rest.</p></td></tr></tbody></table>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788031434458,
+                "modifiedTime": 1788308772419,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!PXKfRLQxXzAf3DzF.mYa6ADl8jVsCfIhD"
+        },
+        {
+            "sort": 700000,
+            "name": "Injury Effects",
+            "type": "text",
+            "_id": "iRCz64dv1QsbSg5D",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<table class=\"mb-table\"><tbody><tr><td><p style=\"text-align:center\">d8</p></td><td><p>Effect</p></td><td><p>Narrative Suggestions</p></td></tr><tr><td><p style=\"text-align:center\">1-2</p></td><td><p>Exhausted [−1]</p></td><td><p>Any injury that lowers your overall stamina.</p></td></tr><tr><td><p style=\"text-align:center\">3</p></td><td><p>Exhausted [−2]</p></td><td><p>Any injury that lowers your overall stamina.</p></td></tr><tr><td><p style=\"text-align:center\">4-5</p></td><td><p>Slowed</p></td><td><p>Injured leg or foot, or any injury that lowers your overall speed.</p></td></tr><tr><td><p style=\"text-align:center\">6</p></td><td><p>Disoriented</p></td><td><p>Injured head, or widespread injury that overwhelms your senses.</p></td></tr><tr><td><p style=\"text-align:center\">7</p></td><td><p>Surprised</p></td><td><p>Overwhelmed by the shock of an injury.</p></td></tr><tr><td><p style=\"text-align:center\">8</p></td><td><p>Can only use one hand</p></td><td><p>Injured arm or hand, or any injury that lowers your overall coordination.</p></td></tr></tbody></table>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788031687025,
+                "modifiedTime": 1788308777945,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!PXKfRLQxXzAf3DzF.iRCz64dv1QsbSg5D"
+        },
+        {
+            "sort": 800000,
+            "name": "Actions and Reactions",
+            "type": "text",
+            "_id": "kbdLhINCDaAJnbd3",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<table class=\"mb-table\"><tbody><tr><td><p>Type</p></td><td><p>Cost</p></td><td><p>Type</p></td><td><p>Cost</p></td></tr><tr><td><p>Aid</p></td><td><p><span class=\"cosmere-icon\">r</span></p></td><td><p>Interact</p></td><td><p><span class=\"cosmere-icon\">1</span></p></td></tr><tr><td><p>Avoid Danger</p></td><td><p><span class=\"cosmere-icon\">r</span></p></td><td><p>Move</p></td><td><p><span class=\"cosmere-icon\">1</span></p></td></tr><tr><td><p>Banter</p></td><td><p><span class=\"cosmere-icon\">0</span></p></td><td><p>Reactive Strike</p></td><td><p><span class=\"cosmere-icon\">r</span></p></td></tr><tr><td><p>Brace</p></td><td><p><span class=\"cosmere-icon\">1</span></p></td><td><p>Ready</p></td><td><p><span class=\"cosmere-icon\">1</span>*</p></td></tr><tr><td><p>Disengage</p></td><td><p><span class=\"cosmere-icon\">1</span></p></td><td><p>Recover</p></td><td><p><span class=\"cosmere-icon\">2</span></p></td></tr><tr><td><p>Dodge</p></td><td><p><span class=\"cosmere-icon\">r</span></p></td><td><p>Shove</p></td><td><p><span class=\"cosmere-icon\">2</span></p></td></tr><tr><td><p>Drop</p></td><td><p><span class=\"cosmere-icon\">0</span></p></td><td><p>Strike</p></td><td><p><span class=\"cosmere-icon\">1</span></p></td></tr><tr><td><p>Gain Advantage</p></td><td><p><span class=\"cosmere-icon\">1</span></p></td><td><p>Use a Skill</p></td><td><p><span class=\"cosmere-icon\">1</span></p></td></tr><tr><td><p>Grapple</p></td><td><p><span class=\"cosmere-icon\">2</span></p></td><td><p></p></td><td><p></p></td></tr></tbody></table><p><em>* You must spend </em><span class=\"cosmere-icon\"><em>1</em></span><em> for Ready plus any </em><span class=\"cosmere-icon\"><em>1</em></span><em> needed for the readied action.</em></p>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788090899976,
+                "modifiedTime": 1788308784281,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!PXKfRLQxXzAf3DzF.kbdLhINCDaAJnbd3"
+        },
+        {
+            "sort": 900000,
+            "name": "Character Sizes",
+            "type": "text",
+            "_id": "eg1fekD649oQ6Mec",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<table class=\"mb-table\"><tbody><tr><td><p>Character Size</p></td><td><p>Area Controlled</p></td></tr><tr><td><p>Small</p></td><td><p style=\"text-align:right\">2.5 ft.</p></td></tr><tr><td><p>Medium</p></td><td><p style=\"text-align:right\">5 ft.</p></td></tr><tr><td><p>Large</p></td><td><p style=\"text-align:right\">10 ft.</p></td></tr><tr><td><p>Huge</p></td><td><p style=\"text-align:right\">15 ft.</p></td></tr><tr><td><p>Gargantuan</p></td><td><p style=\"text-align:right\">20 ft.</p></td></tr><tr><td><p>Colossal</p></td><td><p style=\"text-align:right\">30+ ft.</p></td></tr></tbody></table>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788092614434,
+                "modifiedTime": 1788308789495,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!PXKfRLQxXzAf3DzF.eg1fekD649oQ6Mec"
+        },
+        {
+            "sort": 1000000,
+            "name": "Dangerous Terrain",
+            "type": "text",
+            "_id": "itKzz5xu2OoZcK3J",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<table class=\"mb-table\"><tbody><tr><td><p>Example Terrain</p></td><td><p>Damage</p></td></tr><tr><td><p>Wooden spikes</p></td><td><p>1d4 keen</p></td></tr><tr><td><p>Blazing fire</p></td><td><p>1d8 energy</p></td></tr><tr><td><p>Acid pool</p></td><td><p>1d10 vital</p></td></tr></tbody></table>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788093200263,
+                "modifiedTime": 1788308796518,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!PXKfRLQxXzAf3DzF.itKzz5xu2OoZcK3J"
+        },
+        {
+            "sort": 1100000,
+            "name": "Unarmed Damage",
+            "type": "text",
+            "_id": "m8NthU8XFyepvP85",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<table class=\"mb-table\"><tbody><tr><td><p>Strength</p></td><td><p>Unarmed Damage</p></td></tr><tr><td><p>0-2</p></td><td><p>1 impact (no die roll)</p></td></tr><tr><td><p>3-4</p></td><td><p>1d4 impact</p></td></tr><tr><td><p>5-6</p></td><td><p>1d8 impact</p></td></tr><tr><td><p>7-8</p></td><td><p>2d6 impact</p></td></tr><tr><td><p>9+</p></td><td><p>2d10 impact</p></td></tr></tbody></table>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788095113556,
+                "modifiedTime": 1788308802645,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!PXKfRLQxXzAf3DzF.m8NthU8XFyepvP85"
+        },
+        {
+            "sort": 1200000,
+            "name": "Weapons: Light Weaponry",
+            "type": "text",
+            "_id": "GR6t4tWik1r4CnPO",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<table class=\"mb-table\"><tbody><tr><td><p>Type</p></td><td><p>Damage</p></td><td><p>Range</p></td><td><p>Traits</p></td><td><p>Expert Traits</p></td><td><p style=\"text-align:center\">Weight</p></td><td><p style=\"text-align:right\">Price</p></td></tr><tr><td><p>Glass Dagger</p></td><td><p>1d4 keen</p></td><td><p>Melee</p></td><td><p>Discreet, Fragile</p></td><td><p>Offhand, Thrown [20/60]</p></td><td><p style=\"text-align:center\">0.5 lb.</p></td><td><p style=\"text-align:right\">50 bx</p></td></tr><tr><td><p>Knife</p></td><td><p>1d4 keen</p></td><td><p>Melee</p></td><td><p>Discreet</p></td><td><p>Offhand, Thrown [20/60]</p></td><td><p style=\"text-align:center\">1 lb.</p></td><td><p style=\"text-align:right\">2 bx</p></td></tr><tr><td><p>Shortspear</p></td><td><p>1d8 keen</p></td><td><p>Melee</p></td><td><p>Two-Handed</p></td><td><p>Unique: loses Two-Handed trait</p></td><td><p style=\"text-align:center\">3 lb.</p></td><td><p style=\"text-align:right\">5 bx</p></td></tr><tr><td><p>Sidesword</p></td><td><p>1d6 keen</p></td><td><p>Mele</p></td><td><p>Quickdraw</p></td><td><p>Offhand</p></td><td><p style=\"text-align:center\">2 lb.</p></td><td><p style=\"text-align:right\">15 bx</p></td></tr><tr><td><p>Shortbow</p></td><td><p>1d6 keen</p></td><td><p>Ranged [80/320]</p></td><td><p>Two-Handed</p></td><td><p>Quickdraw</p></td><td><p style=\"text-align:center\">2 lb.</p></td><td><p style=\"text-align:right\">40 bx</p></td></tr><tr><td><p>Sling</p></td><td><p>1d4 impact</p></td><td><p>Ranged [30/120]</p></td><td><p>Discreet</p></td><td><p>Indirect</p></td><td><p style=\"text-align:center\">1 lb.</p></td><td><p style=\"text-align:right\">1 bx</p></td></tr></tbody></table>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788095216005,
+                "modifiedTime": 1788308808828,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!PXKfRLQxXzAf3DzF.GR6t4tWik1r4CnPO"
+        },
+        {
+            "sort": 1300000,
+            "name": "Weapons: Heavy Weaponry",
+            "type": "text",
+            "_id": "SHTbmK2tPQhxgMKu",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<table class=\"mb-table\"><tbody><tr><td><p>Type</p></td><td><p>Damage</p></td><td><p>Range</p></td><td><p>Traits</p></td><td><p>Expert Traits</p></td><td><p style=\"text-align:center\">Weight</p></td><td><p style=\"text-align:right\">Price</p></td></tr><tr><td><p>Hammer</p></td><td><p>1d10 impact</p></td><td><p>Melee</p></td><td><p>Two-Handed</p></td><td><p>Momentum</p></td><td><p style=\"text-align:center\">8 lb.</p></td><td><p style=\"text-align:right\">30 bx</p></td></tr><tr><td><p>Shield</p></td><td><p>1d4 impact</p></td><td><p>Melee</p></td><td><p>Defensive</p></td><td><p>Offhand</p></td><td><p style=\"text-align:center\">2 lb.</p></td><td><p style=\"text-align:right\">5 bx</p></td></tr><tr><td><p>Wooden Shield</p></td><td><p>1d6 impact</p></td><td><p>Melee</p></td><td><p>Defensive, Two-Handed</p></td><td><p>Unique: loses Two-Handed trait</p></td><td><p style=\"text-align:center\">4 lb.</p></td><td><p style=\"text-align:right\">50 bx</p></td></tr><tr><td><p>Crossbow</p></td><td><p>1d8 keen</p></td><td><p>Ranged [100/400]</p></td><td><p>Loaded [1], Two-Handed</p></td><td><p>Deadly</p></td><td><p style=\"text-align:center\">7 lb.</p></td><td><p style=\"text-align:right\">100 bx</p></td></tr><tr><td><p>Longbow</p></td><td><p>1d6 keen</p></td><td><p>Ranged [150/600]</p></td><td><p>Two-Handed</p></td><td><p>Indirect</p></td><td><p style=\"text-align:center\">3 lb.</p></td><td><p style=\"text-align:right\">75 bx</p></td></tr></tbody></table>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788095491967,
+                "modifiedTime": 1788308814516,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!PXKfRLQxXzAf3DzF.SHTbmK2tPQhxgMKu"
+        },
+        {
+            "sort": 1400000,
+            "name": "Weapons: Special Weapons",
+            "type": "text",
+            "_id": "FEDvhP9LQUwAlb9p",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<table class=\"mb-table\"><tbody><tr><td><p>Type</p></td><td><p>Skill</p></td><td><p>Damage</p></td><td><p>Range</p></td><td><p>Traits</p></td><td><p>Expert Traits</p></td><td><p style=\"text-align:center\">Weight</p></td><td><p style=\"text-align:right\">Price</p></td></tr><tr><td><p>Improvised Weapon</p></td><td><p>Same as similar weapon</p></td><td><p>Same as similar weapon</p></td><td><p>Melee</p></td><td><p>Fragile, Unique</p></td><td><p>Unique</p></td><td><p style=\"text-align:center\">—</p></td><td><p style=\"text-align:right\">—</p></td></tr><tr><td><p>Unarmed Attack</p></td><td><p>Athletics</p></td><td><p>Unique</p></td><td><p>Melee</p></td><td><p>Unique</p></td><td><p>Momentum, Offhand</p></td><td><p style=\"text-align:center\">Weightless</p></td><td><p style=\"text-align:right\">—</p></td></tr><tr><td><p>Dueling Cane</p></td><td><p>Heavy Weaponry or Light Weaponry</p></td><td><p>1d8 impact</p></td><td><p>Melee</p></td><td><p>Discreet, Unique</p></td><td><p>Offhand</p></td><td><p style=\"text-align:center\">3 lb.</p></td><td><p style=\"text-align:right\">40 bx</p></td></tr></tbody></table>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788095718921,
+                "modifiedTime": 1788308820602,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!PXKfRLQxXzAf3DzF.FEDvhP9LQUwAlb9p"
+        },
+        {
+            "sort": 1500000,
+            "name": "Armor",
+            "type": "text",
+            "_id": "lXKhuOhcFdAZjGEe",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<table class=\"mb-table\"><tbody><tr><td><p>Type</p></td><td><p style=\"text-align:center\">Deflect Value</p></td><td><p>Traits</p></td><td><p>Expert Traits</p></td><td><p style=\"text-align:center\">Weight</p></td><td><p style=\"text-align:right\">Purchase Price</p></td></tr><tr><td><p>Uniform</p></td><td><p style=\"text-align:center\">0</p></td><td><p>Presentable</p></td><td><p>—</p></td><td><p style=\"text-align:center\">5 lb.</p></td><td><p style=\"text-align:right\">20 bx</p></td></tr><tr><td><p>Mistcloak</p></td><td><p style=\"text-align:center\">0</p></td><td><p>Unique</p></td><td><p>Unique</p></td><td><p style=\"text-align:center\">5 lb.</p></td><td><p style=\"text-align:right\">Reward Only</p></td></tr><tr><td><p>Leather</p></td><td><p style=\"text-align:center\">1</p></td><td><p>—</p></td><td><p>Presentable</p></td><td><p style=\"text-align:center\">10 lb.</p></td><td><p style=\"text-align:right\">30 bx</p></td></tr><tr><td><p>Breastplate</p></td><td><p style=\"text-align:center\">2</p></td><td><p>Cumbersome [3]</p></td><td><p>Presentable</p></td><td><p style=\"text-align:center\">30 lb.</p></td><td><p style=\"text-align:right\">50 bx</p></td></tr></tbody></table>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788096185394,
+                "modifiedTime": 1788308827125,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!PXKfRLQxXzAf3DzF.lXKhuOhcFdAZjGEe"
+        },
+        {
+            "sort": 1600000,
+            "name": "Equipment",
+            "type": "text",
+            "_id": "qlb06M8MaYga7SgT",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<table class=\"mb-table\"><tbody><tr><td><p>Name</p></td><td><p style=\"text-align:center\">Weight</p></td><td><p style=\"text-align:right\">Purchase Price</p></td></tr><tr><td><p>Alcohol (1 serving)</p></td><td><p style=\"text-align:center\">0.2 lb.</p></td><td><p style=\"text-align:right\">0.1-50 bx</p></td></tr><tr><td><p>Alcohol (bottle)</p></td><td><p style=\"text-align:center\">2-4 lb.</p></td><td><p style=\"text-align:right\">0.5-300 bx</p></td></tr><tr><td><p>Anesthetic (5 doses)</p></td><td><p style=\"text-align:center\">1.5 lb.</p></td><td><p style=\"text-align:right\">30 bx</p></td></tr><tr><td><p>Antiseptic (potent, 5 doses)</p></td><td><p style=\"text-align:center\">1 lb.</p></td><td><p style=\"text-align:right\">25 bx</p></td></tr><tr><td><p>Antiseptic (weak, 5 doses)</p></td><td><p style=\"text-align:center\">1 lb.</p></td><td><p style=\"text-align:right\">10 bx</p></td></tr><tr><td><p>Backpack*</p></td><td><p style=\"text-align:center\">5 lb.</p></td><td><p style=\"text-align:right\">4 bx</p></td></tr><tr><td><p>Barrel*</p></td><td><p style=\"text-align:center\">70 lb.</p></td><td><p style=\"text-align:right\">10 bx</p></td></tr><tr><td><p>Blanket*</p></td><td><p style=\"text-align:center\">2 lb.</p></td><td><p style=\"text-align:right\">0.5 bx</p></td></tr><tr><td><p>Book (reference)</p></td><td><p style=\"text-align:center\">1-5 lb.</p></td><td><p style=\"text-align:right\">5-250 bx</p></td></tr><tr><td><p>Bottle (ceramic)*</p></td><td><p style=\"text-align:center\">3 lb.</p></td><td><p style=\"text-align:right\">4 bx</p></td></tr><tr><td><p>Bottle (glass)*</p></td><td><p style=\"text-align:center\">2 lb.</p></td><td><p style=\"text-align:right\">8 bx</p></td></tr><tr><td><p>Bucket*</p></td><td><p style=\"text-align:center\">2 lb.</p></td><td><p style=\"text-align:right\">0.5 bx</p></td></tr><tr><td><p>Candle</p></td><td><p style=\"text-align:center\">0.2 lb.</p></td><td><p style=\"text-align:right\">0.1 bx</p></td></tr><tr><td><p>Case (leather)</p></td><td><p style=\"text-align:center\">1 lb.</p></td><td><p style=\"text-align:right\">2 bx</p></td></tr><tr><td><p>Chain (thick, 10 feet)</p></td><td><p style=\"text-align:center\">10 lb.</p></td><td><p style=\"text-align:right\">10 bx</p></td></tr><tr><td><p>Chain (thin, 1 foot)</p></td><td><p style=\"text-align:center\">0.5 lb.</p></td><td><p style=\"text-align:right\">10 bx</p></td></tr><tr><td><p>Chest*</p></td><td><p style=\"text-align:center\">25 lb.</p></td><td><p style=\"text-align:right\">30 bx</p></td></tr><tr><td><p>Clothing (breakaway)</p></td><td><p style=\"text-align:center\">5 lb.</p></td><td><p style=\"text-align:right\">120 bx</p></td></tr><tr><td><p>Clothing (common)</p></td><td><p style=\"text-align:center\">3 lb.</p></td><td><p style=\"text-align:right\">1 bx</p></td></tr><tr><td><p>Clothing (fine)</p></td><td><p style=\"text-align:center\">6 lb.</p></td><td><p style=\"text-align:right\">25-100 bx</p></td></tr><tr><td><p>Clothing (ragged)</p></td><td><p style=\"text-align:center\">1.5 lb.</p></td><td><p style=\"text-align:right\">0.2 bx</p></td></tr><tr><td><p>Crowbar</p></td><td><p style=\"text-align:center\">3 lb.</p></td><td><p style=\"text-align:right\">5 bx</p></td></tr><tr><td><p>Ear trumpet</p></td><td><p style=\"text-align:center\">1 lb.</p></td><td><p style=\"text-align:right\">25 bx</p></td></tr><tr><td><p>Flask or tankard*</p></td><td><p style=\"text-align:center\">1 lb.</p></td><td><p style=\"text-align:right\">0.5 bx</p></td></tr><tr><td><p>Flint and steel</p></td><td><p style=\"text-align:center\">1.5 lb.</p></td><td><p style=\"text-align:right\">2 bx</p></td></tr><tr><td><p>Food (ration, 1 day)</p></td><td><p style=\"text-align:center\">0.5 lb.</p></td><td><p style=\"text-align:right\">0.1 bx</p></td></tr><tr><td><p>Food (street, 1 day)</p></td><td><p style=\"text-align:center\">1.5 lb.</p></td><td><p style=\"text-align:right\">0.5 bx</p></td></tr><tr><td><p>Food (fine, 1 day)</p></td><td><p style=\"text-align:center\">0.5 lb.</p></td><td><p style=\"text-align:right\">10 bx</p></td></tr><tr><td><p>Freechair <span class=\"mb-tag-yellow\">Era 2</span></p></td><td><p style=\"text-align:center\">12 lb.</p></td><td><p style=\"text-align:right\">Free or 500 bx</p></td></tr><tr><td><p>Grappling hook</p></td><td><p style=\"text-align:center\">4 lb.</p></td><td><p style=\"text-align:right\">5 bx</p></td></tr><tr><td><p>Hammer (handheld)*</p></td><td><p style=\"text-align:center\">3 lb.</p></td><td><p style=\"text-align:right\">2 bx</p></td></tr><tr><td><p>Ink (1-ounce bottle)*</p></td><td><p style=\"text-align:center\">0.2 lb.</p></td><td><p style=\"text-align:right\">20 bx</p></td></tr><tr><td><p>Ink pen*</p></td><td><p style=\"text-align:center\">0.1 lb.</p></td><td><p style=\"text-align:right\">0.05 bx</p></td></tr><tr><td><p>Jug or pitcher*</p></td><td><p style=\"text-align:center\">4 lb.</p></td><td><p style=\"text-align:right\">1 bx</p></td></tr><tr><td><p>Knucklebones</p></td><td><p style=\"text-align:center\">0.5 lb.</p></td><td><p style=\"text-align:right\">5-10 bx</p></td></tr><tr><td><p>Ladder (10-foot)*</p></td><td><p style=\"text-align:center\">20 lb.</p></td><td><p style=\"text-align:right\">10 bx</p></td></tr><tr><td><p>Lantern (oil)</p></td><td><p style=\"text-align:center\">2 lb.</p></td><td><p style=\"text-align:right\">10 bx</p></td></tr><tr><td><p>Lock and key</p></td><td><p style=\"text-align:center\">1 lb.</p></td><td><p style=\"text-align:right\">25 bx</p></td></tr><tr><td><p>Lockpick</p></td><td><p style=\"text-align:center\">0.5 lb.</p></td><td><p style=\"text-align:right\">2 bx</p></td></tr><tr><td><p>Magnifying lens</p></td><td><p style=\"text-align:center\">0.2 lb.</p></td><td><p style=\"text-align:right\">200 bx</p></td></tr><tr><td><p>Manacles</p></td><td><p style=\"text-align:center\">6 lb.</p></td><td><p style=\"text-align:right\">5 bx</p></td></tr><tr><td><p>Metal sand (pouch)</p></td><td><p style=\"text-align:center\">0.3 lb.</p></td><td><p style=\"text-align:right\">5 bx</p></td></tr><tr><td><p>Mirror (handheld)*</p></td><td><p style=\"text-align:center\">2 lb.</p></td><td><p style=\"text-align:right\">15 bx</p></td></tr><tr><td><p>Musical instrument</p></td><td><p style=\"text-align:center\">0.5-20 lb.</p></td><td><p style=\"text-align:right\">5-100 bx</p></td></tr><tr><td><p>Net (hunting)</p></td><td><p style=\"text-align:center\">5 lb.</p></td><td><p style=\"text-align:right\">2 bx</p></td></tr><tr><td><p>Net (fishing)</p></td><td><p style=\"text-align:center\">15 lb.</p></td><td><p style=\"text-align:right\">5 bx</p></td></tr><tr><td><p>Oil (1 flask)</p></td><td><p style=\"text-align:center\">1 lb.</p></td><td><p style=\"text-align:right\">0.5 bx</p></td></tr><tr><td><p>Paper or parchment (1 sheet)*</p></td><td><p style=\"text-align:center\">0.1 lb.</p></td><td><p style=\"text-align:right\">0.2 bx</p></td></tr><tr><td><p>Perfume (1 vial)*</p></td><td><p style=\"text-align:center\">0.5 lb.</p></td><td><p style=\"text-align:right\">10 bx</p></td></tr><tr><td><p>Pick (mining)*</p></td><td><p style=\"text-align:center\">10 lb.</p></td><td><p style=\"text-align:right\">10 bx</p></td></tr><tr><td><p>Poison (weak, 1 dose)</p></td><td><p style=\"text-align:center\">0.2 lb.</p></td><td><p style=\"text-align:right\">10 bx</p></td></tr><tr><td><p>Poison (effectual, 1 dose)</p></td><td><p style=\"text-align:center\">0.2 lb.</p></td><td><p style=\"text-align:right\">25 bx</p></td></tr><tr><td><p>Poison (potent, 1 dose)</p></td><td><p style=\"text-align:center\">0.2 lb.</p></td><td><p style=\"text-align:right\">60 bx</p></td></tr><tr><td><p>Pot (iron)*</p></td><td><p style=\"text-align:center\">10 lb.</p></td><td><p style=\"text-align:right\">4 bx</p></td></tr><tr><td><p>Pouch*</p></td><td><p style=\"text-align:center\">1 lb.</p></td><td><p style=\"text-align:right\">0.5 bx</p></td></tr><tr><td><p>Pulley system</p></td><td><p style=\"text-align:center\">12 lb.</p></td><td><p style=\"text-align:right\">50 bx</p></td></tr><tr><td><p>Rope (50 feet)</p></td><td><p style=\"text-align:center\">5 lb.</p></td><td><p style=\"text-align:right\">15 bx</p></td></tr><tr><td><p>Sack*</p></td><td><p style=\"text-align:center\">0.5 lb.</p></td><td><p style=\"text-align:right\">0.1 bx</p></td></tr><tr><td><p>Scale</p></td><td><p style=\"text-align:center\">3 lb.</p></td><td><p style=\"text-align:right\">10 bx</p></td></tr><tr><td><p>Shovel*</p></td><td><p style=\"text-align:center\">5 lb.</p></td><td><p style=\"text-align:right\">8 bx</p></td></tr><tr><td><p>Soap*</p></td><td><p style=\"text-align:center\">0.1 lb.</p></td><td><p style=\"text-align:right\">0.5 bx</p></td></tr><tr><td><p>Spyglass</p></td><td><p style=\"text-align:center\">1 lb.</p></td><td><p style=\"text-align:right\">250 bx</p></td></tr><tr><td><p>Surgical supplies</p></td><td><p style=\"text-align:center\">3 lb.</p></td><td><p style=\"text-align:right\">20 bx</p></td></tr><tr><td><p>Tent (two-person)*</p></td><td><p style=\"text-align:center\">20 lb.</p></td><td><p style=\"text-align:right\">5 bx</p></td></tr><tr><td><p>Tonic (1 dose)</p></td><td><p style=\"text-align:center\">0.2 lb.</p></td><td><p style=\"text-align:right\">2 bx</p></td></tr><tr><td><p>Treatment (medical, 1 dose)</p></td><td><p style=\"text-align:center\">0.2 lb.</p></td><td><p style=\"text-align:right\">5 bx</p></td></tr><tr><td><p>Tuning fork*</p></td><td><p style=\"text-align:center\">0.5 lb.</p></td><td><p style=\"text-align:right\">25 bx</p></td></tr><tr><td><p>Vial (glass)*</p></td><td><p style=\"text-align:center\">0.2 lb.</p></td><td><p style=\"text-align:right\">2 bx</p></td></tr><tr><td><p>Waterskin*</p></td><td><p style=\"text-align:center\">1 lb. (empty)</p></td><td><p style=\"text-align:right\">0.5 bx</p></td></tr><tr><td><p>Wax (1 block)*</p></td><td><p style=\"text-align:center\">0.5 lb.</p></td><td><p style=\"text-align:right\">1 bx</p></td></tr><tr><td><p>Whetstone*</p></td><td><p style=\"text-align:center\">1 lb.</p></td><td><p style=\"text-align:right\">0.1 bx</p></td></tr></tbody></table><p><em>*This item is listed for roleplaying purposes and doesn’t have specific statistics or rules.</em></p>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788097404293,
+                "modifiedTime": 1788308833929,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!PXKfRLQxXzAf3DzF.qlb06M8MaYga7SgT"
+        },
+        {
+            "sort": 1700000,
+            "name": "Character Advancement",
+            "type": "text",
+            "_id": "upYaJw0GvFG5dof6",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<table class=\"mb-table\"><tbody><tr><td><p style=\"text-align:center\">Tier</p></td><td><p style=\"text-align:center\">Character Level</p></td><td><p style=\"text-align:center\">Attribute Points</p></td><td><p style=\"text-align:center\">Health Gained</p></td><td><p style=\"text-align:center\">Maximum Skill Rank</p></td><td><p style=\"text-align:center\">Skill Ranks</p></td><td><p style=\"text-align:center\">Talents Gained</p></td></tr><tr><td style=\"align-content:center\" rowspan=\"5\"><p style=\"text-align:center\">1</p></td><td><p style=\"text-align:center\">1</p></td><td><p style=\"text-align:center\">12 attribute points</p></td><td><p style=\"text-align:center\">10 + STR health</p></td><td><p style=\"text-align:center\">2</p></td><td><p style=\"text-align:center\">4 skill ranks</p><p style=\"text-align:center\">(+1 from starting path)</p></td><td><p style=\"text-align:center\">1 talent from starting path plus ancestry bonus talent(s)</p></td></tr><tr><td><p style=\"text-align:center\">2</p></td><td><p style=\"text-align:center\">—</p></td><td><p style=\"text-align:center\">+5 health</p></td><td><p style=\"text-align:center\">2</p></td><td><p style=\"text-align:center\">+2 skill ranks</p></td><td><p style=\"text-align:center\">+1 talent</p></td></tr><tr><td><p style=\"text-align:center\">3</p></td><td><p style=\"text-align:center\">+1 attribute point</p></td><td><p style=\"text-align:center\">+5 health</p></td><td><p style=\"text-align:center\">2</p></td><td><p style=\"text-align:center\">+2 skill ranks</p></td><td><p style=\"text-align:center\">+1 talent</p></td></tr><tr><td><p style=\"text-align:center\">4</p></td><td><p style=\"text-align:center\">—</p></td><td><p style=\"text-align:center\">+5 health</p></td><td><p style=\"text-align:center\">2</p></td><td><p style=\"text-align:center\">+2 skill ranks</p></td><td><p style=\"text-align:center\">+1 talent</p></td></tr><tr><td><p style=\"text-align:center\">5</p></td><td><p style=\"text-align:center\">—</p></td><td><p style=\"text-align:center\">+5 health</p></td><td><p style=\"text-align:center\">2</p></td><td><p style=\"text-align:center\">+2 skill ranks</p></td><td><p style=\"text-align:center\">+1 talent</p></td></tr><tr><td style=\"align-content:center\" rowspan=\"5\"><p style=\"text-align:center\">2</p></td><td><p style=\"text-align:center\">6</p></td><td><p style=\"text-align:center\">+1 attribute point</p></td><td><p style=\"text-align:center\">+4 + STR health</p></td><td><p style=\"text-align:center\">3</p></td><td><p style=\"text-align:center\">+2 skill ranks</p></td><td><p style=\"text-align:center\">+1 talent plus ancestry bonus talent</p></td></tr><tr><td><p style=\"text-align:center\">7</p></td><td><p style=\"text-align:center\">—</p></td><td><p style=\"text-align:center\">+4 health</p></td><td><p style=\"text-align:center\">3</p></td><td><p style=\"text-align:center\">+2 skill ranks</p></td><td><p style=\"text-align:center\">+1 talent</p></td></tr><tr><td><p style=\"text-align:center\">8</p></td><td><p style=\"text-align:center\">—</p></td><td><p style=\"text-align:center\">+4 health</p></td><td><p style=\"text-align:center\">3</p></td><td><p style=\"text-align:center\">+2 skill ranks</p></td><td><p style=\"text-align:center\">+1 talent</p></td></tr><tr><td><p style=\"text-align:center\">9</p></td><td><p style=\"text-align:center\">+1 attribute point</p></td><td><p style=\"text-align:center\">+4 health</p></td><td><p style=\"text-align:center\">3</p></td><td><p style=\"text-align:center\">+2 skill ranks</p></td><td><p style=\"text-align:center\">+1 talent</p></td></tr><tr><td><p style=\"text-align:center\">10</p></td><td><p style=\"text-align:center\">—</p></td><td><p style=\"text-align:center\">+4 health</p></td><td><p style=\"text-align:center\">3</p></td><td><p style=\"text-align:center\">+2 skill ranks</p></td><td><p style=\"text-align:center\">+1 talent</p></td></tr><tr><td style=\"align-content:center\" rowspan=\"5\"><p style=\"text-align:center\">3</p></td><td><p style=\"text-align:center\">11</p></td><td><p style=\"text-align:center\">—</p></td><td><p style=\"text-align:center\">+3 + STR health</p></td><td><p style=\"text-align:center\">4</p></td><td><p style=\"text-align:center\">+2 skill ranks</p></td><td><p style=\"text-align:center\">+1 talent plus ancestry bonus talent</p></td></tr><tr><td><p style=\"text-align:center\">12</p></td><td><p style=\"text-align:center\">+1 attribute point</p></td><td><p style=\"text-align:center\">+3 health</p></td><td><p style=\"text-align:center\">4</p></td><td><p style=\"text-align:center\">+2 skill ranks</p></td><td><p style=\"text-align:center\">+1 talent</p></td></tr><tr><td><p style=\"text-align:center\">13</p></td><td><p style=\"text-align:center\">—</p></td><td><p style=\"text-align:center\">+3 health</p></td><td><p style=\"text-align:center\">4</p></td><td><p style=\"text-align:center\">+2 skill ranks</p></td><td><p style=\"text-align:center\">+1 talent</p></td></tr><tr><td><p style=\"text-align:center\">14</p></td><td><p style=\"text-align:center\">—</p></td><td><p style=\"text-align:center\">+3 health</p></td><td><p style=\"text-align:center\">4</p></td><td><p style=\"text-align:center\">+2 skill ranks</p></td><td><p style=\"text-align:center\">+1 talent</p></td></tr><tr><td><p style=\"text-align:center\">15</p></td><td><p style=\"text-align:center\">+1 attribute point</p></td><td><p style=\"text-align:center\">+3 health</p></td><td><p style=\"text-align:center\">4</p></td><td><p style=\"text-align:center\">+2 skill ranks</p></td><td><p style=\"text-align:center\">+1 talent</p></td></tr><tr><td style=\"align-content:center\" rowspan=\"5\"><p style=\"text-align:center\">4</p></td><td><p style=\"text-align:center\">16</p></td><td><p style=\"text-align:center\">—</p></td><td><p style=\"text-align:center\">+2 + STR health</p></td><td><p style=\"text-align:center\">5</p></td><td><p style=\"text-align:center\">+2 skill ranks</p></td><td><p style=\"text-align:center\">+1 talent plus ancestry bonus talent</p></td></tr><tr><td><p style=\"text-align:center\">17</p></td><td><p style=\"text-align:center\">—</p></td><td><p style=\"text-align:center\">+2 health</p></td><td><p style=\"text-align:center\">5</p></td><td><p style=\"text-align:center\">+2 skill ranks</p></td><td><p style=\"text-align:center\">+1 talent</p></td></tr><tr><td><p style=\"text-align:center\">18</p></td><td><p style=\"text-align:center\">+1 attribute point</p></td><td><p style=\"text-align:center\">+2 health</p></td><td><p style=\"text-align:center\">5</p></td><td><p style=\"text-align:center\">+2 skill ranks</p></td><td><p style=\"text-align:center\">+1 talent</p></td></tr><tr><td><p style=\"text-align:center\">19</p></td><td><p style=\"text-align:center\">—</p></td><td><p style=\"text-align:center\">+2 health</p></td><td><p style=\"text-align:center\">5</p></td><td><p style=\"text-align:center\">+2 skill ranks</p></td><td><p style=\"text-align:center\">+1 talent</p></td></tr><tr><td><p style=\"text-align:center\">20</p></td><td><p style=\"text-align:center\">—</p></td><td><p style=\"text-align:center\">+2 health</p></td><td><p style=\"text-align:center\">5</p></td><td><p style=\"text-align:center\">+2 skill ranks</p></td><td><p style=\"text-align:center\">+1 talent</p></td></tr><tr><td><p style=\"text-align:center\">5</p></td><td><p style=\"text-align:center\">21+</p></td><td><p style=\"text-align:center\">—</p></td><td><p style=\"text-align:center\">+1 health</p></td><td><p style=\"text-align:center\">5</p></td><td colspan=\"2\"><p style=\"text-align:center\">Either +1 skill rank or +1 talent</p><p style=\"text-align:center\">(plus ancestry bonus talent at level 21 only)</p></td></tr></tbody></table>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788100446840,
+                "modifiedTime": 1788308839357,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!PXKfRLQxXzAf3DzF.upYaJw0GvFG5dof6"
+        }
+    ],
+    "folder": null,
+    "categories": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!journal!PXKfRLQxXzAf3DzF"
+}

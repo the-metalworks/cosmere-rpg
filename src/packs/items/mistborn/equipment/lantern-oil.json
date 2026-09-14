@@ -1,0 +1,55 @@
+{
+    "folder": "N0Rgn8Y6XWMWKpL0",
+    "name": "Lantern (oil)",
+    "type": "equipment",
+    "img": "icons/sundries/lights/lantern-iron-yellow.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 10 bx; <strong>Weight</strong> 2 lb.;</p><p>While lit, this lantern sheds light in a 30-foot radius. It burns for up to 6 hours per pint of oil.</p>",
+            "chat": "",
+            "short": ""
+        },
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 2,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 10,
+            "currency": "boxings",
+            "denomination": {
+                "primary": "box",
+                "secondary": "none"
+            },
+            "unit": "boxings.box"
+        },
+        "events": {},
+        "relationships": {},
+        "primaryResource": "none",
+        "linkedSkills": [],
+        "alwaysEquippable": false,
+        "equippableEnabled": false,
+        "equipped": false,
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "wear"
+        },
+        "__embedded": {
+            "items": []
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "p7XAp6qX0RFbhDRp",
+    "sort": 2600000,
+    "_key": "!items!p7XAp6qX0RFbhDRp"
+}

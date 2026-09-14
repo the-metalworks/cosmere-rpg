@@ -1,0 +1,55 @@
+{
+    "folder": "N0Rgn8Y6XWMWKpL0",
+    "name": "Candle",
+    "type": "equipment",
+    "img": "icons/sundries/lights/candle-unlit-tan.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 0.1 bx; <strong>Weight</strong> 0.2 lb.;</p><p>While lit, the candle sheds light in a 15-foot radius. It burns for up to 6 hours before becoming unusable.</p>",
+            "chat": "",
+            "short": ""
+        },
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 0.2,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 0.1,
+            "currency": "boxings",
+            "denomination": {
+                "primary": "box",
+                "secondary": "none"
+            },
+            "unit": "boxings.box"
+        },
+        "events": {},
+        "relationships": {},
+        "primaryResource": "none",
+        "linkedSkills": [],
+        "alwaysEquippable": false,
+        "equippableEnabled": false,
+        "equipped": false,
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "wear"
+        },
+        "__embedded": {
+            "items": []
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "4uRggUo6rY3ff7eF",
+    "sort": 4800000,
+    "_key": "!items!4uRggUo6rY3ff7eF"
+}

@@ -1,0 +1,55 @@
+{
+    "folder": "N0Rgn8Y6XWMWKpL0",
+    "name": "Musical Instrument",
+    "type": "equipment",
+    "img": "icons/tools/instruments/flute-simple-wood.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 5–100 bx; <strong>Weight</strong> 0.5–20 lb.;</p><p>Instruments are often used for enjoyment, passing time, or busking for clips. When playing an instrument, you can determine the quality of your performance by making a test using a related skill (such as [[test skill=agi]] for a stringed instrument, [[test skill=ath]] for drums, or [[test skill=dis]] for an instrument with many keys). If you have an expertise in that instrument, you gain an advantage on the test.</p>",
+            "chat": "",
+            "short": ""
+        },
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 0.5,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 5,
+            "currency": "boxings",
+            "denomination": {
+                "primary": "box",
+                "secondary": "none"
+            },
+            "unit": "boxings.box"
+        },
+        "events": {},
+        "relationships": {},
+        "primaryResource": "none",
+        "linkedSkills": [],
+        "alwaysEquippable": false,
+        "equippableEnabled": false,
+        "equipped": false,
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "wear"
+        },
+        "__embedded": {
+            "items": []
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "vKsfgxmYa25ygXME",
+    "sort": 3300000,
+    "_key": "!items!vKsfgxmYa25ygXME"
+}

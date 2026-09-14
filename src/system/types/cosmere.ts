@@ -94,6 +94,8 @@ export enum Skill {
     Perception = 'prc',
     Persuasion = 'prs',
     Survival = 'sur',
+
+    Allomancy = 'all',
 }
 // export type Skill = (typeof Skills)[keyof typeof Skills];
 
@@ -340,4 +342,12 @@ export const enum TurnSpeed {
 
 export const enum Theme {
     Default = 'default',
+}
+
+/**
+ * The unit system used to display distances and weights throughout the system.
+ */
+export const enum UnitSystem {
+    Imperial = 'imperial',
+    Metric = 'metric',
 }

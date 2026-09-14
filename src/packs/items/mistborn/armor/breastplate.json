@@ -1,0 +1,116 @@
+{
+    "folder": "Umzk8NqiPhujLZgH",
+    "name": "Breastplate",
+    "type": "armor",
+    "img": "systems/cosmere-rpg/assets/icons/mistborn/armor/icon_armor_breastplate.webp",
+    "system": {
+        "id": "breastplate",
+        "description": {
+            "value": "<p><strong>Deflect Value</strong> 2; <strong>Traits</strong> Cumbersome [3]; <strong>Expert Traits</strong> Presentable;</p><p><strong>Price</strong> 50 bx; <strong>Weight</strong> 30 lb.;</p>",
+            "chat": "",
+            "short": ""
+        },
+        "equipped": false,
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "wear"
+        },
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "expertise": false,
+        "traits": {
+            "cumbersome": {
+                "defaultActive": true,
+                "defaultValue": 3,
+                "expertise": {
+                    "toggleActive": false,
+                    "value": null
+                },
+                "value": 3,
+                "active": true
+            },
+            "dangerous": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "presentable": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": true
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "unique": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            }
+        },
+        "deflect": 2,
+        "deflects": {
+            "energy": {
+                "active": true
+            },
+            "impact": {
+                "active": true
+            },
+            "keen": {
+                "active": true
+            },
+            "spirit": {
+                "active": false
+            },
+            "vital": {
+                "active": false
+            },
+            "heal": {
+                "active": false
+            }
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 30,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 50,
+            "currency": "boxings",
+            "denomination": {
+                "primary": "box",
+                "secondary": "none"
+            },
+            "unit": "boxings.box"
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "alwaysEquippable": true,
+        "equippableEnabled": true,
+        "primaryResource": "none",
+        "__embedded": {
+            "items": []
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "sFbWvgO73Kshr835",
+    "sort": 0,
+    "_key": "!items!sFbWvgO73Kshr835"
+}

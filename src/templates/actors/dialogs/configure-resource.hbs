@@ -3,14 +3,19 @@
         <div class="form-fields">
             <input name="max"
                 {{#if (eq mode 'derived')}}
-                type="text"
-                value="{{formula}}"
-                readonly
+                    type="text"
+                    value="{{formula}}"
+                    readonly
+                {{else if (eq mode 'range')}}{
+                    type="text"
+                    value="{{default max.range.value}}"
+                    readonly
+                }
                 {{else}}
-                type="number"
-                min="0"
-                step="1"
-                value="{{default max.override (derived max)}}"
+                    type="number"
+                    min="0"
+                    step="1"
+                    value="{{default max.override (derived max)}}"
                 {{/if}}
             >
         </div>        
@@ -23,6 +28,28 @@
             </select>
         </div>        
     </div>
+    {{#if (eq mode 'range')}}
+        <div class="form-group">
+            <label>{{localize "GENERIC.Range"}}</label>
+            <div class="form-fields">
+                <div class="slider-group" style="gap: 0.25rem">
+                    <div class="range-value">{{max.range.value}}</div>
+                    <input 
+                    type="range" 
+                    name="maxHealth" 
+                    min="{{max.range.minRange}}" 
+                    max="{{max.range.maxRange}}" 
+                    value="{{max.range.value}}" 
+                    step="1"
+                    >
+                    <div class="range-limits">
+                        <input name="minRange" type="number" value="{{default max.range.minRange 0}}" min="0" step="1" data-tooltip="{{localize "GENERIC.Minimum"}}">
+                        <input name="maxRange" type="number" value="{{default max.range.maxRange 0}}" min="{{max.range.minRange}}" step="1" data-tooltip="{{localize "GENERIC.Maximum"}}">
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{/if}}
     <div class="form-group submit">
         <button data-action="update-resource" type="submit">
             {{localize "GENERIC.Button.Update"}}

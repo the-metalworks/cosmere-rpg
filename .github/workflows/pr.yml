@@ -1,0 +1,52 @@
+name: "PR validation"
+run-name: "Validation for PR #${{ github.event.pull_request.number }}"
+on: [pull_request, workflow_dispatch]
+jobs:
+  lint:
+    name: Execute ESLint
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v4
+        - name: Use Node 24
+          uses: actions/setup-node@v4
+          with:
+              node-version: '24'
+
+        - name: NPM install
+          run: |
+              npm ci
+
+        - name: Lint
+          run: npx eslint
+  build:
+    name: Build System
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: npm
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build system
+      run: npm run build:pack
+
+    - name: Upload build output
+      uses: actions/upload-artifact@v4
+      with:
+        name: system-build
+        path: build/
+
+  system_test:
+    name: System Tests
+    needs: build
+    uses: $/.github/workflows/system-playwright-test.yml
+    with:
+      system-artifact: system-build
+    secrets: inherit

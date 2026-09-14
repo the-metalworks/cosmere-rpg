@@ -1,0 +1,55 @@
+{
+    "folder": "N0Rgn8Y6XWMWKpL0",
+    "name": "Clothing (common)",
+    "type": "equipment",
+    "img": "icons/equipment/chest/shirt-collared-brown.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 1 bx; <strong>Weight</strong> 3 lb.;</p><p>Plain clothes are made of materials used by the working class and generally left undyed, helping you fit in among the commonfolk. While wearing an outfit of common clothing, you gain an advantage on spiritual tests to convince others you’re from the working class.</p>",
+            "chat": "",
+            "short": ""
+        },
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 3,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 1,
+            "currency": "boxings",
+            "denomination": {
+                "primary": "box",
+                "secondary": "none"
+            },
+            "unit": "boxings.box"
+        },
+        "events": {},
+        "relationships": {},
+        "equippableEnabled": true,
+        "primaryResource": "none",
+        "linkedSkills": [],
+        "alwaysEquippable": false,
+        "equipped": false,
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "wear"
+        },
+        "__embedded": {
+            "items": []
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "9hcZIGA3tAlDmOZT",
+    "sort": 5400000,
+    "_key": "!items!9hcZIGA3tAlDmOZT"
+}

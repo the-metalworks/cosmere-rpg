@@ -1,0 +1,145 @@
+{
+    "folder": "N0Rgn8Y6XWMWKpL0",
+    "name": "Anesthetic (5 doses)",
+    "type": "equipment",
+    "img": "icons/consumables/drinks/tea-jug-glowing-brown-pink.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 30 bx; <strong>Weight</strong> 1.5 lb.;</p><p>Usually made with ether, you can apply a dose of anesthetic ointment to an injury after a short or long rest to reduce its remaining recovery time by [[/roll 1d4]] days. Each injury can be treated with anesthetic only once per day.</p>",
+            "chat": "",
+            "short": ""
+        },
+        "resources": {
+            "uses": {
+                "value": 5,
+                "max": 5,
+                "recharge": "none",
+                "key": "uses"
+            },
+            "charges": null,
+            "ammo": null
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 1.5,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 30,
+            "currency": "boxings",
+            "denomination": {
+                "primary": "box",
+                "secondary": "none"
+            },
+            "unit": "boxings.box"
+        },
+        "events": {},
+        "relationships": {},
+        "primaryResource": "uses",
+        "alwaysEquippable": false,
+        "equippableEnabled": false,
+        "equipped": false,
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "wear"
+        },
+        "linkedSkills": [],
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Anesthetic",
+                    "img": "icons/consumables/drinks/tea-jug-glowing-brown-pink.webp",
+                    "_id": "i3yk7aDRlcgXwB1F",
+                    "system": {
+                        "id": "anesthetic",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p>Usually made with ether, you can apply a dose of anesthetic ointment to an injury after a short or long rest to reduce its remaining recovery time by [[/roll 1d4]] days. Each injury can be treated with anesthetic only once per day.</p>",
+                            "chat": "",
+                            "short": ""
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "type": "spe"
+                            },
+                            "consumption": [
+                                {
+                                    "type": "item_resource",
+                                    "value": {
+                                        "min": 1,
+                                        "max": 1,
+                                        "actual": 1
+                                    },
+                                    "resource": "uses",
+                                    "matchDocument": {
+                                        "steps": [
+                                            {
+                                                "target": "parent",
+                                                "documentType": "Item",
+                                                "reference": null,
+                                                "matchBy": "name",
+                                                "matchMode": "first"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        },
+                        "__embedded": {
+                            "items": []
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "createdTime": 1788237999225,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    }
+                }
+            ]
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "h2RVaO4RAE3xZLyu",
+    "sort": 5900000,
+    "_key": "!items!h2RVaO4RAE3xZLyu"
+}

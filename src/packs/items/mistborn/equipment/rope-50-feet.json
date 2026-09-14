@@ -1,0 +1,55 @@
+{
+    "folder": "N0Rgn8Y6XWMWKpL0",
+    "name": "Rope (50 feet)",
+    "type": "equipment",
+    "img": "icons/sundries/survival/rope-wrapped-brown.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 15 bx; <strong>Weight</strong> 5 lb.;</p><p>Generally made of hemp fibers, rope is generally sold in 50-foot lengths that can be cut and tied to change the rope’s length as needed. It can be cut by dealing 2 damage directly to it, or it can be ripped apart with a [[test dc=20 skill=ath]].</p>",
+            "chat": "",
+            "short": ""
+        },
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 5,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 15,
+            "currency": "boxings",
+            "denomination": {
+                "primary": "box",
+                "secondary": "none"
+            },
+            "unit": "boxings.box"
+        },
+        "events": {},
+        "relationships": {},
+        "primaryResource": "none",
+        "linkedSkills": [],
+        "alwaysEquippable": false,
+        "equippableEnabled": false,
+        "equipped": false,
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "wear"
+        },
+        "__embedded": {
+            "items": []
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "bAbSh42nOmnYt4YA",
+    "sort": 700000,
+    "_key": "!items!bAbSh42nOmnYt4YA"
+}

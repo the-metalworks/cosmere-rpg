@@ -1,0 +1,120 @@
+{
+    "folder": "N0Rgn8Y6XWMWKpL0",
+    "name": "Metal Sand (pouch)",
+    "type": "equipment",
+    "img": "systems/cosmere-rpg/assets/icons/mistborn/items/icon_item_metal-sand.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 5 bx; <strong>Weight</strong> 0.3 lb.;</p><p>You can scatter these fine flakes of scrap metal to confuse a character (such as an Iron Allomancer or Steel Allomancer) who can sense the presence of metals. You can use <span class=\"cosmere-icon\">1</span> to throw this pouch to a space within 30 feet of you, breaking the pouch and dispersing its contents. The metal sand creates a cloud in a 10-foot square that remains until the end of your next turn. This cloud obscures both sight and an Allomancer’s ability to sense metal by burning iron or steel. Additionally, Allomancy tests made for Iron Allomancy or Steel Allomancy gain a disadvantage if this cloud is in their line of effect.</p>",
+            "chat": "",
+            "short": ""
+        },
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 0.3,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 5,
+            "currency": "boxings",
+            "denomination": {
+                "primary": "box",
+                "secondary": "none"
+            },
+            "unit": "boxings.box"
+        },
+        "events": {},
+        "relationships": {},
+        "primaryResource": "none",
+        "alwaysEquippable": false,
+        "equippableEnabled": false,
+        "equipped": false,
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "wear"
+        },
+        "linkedSkills": [],
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Throw Metal Sand Pouch",
+                    "img": "modules/cosmere-rpg-mistborn-handbook/assets/icons/items/icon_item_metal-sand.webp",
+                    "_id": "zBw0tlqBOBo6xtxu",
+                    "system": {
+                        "id": "metal-sand-pouch",
+                        "description": {
+                            "value": "<p>You can scatter these fine flakes of scrap metal to confuse a character (such as an Iron Allomancer or Steel Allomancer) who can sense the presence of metals. You can use <span class=\"cosmere-icon\">1</span> to throw this pouch to a space within 30 feet of you, breaking the pouch and dispersing its contents. The metal sand creates a cloud in a 10-foot square that remains until the end of your next turn. This cloud obscures both sight and an Allomancer’s ability to sense metal by burning iron or steel. Additionally, Allomancy tests made for Iron Allomancy or Steel Allomancy gain a disadvantage if this cloud is in their line of effect.</p>",
+                            "chat": "",
+                            "short": ""
+                        },
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "value": 1,
+                                "type": "act"
+                            },
+                            "consumption": [],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        },
+                        "type": "basic",
+                        "primaryResource": "none",
+                        "__embedded": {
+                            "items": []
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.350",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "createdTime": 1788238114759,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    }
+                }
+            ]
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "UU0u6OUnyCvO8DpN",
+    "sort": 3100000,
+    "_key": "!items!UU0u6OUnyCvO8DpN"
+}

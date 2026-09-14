@@ -12,7 +12,7 @@ on:
 jobs:
   tag-build-release:
     if: |
-      github.event.pull_request.merged == true && 
+      github.event.pull_request.merged == true &&
       startsWith(github.event.pull_request.head.ref, 'release-')
     runs-on: ubuntu-latest
     permissions:
@@ -87,11 +87,11 @@ jobs:
           git tag $TAG
           git push origin $TAG
 
-      # Set up node 
-      - name: Use Node 20
+      # Set up node
+      - name: Use Node 24
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
 
       # Install dependencies
       - name: NPM install

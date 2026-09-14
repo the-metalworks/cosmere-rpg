@@ -1,0 +1,115 @@
+{
+    "folder": "Umzk8NqiPhujLZgH",
+    "name": "Mistcloak",
+    "type": "armor",
+    "img": "systems/cosmere-rpg/assets/icons/mistborn/armor/icon_armor_mistcloak.webp",
+    "system": {
+        "id": "mistcloak",
+        "description": {
+            "value": "<p><strong>Deflect Value</strong> 0; <strong>Traits</strong> Unique; <strong>Expert Traits</strong> Unique;</p><p><strong>Price</strong> Reward only; <strong>Weight</strong> 5 lb.;</p><p></p><p>Mistcloaks are cloaks worn by the rare and powerful Mistborn—Allomancers who can burn every Allomantic metal. More common in Era 1 than in Era 2, these dark cloaks are typically hooded and made of thin strips of lightweight cloth connected to the hood at the wearer’s shoulders. The movement of the long tassels mimics the swirling motions of the mists, making the wearer much harder to spot in obscured environments. Each mistcloak is specially commissioned for its wearer, so different cloaks can range widely in appearance.</p><p><strong>Unique Traits.</strong> Mistcloaks add the following unique trait:</p><p><strong>Flowing Tassels.</strong> While wearing this armor in an area that obscures vision, such as in darkness or mist, you gain an advantage on Stealth tests you make against characters whose primary sense is obscured by that area. Additionally, those characters gain a disadvantage on Perception tests against you.</p><p>If you have the Mistcloak specialist expertise, also add the following special expert trait:</p><p><strong>Mistborn Gravitas.</strong> While wearing this armor, you gain an advantage on Intimidation tests against non-Mistborn characters who can sense you and who have no reason to believe you’re not Mistborn.</p>",
+            "chat": "",
+            "short": ""
+        },
+        "equipped": false,
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "wear"
+        },
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "expertise": false,
+        "traits": {
+            "cumbersome": {
+                "defaultActive": false,
+                "defaultValue": 0,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "value": 0,
+                "active": false
+            },
+            "dangerous": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "presentable": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": false
+            },
+            "unique": {
+                "defaultActive": true,
+                "expertise": {
+                    "toggleActive": false
+                },
+                "defaultValue": null,
+                "value": null,
+                "active": true
+            }
+        },
+        "deflect": 0,
+        "deflects": {
+            "energy": {
+                "active": true
+            },
+            "impact": {
+                "active": true
+            },
+            "keen": {
+                "active": true
+            },
+            "spirit": {
+                "active": false
+            },
+            "vital": {
+                "active": false
+            },
+            "heal": {
+                "active": false
+            }
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 5,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 0,
+            "currency": "none",
+            "denomination": {
+                "primary": "none",
+                "secondary": "none"
+            },
+            "unit": "none"
+        },
+        "events": {},
+        "linkedSkills": [],
+        "relationships": {},
+        "alwaysEquippable": true,
+        "equippableEnabled": true,
+        "primaryResource": "none",
+        "__embedded": {
+            "items": []
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "4UrTbHzBenukWTv8",
+    "sort": 300000,
+    "_key": "!items!4UrTbHzBenukWTv8"
+}

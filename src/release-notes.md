@@ -1,34 +1,26 @@
-### Release 3.0.0
-<sup>30th July 2026</sup>
+### Release 3.1.0
+<sup>3rd September 2026</sup>
 
-Radiants and Worldhoppers, we have a new major release for you; 3.0 introduces several major reworks to prepare the system for the upcoming **Mistborn** release.
+Radiants and Worldhoppers, we have a new release for you which adds the free Starter Rules content for the Mistborn setting, along with a few other fixes and features.
 
-#### Embedded Actions
-We've reworked how actions and activations are represented throughout the system. Prior to 3.0, weapons, talents, powers, and other items could each be configured with an activation, specifying how they could be used. However, this approach had several limitations, particularly for features that grant multiple actions. **Activations** have been replaced with **Embedded Actions**. Like events and effects, most items now have an "Actions" tab where their actions are managed. All **Activation**-related data now lives solely on **Actions**, and an item can have any number of actions embedded on it. The "Actions" tab on the character sheet displays a list of all actions available to the character, whether they come directly from the character or from one of their items.
+#### Starter Rules
+Mistborn's Starter Rules have been added, granting access to the Misting path and many of the items needed to begin playing in the setting. While much of this should function perfectly fine for normal use, be aware that in this initial release some of the journal content is out of order and a few links within text are broken. These are known issues and will be resolved soon with a hotfix.
 
-#### Item resources & consumption
-Like actors, items now support a list of resources, which are dynamically configurable through the system API (so custom item resources can be added by modules). Previously, items could only have uses or charges. Items can now track any number of supported resource types simultaneously. Resource consumption has been updated to match the new item resources system and includes improvements for selecting *where* resources are consumed from. There have also been a number of quality-of-life improvements around item resources, such as a new **Ammo** resource for ranged weapons.
-
-#### Sheet Updates
-The character sheet has received a substantial update to support the new Embedded Actions model. The most notable changes are the addition of a dedicated "Talents" tab and that the "Actions" tab no longer shows passive talents or other non-action entries.
+#### Adversary Health Ranges
+At long last we have added the ability for adversary health to be set up to use the ranges they tend to be shown with in their book stat blocks, easily adjusting to any value along the spectrum. For the time being, you must manually set this up, but we are very excited to get updates out to the starter rules adversaries and those in our modules to make use of this.
 
 #### 🛠️ Full Changelog
 
 ##### 📝 Features
-- Added **Embedded Actions**, allowing items to own and manage their own actions.
-- Added item resource support, including resource consumption, uses, charges, and the new **Ammo** resource type.
-- Added automation for Weapon Strike actions and the Loaded trait.
-- Added a dedicated **Talent** tab to the Character Sheet.
-- Added support for Powers providing talents and Power prerequisites.
-- Added current resource/charge display to actions.
-- Added support for the latest conditions.
-- Added migration support for existing worlds to the new Embedded Actions system.
-- Added new combat-related triggers to the Event System.
-- Updated Starter Rules to use the new Embedded Actions model.
+- Added Starter Rules content for the Mistborn setting.
+- Configuration options for adversary health expanded too allow a bounded range.
+- The "pick" dialog popup used throughout the system now automatically selects the first option when it opens.
 
 ##### 🐛 Bug Fixes
-- Increased the maximum skill rank from **5** to **40** (sheet still only goes to 5).
-- Fixed damage rolls for skill-test actions with configured damage.
-- Fixed Recover correctly rolling Healing damage.
+- Fixed an issue that caused weapon traits such as Pierce to not work correctly when applying damage.
+- Fixed an issue where effects would fail to render in the effects list on actor sheets under some circumstances.
+
+##### Other
+- Added automated testing framework to repository, allowing more effective testing and bug-catching on our end prior to releases.
 
 — **Team Metalworks**

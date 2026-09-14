@@ -1,0 +1,131 @@
+{
+    "name": "Part 8: Gamemastering",
+    "_id": "L3HuKnFDKHjLQZ4p",
+    "pages": [
+        {
+            "sort": 100000,
+            "name": "Gamemastering",
+            "type": "text",
+            "_id": "0NUJ3En9jwwVNuIl",
+            "system": {},
+            "title": {
+                "show": false,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<p>While the rest of this rulebook primarily targets the players and their experiences in the game, the remainder of these pages are speaking directly to you, the game master. Taking on the role of GM can be a daunting task. After all, the other players just have to worry about their one character; meanwhile, you must juggle them plus a whole cast of NPCs and how they fit in the story of a grand adventure!</p><p>Luckily, the rules of the game have been designed to help make your job easy. The plot die, Opportunities, and Complications empower the players to help you tell the story, and the different scene types offer support for adjudicating tricky situations. The flexible rules of the Cosmere RPG already provide most of the guidance you’ll need to make running an adventure a fun and rewarding experience for every player at the table—including you, the GM. </p><p>Consult chapter 13 of the <em>Mistborn Handbook</em> for a wealth of more advanced GMing techniques.</p>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788099698717,
+                "modifiedTime": 1788099729011,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!L3HuKnFDKHjLQZ4p.0NUJ3En9jwwVNuIl"
+        },
+        {
+            "sort": 200000,
+            "name": "Using Adversaries",
+            "type": "text",
+            "_id": "ZZCQ20IIAtAE3PAC",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<p>Published adventures come with stat blocks for every featured adversary. This section presents a sample stat block and explains how to read and use the information you’ll find in each stat block.</p><p></p><h2>Stat Blocks</h2><p>Each adversary’s unique rules and statistics are detailed in a special section called a <strong>stat block</strong>. Adversary stat blocks offer a simplified version of the abilities and statistics of player characters, making them easier to run in combat.</p><p>Adventures usually tell you which adversaries to use, and their names appear in bold to indicate there’s a stat block available. For example, if an adventure says “two hazekillers approach,” use the hazekiller stat block twice.</p><p>Each stat block includes several components, detailed in the following sections. Unless otherwise specified, these follow the same rules as player characters.</p><p></p><img src=\"systems/cosmere-rpg/assets/art_mistborn/p8-gamemastering/pg068_sample-stat-block.webp\" class=\"centered\" width=\"400\" /><p></p><h3>Title</h3><p>Depending on the adversary, their title might include their species, function, or other descriptors. In adventures, some major NPCs use a unique stat block with their given name, while the adversaries in the <em>Mistborn World Guide</em> have more general titles.</p><p></p><h3>Details</h3><p>Beneath the adversary’s title, you’ll find details such as “Tier 2 Boss – Medium Humanoid.” This line provides the following information:</p><p><strong>Tier.</strong> The adversary’s tier helps you choose appropriately challenging adversaries for each scene.</p><p><strong>Role.</strong> Adversaries are divided into three roles: Minion, Rival, and Boss. This represents their relative importance within that tier and their complexity in combat. See the following “@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.L3HuKnFDKHjLQZ4p.JournalEntryPage.ZZCQ20IIAtAE3PAC#role]{Role}” section for details on each role.</p><p><strong>Size.</strong> As with PCs, an adversary’s size reflects the space they control in combat: Small (2.5 feet), Medium (5 feet), Large (10 feet), Huge (15 feet), Gargantuan (20 feet), and Colossal (30 feet or more).</p><p><strong>Type.</strong> An adversary’s type summarizes their fundamental nature (such as humanoid or animal). There’s no finite list of types and this doesn’t affect how their stat block functions—type is merely a descriptive term. However, when it fits the story, some effects might affect certain adversary types (especially humanoids) in special ways.</p><h4>Role</h4><p>The second line of a stat block lists the adversary’s role along with the other details. Each role follows different rules:</p><p><strong>Minion</strong> adversaries are weaker than other adversaries. Each has the Minion feature: “The Minion’s attacks can’t critically hit, and they’re immediately defeated when they suffer an injury.”</p><p><strong>Rival</strong> adversaries have no additional rules and present a standard challenge to adventurers.</p><p><strong>Boss</strong> adversaries can challenge an entire party. They’re more threatening—and more complex to run—than other adversaries. Each has the Boss feature: “The Boss can take both a fast turn and a slow turn each round. After an enemy finishes a turn, the Boss can spend 1 focus to immediately use an additional <span class=\"cosmere-icon\">1</span> or <span class=\"cosmere-icon\">0</span>. Additionally, they can spend 1 focus on their turn to remove a condition from themself.”</p><p>If you’re planning combat encounters of your own, each role presents a dramatically different level of threat.</p><p></p><h3>Attributes and Defenses</h3><p>Adversaries use the same basic statistics as PCs, including the six attributes (Strength, Speed, Intellect, Willpower, Awareness, and Presence) and three defenses (Physical, Cognitive, and Spiritual).</p><p>If these seem like they don’t match up with other numbers in the stat block, never fear; many stat blocks invisibly apply bonuses or penalties (much like a PC talent might), so sometimes a modifier or other statistic may be different than you’d expect.</p><p></p><h3>Health, Focus, and Investiture</h3><p>As with PCs, adversaries have health, focus, and (in some cases) Investiture.</p><h4>Current and Maximum</h4><p>The listed value for these resources represents both their maximum and current value. If the PCs encounter the same NPC across multiple scenes, consider whether the NPC had a chance to restore some or all of these resources, or whether they’re starting the next scene with less than their maximum.</p><h4>Customizing Health</h4><p>If you want an adversary to be a little easier or harder to defeat, you can adjust their health using the range provided in parentheses. For example, if an adversary’s health is “60 (48–72),” you can use the default value of 60, decrease it to 48, increase it to 72, or anything in between.</p><h4>Defeated Adversaries</h4><p>When an adversary is reduced to 0 health, they’re defeated. This can play out in different ways depending on the PC’s intent when attacking the adversary, the GM’s desire for the story, and similar factors.</p><p>In battle, most adversaries are assumed dead after being reduced to 0 health, as described in “@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.lurg3kD0nQg7Vgy4.JournalEntryPage.iOsNukYG3HknfCGs]{Damage, Injury, and Death}” in part 3. However, at the GM’s discretion, NPCs with a significant narrative role can instead fall Unconscious and make injury rolls like PCs do. Additionally, if the PCs are trying to defeat any adversary with nonlethal means, the PC who deals the final blow can choose for the NPC to fall Unconscious with an injury.</p><p>Defeated NPCs remain Unconscious until they recover at least 1 health from another source; they can’t voluntarily regain consciousness like a PC.</p><p></p><h3>Deflect Value</h3><p>An adversary’s deflect value represents their armor, natural defenses, and special abilities. As with PCs, reduce all incoming impact, keen, and energy damage by the listed deflect value. If an adversary has no deflect value listed, their value is 0.</p><p>Immediately following this value, parentheses name the primary source of this protection (such as “leather”). In some cases, this name is merely for flavor—but if the name of the source matches with a piece of armor from part 7, the PCs may be able to acquire it after the enemy is defeated.</p><p></p><h3>Movement</h3><p>As with PCs, an adversary’s movement rate determines how far they can travel during the Move action.</p><p>A few stat blocks include special movement capa­bilities, such as swimming or flying. Unlike PCs, adversaries don’t gain the Slowed condition from any movement types listed in their stat block.</p><p></p><h3>Senses</h3><p>As with PCs, an adversary’s senses range determines the limit of their senses when their primary sense is obscured. Each stat block indicates which primary sense is common for that adversary, but you can change it to whichever sense fits an individual NPC’s story.</p><p>A few adversaries have special capabilities or limita­tions to their senses, as noted in parentheses after their sense range.</p><p></p><h3>Immunities</h3><p>Some adversaries are immune to certain effects (usually conditions). For example, if a stat block specifies an adversary is immune to “Immobilized,” they can move freely despite being targeted with abilities that inflict the Immobilized condition.</p><p>As with all rules in this game, these immunities are up to GM discretion, and your players might find a creative way to bypass an adversary’s immunities.</p><p></p><h3>Skills</h3><p>Adversaries can use any skill from part 1, but for simplicity, stat blocks only list the skills they have ranks in. These skills are divided into Physical, Cognitive, and Spiritual, though not every adversary has skill ranks in each category.</p><p>If you want to use a skill whose modifier isn’t listed, just use the adversary’s associated attribute for that modifier (for example, adding their Strength attribute to an Athletics test).</p><h4>Metallic Art Skills</h4><p>If an adversary can burn Allomantic metals, their stat block lists each of their Metallic Art skills, along with their skill modifier, their number of ranks in that skill, and which powers they can wield with it. For ease of use, stat blocks offer simplified versions of the Metallic Art powers from chapter 6 of the <em>Mistborn Handbook</em>. The Investiture cost appears in parentheses after that feature or action’s name. (However, if you want the flexibility of the full Metallic Arts rules from the Mistborn Handbook, feel free to use them!).</p><p></p><img src=\"systems/cosmere-rpg/assets/art_mistborn/p8-gamemastering/pg070_Koloss_for_Starter_Rules_Pedro_Dutra_Saeed_Ramez.webp\" class=\"centered\" width=\"400\" /><p style=\"text-align:center\"><strong>PEDRO DUTRA &amp; SAEED RAMEZ</strong></p><p></p><h3>Features</h3><p>Adversary features provide special rules that affect the adversary but don’t directly require an action, free action, or reaction to use. For example, a feature might allow an adversary to deal extra damage. See “@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.L3HuKnFDKHjLQZ4p.JournalEntryPage.ZZCQ20IIAtAE3PAC#actions]{Actions}” for details on how to calculate statistics and spend resources for these features.</p><p></p><h3>Actions</h3><p>Each stat block provides unique actions, free actions, and/or reactions for that adversary. These follow the same rules as PC actions do, so you can’t use the same action more than once on a turn.</p><p>Adversaries can also use the actions, free actions, and reactions listed in part 4; for example, any adversary can (and often should) use the Move action, the Gain Advantage action, and the Reactive Strike reaction.</p><p>Scadrian adversaries with an Investiture pool can also use the Drink Vial action from part 2, and when it fits the story, the GM can assume the adversary is carrying an adequate supply of vials.</p><h4>Attacks</h4><p>Most adversaries have at least one attack, which lists their attack modifier, the attack’s reach or range, and the outcome of a hit (which usually includes damage).</p><p>Some attacks serve as the adversary’s basic Strike action, while others include more powerful effects. Unless otherwise specified, all adversary attacks are made against the target’s Physical defense.</p><p>Unlike PC weapons—which have specific tags like Two­-Handed—an adversary’s weapon name is merely descriptive and doesn’t invoke any special rules. It’s up to you to decide how an adversary’s attacks work within the story; for example, attacks that list a reach are generally melee attacks, while attacks that list a range are ranged. You can limit these attacks when it makes sense to do so; in general, err on the side of creating dynamic scenes that challenge the PCs.</p><h4>Damage</h4><p>Actions that deal damage tell you which dice to roll for damage, any modifiers to add to the roll’s result, and which damage type that action deals. For example, if an attack deals 1d4 + 6 keen damage, you roll a d4 then add 6 to the result.</p><p>If the action is an attack, it must hit its target to deal full damage. However, you can graze as usual by spending 1 focus per target, dealing damage equal to the total rolled on the damage dice.</p><h4>Weapon Traits</h4><p>Some attacks use weapons with specific traits, such as Pierce, Loaded, and Blast. The effects of these traits are summarized in that attack after the trait’s name (and they’re described in more detail in part 7’s “@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.j8TnrXaFMO9iScBX.JournalEntryPage.QuncofQdW9VtZH9z#weapon-traits]{Weapon Traits}” section). If a game effect would interact with that trait, it interacts with that adversary’s attack in the same way.</p><h4>Reactive Strikes</h4><p>Adversaries can use the Reactive Strike reaction like PCs, spending 1 focus to attack when an enemy voluntarily leaves their reach. The adversary can make this attack using any attack action that costs <span class=\"cosmere-icon\">1</span> and that lists a reach, but not one with only a range listed.</p><h4>Duplicate Names</h4><p>If an adversary’s stat block action matches the name of an action from part 4, these are considered duplicate actions (even though the adversary version may have some special features), so you can’t use both on the same turn.</p><h4>Calculations Included</h4><p>If an action (or feature) requires a test or otherwise uses the adversary’s statistics, the calculations are already done for you. For example, each attack lists the modifier for that test (“Attack +11”), so you don’t have to reference their skills to figure out what modifier to add.</p><h4>Spending Resources</h4><p>If an action (or other feature) requires spending the adversary’s focus or Investiture, this cost is noted either in parentheses after the action name (if you always spend it to use that action), or in the text of the action (if other considerations affect when you spend that resource).</p>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788099734323,
+                "modifiedTime": 1788243215416,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!L3HuKnFDKHjLQZ4p.ZZCQ20IIAtAE3PAC"
+        },
+        {
+            "sort": 300000,
+            "name": "Adventuring and Advancement",
+            "type": "text",
+            "_id": "nCwF3kisHHV5dnfb",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<p>The stories you tell with the Cosmere RPG can vary in length and complexity. One group’s adventure might play out in a single session, called a <strong>one-shot</strong>. Another group’s adventure could span many sessions, forming a lengthy <strong>campaign</strong> where the characters grow and advance over time. Some campaigns might string together many smaller, loosely connected adventures. Other campaigns could play a long and elaborate adventure that spans the characters’ whole careers.</p><p></p><h2>Levels and Goals</h2><p>For groups that play longer adventures, player characters grow in two ways: through gaining levels and achieving goals. Gaining levels represents your growth as you practice over time; each level allows you to improve your innate skills and unlock new abilities.</p><p>Meanwhile, as you pursue goals unique to your personal narrative, you gain access to powerful rewards (such as rare metals or joining a legendary organization).</p><p>When you’re ready to advance your character, see the <em>Mistborn Handbook</em> for guidance.</p><p></p><h4>@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.PXKfRLQxXzAf3DzF.JournalEntryPage.upYaJw0GvFG5dof6]{Character Advancement}</h4><p>@Embed[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.PXKfRLQxXzAf3DzF.JournalEntryPage.upYaJw0GvFG5dof6 inline]</p>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788100348761,
+                "modifiedTime": 1788101127025,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!L3HuKnFDKHjLQZ4p.nCwF3kisHHV5dnfb"
+        }
+    ],
+    "folder": null,
+    "categories": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!journal!L3HuKnFDKHjLQZ4p"
+}

@@ -142,7 +142,6 @@
             {{else}}
                 {{#with (lookup @root.itemState effect.id) as |state|}}
                 {{#with (lookup @root.itemData effect.id) as |data|}}
-                {{#with (lookup @root.itemData effect.parent.id) as |parentData|}}
 
 
                 <li class="item effect collapsible {{#if effect.active}}active{{/if}}" data-item-id="{{effect.id}}"
@@ -195,12 +194,11 @@
                     </section>
                     <section class="description collapsible-content">
                         <div class="wrapper">
-                            {{{default data.descriptionHTML (default parentData.descriptionHTML '<p>—</p>')}}}
+                            {{{default data.descriptionHTML '<p>—</p>'}}}
                         </div>
                     </section>
                 </li>
 
-                {{/with}}
                 {{/with}}
                 {{/with}}
             {{/if}}

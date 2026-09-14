@@ -1,0 +1,55 @@
+{
+    "folder": "N0Rgn8Y6XWMWKpL0",
+    "name": "Manacles",
+    "type": "equipment",
+    "img": "systems/cosmere-rpg/assets/icons/mistborn/items/icon_item_manacles.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 5 bx; <strong>Weight</strong> 6 lb.;</p><p>These metal restraints, which come with a key, can bind the wrists or ankles of a Large or smaller character. They can be escaped with a successful [[test dc=25 skill=agi]], broken by succeeding on a [[test dc=25 skill=ath]] or by dealing 15 damage to them, or lockpicked by succeeding on a [[test dc=20 skill=thv]]. At the GM’s discretion, manacles that require higher DCs may be available at higher prices.</p>",
+            "chat": "",
+            "short": ""
+        },
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 6,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 5,
+            "currency": "boxings",
+            "denomination": {
+                "primary": "box",
+                "secondary": "none"
+            },
+            "unit": "boxings.box"
+        },
+        "events": {},
+        "relationships": {},
+        "primaryResource": "none",
+        "linkedSkills": [],
+        "alwaysEquippable": false,
+        "equippableEnabled": false,
+        "equipped": false,
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "wear"
+        },
+        "__embedded": {
+            "items": []
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "tenNu30y9FpfRBQd",
+    "sort": 3000000,
+    "_key": "!items!tenNu30y9FpfRBQd"
+}

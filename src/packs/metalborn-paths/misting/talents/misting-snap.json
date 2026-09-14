@@ -1,0 +1,188 @@
+{
+    "folder": "5xDiaIGiDOAAr02E",
+    "name": "Misting Snap",
+    "type": "talent",
+    "img": "icons/magic/fire/beam-strike-whip-red.webp",
+    "system": {
+        "id": "misting-snap",
+        "type": "path",
+        "description": {
+            "value": "<p><strong>Activation: </strong><span class=\"cosmere-icon\"><strong>*</strong></span></p><p><em>You Snap, gaining one Allomantic power. At first, you can only use a rudimentary version of your power—and you might not even be aware you’re doing it. But after practice or training, you can master your power.</em></p><p>When you acquire this talent, you Snap, becoming a Misting and gaining the following benefits:</p><ul><li><p>You gain access to Investiture, beginning with a maximum Investiture of 2 + your <strong>Awareness</strong> or <strong>Presence</strong> (whichever is higher). You can now use the @UUID[Compendium.cosmere-rpg-mistborn-handbook.actions.Item.ehYX5usckYd0wiFK]{Drink Vial} action.</p></li><li><p>You gain the <strong>Allomancy</strong> skill on your character sheet, starting with 1 rank in it. It uses your <strong>Willpower</strong> attribute.</p></li><li><p>Choose one Allomantic power available in your era (see “@UUID[Compendium.cosmere-rpg-mistborn-handbook.handbook.JournalEntry.Wdux6AlRp01Ox3EQ.JournalEntryPage.km12jL6JCxRZEm9N]{Metals of Scadrial}” in chapter 6). You can only use the nascent version of your chosen power for now (unless you choose @UUID[Compendium.cosmere-rpg-mistborn-handbook.metallic-arts.Item.QhP9qR99zbA9OMSG]{Atium Allomancy}).</p></li></ul><p>Additionally, you gain the Metalborn goal “Train Your Power” (unless your power is @UUID[Compendium.cosmere-rpg-mistborn-handbook.metallic-arts.Item.QhP9qR99zbA9OMSG]{Atium Allomancy}). After completing this goal, you gain its reward: You unlock the full version of your power and can choose talents from its talent tree in chapter 6.</p>",
+            "chat": "<p><strong>Activation: </strong><span class=\"cosmere-icon\"><strong>*</strong></span></p><p>Gain an Investiture score, the @UUID[Compendium.cosmere-rpg-mistborn-handbook.actions.Item.ehYX5usckYd0wiFK]{Drink Vial} action, the <strong>Allomancy</strong> skill, and one nascent Allomantic power.</p>",
+            "short": "<p><strong>Activation: </strong><span class=\"cosmere-icon\"><strong>*</strong></span></p><p>When you acquire this talent, you Snap, becoming a Misting and gaining the following benefits:</p><ul><li><p>You gain access to Investiture, beginning with a maximum Investiture of 2 + your <strong>Awareness</strong> or <strong>Presence</strong> (whichever is higher). You can now use the @UUID[Compendium.cosmere-rpg-mistborn-handbook.actions.Item.ehYX5usckYd0wiFK]{Drink Vial} action.</p></li><li><p>You gain the <strong>Allomancy</strong> skill on your character sheet, starting with 1 rank in it. It uses your <strong>Willpower</strong> attribute.</p></li><li><p>Choose one Allomantic power available in your era (see “@UUID[Compendium.cosmere-rpg-mistborn-handbook.handbook.JournalEntry.Wdux6AlRp01Ox3EQ.JournalEntryPage.km12jL6JCxRZEm9N]{Metals of Scadrial}” in chapter 6). You can only use the nascent version of your chosen power for now (unless you choose @UUID[Compendium.cosmere-rpg-mistborn-handbook.metallic-arts.Item.QhP9qR99zbA9OMSG]{Atium Allomancy}).</p></li></ul><p>Additionally, you gain the Metalborn goal “Train Your Power” (unless your power is @UUID[Compendium.cosmere-rpg-mistborn-handbook.metallic-arts.Item.QhP9qR99zbA9OMSG]{Atium Allomancy}). After completing this goal, you gain its reward: You unlock the full version of your power and can choose talents from its talent tree in chapter 6.</p>"
+        },
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "modality": "",
+        "events": {
+            "8JWYumLLTJ4d8eCX": {
+                "id": "8JWYumLLTJ4d8eCX",
+                "description": "Grant Allomancy Skill",
+                "event": "add-to-actor",
+                "handler": {
+                    "type": "update-actor",
+                    "target": "parent",
+                    "changes": [
+                        {
+                            "key": "system.skills.all.rank",
+                            "value": "1",
+                            "mode": 4
+                        }
+                    ],
+                    "uuid": null
+                },
+                "order": 0,
+                "disabled": false
+            },
+            "Td2PI7JvT3znaCC2": {
+                "id": "Td2PI7JvT3znaCC2",
+                "description": "Add Goal",
+                "event": "add-to-actor",
+                "handler": {
+                    "type": "grant-items",
+                    "allowDuplicates": false,
+                    "increaseQuantity": false,
+                    "pickOne": true,
+                    "notify": true,
+                    "items": [
+                        {
+                            "uuid": "Compendium.cosmere-rpg.metalborn-paths.Item.iZBWadRR3x7igyVC"
+                        },
+                        {
+                            "uuid": "Compendium.cosmere-rpg.metalborn-paths.Item.0YkOmj408gNB6E6l"
+                        },
+                        {
+                            "uuid": "Compendium.cosmere-rpg.metalborn-paths.Item.fMX4w72xfWEobjli"
+                        },
+                        {
+                            "uuid": "Compendium.cosmere-rpg.metalborn-paths.Item.ZTD7AeLa7BMsQuUq"
+                        }
+                    ],
+                    "pickPromptTitle": "Choose A Starting Training Goal"
+                },
+                "order": 0,
+                "disabled": false
+            },
+            "EfNvfrTOVj15QrbA": {
+                "id": "EfNvfrTOVj15QrbA",
+                "description": "Remove Goal",
+                "event": "remove-from-actor",
+                "handler": {
+                    "type": "remove-items",
+                    "reduceQuantity": false,
+                    "items": [
+                        "Compendium.cosmere-rpg-mistborn-handbook.metalborn-paths.Item.245qQy2BtiDBDESr"
+                    ],
+                    "amount": 1
+                },
+                "order": 0,
+                "disabled": false
+            },
+            "xDft4HbhwmxegqMx": {
+                "id": "xDft4HbhwmxegqMx",
+                "description": "Add Allomancy Actions",
+                "event": "add-to-actor",
+                "handler": {
+                    "type": "grant-items",
+                    "allowDuplicates": false,
+                    "increaseQuantity": false,
+                    "pickOne": false,
+                    "notify": true,
+                    "items": [
+                        {
+                            "uuid": "Compendium.cosmere-rpg-mistborn-handbook.actions.Item.ehYX5usckYd0wiFK"
+                        }
+                    ]
+                },
+                "order": 0,
+                "disabled": false
+            },
+            "2Mkpe8oIeCh2jvFm": {
+                "id": "2Mkpe8oIeCh2jvFm",
+                "description": "Remove Allomancy Actions",
+                "event": "remove-child-action",
+                "handler": {
+                    "type": "remove-items",
+                    "reduceQuantity": false,
+                    "items": [
+                        "Compendium.cosmere-rpg-mistborn-handbook.actions.Item.ehYX5usckYd0wiFK"
+                    ],
+                    "amount": 1
+                },
+                "order": 0,
+                "disabled": false
+            }
+        },
+        "relationships": {},
+        "path": "misting",
+        "ancestry": null,
+        "power": null,
+        "primaryResource": "none",
+        "linkedSkills": [],
+        "__embedded": {
+            "items": []
+        }
+    },
+    "effects": [
+        {
+            "name": "Metalborn Investiture",
+            "img": "icons/magic/light/orb-shadow-blue.webp",
+            "disabled": false,
+            "duration": {
+                "startTime": null,
+                "combat": null,
+                "seconds": null,
+                "rounds": null,
+                "turns": null,
+                "startRound": null,
+                "startTurn": null
+            },
+            "_id": "FbLmCRba4KQgYwKi",
+            "type": "base",
+            "system": {
+                "isStackable": false
+            },
+            "changes": [
+                {
+                    "key": "system.resources.inv.max.override",
+                    "mode": 4,
+                    "value": "2 + max(@attr.awa, @attr.pre)",
+                    "priority": null
+                },
+                {
+                    "key": "system.resources.inv.max.useOverride",
+                    "mode": 5,
+                    "value": "true",
+                    "priority": null
+                }
+            ],
+            "description": "",
+            "origin": null,
+            "tint": "#ffffff",
+            "transfer": true,
+            "statuses": [],
+            "sort": 0,
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "lastModifiedBy": null
+            },
+            "_key": "!items.effects!uYmcjPLWryLWNOCQ.FbLmCRba4KQgYwKi"
+        }
+    ],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "uYmcjPLWryLWNOCQ",
+    "sort": 0,
+    "_key": "!items!uYmcjPLWryLWNOCQ"
+}

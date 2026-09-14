@@ -1,0 +1,326 @@
+{
+    "name": "Part 2: Mistings and Allomancy",
+    "_id": "IkomLnitixJvzquo",
+    "pages": [
+        {
+            "sort": 100000,
+            "name": "Mistings and Allomancy",
+            "type": "text",
+            "_id": "czjOFO8jrzQD2Hge",
+            "system": {},
+            "title": {
+                "show": false,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<p>Characters in Mistborn campaigns are heroes: they help others in need, save innocent lives, and fight against the forces of oppression like the Lord Ruler or Ruin. Characters use the metals of the planet for feats such as flying through the air, hearing a pin drop a block away, and influencing others’ emotions—and in so doing, wield ultimate power for the noble houses of the Empire.</p><p>Part 2 covers one playable Metalborn path—the Misting—and the Allomantic powers available to four of the six pregenerated characters in the <em>Hope in Ashes</em> adventure. For the full character creation experience, pick up the <em>Mistborn Handbook</em>. It contains everything you need to create a custom character and advance them as you gain levels over the course of a campaign.</p>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788027692117,
+                "modifiedTime": 1788027761998,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!IkomLnitixJvzquo.czjOFO8jrzQD2Hge"
+        },
+        {
+            "sort": 200000,
+            "name": "Using Paths and Talents",
+            "type": "text",
+            "_id": "VMuxHgk3ARRb6AM4",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<p>As a player character, the abilities on your character sheet primarily come from your talents (see “@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.IkomLnitixJvzquo.JournalEntryPage.VMuxHgk3ARRb6AM4#using-talents]{Using Talents}”). You gain your first talent at level 1, then choose more as you gain levels.</p><p>Your <strong>path</strong> provides structure for how you choose your talents. It begins with a <strong>key talent</strong> that, once chosen, unlocks access to the talents within that path’s <strong>specialties</strong>.</p><p></p><h2>Using Talents</h2><p>Each talent represents a specific ability or benefit you acquire through your experience or training. This can be an ability you can activate (such as a new attack), a permanent bonus to your statistics (such as an increase to your Cognitive defense), or even an effect that lets you shape the narrative in special ways.</p><p></p><h3>Anatomy of a Talent</h3><p>All talents have the following elements:</p><p><strong>Name.</strong> The name of the talent.</p><p><strong>Prerequisite.</strong> To choose a talent, it must either be a key talent or you must’ve already gained a talent linked to it in the talent tree. Additionally, some talents list other prerequisites you must meet before choosing that talent.</p><p><strong>Activation.</strong> Each talent lists an activation time, rep­resenting how long it takes to initiate or accomplish the ability granted by that talent (see the upcoming “@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.IkomLnitixJvzquo.JournalEntryPage.VMuxHgk3ARRb6AM4#activating-a-talent]{Activating a Talent}” section).</p><p><strong>Narrative Description.</strong> Each talent briefly describes how its effect might fit within your shared story. This doesn’t impact the talent’s rules, but it provides context and flavor to help you, other players, and the GM imagine how that ability might play out narratively. Feel free to reflavor these to suit your character or situation.</p><p><strong>Effect Description.</strong> Each talent includes at least one new ability or other mechanical effect that interacts with your character’s statistics and abilities. The talent explains the new rules for this effect (such as a new way to spend your focus), any tests you or other characters might need to make, how to resolve this effect’s outcome, and other relevant considerations.</p><p></p><h3>Activating a Talent</h3><p>Each talent lists its activation type after its prerequisites. These activation types include the following:</p><h4>@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.PXKfRLQxXzAf3DzF.JournalEntryPage.GqiYkiuLeR7ARxbU]{Activating a Talent Table}</h4><p>@Embed[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.PXKfRLQxXzAf3DzF.JournalEntryPage.GqiYkiuLeR7ARxbU inline]</p><p></p>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788027776019,
+                "modifiedTime": 1788028085835,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!IkomLnitixJvzquo.VMuxHgk3ARRb6AM4"
+        },
+        {
+            "sort": 300000,
+            "name": "Allomancy:  Using Investiture",
+            "type": "text",
+            "_id": "hnzDG2LkiX8Rr6km",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<p>Investiture is the energy that suffuses the cosmere, the divine essence that powers Invested Arts. Every soul in the cosmere begins life with some natural Investiture, but they can’t manipulate it. Characters with an Investi­ture score have gained the ability to wield that energy.</p><p>For Allomancers, such as Mistings, Investiture mani­fests through “burning” ingested metal. The metal itself is mundane, but it enables you to access the power of the Shard Preservation, which fuels all Allomantic abilities.</p><p></p><h2>Spending Investiture</h2><p><strong>Investiture</strong> is a spiritual resource that mechanically operates much like focus does. For an Allomancer character, your source of Investiture is the metal cor­responding to your Allomantic power. Your Investiture pool reflects the amount of that metal you’ve consumed and can use efficiently.</p><p>The Investiture field on your character sheet remains blank until you gain access to an Allomantic power. Once you do, you gain a maximum Investiture score (see “@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.FP2yf9DMS3c40Em3.JournalEntryPage.Ahp9RoTiIL0A0eS9#investiture]{Investiture}” in part 1).</p><p>You can spend Investiture to activate your path’s Allomantic powers, including any abilities granted by a talent. Many powers allow you to choose how much Investiture to spend, up to a maximum determined by your ranks in Allomancy. To replenish your reserves, you can use the Allomantic action Drink Vial (see the next section, “@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.IkomLnitixJvzquo.JournalEntryPage.hnzDG2LkiX8Rr6km#refreshing-metal-reserves]{Refreshing Metal Reserves}”).</p><p>Investiture also maintains any ongoing <strong>Invested</strong> effects powered by your Allomancy. As a result, if your current Investiture ever drops to 0, you temporarily become <strong>non-Invested</strong> and can’t maintain your ongoing Allomantic effects beyond their remaining durations.</p><p></p><h2>Refreshing Metal Reserves</h2><p>Most Allomancers carry vials of shaved metal suspended in a liquid like oil, water, or whiskey, allowing the Allomancer to swig the vial and replenish the metals in their stomach.</p><p>If you need to quickly replenish your metals, you can use the Drink Vial action presented in this section. This action follows the usual rules in the “@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.taVKEEQoKINc7HLD.JournalEntryPage.46kbtF3YSD9gWzpr]{Actions and Reactions}” section of part 4.</p><p>You usually start scenes with full Investiture; much like drawing your weapon before a fight, it’s assumed that if you’re not Surprised when a scene begins, you’ve already instinctively swigged a vial (no action required) or had metal reserves in your stomach. However, if you start a scene with the Surprised condition, you only start with 1 Investiture.</p><p></p><p>@Embed[Compendium.cosmere-rpg.actions.Item.qwl5cn97M5iyUuTM inline]</p><p></p><h3>Managing Metals</h3><p>As an Allomancer, you’ll want to constantly carry a sup­ply of vials of the metal you can burn. For Allomancers who use the common physical metals or mental metals (like bronze, steel, tin, and zinc), the GM is encouraged to assume the PC can easily obtain enough to fuel their abilities.</p><p>If the story causes a PC to lose all their vials or be cut off from their metal supply, the GM might increase narrative tension by asking players to track their remaining metals and count them carefully.</p><p></p><h2>Metalborn Goals and Rewards</h2><p>The Metallic Arts are complex, nuanced powers. Allomancy requires you to Push and Pull on the external world, understanding the cause and effect of each action on everything around you.</p><p>As a result, mastering these arts requires more than simply gaining a Metallic Art power in the first place. You must set personal goals and work toward them over time to gain full use of your powers. For wielders of Allomancy, you’ll need to complete a goal to train in your power.</p><p>Until you complete this <strong>Metalborn goal</strong>, you can’t use your whole power or acquire its talents. Instead, you can only use a nascent version of the power (see “@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.IkomLnitixJvzquo.JournalEntryPage.HFKkZCWdicFG86Oe#nascent-powers]{Nascent Powers}” later in this part). After completing your goal, you unlock the full power, and you can choose talents from that power’s talent tree, as with any other path.</p><p></p><h3>Allomancy: Training in the Allomantic Arts</h3><p>Allomancers must train in each of their Allomantic powers to fully understand the cause and effect of using them on the world. Every Push has a Pull, every action, a reaction. If you’re a Coinshot, you can’t simply fly—you must learn to carefully Push against metal anchors to balance yourself in the air. If you’re a Rioter, you can’t simply control people’s minds—you must learn to read people and subtly nudge their emotions in the desired direction. This kind of nuance requires training or practice with your nascent power.</p><p>Your Snap key talent grants you a goal to “Train Your Power.” You’ll need to progress this Metalborn goal over time. Once you complete this goal, you gain your reward: You can wield the full version of your power, and you can choose talents from its talent tree.</p>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788028152795,
+                "modifiedTime": 1788242201327,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!IkomLnitixJvzquo.hnzDG2LkiX8Rr6km"
+        },
+        {
+            "sort": 400000,
+            "name": "Misting",
+            "type": "text",
+            "_id": "HFKkZCWdicFG86Oe",
+            "system": {},
+            "title": {
+                "show": false,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<img src=\"systems/cosmere-rpg/assets/art_mistborn/p2_mistings-and-allomancy/pg027_header-misting.webp\" class=\" centered\" width=\"400\" /><p></p><p>Mistings are by far the most common type of Metal­born. They have only one Allomantic power, which they wield in the same way as other Allomancers—by ingesting a metal then burning it to access the power of Preservation.</p><p>Each type of Misting has a colloquial name to reflect the metal they burn and the effect produced; for example, a Coinshot is a steel Misting who can propel metal objects at high speeds.</p><p></p><h2>Misting Key Talent</h2><p>A Misting first discovers their powers when they Snap. This usually happens during a foundation­shaking life event, such as a near­death experience or traumatic situation. Four of the pregenerated characters in <em>Hope in Ashes</em> have this talent, representing their character Snapping and unlocking access to the Misting tree.</p><p><strong>Starting Skill: Allomancy.</strong> With Misting as your starting path, you gain a free skill rank in Allomancy (in addition to the rank gained from Misting Snap).</p><p></p><p>@Embed[Compendium.cosmere-rpg.metalborn-paths.Item.uYmcjPLWryLWNOCQ inline]</p><p></p><img src=\"systems/cosmere-rpg/assets/art_mistborn/p2_mistings-and-allomancy/pg027_CROP_HB05_Noble%20Manor_Logan%20Feliciano_HB_MetalbornPaths_Lurcher_Deandra%20Scicluna.webp\" class=\" centered\" width=\"300\" /><p style=\"text-align:center\"><strong>DEANDRA SCICLUNA &amp; LOGAN FELICIANO</strong></p><p></p><h2>Misting Talents</h2><p>As you level up, you can gain talents that expand the range, duration, and precision of your Allomancy. For more details, refer to chapter 5 of the <em>Mistborn Handbook</em>.</p><p></p><h2>Metallic Art Powers</h2><p>Each metal grants a unique <strong>power</strong>, and four metals are presented in the upcoming section. For Allomantic powers, the power takes the form of a <strong>Burn action</strong>, allowing you to burn that metal and activate its effects.</p><p>Allomantic powers generally follow the same rules as talents (see “@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.IkomLnitixJvzquo.JournalEntryPage.VMuxHgk3ARRb6AM4]{Using Paths and Talents}” earlier in this chapter). When you’re using a Metallic Art, the following additional rules determine how large and powerful your Allomantic power is, as well as how long its effects last.</p><p></p><h3>Nascent Powers</h3><p>When you use a nascent power, you don’t use the full rules for the power. Instead, you can only manifest minor effects related to the full power (the “Creative Uses” section for each power offers inspiration). You and the GM are encouraged to creatively integrate these small narrative effects in ways like the following:</p><p><strong>Conscious Choice.</strong> Test your power by using the Use a Skill action with Allomancy to achieve a limited effect.</p><p><strong>Instinctive Effort.</strong> Spend <span class=\"cosmere-icon opportunity-color\">O</span> to activate a limited version of a power as part of a related test’s effects.</p><p><strong>Accidental Activation.</strong> Describe a Complication as a poorly timed power that backfires in some way.</p><p><strong>Controlled Practice.</strong> During downtime, narratively describe using your power in low-­risk situations.</p><p>The effects of a nascent power are always smaller than the full versions of that power, and they’re up to the GM’s discretion. The Nascent Power Examples table offers inspiration for how nascent Allomantic powers might manifest in play.</p><p></p><table class=\"mb-blue\"><tbody><tr><td><p>Using Metallic Arts Creatively</p></td></tr><tr><td><p>The description for each power lists its basic capabilities and provides mechanics for common uses. Meanwhile, talents expand your options for each power. However, you aren’t limited to these rules! The “Creative Uses” section for each power offers some inspiration, but with your GM’s approval, you can use your power to attempt nearly anything you can imagine.</p><p>For these more open-ended uses of your power, you’ll still need to make any required skill tests, and spend Investiture in an amount determined by the GM.</p><p>As with any skill test, the GM sets the DC, raises the stakes when appropriate, and narrates the results of the test. They can use the Metallic Art Scaling table to deter-mine the scope of a power’s effect, such as the size of the affected area or the die size to use for damage rolls.</p><p>Improvising creative Metallic Art techniques can be one of the most memorable moments in a Mistborn session!</p></td></tr></tbody></table><p></p><h4>Nascent Allomantic Powers</h4><p>When you choose the key talent for a Metalborn path that grants an Allomantic power, you gain access to the Investiture resource. You can only use the nascent version of an Allomantic power while you have 1 Inves­titure or more, and while you aren’t Depleted of that power’s metal.</p><p>At the GM’s discretion, using a nascent power might require you to spend 1 Investiture. On the flip side of that, the GM might allow you to recover 1 Investiture or more when you eat or drink something that plausibly contains trace amounts of your Allomantic metal; of course, you can also recover Investiture as usual with the Drink Vial action.</p><p></p><h4>@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.PXKfRLQxXzAf3DzF.JournalEntryPage.I5haUXcgIyiIpASX]{Nascent Power Examples}</h4><p>@Embed[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.PXKfRLQxXzAf3DzF.JournalEntryPage.I5haUXcgIyiIpASX inline]</p><p></p><h4>Metallic Art Limit</h4><p>Some Allomantic powers allow you to choose how much Investiture to spend. When a power’s cost varies like this, you can’t usually spend all available Investiture or charges at once. Rather, your <strong>Metallic Art limit</strong>— the amount of that resource you can spend for a single effect—equals your ranks in the corresponding Invested skill (minimum of 1), as shown on the Metallic Art Scaling table.</p><p>For example, when a Steel Allomancer with 2 ranks in Allomancy uses their Steelpush action, their Metallic Art limit is 2, so they can spend up to 2 Investiture for the effect. Once they gain their third Allomancy skill rank, they can instead spend up to 3 Investiture on their Steelpush.</p><h4>Metallic Art Range</h4><p>Many powers only affect characters and objects within a certain range of you. This <strong>Metallic Art range</strong> increases with your ranks in the corresponding Invested skill, as shown on the Metallic Art Scaling table. (Powers don’t need line of effect, so you can affect targets despite physical obstacles.)</p><h4>Metallic Art Die</h4><p>You’ll sometimes roll dice to determine a power’s effects, such as damage dealt or health recovered. When indicated, the size of your <strong>Metallic Art die</strong> increases with your ranks in the corresponding Invested skill, as shown on the Metallic Art Scaling table.</p><p></p><h4>@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.PXKfRLQxXzAf3DzF.JournalEntryPage.9P37vItPHyWtlZSS]{Metallic Art Scaling}</h4><p>@Embed[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.PXKfRLQxXzAf3DzF.JournalEntryPage.9P37vItPHyWtlZSS inline]</p><p></p><h2>Metallic Art Durations</h2><p>For many powers, you can spend resources to activate an ongoing effect for a specified duration. You can have multiple ongoing effects active at a time.</p><p></p><h3>Maintaining Powers</h3><p>Before an ongoing effect expires, you can usually maintain it by spending the cost specified in that power. When you do, the effect’s duration extends as specified.</p><p>If an effect applies when you “burn,” it also applies when you maintain that power, unless the effect refers directly to the power in title case.</p><p></p><h3>Ending a Power</h3><p>An ongoing effect ends when you choose to end it as on a subsequent turn, when you become Unconscious, or when its stated duration ends and you don’t spend resources to maintain it.</p><p></p><h3>Duration Outside Combat</h3><p>Though the power rules often use combat­focused language (like “1 round”) to describe how long an effect lasts, you can also use those powers out of combat. To keep the narrative simple across different scene types, assume that 1 round represents the following unless otherwise specified:</p><p>@Embed[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.PXKfRLQxXzAf3DzF.JournalEntryPage.k0XvX4WkEjS19ztS inline]</p><p></p><p>During conversations and endeavors, if an effect lasts until “the end of your turn,” it lasts until you make a contribution, or for a fitting duration determined by the GM.</p><p>If an ongoing effect continues across multiple scenes, it’s up to the GM how long it lasts in the narrative.</p><p></p><img src=\"systems/cosmere-rpg/assets/art_mistborn/p2_mistings-and-allomancy/pg029_HB06_Brawl_Amirul%20Hhf.webp\" class=\" centered\" width=\"600\" /><p style=\"text-align:center\"><strong>AMIRUL HHF</strong></p><p></p><h2>Anatomy of a Power</h2><p>The remaining sections of this chapter describe the Metallic Art powers. They include the following information:</p><p><strong>Title.</strong> Each entry’s title states the metal used for that power, followed by the Metallic Art that wields that power (such as “Steel Allomancy”).</p><p><strong>Actions.</strong> Each power grants one or more basic abilities that operate much like talents. Each ability lists the number of actions needed to activate it, the duration for that power, and the rules for that power.</p><p><strong>Using the Power.</strong> After a power’s basic rules, some powers offer additional guidance on using them, along with creative ideas for applying the power’s effects.</p><p><strong>Talents.</strong> Finally, each entry presents any talents you can use to upgrade that power. You can’t choose these until you’ve completed the Metalborn goal for that power.</p><p></p><div class=\"glyph-quote\"><p>“I suspect that many full</p><p>Mistborn neglect these powers,”</p><p>Marsh said. “And that is a</p><p>mistake. Bronze and copper</p><p>may not be as flashy as other</p><p>metals, but they can be very</p><p>powerful in the hands of</p><p>someone properly trained.”</p></div>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788028383518,
+                "modifiedTime": 1788308510363,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!IkomLnitixJvzquo.HFKkZCWdicFG86Oe"
+        },
+        {
+            "sort": 500000,
+            "name": "Bronze Allomancy",
+            "type": "text",
+            "_id": "dqKpvlZcgifz40zR",
+            "system": {},
+            "title": {
+                "show": false,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<img src=\"systems/cosmere-rpg/assets/art_mistborn/p2_mistings-and-allomancy/pg030_header-A-bronze.webp\" class=\"centered\" width=\"400\" /><p></p><p>Bronze Allomancy causes you to sense rhythmic drum­like pulses from nearby kinetic Investiture. On Scadrial, the most common source detected is Allomancers burning metals. Bronze Allomancers are called Seekers due to their ability to track other Allomancers with this power.</p><p>Scadrians classify Allomantic metals in three primary ways. These classifications were created by experienced Seekers who detected similarities in the rhythms and pulses produced by burning various metals:</p><ul><li><p>The four general categories of metal—physical, mental, temporal, and enhancement metals—have unique signature rhythms.</p></li><li><p>External metals have a faster tempo than Internal ones.</p></li><li><p>Metals that Push or Pull cause a Seeker to feel the corresponding sensation.</p></li></ul><p></p><p>@Embed[Compendium.cosmere-rpg.metalborn-paths.Item.WiBKIp4BNIEqFOjX.Item.QJU4HTtjW1QxeN5k inline]</p><p></p><p></p><h2>Using Bronze Allomancy</h2><p>In addition to the power rules presented above, consider the following guidance on interacting with this power.</p><p></p><h3>Seeking in Crowds</h3><p>Bronze Allomancy doesn’t usually require skill tests (except to identify a power), but it can be difficult to Seek an exact location among crowds or many simulta­neous uses of Investiture. At the GM’s discretion, you might need to make an Allomancy test to successfully locate or track certain sources.</p><p></p><img src=\"systems/cosmere-rpg/assets/art_mistborn/p2_mistings-and-allomancy/pg031_HB06_Hunt_Gal%20Or.webp\" class=\"centered\" width=\"600\" /><p style=\"text-align:center\"><strong>A steel inquisitor burns bronze to follow an unwary mistborn. - GAL OR</strong></p><p></p><h3>Detecting Copperclouds</h3><p>Some Invested effects can be difficult to detect.</p><p>At level 1, you can’t detect the presence of anything behind an Investiture­-obscuring effect such as a coppercloud created by a copper Allomancer, nor can you detect that such an effect is present.</p><p></p><h3>Creative Uses</h3><p>You’re encouraged to find your own creative uses for Bronze Allomancy, such as the following, and work with the GM to resolve them:</p><p><strong>Orienteering.</strong> When burning bronze during an endeavor, you can make an Allomancy test to track another Allomancer even if they’re only sporadically using their power</p><p><strong>Pulse Reaction.</strong> When making a Reactive Strike against a character who is burning a metal, spend 1 Investiture to gain an advantage on the attack.</p><p>An experienced bronze Allomancer can attempt these techniques at any time. A nascent Misting could activate them by spending an Opportunity or by making an Allomancy test and spending 1 Investiture.</p><p></p><h2>Bronze Allomancy Talents</h2><p>As you level up, you can gain talents that expand the range, duration, and precision of your Bronze Allomancy. For more details, refer to chapter 6 of the <em>Mistborn Handbook</em>.</p><p></p>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788029404404,
+                "modifiedTime": 1788242500623,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!IkomLnitixJvzquo.dqKpvlZcgifz40zR"
+        },
+        {
+            "sort": 600000,
+            "name": "Steel Allomancy",
+            "type": "text",
+            "_id": "aVWwEoJDcxZ1xPFW",
+            "system": {},
+            "title": {
+                "show": false,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<img src=\"systems/cosmere-rpg/assets/art_mistborn/p2_mistings-and-allomancy/pg032_header-A-steel.webp\" class=\"centered\" width=\"400\" /><p></p><p>Steel Allomancy allows you to see blue lines extending from your center of mass to that of nearby metal objects. You can Steelpush those sources of metal, moving either you or the object away from the other (depending on which is bulkier). Because steel Allomancers can launch small metal objects at deadly speeds, many people call them Coinshots.</p><p></p><p>@Embed[Compendium.cosmere-rpg.metalborn-paths.Item.FcFpWhxyjgdvMpC7.Item.QX2wHbTxyPNf0sEP inline]</p><p>@Embed[Compendium.cosmere-rpg.metalborn-paths.Item.FcFpWhxyjgdvMpC7.Item.1XURjh3MR0RGUGIa inline]</p><p>@Embed[Compendium.cosmere-rpg.metalborn-paths.Item.FcFpWhxyjgdvMpC7.Item.Lc7ZZ1CetzaaGvYD inline]</p><p></p><table class=\"mb-blue\"><tbody><tr><td><p>GM Tip: Size Versus Weight</p></td></tr><tr><td><p>In the Mistborn novels, Iron and Steel Allomancy depend on the relative weight of the Allomancer and their chosen object. In the Cosmere RPG, these powers instead depend on size. This streamlines gameplay, removing the need to calculate various weights in the middle of a scene—but at the GM’s discretion, some scenes might be a good fit for using weight instead of size.</p></td></tr></tbody></table><p></p><h2>Using Steel Allomancy</h2><p>In addition to the power rules presented above, consider the following guidance on interacting with this power.</p><p></p><h3>Difficult Steelpushes</h3><p>Most Steelpushes don’t require a test. However, when you attempt a particularly tricky, creative, or dangerous maneuver, the GM might ask you to make a test using either Allomancy or a relevant mundane skill.</p><p></p><h3>Creative Uses</h3><p>Many Coinshots carry around pouches of coins which they can use as an anchor point on nonmetal objects and structures. You’re encouraged to find your own creative uses for Steel Allomancy, such as the following, and work with the GM to resolve them:</p><p><strong>“Flying.”</strong> By Steelpushing diagonally down on an object that’s fixed or larger than you, propel yourself through the air, flying in a straight line up to the distance of the Steelpush. The GM might ask you to make an Allomancy test to do so, possibly raising the stakes. On a failure, you land safely, but not where you intended. The GM can spend <span class=\"cosmere-icon complication-color\">C</span> to cause you to land hard and take damage from the fall.</p><p><strong>Passing an Object.</strong> Steelpush an object to a willing ally, and if they have an open hand, they can catch it. If there are any significant obstacles between you, make an Allomancy test to determine whether you succeed.</p><p>An experienced steel Misting can attempt these techniques at any time. A nascent Misting could activate them on an Opportunity, or by making an Allomancy test and spending 1 Investiture.</p><p></p><h2>Steel Allomancy Talents</h2><p>As you level up, you can gain talents that expand the range, duration, and precision of your Steel Allomancy. For more details, refer to chapter 6 of the <em>Mistborn Handbook</em>.</p><p></p><img src=\"systems/cosmere-rpg/assets/art_mistborn/p2_mistings-and-allomancy/pg033_HB06_Precise%20Push_Gal%20Or.webp\" class=\"centered\" width=\"600\" /><p style=\"text-align:center\"><strong>Zane hovers while shooting a coin with uncanny precision. - GAL OR</strong></p><p></p><p></p>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788029676586,
+                "modifiedTime": 1788242596666,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!IkomLnitixJvzquo.aVWwEoJDcxZ1xPFW"
+        },
+        {
+            "sort": 700000,
+            "name": "Tin Allomancy",
+            "type": "text",
+            "_id": "SFks7inWAfUVxSVH",
+            "system": {},
+            "title": {
+                "show": false,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<img src=\"systems/cosmere-rpg/assets/art_mistborn/p2_mistings-and-allomancy/pg034_header-A-tin.webp\" class=\"centered\" width=\"400\" /><p></p><p>Tin Allomancy allows you to powerfully enhance your senses. Though tin Allomancers are called Tineyes, burning this metal increases all your senses, not just your sight. As such, Tineyes make great guards or scouts, especially in areas of low light.</p><p>When a Tineye is experiencing pain or exhaustion, they sometimes flare tin to clear their head for a time, shocking their body with sensory input to reset it.</p><p></p><p>@Embed[Compendium.cosmere-rpg.metalborn-paths.Item.ac7CJPd7qep62flw.Item.jyaKKm7hSUVP7oGS inline]</p><p></p><h2>Using Tin Allomancy</h2><p>In addition to the power rules presented above, consider the following guidance on interacting with this power.</p><p></p><h3>Creative Uses</h3><p>You’re encouraged to find your own creative uses for Tin Allomancy, such as the following, and work with the GM to resolve them:</p><p><strong>Familiar Sensations.</strong> When trying to recall sights, scents, and other sensations, burning tin might help you remember them in more detail.</p><p><strong>Piercing the Mists.</strong> Tineyes can see through many forms of gaseous Investiture, including Scadrial’s mists.</p><p>An experienced tin Misting can attempt these tech­niques at any time. A nascent Misting could activate them by spending an Opportunity or by making an Allomancy test and spending 1 Investiture.</p><p></p><h2>Tin Allomancy Talents</h2><p>As you level up, you can gain talents that expand the range, duration, and precision of your Tin Allomancy. For more details, refer to chapter 6 of the <em>Mistborn Handbook</em>.</p><p></p><table class=\"mb-blue\"><tbody><tr><td><p>Altering Emotions with Zinc Allomancy</p></td></tr><tr><td><p>Every character responds uniquely to emotions based on their personality and experiences: Some respond to grief by lashing out, and some respond to anger with tears. If a brass or zinc Allomancer wants to elicit a particular response from another character, the GM can call for an Insight test to learn what emotions are likely to do that.</p><p>When your own character is affected by emotional Allomancy, you determine how to respond to that altered emotional state. Roleplay your character’s change in behavior and consider how their feelings impact their decisions. However, before you do something directly contrary to your altered emotion, you must spend focus to temporarily resist the Soothing or Rioting, as described in Burn Zinc.</p><p>Manipulating emotions isn’t mind control, but it is manipulative! Using emotional Allomancy can create potentially triggering scenes; consult the “Safety Guide” section in the <em>Mistborn Handbook</em> for tools to employ in such situations. It’s best to decide as a group how behaviors such as gaslighting will be played out, if at all.</p></td></tr></tbody></table>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788029871376,
+                "modifiedTime": 1788242654314,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!IkomLnitixJvzquo.SFks7inWAfUVxSVH"
+        },
+        {
+            "sort": 800000,
+            "name": "Zinc Allomancy",
+            "type": "text",
+            "_id": "wy3ia6oRmL9m6F0i",
+            "system": {},
+            "title": {
+                "show": false,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<img src=\"systems/cosmere-rpg/assets/art_mistborn/p2_mistings-and-allomancy/pg035_header-A-zinc.webp\" class=\"centered\" width=\"400\" /><p></p><p>Zinc Allomancy subtly enflames the emotions of others nearby, encouraging them to act on those emotions while believing it’s their idea. This has earned zinc Allomancers the name of Rioters. For example, you might Riot impulsiveness at a ball so a noble commits a reputation-ruining faux pas, or Riot trust in strangers to gain their aid. With practice, you can even Riot multiple emotions at once. However, Rioters can’t sense emotions, so learning to mundanely read emotional states is essential. (See the “Altering Emotions with Zinc Allomancy” sidebar for guidance on handling emotional Allomancy during play.)</p><p></p><p>@Embed[Compendium.cosmere-rpg.metalborn-paths.Item.3xeMuLT9QrxPVJEL.Item.tUw5gd67jF6mQv60 inline]</p><p></p><h2>Using Zinc Allomancy</h2><p>In addition to the power rules presented above, consider the following guidance on interacting with this power.</p><p></p><h3>Complications</h3><p>While you’re burning zinc, the GM can spend <span class=\"cosmere-icon complication-color\">C</span> from your test or that of an ally to cause a character to realize they’re being Rioted, or to cause a character to realize you’re a Rioter.</p><p>Overlapping Manipulations</p><p>If multiple effects are altering the emotions of a single character, their effects combine (for similar effects) or cancel out (for opposing effects) on that character. For similar effects, the target only needs to resist the most powerful one. For opposing effects, they simply cancel each other out.</p><p></p><h3>Creative Uses</h3><p>Zinc Allomancy can be applied creatively to accomplish incredible feats of manipulation. You’re encouraged to find your own uses for this power, such as the following, and work with the GM to resolve them:</p><p><strong>Distraction.</strong> Rioting an enemy’s anger or suspicion could cause them to focus their attention on you instead of another character during the next round.</p><p><strong>Encouragement.</strong> Help a willing ally resist their obstacle and instead do something brave, bold, or otherwise aspirational to them.</p><p>An experienced zinc Misting can attempt these techniques at any time. A nascent Misting could activate them by spending an Opportunity or by making an Allomancy test and spending 1 Investiture.</p><p></p><h2>Zinc Allomancy Talents</h2><p>As you level up, you can gain talents that expand the range, duration, and precision of your Zinc Allomancy. For more details, refer to chapter 6 of the <em>Mistborn Handbook</em>.</p>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788030033298,
+                "modifiedTime": 1788242691998,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!IkomLnitixJvzquo.wy3ia6oRmL9m6F0i"
+        }
+    ],
+    "folder": null,
+    "categories": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!journal!IkomLnitixJvzquo"
+}

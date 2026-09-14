@@ -3,32 +3,32 @@ import { SYSTEM_ID } from '@system/constants';
 const ARMOR = [
     {
         id: 'breastplate',
-        label: 'Breastplate',
+        label: 'COSMERE.Objects.Stormlight.Armor.Breastplate',
         reference: 'Compendium.cosmere-rpg.items.Item.xLer8raOT6EkLfWN',
     },
     {
         id: 'chain',
-        label: 'Chain',
+        label: 'COSMERE.Objects.Stormlight.Armor.Chain',
         reference: 'Compendium.cosmere-rpg.items.Item.6y5hONLMQa4O2wnU',
     },
     {
         id: 'full-plate',
-        label: 'Full Plate',
+        label: 'COSMERE.Objects.Stormlight.Armor.FullPlate',
         reference: 'Compendium.cosmere-rpg.items.Item.t97DN6FAh7BMNvcP',
     },
     {
         id: 'half-plate',
-        label: 'Half Plate',
+        label: 'COSMERE.Objects.Stormlight.Armor.HalfPlate',
         reference: 'Compendium.cosmere-rpg.items.Item.GlrRu1goky9ifKCl',
     },
     {
         id: 'leather',
-        label: 'Leather',
+        label: 'COSMERE.Objects.Stormlight.Armor.Leather',
         reference: 'Compendium.cosmere-rpg.items.Item.dxty96So3kGZVhv5',
     },
     {
         id: 'uniform',
-        label: 'Uniform',
+        label: 'COSMERE.Objects.Stormlight.Armor.Uniform',
         reference: 'Compendium.cosmere-rpg.items.Item.SRLLAWCE7rwS40Pv',
     },
 ];

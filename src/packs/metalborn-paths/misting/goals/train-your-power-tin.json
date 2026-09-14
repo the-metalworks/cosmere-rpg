@@ -1,0 +1,98 @@
+{
+    "folder": "k6n1DVRHNtzIx0uP",
+    "name": "Train Your Power (Tin)",
+    "type": "goal",
+    "img": "systems/cosmere-rpg/assets/icons/mistborn/metal-powers/icon_A_tin.webp",
+    "system": {
+        "id": "train-your-power-tin",
+        "description": {
+            "value": "<p>After completing this goal, you gain its reward: You unlock the full version of your power and can choose talents from its talent tree in chapter 6.</p>",
+            "chat": "",
+            "short": ""
+        },
+        "events": {
+            "BNxc6eol2HgFYsA5": {
+                "id": "BNxc6eol2HgFYsA5",
+                "description": "Grant Power",
+                "event": "goal-complete",
+                "handler": {
+                    "type": "grant-items",
+                    "allowDuplicates": false,
+                    "increaseQuantity": false,
+                    "pickOne": false,
+                    "notify": true,
+                    "items": [
+                        {
+                            "uuid": "Compendium.cosmere-rpg.metalborn-paths.Item.ac7CJPd7qep62flw"
+                        }
+                    ],
+                    "pickPromptTitle": "Select Your Allomantic Power"
+                },
+                "order": 0,
+                "disabled": false
+            },
+            "VfMUIo5yKLlePPXp": {
+                "id": "VfMUIo5yKLlePPXp",
+                "description": "Grant Nascent Power",
+                "event": "add-to-actor",
+                "handler": {
+                    "type": "grant-items",
+                    "allowDuplicates": false,
+                    "increaseQuantity": false,
+                    "pickOne": false,
+                    "notify": true,
+                    "items": [
+                        {
+                            "uuid": "Compendium.cosmere-rpg.metalborn-paths.Item.ctvi56jzaTIR2jkx"
+                        }
+                    ]
+                },
+                "order": 0,
+                "disabled": false
+            },
+            "gj3LA1pcH4T8ZFef": {
+                "id": "gj3LA1pcH4T8ZFef",
+                "description": "Remove Nascent Power on Complete",
+                "event": "goal-complete",
+                "handler": {
+                    "type": "remove-items",
+                    "reduceQuantity": false,
+                    "items": [
+                        "Compendium.cosmere-rpg.metalborn-paths.Item.ctvi56jzaTIR2jkx"
+                    ],
+                    "amount": 1
+                },
+                "order": 0,
+                "disabled": false
+            },
+            "TB86LPQSsC5BIOBf": {
+                "id": "TB86LPQSsC5BIOBf",
+                "description": "Remove Nascent Power on Remove",
+                "event": "remove-from-actor",
+                "handler": {
+                    "type": "remove-items",
+                    "reduceQuantity": false,
+                    "items": [
+                        "Compendium.cosmere-rpg.metalborn-paths.Item.ctvi56jzaTIR2jkx"
+                    ],
+                    "amount": 1
+                },
+                "order": 0,
+                "disabled": false
+            }
+        },
+        "relationships": {},
+        "level": 0,
+        "__embedded": {
+            "items": []
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "fMX4w72xfWEobjli",
+    "sort": 200000,
+    "_key": "!items!fMX4w72xfWEobjli"
+}

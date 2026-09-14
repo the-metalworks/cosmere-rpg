@@ -1,0 +1,150 @@
+{
+    "folder": "N0Rgn8Y6XWMWKpL0",
+    "name": "Poison (potent, 1 dose)",
+    "type": "equipment",
+    "img": "icons/consumables/potions/potion-jar-corked-labeled-poison-skull-green.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 60 bx; <strong>Weight</strong> 0.2 lb.;</p><p>Often manufactured using gurwraith or the bark of climbing vines like birchbane, poison comes in single-dose glass vials. As <span class=\"cosmere-icon\">1</span>, you can pour it into food, liquid, or a container, or you can apply the poison to a melee weapon or a piece of ammunition you’re holding. When you do, the GM may require you to succeed on a [[test skill=stl]] to avoid discovery. When a character ingests the poison or is hit by an attack using the poisoned weapon or ammunition, the poison is expended, and the character suffers the following effects:</p><p><strong>Potent Poison.</strong> The target must succeed on a [[test dc=16 skill=ath]] test or take [[damage 3d10 Vital]] and be @UUID[Compendium.cosmere-rpg-mistborn-handbook.handbook.JournalEntry.b684FTgeTTE90HLs.JournalEntryPage.vyYzxzfhwORSeTLw#stunned]{Stunned} for 1 hour. While @UUID[Compendium.cosmere-rpg-mistborn-handbook.handbook.JournalEntry.b684FTgeTTE90HLs.JournalEntryPage.vyYzxzfhwORSeTLw#stunned]{Stunned} in this way, the target is @UUID[Compendium.cosmere-rpg-mistborn-handbook.handbook.JournalEntry.b684FTgeTTE90HLs.JournalEntryPage.vyYzxzfhwORSeTLw#immobilized]{Immobilized}.</p>",
+            "chat": "",
+            "short": ""
+        },
+        "resources": {
+            "uses": {
+                "value": 1,
+                "max": 1,
+                "recharge": "none",
+                "key": "uses"
+            },
+            "charges": null,
+            "ammo": null
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 0.2,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 60,
+            "currency": "boxings",
+            "denomination": {
+                "primary": "box",
+                "secondary": "none"
+            },
+            "unit": "boxings.box"
+        },
+        "events": {},
+        "relationships": {},
+        "primaryResource": "uses",
+        "alwaysEquippable": false,
+        "equippableEnabled": false,
+        "equipped": false,
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "wear"
+        },
+        "linkedSkills": [],
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Poison (potent)",
+                    "img": "icons/consumables/potions/potion-jar-corked-labeled-poison-skull-green.webp",
+                    "_id": "NCicArifLMmxHoaY",
+                    "system": {
+                        "id": "poison-potent",
+                        "description": {
+                            "value": "<p>Often manufactured using gurwraith or the bark of climbing vines like birchbane, poison comes in single-dose glass vials. As <span class=\"cosmere-icon\">1</span>, you can pour it into food, liquid, or a container, or you can apply the poison to a melee weapon or a piece of ammunition you’re holding. When you do, the GM may require you to succeed on a [[test skill=stl]] to avoid discovery. When a character ingests the poison or is hit by an attack using the poisoned weapon or ammunition, the poison is expended, and the character suffers the following effects:</p><p><strong>Potent Poison.</strong> The target must succeed on a [[test dc=16 skill=ath]] test or take [[damage 3d10 Vital]] and be @UUID[Compendium.cosmere-rpg-mistborn-handbook.handbook.JournalEntry.b684FTgeTTE90HLs.JournalEntryPage.vyYzxzfhwORSeTLw#stunned]{Stunned} for 1 hour. While @UUID[Compendium.cosmere-rpg-mistborn-handbook.handbook.JournalEntry.b684FTgeTTE90HLs.JournalEntryPage.vyYzxzfhwORSeTLw#stunned]{Stunned} in this way, the target is @UUID[Compendium.cosmere-rpg-mistborn-handbook.handbook.JournalEntry.b684FTgeTTE90HLs.JournalEntryPage.vyYzxzfhwORSeTLw#immobilized]{Immobilized}.</p>",
+                            "chat": "",
+                            "short": ""
+                        },
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "value": 1,
+                                "type": "act"
+                            },
+                            "consumption": [
+                                {
+                                    "type": "item_resource",
+                                    "value": {
+                                        "min": 1,
+                                        "max": 1,
+                                        "actual": 1
+                                    },
+                                    "resource": "uses",
+                                    "matchDocument": {
+                                        "steps": [
+                                            {
+                                                "target": "parent",
+                                                "documentType": "Item",
+                                                "reference": null,
+                                                "matchBy": "name",
+                                                "matchMode": "first"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": "3d8",
+                            "grazeOverrideFormula": "",
+                            "type": "vital"
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false,
+                            "modifierFormula": "",
+                            "opportunity": null,
+                            "complication": null
+                        },
+                        "type": "basic",
+                        "primaryResource": "none",
+                        "__embedded": {
+                            "items": []
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.350",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "createdTime": 1788238151908,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    }
+                }
+            ]
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "7mrtsS7GffkQzL5X",
+    "sort": 100000,
+    "_key": "!items!7mrtsS7GffkQzL5X"
+}

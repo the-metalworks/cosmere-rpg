@@ -1,0 +1,55 @@
+{
+    "folder": "N0Rgn8Y6XWMWKpL0",
+    "name": "Pulley System",
+    "type": "equipment",
+    "img": "icons/commodities/tech/wheel-wooden.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 50 bx; <strong>Weight</strong> 12 lb.;</p><p>Most commonly used by engineers and construction workers, this system contains four pulley wheels, 30 feet of rope, and a hook. When you have time to set up a pulley apparatus while attempting to lift an object, you treat the object as being a quarter of its normal weight.</p>",
+            "chat": "",
+            "short": ""
+        },
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 12,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 50,
+            "currency": "boxings",
+            "denomination": {
+                "primary": "box",
+                "secondary": "none"
+            },
+            "unit": "boxings.box"
+        },
+        "events": {},
+        "relationships": {},
+        "primaryResource": "none",
+        "linkedSkills": [],
+        "alwaysEquippable": false,
+        "equippableEnabled": false,
+        "equipped": false,
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "wear"
+        },
+        "__embedded": {
+            "items": []
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "1J1icFUo2dZLHk8l",
+    "sort": 600000,
+    "_key": "!items!1J1icFUo2dZLHk8l"
+}

@@ -35,6 +35,7 @@ import {
     ImmunityType,
     ActorType,
 } from './cosmere';
+import { Derived } from '../data/fields';
 
 import { Talent, TalentTree, EventSystem as ItemEventSystem } from './item';
 
@@ -113,6 +114,11 @@ export interface SkillConfig {
     hiddenUntilAcquired?: boolean;
 }
 
+export interface ResourceModeConfig {
+    default: Derived.Mode;
+    valid: Derived.Mode[];
+}
+
 export interface ResourceConfig {
     key: string;
     label: string;
@@ -122,6 +128,7 @@ export interface ResourceConfig {
      * The formula used to derive the max value
      */
     formula?: string;
+    modes: Record<ActorType, ResourceModeConfig>;
 }
 
 export interface PathTypeConfig {
@@ -278,6 +285,11 @@ export interface PowerTypeConfig {
     plural: string;
 }
 
+export interface StartingSkillConfig {
+    skill: Skill;
+    path: string;
+}
+
 export interface AdvancementRuleConfig {
     /**
      * The level at which this rule applies.
@@ -427,6 +439,8 @@ export interface CosmereRPGConfig {
     paths: {
         types: Record<PathType, PathTypeConfig>;
     };
+
+    startingSkills: Record<string, Skill>;
 
     item: {
         activation: {

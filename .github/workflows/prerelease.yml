@@ -56,11 +56,11 @@ jobs:
           manifest: ${{ env.MANIFEST_URL }}
           download: ${{ env.DOWNLOAD_URL }}
 
-      # Set up node 
-      - name: Use Node 20
+      # Set up node
+      - name: Use Node 24
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
 
       # Install dependencies
       - name: NPM install
@@ -85,8 +85,8 @@ jobs:
           prerelease: true
           allowUpdates: true
           body: |
-            Pre-release build of ${{ env.RELEASE_VERSION }}. 
-            This build is automatically generated from the latest changes targeting the ${{ env.RELEASE_VERSION }} release.  
-            ⚠️ **This is a pre-release build and may contain bugs or incomplete features.** ⚠️  
-              
+            Pre-release build of ${{ env.RELEASE_VERSION }}.
+            This build is automatically generated from the latest changes targeting the ${{ env.RELEASE_VERSION }} release.
+            ⚠️ **This is a pre-release build and may contain bugs or incomplete features.** ⚠️
+
             **Manifest url:** ${{ env.MANIFEST_URL }}

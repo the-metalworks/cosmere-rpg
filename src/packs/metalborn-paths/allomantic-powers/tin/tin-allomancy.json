@@ -1,0 +1,183 @@
+{
+    "folder": "gs0ejLgRX5MzAaOZ",
+    "name": "Tin Allomancy",
+    "type": "power",
+    "img": "systems/cosmere-rpg/assets/icons/mistborn/metal-powers/icon_A_tin.webp",
+    "system": {
+        "id": "tin-allomancy",
+        "type": "metallic-art",
+        "description": {
+            "value": "<p>Tin Allomancy allows you to powerfully enhance your senses. Though tin Allomancers are called Tineyes, burning this metal increases all your senses, not just your sight. As such, Tineyes make great guards or scouts, especially in areas of low light. </p><p>When a Tineye is experiencing pain or exhaustion, they sometimes flare tin to clear their head for a time, shocking their body with sensory input to reset it.</p>",
+            "chat": "",
+            "short": ""
+        },
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "relationships": {},
+        "customSkill": true,
+        "skill": "all",
+        "talentTree": null,
+        "primaryResource": "none",
+        "__embedded": {
+            "items": [
+                {
+                    "name": "Burn Tin",
+                    "type": "action",
+                    "_id": "jyaKKm7hSUVP7oGS",
+                    "img": "systems/cosmere-rpg/assets/icons/mistborn/metal-powers/icon_A_tin_burn.webp",
+                    "system": {
+                        "id": "burn-tin",
+                        "type": "metallic-arts",
+                        "description": {
+                            "value": "<p>To burn tin, spend 1 Investiture or more, up to your Metallic Art limit, gaining the following benefits for a number of rounds equal to your ranks in <strong>Allomancy</strong>:</p><ul><li><p>You become @UUID[Compendium.cosmere-rpg-mistborn-handbook.handbook.JournalEntry.b684FTgeTTE90HLs.JournalEntryPage.vyYzxzfhwORSeTLw#enhanced]{Enhanced} [<strong>Awareness</strong>]. The bonus to this attribute equals half the Investiture you spent to burn tin (rounded up).</p></li><li><p>Each of your senses is a supernatural sense, making you more aware but vulnerable (see “@UUID[Compendium.cosmere-rpg-mistborn-handbook.handbook.JournalEntry.kwz9u1ntb7EcYxTk.JournalEntryPage.nOLzM4Ep16ZxoRfj#supernatural-senses]{Supernatural Senses}” in chapter 3).</p></li></ul><p>Before your tin burn ends, you can spend 1 Investiture or more as <span class=\"cosmere-icon\">0</span> to maintain it for the corresponding duration.</p>",
+                            "chat": "",
+                            "short": ""
+                        },
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "type": "act",
+                                "value": 1
+                            },
+                            "consumption": [
+                                {
+                                    "type": "resource",
+                                    "value": {
+                                        "min": 1,
+                                        "max": -1,
+                                        "actual": 1
+                                    },
+                                    "resource": "inv",
+                                    "matchDocument": {
+                                        "steps": [
+                                            {
+                                                "target": "ancestor",
+                                                "documentType": "Actor",
+                                                "matchBy": "document-type",
+                                                "reference": null,
+                                                "matchMode": "first"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "formula": null,
+                            "type": null,
+                            "skill": "default",
+                            "attribute": "default"
+                        },
+                        "modality": null,
+                        "events": {
+                            "Y0zJXs49IQxJ1KBv": {
+                                "id": "Y0zJXs49IQxJ1KBv",
+                                "description": "Enable Tin Burn",
+                                "event": "use",
+                                "handler": {
+                                    "type": "execute-macro",
+                                    "inline": true,
+                                    "uuid": null,
+                                    "macro": {
+                                        "type": "script",
+                                        "command": "cosmereRPG.utils.macros.allomancy.enableBurnEffect(\"tin\", event, actor);"
+                                    }
+                                },
+                                "order": 0,
+                                "disabled": false
+                            }
+                        },
+                        "relationships": {},
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [
+                        {
+                            "name": "Tin Burn",
+                            "img": "modules/cosmere-rpg-mistborn-handbook/assets/icons/metal-powers/icon_A_tin_burn.webp",
+                            "disabled": true,
+                            "duration": {
+                                "startTime": null,
+                                "combat": null,
+                                "seconds": null,
+                                "rounds": 2,
+                                "turns": null,
+                                "startRound": null,
+                                "startTurn": null
+                            },
+                            "_id": "ThkZXTbvVlgWc5zS",
+                            "type": "base",
+                            "system": {
+                                "isStackable": false
+                            },
+                            "changes": [
+                                {
+                                    "key": "system.attributes.awa.bonus",
+                                    "mode": 2,
+                                    "value": "0",
+                                    "priority": null
+                                }
+                            ],
+                            "description": "",
+                            "origin": null,
+                            "tint": "#ffffff",
+                            "transfer": true,
+                            "statuses": [],
+                            "sort": 0,
+                            "flags": {},
+                            "_stats": {
+                                "coreVersion": "13.351",
+                                "systemId": "cosmere-rpg",
+                                "systemVersion": "3.0.0",
+                                "lastModifiedBy": null,
+                                "createdTime": 1787017678804,
+                                "compendiumSource": null,
+                                "duplicateSource": null,
+                                "exportSource": null
+                            }
+                        }
+                    ],
+                    "flags": {},
+                    "ownership": {
+                        "default": 0
+                    },
+                    "sort": 0,
+                    "folder": null,
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "createdTime": 1787017678804,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "ac7CJPd7qep62flw",
+    "sort": 0,
+    "_key": "!items!ac7CJPd7qep62flw"
+}

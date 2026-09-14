@@ -1,0 +1,55 @@
+{
+    "folder": "N0Rgn8Y6XWMWKpL0",
+    "name": "Clothing (fine)",
+    "type": "equipment",
+    "img": "icons/equipment/chest/robe-collared-blue.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 25–100 bx; <strong>Weight</strong> 6 lb.;</p><p>Fine clothes are made of silks or other high-quality materials, colored using expensive dyes, and often stitched with fine embroidery. Wearing fine clothes helps you blend into high society, such as noble banquets, without arousing suspicion. While wearing an outfit of fine clothing, you gain an advantage on spiritual tests made to convince others you’re from the upper class.</p>",
+            "chat": "",
+            "short": ""
+        },
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 6,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 25,
+            "currency": "boxings",
+            "denomination": {
+                "primary": "box",
+                "secondary": "none"
+            },
+            "unit": "boxings.box"
+        },
+        "events": {},
+        "relationships": {},
+        "equippableEnabled": true,
+        "primaryResource": "none",
+        "linkedSkills": [],
+        "alwaysEquippable": false,
+        "equipped": false,
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "wear"
+        },
+        "__embedded": {
+            "items": []
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "kVUXWWI8a94eEigf",
+    "sort": 4200000,
+    "_key": "!items!kVUXWWI8a94eEigf"
+}

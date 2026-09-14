@@ -1,0 +1,145 @@
+{
+    "folder": "N0Rgn8Y6XWMWKpL0",
+    "name": "Tonic (1 dose)",
+    "type": "equipment",
+    "img": "icons/consumables/potions/potion-bottle-stopped-labeled-red.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 2 bx; <strong>Weight</strong> 0.2 lb.;</p><p>A pungent tincture formulated of secret ingredients. In Era 1, many nobles enjoy a daily spoonful of Pewterheart Tonic, and in Era 2, countless happy customers swear by the efficacy of Sparkle Tonic. (Meanwhile, others swear it’s just the placebo effect.) Either way, a character can consume a dose after a short rest to recover [[healing 1d4]] and 1 focus.</p>",
+            "chat": "",
+            "short": ""
+        },
+        "resources": {
+            "uses": {
+                "value": 1,
+                "max": 1,
+                "recharge": "none",
+                "key": "uses"
+            },
+            "charges": null,
+            "ammo": null
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 0.2,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 2,
+            "currency": "boxings",
+            "denomination": {
+                "primary": "box",
+                "secondary": "none"
+            },
+            "unit": "boxings.box"
+        },
+        "events": {},
+        "relationships": {},
+        "primaryResource": "uses",
+        "alwaysEquippable": false,
+        "equippableEnabled": false,
+        "equipped": false,
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "wear"
+        },
+        "linkedSkills": [],
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Tonic",
+                    "img": "icons/consumables/potions/potion-bottle-stopped-labeled-red.webp",
+                    "_id": "w5XG1y5ngjhgZYLR",
+                    "system": {
+                        "id": "tonic",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p>A pungent tincture formulated of secret ingredients. In Era 1, many nobles enjoy a daily spoonful of Pewterheart Tonic, and in Era 2, countless happy customers swear by the efficacy of Sparkle Tonic. (Meanwhile, others swear it’s just the placebo effect.) Either way, a character can consume a dose after a short rest to recover [[healing 1d4]] and 1 focus.</p>",
+                            "chat": "",
+                            "short": ""
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "type": "spe"
+                            },
+                            "consumption": [
+                                {
+                                    "type": "item_resource",
+                                    "value": {
+                                        "min": 1,
+                                        "max": 1,
+                                        "actual": 1
+                                    },
+                                    "resource": "uses",
+                                    "matchDocument": {
+                                        "steps": [
+                                            {
+                                                "target": "parent",
+                                                "documentType": "Item",
+                                                "reference": null,
+                                                "matchBy": "name",
+                                                "matchMode": "first"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": "1d4",
+                            "type": "heal"
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        },
+                        "__embedded": {
+                            "items": []
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "createdTime": 1788238203662,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    }
+                }
+            ]
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "H6xdjHvVWCSQELQv",
+    "sort": 0,
+    "_key": "!items!H6xdjHvVWCSQELQv"
+}

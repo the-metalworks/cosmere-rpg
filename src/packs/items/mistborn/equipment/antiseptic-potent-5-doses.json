@@ -1,0 +1,145 @@
+{
+    "folder": "N0Rgn8Y6XWMWKpL0",
+    "name": "Antiseptic (potent, 5 doses)",
+    "type": "equipment",
+    "img": "icons/consumables/potions/potion-bottle-labeled-medicine-capped-red-black.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 25 bx; <strong>Weight</strong> 1 lb.;</p><p>Strong antiseptics such as iodine can be extracted from seaweed ash with acid. A dose can be applied to a character after a short rest to restore [[healing 2d6]].</p>",
+            "chat": "",
+            "short": ""
+        },
+        "resources": {
+            "uses": {
+                "value": 5,
+                "max": 5,
+                "recharge": "none",
+                "key": "uses"
+            },
+            "charges": null,
+            "ammo": null
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 1,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 25,
+            "currency": "boxings",
+            "denomination": {
+                "primary": "box",
+                "secondary": "none"
+            },
+            "unit": "boxings.box"
+        },
+        "events": {},
+        "relationships": {},
+        "primaryResource": "uses",
+        "alwaysEquippable": false,
+        "equippableEnabled": false,
+        "equipped": false,
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "wear"
+        },
+        "linkedSkills": [],
+        "__embedded": {
+            "items": [
+                {
+                    "type": "action",
+                    "name": "Antiseptic (potent)",
+                    "img": "icons/consumables/potions/potion-bottle-labeled-medicine-capped-red-black.webp",
+                    "_id": "YZFYNv5tYL2xTpEv",
+                    "system": {
+                        "id": "antiseptic-potent",
+                        "type": "basic",
+                        "description": {
+                            "value": "<p>Strong antiseptics such as iodine can be extracted from seaweed ash with acid. A dose can be applied to a character after a short rest to restore [[healing 2d6]].</p>",
+                            "chat": "",
+                            "short": ""
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "type": "spe"
+                            },
+                            "consumption": [
+                                {
+                                    "type": "item_resource",
+                                    "value": {
+                                        "min": 1,
+                                        "max": 1,
+                                        "actual": 1
+                                    },
+                                    "resource": "uses",
+                                    "matchDocument": {
+                                        "steps": [
+                                            {
+                                                "target": "parent",
+                                                "documentType": "Item",
+                                                "reference": null,
+                                                "matchBy": "document-type",
+                                                "matchMode": "first"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": "2d6",
+                            "type": "heal"
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        },
+                        "__embedded": {
+                            "items": []
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "createdTime": 1788238001048,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    }
+                }
+            ]
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "5ttGFYN1EKd7dvvv",
+    "sort": 5500000,
+    "_key": "!items!5ttGFYN1EKd7dvvv"
+}

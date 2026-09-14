@@ -1,0 +1,187 @@
+{
+    "_id": "C4o8jIXuVulD9qS9",
+    "folder": "4H9VQhin9BB78Fw4",
+    "name": "Axe",
+    "type": "weapon",
+    "img": "systems/cosmere-rpg/assets/icons/stormlight/items/foundry_items/ICON_Axe.webp",
+    "system": {
+        "id": "axe",
+        "type": "heavy_wpn",
+        "description": {
+            "value": "<p><strong>Damage</strong> 1d6 keen; <strong>Range</strong> Melee; <strong>Traits</strong> Thrown [20/60]; <strong>Expert Traits</strong> Offhand;</p><p><strong>Type</strong> Heavy Weapon; <strong>Weapons Skill</strong> Heavy; <strong>Price</strong> 20 mk; <strong>Weight</strong> 2 lb.;</p>",
+            "chat": ""
+        },
+        "equipped": false,
+        "activation": {
+            "cost": {
+                "value": 1,
+                "type": "act"
+            },
+            "consume": [],
+            "flavor": "",
+            "type": "skill_test",
+            "skill": "hwp",
+            "attribute": "str",
+            "modifierFormula": ""
+        },
+        "damage": {
+            "skill": "hwp",
+            "attribute": "str",
+            "formula": "1d6",
+            "type": "keen"
+        },
+        "traits": {
+            "thrown": {
+                "defaultActive": true
+            },
+            "offhand": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": true
+                }
+            },
+            "cumbersome": {
+                "defaultActive": false,
+                "defaultValue": 0,
+                "expertise": {
+                    "toggleActive": false
+                }
+            },
+            "dangerous": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                }
+            },
+            "deadly": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                }
+            },
+            "defensive": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                }
+            },
+            "discreet": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                }
+            },
+            "indirect": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                }
+            },
+            "loaded": {
+                "defaultActive": false,
+                "defaultValue": 0,
+                "expertise": {
+                    "toggleActive": false
+                }
+            },
+            "momentum": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                }
+            },
+            "pierce": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                }
+            },
+            "quickdraw": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                }
+            },
+            "two_handed": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                }
+            },
+            "unique": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                }
+            },
+            "fragile": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                }
+            },
+            "reach": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                }
+            },
+            "single_use": {
+                "defaultActive": false,
+                "expertise": {
+                    "toggleActive": false
+                }
+            },
+            "blast": {
+                "defaultActive": false,
+                "defaultValue": 0,
+                "expertise": {
+                    "toggleActive": false
+                }
+            }
+        },
+        "weight": {
+            "value": 2,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 20,
+            "currency": "spheres",
+            "denomination": {
+                "primary": "mark"
+            },
+            "unit": "spheres.mark"
+        },
+        "expertise": false,
+        "resources": null,
+        "attack": {
+            "type": "melee",
+            "range": {
+                "value": 20,
+                "long": 60,
+                "unit": "ft"
+            }
+        },
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "hold",
+            "hold": "one_handed"
+        },
+        "quantity": 1,
+        "strike": {
+            "skillLocked": true,
+            "skill": "hwp",
+            "die": {
+                "size": "d6"
+            }
+        },
+        "__embedded": {}
+    },
+    "effects": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!items!C4o8jIXuVulD9qS9"
+}

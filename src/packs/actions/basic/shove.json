@@ -31,7 +31,14 @@
             "skill": null,
             "attribute": null,
             "grazeOverrideFormula": ""
-        }
+        },
+        "skillTest": {
+            "skill": "ath",
+            "modifierFormula": "",
+            "opportunity": null,
+            "complication": null
+        },
+        "__embedded": {}
     },
     "effects": [],
     "sort": 0,

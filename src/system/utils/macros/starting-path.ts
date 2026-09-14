@@ -5,15 +5,6 @@ import { CosmereItem, PathItem } from '@system/documents/item';
 // Types
 import { Skill } from '@system/types/cosmere';
 
-const STARTING_SKILLS: Record<string, Skill> = {
-    agent: Skill.Insight,
-    envoy: Skill.Discipline,
-    hunter: Skill.Perception,
-    leader: Skill.Leadership,
-    scholar: Skill.Lore,
-    warrior: Skill.Athletics,
-};
-
 export async function set(
     item: CosmereItem,
     options?: { replace?: boolean; notify?: boolean; ops?: object },
@@ -45,13 +36,16 @@ export async function set(
 
     if (options?.notify !== false) {
         ui.notifications.info(
-            game.i18n.format('STORMLIGHT.Macro.StartingPath.Set', {
-                path: item.name,
-                actor: actor.name,
-                skill: game.i18n.localize(
-                    `COSMERE.Skill.${STARTING_SKILLS[item.system.id]}`,
-                ),
-            }),
+            game.i18n.format(
+                'COSMERE.Objects.Stormlight.Macro.StartingPath.Set',
+                {
+                    path: item.name,
+                    actor: actor.name,
+                    skill: game.i18n.localize(
+                        `COSMERE.Skill.${CONFIG.COSMERE.startingSkills[item.system.id]}`,
+                    ),
+                },
+            ),
         );
     }
 }
@@ -90,12 +84,12 @@ export async function unset(
         ui.notifications.info(
             game.i18n.format(
                 newStartingPath
-                    ? 'STORMLIGHT.Macro.StartingPath.Replaced'
-                    : 'STORMLIGHT.Macro.StartingPath.Unset',
+                    ? 'COSMERE.Objects.Stormlight.Macro.StartingPath.Replaced'
+                    : 'COSMERE.Objects.Stormlight.Macro.StartingPath.Unset',
                 {
                     actor: actor.name,
                     skill: game.i18n.localize(
-                        `COSMERE.Skill.${STARTING_SKILLS[newStartingPath?.system.id ?? item.system.id]}`,
+                        `COSMERE.Skill.${CONFIG.COSMERE.startingSkills[newStartingPath?.system.id ?? item.system.id]}`,
                     ),
                     oldPath: item.name,
                     newPath: newStartingPath?.name ?? '',
@@ -111,7 +105,7 @@ async function assignStartingPath(
     setFlag = true,
 ) {
     const actor = item.actor!;
-    const skillId = STARTING_SKILLS[item.system.id];
+    const skillId = CONFIG.COSMERE.startingSkills[item.system.id];
 
     foundry.utils.mergeObject(
         actorChanges,
@@ -133,7 +127,7 @@ async function unassignStartingPath(
     const actor = item.actor!;
     if (!actor.isCharacter()) return;
 
-    const skillId = STARTING_SKILLS[item.system.id];
+    const skillId = CONFIG.COSMERE.startingSkills[item.system.id];
 
     foundry.utils.mergeObject(
         actorChanges,

@@ -1,0 +1,92 @@
+{
+    "name": "Part 6: Endeavors",
+    "_id": "JO8bGfFrIo9mHKxW",
+    "pages": [
+        {
+            "sort": 100000,
+            "name": "Endeavors",
+            "type": "text",
+            "_id": "VNZQg8IdmOVlCp1P",
+            "system": {},
+            "title": {
+                "show": false,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<p>Sneaking into a noble’s keep, searching the winding streets of Luthadel for an elusive target, connecting the pieces of a tricky investigation—these high­stakes scenes are important to an adventure, but they unfold much differently than a combat or a conversation. Part 6 presents guidance on running these <strong>endeavors</strong> and determining how they unfold.</p><p>At their core, endeavors allow you to work toward a defined goal while flexibly combining roleplay and skill tests to determine the outcome and consequences. The four most common types of endeavor are Discovery, Exploration, Mission, and Pursuit, as described in chapter 12 of the <em>Mistborn Handbook</em>—but thanks to the sheer variety of undertaking that endeavors can represent, the possibilities are endless.</p><p></p><img src=\"systems/cosmere-rpg/assets/art_mistborn/p6-endeavors/pg056_HB12_Investigate_Alex_Ngo.webp\" class=\"centered\" width=\"600\" /><p style=\"text-align:center\"><strong>A steel inquisitor investigates a thieving crew’s hideout. - ALEX NGO</strong></p>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788093998210,
+                "modifiedTime": 1788242970825,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!JO8bGfFrIo9mHKxW.VNZQg8IdmOVlCp1P"
+        },
+        {
+            "sort": 200000,
+            "name": "Order of Endeavors",
+            "type": "text",
+            "_id": "5mNuaZ2EPtYlDyj5",
+            "system": {},
+            "title": {
+                "show": true,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<p>Endeavors unfold following the general guidelines for roleplaying (see “@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.lurg3kD0nQg7Vgy4.JournalEntryPage.JsxQGdThX4bILWNy]{Roleplaying}” in part 3): the GM sets the scene, you decide what to do, the GM calls for tests based on what you’re attempting, then they narrate the results.</p><p></p><h2>Flexible Rounds</h2><p>Like in conversations, endeavors unfold in informal “rounds.” During each round, every member of your party can contribute to the group’s effort and discuss what their character is doing. Once each member has had a chance to take a “turn” and weigh in with what they’re doing, a new round begins.</p><p>Time is malleable in endeavors, so the narrative flow of the scene affects how much time each individual round represents. Generally, this ebbs and flows with the story. However, if you ever need details on timing for one of your abilities, just ask the GM how much time is passing during a given round.</p><p>Your group continues playing out rounds in this way until you succeed or fail at your objective—or until you get pulled into another combat, conversation, or endeavor scene (see “@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.JO8bGfFrIo9mHKxW.JournalEntryPage.5mNuaZ2EPtYlDyj5#completing-endeavors]{Completing Endeavors}”).</p><p></p><h2>Taking Your Turn</h2><p>When you decide to take your “turn,” describe to the GM what your character is doing and what abilities you’re using. The GM decides how that action unfolds, usually by having you make a test; but occasionally (especially if you’re using Metallic Art powers), they might just narrate the outcomes of your actions without requiring a test. Meanwhile, if you team up with and help another PC in their actions, the GM might have you resolve your turns together.</p><p>On some turns, the GM might zoom in for more detail on your actions or decide to play out a quick conversation between you and an NPC. It’s up to the GM and the needs of the story to determine how much detail each turn gets.</p><p></p><h2>Completing Endeavors</h2><p>Depending on what your party is trying to accomplish, the endeavor might result in a positive outcome that meets your goal, or it might end more negatively. For example, a chase usually ends with your quarry either being caught or escaping. A murder investigation might result in identifying a suspect or your case might go cold.</p><p>Usually, your group collectively works toward the endeavor’s objective. Each of your efforts contribute to the overall success, while each failure risks pushing the endeavor into failure. When working together in this way, your GM can use a collective threshold.</p><p></p><h3>Collective Thresholds</h3><p>A <strong>collective threshold</strong> helps the GM track your group’s progress. By giving a rough idea of the scene’s pacing, it guides the GM in deciding when the narrative should start working toward a conclusion.</p><p>When using a collective threshold, the GM first decides how complex the endeavor should be (see “@UUID[Compendium.cosmere-rpg.mistborn-starter-rules.JournalEntry.JO8bGfFrIo9mHKxW.JournalEntryPage.5mNuaZ2EPtYlDyj5#setting-the-threshold]{Setting the Threshold}”), then tracks the total num­ber of successful and failed skill tests made toward the objective. This progress can be tracked out in the open, but the GM usually keeps it secret and just uses it to inform how they tell the story.</p><p>If your group reaches the needed number of suc­cesses, you attain your goal, but if you collectively fail too many times first, the endeavor resolves unfavorably.</p><h4>Flexible Thresholds</h4><p>These thresholds aren’t a concrete rule, merely a guide on when it might feel satisfying to complete the endeavor. If you do something spectacular on your turn, the GM might count it as two successes. Conversely, if your group reaches the needed number of successes, but the GM feels the objective isn’t quite met in the narrative, they might secretly require another success or two.</p><p>Ultimately, the story takes precedent. If something spectacular or horrible occurs that would end the endeavor right there, the GM might decide to throw out the threshold and resolve the endeavor in whatever way makes the most sense for the story.</p><h4>Setting the Threshold</h4><p>The GM sets each endeavor’s collective threshold by thinking about the overall complexity of your group’s objective and how likely success feels in the narrative. Refer to chapter 12 of the <em>Mistborn Handbook</em> for more guidance on setting thresholds.</p><p></p><h3>Interpreting Skill Tests</h3><p>During an endeavor, GMs should encourage players to use skills creatively. Every endeavor should have options for characters to use their physical, cognitive, and spiritual skills. Some skill tests might obviously be more relevant in different types of endeavors, but with enough creativity, nearly any skill can fit.</p><p>Beyond skills, you can use other abilities to make progress in an endeavor. Some abilities, such as Metallic Art powers, generally don’t require a skill test but still make a demonstrable contribution to your group’s progress. In these cases, the GM may add a success to the threshold without requiring any kind of test.</p><p></p><h3>Determining Outcomes</h3><p>While creating an endeavor, the GM should plan for how the plot could proceed after the party succeeds or fails. On a success, the party might bypass a subsequent scene (or gain the upper hand when entering it). On a failure, the characters might trigger a combat or conversation (such as needing to fight guards after failing a Mission to infiltrate a keep).</p>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788094097495,
+                "modifiedTime": 1788094288830,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!JO8bGfFrIo9mHKxW.5mNuaZ2EPtYlDyj5"
+        }
+    ],
+    "folder": null,
+    "categories": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!journal!JO8bGfFrIo9mHKxW"
+}

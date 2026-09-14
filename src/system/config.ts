@@ -1,5 +1,7 @@
 import type { CosmereRPGConfig } from '@system/types/config';
 
+import { Derived } from './data/fields';
+
 // Types
 import { AdvantageMode } from './dice';
 import { CosmereRPGConfig } from './types/config';
@@ -37,6 +39,7 @@ import {
     Theme,
     MovementType,
     ImmunityType,
+    ActorType,
 } from './types/cosmere';
 
 import { Talent, TalentTree } from './types/item';
@@ -343,7 +346,7 @@ const COSMERE: CosmereRPGConfig = {
             key: Attribute.Willpower,
             label: 'COSMERE.Actor.Attribute.Willpower.long',
             labelShort: 'COSMERE.Actor.Attribute.Willpower.short',
-            skills: [Skill.Discipline, Skill.Intimidation],
+            skills: [Skill.Discipline, Skill.Intimidation, Skill.Allomancy],
         },
         [Attribute.Awareness]: {
             key: Attribute.Awareness,
@@ -365,15 +368,45 @@ const COSMERE: CosmereRPGConfig = {
             label: 'COSMERE.Actor.Resource.Health',
             deflect: true,
             formula: '10 + @attr.str + @bonus',
+            modes: {
+                [ActorType.Character]: {
+                    default: Derived.Mode.Derived,
+                    valid: [Derived.Mode.Derived, Derived.Mode.Override],
+                },
+                [ActorType.Adversary]: {
+                    default: Derived.Mode.Range,
+                    valid: [Derived.Mode.Range, Derived.Mode.Override],
+                },
+            },
         },
         [Resource.Focus]: {
             key: Resource.Focus,
             label: 'COSMERE.Actor.Resource.Focus',
             formula: '2 + @attr.wil + @bonus',
+            modes: {
+                [ActorType.Character]: {
+                    default: Derived.Mode.Derived,
+                    valid: [Derived.Mode.Derived, Derived.Mode.Override],
+                },
+                [ActorType.Adversary]: {
+                    default: Derived.Mode.Override,
+                    valid: [Derived.Mode.Override],
+                },
+            },
         },
         [Resource.Investiture]: {
             key: Resource.Investiture,
             label: 'COSMERE.Actor.Resource.Investiture',
+            modes: {
+                [ActorType.Character]: {
+                    default: Derived.Mode.Override,
+                    valid: [Derived.Mode.Override],
+                },
+                [ActorType.Adversary]: {
+                    default: Derived.Mode.Override,
+                    valid: [Derived.Mode.Override],
+                },
+            },
         },
     },
 
@@ -487,6 +520,12 @@ const COSMERE: CosmereRPGConfig = {
             label: 'COSMERE.Actor.Skill.Survival',
             attribute: Attribute.Awareness,
             core: true,
+        },
+
+        [Skill.Allomancy]: {
+            key: Skill.Allomancy,
+            label: 'COSMERE.Actor.Skill.Allomancy',
+            attribute: Attribute.Willpower,
         },
     },
 
@@ -679,6 +718,16 @@ const COSMERE: CosmereRPGConfig = {
                 label: 'COSMERE.Paths.Types.Heroic.Label',
             },
         },
+    },
+
+    startingSkills: {
+        agent: Skill.Insight,
+        envoy: Skill.Discipline,
+        hunter: Skill.Perception,
+        leader: Skill.Leadership,
+        scholar: Skill.Lore,
+        warrior: Skill.Athletics,
+        misting: Skill.Allomancy,
     },
 
     item: {

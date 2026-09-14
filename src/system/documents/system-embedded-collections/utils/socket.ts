@@ -935,6 +935,16 @@ export function toClientViewObject(
             );
         });
 
+    // Workaround for when Foundry doesn't assign `_stats.createdTime`
+    if (!foundry.utils.getProperty(data, '_stats.createdTime')) {
+        foundry.utils.setProperty(
+            data,
+            '_stats.createdTime',
+            foundry.utils.getProperty(data, '_stats.modifiedTime') ??
+                Date.now(),
+        );
+    }
+
     return toDocument
         ? new (cls as Document.Constructable.AnyConstructor)(data, { parent })
         : data;

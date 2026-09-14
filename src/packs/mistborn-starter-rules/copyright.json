@@ -1,0 +1,53 @@
+{
+    "name": "Copyright",
+    "_id": "uKHBs0FtYZl6xOon",
+    "pages": [
+        {
+            "sort": 100000,
+            "name": "Copyright",
+            "type": "text",
+            "_id": "1WfbPKqqTbMB3BAZ",
+            "system": {},
+            "title": {
+                "show": false,
+                "level": 1
+            },
+            "image": {},
+            "text": {
+                "format": 1,
+                "content": "<img src=\"systems/cosmere-rpg/assets/art_mistborn/Cosmere_MBC_Logo_4C.svg\" class=\" centered\" /><p></p><p><strong>The Cosmere® RPG</strong> was created by Brotherwise Games and Dragonsteel Entertainment.</p><p><strong>Executive Producer:</strong> Brandon Sanderson</p><p><strong>Producers:</strong> Isaac Stewart and Dan Wells</p><p><strong>Creative Director:</strong> Johnny O’Neal</p><p><strong>Starter Rules Book Lead:</strong> Brooke Whitney</p><p><strong>Consulting Designer:</strong> Max Brooke</p><p><strong>Rules Designers:</strong> Andrew Fischer, Imogen Gingell, Laura Hirsbrunner, Ross Leiser, Amber Litke, Lydia Suen, and Ruvaid Virk</p><p><strong>Additional Design:</strong> ace baldwin, Welden Bringhurst, Sen H.H.S., Sen-Foong Lim, Meric Moir, and Matthew Wiens</p><p><strong>Starter Rules Editor:</strong> Sebastian Yūe</p><p><strong>Handbook Editors:</strong> Laura Hirsbrunner and Eli Scovill</p><p><strong>Continuity Editor:</strong> Karen Ahlstrom</p><p><strong>Worldsingers:</strong> David Behrens, Joshua Harkey, Eric Lake,</p><p><strong>Ben Marrow, Ian McNatt, and Evgeni “Argent” Kirilov Sensitivity Coordinator:</strong> Basil Wright</p><p><strong>Sensitivity Consultants:</strong> Em Carlson, Daniel Delgado, Basheer Ghouse, and Helen Gould</p><p><strong>Accessibility Consultant:</strong> Chris Hopper</p><p><strong>Proofreader:</strong> J. Russell Schneider</p><p><strong>Brand and Marketing:</strong> Adam Horne, Matt Molandes, and Jillian Schumacher</p><p><strong>Art Director:</strong> Matthew DeMino and Ben McSweeney</p><p><strong>Graphic Designer:</strong> Gordon McAlpin</p><p><strong>Concept Artist:</strong> Marie Seeberger</p><p><strong>Cover Illustrator:</strong> Wayne Reynolds</p><p><strong>Interior Illustrators:</strong> David Astruga, Valeria Casale, Andrew Chou, Carson Daniel, Pedro Dutra, Logan Feliciano, Antti Hakosaari, Austin Hartell, Amirul Hhf, Just Hieu, Gordon McAlpin, Artur Mosca, Alex Ngo, Kevin O’neill, Gal Or, Anna Pazyniuk, Saeed Ramez, Kiki Moch Rizky, Deandra Scicluna, Raymond Swanland, Jenny Tan, and Anna Verhoog.</p><p><strong>Dragonsteel Art Team:</strong> Shawn Boyles, Rachael Lynn Buchanan, Anna Earley, Hayley Lazo, Jennifer Neal, Ben McSweeney, and Priscilla Spencer</p><p><span style=\"text-decoration:underline\"><strong><span style=\"text-decoration:underline\">Cosmere RPG Lead Team</span></strong></span></p><p><strong>Lead Designers:</strong> Andrew Fischer and Lydia Suen Lead Writer: Meric Moir</p><p><strong>Lead Editor:</strong> Laura Hirsbrunner</p><p><strong>Lead Graphic Designer:</strong> Gordon McAlpin Project Lead: Lyla McBeath Fujiwara</p><p><strong>FoundryVTT(TM) Development Team (Team Metalworks):</strong> Andrew Walker (TheFlyingP1g), Cera Sionnach, Christopher Krulewicz (DocSun), Dez384, Erik Scerri (MangoFVTT), Jonathan Trew (Zithith), Khunkurisu, Noah Gersh (kolastor), Stan van den Broek (stanvdb), dtfe, Max, Christopher Wills (boxfriend), John (QuantumOgre), Lena Hunicke-Smith</p><p></p><img src=\"systems/cosmere-rpg/assets/art/logo_Dragonsteel.svg\" width=\"150\" style=\"float:left\" /><img src=\"systems/cosmere-rpg/assets/art/logo_Brotherwise%20logo.webp\" width=\"150\" style=\"float:right\" /><p>© 2026 by Brotherwise Games, LLC. Based on The Mistborn® Saga novels by Brandon Sanderson, copyright © 2006, 2007, 2008, 2011, 2015, 2016, 2022 by Dragonsteel Entertainment, LLC, and used with the express permission of Dragonsteel Entertainment, LLC.</p><p>Plotweaver™ Game System © 2025 Brotherwise Games, LLC.</p><p>Mistborn Starter Set</p><p>First Printing (v1.02)</p><p>Printed in China</p>"
+            },
+            "video": {
+                "controls": true,
+                "volume": 0.5
+            },
+            "src": null,
+            "category": null,
+            "ownership": {
+                "default": -1,
+                "OQANU5AZKDoM5525": 3
+            },
+            "flags": {},
+            "_stats": {
+                "compendiumSource": null,
+                "duplicateSource": null,
+                "exportSource": null,
+                "coreVersion": "13.351",
+                "systemId": "cosmere-rpg",
+                "systemVersion": "3.0.3",
+                "createdTime": 1788021489957,
+                "modifiedTime": 1788240779158,
+                "lastModifiedBy": "OQANU5AZKDoM5525"
+            },
+            "_key": "!journal.pages!uKHBs0FtYZl6xOon.1WfbPKqqTbMB3BAZ"
+        }
+    ],
+    "folder": null,
+    "categories": [],
+    "sort": 0,
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_key": "!journal!uKHBs0FtYZl6xOon"
+}

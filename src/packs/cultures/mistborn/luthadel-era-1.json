@@ -1,0 +1,75 @@
+{
+    "name": "Luthadel (Era 1)",
+    "type": "culture",
+    "img": "systems/cosmere-rpg/assets/icons/mistborn/cultures/culture_luthadel.webp",
+    "system": {
+        "id": "none",
+        "description": {
+            "value": "<p>Luthadel is the largest Scadrian city and the seat of the Lord Ruler. The Lord Ruler’s palace, Kredik Shaw, looms over the city as a continuous reminder of his absolute power. The concentration of power in the capital encourages cutthroat political conflict between the city’s nobility—especially between the Great Houses. Luthadel’s districts are divided between these houses, and each maintains a keep within the city walls.</p><p>The heart of the Empire’s canal network, Luthadel serves as a center of trade and commerce. While skaa are forced into backbreaking labor in the city’s factories and canal docklands, nobles congregate to deal and trade in favors and boxings. The Great Houses host ostentatious nightly balls, where nobles engage in political contests while their Mistborn work the shadows and rooftops. The city always teeters on the brink of all-out house war.</p><p></p><h4>Luthadel Names </h4><p>Antou, Carmend, Dormond, Denna, Formont, Greston, Jateuse, Lavreux, Melvier, Obson, Quiss, Ren, Sebroux, Terneau, Vedent.</p><p></p><h4>Luthadel Expertise </h4><p>With Luthadel at the nexus of the Lord Ruler’s power, you’re familiar with the Steel Ministry and obligators, and you’ve likely witnessed Steel Inquisitors at work. You’re also aware Allomancers and Mistborn exist, and you may have seen their conflicts on the rooftops.</p>",
+            "chat": "",
+            "short": ""
+        },
+        "events": {
+            "vCkL1fs5bOxqU3ko": {
+                "id": "vCkL1fs5bOxqU3ko",
+                "description": "Grant Expertise",
+                "event": "add-to-actor",
+                "handler": {
+                    "type": "grant-expertises",
+                    "pick": false,
+                    "expertises": {
+                        "cultural:lutahdel": {
+                            "id": "lutahdel",
+                            "type": "cultural",
+                            "label": "COSMERE.Item.Culture.Type.Luthadel",
+                            "locked": false
+                        }
+                    },
+                    "allowReplacement": false,
+                    "pickAmount": 1,
+                    "availableTypes": []
+                },
+                "order": 0,
+                "disabled": false
+            },
+            "1pEnSRiO08f1yn4o": {
+                "id": "1pEnSRiO08f1yn4o",
+                "description": "Remove Expertise",
+                "event": "remove-from-actor",
+                "handler": {
+                    "type": "remove-expertises",
+                    "expertises": {
+                        "cultural:lutahdel": {
+                            "id": "lutahdel",
+                            "type": "cultural",
+                            "label": "COSMERE.Item.Culture.Type.Luthadel",
+                            "locked": false
+                        }
+                    }
+                },
+                "order": 0,
+                "disabled": false
+            }
+        },
+        "linkedSkills": [],
+        "relationships": {},
+        "primaryResource": "none",
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "__embedded": {
+            "items": []
+        }
+    },
+    "effects": [],
+    "folder": "1dMRblYYUEWrMGXm",
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "STSeVHeTGDx3a0cq",
+    "sort": 0,
+    "_key": "!items!STSeVHeTGDx3a0cq"
+}

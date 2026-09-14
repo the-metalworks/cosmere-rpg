@@ -1,0 +1,55 @@
+{
+    "folder": "N0Rgn8Y6XWMWKpL0",
+    "name": "Book (reference)",
+    "type": "equipment",
+    "img": "icons/sundries/books/book-plain-orange.webp",
+    "system": {
+        "type": "basic",
+        "description": {
+            "value": "<p><strong>Price</strong> 5–250 bx; <strong>Weight</strong> 1–5 lb.;</p><p>Each reference book contains information on a particular topic, such as a historical era, engineering, biology, or architecture. When you have time to reference a book while you make a related test using the Intellect attribute, you’re considered to have an expertise in the topic (see “@UUID[Compendium.cosmere-rpg-mistborn-handbook.handbook.JournalEntry.kwz9u1ntb7EcYxTk.JournalEntryPage.JkkAc8A0etwb6Ocx#expertise-benefits]{Expertise Benefits}” in chapter 3).</p>",
+            "chat": "",
+            "short": ""
+        },
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "quantity": 1,
+        "weight": {
+            "value": 1,
+            "unit": "lb"
+        },
+        "price": {
+            "value": 5,
+            "currency": "boxings",
+            "denomination": {
+                "primary": "box",
+                "secondary": "none"
+            },
+            "unit": "boxings.box"
+        },
+        "events": {},
+        "relationships": {},
+        "primaryResource": "none",
+        "linkedSkills": [],
+        "alwaysEquippable": false,
+        "equippableEnabled": false,
+        "equipped": false,
+        "alwaysEquipped": false,
+        "equip": {
+            "type": "wear"
+        },
+        "__embedded": {
+            "items": []
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "to5nsQJhL8Cwx2pQ",
+    "sort": 4400000,
+    "_key": "!items!to5nsQJhL8Cwx2pQ"
+}

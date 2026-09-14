@@ -1,0 +1,325 @@
+{
+    "folder": "S2mdf2RgOkLIkDnp",
+    "name": "Steel Allomancy",
+    "type": "power",
+    "img": "systems/cosmere-rpg/assets/icons/mistborn/metal-powers/icon_A_steel.webp",
+    "system": {
+        "id": "steel-allomancy",
+        "type": "metallic-art",
+        "description": {
+            "value": "<p>Steel Allomancy allows you to see blue lines extending from your center of mass to that of nearby metal objects. You can Steelpush those sources of metal, moving either you or the object away from the other (depending on which is bulkier). Because steel Allomancers can launch small metal objects at deadly speeds, many people call them Coinshots.</p>",
+            "chat": "",
+            "short": ""
+        },
+        "resources": {
+            "uses": null,
+            "charges": null,
+            "ammo": null
+        },
+        "events": {},
+        "relationships": {},
+        "customSkill": true,
+        "skill": "all",
+        "talentTree": null,
+        "primaryResource": "none",
+        "__embedded": {
+            "items": [
+                {
+                    "name": "Burn Steel",
+                    "type": "action",
+                    "_id": "QX2wHbTxyPNf0sEP",
+                    "img": "systems/cosmere-rpg/assets/icons/mistborn/metal-powers/icon_A_steel_burn.webp",
+                    "system": {
+                        "id": "burn-steel",
+                        "type": "metallic-arts",
+                        "description": {
+                            "value": "<p>While you have 1 Investiture or more, you can burn a small amount of steel without spending Investiture. Until the end of your next turn, you sense each source of metal within your Metallic Art range and learn its size, with the following limitations:</p><ul><li><p>You can’t use this power to sense aluminum.</p></li><li><p>Unless you have 6 ranks or more in <strong>Allomancy</strong>, you can’t sense Invested objects (like metalminds and Hemalurgic spikes) or objects that are at least partially embedded in a character’s body (like piercings).</p></li></ul><p>Before your steel burn ends, if you have 1 Investiture or more, you can maintain it for the same duration by using <span class=\"cosmere-icon\">0</span>.</p>",
+                            "chat": "",
+                            "short": ""
+                        },
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "type": "act",
+                                "value": 1
+                            },
+                            "flavor": "",
+                            "consumption": []
+                        },
+                        "damage": {
+                            "formula": null,
+                            "type": null,
+                            "skill": "default",
+                            "attribute": "default"
+                        },
+                        "modality": null,
+                        "events": {
+                            "xLNm4iO1vLKgaryP": {
+                                "id": "xLNm4iO1vLKgaryP",
+                                "description": "Enable Steel Burn",
+                                "event": "use",
+                                "handler": {
+                                    "type": "execute-macro",
+                                    "inline": true,
+                                    "uuid": null,
+                                    "macro": {
+                                        "type": "script",
+                                        "command": "cosmereRPG.utils.macros.allomancy.enableBurnEffect(\"steel\", event, actor);"
+                                    }
+                                },
+                                "order": 0,
+                                "disabled": false
+                            }
+                        },
+                        "relationships": {},
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [
+                        {
+                            "name": "Steel Burn",
+                            "img": "modules/cosmere-rpg-mistborn-handbook/assets/icons/metal-powers/icon_A_steel_burn.webp",
+                            "disabled": true,
+                            "duration": {
+                                "startTime": null,
+                                "combat": null,
+                                "seconds": null,
+                                "rounds": 1,
+                                "turns": null,
+                                "startRound": null,
+                                "startTurn": null
+                            },
+                            "_id": "mWopwoer6bNdcvIN",
+                            "type": "base",
+                            "system": {
+                                "isStackable": false
+                            },
+                            "changes": [],
+                            "description": "",
+                            "origin": null,
+                            "tint": "#ffffff",
+                            "transfer": true,
+                            "statuses": [],
+                            "sort": 0,
+                            "flags": {},
+                            "_stats": {
+                                "coreVersion": "13.351",
+                                "systemId": "cosmere-rpg",
+                                "systemVersion": "3.0.0",
+                                "lastModifiedBy": null,
+                                "createdTime": 1787017156083,
+                                "compendiumSource": null,
+                                "duplicateSource": null,
+                                "exportSource": null
+                            }
+                        }
+                    ],
+                    "flags": {},
+                    "ownership": {
+                        "default": 0
+                    },
+                    "sort": 0,
+                    "folder": null,
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "createdTime": 1787017156083,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                },
+                {
+                    "type": "action",
+                    "name": "Steelpush: Propel",
+                    "img": "icons/magic/movement/trail-streak-zigzag-yellow.webp",
+                    "_id": "1XURjh3MR0RGUGIa",
+                    "system": {
+                        "id": "steelpush-propel",
+                        "type": "metallic-arts",
+                        "description": {
+                            "value": "<p>While burning steel, spend 1 Investiture or more, up to your Metallic Art limit, to Steelpush a metal object you sense with this power.</p><p><strong>Propel.</strong> Either you or the object, whichever is smaller, is Steelpushed up to 20 feet per Investiture spent, moving in a straight line away from the other. If you’re the same size as the object, you choose whether to move yourself or it. If you propel an object into another sufficiently large object or surface (such as a building or the ground), the Steelpushed object ceases to move, and you’re propelled the remainder of the distance.</p><p>To move an object that’s affixed to another object, or that’s worn or held by a character, use their combined size to determine what moves.</p>",
+                            "chat": "",
+                            "short": ""
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "utility",
+                            "cost": {
+                                "value": 1,
+                                "type": "act"
+                            },
+                            "consumption": [
+                                {
+                                    "type": "resource",
+                                    "value": {
+                                        "min": 1,
+                                        "max": -1,
+                                        "actual": 1
+                                    },
+                                    "resource": "inv",
+                                    "matchDocument": {
+                                        "steps": [
+                                            {
+                                                "target": "ancestor",
+                                                "documentType": "Actor",
+                                                "matchBy": "document-type",
+                                                "reference": null,
+                                                "matchMode": "first"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "formula": null,
+                            "type": null
+                        },
+                        "skillTest": {
+                            "skill": "default",
+                            "attribute": "default",
+                            "plotDie": false
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "createdTime": 1787017156083,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                },
+                {
+                    "type": "action",
+                    "name": "Steelpush: Shoot Coin",
+                    "img": "icons/commodities/currency/coin-engraved-waves-copper.webp",
+                    "_id": "Lc7ZZ1CetzaaGvYD",
+                    "system": {
+                        "id": "steelpush-shoot-coin",
+                        "type": "metallic-arts",
+                        "description": {
+                            "value": "<p>While burning steel, spend 1 Investiture or more, up to your Metallic Art limit, to Steelpush a metal object you sense with this power.</p><p><strong>Shoot Coin.</strong> If the object is smaller than you, you can Steelpush it up to 20 feet per Investiture spent, shooting it with such force that it becomes a dangerous projectile. Make a ranged Allomancy attack against the Physical defense of a target within that range, rolling [[damage 1d4 Impact]]. That roll uses your Metallic Art die, so its size increases with your ranks in Allomancy; at 2 ranks, roll 1d6 instead of 1d4, and so on. (This counts as a weapon attack with a metal projectile.)</p><p>To move an object that’s affixed to another object, or that’s worn or held by a character, use their combined size to determine what moves.</p>",
+                            "chat": "",
+                            "short": ""
+                        },
+                        "primaryResource": "none",
+                        "resources": {
+                            "uses": null,
+                            "charges": null,
+                            "ammo": null
+                        },
+                        "modality": null,
+                        "events": {},
+                        "relationships": {},
+                        "activation": {
+                            "type": "skill_test",
+                            "cost": {
+                                "value": 1,
+                                "type": "act"
+                            },
+                            "consumption": [
+                                {
+                                    "type": "resource",
+                                    "value": {
+                                        "min": 1,
+                                        "max": -1,
+                                        "actual": 1
+                                    },
+                                    "resource": "inv",
+                                    "matchDocument": {
+                                        "steps": [
+                                            {
+                                                "target": "ancestor",
+                                                "documentType": "Actor",
+                                                "matchBy": "document-type",
+                                                "reference": null,
+                                                "matchMode": "first"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "flavor": ""
+                        },
+                        "damage": {
+                            "skill": null,
+                            "attribute": null,
+                            "formula": "@scalar.power.steel-allomancy.die",
+                            "grazeOverrideFormula": "",
+                            "type": "impact"
+                        },
+                        "skillTest": {
+                            "skill": "all",
+                            "attribute": "default",
+                            "plotDie": false,
+                            "modifierFormula": "",
+                            "opportunity": null,
+                            "complication": null
+                        }
+                    },
+                    "effects": [],
+                    "folder": null,
+                    "sort": 0,
+                    "ownership": {
+                        "default": 0
+                    },
+                    "flags": {},
+                    "_stats": {
+                        "coreVersion": "13.351",
+                        "systemId": "cosmere-rpg",
+                        "systemVersion": "3.0.0",
+                        "lastModifiedBy": null,
+                        "createdTime": 1787017156083,
+                        "compendiumSource": null,
+                        "duplicateSource": null,
+                        "exportSource": null
+                    },
+                    "items": []
+                }
+            ]
+        }
+    },
+    "effects": [],
+    "ownership": {
+        "default": 0
+    },
+    "flags": {},
+    "_id": "FcFpWhxyjgdvMpC7",
+    "sort": 0,
+    "_key": "!items!FcFpWhxyjgdvMpC7"
+}

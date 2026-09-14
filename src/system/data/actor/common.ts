@@ -11,9 +11,11 @@ import {
     DamageType,
     Status,
     ActorType,
+    UnitSystem,
 } from '@system/types/cosmere';
 import { CosmereActor } from '@system/documents/actor';
 import { ArmorItem, LootItem } from '@system/documents';
+import { getSystemSetting, SETTINGS } from '@system/settings';
 
 import {
     CosmereDocument,
@@ -239,8 +241,59 @@ function getDefensesSchema() {
 function getResourcesSchema() {
     const resources = CONFIG.COSMERE.resources;
 
-    const constructResourceSchema = () =>
-        new foundry.data.fields.SchemaField({
+    const constructResourceBaseSchema = () => ({
+        value: new foundry.data.fields.NumberField({
+            required: true,
+            nullable: false,
+            integer: true,
+            min: 0,
+            initial: 0,
+        }),
+        max: new DerivedValueField(
+            new foundry.data.fields.NumberField({
+                required: true,
+                nullable: false,
+                integer: true,
+                min: 0,
+                initial: 0,
+            }),
+        ),
+        bonus: new foundry.data.fields.NumberField({
+            required: true,
+            nullable: false,
+            integer: true,
+            initial: 0,
+        }),
+    });
+
+    const additionalHealthResourceFields = {
+        useRange: new foundry.data.fields.BooleanField({
+            required: true,
+            nullable: false,
+            initial: false,
+        }),
+        range: new foundry.data.fields.SchemaField({
+            minRange: new foundry.data.fields.NumberField({
+                required: true,
+                nullable: false,
+                integer: true,
+                min: 0,
+                initial: 0,
+            }),
+            maxRange: new foundry.data.fields.NumberField({
+                required: true,
+                nullable: false,
+                integer: true,
+                min: 0,
+                initial: 0,
+            }),
+            average: new foundry.data.fields.NumberField({
+                required: true,
+                nullable: false,
+                integer: true,
+                min: 0,
+                initial: 0,
+            }),
             value: new foundry.data.fields.NumberField({
                 required: true,
                 nullable: false,
@@ -248,32 +301,38 @@ function getResourcesSchema() {
                 min: 0,
                 initial: 0,
             }),
-            max: new DerivedValueField(
-                new foundry.data.fields.NumberField({
-                    required: true,
-                    nullable: false,
-                    integer: true,
-                    min: 0,
-                    initial: 0,
-                }),
-            ),
-            bonus: new foundry.data.fields.NumberField({
+        }),
+    };
+
+    const constructHealthResourceSchema = () => ({
+        ...constructResourceBaseSchema(),
+        max: new DerivedValueField(
+            new foundry.data.fields.NumberField({
                 required: true,
                 nullable: false,
                 integer: true,
+                min: 0,
                 initial: 0,
             }),
-        });
-
-    return new foundry.data.fields.SchemaField(
-        Object.keys(resources).reduce(
-            (schemas, key) => ({
-                ...schemas,
-                [key]: constructResourceSchema(),
-            }),
-            {} as Record<Resource, ReturnType<typeof constructResourceSchema>>,
+            {
+                // This needs to be a constant in order to keep typing of the fields. Not entirely sure why.
+                additionalFields: additionalHealthResourceFields,
+            },
         ),
-    );
+    });
+
+    const fields = {
+        [Resource.Health]: new foundry.data.fields.SchemaField(
+            constructHealthResourceSchema(),
+        ),
+        [Resource.Focus]: new foundry.data.fields.SchemaField(
+            constructResourceBaseSchema(),
+        ),
+        [Resource.Investiture]: new foundry.data.fields.SchemaField(
+            constructResourceBaseSchema(),
+        ),
+    };
+    return new foundry.data.fields.SchemaField(fields);
 }
 
 function getSkillsSchema() {
@@ -620,6 +679,32 @@ export class CommonActorDataModel<
     }
 
     /**
+     * If Resource mode is not valid for that resource, set it back to the resource's default mode.
+     * This also sets the default given Derived isn't valid and not the default.
+     */
+    private sanitizeResourceModes(): void {
+        const health = this.resources[Resource.Health].max;
+        const healthConfig =
+            CONFIG.COSMERE.resources.hea.modes[this.parent.type as ActorType];
+        const focus = this.resources[Resource.Focus].max;
+        const focusConfig =
+            CONFIG.COSMERE.resources.foc.modes[this.parent.type as ActorType];
+        const investiture = this.resources[Resource.Investiture].max;
+        const investitureConfig =
+            CONFIG.COSMERE.resources.inv.modes[this.parent.type as ActorType];
+
+        health.mode = healthConfig.valid.includes(health.mode)
+            ? health.mode
+            : healthConfig.default;
+        focus.mode = focusConfig.valid.includes(focus.mode)
+            ? focus.mode
+            : focusConfig.default;
+        investiture.mode = investitureConfig.valid.includes(investiture.mode)
+            ? investiture.mode
+            : investitureConfig.default;
+    }
+
+    /**
      * Apply secondary data derivations to this Data Model.
      * This is called after Active Effects are applied.
      */
@@ -729,6 +814,9 @@ export class CommonActorDataModel<
             // Derive deflect
             this.deflect.derived = Math.max(natural, armorDeflect);
         }
+
+        // Set resource mode to default for each resource if the current mode is invalid.
+        this.sanitizeResourceModes();
 
         // Clamp resource values to their max values
         (Object.keys(this.resources) as Resource[]).forEach((key) => {

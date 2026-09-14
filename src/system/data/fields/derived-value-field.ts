@@ -16,11 +16,13 @@ export namespace Derived {
     export enum Mode {
         Derived = 'derived',
         Override = 'override',
+        Range = 'range',
     }
 
     export const Modes = {
         [Mode.Derived]: 'GENERIC.DerivedValue.Mode.Derived',
         [Mode.Override]: 'GENERIC.DerivedValue.Mode.Override',
+        [Mode.Range]: 'GENERIC.DerivedValue.Mode.Range',
     };
 }
 
@@ -207,26 +209,30 @@ export class DerivedValueField<
                     get: function (this: Derived) {
                         if ('bonus' in this) {
                             return this.base + this.bonus;
-                        } else {
-                            return this.useOverride
-                                ? this.override
-                                : this.derived;
                         }
+
+                        return this.base;
                     },
                 },
                 base: {
                     get: function (this: Derived) {
-                        return this.useOverride ? this.override : this.derived;
+                        if (this.useOverride) return this.override;
+                        if (hasRange(this) && this.useRange)
+                            return this.range.value;
+                        return this.derived;
                     },
                 },
                 mode: {
                     get: function (this: Derived) {
-                        return this.useOverride
-                            ? Derived.Mode.Override
-                            : Derived.Mode.Derived;
+                        if (this.useOverride) return Derived.Mode.Override;
+                        if (hasRange(this) && this.useRange)
+                            return Derived.Mode.Range;
+                        return Derived.Mode.Derived;
                     },
                     set: function (this: Derived, mode: Derived.Mode) {
                         this.useOverride = mode === Derived.Mode.Override;
+                        if (hasRange(this))
+                            this.useRange = mode === Derived.Mode.Range;
                     },
                 },
             });
@@ -237,6 +243,15 @@ export class DerivedValueField<
             TAdditionalFieldsSchema
         >;
     }
+}
+
+function hasRange(value: Derived): value is Derived & {
+    useRange: boolean;
+    range: {
+        value: number;
+    };
+} {
+    return 'useRange' in value && 'range' in value;
 }
 
 export namespace DerivedValueField {

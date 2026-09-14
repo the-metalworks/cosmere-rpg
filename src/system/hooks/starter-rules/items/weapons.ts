@@ -3,57 +3,57 @@ import { SYSTEM_ID } from '@system/constants';
 const WEAPONS = [
     {
         id: 'axe',
-        label: 'Axe',
+        label: 'COSMERE.Objects.Stormlight.Weapon.Axe',
         reference: 'Compendium.cosmere-rpg.items.Item.C4o8jIXuVulD9qS9',
     },
     {
         id: 'hammer',
-        label: 'Hammer',
+        label: 'COSMERE.Objects.Stormlight.Weapon.Hammer',
         reference: 'Compendium.cosmere-rpg.items.Item.OBPoBfwLrZg0Unz6',
     },
     {
         id: 'knife',
-        label: 'Knife',
+        label: 'COSMERE.Objects.Stormlight.Weapon.Knife',
         reference: 'Compendium.cosmere-rpg.items.Item.k0aKCdFJU0m2lZbv',
     },
     {
         id: 'longsword',
-        label: 'Longsword',
+        label: 'COSMERE.Objects.Stormlight.Weapon.Longsword',
         reference: 'Compendium.cosmere-rpg.items.Item.yzR4gLjOV6njxdde',
     },
     {
         id: 'longspear',
-        label: 'Longspear',
+        label: 'COSMERE.Objects.Stormlight.Weapon.Longspear',
         reference: 'Compendium.cosmere-rpg.items.Item.ex4dg2bXFpC5HTv6',
     },
     {
         id: 'mace',
-        label: 'Mace',
+        label: 'COSMERE.Objects.Stormlight.Weapon.Mace',
         reference: 'Compendium.cosmere-rpg.items.Item.5sH5poLPx75U008u',
     },
     {
         id: 'shield',
-        label: 'Shield',
+        label: 'COSMERE.Objects.Stormlight.Weapon.Shield',
         reference: 'Compendium.cosmere-rpg.items.Item.fV3Adif5imyAc5m5',
     },
     {
         id: 'shortbow',
-        label: 'Shortbow',
+        label: 'COSMERE.Objects.Stormlight.Weapon.Shortbow',
         reference: 'Compendium.cosmere-rpg.items.Item.VuNjyCtkobEQKdOx',
     },
     {
         id: 'shortspear',
-        label: 'Shortspear',
+        label: 'COSMERE.Objects.Stormlight.Weapon.Shortspear',
         reference: 'Compendium.cosmere-rpg.items.Item.5CvSwkwuSRArPTM2',
     },
     {
         id: 'sidesword',
-        label: 'Sidesword',
+        label: 'COSMERE.Objects.Stormlight.Weapon.Sidesword',
         reference: 'Compendium.cosmere-rpg.items.Item.0mE1SpjOuNtgR0eq',
     },
     {
         id: 'staff',
-        label: 'Staff',
+        label: 'COSMERE.Objects.Stormlight.Weapon.Staff',
         reference: 'Compendium.cosmere-rpg.items.Item.zyDACVYDa0N9N31r',
     },
 ];
