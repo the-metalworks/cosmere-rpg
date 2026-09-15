@@ -1373,6 +1373,10 @@ export class CosmereActor<
                         Attribute.Strength,
                         CONFIG.COSMERE.scaling.damage.unarmed.strength,
                     ),
+                    improvedUnarmed: this.getFormulaFromScalarAttribute(
+                        Attribute.Strength,
+                        CONFIG.COSMERE.scaling.damage.unarmed.improvedStrength,
+                    ),
                 },
                 power: {
                     ...this.powers.reduce(
