@@ -31,7 +31,7 @@ export async function journalEntryPageTextFromUuid(
 
     // Load the journal entry
     const journal =
-        collection instanceof CompendiumCollection
+        collection instanceof foundry.documents.collections.CompendiumCollection
             ? ((await collection.getDocument(documentId)) as JournalEntry)
             : (collection.get(documentId) as JournalEntry);
     if (!journal) return null;
@@ -53,9 +53,12 @@ export async function journalEntryPageTextFromUuid(
 
     // Enrich the text if requested
     return options.enrich
-        ? await TextEditor.enrichHTML(text, {
-              relativeTo: page as unknown as foundry.abstract.Document.Any,
-          })
+        ? await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+              text,
+              {
+                  relativeTo: page as unknown as foundry.abstract.Document.Any,
+              },
+          )
         : text;
 }
 

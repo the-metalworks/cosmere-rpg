@@ -82,21 +82,24 @@ export class ShortRestDialog extends foundry.applications.api.DialogV2 {
             ) as CharacterActor[];
 
         // Render dialog inner HTML
-        const content = await renderTemplate(TEMPLATE, {
-            characters: {
-                none: game.i18n.localize('GENERIC.None'),
+        const content = await foundry.applications.handlebars.renderTemplate(
+            TEMPLATE,
+            {
+                characters: {
+                    none: game.i18n.localize('GENERIC.None'),
 
-                ...playerCharacters.reduce(
-                    (acc, character) => ({
-                        ...acc,
-                        [character.id!]: character.name,
-                    }),
-                    {} as Record<string, string>,
-                ),
+                    ...playerCharacters.reduce(
+                        (acc, character) => ({
+                            ...acc,
+                            [character.id!]: character.name,
+                        }),
+                        {} as Record<string, string>,
+                    ),
+                },
+                tendedBy: options.tendedBy?.id ?? 'none',
+                formula: actor.system.recovery.die.value,
             },
-            tendedBy: options.tendedBy?.id ?? 'none',
-            formula: actor.system.recovery.die.value,
-        });
+        );
 
         // Render dialog and wrap as promise
         return new Promise((resolve) => {

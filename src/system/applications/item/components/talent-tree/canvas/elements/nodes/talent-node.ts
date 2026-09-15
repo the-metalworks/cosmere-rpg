@@ -71,7 +71,9 @@ export class TalentNode extends BaseNode {
     }
 
     public override async _initialize() {
-        this.texture = (await loadTexture(this.img)) as PIXI.Texture;
+        this.texture = (await foundry.canvas.loadTexture(
+            this.img,
+        )) as PIXI.Texture;
     }
 
     /* --- Accessors --- */

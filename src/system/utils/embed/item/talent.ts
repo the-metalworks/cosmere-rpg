@@ -38,17 +38,20 @@ export async function buildEmbedHTML(
     }
 
     // Enrich the description
-    const description = await TextEditor.enrichHTML(
-        item.system.description?.value ?? item.system.description?.short ?? '',
-        {
-            relativeTo: options?.relativeTo,
-            documents: options?.documents,
-            links: options?.links,
-            rollData: options?.rollData,
-            rolls: options?.rolls,
-            secrets: options?.secrets,
-        },
-    );
+    const description =
+        await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+            item.system.description?.value ??
+                item.system.description?.short ??
+                '',
+            {
+                relativeTo: options?.relativeTo,
+                documents: options?.documents,
+                links: options?.links,
+                rollData: options?.rollData,
+                rolls: options?.rolls,
+                secrets: options?.secrets,
+            },
+        );
 
     // Render template
     const html = await renderSystemTemplate(TEMPLATES.ITEM_TALENT_EMBED, {
