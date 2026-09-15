@@ -7,11 +7,12 @@ Fixes and changes based on feedback from early access, mostly regarding the star
 
 📝 **Features**
 
-* 
+* Improved implementation of knucklebones with new action and scaling
 
 🐛 **Bug Fixes**
 
-* 
+* Fixed an issue that prevented the basic actions *Avoid Danger*, *Grapple*, and *Shove* from using the correct skill
+* Fixed an issue where the default resource mode for actors would fail to set, resulting in errors
 
 <br>
 
