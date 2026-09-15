@@ -1545,7 +1545,7 @@ export class CosmereActor<
     }
 
     /**
-     * Utility Function to determine a formula value based on a scalar plot of an attribute value
+     * Utility Function to grab all registered roll data and add it to the rollData object
      */
     public getRegisteredRollData(
         initialRollData: CosmereActorRollData<SubType>,
