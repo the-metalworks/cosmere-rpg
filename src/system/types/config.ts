@@ -408,9 +408,9 @@ export interface RollDataConfig {
     types: CosmereActor['type'];
 
     /**
-     * The data to provide, in the form of raw values to add or document.system variables to pull from.
+     * A function which takes in the actor and returns data to place in the designated key
      */
-    data: (string | number)[];
+    data: (actor: CosmereActor) => unknown;
 }
 
 export interface CosmereRPGConfig {

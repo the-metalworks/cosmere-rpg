@@ -1343,6 +1343,7 @@ export class CosmereActor<
             ...(super.getRollData() as ActorRollData<SubType>),
 
             name: this.name,
+
             // Attributes shorthand
             attr: (
                 Object.keys(CONFIG.COSMERE.attributes) as Attribute[]
@@ -1417,10 +1418,12 @@ export class CosmereActor<
             // Hook data
             source: this,
         };
+
         const registeredData = this.getRegisteredRollData(data) as Record<
             string,
             any
         >;
+
         return foundry.utils.mergeObject(data, registeredData, {
             insertKeys: true,
             insertValues: true,
@@ -1545,7 +1548,7 @@ export class CosmereActor<
     }
 
     /**
-     * Utility Function to determine a formula value based on a scalar plot of an attribute value
+     * Utility Function to grab all registered roll data and add it to the rollData object
      */
     public getRegisteredRollData(
         initialRollData: CosmereActorRollData<SubType>,
@@ -1566,7 +1569,7 @@ export class CosmereActor<
                 continue;
             }
 
-            const value = this.parseRollData(rollData.data);
+            const value = rollData.data(this);
 
             foundry.utils.setProperty(registeredData, key, value);
         }
