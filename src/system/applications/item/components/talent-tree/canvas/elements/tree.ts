@@ -103,7 +103,7 @@ export class TalentTreeCanvasElement extends Drawable {
             }
 
             // Load the new background image
-            this.backgroundTexture = (await loadTexture(
+            this.backgroundTexture = (await foundry.canvas.loadTexture(
                 this.data.background.img,
             )) as PIXI.Texture;
 

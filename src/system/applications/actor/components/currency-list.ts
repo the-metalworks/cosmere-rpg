@@ -6,6 +6,8 @@ import { TEMPLATES } from '@src/system/utils/templates';
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
 import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
 
+const { FilePicker } = foundry.applications.apps;
+
 export class ActorCurrencyListComponent extends HandlebarsApplicationComponent<// typeof BaseActorSheet
 // TODO: Resolve typing issues
 // NOTE: Use any as workaround for foundry-vtt-types issues
@@ -45,7 +47,10 @@ any> {
         );
 
         try {
-            await FilePicker.browse('data', currencyConfig.icon ?? '');
+            await FilePicker.implementation.browse(
+                'data',
+                currencyConfig.icon ?? '',
+            );
         } catch (ex) {
             currencyConfig.icon = undefined;
         }

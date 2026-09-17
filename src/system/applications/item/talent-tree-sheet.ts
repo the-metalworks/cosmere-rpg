@@ -117,7 +117,7 @@ export class TalentTreeItemSheet extends EditModeApplicationMixin(
             formData.object['system.background.img'] !==
                 this.item.system.background.img
         ) {
-            const texture = (await loadTexture(
+            const texture = (await foundry.canvas.loadTexture(
                 formData.object['system.background.img'] as string,
             )) as PIXI.Texture | null;
             if (texture) {

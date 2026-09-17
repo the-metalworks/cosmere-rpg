@@ -102,19 +102,23 @@ export class CosmereChatMessage<
     }
 
     /* --- Rendering --- */
-    public override async getHTML(): Promise<JQuery> {
-        const html = await super.getHTML();
+
+    public override async renderHTML(
+        options?: ChatMessage.RenderHTMLOptions,
+    ): Promise<HTMLElement> {
+        const html = await super.renderHTML(options);
+        const jQuery = $(html);
 
         // Enrich the chat card
-        await this.enrichCardHeader(html);
-        await this.enrichCardContent(html);
+        await this.enrichCardHeader(jQuery);
+        await this.enrichCardContent(jQuery);
 
-        html.find('.enricher-link > a').on('click', (event) =>
-            event.stopPropagation(),
-        );
-        html.find('.collapsible').on('click', (event) =>
-            this.onClickCollapsible(event),
-        );
+        jQuery
+            .find('.enricher-link > a')
+            .on('click', (event) => event.stopPropagation());
+        jQuery
+            .find('.collapsible')
+            .on('click', (event) => this.onClickCollapsible(event));
 
         return html;
     }

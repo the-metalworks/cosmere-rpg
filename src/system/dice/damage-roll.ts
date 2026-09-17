@@ -162,7 +162,7 @@ export class DamageRoll extends foundry.dice.Roll<DamageRollData> {
         ];
 
         // Render the template
-        const rendered = await renderTemplate(
+        const rendered = await foundry.applications.handlebars.renderTemplate(
             foundry.dice.Roll.TOOLTIP_TEMPLATE,
             {
                 parts,
