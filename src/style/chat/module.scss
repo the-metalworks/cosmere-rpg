@@ -9,6 +9,14 @@
     position: relative;
     background: var(--cosmere-color-parchment);
 
+    &.whisper {
+        background: var(--color-whisper-background);
+    }
+
+    &.blind {
+        background: var(--color-blind-background);
+    }
+
     .overlay {
         text-align: center !important;
         flex-grow: 1;

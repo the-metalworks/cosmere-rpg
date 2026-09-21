@@ -48,6 +48,29 @@ export class CosmereChatMessage<
         return (this.system as AnyObject).item as string | undefined;
     }
 
+    public get isWhisper(): boolean {
+        return this.whisper.length > 0;
+    }
+
+    public get isGMWhisper(): boolean {
+        return (
+            this.isWhisper &&
+            this.whisper
+                .map((id) => game.users.get(id!))
+                .every((user) => user?.isGM)
+        );
+    }
+
+    public get isSelfWhisper(): boolean {
+        return (
+            this.isWhisper &&
+            this.isAuthor &&
+            this.whisper
+                .map((id) => game.users.get(id!))
+                .every((user) => user?.id === game.userId)
+        );
+    }
+
     /* --- Rendering --- */
     public override async renderHTML(
         options?: ChatMessage.RenderHTMLOptions,
@@ -69,6 +92,8 @@ export class CosmereChatMessage<
                 .find('.chat-card')
                 .prepend(description as string);
         }
+
+        this.enrichMetadata(html);
 
         const sections = $(html).find('.chat-card-section');
 
@@ -92,6 +117,33 @@ export class CosmereChatMessage<
         $(html)
             .find('.collapsible')
             .on('click', (event) => this.onClickCollapsible(event));
+    }
+
+    private enrichMetadata(html: HTMLElement) {
+        const metadata = $(html).find('.message-metadata');
+
+        const type =
+            this.isGMWhisper && this.blind
+                ? 'blind-gm'
+                : this.isSelfWhisper
+                  ? 'self'
+                  : this.isGMWhisper
+                    ? 'gm'
+                    : null;
+
+        if (!type) return;
+
+        const icon =
+            type === 'blind-gm'
+                ? 'fa-solid fa-eye-slash'
+                : type === 'gm'
+                  ? 'fa-solid fa-user-secret'
+                  : type === 'self'
+                    ? 'fa-solid fa-user'
+                    : '';
+        metadata.prepend(
+            `<span class="message-destination"><i class="${icon}"></i></span>`,
+        );
     }
 
     private enrichOverlay(html: HTMLElement) {
