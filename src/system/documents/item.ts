@@ -86,10 +86,11 @@ import {
     CosmereDamageRollData,
     CosmereDamageRollOptions,
     CosmereRoll,
-    CosmereRollData,
-    CosmereRollOptions,
-    CosmereSkillRollOptions,
-} from '../dice';
+    type CosmereRollData,
+    type CosmereRollOptions,
+    type CosmereSkillRollOptions,
+    executeRolls,
+} from '@system/dice';
 import { CosmereGrazeRoll } from '../dice/rolls/cosmere-roll-graze';
 
 // Utils
@@ -788,6 +789,133 @@ export class CosmereItem<
 
     /* --- Roll & Usage utilities --- */
 
+    public buildRolls(options: CosmereRollOptions): CosmereRoll[] {
+        if (!this.isAction()) return [];
+
+        const actor = this.getRelatedActor({
+            ...options,
+            warnOnNotFound: true,
+        });
+
+        // Ensure an actor was found
+        if (!actor) return [];
+
+        const hasSkillTest =
+            this.system.activation!.type === ActivationType.SkillTest &&
+            this.system.skillTest.resolvedSkill !== null;
+
+        // Check if the item has damage
+        const hasDamage =
+            this.hasDamage() &&
+            this.system.damage.formula &&
+            (this.system.damage.resolvedSkill !== null ||
+                this.system.skillTest.resolvedSkill != null);
+
+        const rolls: CosmereRoll[] = [];
+
+        if (hasSkillTest) {
+            const skillOptions = foundry.utils.mergeObject(options, {
+                attribute: this.system.skillTest.resolvedAttribute ?? undefined,
+                // We don't want the item setting for raise stakes to override previous choices (e.g. the fast forward raise stakes hotkey)
+                raiseStakes:
+                    ((options as CosmereSkillRollOptions).raiseStakes ??
+                        false) ||
+                    (this.system.skillTest.plotDie ?? false),
+            });
+
+            rolls.push(
+                ...actor.generateSkillTest(
+                    this.system.skillTest.resolvedSkill!,
+                    skillOptions,
+                    this,
+                ),
+            );
+        }
+
+        if (hasDamage) {
+            const data = this.getRollData() as CosmereDamageRollData;
+
+            data.skill =
+                (options as CosmereDamageRollOptions).skill ??
+                this.system.damage.resolvedSkill ??
+                this.system.skillTest.resolvedSkill!;
+            const skill = actor.system.skills[data.skill];
+
+            data.attribute =
+                (options as CosmereDamageRollOptions).attribute ??
+                this.system.damage.resolvedAttribute ??
+                this.system.skillTest.resolvedAttribute!;
+            const attribute = actor.system.attributes[data.attribute];
+
+            data.mod = data.attribute
+                ? attribute.value +
+                  attribute.bonus +
+                  skill.rank +
+                  skill.mod.bonus
+                : skill.mod.value;
+
+            data.parts = [this.system.damage.formula!, '@mod'];
+            data.type = this.system.damage.type ?? undefined;
+
+            const damageRoll = new CosmereDamageRoll(
+                data.parts.join(' + '),
+                data,
+                options,
+            );
+            rolls.push(damageRoll);
+
+            if (this.system.damage.grazeOverrideFormula) {
+                const grazeData = foundry.utils.deepClone(data);
+                grazeData.parts = [this.system.damage.grazeOverrideFormula];
+                grazeData.parent = damageRoll.uuid;
+
+                rolls.push(
+                    new CosmereGrazeRoll(
+                        grazeData.parts.join(' + '),
+                        grazeData,
+                        options,
+                    ),
+                );
+            }
+        }
+
+        return rolls;
+    }
+
+    public async roll(
+        options: CosmereRollOptions = {},
+    ): Promise<CosmereRoll[]> {
+        if (!this.isAction()) return [];
+
+        const actor = this.getRelatedActor({
+            ...options,
+            warnOnNotFound: true,
+        });
+
+        // Ensure an actor was found
+        if (!actor) return [];
+
+        options = this.resolveConfigurationMode(
+            foundry.utils.mergeObject(
+                {
+                    chatMessage: true,
+                    speaker: ChatMessage.getSpeaker({ actor }),
+                },
+                options,
+            ),
+        );
+
+        const rolls = this.buildRolls({
+            ...options,
+            actor,
+        });
+
+        return await executeRolls(rolls, {
+            ...options,
+            item: this,
+        });
+    }
+
     /**
      * Utility for using activatable items.
      * This function handles resource validation/consumption and dice rolling.
@@ -795,39 +923,46 @@ export class CosmereItem<
     public async use(options: CosmereRollOptions = {}): Promise<CosmereRoll[]> {
         if (!this.isAction()) return [];
 
-        // Get the actor to use this item for
-        const actor =
-            options.actor ??
-            this.actor ??
-            (game.canvas?.tokens?.controlled?.[0]?.actor as
-                | CosmereActor
-                | undefined);
+        const actor = this.getRelatedActor({
+            ...options,
+            warnOnNotFound: true,
+        });
 
         // Ensure an actor was found
-        if (!actor) {
-            ui.notifications.warn(
-                game.i18n.localize('GENERIC.Warning.NoActor'),
-            );
+        if (!actor) return [];
+
+        options = this.resolveConfigurationMode(
+            foundry.utils.mergeObject(
+                {
+                    chatMessage: true,
+                    speaker: ChatMessage.getSpeaker({ actor }),
+                },
+                options,
+            ),
+        );
+
+        // Hook: cosmere-rpg.preUseItem
+        if (
+            Hooks.call(
+                HOOKS.PRE_USE_ITEM,
+                this, // Source
+                options,
+            ) === false
+        ) {
             return [];
         }
 
         // Set up post roll actions
-        const postRoll: (() => void)[] = [];
-
-        // // Hook: preItemUse
-        // if (
-        //     Hooks.call(
-        //         HOOKS.PRE_USE_ITEM,
-        //         this, // Source
-        //         {
-        //             ...options,
-        //             configurable: !fastForward,
-        //             advantageMode,
-        //             plotDie,
-        //         },
-        //     ) === false
-        // )
-        //     return null;
+        const postRoll: (() => void)[] = [
+            () => {
+                // Hook: cosmere-rpg.useItem
+                Hooks.call(
+                    HOOKS.USE_ITEM,
+                    this, // Source
+                    options,
+                );
+            },
+        ];
 
         // Determine whether or not resource consumption is available
         const consumptionAvailable =
@@ -942,262 +1077,72 @@ export class CosmereItem<
             });
         }
 
-        const hasSkillTest =
-            this.system.activation!.type === ActivationType.SkillTest &&
-            this.system.skillTest.resolvedSkill !== null;
+        const rolls = await this.roll({
+            ...options,
+            actor,
+        });
 
-        // Check if the item has damage
-        const hasDamage =
-            this.hasDamage() &&
-            this.system.damage.formula &&
-            (this.system.damage.resolvedSkill !== null ||
-                this.system.skillTest.resolvedSkill != null);
-
-        // Add hook call to post roll actions
-        // postRoll.push(() => {
-        //     /**
-        //      * Hook: useItem
-        //      */
-        //     Hooks.callAll(
-        //         HOOKS.USE_ITEM,
-        //         this, // Source
-        //         {
-        //             ...options,
-        //             configurable: !fastForward,
-        //             advantageMode,
-        //             plotDie,
-        //         },
-        //     );
-        // });
-
-        const rolls: CosmereRoll[] = [];
-
-        if (hasSkillTest) {
-            const skillOptions = foundry.utils.mergeObject(options, {
-                attribute: this.system.skillTest.resolvedAttribute ?? undefined,
-                // We don't want the item setting for raise stakes to override previous choices (e.g. the fast forward raise stakes hotkey)
-                raiseStakes:
-                    ((options as CosmereSkillRollOptions).raiseStakes ??
-                        false) ||
-                    (this.system.skillTest.plotDie ?? false),
+        if (rolls.length === 0) {
+            await this.toChatMessage({
+                ...options,
+                publish: true,
             });
-
-            rolls.push(
-                ...actor.generateSkillTest(
-                    this.system.skillTest.resolvedSkill!,
-                    skillOptions,
-                    this,
-                ),
-            );
         }
 
-        if (hasDamage) {
-            const data = this.getRollData() as CosmereDamageRollData;
-
-            data.skill =
-                (options as CosmereDamageRollOptions).skill ??
-                this.system.damage.resolvedSkill ??
-                this.system.skillTest.resolvedSkill!;
-            const skill = actor.system.skills[data.skill];
-
-            data.attribute =
-                (options as CosmereDamageRollOptions).attribute ??
-                this.system.damage.resolvedAttribute ??
-                this.system.skillTest.resolvedAttribute!;
-            const attribute = actor.system.attributes[data.attribute];
-
-            data.mod = data.attribute
-                ? attribute.value +
-                  attribute.bonus +
-                  skill.rank +
-                  skill.mod.bonus
-                : skill.mod.value;
-
-            data.parts = [this.system.damage.formula!, '@mod'];
-            data.type = this.system.damage.type ?? undefined;
-
-            const damageRoll = new CosmereDamageRoll(
-                data.parts.join(' + '),
-                data,
-                options,
-            );
-            rolls.push(damageRoll);
-
-            if (this.system.damage.grazeOverrideFormula) {
-                const grazeData = foundry.utils.deepClone(data);
-                grazeData.parts = [this.system.damage.grazeOverrideFormula];
-                grazeData.parent = damageRoll.uuid;
-
-                rolls.push(
-                    new CosmereGrazeRoll(
-                        grazeData.parts.join(' + '),
-                        grazeData,
-                        options,
-                    ),
-                );
-            }
-        }
-
-        // Perform post roll actions
         postRoll.forEach((action) => action());
 
         return rolls;
+    }
 
-        // options.rollMode ??= game.settings.get('core', 'rollMode');
+    private resolveConfigurationMode(
+        options: CosmereRollOptions,
+    ): CosmereRollOptions {
+        const { fastForward, advantageMode, raiseStakes } =
+            determineConfigurationMode(options);
 
-        // const { fastForward, advantageMode, plotDie } =
-        //     determineConfigurationMode(options);
-
-        // // Check if the item has an attack
-        // const hasAttack = this.hasAttack();
-
-        // // Check if the item has damage
-        // const hasDamage = this.hasDamage() && this.system.damage.formula;
-
-        // // Check if a roll is required
-        // const rollRequired =
-        //     this.system.activation.type === ActivationType.SkillTest ||
-        //     hasDamage;
-
-        // const messageConfig = {
-        //     user: game.user.id,
-        //     speaker: options.speaker ?? ChatMessage.getSpeaker({ actor }),
-        //     rolls: [] as foundry.dice.Roll[],
-        //     flags: {} as Record<string, unknown>,
-        // };
-
-        // messageConfig.flags[SYSTEM_ID] = {
-        //     message: {
-        //         type: MESSAGE_TYPES.ACTION,
-        //         description: await this.getDescriptionHTML(),
-        //         targets: getTargetDescriptors(),
-        //         item: this.id,
-        //     },
-        // };
-
-        // // Add hook call to post roll actions
-        // postRoll.push(() => {
-        //     /**
-        //      * Hook: useItem
-        //      */
-        //     Hooks.callAll(
-        //         HOOKS.USE_ITEM,
-        //         this, // Source
-        //         {
-        //             ...options,
-        //             configurable: !fastForward,
-        //             advantageMode,
-        //             plotDie,
-        //         },
-        //     );
-        // });
-
-        // if (rollRequired) {
-        //     const rolls: foundry.dice.Roll[] = [];
-        //     let flavor = this.system.activation.flavor;
-
-        //     if (hasAttack && hasDamage) {
-        //         const attackResult = await this.rollAttack({
-        //             ...options,
-        //             actor,
-        //             skillTest: {
-        //                 parts: options.parts,
-        //                 plotDie: options.plotDie,
-        //                 advantageMode: options.advantageMode,
-        //                 advantageModePlot: options.advantageModePlot,
-        //                 opportunity: options.opportunity,
-        //                 complication: options.complication,
-        //                 temporaryModifiers: options.temporaryModifiers,
-        //             },
-        //             damage: options.damage ?? {},
-        //             chatMessage: false,
-        //         });
-        //         if (!attackResult) return null;
-
-        //         // Add the rolls to the list
-        //         rolls.push(
-        //             attackResult[0] as unknown as Roll,
-        //             ...(attackResult[1] as unknown as Roll[]),
-        //         );
-
-        //         // Set the flavor
-        //         flavor = flavor
-        //             ? flavor
-        //             : `${game.i18n.localize(
-        //                   `COSMERE.Skill.${attackResult[0].data.skill.id}`,
-        //               )} (${game.i18n.localize(
-        //                   `COSMERE.Attribute.${attackResult[0].data.skill.attribute}`,
-        //               )})`;
-        //     } else {
-        //         if (hasDamage) {
-        //             const damageRolls = await this.rollDamage({
-        //                 ...options,
-        //                 ...options.damage,
-        //                 actor,
-        //                 chatMessage: false,
-        //             });
-        //             if (!damageRolls) return null;
-
-        //             rolls.push(...(damageRolls as unknown as Roll[]));
-        //         }
-
-        //         options.parts ??= this.system.activation.modifierFormula
-        //             ? [this.system.activation.modifierFormula]
-        //             : [];
-        //         if (this.system.activation.type === ActivationType.SkillTest) {
-        //             const roll = await this.roll({
-        //                 ...options,
-        //                 actor,
-        //                 chatMessage: false,
-        //             });
-        //             if (!roll) return null;
-
-        //             // Add the roll to the list
-        //             rolls.push(roll as unknown as Roll);
-
-        //             // Set the flavor
-        //             flavor = flavor
-        //                 ? flavor
-        //                 : `${game.i18n.localize(
-        //                       `COSMERE.Skill.${roll.data.skill.id}`,
-        //                   )} (${game.i18n.localize(
-        //                       `COSMERE.Attribute.${roll.data.skill.attribute}`,
-        //                   )})`;
-        //         }
-        //     }
-
-        //     messageConfig.rolls = rolls;
-
-        //     // Create chat message
-        //     await ChatMessage.create(messageConfig, {
-        //         rollMode: options.rollMode,
-        //     });
-
-        //     // Perform post roll actions
-        //     postRoll.forEach((action) => action());
-
-        //     // Return the result
-        //     return hasDamage
-        //         ? (rolls as unknown as [D20Roll, ...DamageRoll[]])
-        //         : (rolls[0] as unknown as D20Roll);
-        // } else {
-        //     // NOTE: Use boolean or operator (`||`) here instead of nullish coalescing (`??`),
-        //     // as flavor can also be an empty string, which we'd like to replace with the default flavor too
-        //     const flavor = this.system.activation.flavor || undefined;
-
-        //     // Create chat message
-        //     const message = (await ChatMessage.create(messageConfig, {
-        //         rollMode: options.rollMode,
-        //     })) as ChatMessage;
-
-        //     // Perform post roll actions
-        //     postRoll.forEach((action) => action());
-
-        //     return null;
-        // }
+        return foundry.utils.mergeObject(
+            {
+                rollMode: game.settings.get('core', 'rollMode'),
+                configure: !fastForward,
+                advantageMode,
+                raiseStakes,
+            },
+            options,
+        );
     }
 
     /* --- Functions --- */
+
+    public getRelatedActor(
+        options: CosmereItem.GetRelatedActorOptions = {},
+    ): Actor.Implementation | null {
+        // Set defaults
+        options = foundry.utils.mergeObject(
+            {
+                allowControlledTokenActor: true,
+                warnOnNotFound: false,
+            },
+            options,
+        );
+
+        // Resolve the actor
+        let actor: Actor.Implementation | undefined | null =
+            options.actor ?? this.actor;
+
+        if (!actor && options.allowControlledTokenActor) {
+            actor = game.canvas?.tokens?.controlled?.[0]?.actor as
+                | Actor.Implementation
+                | undefined;
+        }
+
+        if (!actor && options.warnOnNotFound) {
+            ui.notifications.warn(
+                game.i18n.localize('GENERIC.Warning.NoActor'),
+            );
+        }
+
+        return actor ?? null;
+    }
 
     public async toChatMessage(
         options: CosmereItem.ToChatMessageOptions = {},
@@ -1209,14 +1154,10 @@ export class CosmereItem<
                 ChatMessage.getSpeaker({ actor: options.actor }),
             rolls: [] as foundry.dice.Roll[],
             flags: {} as Record<string, unknown>,
-        };
-
-        messageConfig.flags[SYSTEM_ID] = {
-            message: {
-                // type: MESSAGE_TYPES.ACTION,
+            system: {
                 description: await this.getDescriptionHTML(),
                 targets: getTargetDescriptors(),
-                item: this.id,
+                item: this.uuid,
             },
         };
 
@@ -1227,7 +1168,7 @@ export class CosmereItem<
             message.applyRollMode(options.rollMode);
         }
 
-        return message;
+        return options.publish ? (await ChatMessage.create(message))! : message;
     }
 
     /**
@@ -1664,10 +1605,40 @@ export class CosmereItem<
 }
 
 export namespace CosmereItem {
-    export type ToChatMessageOptions = Pick<
-        CosmereRollOptions,
-        'speaker' | 'actor' | 'rollMode'
-    >;
+    export interface ToChatMessageOptions
+        extends Pick<CosmereRollOptions, 'speaker' | 'actor' | 'rollMode'> {
+        /**
+         * Whether to publish the chat message immediately
+         * or return an emphemeral document.
+         *
+         * @default false
+         */
+        publish?: boolean;
+    }
+
+    export interface RollOptions extends CosmereRollOptions {
+        postRoll?: (() => void)[];
+    }
+
+    export interface GetRelatedActorOptions {
+        actor?: CosmereActor;
+
+        /**
+         * Whether or not to fallback on the controlled
+         * token actor if no other actor could be found.
+         *
+         * @default true
+         */
+        allowControlledTokenActor?: boolean;
+
+        /**
+         * Whether to show a warning notification if the
+         * related actor could not be found.
+         *
+         * @default false
+         */
+        warnOnNotFound?: boolean;
+    }
 }
 
 export type CultureItem = CosmereItem<CultureItemDataModel>;

@@ -92,6 +92,10 @@ export interface CosmereRollOptions extends Partial<foundry.dice.Roll.Options> {
      */
     configure?: boolean;
 
+    advantageMode?: AdvantageMode;
+
+    raiseTheStakes?: boolean;
+
     /**
      * If the roll comes from an item, whether or not the item usage should consume.
      * Only used if the item has consumption configured.

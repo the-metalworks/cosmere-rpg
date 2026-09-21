@@ -53,10 +53,8 @@ import {
     CosmereSkillRoll,
     CosmereSkillRollData,
     CosmereSkillRollOptions,
-    DieModifier,
     executeRolls,
-    RollEvaluationOptions,
-} from '@src/system/dice';
+} from '@system/dice';
 
 import { AttributeScale } from '@system/types/config';
 import { CosmereHooks } from '@system/types/hooks';
@@ -1026,32 +1024,18 @@ export class CosmereActor<
         return await executeRolls(rolls, options);
     }
 
+    /**
+     * Utility function to roll an item for this actor.
+     * Rolling does NOT include any usage workflow actions
+     * like resource consumption or usage hooks.
+     */
     public async rollItem(
         item: CosmereItem,
         options: CosmereRollOptions = {},
     ): Promise<CosmereRoll[]> {
-        const rolls = [] as CosmereRoll[];
-
-        const { fastForward, advantageMode, raiseStakes } =
-            determineConfigurationMode(options);
-
-        options = foundry.utils.mergeObject(
-            {
-                chatMessage: true,
-                speaker: ChatMessage.getSpeaker({ actor: this }),
-                rollMode: game.settings.get('core', 'rollMode'),
-                configure: !fastForward,
-                advantageMode,
-                raiseStakes,
-            },
-            options,
-        );
-
-        rolls.push(...(await item.use(options)));
-
-        return await executeRolls(rolls, {
+        return item.roll({
             ...options,
-            item,
+            actor: this,
         });
     }
 
@@ -1080,6 +1064,23 @@ export class CosmereActor<
         );
 
         return await executeRolls(rolls, options);
+    }
+
+    /**
+     * Utility function to use an item for this actor.
+     * Invokes the full usage workflow with:
+     * - Resource consumption
+     * - Modality
+     * - `cosmere-rpg.preUseItem` and `cosmere-rpg.useItem` hook invocation
+     */
+    public async useItem(
+        item: CosmereItem,
+        options: CosmereRollOptions = {},
+    ): Promise<CosmereRoll[]> {
+        return item.use({
+            ...options,
+            actor: this,
+        });
     }
 
     /**
