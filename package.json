@@ -17,7 +17,6 @@
         "pack": "node ./scripts/pack",
         "unpack": "node ./scripts/unpack",
         "zip": "node ./scripts/zip",
-        "link-world-seed": "node ./scripts/link-world-seed",
         "docker:up": "node ./world-seed/scripts/docker-up.js up -d",
         "docker:down": "node ./world-seed/scripts/docker-up.js down",
         "docker:signlicense": "node ./world-seed/scripts/docker-sign-license.js",
