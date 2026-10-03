@@ -30,9 +30,13 @@ jobs:
       with:
         node-version: 20
         cache: npm
+        registry-url: https://npm.pkg.github.com
+        scope: "@the-metalworks"
 
     - name: Install dependencies
       run: npm ci
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Build system
       run: npm run build:pack
