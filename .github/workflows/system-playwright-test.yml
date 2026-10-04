@@ -41,6 +41,13 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps chromium
 
+    - name: Log in to GitHub Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Run Playwright tests
       env:
         FOUNDRY_LICENSE_JSON: ${{ secrets.FOUNDRY_LICENSE_JSON }}
