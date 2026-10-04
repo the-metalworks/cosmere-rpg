@@ -2,6 +2,7 @@ import { SYSTEM_ID } from './constants';
 import { Resource, Theme, UnitSystem } from './types/cosmere';
 import { setTheme } from './utils/templates';
 import { ResourceConfig } from './types/config';
+import { OwnershipVisibilityMenu } from './applications/ownershipVisibilityMenu';
 
 /**
  * Index of identifiers for system settings.
@@ -25,6 +26,8 @@ export const SETTINGS = {
     TOKEN_DEFAULT_BAR_2_VAL: 'defaultTokenBar2Value',
     SYSTEM_THEME: 'systemTheme',
     MEASUREMENT_UNIT_SYSTEM: 'measurementUnitSystem',
+    OWNERSHIP_VISIBILITY_MENU: 'ownershipVisibilityMenu',
+    LIMITED_VISIBILITY: 'limitedVisibility',
 } as const;
 
 type SystemSettingsConfig = {
@@ -67,6 +70,10 @@ type SystemSettingsConfig = {
     [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.SYSTEM_THEME}`]: Theme;
 } & {
     [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.MEASUREMENT_UNIT_SYSTEM}`]: UnitSystem;
+} & {
+    [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.OWNERSHIP_VISIBILITY_MENU}`]: OwnershipVisibilityMenu;
+} & {
+    [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.LIMITED_VISIBILITY}`]: object;
 };
 
 type SystemSettingKey = (typeof SETTINGS)[keyof typeof SETTINGS];
@@ -319,6 +326,76 @@ export function registerDeferredSettings() {
             [UnitSystem.Metric]: game.i18n.localize(
                 `SETTINGS.${SETTINGS.MEASUREMENT_UNIT_SYSTEM}.choices.Metric`,
             ),
+        },
+    });
+
+    // OWNERSHIP VISIBILITY SETTINGS
+    game.settings.registerMenu(SYSTEM_ID, SETTINGS.OWNERSHIP_VISIBILITY_MENU, {
+        name: game.i18n.localize(
+            `SETTINGS.${SETTINGS.OWNERSHIP_VISIBILITY_MENU}.setting.name`,
+        ),
+        label: game.i18n.localize(
+            `SETTINGS.${SETTINGS.OWNERSHIP_VISIBILITY_MENU}.setting.label`,
+        ),
+        hint: game.i18n.localize(
+            `SETTINGS.${SETTINGS.OWNERSHIP_VISIBILITY_MENU}.setting.hint`,
+        ),
+        icon: 'fa-solid fa-gears',
+        type: OwnershipVisibilityMenu,
+        restricted: true,
+    });
+
+    game.settings.register(SYSTEM_ID, SETTINGS.LIMITED_VISIBILITY, {
+        scope: 'world',
+        config: false,
+        requiresReload: true,
+
+        default: {
+            character: {
+                // Details Section
+                attributes: true,
+                defenses: true,
+                level: true,
+                resources: false,
+                skills: true,
+                expertises: true,
+                immunities: false,
+                path: false,
+                // Talents Section
+                talentsTab: false,
+                // Actions Section
+                actionsTab: false,
+                // Equipment Section
+                equipmentTab: false,
+                // Goals Section
+                goalsTab: false,
+                // Notes Section
+                notesTab: true,
+                biography: false,
+                notes: false,
+                // Effects Section
+                effectsTab: true,
+            },
+            adversary: {
+                // Details Section
+                attributes: true,
+                defenses: true,
+                level: true,
+                resources: false,
+                skills: true,
+                expertises: true,
+                immunities: false,
+                features: false,
+                actions: false,
+                // Equipment Section
+                equipmentTab: false,
+                // Notes Section
+                notesTab: true,
+                biography: false,
+                notes: false,
+                // Effects Section
+                effectsTab: true,
+            },
         },
     });
 }
