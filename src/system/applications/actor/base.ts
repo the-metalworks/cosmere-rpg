@@ -1,4 +1,9 @@
-import { DamageType, Resource, Status } from '@src/system/types/cosmere';
+import {
+    ActorType,
+    DamageType,
+    Resource,
+    Status,
+} from '@src/system/types/cosmere';
 import { CosmereActor } from '@system/documents/actor';
 import { DeepPartial, AnyObject } from '@system/types/utils';
 import { SYSTEM_ID } from '@src/system/constants';
@@ -23,6 +28,8 @@ import {
 // Components
 import { SortMode, SearchBarInputEvent } from './components';
 import { renderSystemTemplate, TEMPLATES } from '@src/system/utils/templates';
+import { getSystemSetting, SETTINGS } from '@src/system/settings';
+import { limitedVisibilitySettings } from '../ownershipVisibilityMenu';
 
 const { ActorSheetV2 } = foundry.applications.sheets;
 
@@ -488,6 +495,26 @@ export class BaseActorSheet<
         options: DeepPartial<foundry.applications.api.ApplicationV2.RenderOptions>,
     ) {
         // Get enriched versions of HTML fields
+        const isOwner = this.actor.testUserPermission(
+            game.user,
+            CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER,
+        );
+        const isObserver = this.actor.testUserPermission(
+            game.user,
+            CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER,
+        );
+        const isLimitedOrHigher = this.actor.testUserPermission(
+            game.user,
+            CONST.DOCUMENT_OWNERSHIP_LEVELS.LIMITED,
+        );
+        const visibility = game.settings.get(
+            SYSTEM_ID,
+            SETTINGS.LIMITED_VISIBILITY,
+        ) as limitedVisibilitySettings;
+        const limited =
+            this.actor.type === ActorType.Character
+                ? visibility.character
+                : visibility.adversary;
         let enrichedBiographyValue = undefined;
         let enrichedAppearanceValue = undefined;
         let enrichedNotesValue = undefined;
@@ -535,7 +562,12 @@ export class BaseActorSheet<
             immunitiesCollapsed: this.areImmunitiesCollapsed,
             hasImmunities,
             isEditMode: this.mode === 'edit' && this.isEditable,
-
+            isOwner,
+            isObserver,
+            isLimitedOrHigher,
+            visibility: {
+                limited,
+            },
             // Prose mirror state
             isUpdatingHtmlField: this.isUpdatingHtmlField,
             biographyHtml: enrichedBiographyValue,
