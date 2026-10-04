@@ -2089,6 +2089,16 @@
                 "Imperial": "Imperial (ft, lbs)",
                 "Metric": "Metric (m, kg)"
             }
+        },
+        "ownershipVisibilityMenu": {
+            "setting": {
+                "name": "Ownership Visibility",
+                "label": "Configure Ownership Visibility",
+                "hint": "Determines what is visible on sheets based on ownership level"
+            },
+            "menu": {
+                "name": "Ownership Visibility Menu"
+            }
         }
     },
     "KEYBINDINGS": {

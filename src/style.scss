@@ -140,6 +140,40 @@ span.document-name {
     box-shadow: none;
 }
 
+#ownership-visibility-menu {
+    header.table-header {
+        background: var(--table-header-bg-color);
+        padding: 0.5rem;
+        color: var(--table-header-text-color);
+        border: 1px solid var(--table-header-border-color);
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .index {
+        flex: 0 0 200px;
+        text-align: left;
+        font-weight: bold;
+    }
+
+    ul.visibility-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        max-height: 400px;
+        overflow-block: hidden auto;
+    }
+
+    li.visibility {
+        padding: 0.25rem 0.5rem;
+        border-bottom: 1px solid var(--color-border-dark-4);
+
+        .form-fields {
+            justify-content: space-around;
+        }
+    }
+}
+
 .application p {
     font-size: var(--font-size-13);
 }
