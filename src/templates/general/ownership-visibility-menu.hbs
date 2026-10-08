@@ -1,3 +1,4 @@
+{{log "root: " @root}}
 <section class="window-content standard-form">
     <p class="hint">Configure what a user with limited ownership sees on character/adversary sheets</p>
     <header class="table-header flexrow">
@@ -6,13 +7,15 @@
         <label>Adversary</label>
     </header>
     <ul class="visibility-list">
+        {{#each settings as |setting|}}
         <li class="visibility form-group">
-            <label class="index">Show Stats</label>
+            <label class="index">{{localize setting.name}}</label>
             <div class="form-fields">
-                <input type="checkbox" name="showStatsCharacter">
-                <input type="checkbox" name="showStatsAdversary">
+                <input type="checkbox" {{#unless setting.character.available}}disabled{{/unless}} name="showStatsCharacter" {{checked setting.character.value}}>
+                <input type="checkbox" {{#unless setting.adversary.available}}disabled{{/unless}} name="showStatsAdversary" {{checked setting.adversary.value}}>
             </div>
-            <p class="hint">Let users with limited visibility see sheet's stats such as strength, speed, etc.</p>
+            <p class="hint">{{localize setting.hint}}</p>
         </li>
+        {{/each}}
     </ul>
 </section>

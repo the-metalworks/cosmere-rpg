@@ -4,6 +4,7 @@ import {
     HandlebarsApplicationComponent,
 } from './component-system';
 import { SYSTEM_ID } from '../constants';
+import { characterMeetsPrerequisiteRule } from '../utils/talent-tree';
 
 export interface limitedVisibilitySettings {
     character: {
@@ -64,9 +65,15 @@ export class OwnershipVisibilityMenu extends HandlebarsApplicationMixin(
             title: `SETTINGS.ownershipVisibilityMenu.menu.name`,
             minimizable: false,
             positioned: true,
+            scroll: true,
         },
         position: {
             width: 660,
+        },
+        forms: {
+            form: {
+                handler: this.onSettingsSubmitted,
+            },
         },
     };
 
@@ -76,11 +83,7 @@ export class OwnershipVisibilityMenu extends HandlebarsApplicationMixin(
             form: {
                 template:
                     'systems/cosmere-rpg/templates/general/ownership-visibility-menu.hbs',
-                forms: {
-                    form: {
-                        handler: this.onSettingsSubmitted,
-                    },
-                },
+                scrollable: ['.visibility-list'],
             },
         },
     );
@@ -105,11 +108,40 @@ export class OwnershipVisibilityMenu extends HandlebarsApplicationMixin(
     ) {
         const context = await super._prepareContext(options);
 
-        const visibility = getSystemSetting(SETTINGS.LIMITED_VISIBILITY);
+        const visibility = game.settings.get(
+            SYSTEM_ID,
+            SETTINGS.LIMITED_VISIBILITY,
+        ) as limitedVisibilitySettings;
 
+        const keys = [
+            ...new Set([
+                ...Object.keys(visibility.character),
+                ...Object.keys(visibility.adversary),
+            ]),
+        ];
+
+        const characterRecord = visibility.character as Record<string, boolean>;
+        const adversaryRecord = visibility.adversary as Record<string, boolean>;
+
+        const settings = keys.map((key) => ({
+            key,
+
+            name: `SETTINGS.ownershipVisibilityMenu.${key}.name`,
+            hint: `SETTINGS.ownershipVisibilityMenu.${key}.hint`,
+
+            character: {
+                available: Object.hasOwn(visibility.character, key),
+                value: characterRecord[key] ?? false,
+            },
+
+            adversary: {
+                available: Object.hasOwn(visibility.adversary, key),
+                value: adversaryRecord[key] ?? false,
+            },
+        }));
         return Promise.resolve({
             ...context,
-            visibility,
+            settings,
         });
     }
 }

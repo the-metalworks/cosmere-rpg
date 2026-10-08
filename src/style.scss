@@ -161,7 +161,7 @@ span.document-name {
         margin: 0;
         padding: 0;
         max-height: 400px;
-        overflow-block: hidden auto;
+        overflow: hidden auto;
     }
 
     li.visibility {
@@ -170,6 +170,9 @@ span.document-name {
 
         .form-fields {
             justify-content: space-around;
+            input[type="checkbox"]:disabled::before {
+                color: transparent;
+            }
         }
     }
 }
