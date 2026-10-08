@@ -8,11 +8,14 @@ Fixes and changes based on feedback from early access, mostly regarding the star
 📝 **Features**
 
 * Improved implementation of knucklebones with new action and scaling
+* Improved API registration method for actor roll data
+* Applications now use their .implementation variant where appropriate, improving compatibility with third-party modules
 
 🐛 **Bug Fixes**
 
 * Fixed an issue that prevented the basic actions *Avoid Danger*, *Grapple*, and *Shove* from using the correct skill
 * Fixed an issue where the default resource mode for actors would fail to set, resulting in errors
+* Removed use of deprecated FoundryVTT methods and namespaces to somewhat future-proof compatibility and prevent console warning spam in v13
 
 <br>
 
