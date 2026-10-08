@@ -2098,6 +2098,78 @@
             },
             "menu": {
                 "name": "Ownership Visibility Menu"
+            },
+            "attributes": {
+                "name": "Show attributes",
+                "hint": "Allows users to see the attribute of actor sheets"
+            },
+            "defenses": {
+                "name": "Show defenses",
+                "hint": "Allows users to see the defenses of actor sheets"
+            },
+            "level": {
+                "name": "Show level",
+                "hint": "Allows users to see the level of actor sheets"
+            },
+            "resources": {
+                "name": "Show resources",
+                "hint": "Allows users to see the exact value of health, focus and other resources of actor sheets"
+            },
+            "skills": {
+                "name": "Show skills",
+                "hint": "Allows users to see the skills of actor sheets"
+            },
+            "expertises": {
+                "name": "Show expertises",
+                "hint": "Allows users to see the expertises of actor sheets"
+            },
+            "immunities": {
+                "name": "Show immunities",
+                "hint": "Allows users to see the immunities of actor sheets"
+            },
+            "path": {
+                "name": "Show path",
+                "hint": "Allows users to see the path of actor sheets"
+            },
+            "talentsTab": {
+                "name": "Show talents tab",
+                "hint": "Allows users to see the talents tab of actor sheets"
+            },
+            "actionsTab": {
+                "name": "Show actions tab",
+                "hint": "Allows users to see the actions tab of actor sheets"
+            },
+            "equipmentTab": {
+                "name": "Show equipment tab",
+                "hint": "Allows users to see the equipment tab of actor sheets"
+            },
+            "goalsTab": {
+                "name": "Show goals tab",
+                "hint": "Allows users to see the goals tab of actor sheets"
+            },
+            "notesTab": {
+                "name": "Show notes tab",
+                "hint": "Allows users to see the notes tab of actor sheets"
+            },
+            "biography": {
+                "name": "Show biography",
+                "hint": "Allows users to see the biography of actor sheets"
+            },
+            "notes": {
+                "name": "Show notes",
+                "hint": "Allows users to see the notes section of actor sheets"
+            },
+            "effectsTab": {
+                "name": "Show effects tab",
+                "hint": "Allows users to see the effects tab of actor sheets"
+            },
+            "features": {
+                "name": "Show adversary features",
+                "hint": "Allows users to see the adversary features of adversary sheets"
+            },
+            "actions": {
+                "name": "Show adversary actions",
+                "hint": "Allows users to see the actions of adversary sheets"
             }
         }
     },
