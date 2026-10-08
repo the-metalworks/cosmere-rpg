@@ -11,10 +11,14 @@ jobs:
           uses: actions/setup-node@v4
           with:
               node-version: '24'
+              registry-url: https://npm.pkg.github.com
+              scope: "@the-metalworks"
 
         - name: NPM install
           run: |
               npm ci
+          env:
+            NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
         - name: Lint
           run: npx eslint
@@ -30,9 +34,13 @@ jobs:
       with:
         node-version: 20
         cache: npm
+        registry-url: https://npm.pkg.github.com
+        scope: "@the-metalworks"
 
     - name: Install dependencies
       run: npm ci
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Build system
       run: npm run build:pack
