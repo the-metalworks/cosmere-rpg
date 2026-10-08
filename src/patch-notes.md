@@ -1,5 +1,5 @@
 ### Patch 3.1.1
-<sup>2026-09-09</sup>
+<sup>2026-10-08</sup>
 
 Fixes and changes based on feedback from early access, mostly regarding the starter rules content.
 
