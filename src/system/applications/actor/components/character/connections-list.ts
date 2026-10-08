@@ -156,7 +156,7 @@ any> {
                     ...this.connectionItemStates[item.id!],
                     id: item.id,
                     descriptionHTML:
-                        await foundry.applications.ux.TextEditor.enrichHTML(
+                        await foundry.applications.ux.TextEditor.implementation.enrichHTML(
                             // NOTE: We use a logical OR here to catch both nullish values and empty string
 
                             item.system.description?.value || '<p>—</p>',

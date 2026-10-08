@@ -126,12 +126,13 @@ export class TalentTreeEditorComponent extends TalentTreeViewComponent {
     }
 
     protected async _onDrop(event: DragEvent) {
-        const data = foundry.applications.ux.TextEditor.getDragEventData(
-            event,
-        ) as unknown as {
-            type: string;
-            uuid: string;
-        };
+        const data =
+            foundry.applications.ux.TextEditor.implementation.getDragEventData(
+                event,
+            ) as unknown as {
+                type: string;
+                uuid: string;
+            };
 
         // Ensure type is correct
         if (data.type !== 'Item') return;

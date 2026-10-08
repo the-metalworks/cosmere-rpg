@@ -679,6 +679,32 @@ export class CommonActorDataModel<
     }
 
     /**
+     * If Resource mode is not valid for that resource, set it back to the resource's default mode.
+     * This also sets the default given Derived isn't valid and not the default.
+     */
+    private sanitizeResourceModes(): void {
+        const health = this.resources[Resource.Health].max;
+        const healthConfig =
+            CONFIG.COSMERE.resources.hea.modes[this.parent.type as ActorType];
+        const focus = this.resources[Resource.Focus].max;
+        const focusConfig =
+            CONFIG.COSMERE.resources.foc.modes[this.parent.type as ActorType];
+        const investiture = this.resources[Resource.Investiture].max;
+        const investitureConfig =
+            CONFIG.COSMERE.resources.inv.modes[this.parent.type as ActorType];
+
+        health.mode = healthConfig.valid.includes(health.mode)
+            ? health.mode
+            : healthConfig.default;
+        focus.mode = focusConfig.valid.includes(focus.mode)
+            ? focus.mode
+            : focusConfig.default;
+        investiture.mode = investitureConfig.valid.includes(investiture.mode)
+            ? investiture.mode
+            : investitureConfig.default;
+    }
+
+    /**
      * Apply secondary data derivations to this Data Model.
      * This is called after Active Effects are applied.
      */
@@ -788,6 +814,9 @@ export class CommonActorDataModel<
             // Derive deflect
             this.deflect.derived = Math.max(natural, armorDeflect);
         }
+
+        // Set resource mode to default for each resource if the current mode is invalid.
+        this.sanitizeResourceModes();
 
         // Clamp resource values to their max values
         (Object.keys(this.resources) as Resource[]).forEach((key) => {

@@ -289,7 +289,15 @@ export function registerDeferredSettings() {
         onChange: (s) => setTheme(document.body, s),
     });
 
-    setTheme(document.body, getSystemSetting(SETTINGS.SYSTEM_THEME));
+    const theme: Theme = getSystemSetting(SETTINGS.SYSTEM_THEME);
+
+    // Sets theme to default if selected theme option is no longer available
+    setTheme(
+        document.body,
+        theme in CONFIG.COSMERE.themes
+            ? theme
+            : (Object.keys(CONFIG.COSMERE.themes)[0] as Theme),
+    );
 
     // UNIT SYSTEM SETTING
     game.settings.register(SYSTEM_ID, SETTINGS.MEASUREMENT_UNIT_SYSTEM, {

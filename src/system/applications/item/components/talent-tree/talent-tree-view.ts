@@ -642,7 +642,7 @@ export class TalentTreeViewComponent<
                     };
                 }),
                 description:
-                    await foundry.applications.ux.TextEditor.enrichHTML(
+                    await foundry.applications.ux.TextEditor.implementation.enrichHTML(
                         htmlStringHasContent(item.system.description?.short)
                             ? item.system.description.short
                             : htmlStringHasContent(

@@ -22,6 +22,7 @@ export namespace Derived {
     export const Modes = {
         [Mode.Derived]: 'GENERIC.DerivedValue.Mode.Derived',
         [Mode.Override]: 'GENERIC.DerivedValue.Mode.Override',
+        [Mode.Range]: 'GENERIC.DerivedValue.Mode.Range',
     };
 }
 
