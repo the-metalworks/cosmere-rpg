@@ -1571,7 +1571,13 @@ export class CosmereActor<
 
             const value = rollData.data(this);
 
-            foundry.utils.setProperty(registeredData, key, value);
+            if (['string', 'number', 'object'].includes(typeof value)) {
+                foundry.utils.setProperty(registeredData, key, value);
+            } else {
+                console.error(
+                    `Discarding entry to ${key}: Registered data must be a string, number, or a parsable object.`,
+                );
+            }
         }
 
         return registeredData;
