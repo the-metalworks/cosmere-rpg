@@ -1,8 +1,9 @@
 import { Skill } from '@system/types/cosmere';
-import { SkillConfig } from '@system/types/config';
+import { RollDataConfigDataType, SkillConfig } from '@system/types/config';
 import { CommonRegistrationData } from './types';
 import { RegistrationHelper } from './helper';
 import { RollDataConfig } from '../types/config';
+import { CosmereActor } from '../documents';
 
 interface SkillConfigData
     extends Omit<SkillConfig, 'key'>,
@@ -57,19 +58,35 @@ export function registerSkill(data: SkillConfigData) {
  * Registers roll data for sheets of specific types.
  */
 interface RollDataConfigData
-    extends Omit<RollDataConfig, 'label'>,
+    extends Omit<RollDataConfig, 'label' | 'data'>,
         CommonRegistrationData {
     /**
      * Unique id for the roll data.
      */
     id: string;
+
+    /**
+     * Temporary holder for functional data type or old parsable array type.
+     */
+    data: RollDataConfigDataType | RollDataConfigDataOldType;
 }
+
+type RollDataConfigDataOldType = (string | number)[];
 
 export function registerRollData(data: RollDataConfigData) {
     if (!CONFIG.COSMERE) {
         throw new Error(
             'Cannot access the API until after the system is initialized.',
         );
+    }
+
+    const oldData = data.data;
+    if (oldData instanceof Array) {
+        RegistrationHelper.logger.warn(
+            data.source,
+            `Deprecated data signature: ${data.id}. Expected: (actor: CosmereActor) => string | number | AnyObject`,
+        );
+        data.data = (actor: CosmereActor) => actor.parseRollData(oldData);
     }
 
     // Clean data, remove fields that are not part of the config
@@ -90,7 +107,7 @@ export function registerRollData(data: RollDataConfigData) {
             label: data.id,
             override: data.override,
             types: data.types,
-            data: data.data,
+            data: data.data as RollDataConfigDataType,
         };
         return true;
     };
