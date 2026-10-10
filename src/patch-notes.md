@@ -1,3 +1,18 @@
+### Patch 3.1.2
+<sup>2026-10-09</sup>
+
+Quick hotfix for the latest system version regarding the changes to the roll data API.
+
+#### 🛠️ Full Changelog
+
+🐛 **Bug Fixes**
+
+* Fixed compatibility with modules using the deprecated roll data API format so that more time is given to update to the new method
+
+<br>
+
+----
+
 ### Patch 3.1.1
 <sup>2026-10-08</sup>
 
