@@ -408,7 +408,9 @@ export interface RollDataConfig {
     types: CosmereActor['type'];
 
     /**
-     * A function which takes in the actor and returns data to place in the designated key
+     * The data to be added to the actor's rollData.
+     * It is either a function which takes in the actor and returns data to place in the designated key
+     * or (deprecated) a parsable array of strings or numbers.
      */
     data: RollDataConfigDataType;
 }
