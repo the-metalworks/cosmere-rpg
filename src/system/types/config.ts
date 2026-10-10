@@ -410,8 +410,12 @@ export interface RollDataConfig {
     /**
      * A function which takes in the actor and returns data to place in the designated key
      */
-    data: (actor: CosmereActor) => unknown;
+    data: RollDataConfigDataType;
 }
+
+export type RollDataConfigDataType = (
+    actor: CosmereActor,
+) => string | number | AnyObject;
 
 export interface CosmereRPGConfig {
     themes: Record<Theme, string>;
