@@ -55,11 +55,13 @@
                 <div class="inner-bar" style="width: {{perc resource.value resource.max}};"></div>
             </div>
             <div class="border"></div>
+            {{#if (or isObserver visibility.limited.resources)}}
             <div class="value">
                 <span class="current">{{resource.value}}</span>
                 <span class="delim">/</span>
                 <span class="max">{{resource.max}}</span>
             </div>
+            {{/if}}
             <input type="text" name="system.resources.{{resource.id}}.value" value="{{resource.value}}">            
         </div>
     </div>
