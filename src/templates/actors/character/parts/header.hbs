@@ -4,7 +4,13 @@
             <input class="value" type="text" name="name" value="{{actor.name}}" {{#unless isEditMode}}readonly{{/unless}}>           
         </h1>
         <div class="details">
-            <span class="ancestry">{{ localize ancestryLabel }}</span>
+            <span class="ancestry">
+                {{#if (or isObserver visibility.limited.ancestry)}}
+                    {{ localize ancestryLabel }}
+                {{else}}
+                    {{localize "GENERIC.Unknown"}}
+                {{/if}}
+                </span>
             
             {{#with pathTypes as |pathTypes|}}
             {{#if (gt pathTypes.length 0)}}
@@ -16,7 +22,13 @@
             {{#with pathType.paths as |paths|}}
             {{#each paths as |path pi|}}
 
-            <span class="path">{{path.name}}</span>
+            <span class="path">
+                {{#if (or @root.isObserver @root.visibility.limited.path)}}
+                    {{path.name}}
+                {{else}}
+                    {{localize "GENERIC.Unknown"}}
+                {{/if}}
+                </span>
 
             {{#if (lt pi (sub paths.length 1))}}
             <span class="path">/</span>

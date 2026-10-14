@@ -1,11 +1,16 @@
 {{#if culture}}
+{{#with @root.visibility.limited as |limited|}}
 <div class="border-box">
     <div class="wrapper">
         {{!-- Details --}}
         <div class="details">
-            <div class="title" data-action="view">    
+            <div class="title" {{#if (or @root.isObserver limited.culture)}}data-action="view"{{/if}}>    
                 <span class="name">
-                    {{culture.label}}            
+                    {{#if (or @root.isObserver limited.culture)}}
+                        {{@root.culture.label}}
+                    {{else}}
+                        {{localize "GENERIC.Unknown"}}
+                    {{/if}}
                     {{#if isEditMode}}
                     <div class="controls">
                         <a data-action="remove"
@@ -21,9 +26,10 @@
         </div>
 
         {{!-- Skills --}}
-        {{#if (gt skills.length 0)}}
+        {{#if (or @root.isObserver (and limited.culture limited.skills))}}
+        {{#if (gt @root.skills.length 0)}}
             <ul class="skill-list">
-                {{#each skills as |skill|}}
+                {{#each @root.skills as |skill|}}
                     <li class="skill" data-id="{{skill.id}}">
                         {{app-actor-skill
                             skill=skill.id
@@ -34,17 +40,20 @@
                 {{/each}}
             </ul>
         {{/if}}
+        {{/if}}
     </div>    
-    {{!-- NOTE: Currently available culture images are too low resolution to use here.
-        Uncomment the following block if higher resolution images are available
-        --}}
-    {{#if culture.img}}
+
+    {{!-- Background image --}}
+    {{#if (or @root.isObserver limited.culture)}}
+    {{#if @root.culture.img}}
         <div class="background-img">
-            <img src="{{culture.img}}">
+            <img src="{{@root.culture.img}}">
         </div>
+    {{/if}}
     {{/if}}
 </div>    
 {{> box-corners }}   
+{{/with}}
 {{else}}
     <div class="culture drop-area">
         <span>{{localize "COSMERE.Actor.Sheet.CulturePlaceholder"}}</span>
