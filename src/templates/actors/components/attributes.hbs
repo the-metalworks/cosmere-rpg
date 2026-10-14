@@ -19,15 +19,20 @@
                             <i class="fa-solid fa-bolt"></i>
                         {{/if}}
                     </span>
-                    {{#if (not @root.isEditMode)}}
-                        <input class="value {{#if attribute.modified}}modified{{/if}}" type="number"
-                            value="{{total}}"
-                            readonly
-                        >
+                    {{#if (or @root.isObserver @root.visibility.limited.attributes)}}
+                        {{#if (not @root.isEditMode)}}
+                            <input class="value {{#if attribute.modified}}modified{{/if}}" type="number"
+                                value="{{total}}"
+                                readonly
+                            >
+                        {{else}}
+                            <input class="value {{#if attribute.modified}}modified{{/if}}" type="number" min="0" max="10" step="1"
+                                name="system.attributes.{{attribute.config.key}}.value" value="{{total}}" data-total="{{total}}" data-source-value="{{attribute.source.value}}" 
+                            />
+                        {{/if}}
                     {{else}}
-                        <input class="value {{#if attribute.modified}}modified{{/if}}" type="number" min="0" max="10" step="1"
-                            name="system.attributes.{{attribute.config.key}}.value" value="{{total}}" data-total="{{total}}" data-source-value="{{attribute.source.value}}" 
-                        />
+                        <br>
+                        <span class="value" style="left:1px;">?</span>
                     {{/if}}
                 </div>
             </div>
@@ -45,8 +50,12 @@
                     >
                         <i class="fa-solid fa-gear"></i>
                     </a>
-                    {{/if}}                     
-                    <span class="value">{{ defense.value }}</span>
+                    {{/if}} 
+                    {{#if (or @root.isObserver @root.visibility.limited.defenses)}}                    
+                        <span class="value">{{ defense.value }}</span>
+                    {{else}}
+                        <span class="value" style="left:1px;">?</span>
+                    {{/if}}
                 </div>
             </div>
             {{/with}}
@@ -62,15 +71,20 @@
                             <i class="fa-solid fa-bolt"></i>
                         {{/if}}
                     </span>
-                    {{#if (not @root.isEditMode)}}
-                    <input class="value {{#if attribute.modified}}modified{{/if}}" type="number"
-                        value="{{total}}"
-                        readonly
-                    >
+                    {{#if (or @root.isObserver @root.visibility.limited.attributes)}}
+                        {{#if (not @root.isEditMode)}}
+                        <input class="value {{#if attribute.modified}}modified{{/if}}" type="number"
+                            value="{{total}}"
+                            readonly
+                        >
+                        {{else}}
+                        <input class="value {{#if attribute.modified}}modified{{/if}}" type="number" min="0" max="10" step="1"
+                            name="system.attributes.{{attribute.config.key}}.value" value="{{total}}" data-total="{{total}}" data-source-value="{{attribute.source.value}}"
+                        />
+                        {{/if}}
                     {{else}}
-                    <input class="value {{#if attribute.modified}}modified{{/if}}" type="number" min="0" max="10" step="1"
-                        name="system.attributes.{{attribute.config.key}}.value" value="{{total}}" data-total="{{total}}" data-source-value="{{attribute.source.value}}"
-                    />
+                        <br>
+                        <span class="value" style="left:1px;">?</span>
                     {{/if}}
                 </div>                    
             </div>
