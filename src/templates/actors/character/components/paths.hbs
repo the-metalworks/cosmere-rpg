@@ -1,4 +1,6 @@
+{{log "root: " @root}}
 {{#each paths as |path|}}
+{{#with @root.visibility.limited as |limited|}}
 <div class="path"
     data-id="{{path.id}}"
 >
@@ -6,8 +8,13 @@
         <div class="wrapper">
             {{!-- Details --}}
             <div class="details">        
-                <div class="title" data-action="view">
-                    <span class="name">{{path.name}}
+                <div class="title" {{#if (or @root.isObserver limited.path)}}data-action="view"{{/if}}>
+                    <span class="name">
+                        {{#if (or @root.isObserver limited.path)}}
+                            {{path.name}}
+                        {{else}}
+                            {{localize "GENERIC.Unknown"}}
+                        {{/if}}
                         {{#if @root.isEditMode}}
                             <div class="controls">
                                 <a data-action="remove"
@@ -18,17 +25,26 @@
                             </div>
                         {{/if}}
                     </span>
-                    <span class="item-type">{{localize path.typeLabel}} {{localize "COSMERE.Item.Type.Path.label"}}</span>
+                    <span class="item-type">
+                        {{#if (or @root.isObserver limited.path)}}
+                            {{localize path.typeLabel}} 
+                        {{/if}}
+                        {{localize "COSMERE.Item.Type.Path.label"}}</span>
                 </div>
-                <div class="sheet-stack level" data-action="view">
+                <div class="sheet-stack level" {{#if (or @root.isObserver limited.path)}}data-action="view"{{/if}}>
                     <div class="container">
                         <div class="star"></div>
+                        {{#if (or (and limited.level limited.path) @root.isObserver)}}
                         <span class="value">{{path.numTalents}}</span>
+                        {{else}}
+                        <span class="value" style="left:1px;">?</span>
+                        {{/if}}
                     </div>                
                 </div>
             </div>
 
             {{!-- Skills --}}
+            {{#if (or @root.isObserver (and limited.path limited.skills))}}
             {{#if (gt path.skills.length 0)}}
                 <ul class="skill-list">
                     {{#each path.skills as |skill|}}
@@ -42,19 +58,23 @@
                     {{/each}}
                 </ul>
             {{/if}}
+            {{/if}}
         </div>        
 
         {{!-- Background image --}}
-        {{#if img}}
+        {{#if (or @root.isObserver limited.path)}}
+        {{#if path.img}}
             <div class="background-img">
-                <img src="{{img}}">
+                <img src="{{path.img}}">
             </div>
+        {{/if}}
         {{/if}}
     </div>
     {{> box-corners }}
 </div>
+{{/with}}
 {{/each}}
-{{#if (eq paths.length 0)}}
+{{#if (and (eq paths.length 0) @root.isEditMode)}}
 <div class="path drop-area">
     <span>{{localize "COSMERE.Actor.Sheet.PathPlaceholder"}}</span>
 </div>
