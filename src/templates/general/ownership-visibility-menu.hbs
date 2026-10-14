@@ -1,21 +1,31 @@
 {{log "root: " @root}}
 <section class="window-content standard-form">
-    <p class="hint">Configure what a user with limited ownership sees on character/adversary sheets</p>
+    <p class="hint">{{localize "SETTINGS.ownershipVisibilityMenu.menu.hint"}}</p>
     <header class="table-header flexrow">
-        <label class="index">Visibility</label>
-        <label>Character</label>
-        <label>Adversary</label>
+        <label class="index">{{localize "SETTINGS.ownershipVisibilityMenu.menu.visibility"}}</label>
+        <label>{{localize "SETTINGS.ownershipVisibilityMenu.menu.character"}}</label>
+        <label>{{localize "SETTINGS.ownershipVisibilityMenu.menu.adversary"}}</label>
     </header>
     <ul class="visibility-list">
         {{#each settings as |setting|}}
         <li class="visibility form-group">
             <label class="index">{{localize setting.name}}</label>
             <div class="form-fields">
-                <input type="checkbox" {{#unless setting.character.available}}disabled{{/unless}} name="showStatsCharacter" {{checked setting.character.value}}>
-                <input type="checkbox" {{#unless setting.adversary.available}}disabled{{/unless}} name="showStatsAdversary" {{checked setting.adversary.value}}>
+                <input type="checkbox" {{#unless setting.character.available}}disabled{{/unless}} name="limited.character.{{setting.key}}" {{checked setting.character.value}}>
+                <input type="checkbox" {{#unless setting.adversary.available}}disabled{{/unless}} name="limited.adversary.{{setting.key}}" {{checked setting.adversary.value}}>
             </div>
             <p class="hint">{{localize setting.hint}}</p>
         </li>
         {{/each}}
     </ul>
+    <footer class="form-footer" data-application-part="footer">
+        <button type="reset" class data-action="reset">
+            <i class="fa-solid fa-arrows-rotate" inert></i>
+            <span>{{localize "GENERIC.Button.ResetDefault"}}</span>
+        </button>
+        <button type="submit" class>
+            <i class="fa-solid fa-arrows-rotate" inert></i>
+            <span>{{localize "GENERIC.Button.Save"}}</span>
+        </button>
+    </footer>
 </section>
