@@ -15,9 +15,11 @@
             {{#if @root.actor.ancestry}}
                 {{app-character-ancestry}}
             {{else}}
+            {{#if @root.isEditMode}}
             <div class="ancestry drop-area">
                 <span>{{localize "COSMERE.Actor.Sheet.AncestryPlaceholder"}}</span>
             </div>
+            {{/if}}
             {{/if}}
             
             {{#if (gt @root.actor.cultures.length 0)}}
@@ -25,9 +27,11 @@
                     {{app-character-culture culture=culture}}
                 {{/each}}
             {{else}}
+            {{#if @root.isEditMode}}
             <div class="culture drop-area">
                 <span>{{localize "COSMERE.Actor.Sheet.CulturePlaceholder"}}</span>
             </div>
+            {{/if}}
             {{/if}}
             
             {{app-character-paths-list}}
