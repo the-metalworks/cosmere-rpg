@@ -12,9 +12,10 @@
     {{!-- Talent --}}
     {{#if (eq type "talent")}}
         <div class="form-group">
-            {{app-node-prerequisite-talent-list
+            {{app-node-prerequisite-item-list
                 node=node
-                talents=talents
+                items=talents
+                type=type
             }}
         </div>
     {{/if}}
@@ -22,9 +23,10 @@
     {{!-- Goal --}}
     {{#if (eq type "goal")}}
         <div class="form-group">
-            {{app-node-prerequisite-goal-list
+            {{app-node-prerequisite-item-list
                 node=node
-                goals=goals
+                items=goals
+                type=type
             }}
         </div>
     {{/if}}
@@ -105,35 +107,35 @@
 
     {{!-- Ancestry --}}
     {{#if (eq type "ancestry")}}
-        {{app-document-reference-input
-            name="ancestry"
-            label=(localize schema.fields.ancestry.label)
-            value=ancestry.uuid
-            type="Item"
-            subtype="ancestry"
-        }}
+        <div class="form-group">
+            {{app-node-prerequisite-item-list
+                node=node
+                items=ancestries
+                type=type
+            }}
+        </div>
     {{/if}}
 
     {{!-- Culture --}}
     {{#if (eq type "culture")}}
-        {{app-document-reference-input
-            name="culture"
-            label=(localize schema.fields.culture.label)
-            value=culture.uuid
-            type="Item"
-            subtype="culture"
-        }}
+        <div class="form-group">
+            {{app-node-prerequisite-item-list
+                node=node
+                items=cultures
+                type=type
+            }}
+        </div>
     {{/if}}
 
     {{!-- Power --}}
     {{#if (eq type "power")}}
-        {{app-document-reference-input
-            name="power"
-            label=(localize schema.fields.power.label)
-            value=power.uuid
-            type="Item"
-            subtype="power"
-        }}
+        <div class="form-group">
+            {{app-node-prerequisite-item-list
+                node=node
+                items=powers
+                type=type
+            }}
+        </div>
     {{/if}}
 
     {{!-- Submit --}}
