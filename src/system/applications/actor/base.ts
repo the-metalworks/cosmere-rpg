@@ -29,7 +29,10 @@ import {
 import { SortMode, SearchBarInputEvent } from './components';
 import { renderSystemTemplate, TEMPLATES } from '@src/system/utils/templates';
 import { getSystemSetting, SETTINGS } from '@src/system/settings';
-import { limitedVisibilitySettings } from '../ownershipVisibilityMenu';
+import {
+    getOwnershipVisibility,
+    visibilitySettings,
+} from '../ownershipVisibilityMenu';
 
 const { ActorSheetV2 } = foundry.applications.sheets;
 
@@ -392,8 +395,8 @@ export class BaseActorSheet<
 
         if (options.parts.includes('content')) {
             this.element
-                .querySelector('#actions-search')!
-                .addEventListener(
+                .querySelector('#actions-search')
+                ?.addEventListener(
                     'search',
                     this.onActionsSearchChange.bind(this) as EventListener,
                 );
@@ -503,18 +506,15 @@ export class BaseActorSheet<
             game.user,
             CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER,
         );
-        const isLimitedOrHigher = this.actor.testUserPermission(
+        const isLimited = this.actor.testUserPermission(
             game.user,
             CONST.DOCUMENT_OWNERSHIP_LEVELS.LIMITED,
         );
-        const visibility = game.settings.get(
-            SYSTEM_ID,
-            SETTINGS.LIMITED_VISIBILITY,
-        ) as limitedVisibilitySettings;
+        const visibility = getOwnershipVisibility();
         const limited =
             this.actor.type === ActorType.Character
-                ? visibility.character
-                : visibility.adversary;
+                ? visibility.limited.character
+                : visibility.limited.adversary;
         let enrichedBiographyValue = undefined;
         let enrichedAppearanceValue = undefined;
         let enrichedNotesValue = undefined;
@@ -564,7 +564,7 @@ export class BaseActorSheet<
             isEditMode: this.mode === 'edit' && this.isEditable,
             isOwner,
             isObserver,
-            isLimitedOrHigher,
+            isLimited,
             visibility: {
                 limited,
             },

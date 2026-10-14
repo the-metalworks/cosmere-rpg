@@ -1,56 +1,79 @@
-import { getSystemSetting, SETTINGS } from '@src/system/settings';
-import {
-    ComponentHandlebarsApplicationMixin,
-    HandlebarsApplicationComponent,
-} from './component-system';
+import { DEFAULT_OWNERSHIP_VISIBILITY, SETTINGS } from '@src/system/settings';
 import { SYSTEM_ID } from '../constants';
-import { characterMeetsPrerequisiteRule } from '../utils/talent-tree';
 
-export interface limitedVisibilitySettings {
-    character: {
-        // Details Section
-        attributes: boolean;
-        defenses: boolean;
-        level: boolean;
-        resources: boolean;
-        skills: boolean;
-        expertises: boolean;
-        immunities: boolean;
-        path: boolean;
-        // Talents Section
-        talentsTab: boolean;
-        // Actions Section
-        actionsTab: boolean;
-        // Equipment Section
-        equipmentTab: boolean;
-        // Goals Section
-        goalsTab: boolean;
-        // Notes Section
-        notesTab: boolean;
-        biography: boolean;
-        notes: boolean;
-        // Effects Section
-        effectsTab: boolean;
+export interface visibilitySettings {
+    limited: {
+        character: {
+            // Details Section
+            attributes: boolean;
+            defenses: boolean;
+            level: boolean;
+            resources: boolean;
+            skills: boolean;
+            expertises: boolean;
+            immunities: boolean;
+            ancestry: boolean;
+            culture: boolean;
+            path: boolean;
+            // Talents Section
+            talentsTab: boolean;
+            // Actions Section
+            actionsTab: boolean;
+            // Equipment Section
+            equipmentTab: boolean;
+            // Goals Section
+            goalsTab: boolean;
+            // Notes Section
+            notesTab: boolean;
+            appearance: boolean;
+            biography: boolean;
+            notes: boolean;
+            // Effects Section
+            effectsTab: boolean;
+        };
+        adversary: {
+            // Details Section
+            attributes: boolean;
+            defenses: boolean;
+            level: boolean;
+            skills: boolean;
+            expertises: boolean;
+            immunities: boolean;
+            features: boolean;
+            actions: boolean;
+            // Equipment Section
+            equipmentTab: boolean;
+            // Notes Section
+            notesTab: boolean;
+            appearance: boolean;
+            biography: boolean;
+            notes: boolean;
+            // Effects Section
+            effectsTab: boolean;
+        };
     };
-    adversary: {
-        // Details Section
-        attributes: boolean;
-        defenses: boolean;
-        level: boolean;
-        skills: boolean;
-        expertises: boolean;
-        immunities: boolean;
-        features: boolean;
-        actions: boolean;
-        // Equipment Section
-        equipmentTab: boolean;
-        // Notes Section
-        notesTab: boolean;
-        biography: boolean;
-        notes: boolean;
-        // Effects Section
-        effectsTab: boolean;
-    };
+}
+
+/**
+ * This combines the default settings with the saved settings should they exist.
+ * This is because if we ever update the settings data with more fields, this will
+ * automatically add it to the settings and ensure we get no errors.
+ * @returns visibilitySettings
+ */
+export function getOwnershipVisibility(): visibilitySettings {
+    const savedVisibility = game.settings.get(
+        SYSTEM_ID,
+        SETTINGS.LIMITED_VISIBILITY,
+    ) as visibilitySettings;
+
+    // Merges the default settings with the saved settings
+    // This is because if we ever add more settings, the data model gets updated.
+    const visibility = foundry.utils.mergeObject(
+        foundry.utils.deepClone(DEFAULT_OWNERSHIP_VISIBILITY),
+        savedVisibility,
+    ) as visibilitySettings;
+
+    return visibility;
 }
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
@@ -58,6 +81,11 @@ const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 export class OwnershipVisibilityMenu extends HandlebarsApplicationMixin(
     ApplicationV2,
 ) {
+    /**
+     * NOTE: Unbound methods is the standard for defining actions and forms
+     * within ApplicationV2
+     */
+    /* eslint-disable @typescript-eslint/unbound-method */
     static DEFAULT_OPTIONS = {
         id: 'ownership-visibility-menu',
         tag: 'form',
@@ -70,10 +98,12 @@ export class OwnershipVisibilityMenu extends HandlebarsApplicationMixin(
         position: {
             width: 660,
         },
-        forms: {
-            form: {
-                handler: this.onSettingsSubmitted,
-            },
+        actions: {
+            reset: this.onResetToDefault,
+        },
+        form: {
+            handler: this.onSettingsSubmitted,
+            closeOnSubmit: true,
         },
     };
 
@@ -87,6 +117,19 @@ export class OwnershipVisibilityMenu extends HandlebarsApplicationMixin(
             },
         },
     );
+
+    static async onResetToDefault(
+        this: OwnershipVisibilityMenu,
+        event: PointerEvent,
+        target: HTMLElement,
+    ) {
+        await game.settings.set(
+            SYSTEM_ID,
+            SETTINGS.LIMITED_VISIBILITY,
+            DEFAULT_OWNERSHIP_VISIBILITY,
+        );
+        await this.close();
+    }
 
     static async onSettingsSubmitted(
         this: void,
@@ -108,20 +151,23 @@ export class OwnershipVisibilityMenu extends HandlebarsApplicationMixin(
     ) {
         const context = await super._prepareContext(options);
 
-        const visibility = game.settings.get(
-            SYSTEM_ID,
-            SETTINGS.LIMITED_VISIBILITY,
-        ) as limitedVisibilitySettings;
+        const visibility = getOwnershipVisibility();
 
         const keys = [
             ...new Set([
-                ...Object.keys(visibility.character),
-                ...Object.keys(visibility.adversary),
+                ...Object.keys(visibility.limited.character),
+                ...Object.keys(visibility.limited.adversary),
             ]),
         ];
 
-        const characterRecord = visibility.character as Record<string, boolean>;
-        const adversaryRecord = visibility.adversary as Record<string, boolean>;
+        const characterRecord = visibility.limited.character as Record<
+            string,
+            boolean
+        >;
+        const adversaryRecord = visibility.limited.adversary as Record<
+            string,
+            boolean
+        >;
 
         const settings = keys.map((key) => ({
             key,
@@ -130,12 +176,12 @@ export class OwnershipVisibilityMenu extends HandlebarsApplicationMixin(
             hint: `SETTINGS.ownershipVisibilityMenu.${key}.hint`,
 
             character: {
-                available: Object.hasOwn(visibility.character, key),
+                available: Object.hasOwn(visibility.limited.character, key),
                 value: characterRecord[key] ?? false,
             },
 
             adversary: {
-                available: Object.hasOwn(visibility.adversary, key),
+                available: Object.hasOwn(visibility.limited.adversary, key),
                 value: adversaryRecord[key] ?? false,
             },
         }));

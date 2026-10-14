@@ -349,56 +349,66 @@ export function registerDeferredSettings() {
         scope: 'world',
         config: false,
         requiresReload: true,
-
-        default: {
-            character: {
-                // Details Section
-                attributes: true,
-                defenses: true,
-                level: true,
-                resources: false,
-                skills: true,
-                expertises: true,
-                immunities: false,
-                path: false,
-                // Talents Section
-                talentsTab: false,
-                // Actions Section
-                actionsTab: false,
-                // Equipment Section
-                equipmentTab: false,
-                // Goals Section
-                goalsTab: false,
-                // Notes Section
-                notesTab: true,
-                biography: false,
-                notes: false,
-                // Effects Section
-                effectsTab: true,
-            },
-            adversary: {
-                // Details Section
-                attributes: true,
-                defenses: true,
-                level: true,
-                resources: false,
-                skills: true,
-                expertises: true,
-                immunities: false,
-                features: false,
-                actions: false,
-                // Equipment Section
-                equipmentTab: false,
-                // Notes Section
-                notesTab: true,
-                biography: false,
-                notes: false,
-                // Effects Section
-                effectsTab: true,
-            },
-        },
+        default: DEFAULT_OWNERSHIP_VISIBILITY,
     });
 }
+
+/**
+ * The default settings for visibility settings. This is used to reset to default.
+ */
+export const DEFAULT_OWNERSHIP_VISIBILITY = {
+    limited: {
+        character: {
+            // Details Section
+            attributes: true,
+            defenses: true,
+            level: true,
+            resources: false,
+            skills: true,
+            expertises: true,
+            immunities: false,
+            ancestry: true,
+            culture: true,
+            path: true,
+            // Talents Section
+            talentsTab: false,
+            // Actions Section
+            actionsTab: false,
+            // Equipment Section
+            equipmentTab: false,
+            // Goals Section
+            goalsTab: false,
+            // Notes Section
+            notesTab: true,
+            appearance: true,
+            biography: false,
+            notes: false,
+            // Effects Section
+            effectsTab: true,
+        },
+        adversary: {
+            // Details Section
+            attributes: true,
+            defenses: true,
+            level: true,
+            resources: false,
+            skills: true,
+            expertises: true,
+            immunities: false,
+            features: false,
+            actions: false,
+            // Equipment Section
+            equipmentTab: false,
+            // Notes Section
+            notesTab: true,
+            appearance: true,
+            biography: false,
+            notes: false,
+            // Effects Section
+            effectsTab: true,
+        },
+    },
+};
 
 /**
  * Index of identifiers for system keybindings.
