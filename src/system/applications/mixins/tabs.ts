@@ -4,7 +4,10 @@ import { AnyObject, ConstructorOf } from '@system/types/utils';
 import { ComponentHandlebarsApplication } from '../component-system/mixin';
 import { SYSTEM_ID } from '@src/system/constants';
 import { SETTINGS } from '@src/system/settings';
-import { limitedVisibilitySettings } from '../ownershipVisibilityMenu';
+import {
+    getOwnershipVisibility,
+    visibilitySettings,
+} from '../ownershipVisibilityMenu';
 import { CosmereActor } from '@src/system/documents';
 
 // Constants
@@ -150,15 +153,12 @@ export function TabsApplicationMixin<
             // Im uncertain about this implementation.
             const actor = context.document as CosmereActor;
 
-            const visibility = game.settings.get(
-                SYSTEM_ID,
-                SETTINGS.LIMITED_VISIBILITY,
-            ) as limitedVisibilitySettings;
+            const visibility = getOwnershipVisibility();
 
             const limitedVisbility =
                 actor.type === 'character'
-                    ? visibility.character
-                    : visibility.adversary;
+                    ? visibility.limited.character
+                    : visibility.limited.adversary;
 
             // Construct tabs
             const tabs = tabsData
@@ -166,6 +166,7 @@ export function TabsApplicationMixin<
                     const active = this.tabGroups[tab.group] === tab.id;
                     const cssClass = active ? 'active' : '';
 
+                    // This works so long as the tab's ID is the same as the key of the tab.
                     const key = `${tab.id}Tab` as keyof typeof limitedVisbility;
 
                     return {
