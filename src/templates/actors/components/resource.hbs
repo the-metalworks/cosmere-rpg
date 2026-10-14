@@ -29,12 +29,14 @@
 
         <div class="controls">               
             {{#if (eq resource.id "hea")}} 
+            {{#if isOwner}}
             <a role="button"
                 data-action="roll-injury"
                 data-tooltip="COSMERE.Actor.Sheet.RollInjury"
             >
                 <i class="fa-solid fa-heart-pulse"></i>
             </a>
+            {{/if}}
             {{/if}}
             {{#if isEditMode}}
             <a role="button"
