@@ -1,8 +1,8 @@
 <ul>
     {{#each items as |item|}}
-    <li class="talent" data-id="{{talent.id}}">
+    <li class="talent" data-id="{{item.id}}">
         <div class="col link">
-            {{{talent.link}}}
+            {{{item.link}}}
         </div>
         <div class="col controls">
             <a data-action="remove-item"
@@ -15,5 +15,5 @@
     {{/each}}
 </ul>
 <p>
-    {{localize "COSMERE.Item.Sheet.Talent.Prerequisites.DropTalents"}}
+    {{localize "COSMERE.Item.Sheet.Talent.Prerequisites.DropItems"}}
 </p>
