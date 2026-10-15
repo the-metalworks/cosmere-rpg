@@ -57,7 +57,10 @@ async function migrateGlobalItems(
         );
 
         if (item.type === ItemType.TalentTree)
-            await migrateTalentTree(item, document);
+            await migrateTalentTree(
+                item as unknown as RawDocumentData<TalentTreeItemDataModel>,
+                document,
+            );
     }
 }
 
@@ -100,15 +103,21 @@ async function migrateTalentTree(
     try {
         logger.debug('Migrating item', { raw: data });
         let changes = {};
-        for (const oldNode of data.system.nodes) {
+        for (const oldNode of Object.values(data.system.nodes)) {
             if (oldNode.type == Node.Type.Talent) {
-                for (const oldPrereq of oldNode.prerequisites) {
+                //Don't do anything to nodes which don't have prerequisites
+                if (!oldNode.prerequisites) continue;
+
+                for (const oldPrereq of Object.values(oldNode.prerequisites)) {
                     const newPrereq = getNewPrereqEquivalent(oldPrereq);
+
+                    // If we don't need to change the prereq, don't add it to the changes
+                    if (!newPrereq) continue;
                     const newChange = {
                         system: {
                             nodes: {
                                 [oldNode.id]: {
-                                    [`prerequisites.==${oldPrereq.id}`]:
+                                    [`prerequisites.==${(oldPrereq as Node.Prerequisite).id}`]:
                                         newPrereq,
                                 },
                             },
