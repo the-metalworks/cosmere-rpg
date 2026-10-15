@@ -86,86 +86,52 @@ export class EditNodePrerequisiteDialog extends ComponentHandlebarsApplicationMi
     /* --- Actions --- */
 
     private static onUpdatePrerequisite(this: EditNodePrerequisiteDialog) {
-        if (this.data.type === TalentTree.Node.Prerequisite.Type.Talent) {
+        if (this.isItemListType()) {
             // Get the old prerequisite state
-            const old = this.node.prerequisites.get(this.data.id);
+            const old = this.node.prerequisites.get(this.data.id)!;
 
-            // Get previous talents
-            const prevTalents =
-                old?.type === TalentTree.Node.Prerequisite.Type.Talent
-                    ? Array.from(old.talents.keys())
+            const oldItemList = EditNodePrerequisiteDialog.getItemList(old);
+            const newItemList = EditNodePrerequisiteDialog.getItemList(
+                this.data,
+            )!;
+
+            // Get previous items
+            const prevItems =
+                old?.type === this.data.type && !!oldItemList
+                    ? Array.from(oldItemList.keys())
                     : [];
 
-            // Figure out which talents have been removed
-            const removedTalents = prevTalents.filter(
+            // Figure out which items have been removed
+            const removedItems = prevItems.filter(
                 (id) =>
-                    !(
-                        this.data as TalentTree.Node.TalentPrerequisite
-                    ).talents.has(id),
+                    !EditNodePrerequisiteDialog.getItemList(this.data)!.has(id),
             );
+
+            const itemListName = this.itemListVarname!;
 
             void this.tree.update({
                 [`system.nodes.${this.node.id}.prerequisites.${this.data.id}`]:
                     this.data,
-                [`system.nodes.${this.node.id}.prerequisites.${this.data.id}.talents`]:
-                    this.data.talents.toJSON(),
+                [`system.nodes.${this.node.id}.prerequisites.${this.data.id}.${itemListName}`]:
+                    newItemList.toJSON(),
 
                 // Add removals
-                ...removedTalents.reduce(
+                ...removedItems.reduce(
                     (acc, id) => ({
                         ...acc,
-                        [`system.nodes.${this.node.id}.prerequisites.${this.data.id}.talents.-=${id}`]:
-                            null,
-                    }),
-                    {},
-                ),
-            });
-        } else if (this.data.type === TalentTree.Node.Prerequisite.Type.Goal) {
-            // Get the old prerequisite state
-            const old = this.node.prerequisites.get(this.data.id);
-
-            // Get previous goals
-            const prevGoals =
-                old?.type === TalentTree.Node.Prerequisite.Type.Goal
-                    ? Array.from(old.goals.keys())
-                    : [];
-
-            // Figure out which goals have been removed
-            const removedGoals = prevGoals.filter(
-                (id) =>
-                    !(this.data as TalentTree.Node.GoalPrerequisite).goals.has(
-                        id,
-                    ),
-            );
-
-            void this.tree.update({
-                [`system.nodes.${this.node.id}.prerequisites.${this.data.id}`]:
-                    this.data,
-                [`system.nodes.${this.node.id}.prerequisites.${this.data.id}.goals`]:
-                    this.data.goals.toJSON(),
-
-                // Add removals
-                ...removedGoals.reduce(
-                    (acc, id) => ({
-                        ...acc,
-                        [`system.nodes.${this.node.id}.prerequisites.${this.data.id}.goals.-=${id}`]:
+                        [`system.nodes.${this.node.id}.prerequisites.${this.data.id}.${itemListName}.-=${id}`]:
                             null,
                     }),
                     {},
                 ),
             });
         } else {
-            if (
-                this.data.type ===
-                    TalentTree.Node.Prerequisite.Type.Attribute &&
-                isNaN(this.data.value)
-            ) {
-                this.data.value = 1;
-            } else if (
-                this.data.type === TalentTree.Node.Prerequisite.Type.Skill &&
-                isNaN(this.data.rank)
-            ) {
-                this.data.rank = 1;
+            const enumAndValueList =
+                EditNodePrerequisiteDialog.getEnumAndValueList(this.data);
+            if (enumAndValueList) {
+                enumAndValueList.forEach((element) => {
+                    if (isNaN(element.value)) element.value = 1;
+                });
             }
 
             void this.tree.update({
@@ -179,7 +145,7 @@ export class EditNodePrerequisiteDialog extends ComponentHandlebarsApplicationMi
 
     /* --- Form --- */
 
-    protected static async onFormEvent(
+    protected static onFormEvent(
         this: EditNodePrerequisiteDialog,
         event: Event,
         form: HTMLFormElement,
@@ -217,51 +183,18 @@ export class EditNodePrerequisiteDialog extends ComponentHandlebarsApplicationMi
         ) {
             this.data.level = parseInt(formData.get('level') as string);
         } else if (
-            this.data.type === TalentTree.Node.Prerequisite.Type.Ancestry &&
-            formData.has('ancestry')
+            this.data.type === TalentTree.Node.Prerequisite.Type.Ancestry
         ) {
-            const ancestryUuid = formData.get('ancestry') as string;
-            const ancestry = (await fromUuid(
-                ancestryUuid,
-            )) as unknown as CosmereItem;
-
-            if (ancestry?.isAncestry()) {
-                this.data.ancestry = {
-                    uuid: ancestry.uuid,
-                    id: ancestry.system.id,
-                    label: ancestry.name,
-                };
-            }
+            this.data.ancestries ??=
+                new RecordCollection<TalentTree.Node.Prerequisite.ItemRef>();
         } else if (
-            this.data.type === TalentTree.Node.Prerequisite.Type.Culture &&
-            formData.has('culture')
+            this.data.type === TalentTree.Node.Prerequisite.Type.Culture
         ) {
-            const cultureUuid = formData.get('culture') as string;
-            const culture = (await fromUuid(
-                cultureUuid,
-            )) as unknown as CosmereItem;
-
-            if (culture?.isCulture()) {
-                this.data.culture = {
-                    uuid: culture.uuid,
-                    id: culture.system.id,
-                    label: culture.name,
-                };
-            }
-        } else if (
-            this.data.type === TalentTree.Node.Prerequisite.Type.Power &&
-            formData.has('power')
-        ) {
-            const powerUuid = formData.get('power') as string;
-            const power = (await fromUuid(powerUuid)) as unknown as CosmereItem;
-
-            if (power?.isPower()) {
-                this.data.power = {
-                    uuid: power.uuid,
-                    id: power.system.id,
-                    label: power.name,
-                };
-            }
+            this.data.cultures ??=
+                new RecordCollection<TalentTree.Node.Prerequisite.ItemRef>();
+        } else if (this.data.type === TalentTree.Node.Prerequisite.Type.Power) {
+            this.data.powers ??=
+                new RecordCollection<TalentTree.Node.Prerequisite.ItemRef>();
         }
 
         // Render
@@ -279,7 +212,7 @@ export class EditNodePrerequisiteDialog extends ComponentHandlebarsApplicationMi
         $(this.element).prop('open', true);
 
         $(this.element)
-            .find('app-talent-prerequisite-talent-list')
+            .find('app-talent-prerequisite-item-list')
             .on('change', () => this.render(true));
     }
 
@@ -323,5 +256,62 @@ export class EditNodePrerequisiteDialog extends ComponentHandlebarsApplicationMi
                 'nodes.model.prerequisites.model.type',
             ) as foundry.data.fields.StringField
         ).choices as Record<string, string>;
+    }
+
+    private isItemListType() {
+        switch (this.data.type) {
+            case TalentTree.Node.Prerequisite.Type.Ancestry:
+            case TalentTree.Node.Prerequisite.Type.Culture:
+            case TalentTree.Node.Prerequisite.Type.Goal:
+            case TalentTree.Node.Prerequisite.Type.Power:
+            case TalentTree.Node.Prerequisite.Type.Talent:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    private static getItemList(prereq: TalentTree.Node.Prerequisite) {
+        switch (prereq.type) {
+            case TalentTree.Node.Prerequisite.Type.Ancestry:
+                return prereq.ancestries;
+            case TalentTree.Node.Prerequisite.Type.Culture:
+                return prereq.cultures;
+            case TalentTree.Node.Prerequisite.Type.Goal:
+                return prereq.goals;
+            case TalentTree.Node.Prerequisite.Type.Power:
+                return prereq.powers;
+            case TalentTree.Node.Prerequisite.Type.Talent:
+                return prereq.talents;
+            default:
+                return undefined;
+        }
+    }
+
+    private get itemListVarname() {
+        switch (this.data.type) {
+            case TalentTree.Node.Prerequisite.Type.Ancestry:
+                return 'ancestries';
+            case TalentTree.Node.Prerequisite.Type.Culture:
+                return 'cultures';
+            case TalentTree.Node.Prerequisite.Type.Goal:
+                return 'goals';
+            case TalentTree.Node.Prerequisite.Type.Power:
+                return 'powers';
+            case TalentTree.Node.Prerequisite.Type.Talent:
+                return 'talents';
+            default:
+                return undefined;
+        }
+    }
+    private static getEnumAndValueList(prereq: TalentTree.Node.Prerequisite) {
+        switch (prereq.type) {
+            case TalentTree.Node.Prerequisite.Type.Attribute:
+                return prereq.attributes;
+            case TalentTree.Node.Prerequisite.Type.Skill:
+                return prereq.skills;
+            default:
+                return undefined;
+        }
     }
 }
