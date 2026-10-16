@@ -63,30 +63,19 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
         return {
             ...context,
 
-            sections: [
-                // Traits
-                await this.prepareSectionData(
-                    this.sections[0],
-                    candidateItems,
-                    searchText,
-                    sortMode,
-                    true,
-                ),
-                // Weapons
-                await this.prepareSectionData(
-                    this.sections[1],
-                    candidateItems,
-                    searchText,
-                    sortMode,
-                ),
-                // Actions
-                await this.prepareSectionData(
-                    this.sections[2],
-                    candidateItems,
-                    searchText,
-                    sortMode,
-                ),
-            ].filter(
+            sections: (
+                await Promise.all(
+                    this.sections.map((section, index) =>
+                        this.prepareSectionData(
+                            section,
+                            candidateItems,
+                            searchText,
+                            sortMode,
+                            index === 0,
+                        ),
+                    ),
+                )
+            ).filter(
                 (section) =>
                     section.items.length > 0 ||
                     (this.application.mode === 'edit' && section.default),
