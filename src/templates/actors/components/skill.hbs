@@ -6,7 +6,7 @@
     <span class="val">?</span>
     {{/if}}
 </div>
-<a class="name" data-action="roll-skill">
+<a class="name" {{#if @root.isOwner}}data-action="roll-skill"{{/if}}>
     <span>{{ localize skill.label }}</span>
 </a>
 <div class="attribute">
