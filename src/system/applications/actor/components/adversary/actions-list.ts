@@ -17,6 +17,7 @@ import {
 import { SortMode } from '../search-bar';
 import { AppContextMenu } from '@src/system/applications/utils/context-menu';
 import { CosmereActor } from '@src/system/documents';
+import { getOwnershipVisibility } from '@src/system/applications/ownershipVisibilityMenu';
 
 // Constants
 
@@ -47,11 +48,19 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
             }
         });
 
+        const limited = getOwnershipVisibility().limited.adversary;
+
         // Prepare sections
         this.sections = [
-            this.prepareSection(ItemType.Trait),
-            this.prepareSection(ItemType.Weapon),
-            this.prepareSection(ItemType.Action),
+            ...(limited.features || !this.application.actor.limited
+                ? [this.prepareSection(ItemType.Trait)]
+                : []),
+            ...(limited.equipmentTab || !this.application.actor.limited
+                ? [this.prepareSection(ItemType.Weapon)]
+                : []),
+            ...(limited.actions || !this.application.actor.limited
+                ? [this.prepareSection(ItemType.Action)]
+                : []),
         ];
 
         const searchText = context.actionsSearch?.text ?? '';
