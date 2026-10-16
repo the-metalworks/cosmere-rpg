@@ -272,6 +272,7 @@ export class EditNodePrerequisiteDialog extends ComponentHandlebarsApplicationMi
     }
 
     private static getItemList(prereq: TalentTree.Node.Prerequisite) {
+        if (!prereq) return undefined;
         switch (prereq.type) {
             case TalentTree.Node.Prerequisite.Type.Ancestry:
                 return prereq.ancestries;
@@ -305,6 +306,7 @@ export class EditNodePrerequisiteDialog extends ComponentHandlebarsApplicationMi
         }
     }
     private static getEnumAndValueList(prereq: TalentTree.Node.Prerequisite) {
+        if (!prereq) return undefined;
         switch (prereq.type) {
             case TalentTree.Node.Prerequisite.Type.Attribute:
                 return prereq.attributes;
