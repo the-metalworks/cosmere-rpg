@@ -31,6 +31,8 @@ export class EditNodePrerequisiteDialog extends ComponentHandlebarsApplicationMi
         },
         actions: {
             update: this.onUpdatePrerequisite,
+            'add-enum-value': this.onAddEnumValue,
+            'remove-enum-value': this.onRemoveEnumValue,
         },
     };
 
@@ -86,6 +88,8 @@ export class EditNodePrerequisiteDialog extends ComponentHandlebarsApplicationMi
     /* --- Actions --- */
 
     private static onUpdatePrerequisite(this: EditNodePrerequisiteDialog) {
+        this.updateEnumAndValueList();
+
         if (this.isItemListType()) {
             // Get the old prerequisite state
             const old = this.node.prerequisites.get(this.data.id)!;
@@ -143,6 +147,25 @@ export class EditNodePrerequisiteDialog extends ComponentHandlebarsApplicationMi
         void this.close();
     }
 
+    private static onAddEnumValue(this: EditNodePrerequisiteDialog) {
+        this.updateEnumAndValueList();
+        this.addEnumValue();
+        void this.render(true);
+    }
+
+    private static onRemoveEnumValue(
+        this: EditNodePrerequisiteDialog,
+        event: Event,
+        target: HTMLElement,
+    ) {
+        this.updateEnumAndValueList();
+        EditNodePrerequisiteDialog.getEnumAndValueList(this.data)!.splice(
+            parseInt(target.dataset.index!),
+            1,
+        );
+        void this.render(true);
+    }
+
     /* --- Form --- */
 
     protected static onFormEvent(
@@ -155,16 +178,20 @@ export class EditNodePrerequisiteDialog extends ComponentHandlebarsApplicationMi
 
         // Get type
         const type = formData.get('type') as TalentTree.Node.Prerequisite.Type;
+        const typeChanged = this.data.type !== type;
+        this.updateEnumAndValueList(formData);
         this.data.type = type;
 
         if (this.data.type === TalentTree.Node.Prerequisite.Type.Attribute) {
-            this.data.attribute = (formData.get('attribute') ??
-                Object.keys(CONFIG.COSMERE.attributes)[0]) as Attribute;
-            this.data.value = parseInt(formData.get('value') as string, 10);
+            this.data.attributes ??= [];
+            if (typeChanged && this.data.attributes.length === 0) {
+                this.addEnumValue();
+            }
         } else if (this.data.type === TalentTree.Node.Prerequisite.Type.Skill) {
-            this.data.skill = (formData.get('skill') ??
-                Object.keys(CONFIG.COSMERE.skills)[0]) as Skill;
-            this.data.rank = parseInt(formData.get('rank') as string, 10);
+            this.data.skills ??= [];
+            if (typeChanged && this.data.skills.length === 0) {
+                this.addEnumValue();
+            }
         } else if (
             this.data.type === TalentTree.Node.Prerequisite.Type.Talent
         ) {
@@ -197,6 +224,15 @@ export class EditNodePrerequisiteDialog extends ComponentHandlebarsApplicationMi
                 new RecordCollection<TalentTree.Node.Prerequisite.ItemRef>();
         }
 
+        if (
+            !typeChanged &&
+            (type === TalentTree.Node.Prerequisite.Type.Attribute ||
+                type === TalentTree.Node.Prerequisite.Type.Skill)
+        ) {
+            // Don't replace action buttons when a row input loses focus.
+            return;
+        }
+
         // Render
         void this.render(true);
     }
@@ -220,6 +256,7 @@ export class EditNodePrerequisiteDialog extends ComponentHandlebarsApplicationMi
 
     public _prepareContext(): Promise<AnyObject> {
         return Promise.resolve({
+            dialogId: this.id,
             editable: true,
             tree: this.tree,
             node: this.node,
@@ -249,6 +286,44 @@ export class EditNodePrerequisiteDialog extends ComponentHandlebarsApplicationMi
     }
 
     /* --- Helpers --- */
+
+    private updateEnumAndValueList(
+        formData = new foundry.applications.ux.FormDataExtended(
+            this.element.querySelector('form')!,
+        ),
+    ) {
+        if (this.data.type === TalentTree.Node.Prerequisite.Type.Attribute) {
+            this.data.attributes = this.data.attributes.map((_, index) => ({
+                key: formData.get(`attributes.${index}.key`) as Attribute,
+                value: parseInt(
+                    formData.get(`attributes.${index}.value`) as string,
+                    10,
+                ),
+            }));
+        } else if (this.data.type === TalentTree.Node.Prerequisite.Type.Skill) {
+            this.data.skills = this.data.skills.map((_, index) => ({
+                key: formData.get(`skills.${index}.key`) as Skill,
+                value: parseInt(
+                    formData.get(`skills.${index}.value`) as string,
+                    10,
+                ),
+            }));
+        }
+    }
+
+    private addEnumValue() {
+        if (this.data.type === TalentTree.Node.Prerequisite.Type.Attribute) {
+            this.data.attributes.push({
+                key: Object.keys(CONFIG.COSMERE.attributes)[0] as Attribute,
+                value: 0,
+            });
+        } else if (this.data.type === TalentTree.Node.Prerequisite.Type.Skill) {
+            this.data.skills.push({
+                key: Object.keys(CONFIG.COSMERE.skills)[0] as Skill,
+                value: 1,
+            });
+        }
+    }
 
     private getPrequisiteTypeSelectOptions() {
         return (

@@ -1788,7 +1788,8 @@
             "Title": "Configure Deflect: {actor}"
         },
         "EditTalentPrerequisite": {
-            "Title": "Edit Prerequisite"
+            "Title": "Edit Prerequisite",
+            "RemoveEnumValue": "Remove"
         },
         "ConfigureRoll": {
             "Title": "Configure Rolls",
