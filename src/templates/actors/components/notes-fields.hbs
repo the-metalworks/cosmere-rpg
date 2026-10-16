@@ -1,5 +1,6 @@
 <div class="html-field-list">
     {{#each @root.sections as |section|}}
+    {{#if (or @root.isObserver (lookup @root.visibility.limited section.id))}}
     {{#with (lookup @root.sectionState section.id) as |sectionState|}}
         <div class="html-field collapsible {{#if sectionState.expanded}}expanded{{/if}}" data-field-type="{{section.id}}">
             <h2 class="header">
@@ -19,5 +20,6 @@
             </div>
         </div>
     {{/with}}
+    {{/if}}
     {{/each}}
 </div>

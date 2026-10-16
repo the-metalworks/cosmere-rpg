@@ -28,9 +28,13 @@
         <div class="container" data-tooltip="{{deflectTooltip}}">
             <div class="background"></div>
             <div class="border"></div>
+            {{#if (or isObserver visibility.limited.defenses)}}
             {{#with actor.system.deflect as |deflect|}}
-            <span class="value">{{derived deflect}}</span>
+                <span class="value">{{derived deflect}}</span>
             {{/with}}
+            {{else}}
+                <span class="value">?</span>
+            {{/if}}
         </div>
         <span class="label">
             {{localize "COSMERE.Actor.Statistics.Deflect"}}
@@ -52,8 +56,12 @@
         <div class="container" data-tooltip="{{movementTooltip}}">
             <div class="background"></div>
             <div class="border"></div>
-            <span class="value">{{derived (lookup (lookup actor.system.movement preferredMovementType) "rate")}}</span>
-            <span class="unit">{{distanceUnit}}</span>
+            {{#if (or isObserver visibility.limited.attributes)}}
+                <span class="value">{{derived (lookup (lookup actor.system.movement preferredMovementType) "rate")}}</span>
+                <span class="unit">{{distanceUnit}}</span>
+            {{else}}
+                <span class="value">?</span>
+            {{/if}}
         </div>
         <span class="label">
             {{localize "COSMERE.Actor.Statistics.MovementRate"}}
@@ -73,7 +81,11 @@
         <div class="container">
             <div class="background"></div>
             <div class="border"></div>
-            <span class="value">{{derived actor.system.recovery.die}}</span>
+            {{#if (or isObserver visibility.limited.attributes)}}
+                <span class="value">{{derived actor.system.recovery.die}}</span>
+            {{else}}
+                <span class="value">?</span>
+            {{/if}}
         </div>
         <span class="label">
             {{localize "COSMERE.Actor.Statistics.RecoveryDie"}}
@@ -91,9 +103,13 @@
         <div class="container">
             <div class="background"></div>
             <div class="border"></div>
+            {{#if (or isObserver visibility.limited.defenses)}}
             {{#with actor.system.deflect as |deflect|}}
-            <span class="value">{{derived deflect}}</span>
+                <span class="value">{{derived deflect}}</span>
             {{/with}}
+            {{else}}
+                <span class="value">?</span>
+            {{/if}}
         </div>
         <span class="label">
             {{localize "COSMERE.Actor.Statistics.Deflect"}}
@@ -115,14 +131,18 @@
         <div class="container">
             <div class="background"></div>
             <div class="border"></div>
+            {{#if (or isObserver visibility.limited.defenses)}}
             {{#with (derived actor.system.senses.range) as |range|}}
             {{#if (isNumMaxSafeInt range)}}
-            <span class="value">—</span>
+                <span class="value">—</span>
             {{else}}
-            <span class="value">{{range}}</span>
-            <span class="unit">{{distanceUnit}}</span>
+                <span class="value">{{range}}</span>
+                <span class="unit">{{distanceUnit}}</span>
             {{/if}}
             {{/with}}
+            {{else}}
+                <span class="value">?</span>
+            {{/if}}
         </div>
         <span class="label">
             {{localize "COSMERE.Actor.Statistics.SensesRange"}}
@@ -141,10 +161,14 @@
         <div class="container">
             <div class="background"></div>
             <div class="border"></div>
+            {{#if (or isObserver visibility.limited.defenses)}}
             {{#with (derived actor.system.encumbrance.lift) as |lift|}}
-            <span class="value">{{lift}}</span>
-            <span class="unit">{{weightUnit}}</span>
+                <span class="value">{{lift}}</span>
+                <span class="unit">{{weightUnit}}</span>
             {{/with}}
+            {{else}}
+                <span class="value">?</span>
+            {{/if}}
         </div>
         <span class="label">
             {{localize "COSMERE.Actor.Statistics.LiftingCapactiy"}}

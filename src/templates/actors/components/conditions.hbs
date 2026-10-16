@@ -6,7 +6,7 @@
     </li>
     <div class="conditions-set {{#if editable}}editable{{/if}}">
         {{#each conditions as |condition|}}
-            <div class="condition {{#if condition.active}}active{{/if}} {{#if condition.stackable}}stackable{{/if}} {{#if condition.immune}}immune{{/if}}" 
+            <div class="condition {{#if condition.active}}active{{/if}} {{#if condition.stackable}}stackable{{/if}} {{#if @root.isObserver}}{{#if condition.immune}}immune{{/if}}{{/if}}" 
                 data-id="{{condition.id}}"
                 {{#if condition.description}}
                     data-tooltip="{{condition.description}}"

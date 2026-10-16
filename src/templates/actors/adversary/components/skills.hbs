@@ -32,7 +32,7 @@
         <div class="wrapper">
             {{#each skills as |skill|}}
             {{#if skill.active}}
-            <div class="pill" data-id="{{skill.id}}" data-action="roll-skill"
+            <div class="pill" data-id="{{skill.id}}" {{#if @root.isOwner}}data-action="roll-skill"{{/if}}
                 data-tooltip="{{localize skill.config.label}} ({{localize skill.attributeLabel}})">
                 <span class="name">{{localize skill.config.label}}</span>
                 <span class="separator">|</span>
