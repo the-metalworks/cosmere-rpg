@@ -818,16 +818,6 @@ Handlebars.registerHelper(
 );
 
 export async function preloadHandlebarsTemplates() {
-    const templates = Object.values(TEMPLATES).reduce(
-        (partials, path) => {
-            partials[path.split('/').pop()!.replace('.hbs', '')] =
-                `systems/${SYSTEM_ID}/templates/${path}`;
-            return partials;
-        },
-        {} as Record<string, string>,
-    );
-
-export async function preloadHandlebarsTemplates() {
     const templates = Object.values(TEMPLATES)
         .filter((path) => path.endsWith('.hbs'))
         .reduce(
