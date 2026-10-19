@@ -1,11 +1,11 @@
 <ul>
-    {{#each talents as |talent|}}
-    <li class="talent" data-id="{{talent.id}}">
+    {{#each items as |item|}}
+    <li class="talent" data-id="{{item.id}}">
         <div class="col link">
-            {{{talent.link}}}
+            {{{item.link}}}
         </div>
         <div class="col controls">
-            <a data-action="remove-talent"
+            <a data-action="remove-item"
                 data-tooltip="GENERIC.Button.Remove"
             >
                 <i class="fa-solid fa-trash"></i>
@@ -15,5 +15,5 @@
     {{/each}}
 </ul>
 <p>
-    {{localize "COSMERE.Item.Sheet.Talent.Prerequisites.DropTalents"}}
+    {{localize "COSMERE.Item.Sheet.Talent.Prerequisites.DropItems"}}
 </p>

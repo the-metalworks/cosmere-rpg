@@ -66,6 +66,15 @@ export namespace Node {
         export type TalentRef = ItemRef;
 
         export type GoalRef = ItemRef;
+
+        export interface EnumValue<Enum> {
+            key: Enum;
+            value: number;
+        }
+
+        export type AttributeValue = EnumValue<Attribute>;
+
+        export type SkillValue = EnumValue<Skill>;
     }
 
     interface BasePrerequisite<Type extends Prerequisite.Type> {
@@ -86,14 +95,12 @@ export namespace Node {
 
     export interface AttributePrerequisite
         extends BasePrerequisite<Prerequisite.Type.Attribute> {
-        attribute: Attribute;
-        value: number;
+        attributes: Prerequisite.AttributeValue[];
     }
 
     export interface SkillPrerequisite
         extends BasePrerequisite<Prerequisite.Type.Skill> {
-        skill: Skill;
-        rank: number;
+        skills: Prerequisite.SkillValue[];
     }
 
     export interface TalentPrerequisite
@@ -113,17 +120,17 @@ export namespace Node {
 
     export interface AncestryPrerequisite
         extends BasePrerequisite<Prerequisite.Type.Ancestry> {
-        ancestry: Prerequisite.ItemRef;
+        ancestries: Collection<Prerequisite.ItemRef>;
     }
 
     export interface CulturePrerequisite
         extends BasePrerequisite<Prerequisite.Type.Culture> {
-        culture: Prerequisite.ItemRef;
+        cultures: Collection<Prerequisite.ItemRef>;
     }
 
     export interface PowerPrerequisite
         extends BasePrerequisite<Prerequisite.Type.Power> {
-        power: Prerequisite.ItemRef;
+        powers: Collection<Prerequisite.ItemRef>;
     }
 
     export type Prerequisite =
