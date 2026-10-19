@@ -1,0 +1,4 @@
+allowBuilds:
+  '@parcel/watcher': true
+  classic-level: true
+blockExoticSubdeps: false
