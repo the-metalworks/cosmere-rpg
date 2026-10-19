@@ -62,8 +62,7 @@ export class NodePrerequisitesComponent extends HandlebarsApplicationComponent<
         const newRule: TalentTree.Node.Prerequisite = {
             id: foundry.utils.randomID(),
             type: TalentTree.Node.Prerequisite.Type.Attribute,
-            attribute: Attribute.Strength,
-            value: 1,
+            attributes: [{ key: Attribute.Strength, value: 1 }],
             managed: false,
         };
 
@@ -185,19 +184,27 @@ export class NodePrerequisitesComponent extends HandlebarsApplicationComponent<
 
             ...(rule.type === TalentTree.Node.Prerequisite.Type.Ancestry
                 ? {
-                      ancestry: await this.prepareRefContext(rule.ancestry),
+                      ancestries: await Promise.all(
+                          rule.ancestries.map(
+                              this.prepareRefContext.bind(this),
+                          ),
+                      ),
                   }
                 : {}),
 
             ...(rule.type === TalentTree.Node.Prerequisite.Type.Culture
                 ? {
-                      culture: await this.prepareRefContext(rule.culture),
+                      cultures: await Promise.all(
+                          rule.cultures.map(this.prepareRefContext.bind(this)),
+                      ),
                   }
                 : {}),
 
             ...(rule.type === TalentTree.Node.Prerequisite.Type.Power
                 ? {
-                      power: await this.prepareRefContext(rule.power),
+                      powers: await Promise.all(
+                          rule.powers.map(this.prepareRefContext.bind(this)),
+                      ),
                   }
                 : {}),
         };
