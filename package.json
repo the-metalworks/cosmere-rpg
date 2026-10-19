@@ -17,10 +17,9 @@
         "pack": "node ./scripts/pack",
         "unpack": "node ./scripts/unpack",
         "zip": "node ./scripts/zip",
-        "link-world-seed": "node ./scripts/link-world-seed",
-        "docker:up": "node ./world-seed/scripts/docker-up.js up -d",
-        "docker:down": "node ./world-seed/scripts/docker-up.js down",
-        "docker:signlicense": "node ./world-seed/scripts/docker-sign-license.js",
+        "docker:up": "world-seed up -d",
+        "docker:down": "world-seed down",
+        "docker:signlicense": "world-seed sign-license",
         "test": "npx playwright test -c src/tests/playwright.config.ts"
     },
     "devDependencies": {
@@ -34,6 +33,7 @@
         "@rollup/plugin-node-resolve": "^15.2.3",
         "@rollup/plugin-replace": "^5.0.7",
         "@rollup/plugin-typescript": "^11.1.6",
+        "@the-metalworks/docker-world-seed": "^1.0.1",
         "@types/eslint__js": "^8.42.3",
         "@types/jquery": "^3.5.30",
         "@types/node": "^20.14.15",
@@ -60,8 +60,8 @@
         "@pixi-essentials/svg": "^3.0.0",
         "@pixi/filter-drop-shadow": "^5.2.0",
         "@pixi/filter-glow": "^5.2.1",
-        "spark-md5": "^3.0.2",
-        "change-case": "^5.4.4"
+        "change-case": "^5.4.4",
+        "spark-md5": "^3.0.2"
     },
     "allowScripts": {
         "classic-level@1.4.1": true

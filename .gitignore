@@ -6,7 +6,7 @@ build/
 
 # Docker
 .docker-context/
-world-seed
+.world-seed
 
 # Playwright
 test-results/
