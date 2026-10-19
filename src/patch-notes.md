@@ -1,3 +1,22 @@
+### Patch 3.2.0
+<sup>2026-MM-DD</sup>
+
+Placeholder
+
+#### 🛠️ Full Changelog
+
+📝 **Features**
+
+* Placeholder
+
+🐛 **Bug Fixes**
+
+* Placeholder
+
+<br>
+
+----
+
 ### Patch 3.1.2
 <sup>2026-10-09</sup>
 
