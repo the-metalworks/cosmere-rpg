@@ -1,5 +1,12 @@
 import { TalentTree } from '@system/types/item';
-import { CosmereItem, GoalItem } from '@system/documents/item';
+import {
+    AncestryItem,
+    CosmereItem,
+    CultureItem,
+    GoalItem,
+    PowerItem,
+    TalentItem,
+} from '@system/documents/item';
 import { ConstructorOf } from '@system/types/utils';
 
 // Component imports
@@ -8,15 +15,17 @@ import { EditNodePrerequisiteDialog } from '../../dialogs/talent-tree/edit-node-
 
 // Mixins
 import { DragDropComponentMixin } from '@system/applications/mixins/drag-drop';
+import { Node } from '@src/system/types/item/talent-tree';
 
 // NOTE: Must use type here instead of interface as an interface doesn't match AnyObject type
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 type Params = {
     node: TalentTree.TalentNode;
-    goals: Collection<TalentTree.Node.Prerequisite.GoalRef>;
+    items: Collection<TalentTree.Node.Prerequisite.ItemRef>;
+    type: TalentTree.Node.Prerequisite.Type;
 };
 
-export class NodePrerequisiteGoalListComponent extends DragDropComponentMixin(
+export class NodePrerequisiteItemListComponent extends DragDropComponentMixin(
     HandlebarsApplicationComponent<
         // typeof EditNodePrerequisiteDialog,
         // TODO: Resolve typing issues
@@ -27,7 +36,7 @@ export class NodePrerequisiteGoalListComponent extends DragDropComponentMixin(
     >,
 ) {
     static readonly TEMPLATE =
-        'systems/cosmere-rpg/templates/item/talent-tree/components/prerequisite-goal-list.hbs';
+        'systems/cosmere-rpg/templates/item/talent-tree/components/prerequisite-item-list.hbs';
 
     /**
      * NOTE: Unbound methods is the standard for defining actions
@@ -35,7 +44,7 @@ export class NodePrerequisiteGoalListComponent extends DragDropComponentMixin(
      */
     /* eslint-disable @typescript-eslint/unbound-method */
     static ACTIONS = {
-        'remove-goal': this.onRemoveGoal,
+        'remove-item': this.onRemoveItem,
     };
     /* eslint-enable @typescript-eslint/unbound-method */
 
@@ -51,24 +60,24 @@ export class NodePrerequisiteGoalListComponent extends DragDropComponentMixin(
         return this.params!.node;
     }
 
-    public get goals() {
-        return this.params!.goals;
+    public get items() {
+        return this.params!.items;
     }
 
     /* --- Actions --- */
 
-    private static onRemoveGoal(
-        this: NodePrerequisiteGoalListComponent,
+    private static onRemoveItem(
+        this: NodePrerequisiteItemListComponent,
         event: Event,
     ) {
-        // Get goal element
-        const el = $(event.currentTarget!).closest('.goal');
+        // Get talent element
+        const el = $(event.currentTarget!).closest('.talent');
 
         // Get id
         const id = el.data('id') as string;
 
-        // Remove goal
-        this.goals.delete(id);
+        // Remove item
+        this.items.delete(id);
 
         // Dispatch change event
         this.element!.dispatchEvent(new Event('change'));
@@ -94,35 +103,66 @@ export class NodePrerequisiteGoalListComponent extends DragDropComponentMixin(
         if (data.type !== 'Item') return;
 
         // Get document
-        const item = (await fromUuid(data.uuid))! as unknown as CosmereItem;
+        const item = (await fromUuid(data.uuid))! as unknown as
+            | AncestryItem
+            | CultureItem
+            | GoalItem
+            | PowerItem
+            | TalentItem;
 
-        // Check if document is a goal
-        if (!item.isGoal()) return;
+        // Check if document is the correct type for the prerequisite rule
+        switch (this.params?.type) {
+            case Node.Prerequisite.Type.Ancestry:
+                if (!item.isAncestry()) return;
+                break;
+            case Node.Prerequisite.Type.Culture:
+                if (!item.isCulture()) return;
+                break;
+            case Node.Prerequisite.Type.Goal:
+                if (!item.isGoal()) return;
+                break;
+            case Node.Prerequisite.Type.Power:
+                if (!item.isPower()) return;
+                break;
+            case Node.Prerequisite.Type.Talent:
+                if (!item.isTalent()) return;
 
-        // Check if a goal with the same ID is already in the list
-        const duplicateRef = this.goals.find(
+                // Check if the talent is the same as the root talent
+                if (item.system.id === this.node.talentId) {
+                    return ui.notifications.warn(
+                        game.i18n.localize(
+                            'GENERIC.Warning.TalentCannotBePrerequisiteOfItself',
+                        ),
+                    );
+                }
+
+                break;
+        }
+
+        // Check if an item with the same ID is already in the list
+        const duplicateRef = this.items.find(
             (ref) => ref.id === item.system.id,
         );
         if (duplicateRef) {
-            // Retrieve duplicate goal
+            // Retrieve duplicate talent
             const duplicate = (await fromUuid(
                 duplicateRef.uuid,
-            ))! as unknown as GoalItem;
+            ))! as unknown as TalentItem;
 
             // Show a warning
             return ui.notifications.warn(
                 game.i18n.format(
-                    'GENERIC.Warning.DuplicatePrerequisiteGoalRef',
+                    'GENERIC.Warning.DuplicatePrerequisiteTalentRef',
                     {
-                        goalId: duplicate.system.id,
-                        goalName: duplicate.name,
+                        talentId: duplicate.system.id,
+                        talentName: duplicate.name,
                     },
                 ),
             );
         }
 
-        // Add goal to the list
-        this.goals.set(item.system.id, {
+        // Add talent to the list
+        this.items.set(item.system.id, {
             id: item.system.id,
             uuid: item.uuid,
             label: item.name,
@@ -139,7 +179,7 @@ export class NodePrerequisiteGoalListComponent extends DragDropComponentMixin(
 
     public async _prepareContext(params: Params, context: never) {
         // Construct content links
-        const contentLinks = this.goals.map(
+        const contentLinks = this.items.map(
             (ref) => `@UUID[${ref.uuid}]{${ref.label}}`,
         );
 
@@ -154,7 +194,7 @@ export class NodePrerequisiteGoalListComponent extends DragDropComponentMixin(
 
         return {
             ...params,
-            goals: this.goals.map(({ id }, index) => ({
+            items: this.items.map(({ id }, index) => ({
                 id,
                 link: enrichedLinks[index],
             })),
@@ -163,4 +203,4 @@ export class NodePrerequisiteGoalListComponent extends DragDropComponentMixin(
 }
 
 // Register the component
-NodePrerequisiteGoalListComponent.register('app-node-prerequisite-goal-list');
+NodePrerequisiteItemListComponent.register('app-node-prerequisite-item-list');
