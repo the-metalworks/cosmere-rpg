@@ -2,52 +2,61 @@ import { SETTINGS } from '@src/system/settings';
 import { SYSTEM_ID } from '../constants';
 
 const baseVisibility = [
-    'attributes',
-    'defenses',
-    'level',
-    'resources',
-    'skills',
-    'expertises',
-    'immunities',
-    'notesTab',
-    'appearance',
-    'biography',
-    'notes',
-    'equipmentTab',
-    'effectsTab',
+    { key: 'attributes', order: 10 },
+    { key: 'defenses', order: 20 },
+    { key: 'level', order: 30 },
+    { key: 'resources', order: 40 },
+    { key: 'skills', order: 50 },
+    { key: 'expertises', order: 60 },
+    { key: 'immunities', order: 70 },
+    { key: 'notesTab', order: 150 },
+    { key: 'appearance', order: 151 },
+    { key: 'biography', order: 152 },
+    { key: 'notes', order: 153 },
+    { key: 'equipmentTab', order: 130 },
+    { key: 'effectsTab', order: 160 },
 ] as const;
 
 const characterVisibility = [
-    ...baseVisibility,
-    'actionsTab',
-    'talentsTab',
-    'goalsTab',
-    'ancestry',
-    'culture',
-    'path',
+    { key: 'ancestry', order: 80 },
+    { key: 'culture', order: 90 },
+    { key: 'path', order: 100 },
+    { key: 'actionsTab', order: 110 },
+    { key: 'talentsTab', order: 120 },
+    { key: 'goalsTab', order: 140 },
 ] as const;
 
-const adversaryVisibility = [...baseVisibility, 'features', 'actions'] as const;
+const adversaryVisibility = [
+    { key: 'features', order: 75 },
+    { key: 'actions', order: 76 },
+] as const;
 
-type CharacterVisibility = (typeof characterVisibility)[number];
-type AdversaryVisibility = (typeof adversaryVisibility)[number];
+type BaseVisibility = (typeof baseVisibility)[number]['key'];
+type CharacterVisibility = (typeof characterVisibility)[number]['key'];
+type AdversaryVisibility = (typeof adversaryVisibility)[number]['key'];
 
 interface visibilitySettings {
     limited: {
-        character: Partial<Record<CharacterVisibility, boolean>>;
-        adversary: Partial<Record<AdversaryVisibility, boolean>>;
+        character: Partial<
+            Record<BaseVisibility | CharacterVisibility, boolean>
+        >;
+        adversary: Partial<
+            Record<BaseVisibility | AdversaryVisibility, boolean>
+        >;
     };
 }
 
 // This gives us a list of all settings with a default of false.
 const allVisibilitySettings = {
     limited: {
-        character: Object.fromEntries(
-            characterVisibility.map((key) => [key, false]),
-        ),
-        adversary: Object.fromEntries(
-            adversaryVisibility.map((key) => [key, false]),
-        ),
+        character: Object.fromEntries([
+            ...baseVisibility.map((entry) => [entry.key, false]),
+            ...characterVisibility.map((entry) => [entry.key, false]),
+        ]) as [key: string, boolean][],
+        adversary: Object.fromEntries([
+            ...baseVisibility.map((entry) => [entry.key, false]),
+            ...adversaryVisibility.map((entry) => [entry.key, false]),
+        ]) as [key: string, boolean][],
     },
 };
 
@@ -187,44 +196,58 @@ export class OwnershipVisibilityMenu extends HandlebarsApplicationMixin(
     ) {
         const context = await super._prepareContext(options);
 
-        const visibility = getOwnershipVisibility();
+        const visibilityKeySorted = [
+            ...baseVisibility,
+            ...adversaryVisibility,
+            ...characterVisibility,
+        ].sort((a, b) => a.order - b.order);
 
-        const keys = [
-            ...new Set([
-                ...Object.keys(visibility.limited.character),
-                ...Object.keys(visibility.limited.adversary),
-            ]),
-        ];
+        const visibilityData = getOwnershipVisibility();
 
-        const characterRecord = visibility.limited.character as Record<
+        const characterRecord = visibilityData.limited.character as Record<
             string,
             boolean
         >;
-        const adversaryRecord = visibility.limited.adversary as Record<
+        const adversaryRecord = visibilityData.limited.adversary as Record<
             string,
             boolean
         >;
 
-        const settings = keys.map((key) => ({
-            key,
+        const settings = visibilityKeySorted.map((setting) => ({
+            key: setting.key,
 
             name: game.i18n.format(
                 'SETTINGS.ownershipVisibilityMenu.options.name',
-                { label: key },
+                {
+                    // This regex translates camel case into how one would read it normally
+                    label: setting.key
+                        .replace(/([a-z])([A-Z])/g, '$1 $2')
+                        .toLowerCase(),
+                },
             ),
             hint: game.i18n.format(
                 'SETTINGS.ownershipVisibilityMenu.options.hint',
-                { label: key },
+                {
+                    label: setting.key
+                        .replace(/([a-z])([A-Z])/g, '$1 $2')
+                        .toLowerCase(),
+                },
             ),
 
             character: {
-                available: Object.hasOwn(visibility.limited.character, key),
-                value: characterRecord[key] ?? false,
+                available: Object.hasOwn(
+                    visibilityData.limited.character,
+                    setting.key,
+                ),
+                value: characterRecord[setting.key] ?? false,
             },
 
             adversary: {
-                available: Object.hasOwn(visibility.limited.adversary, key),
-                value: adversaryRecord[key] ?? false,
+                available: Object.hasOwn(
+                    visibilityData.limited.adversary,
+                    setting.key,
+                ),
+                value: adversaryRecord[setting.key] ?? false,
             },
         }));
         return Promise.resolve({
