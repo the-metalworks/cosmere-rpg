@@ -1290,8 +1290,7 @@
                         "Connection": "Connection",
                         "ConnectionDescription": "Description",
                         "ConnectionDescriptionPlaceholder": "Connection Description",
-                        "DropTalents": "Drop Talents here to add them to the list.",
-                        "DropGoals": "Drop Goals here to add them to the list."
+                        "DropItems": "Drop items here to add them to the list."
                     },
                     "GrantRules": {
                         "Description": "Description",
@@ -1787,7 +1786,8 @@
             "Title": "Configure Deflect: {actor}"
         },
         "EditTalentPrerequisite": {
-            "Title": "Edit Prerequisite"
+            "Title": "Edit Prerequisite",
+            "RemoveEnumValue": "Remove"
         },
         "ConfigureRoll": {
             "Title": "Configure Rolls",
