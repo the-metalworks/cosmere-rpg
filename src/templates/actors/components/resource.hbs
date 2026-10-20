@@ -55,7 +55,7 @@
                 <div class="inner-bar" style="width: {{perc resource.value resource.max}};"></div>
             </div>
             <div class="border"></div>
-            {{#if (or isObserver visibility.limited.resources)}}
+            {{#if (or isObserver visibility.limited.resourceValues)}}
             <div class="value">
                 <span class="current">{{resource.value}}</span>
                 <span class="delim">/</span>

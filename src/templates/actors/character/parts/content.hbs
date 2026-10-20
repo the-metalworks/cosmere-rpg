@@ -3,9 +3,11 @@
         {{app-actor-details}}
         <div class="scroll-container">
             <div class="scroll-body">
+                {{#if (or isObserver visibility.limited.resourceBars)}}
                 {{#each @root.resources as |resourceId|}}
                 {{app-actor-resource resource=resourceId}}
                 {{/each}}
+                {{/if}}
                 {{#if (or isObserver visibility.limited.expertises)}}
                 {{app-expertises-list}}
                 {{/if}}

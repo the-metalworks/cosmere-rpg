@@ -2106,91 +2106,11 @@
             },
             "options": {
                 "name": "Show {label}",
-                "hint": "Allow users to see the {label} of actor sheets."
+                "hint": "Shows {label} of selected actor sheets."
             },
-            "attributes": {
-                "name": "Show attributes",
-                "hint": "Allows users to see the attributes of actor sheets"
-            },
-            "defenses": {
-                "name": "Show defenses",
-                "hint": "Allows users to see the defenses of actor sheets"
-            },
-            "level": {
-                "name": "Show level",
-                "hint": "Allows users to see the level of actor sheets"
-            },
-            "resources": {
-                "name": "Show resources",
-                "hint": "Allows users to see the exact value of health, focus and other resources of actor sheets"
-            },
-            "skills": {
-                "name": "Show skills",
-                "hint": "Allows users to see the skills of actor sheets"
-            },
-            "expertises": {
-                "name": "Show expertises",
-                "hint": "Allows users to see the expertises of actor sheets"
-            },
-            "immunities": {
-                "name": "Show immunities",
-                "hint": "Allows users to see the immunities of actor sheets"
-            },
-            "ancestry": {
-                "name": "Show ancestry",
-                "hint": "Allows users to see the ancestry of actor sheets"
-            },
-            "culture": {
-                "name": "Show culture",
-                "hint": "Allows users to see the culture of actor sheets"
-            },
-            "path": {
-                "name": "Show path",
-                "hint": "Allows users to see the path of actor sheets"
-            },
-            "talentsTab": {
-                "name": "Show talents tab",
-                "hint": "Allows users to see the talents tab of actor sheets"
-            },
-            "actionsTab": {
-                "name": "Show actions tab",
-                "hint": "Allows users to see the actions tab of actor sheets"
-            },
-            "equipmentTab": {
-                "name": "Show equipment tab",
-                "hint": "Allows users to see the equipment tab of actor sheets"
-            },
-            "goalsTab": {
-                "name": "Show goals tab",
-                "hint": "Allows users to see the goals tab of actor sheets"
-            },
-            "notesTab": {
-                "name": "Show notes tab",
-                "hint": "Allows users to see the notes tab of actor sheets"
-            },
-            "appearance": {
-                "name": "Show appearance",
-                "hint": "Allows users to see the appearance text of actor sheets"
-            },
-            "biography": {
-                "name": "Show biography",
-                "hint": "Allows users to see the biography text of actor sheets"
-            },
-            "notes": {
-                "name": "Show notes",
-                "hint": "Allows users to see the notes text of actor sheets"
-            },
-            "effectsTab": {
-                "name": "Show effects tab",
-                "hint": "Allows users to see the effects tab of actor sheets"
-            },
-            "features": {
-                "name": "Show adversary features",
-                "hint": "Allows users to see the adversary features of adversary sheets"
-            },
-            "actions": {
-                "name": "Show adversary actions",
-                "hint": "Allows users to see the actions of adversary sheets"
+            "resourceBars": {
+                "name": "Show {label}",
+                "hint": "Shows the health, focus and investiture bars. Overrides setting below if turned off"
             }
         }
     },

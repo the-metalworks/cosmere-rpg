@@ -1,34 +1,38 @@
 import { SETTINGS } from '@src/system/settings';
 import { SYSTEM_ID } from '../constants';
 
+/**
+ * Generic means whether or not it uses the generic setting name and hint
+ */
 const baseVisibility = [
-    { key: 'attributes', order: 10 },
-    { key: 'defenses', order: 20 },
-    { key: 'level', order: 30 },
-    { key: 'resources', order: 40 },
-    { key: 'skills', order: 50 },
-    { key: 'expertises', order: 60 },
-    { key: 'immunities', order: 70 },
-    { key: 'notesTab', order: 150 },
-    { key: 'appearance', order: 151 },
-    { key: 'biography', order: 152 },
-    { key: 'notes', order: 153 },
-    { key: 'equipmentTab', order: 130 },
-    { key: 'effectsTab', order: 160 },
+    { key: 'attributes', order: 10, generic: true },
+    { key: 'defenses', order: 20, generic: true },
+    { key: 'level', order: 30, generic: true },
+    { key: 'resourceBars', order: 39, generic: false },
+    { key: 'resourceValues', order: 40, generic: true },
+    { key: 'skills', order: 50, generic: true },
+    { key: 'expertises', order: 60, generic: true },
+    { key: 'immunities', order: 70, generic: true },
+    { key: 'notesTab', order: 150, generic: true },
+    { key: 'appearance', order: 151, generic: true },
+    { key: 'biography', order: 152, generic: true },
+    { key: 'notes', order: 153, generic: true },
+    { key: 'equipmentTab', order: 130, generic: true },
+    { key: 'effectsTab', order: 160, generic: true },
 ] as const;
 
 const characterVisibility = [
-    { key: 'ancestry', order: 80 },
-    { key: 'culture', order: 90 },
-    { key: 'path', order: 100 },
-    { key: 'actionsTab', order: 110 },
-    { key: 'talentsTab', order: 120 },
-    { key: 'goalsTab', order: 140 },
+    { key: 'ancestry', order: 80, generic: true },
+    { key: 'culture', order: 90, generic: true },
+    { key: 'path', order: 100, generic: true },
+    { key: 'actionsTab', order: 110, generic: true },
+    { key: 'talentsTab', order: 120, generic: true },
+    { key: 'goalsTab', order: 140, generic: true },
 ] as const;
 
 const adversaryVisibility = [
-    { key: 'features', order: 75 },
-    { key: 'actions', order: 76 },
+    { key: 'features', order: 75, generic: true },
+    { key: 'actions', order: 76, generic: true },
 ] as const;
 
 type BaseVisibility = (typeof baseVisibility)[number]['key'];
@@ -69,6 +73,7 @@ const baseActorSheetVisibility = {
     attributes: true,
     defenses: true,
     level: true,
+    resourceBars: true,
     expertises: true,
     appearance: true,
     // Tabs
@@ -217,16 +222,20 @@ export class OwnershipVisibilityMenu extends HandlebarsApplicationMixin(
             key: setting.key,
 
             name: game.i18n.format(
-                'SETTINGS.ownershipVisibilityMenu.options.name',
+                !setting.generic
+                    ? `SETTINGS.ownershipVisibilityMenu.${setting.key}.name`
+                    : 'SETTINGS.ownershipVisibilityMenu.options.name',
                 {
-                    // This regex translates camel case into how one would read it normally
+                    // Converts camel case into normal spacing
                     label: setting.key
                         .replace(/([a-z])([A-Z])/g, '$1 $2')
                         .toLowerCase(),
                 },
             ),
             hint: game.i18n.format(
-                'SETTINGS.ownershipVisibilityMenu.options.hint',
+                !setting.generic
+                    ? `SETTINGS.ownershipVisibilityMenu.${setting.key}.hint`
+                    : 'SETTINGS.ownershipVisibilityMenu.options.hint',
                 {
                     label: setting.key
                         .replace(/([a-z])([A-Z])/g, '$1 $2')
