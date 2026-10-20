@@ -2104,6 +2104,10 @@
                 "name": "Ownership Visibility Menu",
                 "hint": "Configure what a user with limited ownership sees on character/adversary sheets"
             },
+            "options": {
+                "name": "Show {label}",
+                "hint": "Allow users to see the {label} of actor sheets."
+            },
             "attributes": {
                 "name": "Show attributes",
                 "hint": "Allows users to see the attributes of actor sheets"

@@ -1,58 +1,90 @@
-import { DEFAULT_OWNERSHIP_VISIBILITY, SETTINGS } from '@src/system/settings';
+import { SETTINGS } from '@src/system/settings';
 import { SYSTEM_ID } from '../constants';
 
-export interface visibilitySettings {
+const baseVisibility = [
+    'attributes',
+    'defenses',
+    'level',
+    'resources',
+    'skills',
+    'expertises',
+    'immunities',
+    'notesTab',
+    'appearance',
+    'biography',
+    'notes',
+    'equipmentTab',
+    'effectsTab',
+] as const;
+
+const characterVisibility = [
+    ...baseVisibility,
+    'actionsTab',
+    'talentsTab',
+    'goalsTab',
+    'ancestry',
+    'culture',
+    'path',
+] as const;
+
+const adversaryVisibility = [...baseVisibility, 'features', 'actions'] as const;
+
+type CharacterVisibility = (typeof characterVisibility)[number];
+type AdversaryVisibility = (typeof adversaryVisibility)[number];
+
+interface visibilitySettings {
     limited: {
-        character: {
-            // Details Section
-            attributes: boolean;
-            defenses: boolean;
-            level: boolean;
-            resources: boolean;
-            skills: boolean;
-            expertises: boolean;
-            immunities: boolean;
-            ancestry: boolean;
-            culture: boolean;
-            path: boolean;
-            // Talents Section
-            talentsTab: boolean;
-            // Actions Section
-            actionsTab: boolean;
-            // Equipment Section
-            equipmentTab: boolean;
-            // Goals Section
-            goalsTab: boolean;
-            // Notes Section
-            notesTab: boolean;
-            appearance: boolean;
-            biography: boolean;
-            notes: boolean;
-            // Effects Section
-            effectsTab: boolean;
-        };
-        adversary: {
-            // Details Section
-            attributes: boolean;
-            defenses: boolean;
-            level: boolean;
-            skills: boolean;
-            expertises: boolean;
-            immunities: boolean;
-            features: boolean;
-            actions: boolean;
-            // Equipment Section
-            equipmentTab: boolean;
-            // Notes Section
-            notesTab: boolean;
-            appearance: boolean;
-            biography: boolean;
-            notes: boolean;
-            // Effects Section
-            effectsTab: boolean;
-        };
+        character: Partial<Record<CharacterVisibility, boolean>>;
+        adversary: Partial<Record<AdversaryVisibility, boolean>>;
     };
 }
+
+// This gives us a list of all settings with a default of false.
+const allVisibilitySettings = {
+    limited: {
+        character: Object.fromEntries(
+            characterVisibility.map((key) => [key, false]),
+        ),
+        adversary: Object.fromEntries(
+            adversaryVisibility.map((key) => [key, false]),
+        ),
+    },
+};
+
+/**
+ * Default values for actor visibility settings
+ * Note that we need to define all of the settings here so they are
+ */
+const baseActorSheetVisibility = {
+    // Sections
+    attributes: true,
+    defenses: true,
+    level: true,
+    expertises: true,
+    appearance: true,
+    // Tabs
+    notesTab: true,
+    effectsTab: true,
+};
+
+/**
+ * The default settings for visibility settings. This is used to reset to default.
+ */
+export const defaultSheetVisibility: visibilitySettings = {
+    limited: {
+        character: {
+            ...baseActorSheetVisibility,
+
+            ancestry: true,
+            culture: true,
+            path: true,
+        },
+
+        adversary: {
+            ...baseActorSheetVisibility,
+        },
+    },
+};
 
 /**
  * This combines the default settings with the saved settings should they exist.
@@ -66,12 +98,16 @@ export function getOwnershipVisibility(): visibilitySettings {
         SETTINGS.LIMITED_VISIBILITY,
     ) as visibilitySettings;
 
-    // Merges the default settings with the saved settings
-    // This is because if we ever add more settings, the data model gets updated.
+    // Merges all settings with default settings, letting default override.
+    // This is because if we ever add more settings, the data model gets updated properly
     const visibility = foundry.utils.mergeObject(
-        foundry.utils.deepClone(DEFAULT_OWNERSHIP_VISIBILITY),
-        savedVisibility,
+        foundry.utils.deepClone(allVisibilitySettings),
+        defaultSheetVisibility,
     ) as visibilitySettings;
+
+    // This merges all settings with defaults applied with the existing settings
+    // This will fill all the remaining gaps should there be any without overwriting any existing settings
+    foundry.utils.mergeObject(visibility, savedVisibility);
 
     return visibility;
 }
@@ -126,7 +162,7 @@ export class OwnershipVisibilityMenu extends HandlebarsApplicationMixin(
         await game.settings.set(
             SYSTEM_ID,
             SETTINGS.LIMITED_VISIBILITY,
-            DEFAULT_OWNERSHIP_VISIBILITY,
+            defaultSheetVisibility,
         );
         await this.close();
     }
@@ -172,8 +208,14 @@ export class OwnershipVisibilityMenu extends HandlebarsApplicationMixin(
         const settings = keys.map((key) => ({
             key,
 
-            name: `SETTINGS.ownershipVisibilityMenu.${key}.name`,
-            hint: `SETTINGS.ownershipVisibilityMenu.${key}.hint`,
+            name: game.i18n.format(
+                'SETTINGS.ownershipVisibilityMenu.options.name',
+                { label: key },
+            ),
+            hint: game.i18n.format(
+                'SETTINGS.ownershipVisibilityMenu.options.hint',
+                { label: key },
+            ),
 
             character: {
                 available: Object.hasOwn(visibility.limited.character, key),

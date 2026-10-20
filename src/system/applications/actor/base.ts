@@ -28,11 +28,7 @@ import {
 // Components
 import { SortMode, SearchBarInputEvent } from './components';
 import { renderSystemTemplate, TEMPLATES } from '@src/system/utils/templates';
-import { getSystemSetting, SETTINGS } from '@src/system/settings';
-import {
-    getOwnershipVisibility,
-    visibilitySettings,
-} from '../ownershipVisibilityMenu';
+import { getOwnershipVisibility } from '../ownership-visibility-menu';
 
 const { ActorSheetV2 } = foundry.applications.sheets;
 

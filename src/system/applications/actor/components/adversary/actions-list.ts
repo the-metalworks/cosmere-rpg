@@ -17,7 +17,7 @@ import {
 import { SortMode } from '../search-bar';
 import { AppContextMenu } from '@src/system/applications/utils/context-menu';
 import { CosmereActor } from '@src/system/documents';
-import { getOwnershipVisibility } from '@src/system/applications/ownershipVisibilityMenu';
+import { getOwnershipVisibility } from '@src/system/applications/ownership-visibility-menu';
 
 // Constants
 

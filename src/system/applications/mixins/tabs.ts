@@ -4,10 +4,7 @@ import { AnyObject, ConstructorOf } from '@system/types/utils';
 import { ComponentHandlebarsApplication } from '../component-system/mixin';
 import { SYSTEM_ID } from '@src/system/constants';
 import { SETTINGS } from '@src/system/settings';
-import {
-    getOwnershipVisibility,
-    visibilitySettings,
-} from '../ownershipVisibilityMenu';
+import { getOwnershipVisibility } from '../ownership-visibility-menu';
 import { CosmereActor } from '@src/system/documents';
 
 // Constants
