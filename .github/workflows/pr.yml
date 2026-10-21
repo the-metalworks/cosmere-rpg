@@ -38,7 +38,7 @@ jobs:
       run: npm run build:pack
 
     - name: Upload build output
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: system-build
         path: build/
