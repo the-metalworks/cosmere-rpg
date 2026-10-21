@@ -1,6 +1,7 @@
 /* --- Starter rule styling --- */
 
 import { COMPENDIUMS } from '@system/constants';
+import { removeAllHtmlTags } from '../utils/generic';
 
 Hooks.on('renderJournalEntrySheet', (app, html) => {
     const entry = app.document;
@@ -89,7 +90,9 @@ Hooks.on('renderJournalEntryPageSheet', (app, html) => {
                     header.text('');
 
                     // Append the header text as span
-                    header.append(`<span>${headerText}</span>`);
+                    header.append(
+                        `<span>${removeAllHtmlTags(headerText)}</span>`,
+                    );
                 }
 
                 // Append the link to the header
