@@ -14,7 +14,7 @@ jobs:
     steps:
 
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
 
     - name: Setup Node.js
       uses: actions/setup-node@v4
@@ -42,7 +42,7 @@ jobs:
       run: npx playwright install --with-deps chromium
 
     - name: Log in to GitHub Container Registry
-      uses: docker/login-action@v3
+      uses: docker/login-action@v7
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
