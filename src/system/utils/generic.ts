@@ -14,6 +14,22 @@ import { NONE, type Noneable } from '../types/utils';
 const HTML_TAG_REGEX = /<[^>]+>/g;
 
 /**
+ * Strips html tags from a given string.
+ * @param htmlString The HTML string to check.
+ * @returns The version of htmlString with all tags removed.
+ */
+export function removeAllHtmlTags(htmlString: string): string {
+    // Remove HTML tags and trim whitespace, looping to prevent nested matches
+    let content;
+    do {
+        content = htmlString;
+        htmlString = htmlString.replace(HTML_TAG_REGEX, '');
+    } while (htmlString !== content);
+
+    return content;
+}
+
+/**
  * Checks if a given HTML string has any content or is just whitespace.
  * @param htmlString The HTML string to check.
  * @returns True if the HTML string has content, false otherwise.
@@ -23,7 +39,7 @@ export function htmlStringHasContent(htmlString: string | undefined): boolean {
     if (!htmlString) return false;
 
     // Remove HTML tags and trim whitespace
-    const content = htmlString.replace(HTML_TAG_REGEX, '').trim();
+    const content = removeAllHtmlTags(htmlString).trim();
     // Check if the content is not empty
     return content.length > 0;
 }
@@ -112,8 +128,7 @@ export function determineConfigurationMode(
 ): ConfigurationMode;
 export function determineConfigurationMode(
     ...args:
-        | [CosmereItem.UseOptions?]
-        | [boolean?, boolean?, boolean?, boolean?]
+        [CosmereItem.UseOptions?] | [boolean?, boolean?, boolean?, boolean?]
 ): ConfigurationMode {
     const useOptions =
         args.length === 1
