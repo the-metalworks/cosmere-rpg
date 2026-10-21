@@ -16,7 +16,7 @@ jobs:
     steps:
 
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
 
     - name: Setup Node.js
       uses: actions/setup-node@v4
@@ -40,7 +40,7 @@ jobs:
       run: npx playwright install --with-deps chromium
 
     - name: Checkout world seed
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
       with:
         repository: the-metalworks/docker-world-seed
         token: ${{ secrets.WORLD_SEED_REPO_PAT }}
