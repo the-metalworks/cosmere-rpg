@@ -5,7 +5,8 @@ on:
   pull_request:
     branches:
       - main
-
+permissions:
+  contents: read
 jobs:
   validate:
     if: startsWith(github.head_ref, 'release-')

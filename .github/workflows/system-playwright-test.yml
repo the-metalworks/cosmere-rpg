@@ -8,6 +8,8 @@ on:
     secrets:
       FOUNDRY_LICENSE_JSON:
         required: true
+permissions:
+  contents: read
 jobs:
   playwright:
     runs-on: ubuntu-latest
