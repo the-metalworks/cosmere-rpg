@@ -1,6 +1,8 @@
 name: "PR Validation"
 run-name: "Validation for PR #${{ github.event.pull_request.number }}"
 on: [pull_request, workflow_dispatch]
+permissions:
+  contents: read
 jobs:
   lint:
     name: Execute ESLint
@@ -21,6 +23,8 @@ jobs:
   build:
     name: Build System
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
     - name: Checkout
       uses: actions/checkout@v7
