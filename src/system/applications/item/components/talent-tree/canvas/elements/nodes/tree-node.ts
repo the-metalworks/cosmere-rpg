@@ -20,7 +20,7 @@ import { SUB_GRID_SIZE } from '../../../constants';
 class Layer<
     T extends PIXI.DisplayObject = PIXI.DisplayObject,
 > extends Drawable {
-    public declare children: T[];
+    declare public children: T[];
 
     public constructor(canvas: PIXICanvasApplication, zIndex: number) {
         super(canvas);
@@ -144,8 +144,8 @@ class TreeBackground extends Drawable {
 
 export class TalentTreeNode extends BaseNode {
     // Redeclare data type
-    public declare readonly data: TalentTree.TreeNode & { isRoot?: boolean };
-    public declare readonly canvas: PIXICanvasApplication<
+    declare public readonly data: TalentTree.TreeNode & { isRoot?: boolean };
+    declare public readonly canvas: PIXICanvasApplication<
         typeof TalentTreeWorld
     >;
 
