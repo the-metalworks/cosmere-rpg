@@ -108,8 +108,8 @@ export const DYNAMIC_SECTIONS: Record<string, DynamicItemListSectionGenerator> =
                                     },
                                 },
                                 { parent },
-                            ) as Promise<CosmereItem>,
-                    } as ItemListSection;
+                            ),
+                    };
                 }),
                 ...powersWithChildren.map((power) => ({
                     id: power.system.id,
@@ -217,7 +217,7 @@ export const DYNAMIC_SECTIONS: Record<string, DynamicItemListSectionGenerator> =
                                 },
                             },
                             { parent },
-                        ) as Promise<CosmereItem>,
+                        ),
                 },
             ];
         },
@@ -404,7 +404,7 @@ export class ActorTalentsListComponent extends ActorItemListComponent {
         if (this.application.isEditable) {
             // Create context menu
             AppContextMenu.create({
-                parent: this as AppContextMenu.Parent,
+                parent: this,
                 items: (element) => {
                     // Get item id
                     const itemId = $(element)

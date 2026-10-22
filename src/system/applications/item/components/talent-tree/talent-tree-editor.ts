@@ -141,10 +141,8 @@ export class TalentTreeEditorComponent extends TalentTreeViewComponent {
         const item = await fromUuid<CosmereItem>(data.uuid);
 
         // Handle item
-        if (item?.isTalent())
-            await this.onDropTalent(event, item as TalentItem);
-        else if (item?.isTalentTree())
-            await this.onDropTalentTree(event, item as TalentTreeItem);
+        if (item?.isTalent()) await this.onDropTalent(event, item);
+        else if (item?.isTalentTree()) await this.onDropTalentTree(event, item);
 
         // Refresh tree
         await this.canvasTree!.refresh();

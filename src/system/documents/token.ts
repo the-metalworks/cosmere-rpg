@@ -3,7 +3,7 @@ import { Derived } from '@system/data/fields';
 export class CosmereTokenDocument extends TokenDocument {
     public override getBarAttribute(
         barName: string,
-        options?: Partial<{ alternative: string }> | undefined,
+        options?: Partial<{ alternative: string }>,
     ) {
         const attr = super.getBarAttribute(barName, options);
 

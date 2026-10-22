@@ -42,7 +42,7 @@ type SystemSettingsConfig = {
 } & {
     [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.CHAT_ALWAYS_SHOW_BUTTONS}`]: boolean;
 } & {
-    [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.APPLY_BUTTONS_TO}`]: string;
+    [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.APPLY_BUTTONS_TO}`]: string | number;
 } & {
     [key in `${typeof SYSTEM_ID}.${typeof SETTINGS.SHEET_EXPAND_DESCRIPTION_DEFAULT}`]: boolean;
 } & {
@@ -200,12 +200,7 @@ export function registerSystemSettings() {
         hint: game.i18n.localize(`SETTINGS.${SETTINGS.APPLY_BUTTONS_TO}.hint`),
         scope: 'client',
         config: true,
-        // TODO: Resolve typing issue
-        // NOTE: Use any as workaround for foundry-vtt-types issues
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
-        type: Number as any,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
-        default: TargetingOptions.SelectedOnly as number as any,
+        default: TargetingOptions.SelectedOnly,
         requiresReload: true,
         choices: {
             [TargetingOptions.SelectedOnly]: game.i18n.localize(

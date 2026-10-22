@@ -79,7 +79,7 @@ export function IdItemMixin<
                         .replace(/\s+/g, ' ')
                         .trim()
                         .split(' ')
-                        .join('-') as Type;
+                        .join('-');
                 }
             }
         };

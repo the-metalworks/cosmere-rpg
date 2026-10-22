@@ -71,7 +71,7 @@ export class HandlerField<
 
     protected override _cast(value: unknown) {
         return (
-            typeof value === 'object' ? (value as AnyObject) : {}
+            typeof value === 'object' ? (value) : {}
         ) as HandlerBaseAssignmentType;
     }
 

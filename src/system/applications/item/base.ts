@@ -53,7 +53,7 @@ export class BaseItemSheet extends TabsApplicationMixin(
         form: {
             handler: this.onFormEvent,
             submitOnChange: true,
-        } as unknown,
+        },
         actions: {
             'edit-description': this.editDescription,
             save: this.onSave,

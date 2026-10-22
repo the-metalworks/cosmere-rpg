@@ -98,7 +98,7 @@ export const STATIC_SECTIONS: Record<string, ItemListSection> = {
                     },
                 },
                 { parent },
-            ) as Promise<CosmereItem>,
+            ),
     },
 };
 
@@ -137,7 +137,7 @@ export const DYNAMIC_SECTIONS: Record<string, DynamicItemListSectionGenerator> =
                             !item.hasRelationshipOfType(
                                 ItemRelationship.Type.Child,
                             ),
-                    } as ItemListSection;
+                    };
                 }),
                 ...powersWithChildren.map((power) => ({
                     id: power.system.id,
@@ -273,7 +273,7 @@ export const DYNAMIC_SECTIONS: Record<string, DynamicItemListSectionGenerator> =
                                 },
                             },
                             { parent },
-                        ) as Promise<CosmereItem>,
+                        ),
                 },
             ];
         },
@@ -553,7 +553,7 @@ export class ActorActionsListComponent extends ActorItemListComponent {
         if (this.application.isEditable) {
             // Create context menu
             AppContextMenu.create({
-                parent: this as AppContextMenu.Parent,
+                parent: this,
                 items: (element) => {
                     console.log('AppContextMenu items callback', { element });
 

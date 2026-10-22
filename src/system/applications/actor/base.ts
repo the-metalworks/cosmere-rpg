@@ -64,7 +64,7 @@ export class BaseActorSheet<
         form: {
             handler: this.onFormEvent,
             submitOnChange: true,
-        } as unknown,
+        },
         dragDrop: [
             {
                 dragSelector: '[data-drag]',

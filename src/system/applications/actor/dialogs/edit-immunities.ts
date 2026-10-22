@@ -64,7 +64,7 @@ export class EditImmunitiesDialog extends HandlebarsApplicationMixin(
     ) {
         event.preventDefault();
 
-        const data = formData.object as AnyObject;
+        const data = formData.object;
         const paths = Object.keys(data);
 
         const configuredImmunities = paths
