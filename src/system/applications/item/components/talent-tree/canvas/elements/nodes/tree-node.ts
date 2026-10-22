@@ -496,8 +496,7 @@ export class TalentTreeNode extends BaseNode {
 
                 // Check if the from node still exists and has the connection
                 return (
-                    !fromNode ||
-                    fromNode.type !== TalentTree.Node.Type.Talent ||
+                    fromNode?.type !== TalentTree.Node.Type.Talent ||
                     !fromNode.connections.some(
                         (c) => c.id === connection.to.data.id,
                     )
@@ -514,8 +513,7 @@ export class TalentTreeNode extends BaseNode {
 
                 // Check if the from and to nodes still exist
                 return (
-                    !fromTreeNode ||
-                    fromTreeNode.type !== TalentTree.Node.Type.Tree ||
+                    fromTreeNode?.type !== TalentTree.Node.Type.Tree ||
                     !toTalentNode
                 );
             }
