@@ -29,7 +29,13 @@
                         "managed": false,
                         "skill": "ins",
                         "rank": 2,
-                        "_id": "rF2OaKdZhxGCf9N8"
+                        "_id": "rF2OaKdZhxGCf9N8",
+                        "skills": [
+                            {
+                                "key": "ins",
+                                "value": 2
+                            }
+                        ]
                     },
                     "vr2kvsCI2hXujkzo": {
                         "id": "vr2kvsCI2hXujkzo",
@@ -155,7 +161,13 @@
                         "managed": false,
                         "skill": "ins",
                         "rank": 3,
-                        "_id": "OFbO5skeKAu46tIA"
+                        "_id": "OFbO5skeKAu46tIA",
+                        "skills": [
+                            {
+                                "key": "ins",
+                                "value": 3
+                            }
+                        ]
                     },
                     "IU96XgazJYfj8JuI": {
                         "id": "IU96XgazJYfj8JuI",
@@ -273,7 +285,13 @@
                         "managed": false,
                         "skill": "thv",
                         "rank": 3,
-                        "_id": "Bvrnfrxh3UJqMqPP"
+                        "_id": "Bvrnfrxh3UJqMqPP",
+                        "skills": [
+                            {
+                                "key": "thv",
+                                "value": 3
+                            }
+                        ]
                     },
                     "TTAYGDOens7AkrMq": {
                         "id": "TTAYGDOens7AkrMq",
@@ -320,7 +338,13 @@
                         "managed": false,
                         "skill": "thv",
                         "rank": 3,
-                        "_id": "5DGIilGhOcykdFLi"
+                        "_id": "5DGIilGhOcykdFLi",
+                        "skills": [
+                            {
+                                "key": "thv",
+                                "value": 3
+                            }
+                        ]
                     },
                     "iEDHyo4PLZgxzwg4": {
                         "id": "iEDHyo4PLZgxzwg4",
@@ -363,7 +387,8 @@
                 "x": 0,
                 "y": 0
             }
-        }
+        },
+        "__embedded": {}
     },
     "effects": [],
     "sort": 0,

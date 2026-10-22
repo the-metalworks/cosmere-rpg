@@ -75,7 +75,13 @@
                         "value": 1,
                         "managed": false,
                         "skill": "lor",
-                        "rank": 1
+                        "rank": 1,
+                        "skills": [
+                            {
+                                "key": "lor",
+                                "value": 1
+                            }
+                        ]
                     }
                 },
                 "connections": {
@@ -122,7 +128,13 @@
                         "value": 1,
                         "managed": false,
                         "skill": "dis",
-                        "rank": 2
+                        "rank": 2,
+                        "skills": [
+                            {
+                                "key": "dis",
+                                "value": 2
+                            }
+                        ]
                     }
                 },
                 "connections": {
@@ -169,7 +181,13 @@
                         "value": 1,
                         "managed": false,
                         "skill": "lor",
-                        "rank": 3
+                        "rank": 3,
+                        "skills": [
+                            {
+                                "key": "lor",
+                                "value": 3
+                            }
+                        ]
                     }
                 },
                 "connections": {
@@ -221,7 +239,13 @@
                         "value": 1,
                         "managed": false,
                         "skill": "dis",
-                        "rank": 3
+                        "rank": 3,
+                        "skills": [
+                            {
+                                "key": "dis",
+                                "value": 3
+                            }
+                        ]
                     }
                 },
                 "connections": {
@@ -272,7 +296,13 @@
                         "value": 1,
                         "managed": false,
                         "skill": "dis",
-                        "rank": 2
+                        "rank": 2,
+                        "skills": [
+                            {
+                                "key": "dis",
+                                "value": 2
+                            }
+                        ]
                     }
                 },
                 "connections": {
@@ -373,7 +403,8 @@
                 "x": 0,
                 "y": 0
             }
-        }
+        },
+        "__embedded": {}
     },
     "effects": [],
     "sort": 0,
