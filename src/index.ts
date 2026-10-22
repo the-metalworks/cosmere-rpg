@@ -4,7 +4,6 @@ import { SYSTEM_ID } from './system/constants';
 import { TEMPLATES } from './system/utils/templates';
 import COSMERE from './system/config';
 
-// @ts-expect-error style.scss does not need type definitions...
 import './style.scss';
 import './system/mixins';
 import './system/documents/system-embedded-collections/inject';
@@ -49,8 +48,6 @@ declare global {
         COSMERE: typeof COSMERE;
     }
 
-    // NOTE: Must use var to affect globalThis
-    // eslint-disable-next-line no-var
     var cosmereRPG: {
         api: typeof CosmereAPI;
         utils: typeof CosmereUtils;
