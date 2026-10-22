@@ -20,8 +20,7 @@ export default {
     execute: async (packID?: string) => {
         // Get relevant compendium, if any
         let compendium:
-            | CompendiumCollection<CompendiumCollection.DocumentName>
-            | undefined;
+            CompendiumCollection<CompendiumCollection.DocumentName> | undefined;
         if (packID) {
             compendium = game.packs?.get(packID);
         }
@@ -222,8 +221,7 @@ function migrateItemData(item: RawDocumentData<any>, changes: object) {
         if ('grantRules' in item.system) {
             // Migrate grant rules to event system
             let grantRules = item.system.grantRules as
-                | Record<string, AnyObject>
-                | AnyObject[];
+                Record<string, AnyObject> | AnyObject[];
 
             if (Array.isArray(grantRules)) {
                 grantRules = Object.fromEntries(
@@ -244,7 +242,7 @@ function migrateItemData(item: RawDocumentData<any>, changes: object) {
                     event: 'add-to-actor',
                     handler: {
                         type: 'grant-items',
-                        items: rule.items || [],
+                        items: rule.items ?? [],
                     },
                 };
             });

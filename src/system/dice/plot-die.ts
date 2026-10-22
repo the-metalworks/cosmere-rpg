@@ -56,7 +56,7 @@ export class PlotDie extends foundry.dice.terms.Die {
         else if (maximize) roll.result = 6;
         else roll.result = await this._roll(options);
 
-        if (roll.result === undefined) roll.result = this.randomFace();
+        roll.result ??= this.randomFace();
         if (roll.result <= 2) {
             roll.failure = true;
             roll.count = roll.result * 2;
