@@ -242,7 +242,7 @@ export class ActorEquipmentListComponent extends ActorItemListComponent {
 
         // Ensure all items have an expand state record
         physicalItems.forEach((item) => {
-            if (!(item.id! in this.itemState)) {
+            if (!((item.id!) in this.itemState)) {
                 this.itemState[item.id!] = {
                     expanded: false,
                 };
