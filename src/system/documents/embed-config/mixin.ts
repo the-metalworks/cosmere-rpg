@@ -141,7 +141,7 @@ export function EmbedConfigMixin<
             // Post-create: enforce amount limits for replace strategies
             const createdTypes = new Set<string>();
             results.forEach((result) => {
-                createdTypes.add(result.type as string);
+                createdTypes.add(result.type);
             });
 
             for (const type of createdTypes) {

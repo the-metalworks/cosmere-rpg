@@ -176,7 +176,7 @@ export class MultiValueSelectComponent extends HandlebarsApplicationComponent<
 
         options =
             foundry.utils.getType(options) === 'Object'
-                ? (foundry.utils.deepClone(options) as Record<string, string>)
+                ? (foundry.utils.deepClone(options))
                 : (options as string[]).reduce(
                       (acc, key) => ({ ...acc, [key]: key }),
                       {} as Record<string, string>,
@@ -185,11 +185,11 @@ export class MultiValueSelectComponent extends HandlebarsApplicationComponent<
         // Prepare selected
         const selected = this._value.map((key) => ({
             key,
-            label: options[key],
+            label: (options as Record<string, string>)[key],
         }));
 
         // Remove selected from options
-        this._value.forEach((key) => delete options[key]);
+        this._value.forEach((key) => delete (options as Record<string, string>)[key]);
 
         return Promise.resolve({
             selected,

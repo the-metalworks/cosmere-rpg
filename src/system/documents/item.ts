@@ -166,8 +166,8 @@ class _Item<
 }
 
 export class CosmereItem<
-    const T extends
-        foundry.abstract.TypeDataModel.Any = foundry.abstract.TypeDataModel.Any,
+    const T extends foundry.abstract.TypeDataModel.Any =
+        foundry.abstract.TypeDataModel.Any,
 > extends _Item<T> {
     static metadata = Object.freeze(
         foundry.utils.mergeObject(
@@ -199,7 +199,7 @@ export class CosmereItem<
                     talent_tree: {
                         Item: false, // Disable embedding of items in talent tree items
                     },
-                } as EmbeddedDocumentsConfig<'Item'>,
+                },
                 // Note: Cannot bind due to static context. Calls are bound safely by mixin.
                 /* eslint-disable @typescript-eslint/unbound-method */
                 ephemeralEmbedded: {
@@ -801,8 +801,7 @@ export class CosmereItem<
             options.actor ??
             this.actor ??
             (game.canvas?.tokens?.controlled?.[0]?.actor as
-                | CosmereActor
-                | undefined);
+                CosmereActor | undefined);
 
         // Ensure an actor was found
         if (!actor) {
@@ -828,7 +827,7 @@ export class CosmereItem<
 
         // Set up actor data
         const data: D20RollData = this.getSkillTestRollData(
-            skillId ? skillId : null,
+            skillId ?? null,
             attributeId,
             actor,
             options.isAttack,
@@ -849,9 +848,7 @@ export class CosmereItem<
                           )
                         : `${game.i18n.localize('GENERIC.Custom')} ${game.i18n.localize('GENERIC.Skill')}`
                 })`,
-                defaultAttribute: data.skill.attribute
-                    ? data.skill.attribute
-                    : undefined,
+                defaultAttribute: data.skill.attribute ?? undefined,
                 parts: parts,
                 plotDie: options.plotDie ?? this.system.skillTest.plotDie,
                 opportunity:
@@ -889,8 +886,7 @@ export class CosmereItem<
             options.actor ??
             this.actor ??
             (game.canvas?.tokens?.controlled?.[0]?.actor as
-                | CosmereActor
-                | undefined);
+                CosmereActor | undefined);
 
         // Ensure an actor was found
         if (!actor) {
@@ -1025,8 +1021,7 @@ export class CosmereItem<
             options.actor ??
             this.actor ??
             (game.canvas?.tokens?.controlled?.[0]?.actor as
-                | CosmereActor
-                | undefined);
+                CosmereActor | undefined);
 
         // Ensure an actor was found
         if (!actor) {
@@ -1259,8 +1254,7 @@ export class CosmereItem<
         options.actor ??=
             this.actor ??
             (game.canvas?.tokens?.controlled?.[0]?.actor as
-                | CosmereActor
-                | undefined) ??
+                CosmereActor | undefined) ??
             (game.user?.character as CosmereActor | undefined);
 
         // Ensure an actor was found
@@ -1898,7 +1892,7 @@ export class CosmereItem<
                 id: skillId ?? null,
                 rank: skill.rank,
                 mod,
-                attribute: attributeId ? attributeId : skill.attribute,
+                attribute: attributeId ?? skill.attribute,
             },
             attribute: attribute.value,
 
@@ -2216,19 +2210,18 @@ export namespace CosmereItem {
         | 'advantageModePlot'
     >;
 
-    export interface RollAttackOptions
-        extends Omit<
-            RollOptions,
-            | 'skill'
-            | 'attribute'
-            | 'parts'
-            | 'opportunity'
-            | 'complication'
-            | 'plotDie'
-            | 'advantageMode'
-            | 'advantageModePlot'
-            | 'temporaryModifiers'
-        > {
+    export interface RollAttackOptions extends Omit<
+        RollOptions,
+        | 'skill'
+        | 'attribute'
+        | 'parts'
+        | 'opportunity'
+        | 'complication'
+        | 'plotDie'
+        | 'advantageMode'
+        | 'advantageModePlot'
+        | 'temporaryModifiers'
+    > {
         skillTest?: Pick<
             RollOptions,
             | 'skill'
@@ -2245,8 +2238,7 @@ export namespace CosmereItem {
     }
 
     export interface UseOptions
-        extends RollOptions,
-            Pick<RollAttackOptions, 'damage'> {
+        extends RollOptions, Pick<RollAttackOptions, 'damage'> {
         /**
          * Whether or not the item usage should consume.
          * Only used if the item has consumption configured.

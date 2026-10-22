@@ -164,7 +164,7 @@ export class ActorEffectsListComponent extends ActorItemListComponent {
                                 effect.description,
                                 {
                                     relativeTo:
-                                        item as foundry.abstract.Document.Any,
+                                        item,
                                 },
                             ),
                         isEffectsContainer: false,
@@ -181,7 +181,7 @@ export class ActorEffectsListComponent extends ActorItemListComponent {
         if (this.application.isEditable) {
             // Create context menu
             AppContextMenu.create({
-                parent: this as AppContextMenu.Parent,
+                parent: this,
                 items: (element) => {
                     const effect = this.getEffectFromElement(element);
                     if (!effect) return [];

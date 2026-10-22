@@ -3,9 +3,9 @@ import type {
     AnyEmbeddedCollection,
 } from '@system/types/utils';
 
-export type SystemEmbeddedCollectionsConfig = {
-    [K in foundry.abstract.Document.Type]?: string;
-};
+export type SystemEmbeddedCollectionsConfig = Partial<
+    Record<foundry.abstract.Document.Type, string>
+>;
 
 export interface SystemEmbeddedCollectionsDocumentConstructor
     extends foundry.abstract.Document.AnyConstructor {

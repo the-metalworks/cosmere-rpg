@@ -66,11 +66,11 @@ export function addConnection(
     const from = tree.system.nodes.find((node) => node.id === fromId);
     const to = tree.system.nodes.find((node) => node.id === toId);
 
-    if (!from || from.type !== TalentTree.Node.Type.Talent)
+    if (from?.type !== TalentTree.Node.Type.Talent)
         throw new Error(
             `Failed to add connection: Invalid from node ${fromId}`,
         );
-    if (!to || to.type !== TalentTree.Node.Type.Talent)
+    if (to?.type !== TalentTree.Node.Type.Talent)
         throw new Error(`Failed to add connection: Invalid to node ${toId}`);
 
     // Ensure there isn't already a connection
@@ -147,11 +147,11 @@ export function removeConnection(
     const from = tree.system.nodes.find((node) => node.id === fromId);
     const to = tree.system.nodes.find((node) => node.id === toId);
 
-    if (!from || from.type !== TalentTree.Node.Type.Talent)
+    if (from?.type !== TalentTree.Node.Type.Talent)
         throw new Error(
             `Failed to remove connection: Invalid from node ${fromId}`,
         );
-    if (!to || to.type !== TalentTree.Node.Type.Talent)
+    if (to?.type !== TalentTree.Node.Type.Talent)
         throw new Error(`Failed to remove connection: Invalid to node ${toId}`);
 
     // Get the connection

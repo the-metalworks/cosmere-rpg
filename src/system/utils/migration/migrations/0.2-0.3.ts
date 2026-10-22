@@ -67,7 +67,7 @@ export default {
             await migrateActors(actors, compendium);
         }
     },
-} as Migration;
+};
 
 /**
  * Helpers

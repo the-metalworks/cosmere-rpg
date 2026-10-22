@@ -20,7 +20,7 @@ import { SUB_GRID_SIZE } from '../../../constants';
 class Layer<
     T extends PIXI.DisplayObject = PIXI.DisplayObject,
 > extends Drawable {
-    public declare children: T[];
+    declare public children: T[];
 
     public constructor(canvas: PIXICanvasApplication, zIndex: number) {
         super(canvas);
@@ -144,8 +144,8 @@ class TreeBackground extends Drawable {
 
 export class TalentTreeNode extends BaseNode {
     // Redeclare data type
-    public declare readonly data: TalentTree.TreeNode & { isRoot?: boolean };
-    public declare readonly canvas: PIXICanvasApplication<
+    declare public readonly data: TalentTree.TreeNode & { isRoot?: boolean };
+    declare public readonly canvas: PIXICanvasApplication<
         typeof TalentTreeWorld
     >;
 
@@ -496,8 +496,7 @@ export class TalentTreeNode extends BaseNode {
 
                 // Check if the from node still exists and has the connection
                 return (
-                    !fromNode ||
-                    fromNode.type !== TalentTree.Node.Type.Talent ||
+                    fromNode?.type !== TalentTree.Node.Type.Talent ||
                     !fromNode.connections.some(
                         (c) => c.id === connection.to.data.id,
                     )
@@ -514,8 +513,7 @@ export class TalentTreeNode extends BaseNode {
 
                 // Check if the from and to nodes still exist
                 return (
-                    !fromTreeNode ||
-                    fromTreeNode.type !== TalentTree.Node.Type.Tree ||
+                    fromTreeNode?.type !== TalentTree.Node.Type.Tree ||
                     !toTalentNode
                 );
             }

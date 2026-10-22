@@ -214,9 +214,7 @@ export class CosmereActor<
     }
 
     public get ancestry(): AncestryItem | undefined {
-        return this.items.find((i) => i.isAncestry()) as
-            | AncestryItem
-            | undefined;
+        return this.items.find((i) => i.isAncestry());
     }
 
     public get cultures(): CultureItem[] {
@@ -799,7 +797,7 @@ export class CosmereActor<
         const draw = await table.draw({
             roll,
             displayChat: false,
-        } as any);
+        });
         /* eslint-Enable @typescript-eslint/no-explicit-any */
 
         // Get result
@@ -1015,9 +1013,7 @@ export class CosmereActor<
     }
 
     public async applyHealing(amount: number) {
-        return this.applyDamage([
-            { amount, type: DamageType.Healing } as DamageInstance,
-        ]);
+        return this.applyDamage([{ amount, type: DamageType.Healing }]);
     }
 
     /**

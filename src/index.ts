@@ -4,7 +4,6 @@ import { SYSTEM_ID } from './system/constants';
 import { TEMPLATES } from './system/utils/templates';
 import COSMERE from './system/config';
 
-// @ts-expect-error style.scss does not need type definitions...
 import './style.scss';
 import './system/mixins';
 import './system/documents/system-embedded-collections/inject';
@@ -49,8 +48,6 @@ declare global {
         COSMERE: typeof COSMERE;
     }
 
-    // NOTE: Must use var to affect globalThis
-    // eslint-disable-next-line no-var
     var cosmereRPG: {
         api: typeof CosmereAPI;
         utils: typeof CosmereUtils;
@@ -69,23 +66,23 @@ Hooks.once('init', async () => {
 
     CONFIG.COSMERE = COSMERE;
 
-    CONFIG.ChatMessage.documentClass = documents.CosmereChatMessage as any;
+    CONFIG.ChatMessage.documentClass = documents.CosmereChatMessage;
 
     CONFIG.Actor.dataModels = dataModels.actor.config;
-    CONFIG.Actor.documentClass = documents.CosmereActor as any;
+    CONFIG.Actor.documentClass = documents.CosmereActor;
 
     CONFIG.Item.dataModels = dataModels.item.config as any;
-    CONFIG.Item.documentClass = documents.CosmereItem as any;
+    CONFIG.Item.documentClass = documents.CosmereItem;
 
-    CONFIG.Combat.documentClass = documents.CosmereCombat as any;
+    CONFIG.Combat.documentClass = documents.CosmereCombat;
     CONFIG.ui.combat = applications.combat.CosmereCombatTracker;
 
     // NOTE: Disabled for now as v12 doesn't permit users to update the system of combatants they own
     // (CONFIG.Combatant as AnyMutableObject).dataModels =
     //     dataModels.combatant.config;
-    CONFIG.Combatant.documentClass = documents.CosmereCombatant as any;
+    CONFIG.Combatant.documentClass = documents.CosmereCombatant;
 
-    CONFIG.Token.documentClass = documents.CosmereTokenDocument as any;
+    CONFIG.Token.documentClass = documents.CosmereTokenDocument;
 
     (CONFIG.ActiveEffect as AnyMutableObject).dataModels =
         dataModels.activeEffect.config;
@@ -166,7 +163,7 @@ Hooks.once('init', async () => {
     CONFIG.Dice.terms.p = dice.PlotDie;
     CONFIG.Dice.termTypes[dice.PlotDie.name] = dice.PlotDie;
 
-    CONFIG.Dice.rolls.push(dice.D20Roll as any);
+    CONFIG.Dice.rolls.push(dice.D20Roll);
     CONFIG.Dice.rolls.push(dice.DamageRoll);
 
     CONFIG.Canvas.visionModes.sense = new foundry.canvas.perception.VisionMode({
