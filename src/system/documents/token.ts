@@ -7,7 +7,7 @@ export class CosmereTokenDocument extends TokenDocument {
     ) {
         const attr = super.getBarAttribute(barName, options);
 
-        if (attr && attr.type === 'bar') {
+        if (attr?.type === 'bar') {
             // Get data
             const data = foundry.utils.getProperty(
                 this.actor!.system,
