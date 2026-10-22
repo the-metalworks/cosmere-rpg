@@ -16,8 +16,8 @@ import {
 } from './schema';
 
 export class ActivationConsumptionField<
-    Options extends
-        ActivationConsumptionField.Options = ActivationConsumptionField.DefaultOptions,
+    Options extends ActivationConsumptionField.Options =
+        ActivationConsumptionField.DefaultOptions,
 > extends foundry.data.fields.ObjectField<
     Options,
     ActivationConsumptionField.AssignmentType,
@@ -47,10 +47,7 @@ export class ActivationConsumptionField<
         const type: Noneable<ItemConsumeType> = value.type ?? NONE;
         const Model = ActivationConsumptionField.getModelForType(type);
 
-        const cleaned = Model.cleanData(
-            value,
-            options,
-        ) as Exclude<
+        const cleaned = Model.cleanData(value, options) as Exclude<
             ActivationConsumptionField.AssignmentType,
             null | undefined
         >;
@@ -93,12 +90,10 @@ export class ActivationConsumptionField<
 
     public _updateDiff<
         TKey extends string,
-        TSource extends AnyMutableObject & {
-            [key in TKey]: ActivationConsumptionField.InitializedType;
-        },
-        TDifference extends AnyMutableObject & {
-            [key in TKey]: ActivationConsumptionField.InitializedType;
-        },
+        TSource extends AnyMutableObject &
+            Record<TKey, ActivationConsumptionField.InitializedType>,
+        TDifference extends AnyMutableObject &
+            Record<TKey, ActivationConsumptionField.InitializedType>,
     >(
         source: TSource,
         key: TKey,
@@ -122,8 +117,7 @@ export class ActivationConsumptionField<
     public override getInitialValue(data?: unknown) {
         const type =
             (foundry.utils.getProperty(this._cast(data), 'type') as
-                | ItemConsumeType
-                | undefined) ?? NONE;
+                ItemConsumeType | undefined) ?? NONE;
         const Model = ActivationConsumptionField.getModelForType(type);
         return Model.schema.getInitialValue(data);
     }

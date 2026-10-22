@@ -40,16 +40,19 @@ export type EmbedTypeConfig = boolean | EmbedLimit;
 
 export type EmbeddedDocumentsConfig<
     DocumentName extends foundry.abstract.Document.Type,
-> = {
-    [DocumentType in
-        | foundry.abstract.Document.SubTypesOf<DocumentName>
-        | 'base']?: {
-        [EmbeddedName in EmbeddedTypesOf<DocumentName>]?:
-            | {
-                  [EmbeddedType in
-                      | foundry.abstract.Document.SubTypesOf<EmbeddedName>
-                      | 'base']?: EmbedTypeConfig;
-              }
-            | false;
-    };
-};
+> = Partial<
+    Record<
+        foundry.abstract.Document.SubTypesOf<DocumentName> | 'base',
+        {
+            [EmbeddedName in EmbeddedTypesOf<DocumentName>]?:
+                | Partial<
+                      Record<
+                          | foundry.abstract.Document.SubTypesOf<EmbeddedName>
+                          | 'base',
+                          EmbedTypeConfig
+                      >
+                  >
+                | false;
+        }
+    >
+>;
