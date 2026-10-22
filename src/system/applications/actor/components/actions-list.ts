@@ -380,7 +380,7 @@ export class ActorActionsListComponent extends ActorItemListComponent {
 
         // Ensure all actions have an expand state record
         actions.forEach((item) => {
-            if (!(item.id! in this.itemState)) {
+            if (!((item.id!) in this.itemState)) {
                 this.itemState[item.id!] = {
                     expanded: false,
                 };
