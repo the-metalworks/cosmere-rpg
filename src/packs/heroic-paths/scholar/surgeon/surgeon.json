@@ -29,7 +29,13 @@
                         "managed": false,
                         "skill": "med",
                         "rank": 1,
-                        "_id": "hRNkEK58t8EfXhJF"
+                        "_id": "hRNkEK58t8EfXhJF",
+                        "skills": [
+                            {
+                                "key": "med",
+                                "value": 1
+                            }
+                        ]
                     },
                     "qUa3zOPUWyrzMPit": {
                         "id": "qUa3zOPUWyrzMPit",
@@ -155,7 +161,13 @@
                         "value": 1,
                         "managed": false,
                         "skill": "lor",
-                        "rank": 2
+                        "rank": 2,
+                        "skills": [
+                            {
+                                "key": "lor",
+                                "value": 2
+                            }
+                        ]
                     }
                 },
                 "connections": {
@@ -240,7 +252,13 @@
                         "value": 1,
                         "managed": false,
                         "skill": "med",
-                        "rank": 2
+                        "rank": 2,
+                        "skills": [
+                            {
+                                "key": "med",
+                                "value": 2
+                            }
+                        ]
                     }
                 },
                 "connections": {
@@ -287,7 +305,13 @@
                         "value": 1,
                         "managed": false,
                         "skill": "lor",
-                        "rank": 3
+                        "rank": 3,
+                        "skills": [
+                            {
+                                "key": "lor",
+                                "value": 3
+                            }
+                        ]
                     }
                 },
                 "connections": {
@@ -334,7 +358,13 @@
                         "value": 1,
                         "managed": false,
                         "skill": "med",
-                        "rank": 3
+                        "rank": 3,
+                        "skills": [
+                            {
+                                "key": "med",
+                                "value": 3
+                            }
+                        ]
                     }
                 },
                 "connections": {
@@ -364,7 +394,8 @@
                 "x": 0,
                 "y": 0
             }
-        }
+        },
+        "__embedded": {}
     },
     "effects": [],
     "sort": 0,

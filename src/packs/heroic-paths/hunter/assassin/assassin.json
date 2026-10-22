@@ -29,7 +29,13 @@
                         "managed": false,
                         "skill": "stl",
                         "rank": 1,
-                        "_id": "2mqCiqU4o8GIN7dj"
+                        "_id": "2mqCiqU4o8GIN7dj",
+                        "skills": [
+                            {
+                                "key": "stl",
+                                "value": 1
+                            }
+                        ]
                     },
                     "bdelEdI7onRJcLKJ": {
                         "id": "bdelEdI7onRJcLKJ",
@@ -71,7 +77,13 @@
                         "managed": false,
                         "skill": "prc",
                         "rank": 3,
-                        "_id": "FEkYw4dBZcoLcJ6S"
+                        "_id": "FEkYw4dBZcoLcJ6S",
+                        "skills": [
+                            {
+                                "key": "prc",
+                                "value": 3
+                            }
+                        ]
                     },
                     "XwuDolzzJftdQW2W": {
                         "id": "XwuDolzzJftdQW2W",
@@ -118,7 +130,13 @@
                         "managed": false,
                         "skill": "prc",
                         "rank": 2,
-                        "_id": "lLriHBH2pdR2tyKy"
+                        "_id": "lLriHBH2pdR2tyKy",
+                        "skills": [
+                            {
+                                "key": "prc",
+                                "value": 2
+                            }
+                        ]
                     },
                     "xSV5vqrnYBJ1R6gq": {
                         "id": "xSV5vqrnYBJ1R6gq",
@@ -160,7 +178,13 @@
                         "managed": false,
                         "skill": "stl",
                         "rank": 2,
-                        "_id": "NpE4YuLmJvKOWBnr"
+                        "_id": "NpE4YuLmJvKOWBnr",
+                        "skills": [
+                            {
+                                "key": "stl",
+                                "value": 2
+                            }
+                        ]
                     },
                     "sXZLKvIKqzVSmQGX": {
                         "id": "sXZLKvIKqzVSmQGX",
@@ -207,7 +231,13 @@
                         "managed": false,
                         "skill": "stl",
                         "rank": 3,
-                        "_id": "iCDfM2r7SN9cWti3"
+                        "_id": "iCDfM2r7SN9cWti3",
+                        "skills": [
+                            {
+                                "key": "stl",
+                                "value": 3
+                            }
+                        ]
                     },
                     "FIhs27DkkngvcPxv": {
                         "id": "FIhs27DkkngvcPxv",
@@ -364,7 +394,8 @@
                 "x": 0,
                 "y": 0
             }
-        }
+        },
+        "__embedded": {}
     },
     "effects": [],
     "sort": 0,

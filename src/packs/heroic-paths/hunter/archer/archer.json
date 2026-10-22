@@ -29,7 +29,13 @@
                         "managed": false,
                         "skill": "prc",
                         "rank": 2,
-                        "_id": "r6q7Oi2Tt85KIOR0"
+                        "_id": "r6q7Oi2Tt85KIOR0",
+                        "skills": [
+                            {
+                                "key": "prc",
+                                "value": 2
+                            }
+                        ]
                     },
                     "5jBcwgWx3MVzNz5R": {
                         "id": "5jBcwgWx3MVzNz5R",
@@ -104,7 +110,13 @@
                         "managed": false,
                         "skill": "prc",
                         "rank": 3,
-                        "_id": "9pHMpR27XZVsVooH"
+                        "_id": "9pHMpR27XZVsVooH",
+                        "skills": [
+                            {
+                                "key": "prc",
+                                "value": 3
+                            }
+                        ]
                     },
                     "3Rdi5EmOqcZAIbT5": {
                         "id": "3Rdi5EmOqcZAIbT5",
@@ -189,7 +201,13 @@
                         "managed": false,
                         "skill": "agi",
                         "rank": 1,
-                        "_id": "I12vOsNUamOhsBIO"
+                        "_id": "I12vOsNUamOhsBIO",
+                        "skills": [
+                            {
+                                "key": "agi",
+                                "value": 1
+                            }
+                        ]
                     },
                     "CI2NLp7Y5irZ4fJM": {
                         "id": "CI2NLp7Y5irZ4fJM",
@@ -274,7 +292,13 @@
                         "managed": false,
                         "skill": "agi",
                         "rank": 3,
-                        "_id": "OWUptlgIxibLvQy6"
+                        "_id": "OWUptlgIxibLvQy6",
+                        "skills": [
+                            {
+                                "key": "agi",
+                                "value": 3
+                            }
+                        ]
                     },
                     "hkpqIJse6J69re9J": {
                         "id": "hkpqIJse6J69re9J",
@@ -321,7 +345,13 @@
                         "managed": false,
                         "skill": "agi",
                         "rank": 2,
-                        "_id": "jqsg9cOfXIP5pos8"
+                        "_id": "jqsg9cOfXIP5pos8",
+                        "skills": [
+                            {
+                                "key": "agi",
+                                "value": 2
+                            }
+                        ]
                     },
                     "raffD56oYIdNZxLR": {
                         "id": "raffD56oYIdNZxLR",
@@ -364,7 +394,8 @@
                 "x": 0,
                 "y": 0
             }
-        }
+        },
+        "__embedded": {}
     },
     "effects": [],
     "sort": 0,
