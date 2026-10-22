@@ -401,10 +401,6 @@ function getTransform(type: string, config: ItemEventTypeConfig) {
                 document,
                 options,
                 userId,
-            } as {
-                document: foundry.abstract.Document.Any;
-                options?: AnyObject & { _eti?: string; _d?: number };
-                userId?: string;
             };
         })
     );

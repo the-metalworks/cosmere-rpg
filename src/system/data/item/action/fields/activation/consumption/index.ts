@@ -48,7 +48,7 @@ export class ActivationConsumptionField<
         const Model = ActivationConsumptionField.getModelForType(type);
 
         const cleaned = Model.cleanData(
-            value as AnyMutableObject,
+            value,
             options,
         ) as Exclude<
             ActivationConsumptionField.AssignmentType,

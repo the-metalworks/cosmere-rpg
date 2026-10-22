@@ -64,7 +64,7 @@ export class TalentTreeItemSheet extends EditModeApplicationMixin(
     private prevHeight = 0;
 
     constructor(options: TalentTreeSheetConfiguration) {
-        const tree = options.document as unknown as TalentTreeItem;
+        const tree = options.document;
         const mode = tree.getFlag(SYSTEM_ID, 'sheet.mode') ?? 'view';
 
         // Override options

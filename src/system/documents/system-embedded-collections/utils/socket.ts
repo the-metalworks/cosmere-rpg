@@ -301,7 +301,7 @@ function resolveUpdatedCollectionData(
               .filter((data) => !!data)
               .map((data) => {
                   if (data instanceof foundry.abstract.Document)
-                      data = data.toObject() as AnyMutableObject;
+                      data = data.toObject();
 
                   (data as AnyMutableObject)._id ??= foundry.utils.randomID();
                   return toServerViewObject(
@@ -400,7 +400,7 @@ function resolveUpdate(
                         : {
                               [collection.name]: acc,
                           }),
-                } as AnyObject,
+                },
                 { performDeletions: false },
             );
 

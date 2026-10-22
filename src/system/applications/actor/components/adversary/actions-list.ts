@@ -215,7 +215,7 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
         if (this.application.isEditable) {
             // Create context menu
             AppContextMenu.create({
-                parent: this as AppContextMenu.Parent,
+                parent: this,
                 items: (element) => {
                     console.log('AppContextMenu items callback', { element });
 

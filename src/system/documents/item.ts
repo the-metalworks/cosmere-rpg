@@ -199,7 +199,7 @@ export class CosmereItem<
                     talent_tree: {
                         Item: false, // Disable embedding of items in talent tree items
                     },
-                } as EmbeddedDocumentsConfig<'Item'>,
+                },
                 // Note: Cannot bind due to static context. Calls are bound safely by mixin.
                 /* eslint-disable @typescript-eslint/unbound-method */
                 ephemeralEmbedded: {

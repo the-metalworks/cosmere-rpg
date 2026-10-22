@@ -225,7 +225,7 @@ Hooks.on('preUpdateActor', (actor: CosmereActor, changed: Actor.UpdateData) => {
             const activeTokenChanges = foundry.utils.deepClone(
                 prototypeTokenChanges,
             );
-            void (token as TokenDocument).update(activeTokenChanges);
+            void (token).update(activeTokenChanges);
         }
     }
 });
@@ -273,7 +273,7 @@ Hooks.on(
                     const activeTokenChanges = foundry.utils.deepClone(
                         prototypeTokenChanges,
                     );
-                    void (token as TokenDocument).update(activeTokenChanges);
+                    void (token).update(activeTokenChanges);
                 }
             }
         }
