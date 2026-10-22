@@ -29,7 +29,13 @@
                         "managed": false,
                         "skill": "dis",
                         "rank": 1,
-                        "_id": "MWx65erskbYd8v5j"
+                        "_id": "MWx65erskbYd8v5j",
+                        "skills": [
+                            {
+                                "key": "dis",
+                                "value": 1
+                            }
+                        ]
                     },
                     "yBWGIXh40WZ9GnF7": {
                         "id": "yBWGIXh40WZ9GnF7",
@@ -104,7 +110,13 @@
                         "managed": false,
                         "skill": "ath",
                         "rank": 2,
-                        "_id": "mWfsm7H3a8o06Z1Y"
+                        "_id": "mWfsm7H3a8o06Z1Y",
+                        "skills": [
+                            {
+                                "key": "ath",
+                                "value": 2
+                            }
+                        ]
                     },
                     "zqZwD0aR7YYLJZYh": {
                         "id": "zqZwD0aR7YYLJZYh",
@@ -151,7 +163,13 @@
                         "managed": false,
                         "skill": "dis",
                         "rank": 3,
-                        "_id": "T5Y4H0xhO1SfHEar"
+                        "_id": "T5Y4H0xhO1SfHEar",
+                        "skills": [
+                            {
+                                "key": "dis",
+                                "value": 3
+                            }
+                        ]
                     },
                     "M2tvz7yR1yXpSELO": {
                         "id": "M2tvz7yR1yXpSELO",
@@ -198,7 +216,13 @@
                         "managed": false,
                         "skill": "dis",
                         "rank": 2,
-                        "_id": "6ABSHvDob5SDaHtN"
+                        "_id": "6ABSHvDob5SDaHtN",
+                        "skills": [
+                            {
+                                "key": "dis",
+                                "value": 2
+                            }
+                        ]
                     },
                     "TkMNeyIx531TcYCk": {
                         "id": "TkMNeyIx531TcYCk",
@@ -245,7 +269,13 @@
                         "managed": false,
                         "skill": "ath",
                         "rank": 3,
-                        "_id": "YeVOkDf4WfB7bhB5"
+                        "_id": "YeVOkDf4WfB7bhB5",
+                        "skills": [
+                            {
+                                "key": "ath",
+                                "value": 3
+                            }
+                        ]
                     },
                     "zf5FuZEWQln07AmB": {
                         "id": "zf5FuZEWQln07AmB",
@@ -364,7 +394,8 @@
                 "x": 0,
                 "y": 0
             }
-        }
+        },
+        "__embedded": {}
     },
     "effects": [],
     "sort": 0,
