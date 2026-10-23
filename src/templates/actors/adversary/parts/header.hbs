@@ -40,6 +40,7 @@
                 <div class="background"></div>
                 <div class="star"></div>
                 <div class="border"></div>
+                {{#if (or isObserver visibility.limited.level)}}
                 <input class="value"
                     type="number"
                     name="system.tier",
@@ -50,6 +51,9 @@
                     readonly
                     {{/if}}
                 >
+                {{else}}
+                <span class="value" style="left: 1px;">?</span>
+                {{/if}}
             </div>
         </div>
     </div>

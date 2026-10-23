@@ -2,6 +2,10 @@ import { AnyObject, ConstructorOf } from '@system/types/utils';
 
 // TEMP
 import { ComponentHandlebarsApplication } from '../component-system/mixin';
+import { SYSTEM_ID } from '@src/system/constants';
+import { SETTINGS } from '@src/system/settings';
+import { getOwnershipVisibility } from '../ownership-visibility-menu';
+import { CosmereActor } from '@src/system/documents';
 
 // Constants
 const PRIMARY_TAB_GROUP = 'primary';
@@ -55,7 +59,7 @@ export interface TabApplicationRenderOptions
 //     T extends AnyConcreteApplicationV2Constructor
 // >(base: T) {
 export function TabsApplicationMixin<
-    T extends ConstructorOf<ComponentHandlebarsApplication>
+    T extends ConstructorOf<ComponentHandlebarsApplication>,
 >(base: T) {
     return class mixin extends base {
         /**
@@ -114,6 +118,8 @@ export function TabsApplicationMixin<
         public async _prepareContext(
             options: Partial<foundry.applications.api.ApplicationV2.RenderOptions>,
         ) {
+            const context = await super._prepareContext(options);
+
             // Get tabs list
             const tabsList = this.tabs;
 
@@ -141,16 +147,30 @@ export function TabsApplicationMixin<
                 }
             });
 
+            // Im uncertain about this implementation.
+            const actor = context.document as CosmereActor;
+
+            const visibility = getOwnershipVisibility();
+
+            const limitedVisbility =
+                actor.type === 'character'
+                    ? visibility.limited.character
+                    : visibility.limited.adversary;
+
             // Construct tabs
             const tabs = tabsData
                 .map((tab) => {
                     const active = this.tabGroups[tab.group] === tab.id;
                     const cssClass = active ? 'active' : '';
 
+                    // This works so long as the tab's ID is the same as the key of the tab.
+                    const key = `${tab.id}Tab` as keyof typeof limitedVisbility;
+
                     return {
                         ...tab,
                         active,
                         cssClass,
+                        tabVisible: limitedVisbility[key] ?? true,
                     };
                 })
                 .filter((tab) => tab.enabled !== false);
@@ -167,7 +187,7 @@ export function TabsApplicationMixin<
             );
 
             return {
-                ...(await super._prepareContext(options)),
+                ...context,
 
                 tabs,
                 tabsMap,

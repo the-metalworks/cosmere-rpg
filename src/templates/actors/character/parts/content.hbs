@@ -3,11 +3,17 @@
         {{app-actor-details}}
         <div class="scroll-container">
             <div class="scroll-body">
+                {{#if (or isObserver visibility.limited.resourceBars)}}
                 {{#each @root.resources as |resourceId|}}
                 {{app-actor-resource resource=resourceId}}
                 {{/each}}
+                {{/if}}
+                {{#if (or isObserver visibility.limited.expertises)}}
                 {{app-expertises-list}}
+                {{/if}}
+                {{#if (or isObserver visibility.limited.immunities)}}
                 {{app-actor-immunities}}
+                {{/if}}
             </div>
         </div>
     </section>
@@ -16,12 +22,24 @@
         <div class="scroll-container">
             <div class="tab-body">
                 {{> char-details-tab}}
-                {{> char-talents-tab}}
-                {{> char-actions-tab}}
-                {{> char-equipment-tab}}
-                {{> char-goals-tab}}
-                {{> char-notes-tab}}
-                {{> char-effects-tab}}
+                {{#if (or isObserver visibility.limited.talentsTab)}}
+                    {{> char-talents-tab}}
+                {{/if}}
+                {{#if (or isObserver visibility.limited.actionsTab)}}
+                    {{> char-actions-tab}}
+                {{/if}}
+                {{#if (or isObserver visibility.limited.equipmentTab)}}
+                    {{> char-equipment-tab}}
+                {{/if}}
+                {{#if (or isObserver visibility.limited.goalsTab)}}
+                    {{> char-goals-tab}}
+                {{/if}}
+                {{#if (or isObserver visibility.limited.notesTab)}}
+                    {{> char-notes-tab}}
+                {{/if}}
+                {{#if (or isObserver visibility.limited.effectsTab)}}
+                    {{> char-effects-tab}}
+                {{/if}}
             </div>
         </div>
     </section>

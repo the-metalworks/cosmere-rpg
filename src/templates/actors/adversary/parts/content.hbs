@@ -1,14 +1,22 @@
 <section class="sheet-content flexrow">
     <section class="col-left">
         {{app-actor-details}}
+        {{#if (or isObserver visibility.limited.resourceBars)}}
         {{#each resources as |resourceId|}}
         {{app-actor-resource resource=resourceId}}
         {{/each}}
+        {{/if}}
         <div class="scroll-container">
             <div class="scroll-body">
+                {{#if (or isObserver visibility.limited.skills)}}
                 {{app-adversary-skills}}
+                {{/if}}
+                {{#if (or isObserver visibility.limited.expertises)}}
                 {{app-expertises-list}}
+                {{/if}}
+                {{#if (or isObserver visibility.limited.immunities)}}
                 {{app-actor-immunities}}
+                {{/if}}
            </div>
         </div>
     </section>
@@ -18,9 +26,15 @@
         <div class="scroll-container">
             <div class="tab-body">
                 {{> adv-actions-tab}}
+                {{#if (or isObserver visibility.limited.equipmentTab)}}
                 {{> adv-equipment-tab}}
+                {{/if}}
+                {{#if (or isObserver visibility.limited.notesTab)}}
                 {{> adv-notes-tab}}
+                {{/if}}
+                {{#if (or isObserver visibility.limited.effectsTab)}}
                 {{> adv-effects-tab}}
+                {{/if}}
             </div>
         </div>        
     </section>

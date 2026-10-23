@@ -1928,7 +1928,8 @@
             "Update": "Update",
             "Confirm": "Confirm",
             "Lock": "Lock",
-            "Unlock": "Unlock"
+            "Unlock": "Unlock",
+            "ResetDefault": "Reset Defaults"
         },
         "Notification": {
             "GrazeFocusSpent": "Reduced focus by 1",
@@ -2088,6 +2089,28 @@
             "choices": {
                 "Imperial": "Imperial (ft, lbs)",
                 "Metric": "Metric (m, kg)"
+            }
+        },
+        "ownershipVisibilityMenu": {
+            "setting": {
+                "name": "Ownership Visibility",
+                "label": "Configure Ownership Visibility",
+                "hint": "Determines what is visible on sheets based on ownership level"
+            },
+            "menu": {
+                "visibility": "Visibility",
+                "character": "Character",
+                "adversary": "Adversary",
+                "name": "Ownership Visibility Menu",
+                "hint": "Configure what a user with limited ownership sees on character/adversary sheets"
+            },
+            "options": {
+                "name": "Show {label}",
+                "hint": "Shows {label} of selected actor sheets."
+            },
+            "resourceBars": {
+                "name": "Show {label}",
+                "hint": "Shows the health, focus and investiture bars. Overrides setting below if turned off"
             }
         }
     },

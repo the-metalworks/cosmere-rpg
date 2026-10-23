@@ -17,6 +17,7 @@ import {
 import { SortMode } from '../search-bar';
 import { AppContextMenu } from '@src/system/applications/utils/context-menu';
 import { CosmereActor } from '@src/system/documents';
+import { getOwnershipVisibility } from '@src/system/applications/ownership-visibility-menu';
 
 // Constants
 
@@ -47,11 +48,19 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
             }
         });
 
+        const limited = getOwnershipVisibility().limited.adversary;
+
         // Prepare sections
         this.sections = [
-            this.prepareSection(ItemType.Trait),
-            this.prepareSection(ItemType.Weapon),
-            this.prepareSection(ItemType.Action),
+            ...(limited.features || !this.application.actor.limited
+                ? [this.prepareSection(ItemType.Trait)]
+                : []),
+            ...(limited.equipmentTab || !this.application.actor.limited
+                ? [this.prepareSection(ItemType.Weapon)]
+                : []),
+            ...(limited.actions || !this.application.actor.limited
+                ? [this.prepareSection(ItemType.Action)]
+                : []),
         ];
 
         const searchText = context.actionsSearch?.text ?? '';
@@ -63,30 +72,19 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
         return {
             ...context,
 
-            sections: [
-                // Traits
-                await this.prepareSectionData(
-                    this.sections[0],
-                    candidateItems,
-                    searchText,
-                    sortMode,
-                    true,
-                ),
-                // Weapons
-                await this.prepareSectionData(
-                    this.sections[1],
-                    candidateItems,
-                    searchText,
-                    sortMode,
-                ),
-                // Actions
-                await this.prepareSectionData(
-                    this.sections[2],
-                    candidateItems,
-                    searchText,
-                    sortMode,
-                ),
-            ].filter(
+            sections: (
+                await Promise.all(
+                    this.sections.map((section, index) =>
+                        this.prepareSectionData(
+                            section,
+                            candidateItems,
+                            searchText,
+                            sortMode,
+                            index === 0,
+                        ),
+                    ),
+                )
+            ).filter(
                 (section) =>
                     section.items.length > 0 ||
                     (this.application.mode === 'edit' && section.default),

@@ -1,15 +1,19 @@
 <div class="mod">
     <span class="operator">+</span>
+    {{#if (or @root.isObserver @root.visibility.limited.skills)}}
     <span class="{{#if (gte skill.rank 5)}}modified{{else}}val{{/if}} ">{{derived skill.mod }}</span>
+    {{else}}
+    <span class="val">?</span>
+    {{/if}}
 </div>
-<a class="name" data-action="roll-skill">
+<a class="name" {{#if @root.isOwner}}data-action="roll-skill"{{/if}}>
     <span>{{ localize skill.label }}</span>
 </a>
 <div class="attribute">
     <span>{{ localize skill.attributeLabel}}</span>
 </div>
 
-{{#if pips}}
+{{#if (and pips (or isObserver visibility.limited.skills))}}
     <div class="skill-pips ranks">
         {{#if editable}}
             {{#if legacyMode}}
