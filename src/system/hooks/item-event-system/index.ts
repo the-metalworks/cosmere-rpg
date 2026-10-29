@@ -397,10 +397,15 @@ function getTransform(type: string, config: ItemEventTypeConfig) {
                 );
             }
 
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
             return {
                 document,
                 options,
                 userId,
+            } as {
+                document: foundry.abstract.Document.Any;
+                options?: AnyObject & { _eti?: string; _d?: number };
+                userId?: string;
             };
         })
     );
