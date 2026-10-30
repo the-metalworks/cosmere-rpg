@@ -8,6 +8,11 @@ export interface ItemListSection {
     id: string;
 
     /**
+     * The uuid of the item associated with the section
+     */
+    sourceItem?: CosmereItem;
+
+    /**
      * Nicely formatted label for the section
      */
     label: string;
