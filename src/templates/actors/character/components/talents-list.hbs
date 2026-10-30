@@ -52,6 +52,11 @@
 
                         {{!-- Controls --}}
                         <div class="controls icon faded">
+                            {{#if (and item.system.talentTree @root.editable)}}
+                            <a role="button" data-action="open-talent-tree" data-tooltip="COSMERE.Item.TalentTree.Open">
+                                <i class="fa-solid fa-sitemap"></i>
+                            </a>
+                            {{/if}}
                             <a role="button" data-action="toggle-action-details" {{#if state.expanded}}
                                 data-tooltip="GENERIC.HideDetails" {{else}} data-tooltip="GENERIC.ViewDetails"
                                 {{/if}}>

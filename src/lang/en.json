@@ -567,6 +567,7 @@
                 }
             },
             "TalentTree": {
+                "Open": "Open Talent Tree",
                 "Width": {
                     "Label": "Width"
                 },
