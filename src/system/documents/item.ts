@@ -1473,7 +1473,6 @@ export class CosmereItem<
 
         if (rollRequired) {
             const rolls: foundry.dice.Roll[] = [];
-            let flavor = this.system.activation!.flavor;
 
             if (hasSkillTest && hasDamage) {
                 const attackResult = await this.rollAttack({
@@ -1497,15 +1496,6 @@ export class CosmereItem<
                     attackResult[0] as unknown as Roll,
                     ...(attackResult[1] as unknown as Roll[]),
                 );
-
-                // Set the flavor
-                flavor = flavor
-                    ? flavor
-                    : `${game.i18n.localize(
-                          `COSMERE.Skill.${attackResult[0].data.skill.id}`,
-                      )} (${game.i18n.localize(
-                          `COSMERE.Attribute.${attackResult[0].data.skill.attribute}`,
-                      )})`;
             } else {
                 if (hasDamage) {
                     const damageRolls = await this.rollDamage({
@@ -1530,15 +1520,6 @@ export class CosmereItem<
 
                     // Add the roll to the list
                     rolls.push(roll as unknown as Roll);
-
-                    // Set the flavor
-                    flavor = flavor
-                        ? flavor
-                        : `${game.i18n.localize(
-                              `COSMERE.Skill.${roll.data.skill.id}`,
-                          )} (${game.i18n.localize(
-                              `COSMERE.Attribute.${roll.data.skill.attribute}`,
-                          )})`;
                 }
             }
 
@@ -1562,9 +1543,9 @@ export class CosmereItem<
             const flavor = this.system.activation!.flavor || undefined;
 
             // Create chat message
-            const message = (await ChatMessage.create(messageConfig, {
+            await ChatMessage.create(messageConfig, {
                 rollMode: options.rollMode,
-            })) as ChatMessage;
+            });
 
             // Perform post roll actions
             postRoll.forEach((action) => action());
