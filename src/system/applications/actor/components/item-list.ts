@@ -164,10 +164,10 @@ any> {
         const item = await section.new?.(this.application.actor);
         if (!item) return;
 
-        // Checks if the item belongs to a path and creates a relationship.
+        // Checks if the item belongs to a section and creates a relationship.
         if (item.actor) {
             for (const otherItem of item.actor.items) {
-                if (otherItem.isPath() && otherItem.system.id == sectionId) {
+                if (otherItem.hasId() && otherItem.system.id == sectionId) {
                     await item.addRelationship(
                         otherItem,
                         ItemRelationship.Type.Parent,
