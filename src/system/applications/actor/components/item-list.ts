@@ -70,6 +70,8 @@ any> {
         this: ActorItemListComponent,
         event: Event,
     ) {
+        event.preventDefault();
+        event.stopPropagation();
         const uuid = AppUtils.getItemUuidFromEvent(event);
         if (!uuid) return;
 
