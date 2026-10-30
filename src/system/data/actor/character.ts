@@ -1,6 +1,5 @@
 // Types
 import { Resource } from '@system/types/cosmere';
-import { DeepPartial, AnyObject, EmptyObject } from '@system/types/utils';
 
 import {
     CommonActorDataModel,
@@ -8,21 +7,38 @@ import {
     AttributeData,
 } from './common';
 
-// Utils
-import * as Advancement from '@system/utils/advancement';
-
 // Fields
-import { DerivedValueField, Derived, MappingField } from '../fields';
+import { DerivedValueField } from '../fields';
+
+// Advancement
+import {
+    AdvancementOverrideData,
+    AdvancementOverrideDataModel,
+} from '../item/misc/advancement-override';
+import AdvancementManager from '@src/system/utils/advancement';
+import { Advancement } from '@src/system/types/advancement';
+import { CharacterActor } from '@src/system/documents';
 
 const SCHEMA = () => ({
     /* --- Advancement --- */
-    level: new foundry.data.fields.NumberField({
-        required: true,
-        nullable: false,
-        integer: true,
-        min: 1,
-        initial: 1,
-        label: 'COSMERE.Actor.Level.Label',
+    advancement: new foundry.data.fields.SchemaField({
+        level: new foundry.data.fields.NumberField({
+            required: true,
+            nullable: false,
+            integer: true,
+            min: 1,
+            initial: 1,
+            label: 'COSMERE.Actor.Advancement.Level.Label',
+        }),
+        overrides: new foundry.data.fields.ArrayField(
+            new foundry.data.fields.SchemaField(
+                AdvancementOverrideDataModel.defineSchema(),
+            ),
+            {
+                required: true,
+                label: 'COSMERE.Actor.Advancement.Overrides.Label',
+            },
+        ),
     }),
 
     /* --- Derived statistics --- */
@@ -77,9 +93,11 @@ export class CharacterActorDataModel extends CommonActorDataModel<
         super.prepareDerivedData();
 
         // Get advancement rules relevant to the character
-        const advancementRules = Advancement.getAdvancementRulesUpToLevel(
-            this.level,
-        );
+        const advancementRules =
+            AdvancementManager.getAdvancementRulesUpToLevel(
+                this.advancement.level,
+                this.parent as CharacterActor,
+            );
         const currentAdvancementRule =
             advancementRules[advancementRules.length - 1];
 
@@ -87,37 +105,50 @@ export class CharacterActorDataModel extends CommonActorDataModel<
         this.tier = currentAdvancementRule.tier;
 
         // Derive the maximum skill rank
-        this.maxSkillRank = currentAdvancementRule.maxSkillRanks;
+        this.maxSkillRank =
+            currentAdvancementRule.maxStats[
+                Advancement.MaxStatFieldKey.Skills
+            ].base;
     }
 
     public override prepareSecondaryDerivedData(): void {
         // Get advancement rules relevant to the character
-        const advancementRules = Advancement.getAdvancementRulesUpToLevel(
-            this.level,
-        );
+        const advancementRules =
+            AdvancementManager.getAdvancementRulesUpToLevel(
+                this.advancement.level,
+                this.parent as CharacterActor,
+            );
 
         // Derive the recovery die based on the character's willpower
         this.recovery.die.derived = willpowerToRecoveryDie(this.attributes.wil);
 
-        // Derive resource max
-        (Object.keys(this.resources) as Resource[]).forEach((key) => {
-            // Get the resource
-            const resource = this.resources[key];
+        // Derive max health
+        this.resources[Resource.Health].max.derived =
+            AdvancementManager.deriveMaxHealth(
+                advancementRules,
+                this.attributes.str.value, // Should only be the value, not include the bonus
+                this.parent as CharacterActor,
+            );
 
-            if (key === Resource.Health) {
-                // Assign max
-                resource.max.derived = Advancement.deriveMaxHealth(
-                    advancementRules,
-                    this.attributes.str.value, // Should only be the value, not include the bonus
-                );
-            } else if (key === Resource.Focus) {
-                // Assign max
-                resource.max.derived = 2 + this.attributes.wil.value; // Should only be the value, not include the bonus
-            }
-        });
+        // Derive max focus
+        this.resources[Resource.Focus].max.derived =
+            2 + this.attributes.wil.value; // Should only be the value, not include the bonus
 
         // Perform super secondary derived data preparation after so resource max is set
         super.prepareSecondaryDerivedData();
+    }
+
+    /**
+     * Get all applicable overrides on this character at a given level,
+     * sorted by priority (i.e. ready to be applied to a given AdvancementRule)
+     */
+    public getAdvancementOverridesAtLevel(
+        level: number,
+    ): AdvancementOverrideData[] {
+        return AdvancementManager.filterOverridesByLevel(
+            this.advancement.overrides,
+            level,
+        );
     }
 }
 

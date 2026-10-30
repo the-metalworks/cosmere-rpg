@@ -42,6 +42,8 @@ import { Talent, TalentTree, EventSystem as ItemEventSystem } from './item';
 
 import { AnyObject } from './utils';
 
+import { Advancement } from './advancement';
+
 import {
     ItemListSection,
     DynamicItemListSectionGenerator,
@@ -290,6 +292,24 @@ export interface StartingSkillConfig {
     path: string;
 }
 
+export const enum OverridableAdvancementRuleKeys {
+    Health = 'health',
+    AttributePoints = 'attributePoints',
+    AttributeMax = 'maxAttributePoints',
+    SkillRanks = 'skillRanks',
+    SkillMax = 'maxSkillRanks',
+    Talents = 'talents',
+    SkillsOrTalents = 'skillRanksOrTalents',
+}
+
+export const enum SpecificAdvancementRuleKeys {
+    AttributeMax = 'specificAttributeMax',
+    SkillMax = 'specificSkillMax',
+}
+
+export type SpecificAttributeMax = Partial<Record<Attribute, number>>;
+export type SpecificSkillMax = Partial<Record<Skill, number>>;
+
 export interface AdvancementRuleConfig {
     /**
      * The level at which this rule applies.
@@ -302,44 +322,47 @@ export interface AdvancementRuleConfig {
     tier: number;
 
     /**
-     * The maximum number of skill ranks that can be acquired for any
-     * given skill at this level.
+     * The usual fields for advancement which modify
+     * what is granted at this level.
      */
-    maxSkillRanks: number;
+    grants: Advancement.GrantsFields;
 
     /**
-     * The amount of attribute points granted at this level.
+     * The maximum possible value for a given stat,
+     * split between `attributes` and `skills`, with
+     * general (`base`) values and stat-specific differences.
      */
-    attributePoints?: number;
-
-    /**
-     * The amount of health granted at this level.
-     */
-    health?: number;
-
-    /**
-     * Whether to include the strength attribute in the health granted.
-     *
-     * @default false
-     */
-    healthIncludeStrength?: boolean;
-
-    /**
-     * The amount of skill ranks granted at this level.
-     */
-    skillRanks?: number;
-
-    /**
-     * The amount of talents granted at this level.
-     */
-    talents?: number;
-
-    /**
-     * The amount of skill ranks OR talents granted at this level.
-     * This is used when the character must choose between skill ranks and talents.
-     */
-    skillRanksOrTalents?: number;
+    maxStats: Advancement.MaxStatFields;
 }
+
+export interface AdvancementOverrideConfig {
+    global: GlobalOverrideConfig[];
+    items: SourceOverrideConfig[];
+}
+
+export interface SourceOverrideConfig {
+    /**
+     * The id of the related source, whose presence on an actor indicates
+     * that this override should be applied to their advancement.
+     *
+     * This field can be the system id, e.g. `'human'` for a human ancestry,
+     * or a particular item's UUID instead.
+     */
+    sourceId: string;
+
+    /**
+     * The level at which the override applies.
+     */
+    level: number;
+
+    /**
+     * The actual override data defining its modifications.
+     */
+    data: Advancement.OverrideData;
+}
+
+// Global overrides are completely sourceless, and apply to actors universally
+export type GlobalOverrideConfig = Omit<SourceOverrideConfig, 'sourceId'>;
 
 export type AttributeScale<T extends string = string> = {
     formula: T;
@@ -438,6 +461,7 @@ export interface CosmereRPGConfig {
     skills: Record<Skill, SkillConfig>;
     advancement: {
         rules: AdvancementRuleConfig[];
+        overrides: AdvancementOverrideConfig;
     };
 
     currencies: Record<string, CurrencyConfig>;

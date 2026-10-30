@@ -42,9 +42,7 @@ const SCHEMA = () => ({
             nullable: false,
             blank: false,
             initial: CreatureType.Humanoid,
-            choices: Object.entries(
-                CONFIG.COSMERE.creatureTypes,
-            ).reduce(
+            choices: Object.entries(CONFIG.COSMERE.creatureTypes).reduce(
                 (acc, [key, config]) => ({
                     ...acc,
                     [key]: config.label,
@@ -104,12 +102,12 @@ type AncestryItemDataSchema =
     & LinkedSkillsItemDataSchema
     & RelationshipsItemDataSchema;
 
-export type AncestryItemData = foundry.data.fields.SchemaField.InitializedData<AncestryItemDataSchema>;
-export type BonusTalentsRule = AncestryItemData['advancement']['bonusTalents'][number];
+export type AncestryItemData =
+    foundry.data.fields.SchemaField.InitializedData<AncestryItemDataSchema>;
+export type BonusTalentsRule =
+    AncestryItemData['advancement']['bonusTalents'][number];
 
-export class AncestryItemDataModel extends DataModelMixin<
-    AncestryItemDataSchema
->(
+export class AncestryItemDataModel extends DataModelMixin<AncestryItemDataSchema>(
     IdItemMixin({
         initial: 'none',
     }),

@@ -1,162 +1,601 @@
-import { AdvancementRuleConfig } from '@system/types/config';
+import { Advancement } from '@system/types/advancement';
+import {
+    AdvancementRuleConfig,
+    AdvancementOverrideConfig,
+} from '@system/types/config';
 
-import { CosmereItem } from '@system/documents/item';
+import { CharacterActor } from '@system/documents/actor';
+import { SYSTEM_ID } from '@system/constants';
+import { Attribute, Skill } from '@system/types/cosmere';
+import { HOOKS } from '@system/constants/hooks';
+import { AdvancementOverrideData } from '@system/data/item/misc/advancement-override';
 
-/**
- * Returns the advancement rule for the given level.
- */
-export function getAdvancementRuleForLevel(
-    level: number,
-): AdvancementRuleConfig {
-    const rules = CONFIG.COSMERE.advancement.rules;
-    return level >= rules.length
-        ? rules[rules.length - 1] // Repeat the last rule if the level is higher than the last rule
-        : rules[level - 1];
+export class AdvancementOverride {
+    public readonly type: Advancement.OverrideType;
+    public readonly mode: Advancement.OverrideMode;
+    public readonly key:
+        | Advancement.GrantsFieldKey
+        | Advancement.MaxStatFieldKey;
+    public readonly stat?: Advancement.MaxStatType;
+    public readonly value: Advancement.OverrideFieldType;
+    public readonly priority: number;
+    public readonly levels: Advancement.OverrideLevels;
+
+    constructor(data: Advancement.OverrideData) {
+        // Validate incoming data for the given override type
+        switch (data.type) {
+            case Advancement.OverrideType.Grants:
+                Advancement.assertValidGrantsOverride(data);
+                break;
+            case Advancement.OverrideType.MaxStat:
+                Advancement.assertValidMaximumOverride(data);
+                break;
+            default:
+                throw new Error(
+                    `override not implemented for type ${data.type as string}`,
+                );
+        }
+
+        this.type = data.type;
+        this.mode = data.mode;
+        this.key = data.key;
+        this.value = data.value;
+        this.priority = data.priority;
+        this.levels = data.levels;
+
+        if (data.type === Advancement.OverrideType.MaxStat) {
+            this.stat = data.stat;
+        }
+    }
+
+    public static fromDataSchema(
+        data: AdvancementOverrideData,
+    ): AdvancementOverride {
+        return new AdvancementOverride({
+            ...data,
+            key: data.key as
+                | Advancement.GrantsFieldKey
+                | Advancement.MaxStatFieldKey,
+            value: data.value as Advancement.OverrideFieldType,
+            priority: data.priority,
+
+            ...(data.stat
+                ? {
+                      stat: data.stat,
+                  }
+                : {}),
+        });
+    }
+
+    // Override application
+
+    /**
+     * Mutate the provided rule according to the override's configuration
+     */
+    public apply(rule: AdvancementRule): AdvancementRule {
+        switch (this.type) {
+            case Advancement.OverrideType.Grants:
+                return this._applyGrants(rule);
+            case Advancement.OverrideType.MaxStat:
+                return this._applyMaximum(rule);
+        }
+    }
+
+    /**
+     * Apply this override's data to a given rule's grant fields
+     */
+    private _applyGrants(rule: AdvancementRule): AdvancementRule {
+        const key = this.key as Advancement.GrantsFieldKey;
+        const updatedValue =
+            this.mode === Advancement.OverrideMode.Absolute
+                ? this.value
+                : // Relative overrides must be numeric. This is asserted in the constructor,
+                  // so we can safely assume that here.
+                  (this.value as number) + ((rule.grants[key] as number) ?? 0);
+        rule.grants = {
+            ...rule.grants,
+            [key]: updatedValue,
+        };
+
+        return rule;
+    }
+
+    /**
+     * Apply this override's data to a given rule's maximum stats
+     */
+    private _applyMaximum(rule: AdvancementRule): AdvancementRule {
+        const key = this.key as Advancement.MaxStatFieldKey;
+        const stat = this.stat ?? 'base';
+
+        // Reconstruct the max stats, replacing the relevant entry
+        rule.maxStats = {
+            ...rule.maxStats,
+            [key]: {
+                ...rule.maxStats[key],
+                [stat]:
+                    this.mode === Advancement.OverrideMode.Absolute
+                        ? (this.value as number)
+                        : (this.value as number) +
+                          rule.getMaxForStat(key, stat),
+            },
+        };
+
+        return rule;
+    }
 }
 
-/**
- * Returns the all advancement rules up to and including the given level.
- * If the level is higher than the last rule, the last rule is repeated.
- * @returns An array of advancement rules with the length equal to the given level.
- */
-export function getAdvancementRulesUpToLevel(
-    level: number,
-): AdvancementRuleConfig[] {
-    return getAdvancementRulesForLevelChange(0, level);
+export class AdvancementRule {
+    public level: number;
+    public tier: number;
+    public grants: Advancement.GrantsFields;
+    public maxStats: Advancement.MaxStatFields;
+
+    constructor(data: AdvancementRuleConfig) {
+        this.level = data.level;
+        this.tier = data.tier;
+        this.grants = data.grants;
+        this.maxStats = data.maxStats;
+    }
+
+    public getMaxForStat(
+        field: Advancement.MaxStatFieldKey,
+        stat: Advancement.MaxStatType | 'base',
+    ): number {
+        if (stat === 'base') return this.maxStats[field].base ?? 0;
+
+        switch (field) {
+            case Advancement.MaxStatFieldKey.Attributes:
+                return (
+                    this.maxStats[field][stat as Attribute] ??
+                    this.maxStats[field].base
+                );
+            case Advancement.MaxStatFieldKey.Skills:
+                return (
+                    this.maxStats[field][stat as Skill] ??
+                    this.maxStats[field].base
+                );
+        }
+    }
+
+    /**
+     * Apply a list of overrides to this rule, and return the result.
+     * The state of this rule is preserved.
+     * @param overrides
+     * @returns
+     */
+    public applyOverrides(overrides: AdvancementOverride[]): AdvancementRule {
+        const rule = this.clone();
+
+        overrides.forEach((override) => rule.applyOverrideInPlace(override));
+
+        return rule;
+    }
+
+    /**
+     * Get a new rule with the override applied.
+     * The state of this rule is preserved.
+     * @param override
+     * @returns
+     */
+    public applyOverride(override: AdvancementOverride): AdvancementRule {
+        return this.clone().applyOverrideInPlace(override);
+    }
+
+    /**
+     * Mutate this rule with the given override.
+     * @param override
+     * @returns
+     */
+    public applyOverrideInPlace(
+        override: AdvancementOverride,
+    ): AdvancementRule {
+        if (!Hooks.call(HOOKS.PRE_OVERRIDE_ADVANCEMENT, this, override)) {
+            return this;
+        }
+
+        override.apply(this);
+
+        Hooks.callAll(HOOKS.OVERRIDE_ADVANCEMENT, this, override);
+
+        return this;
+    }
+
+    // Helpers
+
+    public clone(): AdvancementRule {
+        return new AdvancementRule({
+            level: this.level,
+            tier: this.tier,
+            grants: {
+                ...this.grants,
+            },
+            maxStats: {
+                attributes: { ...this.maxStats.attributes },
+                skills: { ...this.maxStats.skills },
+            },
+        });
+    }
 }
 
-/**
- * Returns the all advancement rules between the start level (exclusive) and the end level (inclusive).
- * If the end level is higher than the last rule, the last rule is repeated.
- */
-export function getAdvancementRulesForLevelChange(
-    startLevel: number,
-    endLevel: number,
-): (AdvancementRuleConfig & { level: number })[] {
-    // Swap the levels if the end level is lower than the start level
-    if (endLevel < startLevel)
-        return getAdvancementRulesForLevelChange(
-            endLevel,
-            startLevel,
-        ).reverse();
+export default class AdvancementManager {
+    static readonly rules: AdvancementRule[] = [];
+    static readonly overrides: Advancement.OverrideRegistry = {
+        global: [],
+        items: {},
+    };
 
-    // Ensure start level is at least 0
-    startLevel = Math.max(0, startLevel);
+    // Rule registration
 
-    // Get the rules
-    const rules = CONFIG.COSMERE.advancement.rules;
-    return Array.from({ length: endLevel - startLevel }, (_, i) => {
-        const index = startLevel + i;
-        return index >= rules.length
-            ? { ...rules[rules.length - 1], level: index + 1 }
-            : { ...rules[index], level: index + 1 };
-    });
-}
+    public static init() {
+        // Get base advancement rules from config
+        const { rules, overrides } = CONFIG.COSMERE.advancement;
 
-/**
- * Derives the max health of a character at the given level and strength.
- */
-export function deriveMaxHealth(level: number, strength: number): number;
-export function deriveMaxHealth(
-    rules: AdvancementRuleConfig[],
-    strength: number,
-): number;
-export function deriveMaxHealth(
-    levelOrRules: number | AdvancementRuleConfig[],
-    strength: number,
-): number {
-    // Get rules up to the given level
-    const rules = Array.isArray(levelOrRules)
-        ? levelOrRules
-        : getAdvancementRulesUpToLevel(levelOrRules);
+        rules.forEach((rule) => this.registerAdvancementRule(rule));
 
-    // Calculate the health
-    return rules.reduce(
-        (health, rule) =>
-            health +
-            (rule.health ?? 0) +
-            (rule.healthIncludeStrength ? strength : 0),
-        0,
-    );
-}
+        this.registerAdvancementOverrides(overrides);
 
-/**
- * Derives the total amount of attribute points a character of the given level has.
- * This does not account for attribute points spent.
- */
-export function deriveTotalAttributePoints(level: number): number;
-export function deriveTotalAttributePoints(
-    rules: AdvancementRuleConfig[],
-): number;
-export function deriveTotalAttributePoints(
-    levelOrRules: number | AdvancementRuleConfig[],
-): number {
-    // Get rules up to the given level
-    const rules = Array.isArray(levelOrRules)
-        ? levelOrRules
-        : getAdvancementRulesUpToLevel(levelOrRules);
+        console.log(`[${SYSTEM_ID}] Advancement manager initialized`);
+    }
 
-    // Calculate the attribute points
-    return rules.reduce(
-        (points, rule) => points + (rule.attributePoints ?? 0),
-        0,
-    );
-}
+    public static registerAdvancementRule(
+        data: AdvancementRuleConfig,
+    ): AdvancementRule[] {
+        this.rules.push(new AdvancementRule(data));
+        return this.rules;
+    }
 
-/**
- * Derives the total amount of skill ranks a character of the given level has.
- * This does not account for skill ranks spent nor advancement rules that grant EITHER skill ranks or talents.
- */
-export function deriveTotalSkillRanks(level: number): number;
-export function deriveTotalSkillRanks(rules: AdvancementRuleConfig[]): number;
-export function deriveTotalSkillRanks(
-    levelOrRules: number | AdvancementRuleConfig[],
-): number {
-    // Get rules up to the given level
-    const rules = Array.isArray(levelOrRules)
-        ? levelOrRules
-        : getAdvancementRulesUpToLevel(levelOrRules);
+    public static registerAdvancementOverrides(
+        data: AdvancementOverrideConfig,
+    ) {
+        // Register global overrides
+        data.global.forEach((override) => {
+            this.registerAdvancementOverride(override.data);
+        });
 
-    // Calculate the skill ranks
-    return rules.reduce((ranks, rule) => ranks + (rule.skillRanks ?? 0), 0);
-}
+        // Register source overrides
+        data.items.forEach((override) => {
+            this.registerAdvancementOverride(override.data, override.sourceId);
+        });
+    }
 
-/**
- * Derives the total amount of talents a character of the given level has.
- * This does not account for talents spent nor advancement rules that grant EITHER skill ranks or talents.
- */
-export function deriveTotalTalents(level: number): number;
-export function deriveTotalTalents(rules: AdvancementRuleConfig[]): number;
-export function deriveTotalTalents(
-    levelOrRules: number | AdvancementRuleConfig[],
-): number {
-    // Get rules up to the given level
-    const rules = Array.isArray(levelOrRules)
-        ? levelOrRules
-        : getAdvancementRulesUpToLevel(levelOrRules);
+    public static registerAdvancementOverride(
+        data: Advancement.OverrideData,
+        sourceId?: string,
+    ): boolean {
+        let override: AdvancementOverride;
+        try {
+            override = new AdvancementOverride(data);
+        } catch (error) {
+            console.error(`[${SYSTEM_ID}] Error registering override:`, error);
+            return false;
+        }
 
-    // Calculate the talents
-    return rules.reduce((talents, rule) => talents + (rule.talents ?? 0), 0);
-}
+        if (!Hooks.call(HOOKS.PRE_REGISTER_ADVANCEMENT_OVERRIDE, override)) {
+            return false;
+        }
 
-/**
- * Derives the total amount of skill ranks or talent choices a character of the given level has.
- */
-export function deriveTotalSkillRanksOrTalentsChoices(level: number): number;
-export function deriveTotalSkillRanksOrTalentsChoices(
-    rules: AdvancementRuleConfig[],
-): number;
-export function deriveTotalSkillRanksOrTalentsChoices(
-    levelOrRules: number | AdvancementRuleConfig[],
-): number {
-    // Get rules up to the given level
-    const rules = Array.isArray(levelOrRules)
-        ? levelOrRules
-        : getAdvancementRulesUpToLevel(levelOrRules);
+        let overrideList: AdvancementOverride[];
+        if (!sourceId) {
+            overrideList = this.overrides.global;
+        } else {
+            if (!this.overrides.items[sourceId]) {
+                this.overrides.items[sourceId] = [];
+            }
 
-    // Calculate the skill ranks
-    return rules.reduce(
-        (choices, rule) => choices + (rule.skillRanksOrTalents ?? 0),
-        0,
-    );
+            overrideList = this.overrides.items[sourceId];
+        }
+
+        this.insertOverrideIntoList(override, overrideList);
+
+        Hooks.callAll(HOOKS.REGISTER_ADVANCEMENT_OVERRIDE, override);
+
+        return true;
+    }
+
+    /**
+     * Reduce a list of overrides to only those applicable at the current level
+     */
+    public static filterOverridesByLevel<
+        TOverride extends Advancement.Override,
+    >(overrides: TOverride[], level: number): TOverride[] {
+        return overrides.filter(
+            (override) =>
+                level >= (override.levels.min ?? 1) &&
+                level <= (override.levels.max ?? Infinity),
+        );
+    }
+
+    /**
+     * Gets any relevant overrides at the given level
+     */
+    public static getRelevantAdvancementOverrides(
+        level: number,
+        actor: CharacterActor,
+    ): AdvancementOverride[] {
+        return [
+            // Get any global overrides first
+            this.filterOverridesByLevel(this.overrides.global, level),
+
+            // Get actor overrides next, i.e. from owned items or AEs
+            actor.system
+                .getAdvancementOverridesAtLevel(level)
+                .map((override) =>
+                    AdvancementOverride.fromDataSchema(override),
+                ),
+
+            // Get item-specific registered overrides last
+            actor.items.contents.flatMap((item) => {
+                if (!item.hasId() || !this.overrides.items[item.system.id])
+                    return [];
+                return this.filterOverridesByLevel(
+                    this.overrides.items[item.system.id],
+                    level,
+                );
+            }),
+        ].flat();
+    }
+
+    /**
+     * Returns the advancement rule for the given level,
+     * overriden as applicable.
+     */
+    public static getAdvancementRuleForLevel(
+        level: number,
+        actor: CharacterActor,
+    ): AdvancementRule {
+        const relevantOverrides = this.getRelevantAdvancementOverrides(
+            level,
+            actor,
+        );
+
+        const rule =
+            level >= this.rules.length
+                ? this.rules[this.rules.length - 1] // Repeat the last rule if the level is higher than the last rule
+                : this.rules[level - 1];
+
+        return rule.applyOverrides(relevantOverrides);
+    }
+
+    /**
+     * Returns the all advancement rules up to and including the given level.
+     * If the level is higher than the last rule, the last rule is repeated.
+     * @returns An array of advancement rules with the length equal to the given level.
+     */
+    public static getAdvancementRulesUpToLevel(
+        level: number,
+        actor: CharacterActor,
+    ): AdvancementRule[] {
+        return this.getAdvancementRulesForLevelChange(0, level, actor);
+    }
+
+    /**
+     * Returns the all advancement rules between the start level (exclusive) and the end level (inclusive).
+     * If the end level is higher than the last rule, the last rule is repeated.
+     */
+    public static getAdvancementRulesForLevelChange(
+        startLevel: number,
+        endLevel: number,
+        actor: CharacterActor,
+    ): AdvancementRule[] {
+        // Swap the levels if the end level is lower than the start level
+        if (endLevel < startLevel)
+            return this.getAdvancementRulesForLevelChange(
+                endLevel,
+                startLevel,
+                actor,
+            ).reverse();
+
+        // Ensure start level is at least 0
+        startLevel = Math.max(0, startLevel);
+
+        return Array.from({ length: endLevel - startLevel }, (_, i) => {
+            const index = startLevel + i;
+            const rule =
+                this.rules[Math.min(index, this.rules.length - 1)].clone();
+            if (index >= this.rules.length) rule.level = index + 1;
+
+            return rule.applyOverrides(
+                this.getRelevantAdvancementOverrides(index + 1, actor),
+            );
+        });
+    }
+
+    /**
+     * Derives the max health of a character at the given level and strength.
+     */
+    public static deriveMaxHealth(
+        level: number,
+        strength: number,
+        actor: CharacterActor,
+    ): number;
+    public static deriveMaxHealth(
+        rules: AdvancementRule[],
+        strength: number,
+        actor: CharacterActor,
+    ): number;
+    public static deriveMaxHealth(
+        levelOrRules: number | AdvancementRule[],
+        strength: number,
+        actor: CharacterActor,
+    ): number {
+        // Get rules up to the given level
+        const rules = Array.isArray(levelOrRules)
+            ? levelOrRules
+            : this.getAdvancementRulesUpToLevel(levelOrRules, actor);
+
+        // Calculate the health
+        return rules.reduce(
+            (health, rule) =>
+                health +
+                (rule.grants.health ?? 0) +
+                (rule.grants.healthIncludeStrength ? strength : 0),
+            0,
+        );
+    }
+
+    /**
+     * Derives the total amount of attribute points a character of the given level has.
+     * This does not account for attribute points spent.
+     */
+    public static deriveTotalAttributePoints(
+        level: number,
+        actor: CharacterActor,
+    ): number;
+    public static deriveTotalAttributePoints(
+        rules: AdvancementRule[],
+        actor: CharacterActor,
+    ): number;
+    public static deriveTotalAttributePoints(
+        levelOrRules: number | AdvancementRule[],
+        actor: CharacterActor,
+    ): number {
+        // Get rules up to the given level
+        const rules = Array.isArray(levelOrRules)
+            ? levelOrRules
+            : this.getAdvancementRulesUpToLevel(levelOrRules, actor);
+
+        // Calculate the attribute points
+        return rules.reduce(
+            (points, rule) => points + (rule.grants.attributePoints ?? 0),
+            0,
+        );
+    }
+
+    /**
+     * Derives the total amount of skill ranks a character of the given level has.
+     * This does not account for skill ranks spent nor advancement rules that grant EITHER skill ranks or talents.
+     */
+    public static deriveTotalSkillRanks(
+        level: number,
+        actor: CharacterActor,
+    ): number;
+    public static deriveTotalSkillRanks(
+        rules: AdvancementRule[],
+        actor: CharacterActor,
+    ): number;
+    public static deriveTotalSkillRanks(
+        levelOrRules: number | AdvancementRule[],
+        actor: CharacterActor,
+    ): number {
+        // Get rules up to the given level
+        const rules = Array.isArray(levelOrRules)
+            ? levelOrRules
+            : this.getAdvancementRulesUpToLevel(levelOrRules, actor);
+
+        // Calculate the skill ranks
+        return rules.reduce(
+            (ranks, rule) => ranks + (rule.grants.skillRanks ?? 0),
+            0,
+        );
+    }
+
+    /**
+     * Derives the total amount of talents a character of the given level has.
+     * This does not account for talents spent nor advancement rules that grant EITHER skill ranks or talents.
+     */
+    public static deriveTotalTalents(
+        level: number,
+        actor: CharacterActor,
+    ): number;
+    public static deriveTotalTalents(
+        rules: AdvancementRule[],
+        actor: CharacterActor,
+    ): number;
+    public static deriveTotalTalents(
+        levelOrRules: number | AdvancementRule[],
+        actor: CharacterActor,
+    ): number {
+        // Get rules up to the given level
+        const rules = Array.isArray(levelOrRules)
+            ? levelOrRules
+            : this.getAdvancementRulesUpToLevel(levelOrRules, actor);
+
+        // Calculate the talents
+        return rules.reduce(
+            (talents, rule) => talents + (rule.grants.talents ?? 0),
+            0,
+        );
+    }
+
+    /**
+     * Derives the total amount of skill ranks or talent choices a character of the given level has.
+     */
+    public static deriveTotalSkillRanksOrTalentsChoices(
+        level: number,
+        actor: CharacterActor,
+    ): number;
+    public static deriveTotalSkillRanksOrTalentsChoices(
+        rules: AdvancementRule[],
+        actor: CharacterActor,
+    ): number;
+    public static deriveTotalSkillRanksOrTalentsChoices(
+        levelOrRules: number | AdvancementRule[],
+        actor: CharacterActor,
+    ): number {
+        // Get rules up to the given level
+        const rules = Array.isArray(levelOrRules)
+            ? levelOrRules
+            : this.getAdvancementRulesUpToLevel(levelOrRules, actor);
+
+        // Calculate the skill ranks
+        return rules.reduce(
+            (choices, rule) => choices + (rule.grants.skillRanksOrTalents ?? 0),
+            0,
+        );
+    }
+
+    // Helpers
+
+    /**
+     * Helper function to insert an override into a list based on priority.
+     * Lower priority comes first (higher priority overrides assert their
+     * changes later).
+     */
+    public static insertOverrideIntoList<
+        TOverrideData extends Advancement.Override,
+    >(override: TOverrideData, list: TOverrideData[]) {
+        if (list.length === 0) {
+            list.push(override);
+            return;
+        }
+
+        // Insert after all other identical priorities
+        let i = 0;
+        while (i < list.length && list[i].priority <= override.priority) {
+            i++;
+        }
+
+        list.splice(i, 0, override);
+    }
+
+    /**
+     * Sort a list of overrides based on their level ranges, breaking ties with priority.
+     */
+    public static sortOverridesByLevels<
+        TOverrideData extends Advancement.Override,
+    >(list: TOverrideData[]) {
+        return list.sort((a, b) => {
+            if (
+                a.levels.min === b.levels.min &&
+                a.levels.max === b.levels.max
+            ) {
+                // Both apply to identical level ranges, use priority.
+                return a.priority - b.priority;
+            }
+
+            const aMin = a.levels.min ?? -Infinity;
+            const bMin = b.levels.min ?? -Infinity;
+            if (aMin !== bMin) {
+                // A and B start at different levels.
+                // Sort accordingly.
+                return aMin - bMin;
+            }
+
+            // A and B start at the same level.
+            // Sort based on end level.
+            const aMax = a.levels.max ?? Infinity;
+            const bMax = b.levels.max ?? Infinity;
+            return aMax - bMax;
+        });
+    }
 }

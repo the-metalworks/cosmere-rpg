@@ -23,11 +23,14 @@ import { Derived } from '@system/data/fields';
 import { AnyObject, NumberRange } from '@system/types/utils';
 import { CosmereTurnContext } from '@system/applications/combat';
 
-import { ItemContext, ItemContextOptions } from './types';
+import { ItemContext, ItemContextOptions, OverrideSelectOption } from './types';
 import { TEMPLATES } from '../templates';
 import { SYSTEM_ID } from '@system/constants';
 import { ActionItemDataModel } from '@system/data/item/action';
 import { getUnitLabel } from '@system/settings';
+import { AdvancementOverride } from '../advancement';
+import { AdvancementOverrideData } from '@src/system/data/item/misc/advancement-override';
+import { Advancement } from '@src/system/types/advancement';
 
 Handlebars.registerHelper('add', (a: number, b: number) => a + b);
 Handlebars.registerHelper('sub', (a: number, b: number) => a - b);
@@ -688,6 +691,41 @@ Handlebars.registerHelper('keys', (obj: AnyObject) => Object.keys(obj));
 
 Handlebars.registerHelper('values', (obj: AnyObject) => Object.values(obj));
 
+Handlebars.registerHelper(
+    'advancementOverrideLevels',
+    (value: Advancement.OverrideLevels) => {
+        const min = value.min ?? 1;
+        const max = value.max ?? Infinity;
+
+        if (min === max) {
+            return min.toString();
+        }
+
+        if (max === Infinity) {
+            if (min === 1) {
+                return game.i18n.localize(
+                    'COSMERE.Advancement.Override.Data.Levels.All',
+                );
+            }
+
+            return game.i18n.format(
+                'COSMERE.Advancement.Override.Data.Levels.AtLeast',
+                {
+                    level: min.toString(),
+                },
+            );
+        }
+
+        return game.i18n.format(
+            'COSMERE.Advancement.Override.Data.Levels.Between',
+            {
+                min: min.toString(),
+                max: max.toString(),
+            },
+        );
+    },
+);
+
 Handlebars.registerHelper('entries', (obj: AnyObject) => {
     return Object.entries(obj).map(([key, value]) => ({ key, value }));
 });
@@ -737,6 +775,47 @@ Handlebars.registerHelper('filterSelectOptions', ((
 Handlebars.registerHelper('getProperty', (obj: AnyObject, path: string) => {
     return foundry.utils.getProperty(obj, path);
 });
+
+Handlebars.registerHelper(
+    'localizeOverrideData',
+    (override: AdvancementOverrideData, key: keyof AdvancementOverrideData) => {
+        let localeKey: string;
+        switch (key) {
+            case 'type':
+                localeKey = `COSMERE.Advancement.Override.Type.${override.type}.Label`;
+                break;
+            case 'mode':
+                localeKey = `COSMERE.Advancement.Override.Mode.${override.mode}.Label`;
+                break;
+            case 'key':
+                localeKey = `COSMERE.Advancement.Override.Field.${override.type}.${override.key}.Label`;
+                break;
+            case 'stat':
+                if (!override.stat) return '';
+                localeKey =
+                    override.key === Advancement.MaxStatFieldKey.Attributes
+                        ? `COSMERE.Attribute.${override.stat}`
+                        : `COSMERE.Skill.${override.stat}`;
+                break;
+            default:
+                return '';
+        }
+
+        return game.i18n.localize(localeKey);
+    },
+);
+
+Handlebars.registerHelper(
+    'getOverrideSelectOptions',
+    (options: OverrideSelectOption[], selected: string) => {
+        return options
+            .map(
+                (option) =>
+                    `<option value="${option.value}" selected=${option.value === selected}>${option.label}</option>`,
+            )
+            .join('\n');
+    },
+);
 
 export async function preloadHandlebarsTemplates() {
     const templates = Object.values(TEMPLATES)

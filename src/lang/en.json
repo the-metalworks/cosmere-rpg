@@ -872,6 +872,13 @@
                     },
                     "Handler": {
                         "Types": {
+                            "grant-advancement-overrides": {
+                                "Title": "Grant Advancement Overrides",
+                                "Description": "Grants overrides to a character's advancement rules",
+                                "Overrides": {
+                                    "Label": "Overrides"
+                                }
+                            },
                             "grant-expertises": {
                                 "Title": "Grant Expertises",
                                 "Description": "Grants expertises to an actor.",
@@ -952,6 +959,14 @@
                                 "Amount": {
                                     "Label": "Amount",
                                     "Hint": "The amount to modify the skill rank by. Can be positive or negative."
+                                }
+                            },
+                            "remove-advancement-overrides": {
+                                "Title": "Remove Advancement Overrides",
+                                "Description": "Removes advancement overrides from a character that were granted by a particular source.",
+                                "UUID": {
+                                    "Label": "Source",
+                                    "Hint": "The ID of the source item. If unspecified, this item is assumed to be the source."
                                 }
                             },
                             "remove-expertises": {
@@ -1475,6 +1490,13 @@
                 "Delete": "Remove",
                 "Cancel": "Discard Changes",
                 "Submit": "Finish Editing"
+            },
+            "Advancement": {
+                "Overrides": {
+                    "Label": "Overrides",
+                    "Add": "New Override",
+                    "Delete": "Remove Override"
+                }
             }
         },
         "Attribute": {
@@ -1704,6 +1726,120 @@
                             "Confirm": "Confirm"
                         }
                     }
+                }
+            }
+        },
+        "Advancement": {
+            "Override": {
+                "Label": "Override",
+                "Data": {
+                    "Levels": {
+                        "Label": "Levels",
+                        "Description": "The level range this override applies to",
+                        "Min": {
+                            "Label": "Min",
+                            "Description": "Start Level"
+                        },
+                        "Max": {
+                            "Label": "Max",
+                            "Description": "End Level"
+                        },
+                        "All": "All",
+                        "AtLeast": "{level}+",
+                        "Between": "{min}-{max}"
+                    },
+                    "Type": {
+                        "Label": "Type",
+                        "Description": "What kind of change this override makes"
+                    },
+                    "Mode": {
+                        "Label": "Mode",
+                        "Description": "How to apply this override's value"
+                    },
+                    "Key": {
+                        "Label": "Key"
+                    },
+                    "Stat": {
+                        "Label": "Stat"
+                    },
+                    "Value": {
+                        "Label": "Value"
+                    },
+                    "Priority": {
+                        "Label": "Priority",
+                        "Description": "Higher priority overrides are applied later.<br>Default: 0"
+                    }
+                },
+                "Type": {
+                    "grants": {
+                        "Label": "Grants",
+                        "Description": "Changes something granted at this level"
+                    },
+                    "max-stat": {
+                        "Label": "Max Stat",
+                        "Description": "Changes the maximum value of a given stat"
+                    }
+                },
+                "Mode": {
+                    "absolute": {
+                        "Label": "Absolute",
+                        "Description": "Completely overwrite lower priority values"
+                    },
+                    "relative": {
+                        "Label": "Relative",
+                        "Description": "Add this value to what already exists"
+                    }
+                },
+                "Field": {
+                    "Type": {
+                        "numeric": "Numeric",
+                        "boolean": "Boolean"
+                    },
+                    "grants": {
+                        "health": {
+                            "Label": "Health",
+                            "Description": "Health points gained"
+                        },
+                        "healthIncludeStrength": {
+                            "Label": "Health w/ Str",
+                            "Description": "Does this level's health increase include Strength?"
+                        },
+                        "attributePoints": {
+                            "Label": "Attributes",
+                            "Description": "Attribute points gained"
+                        },
+                        "skillRanks": {
+                            "Label": "Skill Ranks",
+                            "Description": "Allocable skill ranks gained"
+                        },
+                        "talents": {
+                            "Label": "Talents",
+                            "Description": "Number of additional talents gained"
+                        },
+                        "skillRanksOrTalents": {
+                            "Label": "Skills/Talents",
+                            "Description": "Skill ranks or talents gained (player choice)"
+                        }
+                    },
+                    "max-stat": {
+                        "attributes": {
+                            "Label": "Attributes",
+                            "Description": "Maximum points per Attribute"
+                        },
+                        "skills": {
+                            "Label": "Skills",
+                            "Description": "Maximum ranks per Skill"
+                        }
+                    }
+                },
+                "Stat": {
+                    "base": {
+                        "Label": "Base",
+                        "Description": "Applies to the max for all stats of this key"
+                    }
+                },
+                "Error": {
+                    "BadConfig": "Invalid override configuration: {error}"
                 }
             }
         }
