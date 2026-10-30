@@ -43,6 +43,7 @@ any> {
         'toggle-section-collapsed': this.onToggleSectionCollapsed,
         'toggle-action-details': this.onToggleActionDetails,
         'new-item': this.onNewItem,
+        'open-talent-tree': this.onOpenTalentTree,
     };
     /* eslint-enable */
 
@@ -64,6 +65,25 @@ any> {
     }
 
     /* --- Actions --- */
+
+    public static async onOpenTalentTree(
+        this: ActorItemListComponent,
+        event: Event,
+    ) {
+        event.preventDefault();
+        event.stopPropagation();
+        const uuid = AppUtils.getItemUuidFromEvent(event);
+        if (!uuid) return;
+
+        const item = await fromUuid<CosmereItem>(uuid);
+        if (!item) return;
+
+        // Use the item
+        void item.sheet?.render({
+            force: true,
+            tab: 'talents',
+        });
+    }
 
     protected setSectionExpandedDefaults() {
         // Ensure all sections have an expand state record defaulting to settings.expandSectionByDefault

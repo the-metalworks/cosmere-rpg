@@ -7,11 +7,17 @@
     {{else}}
         empty
     {{/if}}" data-section-id="{{section.id}}">
-        <li class="item header">
+        <li class="item header" data-item-uuid="{{section.sourceItem.uuid}}">
             <section class="details" data-action="toggle-section-collapsed">
                 <span class="title">{{localize section.label}}</span>
                 <div class="controls icon active">
                     {{#if @root.editable}}
+                    
+                        {{#if section.sourceItem.system.talentTree}}
+                            <a data-action="open-talent-tree" data-tooltip="COSMERE.Item.TalentTree.Open">
+                                <i class="fa-solid fa-sitemap"></i>
+                            </a>
+                        {{/if}}
                         {{#if section.canAddNewItems}}
                             <a data-action="new-item" data-tooltip="{{section.createItemTooltip}}">
                                 <i class="fa-solid fa-plus"></i>
@@ -52,6 +58,11 @@
 
                         {{!-- Controls --}}
                         <div class="controls icon faded">
+                            {{#if (and item.system.talentTree @root.editable)}}
+                            <a role="button" data-action="open-talent-tree" data-tooltip="COSMERE.Item.TalentTree.Open">
+                                <i class="fa-solid fa-sitemap"></i>
+                            </a>
+                            {{/if}}
                             <a role="button" data-action="toggle-action-details" {{#if state.expanded}}
                                 data-tooltip="GENERIC.HideDetails" {{else}} data-tooltip="GENERIC.ViewDetails"
                                 {{/if}}>
