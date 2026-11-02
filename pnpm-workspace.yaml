@@ -1,4 +1,7 @@
 allowBuilds:
   '@parcel/watcher': true
   classic-level: true
-blockExoticSubdeps: false
+overrides:
+  "@league-of-foundry-developers/foundry-vtt-types>pixi.js": "^7.4.2"
+  "@league-of-foundry-developers/foundry-vtt-types>@pixi/basis": "^7.4.2"
+  "@league-of-foundry-developers/foundry-vtt-types>@pixi/particle-emitter": "^5.0.8"
