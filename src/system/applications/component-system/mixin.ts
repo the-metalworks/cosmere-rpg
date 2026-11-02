@@ -21,8 +21,8 @@ type RenderContext = HandlebarsApplicationMixin.RenderContext &
     AppV2.RenderContext;
 interface RenderOptions
     extends HandlebarsApplicationMixin.RenderOptions, AppV2.RenderOptions {
-        components?: string[];
-        componentRefs: string[];
+    components?: string[];
+    componentRefs: string[];
 }
 type Configuration = AppV2.Configuration &
     HandlebarsApplicationMixin.Configuration;
@@ -78,10 +78,13 @@ export function ComponentHandlebarsApplicationMixin<
             options.componentRefs ??= [];
         }
 
-        protected override async _renderHTML(
-            context: RenderContext,
-            options: RenderOptions,
-        ): Promise<Record<string, HTMLElement>> {
+        protected override async _renderHTML({
+            context,
+            options,
+        }: {
+            context: RenderContext;
+            options: RenderOptions;
+        }): Promise<Record<string, HTMLElement>> {
             let renderedParts: Record<string, HTMLElement> = {};
             const renderedComponents: Record<string, HTMLCollection> = {};
 
