@@ -493,13 +493,9 @@ Handlebars.registerHelper(
 
             if (item.hasDamage() && item.system.damage.formula) {
                 let skill = item.system.damage.skill as
-                    | Skill
-                    | 'default'
-                    | null;
+                    Skill | 'default' | null;
                 let attribute = item.system.damage.attribute as
-                    | Attribute
-                    | 'default'
-                    | null;
+                    Attribute | 'default' | null;
 
                 // TEMP
                 if (skill === 'default') skill = null;
@@ -616,11 +612,8 @@ Handlebars.registerHelper(
                 );
             }
         }
-        // else if (consume.type === ItemConsumeType.Item){
 
-        // }
-
-        let label = '';
+        let label;
 
         // Get adjusted minimum value, to account for optional formatting
         const adjustedMin = Math.max(value.min, 1);
