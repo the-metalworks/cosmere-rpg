@@ -792,13 +792,10 @@ export class CosmereActor<
         )
             return;
 
-        // NOTE: Draw function type definition is wrong, must use `any` type as a workaround
-        /* eslint-disable @typescript-eslint/no-explicit-any */
         const draw = await table.draw({
             roll,
             displayChat: false,
-        });
-        /* eslint-Enable @typescript-eslint/no-explicit-any */
+        } satisfies foundry.documents.RollTable.DrawOptions);
 
         // Get result
         const result = draw.results[0];
