@@ -1,5 +1,5 @@
-@import './character.scss';
-@import './adversary.scss';
+@use 'character.scss';
+@use 'adversary.scss';
 
 .application.sheet.actor {
     --border-sheet-corner-svg: url('assets/icons/svg/sheet/border_sheet_actor_corner.svg');

@@ -1,7 +1,7 @@
-@import './journal-common.scss';
+@use 'journal-common.scss';
 
 .sheet.journal-entry.sljsr {
-    @include sl-journal-common;
+    @include journal-common.sl-journal-common;
     
     .journal-entry-page {
         .sl-blue {

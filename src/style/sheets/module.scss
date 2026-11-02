@@ -1,6 +1,6 @@
-@import './sheet.scss';
-@import './input.scss';
+@use 'sheet.scss';
+@use 'input.scss';
 
-@import './actor/module.scss';
-@import './item/module.scss';
-@import './journal.scss';
+@use 'actor/module.scss';
+@use 'item/module.scss' as module2;
+@use 'journal.scss';
