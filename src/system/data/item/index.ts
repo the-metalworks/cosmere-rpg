@@ -45,7 +45,7 @@ export const config = {
 
     [ItemType.EffectsContainer]: EffectsContainerItemDataModel,
     [ItemType.TalentTree]: TalentTreeItemDataModel,
-};
+} as Record<ItemType, typeof foundry.abstract.TypeDataModel>;
 
 export * from './weapon';
 export * from './armor';
@@ -66,28 +66,6 @@ export * from './talent-tree';
 
 declare module '@league-of-foundry-developers/foundry-vtt-types/configuration' {
     interface DataModelConfig {
-        Item: {
-            [ItemType.Weapon]: typeof foundry.abstract.TypeDataModel;
-            [ItemType.Armor]: typeof foundry.abstract.TypeDataModel;
-            [ItemType.Equipment]: typeof foundry.abstract.TypeDataModel;
-            [ItemType.Loot]: typeof foundry.abstract.TypeDataModel;
-
-            [ItemType.Ancestry]: typeof foundry.abstract.TypeDataModel;
-            [ItemType.Culture]: typeof foundry.abstract.TypeDataModel;
-            [ItemType.Path]: typeof foundry.abstract.TypeDataModel;
-            [ItemType.Talent]: typeof foundry.abstract.TypeDataModel;
-            [ItemType.Trait]: typeof foundry.abstract.TypeDataModel;
-
-            [ItemType.Action]: typeof foundry.abstract.TypeDataModel;
-
-            [ItemType.Injury]: typeof foundry.abstract.TypeDataModel;
-            [ItemType.Connection]: typeof foundry.abstract.TypeDataModel;
-            [ItemType.Goal]: typeof foundry.abstract.TypeDataModel;
-
-            [ItemType.Power]: typeof foundry.abstract.TypeDataModel;
-
-            [ItemType.EffectsContainer]: typeof foundry.abstract.TypeDataModel;
-            [ItemType.TalentTree]: typeof foundry.abstract.TypeDataModel;
-        };
+        Item: typeof config;
     }
 }
