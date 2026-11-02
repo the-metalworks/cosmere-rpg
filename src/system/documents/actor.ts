@@ -849,7 +849,7 @@ export class CosmereActor<
             );
         }
 
-        const flags = {} as Record<string, any>;
+        const flags = {} as Record<string, unknown>;
         flags[SYSTEM_ID] = {
             message: {
                 type: MESSAGE_TYPES.INJURY,
