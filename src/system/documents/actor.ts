@@ -1083,14 +1083,14 @@ export class CosmereActor<
                         ChatMessage.getSpeaker({
                             actor: this,
                         }),
-                    flags: {} as Record<string, any>,
+                    flags: {},
                 },
             },
             options,
         );
 
         rollData.parts = [`@mod`].concat(options.parts ?? []);
-        rollData.messageData.flags[SYSTEM_ID] = {
+        (rollData.messageData.flags as Record<string, unknown>)[SYSTEM_ID] = {
             message: {
                 type: MESSAGE_TYPES.SKILL,
                 targets: getTargetDescriptors(),
@@ -1414,7 +1414,7 @@ export class CosmereActor<
 
         const registeredData = this.getRegisteredRollData(data) as Record<
             string,
-            any
+            unknown
         >;
 
         return foundry.utils.mergeObject(data, registeredData, {
