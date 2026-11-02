@@ -1422,7 +1422,7 @@ export class CosmereActor<
             insertValues: true,
             overwrite: true,
             recursive: true,
-        });
+        }) as CosmereActorRollData<SubType>;
     }
 
     public getEnricherData() {
