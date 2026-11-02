@@ -1584,7 +1584,10 @@ export class CosmereActor<
     public hasExpertise(
         ...args: [Expertise] | [ExpertiseType, string]
     ): boolean {
-        return containsExpertise(this.system.expertises as any, ...args); // TEMP: Workaround
+        return containsExpertise(
+            this.system.expertises as unknown as Collection<Expertise>,
+            ...args,
+        );
     }
 
     /**
