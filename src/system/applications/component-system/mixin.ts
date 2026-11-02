@@ -9,19 +9,24 @@ import { HandlebarsApplicationComponent } from './component';
 // Types
 import { ComponentState, PartState } from './types';
 
-const { HandlebarsApplicationMixin } = foundry.applications.api;
+// Shorthands for types/namespaces
+import AppAPI = foundry.applications.api;
+import HandlebarsApplicationMixin = AppAPI.HandlebarsApplicationMixin;
+import AppV2 = AppAPI.ApplicationV2;
 
-export type ComponentHandlebarsRenderOptions =
-    foundry.applications.api.HandlebarsApplicationMixin.RenderOptions & {
+export type ComponentHandlebarsRenderContext = RenderContext;
+export type ComponentHandlebarsRenderOptions = RenderOptions;
+
+type RenderContext = HandlebarsApplicationMixin.RenderContext &
+    AppV2.RenderContext;
+interface RenderOptions
+    extends HandlebarsApplicationMixin.RenderOptions, AppV2.RenderOptions {
         components?: string[];
         componentRefs: string[];
-    };
-
-type RenderContext = AnyObject;
-type RenderOptions = ComponentHandlebarsRenderOptions & AnyObject;
+}
 
 export function ComponentHandlebarsApplicationMixin<
-    BaseClass extends foundry.applications.api.ApplicationV2.AnyConstructor,
+    BaseClass extends AppV2.AnyConstructor,
 >(base: BaseClass) {
     return class mixin extends HandlebarsApplicationMixin(base) {
         public get components(): Record<
@@ -298,7 +303,7 @@ export function ComponentHandlebarsApplicationMixin<
 // NOTE: Use any as workaround for foundry-vtt-types issues
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export declare class ComponentHandlebarsApplication {
-    static DEFAULT_OPTIONS: foundry.applications.api.ApplicationV2.DefaultOptions;
+    static DEFAULT_OPTIONS: AppV2.DefaultOptions;
     static PARTS: any;
     static TABS: any;
 
@@ -314,14 +319,12 @@ export declare class ComponentHandlebarsApplication {
     public document: foundry.abstract.Document.Any;
     public isEditable: boolean;
     public element: HTMLElement;
-    public window: foundry.applications.api.ApplicationV2.Window;
-    public position: foundry.applications.api.ApplicationV2.Position;
+    public window: AppV2.Window;
+    public position: AppV2.Position;
 
     public render(...args: any[]): Promise<void>;
     public close(): Promise<void>;
-    public setPosition(
-        position: DeepPartial<foundry.applications.api.ApplicationV2.Position>,
-    ): void;
+    public setPosition(position: DeepPartial<AppV2.Position>): void;
 
     protected _renderFrame(...args: any[]): Promise<HTMLElement>;
     protected _onRender(...args: any[]): Promise<void>;
