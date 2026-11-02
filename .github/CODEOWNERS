@@ -1,12 +1,41 @@
-# Automatically request the Developers team to review PRs on the system repo as the default
-* @the-metalworks/developers
+# Maintenance & Workflow Team
 
-# Request specifically the Designers team for template and style changes
-templates/ @the-metalworks/designers
-style/ @the-metalworks/designers
+# Everything in the root directory, but not subdirectories.
+/* @the-metalworks/maintenance-workflow
+# Scripts and Husky files and any subdirectories all matched.
+/scripts/ @the-metalworks/maintenance-workflow
+/.husky/ @the-metalworks/maintenance-workflow
+# Match system json regardless of placement
+system.json
+# Any LICENSE or markdown file regardless of location should be matched.
+LICENSE @the-metalworks/maintenance-workflow
+*.md @the-metalworks/maintenance-workflow
 
-# Request specifically the Content Creators team for changes to packs
-packs/ @the-metalworks/content-creators
+# Development Team
 
-# Specifically request someone familiar with types for review of any types changes
-types/ @stanavdb @zithith @Khunkurisu
+# Everything in the system directory or its subdirectories and the index.ts file of the src directory.
+/src/system/ @the-metalworks/development
+/src/index.ts @the-metalworks/development
+
+# Visual Design Team
+
+# Any html, handlebars, or style filetypes regardless of directory.
+*.html @the-metalworks/visual-design
+*.hbs @the-metalworks/visual-design
+*.css @the-metalworks/visual-design
+*.scss @the-metalworks/visual-design
+# Any file inside a folder labeled assets or within its subdirectories.
+assets/ @the-metalworks/visual-design
+
+# Production Team
+
+# Anything inside a packs folder or its subdirectories.
+packs/ @the-metalworks/production
+
+# Engineering Team
+
+# Anything inside the declarations or types folders, including within subdirectories and at any placement.
+declarations/ @the-metalworks/engineering
+types/ @the-metalworks/engineering
+# Match all typescript declaration files in case they're not in one of the expected folders.
+*.d.ts @the-metalworks/engineering
