@@ -152,7 +152,8 @@ export function ComponentHandlebarsApplicationMixin<
                     // Perform render
                     const html = await ComponentSystem.renderComponent(
                         ref,
-                        context,
+                        // This should instead be fixed by changing renderComponent's expectations
+                        context as AnyObject,
                         options,
                     );
 
@@ -181,7 +182,7 @@ export function ComponentHandlebarsApplicationMixin<
         protected override _replaceHTML(
             result: AnyObject,
             content: HTMLElement,
-            options: RenderOptions,
+            options: DeepPartial<RenderOptions>,
         ): void {
             const parts = result.parts as Record<string, HTMLElement>;
             const components = result.components as Record<
@@ -257,7 +258,7 @@ export function ComponentHandlebarsApplicationMixin<
         }
 
         protected override async _prepareContext(
-            options: DeepPartial<RenderOptions>,
+            options: DeepPartial<RenderOptions> & { isFirstRender: boolean },
         ): Promise<RenderContext> {
             return await super._prepareContext(options);
         }
