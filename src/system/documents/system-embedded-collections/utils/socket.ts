@@ -253,8 +253,7 @@ async function getCRUDRequestTargets(
 
     if (isCreateRequest(request)) {
         const cls = CONFIG[request.type]?.documentClass as
-            | Document.Constructable.AnyConstructor
-            | undefined;
+            Document.Constructable.AnyConstructor | undefined;
         if (!cls) return [];
 
         return request.operation.data
@@ -418,7 +417,7 @@ function resolveUpdate(
                             doc.toObject() as AnyDocumentData,
                             doc.id === curr.id ? update : {},
                         ),
-                    ) ?? ([update] as AnyDocumentData[])
+                    ) ?? ([update] as unknown as AnyDocumentData[])
             );
         }, updatedCollectionData)[0];
 }
@@ -554,8 +553,7 @@ function transformCreateUpdateResponse(
                 .reduce(
                     (acc, { documentName, id }, index, self) => {
                         const cls = CONFIG[documentName]?.documentClass as
-                            | Document.Constructable.AnyConstructor
-                            | undefined;
+                            Document.Constructable.AnyConstructor | undefined;
                         if (!cls)
                             throw new Error(
                                 `Unable to find document class for document type ${documentName}`,
@@ -966,8 +964,8 @@ function ensureArray(collectionData: unknown): unknown[] | null {
 }
 
 class DocumentHierarchy<
-    TOriginDocument extends
-        foundry.abstract.Document.Any = foundry.abstract.Document.Any,
+    TOriginDocument extends foundry.abstract.Document.Any =
+        foundry.abstract.Document.Any,
 > {
     /**
      * Whether or not the document hierarchy includes at least one system embedding relationship
