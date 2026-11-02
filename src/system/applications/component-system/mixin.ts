@@ -1,4 +1,4 @@
-import { DeepPartial, AnyObject } from '@system/types/utils';
+import { DeepPartial, AnyObject, Identity } from '@system/types/utils';
 
 // Component System
 import ComponentSystem from './system';
@@ -24,9 +24,16 @@ interface RenderOptions
         components?: string[];
         componentRefs: string[];
 }
+type Configuration = AppV2.Configuration &
+    HandlebarsApplicationMixin.Configuration;
+
+type ComponentHandlebarsBaseClass = Identity<
+    AppV2<RenderContext, Configuration, RenderOptions>
+> &
+    AppV2.AnyConstructor;
 
 export function ComponentHandlebarsApplicationMixin<
-    BaseClass extends AppV2.AnyConstructor,
+    BaseClass extends AppV2.AnyConstructor = ComponentHandlebarsBaseClass,
 >(base: BaseClass) {
     return class mixin extends HandlebarsApplicationMixin(base) {
         public get components(): Record<
