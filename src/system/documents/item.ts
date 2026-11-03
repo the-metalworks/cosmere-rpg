@@ -1538,10 +1538,6 @@ export class CosmereItem<
                 ? (rolls as unknown as [D20Roll, ...DamageRoll[]])
                 : (rolls[0] as unknown as D20Roll);
         } else {
-            // NOTE: Use boolean or operator (`||`) here instead of nullish coalescing (`??`),
-            // as flavor can also be an empty string, which we'd like to replace with the default flavor too
-            const flavor = this.system.activation!.flavor || undefined;
-
             // Create chat message
             await ChatMessage.create(messageConfig, {
                 rollMode: options.rollMode,
