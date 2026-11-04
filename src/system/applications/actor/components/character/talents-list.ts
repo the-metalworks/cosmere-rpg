@@ -208,7 +208,7 @@ export const DYNAMIC_SECTIONS: Record<string, DynamicItemListSectionGenerator> =
                     new: (parent: CosmereActor) =>
                         CosmereItem.create(
                             {
-                                type: ItemType.Action,
+                                type: ItemType.Talent,
                                 name: game.i18n.localize(
                                     'COSMERE.Item.Type.Talent.New',
                                 ),
