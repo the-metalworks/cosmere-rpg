@@ -397,6 +397,7 @@ function getTransform(type: string, config: ItemEventTypeConfig) {
                 );
             }
 
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
             return {
                 document,
                 options,

@@ -50,9 +50,7 @@ export class CosmereChatMessage<
     public get actorSource(): CosmereActor | null {
         if (this.speaker.scene && this.speaker.token) {
             const scene = game.scenes.get(this.speaker.scene);
-            const token = scene?.tokens?.get(this.speaker.token) as
-                | TokenDocument
-                | undefined;
+            const token = scene?.tokens?.get(this.speaker.token);
             if (token) return token.actor;
         }
 
@@ -722,7 +720,7 @@ export class CosmereChatMessage<
      * @param html The roll tooltip markup.
      */
     protected enrichD20Tooltip(roll: Roll, html: HTMLElement) {
-        const constant = getConstantFromRoll(roll as unknown as Roll); // TEMP: Workaround
+        const constant = getConstantFromRoll(roll);
         if (constant === 0) return;
 
         const sign = constant < 0 ? '-' : '+';

@@ -40,7 +40,7 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
 
         // Ensure all items have an expand state record
         actions.forEach((item) => {
-            if (!(item.id! in this.itemState)) {
+            if (!((item.id!) in this.itemState)) {
                 this.itemState[item.id!] = {
                     expanded: false,
                 };
@@ -215,7 +215,7 @@ export class AdversaryActionsListComponent extends ActorActionsListComponent {
         if (this.application.isEditable) {
             // Create context menu
             AppContextMenu.create({
-                parent: this as AppContextMenu.Parent,
+                parent: this,
                 items: (element) => {
                     console.log('AppContextMenu items callback', { element });
 

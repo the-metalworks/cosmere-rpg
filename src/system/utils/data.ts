@@ -202,7 +202,7 @@ export function addDocumentToCollection(
         // NOTE: Use any as workaround for foundry-vtt-types issues
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         document._source as any,
-    ) as unknown as CosmereDocument;
+    );
 
     // Manually update collection with document.
     const collection = compendium ?? getCollectionForDocumentType(documentType);

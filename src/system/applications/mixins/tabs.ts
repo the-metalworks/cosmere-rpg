@@ -40,8 +40,10 @@ export interface ApplicationTab {
     enabled?: boolean;
 }
 
-export interface TabApplicationRenderOptions
-    extends Omit<foundry.applications.api.ApplicationV2.RenderOptions, 'tab'> {
+export interface TabApplicationRenderOptions extends Omit<
+    foundry.applications.api.ApplicationV2.RenderOptions,
+    'tab'
+> {
     /**
      * The initial tab to show for the primary tab group, when rendering the application.
      */
@@ -55,7 +57,7 @@ export interface TabApplicationRenderOptions
 //     T extends AnyConcreteApplicationV2Constructor
 // >(base: T) {
 export function TabsApplicationMixin<
-    T extends ConstructorOf<ComponentHandlebarsApplication>
+    T extends ConstructorOf<ComponentHandlebarsApplication>,
 >(base: T) {
     return class mixin extends base {
         /**
@@ -72,10 +74,7 @@ export function TabsApplicationMixin<
         }
 
         public get tabs(): Record<string, ApplicationTab> {
-            if (!this._tabs)
-                this._tabs = (this.constructor as typeof mixin).TABS;
-
-            return this._tabs;
+            return this._tabs ?? (this.constructor as typeof mixin).TABS;
         }
 
         public override changeTab(

@@ -142,7 +142,7 @@ any> {
 
         // Ensure item state exists for each connection
         connections.forEach((item) => {
-            if (!(item.id! in this.connectionItemStates)) {
+            if (!((item.id!) in this.connectionItemStates)) {
                 this.connectionItemStates[item.id!] = {};
             }
         });

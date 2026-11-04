@@ -19,7 +19,7 @@ jobs:
 
         - name: NPM install
           run: |
-              npm ci
+              npm i
           env:
             NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -41,7 +41,7 @@ jobs:
         scope: "@the-metalworks"
 
     - name: Install dependencies
-      run: npm ci
+      run: npm i
       env:
         NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

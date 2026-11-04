@@ -331,7 +331,7 @@ export class CollectionField<
             if (id.startsWith('-=') && v === null) return; // Skip deletions
 
             const error = this.model.validate(
-                v as TElementFieldAssignment,
+                v,
                 options,
             ) as foundry.data.validation.DataModelValidationFailure | null;
             if (error) {

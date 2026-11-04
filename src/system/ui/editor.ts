@@ -13,7 +13,7 @@ export function activateListeners() {
 function _onDragContentLink(event: JQueryEventObject) {
     event.stopPropagation();
     const a = event.currentTarget as HTMLElement;
-    let dragData: AnyMutableObject | null = null;
+    let dragData: AnyMutableObject | null;
 
     // Case 1 - Compendium Link
     if (a.dataset.pack) {

@@ -214,9 +214,7 @@ export class CosmereActor<
     }
 
     public get ancestry(): AncestryItem | undefined {
-        return this.items.find((i) => i.isAncestry()) as
-            | AncestryItem
-            | undefined;
+        return this.items.find((i) => i.isAncestry());
     }
 
     public get cultures(): CultureItem[] {
@@ -794,13 +792,10 @@ export class CosmereActor<
         )
             return;
 
-        // NOTE: Draw function type definition is wrong, must use `any` type as a workaround
-        /* eslint-disable @typescript-eslint/no-explicit-any */
         const draw = await table.draw({
             roll,
             displayChat: false,
-        } as any);
-        /* eslint-Enable @typescript-eslint/no-explicit-any */
+        } satisfies foundry.documents.RollTable.DrawOptions);
 
         // Get result
         const result = draw.results[0];
@@ -854,7 +849,7 @@ export class CosmereActor<
             );
         }
 
-        const flags = {} as Record<string, any>;
+        const flags = {} as Record<string, unknown>;
         flags[SYSTEM_ID] = {
             message: {
                 type: MESSAGE_TYPES.INJURY,
@@ -1015,9 +1010,7 @@ export class CosmereActor<
     }
 
     public async applyHealing(amount: number) {
-        return this.applyDamage([
-            { amount, type: DamageType.Healing } as DamageInstance,
-        ]);
+        return this.applyDamage([{ amount, type: DamageType.Healing }]);
     }
 
     /**
@@ -1090,14 +1083,14 @@ export class CosmereActor<
                         ChatMessage.getSpeaker({
                             actor: this,
                         }),
-                    flags: {} as Record<string, any>,
+                    flags: {},
                 },
             },
             options,
         );
 
         rollData.parts = [`@mod`].concat(options.parts ?? []);
-        rollData.messageData.flags[SYSTEM_ID] = {
+        (rollData.messageData.flags as Record<string, unknown>)[SYSTEM_ID] = {
             message: {
                 type: MESSAGE_TYPES.SKILL,
                 targets: getTargetDescriptors(),
@@ -1421,7 +1414,7 @@ export class CosmereActor<
 
         const registeredData = this.getRegisteredRollData(data) as Record<
             string,
-            any
+            unknown
         >;
 
         return foundry.utils.mergeObject(data, registeredData, {
@@ -1429,7 +1422,7 @@ export class CosmereActor<
             insertValues: true,
             overwrite: true,
             recursive: true,
-        });
+        }) as CosmereActorRollData<SubType>;
     }
 
     public getEnricherData() {
@@ -1591,7 +1584,10 @@ export class CosmereActor<
     public hasExpertise(
         ...args: [Expertise] | [ExpertiseType, string]
     ): boolean {
-        return containsExpertise(this.system.expertises as any, ...args); // TEMP: Workaround
+        return containsExpertise(
+            this.system.expertises as unknown as Collection<Expertise>,
+            ...args,
+        );
     }
 
     /**
