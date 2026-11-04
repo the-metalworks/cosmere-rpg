@@ -130,13 +130,15 @@ export class ActorEffectsListComponent extends ActorItemListComponent {
                 this.itemData[item.id!] = {
                     ...(item.hasDescription() && item.system.description?.value
                         ? {
-                              descriptionHTML: await TextEditor.enrichHTML(
-                                  item.system.description.value,
-                                  {
-                                      relativeTo: (item as CosmereItem).system
-                                          .parent as foundry.abstract.Document.Any,
-                                  },
-                              ),
+                              descriptionHTML:
+                                  await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+                                      item.system.description.value,
+                                      {
+                                          relativeTo: (item as CosmereItem)
+                                              .system
+                                              .parent as foundry.abstract.Document.Any,
+                                      },
+                                  ),
                           }
                         : {}),
                     isEffectsContainer: item.isEffectsContainer(),
@@ -161,8 +163,7 @@ export class ActorEffectsListComponent extends ActorItemListComponent {
                             await foundry.applications.ux.TextEditor.implementation.enrichHTML(
                                 effect.description,
                                 {
-                                    relativeTo:
-                                        item as foundry.abstract.Document.Any,
+                                    relativeTo: item,
                                 },
                             ),
                         isEffectsContainer: false,
@@ -179,7 +180,7 @@ export class ActorEffectsListComponent extends ActorItemListComponent {
         if (this.application.isEditable) {
             // Create context menu
             AppContextMenu.create({
-                parent: this as AppContextMenu.Parent,
+                parent: this,
                 items: (element) => {
                     const effect = this.getEffectFromElement(element);
                     if (!effect) return [];
@@ -242,9 +243,7 @@ export class ActorEffectsListComponent extends ActorItemListComponent {
         const actor = this.application.actor;
 
         const effect = actor.getEmbeddedDocumentFromUuid(uuid) as
-            | CosmereActiveEffect
-            | EffectsContainerItem
-            | null;
+            CosmereActiveEffect | EffectsContainerItem | null;
         return effect;
     }
 }

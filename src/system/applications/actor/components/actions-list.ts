@@ -39,8 +39,7 @@ interface ActionListSectionData extends ItemListSection {
     itemData: Record<string, AdditionalItemData>;
 }
 
-export interface ActorActionsListComponentRenderContext
-    extends BaseActorSheetRenderContext {
+export interface ActorActionsListComponentRenderContext extends BaseActorSheetRenderContext {
     actionsSearch?: {
         text: string;
         sort: SortMode;
@@ -98,7 +97,7 @@ export const STATIC_SECTIONS: Record<string, ItemListSection> = {
                     },
                 },
                 { parent },
-            ) as Promise<CosmereItem>,
+            ),
     },
 };
 
@@ -137,7 +136,7 @@ export const DYNAMIC_SECTIONS: Record<string, DynamicItemListSectionGenerator> =
                             !item.hasRelationshipOfType(
                                 ItemRelationship.Type.Child,
                             ),
-                    } as ItemListSection;
+                    };
                 }),
                 ...powersWithChildren.map((power) => ({
                     id: power.system.id,
@@ -273,7 +272,7 @@ export const DYNAMIC_SECTIONS: Record<string, DynamicItemListSectionGenerator> =
                                 },
                             },
                             { parent },
-                        ) as Promise<CosmereItem>,
+                        ),
                 },
             ];
         },
@@ -532,12 +531,13 @@ export class ActorActionsListComponent extends ActorItemListComponent {
                 [item.id!]: {
                     ...(item.hasDescription() && item.system.description?.value
                         ? {
-                              descriptionHTML: await TextEditor.enrichHTML(
-                                  item.system.description.value,
-                                  {
-                                      relativeTo: item.system.parent,
-                                  },
-                              ),
+                              descriptionHTML:
+                                  await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+                                      item.system.description.value,
+                                      {
+                                          relativeTo: item.system.parent,
+                                      },
+                                  ),
                           }
                         : {}),
                 },
@@ -552,7 +552,7 @@ export class ActorActionsListComponent extends ActorItemListComponent {
         if (this.application.isEditable) {
             // Create context menu
             AppContextMenu.create({
-                parent: this as AppContextMenu.Parent,
+                parent: this,
                 items: (element) => {
                     console.log('AppContextMenu items callback', { element });
 

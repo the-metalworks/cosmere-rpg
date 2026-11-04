@@ -256,9 +256,7 @@ function getValidSkills(actor: CosmereActor): string[] {
     return Object.values(CONFIG.COSMERE.attributeGroups)
         .filter((group) => attributeGroups.includes(group.key))
         .flatMap((group) => group.attributes)
-        .flatMap(
-            (attrId) => CONFIG.COSMERE.attributes[attrId].skills,
-        ) as string[];
+        .flatMap((attrId) => CONFIG.COSMERE.attributes[attrId].skills);
 }
 
 /**

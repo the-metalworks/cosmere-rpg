@@ -21,8 +21,8 @@ import { TalentTreeNode } from './tree-node';
 
 export class TalentNode extends BaseNode {
     // Redeclare data type
-    public declare readonly data: TalentTree.TalentNode;
-    public declare readonly canvas: PIXICanvasApplication<
+    declare public readonly data: TalentTree.TalentNode;
+    declare public readonly canvas: PIXICanvasApplication<
         typeof TalentTreeWorld
     >;
 
@@ -71,7 +71,9 @@ export class TalentNode extends BaseNode {
     }
 
     public override async _initialize() {
-        this.texture = (await loadTexture(this.img)) as PIXI.Texture;
+        this.texture = (await foundry.canvas.loadTexture(
+            this.img,
+        )) as PIXI.Texture;
     }
 
     /* --- Accessors --- */

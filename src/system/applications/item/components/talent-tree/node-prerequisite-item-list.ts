@@ -1,5 +1,12 @@
 import { TalentTree } from '@system/types/item';
-import { CosmereItem, TalentItem } from '@system/documents/item';
+import {
+    AncestryItem,
+    CosmereItem,
+    CultureItem,
+    GoalItem,
+    PowerItem,
+    TalentItem,
+} from '@system/documents/item';
 import { ConstructorOf } from '@system/types/utils';
 
 // Component imports
@@ -8,15 +15,17 @@ import { EditNodePrerequisiteDialog } from '../../dialogs/talent-tree/edit-node-
 
 // Mixins
 import { DragDropComponentMixin } from '@system/applications/mixins/drag-drop';
+import { Node } from '@src/system/types/item/talent-tree';
 
 // NOTE: Must use type here instead of interface as an interface doesn't match AnyObject type
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 type Params = {
     node: TalentTree.TalentNode;
-    talents: Collection<TalentTree.Node.Prerequisite.TalentRef>;
+    items: Collection<TalentTree.Node.Prerequisite.ItemRef>;
+    type: TalentTree.Node.Prerequisite.Type;
 };
 
-export class NodePrerequisiteTalentListComponent extends DragDropComponentMixin(
+export class NodePrerequisiteItemListComponent extends DragDropComponentMixin(
     HandlebarsApplicationComponent<
         // typeof EditNodePrerequisiteDialog,
         // TODO: Resolve typing issues
@@ -27,7 +36,7 @@ export class NodePrerequisiteTalentListComponent extends DragDropComponentMixin(
     >,
 ) {
     static readonly TEMPLATE =
-        'systems/cosmere-rpg/templates/item/talent-tree/components/prerequisite-talent-list.hbs';
+        'systems/cosmere-rpg/templates/item/talent-tree/components/prerequisite-item-list.hbs';
 
     /**
      * NOTE: Unbound methods is the standard for defining actions
@@ -35,7 +44,7 @@ export class NodePrerequisiteTalentListComponent extends DragDropComponentMixin(
      */
     /* eslint-disable @typescript-eslint/unbound-method */
     static ACTIONS = {
-        'remove-talent': this.onRemoveTalent,
+        'remove-item': this.onRemoveItem,
     };
     /* eslint-enable @typescript-eslint/unbound-method */
 
@@ -51,14 +60,14 @@ export class NodePrerequisiteTalentListComponent extends DragDropComponentMixin(
         return this.params!.node;
     }
 
-    public get talents() {
-        return this.params!.talents;
+    public get items() {
+        return this.params!.items;
     }
 
     /* --- Actions --- */
 
-    private static onRemoveTalent(
-        this: NodePrerequisiteTalentListComponent,
+    private static onRemoveItem(
+        this: NodePrerequisiteItemListComponent,
         event: Event,
     ) {
         // Get talent element
@@ -67,8 +76,8 @@ export class NodePrerequisiteTalentListComponent extends DragDropComponentMixin(
         // Get id
         const id = el.data('id') as string;
 
-        // Remove talent
-        this.talents.delete(id);
+        // Remove item
+        this.items.delete(id);
 
         // Dispatch change event
         this.element!.dispatchEvent(new Event('change'));
@@ -84,29 +93,50 @@ export class NodePrerequisiteTalentListComponent extends DragDropComponentMixin(
     }
 
     protected override async _onDrop(event: DragEvent) {
-        const data = TextEditor.getDragEventData(event) as unknown as {
-            type: string;
-            uuid: string;
-        };
+        const data =
+            foundry.applications.ux.TextEditor.implementation.getDragEventData(
+                event,
+            ) as unknown as {
+                type: string;
+                uuid: string;
+            };
         if (data.type !== 'Item') return;
 
         // Get document
-        const item = (await fromUuid(data.uuid))! as unknown as CosmereItem;
+        const item = (await fromUuid(data.uuid))! as unknown as
+            AncestryItem | CultureItem | GoalItem | PowerItem | TalentItem;
 
-        // Check if document is a talent
-        if (!item.isTalent()) return;
+        // Check if document is the correct type for the prerequisite rule
+        switch (this.params?.type) {
+            case Node.Prerequisite.Type.Ancestry:
+                if (!item.isAncestry()) return;
+                break;
+            case Node.Prerequisite.Type.Culture:
+                if (!item.isCulture()) return;
+                break;
+            case Node.Prerequisite.Type.Goal:
+                if (!item.isGoal()) return;
+                break;
+            case Node.Prerequisite.Type.Power:
+                if (!item.isPower()) return;
+                break;
+            case Node.Prerequisite.Type.Talent:
+                if (!item.isTalent()) return;
 
-        // Check if the talent is the same as the root talent
-        if (item.system.id === this.node.talentId) {
-            return ui.notifications.warn(
-                game.i18n.localize(
-                    'GENERIC.Warning.TalentCannotBePrerequisiteOfItself',
-                ),
-            );
+                // Check if the talent is the same as the root talent
+                if (item.system.id === this.node.talentId) {
+                    return ui.notifications.warn(
+                        game.i18n.localize(
+                            'GENERIC.Warning.TalentCannotBePrerequisiteOfItself',
+                        ),
+                    );
+                }
+
+                break;
         }
 
-        // Check if a talent with the same ID is already in the list
-        const duplicateRef = this.talents.find(
+        // Check if an item with the same ID is already in the list
+        const duplicateRef = this.items.find(
             (ref) => ref.id === item.system.id,
         );
         if (duplicateRef) {
@@ -128,7 +158,7 @@ export class NodePrerequisiteTalentListComponent extends DragDropComponentMixin(
         }
 
         // Add talent to the list
-        this.talents.set(item.system.id, {
+        this.items.set(item.system.id, {
             id: item.system.id,
             uuid: item.uuid,
             label: item.name,
@@ -145,18 +175,22 @@ export class NodePrerequisiteTalentListComponent extends DragDropComponentMixin(
 
     public async _prepareContext(params: Params, context: never) {
         // Construct content links
-        const contentLinks = this.talents.map(
+        const contentLinks = this.items.map(
             (ref) => `@UUID[${ref.uuid}]{${ref.label}}`,
         );
 
         // Enrich links
         const enrichedLinks = await Promise.all(
-            contentLinks.map((link) => TextEditor.enrichHTML(link)),
+            contentLinks.map((link) =>
+                foundry.applications.ux.TextEditor.implementation.implementation.enrichHTML(
+                    link,
+                ),
+            ),
         );
 
         return {
             ...params,
-            talents: this.talents.map(({ id }, index) => ({
+            items: this.items.map(({ id }, index) => ({
                 id,
                 link: enrichedLinks[index],
             })),
@@ -165,6 +199,4 @@ export class NodePrerequisiteTalentListComponent extends DragDropComponentMixin(
 }
 
 // Register the component
-NodePrerequisiteTalentListComponent.register(
-    'app-node-prerequisite-talent-list',
-);
+NodePrerequisiteItemListComponent.register('app-node-prerequisite-item-list');

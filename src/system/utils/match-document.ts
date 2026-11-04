@@ -101,7 +101,8 @@ interface BaseMatchDocumentParams {
 }
 
 interface MatchDocumentBasicParams
-    extends BaseMatchDocumentParams,
+    extends
+        BaseMatchDocumentParams,
         Omit<MatchDocumentStepParams, 'relativeTo'> {}
 
 interface MatchDocumentWithStepsParams extends BaseMatchDocumentParams {
@@ -112,8 +113,7 @@ interface MatchDocumentWithStepsParams extends BaseMatchDocumentParams {
 }
 
 type MatchDocumentParams =
-    | MatchDocumentBasicParams
-    | MatchDocumentWithStepsParams;
+    MatchDocumentBasicParams | MatchDocumentWithStepsParams;
 
 export function matchDocuments(
     params: MatchDocumentParams,
@@ -187,10 +187,7 @@ async function matchStep({
     }
 
     const matcher = resolveMatcher(matchBy, referenceDoc);
-    const candidates = resolveCandidateDocuments(
-        relativeTo,
-        target as Exclude<DocumentTarget, 'self' | 'global'>,
-    );
+    const candidates = resolveCandidateDocuments(relativeTo, target);
 
     const matchedDocuments = candidates.filter(matcher);
 

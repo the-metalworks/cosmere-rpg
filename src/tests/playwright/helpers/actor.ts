@@ -4,7 +4,7 @@ import {
     Attribute,
     AttributeGroup,
 } from '@src/system/types/cosmere';
-import { paramsFromHook } from './hooks';
+import { getLocatorForNextWindowToOpen, paramsFromHook } from './hooks';
 import { DeepPartial } from '@league-of-foundry-developers/foundry-vtt-types/utils';
 import { clickAway } from './utils';
 
@@ -278,6 +278,61 @@ export class ActorSheetRef {
         const resourceBarInput = resourceBar.locator(`input`);
         await resourceBarInput.fill(`${newVal}`);
         await clickAway(this.page);
+    }
+
+    public async updateResourceMaxCustom(
+        resourceLabel: string,
+        newVal: number,
+    ) {
+        const resourceBar = this.locator
+            .locator('app-actor-resource')
+            .filter({ hasText: resourceLabel });
+        const configureButton = resourceBar.getByRole('button').last();
+        const configureWindowPromise = getLocatorForNextWindowToOpen(this.page);
+        await configureButton.click();
+        const configureWindow = await configureWindowPromise;
+        await configureWindow
+            .locator('select[name="mode"]')
+            .selectOption('override');
+        await configureWindow.locator('input[name="max"]').click();
+        await configureWindow
+            .locator('input[name="max"]')
+            .fill(newVal.toString());
+        await clickAway(this.page);
+        await configureWindow.getByRole('button', { name: 'Update' }).click();
+    }
+
+    public async updateResourceMaxRange(
+        resourceLabel: string,
+        minRange: number,
+        maxRange: number,
+        newVal?: number,
+    ) {
+        const resourceBar = this.locator
+            .locator('app-actor-resource')
+            .filter({ hasText: resourceLabel });
+        const configureButton = resourceBar.getByRole('button').last();
+        const configureWindowPromise = getLocatorForNextWindowToOpen(this.page);
+        await configureButton.click();
+        const configureWindow = await configureWindowPromise;
+        await configureWindow
+            .locator('select[name="mode"]')
+            .selectOption('range');
+        await configureWindow.locator('input[name="minRange"]').click();
+        await configureWindow
+            .locator('input[name="minRange"]')
+            .fill(minRange.toString());
+        await clickAway(this.page);
+        await configureWindow.locator('input[name="maxRange"]').click();
+        await configureWindow
+            .locator('input[name="maxRange"]')
+            .fill(maxRange.toString());
+        await clickAway(this.page);
+        if (newVal) {
+            await configureWindow.getByRole('slider').fill(newVal.toString());
+            await clickAway(this.page);
+        }
+        await configureWindow.getByRole('button', { name: 'Update' }).click();
     }
 
     public async switchTab() {}

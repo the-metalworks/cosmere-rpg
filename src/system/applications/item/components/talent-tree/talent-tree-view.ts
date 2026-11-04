@@ -243,7 +243,7 @@ export class TalentTreeViewComponent<
 
         // Add context menu
         this.contextMenu = AppContextMenu.create({
-            parent: this as AppContextMenu.Parent,
+            parent: this,
         });
 
         // Create canvas application
@@ -642,7 +642,7 @@ export class TalentTreeViewComponent<
                     };
                 }),
                 description:
-                    await foundry.applications.ux.TextEditor.enrichHTML(
+                    await foundry.applications.ux.TextEditor.implementation.enrichHTML(
                         htmlStringHasContent(item.system.description?.short)
                             ? item.system.description.short
                             : htmlStringHasContent(
@@ -698,8 +698,7 @@ export class TalentTreeViewComponent<
                 ? await fromUuid<CosmereItem>(
                       (
                           this.selected as
-                              | TalentTree.TalentNode
-                              | TalentTree.TreeNode
+                              TalentTree.TalentNode | TalentTree.TreeNode
                       ).uuid,
                   )
                 : null;

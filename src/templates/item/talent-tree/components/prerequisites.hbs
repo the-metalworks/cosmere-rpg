@@ -37,6 +37,9 @@
                         {{/if}}
                     {{/each}}
                 {{else if (eq rule.type "goal")}}
+                    {{#if (gt rule.goals.length 1)}}
+                        <span>{{localize "COSMERE.Item.TalentTree.Node.Prerequisites.OneOf"}}:</span>
+                    {{/if}}
                     {{#each rule.goals as |ref|}}
                         {{{ref.link}}}
                         {{#if (not @last)}}
@@ -44,21 +47,61 @@
                         {{/if}}
                     {{/each}}
                 {{else if (eq rule.type "attribute")}}
-                    <span>{{localize (concat "COSMERE.Attribute." rule.attribute)}}</span>
-                    <span>{{rule.value}}+</span>
+                    {{#if (gt rule.attributes.length 1)}}
+                        <span>{{localize "COSMERE.Item.TalentTree.Node.Prerequisites.OneOf"}}:</span>
+                    {{/if}}
+                    {{#each rule.attributes as |ref|}}
+                        <span>{{localize (concat "COSMERE.Attribute." ref.key)}}</span>
+                        <span>{{ref.value}}+</span>
+                        {{#if (not @last)}}
+                            <span>,</span>
+                        {{/if}}
+                    {{/each}}
                 {{else if (eq rule.type "skill")}}
-                    <span>{{localize (concat "COSMERE.Skill." rule.skill)}}</span>
-                    <span>{{rule.rank}}+</span>
+                    {{#if (gt rule.skills.length 1)}}
+                        <span>{{localize "COSMERE.Item.TalentTree.Node.Prerequisites.OneOf"}}:</span>
+                    {{/if}}
+                    {{#each rule.skills as |ref|}}
+                        <span>{{localize (concat "COSMERE.Skill." ref.key)}}</span>
+                        <span>{{ref.value}}+</span>
+                        {{#if (not @last)}}
+                            <span>,</span>
+                        {{/if}}
+                    {{/each}}
                 {{else if (eq rule.type "connection")}}
                     <span>{{rule.description}}</span>
                 {{else if (eq rule.type "level")}}
                     <span>{{rule.level}}+</span>
                 {{else if (eq rule.type "ancestry")}}
-                    {{{rule.ancestry.link}}}
+                    {{#if (gt rule.ancestries.length 1)}}
+                        <span>{{localize "COSMERE.Item.TalentTree.Node.Prerequisites.OneOf"}}:</span>
+                    {{/if}}
+                    {{#each rule.ancestries as |ref|}}
+                        {{{ref.link}}}
+                        {{#if (not @last)}}
+                            <span>,</span>
+                        {{/if}}
+                    {{/each}}
                 {{else if (eq rule.type "culture")}}
-                    {{{rule.culture.link}}}
+                    {{#if (gt rule.cultures.length 1)}}
+                        <span>{{localize "COSMERE.Item.TalentTree.Node.Prerequisites.OneOf"}}:</span>
+                    {{/if}}
+                    {{#each rule.cultures as |ref|}}
+                        {{{ref.link}}}
+                        {{#if (not @last)}}
+                            <span>,</span>
+                        {{/if}}
+                    {{/each}}
                 {{else if (eq rule.type "power")}}
-                    {{{rule.power.link}}}
+                    {{#if (gt rule.powers.length 1)}}
+                        <span>{{localize "COSMERE.Item.TalentTree.Node.Prerequisites.OneOf"}}:</span>
+                    {{/if}}
+                    {{#each rule.powers as |ref|}}
+                        {{{ref.link}}}
+                        {{#if (not @last)}}
+                            <span>,</span>
+                        {{/if}}
+                    {{/each}}
                 {{/if}}
             </div>
             <div class="controls icon faded flexrow">

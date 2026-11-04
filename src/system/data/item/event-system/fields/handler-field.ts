@@ -15,8 +15,8 @@ type HandlerBasePersistedType =
     foundry.data.fields.SchemaField.Internal.PersistedType<HandlerBaseSchema>;
 
 export class HandlerField<
-    TOptions extends
-        foundry.data.fields.DataField.Options<AnyObject> = foundry.data.fields.ObjectField.DefaultOptions,
+    TOptions extends foundry.data.fields.DataField.Options<AnyObject> =
+        foundry.data.fields.ObjectField.DefaultOptions,
 > extends foundry.data.fields.ObjectField<
     TOptions,
     HandlerBaseAssignmentType,
@@ -71,7 +71,7 @@ export class HandlerField<
 
     protected override _cast(value: unknown) {
         return (
-            typeof value === 'object' ? (value as AnyObject) : {}
+            typeof value === 'object' ? value : {}
         ) as HandlerBaseAssignmentType;
     }
 
@@ -86,12 +86,10 @@ export class HandlerField<
 
     public _updateDiff<
         TKey extends string,
-        TSource extends AnyMutableObject & {
-            [key in TKey]: HandlerBaseInitializedType;
-        },
-        TDifference extends AnyMutableObject & {
-            [key in TKey]: HandlerBaseInitializedType;
-        },
+        TSource extends AnyMutableObject &
+            Record<TKey, HandlerBaseInitializedType>,
+        TDifference extends AnyMutableObject &
+            Record<TKey, HandlerBaseInitializedType>,
     >(
         source: TSource,
         key: TKey,

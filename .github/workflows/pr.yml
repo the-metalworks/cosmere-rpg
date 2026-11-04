@@ -1,20 +1,27 @@
-name: "PR validation"
+name: "PR Validation"
 run-name: "Validation for PR #${{ github.event.pull_request.number }}"
 on: [pull_request, workflow_dispatch]
+permissions:
+  contents: read
+  packages: read
 jobs:
   lint:
     name: Execute ESLint
     runs-on: ubuntu-latest
     steps:
-        - uses: actions/checkout@v4
+        - uses: actions/checkout@v7
         - name: Use Node 24
-          uses: actions/setup-node@v4
+          uses: actions/setup-node@v7
           with:
               node-version: '24'
+              registry-url: https://npm.pkg.github.com
+              scope: "@the-metalworks"
 
         - name: NPM install
           run: |
-              npm ci
+              npm i
+          env:
+            NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
         - name: Lint
           run: npx eslint
@@ -23,22 +30,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
 
     - name: Setup Node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v7
       with:
-        node-version: 20
+        node-version: 24
         cache: npm
+        registry-url: https://npm.pkg.github.com
+        scope: "@the-metalworks"
 
     - name: Install dependencies
-      run: npm ci
+      run: npm i
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Build system
       run: npm run build:pack
 
     - name: Upload build output
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: system-build
         path: build/

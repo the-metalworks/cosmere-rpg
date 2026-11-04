@@ -5,8 +5,8 @@ import {
 } from '../types';
 import { AnyObject, AnyMutableObject } from '@system/types/utils';
 
-export interface CollectionFieldOptions<T = AnyObject>
-    extends foundry.data.fields.DataField.Options<AnyObject> {
+export interface CollectionFieldOptions<T = AnyObject> extends foundry.data
+    .fields.DataField.Options<AnyObject> {
     /**
      * The field to draw the item key from.
      * Alternatively, you can use a function to generate the key.
@@ -247,10 +247,11 @@ export class CollectionField<
     TElementFieldPersisted = InferPersistedType<ElementField>,
     TAssignment = Record<string, TElementFieldAssignment> | null | undefined,
     TInitialized extends
-        CollectionFieldInitializedType<TElementFieldInitialized> = CollectionFieldInitializedType<TElementFieldInitialized>,
+        CollectionFieldInitializedType<TElementFieldInitialized> =
+        CollectionFieldInitializedType<TElementFieldInitialized>,
     TPersisted extends AnyObject = Record<string, TElementFieldPersisted>,
-    TOptions extends
-        CollectionFieldOptions<TElementFieldAssignment> = CollectionFieldOptions<TElementFieldAssignment>,
+    TOptions extends CollectionFieldOptions<TElementFieldAssignment> =
+        CollectionFieldOptions<TElementFieldAssignment>,
 > extends foundry.data.fields.ObjectField<
     TOptions,
     TAssignment,
@@ -331,7 +332,7 @@ export class CollectionField<
             if (id.startsWith('-=') && v === null) return; // Skip deletions
 
             const error = this.model.validate(
-                v as TElementFieldAssignment,
+                v,
                 options,
             ) as foundry.data.validation.DataModelValidationFailure | null;
             if (error) {
@@ -493,8 +494,7 @@ export class CollectionField<
         if (!item || typeof item !== 'object') return undefined;
 
         const keyField = this.options.key as
-            | keyof TElementFieldAssignment
-            | undefined;
+            keyof TElementFieldAssignment | undefined;
 
         const val = keyField
             ? item[keyField]

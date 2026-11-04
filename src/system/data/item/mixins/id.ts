@@ -4,14 +4,14 @@ interface IdItemMixinOptions<Type extends string = string> {
     initialFromName?: boolean;
     initial?: Type | (() => Type);
     choices?:
-    | Type[]
-    | Record<Type, string>
-    | (() => Type[] | Record<Type, string>);
+        Type[] | Record<Type, string> | (() => Type[] | Record<Type, string>);
     label?: string;
     hint?: string;
 }
 
-function SCHEMA<Type extends string, TOptions extends IdItemMixinOptions<Type>>(options = {} as TOptions) {
+function SCHEMA<Type extends string, TOptions extends IdItemMixinOptions<Type>>(
+    options = {} as TOptions,
+) {
     const choices =
         typeof options.choices === 'function'
             ? options.choices()
@@ -27,22 +27,21 @@ function SCHEMA<Type extends string, TOptions extends IdItemMixinOptions<Type>>(
             required: true,
             nullable: false,
             blank: false,
-            initial:
-                initial ??
-                (options.initialFromName ? '<id>' : undefined),
+            initial: initial ?? (options.initialFromName ? '<id>' : undefined),
             choices,
-            label:
-                options.label ??
-                'COSMERE.Item.Sheet.Identifier.Label',
-            hint:
-                options.hint ??
-                'COSMERE.Item.Sheet.Identifier.Hint',
+            label: options.label ?? 'COSMERE.Item.Sheet.Identifier.Label',
+            hint: options.hint ?? 'COSMERE.Item.Sheet.Identifier.Hint',
         }),
-    }
+    };
 }
 
-export type IdItemDataSchema<Type extends string = string, TOptions extends IdItemMixinOptions<Type> = IdItemMixinOptions<Type>> = ReturnType<typeof SCHEMA<Type, TOptions>>;
-export type IdItemData = foundry.data.fields.SchemaField.InitializedData<IdItemDataSchema<string, IdItemMixinOptions>>;
+export type IdItemDataSchema<
+    Type extends string = string,
+    TOptions extends IdItemMixinOptions<Type> = IdItemMixinOptions<Type>,
+> = ReturnType<typeof SCHEMA<Type, TOptions>>;
+export type IdItemData = foundry.data.fields.SchemaField.InitializedData<
+    IdItemDataSchema<string, IdItemMixinOptions>
+>;
 
 export function IdItemMixin<
     TParent extends foundry.abstract.Document.Any,
@@ -58,9 +57,7 @@ export function IdItemMixin<
             'Cannot specify both initialFromName and choices options',
         );
 
-    return (
-        base: typeof foundry.abstract.TypeDataModel,
-    ) => {
+    return (base: typeof foundry.abstract.TypeDataModel) => {
         return class extends base<IdItemDataSchema<Type, TOptions>, TParent> {
             static defineSchema() {
                 return foundry.utils.mergeObject(
@@ -73,13 +70,13 @@ export function IdItemMixin<
                 super.prepareDerivedData();
 
                 if (this.id === '<id>' && options.initialFromName) {
-                    this.id = this.parent.name!
-                        .toLowerCase()
+                    this.id = this.parent
+                        .name!.toLowerCase()
                         .replace(/[^a-z0-9-_\s]/g, '')
                         .replace(/\s+/g, ' ')
                         .trim()
                         .split(' ')
-                        .join('-') as Type;
+                        .join('-');
                 }
             }
         };

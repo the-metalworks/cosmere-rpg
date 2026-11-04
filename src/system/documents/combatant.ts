@@ -7,8 +7,7 @@ import { CosmereActor } from './actor';
 import { SYSTEM_ID } from '@system/constants';
 
 let _schema:
-    | foundry.data.fields.SchemaField<CosmereCombatant.Schema>
-    | undefined;
+    foundry.data.fields.SchemaField<CosmereCombatant.Schema> | undefined;
 
 export class CosmereCombatant extends Combatant {
     public static defineSchema() {
@@ -20,9 +19,7 @@ export class CosmereCombatant extends Combatant {
     }
 
     public static get schema() {
-        if (!_schema) {
-            _schema = new foundry.data.fields.SchemaField(this.defineSchema());
-        }
+        _schema ??= new foundry.data.fields.SchemaField(this.defineSchema());
         return _schema as foundry.data.fields.SchemaField<Combatant.Schema>;
     }
 

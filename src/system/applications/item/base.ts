@@ -53,7 +53,7 @@ export class BaseItemSheet extends TabsApplicationMixin(
         form: {
             handler: this.onFormEvent,
             submitOnChange: true,
-        } as unknown,
+        },
         actions: {
             'edit-description': this.editDescription,
             save: this.onSave,
@@ -212,8 +212,7 @@ export class BaseItemSheet extends TabsApplicationMixin(
                 const traitId = key
                     .replace('system.traits.', '')
                     .replace('.expertise.modifyValue', '') as
-                    | ArmorTraitId
-                    | WeaponTraitId;
+                    ArmorTraitId | WeaponTraitId;
 
                 // Get the trait
                 const trait = item.system.traits[traitId];

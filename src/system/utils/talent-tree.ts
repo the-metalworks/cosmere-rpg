@@ -66,11 +66,11 @@ export function addConnection(
     const from = tree.system.nodes.find((node) => node.id === fromId);
     const to = tree.system.nodes.find((node) => node.id === toId);
 
-    if (!from || from.type !== TalentTree.Node.Type.Talent)
+    if (from?.type !== TalentTree.Node.Type.Talent)
         throw new Error(
             `Failed to add connection: Invalid from node ${fromId}`,
         );
-    if (!to || to.type !== TalentTree.Node.Type.Talent)
+    if (to?.type !== TalentTree.Node.Type.Talent)
         throw new Error(`Failed to add connection: Invalid to node ${toId}`);
 
     // Ensure there isn't already a connection
@@ -147,11 +147,11 @@ export function removeConnection(
     const from = tree.system.nodes.find((node) => node.id === fromId);
     const to = tree.system.nodes.find((node) => node.id === toId);
 
-    if (!from || from.type !== TalentTree.Node.Type.Talent)
+    if (from?.type !== TalentTree.Node.Type.Talent)
         throw new Error(
             `Failed to remove connection: Invalid from node ${fromId}`,
         );
-    if (!to || to.type !== TalentTree.Node.Type.Talent)
+    if (to?.type !== TalentTree.Node.Type.Talent)
         throw new Error(`Failed to remove connection: Invalid to node ${toId}`);
 
     // Get the connection
@@ -268,18 +268,22 @@ export function characterMeetsPrerequisiteRule(
                 );
             });
         case TalentTree.Node.Prerequisite.Type.Attribute:
-            return (
-                actor.system.attributes[prereq.attribute].value >= prereq.value
+            return Array.from(prereq.attributes).some(
+                (req) => actor.system.attributes[req.key].value >= req.value,
             );
         case TalentTree.Node.Prerequisite.Type.Skill:
-            return actor.system.skills[prereq.skill].rank >= prereq.rank;
+            return Array.from(prereq.skills).some(
+                (req) => actor.system.skills[req.key].rank >= req.value,
+            );
         case TalentTree.Node.Prerequisite.Type.Level:
             return actor.system.level >= prereq.level;
         case TalentTree.Node.Prerequisite.Type.Ancestry:
-            return actor.ancestry?.system.id === prereq.ancestry.id;
+            return Array.from(prereq.ancestries).some(
+                (ref) => actor.ancestry?.system.id === ref.id,
+            );
         case TalentTree.Node.Prerequisite.Type.Culture:
-            return actor.cultures.some(
-                (culture) => culture.system.id === prereq.culture.id,
+            return Array.from(prereq.cultures).some((ref) =>
+                actor.cultures.some((culture) => culture.system.id === ref.id),
             );
         case TalentTree.Node.Prerequisite.Type.Goal:
             return Array.from(prereq.goals).some((ref) =>
@@ -288,8 +292,8 @@ export function characterMeetsPrerequisiteRule(
         case TalentTree.Node.Prerequisite.Type.Connection:
             return true; // No way to check connections
         case TalentTree.Node.Prerequisite.Type.Power:
-            return actor.powers.some(
-                (power) => power.system.id === prereq.power.id,
+            return Array.from(prereq.powers).some((ref) =>
+                actor.powers.some((power) => power.system.id === ref.id),
             );
         default:
             return false;

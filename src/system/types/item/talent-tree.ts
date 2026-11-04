@@ -66,6 +66,15 @@ export namespace Node {
         export type TalentRef = ItemRef;
 
         export type GoalRef = ItemRef;
+
+        export interface EnumValue<Enum> {
+            key: Enum;
+            value: number;
+        }
+
+        export type AttributeValue = EnumValue<Attribute>;
+
+        export type SkillValue = EnumValue<Skill>;
     }
 
     interface BasePrerequisite<Type extends Prerequisite.Type> {
@@ -79,51 +88,40 @@ export namespace Node {
         managed: boolean;
     }
 
-    export interface ConnectionPrerequisite
-        extends BasePrerequisite<Prerequisite.Type.Connection> {
+    export interface ConnectionPrerequisite extends BasePrerequisite<Prerequisite.Type.Connection> {
         description: string;
     }
 
-    export interface AttributePrerequisite
-        extends BasePrerequisite<Prerequisite.Type.Attribute> {
-        attribute: Attribute;
-        value: number;
+    export interface AttributePrerequisite extends BasePrerequisite<Prerequisite.Type.Attribute> {
+        attributes: Prerequisite.AttributeValue[];
     }
 
-    export interface SkillPrerequisite
-        extends BasePrerequisite<Prerequisite.Type.Skill> {
-        skill: Skill;
-        rank: number;
+    export interface SkillPrerequisite extends BasePrerequisite<Prerequisite.Type.Skill> {
+        skills: Prerequisite.SkillValue[];
     }
 
-    export interface TalentPrerequisite
-        extends BasePrerequisite<Prerequisite.Type.Talent> {
+    export interface TalentPrerequisite extends BasePrerequisite<Prerequisite.Type.Talent> {
         talents: Collection<Prerequisite.TalentRef>;
     }
 
-    export interface GoalPrerequisite
-        extends BasePrerequisite<Prerequisite.Type.Goal> {
+    export interface GoalPrerequisite extends BasePrerequisite<Prerequisite.Type.Goal> {
         goals: Collection<Prerequisite.GoalRef>;
     }
 
-    export interface LevelPrerequisite
-        extends BasePrerequisite<Prerequisite.Type.Level> {
+    export interface LevelPrerequisite extends BasePrerequisite<Prerequisite.Type.Level> {
         level: number;
     }
 
-    export interface AncestryPrerequisite
-        extends BasePrerequisite<Prerequisite.Type.Ancestry> {
-        ancestry: Prerequisite.ItemRef;
+    export interface AncestryPrerequisite extends BasePrerequisite<Prerequisite.Type.Ancestry> {
+        ancestries: Collection<Prerequisite.ItemRef>;
     }
 
-    export interface CulturePrerequisite
-        extends BasePrerequisite<Prerequisite.Type.Culture> {
-        culture: Prerequisite.ItemRef;
+    export interface CulturePrerequisite extends BasePrerequisite<Prerequisite.Type.Culture> {
+        cultures: Collection<Prerequisite.ItemRef>;
     }
 
-    export interface PowerPrerequisite
-        extends BasePrerequisite<Prerequisite.Type.Power> {
-        power: Prerequisite.ItemRef;
+    export interface PowerPrerequisite extends BasePrerequisite<Prerequisite.Type.Power> {
+        powers: Collection<Prerequisite.ItemRef>;
     }
 
     export type Prerequisite =

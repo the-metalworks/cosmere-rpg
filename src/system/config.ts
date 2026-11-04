@@ -1224,6 +1224,13 @@ const COSMERE: CosmereRPGConfig = {
                     { min: 7, max: 8, formula: '2d6' },
                     { min: 9, max: Infinity, formula: '2d10' },
                 ],
+                improvedStrength: [
+                    { min: 0, max: 2, formula: '1d4' },
+                    { min: 3, max: 4, formula: '1d6' },
+                    { min: 5, max: 6, formula: '1d10' },
+                    { min: 7, max: 8, formula: '2d8' },
+                    { min: 9, max: Infinity, formula: '2d12' },
+                ],
             },
         },
         power: {

@@ -12,9 +12,10 @@
     {{!-- Talent --}}
     {{#if (eq type "talent")}}
         <div class="form-group">
-            {{app-node-prerequisite-talent-list
+            {{app-node-prerequisite-item-list
                 node=node
-                talents=talents
+                items=talents
+                type=type
             }}
         </div>
     {{/if}}
@@ -22,61 +23,86 @@
     {{!-- Goal --}}
     {{#if (eq type "goal")}}
         <div class="form-group">
-            {{app-node-prerequisite-goal-list
+            {{app-node-prerequisite-item-list
                 node=node
-                goals=goals
+                items=goals
+                type=type
             }}
         </div>
     {{/if}}
 
     {{!-- Attribute --}}
     {{#if (eq type "attribute")}}
-    <div class="form-group">
-        <label>{{localize "COSMERE.Item.Sheet.Talent.Prerequisites.Attribute"}}</label>
-        <div class="form-fields">
-            <select name="attribute">
-                {{selectOptions attributeSelectOptions selected=attribute localize=true}}
-            </select>
-        </div>
-    </div>
-    <div class="form-group">
-        <label>{{localize "COSMERE.Item.Sheet.Talent.Prerequisites.AttributeValue"}}</label>
-        <div class="form-fields">
-            <input
-                type="number"
-                name="value"
-                value="{{value}}"
-                min="0"
-                step="1"
-                placeholder="{{localize "COSMERE.Item.Sheet.Talent.Prerequisites.AttributeValuePlaceholder"}}"
-            >
-        </div>
-    </div>
+        {{#each attributes as |attribute|}}
+        <fieldset>
+            <div class="form-group">
+                <label for="{{@root.dialogId}}-attributes-{{@index}}-key">{{localize "COSMERE.Item.Sheet.Talent.Prerequisites.Attribute"}}</label>
+                <div class="form-fields">
+                    <select
+                        id="{{@root.dialogId}}-attributes-{{@index}}-key"
+                        name="attributes.{{@index}}.key"
+                    >
+                        {{selectOptions @root.attributeSelectOptions selected=attribute.key localize=true}}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="{{@root.dialogId}}-attributes-{{@index}}-value">{{localize "COSMERE.Item.Sheet.Talent.Prerequisites.AttributeValue"}}</label>
+                <div class="form-fields">
+                    <input
+                        id="{{@root.dialogId}}-attributes-{{@index}}-value"
+                        type="number"
+                        name="attributes.{{@index}}.value"
+                        value="{{attribute.value}}"
+                        min="0"
+                        step="1"
+                        placeholder="{{localize "COSMERE.Item.Sheet.Talent.Prerequisites.AttributeValuePlaceholder"}}"
+                    >
+                </div>
+            </div>
+            <button type="button" data-action="remove-enum-value" data-index="{{@index}}">
+                {{localize "DIALOG.EditTalentPrerequisite.RemoveEnumValue"}}
+            </button>
+        </fieldset>
+        {{/each}}
+        <button type="button" data-action="add-enum-value" style="width: 100%;">+</button>
     {{/if}}
 
     {{!-- Skill --}}
     {{#if (eq type "skill")}}
-    <div class="form-group">
-        <label>{{localize "COSMERE.Item.Sheet.Talent.Prerequisites.Skill"}}</label>
-        <div class="form-fields">
-            <select name="skill">
-                {{selectOptions skillSelectOptions selected=skill localize=true}}
-            </select>
-        </div>
-    </div>
-    <div class="form-group">
-        <label>{{localize "COSMERE.Item.Sheet.Talent.Prerequisites.SkillRank"}}</label>
-        <div class="form-fields">
-            <input
-                type="number"
-                name="rank"
-                value="{{rank}}"
-                min="0"
-                step="1"
-                placeholder="{{localize "COSMERE.Item.Sheet.Talent.Prerequisites.SkillRankPlaceholder"}}"
-            >
-        </div>
-    </div>
+        {{#each skills as |skill|}}
+        <fieldset>
+            <div class="form-group">
+                <label for="{{@root.dialogId}}-skills-{{@index}}-key">{{localize "COSMERE.Item.Sheet.Talent.Prerequisites.Skill"}}</label>
+                <div class="form-fields">
+                    <select
+                        id="{{@root.dialogId}}-skills-{{@index}}-key"
+                        name="skills.{{@index}}.key"
+                    >
+                        {{selectOptions @root.skillSelectOptions selected=skill.key localize=true}}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="{{@root.dialogId}}-skills-{{@index}}-value">{{localize "COSMERE.Item.Sheet.Talent.Prerequisites.SkillRank"}}</label>
+                <div class="form-fields">
+                    <input
+                        id="{{@root.dialogId}}-skills-{{@index}}-value"
+                        type="number"
+                        name="skills.{{@index}}.value"
+                        value="{{skill.value}}"
+                        min="1"
+                        step="1"
+                        placeholder="{{localize "COSMERE.Item.Sheet.Talent.Prerequisites.SkillRankPlaceholder"}}"
+                    >
+                </div>
+            </div>
+            <button type="button" data-action="remove-enum-value" data-index="{{@index}}">
+                {{localize "DIALOG.EditTalentPrerequisite.RemoveEnumValue"}}
+            </button>
+        </fieldset>
+        {{/each}}
+        <button type="button" data-action="add-enum-value" style="width: 100%;">+</button>
     {{/if}}
 
     {{!-- Connection --}}
@@ -105,35 +131,35 @@
 
     {{!-- Ancestry --}}
     {{#if (eq type "ancestry")}}
-        {{app-document-reference-input
-            name="ancestry"
-            label=(localize schema.fields.ancestry.label)
-            value=ancestry.uuid
-            type="Item"
-            subtype="ancestry"
-        }}
+        <div class="form-group">
+            {{app-node-prerequisite-item-list
+                node=node
+                items=ancestries
+                type=type
+            }}
+        </div>
     {{/if}}
 
     {{!-- Culture --}}
     {{#if (eq type "culture")}}
-        {{app-document-reference-input
-            name="culture"
-            label=(localize schema.fields.culture.label)
-            value=culture.uuid
-            type="Item"
-            subtype="culture"
-        }}
+        <div class="form-group">
+            {{app-node-prerequisite-item-list
+                node=node
+                items=cultures
+                type=type
+            }}
+        </div>
     {{/if}}
 
     {{!-- Power --}}
     {{#if (eq type "power")}}
-        {{app-document-reference-input
-            name="power"
-            label=(localize schema.fields.power.label)
-            value=power.uuid
-            type="Item"
-            subtype="power"
-        }}
+        <div class="form-group">
+            {{app-node-prerequisite-item-list
+                node=node
+                items=powers
+                type=type
+            }}
+        </div>
     {{/if}}
 
     {{!-- Submit --}}

@@ -133,37 +133,47 @@ const SCHEMA = () => ({
             // Connection
             description: new foundry.data.fields.StringField(),
 
-            // Attribute
-            attribute: new foundry.data.fields.StringField({
-                blank: false,
-                choices: Object.entries(CONFIG.COSMERE.attributes).reduce(
-                    (acc, [key, config]) => ({
-                        ...acc,
-                        [key]: config.label,
+            // Attributes
+            attributes: new foundry.data.fields.ArrayField(
+                new foundry.data.fields.SchemaField({
+                    key: new foundry.data.fields.StringField({
+                        blank: false,
+                        choices: Object.entries(
+                            CONFIG.COSMERE.attributes,
+                        ).reduce(
+                            (acc, [key, config]) => ({
+                                ...acc,
+                                [key]: config.label,
+                            }),
+                            {},
+                        ),
                     }),
-                    {},
-                ),
-            }),
-            value: new foundry.data.fields.NumberField({
-                min: 0,
-                initial: 0,
-            }),
+                    value: new foundry.data.fields.NumberField({
+                        min: 0,
+                        initial: 0,
+                    }),
+                }),
+            ),
 
-            // Skill
-            skill: new foundry.data.fields.StringField({
-                blank: false,
-                choices: Object.entries(CONFIG.COSMERE.skills).reduce(
-                    (acc, [key, config]) => ({
-                        ...acc,
-                        [key]: config.label,
+            // Skills
+            skills: new foundry.data.fields.ArrayField(
+                new foundry.data.fields.SchemaField({
+                    key: new foundry.data.fields.StringField({
+                        blank: false,
+                        choices: Object.entries(CONFIG.COSMERE.skills).reduce(
+                            (acc, [key, config]) => ({
+                                ...acc,
+                                [key]: config.label,
+                            }),
+                            {},
+                        ),
                     }),
-                    {},
-                ),
-            }),
-            rank: new foundry.data.fields.NumberField({
-                min: 1,
-                initial: 1,
-            }),
+                    value: new foundry.data.fields.NumberField({
+                        min: 1,
+                        initial: 1,
+                    }),
+                }),
+            ),
 
             // Talent
             talents: new CollectionField(
@@ -196,9 +206,9 @@ const SCHEMA = () => ({
                 label: 'COSMERE.Item.Talent.Prerequisite.Level.Label',
             }),
 
-            // Ancestry
-            ancestry: new foundry.data.fields.SchemaField(
-                {
+            // Ancestries
+            ancestries: new CollectionField(
+                new foundry.data.fields.SchemaField({
                     uuid: new foundry.data.fields.StringField({
                         required: true,
                         nullable: false,
@@ -214,17 +224,16 @@ const SCHEMA = () => ({
                         nullable: false,
                         blank: false,
                     }),
-                },
+                }),
                 {
                     nullable: true,
-                    initial: null,
                     label: 'COSMERE.Item.Talent.Prerequisite.Ancestry.Label',
                 },
             ),
 
-            // Culture
-            culture: new foundry.data.fields.SchemaField(
-                {
+            // Cultures
+            cultures: new CollectionField(
+                new foundry.data.fields.SchemaField({
                     uuid: new foundry.data.fields.StringField({
                         required: true,
                         nullable: false,
@@ -240,10 +249,9 @@ const SCHEMA = () => ({
                         nullable: false,
                         blank: false,
                     }),
-                },
+                }),
                 {
                     nullable: true,
-                    initial: null,
                     label: 'COSMERE.Item.Talent.Prerequisite.Culture.Label',
                 },
             ),
@@ -272,9 +280,9 @@ const SCHEMA = () => ({
                 },
             ),
 
-            // Power
-            power: new foundry.data.fields.SchemaField(
-                {
+            // Powers
+            powers: new CollectionField(
+                new foundry.data.fields.SchemaField({
                     uuid: new foundry.data.fields.StringField({
                         required: true,
                         nullable: false,
@@ -290,10 +298,9 @@ const SCHEMA = () => ({
                         nullable: false,
                         blank: false,
                     }),
-                },
+                }),
                 {
                     nullable: true,
-                    initial: null,
                     label: 'COSMERE.Item.Talent.Prerequisite.Power.Label',
                 },
             ),

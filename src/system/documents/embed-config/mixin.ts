@@ -11,8 +11,8 @@ import { isAmountLimit, isBooleanLimit, isEmbedLimit } from './utils';
 
 export function EmbedConfigMixin<
     const DocumentClass extends Document.Constructable.SystemConstructor,
-    const DocumentType extends
-        foundry.abstract.Document.Type = DocumentTypeOf<DocumentClass>,
+    const DocumentType extends foundry.abstract.Document.Type =
+        DocumentTypeOf<DocumentClass>,
 >(cls: DocumentClass) {
     return class EmbedConfigDocument extends cls {
         declare static metadata: foundry.abstract.Document.MetadataFor<DocumentType> & {
@@ -141,7 +141,7 @@ export function EmbedConfigMixin<
             // Post-create: enforce amount limits for replace strategies
             const createdTypes = new Set<string>();
             results.forEach((result) => {
-                createdTypes.add(result.type as string);
+                createdTypes.add(result.type);
             });
 
             for (const type of createdTypes) {

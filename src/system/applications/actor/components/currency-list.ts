@@ -6,11 +6,15 @@ import { TEMPLATES } from '@src/system/utils/templates';
 import { HandlebarsApplicationComponent } from '@system/applications/component-system';
 import { BaseActorSheet, BaseActorSheetRenderContext } from '../base';
 
-export class ActorCurrencyListComponent extends HandlebarsApplicationComponent<// typeof BaseActorSheet
-// TODO: Resolve typing issues
-// NOTE: Use any as workaround for foundry-vtt-types issues
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-any> {
+const { FilePicker } = foundry.applications.apps;
+
+export class ActorCurrencyListComponent extends HandlebarsApplicationComponent<
+    // typeof BaseActorSheet
+    // TODO: Resolve typing issues
+    // NOTE: Use any as workaround for foundry-vtt-types issues
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    any
+> {
     static TEMPLATE = `${TEMPLATES.DIRECTORY}${TEMPLATES.ACTOR_BASE_CURRENCY_LIST}`;
 
     /**
@@ -45,7 +49,10 @@ any> {
         );
 
         try {
-            await FilePicker.browse('data', currencyConfig.icon ?? '');
+            await FilePicker.implementation.browse(
+                'data',
+                currencyConfig.icon ?? '',
+            );
         } catch (ex) {
             currencyConfig.icon = undefined;
         }

@@ -408,10 +408,16 @@ export interface RollDataConfig {
     types: CosmereActor['type'];
 
     /**
-     * The data to provide, in the form of raw values to add or document.system variables to pull from.
+     * The data to be added to the actor's rollData.
+     * It is either a function which takes in the actor and returns data to place in the designated key
+     * or (deprecated) a parsable array of strings or numbers.
      */
-    data: (string | number)[];
+    data: RollDataConfigDataType;
 }
+
+export type RollDataConfigDataType = (
+    actor: CosmereActor,
+) => string | number | AnyObject;
 
 export interface CosmereRPGConfig {
     themes: Record<Theme, string>;
@@ -546,6 +552,7 @@ export interface CosmereRPGConfig {
         damage: {
             unarmed: {
                 strength: AttributeScale[];
+                improvedStrength: AttributeScale[];
             };
         };
         power: {

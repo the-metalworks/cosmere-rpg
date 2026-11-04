@@ -21,9 +21,7 @@ export class CurrencyConfigBuilder {
     #secondary?: CurrencyDenominationConfig[] = undefined;
 
     constructor(id: string, label: string, icon?: string) {
-        if (!icon) {
-            icon = `systems/cosmere-rpg/assets/icons/currency/default.webp`;
-        }
+        icon ??= `systems/cosmere-rpg/assets/icons/currency/default.webp`;
         this.#currency = {
             id,
             label,

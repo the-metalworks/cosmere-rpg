@@ -126,12 +126,13 @@ export class TalentTreeEditorComponent extends TalentTreeViewComponent {
     }
 
     protected async _onDrop(event: DragEvent) {
-        const data = foundry.applications.ux.TextEditor.getDragEventData(
-            event,
-        ) as unknown as {
-            type: string;
-            uuid: string;
-        };
+        const data =
+            foundry.applications.ux.TextEditor.implementation.getDragEventData(
+                event,
+            ) as unknown as {
+                type: string;
+                uuid: string;
+            };
 
         // Ensure type is correct
         if (data.type !== 'Item') return;
@@ -140,10 +141,8 @@ export class TalentTreeEditorComponent extends TalentTreeViewComponent {
         const item = await fromUuid<CosmereItem>(data.uuid);
 
         // Handle item
-        if (item?.isTalent())
-            await this.onDropTalent(event, item as TalentItem);
-        else if (item?.isTalentTree())
-            await this.onDropTalentTree(event, item as TalentTreeItem);
+        if (item?.isTalent()) await this.onDropTalent(event, item);
+        else if (item?.isTalentTree()) await this.onDropTalentTree(event, item);
 
         // Refresh tree
         await this.canvasTree!.refresh();

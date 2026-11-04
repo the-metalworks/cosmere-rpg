@@ -85,8 +85,7 @@ export class Expertise extends foundry.abstract.DataModel<
         Object.defineProperty(this, 'label', {
             get: () => {
                 // If the expertise is custom, use the label from the config
-                if (this.isCustom)
-                    return (this._source as ExpertiseData).label ?? this.id;
+                if (this.isCustom) return this._source.label ?? this.id;
 
                 // Get the registry key
                 const registryKey =
@@ -102,7 +101,7 @@ export class Expertise extends foundry.abstract.DataModel<
             set: (value: string | null) => {
                 // If the expertise is custom, use the label from the config
                 if (this.isCustom) {
-                    (this._source as ExpertiseData).label = value;
+                    this._source.label = value;
                 }
             },
             configurable: true,

@@ -148,7 +148,7 @@ export class EruditionDialog extends HandlebarsApplicationMixin(
             const registryKey = CONFIG.COSMERE.expertiseTypes[exp.type]
                 .configRegistryKey as PropertyKey;
             const configuredExpertises =
-                foundry.utils.getProperty(CONFIG.COSMERE, registryKey) || {};
+                foundry.utils.getProperty(CONFIG.COSMERE, registryKey) ?? {};
 
             if (!foundry.utils.hasProperty(configuredExpertises, exp.id)) {
                 exp.custom = true; // Mark as custom if the id is not found
@@ -163,7 +163,7 @@ export class EruditionDialog extends HandlebarsApplicationMixin(
             const registryKey = CONFIG.COSMERE.expertiseTypes[exp.type]
                 .configRegistryKey as PropertyKey;
             const configuredExpertises =
-                foundry.utils.getProperty(CONFIG.COSMERE, registryKey) || {};
+                foundry.utils.getProperty(CONFIG.COSMERE, registryKey) ?? {};
 
             if (foundry.utils.hasProperty(configuredExpertises, exp.trueId)) {
                 exp.id = exp.trueId;
@@ -278,7 +278,7 @@ export class EruditionDialog extends HandlebarsApplicationMixin(
                     const expertises = (foundry.utils.getProperty(
                         CONFIG.COSMERE,
                         registryKey,
-                    ) || {}) as Record<string, Expertise>;
+                    ) ?? {}) as Record<string, Expertise>;
                     const selectOptions = {
                         ...Object.entries(expertises)
                             .filter(

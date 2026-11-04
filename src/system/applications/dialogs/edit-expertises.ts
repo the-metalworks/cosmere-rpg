@@ -43,8 +43,7 @@ interface EditExpertisesDialogCommonConfig {
     maxExpertises?: number;
 }
 
-interface EditExpertisesDialogActorConfig
-    extends EditExpertisesDialogCommonConfig {
+interface EditExpertisesDialogActorConfig extends EditExpertisesDialogCommonConfig {
     /**
      * The actor to edit the expertises for.
      */
@@ -59,8 +58,7 @@ interface EditExpertisesDialogActorConfig
     liveUpdate?: boolean;
 }
 
-interface EditExpertisesDialogDocumentConfig
-    extends EditExpertisesDialogCommonConfig {
+interface EditExpertisesDialogDocumentConfig extends EditExpertisesDialogCommonConfig {
     /**
      * The document to edit the expertises for.
      */
@@ -80,8 +78,7 @@ interface EditExpertisesDialogDocumentConfig
     liveUpdate?: boolean;
 }
 
-interface EditExpertisesDialogDataConfig
-    extends EditExpertisesDialogCommonConfig {
+interface EditExpertisesDialogDataConfig extends EditExpertisesDialogCommonConfig {
     /**
      * The data to edit the expertises for.
      */
@@ -583,7 +580,7 @@ export class EditExpertisesDialog extends HandlebarsApplicationMixin(
         super._onClose(options);
 
         // Resolve the promise
-        this.resolve(this.shouldUpdateSource ? (void 0 as void) : this.data);
+        this.resolve(this.shouldUpdateSource ? void 0 : this.data);
     }
 
     /* --- Helpers --- */

@@ -1,5 +1,39 @@
+### Patch 3.2.0
+<sup>2026-MM-DD</sup>
+
+Placeholder
+
+#### 🛠️ Full Changelog
+
+📝 **Features**
+
+* Placeholder
+
+🐛 **Bug Fixes**
+
+* Placeholder
+
+<br>
+
+----
+
+### Patch 3.1.2
+<sup>2026-10-09</sup>
+
+Quick hotfix for the latest system version regarding the changes to the roll data API.
+
+#### 🛠️ Full Changelog
+
+🐛 **Bug Fixes**
+
+* Fixed compatibility with modules using the deprecated roll data API format so that more time is given to update to the new method
+
+<br>
+
+----
+
 ### Patch 3.1.1
-<sup>2026-09-09</sup>
+<sup>2026-10-08</sup>
 
 Fixes and changes based on feedback from early access, mostly regarding the starter rules content.
 
@@ -7,11 +41,15 @@ Fixes and changes based on feedback from early access, mostly regarding the star
 
 📝 **Features**
 
-* 
+* Improved implementation of knucklebones with new action and scaling
+* Improved API registration method for actor roll data
+* Applications now use their .implementation variant where appropriate, improving compatibility with third-party modules
 
 🐛 **Bug Fixes**
 
-* 
+* Fixed an issue that prevented the basic actions *Avoid Danger*, *Grapple*, and *Shove* from using the correct skill
+* Fixed an issue where the default resource mode for actors would fail to set, resulting in errors
+* Removed use of deprecated FoundryVTT methods and namespaces to somewhat future-proof compatibility and prevent console warning spam in v13
 
 <br>
 

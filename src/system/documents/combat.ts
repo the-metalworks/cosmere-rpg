@@ -53,11 +53,12 @@ export class CosmereCombat extends Combat {
             .flatMap((c) => {
                 if (c.isBoss) {
                     // If the combatant is a boss, clone it to create a fast turn beside its slow turn
-                    const clone = new (CONFIG.Combatant
-                        .documentClass as unknown as new (
-                        data: unknown,
-                        options: unknown,
-                    ) => CosmereCombatant)(
+                    const clone = new (
+                        CONFIG.Combatant.documentClass as unknown as new (
+                            data: unknown,
+                            options: unknown,
+                        ) => CosmereCombatant
+                    )(
                         foundry.utils.mergeObject(c.toObject(), {
                             [`flags.${SYSTEM_ID}.turnSpeed`]: TurnSpeed.Fast,
                         }),
@@ -78,7 +79,7 @@ export class CosmereCombat extends Combat {
         this.current = this._getCurrentState(c);
 
         // One-time initialization of the previous state
-        if (!this.previous) this.previous = this.current;
+        this.previous ??= this.current;
 
         // Assign turns
         this.turns = turns;

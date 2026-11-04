@@ -16,11 +16,13 @@ interface ConnectionItemState {
     expanded?: boolean;
 }
 
-export class CharacterConnectionsListComponent extends HandlebarsApplicationComponent<// typeof BaseActorSheet
-// TODO: Resolve typing issues
-// NOTE: Use any as workaround for foundry-vtt-types issues
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-any> {
+export class CharacterConnectionsListComponent extends HandlebarsApplicationComponent<
+    // typeof BaseActorSheet
+    // TODO: Resolve typing issues
+    // NOTE: Use any as workaround for foundry-vtt-types issues
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    any
+> {
     static TEMPLATE = `${TEMPLATES.DIRECTORY}${TEMPLATES.ACTOR_CHARACTER_CONNECTIONS_LIST}`;
 
     /**
@@ -156,7 +158,7 @@ any> {
                     ...this.connectionItemStates[item.id!],
                     id: item.id,
                     descriptionHTML:
-                        await foundry.applications.ux.TextEditor.enrichHTML(
+                        await foundry.applications.ux.TextEditor.implementation.enrichHTML(
                             // NOTE: We use a logical OR here to catch both nullish values and empty string
 
                             item.system.description?.value || '<p>—</p>',

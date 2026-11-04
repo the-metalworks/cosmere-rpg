@@ -10,7 +10,7 @@ import { TalentTreeNode } from './nodes';
 
 export class TalentTreeCanvasElement extends Drawable {
     // Re-declare canvas type
-    public declare readonly canvas: PIXICanvasApplication<
+    declare public readonly canvas: PIXICanvasApplication<
         typeof TalentTreeWorld
     >;
 
@@ -103,7 +103,7 @@ export class TalentTreeCanvasElement extends Drawable {
             }
 
             // Load the new background image
-            this.backgroundTexture = (await loadTexture(
+            this.backgroundTexture = (await foundry.canvas.loadTexture(
                 this.data.background.img,
             )) as PIXI.Texture;
 

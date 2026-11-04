@@ -167,9 +167,7 @@ export class CosmereActor<
     }
 
     public get ancestry(): AncestryItem | undefined {
-        return this.items.find((i) => i.isAncestry()) as
-            | AncestryItem
-            | undefined;
+        return this.items.find((i) => i.isAncestry());
     }
 
     public get cultures(): CultureItem[] {
@@ -850,9 +848,7 @@ export class CosmereActor<
     }
 
     public async applyHealing(amount: number) {
-        return this.applyDamage([
-            { amount, type: DamageType.Healing } as DamageInstance,
-        ]);
+        return this.applyDamage([{ amount, type: DamageType.Healing }]);
     }
 
     /**
@@ -955,7 +951,7 @@ export class CosmereActor<
             ? attribute.value + attribute.bonus + skill.rank + skill.mod.bonus
             : skill.mod.value;
 
-        let root = '';
+        let root;
         switch (options.advantageMode) {
             case AdvantageMode.Advantage:
                 root = '2d20kh';
@@ -1407,6 +1403,7 @@ export class CosmereActor<
     //         ...(super.getRollData() as ActorRollData<SubType>),
 
     //         name: this.name,
+
     //         // Attributes shorthand
     //         attributes: (
     //             Object.keys(CONFIG.COSMERE.attributes) as Attribute[]
@@ -1482,7 +1479,7 @@ export class CosmereActor<
 
     //     const registeredData = this.getRegisteredRollData(data) as Record<
     //         string,
-    //         any
+    //         unknown
     //     >;
 
     //     return foundry.utils.mergeObject(data, registeredData, {
@@ -1490,7 +1487,7 @@ export class CosmereActor<
     //         insertValues: true,
     //         overwrite: true,
     //         recursive: true,
-    //     });
+    //     }) as CosmereActorRollData<SubType>;
     // }
 
     /**
@@ -1646,8 +1643,10 @@ export class CosmereActor<
     public hasExpertise(
         ...args: [Expertise] | [ExpertiseType, string]
     ): boolean {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        return containsExpertise(this.system.expertises as any, ...args); // TEMP: Workaround
+        return containsExpertise(
+            this.system.expertises as unknown as Collection<Expertise>,
+            ...args,
+        );
     }
 
     /**

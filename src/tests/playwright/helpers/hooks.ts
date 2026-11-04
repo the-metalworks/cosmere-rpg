@@ -27,8 +27,7 @@ export async function paramsFromHook<K extends Hooks.HookName>(
                                     ? descriptor
                                     : undefined;
                             current = Object.getPrototypeOf(current) as
-                                | object
-                                | null;
+                                object | null;
                         }
                         return undefined;
                     };
@@ -81,5 +80,5 @@ export async function getLocatorForNextWindowToOpen(
         timeout,
     );
 
-    return page.locator(`#${application.id}`);
+    return page.locator(`#${application.id.replaceAll('.', '\\.')}`);
 }

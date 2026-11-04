@@ -17,8 +17,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      packages: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # Get tag name
       - name: Get tag name
@@ -89,14 +90,16 @@ jobs:
 
       # Set up node
       - name: Use Node 24
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: '24'
+          registry-url: https://npm.pkg.github.com
+          scope: "@the-metalworks"
 
-      # Install dependencies
-      - name: NPM install
-        run: |
-          npm ci
+      - name: Install dependencies
+        run: npm i
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Build
       - name: Build release

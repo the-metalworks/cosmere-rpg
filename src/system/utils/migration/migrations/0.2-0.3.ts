@@ -43,8 +43,7 @@ export default {
     execute: async (packID?: string) => {
         // Get relevant compendium, if any
         let compendium:
-            | CompendiumCollection<CompendiumCollection.DocumentName>
-            | undefined;
+            CompendiumCollection<CompendiumCollection.DocumentName> | undefined;
         if (packID) {
             compendium = game.packs?.get(packID);
         }
@@ -67,7 +66,7 @@ export default {
             await migrateActors(actors, compendium);
         }
     },
-} as Migration;
+};
 
 /**
  * Helpers
@@ -262,8 +261,7 @@ function migrateImmunities(changes: AnyObject, isDamage: boolean) {
         Object.keys(config).reduce(
             (acc, key) => ({
                 ...acc,
-                [`system.immunities.${isDamage ? 'damage' : 'condition'}.${key}`]:
-                    false,
+                [`system.immunities.${isDamage ? 'damage' : 'condition'}.${key}`]: false,
             }),
             {
                 // Note: the key for conditions is mismatched because it was

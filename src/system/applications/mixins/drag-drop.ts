@@ -1,9 +1,19 @@
-import { AnyObject, ConstructorOf, AnyConcreteApplicationV2Constructor } from '@system/types/utils';
+import {
+    AnyObject,
+    ConstructorOf,
+    AnyConcreteApplicationV2Constructor,
+} from '@system/types/utils';
 
-import { HandlebarsApplicationComponent, ComponentHandlebarsApplication } from '@system/applications/component-system';
+import {
+    HandlebarsApplicationComponent,
+    ComponentHandlebarsApplication,
+} from '@system/applications/component-system';
 
 interface DragDropApplicationConfiguration {
-    dragDrop: Omit<foundry.applications.ux.DragDrop.Configuration, 'permissions' | 'callbacks'>[];
+    dragDrop: Omit<
+        foundry.applications.ux.DragDrop.Configuration,
+        'permissions' | 'callbacks'
+    >[];
 }
 
 // TEMP: Workaround
@@ -104,7 +114,7 @@ export function DragDropComponentMixin<
 
             return dragDrop.map(
                 (d) =>
-                    new DragDrop({
+                    new foundry.applications.ux.DragDrop.implementation({
                         ...d,
                         permissions: {
                             dragstart: this._canDragStart.bind(this),

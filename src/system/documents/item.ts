@@ -170,8 +170,8 @@ class _Item<
 }
 
 export class CosmereItem<
-    T extends
-        foundry.abstract.TypeDataModel.Any = foundry.abstract.TypeDataModel.Any,
+    T extends foundry.abstract.TypeDataModel.Any =
+        foundry.abstract.TypeDataModel.Any,
 > extends _Item<T> {
     static metadata = Object.freeze(
         foundry.utils.mergeObject(
@@ -203,7 +203,7 @@ export class CosmereItem<
                     talent_tree: {
                         Item: false, // Disable embedding of items in talent tree items
                     },
-                } as EmbeddedDocumentsConfig<'Item'>,
+                },
                 // Note: Cannot bind due to static context. Calls are bound safely by mixin.
                 /* eslint-disable @typescript-eslint/unbound-method */
                 ephemeralEmbedded: {
@@ -1130,9 +1130,7 @@ export class CosmereItem<
             options.actor ?? this.actor;
 
         if (!actor && options.allowControlledTokenActor) {
-            actor = game.canvas?.tokens?.controlled?.[0]?.actor as
-                | Actor.Implementation
-                | undefined;
+            actor = game.canvas?.tokens?.controlled?.[0]?.actor;
         }
 
         if (!actor && options.warnOnNotFound) {
@@ -1368,12 +1366,14 @@ export class CosmereItem<
             this.system.description?.short ||
             this.system.description?.value;
 
-        const description = await foundry.applications.ux.TextEditor.enrichHTML(
-            descriptionData ?? '',
-            {
-                relativeTo: this.system.parent as foundry.abstract.Document.Any,
-            },
-        );
+        const description =
+            await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+                descriptionData ?? '',
+                {
+                    relativeTo: this.system
+                        .parent as foundry.abstract.Document.Any,
+                },
+            );
 
         const traitsNormal = [];
         const traitsExpert = [];
@@ -1605,8 +1605,10 @@ export class CosmereItem<
 }
 
 export namespace CosmereItem {
-    export interface ToChatMessageOptions
-        extends Pick<CosmereRollOptions, 'speaker' | 'actor' | 'rollMode'> {
+    export interface ToChatMessageOptions extends Pick<
+        CosmereRollOptions,
+        'speaker' | 'actor' | 'rollMode'
+    > {
         /**
          * Whether to publish the chat message immediately
          * or return an emphemeral document.
