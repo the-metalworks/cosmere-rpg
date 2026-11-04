@@ -113,6 +113,7 @@ export const DYNAMIC_SECTIONS: Record<string, DynamicItemListSectionGenerator> =
                 }),
                 ...powersWithChildren.map((power) => ({
                     id: power.system.id,
+                    sourceItem: power,
                     sortOrder: 150,
                     label: power.name,
                     itemTypeLabel: `${power.name} ${game.i18n?.localize('COSMERE.Item.Type.Talent.label')}`,
@@ -154,6 +155,7 @@ export const DYNAMIC_SECTIONS: Record<string, DynamicItemListSectionGenerator> =
 
             return paths.map((path) => ({
                 id: path.system.id,
+                sourceItem: path,
                 sortOrder: 200,
                 label: game.i18n.format(
                     'COSMERE.Actor.Sheet.Talents.BaseSectionName',
@@ -190,6 +192,7 @@ export const DYNAMIC_SECTIONS: Record<string, DynamicItemListSectionGenerator> =
             return [
                 {
                     id: ancestry.system.id,
+                    sourceItem: ancestry,
                     sortOrder: 300,
                     label: game.i18n.format(
                         'COSMERE.Actor.Sheet.Talents.BaseSectionName',
