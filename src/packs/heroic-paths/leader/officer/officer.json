@@ -62,7 +62,13 @@
                         "managed": false,
                         "skill": "prs",
                         "rank": 2,
-                        "_id": "Elk1ADv4v9knev40"
+                        "_id": "Elk1ADv4v9knev40",
+                        "skills": [
+                            {
+                                "key": "prs",
+                                "value": 2
+                            }
+                        ]
                     },
                     "7hqj1uSyfxFnzV1C": {
                         "id": "7hqj1uSyfxFnzV1C",
@@ -109,7 +115,13 @@
                         "managed": false,
                         "skill": "prs",
                         "rank": 1,
-                        "_id": "msgrmsAHi1fEQdY0"
+                        "_id": "msgrmsAHi1fEQdY0",
+                        "skills": [
+                            {
+                                "key": "prs",
+                                "value": 1
+                            }
+                        ]
                     },
                     "MzbGLxzpbhTg9A5o": {
                         "id": "MzbGLxzpbhTg9A5o",
@@ -189,7 +201,13 @@
                         "managed": false,
                         "skill": "lea",
                         "rank": 2,
-                        "_id": "6t1qJSpi6DYTPPR5"
+                        "_id": "6t1qJSpi6DYTPPR5",
+                        "skills": [
+                            {
+                                "key": "lea",
+                                "value": 2
+                            }
+                        ]
                     },
                     "iGysbOgFTigUfQ1t": {
                         "id": "iGysbOgFTigUfQ1t",
@@ -236,7 +254,13 @@
                         "managed": false,
                         "skill": "prs",
                         "rank": 3,
-                        "_id": "ByPQ8kDSs4xqJhmg"
+                        "_id": "ByPQ8kDSs4xqJhmg",
+                        "skills": [
+                            {
+                                "key": "prs",
+                                "value": 3
+                            }
+                        ]
                     },
                     "QCNB7wcw8MWazEYq": {
                         "id": "QCNB7wcw8MWazEYq",
@@ -329,7 +353,13 @@
                         "managed": false,
                         "skill": "lea",
                         "rank": 3,
-                        "_id": "nyWFF0RpkN7mVJHn"
+                        "_id": "nyWFF0RpkN7mVJHn",
+                        "skills": [
+                            {
+                                "key": "lea",
+                                "value": 3
+                            }
+                        ]
                     },
                     "ISq4uqsZwAp5gopB": {
                         "id": "ISq4uqsZwAp5gopB",
@@ -372,7 +402,8 @@
                 "x": 0,
                 "y": 0
             }
-        }
+        },
+        "__embedded": {}
     },
     "effects": [],
     "sort": 0,

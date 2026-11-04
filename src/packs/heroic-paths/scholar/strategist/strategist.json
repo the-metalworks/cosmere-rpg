@@ -29,7 +29,13 @@
                         "managed": false,
                         "skill": "ded",
                         "rank": 1,
-                        "_id": "e4MleUaMg1jAaYNH"
+                        "_id": "e4MleUaMg1jAaYNH",
+                        "skills": [
+                            {
+                                "key": "ded",
+                                "value": 1
+                            }
+                        ]
                     },
                     "RQapEdaBpbwPycrR": {
                         "id": "RQapEdaBpbwPycrR",
@@ -193,7 +199,13 @@
                         "value": 1,
                         "managed": false,
                         "skill": "lor",
-                        "rank": 2
+                        "rank": 2,
+                        "skills": [
+                            {
+                                "key": "lor",
+                                "value": 2
+                            }
+                        ]
                     }
                 },
                 "connections": {
@@ -278,7 +290,13 @@
                         "value": 1,
                         "managed": false,
                         "skill": "lor",
-                        "rank": 3
+                        "rank": 3,
+                        "skills": [
+                            {
+                                "key": "lor",
+                                "value": 3
+                            }
+                        ]
                     }
                 },
                 "connections": {
@@ -325,7 +343,13 @@
                         "value": 1,
                         "managed": false,
                         "skill": "ded",
-                        "rank": 3
+                        "rank": 3,
+                        "skills": [
+                            {
+                                "key": "ded",
+                                "value": 3
+                            }
+                        ]
                     }
                 },
                 "connections": {
@@ -355,7 +379,8 @@
                 "x": 0,
                 "y": 0
             }
-        }
+        },
+        "__embedded": {}
     },
     "effects": [],
     "sort": 0,

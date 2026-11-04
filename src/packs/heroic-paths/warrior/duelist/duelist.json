@@ -62,7 +62,13 @@
                         "managed": false,
                         "skill": "ath",
                         "rank": 2,
-                        "_id": "yzYsLq9md776xIfg"
+                        "_id": "yzYsLq9md776xIfg",
+                        "skills": [
+                            {
+                                "key": "ath",
+                                "value": 2
+                            }
+                        ]
                     },
                     "4DudLxjqazXBJX67": {
                         "id": "4DudLxjqazXBJX67",
@@ -147,7 +153,13 @@
                         "managed": false,
                         "skill": "inm",
                         "rank": 1,
-                        "_id": "7ZmJVSVDPzpiVOmv"
+                        "_id": "7ZmJVSVDPzpiVOmv",
+                        "skills": [
+                            {
+                                "key": "inm",
+                                "value": 1
+                            }
+                        ]
                     },
                     "deKLSmf8qB6VaH1K": {
                         "id": "deKLSmf8qB6VaH1K",
@@ -227,7 +239,13 @@
                         "managed": false,
                         "skill": "inm",
                         "rank": 2,
-                        "_id": "uLIPoS1HTxlzAAaH"
+                        "_id": "uLIPoS1HTxlzAAaH",
+                        "skills": [
+                            {
+                                "key": "inm",
+                                "value": 2
+                            }
+                        ]
                     },
                     "Xm7H42JBbUkIKRx7": {
                         "id": "Xm7H42JBbUkIKRx7",
@@ -274,7 +292,13 @@
                         "managed": false,
                         "skill": "ath",
                         "rank": 3,
-                        "_id": "mbdn2NaFSXr1lVOq"
+                        "_id": "mbdn2NaFSXr1lVOq",
+                        "skills": [
+                            {
+                                "key": "ath",
+                                "value": 3
+                            }
+                        ]
                     },
                     "AHAeIbJmXdwnp6Kr": {
                         "id": "AHAeIbJmXdwnp6Kr",
@@ -321,7 +345,13 @@
                         "managed": false,
                         "skill": "inm",
                         "rank": 3,
-                        "_id": "tHEOAgXCrLACPF2v"
+                        "_id": "tHEOAgXCrLACPF2v",
+                        "skills": [
+                            {
+                                "key": "inm",
+                                "value": 3
+                            }
+                        ]
                     },
                     "swy7HGkehcVBxxv1": {
                         "id": "swy7HGkehcVBxxv1",
@@ -364,7 +394,8 @@
                 "x": 0,
                 "y": 0
             }
-        }
+        },
+        "__embedded": {}
     },
     "effects": [],
     "sort": 0,
