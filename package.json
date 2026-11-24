@@ -61,7 +61,7 @@
         "spark-md5": "^3.0.2"
     },
     "optionalDependencies": {
-        "@the-metalworks/docker-world-seed": "^1.0.1"
+        "@the-metalworks/docker-world-seed": "1.0.1"
     },
     "allowScripts": {
         "classic-level": true,
