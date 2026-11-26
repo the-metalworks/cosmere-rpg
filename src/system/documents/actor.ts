@@ -75,6 +75,7 @@ import { containsExpertise } from '@system/utils/actor';
 import { SYSTEM_ID } from '@system/constants';
 import { HOOKS } from '@system/constants/hooks';
 import { FLAGS } from '@system/utils/macros/talents/erudition';
+import { renderSystemTemplate, TEMPLATES } from '@system/utils/templates';
 
 export type CharacterActor = CosmereActor<ActorType.Character>;
 export type AdversaryActor = CosmereActor<ActorType.Adversary>;
@@ -821,29 +822,89 @@ export class CosmereActor<
         Hooks.callAll(HOOKS.APPLY_DAMAGE, this, damage);
 
         if (options.chatMessage ?? true) {
-            const messageConfig = {
+            const { damageTaken, target, undo } = {
+                damageTaken: damage.calculated,
+                target: this.uuid,
+                undo: true,
+            };
+
+            const actor = (await fromUuid(target)) as unknown as CosmereActor;
+
+            if (!actor) return;
+
+            // Whether or not the damage is actually healing
+            const isHealing = damageTaken < 0;
+
+            // let immunityList = Object.entries(appliedImmunities) as [
+            //     DamageType,
+            //     number,
+            // ][];
+            // immunityList = immunityList.sort(
+            //     ([, amountA], [, amountB]) => amountB - amountA,
+            // );
+            const immunitiesBreakdown = `<span class="immunity-total">${damageImmune} <i class="fas fa-shield"></i></span>`;
+            const calculationDeflect =
+                damageDeflect > 0
+                    ? `${actor.deflect} <i data-tooltip="COSMERE.Actor.Statistics.Deflect" class='fas fa-shield-halved'></i>`
+                    : undefined;
+            const calculationIgnore =
+                damageIgnore > 0
+                    ? `${damageIgnore} <i data-tooltip="COSMERE.Damage.IgnoreDeflect" class='fas fa-shield-slash'></i>`
+                    : undefined;
+            const calculationImmune =
+                damageImmune > 0 ? immunitiesBreakdown : undefined;
+
+            // Combine calculations
+            const calculation = [
+                [
+                    damageDeflect + damageImmune,
+                    calculationDeflect,
+                    calculationImmune,
+                ]
+                    .filter((v) => !!v)
+                    .join(' - '),
+                calculationIgnore,
+            ]
+                .filter((v) => !!v)
+                .join(' + ');
+
+            const sectionHTML = await renderSystemTemplate(
+                TEMPLATES.CHAT_CARD_DAMAGE_TAKEN,
+                {
+                    type: isHealing ? 'healing' : 'injury',
+                    img: isHealing
+                        ? 'icons/magic/life/cross-beam-green.webp'
+                        : 'icons/skills/wounds/injury-stitched-flesh-red.webp',
+                    title: game.i18n.format(
+                        `COSMERE.ChatMessage.${isHealing ? 'ApplyHealing' : 'ApplyDamage'}`,
+                        {
+                            actor: actor.name,
+                            amount: Math.abs(damageTaken).toFixed(),
+                        },
+                    ),
+                    subtitle: isHealing
+                        ? undefined
+                        : game.i18n.format(
+                              'COSMERE.ChatMessage.DamageCalculation',
+                              { calculation },
+                          ),
+                    tooltip: isHealing
+                        ? 'COSMERE.ChatMessage.Buttons.UndoHealing'
+                        : 'COSMERE.ChatMessage.Buttons.UndoDamage',
+                    undo,
+                },
+            );
+
+            const messageData: ChatMessage.CreateData = {
                 author: game.user.id,
                 speaker: ChatMessage.getSpeaker({
                     actor: this,
                 }),
-                flags: {} as Record<string, unknown>,
-            };
-
-            messageConfig.flags[SYSTEM_ID] = {
-                taken: {
-                    health,
-                    damageTaken: damage.calculated,
-                    damageDeflect,
-                    damageIgnore,
-                    damageImmune,
-                    appliedImmunities: Object.fromEntries(appliedImmunities),
-                    target: this.uuid,
-                    undo: true,
-                },
+                content: sectionHTML,
             };
 
             // Create chat message
-            await ChatMessage.create(messageConfig);
+            await ChatMessage.create(messageData);
         }
     }
 
