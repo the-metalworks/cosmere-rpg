@@ -3,7 +3,7 @@
     border-width: 1px;
     border-block-end-width: 2px;
     border-radius: 6px;
-    font-family: var(--cosmere-font-normal);    
+    font-family: var(--cosmere-font-normal);
     font-size: var(--font-size-13);
     font-variant: lining-nums;
     position: relative;
@@ -35,7 +35,7 @@
             width: 22px;
             height: 22px;
             padding: 0;
-             
+
             img {
                 border: 0;
 
@@ -68,10 +68,10 @@
         margin-bottom: 0.5rem;
         position: relative;
 
-        .message-delete { 
-            display: none; 
+        .message-delete {
+            display: none;
         }
-        
+
         .message-sender {
             display: flex;
             align-items: start;
@@ -83,7 +83,7 @@
                 display: grid;
                 place-content: center;
             }
-    
+
             img {
                 width: 38px;
                 height: 38px;
@@ -105,7 +105,7 @@
             justify-content: center;
             line-height: normal;
         }
-    
+
         .title {
             font-family: var(--cosmere-font-normal);
             font-size: var(--font-size-16);
@@ -128,7 +128,7 @@
             display: flex;
 
             time {
-                color: var(--cosmere-color-dark-6);    
+                color: var(--cosmere-color-dark-6);
             }
         }
     }
@@ -185,7 +185,7 @@
                             flex: 1;
                             display: flex;
                             flex-direction: column;
-    
+
                             .title {
                                 font-family: var(--cosmere-font-normal);
                                 font-size: var(--font-size-15);
@@ -198,21 +198,21 @@
                                     }
                                 }
                             }
-                            
+
                             .subtitle {
                                 font-size: var(--font-size-10);
                                 color: var(--cosmere-color-dark-6);
                             }
-                    
+
                             .traits {
                                 font-size: var(--font-size-10);
                                 color: var(--cosmere-color-dark-6);
-                                
+
                                 strong {
                                     color: var(--cosmere-color-opportunity);
                                     font-weight: 600;
                                 }
-                            }                            
+                            }
                         }
                     }
 
@@ -238,28 +238,30 @@
                     }
                 }
 
-                &.injury {
-                    .summary {
-                        .name-stacked {
-                            .title {
-                                font-size: var(--font-size-14);
+                &.damage-taken{
+                    &.injury {
+                        .summary {
+                            .name-stacked {
+                                .title {
+                                    font-size: var(--font-size-14);
 
-                                strong {
-                                    color: var(--cosmere-color-complication);
+                                    strong {
+                                        color: var(--cosmere-color-complication);
+                                    }
                                 }
                             }
                         }
                     }
-                }
 
-                &.healing {
-                    .summary {
-                        .name-stacked {
-                            .title {
-                                font-size: var(--font-size-14);
+                    &.healing {
+                        .summary {
+                            .name-stacked {
+                                .title {
+                                    font-size: var(--font-size-14);
 
-                                strong {
-                                    color: var(--cosmere-color-health-front);
+                                    strong {
+                                        color: var(--cosmere-color-health-front);
+                                    }
                                 }
                             }
                         }
@@ -285,13 +287,13 @@
                     }
 
                     .subtitle {
-                        font-weight: 600; 
+                        font-weight: 600;
                         font-size: var(--font-size-13);
                         display: flex;
                         justify-content: flex-end;
                         align-items: center;
-                        gap: 0.25rem;    
-                        font-style: italic;                    
+                        gap: 0.25rem;
+                        font-style: italic;
 
                         .skill {
                             font-weight: bold;
@@ -320,7 +322,7 @@
                             opacity: 0.4;
                         }
                     }
-                }                
+                }
 
                 .dice-roll {
                     .dice-flavor {
@@ -461,7 +463,7 @@
                             padding: 0.25rem;
                             line-height: normal;
                             flex: auto;
-                            margin: 0;                            
+                            margin: 0;
                             width: 100%;
                         }
 
@@ -471,7 +473,7 @@
                             font-weight: 600;
                             color: var(--cosmere-color-light-2);
                             text-transform: uppercase;
-                            
+
                             text-align: left !important;
                             flex-grow: 1;
                             position: absolute;
@@ -527,7 +529,7 @@
                             align-items: center;
                         }
 
-                        .dice-subtotal {                            
+                        .dice-subtotal {
                             transition: all 200ms ease;
                             line-height: normal;
                             padding: 0 0.5rem;
@@ -556,9 +558,9 @@
                                 flex-direction: column;
                                 width: 80%;
 
-                                &.left {                                    
+                                &.left {
                                     padding-left: 20%;
-                                    
+
                                     &:has(+ .right) {
                                         border-right: 1px solid var(--cosmere-color-light-4);
                                     }
@@ -580,14 +582,14 @@
                                     display: none;
                                 }
                             }
-                        }                        
+                        }
 
                         .dice-total.opportunity .dice-subtotal.active .value {
                             color: var(--cosmere-color-opportunity);
                         }
                     }
                 }
-            }            
+            }
 
             .chat-card-tray {
                 & > label {
@@ -655,7 +657,7 @@
                             width: 55%;
                         }
 
-                        .result {                            
+                        .result {
                             color: var(--cosmere-color-dark-4);
                             width: 15%;
                             text-align: center;
@@ -693,7 +695,7 @@
                 &.expanded .fa-caret-down {
                     transform: rotate(0deg);
                 }
-                
+
                 &.expanded .collapsible-content {
                     grid-template-rows: 1fr;
                 }
@@ -782,5 +784,5 @@
         justify-content: center;
         align-items: center;
         font-size: var(--font-size-12);
-    }    
+    }
 }

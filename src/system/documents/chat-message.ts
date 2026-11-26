@@ -10,7 +10,7 @@ import {
     CosmereSkillRollOptions,
     DieModifier,
 } from '../dice';
-import { DamageType, ItemType } from '../types/cosmere';
+import { DamageType, ItemType, Resource } from '@system/types/cosmere';
 import { AnyObject } from '@system/types/utils';
 
 // Documents
@@ -102,6 +102,7 @@ export class CosmereChatMessage<
             this.enrichTest(section);
             this.enrichDamage(section);
             this.enrichInjury(section);
+            this.enrichDamageTaken(section);
         }
 
         await this.enrichTargets(html);
@@ -191,6 +192,40 @@ export class CosmereChatMessage<
             .on('click', async (event) => {
                 await this.onClickApplyDamange(event);
             });
+    }
+
+    private enrichDamageTaken(html: HTMLElement) {
+        if (!$(html).hasClass('damage-taken')) return;
+
+        if (game.user.isGM || this.isAuthor) {
+            $(html)
+                .find('.icon.clickable')
+                .on('click', async (event) => {
+                    await this.onClickUndoDamage(event);
+                });
+        } else {
+            $(html).find('.icon.clickable').remove();
+        }
+
+        // const immunitiesTooltip = document.createElement('div');
+        // immunitiesTooltip.classList.add('immunity-tooltip');
+        // immunitiesTooltip.innerHTML = `
+        //     <span>${game.i18n?.localize('COSMERE.Actor.Statistics.Immunities')}</span>
+        //     ${immunityList
+        //         .map(
+        //             ([damageType, amount]) => `
+        //         <div class="immunity">
+        //             <i class="fas fa-shield"></i>
+        //             <span>${game.i18n.localize(CONFIG.COSMERE.damageTypes[damageType].label)} ${amount}</span>
+        //         </div>
+        //         `,
+        //         )
+        //         .join('')}`;
+        // $(html).find('.immunity-total').on('mouseover', (event) => {
+        //     game.tooltip?.activate(event.target, {
+        //         content: immunitiesTooltip,
+        //     });
+        // });
     }
 
     private enrichInjury(html: HTMLElement) {
@@ -515,26 +550,29 @@ export class CosmereChatMessage<
             };
 
             await Promise.all(
-                Array.from(targets).map((token) =>
-                    token.actor?.applyDamage(damageToApply, {
-                        originatingItem: item,
-                    }),
+                Array.from(targets).map(
+                    async (token) =>
+                        await token.actor?.applyDamage(damageToApply, {
+                            originatingItem: item,
+                        }),
                 ),
             );
         } else if (action === 'reduce-focus') {
             await Promise.all(
-                Array.from(targets).map((token) =>
-                    token.actor?.update({
-                        system: {
-                            resources: {
-                                foc: {
-                                    value:
-                                        token.actor.system.resources.foc.value -
-                                        (1 + modifier),
+                Array.from(targets).map(
+                    async (token) =>
+                        await token.actor?.update({
+                            system: {
+                                resources: {
+                                    foc: {
+                                        value:
+                                            token.actor.system.resources.foc
+                                                .value -
+                                            (1 + modifier),
+                                    },
                                 },
                             },
-                        },
-                    }),
+                        }),
                 ),
             );
         }
@@ -687,6 +725,40 @@ export class CosmereChatMessage<
                 .removeClass('right')
                 .addClass('left');
         }
+    }
+
+    /**
+     * Handle clicking the "undo damage" button
+     * @param {JQuery.ClickEvent} event The triggering event.
+     * @returns
+     */
+    private async onClickUndoDamage(event: JQuery.ClickEvent) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        // Handle interaction hook
+        if (this.onInteraction(event) === false) return;
+
+        const button = event.currentTarget as HTMLElement;
+        const targetUuid = button.dataset.targetuuid;
+        const preDmgHealth = parseInt(button.dataset.predmghealth!);
+        const damageTaken = parseInt(button.dataset.damagetaken!);
+
+        const actor = (await fromUuid(targetUuid)) as unknown as CosmereActor;
+
+        await actor.update({
+            system: {
+                resources: {
+                    hea: {
+                        value:
+                            actor.system.resources[Resource.Health].value +
+                            (preDmgHealth > damageTaken
+                                ? damageTaken
+                                : preDmgHealth),
+                    },
+                },
+            },
+        });
     }
 
     /**

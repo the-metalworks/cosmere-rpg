@@ -828,10 +828,6 @@ export class CosmereActor<
                 undo: true,
             };
 
-            const actor = (await fromUuid(target)) as unknown as CosmereActor;
-
-            if (!actor) return;
-
             // Whether or not the damage is actually healing
             const isHealing = damageTaken < 0;
 
@@ -845,7 +841,7 @@ export class CosmereActor<
             const immunitiesBreakdown = `<span class="immunity-total">${damageImmune} <i class="fas fa-shield"></i></span>`;
             const calculationDeflect =
                 damageDeflect > 0
-                    ? `${actor.deflect} <i data-tooltip="COSMERE.Actor.Statistics.Deflect" class='fas fa-shield-halved'></i>`
+                    ? `${this.deflect} <i data-tooltip="COSMERE.Actor.Statistics.Deflect" class='fas fa-shield-halved'></i>`
                     : undefined;
             const calculationIgnore =
                 damageIgnore > 0
@@ -878,7 +874,7 @@ export class CosmereActor<
                     title: game.i18n.format(
                         `COSMERE.ChatMessage.${isHealing ? 'ApplyHealing' : 'ApplyDamage'}`,
                         {
-                            actor: actor.name,
+                            actor: this.name,
                             amount: Math.abs(damageTaken).toFixed(),
                         },
                     ),
@@ -892,6 +888,9 @@ export class CosmereActor<
                         ? 'COSMERE.ChatMessage.Buttons.UndoHealing'
                         : 'COSMERE.ChatMessage.Buttons.UndoDamage',
                     undo,
+                    targetUuid: target,
+                    damageTaken,
+                    preDmgHealth: health,
                 },
             );
 

@@ -1,4 +1,4 @@
-<section class="chat-card-section description {{type}}">
+<section class="chat-card-section description damage-taken {{type}}">
     <header class="summary">
         <img src="{{img}}">
         <div class="name-stacked">
@@ -8,7 +8,7 @@
             {{/if}}
         </div>
         {{#if undo}}
-        <span class="icon clickable" data-action="undo" data-tooltip="{{localize tooltip}}"><i class="fas fa-rotate-left"></i></span>
+        <span class="icon clickable" data-action="undo" data-targetuuid="{{targetUuid}}" data-damagetaken="{{damageTaken}}" data-predmghealth="{{preDmgHealth}}" data-tooltip="{{localize tooltip}}"><i class="fas fa-rotate-left"></i></span>
         {{/if}}
     </header>
 </section>
