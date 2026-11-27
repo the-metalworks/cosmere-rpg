@@ -121,6 +121,9 @@ export class CosmereDie extends foundry.dice.terms.Die {
     public override evaluate(
         options?: DiceEvaluationOptions,
     ): this | Promise<this> {
+        options ??= {};
+        if (this.hasModifier(DieModifier.Maximum)) options.maximize = true;
+        if (this.hasModifier(DieModifier.Minimum)) options.minimize = true;
         if (options?.maximize || options?.minimize || options?.reroll) {
             this.results = [];
             this._evaluated = false;

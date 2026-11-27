@@ -646,9 +646,9 @@ export class CosmereChatMessage<
                 ...this.rolls.filter(
                     (r) => (r as unknown as CosmereRoll).parent === uuid,
                 ),
-            ]) {
+            ] as CosmereDamageRoll[]) {
                 (crit.options as CosmereDamageRollOptions).critical = true;
-                await crit.evaluate({ maximize: true });
+                await crit.modifyAll(DieModifier.Maximum);
             }
 
             void this.update({ rolls: this.rolls });

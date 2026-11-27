@@ -337,6 +337,29 @@ export class CosmereRoll extends foundry.dice.Roll<CosmereRollData> {
         return this;
     }
 
+    public async modifyAll(
+        modifier: DieModifier,
+        toggle?: boolean,
+    ): Promise<this> {
+        if (!this._prepared) {
+            throw new Error(
+                `The ${this.constructor.name} has not yet been prepared and cannot be modified`,
+            );
+        }
+
+        for (const die of this.dice) {
+            if (toggle && die.hasModifier(modifier)) {
+                await die.unmodify(modifier);
+            } else {
+                await die.modify(modifier);
+            }
+        }
+
+        if (this._evaluated) this._total = this._evaluateTotal();
+
+        return this;
+    }
+
     public setDieResult(result: number, uuid: string): this {
         if (!this._evaluated) {
             throw new Error(
