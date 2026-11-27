@@ -158,13 +158,11 @@ export class CosmereDamageRoll extends CosmereRoll {
     }
 
     protected override _prepareChatSectionRenderContext(
-        options?:
-            | InexactPartial<{
-                  flavor: string;
-                  isPrivate: boolean;
-                  children: CosmereRoll[];
-              }>
-            | undefined,
+        options?: InexactPartial<{
+            flavor: string;
+            isPrivate: boolean;
+            children: CosmereRoll[];
+        }>,
     ) {
         const typeData = this._getDamageTypeData();
 
@@ -178,13 +176,11 @@ export class CosmereDamageRoll extends CosmereRoll {
     }
 
     protected override async _prepareChatRenderContext(
-        options?:
-            | InexactPartial<{
-                  flavor: string;
-                  isPrivate: boolean;
-                  children: CosmereRoll[];
-              }>
-            | undefined,
+        options?: InexactPartial<{
+            flavor: string;
+            isPrivate: boolean;
+            children: CosmereRoll[];
+        }>,
     ) {
         const children = options?.children ?? [];
 

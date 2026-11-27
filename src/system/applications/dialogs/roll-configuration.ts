@@ -255,7 +255,7 @@ export class RollConfigurationDialog extends ComponentHandlebarsApplicationMixin
 
         const preps: Promise<CosmereRoll>[] = [];
         this.data.rolls.forEach((r) =>
-            preps.push(r.prepare(this.data.options as RollEvaluationOptions)),
+            preps.push(r.prepare(this.data.options)),
         );
         await Promise.all(preps);
 
@@ -272,7 +272,7 @@ export class RollConfigurationDialog extends ComponentHandlebarsApplicationMixin
             rolls: this.data.rolls,
             options: foundry.utils.mergeObject(this.data.options, {
                 rollMode: form.rollMode?.value as RollMode,
-            }) as CosmereRollOptions,
+            }),
         });
 
         this.submitted = true;
@@ -298,6 +298,7 @@ export class RollConfigurationDialog extends ComponentHandlebarsApplicationMixin
         if (rollIndex < 0) return;
 
         switch (event.which) {
+            //Left-click
             case 1:
                 if (
                     this.data.rolls[rollIndex].dice.find(
@@ -317,6 +318,7 @@ export class RollConfigurationDialog extends ComponentHandlebarsApplicationMixin
                     true,
                 );
                 break;
+            //Right-click
             case 3:
                 if (
                     this.data.rolls[rollIndex].dice.find(

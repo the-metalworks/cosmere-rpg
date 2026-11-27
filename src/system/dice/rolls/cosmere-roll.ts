@@ -356,14 +356,12 @@ export class CosmereRoll extends foundry.dice.Roll<CosmereRollData> {
     }
 
     public override async render(
-        options?:
-            | InexactPartial<{
-                  flavor: string;
-                  template: string;
-                  isPrivate: boolean;
-                  message: CosmereChatMessage;
-              }>
-            | undefined,
+        options?: InexactPartial<{
+            flavor: string;
+            template: string;
+            isPrivate: boolean;
+            message: CosmereChatMessage;
+        }>,
     ): Promise<string> {
         if (this.parent !== undefined) {
             return '';
@@ -420,13 +418,11 @@ export class CosmereRoll extends foundry.dice.Roll<CosmereRollData> {
     }
 
     protected _prepareChatSectionRenderContext(
-        options?:
-            | InexactPartial<{
-                  flavor: string;
-                  isPrivate: boolean;
-                  children: CosmereRoll[];
-              }>
-            | undefined,
+        options?: InexactPartial<{
+            flavor: string;
+            isPrivate: boolean;
+            children: CosmereRoll[];
+        }>,
     ) {
         return {
             uuid: this.uuid,
@@ -437,13 +433,11 @@ export class CosmereRoll extends foundry.dice.Roll<CosmereRollData> {
     }
 
     protected async _prepareChatRenderContext(
-        options?:
-            | InexactPartial<{
-                  flavor: string;
-                  isPrivate: boolean;
-                  children: CosmereRoll[];
-              }>
-            | undefined,
+        options?: InexactPartial<{
+            flavor: string;
+            isPrivate: boolean;
+            children: CosmereRoll[];
+        }>,
     ) {
         const children = options?.children ?? [];
 

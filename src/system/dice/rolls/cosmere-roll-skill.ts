@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/class-literal-property-style */
-
 import { Attribute, Skill } from '@src/system/types/cosmere';
 import { AdvantageMode, PlotResultType, RollType } from '../types';
 import {
@@ -111,13 +109,11 @@ export class CosmereSkillRoll extends CosmereRoll {
     }
 
     protected override _prepareChatSectionRenderContext(
-        options?:
-            | InexactPartial<{
-                  flavor: string;
-                  isPrivate: boolean;
-                  children: CosmereRoll[];
-              }>
-            | undefined,
+        options?: InexactPartial<{
+            flavor: string;
+            isPrivate: boolean;
+            children: CosmereRoll[];
+        }>,
     ) {
         return {
             ...super._prepareChatSectionRenderContext(options),
@@ -137,13 +133,11 @@ export class CosmereSkillRoll extends CosmereRoll {
     }
 
     protected override async _prepareChatRenderContext(
-        options?:
-            | InexactPartial<{
-                  flavor: string;
-                  isPrivate: boolean;
-                  children: CosmereRoll[];
-              }>
-            | undefined,
+        options?: InexactPartial<{
+            flavor: string;
+            isPrivate: boolean;
+            children: CosmereRoll[];
+        }>,
     ) {
         const children = options?.children ?? [];
         const childrenTotal = children.reduce(

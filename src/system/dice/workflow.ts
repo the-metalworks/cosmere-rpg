@@ -1,6 +1,5 @@
 import { RollConfigurationDialog } from '../applications/dialogs/roll-configuration';
 import { CosmereRoll, CosmereRollOptions } from './rolls/cosmere-roll';
-import { RollEvaluationOptions } from './types';
 
 interface ExecuteRollOptions extends CosmereRollOptions {
     item?: Item.Implementation;
@@ -36,9 +35,7 @@ async function configureRolls(
     options: CosmereRollOptions,
 ) {
     const preps: Promise<CosmereRoll>[] = [];
-    rolls.forEach((r) =>
-        preps.push(r.prepare(options as RollEvaluationOptions)),
-    );
+    rolls.forEach((r) => preps.push(r.prepare(options)));
     await Promise.all(preps);
 
     // Show the dialog
@@ -60,9 +57,7 @@ async function evaluateRolls(
     options: CosmereRollOptions,
 ) {
     const evals: Promise<CosmereRoll>[] = [];
-    rolls.forEach((r) =>
-        evals.push(r.evaluate(options as RollEvaluationOptions)),
-    );
+    rolls.forEach((r) => evals.push(r.evaluate(options)));
     await Promise.all(evals);
 
     return rolls;

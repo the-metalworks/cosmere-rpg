@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/class-literal-property-style */
-
 import { InjuryType } from '@src/system/types/cosmere';
 import { RollEvaluationOptions, RollType } from '../types';
 import {
@@ -167,13 +165,11 @@ export class CosmereInjuryRoll extends CosmereRoll {
     }
 
     protected override _prepareChatSectionRenderContext(
-        options?:
-            | InexactPartial<{
-                  flavor: string;
-                  isPrivate: boolean;
-                  children: CosmereRoll[];
-              }>
-            | undefined,
+        options?: InexactPartial<{
+            flavor: string;
+            isPrivate: boolean;
+            children: CosmereRoll[];
+        }>,
     ) {
         return {
             ...super._prepareChatSectionRenderContext(options),
