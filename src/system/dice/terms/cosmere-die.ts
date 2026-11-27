@@ -21,8 +21,9 @@ export class CosmereDie extends foundry.dice.terms.Die {
         this.uuid = `cosmere:die:${this.type}:${foundry.utils.randomID()}`;
 
         this.number = termData.number ?? 1;
-        this.opportunityRange = termData.opportunityRange ?? termData.faces;
-        this.complicationRange = termData.complicationRange ?? 1;
+        this.opportunityRange = termData.opportunityRange ?? 20;
+        this.complicationRange =
+            termData.complicationRange ?? (termData.faces === 20 ? 1 : 0);
     }
 
     static override MODIFIERS = {
